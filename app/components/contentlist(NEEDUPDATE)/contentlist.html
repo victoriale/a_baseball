@@ -1,0 +1,37 @@
+<div *ngIf="data" class="contentlist {{data.bgClass}}">
+    <div class='imagebox'>
+        <a [routerLink]="['../../Magazine', {addr: data.listData[0].addressKey}, 'PropertyOverview' ]">
+            <img src='{{data.listData[0].photo}}' alt='' />
+            <div>
+                <p>View</p>
+                <p>Profile</p>
+            </div>
+        </a>
+    </div>
+    <div class="contentbox">
+        <a [routerLink]="['Location-page', {loc: locationURL}]">
+            <span class="location"><i class="fa fa-map-marker"></i>{{location}}</span>
+        </a>
+        <span title="{{data.listTitle}}">{{data.listTitle}}</span>
+        <div class="content_bottom">
+            <div class='contentsubbox'>
+                <div *ngFor="#item of data.listData; #i = index">
+                    <a *ngIf="i != 0" [routerLink]="['../../Magazine', {addr: item.addressKey}, 'PropertyOverview' ]">
+                        <img src='{{item.photo}}' alt='' />
+                        <div><i class='fa fa-share'></i></div>
+                    </a>
+                </div>
+            </div>
+            <a *ngIf="cityLocation != 'null'" [routerLink]="['List-page', {viewType: 'list', listname: data.listTitleOrig, state: stateLocation, city: cityLocation, page: '1' }]" class='list_button'>
+                <span></span>
+                <span>See The List</span>
+                <i class='fa fa-angle-right'></i>
+            </a>
+            <a *ngIf="cityLocation == 'null'" [routerLink]="['List-page-state', {viewType: 'list', listname: data.listTitleOrig, state: stateLocation, page: '1' }]" class='list_button'>
+                <span></span>
+                <span>See The List</span>
+                <i class='fa fa-angle-right'></i>
+            </a>
+        </div>
+    </div>
+</div>

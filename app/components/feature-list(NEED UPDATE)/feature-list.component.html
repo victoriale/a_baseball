@@ -1,0 +1,23 @@
+<section class="fl">
+    <div class="fl-header">
+        <span><i class="fa fa-circle"></i> {{list_data.header}}</span>
+    </div>
+    <div class="fl-title"><div class="fl-title-txt">{{list_data.title}}</div></div>
+    <div class="fl-desc">
+        <div class="fl-desc-hding1">{{list_data.hding1}}</div>
+        <div class="fl-desc-hding2">{{list_data.hding2}}</div>
+        <image-180 *ngIf="settings" [counterIf]="settings.counterIf" [counter]="list_data.rank" [imageURL]="list_data.imageUrl" [hasSubImg]="settings.main_hasSubImg" [hasHover]="settings.hasHover"
+        [hasBottomImg]="settings.hasBottomImg" [urlRouteArray]="[list_data.listingUrl1, list_data.listingParam, list_data.listingUrl2]"></image-180>
+        <carousel-button (scrollLeft)="left()" (scrollRight)="right()"></carousel-button>
+        <div class="fl-desc-detail1">{{list_data.detail1}}</div>
+        <div class="fl-desc-detail2">{{list_data.detail2}} <span class="bold">{{list_data.detail3}}</span></div>
+
+    </div>
+    <div class="footer">
+        <a [routerLink]="[list_data.ListUrl, list_data.listParam]" class='footer-btn'>
+            <span></span>
+            <span>See The Full List</span>
+            <i class='fa fa-angle-right'></i>
+        </a>
+    </div>
+</section>

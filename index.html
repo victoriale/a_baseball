@@ -1,0 +1,88 @@
+<html>
+  <head>
+    <base href="/">
+    <title>HomeRunLoyal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/app/public/favicon.png" />
+
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/app/global/stylesheets/gridinator.css" rel="stylesheet">
+    <link href="/app/global/stylesheets/master.css" rel="stylesheet">
+
+    <!-- 1. Load libraries -->
+    <!-- IE required polyfills, in this exact order -->
+    <script src="lib/es6-shim.min.js"></script>
+    <script src="lib/system-polyfills.js"></script>
+
+    <script src="lib/angular2-polyfills.js"></script>
+    <script src="lib/system.src.js"></script>
+    <script src="lib/Rx.js"></script>
+    <script src="lib/angular2.dev.js"></script>
+    <script src="lib/router.dev.js"></script>
+    <script src="lib/http.js"></script>
+    <script src="lib/shims_for_IE.js"></script>
+    <script src="lib/moment.js"></script>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script>
+     function analytics(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+     }
+     analytics(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+     ga('create', 'UA-65426327-1', 'auto');
+    </script>
+    <script>
+    function listhub(l,i,s,t,h,u,b){
+      l['ListHubAnalyticsObject']=h;
+      l[h]=l[h]||function(){
+        (l[h].q=l[h].q||[]).push(arguments)
+      },l[h].d=1*new Date();
+      u=i.createElement(s),b=i.getElementsByTagName(s)[0];
+      u.async=1;
+      u.src=t;
+      b.parentNode.insertBefore(u,b);
+    }
+    listhub(window,document,'script','//tracking.listhub.net/la.min.js','lh');
+    lh('init', {provider:'M-2945', test:false});
+    </script>
+    <!-- 2. Configure SystemJS -->
+    <script>
+      System.config({
+        packages: {
+          app: {
+            format: 'register',
+            defaultExtension: 'js'
+          }
+        }
+      });
+      System.import('app/main')
+            .then(null, console.error.bind(console));
+    </script>
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <!--<script src="lib/angular2-google-maps.js"></script>-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBe2FcYUyBxUUe5725Ir-4rMhuhEuKr5ho"></script>
+    <script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobubble/src/infobubble.js"></script>
+    <script src="lib/highcharts.js"></script>
+    <script>
+        // setup DisQus config for initial load
+        var disqus_config = function () {
+            this.page.identifier = (window.location.pathname + " ").replace("/"," ");
+            this.page.url = window.location.href + "#!newthread";
+        };
+    </script>
+
+  </head>
+
+  <!-- 3. Display the application -->
+  <body>
+    <app-domain>
+      <div class="page-loading">
+        <img src="/app/public/page_loading.gif" />
+      </div>
+    </app-domain>
+  </body>
+
+</html>

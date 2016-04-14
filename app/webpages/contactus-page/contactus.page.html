@@ -1,0 +1,60 @@
+<div class="content-wrapper">
+    <div class="wrapper">
+        <div class="inner-wrapper">
+            <main>
+                <section class='content-main eight-col'>
+                    <div class="page-container cu">
+                        <backtab-component></backtab-component>
+                        <title-component [titleData]="title_data"></title-component>
+                        <au-header-component [title]="auHeaderTitle"></au-header-component>
+                        <hr class="au-hr" />
+                        <div class="form">
+                            <!--* rfs = required fields all fields required-->
+                            <div class="rfs"><span class="rfs-red">*</span>All fields are required</div>
+                            <!--Contact us fields begin-->
+                            <form name="submissionform" ngNoForm (submit)="formSubmit()" action="mailto:support@joyfulhome.com" method="post" enctype="text/plain">
+                                <div class="fields">
+                                    <div class="fields-text">Full Name</div>
+                                    <input class="fields-field ff-fullname" type="text" name="FullName" placeholder=" {{full_name}}">
+                                </div>
+                                <div class="fields">
+                                    <div class="fields-text">Email Address</div>
+                                    <input class="fields-field ff-email" type="text" name="EmailAddress" placeholder=" {{email}}">
+                                </div>
+                                <!--My questions-->
+                                <div class="cu_q">
+                                    <div class="cu_questions">
+                                      <div class="cu_questions-text">My question is regarding:</div>
+                                      <div class="cu_checklist">
+                                        <input type="checkbox" value="myprofile" name="Type"> My Profile<br>
+                                        <input type="checkbox" value="email" name="Type"> Email<br>
+                                        <input type="checkbox" value="listing" name="Type"> Listings<br>
+                                        <input type="checkbox" value="fraud" name="Type"> Fraud<br>
+                                        <input type="checkbox" value="agent" name="Type"> Finding an Agent<br>
+                                        <input type="checkbox" value="price" name="Type"> Price<br>
+                                        <input type="checkbox" value="rentals" name="Type"> Rentals<br>
+                                        <input type="checkbox" value="mortgage" name="Type"> Mortgage<br>
+                                        <input type="checkbox" value="Bugs" name="Type"> Bugs<br>
+                                        <input type="checkbox" value="ErrorReport" name="Type"> Error Report<br>
+                                      </div>
+                                    </div>
+                                </div>
+                                <div class="cu_textarea">
+                                    <textarea type="text" maxlength="500" class="cu_desc ff-textfield" name="Message" placeholder=" {{text_area}}" spellcheck="true"></textarea>
+                                </div>
+                                <!--My questions END-->
+                                <!--Contact us fields END-->
+                                <!--submission and clear button-->
+                                <button type="submit" class="btn_submit">Submit <i class="fa fa-angle-right"></i></button>
+                                <input type="reset" class="btn_reset" value="RESET">
+                            </form>
+                        </div>
+                    </div>
+                </section>
+                <div class="four-col">
+                    <widget-module></widget-module>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>

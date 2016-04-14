@@ -1,0 +1,20 @@
+<div class="content-wrapper">
+    <div class="wrapper">
+        <div class="inner-wrapper">
+            <main>
+                <section class='content-main eight-col'>
+                    <div class="page-container au">
+                        <backtab-component></backtab-component>
+                        <title-component [titleData]="title_data"></title-component>
+                        <au-header-component [title]="auHeaderTitle"></au-header-component>
+                        <hr class="au-hr" />
+                        <div class="au-desc" *ngIf="disclaimer" [innerHTML]="disclaimer"></div>
+                    </div>
+                </section>
+                <div class="four-col">
+                    <widget-module></widget-module>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,30 @@
+<section class='module-container share'>
+    <module-header [module_title]="moduleTitle"></module-header>
+    <div class="share-main">
+        <div class="share-main-img"><image-180 [hasSubImg]="main_hasSubImg" [imageURL]="mainImageURL"></image-180></div>
+        <div class="share-main-opt">
+            <div class="text">{{share}}</div>
+            <div class="groupButtons">
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{currentUrl}}" class='btn-fb' target="_blank">
+                    <span><i class='{{icon1}}'></i></span>
+                    <span>Share on {{shareOn1}}</span>
+                </a>
+
+                <a href="https://twitter.com/home?status={{currentUrl}}" class='btn-twitter' target="_blank">
+                    <span><i class='{{icon2}}'></i></span>
+                    <span>Share on {{shareOn2}}</span>
+                </a>
+
+                <a href="https://plus.google.com/share?url={{currentUrl}}" class='btn-google' target="_blank">
+                    <span><i class='{{icon3}}'></i></span>
+                    <span>Share on {{shareOn3}}</span>
+                </a>
+                <a href="https://pinterest.com/pin/create/button/?url={{currentUrl}}&media={{mainImageURL}}" class='btn-pin' target="_blank">
+                    <span><i class='{{icon4}}'></i></span>
+                    <span>Share on {{shareOn4}}</span>
+                </a>
+
+            </div>
+        </div>
+    </div>
+</section>

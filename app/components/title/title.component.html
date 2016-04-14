@@ -1,0 +1,12 @@
+<div class="page-title">
+    <image-100 [hasHover]="titleData.hasHover" [imageURL]="titleData.imageURL"></image-100>
+    <div class="titleText">
+        <div class="smallTxt1">{{titleData.smallText1}}</div>
+        <div class="smallTxt2"><i class="{{titleData.icon}}"></i>{{titleData.smallText2}}</div>
+        <div class="mainTitle">{{titleData.heading1}} {{titleData.heading2}}</div>
+        <div class="subTitle">{{titleData.heading3}} {{titleData.heading4}}</div>
+    </div>
+</div>
+<a *ngIf="titleData.originalLink" href="{{titleData.originalLink}}" class="title-original-link">
+    See Original
+</a>

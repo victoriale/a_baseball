@@ -1,0 +1,135 @@
+.detailed-list{
+  width:100%;
+  height:155px;
+  border-bottom: 1px solid @listgreyborder;
+  //border-right: 1px solid @listgreyborder;
+  //border-left: 1px solid @listgreyborder;
+  padding:15px 20px;
+  .flexDirection(row);
+  display: flex;
+  &.odd {
+    background: @backgroundGrey
+  }
+  &.even {
+    background: @white;
+  }
+}
+
+//style for large image box
+.detailed-imagebox {
+  margin-right:25px;
+  .largeRoundImageLinkWithHover(125px, 3px, @masterStrokeColor);
+  .detailed-rank {
+    text-align: center;
+    padding: 0px 5px;
+    color: @black;
+    min-width: 42px;
+    width: auto;
+    height: 42px;
+    line-height: 42px;
+    border: 1px solid @backgroundGrey;
+    border-radius: 42px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: @white;
+  }
+}
+
+//styles all the content inside the list start from text to small images
+.detailed-content-box{
+  display: flex;
+  height:125px;
+  width:76.5%;
+  .flexDirection(column);
+  .flexJustify(space-around);
+  span:first-child{
+    font-size: 12px;
+    & > i{
+      color:@masterBrandColor;
+      padding-right:5px;
+    }
+    &:hover{
+      color:@masterBrandColor;
+    }
+  }
+
+  .detailed-content-row-wrapper {
+    display: flex;
+    .flexDirection(row);
+    .flexJustify(space-between);
+  }
+
+  .detailed-location {
+    .globalDefaultModFont(10px, 600, @black) !important;
+  }
+
+  .detailed-title {
+    .globalDefaultModFont(20px, 900, @black) !important;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .detailed-list_sub {
+    .globalDefaultModFont(14px, 400, @black) !important;
+    margin-top: 5px;
+  }
+
+  .detailed-content-row2 {
+    text-align: right;
+  }
+
+    .detailed-market {
+      .globalDefaultModFont(12px, 400, @black) !important;
+      margin: 0;
+    }
+
+    .detailed-value {
+      .globalDefaultModFont(20px, 900, @black) !important;
+      margin: 0;
+    }
+
+  .detailed-tag {
+    .globalDefaultModFont(14px, 600, @black) !important;
+    margin: 0;
+  }
+
+  .detailed-content-bottom{
+    .globalDefaultModFont(12px, 400, @white) !important;
+    .flexDirection(column);
+    background-color: @white;
+    border: 1px solid @strokeGrey;
+    border-radius: 5px;
+    padding:3px;
+    p {
+      .globalDefaultModFont(14px, 400, @black) !important;
+      margin-top: 8px;
+      margin-left: 5px;
+    }
+    &.odd {
+      background: @white;
+    }
+    &.even {
+      background: @backgroundGrey;
+    }
+  }
+  .detailed-content-subbox {
+    float:left;
+    padding-top: 8px;
+    p{
+      line-height: 0;
+    }
+  }
+  .detailed-list-button{
+    .mod-page-btn;
+    position: relative;
+    float:right;
+    padding-right: 5px;
+    .detailed-icon {
+      margin-top: 2px;
+      margin-left: 3px;
+    }
+  }
+}

@@ -1,0 +1,119 @@
+.cu{
+  height: auto;
+  border: none;
+  box-shadow: @modBoxShadow;
+}
+.form {
+  height:auto;
+  min-height:757px;
+  padding:0 25px 0 30px;
+  margin-top: 8px;
+  form{
+    width: 100%;
+    display: inline-block;
+  }
+}
+.rfs {
+  margin: 10px 0 15px 0;
+  .globalDefaultModFont(12px, 900, @black);
+  &-red {
+    color: @standardRed;
+  }
+}
+//Contact us fields
+.fields{
+  width:100%;
+  display:inline-block;
+  margin-bottom: 25px;
+  .flexDisplay;
+  .flexDirection(row);
+  .flexJustify(space-between);
+  text-align: left;
+  &-text{
+    .inlineFlexDisplay;
+    .flexAlignItems(center);
+    .globalDefaultModFont(14px, 900, @black);
+    width:25%;
+    height:35px;
+  }
+  &-field{
+    .globalDefaultModFont(14px, 700, @black);
+    width: 75%;
+    height:35px;
+  }
+}
+
+//My questions
+.cu_q{
+  width:100%;
+  height: auto;
+  .cu_questions{
+    width:100%;
+    height:auto;
+    .inlineFlexDisplay;
+    .flexDirection(row);
+    &-text{
+      .inlineFlexDisplay;
+      .flexDirection(row);
+      .flexAlignItems(center);
+      .globalDefaultModFont(14px, 900, @black);
+      width:25%;
+      height:35px;
+      text-align: left;
+    }
+  }
+}
+
+.cu_checklist{
+  .globalDefaultModFont(14px, 400, @black);
+  width:75%;
+  height:auto;
+  text-align: left;
+  line-height: 24px;
+  margin-bottom:15px;
+  input{
+    outline:none;
+  }
+}
+.cu_desc{
+  .globalDefaultModFont(14px, 400, @black);
+  width: 75%;
+  height: 166px;
+  margin-left: 25%;
+  font-style: italic;
+}
+
+.btn_reset{
+  .globalDefaultModFont(14px, 400, @textEmphasisGrey);
+  float: right;
+  margin-top: 28px;
+  text-align: right;
+  background-color: @white;
+  border: none;
+  cursor: pointer;
+  &:hover{
+    color: @masterBrandColor;
+  }
+}
+.btn_submit{
+  .globalDefaultModFont(14px, 400, @white);
+  .flexDirection(row);
+  .flexAlignItems(center);
+  float: right;
+  margin: 20px 25px 0 50px;
+  width: 121px;
+  padding: 10px;
+  cursor:pointer;
+  border:none;
+  border-radius: 5px;
+  display: inline-block !important;
+  background-color: @masterBrandColor;
+}
+
+.au-hr {
+  border: none;
+  height: 1px;
+  width: 650px;
+  color: @strokeGrey;
+  background-color: @strokeGrey;
+}

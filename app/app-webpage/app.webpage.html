@@ -1,0 +1,33 @@
+<div id="partner" *ngIf="partnerScript" [innerHTML]="partnerScript"></div>
+<div class=webpage-home>
+  <header-component [partnerID]="partnerID"></header-component>
+</div>
+<!-- <div class="wrapper">
+    <div class="inner-wrapper">
+        <nav class="twelve-col testLinks">
+            <a [routerLink]="['Home-page']">Home Page</a>
+            <a [routerLink]="['Housekit-home-page']">Housekit Page</a>
+            <a [routerLink]="['Profile-page', {address: address}]">Profile Page</a>
+            <a [routerLink]="['Location-page', {loc: cityStateLocation}]">Location Page</a>
+            <a [routerLink]="['List-page', {viewType: 'list', state: stateLocation, listname: 'homesLargest', city: cityLocation, page: 1}]">List Page</a>
+            <a [routerLink]="['Amenities-lists-page', {listname:'restaurant', state: stateLocation, city: cityLocation}]">Amenities Page</a>
+            <a [routerLink]="['School-lists-page', {listname:'high', state: stateLocation, city: cityLocation}]">School Page</a>
+            <a [routerLink]="['List-of-lists-page', {state: stateLocation, city: cityLocation}]">LOL Page</a>
+            <a [routerLink]="['Component-page']">Component Page</a>
+            <a [routerLink]="['Aboutus-page']">About Us Page</a>
+            <a [routerLink]="['Contactus-page']">Contact Us Page</a>
+            <a [routerLink]="['Disclaimer-page']">Disclaimer Page</a>
+            <a [routerLink]="['Directory-page', {listTitle: listTitle, pageNumber: pageNumber}]">Directory Page</a>
+            <a [routerLink]="['Search-page', {query: '9'}]">Search Page</a>
+            <a [routerLink]="['Widget-page']">Widget Page</a>
+            <a [routerLink]="['City-view-page', {state: stateLocation, city: cityLocation}]">City View Page</a>
+            <a [routerLink]="['Error-page']">Error Page</a>
+        </nav>
+    </div>
+</div> -->
+<div class="container">
+    <router-outlet></router-outlet>
+</div>
+<div class=webpage-home>
+  <footer-component [partnerID]="partnerID" [stateLocation]="stateLocation" [cityLocation]="cityLocation"></footer-component>
+</div>

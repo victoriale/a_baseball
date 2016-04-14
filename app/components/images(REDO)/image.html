@@ -1,0 +1,32 @@
+<div *ngIf="hasSubImg" class='image-{{size}}-smallImgBR {{imageClass}}'>
+  <img *ngIf="!hasHover" src='{{imageURL}}' onerror="this.src='/app/public/placeholder-location.jpg';" />  
+  <a *ngIf="hasHover && !useRouterLink" href="{{originalUrl}}">
+    <img src='{{imageURL}}' onerror="this.src='/app/public/placeholder-location.jpg';" />
+    <div>
+      <p>View</p>
+      <p>{{viewLocationText}}</p>
+    </div>
+  </a>    
+  <a *ngIf="hasHover && useRouterLink" [routerLink]="urlRouteArray">
+    <img src='{{imageURL}}' onerror="this.src='/app/public/placeholder-location.jpg';" />
+    <div>
+      <p>View</p>
+      <p>{{viewLocationText}}</p>
+    </div>
+  </a>  
+  <div *ngIf="counterIf">#{{counter}}</div>
+  <a *ngIf="hasBottomImg">
+    <img src='{{imageURL2}}' onerror="this.src='/app/public/placeholder-location.jpg';" />
+  </a>
+</div>
+
+<div *ngIf="!hasSubImg" class="{{imageClass}}">
+    <img *ngIf="!hasHoverNoSubImg" class='image-{{size}}' src='{{imageURL}}' onerror="this.src='/app/public/placeholder-location.jpg';" />
+    <a *ngIf="hasHoverNoSubImg" href="{{originalUrl}}" class='image-{{size}}-hover'>
+      <img src='{{imageURL}}' onerror="this.src='/app/public/placeholder-location.jpg';" />
+      <div>
+        <p>View</p>
+        <p>{{viewLocationText}}</p>
+      </div>
+    </a>
+</div>

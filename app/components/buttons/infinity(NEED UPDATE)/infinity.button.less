@@ -1,0 +1,33 @@
+.infinity{
+  .inlineFlexDisplay;
+  .flexDirection(row);
+  .flexAlignItems(center);
+  height: 25px;
+  width: 115px;
+  border: 1px solid @masterBrandColor;
+  background-color: @white;
+  .borderRadiusPrefix(5px);
+  span:nth-child(2) {
+    width: 23px;
+    height: 11px;
+    margin-left: 10px;
+    background-image: url('/app/public/icons/Infinity_Icon.png');
+  }
+  span:first-child {
+    .globalDefaultModFont(12px, 400, @masterBrandColor);
+    margin-left: 15px;
+  }
+  i {
+    margin: 2px 10px 0 10px;
+    color: @white;
+    font-weight: 900;
+  }
+  &:hover {
+    background-color: darken(@masterBrandColor, 10%);
+  }
+  &:active {
+    background-color: @black;
+    span:first-child {
+    }
+  }
+}

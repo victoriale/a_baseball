@@ -1,0 +1,26 @@
+<div class="content-wrapper">
+    <div class="wrapper">
+        <div class="inner-wrapper">
+            <main *ngIf="lists">
+                <section class='content-main eight-col'>
+                    <loading-component *ngIf="!listOfLists && !isError"></loading-component>
+
+                    <error-component *ngIf="isError"></error-component>
+
+                    <div *ngIf="listOfLists && !isError" class='page-container'>
+                        <backtab-component></backtab-component>
+                        <title-component *ngIf="titleData" [titleData]="titleData"></title-component>
+                        <list-carousel-component *ngIf="listOfLists" [lists]="lists" [cityLocation]="cityLocation" [stateLocation]="stateLocation" [isStateOnly]="isStateOnly"></list-carousel-component>
+                        <span *ngFor="#item of lists">
+                            <contentlist [data]="item" [cityLocation]="cityLocation" [stateLocation]="stateLocation" [isStateOnly]="isStateOnly"></contentlist>
+                        </span>
+                        <hero-list-component></hero-list-component>
+                    </div>
+                </section>
+                <div class="four-col">
+                    <widget-module></widget-module>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>

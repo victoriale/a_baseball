@@ -1,0 +1,11 @@
+<section *ngIf="featuredListData" class="module-container">
+    <module-header [module_title]="moduleTitle"></module-header>
+    <div class="fli-body">
+        <div class="fli-tiles">
+            <tiles-component [tile_data]="tileData"></tiles-component>
+        </div>
+        <div>
+            <feature-component *ngIf="listData" [list_data]="listData" (scrollLeft)="left()" (scrollRight)="right()"></feature-component>
+        </div>
+    </div>
+</section>

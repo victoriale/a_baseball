@@ -1,0 +1,43 @@
+<div *ngFor="#list of listData; #i = odd" class="detailed-list" [ngClass]="{'odd': i == true}">
+    <div class='detailed-imagebox'>
+      <div class="detailed-rank">#{{list.rank}}</div>
+        <a [routerLink]="[list.url1, list.url2, list.url3]">
+            <img src='{{list.img}}' onerror="this.src='/app/public/placeholder-location.jpg';" alt='' />
+            <div>
+              <p>View</p>
+              <p>Profile</p>
+            </div>
+        </a>
+        <div class="detailed-rank">#{{list.rank}}</div>
+    </div>
+    <div class="detailed-content-box">
+        <div class="detailed-content-row-wrapper">
+            <div class="detailed-content-row1">
+                <a [routerLink]="[list.locUrl1, list.locUrl2]">
+                    <span class="detailed-location"><i class="{{list.icon}}"></i>{{list.location}}</span>
+                </a>
+                <p class="detailed-title">{{list.title}}</p>
+                <p class="detailed-list_sub">{{list.list_sub}}</p>
+            </div>
+            <div class="detailed-content-row2">
+                <a>
+                  <span class="detailed-market"><i></i>{{list.market}}</span>
+                </a>
+                <p class="detailed-value">{{list.value | priceFormat}}</p>
+
+
+                <p class="detailed-tag">{{list.tag}}</p>
+            </div>
+        </div>
+        <div class="detailed-content-bottom">
+            <div class='detailed-content-subbox'>
+                <p>Want more detailed information about this listing?</p>
+            </div>
+            <a [routerLink]="[list.url1, list.url2, list.url3]" class='detailed-list-button'>
+                <span></span>
+                <span>{{list.buttonName}}</span>
+                <i class='fa fa-angle-right'></i>
+            </a>
+        </div>
+    </div>
+</div>

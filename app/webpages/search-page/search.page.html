@@ -1,0 +1,81 @@
+<div class="content-wrapper">
+  <div class="wrapper">
+    <div class="inner-wrapper">
+      <main>
+        <section class='content-main eight-col'>
+            <loading-component *ngIf="!resultsFound && !isError"></loading-component>
+
+            <error-component *ngIf="isError"></error-component>
+
+            <div *ngIf="resultsFound && !isError" class="search_tab">
+            <backtab-component></backtab-component>
+            <div style="height:auto;">
+              <div class="search-box" style="background-image:url('{{searchImage}}')">
+                <div class="search-headline">
+                  <h3>Discover More Homes In Real Estate</h3>
+                  <h4>Find Homes in Your Area</h4>
+                </div>
+                <div class="search-area">
+                  <form (ngSubmit)="onSubmit($event)">
+                    <input id="search-page-input" type="text" autocomplete="off" name="keyword" class="search-area-text" (focus)="focusResults($event)" [ngFormControl]="term" type="text" placeholder="Where do you want to live? (City, ST)">
+                    <button class="search-area-btn fa fa-search" type="submit"></button>
+                  </form>
+                </div>
+              </div>
+              <nav class="search_tab-menu">
+                <ul id='tab-list-three'>
+                  <li>
+                    <a class='search-tab' [ngClass]="{active: tab === 'address'}" id='address' (click)="tabTarget($event)">
+                      <i class='fa fa-circle'></i>
+                      Address ({{searchResults.addrCount}})
+                    </a>
+                  </li>
+                  <li>
+                    <a class='search-tab' [ngClass]="{active: tab === 'location'}" id='location' (click)="tabTarget($event)">
+                      <i class='fa fa-circle'></i>
+                      Location ({{searchResults.locCount}})
+                    </a>
+                  </li>
+                  <li>
+                    <a class='search-tab' [ngClass]="{active: tab === 'zipcode'}" id='zipcode' (click)="tabTarget($event)">
+                      <i class='fa fa-circle'></i>
+                      Zip Code ({{searchResults.zipCount}})
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+        <!--menu options-->
+
+            <!--below tabs where results are to be displayed-->
+            <div class="search_results">
+              <div class="search_results-showing">
+                <span>Showing {{currentTotal}} results of {{tabTotal}}</span>
+              </div>
+
+              <!--RESULTS FROM API BELOW-->
+              <div *ngIf="!paginationParameters">
+                <div class="no_results">
+                  <span>Sorry, there are no search results</span>
+                </div>
+              </div>
+
+              <a *ngFor="#item of displayData" [routerLink]="[item.page, item.params]">
+                <div class="search_results-info">
+                  <div class="search_results-info-h1">{{item.display}}</div>
+                </div>
+              </a>
+              <!--below tabs where results are to be displayed END-->
+
+              <!-- Pagination Footer -->
+              <pagination-footer *ngIf="paginationParameters" [paginationParameters]="paginationParameters" (newIndex)="newIndex($event)"></pagination-footer>
+            </div>
+          </div>
+        </section>
+        <div class="four-col">
+          <widget-module></widget-module>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<section class="module-container aboutUs">
+    <module-header [module_title]="module_title"></module-header>
+    <div class="aboutUs-body">
+        <div class="aboutUs-disc">
+            <div class="aboutUs-disc-header"> <span><i class="fa fa-circle"></i> {{header}}</span></div>
+            <img src="{{logo}}" onerror="this.src='/app/public/joyfulhome_logo_large.png';" />
+            <div class="aboutUs-disc-desc">
+                <div class="aboutUs-disc-desc-heading">{{heading}}</div>
+                <div class="aboutUs-disc-desc-subText">{{subText}}</div>
+                <div class="aboutUs-disc-desc-mainText">{{mainText}}</div>
+                <div class="aboutUs-disc-desc-provider">&copy; {{providerText}} &reg;</div>
+            </div>
+            <a [routerLink]="['Disclaimer-page']" class='mod-page-btn'>
+                <span></span>
+                <span>{{buttonText}}</span>
+                <i class='fa fa-angle-right'></i>
+            </a>
+        </div>
+        <div>
+            <tiles-component [tile_data]="aboutUsData"></tiles-component>
+        </div>
+    </div>
+
+</section>

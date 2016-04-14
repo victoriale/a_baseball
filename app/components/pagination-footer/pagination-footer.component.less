@@ -1,0 +1,97 @@
+.pagination {
+  &-container {
+    width: 100%;
+    min-width: 400px;
+    height: 45px;
+    padding-top: 10px;
+    background-color: @white;
+    font-family: @globalFont;
+    position: relative;
+    //Add/Remove default behavior to buttons
+    button {
+      cursor: pointer;
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  &-row {
+    text-align: center;
+    font-size: 14px;
+    position: relative;
+  }
+
+  &-button {
+    &-angle {
+      position: relative;
+      top: 2px;
+      font-size: 22px;
+      border: none;
+      background-color: transparent;
+      margin: 0px 2px;
+      display: inline-block;
+      color: @black;
+      padding: 0px;
+
+      &:hover {
+        color: @black;
+      }
+    }
+
+    &-circle {
+      min-width: 25px;
+      height: 25px;
+      line-height: 25px;
+      padding: 0px;
+      border-radius: 25px;
+      background-color: @white;
+      color: @black;
+      border: 1px solid @greyBorder;
+      margin: 0px 2px;
+      display: inline-block;
+      font-size: 12px;
+      padding: 0px 5px;
+      //Class is being overwritten by button default
+      font-family: @globalFont;
+
+      &:hover {
+        color: @black;
+      }
+
+      &.active {
+        background-color: @masterBrandColor;
+        color: @white;
+      }
+    }
+
+    &-ellipsis {
+      letter-spacing: 2px;
+      width: 26px;
+      display: inline-block;
+      font-size: 16px;
+    }
+  }
+
+  &-view-all{
+      position: absolute;
+      top: 10px;
+      right: 25px;
+      width: 115px;
+      height: 25px;
+      line-height: 25px;
+      border: 1px solid @masterBrandColor;
+      .borderRadiusPrefix(5px);
+      font-size: 12px;
+      text-align: center;
+      display: block;
+
+      &-icon{
+        width: 23px;
+        height: 11px;
+        display: inline-block;
+        margin-left: 5px;
+        background-image: url('/app/public/icons/Infinity_Icon.png');
+      }
+  }
+}

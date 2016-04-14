@@ -1,0 +1,28 @@
+<div class="content-wrapper">
+  <div class="wrapper">
+    <div class="inner-wrapper">
+      <main>
+        <section class='content-main eight-col'>
+          <error-component *ngIf="isError"></error-component>
+          <section *ngIf="!isError" class="page-container lv">
+            <backtab-component></backtab-component>
+            <title-component *ngIf="headerData" [titleData]="headerData"></title-component>
+            <dynamic-carousel2 [carouselData]="carouselData" [partnerID]="partnerID"></dynamic-carousel2>
+            <!-- <div class="lv-sort">
+              <dropdown-component></dropdown-component>
+              <div class="lv-sort-filter">Filter <i class="fa fa-cog"></i></div>
+            </div> -->
+            <div *ngIf="displayData">
+              <dynamic-list [listData]="displayData"></dynamic-list>
+            </div>
+            <!-- Pagination Footer -->
+            <pagination-footer *ngIf="paginationParameters" [paginationParameters]="paginationParameters" (newIndex)="newIndex($event)"></pagination-footer>
+          </section>
+        </section>
+        <div class="four-col">
+          <widget-module></widget-module>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>

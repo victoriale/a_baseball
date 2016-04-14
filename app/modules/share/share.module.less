@@ -1,0 +1,139 @@
+.share{
+  background-color: @white;
+  border: solid 1px @greyBorder;
+  height: 245px;
+  width: 680px;
+  font-family: @globalFont;
+  &-main{
+    &-img{
+      margin: 10px 10px 15px 20px;
+      -webkit-flex:1 0 auto; /* needed for Safari, otherwise columns overlap */
+    }
+    .flexDisplay;
+    &-opt{
+      margin: 36px 0 0 0;
+      padding-left: 15px;
+      color: #666666;
+      font-size: 24px;
+      font-weight: 400;
+      .text{
+        margin-bottom: 16px;
+      }
+      .groupButtons{
+        .clearfix;
+        a{
+          display: block !important;
+          float: left;
+          margin: 0 10px 10px 0;
+          line-height: 34px;
+          span{
+            vertical-align: middle;
+          }
+        }
+        .btn-fb{
+          height: 40px;
+          width: 200px;
+          background-color: @facebook;
+          margin: 0 15px 15px 0;
+          .borderRadiusPrefix(5px);
+          & > span:first-child {
+            width: 25px;
+            height: 25px;
+            margin: 10px 0 0 20px;
+            color: @white;
+            font-size: 18px;
+            font-weight: 400;
+          }
+          & > span:nth-child(2) {
+            .globalDefaultModFont(12px, 900, @white);
+            margin-left: 10px;
+          }
+          &:hover {
+            background-color: darken(@facebook, 10%);
+          }
+          &:active {
+            background-color: @black;
+          }
+        }
+        .btn-twitter{
+          margin: 0 15px 15px 0;
+          height: 40px;
+          width: 200px;
+          background-color: @twitter;
+          .borderRadiusPrefix(5px);
+          & > span:first-child {
+            width: 25px;
+            height: 25px;
+            margin: 10px 0 0 20px;
+            color: @white;
+            font-size: 18px;
+            font-weight: 400;
+          }
+          & > span:nth-child(2) {
+            .globalDefaultModFont(12px, 900, @white);
+            margin-left: 10px;
+          }
+          &:hover {
+            background-color: darken(@twitter, 10%);
+          }
+          &:active {
+            background-color: @black;
+          }
+        }
+        .btn-google{
+          height: 40px;
+          width: 200px;
+          margin: 0 15px 15px 0;
+          background-color: @googlePlus;
+          .borderRadiusPrefix(5px);
+          & > span:first-child {
+            width: 25px;
+            height: 25px;
+            margin: 10px 0 0 20px;
+            color: @white;
+            font-size: 18px;
+          }
+          & > span:nth-child(2) {
+            .globalDefaultModFont(12px, 900, @white);
+            margin-left: 10px;
+          }
+          & > i {
+            margin: 2px 10px 0;
+            color: @white;
+            font-weight: 900;
+          }
+          &:hover {
+            background-color: darken(@googlePlus, 10%);
+          }
+          &:active {
+            background-color: @black;
+          }
+        }
+        .btn-pin{
+          height: 40px;
+          width: 200px;
+          margin: 0 15px 15px 0;
+          background-color: @pinterest;
+          .borderRadiusPrefix(5px);
+          & > span:first-child {
+            width: 25px;
+            height: 25px;
+            margin: 10px 0 0 20px;
+            color: @white;
+            font-size: 18px;
+          }
+          & > span:nth-child(2) {
+            .globalDefaultModFont(12px, 900, @white);
+            margin-left: 10px;
+          }
+          &:hover {
+            background-color: darken(@pinterest, 10%);
+          }
+          &:active {
+            background-color: @black;
+          }
+        }//btn-pin ends
+      }
+    }
+  }
+}

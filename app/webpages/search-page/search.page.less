@@ -1,0 +1,164 @@
+.search_tab {
+  width: 680px;
+  height: auto;
+  background-color: @white;
+  box-shadow: @modBoxShadow;
+  &-menu {
+    //from components.less
+    .tabRowBottomBorder(100%,50px, 3, 2px);
+    ul {
+      margin: 0;
+      padding: 0;
+      a{
+        cursor: pointer;
+
+        .fa-circle{
+          display: none;
+        }
+
+        &.active{
+
+          .fa-circle{
+            display: inline-block;
+          }
+        }
+      }
+    }
+  }
+}
+//end search_tab
+.search-box {
+  @searchHeight:265px;
+  height: @searchHeight;
+  @searchFont: @searchHeight * .061;
+  font-size: @searchFont;
+  width: 100%;
+  background-color: grey;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display:inline-block;
+  .search-headline{
+    .globalDefaultModFont(@searchFont, 400, @white);
+    text-align: center;
+    h3{
+      font-size: 2.375em;
+      margin-top:1.5em;
+      margin-bottom:0px;
+      font-weight: 900;
+    }
+    h4{
+      font-size: 1em;
+      margin-bottom: 2em;
+    }
+  }
+  .search-area {
+    width: 88%;
+    height: 50px;
+    background-color: @white;
+    text-align: center;
+    position: relative;
+    border-radius: 5px;
+    margin:0 auto;
+    &-text {
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      font-size: 20px;
+      width: 79.5%;
+      height: 100%;
+      color: @black;
+      text-align: left;
+      border: none;
+      margin-left: 3.5%;
+      float: left;
+      outline: 0;
+    }
+    &-btn {
+      width: 17%;
+      height: 100%;
+      background-color: @masterBrandColor;
+      color: @white;
+      font-size: 20px;
+      text-align: center;
+      float: right;
+      border: none;
+      border-radius: 0 5px 5px 0;
+      cursor: pointer;
+
+      &:focus{
+        outline: none;
+      }
+    }
+  }
+}
+.search_results {
+  margin-bottom: 20px;
+  width: 100%;
+  min-height: 500px;
+  height: auto;
+  overflow: hidden;
+  box-sizing: border-box;
+  background-color: @white;
+  .globalDefaultModFont(14px, 400, @fontIconGrey);
+  &-showing {
+    height: 45px;
+    width: 100%;
+    padding-top: 14px;
+    padding-left: 18px;
+    padding-right: 18px;
+    span:first-child{
+      text-align: left;
+      float:left;
+    }
+  }
+  &-total{
+
+  }
+  &-info {
+    width: 91%;
+    height: auto;
+    padding: 18px 30px;
+    margin: 0 30px;
+    border-bottom: 1px solid @strokeGrey;
+    text-align: left;
+    color: @black;
+    &:hover {
+      background-color: @masterBrandColor;
+      color: @white;
+    }
+    .fa {
+      float: right;
+    }
+    &-h1 {
+      font-size: 20px;
+      // color:@black;
+      line-height: 24px;
+      text-align: left;
+    }
+    &-link {
+      font-size: 14px;
+      color: @masterBrandColor;
+      line-height: 24px;
+      text-align: left;
+      padding: 5px 0;
+    }
+    &-desc {
+      font-size: 14px;
+      color: @black;
+      line-height: 24px;
+      text-align: left;
+    }
+  }
+}
+
+.no_results{
+  width:100%;
+  height: 50%;
+  text-align: center;
+  margin: auto;
+  font-size: 32px;
+  position: relative;
+  span{
+    position: relative;;
+    top:25%;
+  }
+}

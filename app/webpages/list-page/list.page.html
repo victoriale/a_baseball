@@ -1,0 +1,155 @@
+<div class="content-wrapper">
+  <div class="wrapper">
+    <div class="inner-wrapper">
+      <main>
+        <section class='content-main eight-col'>
+            <loading-component *ngIf="!listData && !isError"></loading-component>
+            <error-component *ngIf="isError"></error-component>
+            <section *ngIf="listData && !isError" class="page-container lv">
+                <!-- Nav menu for normal list pages -->
+                <ul *ngIf="menuListParams && menuPhotoParams && menuMapParams" class="lv-menu">
+                    <a [routerLink]="[listPageName, menuListParams]">
+                        <li id="list" >
+                            <i class="fa fa-th-list"></i>
+                            LIST
+                        </li>
+                    </a>
+                    <a [routerLink]="[listPageName, menuPhotoParams]">
+                        <li id="photo">
+                            <i class="fa fa-file-photo-o"></i>
+                            PHOTO
+                        </li>
+                    </a>
+                    <a [routerLink]="[listPageName, menuMapParams]">
+                        <li id="map">
+                            <i class="fa fa-compass"></i>
+                            MAP
+                        </li>
+                    </a>
+                </ul>
+
+                <!-- List and Photo carousel -->
+                <div *ngIf="viewType == 'list' || viewType == 'photo'">
+                    <list-view-carousel [carouselData]="carouselData"></list-view-carousel>
+                </div>
+
+                <!-- Map Module -->
+                <div *ngIf="viewType === 'map' && mapData && geoExists">
+                    <div class="lv-map-header">
+                        Featured Listings
+                    </div>
+                    <map-component [mapData]="mapData"></map-component>
+                </div>
+                <div class="lv-map-unavailable" *ngIf="viewType === 'map' && !geoExists">
+                    <i class="fa fa-compass"></i><br>
+                    We're sorry. The map for these listings is unavailable.
+                </div>
+
+                <!-- Sort Options -->
+                <div *ngIf="listName !== 'filter'" class="lv-sort">
+                    Sort by:
+                    <select (change)="sortChange($event)" id="sort_by" style = "margin-top: 1px;">
+                        <option value="" disabled selected="selected">Choose One</option>
+                        <option value="none">No Sorting</option>
+                        <option value="priceHighToLow">Price: High to Low</option>
+                        <option value="priceLowToHigh">Price: Low to High</option>
+                        <option value="areaHighToLow">Living Area: High to Low</option>
+                        <option value="areaLowToHigh">Living Area Low to High</option>
+                        <!--<option value="DoMH2L">Days on Market: High to Low</option>-->
+                        <!--<option value="DoML2H">Days on Market: Low to High</option>-->
+                    </select>
+
+                    <!--<div class="lv-sort-filter">Filter <i class="fa fa-cog"></i></div>-->
+                </div>
+
+                <div *ngIf="showFilters && !noListings" class="property-options">
+                    <div class="type-title">
+                        <span>Must Haves</span>
+                    </div>
+                    <div class="property-options-select">
+                        <select (change)="onSelectBedrooms($event)" name="select-bedrooms" class="select-bedrooms" id="select-bedrooms">
+                            <option value="empty" style="display:none;" selected>Bedrooms</option>
+                            <option value="empty">All Beds</option>
+                            <option value="1">+1 Bedrooms</option>
+                            <option value="2">+2 Bedrooms</option>
+                            <option value="3">+3 Bedrooms</option>
+                            <option value="4">+4 Bedrooms</option>
+                            <option value="5">+5 Bedrooms</option>
+                        </select>
+                        <select (change)="onSelectBathrooms($event)" name="select-bathrooms" id="select-bathrooms">
+                            <option value="empty" style="display:none;" selected>Bathrooms</option>
+                            <option value="empty">All Baths</option>
+                            <option value="1">+1 Bathrooms</option>
+                            <option value="2">+2 Bathrooms</option>
+                            <option value="3">+3 Bathrooms</option>
+                            <option value="4">+4 Bathrooms</option>
+                            <option value="5">+5 Bathrooms</option>
+                        </select>
+                        <select (change)="onSelectSqFeet($event)" name="select-square-feet" id="select-square-feet">
+                            <option value="empty" style="display:none;" selected>Square Feet</option>
+                            <option value="empty">All Sizes</option>
+                            <option value="500">+500 sq ft</option>
+                            <option value="1000">+1000 sq ft</option>
+                            <option value="2000">+2000 sq ft</option>
+                            <option value="3000">+3000 sq ft</option>
+                            <option value="4000">+4000 sq ft</option>
+                            <option value="5000">+5000 sq ft</option>
+                            <option value="10000">+10000 sq ft</option>
+                        </select>
+                        <select (change)="onSelectLotSize($event)" name="select-lot-size" id="select-lot-size">
+                            <option value="empty" style="display:none;" selected>Lot Size</option>
+                            <option value="empty">All Sizes</option>
+                            <option value="0.04591368">+2000 sq ft</option>
+                            <option value="0.06887052">+3000 sq ft</option>
+                            <option value="0.09182736">+4000 sq ft</option>
+                            <option value="0.1147842">+5000 sq ft</option>
+                            <option value="0.1606979">+7000 sq ft</option>
+                            <option value="0.25">+1/4 acre</option>
+                            <option value="0.50">+1/2 acre</option>
+                            <option value="1">+1 acre</option>
+                            <option value="2">+2 acre</option>
+                            <option value="5">+5 acre</option>
+                            <option value="10">+10 acre</option>
+                        </select>
+                    </div>
+                </div>
+                <div *ngIf="noListings" class="list-error">
+                    <p><i class="fa fa-exclamation-circle"></i> There are currently no listings available matching your selected preferences.</p>
+                    <button (click)="goBack()">Click here to go back.</button>
+                </div>
+
+                <!-- List and Map Listings view -->
+                <div *ngIf="(viewType == 'list' || viewType == 'map')&& listData">
+                    <detailed-list [listData]="listData"></detailed-list>
+                </div>
+
+                <!-- Photo view -->
+                <div *ngIf="viewType == 'photo' && listData">
+                  <photo-list *ngFor="#data of listData" style="display:inline-block" [listData]="data" [carouselData]="data.photos"></photo-list>
+                </div>
+
+                <!-- Pagination Footer -->
+                <pagination-footer *ngIf="paginationParameters" [paginationParameters]="paginationParameters"></pagination-footer>
+            </section>
+        </section>
+        <div class="four-col">
+          <!-- Tooltip currently commented out due to UI review-->
+          <div class="lv-result-summary">
+            Property Listings for {{listCity}}, {{listStateAP}} | <span class="bold">{{totalListings}} Results</span>
+          </div>
+          <div *ngIf="showTooltip" class="lv-tooltip">
+            <div class="lv-tooltip-header">
+                What is this page?
+                <span class="lv-tooltip-header-cancel" (click)="closeTooltip()" title="Close"><i class="fa fa-remove"></i></span>
+            </div>
+            <div *ngIf="totalListings && listNameDisplay" class="lv-tooltip-description">
+                This is a list of the <span class="bold">{{totalListings}} {{listNameDisplay | lowercase}}</span> in <span class="bold"><span *ngIf="listCity">{{listCity}},</span> {{listStateAP}}</span>
+                <span *ngIf="sort">This list is sorted by <span class="bold">{{sortType}}</span> from <span class="bold">{{sortDirection}}</span>.</span>
+            </div>
+          </div> 
+          <widget-module></widget-module>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>

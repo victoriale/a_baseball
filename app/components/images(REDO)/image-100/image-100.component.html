@@ -1,0 +1,13 @@
+<div *ngIf="hasHover === true" class='image-100-hover'>
+    <a href='#'>
+        <img src='{{imageURL}}' onerror="this.src='/app/public/placeholder-location.jpg';" />
+        <div>
+            <p>View</p>
+            <p>Profile</p>
+        </div>
+    </a>
+</div>
+
+<div *ngIf="hasHover === false">
+    <img class='image-100' src='{{imageURL}}' onerror="this.src='/app/public/placeholder-location.jpg';" />
+</div>

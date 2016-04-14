@@ -1,0 +1,153 @@
+/*******************************************/
+/* Documentation Module Styles and Mixins */
+/*******************************************/
+
+.module-container{
+  width:680px;
+  height: auto;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 20px;
+  box-shadow: @modBoxShadow;
+  font-family: @globalFont;
+  background-color: @white;
+}
+.page-container{
+  min-height: 800px;
+  width: 680px;
+  position: relative;
+  background-color: @white;
+  font-family: @globalFont;
+  margin-bottom: 20px;
+  box-shadow: @modBoxShadow;
+}
+.page-content{
+  min-height: 520px;
+}
+// workspace styles for examples
+// and code blocks
+.doc-workspace {
+  width: 680px;
+  margin-bottom: 20px;
+  .code-wrapper {
+    margin-top: 10px;
+    pre {
+      background-color: #eee;
+      border: 1px solid #ccc;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding-top: 10px;
+      code {
+        line-height: 20px;
+      }
+    }
+  }
+  p.workspace-note {
+    margin-top: 20px;
+  }
+  p.workspace-note-light {
+    background-color: @white;
+    margin-top: 20px;
+    padding: 5px;
+  }
+  [class*='demo-2'], [class*='demo-3'] {
+    margin-top: 20px;
+  }
+
+}
+
+.feature-with-goals {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 10px 5px;
+  background-color: @white;
+  article {
+    width: 335px;
+    &:first-child {
+      .flexDisplay;
+      .flexDirection(column);
+      .flexAlignItems(center);
+      .flexJustify(center);
+    }
+    &:last-child {
+      background-color: #333;
+      header {
+        .goalsHeader;
+      }
+      ul {
+        .goalsList;
+      }
+      & > ul {
+        margin: 10px 25px 25px 25px;
+      }
+    }
+  }
+}
+
+// mixin for doc page styles
+.generalDocPageEleStyles {
+  @defaultPageEleTopMargin: 20px;
+  & > h1 {
+    .globalDefaultFont(34px, 700, @black);
+  }
+  & > h2 {
+    margin-top: @defaultPageEleTopMargin;
+    .globalDefaultFont(28px, 500, @black);
+  }
+  & > h3 {
+    margin-top:@defaultPageEleTopMargin;
+    .globalDefaultFont(22px, 500, @black);
+  }
+  & > p {
+    margin-top: @defaultPageEleTopMargin;
+  }
+  & > section {
+    margin-top: @defaultPageEleTopMargin;
+  }
+}
+
+.pros-cons {
+  background-color: @white;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  article {
+    width: 340px;
+    border: 1px solid #333;
+    header {
+      height: 30px;
+      line-height: 30px;
+      background-color: #333;
+      strong {
+        color: white;
+        font-size: 20px;
+        margin-left: 8px;
+      }
+    }
+    ul {
+      list-style-type: disc;
+      margin: 10px 10px 10px 25px;
+      li {
+        margin-top: 4px;
+      }
+    }
+  }
+}
+
+.wireframe-with-desc {
+  .flexDisplay;
+  .flexDirection(row);
+  .flexJustify(space-around);
+  padding: 14px 6px;
+  article {
+    width: 320px;
+    background-color: #333;
+    header {
+      .goalsHeader;
+    }
+    ul {
+      .goalsList;
+    }
+  }
+}

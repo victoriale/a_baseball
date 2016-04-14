@@ -1,0 +1,1258 @@
+/*********************/
+/* Table Of Contents */
+/*********************/
+/*
+
+For quick searching:
+
+goalsHeader
+ goalsList
+ wireframe
+
+@Documentation Components
+@Vert Mod Components
+  @Vert Header Components
+  @Vert Heading Component
+  @Vert Image Components
+    @Image Hover States
+    @Round Image Links
+    @Large Link-Images with Small Images/Divs in Corners
+  @Vert Tab Components
+  @Vert Button Components
+  @Vert Stat Boxes
+  @Vert Tile Components
+
+*/
+
+/*****************************/
+/* @Documentation Components */
+/*****************************/
+// mod-frame is a scaled down wireframe of a module for visual
+// example purposes
+.goalsHeader {
+  height: 30px;
+  line-height: 30px;
+  background-color: @docPrimaryAccentColor;
+  color: white;
+  padding-left: 4px;
+}
+.goalsList {
+  list-style-type: square;
+  margin: 10px 25px 0;
+  li {
+    line-height: 20px;
+    color: @docTetraLeftAccentColor;
+    & span {
+      color: @white;
+    }
+    & ul {
+      margin: 0 0 0 25px;
+      list-style-type: disc;
+    }
+  }
+}
+.wireframe {
+  display: flex;
+  flex-direction: column;
+  width: 340px;
+  position: relative;
+  overflow: hidden;
+  background-color: #fff;
+  header {
+    width: inherit;
+    height: 30px;
+    .docDashedBorderBottom;
+  }
+  div.hero {
+    width: inherit;
+    height: 90px;
+    .docDashedBorderBottom;
+  }
+  nav {
+    width: inherit;
+    height: 40px;
+    .docDashedBorderBottom;
+  }
+  main {
+    width: inherit;
+    height: 200px;
+  }
+  footer {
+    width: inherit;
+    height: 20px;
+    position: absolute;
+    bottom: 0;
+    .docDashedBorderTop;
+    .docDashedBorderBottom;
+  }
+}
+
+/************************/
+/* @Vert Mod Components */
+/************************/
+/* @Vert Header Components */
+// @docDemo mod-hdr
+.mod-hdr {
+  @defaultModHdrHeight: 45px;
+  width: 100%;
+  height: @defaultModHdrHeight;
+  line-height: @defaultModHdrHeight;
+  background-color: @black;
+  span:first-child {
+    width: 3px;
+    height: 13px;
+    display: inline-block;
+    margin-left: 10px;
+    background-color: @masterBrandColor;
+  }
+  span:last-child {
+    .globalDefaultModFont(18px, 900, @white);
+  }
+}
+.mod-hdr-ratio-demo-1 {
+  @defaultModHdrHeight: 45px;
+  width: 100%;
+  height: @defaultModHdrHeight;
+  line-height: @defaultModHdrHeight;
+  background-color: @black;
+  span:first-child {
+    width: 3px;
+    height: @defaultModHdrHeight * 0.289;
+    display: inline-block;
+    margin-left: 10px;
+    background-color: @masterBrandColor;
+  }
+  span:last-child {
+    @modHdrFontSize: @defaultModHdrHeight * 0.4;
+    .globalDefaultModFont(@modHdrFontSize, 900, @white);
+  }
+}
+.mod-hdr-ratio-demo-2 {
+  @defaultModHdrHeight: 60px;
+  width: 100%;
+  height: @defaultModHdrHeight;
+  line-height: @defaultModHdrHeight;
+  background-color: @black;
+  span:first-child {
+    width: 3px;
+    height: @defaultModHdrHeight * 0.289;
+    display: inline-block;
+    margin-left: 10px;
+    background-color: @masterBrandColor;
+  }
+  span:last-child {
+    @modHdrFontSize: @defaultModHdrHeight * 0.4;
+    .globalDefaultModFont(@modHdrFontSize, 900, @white);
+  }
+}
+.mod-hdr-ratio-demo-3 {
+  @defaultModHdrHeight: 75px;
+  width: 100%;
+  height: @defaultModHdrHeight;
+  line-height: @defaultModHdrHeight;
+  background-color: @black;
+  span:first-child {
+    width: 3px;
+    height: @defaultModHdrHeight * 0.289;
+    display: inline-block;
+    margin-left: 10px;
+    background-color: @masterBrandColor;
+  }
+  span:last-child {
+    @modHdrFontSize: @defaultModHdrHeight * 0.4;
+    .globalDefaultModFont(@modHdrFontSize, 900, @white);
+  }
+}
+.mod-hdr-with-heading {
+  @defaultModHdrHeight: 45px;
+  width: 100%;
+  height: @defaultModHdrHeight;
+  border-top: 3px solid @masterBrandColor;
+  line-height: @defaultModHdrHeight - 3px;
+  background-color: @black;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  span {
+    width: 3px;
+    height: 13px;
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 5px;
+    background-color: @masterBrandColor;
+  }
+  h3 {
+    display: inline-block;
+    .globalDefaultModFont(18px, 400, @white);
+    margin: 0;
+  }
+}
+.page-hdr {
+  @defaultPageHdrHeight: 50px;
+  width: 680px;
+  height: @defaultPageHdrHeight;
+  line-height: @defaultPageHdrHeight;
+  a {
+    .flexDisplay;
+    background-image: url(header_texture.png);
+    background-size: cover;
+    div:first-child {
+      width: 60px;
+      background-color: @masterBrandColor;
+      .flexDisplay;
+      .flexDirection(row);
+      .flexJustify(space-around);
+      i {
+        font-size: 30px;
+        color: white;
+        padding-top: 10px;
+      }
+    }
+    div:nth-child(2) {
+      width: 15px;
+      border-top: 25px solid transparent;
+      border-bottom: 25px solid transparent;
+      border-left: 15px solid @masterBrandColor;
+    }
+    span {
+      .globalDefaultModFont(18px, 300, @white);
+      margin-left: 20px;
+      &.strong {
+        font-weight: 900;
+      }
+    }
+  }
+}
+.page-hdr-ratio-demo-1 {
+  @defaultPageHdrHeight: 50px;
+  width: 680px;
+  height: @defaultPageHdrHeight;
+  line-height: @defaultPageHdrHeight;
+  a {
+    .flexDisplay;
+    background-image: url(header_texture.png);
+    background-size: cover;
+    div:first-child {
+      width: 60px;
+      background-color: @masterBrandColor;
+      .flexDisplay;
+      .flexDirection(row);
+      .flexJustify(space-around);
+      i {
+        font-size: @defaultPageHdrHeight * 0.6;
+        padding-top: @defaultPageHdrHeight * 0.2;
+        color: white;
+      }
+    }
+    div:nth-child(2) {
+      @halfDefaultPageHdrHeight: @defaultPageHdrHeight * 0.5;
+      width: 15px;
+      border-top: @halfDefaultPageHdrHeight solid transparent;
+      border-bottom: @halfDefaultPageHdrHeight solid transparent;
+      border-left: 15px solid @masterBrandColor;
+    }
+    span {
+      @pageHdrFontSize: @defaultPageHdrHeight * 0.36;
+      .globalDefaultModFont(@pageHdrFontSize, 300, @white);
+      margin-left: 20px;
+      &.strong {
+        font-weight: 900;
+      }
+    }
+  }
+}
+.page-hdr-ratio-demo-2 {
+  @defaultPageHdrHeight: 60px;
+  width: 680px;
+  height: @defaultPageHdrHeight;
+  line-height: @defaultPageHdrHeight;
+  a {
+    .flexDisplay;
+    background-image: url(header_texture.png);
+    background-size: cover;
+    div:first-child {
+      width: 60px;
+      background-color: @masterBrandColor;
+      .flexDisplay;
+      .flexDirection(row);
+      .flexJustify(space-around);
+      i {
+        font-size: @defaultPageHdrHeight * 0.6;
+        padding-top: @defaultPageHdrHeight * 0.2;
+        color: white;
+      }
+    }
+    div:nth-child(2) {
+      @halfDefaultPageHdrHeight: @defaultPageHdrHeight * 0.5;
+      width: 15px;
+      border-top: @halfDefaultPageHdrHeight solid transparent;
+      border-bottom: @halfDefaultPageHdrHeight solid transparent;
+      border-left: 15px solid @masterBrandColor;
+    }
+    span {
+      @pageHdrFontSize: @defaultPageHdrHeight * 0.36;
+      .globalDefaultModFont(@pageHdrFontSize, 300, @white);
+      margin-left: 20px;
+      &.strong {
+        font-weight: 900;
+      }
+    }
+  }
+}
+.page-hdr-ratio-demo-3 {
+  @defaultPageHdrHeight: 70px;
+  width: 680px;
+  height: @defaultPageHdrHeight;
+  line-height: @defaultPageHdrHeight;
+  a {
+    .flexDisplay;
+    background-image: url(header_texture.png);
+    background-size: cover;
+    div:first-child {
+      width: 60px;
+      background-color: @masterBrandColor;
+      .flexDisplay;
+      .flexDirection(row);
+      .flexJustify(space-around);
+      i {
+        font-size: @defaultPageHdrHeight * 0.6;
+        padding-top: @defaultPageHdrHeight * 0.2;
+        color: white;
+      }
+    }
+    div:nth-child(2) {
+      @halfDefaultPageHdrHeight: @defaultPageHdrHeight * 0.5;
+      width: 15px;
+      border-top: @halfDefaultPageHdrHeight solid transparent;
+      border-bottom: @halfDefaultPageHdrHeight solid transparent;
+      border-left: 15px solid @masterBrandColor;
+    }
+    span {
+      @pageHdrFontSize: @defaultPageHdrHeight * 0.36;
+      .globalDefaultModFont(@pageHdrFontSize, 300, @white);
+      margin-left: 20px;
+      &.strong {
+        font-weight: 900;
+      }
+    }
+  }
+}
+
+/**************************/
+/* @Vert Image Components */
+/**************************/
+.roundImage(@widthHeight, @shadowSize, @shadowColor) {
+  width: @widthHeight;
+  height: @widthHeight;
+  box-shadow: 0 0 0 @shadowSize @shadowColor;
+  .borderRadiusPrefix(50%);
+  .backgroundClipPBoxPrefixes;
+}
+
+/* @Image Hover States */
+// @roundImageLinkDemo
+.smallImageHoverWithIcon(@hoverEleWidthHeight) {
+  .flexDisplay;
+  .flexDirection(column);
+  .flexJustify(space-around);
+  text-align: center;
+  background-color: @masterImageHover;
+  width: @hoverEleWidthHeight;
+  height: @hoverEleWidthHeight;
+  position: absolute;
+  .borderRadiusPrefix(50%);
+  left: -9999px;
+  top: 0;
+  i {
+    color: @white;
+    font-size: @hoverEleWidthHeight * 0.4;
+  }
+}
+.largeImageHoverWithText(@hoverEleWidthHeight) {
+  .flexDisplay;
+  .flexDirection(column);
+  .flexJustify(center);
+  text-align: center;
+  background-color: @masterImageHover;
+  width: @hoverEleWidthHeight;
+  height: @hoverEleWidthHeight;
+  position: absolute;
+  .borderRadiusPrefix(50%);
+  left: -9999px;
+  top: 0;
+  p {
+    &:first-child {
+      @defaultFirstParaFontSize: @hoverEleWidthHeight * 0.213;
+      .globalDefaultModFont(@defaultFirstParaFontSize, 700, @white);
+      line-height: @defaultFirstParaFontSize;
+      margin: 0;
+    }
+    &:last-child {
+      @defaultSecondParaFontSize: @hoverEleWidthHeight * 0.133;
+      .globalDefaultModFont(@defaultSecondParaFontSize, 400, @white);
+      line-height: @defaultSecondParaFontSize;
+      margin: 0;
+    }
+  }
+}
+
+// @Round Image Links
+.smallRoundImageLinkWithHover(@linkWidth, @shadowSize, @shadowColor) {
+  display: inline-block;
+  width: @linkWidth;
+  height: @linkWidth;
+  position: relative;
+  .borderRadiusPrefix(50%);
+  img {
+    .roundImage(@linkWidth, @shadowSize, @shadowColor);
+  }
+  div {
+    .smallImageHoverWithIcon(@linkWidth);
+  }
+  &:hover {
+    div {
+      left: 0;
+    }
+  }
+}
+.largeRoundImageLinkWithHover(@linkWidth, @shadowSize, @shadowColor) {
+  display: inline-block;
+  width: @linkWidth;
+  height: @linkWidth;
+  position: relative;
+  .borderRadiusPrefix(50%);
+  img {
+    .roundImage(@linkWidth, @shadowSize, @shadowColor);
+  }
+  div {
+    .largeImageHoverWithText(@linkWidth);
+  }
+  &:hover {
+    div {
+      left: 0;
+    }
+  }
+}
+
+// Large image with no hover
+.largeRoundImageNoHover(@linkWidth, @shadowSize, @shadowColor) {
+  display: inline-block;
+  width: @linkWidth;
+  height: @linkWidth;
+  position: relative;
+  .borderRadiusPrefix(50%);
+  img {
+    .roundImage(@linkWidth, @shadowSize, @shadowColor);
+  }
+}
+
+/* @Large Link-Images with Small Images/Divs in Corners */
+// Small round links that contain an image and hover state
+// that accompany larger images
+.smallImgBR(@smallImgWidthHeightBR, @smallImgShadowSizeBR, @smallImgShadowColorBR) {
+  display: inline-block;
+  .roundImage(@smallImgWidthHeightBR, @smallImgShadowSizeBR, @smallImgShadowColorBR);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.counterBR(@smallImgWidthHeightBR, @smallImgShadowSizeBR, @smallImgShadowColorBR) {
+  display: inline-block;
+  .roundImage(@smallImgWidthHeightBR, @smallImgShadowSizeBR, @smallImgShadowColorBR);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.smallImgBL(@smallImgWidthHeightBL, @smallImgShadowSizeBL, @smallImgShadowColorBL) {
+  display: inline-block;
+  .roundImage(@smallImgWidthHeightBL, @smallImgShadowSizeBL, @smallImgShadowColorBL);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.smallLinkImgBR(@smallImgWidthHeightBR, @smallImgShadowSizeBR, @smallImgShadowColorBR) {
+  display: inline-block;
+  width: @smallImgWidthHeightBR;
+  height: @smallImgWidthHeightBR;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  img {
+    .roundImage(@smallImgWidthHeightBR, @smallImgShadowSizeBR, @smallImgShadowColorBR);
+  }
+  div {
+    .smallImageHoverWithIcon(@smallImgWidthHeightBR);
+  }
+  &:hover {
+    div {
+      left: 0;
+    }
+  }
+}
+.smallLinkImgBL(@smallImgWidthHeightBL, @smallImgBorderSizeBL, @smallImgBorderColorBL) {
+  display: inline-block;
+  width: @smallImgWidthHeightBL;
+  height: @smallImgWidthHeightBL;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  img {
+    .roundImage(@smallImgWidthHeightBL, @smallImgBorderSizeBL, @smallImgBorderColorBL);
+  }
+  div {
+    .smallImageHoverWithIcon(@smallImgWidthHeightBL);
+  }
+  &:hover {
+    div {
+      left: 0;
+    }
+  }
+}
+
+// BR: large => not linked; small => linked
+.largeImgSmallLinkedImgBR(@liwh, @liss, @lisc, @siwh, @siss, @sisc) {
+  position: relative;
+  display: inline-block;
+  width: @liwh;
+  height: @liwh;
+  line-height: 0;
+  img {
+    .roundImage(@liwh, @liss, @lisc);
+  }
+  a {
+    .smallLinkImgBR(@siwh, @siss, @sisc);
+  }
+}
+
+// BR: large => linked; small => not linked
+.largeLinkedImgSmallImgBR(@liwh, @liss, @lisc, @siwh, @siss, @sisc) {
+  position: relative;
+  display: inline-block;
+  width: @liwh;
+  height: @liwh;
+  line-height: 0;
+  a {
+    .largeRoundImageLinkWithHover(@liwh, @liss, @lisc);
+  }
+  img {
+    .smallImgBR(@siwh, @siss, @sisc);
+  }
+}
+
+// BR both linked
+.largeLinkedImgSmallLinkedImgBR(@liwh, @liss, @lisc, @siwh, @siss, @sisc) {
+  position: relative;
+  display: inline-block;
+  width: @liwh;
+  height: @liwh;
+  line-height: 0;
+  img:first-child {
+    .roundImage(@liwh, @liss, @lisc);
+  }
+  a:first-child {
+    cursor:pointer;
+    .largeRoundImageLinkWithHover(@liwh, @liss, @lisc);
+  }
+  div:nth-child(2){
+    .counterBR(@liwh*.25, @liss*.25, @lisc);
+    width: auto;
+    min-width: @liwh*.25;
+    border-radius: @liwh*.25;
+    line-height: @liwh*.25;
+    padding: 0px @liss;
+    font-size: 18px;
+    font-family: @globalFont;
+    text-align: center;
+    //line-height: 1.8em;
+    background-color: @white;
+    color:@black;
+  }
+  a:last-child {
+    .smallLinkImgBR(@siwh, @siss, @sisc);
+  }
+}
+
+// BR both not linked
+.largeImgSmallNotLinkedImgBR(@liwh, @liss, @lisc, @siwh, @siss, @sisc) {
+  position: relative;
+  display: inline-block;
+  width: @liwh;
+  height: @liwh;
+  line-height: 0;
+  img:first-child {
+    .roundImage(@liwh, @liss, @lisc);
+  }
+  div:nth-child(2){
+    .counterBR(@liwh*.25, @liss*.25, @lisc);
+    font-size: 1em;
+    font-family: @globalFont;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.8em;
+    background-color: @white;
+    color:@black;
+  }
+  img:last-child {
+    .smallImgBR(@siwh, @siss, @sisc);
+  }
+}
+
+// BR: large => not linked; small => linked
+.largeImgSmallLinkedImgBL(@liwh, @liss, @lisc, @siwh, @siss, @sisc) {
+  position: relative;
+  display: inline-block;
+  width: @liwh;
+  height: @liwh;
+  line-height: 0;
+  img {
+    .roundImage(@liwh, @liss, @lisc);
+  }
+  a {
+    .smallLinkImgBL(@siwh, @siss, @sisc);
+  }
+}
+
+//BL large => linked; small => not linked
+.largeLinkedImgSmallImgBL(@liwh, @liss, @lisc, @siwh, @siss, @sisc) {
+  position: relative;
+  display: inline-block;
+  width: @liwh;
+  height: @liwh;
+  line-height: 0;
+  a {
+    .largeRoundImageLinkWithHover(@liwh, @liss, @lisc);
+  }
+  img {
+    .smallImgBL(@siwh, @siss, @sisc);
+  }
+}
+
+// BL both linked
+.largeLinkedImgSmallLinkedImgBL(@liwh, @liss, @lisc, @siwh, @siss, @sisc) {
+  position: relative;
+  display: inline-block;
+  width: @liwh;
+  height: @liwh;
+  line-height: 0;
+  a:first-child {
+    .largeRoundImageLinkWithHover(@liwh, @liss, @lisc);
+  }
+  a:last-child {
+    .smallLinkImgBL(@siwh, @siss, @sisc);
+  }
+}
+
+/* @Row of Round Images */
+.rowOfSmallImages(@imageWidth, @imageLeftMargin, @rowHeight, @shadowSize, @shadowColor) {
+  .inlineFlexDisplay;
+  .flexDirection(row);
+  height: @rowHeight;
+  a {
+    .smallRoundImageLinkWithHover(@imageWidth, @shadowSize, @shadowColor);
+    margin-left: @imageLeftMargin;
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+}
+.rowOfLargeImages(@imageWidth, @imageLeftMargin, @rowHeight, @shadowSize, @shadowColor) {
+  .inlineFlexDisplay;
+  .flexDirection(row);
+  height: @rowHeight;
+  a {
+    .largeRoundImageLinkWithHover(@imageWidth, @shadowSize, @shadowColor);
+    margin-left: @imageLeftMargin;
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+}
+.columnOfImages(@heightOfImageContainer, @widthOfImageContainer, @numberOfImages) {
+  .flexDisplay;
+}
+.listOfImages(@heightOfImageList, @widthOfImageList, @numberOfImages) {
+
+}
+
+/************************/
+/* @Vert Tab Components */
+/************************/
+.tabRowWithBorders(@widthOfContainer, @heightOfContainer, @numberOfTabs, @iconTopMargin) {
+  width: @widthOfContainer;
+  height: @heightOfContainer;
+  background-color: @masterBackgroundColor;
+  ul {
+    .flexDisplay;
+    .flexDirection(row);
+    li {
+      width: @widthOfContainer / @numberOfTabs;
+      height: @heightOfContainer;
+      a {
+        .flexDisplay;
+        .flexDirection(row);
+        .flexJustify(center);
+        .flexAlignItems(center);
+        height: @heightOfContainer;
+        border-right: 1px solid @masterStrokeColor;
+        border-top: 1px solid @masterStrokeColor;
+        border-bottom: 1px solid @masterStrokeColor;
+        .globalDefaultModFont(12px, 700, #666);
+        text-transform: uppercase;
+        background-color: @masterBackgroundColor;
+        &.active {
+          color: @black;
+          background-color: @white;
+          border-top: none;
+          border-bottom: none;
+          i {
+            font-size: 8px;
+            margin: @iconTopMargin 4px 0 0;
+            color: @masterTabIconColor;
+          }
+        }
+      }
+    }
+    li:last-child a {
+      border-right: none;
+    }
+  }
+}
+.proportionalTabRowWithBorders(@widthOfContainer, @heightOfContainer, @numberOfTabs, @iconTopMargin) {
+  width: @widthOfContainer;
+  height: @heightOfContainer;
+  background-color: @masterBackgroundColor;
+  ul {
+    .flexDisplay;
+    .flexDirection(row);
+    li {
+      width: @widthOfContainer / @numberOfTabs;
+      height: @heightOfContainer;
+      a {
+        @proportionalFontSize: @heightOfContainer * 0.2;
+        .flexDisplay;
+        .flexDirection(row);
+        .flexJustify(center);
+        .flexAlignItems(center);
+        height: @heightOfContainer;
+        border-right: 1px solid @masterStrokeColor;
+        border-top: 1px solid @masterStrokeColor;
+        border-bottom: 1px solid @masterStrokeColor;
+        .globalDefaultModFont(@proportionalFontSize, 700, #666);
+        text-transform: uppercase;
+        background-color: @masterBackgroundColor;
+        &.active {
+          color: @black;
+          background-color: @white;
+          border-top: none;
+          border-bottom: none;
+          i {
+            font-size: @heightOfContainer * 0.133;
+            margin: @iconTopMargin 4px 0 0;
+            color: @masterTabIconColor;
+          }
+        }
+      }
+    }
+    li:last-child a {
+      border-right: none;
+    }
+  }
+}
+.tabRowBottomBorder(@widthOfContainer, @heightOfContainer, @numberOfTabs, @iconTopMargin) {
+  width: @widthOfContainer;
+  height: @heightOfContainer;
+  background-color: @masterBackgroundColor;
+  ul {
+    .flexDisplay;
+    .flexDirection(row);
+    li {
+      width: @widthOfContainer / @numberOfTabs;
+      height: @heightOfContainer;
+      a {
+        .flexDisplay;
+        .flexDirection(row);
+        .flexJustify(center);
+        .flexAlignItems(center);
+        height: @heightOfContainer;
+        border-bottom: 1px solid @masterStrokeColor;
+        .globalDefaultModFont(14px, 400, #666);
+        text-transform: uppercase;
+        background-color: @masterBackgroundColor;
+        &.active {
+          font-weight: 600;
+          color: @black;
+          background-color: @white;
+          border-top: none;
+          border-bottom: none;
+          i {
+            color: @masterTabIconColor;
+            margin: @iconTopMargin 4px 0 0;
+          }
+        }
+      }
+    }
+  }
+}
+.proportionalTabRowBottomBorder(@widthOfContainer, @heightOfContainer, @numberOfTabs, @iconTopMargin) {
+  width: @widthOfContainer;
+  height: @heightOfContainer;
+  background-color: @masterBackgroundColor;
+  ul {
+    .flexDisplay;
+    .flexDirection(row);
+    li {
+      width: @widthOfContainer / @numberOfTabs;
+      height: @heightOfContainer;
+      a {
+        .flexDisplay;
+        .flexDirection(row);
+        .flexJustify(center);
+        .flexAlignItems(center);
+        height: @heightOfContainer;
+        border-bottom: 1px solid @masterStrokeColor;
+        @proportionalFontSize: @heightOfContainer * 0.233;
+        .globalDefaultModFont(@proportionalFontSize, 400, #666);
+        text-transform: uppercase;
+        background-color: @masterBackgroundColor;
+        &.active {
+          font-weight: 600;
+          color: @black;
+          background-color: @white;
+          border-bottom: none;
+          i {
+            color: @masterTabIconColor;
+            margin: @iconTopMargin 4px 0 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+/***************************/
+/* @Vert Button Components */
+/***************************/
+//carousel buttons
+.car-btn {
+  background-color: @black;
+  color: @white;
+  cursor: pointer;
+  height: 80px;
+  width: 40px;
+  margin-top: 30px;
+  & .fa {
+    font-size: 36px;
+    margin: 20px 0 0 10px;
+  }
+}
+.car-right () {
+  .car-btn;
+  border-radius: 80px 80px 0 0;
+  -moz-border-radius: 80px 80px 0 0;
+  -webkit-border-radius: 80px 0 0 80px;
+  float: right;
+  &:hover {
+    background-color: @masterBrandColor;
+  }
+}
+.car-left () {
+  .car-btn;
+  border-radius: 80px 80px 0 0;
+  -moz-border-radius: 80px 80px 0 0;
+  -webkit-border-radius: 0 80px 80px 0;
+  float: left;
+  &:hover {
+    background-color: @masterBrandColor;
+  }
+}
+
+// links styled like buttons
+.footer {
+  .footerGradient;//base.less
+  height: auto;
+  width: 100%;
+  border-bottom: 2px solid @masterBrandColor;
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  .footer-btn {
+    .inlineFlexDisplay;
+    .flexDirection(row);
+    .flexAlignItems(center);
+    height: 35px;
+    background-color: @masterBrandColor;
+    .borderRadiusPrefix(5px 5px 0 0);
+    span:first-child {
+      border-radius: 50%;
+      width: 25px;
+      height: 25px;
+      margin-left: 10px;
+      background-image: url(@masterIcon);
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
+    span:nth-child(2) {
+      .globalDefaultModFont(16px, 900, @white);
+      margin-left: 10px;
+    }
+    i {
+      margin: 2px 10px 0 8px;
+      color: @white;
+      font-weight: 900;
+    }
+    &:hover {
+      background-color: darken(@masterBrandColor, 10%);
+    }
+    &:active {
+      background-color: @black;
+      span:first-child {
+        background-color: @masterBrandColor;
+        background-position: center center;
+        background-repeat: no-repeat;
+      }
+    }
+  }
+}
+.mod-page-btn {
+  .inlineFlexDisplay;
+  .flexDirection(row);
+  .flexAlignItems(center);
+  height: 35px;
+  background-color: @masterBrandColor;
+  .borderRadiusPrefix(5px);
+  & > span:first-child {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    margin-left: 10px;
+    background-image: url(@masterIcon);
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+  & > span:nth-child(2) {
+    .globalDefaultModFont(15px, 600, @white);
+    margin-left: 10px;
+  }
+  & > i {
+    margin: 2px 10px 0;
+    color: @white;
+    font-weight: 900;
+  }
+  &:hover {
+    background-color: darken(@masterBrandColor, 10%);
+  }
+  &:active {
+    background-color: @black;
+    span:first-child {
+      background-color: @masterBrandColor;
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
+  }
+}
+.mod-page-btn-30 {
+  .inlineFlexDisplay;
+  .flexDirection(row);
+  .flexAlignItems(center);
+  height: 35px;
+  background-color: @masterBrandColor;
+  .borderRadiusPrefix(5px);
+  & > i {
+    margin: 2px 10px 0;
+    color: @white;
+    font-weight: 400;
+  }
+  & > span {
+    .globalDefaultModFont(12px, 900, @white);
+    margin-left: 10px;
+  }
+
+  &:hover {
+    background-color: darken(@masterBrandColor, 10%);
+  }
+  &:active {
+    background-color: @black;
+    span:first-child {
+      background-image: url(@masterIconHover);
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
+  }
+}
+.dailyUpdateBtns(@containerWidth, @containerHeight, @btnWidthHeight) {
+  .inlineFlexDisplay;
+  .flexDirection(row);
+  .flexAlignItems(center);
+  width: @containerWidth;
+  height: @containerHeight;
+  background-color: @masterBackgroundColor;
+  ul {
+    .flexDisplay;
+    .flexDirection(row);
+    .flexJustify(space-between);
+    margin-left: 25px;
+    li {
+      .borderRadiusPrefix(50%);
+      width: @btnWidthHeight;
+      height: @btnWidthHeight;
+      margin-right: 10px;
+      &:last-child {
+        margin-right: 0;
+      }
+      a {
+        .flexDisplay;
+        .flexDirection(column);
+        .flexJustify(center);
+        .flexAlignItems(center);
+        .borderRadiusPrefix(50%);
+        width: @btnWidthHeight;
+        height: @btnWidthHeight;
+        background-color: @masterStrokeColor;
+        .globalDefaultModFont(14px, 300, #666);
+        &.active {
+          color: @white;
+          font-weight: 900;
+          background-color: @masterBrandColor;
+          &:hover {
+            color: @white;
+            font-weight: 900;
+            background-color: @masterBrandColor;
+          }
+        }
+        &:hover {
+          font-weight: 900;
+          color: @white;
+          background-color: @masterFontIconColor;
+        }
+      }
+    }
+  }
+}
+.tile-btn {
+  .inlineFlexDisplay;
+  .flexDirection(row);
+  .flexJustify(center);
+  .flexAlignItems(center);
+  width: 140px;
+  height: 35px;
+  position: absolute;
+  bottom: 10px;
+  left: 20px;
+  .globalDefaultModFont(12px, 900, @white);
+  border: 1px solid @masterBrandColor;
+  .borderRadiusPrefix(3px);
+  background-color: @masterBrandColor;
+  i {
+    margin-left: 8px;
+  }
+  // &:hover {
+  //   background-color: @masterBrandColor;
+  // }
+}
+.feature-btn {
+  .inlineFlexDisplay;
+  .flexDirection(row);
+  .flexJustify(center);
+  .flexAlignItems(center);
+  min-width: 115px;
+  height: 30px;
+  position: absolute;
+  padding-left: 15px;
+  padding-right: 15px;
+  z-index: 1;
+  background-color: rgba(54, 54, 54, 0.85);
+  border: 1px solid  rgba(54, 54, 54, 0.85);
+  .borderRadiusPrefix(3px);
+  .globalDefaultModFont(14px, 900, @white);
+  i {
+    margin-left: 8px;
+  }
+  &:hover {
+    color: @white;
+    background-color: @masterBrandColor;
+    border-color: @masterBrandColor;
+  }
+}
+/********************/
+/* @Vert Stat Boxes */
+/********************/
+.profHdrTopStatBox(@itemWidth, @itemHeight, @itemMarginLeft) {
+  .inlineFlexDisplay;
+  .flexDirection(row);
+  li {
+    .flexDisplay;
+    .flexDirection(column);
+    .flexAlignItems(center);
+    .flexJustify(space-between);
+    width: @itemWidth;
+    height: @itemHeight;
+    margin-left: @itemMarginLeft;
+    &:first-child {
+      margin-left: 0;
+    }
+    p:first-child {
+      .globalDefaultModFont(32px, 300, @white);
+    }
+    p:last-child {
+      .globalDefaultModFont(12px, 300, @white);
+    }
+  }
+}
+.profHdrBtmStatBox(@containerWidth, @containerHeight, @itemHeight, @numberOfStats) {
+  @topBottomPadding: (@containerHeight - @itemHeight) / 2;
+  .flexDisplay;
+  background-color: @white;
+  height: @containerHeight;
+  padding: @topBottomPadding 0;
+  ul {
+    .flexDisplay;
+    .flexDirection(row);
+    height: @itemHeight;
+    li {
+      .flexDisplay;
+      .flexDirection(column);
+      .flexAlignItems(center);
+      width: @containerWidth / @numberOfStats;
+      height: @itemHeight;
+      border-left: 2px solid @masterStrokeColor;
+      &:first-child {
+        border-left: none;
+      }
+      p {
+        .globalDefaultModFont(12px, 400, #666);
+        &:nth-child(2) {
+          .globalDefaultModFont(32px, 900, @black);
+          margin-top: 5px;
+          span {
+            font-size: 12px;
+          }
+        }
+        &:last-child {
+          margin-top: 5px;
+        }
+      }
+    }
+  }
+}
+.dailyUpdateStatBox(@itemWidth, @itemHeight) {
+  .inlineFlexDisplay;
+  .flexDirection(column);
+  background-color: @white;
+  li {
+    .flexDisplay;
+    .flexDirection(row);
+    .flexJustify(space-between);
+    width: @itemWidth;
+    height: @itemHeight;
+    div {
+      .inlineFlexDisplay;
+      .flexDirection(row);
+      .flexAlignItems(center);
+      img {
+        width: 12px;
+        height: 12px;
+      }
+      span {
+        .globalDefaultModFont(12px, 300, @black);
+        margin-left: 12px;
+      }
+    }
+    span {
+      .inlineFlexDisplay;
+      .flexDirection(column);
+      .flexJustify(center);
+      .globalDefaultModFont(12px, 900, @black);
+    }
+  }
+}
+
+/*************************/
+/* @Vert Tile Components */
+/*************************/
+.flippy-tile-col {
+  .inlineFlexDisplay;
+  .flexDirection(column);
+  .flexJustify(space-between);
+  height: auto;
+  .tile-container {
+    width: 180px;
+    height: 180px;
+    .perspective(1000);
+    &:hover [class*='tile-front'],
+    &.hover [class*='tile-front'] {
+      .transformPrefixes(rotateY(180deg));
+    }
+    &:hover [class*='tile-back'],
+    &.hover [class*='tile-back'] {
+      .transformPrefixes(rotateY(0deg));
+    }
+    [class*='tile-flipper'] {
+      a{
+        color: @white;
+      }
+      .perspective(1000);
+      position: relative;
+      .transitionPrefixes(0.3s);
+      .transformStylePrefixes(preserve-3d);
+    }
+    [class*='tile-front'],
+    [class*='tile-back'] {
+      .transformStylePrefixes(preserve-3d);
+      .transitionPrefixes(0.3s);
+      width: 180px;
+      height: 180px;
+      background-color: @tileBackground;
+      .backfaceVisibility(hidden);
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    [class*='tile-front'] {
+      .flexDisplay;
+      .flexDirection(column);
+      .flexAlignItems(center);
+      .transformPrefixes(rotateY(0deg));
+      z-index: 2;
+      text-align: center;
+      i {
+        margin-top: 40px;
+        font-size: 48px;
+        color: @white;
+        .backfaceVisibility(hidden);
+      }
+      p {
+        margin-top: 20px;
+        line-height: 26px;
+        width: 150px;
+        .globalDefaultModFont(22px, 300, @white);
+      }
+    }//tile-front ends
+    [class*='tile-back'] {
+      .flexDisplay;
+      .flexDirection(column);
+      .flexAlignItems(flex-start);
+      padding: 10px;
+      .transformPrefixes(rotateY(-180deg));
+      span:first-child {
+        .globalDefaultModFont(20px, 300, @white);
+        width: 150px;
+      }
+      span:nth-child(2) {
+        display: inline-block;
+        margin-top: 10px;
+        .globalDefaultModFont(12px, 300, @white);
+        line-height: 12px;
+      }
+      span:last-child {
+        .tile-btn;
+      }
+    }//tile-back ends
+  }
+}
+
+/*************************/
+/* @Carousel Background Colors*/
+/*************************/
+@carouselGradientBegin: #2a4968;
+@carouselGradientEnd:   #1d243f;
+@tileBackground: #333333;

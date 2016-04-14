@@ -1,0 +1,53 @@
+@import (reference) "./app/global/stylesheets/components.less";
+@import (reference) "./app/global/stylesheets/base.less";
+
+.doc-main {
+  //margin: 0 !important;
+  height: auto;
+  h1 {
+    text-align:center;
+    width:100%;
+    background-color:@masterBrandColor;
+    height:70px;
+  }
+  nav {
+    margin-bottom: 20px;
+    margin-top: 10px;
+    text-align: center;
+    .globalDefaultModFont(14px, 300, @white);
+    a {
+      text-align:center;
+      line-height:40px;
+      width:100px;
+      // height:40px;
+      padding: 5px;
+      color:white;
+      background-color:black;
+      cursor:pointer;
+    }
+  }
+}
+
+.testLinks{
+  a {
+    .globalDefaultModFont(14px, 300, @white);
+    text-align:center;
+    line-height:40px;
+    width:100px;
+    padding: 10px;
+    color:white;
+    background-color:black;
+    cursor:pointer;
+  }
+}
+
+.page-wrapper {
+  min-height: 900px;
+}
+
+.page-loading {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+}
+

@@ -1,0 +1,59 @@
+<div class="content-wrapper">
+    <div class="wrapper">
+        <div class="inner-wrapper">
+            <main class='row'>
+                <section class='content-main eight-col'>
+                    <div class="page-container au">
+                        <backtab-component></backtab-component>
+                        <title-component [titleData]="titleData"></title-component>
+                        <au-header-component [title]="auHeaderTitle"></au-header-component>
+                        <hr class="au-hr" />
+                        <div class="au-desc">
+                            <p>We created Wichita, Kan. -based {{pageName}} in July, 2015 to connect prospective home buyers with genuine, personable and informative real estate listings.</p>
+                            <p>Here at {{pageName}}, we have an appetite for digesting down big data in the world of real estate. We create unique content so you can weigh every option when hunting for your perfect home. From multi-million dollar mansions to budget-friendly starter homes, {{pageName}}'s ever-growing data base provides real estate listings in over 3,000 counties across the United States.</p>
+                        </div>
+                        <div class="au-blocks">
+                            <div class="au-blocks-block">
+                                <span><img src="{{au_icon1}}" /></span>
+                                <span>
+                                    <div>{{subText1}}</div>
+                                    <div>{{mainText1}}</div>
+                                </span>
+                            </div>
+                            <div class="au-blocks-block">
+                                <span><img src="{{au_icon2}}" /></span>
+                                <span>
+                                    <div>{{subText2}}</div>
+                                    <div>{{mainText2}}</div>
+                                </span>
+                            </div>
+                            <div class="au-blocks-block">
+                                <span><img src="{{au_icon3}}" /></span>
+                                <span>
+                                    <div>{{subText3}}</div>
+                                    <div>{{mainText3}}</div>
+                                </span>
+                            </div>
+                            <div class="au-blocks-block">
+                                <span><img src="{{au_icon4}}" /></span>
+                                <span>
+                                    <div>{{subText4}}</div>
+                                    <div>{{mainText4}}</div>
+                                </span>
+                            </div>
+                        </div>
+                        <!--Blocks End-->
+                        <div class="au-nat">
+                            <div>{{subText_nat}}</div>
+                            <img src="{{nat_map}}" alt="nationwide image" />
+                        </div>
+                    </div>
+
+                </section>
+                <div class="four-col">
+                    <widget-module></widget-module>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>

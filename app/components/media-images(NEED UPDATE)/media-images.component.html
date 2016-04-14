@@ -1,0 +1,61 @@
+<section *ngIf="featureListing" class="media-images">
+  <circle-button (scrollLeft)="left()" (scrollRight)="right()"></circle-button>
+  <div class="plcholder">
+    <a class='feature-btn expand' (click)="modalExpand()">
+      {{expandText}}
+      <i class='fa {{expandIcon}}'></i>
+    </a>
+
+    <div class='feature-btn images'>
+      <span>
+        <i class='fa fa-file-image-o'></i>
+      </span>
+      <span>
+        {{imagesTitle}} ({{displayCounter}}/{{totalImageCount}})</span>
+      <i></i>
+    </div>
+
+    <a *ngIf="featureListing.virtualTour != 'N/A'" href="featureListing.virtualTour" class='feature-btn virtual'>
+      Virtual Home Tour ({{virtualTourCount}})
+    </a>
+    <img *ngIf="mediaImages" src="{{largeImage}}" onerror="this.src={{image_url}}" class="plcholder-img" alt="placeholder images"/>
+    <div class="plcholder-details">
+      <div class="listings">
+        <a [routerLink] = "[featureListing.locUrl1, featureListing.locUrl2]">
+        <div class="listings-name">
+          {{featureListing.city}},
+          {{featureListing.state}}
+          -
+          {{featureListing.zipCode}}</div></a>
+        <div class="listings-addr">{{featureListing.address}}</div>
+        <div class="listings-days">{{featureListing.daysOnMarket}}</div>
+      </div>
+
+      <div *ngIf="!trending" class="details">
+        <div>{{featureListing.detail1}}</div>
+        <div>{{featureListing.unit1}}</div>
+      </div>
+      <div *ngIf="!trending" class="details">
+        <div>{{featureListing.detail2}}</div>
+        <div>{{featureListing.unit2}}</div>
+      </div>
+
+      <div class="details">
+        <div>{{featureListing.price | priceFormat}}</div>
+        <div>{{featureListing.priceName}}</div>
+      </div>
+      <a *ngIf="trending" [routerLink]="[featureListing.url1, featureListing.url2]" class='mod-page-btn'>
+        <span></span>
+        <span>View Your Home</span>
+        <i class='fa fa-angle-right'></i>
+      </a>
+    </div>
+  </div>
+  <div class="sm_images">
+    <div class="sm_images-img">
+      <a *ngFor="#sm_images of smallImage">
+        <img id="smImg-{{sm_images.id}}" [ngClass]="{'squareImage-active': sm_images.id == imageCounter}" class="squareImage" src="{{sm_images.image}}" onerror="this.src={{image_url}}" alt="small square images" (click)="changeMain(sm_images.id)"/>
+      </a>
+    </div>
+  </div>
+</section>

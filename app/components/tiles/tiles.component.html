@@ -1,0 +1,43 @@
+<div class='tilecontent'>
+    <div class='flippy-tile-col'>
+        <div class='tile-container'>
+            <div class='tile-flipper-one'>
+                <div class='tile-front-one'>
+                    <i class='fa {{tile_data.icon1}}'></i>
+                    <p>{{tile_data.title1}}</p>
+                </div>
+                <a [routerLink]="[tile_data.url1, tile_data.paramOptions1]" class='tile-back-one'>
+                    <span><i class='fa {{tile_data.icon1}}'></i> {{tile_data.title1}}</span>
+                    <span>{{tile_data.desc1}}</span>
+                    <span>{{tile_data.button_txt}} <i class='fa fa-mail-forward'></i></span>
+                </a>
+            </div>
+        </div>
+        <div class='tile-container'>
+            <div class='tile-flipper-two'>
+                <div class='tile-front-one'>
+                    <i class='fa {{tile_data.icon2}}'></i>
+                    <p>{{tile_data.title2}}</p>
+                </div>
+                <a [routerLink]="[tile_data.url2, tile_data.paramOptions2]" class='tile-back-two'>
+                    <span><i class='fa {{tile_data.icon2}}'></i> {{tile_data.title2}} </span>
+                    <span>{{tile_data.desc2}}</span>
+                    <span>{{tile_data.button_txt}} <i class='fa fa-mail-forward'></i></span>
+                </a>
+            </div>
+        </div>
+        <div class='tile-container'>
+            <div class='tile-flipper-three'>
+                <div class='tile-front-one'>
+                    <i class='fa {{tile_data.icon3}}'></i>
+                    <p>{{tile_data.title3}}</p>
+                </div>
+                <a [routerLink]="[tile_data.url3, tile_data.paramOptions3]" class='tile-back-three'>
+                    <span><i class='fa {{tile_data.icon3}}'></i> {{tile_data.title3}}</span>
+                    <span>{{tile_data.desc3}}</span>
+                    <span>{{tile_data.button_txt}}<i class='fa fa-mail-forward'></i></span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

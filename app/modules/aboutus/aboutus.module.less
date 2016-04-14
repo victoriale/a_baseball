@@ -1,0 +1,62 @@
+.aboutUs{
+  border: solid 1px @greyBorder;
+  &-body{
+    .flexDisplay;
+    .flexDirection(row);
+    padding:15px;
+  }
+  &-disc{
+    margin-right: 15px;
+    border: solid 1px @strokeGrey;
+    box-sizing: border-box;
+    background-color: @white;
+    width: 455px;
+    height: 570px;
+    &-header{
+      background-color: @backgroundGrey;
+      width: 453px;
+      height: 39px;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 46px;
+      text-align: left;
+      padding-left: 8px;
+      i{
+          color: @masterBrandColor;
+        }
+    }
+    img{
+      width: 335px;
+      margin: 70px 0 75px 57px;
+    }
+    &-desc{
+      width: 387px;
+      height: 170px;
+      margin: 0 auto;
+      text-align: left;
+      font-weight: 400;
+      &-heading{
+        font-size: 16px;
+        line-height: 30px;
+      }
+      &-subText{
+        font-size: 12px;
+        line-height: 30px;
+      }
+      &-mainText{
+        font-size: 14px;
+      }
+      &-provider{
+        line-height: 45px;
+        text-align: center;
+      }
+    }
+  }
+
+  .mod-page-btn{
+    margin: 32px 0 0 109px;
+    & > span:nth-child(2) {
+      .globalDefaultModFont(14px, 400, @white);
+    }
+  }
+}

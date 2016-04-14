@@ -1,0 +1,68 @@
+<footer *ngIf="paginationParameters" class="pagination-container no-select">
+
+    <!-- Buttons for module pagination type -->
+    <div *ngIf="paginationParameters.paginationType === 'module'" class="pagination-row">
+        <!-- Angle Left Button -->
+        <button id="pf-angle-left" *ngIf="paginationParameters.max !== 1" (click)="indexLeft($event)" class="pagination-button-angle">
+            <i class="fa fa-angle-left"></i>
+        </button>
+        <!-- Minimum Button -->
+        <button (click)="indexClick($event)" class="pagination-button-circle" [ngClass]="{active: paginationParameters.index === 1}">
+            1
+        </button>
+        <span *ngIf="showMinSkip" class="pagination-button-ellipsis">
+            ...
+        </span>
+        <!-- Button Array -->
+        <button *ngFor="#item of paginationButtonsModule" (click)="indexClick($event)" class="pagination-button-circle" [ngClass]="{active: paginationParameters.index === item}">
+            {{item}}
+        </button>
+        <!-- Maximum Button -->
+        <span *ngIf="showMaxSkip" class="pagination-button-ellipsis">
+            ...
+        </span>
+        <button (click)="indexClick($event)" *ngIf="paginationParameters.max !== 1" class="pagination-button-circle" [ngClass]="{active: paginationParameters.index === paginationParameters.max}">
+            {{paginationParameters.max}}
+        </button>
+        <!-- Angle Right Button -->
+        <button id="pf-angle-right" *ngIf="paginationParameters.max !== 1" (click)="indexRight($event)" class="pagination-button-angle">
+            <i class="fa fa-angle-right"></i>
+        </button>
+    </div>
+
+    <!-- Anchor tags for page pagination type -->
+    <div *ngIf="paginationParameters.paginationType === 'page'" class="pagination-row">
+        <!-- Angle Left Button -->
+        <a class="pagination-button-angle" *ngIf="paginationParameters.max !== 1" [routerLink]="[paginationParameters.navigationPage, previousButtonParameters]">
+            <i class="fa fa-angle-left"></i>
+        </a>
+        <!-- Minimum Button -->
+        <a (click)="indexClick($event)" class="pagination-button-circle" [ngClass]="{active: paginationParameters.index === 1}" [routerLink]="[paginationParameters.navigationPage, minButtonParameters]">
+            1
+        </a>
+        <span *ngIf="showMinSkip" class="pagination-button-ellipsis">
+            ...
+        </span>
+        <!-- Button Array -->
+        <a *ngFor="#item of paginationButtonsPage" class="pagination-button-circle" [ngClass]="{active: paginationParameters.index === item.index}" [routerLink]="[item.page, item.params]">
+            {{item.index}}
+        </a>
+        <!-- Maximum Button -->
+        <span *ngIf="showMaxSkip" class="pagination-button-ellipsis">
+            ...
+        </span>
+        <a (click)="indexClick($event)" *ngIf="paginationParameters.max !== 1" class="pagination-button-circle" [ngClass]="{active: paginationParameters.index === paginationParameters.max}" [routerLink]="[paginationParameters.navigationPage, maxButtonParameters]">
+            {{paginationParameters.max}}
+        </a>
+        <!-- Angle Right Button -->
+        <a class="pagination-button-angle" *ngIf="paginationParameters.max !== 1" [routerLink]="[paginationParameters.navigationPage, nextButtonParameters]">
+            <i class="fa fa-angle-right"></i>
+        </a>
+    </div>
+
+    <!-- View All Button -->
+    <a *ngIf="paginationParameters.viewAllPage && paginationParameters.viewAllParams" [routerLink]="[paginationParameters.viewAllPage, paginationParameters.viewAllParams]" class='pagination-view-all'>
+        VIEW ALL
+        <span class="pagination-view-all-icon"></span>
+    </a>
+</footer>

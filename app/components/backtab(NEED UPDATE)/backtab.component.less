@@ -1,0 +1,36 @@
+.page-hdr {
+  @defaultPageHdrHeight: 50px;
+  width: 680px;
+  height: @defaultPageHdrHeight;
+  line-height: @defaultPageHdrHeight;
+  cursor: pointer;
+  a {
+    .flexDisplay;
+    background-color: black;
+    div:first-child {
+      width: 62px;
+      background-color: @masterBrandColor;
+      .flexDisplay;
+      .flexDirection(row);
+      .flexJustify(space-around);
+      i {
+        font-size: 30px;
+        color: white;
+        padding-top: 10px;
+      }
+    }
+    div:nth-child(2) {
+      width: 15px;
+      border-top: 25px solid transparent;
+      border-bottom: 25px solid transparent;
+      border-left: 15px solid @masterBrandColor;
+    }
+    span {
+      .globalDefaultModFont(18px, 300, @white);
+      margin-left: 20px;
+      &.strong {
+        font-weight: 900;
+      }
+    }
+  }
+}

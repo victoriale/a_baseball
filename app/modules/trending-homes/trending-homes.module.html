@@ -1,0 +1,12 @@
+<section *ngIf="listData" class="module-container">
+    <module-header [module_title]="moduleTitle"></module-header>
+    <div style="height:466px; width:100%">
+      <media-images *ngIf="listData" [trending]="trending" [mediaImages]="listData.photos" [featureListing]="listData" (leftCircle)="left()" (rightCircle)="right()" (expand)="expandModal()"></media-images>
+    </div>
+    <!-- <list-view-carousel [carouselData]="carouselData"></list-view-carousel> -->
+</section>
+
+<div *ngIf="listData" class="modal" [ngClass]="{'modal-open': expand == true}">
+  <div class="modal-exit" (click)="expandModal()">X</div>
+  <media-images *ngIf="listData" [trending]="trending" [mediaImages]="listData.photos" [featureListing]="listData" (leftCircle)="left()" (rightCircle)="right()" [modalButton]="modal" (expand)="expandModal()"></media-images>
+</div>
