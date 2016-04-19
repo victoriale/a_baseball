@@ -11,7 +11,7 @@ import {AboutUsPageInterface} from '../../global/global-interface';
 import {GlobalFunctions} from '../../global/global-functions';
 import {Injector} from 'angular2/core';
 import {WebApp} from '../../app-layout/app.layout';
-import {AuHeaderComponent} from '../../components/au-header/au-header.component';
+import {AuHeaderComponent} from '../../components/about-us-header/au-header.component';
 
 @Component({
     selector: 'Aboutus-page',
