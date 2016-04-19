@@ -1,11 +1,11 @@
 import {Component, OnInit, OnChanges} from 'angular2/core';
 import {Router, RouteParams, ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
 
-import {ListViewCarousel} from '../../components/carousel/list-view/list-view.component';
-import {DropdownComponent} from '../../components/buttons/sort-by/sort-by.component';
-import {ListMenuComponent} from '../../components/list-menu/list-menu.component';
+//import {ListViewCarousel} from '../../components/carousel/list-view/list-view.component';
+//import {DropdownComponent} from '../../components/buttons/sort-by/sort-by.component';
+//import {ListMenuComponent} from '../../components/list-menu/list-menu.component';
 import {DetailedListComponent} from '../../components/detailed-list/detailed-list.component';
-import {PhotoListComponent} from '../../components/photo-list/photo-list.component';
+//import {PhotoListComponent} from '../../components/photo-list/photo-list.component';
 import {WidgetModule} from "../../modules/widget/widget.module";
 import {GlobalFunctions} from "../../global/global-functions";
 import {TitleComponent} from '../../components/title/title.component';
@@ -13,7 +13,7 @@ import {PaginationFooter} from "../../components/pagination-footer/pagination-fo
 import {listViewPage} from '../../global/global-service';
 import {LoadingComponent} from '../../components/loading/loading.component';
 import {ErrorComponent} from '../../components/error/error.component';
-import {MapComponent} from '../../components/map/map.component';
+//import {MapComponent} from '../../components/map/map.component';
 
 declare var jQuery: any;
 declare var moment: any;
@@ -23,7 +23,7 @@ declare var lh: any;
     selector: 'List-page',
     templateUrl: './app/webpages/list-page/list.page.html',
     
-    directives: [PhotoListComponent, ROUTER_DIRECTIVES, DetailedListComponent, ListViewCarousel, WidgetModule, PaginationFooter, LoadingComponent, ErrorComponent, MapComponent],
+    directives: [ROUTER_DIRECTIVES, DetailedListComponent, WidgetModule, PaginationFooter, LoadingComponent, ErrorComponent],
     providers: [listViewPage]
 })
 

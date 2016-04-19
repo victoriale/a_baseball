@@ -8,7 +8,7 @@ import {WidgetModule} from "../../modules/widget/widget.module";
 import {Router,ROUTER_DIRECTIVES} from 'angular2/router';
 import {Injector} from 'angular2/core';
 import {WebApp} from '../../app-layout/app.layout';
-import {AuHeaderComponent} from '../../components/au-header/au-header.component';
+//import {AuHeaderComponent} from '../../components/au-header/au-header.component';
 
 @Component({
     selector: 'Disclaimer-page',
