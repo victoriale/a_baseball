@@ -11,12 +11,13 @@ import {AboutUsPageInterface} from '../../global/global-interface';
 import {GlobalFunctions} from '../../global/global-functions';
 import {Injector} from 'angular2/core';
 import {WebApp} from '../../app-layout/app.layout';
+import {AuHeaderComponent} from '../../components/au-header/au-header.component';
 
 @Component({
     selector: 'Aboutus-page',
     templateUrl: './app/webpages/aboutus-page/aboutus.page.html',
 
-    directives: [BackTabComponent, TitleComponent, WidgetModule, ROUTER_DIRECTIVES],
+    directives: [AuHeaderComponent, BackTabComponent, TitleComponent, WidgetModule, ROUTER_DIRECTIVES],
     providers: [GlobalPage],
 })
 
@@ -68,7 +69,6 @@ export class AboutUsPage implements OnInit{
                   this.auHeaderTitle = "<b>What is </b>" + this.pageName;
                 }
             )//end of route subscribe
-        window.scrollTo(0, 0);
     }
 
     getData(){

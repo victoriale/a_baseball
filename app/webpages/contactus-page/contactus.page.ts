@@ -12,7 +12,7 @@ declare var jQuery: any;
 @Component({
     selector: 'Contactus-page',
     templateUrl: './app/webpages/contactus-page/contactus.page.html',
-    
+
     directives: [BackTabComponent, TitleComponent, AuHeaderComponent, WidgetModule],
     providers: [],
 })
