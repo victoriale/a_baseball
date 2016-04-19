@@ -1,10 +1,10 @@
 import {Component, OnInit} from 'angular2/core';
-import {DetailedListItem} from '../../components/detailed-list-item/detailed-list-item';
+import {DraftHistoryModule} from '../../modules/draft-history/draft-history';
 
 @Component({
     selector: 'Component-page',
     templateUrl: './app/webpages/component-page/component.page.html',
-    directives: [DetailedListItem],
+    directives: [DraftHistoryModule],
     providers: [],
 })
 
