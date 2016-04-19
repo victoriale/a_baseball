@@ -1,6 +1,8 @@
 import {Component, OnInit, Injector} from 'angular2/core';
 import {RouteParams, Router, RouteData, RouteConfig, RouterOutlet, ROUTER_DIRECTIVES, LocationStrategy, RouterLink} from 'angular2/router';
 import {AboutUsPage} from "../webpages/aboutus-page/aboutus.page";
+import {ContactUsPage} from "../webpages/contactus-page/contactus.page";
+import {DisclaimerPage} from "../webpages/disclaimer-page/disclaimer.page";
 import {ComponentPage} from "../webpages/component-page/component.page";
 import {WebApp} from "../app-layout/app.layout";
 import {GlobalFunctions} from "../global/global-functions";
@@ -10,21 +12,31 @@ import {GlobalFunctions} from "../global/global-functions";
     selector: 'my-app',
     templateUrl: './app/app-webpage/app.webpage.html',
 
-    directives: [AboutUsPage, ComponentPage, RouterOutlet,ROUTER_DIRECTIVES],
+    directives: [AboutUsPage, ContactUsPage, DisclaimerPage, ComponentPage, RouterOutlet, ROUTER_DIRECTIVES],
     providers: [ ROUTER_DIRECTIVES],
 })
 
 @RouteConfig([
     {
       path: '/',
-      name: 'Aboutus-page',
-      component: AboutUsPage,
+      name: 'Component-page',
+      component: ComponentPage,
       useAsDefault: true
     },
     {
-      path: '/component-page',
-      name: 'Component-page',
-      component: ComponentPage,
+      path: '/aboutus',
+      name: 'Aboutus-page',
+      component: AboutUsPage,
+    },
+    {
+      path: '/contactus',
+      name: 'Contactus-page',
+      component: ContactUsPage,
+    },
+    {
+      path: '/disclaimer',
+      name: 'Disclaimer-page',
+      component: DisclaimerPage,
     }
 ])
 
