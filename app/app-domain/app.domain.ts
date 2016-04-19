@@ -18,15 +18,15 @@ import {MyWebApp} from "../app-layout/app.mylayout";
         component: WebApp,
         useAsDefault: true
     },
-    {
-        path: '/:partner_id/...',
-        name: 'Partner-home',
-        component: MyWebApp,
-    },
+    // {
+    //     path: '/:partner_id/...',
+    //     name: 'Partner-home',
+    //     component: MyWebApp,
+    // },
 ])
 
 export class AppDomain {
-    cityStateLocation: string = "WICHITA_KS";
+    // cityStateLocation: string = "WICHITA_KS";
     constructor(){
         //console.log(window.location);
     }
