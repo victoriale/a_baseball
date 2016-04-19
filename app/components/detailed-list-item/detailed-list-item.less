@@ -1,3 +1,37 @@
+.dli-image{
+  width:121px;
+  height:121px;
+  border:2px solid @strokeGrey;
+  border-radius: 50%;
+  position: relative;
+  background-color: @white;
+  &-top-left{
+    position: absolute;
+    background-color: @white;
+    width:38px;
+    height:38px;
+    border-radius: 50%;
+    border:1px solid @strokeGrey;
+    top:0;
+    left:0;
+    color:@black;
+    font-size: 16px;
+    text-align: center;
+    line-height: 34px;
+
+  }
+  &-bottom-right{
+    position: absolute;
+    background-color: @white;
+    width:38px;
+    height:38px;
+    border-radius: 50%;
+    border:1px solid @strokeGrey;
+    bottom:0;
+    right:0;
+  }
+}
+
 .dli-container{
   width:100%;
   height:155px;
@@ -5,67 +39,111 @@
     float:left;
     width:22.8%;
     height:100%;
-    background-color: @black;
     padding:15px 15px 15px 20px;
   }
   &-right{
     float:right;
     width:77.2%;
     height:100%;
-    background-color: red;
-    padding: 24px 20px 30px 0;
+    padding: 10px 20px 0 0;
     .databox{
       width:100%;
-      height:65%;
+      height:auto;
       color:@black;
-      &-dataleft{
-        width:70%;
-        height:100%;
-        float:left;
-        font-size: 20px;
-        line-height: 1em;
-        span{
-          display:block;
-          font-size: 16px;
-          &:first-child{
-            font-size: 14px;
-          }
-          &:nth-child(2){
-            font-size: 20px;
-            font-size: bold;
+      margin: 10px 0;
+      .inlineFlexDisplay;
+      .flexDirection(column);
+      .flexJustify(space-between);
+      div{
+        font-size: 14px;
+        width: 100%;
+        display: inline-block;
+        &:first-child{
+          font-size: 14px;
+          line-height: 1.7em;
+          i{
+            color:@masterBrandColor;
           }
         }
-      }
-      &-dataright{
-        width:30%;
-        height:100%;
-        float:right;
-        font-size: 20px;
-        line-height: 1em;
-        span{
-          display:block;
-          font-size: 16px;
-          &:first-child{
-            font-size: 14px;
+        &:nth-child(2){
+          font-size: 20px;
+          font-weight: 900;
+          line-height: 1.3em;
+        }
+        &:last-child{
+          font-size: 14px;
+          line-height: 1.78em;
+          i{
+            color:@masterBrandColor;
+            padding-right:.5em;
           }
-          &:nth-child(2){
-            font-size: 20px;
-            font-size: bold;
+        }
+        span{
+          &:first-child{
+            display: inline;
+            width:70%;
+            float: left;
+            text-align: left;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+          &:last-child{
+            display: inline;
+            width:30%;
+            float: right;
+            text-align: right;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
           }
         }
       }
     }
     .cta-container{
       width:100%;
-      height:35%;
+      height:45px;
+      border: 1px solid @greyBorder;
       background-color: @white;
-      line-height: 22px;
-      padding: 15px;
+      line-height: 2em;
+      padding: 4px 4px 4px 19px;
       span:first-child{
+        display: inline-block;
+        width:65%;
+        color:@black;
+        font-size: 14px;
+        text-align: left;
         float: left;
+        margin: 3px 0 3px 5px;
+      }
+      span:last-child{
+        display: inline-block;
+        width:33.5%;
+        float:right;
       }
       button{
-        float: right;
+        font-size: 14px;
+        width:160px;
+        height:35px;
+        background-color:@masterBrandColor;
+        color:@white;
+        border:none;
+        line-height: 2.2em;
+        border-radius: 5px;
+        &:hover{
+          background-color: @black;
+        }
+        span:first-child{
+          width:25px;
+          height:25px;
+          border-radius: 50%;
+          background-image: url(@homerunloyalicon);
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+        i{
+          margin-left: 5px;
+        }
       }
     }
   }
