@@ -3,6 +3,7 @@ import {RouteParams, Router, RouteData, RouteConfig, RouterOutlet, ROUTER_DIRECT
 import {AboutUsPage} from "../webpages/aboutus-page/aboutus.page";
 import {ContactUsPage} from "../webpages/contactus-page/contactus.page";
 import {DisclaimerPage} from "../webpages/disclaimer-page/disclaimer.page";
+import {TeamPage} from "../webpages/team-page/team.page";
 import {ComponentPage} from "../webpages/component-page/component.page";
 import {WebApp} from "../app-layout/app.layout";
 import {GlobalFunctions} from "../global/global-functions";
@@ -12,7 +13,7 @@ import {GlobalFunctions} from "../global/global-functions";
     selector: 'my-app',
     templateUrl: './app/app-webpage/app.webpage.html',
 
-    directives: [AboutUsPage, ContactUsPage, DisclaimerPage, ComponentPage, RouterOutlet, ROUTER_DIRECTIVES],
+    directives: [TeamPage, AboutUsPage, ContactUsPage, DisclaimerPage, ComponentPage, RouterOutlet, ROUTER_DIRECTIVES],
     providers: [ ROUTER_DIRECTIVES],
 })
 
@@ -22,6 +23,11 @@ import {GlobalFunctions} from "../global/global-functions";
       name: 'Component-page',
       component: ComponentPage,
       useAsDefault: true
+    },
+    {
+      path: '/team',
+      name: 'Team-page',
+      component: TeamPage,
     },
     {
       path: '/aboutus',
