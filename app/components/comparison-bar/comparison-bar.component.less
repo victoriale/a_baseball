@@ -1,0 +1,59 @@
+.comparison-bar{
+  &-container{
+    border-top: 1px solid #e1e1e1;
+    font-family: Lato;
+    padding: 10px 20px;
+
+    &.odd{
+      background-color: #f2f2f2;
+    }
+    &.even{
+      background-color: @white;
+    }
+  }
+
+  &-title{
+    font-size: 16px;
+  }
+
+  &-capsule{
+    background-color: #d7d7d7;
+    border: 1px solid #d7d7d7;
+    border-radius: 15px;
+    height: 15px;
+    margin-top: 4px;
+    margin-bottom: 15px;
+    position: relative;
+
+    &-stroke{
+      border-radius: 15px;
+      bottom: 0px;
+      height: 100%;
+      left: 0px;
+      position: absolute;
+      transition: 1s width linear;
+      -webkit-transition: 1s width linear;
+
+      &.stroke-top{
+        z-index: 5;
+      }
+    }
+
+    &-label{
+      bottom: -15px;
+      font-size: 14px;
+      font-weight: 700;
+      position: absolute;
+      right: 0px;
+
+      //Classes to reposition label if needed (Label and another element overlap
+      &.label-top{
+        top: -15px;
+      }
+      &.label-right{
+        bottom: 0px;
+        right: -20px;
+      }
+    }
+  }
+}
