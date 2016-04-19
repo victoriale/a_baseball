@@ -8,6 +8,7 @@ import {Component} from 'angular2/core';
 })
 export class BackTabComponent{
     backgroundImg = '/app/public/header_texture.png';
+    heading = "Return to Previous Page";
     goBack() {
       if(history.length <= 2){
         window.location.href = '/';

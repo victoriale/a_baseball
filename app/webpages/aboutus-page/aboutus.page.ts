@@ -1,5 +1,5 @@
 /**
- * Created by Victoria on 2/29/2016.
+ * Created by Victoria on 4/19/2016.
  */
 import {Component, OnInit} from 'angular2/core';
 import {BackTabComponent} from '../../components/backtab/backtab.component';
@@ -11,25 +11,24 @@ import {AboutUsPageInterface} from '../../global/global-interface';
 import {GlobalFunctions} from '../../global/global-functions';
 import {Injector} from 'angular2/core';
 import {WebApp} from '../../app-layout/app.layout';
-import {AuHeaderComponent} from '../../components/au-header/au-header.component';
 
 @Component({
     selector: 'Aboutus-page',
     templateUrl: './app/webpages/aboutus-page/aboutus.page.html',
-    
-    directives: [BackTabComponent, TitleComponent, AuHeaderComponent, WidgetModule, ROUTER_DIRECTIVES],
+
+    directives: [BackTabComponent, TitleComponent, WidgetModule, ROUTER_DIRECTIVES],
     providers: [GlobalPage],
 })
 
 export class AboutUsPage implements OnInit{
     whatIs = "";
     pageName = "";
-    
-    au_icon1 = '/app/public/icons/Listing_Icon.png';
-    au_icon2 = '/app/public/icons/Building_Icon.png';
-    au_icon3 = '/app/public/icons/Real_Estate_Icon.png';
-    au_icon4 = '/app/public/icons/Globe_Icon.png';
-    nat_map = '/app/public/icons/AboutUs_Map.png';
+
+    au_icon1 = '/app/public/aboutUs_logo1.png';
+    au_icon2 = '/app/public/aboutUs_logo2.png';
+    au_icon3 = '/app/public/aboutUs_logo3.png';
+    au_icon4 = '/app/public/currentWorldSeriesChamp.png';//will need to get the current world series champ from the api
+    nat_map = '/app/public/AboutUs_Map.png';
 
     subText1 = "Listings For Sale";
     subText2 = "Cities in United States";

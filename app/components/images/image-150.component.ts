@@ -17,7 +17,7 @@ export class Image150 implements OnInit {
     counter: number = 1;
     useRouterLink:boolean = false;
     @Input() viewLocationText:string = "Profile";
-    @Input() urlRouteArray: [];    
+    @Input() urlRouteArray: Array<any> = [];
     
     ngOnInit() {
         //If urlRouteArray is an array with data, then use the RouterLink <a>

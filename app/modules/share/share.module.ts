@@ -6,8 +6,6 @@ import {Router, RouteParams} from 'angular2/router';
 import {moduleHeader} from "../../components/module-header/module-header";
 import {Image180} from '../../components/images/image-180.component';
 import {GlobalFunctions} from '../../global/global-functions';
-import {ListingProfileService} from '../../global/listing-profile.service';
-import {LocationProfileService} from '../../global/location-profile.service';
 import {PropertyListingInterface} from '../../global/global-interface';
 
 @Component({
@@ -15,7 +13,7 @@ import {PropertyListingInterface} from '../../global/global-interface';
     templateUrl: './app/modules/share/share.module.html',
     
     directives: [moduleHeader, Image180],
-    providers: [ListingProfileService, LocationProfileService],
+    providers: [],
     inputs:['locData']
 })
 
@@ -39,7 +37,7 @@ export class ShareModule implements OnInit{
     shareOn4 = 'Pinterest';
 
     @Input() propertyListingData: PropertyListingInterface;
-    constructor(private router: Router, private _params: RouteParams, private globalFunctions: GlobalFunctions, private _listingService: ListingProfileService, private _locationService: LocationProfileService) {
+    constructor(private router: Router, private _params: RouteParams, private globalFunctions: GlobalFunctions) {
       //Determine what page the profile header module is on
       this.profileType = this.router.hostComponent.name;
     }

@@ -2,7 +2,7 @@
  * Created by Victoria on 3/30/2016.
  */
 import {Component, OnInit} from 'angular2/core';
-import {HeroListComponent} from "../../components/hero/hero-list/hero-list.component";
+//import {HeroListComponent} from "../../components/hero/hero-list/hero-list.component";
 // import {Router,ROUTER_DIRECTIVES, RouteParams} from 'angular2/router';
 import {Injector} from 'angular2/core';
 import {WebApp} from '../../app-layout/app.layout';
@@ -11,7 +11,7 @@ import {WebApp} from '../../app-layout/app.layout';
     selector: 'Error-page',
     templateUrl: './app/webpages/error-page/error-page.page.html',
     
-    directives: [HeroListComponent],
+    directives: [],
     providers: [],
 })
 export class ErrorPage implements OnInit{
