@@ -6,7 +6,7 @@ import {Router} from 'angular2/router';
 
 @Component({
     selector: 'au-header-component',
-    templateUrl: './app/components/au-header/au-header.component.html',
+    templateUrl: './app/components/about-us-header/au-header.component.html',
 })
 
 export class AuHeaderComponent {
