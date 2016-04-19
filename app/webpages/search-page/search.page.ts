@@ -1,6 +1,6 @@
 import {Component, OnInit, Input, OnChanges} from 'angular2/core';
 import {BackTabComponent} from '../../components/backtab/backtab.component';
-import {SearchService} from '../../global/search-service';
+//import {SearchService} from '../../global/search-service';
 import {ROUTER_DIRECTIVES, RouteConfig, RouteParams, Router} from 'angular2/router';
 import {WidgetModule} from "../../modules/widget/widget.module";
 import {LoadingComponent} from '../../components/loading/loading.component';
@@ -18,7 +18,8 @@ declare var jQuery: any;
   templateUrl: './app/webpages/search-page/search.page.html',
   
   directives: [PaginationFooter, ROUTER_DIRECTIVES, BackTabComponent, WidgetModule, LoadingComponent, ErrorComponent],
-  providers: [SearchService],
+  //providers: [SearchService],
+    providers: [],
   inputs: ['searchResults', 'showResults']
 })
 
@@ -43,7 +44,7 @@ export class SearchPage implements OnInit {
     public isError: boolean = false;
     public term: any = new Control();
 
-    constructor(private _searchService: SearchService, private params: RouteParams, private _router:Router, private globalFunctions: GlobalFunctions) {
+    constructor(/*private _searchService: SearchService,*/ private params: RouteParams, private _router:Router, private globalFunctions: GlobalFunctions) {
         var query = this.params.get('query');
         if(query !== null) {
             this.loadCall(query);
@@ -54,22 +55,22 @@ export class SearchPage implements OnInit {
         //.distinctUntilChanged - Ensures that api is not hit twice with the same parameters. This could happen if a person types 'car' in the input -> gets a result -> types 'cart' -> backspaces to 'car' (before the debounce time), the previous parameter was zoo and the new parameter hasnt changed therefore no new api call is needed
         //.switchMap - Ensures that api calls are in order. If a new api call is fired before the previous call finishes, the previous call is cancelled. Also in this case if the input is of length 0 then the api call is ignored and undefined is passed to search results
         //.subscribe - Assign result data to variable
-        this.httpSubscription = this.term.valueChanges
-            .debounceTime(400)
-            .distinctUntilChanged()
-            .switchMap((term: string) => term.length > 0 ? this._searchService.getSearchResults(term, 'raw') : Observable.of(undefined))
-            .subscribe(
-                data => {
-                    if(typeof data !== 'undefined'){
-                        this.searchResults = this.dataModify(data);
-                        this.showCurrentData();
-                    }
-                },
-                err => {
-                    console.log('Error - Search Page API: ', err);
-                    this.isError = true;
-                }
-            )
+        //this.httpSubscription = this.term.valueChanges
+        //    .debounceTime(400)
+        //    .distinctUntilChanged()
+        //    .switchMap((term: string) => term.length > 0 ? this._searchService.getSearchResults(term, 'raw') : Observable.of(undefined))
+        //    .subscribe(
+        //        data => {
+        //            if(typeof data !== 'undefined'){
+        //                this.searchResults = this.dataModify(data);
+        //                this.showCurrentData();
+        //            }
+        //        },
+        //        err => {
+        //            console.log('Error - Search Page API: ', err);
+        //            this.isError = true;
+        //        }
+        //    )
     }
 
     //Function to tell search results component to show when input is focused
@@ -179,27 +180,27 @@ export class SearchPage implements OnInit {
     loadCall(param) {
         var input = decodeURIComponent(param);
         this.term.updateValue(input);
-        this.searchResults = this._searchService.getSearchResults(input, 'raw')
-            .subscribe(
-                data => {
-                    this.searchResults = this.dataModify(data);
-
-                    //Build dummy event target for tabTarget function to use (this will cause the tab with the most results to be selected)
-                    var event = {
-                      target: {
-                          id: this.searchResults.maxType
-                      }
-                    };
-                    this.showCurrentData();
-                    this.tabTarget(event);
-
-                    this.resultsFound = true;
-                },
-                err => {
-                    console.log('Error: On Load Search Page API', err);
-                    this.isError = true;
-                }
-            )
+        //this.searchResults = this._searchService.getSearchResults(input, 'raw')
+        //    .subscribe(
+        //        data => {
+        //            this.searchResults = this.dataModify(data);
+        //
+        //            //Build dummy event target for tabTarget function to use (this will cause the tab with the most results to be selected)
+        //            var event = {
+        //              target: {
+        //                  id: this.searchResults.maxType
+        //              }
+        //            };
+        //            this.showCurrentData();
+        //            this.tabTarget(event);
+        //
+        //            this.resultsFound = true;
+        //        },
+        //        err => {
+        //            console.log('Error: On Load Search Page API', err);
+        //            this.isError = true;
+        //        }
+        //    )
     }
 
     //below is for sorting out data

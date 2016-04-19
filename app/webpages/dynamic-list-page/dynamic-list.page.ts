@@ -4,8 +4,8 @@
 import {Component, OnInit, OnChanges} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
 
-import {DropdownComponent} from '../../components/buttons/sort-by/sort-by.component';
-import {ListMenuComponent} from '../../components/list-menu/list-menu.component';
+//import {DropdownComponent} from '../../components/buttons/sort-by/sort-by.component';
+//import {ListMenuComponent} from '../../components/list-menu/list-menu.component';
 import {DynamicListComponent} from '../../components/dynamic-list/dynamic-list.component';
 import {WidgetModule} from "../../modules/widget/widget.module";
 import {DynamicWidgetCall} from '../../global/global-service';
@@ -14,7 +14,7 @@ import {TitleComponent} from '../../components/title/title.component';
 import {PaginationFooter} from "../../components/pagination-footer/pagination-footer.component";
 import {ErrorComponent} from "../../components/error/error.component";
 import {BackTabComponent} from "../../components/backtab/backtab.component";
-import {DynamicCarousel2} from "../../components/carousel/dynamic-carousel2/dynamic-carousel2";
+//import {DynamicCarousel2} from "../../components/carousel/dynamic-carousel2/dynamic-carousel2";
 import {Router} from "angular2/router";
 
 declare var moment: any;
@@ -23,7 +23,7 @@ declare var moment: any;
   selector: 'List-page',
   templateUrl: './app/webpages/dynamic-list-page/dynamic-list.page.html',
   
-  directives: [PaginationFooter, TitleComponent, DynamicListComponent, DynamicCarousel2, DropdownComponent, ListMenuComponent, WidgetModule, ErrorComponent, BackTabComponent],
+  directives: [PaginationFooter, TitleComponent, DynamicListComponent, WidgetModule, ErrorComponent, BackTabComponent],
   providers: [DynamicWidgetCall],
 })
 

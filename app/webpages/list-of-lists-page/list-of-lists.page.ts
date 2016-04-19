@@ -2,11 +2,11 @@ import {Component, OnInit} from 'angular2/core';
 import {RouteParams} from "angular2/router";
 import {BackTabComponent} from "../../components/backtab/backtab.component";
 import {TitleComponent} from "../../components/title/title.component";
-import {ListCarouselComponent} from "../../components/list-carousel/list-carousel.component";
+//import {ListCarouselComponent} from "../../components/list-carousel/list-carousel.component";
 import {ListOfListPage} from '../../global/global-service';
 import {contentList} from "../../components/contentlist/contentlist";
 import {List} from "../../global/global-interface";
-import {HeroListComponent} from "../../components/hero/hero-list/hero-list.component";
+//import {HeroListComponent} from "../../components/hero/hero-list/hero-list.component";
 import {WidgetModule} from "../../modules/widget/widget.module";
 import {GlobalFunctions} from "../../global/global-functions";
 import {LoadingComponent} from '../../components/loading/loading.component';
@@ -16,7 +16,7 @@ import {ErrorComponent} from '../../components/error/error.component';
     selector: 'list-of-lists-page',
     templateUrl: './app/webpages/list-of-lists-page/list-of-lists.page.html',
     
-    directives: [BackTabComponent, TitleComponent, ListCarouselComponent, contentList, HeroListComponent, WidgetModule, LoadingComponent, ErrorComponent],
+    directives: [BackTabComponent, TitleComponent, contentList, WidgetModule, LoadingComponent, ErrorComponent],
     providers: [ListOfListPage],
 })
 

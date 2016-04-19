@@ -4,14 +4,15 @@ import {moduleHeader} from "../../components/module-header/module-header";
 import {MediaImages} from "../../components/media-images/media-images.component";
 import {GlobalFunctions} from '../../global/global-functions';
 import {PropertyListingInterface} from '../../global/global-interface';
-import {ListViewCarousel} from '../../components/carousel/list-view/list-view.component';
+//import {ListViewCarousel} from '../../components/carousel/list-view/list-view.component';
 declare var moment: any;
 
 @Component({
     selector: 'trending-homes',
     templateUrl: './app/modules/trending-homes/trending-homes.module.html',
 
-    directives: [ListViewCarousel, moduleHeader, MediaImages],
+    //directives: [ListViewCarousel, moduleHeader, MediaImages],
+    directives: [moduleHeader, MediaImages],
     inputs:['locData']
 })
 
