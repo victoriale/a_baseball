@@ -3,18 +3,18 @@ import {DetailedListItem} from '../../components/detailed-list-item/detailed-lis
 import {ModuleFooter} from '../../components/module-footer/module-footer';
 import {ModuleHeader} from '../../components/module-header/module-header';
 
-interface DraftHistory{
+interface Schedules{
 
 }
 
 @Component({
-    selector: 'draft-history',
-    templateUrl: './app/modules/draft-history/draft-history.html',
+    selector: 'schedules',
+    templateUrl: './app/modules/schedules/schedules.html',
     directives: [DetailedListItem, ModuleHeader, ModuleFooter],
     providers: [],
     inputs:['locData']
 })
 
-export class DraftHistoryModule{
+export class SchedulesModule{
   moduleTitle:string = "Module Title";
 }

@@ -1,6 +1,7 @@
 import {Component, OnInit} from 'angular2/core';
 import {ComparisonBar} from '../../components/comparison-bar/comparison-bar.component';
 import {DraftHistoryModule} from '../../modules/draft-history/draft-history';
+import {SchedulesModule} from '../../modules/schedules/schedules';
 
 @Component({
     selector: 'Component-page',
