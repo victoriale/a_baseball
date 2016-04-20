@@ -1,16 +1,18 @@
 import {Component, OnInit} from 'angular2/core';
 import {TitleComponent} from '../../components/title/title.component';
-import {Image100} from '../../components/images/image-100/image-100.component';
+import {CircleImage} from '../../components/images/circle-image';
+import {CircleImageData} from '../../components/images/image-data';
 
 @Component({
     selector: 'title-loc-component',
     
     templateUrl: './app/components/title/title.component.html',
-    directives: [TitleComponent, Image100],
+    directives: [TitleComponent, CircleImage],
     inputs: ['data']
 })
 export class TitleLocComponent implements OnInit{
     public data: Object;
+    public titleImage: CircleImageData;
 
     name() {
         if(typeof this.data == 'undefined'){
@@ -31,6 +33,13 @@ export class TitleLocComponent implements OnInit{
     }
 
     ngOnInit(){
+      this.titleImage = {
+        imageClass: "page-title-titleImage",
+        mainImage: {
+          imageUrl: "/app/public/img_bckgnd.png",
+          imageClass: "page-title-border2"
+        }
+      };
         this.name();
     }
 }

@@ -415,6 +415,7 @@ goalsHeader
     }
   }
 }
+
 .largeRoundImageLinkWithHover(@linkWidth, @shadowSize, @shadowColor) {
   display: inline-block;
   width: @linkWidth;
@@ -434,17 +435,17 @@ goalsHeader
   }
 }
 
-// Large image with no hover
-.largeRoundImageNoHover(@linkWidth, @shadowSize, @shadowColor) {
-  display: inline-block;
-  width: @linkWidth;
-  height: @linkWidth;
-  position: relative;
-  .borderRadiusPrefix(50%);
-  img {
-    .roundImage(@linkWidth, @shadowSize, @shadowColor);
-  }
-}
+// // Large image with no hover
+// .largeRoundImageNoHover(@linkWidth, @shadowSize, @shadowColor) {
+//   display: inline-block;
+//   width: @linkWidth;
+//   height: @linkWidth;
+//   position: relative;
+//   .borderRadiusPrefix(50%);
+//   img {
+//     .roundImage(@linkWidth, @shadowSize, @shadowColor);
+//   }
+// }
 
 /* @Large Link-Images with Small Images/Divs in Corners */
 // Small round links that contain an image and hover state
@@ -470,74 +471,76 @@ goalsHeader
   bottom: 0;
   left: 0;
 }
-.smallLinkImgBR(@smallImgWidthHeightBR, @smallImgShadowSizeBR, @smallImgShadowColorBR) {
-  display: inline-block;
-  width: @smallImgWidthHeightBR;
-  height: @smallImgWidthHeightBR;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  img {
-    .roundImage(@smallImgWidthHeightBR, @smallImgShadowSizeBR, @smallImgShadowColorBR);
-  }
-  div {
-    .smallImageHoverWithIcon(@smallImgWidthHeightBR);
-  }
-  &:hover {
-    div {
-      left: 0;
-    }
-  }
-}
-.smallLinkImgBL(@smallImgWidthHeightBL, @smallImgBorderSizeBL, @smallImgBorderColorBL) {
-  display: inline-block;
-  width: @smallImgWidthHeightBL;
-  height: @smallImgWidthHeightBL;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  img {
-    .roundImage(@smallImgWidthHeightBL, @smallImgBorderSizeBL, @smallImgBorderColorBL);
-  }
-  div {
-    .smallImageHoverWithIcon(@smallImgWidthHeightBL);
-  }
-  &:hover {
-    div {
-      left: 0;
-    }
-  }
-}
+
+// .smallLinkImgBR(@smallImgWidthHeightBR, @smallImgShadowSizeBR, @smallImgShadowColorBR) {
+//   display: inline-block;
+//   width: @smallImgWidthHeightBR;
+//   height: @smallImgWidthHeightBR;
+//   position: absolute;
+//   bottom: 0;
+//   right: 0;
+//   img {
+//     .roundImage(@smallImgWidthHeightBR, @smallImgShadowSizeBR, @smallImgShadowColorBR);
+//   }
+//   div {
+//     .smallImageHoverWithIcon(@smallImgWidthHeightBR);
+//   }
+//   &:hover {
+//     div {
+//       left: 0;
+//     }
+//   }
+// }
+
+// .smallLinkImgBL(@smallImgWidthHeightBL, @smallImgBorderSizeBL, @smallImgBorderColorBL) {
+//   display: inline-block;
+//   width: @smallImgWidthHeightBL;
+//   height: @smallImgWidthHeightBL;
+//   position: absolute;
+//   bottom: 0;
+//   left: 0;
+//   img {
+//     .roundImage(@smallImgWidthHeightBL, @smallImgBorderSizeBL, @smallImgBorderColorBL);
+//   }
+//   div {
+//     .smallImageHoverWithIcon(@smallImgWidthHeightBL);
+//   }
+//   &:hover {
+//     div {
+//       left: 0;
+//     }
+//   }
+// }
 
 // BR: large => not linked; small => linked
-.largeImgSmallLinkedImgBR(@liwh, @liss, @lisc, @siwh, @siss, @sisc) {
-  position: relative;
-  display: inline-block;
-  width: @liwh;
-  height: @liwh;
-  line-height: 0;
-  img {
-    .roundImage(@liwh, @liss, @lisc);
-  }
-  a {
-    .smallLinkImgBR(@siwh, @siss, @sisc);
-  }
-}
+// .largeImgSmallLinkedImgBR(@liwh, @liss, @lisc, @siwh, @siss, @sisc) {
+//   position: relative;
+//   display: inline-block;
+//   width: @liwh;
+//   height: @liwh;
+//   line-height: 0;
+//   img {
+//     .roundImage(@liwh, @liss, @lisc);
+//   }
+//   a {
+//     .smallLinkImgBR(@siwh, @siss, @sisc);
+//   }
+// }
 
 // BR: large => linked; small => not linked
-.largeLinkedImgSmallImgBR(@liwh, @liss, @lisc, @siwh, @siss, @sisc) {
-  position: relative;
-  display: inline-block;
-  width: @liwh;
-  height: @liwh;
-  line-height: 0;
-  a {
-    .largeRoundImageLinkWithHover(@liwh, @liss, @lisc);
-  }
-  img {
-    .smallImgBR(@siwh, @siss, @sisc);
-  }
-}
+// .largeLinkedImgSmallImgBR(@liwh, @liss, @lisc, @siwh, @siss, @sisc) {
+//   position: relative;
+//   display: inline-block;
+//   width: @liwh;
+//   height: @liwh;
+//   line-height: 0;
+//   a {
+//     .largeRoundImageLinkWithHover(@liwh, @liss, @lisc);
+//   }
+//   img {
+//     .smallImgBR(@siwh, @siss, @sisc);
+//   }
+// }
 
 // BR both linked
 .largeLinkedImgSmallLinkedImgBR(@liwh, @liss, @lisc, @siwh, @siss, @sisc) {

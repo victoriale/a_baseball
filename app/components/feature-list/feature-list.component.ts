@@ -2,14 +2,13 @@
  * Created by Victoria on 2/25/2016.
  */
 import {Component, OnInit, Input, Output, EventEmitter} from 'angular2/core';
-import {Image180} from '../../components/images/image-180.component';
 import {CarouselButton} from '../../components/buttons/carousel/carousel.button';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 @Component({
     selector: 'feature-component',
     templateUrl: './app/components/feature-list/feature-list.component.html',
     
-    directives: [ROUTER_DIRECTIVES, Image180, CarouselButton],
+    directives: [ROUTER_DIRECTIVES, CarouselButton],
     providers: [],
     inputs: ['list_data'],
     outputs: ['scrollRight', 'scrollLeft']

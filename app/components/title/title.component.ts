@@ -1,15 +1,17 @@
 import {Component, Input} from 'angular2/core';
-import {Image100} from '../../components/images/image-100/image-100.component';
+import {CircleImage} from '../../components/images/circle-image';
+import {CircleImageData} from '../../components/images/image-data';
 
 @Component({
     selector: 'title-component',
     templateUrl: './app/components/title/title.component.html',
     
-    directives: [Image100],
+    directives: [CircleImage],
     inputs: ['titleData']
 })
 export class TitleComponent{
     public titleData: Array<Object>;
+    public titleImage: CircleImageData;
 
     titleComp(){
         if(typeof this.titleData == 'undefined'){
@@ -29,7 +31,14 @@ export class TitleComponent{
     }
 
     ngOnInit(){
-        this.titleComp();
+      this.titleImage = {
+        imageClass: "page-title-titleImage",
+        mainImage: {
+          imageUrl: "/app/public/joyfulhome_house.png",
+          imageClass: "page-title-border2"
+        }
+      };
+      this.titleComp();
     }
 
 }

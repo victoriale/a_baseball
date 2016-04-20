@@ -1,0 +1,23 @@
+<div class="content-wrapper">
+    <div class="wrapper">
+        <div class="inner-wrapper">
+            <main class='row'>
+                <section class='content-main eight-col'>
+                    <div class="page-container au">
+                        <backtab-component></backtab-component>
+                        <title-component [titleData]="titleData"></title-component>
+                        <hr class="au-hr" />
+                        
+                        <div *ngFor="#dataItem of testImages">
+                          <h4>{{dataItem.description}}</h4>
+                          <div class="image-row">
+                            <circle-image [data]="dataItem.imageData"></circle-image>
+                          </div>
+                        </div>
+                    </div>
+
+                </section>
+            </main>
+        </div>
+    </div>
+</div>
