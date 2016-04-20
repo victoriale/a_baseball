@@ -60,7 +60,7 @@ export class DisclaimerPage implements OnInit {
       }
       //disclaimer data
       this.title_data = {
-          imageURL : '/app/public/homeRunLoyalLogo.png',
+          imageURL : '/app/public/mainLogo.png',
           smallText1 : 'Last Updated: Monday, March 21, 2016.',
           smallText2 : ' United States',
           heading1 : this.pageName + "'s Disclaimer",
