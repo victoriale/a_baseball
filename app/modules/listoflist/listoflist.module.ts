@@ -1,7 +1,7 @@
 import {Component, OnInit, Input} from 'angular2/core';
 import {List} from '../../global/global-interface';
 import {contentList} from "../../components/contentlist/contentlist";
-import {moduleHeader} from "../../components/module-header/module-header";
+import {ModuleHeader} from "../../components/module-header/module-header";
 import {PaginationFooter} from "../../components/pagination-footer/pagination-footer.component";
 import {GlobalFunctions} from "../../global/global-functions";
 
@@ -9,7 +9,7 @@ import {GlobalFunctions} from "../../global/global-functions";
     selector: 'list-of-lists-module',
     templateUrl: './app/modules/listoflist/listoflist.module.html',
     
-    directives: [contentList,moduleHeader, PaginationFooter],
+    directives: [contentList,ModuleHeader, PaginationFooter],
     providers: [],
     inputs:['listOfLists']
 })

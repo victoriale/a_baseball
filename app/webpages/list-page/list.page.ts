@@ -4,7 +4,7 @@ import {Router, RouteParams, ROUTER_DIRECTIVES, RouteConfig} from 'angular2/rout
 //import {ListViewCarousel} from '../../components/carousel/list-view/list-view.component';
 //import {DropdownComponent} from '../../components/buttons/sort-by/sort-by.component';
 //import {ListMenuComponent} from '../../components/list-menu/list-menu.component';
-import {DetailedListComponent} from '../../components/detailed-list/detailed-list.component';
+import {DetailedListItem} from '../../components/detailed-list-item/detailed-list-item';
 //import {PhotoListComponent} from '../../components/photo-list/photo-list.component';
 import {WidgetModule} from "../../modules/widget/widget.module";
 import {GlobalFunctions} from "../../global/global-functions";
@@ -22,8 +22,8 @@ declare var lh: any;
 @Component({
     selector: 'List-page',
     templateUrl: './app/webpages/list-page/list.page.html',
-    
-    directives: [ROUTER_DIRECTIVES, DetailedListComponent, WidgetModule, PaginationFooter, LoadingComponent, ErrorComponent],
+
+    directives: [ROUTER_DIRECTIVES, DetailedListItem, WidgetModule, PaginationFooter, LoadingComponent, ErrorComponent],
     providers: [listViewPage]
 })
 
