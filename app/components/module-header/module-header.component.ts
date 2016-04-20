@@ -5,13 +5,11 @@ import {Component, Input} from 'angular2/core';
 
 @Component({
     selector: 'module-header',
-    templateUrl: './app/components/module-header/module-header.html',
-
+    templateUrl: './app/components/module-header/module-header.component.html',
     directives:[],
-    providers: [],
-    inputs: ['module_title']
+    providers: []
 })
 
 export class ModuleHeader{
-    public module_title: string;
+   @Input() moduleTitle: string;
 }

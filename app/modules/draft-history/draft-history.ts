@@ -1,7 +1,7 @@
 import {Component} from 'angular2/core';
 import {DetailedListItem} from '../../components/detailed-list-item/detailed-list-item';
 import {ModuleFooter} from '../../components/module-footer/module-footer';
-import {ModuleHeader} from '../../components/module-header/module-header';
+import {ModuleHeader} from '../../components/module-header/module-header.component';
 
 interface DraftHistory{
 
