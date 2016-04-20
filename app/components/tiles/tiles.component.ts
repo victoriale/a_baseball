@@ -2,14 +2,12 @@
  * Created by Victoria on 2/25/2016.
  */
 import {Component, Input, OnInit, OnChanges} from 'angular2/core';
-import {moduleHeader} from "../module-header/module-header.component";
 import {Router,ROUTER_DIRECTIVES} from 'angular2/router';
 
 @Component({
     selector: 'tiles-component',
     templateUrl: './app/components/tiles/tiles.component.html',
-    
-    directives: [moduleHeader, ROUTER_DIRECTIVES],
+    directives: [ROUTER_DIRECTIVES],
     providers: [],
     inputs: ['tile_data']
 })

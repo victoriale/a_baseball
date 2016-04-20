@@ -1,5 +1,5 @@
 <section *ngIf="listData" class="module-container">
-    <module-header [module_title]="moduleTitle"></module-header>
+    <module-header [moduleTitle]="moduleTitle"></module-header>
     <div style="height:466px; width:100%">
       <media-images *ngIf="listData" [trending]="trending" [mediaImages]="listData.photos" [featureListing]="listData" (leftCircle)="left()" (rightCircle)="right()" (expand)="expandModal()"></media-images>
     </div>

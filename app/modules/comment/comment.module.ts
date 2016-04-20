@@ -2,15 +2,14 @@
  * Created by Victoria on 3/2/2016.
  */
 import {Component, OnInit} from 'angular2/core';
-import {moduleHeader} from "../../components/module-header/module-header.component";
+import {ModuleHeader} from "../../components/module-header/module-header.component";
 
 declare var DISQUS: any;
 
 @Component({
     selector: 'comment-module',
     templateUrl: './app/modules/comment/comment.module.html',
-    
-    directives: [moduleHeader],
+    directives: [ModuleHeader],
     providers: [],
 })
 export class CommentModule implements OnInit{
