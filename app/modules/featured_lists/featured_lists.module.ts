@@ -1,7 +1,7 @@
 import {Component, OnInit, Input, OnChanges} from 'angular2/core';
 import {Router, RouteParams} from 'angular2/router';
 
-import {moduleHeader} from '../../components/module-header/module-header';
+import {moduleHeader} from '../../components/module-header/module-header.component';
 import {TilesComponent} from '../../components/tiles/tiles.component';
 import {FeatureComponent} from '../../components/feature-list/feature-list.component';
 import {FeaturedListInterface} from '../../global/global-interface';

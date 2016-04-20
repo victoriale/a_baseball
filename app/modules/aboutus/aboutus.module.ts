@@ -2,7 +2,7 @@
  * Created by Victoria on 2/25/2016.
  */
 import {Component, Input} from 'angular2/core';
-import {moduleHeader} from "../../components/module-header/module-header";
+import {moduleHeader} from "../../components/module-header/module-header.component";
 import {TilesComponent} from "../../components/tiles/tiles.component";
 import {Router,ROUTER_DIRECTIVES} from 'angular2/router';
 import {Injector} from 'angular2/core';

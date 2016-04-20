@@ -1,6 +1,6 @@
 import {Component, OnInit, Input, OnChanges} from 'angular2/core';
 import {Router, RouteParams} from 'angular2/router';
-import {moduleHeader} from "../../components/module-header/module-header";
+import {moduleHeader} from "../../components/module-header/module-header.component";
 import {MediaImages} from "../../components/media-images/media-images.component";
 import {GlobalFunctions} from '../../global/global-functions';
 import {PropertyListingInterface} from '../../global/global-interface';
