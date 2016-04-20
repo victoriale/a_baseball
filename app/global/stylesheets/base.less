@@ -52,6 +52,7 @@ ToC
 @crimeYellowOrangeImageHover: rgba(246, 175, 5, @imageHoverOpacity);
 @weatherYellowImageHover: rgba(255, 223, 48, @imageHoverOpacity);
 @joyfulHomeGreenHover: rgba(68, 178, 36, @imageHoverOpacity);
+@homeRunLoyalImageHover: rgba(188, 32, 39, @imageHoverOpacity);
 
 // Grey Color Palette; light to dark
 @backgroundGrey: #f2f2f2;
@@ -71,13 +72,14 @@ ToC
 @partnerGrey: #e6e6e6;
 @partnerLocGrey: #333333;
 @listSeparatorGrey: #818181;
+
 // Box Shadow for Image Borders
-@masterLargeImageShadow: rgba(0,0,0,0.2);
-@masterSmallImageShadow: rgba(204, 204, 204, 1);
+@masterLargeImageShadow: rgba(0,0,0,0.25);
+@masterSmallImageShadow: #cccccc;
 
 // Master Vertical Brand Colors
 @masterBrandColor: @homeRunLoyalRed;
-@masterImageHover: @joyfulHomeGreenHover;
+@masterImageHover: @homeRunLoyalImageHover;
 @masterBackgroundColor: @backgroundGrey;
 @masterHighlightColor: @highlightGrey;
 @masterStrokeColor: @strokeGrey;
@@ -121,6 +123,7 @@ ToC
   font-family: @globalFont;
   font-size: @fontSize;
   font-weight: @fontWeight;
+  color: @color;
 }
 
 .globalDefaultModFont(@fontSize, @fontWeight, @color) {

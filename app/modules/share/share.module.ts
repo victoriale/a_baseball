@@ -4,7 +4,6 @@
 import {Component, OnInit, Input} from 'angular2/core';
 import {Router, RouteParams} from 'angular2/router';
 import {ModuleHeader} from "../../components/module-header/module-header.component";
-import {Image180} from '../../components/images/image-180.component';
 import {GlobalFunctions} from '../../global/global-functions';
 import {PropertyListingInterface} from '../../global/global-interface';
 
@@ -12,7 +11,7 @@ import {PropertyListingInterface} from '../../global/global-interface';
     selector: 'share-module',
     templateUrl: './app/modules/share/share.module.html',
     
-    directives: [ModuleHeader, Image180],
+    directives: [ModuleHeader],
     providers: [],
     inputs:['locData']
 })

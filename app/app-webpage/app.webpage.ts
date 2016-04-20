@@ -5,6 +5,7 @@ import {ContactUsPage} from "../webpages/contactus-page/contactus.page";
 import {DisclaimerPage} from "../webpages/disclaimer-page/disclaimer.page";
 import {TeamPage} from "../webpages/team-page/team.page";
 import {ComponentPage} from "../webpages/component-page/component.page";
+import {ImagesTestPage} from "../webpages/images-test-page/images-test.page";
 import {WebApp} from "../app-layout/app.layout";
 import {GlobalFunctions} from "../global/global-functions";
 
@@ -43,6 +44,11 @@ import {GlobalFunctions} from "../global/global-functions";
       path: '/disclaimer',
       name: 'Disclaimer-page',
       component: DisclaimerPage,
+    },
+    {
+      path: '/images-test',
+      name: 'Images-test-page',
+      component: ImagesTestPage,
     }
 ])
 
