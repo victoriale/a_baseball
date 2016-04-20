@@ -2,13 +2,13 @@
  * Created by Victoria on 4/19/2016.
  */
 import {Component, OnInit} from 'angular2/core';
-import {moduleHeader} from "../../components/module-header/module-header";
+import {ModuleHeader} from "../../components/module-header/module-header";
 
 @Component({
     selector: 'like-us-module',
     templateUrl: './app/modules/likeus/likeus.module.html',
 
-    directives: [moduleHeader],
+    directives: [ModuleHeader],
 })
 export class LikeUs implements OnInit{
     module_title: string;

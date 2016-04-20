@@ -6,7 +6,7 @@ import {SchedulesModule} from '../../modules/schedules/schedules';
 @Component({
     selector: 'Component-page',
     templateUrl: './app/webpages/component-page/component.page.html',
-    directives: [ComparisonBar, DraftHistoryModule],
+    directives: [SchedulesModule, ComparisonBar, DraftHistoryModule],
     providers: [],
 })
 

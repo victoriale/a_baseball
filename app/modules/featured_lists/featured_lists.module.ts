@@ -1,7 +1,7 @@
 import {Component, OnInit, Input, OnChanges} from 'angular2/core';
 import {Router, RouteParams} from 'angular2/router';
 
-import {moduleHeader} from '../../components/module-header/module-header';
+import {ModuleHeader} from '../../components/module-header/module-header';
 import {TilesComponent} from '../../components/tiles/tiles.component';
 import {FeatureComponent} from '../../components/feature-list/feature-list.component';
 import {FeaturedListInterface} from '../../global/global-interface';
@@ -11,7 +11,7 @@ import {GlobalFunctions} from '../../global/global-functions';
     selector: 'featured-lists-module',
     templateUrl: './app/modules/featured_lists/featured_lists.module.html',
 
-    directives: [moduleHeader, TilesComponent, FeatureComponent],
+    directives: [ModuleHeader, TilesComponent, FeatureComponent],
     providers: [],
     inputs:['locData']
 })

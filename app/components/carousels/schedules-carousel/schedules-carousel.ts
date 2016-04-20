@@ -1,16 +1,16 @@
 import {Component} from 'angular2/core';
-
-interface SchedulesCarousel{
+import {CircleButton} from '../../buttons/circle/circle.button';
+interface SchedulesCarouseInput{
 
 }
 
 @Component({
-    selector: 'schedules',
-    templateUrl: './app/components/carousels/schedules-carousel.html',
-    directives: [],
+    selector: 'schedules-carousel',
+    templateUrl: './app/components/carousels/schedules-carousel/schedules-carousel.html',
+    directives: [CircleButton],
     providers: [],
 })
 
-export class SchedulesModule{
+export class SchedulesCarousel{
 
 }
