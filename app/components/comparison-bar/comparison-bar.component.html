@@ -1,4 +1,4 @@
-<div *ngIf="displayData" class="comparison-bar-container odd">
+<div *ngIf="displayData" class="comparison-bar-container" [ngClass]="{'background-odd': displayData.background === 0}">
     <label class="comparison-bar-title">
         {{displayData.title}}
     </label>

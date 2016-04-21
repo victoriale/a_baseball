@@ -4,9 +4,9 @@ interface ComparisonBarInput {
     data: Array<{
         dataOne: number;
         dataTwo: number;
+        dataHigh: number;
     }>;
     title: string;
-    dataHigh: string;
     colorOne: string;
     colorTwo: string;
     background: string;
@@ -34,13 +34,15 @@ export class ComparisonBar{
         var barData = data.data[dataIndex];
         var dataOne = barData.dataOne;
         var dataTwo = barData.dataTwo;
-        var dataHigh = data.dataHigh;
+        var dataHigh = barData.dataHigh;
+
         //Determine widths of bars
         data.barOneWidth = Math.round(dataOne / dataHigh * 1000) / 10;
         data.barTwoWidth = Math.round(dataTwo / dataHigh * 1000) / 10;
         //Determine bar data to display
         data.dataOne = dataOne;
         data.dataTwo = dataTwo;
+        data.dataHigh = dataHigh;
         //Determine which bar is on top
         if(dataOne > dataTwo){
             data.isOneTop = false;

@@ -26,163 +26,250 @@ export class ComparisonModule implements OnInit{
             data: [
                 {
                     dataOne: 70,
-                    dataTwo: 40
+                    dataTwo: 40,
+                    dataHigh: 100
                 },
                 {
                     dataOne: 12,
-                    dataTwo: 25
+                    dataTwo: 25,
+                    dataHigh: 110
                 },
                 {
                     dataOne: 50,
-                    dataTwo: 10
+                    dataTwo: 10,
+                    dataHigh: 90
                 }
             ],
             colorOne: '#3098FF',
             colorTwo: '#FF2232',
-            dataHigh: 100
+            background: 0
         },
         {
             title: 'Batting Average',
             data: [
                 {
                     dataOne: 2,
-                    dataTwo: 2
+                    dataTwo: 2,
+                    dataHigh: 8
                 },
                 {
                     dataOne: 1,
-                    dataTwo: 3
+                    dataTwo: 3,
+                    dataHigh: 10
                 },
                 {
                     dataOne: 6,
-                    dataTwo: 2
+                    dataTwo: 2,
+                    dataHigh: 7
                 }
             ],
             colorOne: '#3098FF',
             colorTwo: '#FF2232',
-            dataHigh: 8
+            background: 1
         },
         {
             title: 'RBIS',
             data: [
                 {
                     dataOne: 1,
-                    dataTwo: 2
+                    dataTwo: 2,
+                    dataHigh: 6
                 },
                 {
                     dataOne: 1,
-                    dataTwo: 2
+                    dataTwo: 2,
+                    dataHigh: 3
                 },
                 {
                     dataOne: 2,
-                    dataTwo: 3
+                    dataTwo: 3,
+                    dataHigh: 10
                 }
             ],
             colorOne: '#3098FF',
             colorTwo: '#FF2232',
-            dataHigh: 5
+            background: 0
         },
         {
             title: 'Hits',
             data: [
                 {
                     dataOne: 15,
-                    dataTwo: 95
+                    dataTwo: 95,
+                    dataHigh: 100
                 },
                 {
                     dataOne: 6,
-                    dataTwo: 20
+                    dataTwo: 20,
+                    dataHigh: 120
                 },
                 {
                     dataOne: 45,
-                    dataTwo: 83
+                    dataTwo: 83,
+                    dataHigh: 90
                 }
             ],
             colorOne: '#3098FF',
             colorTwo: '#FF2232',
-            dataHigh: 100
+            background: 1
         },
         {
             title: 'Walks',
             data: [
                 {
                     dataOne: 15,
-                    dataTwo: 95
+                    dataTwo: 95,
+                    dataHigh: 100
                 },
                 {
                     dataOne: 4,
-                    dataTwo: 30
+                    dataTwo: 30,
+                    dataHigh: 50
                 },
                 {
                     dataOne: 65,
-                    dataTwo: 98
+                    dataTwo: 98,
+                    dataHigh: 120
                 }
             ],
             colorOne: '#3098FF',
             colorTwo: '#FF2232',
-            dataHigh: 100
+            background: 0
         },
         {
             title: 'On Base Percentage',
             data: [
                 {
                     dataOne: 499,
-                    dataTwo: 528
+                    dataTwo: 528,
+                    dataHigh: 986
                 },
                 {
                     dataOne: 200,
-                    dataTwo: 700
+                    dataTwo: 700,
+                    dataHigh: 800
                 },
                 {
                     dataOne: 500,
-                    dataTwo: 505
+                    dataTwo: 505,
+                    dataHigh: 660
                 }
             ],
             colorOne: '#3098FF',
             colorTwo: '#FF2232',
-            dataHigh: 986
+            background: 1
         },
         {
             title: 'Doubles',
             data: [
                 {
                     dataOne: 1,
-                    dataTwo: 5
+                    dataTwo: 5,
+                    dataHigh: 20
                 },
                 {
                     dataOne: 0,
-                    dataTwo: 10
+                    dataTwo: 10,
+                    dataHigh: 22
                 },
                 {
                     dataOne: 3,
-                    dataTwo: 17
+                    dataTwo: 17,
+                    dataHigh: 20
                 }
             ],
             colorOne: '#3098FF',
             colorTwo: '#FF2232',
-            dataHigh: 20
+            background: 0
         },
         {
             title: 'Triples',
             data: [
                 {
                     dataOne: 1,
-                    dataTwo: 5
+                    dataTwo: 5,
+                    dataHigh: 48
                 },
                 {
                     dataOne: 0,
-                    dataTwo: 45
+                    dataTwo: 45,
+                    dataHigh: 75
                 },
                 {
                     dataOne: 32,
-                    dataTwo: 45
+                    dataTwo: 45,
+                    dataHigh: 60
                 }
             ],
             colorOne: '#3098FF',
             colorTwo: '#FF2232',
-            dataHigh: 48
+            background: 1
         }
     ];
     public dataIndex: number = 0;
+
+    public comparisonTileDataOne: Object = {
+        dropdownOne: [
+            'Team Profile',
+            'Player Profile'
+        ],
+        dropdownTwo: [
+            'Lutz',
+            'Larry'
+        ],
+        imageConfig: {},
+        title: 'Lutz',
+        lineTwo: 'Position: LOL | Team: The Lar bears',
+        data: [
+            {
+                data: '6\'1"',
+                key: 'Height'
+            },
+            {
+                data: '180lbs',
+                key: 'Weight'
+            },
+            {
+                data: '25',
+                key: 'Age'
+            },
+            {
+                data: '?',
+                key: 'Season'
+            },
+        ]
+    };
+    public comparisonTileDataTwo: Object = {
+        dropdownOne: [
+            'Team Profile',
+            'Player Profile'
+        ],
+        dropdownTwo: [
+            'Lutz',
+            'Larry'
+        ],
+        imageConfig: {},
+        title: 'Larry',
+        lineTwo: 'Position: LOL | Team: The Lar bears',
+        data: [
+            {
+                data: '4\'10"',
+                key: 'Height'
+            },
+            {
+                data: '90lbs',
+                key: 'Weight'
+            },
+            {
+                data: '12',
+                key: 'Age'
+            },
+            {
+                data: '?',
+                key: 'Season'
+            },
+        ]
+    };
 
     dataOne(){
         this.dataIndex = 0;
