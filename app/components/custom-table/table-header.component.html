@@ -1,0 +1,26 @@
+<div class="custom-table-header" (click)="displaySortDropdown()" >
+  <span class="custom-table-header-name">
+    {{headerData.headerValue}}
+  </span>
+  <span class="custom-table-sort">
+    <i class="fa {{iconSortDirection}}"></i>
+  </span>
+
+  <div *ngIf="isSortDropdownVisible" 
+    class="custom-table-sort-dropdown">
+    <div class="custom-table-sort-dropdown-option"
+      (click)="sortAscending()">
+      <div class="caret-top"></div>
+      <i class="fa fa-sort-{{iconSortType}}-asc"></i>
+      &nbsp;
+      Sort by <span class="text-heavy">Ascending</span>
+    </div>
+    <hr />
+    <div class="custom-table-sort-dropdown-option"
+      (click)="sortDescending()">
+      <i class="fa fa-sort-{{iconSortType}}-desc"></i>
+      &nbsp;
+      Sort by <span class="text-heavy">Descending</span>
+    </div>
+  </div>
+</div>
