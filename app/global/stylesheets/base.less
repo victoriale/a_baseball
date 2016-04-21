@@ -9,8 +9,11 @@ ToC
   @Base Styles
   @Code Styles
   @Vendor Prefixes
+<<<<<<< Updated upstream
   @Module Box Shadow
 
+=======
+>>>>>>> Stashed changes
 */
 
 /**********/
@@ -85,7 +88,7 @@ ToC
 @masterStrokeColor: @strokeGrey;
 @masterFontIconColor: @fontIconGrey;
 @masterTextEmphasisColor: @textEmphasisGrey;
-@masterTabIconColor: @investKitBlue;
+@masterTabIconColor: @homeRunLoyalRed;
 
 //master ICON logo
 @masterIcon: @homerunloyalicon;
@@ -157,7 +160,6 @@ ToC
 /***************/
 
 * {
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 body, html {
@@ -208,6 +210,7 @@ img{
 /*******************/
 
 .no-select{
+<<<<<<< Updated upstream
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
@@ -220,6 +223,10 @@ img{
 }
 .text-heavy{
   font-weight: 900;
+=======
+  -webkit-touch-callout: none;
+  user-select: none;
+>>>>>>> Stashed changes
 }
 
 /***************/
@@ -274,96 +281,57 @@ code.less-var-name-light {
 // https://css-tricks.com/snippets/css/a-guide-to-flexbox/
 
 .flexDisplay {
-  display: -ms-flexbox;
-  display: -webkit-flex;
   display: flex;
 }
 
 .inlineFlexDisplay {
-  display: -webkit-inline-flex;
-  display: -moz-inline-flex;
-  display: -ms-inline-flex;
   display: inline-flex;
 }
 
 .flexDirection(@flexDirectionParam) {
-  -webkit-flex-direction: @flexDirectionParam;
-  -moz-flex-direction: @flexDirectionParam;
-  -ms-flex-direction: @flexDirectionParam;
   flex-direction: @flexDirectionParam;
 }
 
 .flexJustify(@flexJustifyParam) {
-  -webkit-justify-content: @flexJustifyParam;
-  -moz-justify-content: @flexJustifyParam;
-  -ms-justify-content: @flexJustifyParam;
   justify-content: @flexJustifyParam;
 }
 
 .flexAlignItems(@flexAlignItemsParam) {
-  -webkit-align-items: @flexAlignItemsParam;
-  -moz-align-items: @flexAlignItemsParam;
-  -ms-align-items: @flexAlignItemsParam;
   align-items: @flexAlignItemsParam;
 }
 
 .borderRadiusPrefix(@radius) {
-  -webkit-border-radius: @radius;
-  -moz-border-radius: @radius;
   border-radius: @radius;
 }
 
 .backgroundClipPBoxPrefixes {
-  -webkit-background-clip: padding-box;
-  -moz-background-clip: padding;
   background-clip: padding-box;
 }
 
 .transformPrefixes(@transformation) {
-  -webkit-transform: @transformation;
-  -moz-transform: @transformation;
-  -ms-transform: @transformation;
-  -o-transform: @transformation;
   transform: @transformation;
 }
 
 .transformStylePrefixes(@transformStyleVals) {
-  -webkit-transform-style: @transformStyleVals;
-  -moz-transform-style: @transformStyleVals;
-  -ms-transform-style: @transformStyleVals;
-  -o-transform-style: @transformStyleVals;
   transform-style: @transformStyleVals;
 }
 
 .transformOriginPrefixes(@transformOriginVals) {
-  -webkit-transform-origin: @transformOriginVals;
-  -moz-transform-origin: @transformOriginVals;
-  -ms-transform-origin: @transformOriginVals;
   transform-origin: @transformOriginVals;
 }
 
 .transitionPrefixes(@transitionVals) {
-  -webkit-transition: @transitionVals;
-  -moz-transition: @transitionVals;
-  -ms-transition: @transitionVals;
-  -o-transition: @transitionVals;
   transition: @transitionVals;
 }
 
 .backfaceVisibility(@backfaceVisibility){
   backface-visibility: @backfaceVisibility;
-  -webkit-backface-visibility: @backfaceVisibility;
-  -moz-backface-visibility: @backfaceVisibility;
-  -ms-backface-visibility: @backfaceVisibility;
-  -o-backface-visibility: @backfaceVisibility;
 }
 
 .perspective(@perspectiveVals){
-  -webkit-perspective: @perspectiveVals;
-  -moz-perspective: @perspectiveVals;
-  -ms-perspective: @perspectiveVals;
   perspective: @perspectiveVals;
 }
+<<<<<<< Updated upstream
 
 .noclick {
   // For elements that shouldn't be highlightable
@@ -476,3 +444,5 @@ code.less-var-name-light {
     visibility: hidden;
   }
 }
+=======
+>>>>>>> Stashed changes
