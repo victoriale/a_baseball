@@ -11,13 +11,12 @@ export class HoverImage implements OnInit {
     placeholderJavascript: string;
     
     //Inputs
-    @Input() placeholderImageUrl: string;
     @Input() imageData: any;
     
     ngOnInit() {
-      if ( this.placeholderImageUrl === undefined || this.placeholderImageUrl === null ) {
-        this.placeholderImageUrl = "/app/public/placeholder-location.png";
+      if ( this.imageData.placeholderImageUrl === undefined || this.imageData.placeholderImageUrl === null ) {
+        this.imageData.placeholderImageUrl = "/app/public/placeholder-location.png";
       }
-      this.placeholderJavascript = "this.src='" + this.placeholderImageUrl + "';";
+      this.placeholderJavascript = "this.src='" + this.imageData.placeholderImageUrl + "';";
     }
 }
