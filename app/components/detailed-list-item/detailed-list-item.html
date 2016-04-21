@@ -1,9 +1,9 @@
 <!--ngFor loop here and add background color class within dli-container-->
-  <div class="dli-container">
+  <div *ngIf="testData" *ngFor="#details of testData; #i = index;" class="dli-container">
     <div class="dli-container-left">
       <!--put in image component-->
       <div class="dli-image">
-        <div class="dli-image-top-left">{#1}</div>
+        <div class="dli-image-top-left">#{{details.rank}}{{i}}</div>
         <div class="dli-image-bottom-right"></div>
       </div>
       <!--put in image component-->
@@ -11,24 +11,18 @@
     <div class="dli-container-right">
       <!--put in right box styles-->
       <div class="dataBox">
-        <div>
-          <i></i><span>{Data Point1}</span> <span>{Value Point1}</span>
-        </div>
-        <div>
-          <span>{Data Point2}</span> <span>{Value Point2}</span>
-        </div>
-        <div>
-          <i class="fa fa-map-marker"></i><span>{Data Point3}</span> <span>{Value Point3}</span>
+        <div *ngFor="#data of details.dataPoints">
+          <i class="{{data.icon}}"></i><span>{{data.data}}</span> <span>{{data.value}}</span>
         </div>
       </div>
       <!--cta container-->
       <div class="cta-container">
-        <span>{Want more information about this {profile}?}</span>
+        <span>{{details.infoDesc}}</span>
         <span>
           <!--button component goes here-->
           <button>
             <span></span>
-            <span>{View Profile}</span>
+            <span>{{details.ctaText}}</span>
             <i class="fa fa-angle-right"></i>
           </button>
           <!--button component goes here-->
