@@ -17,7 +17,7 @@ export class TitleComponent{
         if(typeof this.titleData == 'undefined'){
             this.titleData =
             [{
-                imageURL : '/app/public/joyfulhome_house.png',
+                imageURL : '/app/public/mainLogo.png',
                 smallText1 : 'Monday, February 23, 2016',
                 smallText2 : ' United States of America',
                 heading1 : 'Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet',
@@ -34,7 +34,7 @@ export class TitleComponent{
       this.titleImage = {
         imageClass: "page-title-titleImage",
         mainImage: {
-          imageUrl: "/app/public/joyfulhome_house.png",
+          imageUrl: "/app/public/mainLogo.png",
           imageClass: "page-title-border2"
         }
       };
