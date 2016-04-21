@@ -1,19 +1,17 @@
-import {Component, OnInit, Input} from 'angular2/core';
+import {Component, Input} from 'angular2/core';
 
-interface moduleFooter {
-
-}
+// interface moduleFooter {
+//
+// }
 
 @Component({
     selector: 'module-footer',
     templateUrl: './app/components/module-footer/module-footer.html',
     directives: [],
-    providers: [],
+    providers: []
 })
 
-export class ModuleFooter implements OnInit{
-
-    ngOnInit(){
-
-    }
+export class ModuleFooter{
+    @Input() footerHeadline: string;
+    @Input() footerButton: string;
 }

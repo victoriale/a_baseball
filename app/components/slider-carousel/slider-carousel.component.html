@@ -6,25 +6,21 @@
     <circle-button (scrollRight)="right()" (scrollLeft)="left()" ></circle-button>
     <!-- center section where images and descriptions details display -->
     <div class="scc-details">
-      <!-- round main image begins -->
         <!-- main round image -->
         <div class="scc-details-mainImg">
           <!-- image component place here -->
-          <div>
-            <a href="/" class='image-150-hover'>
-              <img src='/app/public/placeholder-location.jpg;' onerror="this.src='/app/public/placeholder-location.jpg';" />
-              <div>
-                <p>View</p>
-                <p>Profile</p>
-              </div>
-            </a>
+          <div *ngFor="#dataItem of teamRosterImg">
+              <circle-image [data]="dataItem.imageData"></circle-image>
           </div>
           <!-- image component ends -->
       </div>
       <!-- round main image ends -->
       <!-- carousel description -->
       <div class="scc-details-desc">
-        <span>Test Me!</span>
+        <p>Line 1</p>
+        <p>Line 2</p>
+        <p>Line 3</p>
+        <p>Line 4</p>
       </div>
       <!-- desc ends -->
     </div>
