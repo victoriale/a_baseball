@@ -62,6 +62,26 @@ export class ComparisonModule implements OnInit{
             dataHigh: 8
         },
         {
+            title: 'RBIS',
+            data: [
+                {
+                    dataOne: 1,
+                    dataTwo: 2
+                },
+                {
+                    dataOne: 1,
+                    dataTwo: 2
+                },
+                {
+                    dataOne: 2,
+                    dataTwo: 3
+                }
+            ],
+            colorOne: '#3098FF',
+            colorTwo: '#FF2232',
+            dataHigh: 5
+        },
+        {
             title: 'Hits',
             data: [
                 {
@@ -122,26 +142,6 @@ export class ComparisonModule implements OnInit{
             dataHigh: 986
         },
         {
-            title: 'Home Runs',
-            data: [
-                {
-                    dataOne: 40,
-                    dataTwo: 70
-                },
-                {
-                    dataOne: 0,
-                    dataTwo: 45
-                },
-                {
-                    dataOne: 25,
-                    dataTwo: 87
-                }
-            ],
-            colorOne: '#3098FF',
-            colorTwo: '#FF2232',
-            dataHigh: 100
-        },
-        {
             title: 'Doubles',
             data: [
                 {
@@ -162,7 +162,7 @@ export class ComparisonModule implements OnInit{
             dataHigh: 20
         },
         {
-            title: 'Home Runs',
+            title: 'Triples',
             data: [
                 {
                     dataOne: 1,
