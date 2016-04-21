@@ -3,7 +3,9 @@ import {RouteParams, Router, RouteData, RouteConfig, RouterOutlet, ROUTER_DIRECT
 import {AboutUsPage} from "../webpages/aboutus-page/aboutus.page";
 import {ContactUsPage} from "../webpages/contactus-page/contactus.page";
 import {DisclaimerPage} from "../webpages/disclaimer-page/disclaimer.page";
+import {TeamPage} from "../webpages/team-page/team.page";
 import {ComponentPage} from "../webpages/component-page/component.page";
+import {ImagesTestPage} from "../webpages/images-test-page/images-test.page";
 import {WebApp} from "../app-layout/app.layout";
 import {GlobalFunctions} from "../global/global-functions";
 import {ModulePage} from "../webpages/module-page/module.page";
@@ -13,7 +15,7 @@ import {ModulePage} from "../webpages/module-page/module.page";
     selector: 'my-app',
     templateUrl: './app/app-webpage/app.webpage.html',
 
-    directives: [AboutUsPage, ContactUsPage, DisclaimerPage, ComponentPage, ModulePage, RouterOutlet, ROUTER_DIRECTIVES],
+    directives: [TeamPage, AboutUsPage, ContactUsPage, DisclaimerPage, ComponentPage, ModulePage, RouterOutlet, ROUTER_DIRECTIVES],
     providers: [ ROUTER_DIRECTIVES],
 })
 
@@ -23,6 +25,11 @@ import {ModulePage} from "../webpages/module-page/module.page";
       name: 'Component-page',
       component: ComponentPage,
       useAsDefault: true
+    },
+    {
+      path: '/team',
+      name: 'Team-page',
+      component: TeamPage,
     },
     {
       path: '/aboutus',
@@ -38,6 +45,11 @@ import {ModulePage} from "../webpages/module-page/module.page";
       path: '/disclaimer',
       name: 'Disclaimer-page',
       component: DisclaimerPage,
+    },
+    {
+      path: '/images-test',
+      name: 'Images-test-page',
+      component: ImagesTestPage,
     },
     {
         path: '/modules',

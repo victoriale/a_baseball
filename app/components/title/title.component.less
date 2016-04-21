@@ -6,11 +6,12 @@
   padding: 5px;
   background: @white;
   .flexDisplay;
-  .titleImage {
-    .largeRoundImageLinkWithHover(100px, 2px, @greyBorder);
-    height: 100px;
-    width: 100px;
-    margin: 15px;
+  &-titleImage {
+    .roundImageMain(100px);
+      margin: 15px;
+  }
+  &-border2 {
+    .imageShadow(2px, @greyBorder);
   }
   .titleText {
     width: 80%;
@@ -26,11 +27,11 @@
 
       i{
         margin-right: 4px;
-        color: @joyfulHomeGreen;
+        color: @masterBrandColor;
       }
     }
     .mainTitle {
-      .globalDefaultModFont(24px, 700, @black);
+      .globalDefaultModFont(24px, 900, @black);
       overflow: hidden;
       line-height: 26px;
     }
