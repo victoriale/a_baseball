@@ -23,6 +23,5 @@ export class ModuleFooter implements OnInit{
           url:'',
         }
       }
-      console.log(this.footerData);
     }
 }
