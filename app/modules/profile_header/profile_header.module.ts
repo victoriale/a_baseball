@@ -5,7 +5,6 @@ import {Component, OnInit, Input, OnChanges} from 'angular2/core';
 import {Router} from 'angular2/router';
 
 import {TitleComponent} from '../../components/title/title.component';
-import {Image180} from '../../components/images/image-180.component';
 import {ProfileHeaderInterface} from '../../global/global-interface';
 import {GlobalFunctions} from '../../global/global-functions';
 
@@ -15,7 +14,7 @@ declare var moment: any;
     selector: 'profile-header',
     templateUrl: './app/modules/profile_header/profile_header.module.html',
     
-    directives: [TitleComponent, Image180],
+    directives: [TitleComponent],
     providers: [GlobalFunctions]
 })
 export class ProfileHeader implements OnInit{
