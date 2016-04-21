@@ -1,9 +1,9 @@
 <!--ngFor loop here and add background color class within dli-container-->
-  <div *ngIf="testData" *ngFor="#details of testData; #i = index;" class="dli-container">
+  <div *ngFor="#details of testData" class="dli-container">
     <div class="dli-container-left">
       <!--put in image component-->
       <div class="dli-image">
-        <div class="dli-image-top-left">#{{details.rank}}{{i}}</div>
+        <div class="dli-image-top-left">#{{details.rank}}</div>
         <div class="dli-image-bottom-right"></div>
       </div>
       <!--put in image component-->
