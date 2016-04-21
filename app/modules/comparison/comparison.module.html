@@ -2,10 +2,13 @@
     <module-header [moduleTitle]="moduleTitle"></module-header>
     <div class="row comparison-module-tiles">
         <div class="col-xs-6">
-            <comparison-tile></comparison-tile>
+            <comparison-tile [comparisonTileInput]="comparisonTileDataOne"></comparison-tile>
         </div>
         <div class="col-xs-6">
-            <comparison-tile></comparison-tile>
+            <comparison-tile [comparisonTileInput]="comparisonTileDataTwo"></comparison-tile>
+        </div>
+        <div class="comparison-module-tiles-vs">
+            vs
         </div>
     </div>
     <!-- Placeholder -->
