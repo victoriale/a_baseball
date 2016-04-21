@@ -2,7 +2,7 @@
  * Created by Victoria on 4/19/2016.
  */
 import {Component, OnInit} from 'angular2/core';
-import {ModuleHeader} from "../../components/module-header/module-header";
+import {ModuleHeader} from "../../components/module-header/module-header.component";
 
 @Component({
     selector: 'like-us-module',

@@ -1,0 +1,155 @@
+.au{
+  width: 680px;
+  height: auto;
+  min-height: 900px;
+  border: none;
+  &-heading{
+    .globalDefaultFont(18px, 400, @black);
+    position: relative;
+    border-top: 1px solid @strokeGrey;
+    line-height: 28px;
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 3px;
+    width: 680px;
+    &-dropdown{
+      .globalDefaultModFont(12px, 900, @black);
+      margin: 0 0 0 20px;
+      position: absolute;
+      right: 20px;
+      top: 10px;
+    }
+    #sort_by{
+      .globalDefaultModFont(12px, 400, @black);
+      border: none;
+    }
+  }
+  &-desc{
+    .globalDefaultFont(14px, 400, @black);
+    margin: 15px auto;
+    text-align: left;
+    width: 650px;
+    line-height: 20px;
+    &-headline{
+      .globalDefaultFont(18px, 700, @black);
+      padding-bottom: 10px;
+      border-bottom: 1px solid @strokeGrey;
+    }
+  }
+  &-blocks{
+    &-block{
+      .inlineFlexDisplay;
+      .flexDirection(row);
+      .flexAlignItems(center);
+      border: solid 1px @strokeGrey;
+      border-left: solid 5px @highlightGrey;
+      box-sizing: border-box;
+      background-color: #f2f2f2;
+      width: 310px;
+      height: 70px;
+      margin: 10px;
+      & > span:first-child {
+        width: 48px;
+        height: 48px;
+        margin: 0 30px 0 31px;
+      }
+      & > span:nth-child(2){
+        & > div:first-child {
+          .globalDefaultModFont(12px, 900, @greyTextGlobal);
+        }
+        & > div:nth-child(2) {
+          .globalDefaultModFont(24px, 900, @black);
+        }
+      }
+    }
+  }//Blocks End
+  &-nat{
+    margin-top: 10px;
+    padding-bottom: 20px;
+    text-align: center;
+    & > div:first-child{
+      line-height: 24px;
+      .globalDefaultModFont(12px, 900, @greyTextGlobal);
+    }
+    & > div:nth-child(2){
+      line-height: 32px;
+      .globalDefaultModFont(24px, 900, @black);
+    }
+  }
+}
+
+.au-hr {
+  border: none;
+  height: 1px;
+  width: 650px;
+  color: @strokeGrey;
+  background-color: @strokeGrey;
+}
+
+
+.image-row {
+  background-color: #3366ff;
+  padding: 1em;
+}
+
+h4 {
+  margin-top: 2em;
+  margin-bottom: .5em;
+}
+
+.image-38-rank {
+  .roundText(38px, 1px, @masterSmallImageShadow, @white, 16px);
+}
+
+.image-48-rank {
+  .roundText(48px, 1px, @masterSmallImageShadow, @white, 18px);
+}
+
+.image-50-sub {
+  .roundImageSub(50px);
+  .border-1;
+}
+
+.image-30 {
+  .roundImageMain(30px);
+}
+
+.image-43 {
+  .roundImageMain(43px);
+}
+
+.image-46 {
+  .roundImageMain(46px);
+}
+
+.image-48 {
+  .roundImageMain(48px);
+}
+
+.image-50 {
+  .roundImageMain(50px);
+}
+
+.image-121 {
+  .roundImageMain(121px);
+}
+
+.image-150 {
+  .roundImageMain(150px);
+}
+
+.image-180 {
+  .roundImageMain(180px);
+}
+
+.border-large {  
+  .imageShadow(10px, @masterLargeImageShadow);
+}
+
+.border-1 {  
+  .imageShadow(1px, @masterSmallImageShadow);
+}
+
+.border-2 {  
+  .imageShadow(2px, @masterSmallImageShadow);
+}

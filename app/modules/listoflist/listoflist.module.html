@@ -1,5 +1,5 @@
 <section *ngIf="listOfLists" class="module-container">
-    <module-header [module_title]="module_title"></module-header>
+    <module-header [moduleTitle]="module_title"></module-header>
     <div class="lists-container">
       <span *ngFor="#item of lists">
         <contentlist [data]="item" [cityLocation]="city" [stateLocation]="state"></contentlist>
