@@ -6,13 +6,14 @@ import {DisclaimerPage} from "../webpages/disclaimer-page/disclaimer.page";
 import {ComponentPage} from "../webpages/component-page/component.page";
 import {WebApp} from "../app-layout/app.layout";
 import {GlobalFunctions} from "../global/global-functions";
+import {ModulePage} from "../webpages/module-page/module.page";
 
 
 @Component({
     selector: 'my-app',
     templateUrl: './app/app-webpage/app.webpage.html',
 
-    directives: [AboutUsPage, ContactUsPage, DisclaimerPage, ComponentPage, RouterOutlet, ROUTER_DIRECTIVES],
+    directives: [AboutUsPage, ContactUsPage, DisclaimerPage, ComponentPage, ModulePage, RouterOutlet, ROUTER_DIRECTIVES],
     providers: [ ROUTER_DIRECTIVES],
 })
 
@@ -37,6 +38,11 @@ import {GlobalFunctions} from "../global/global-functions";
       path: '/disclaimer',
       name: 'Disclaimer-page',
       component: DisclaimerPage,
+    },
+    {
+        path: '/modules',
+        name: 'Module-page',
+        component: ModulePage
     }
 ])
 
