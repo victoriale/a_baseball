@@ -4,11 +4,12 @@ import {SeasonStatsModule} from '../../modules/season-stats/season-stats.module'
 import {DraftHistoryModule} from '../../modules/draft-history/draft-history';
 import {SchedulesModule} from '../../modules/schedules/schedules';
 import {TeamRosterModule} from '../../modules/team-roster/team-roster.module';
+import {ShareButtonComponent} from '../../components/share-button/share-button.component';
 
 @Component({
     selector: 'Component-page',
     templateUrl: './app/webpages/component-page/component.page.html',
-    directives: [TeamRosterModule, ComparisonModule, DraftHistoryModule, SchedulesModule, SeasonStatsModule],
+    directives: [ShareButtonComponent, TeamRosterModule, ComparisonModule, DraftHistoryModule, SchedulesModule, SeasonStatsModule],
     providers: [],
 })
 
