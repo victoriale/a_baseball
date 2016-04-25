@@ -80,8 +80,8 @@ export class ProfileHeader implements OnInit{
             var fallback = "Do you know what "+ location +" has to offer? Explore what's trending, properties for sale and neighborhood amenities for "+ location + '.';
 
             this.descriptionLocation += data.averageAge === null ? '' : ' the average age for a ' + data.city + ' resident is ' + data.averageAge + ',';
-            this.descriptionLocation += data.averageRentalPrice === null ? '' : ' the average rental price is $' + this.globalFunctions.commaSeparateNumber(data.averageRentalPrice) + '/month,';
-            this.descriptionLocation += data.averageListingPrice === null ? '' : ' and the average home sells for $' + this.globalFunctions.commaSeparateNumber(data.averageListingPrice) + '?';
+            this.descriptionLocation += data.averageRentalPrice === null ? '' : ' the average rental price is ' + this.globalFunctions.formatPriceNumber(data.averageRentalPrice) + '/month,';
+            this.descriptionLocation += data.averageListingPrice === null ? '' : ' and the average home sells for ' + this.globalFunctions.formatPriceNumber(data.averageListingPrice) + '?';
 
             if(this.descriptionLocation == '' || this.descriptionLocation == ' '){
               this.descriptionLocation = fallback + this.descriptionLocation;
@@ -99,7 +99,7 @@ export class ProfileHeader implements OnInit{
                 smallText2: data.city + ', ' + data.state + ' > ' + moment(data.lastUpdated).format('dddd, MMMM Do, YYYY') + ' at ' + moment(data.lastUpdated).format('hh:mm A') + ' ET',
                 heading1: this.globalFunctions.toTitleCase(data.address),
                 heading2: data.listingStatus === null ? '' : '- ' + data.listingStatus,
-                heading3: 'Listing Price: $' + this.globalFunctions.commaSeparateNumber(data.listingPrice),
+                heading3: 'Listing Price: ' + this.globalFunctions.formatPriceNumber(data.listingPrice),
                 heading4: data.squareFeet === null ? '' : '- Area: ' + this.globalFunctions.commaSeparateNumber(data.squareFeet) + ' Sq ft.',
                 icon: 'fa fa-map-marker',
                 hasHover: false,
