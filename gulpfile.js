@@ -52,6 +52,7 @@ gulp.task('less', ['clean'], function() {
     return gulp.src(['./app/**/*.less'])
         .pipe(concat('master.css'))
         .pipe(less())
+        .pipe(autoprefixer())
         .pipe(gulp.dest('dist/app/global/stylesheets'))
 });
 
