@@ -1,10 +1,11 @@
 <div *ngIf="footerData" class="module-footer">
-  <span class="mf-text">{Want to see everybody involved in this list?}</span>
+  <span class="mf-text">{{footerData.infoDesc}}</span>
   <span class="list-button">
     <!--button component goes here-->
+    <!--put inside button when ready [routerLink]="footerData.url"-->
     <button>
       <span></span>
-      <span>{VIEW THE LIST}</span>
+      <span>{{footerData.text}}</span>
       <i class="fa fa-angle-right"></i>
     </button>
     <!--button component goes here-->

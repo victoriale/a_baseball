@@ -4,58 +4,125 @@ declare var moment: any;
 
 @Injectable()
 
-export class GlobalFunctions{
-    //Transforms a string to titlecase
-    toTitleCase(str) {
-        return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+export class GlobalFunctions {
+
+    /**
+     * Parameters
+     *    str:string    - The string value to convert to title case
+     * 
+     * Description
+     *    Converts the string to title case by capitalizing the first letter of 
+     *    each word and lowercasing the rest of the word, where words are separated by whitespace characters.
+     *  
+     *    If the str is undefined or null, then it is returned without performing the conversion
+     */
+    toTitleCase(str:string) {
+      if ( str === undefined || str === null ) {
+        return str;
+      }
+      return str.replace(/\w\S*/g, function(txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      });
     };
 
-    //Transforms a phone number to a human readable format
-    //Formats
-    // 10 character length (000) 000-0000
-    // 7 character legnth 000-0000
-    formatPhoneNumber(val) {
-      if(isNaN(val) == false){
-        var val = val.toString();
+    /**
+     * Parameters
+     *    val:string    - The string or number to convert to a phone number
+     * 
+     * Description
+     *    Transforms a phone number to a human readable format:
+     *      10 character length - (000) 000-0000
+     *      7 character length  - 000-0000
+     *      any other length returns the val string unchanged.
+     * 
+     *    If the val is undefined or null, then "N\A" is returned.
+     */
+    formatPhoneNumber(val:any) {
+      if ( val === undefined || val === null ) {
+        return "N\A";
       }
-        var numberLength = val.length;
+      
+      if(isNaN(val) === false) {
+        val = val.toString();
+      }
+      
+      var numberLength = val.length;
+      if(numberLength === 10) {
+          //Number with area code
+          val = '(' + val.slice(0, 3) + ') ' + val.slice(3, 6) + '-' + val.slice(6, 10);
+      } else if(numberLength === 7){
+          //Number without area code
+          val = val.slice(0, 3) + '-' + val.slice(3, 7);
+      }
 
-        if(numberLength === 10){
-            //Number with area code
-            val = '(' + val.slice(0, 3) + ') ' + val.slice(3, 6) + '-' + val.slice(6, 10);
-        }else if(numberLength === 7){
-            //Number without area code
-            val = val.slice(0, 3) + '-' + val.slice(3, 7);
-        }
-
-        return val;
+      return val;
     }
 
-    //Takes a number/string and adds commas
-    commaSeparateNumber(val){
-        while (/(\d+)(\d{3})/.test(val.toString())){
-            val = val.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');
-        }
-        return val;
+    /**
+     * Parameters
+     *    value:number    - The value to convert to a comma-delimited number
+     *    def?:string     - The default string value to use if the value is undefined
+     *                      If it's not included, then "" is used as the def string.
+     * 
+     * Description
+     *    Returns a comma-delimited string for the given value:
+     *      ### => ### 
+     *      #### => #,###
+     *      ###### => ###,###
+     *      ####### => #,###,###
+     *    If the value is 0, undefined, or null, then the def string is returned instead.
+     */
+    commaSeparateNumber(value:number, def?:string){
+      if ( value === null || value === undefined ) {
+        return def || "";
+      }
+      
+      var parts = value.toString().split("."); //split on decimal point
+      parts[0] = parts[0].replace(/(\d+)(\d{3})/g, "$1,$2"); //replace all groups of three
+      return parts.join(".");
     }
 
-    //Takes a number/string and adds commas
-    formatPriceNumber(val){
-      if ( val === null || val === undefined ) {
-        return "";
+    /**
+     * Parameters
+     *    price:number    - The value to convert to a currency string
+     *    def?:string     - The default string value to use if the number is 0 or undefined
+     *                      If it's not included, then "N/A" is used as the def string.
+     * 
+     * Description
+     *    Returns a comma-delimited currency string for the given value.
+     *    If the value is 0, undefined, or null, then the def string is returned instead.
+     */
+    formatPriceNumber(value:number, def?:string){
+      if ( def === null || def === undefined ) {
+        def = "N\A";
       }
-      else if ( val === 0 || val === "0" || val === "$0" ) {
-        return "N/A";
-      }
-      else if ( /(#+)/.test(val.toString()) ) {
-        return val;
+      
+      if ( value === null || value === undefined || value === 0 ) {
+        return def;
       }
       else {
-        return "$" + this.commaSeparateNumber(val);
+        //TODO: support multiple currencies?
+        return "$" + this.commaSeparateNumber(value);
       }
     }
 
-    fullstate = function(state){
+    /**
+     * Parameters
+     *    state:number    - The postal state code to convert to the full state name. 
+     *                      Case does not matter
+     * 
+     * Description
+     *    Returns the full state name corresponding to the given postal code. Only US
+     *    states, DC, Puerto Rico, and Ontario (?) are supported.
+     * 
+     *    If state is undefined or null. or if the state could not be found in the lookup
+     *    table, then state is returned unchanged.
+     *  
+     */
+    fullstate = function(state:string){
+        if ( state === undefined || state === null ) {
+          return state;
+        }        
         var stateName = {
             AL: 'Alabama',
             AK: 'Alaska',
@@ -111,14 +178,31 @@ export class GlobalFunctions{
             WI: 'Wisconsin',
             WY: 'Wyoming'
         };
-        if ( state !== undefined && state !== null ) {
-          state = state.toUpperCase();
-        }
-        return stateName[state];
+        
+        let upperState = state.toUpperCase();
+        let displayState = stateName[upperState]; 
+        return displayState !== undefined ? displayState : state;
     };
 
-    // Converts State Postal to AP Abbreviation
+
+    /**
+     * Parameters
+     *    state:number    - The postal state code to convert to the AP Abbreviation. 
+     *                      Case does not matter
+     * 
+     * Description
+     *    Returns the full state name corresponding to the given postal code. Only US
+     *    states and DC are supported.
+     * 
+     *    If state is undefined or null. or if the state could not be found in the lookup
+     *    table, then state is returned unchanged.
+     *  
+     */
     stateToAP = function(state) {
+        if ( state === undefined || state === null ) {
+          return state;
+        }        
+        
         var stateAP = {
             AL: 'Ala.',
             AK: 'Alaska',
@@ -172,25 +256,46 @@ export class GlobalFunctions{
             WI: 'Wis.',
             WY: 'Wyo.'
         };
-        if ( state !== undefined && state !== null ) {
-          state = state.toUpperCase();
-        }
-        return stateAP[state];
+        
+        let upperState = state.toUpperCase();
+        let displayState = stateAP[upperState]; 
+        return displayState !== undefined ? displayState : state;
     };
 
-    //Transforms camel case to regular case (Words split up and capitalized)
-    camelCaseToRegularCase = function(str){
-        str = str
+    /**
+     * Parameters
+     *    str:string  - The str value to convert to regular case
+     * 
+     * Description
+     *    Transforms camel case to regular case (Words split up and capitalized)
+     *  
+     *    If the str is undefined or null, then it is returned without performing the conversion  
+     */
+    camelCaseToRegularCase = function(str:string){
+        if ( str === undefined || str === null ) {
+          return str;
+        }
+        return str
             .replace(/([A-Z][a-z]+)/g, " $1")
             .replace(/([A-Z][A-Z]+)/g, " $1")
             .replace(/([^A-Za-z ]+)/g, " $1")
             // uppercase the first character
-            .replace(/^./, function(str){ return str.toUpperCase(); })
-        return str;
+            .replace(/^./, function(txt){ return txt.toUpperCase(); })
     };
 
-    //Transforms kabab-case to camelCase
-    kababCaseToCamelCase = function(str){
+    /**
+     * Parameters
+     *    str:string  - The str value to convert to camel case
+     * 
+     * Description
+     *    Transforms kabab cased strings to camel case 
+     *  
+     *    If the str is undefined or null, then it is returned without performing the conversion  
+     */
+    kababCaseToCamelCase = function(str:string) {
+        if ( str === undefined || str === null ) {
+          return str;
+        }
         str = str.replace(/-/g, ' ');
         str = this.toTitleCase(str);
         str = str.replace(/ /g, '');
@@ -198,8 +303,20 @@ export class GlobalFunctions{
         return str;
     };
 
-    //Transforms camelCase to kabab-case
-    camelCaseToKababCase = function(str){
+    /**
+     * Parameters
+     *    str:string  - The str value to convert to kabab case
+     * 
+     * Description
+     *    Transforms camel-cased strings to lower-case kabab case. 
+     *    Used mainly for SEO friendly URL values. 
+     *  
+     *    If the str is undefined or null, then it is returned without performing the conversion.
+     */
+    camelCaseToKababCase = function(str:string){
+        if ( str === undefined || str === null ) {
+          return str;
+        }
         str = str
             .replace(/([A-Z][a-z]+)/g, " $1")
             .replace(/([A-Z][A-Z]+)/g, " $1")
@@ -264,5 +381,5 @@ export class GlobalFunctions{
         else {
           return moment().subtract(daysOnMarket, 'days').format('dddd, MMMM Do, YYYY');
         }
-    }
+    } 
 }

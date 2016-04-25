@@ -1,4 +1,10 @@
-import {Component, Input} from 'angular2/core';
+import {Component, Input, OnInit} from 'angular2/core';
+
+interface moduleHeader{
+  moduleTitle:string,
+  hasIcon: boolean,
+  iconClass: string,
+}
 
 @Component({
     selector: 'module-header',
@@ -8,5 +14,15 @@ import {Component, Input} from 'angular2/core';
 })
 
 export class ModuleHeader{
-   @Input() moduleTitle: string;
+   @Input() modHeadData: moduleHeader;
+
+   ngOnInit(){
+     if(typeof this.modHeadData == 'undefined'){
+       this.modHeadData = {
+         moduleTitle: "Module Title [Here]",
+         hasIcon: false,
+         iconClass: '',
+       }
+     }// end of placeholder if statement
+   }
 }

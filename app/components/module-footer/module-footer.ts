@@ -1,7 +1,9 @@
 import {Component, Input, OnInit} from 'angular2/core';
 
 interface moduleFooter {
-
+  infoDesc: string,
+  text: string,
+  url:[any],//USED FOR ROUTER LINK
 }
 
 @Component({
@@ -12,15 +14,14 @@ interface moduleFooter {
 })
 
 export class ModuleFooter implements OnInit{
-  @Input() footerData: Object;
+  @Input() footerData: moduleFooter;
 
     ngOnInit(){
       if(typeof this.footerData == 'undefined'){
         this.footerData = {
           infoDesc:'Want to see everybody involved in this list',
-          btn:'',
           text:'VIEW THE LIST',
-          url:'',
+          url:['profile-page'],
         }
       }
     }

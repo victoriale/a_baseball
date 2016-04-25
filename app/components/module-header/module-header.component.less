@@ -1,4 +1,4 @@
-.mod-hdr-with-heading {
+.module-header {
   @defaultModHdrHeight: 45px;
   width: 100%;
   height: @defaultModHdrHeight;
@@ -8,7 +8,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  span {
+  &-line {
     width: 3px;
     height: 13px;
     display: inline-block;
@@ -16,9 +16,18 @@
     margin-right: 5px;
     background-color: @masterBrandColor;
   }
+  &-icon {
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 5px;
+    color: @masterBrandColor;
+  }
   h3 {
     display: inline-block;
-    .globalDefaultModFont(18px, 400, @white);
+    font-family: @globalFont;
+    font-size: 18px;
+    font-weight: 400;
+    color: @white;
     margin: 0;
   }
 }
