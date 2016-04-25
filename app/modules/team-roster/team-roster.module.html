@@ -4,10 +4,8 @@
   <tabs>
     <tab [tabTitle]="'Tab 1'">
       <!-- sorted by -->
-      <div class="tr-sort">
-      </div>
-      <div class="tr-details">
-      </div>
+      <box-sort-component [trData]="teamRosterData"></box-sort-component>
+      <player-detail-row-component></player-detail-row-component>
     </tab>
     <tab tabTitle="Tab 2">Tab 2 Content</tab>
   </tabs>
