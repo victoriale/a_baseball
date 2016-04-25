@@ -22,6 +22,6 @@ export class DetailedListItem implements OnInit{
   @Input() testData: DetailListInput;
 
     ngOnInit(){
-      console.log(this.testData);
+
     }
 }
