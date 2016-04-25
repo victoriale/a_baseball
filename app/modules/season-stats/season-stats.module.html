@@ -1,0 +1,23 @@
+<div class="module-container">
+    <module-header [moduleTitle]="moduleTitle"></module-header>
+    <div class="season-stats-summary-placeholder">
+        Summary Placeholder
+    </div>
+    <div class="tabs-placeholder">
+        Tabs Placeholder
+    </div>
+    <button (click)="dataOne()">
+        Data 1
+    </button>
+    <button (click)="dataTwo()">
+        Data 2
+    </button>
+    <button (click)="dataThree()">
+        Data 3
+    </button>
+    <comparison-legend [comparisonLegendInput]="seasonStatsLegendData"></comparison-legend>
+    <div class="season-stats-bars">
+        <comparison-bar *ngFor="#item of comparisonBarData" [comparisonBarInput]="item" [dataIndex]="dataIndex"></comparison-bar>
+    </div>
+    <module-footer [footerHeadline]="footerHeadline" [footerButton]="footerButton"></module-footer>
+</div>

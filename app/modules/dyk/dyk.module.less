@@ -1,0 +1,32 @@
+.dyk{
+  &-details{
+    border-left: solid 5px @greyBorder;
+    border-bottom: solid 1px @greyBorder;
+    .flexDisplay;
+    // .flexAlignItems(baseline);
+    .globalDefaultModFont(14px, 400, @black);
+    width: 100%;
+    &-info{
+      width: 92%;
+      text-align: left;
+      p{
+        margin: 20px;
+        line-height: 16px;
+      }
+    }
+    &-icon{
+      .globalDefaultModFont(25px, 400, @masterBrandColor);
+      .flexDisplay;
+      .flexAlignItems(center);
+      a{
+        color: @masterBrandColor;
+        &:hover{
+          color: @black;
+        }
+      }
+    }
+    &:hover{
+      border-left-color: @masterBrandColor;
+    }
+  }
+}

@@ -1,20 +1,20 @@
-<div class="comparison-bar-container odd">
+<div *ngIf="displayData" class="comparison-bar-container" [ngClass]="{'background-odd': displayData.background === 0}">
     <label class="comparison-bar-title">
-        Home Runs
+        {{displayData.title}}
     </label>
     <div class="comparison-bar-capsule">
-        <div class="comparison-bar-capsule-stroke stroke-top" style="background-color: #3098FF; width: 45%">
-            <label class="comparison-bar-capsule-label" style="color: #3098FF">
-                45
+        <div class="comparison-bar-capsule-stroke" [ngClass]="{'stroke-top': displayData.isOneTop}" [style.width]="displayData.barOneWidth + '%'" [style.backgroundColor]="displayData.colorOne">
+            <label class="comparison-bar-capsule-label" [style.color]="displayData.colorOne">
+                {{displayData.dataOne}}
             </label>
         </div>
-        <div class="comparison-bar-capsule-stroke" style="background-color: #FF3846; width: 70%">
-            <label class="comparison-bar-capsule-label" style="color: #FF3846">
-                70
+        <div class="comparison-bar-capsule-stroke" [ngClass]="{'stroke-top': displayData.isTwoTop}" [style.width]="displayData.barTwoWidth + '%'" [style.backgroundColor]="displayData.colorTwo">
+            <label class="comparison-bar-capsule-label" [style.color]="displayData.colorTwo">
+                {{displayData.dataTwo}}
             </label>
         </div>
         <label class="comparison-bar-capsule-label">
-            100
+            {{displayData.dataHigh}}
         </label>
     </div>
 </div>

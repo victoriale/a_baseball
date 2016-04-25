@@ -1,0 +1,20 @@
+.pane{
+  padding: 1em;
+  color: @black;
+}
+.nav-tabs{
+  align-items: center;
+  background-color: @greyBorder;
+  display: flex;
+  height: 60px;
+  width: 100%;
+  li{
+    align-items: center;
+    height: 100%;
+    .flexDisplay;
+    .flexJustify(center);
+    &:active{
+      background-color: @white;
+    }
+  }
+}
