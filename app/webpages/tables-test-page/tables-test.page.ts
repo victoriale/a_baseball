@@ -35,11 +35,16 @@ export class TablesTestPage {
       };
       
       this.tableData = {
-        isCompactStyle: false,
+        isCompactStyle: true,
         columns: [
           {
             headerValue: "Player",
-            columnClass: "image-column"
+            columnClass: "image-column",
+            sortDirection: 1
+          },
+          {
+            headerValue: "Team",
+            columnClass: "bold-column"
           },
           { 
             headerValue: "Pos.",
@@ -64,6 +69,10 @@ export class TablesTestPage {
                 displayHtml: "[image] George Lucas",                
               },
               {
+                sortValue: "Jayhawks",
+                displayHtml: "Jayhawks",                
+              },
+              {
                 sortValue: "Hitter",
                 displayHtml: "Hi",                
               },
@@ -82,6 +91,10 @@ export class TablesTestPage {
               {
                 sortValue: "Jones, Jim",
                 displayHtml: "[image] Jim Jones",                
+              },
+              {
+                sortValue: "Jayhawks",
+                displayHtml: "Jayhawks",                
               },
               {
                 sortValue: "Pitcher",
@@ -104,6 +117,10 @@ export class TablesTestPage {
                 displayHtml: "[image] Bob Jones",                
               },
               {
+                sortValue: "Jayhawks",
+                displayHtml: "Jayhawks",                
+              },
+              {
                 sortValue: "Catcher",
                 displayHtml: "Ca",                
               },
@@ -124,6 +141,10 @@ export class TablesTestPage {
                 displayHtml: "[image] Bob Pavilion",                
               },
               {
+                sortValue: "Jayhawks",
+                displayHtml: "Jayhawks",                
+              },
+              {
                 sortValue: "Fielder",
                 displayHtml: "Fi",                
               },
@@ -137,13 +158,38 @@ export class TablesTestPage {
               }
             ]            
           },
+          {
+            cells: [
+              {
+                sortValue: "Debussy, Claude",
+                displayHtml: "[image] Claude Debussy",                
+              },
+              {
+                sortValue: "Jayhawks",
+                displayHtml: "Jayhawks",                
+              },
+              {
+                sortValue: "Composer",
+                displayHtml: "Co",                
+              },
+              {
+                sortValue: 63,
+                displayHtml: "5'3\"",                
+              },
+              {
+                sortValue: 70100,
+                displayHtml: "$70,100",
+              }
+            ]            
+          },
         ],
-        // footer: [
-        //   "Average",
-        //   "10",
-        //   "-",
-        //   "$555555"
-        // ]
+        footer: [
+          "Career",
+          "AVERAGE",
+          "10",
+          "-",
+          "$55,5555"
+        ]
       };
     }
 }

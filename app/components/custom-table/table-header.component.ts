@@ -1,23 +1,18 @@
-import {Component, OnInit, OnDestroy, Input, Output, EventEmitter, Renderer} from 'angular2/core';
+import {Component, OnInit, OnDestroy, Input, Output, EventEmitter, Renderer, ViewChild} from 'angular2/core';
 import {TableColumn} from '../../components/custom-table/table-data.component';
 
 @Component({
   selector: 'custom-table-header',
-  templateUrl: './app/components/custom-table/table-header.component.html',
-  providers: []
+  templateUrl: './app/components/custom-table/table-header.component.html'
 })
 
-export class TableHeader implements OnInit, OnDestroy {
+export class TableHeader implements OnInit {  
   private SORT_NONE: number = 0;
   private SORT_ASC: number = 1;
   private SORT_DESC: number = -1;
   
-  public isSortDropdownVisible: boolean = false;
-  
   public iconSortDirection: string;
   public iconSortType: string;
-  
-  private hideDropdownListener: Function;
   
   @Input() headerData: TableColumn;
   @Input() headerIndex: number;
@@ -29,23 +24,6 @@ export class TableHeader implements OnInit, OnDestroy {
   ngOnInit() {
     this.iconSortType = this.headerData.isNumericType ? "numeric" : "alpha";
     this.setSortIcon();
-  }
-  
-  displaySortDropdown() {
-    this.isSortDropdownVisible = !this.isSortDropdownVisible;
-    
-    if ( this.hideDropdownListener === undefined ) {
-      //timeout is needed so that click doesn't happen for click.
-      setTimeout(() => {
-        this.hideDropdownListener = this._renderer.listenGlobal('document', 'click', (event) => {
-          this.isSortDropdownVisible = false;
-          
-          
-          this.hideDropdownListener(); 
-          this.hideDropdownListener = undefined;
-        });
-      }, 0);
-    }
   }
   
   setSortIcon() {    
@@ -65,22 +43,22 @@ export class TableHeader implements OnInit, OnDestroy {
     }
   }
   
-  sortAscending($event) {
-    this.headerData.sortDirection = this.SORT_ASC;
-    this.setSortIcon();
-    this.sortSwitched.next([this.headerData, this.headerIndex]);
-  }
-  
-  sortDescending($event) {
-    this.headerData.sortDirection = this.SORT_DESC;
-    this.setSortIcon();
-    this.sortSwitched.next([this.headerData, this.headerIndex]);
-  }
-  
-  ngOnDestroy() {
-    if ( this.hideDropdownListener !== undefined ) {
-       this.hideDropdownListener(); 
-       this.hideDropdownListener = undefined;
+  sortRows($event) {
+    switch ( this.headerData.sortDirection ) {
+      case this.SORT_ASC: 
+        this.headerData.sortDirection = this.SORT_DESC;
+        break;
+        
+      case this.SORT_DESC:
+        this.headerData.sortDirection = this.SORT_ASC; 
+        break;
+      
+      default:
+      case this.SORT_NONE: 
+        this.headerData.sortDirection = this.SORT_ASC;
+        break;
     }
-  }  
+    this.setSortIcon();
+    this.sortSwitched.next([this.headerData, this.headerIndex]);
+  }
 }
