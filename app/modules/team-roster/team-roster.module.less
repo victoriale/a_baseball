@@ -5,12 +5,18 @@
     .flexDisplay;
     .flexJustify(space-between);
     &-box{
-      height: 100%;
       border: 1px solid @greyBorderBox;
       font-size: 12px;
+      height: 100%;
+      position: relative;
       .flexDisplay;
       .flexAlignItems(center);
       .flexJustify(center);
+      i{
+        position: absolute;
+        right: 5px;
+        top: 9px;
+      }
     }
   }
   &-details{

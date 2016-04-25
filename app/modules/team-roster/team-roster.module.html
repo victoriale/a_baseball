@@ -3,17 +3,8 @@
   <slider-carousel></slider-carousel>
   <tabs>
     <tab [tabTitle]="'Tab 1'">
-      <!-- sorted by -->
-      <div class="tr-sort">
-        <div class="tr-sort-box" style="width: 285px;">PLAYER</div>
-        <div class="tr-sort-box" style="width: 60px;">POS</div>
-        <div class="tr-sort-box" style="width: 75px;">HEIGHT</div>
-        <div class="tr-sort-box" style="width: 75px;">WEIGHT</div>
-        <div class="tr-sort-box" style="width: 50px;">AGE</div>
-        <div class="tr-sort-box" style="width: 90px;">SALARY</div>
-      </div>
+        <box-sort-component [trData]="teamRosterData"></box-sort-component>
       <div class="tr-details">
-
       </div>
     </tab>
     <tab tabTitle="Tab 2">Tab 2 Content</tab>
