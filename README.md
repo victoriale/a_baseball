@@ -22,6 +22,8 @@ install each one individually
 
       g.`moment` (used for time manipulation of dates)
 
+      h.`autoprefixer` (automatically adds browser prefixes to css file)
+
 2. `npm i`
 
 3. `gulp serve`
