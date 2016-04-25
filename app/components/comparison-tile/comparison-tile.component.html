@@ -19,8 +19,9 @@
     <div class="comparison-tile-image image-placeholder-180"></div>
     <div class="comparison-tile-label">
         <span class="comparison-tile-label-line-one">{{comparisonTileInput.title}}</span>
-        <!--<span class="comparison-tile-label-line-two">Position: <span class="text-heavy">RF</span> | Team: <span class="text-heavy">[Team Name 2]</span></span>-->
-        <span class="comparison-tile-label-line-two">{{comparisonTileInput.lineTwo}}</span>
+        <span class="comparison-tile-label-line-two">
+            <span *ngFor="#item of comparisonTileInput.description" [ngClass]="[item.class]">{{item.text}}</span>
+        </span>
     </div>
 
     <div class="row comparison-tile-stats">

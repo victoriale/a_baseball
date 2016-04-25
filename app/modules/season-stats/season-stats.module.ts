@@ -14,7 +14,16 @@ import {ModuleFooter} from '../../components/module-footer/module-footer';
 export class SeasonStatsModule {
     public moduleTitle: string = 'Season Stats - [Pitcher Name]';
     public seasonStatsLegendData: Object = {
-        legendTitle: '[YYYY] Season',
+        legendTitle: [
+            {
+                text: '[YYYY] Season',
+                class: 'text-heavy'
+            },
+            {
+                text: ' Stats',
+                class: ''
+            }
+        ],
         titleOne: '[Pitcher Name]',
         colorOne: '#BC1624',
         titleTwo: 'MLB Average',

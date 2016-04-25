@@ -14,7 +14,16 @@ import {ComparisonLegend} from '../../components/comparison-legend/comparison-le
 export class ComparisonModule implements OnInit{
     public moduleTitle: string = 'Comparison vs. Competition - [Batter Name]';
     public comparisonLegendData: Object = {
-        legendTitle: '2016 Season',
+        legendTitle: [
+            {
+                text: '2016 Season',
+                class: 'text-heavy'
+            },
+            {
+                text: ' Breakdown',
+                class: ''
+            }
+        ],
         titleOne: '[Batter Name 1]',
         colorOne: '#3098FF',
         titleTwo: '[Batter Name 2]',
@@ -219,7 +228,24 @@ export class ComparisonModule implements OnInit{
         ],
         imageConfig: {},
         title: 'Lutz',
-        lineTwo: 'Position: LOL | Team: The Lar bears',
+        description: [
+            {
+                text: 'Position: ',
+                class: ''
+            },
+            {
+                text: 'RF',
+                class: 'text-heavy'
+            },
+            {
+                text: ' | Team: ',
+                class: ''
+            },
+            {
+                text: '[Team Name 1]',
+                class: 'text-heavy'
+            }
+        ],
         data: [
             {
                 data: '6\'1"',
@@ -250,7 +276,24 @@ export class ComparisonModule implements OnInit{
         ],
         imageConfig: {},
         title: 'Larry',
-        lineTwo: 'Position: LOL | Team: The Lar bears',
+        description: [
+            {
+                text: 'Position: ',
+                class: ''
+            },
+            {
+                text: 'RF',
+                class: 'text-heavy'
+            },
+            {
+                text: ' | Team: ',
+                class: ''
+            },
+            {
+                text: '[Team Name 2]',
+                class: 'text-heavy'
+            }
+        ],
         data: [
             {
                 data: '4\'10"',
