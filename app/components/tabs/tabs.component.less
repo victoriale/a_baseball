@@ -9,13 +9,13 @@
   height: 60px;
   width: 100%;
   li{
+    align-items: center;
+    height: 100%;
     width: 20%;
-    text-align: center;
-    a{
-      color: @greyTabText;
-      font-size: 14px;/* Approximation due to font substitution */
-      font-weight: 400;
-      text-align: center;
+    .flexDisplay;
+    .flexJustify(center);
+    &:active{
+      background-color: @white;
     }
   }
 }
