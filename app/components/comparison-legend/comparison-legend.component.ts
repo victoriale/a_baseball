@@ -1,7 +1,10 @@
 import {Component, Input, OnChanges, EventEmitter} from 'angular2/core';
 
 interface ComparisonLegendInput {
-    legendTitle: string;
+    legendTitle: Array<{
+        text: string;
+        class: string;
+    }>;
     titleOne: string;
     colorOne: string;
     titleTwo: string;
