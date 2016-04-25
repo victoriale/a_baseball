@@ -1,8 +1,5 @@
-
 /*
-
 ToC
-
   @Colors
   @Fonts
   @Borders
@@ -10,15 +7,14 @@ ToC
   @Code Styles
   @Vendor Prefixes
   @Module Box Shadow
-
 */
 
-/**********/
+/***********/
 /* @Colors */
-/**********/
+/***********/
+
 @white: #fff;
 @black: #000;
-
 // Body BG
 @bodyBg: @greyBorder;
 
@@ -38,7 +34,7 @@ ToC
 @fbblue: #3a5b97;
 
 // Icon links
-@homerunloyalicon:'/app/public/icons/baseball-vertical-icon.png';
+@homeRunLoyalIcon:'/app/public/icons/baseball-vertical-icon.png';
 
 // Brand Color Image Hovers
 @imageHoverOpacity: 0.75;
@@ -84,11 +80,11 @@ ToC
 @masterStrokeColor: @strokeGrey;
 @masterFontIconColor: @fontIconGrey;
 @masterTextEmphasisColor: @textEmphasisGrey;
-@masterTabIconColor: @investKitBlue;
+@masterTabIconColor: @homeRunLoyalRed;
 
 //master ICON logo
-@masterIcon: @homerunloyalicon;
-@masterIconHover:@homerunloyalicon;
+@masterIcon: @homeRunLoyalIcon;
+@masterIconHover:@homeRunLoyalIcon;
 //social media COLOR
 @facebook: #3b5998;
 @twitter: #00aced;
@@ -104,18 +100,17 @@ ToC
 @docTetraLeftAccentColor:@moderateYellow;
 
 // Code Colors
-
 @solarBgColor: #002B36;
 @solarBlue: #268bd2;
 @solarCyan: #2aa198;
 @solarOrange: #cb4b16;
 @solarRed: #dc322f;
 
-/*********/
+/**********/
 /* @Fonts */
-/*********/
+/**********/
 
-@import url('https://fonts.googleapis.com/css?family=Lato:400,100,300,700,900');
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700,900');
 @globalFont: 'Lato', sans-serif;
 
 .globalDefaultFont(@fontSize, @fontWeight, @color) {
@@ -132,9 +127,9 @@ ToC
   color: @color;
 }
 
-/***********/
+/************/
 /* @Borders */
-/***********/
+/************/
 
 .docDashedBorderBottom {
   border-bottom: 2px dashed @docTetraLeftAccentColor;
@@ -149,14 +144,11 @@ ToC
   border-right: 2px dashed @docTetraLeftAccentColor;
 }
 
-
-
-/***************/
+/****************/
 /* @Base Styles */
-/***************/
+/****************/
 
 * {
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 body, html {
@@ -170,8 +162,8 @@ body {
   background: @white;
   font-family: @globalFont;
   overflow: auto;
-  margin: 0 !important;
-  background-color: @highlightGrey !important;
+  margin: 0;
+  background-color: @highlightGrey;
   min-width: 1044px;
 }
 
@@ -194,36 +186,108 @@ a {
   color: @black;
 }
 img{
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -o-user-select: none;
-  user-select: none;
+  .no-select
 }
 
+/* Begin required CSS for line-clamp. */
+.line-clamp
+{
+  display            : block;
+  display            : -webkit-box;
+  -webkit-box-orient : vertical;
+  position           : relative;
+
+  line-height        : 1.2;
+  overflow           : hidden;
+  text-overflow      : ellipsis;
+  padding            : 0 !important;
+}
+
+.line-clamp:after
+{
+  content    : '...';
+  text-align : right;
+  bottom     : 0;
+  right      : 0;
+  width      : 25%;
+  display    : block;
+  position   : absolute;
+  height     : calc(1em * 1.2);
+  background : linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 75%);
+}
+
+@supports (-webkit-line-clamp: 1)
+{
+  .line-clamp:after
+  {
+    display : none !important;
+  }
+}
+
+.line-clamp-1
+{
+  -webkit-line-clamp : 1;
+  height             : calc(1em * 1.2 * 1);
+}
+
+.line-clamp-2
+{
+  -webkit-line-clamp : 2;
+  height             : calc(1em * 1.2 * 2);
+}
+
+.line-clamp-3
+{
+  -webkit-line-clamp : 3;
+  height             : calc(1em * 1.2 * 3);
+}
+
+.line-clamp-4
+{
+  -webkit-line-clamp : 4;
+  height             : calc(1em * 1.2 * 4);
+}
+
+.line-clamp-5
+{
+  -webkit-line-clamp : 5;
+  height             : calc(1em * 1.2 * 5);
+}
+/* End required CSS. line-clamp */
 
 /*******************/
 /* @Global Classes */
 /*******************/
 
 .no-select{
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -o-user-select: none;
+  -webkit-touch-callout: none;
   user-select: none;
 }
 
 .text-bold{
   font-weight: 700;
 }
+
 .text-heavy{
   font-weight: 900;
 }
 
-/***************/
+.clearfix {
+  display: block;
+  zoom: 1;
+  &:after {
+    content: " ";
+    display: block;
+    font-size: 0;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+  }
+}
+
+/****************/
 /* @Code Styles */
-/***************/
+/****************/
 
 code {
   padding: 2px 4px;
@@ -267,42 +331,28 @@ code.less-var-name-light {
   color: @solarRed;
 }
 
-/*******************/
+/********************/
 /* @Vendor Prefixes */
-/*******************/
+/********************/
 // https://css-tricks.com/snippets/css/a-guide-to-flexbox/
 
 .flexDisplay {
-  display: -ms-flexbox;
-  display: -webkit-flex;
   display: flex;
 }
 
 .inlineFlexDisplay {
-  display: -webkit-inline-flex;
-  display: -moz-inline-flex;
-  display: -ms-inline-flex;
   display: inline-flex;
 }
 
 .flexDirection(@flexDirectionParam) {
-  -webkit-flex-direction: @flexDirectionParam;
-  -moz-flex-direction: @flexDirectionParam;
-  -ms-flex-direction: @flexDirectionParam;
   flex-direction: @flexDirectionParam;
 }
 
 .flexJustify(@flexJustifyParam) {
-  -webkit-justify-content: @flexJustifyParam;
-  -moz-justify-content: @flexJustifyParam;
-  -ms-justify-content: @flexJustifyParam;
   justify-content: @flexJustifyParam;
 }
 
 .flexAlignItems(@flexAlignItemsParam) {
-  -webkit-align-items: @flexAlignItemsParam;
-  -moz-align-items: @flexAlignItemsParam;
-  -ms-align-items: @flexAlignItemsParam;
   align-items: @flexAlignItemsParam;
 }
 
@@ -314,171 +364,39 @@ code.less-var-name-light {
 }
 
 .borderRadiusPrefix(@radius) {
-  -webkit-border-radius: @radius;
-  -moz-border-radius: @radius;
   border-radius: @radius;
 }
 
 .backgroundClipPBoxPrefixes {
-  -webkit-background-clip: padding-box;
-  -moz-background-clip: padding;
   background-clip: padding-box;
 }
 
 .transformPrefixes(@transformation) {
-  -webkit-transform: @transformation;
-  -moz-transform: @transformation;
-  -ms-transform: @transformation;
-  -o-transform: @transformation;
   transform: @transformation;
 }
 
 .transformStylePrefixes(@transformStyleVals) {
-  -webkit-transform-style: @transformStyleVals;
-  -moz-transform-style: @transformStyleVals;
-  -ms-transform-style: @transformStyleVals;
-  -o-transform-style: @transformStyleVals;
   transform-style: @transformStyleVals;
 }
 
 .transformOriginPrefixes(@transformOriginVals) {
-  -webkit-transform-origin: @transformOriginVals;
-  -moz-transform-origin: @transformOriginVals;
-  -ms-transform-origin: @transformOriginVals;
   transform-origin: @transformOriginVals;
 }
 
 .transitionPrefixes(@transitionVals) {
-  -webkit-transition: @transitionVals;
-  -moz-transition: @transitionVals;
-  -ms-transition: @transitionVals;
-  -o-transition: @transitionVals;
   transition: @transitionVals;
 }
 
 .backfaceVisibility(@backfaceVisibility){
   backface-visibility: @backfaceVisibility;
-  -webkit-backface-visibility: @backfaceVisibility;
-  -moz-backface-visibility: @backfaceVisibility;
-  -ms-backface-visibility: @backfaceVisibility;
-  -o-backface-visibility: @backfaceVisibility;
 }
 
 .perspective(@perspectiveVals){
-  -webkit-perspective: @perspectiveVals;
-  -moz-perspective: @perspectiveVals;
-  -ms-perspective: @perspectiveVals;
   perspective: @perspectiveVals;
 }
 
-.noclick {
-  // For elements that shouldn't be highlightable
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-} // END .noclick
-
-/* Begin required CSS for line-clamp. */
-.line-clamp
-{
-	display            : block;
-	display            : -webkit-box;
-	-webkit-box-orient : vertical;
-	position           : relative;
-
-	line-height        : 1.2;
-	overflow           : hidden;
-	text-overflow      : ellipsis;
-	padding            : 0 !important;
-}
-.line-clamp:after
-{
-	content    : '...';
-	text-align : right;
-	bottom     : 0;
-	right      : 0;
-	width      : 25%;
-	display    : block;
-	position   : absolute;
-	height     : calc(1em * 1.2);
-	background : linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 75%);
-}
-@supports (-webkit-line-clamp: 1)
-{
-	.line-clamp:after
-	{
-		display : none !important;
-	}
-}
-.line-clamp-1
-{
-	-webkit-line-clamp : 1;
-	height             : calc(1em * 1.2 * 1);
-}
-.line-clamp-2
-{
-	-webkit-line-clamp : 2;
-	height             : calc(1em * 1.2 * 2);
-}
-.line-clamp-3
-{
-	-webkit-line-clamp : 3;
-	height             : calc(1em * 1.2 * 3);
-}
-.line-clamp-4
-{
-	-webkit-line-clamp : 4;
-	height             : calc(1em * 1.2 * 4);
-}
-.line-clamp-5
-{
-	-webkit-line-clamp : 5;
-	height             : calc(1em * 1.2 * 5);
-}
-/* End required CSS. line-clamp */
-
-/*********************/
+/**********************/
 /* @Module Box Shadow */
-/*********************/
+/**********************/
 
 @modBoxShadow: 0 0 10px 0 rgba(0,0,0,0.2);
-@whiteGradient: rgba(255, 255, 255, 0);
-.footerGradient{
-  background: -webkit-linear-gradient(90deg, @white 0%, @whiteGradient 100%);
-  background: -moz-linear-gradient(90deg, @white 0%, @whiteGradient 100%);
-  background: -o-linear-gradient(90deg, @white 0%, @whiteGradient 100%);
-  background: -ms-linear-gradient(90deg, @white 0%, @whiteGradient 100%);
-  background: linear-gradient(0deg, @white 0%, @whiteGradient 100%);
-}
-/*********************/
-/*  Magazine layout  */
-/*********************/
-.overview-page{
-  min-width: 0 !important;
-  min-height: 0 !important;
-}
-
-
-//for possibilities of making reactive site
-@mobileView:      ~"only screen and (max-width: 768px)";
-@tabletView:      ~"only screen and (min-width: 769px) and (max-width: 1024px)";
-@desktopView:     ~"only screen and (min-width: 1025px)";
-
-
-// clear fix
-.clearfix {
-  display: block;
-  zoom: 1;
-
-  &:after {
-    content: " ";
-    display: block;
-    font-size: 0;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-  }
-}
