@@ -1,9 +1,17 @@
 .tr{
   &-sort{
-    background-color: @black;
-    .flexDisplay;
     height: 30px;
     width: 100%;
+    .flexDisplay;
+    .flexJustify(space-between);
+    &-box{
+      height: 100%;
+      border: 1px solid @greyBorderBox;
+      font-size: 12px;
+      .flexDisplay;
+      .flexAlignItems(center);
+      .flexJustify(center);
+    }
   }
   &-details{
     margin-top: 10px;
