@@ -34,7 +34,7 @@ export class ContactUsPage implements OnInit{
     getData(){
         //Contact us data
         this.title_data = {
-            imageURL : '/app/public/joyfulhome_house.png',
+            imageURL : '/app/public/mainLogo.png',
             smallText1 : 'Last Updated: Friday, February 26, 2016',
             smallText2 : ' United States of America',
             heading1 : 'Contact Us',

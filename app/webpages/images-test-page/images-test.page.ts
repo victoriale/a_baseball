@@ -33,7 +33,7 @@ export class ImagesTestPage {
     getData(){
       //About us title
       this.titleData = {
-          imageURL : '/app/public/joyfulhome_house.png',
+          imageURL : '/app/public/mainLogo.png',
           smallText1 : 'Last Updated: Monday, February 26, 2016',
           smallText2 : ' United States of America',
           heading1 : 'Test Page',
