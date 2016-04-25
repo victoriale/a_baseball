@@ -1,5 +1,5 @@
 <ul class="nav nav-tabs">
-  <li *ngFor="#tab of tabs" (click)="selectTab(tab)" [class.active]="tab.active">
+  <li *ngFor="#tab of tabs" (click)="selectTab(tab)" [class.active]="tab.active" style="width: {{tabWidth}};">
     {{tab.title}}
   </li>
 </ul>

@@ -6,7 +6,7 @@ import { Tab } from './tab.component';
   templateUrl: './app/components/tabs/tabs.component.html',
 })
 export class Tabs implements AfterContentInit {
-
+  tabWidth = "50%";
   @ContentChildren(Tab) tabs: QueryList<Tab>;
 
   // contentChildren are set
@@ -23,7 +23,6 @@ export class Tabs implements AfterContentInit {
   selectTab(tab: Tab){
     // deactivate all tabs
     this.tabs.toArray().forEach(tab => tab.active = false);
-
     // activate the tab the user has clicked on.
     tab.active = true;
   }
