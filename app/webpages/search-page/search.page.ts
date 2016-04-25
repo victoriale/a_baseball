@@ -28,7 +28,6 @@ export class SearchPage implements OnInit {
     searchResults: any = {};
     showResults: boolean;
     tab: string = 'address';
-    showTotal: number = 0;//currently unused in html
     tabTotal: number = 0;
     currentTotal: string = '0';
     displayData: {}; //this is what is being inputed into the DOM
@@ -211,9 +210,9 @@ export class SearchPage implements OnInit {
     var zipcode = [];
     var total: number = 0;
 
-    var addrCount = 0;
-    var zipCount = 0;
-    var locCount = 0;
+    var addrCount:number = 0;
+    var zipCount:number = 0;
+    var locCount:number = 0;
 
       var self = this;
 
@@ -328,38 +327,32 @@ export class SearchPage implements OnInit {
         this._router.navigate([location[0].page, location[0].params])
       }
     }
-    this.showTotal = this.globalFunctions.commaSeparateNumber(total);
 
-      //This determines what tab to display (Only used on initial load)
-      var max = 0;
-      var maxType;
-      if(addrCount > max) {
-          max = addrCount;
-          maxType = 'address';
-      }
-      if(locCount > max) {
-          max = locCount;
-          maxType = 'location';
-      }
-      if(zipCount > max) {
-          max = zipCount;
-          maxType = 'zipcode';
-      }else{
-          maxType = 'address';
-      }
-
-      //Add commas to results counts
-      addrCount = this.globalFunctions.commaSeparateNumber(addrCount);
-      locCount = this.globalFunctions.commaSeparateNumber(locCount);
-      zipCount = this.globalFunctions.commaSeparateNumber(zipCount);
+    //This determines what tab to display (Only used on initial load)
+    var max = 0;
+    var maxType;
+    if(addrCount > max) {
+        max = addrCount;
+        maxType = 'address';
+    }
+    if(locCount > max) {
+        max = locCount;
+        maxType = 'location';
+    }
+    if(zipCount > max) {
+        max = zipCount;
+        maxType = 'zipcode';
+    }else{
+        maxType = 'address';
+    }
 
     return {
       'address': address,
       'zipcode': zipcode,
       'location': location,
-      'addrCount': addrCount,
-      'zipCount': zipCount,
-      'locCount': locCount,
+      'addrCount': this.globalFunctions.commaSeparateNumber(addrCount),
+      'zipCount': this.globalFunctions.commaSeparateNumber(zipCount),
+      'locCount': this.globalFunctions.commaSeparateNumber(locCount),
       'total': total,
       'maxType': maxType
     };

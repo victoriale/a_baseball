@@ -194,17 +194,17 @@ export interface ProfileHeaderInterface {
     email: string;
     listingID: string;
     listingImage: string;
-    listingPrice: string;
+    listingPrice: number;
     listingStatus: string;
     officeNumber: number;
     originalLink: string;
     phoneNumber: number;
-    squareFeet: string;
+    squareFeet: number;
     zipCode: string;
     //Location data
-    numberOfListings: string;
-    averageListingPrice: string;
-    averageRentalPrice: string;
+    numberOfListings: number;
+    averageListingPrice: number;
+    averageRentalPrice: number;
     averageAge: string;
     locationImage: string;
     //Shared data
