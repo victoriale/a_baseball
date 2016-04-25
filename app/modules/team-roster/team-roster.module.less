@@ -17,12 +17,30 @@
         right: 5px;
         top: 9px;
       }
-    }
-  }
+    }//tr-sort-box ends
+  }//tr-sort ends
   &-details{
     margin-top: 10px;
     width: 100%;
     height: 70px;
-    background-color: #f2f2f2;
-  }
+    background-color: @backgroundGrey;
+    .flexDisplay;
+    .flexJustify(space-between);
+    &-field1{
+      .flexDisplay;
+      .flexJustify(center);
+      .flexAlignItems(center);
+      .globalDefaultModFont(16px, 400, @black);
+    }//tr-details-field1 ends
+    &-field{
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: 900;
+      .flexDisplay;
+      .flexAlignItems(center);
+      span{
+        margin: 0 15px;
+      }
+    }
+  }//tr-details ends
 }

@@ -5,11 +5,12 @@ import {Tabs} from '../../components/tabs/tabs.component';
 import {Tab} from '../../components/tabs/tab.component';
 import {SliderCarousel} from '../../components/slider-carousel/slider-carousel.component';
 import {BoxSortComponent} from '../../components/box-sort/box-sort.component';
+import {PlayerDetailRowComponent} from '../../components/player-detail-row/player-detail-row.component';
 
 @Component({
     selector: 'team-roster-module',
     templateUrl: './app/modules/team-roster/team-roster.module.html',
-    directives:[BoxSortComponent, ModuleHeader, ModuleFooter, Tabs, Tab, SliderCarousel],
+    directives:[PlayerDetailRowComponent, BoxSortComponent, ModuleHeader, ModuleFooter, Tabs, Tab, SliderCarousel],
     providers: []
 })
 export class TeamRosterModule implements OnInit{
@@ -17,7 +18,10 @@ export class TeamRosterModule implements OnInit{
     public footerHeadline: string = 'Want to see the full team roster?';
     public footerButton: string = 'VIEW FULL ROSTER';
     public teamRosterData: Object;
-
+    public teamRosterRowData: Object;
+    constructor() {
+      this.getData();
+    }
     getData(){
       this.teamRosterData = {
         trDataList: [
@@ -47,9 +51,9 @@ export class TeamRosterModule implements OnInit{
           }
         ]//trDataList ends
       }//team roster data ends
+
     }//get data ends
     ngOnInit(){
-      this.getData();
     }
 
 }
