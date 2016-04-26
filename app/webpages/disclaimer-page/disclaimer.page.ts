@@ -8,13 +8,12 @@ import {WidgetModule} from "../../modules/widget/widget.module";
 import {Router,ROUTER_DIRECTIVES} from 'angular2/router';
 import {Injector} from 'angular2/core';
 import {WebApp} from '../../app-layout/app.layout';
-import {AuHeaderComponent} from '../../components/about-us-header/au-header.component';
 
 @Component({
     selector: 'Disclaimer-page',
     templateUrl: './app/webpages/disclaimer-page/disclaimer.page.html',
 
-    directives: [AuHeaderComponent, BackTabComponent, TitleComponent, WidgetModule, ROUTER_DIRECTIVES],
+    directives: [BackTabComponent, TitleComponent, WidgetModule, ROUTER_DIRECTIVES],
     providers: [],
 })
 
