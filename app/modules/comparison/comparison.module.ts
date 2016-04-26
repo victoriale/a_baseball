@@ -34,7 +34,7 @@ export class ComparisonModule implements OnInit{
             title: 'Home Runs',
             data: [
                 {
-                    dataOne: 70,
+                    dataOne: 2,
                     dataTwo: 40,
                     dataHigh: 100
                 },

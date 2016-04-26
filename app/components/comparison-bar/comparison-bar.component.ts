@@ -21,6 +21,7 @@ interface ComparisonBarInput {
 })
 
 export class ComparisonBar{
+    //Pull in DOM Elements
     @ViewChild('labelOne') labelOne;
     @ViewChild('labelTwo') labelTwo;
     @ViewChild('masterBar') masterBar;
@@ -33,45 +34,39 @@ export class ComparisonBar{
         this.displayData = this.configureBar(this.comparisonBarInput);
     }
 
-    calculateLabels(){
+    //Funciton to reposition labels if needed
+    calculateLabelPositions(){
+        //Get widths of DOM elements
         var barWidth = jQuery(this.masterBar.nativeElement).width();
         var labelOneWidth = jQuery(this.labelOne.nativeElement).width();
         var labelTwoWidth = jQuery(this.labelTwo.nativeElement).width();
+        //Calculate final bar widths
         var barOneWidth = barWidth * this.displayData.barOneWidth / 100;
         var barTwoWidth = barWidth * this.displayData.barTwoWidth / 100;
+        //Set pixel buffer between labels that are close
         var pixelBuffer = 5;
-        console.log('native', this, barWidth, barOneWidth, barTwoWidth, labelOneWidth, labelTwoWidth, this.labelOne.nativeElement.style.width);
+
         if(this.displayData.isOneTop && (Math.abs(barTwoWidth - barOneWidth)) <= labelTwoWidth){
+            //If bar one is on top and the difference between the bars is less than the width of label two, shift label one over
             var newRight = Math.ceil(labelTwoWidth - (barTwoWidth - barOneWidth) + pixelBuffer);
         }else{
+            //Else right align label one to the right of bar one
             var newRight = 0;
         }
         jQuery(this.labelOne.nativeElement).css('right', newRight);
 
         if(this.displayData.isTwoTop && (Math.abs(barOneWidth - barTwoWidth)) <= labelOneWidth){
+            //If bar two is on top and the difference between the bars is less than the width of label one, shift label two over
             var newRight = Math.ceil(labelOneWidth - (barOneWidth - barTwoWidth) + pixelBuffer);
         }else{
+            //Else right align label two to the right of bar two
             var newRight = 0;
         }
         jQuery(this.labelTwo.nativeElement).css('right', newRight);
-        //if(this.displayData.isOneTop && (Math.abs(this.labelTwoRect.right - this.labelOneRect.right)) <= this.labelTwoRect.width){
-        //    var newRight = this.labelTwoRect.width - (this.labelTwoRect.right - this.labelOneRect.right) + pixelBuffer;
-        //}else{
-        //    var newRight = 0;
-        //}
-        //jQuery(this.labelOne.nativeElement).css('right', newRight);
-        //
-        //if(this.displayData.isTwoTop && (Math.abs(this.labelOneRect.right - this.labelTwoRect.right)) <= this.labelOneRect.width){
-        //    var newRight = this.labelOneRect.width - (this.labelOneRect.right - this.labelTwoRect.right) + pixelBuffer;
-        //}else{
-        //    var newRight = 0;
-        //}
-        //jQuery(this.labelTwo.nativeElement).css('right', newRight);
     }
 
     ngAfterViewChecked(){
-        console.log('view checked');
-        this.calculateLabels();
+        this.calculateLabelPositions();
     }
 
     //Function to configure any variables the comparison bar needs
@@ -81,10 +76,12 @@ export class ComparisonBar{
         var dataOne = barData.dataOne;
         var dataTwo = barData.dataTwo;
         var dataHigh = barData.dataHigh;
+        //Determines what percentage the scale starts at (ex. 0 starts at 2% of bars width)
+        var scaleStart = 2;
 
         //Determine widths of bars
-        data.barOneWidth = Math.round(dataOne / dataHigh * 1000) / 10;
-        data.barTwoWidth = Math.round(dataTwo / dataHigh * 1000) / 10;
+        data.barOneWidth = (Math.round(dataOne / dataHigh * (100 - scaleStart) * 10) / 10) + scaleStart;
+        data.barTwoWidth = (Math.round(dataTwo / dataHigh * (100 - scaleStart) * 10) / 10) + scaleStart;
         //Determine bar data to display
         data.dataOne = dataOne;
         data.dataTwo = dataTwo;
