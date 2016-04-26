@@ -1,4 +1,5 @@
-<header class='mod-hdr-with-heading'>
-    <span></span>
-    <h3>{{moduleTitle}}</h3>
+<header *ngIf="modHeadData" class='module-header'>
+  <span *ngIf="!modHeadData.hasIcon" class="module-header-line"></span>
+  <span *ngIf="modHeadData.hasIcon" class="module-header-icon"><i class="{{modHeadData.iconClass}}"></i></span>
+  <h3>{{modHeadData.moduleTitle}}</h3>
 </header>

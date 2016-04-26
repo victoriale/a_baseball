@@ -113,7 +113,7 @@ export class DynamicListPage implements OnInit {
     //grab data for the header
     this.headerData = {
         // Old placeholder image:  http://www.myinvestkit.com/StateImages/Location_National.jpg
-        imageURL : '/app/public/joyfulhome_house.png',
+        imageURL : '/app/public/mainLogo.png',
 
         smallText1 : 'Last Updated: ' + moment(data.date).format('dddd, MMMM Do, YYYY'),
         smallText2 : ' United States of America',

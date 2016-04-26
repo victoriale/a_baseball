@@ -2,35 +2,31 @@
     <module-header [moduleTitle]="moduleTitle"></module-header>
     <div class="row comparison-module-tiles">
         <div class="col-xs-6">
-            <comparison-tile></comparison-tile>
+            <comparison-tile [comparisonTileInput]="comparisonTileDataOne"></comparison-tile>
         </div>
         <div class="col-xs-6">
-            <comparison-tile></comparison-tile>
+            <comparison-tile [comparisonTileInput]="comparisonTileDataTwo"></comparison-tile>
+        </div>
+        <div class="comparison-module-tiles-vs">
+            vs
         </div>
     </div>
+    <!-- Placeholder -->
     <div class="tabs-placeholder">
         Tabs Placeholder
     </div>
-    <div class="comparison-module-legend">
-        <span class="comparison-module-legend-title">
-            <span class="text-heavy">2016 Season</span> Breakdown
-        </span>
-        <ul class="pull-right">
-            <li>
-                <div class="comparison-module-legend-circle"></div>
-                Stat High
-            </li>
-            <li>
-                <div class="comparison-module-legend-circle"></div>
-                [Batter Name 2]
-            </li>
-            <li>
-                <div class="comparison-module-legend-circle"></div>
-                [Batter Name 1]
-            </li>
-        </ul>
-    </div>
+    <button (click)="dataOne()">
+        Data 1
+    </button>
+    <button (click)="dataTwo()">
+        Data 2
+    </button>
+    <button (click)="dataThree()">
+        Data 3
+    </button>
+    <!-- End Placeholder -->
+    <comparison-legend [comparisonLegendInput]="comparisonLegendData"></comparison-legend>
     <div class="comparison-module-bars">
-        <comparison-bar *ngFor="#item of barData"></comparison-bar>
+        <comparison-bar *ngFor="#item of comparisonBarData" [comparisonBarInput]="item" [dataIndex]="dataIndex"></comparison-bar>
     </div>
 </div>

@@ -1,0 +1,30 @@
+.pane{
+  padding: 1em;
+  color: @black;
+}
+.nav-tabs{
+  background-color: @greyBorder;
+  height: 60px;
+  width: 100%;
+  .flexAlignItems(center);
+  .flexDisplay;
+  li{
+    height: 100%;
+    .flexAlignItems(center);
+    .flexDisplay;
+    .flexJustify(center);
+    i{
+      visibility: hidden;
+    }
+    &.active{
+      i{
+        visibility: visible;
+        color: @activeBlue;
+        padding-right: 5px;
+      }
+      background-color: @white;
+      font-weight: 900;
+      color: @black;
+    }
+  }
+}

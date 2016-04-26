@@ -4,10 +4,10 @@
     font-family: Lato;
     padding: 10px 20px;
 
-    &.odd{
+    &.background-odd{
       background-color: #f2f2f2;
     }
-    &.even{
+    &.background-even{
       background-color: @white;
     }
   }
@@ -26,13 +26,14 @@
     position: relative;
 
     &-stroke{
+      width: 0%;
       border-radius: 15px;
       bottom: 0px;
       height: 100%;
       left: 0px;
       position: absolute;
-      transition: 1s width linear;
-      -webkit-transition: 1s width linear;
+      transition: 1s width;
+      -webkit-transition: 1s width;
 
       &.stroke-top{
         z-index: 5;
@@ -40,19 +41,25 @@
     }
 
     &-label{
-      bottom: -15px;
+      bottom: -17px;
+      top: 17px;
       font-size: 14px;
       font-weight: 700;
       position: absolute;
       right: 0px;
+      opacity: 1;
+      transition: 1s top, 1s right, 1s bottom;
+      -webkit-transition: 1s top, 1s right, 1s bottom;
 
       //Classes to reposition label if needed (Label and another element overlap
       &.label-top{
-        top: -15px;
+        top: -17px;
+        bottom: 17px;
       }
       &.label-right{
         bottom: 0px;
         right: -20px;
+        top: 0px;
       }
     }
   }

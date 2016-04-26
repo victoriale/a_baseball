@@ -6,6 +6,7 @@ import {DisclaimerPage} from "../webpages/disclaimer-page/disclaimer.page";
 import {TeamPage} from "../webpages/team-page/team.page";
 import {ComponentPage} from "../webpages/component-page/component.page";
 import {ImagesTestPage} from "../webpages/images-test-page/images-test.page";
+import {TablesTestPage} from "../webpages/tables-test-page/tables-test.page";
 import {WebApp} from "../app-layout/app.layout";
 import {GlobalFunctions} from "../global/global-functions";
 import {ModulePage} from "../webpages/module-page/module.page";
@@ -50,6 +51,11 @@ import {ModulePage} from "../webpages/module-page/module.page";
       path: '/images-test',
       name: 'Images-test-page',
       component: ImagesTestPage,
+    },
+    {
+      path: '/tables-test',
+      name: 'Tables-test-page',
+      component: TablesTestPage,
     },
     {
         path: '/modules',
