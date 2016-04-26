@@ -34,6 +34,7 @@
       position: absolute;
       transition: 1s width;
       -webkit-transition: 1s width;
+      border-right: 1px solid #d7d7d7;
 
       &.stroke-top{
         z-index: 5;
@@ -51,15 +52,9 @@
       transition: 1s top, 1s right, 1s bottom;
       -webkit-transition: 1s top, 1s right, 1s bottom;
 
-      //Classes to reposition label if needed (Label and another element overlap
       &.label-top{
         top: -17px;
         bottom: 17px;
-      }
-      &.label-right{
-        bottom: 0px;
-        right: -20px;
-        top: 0px;
       }
     }
   }
