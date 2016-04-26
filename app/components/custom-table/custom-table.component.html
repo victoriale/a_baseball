@@ -1,0 +1,29 @@
+<table class="custom-table">
+  <thead>
+    <tr>
+      <th *ngFor="#hdr of headerData; #i = index">
+        <custom-table-header
+          [headerData]="hdr"
+          [headerIndex]="i"
+          (sortSwitched)="setSortColumn($event)">
+        </custom-table-header>
+      </th>
+    </tr>
+  </thead>
+
+  <tbody class="{{bodyClass}}">
+    <tr *ngFor="#row of rows; #isOdd = odd"
+      [class.custom-table-row-selected]="row.isSelected"
+      [class.custom-table-row-odd]="isOdd">
+      <td *ngFor="#cell of row.cells; #i = index" [innerHtml]="cell.displayHtml"
+        class="{{bodyClass}}-{{headerData[i].columnClass}} {{bodyClass}}-cell">
+      </td>
+    </tr>
+  </tbody>
+
+  <tfoot *ngIf="footerData" class="custom-table-footer {{bodyClass}}">
+    <tr>
+      <td *ngFor="#value of footerData; #i = index" [innerHtml]="value" class="{{bodyClass}}-cell"></td>
+    </tr>
+  </tfoot>
+</table>
