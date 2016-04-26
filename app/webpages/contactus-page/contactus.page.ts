@@ -20,7 +20,7 @@ declare var jQuery: any;
 export class ContactUsPage implements OnInit{
     //PLACEHOLDERS
     full_name = "John Smith";
-    email = "email@domain.com";
+    email = "name@domain-name.com";
     text_area = "Detailed description of your question here...";
     title_data: {};
     submissionform: any;
@@ -37,9 +37,9 @@ export class ContactUsPage implements OnInit{
             imageURL : '/app/public/mainLogo.png',
             smallText1 : 'Last Updated: Friday, February 26, 2016',
             smallText2 : ' United States of America',
-            heading1 : 'Contact Us',
+            heading1 : 'Have a question about Home Run Loyal? Write us a message.',
             heading2 : '',
-            heading3 : 'Help Us, Help You Faster.',
+            heading3 : '',
             heading4 : '',
             icon: 'fa fa-map-marker',
             hasHover: false
