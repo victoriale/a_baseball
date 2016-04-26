@@ -201,7 +201,7 @@ export class ComparisonModule implements OnInit{
                 },
                 {
                     dataOne: 0,
-                    dataTwo: 45,
+                    dataTwo: 0,
                     dataHigh: 75
                 },
                 {
@@ -226,7 +226,27 @@ export class ComparisonModule implements OnInit{
             'Lutz',
             'Larry'
         ],
-        imageConfig: {},
+        imageConfig: {
+            imageClass: "image-180",
+            mainImage: {
+                imageUrl: "./app/public/placeholder-location.jpg",
+                urlRouteArray: ['Disclaimer-page'],
+                hoverText: "<p>View</p><p>Profile</p>",
+                imageClass: "border-large"
+            },
+            subImages: [
+                {
+                    imageUrl: "./app/public/placeholder-location.jpg",
+                    urlRouteArray: ['Disclaimer-page'],
+                    hoverText: "<i class='fa fa-mail-forward'></i>",
+                    imageClass: "image-50-sub image-round-lower-right"
+                },
+                {
+                    text: "#12",
+                    imageClass: "image-48-rank image-round-upper-left image-round-sub-text"
+                }
+            ],
+        },
         title: 'Lutz',
         description: [
             {
@@ -274,7 +294,27 @@ export class ComparisonModule implements OnInit{
             'Lutz',
             'Larry'
         ],
-        imageConfig: {},
+        imageConfig: {
+            imageClass: "image-180",
+            mainImage: {
+                imageUrl: "./app/public/placeholder-location.jpg",
+                urlRouteArray: ['Disclaimer-page'],
+                hoverText: "<p>View</p><p>Profile</p>",
+                imageClass: "border-large"
+            },
+            subImages: [
+                {
+                    imageUrl: "./app/public/placeholder-location.jpg",
+                    urlRouteArray: ['Disclaimer-page'],
+                    hoverText: "<i class='fa fa-mail-forward'></i>",
+                    imageClass: "image-50-sub image-round-lower-right"
+                },
+                {
+                    text: "#32",
+                    imageClass: "image-48-rank image-round-upper-left image-round-sub-text"
+                }
+            ],
+        },
         title: 'Larry',
         description: [
             {
