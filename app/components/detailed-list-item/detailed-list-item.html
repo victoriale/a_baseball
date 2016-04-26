@@ -12,7 +12,9 @@
       <!--put in right box styles-->
       <div class="dataBox">
         <div *ngFor="#data of details.dataPoints">
-          <i class="{{data.icon}}"></i><span>{{data.data}}</span> <span>{{data.value}}</span>
+          <i class="{{data.icon}}"></i>
+          <span><a [ngClass]="{'data-hover': data.url != ''}">{{data.data}}</a></span>
+          <span>{{data.value}}</span>
         </div>
       </div>
       <!--cta container-->

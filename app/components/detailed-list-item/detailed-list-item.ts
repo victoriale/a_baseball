@@ -1,14 +1,21 @@
 import {Component, OnInit, Input} from 'angular2/core';
 
-interface DetailListInput {
-  dataPoints: Array<Object>;
+export interface DetailListInput {
+  dataPoints: Array<DataValue>; //Array of interface {DataValue}
   dataUrl: string;
-  valueUrl: string;
+  valueUrl: [any];
   imageConf: Object;
   hasCTA: boolean;
   ctaText?: string;
   ctaBtn?: string;
-  ctaUrl?: string;
+  ctaUrl?: [any];
+}
+
+interface DataValue{
+  data: string,
+  value: string,
+  url:[any],
+  icon:string,
 }
 
 @Component({

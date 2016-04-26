@@ -47,7 +47,7 @@
     width:77.2%;
     height:100%;
     padding: 10px 20px 0 0;
-    .databox{
+    .dataBox{
       width:100%;
       height:auto;
       color:@black;
@@ -55,6 +55,15 @@
       .inlineFlexDisplay;
       .flexDirection(column);
       .flexJustify(space-between);
+      .data-hover{//hover states
+        text-decoration: none;
+        color: @black;
+        &:hover{
+          text-decoration: none;
+          color:@masterBrandColor;
+          cursor: pointer;
+        }
+      }
       div{
         font-size: 14px;
         width: 100%;
@@ -93,8 +102,8 @@
             float: right;
             text-align: right;
           }
-        }
-      }
+        }//END OF a tag css modifier
+      }//END OF <div> tag css modifier
     }
     .cta-container{
       width:100%;

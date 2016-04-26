@@ -3,10 +3,6 @@ import {DetailedListItem} from '../../components/detailed-list-item/detailed-lis
 import {ModuleFooter} from '../../components/module-footer/module-footer';
 import {ModuleHeader} from '../../components/module-header/module-header.component';
 
-interface DraftHistory{
-
-}
-
 @Component({
     selector: 'draft-history',
     templateUrl: './app/modules/draft-history/draft-history.html',
@@ -27,7 +23,7 @@ export class DraftHistoryModule{
           {
             data:'test',
             value:'',
-            url:'',
+            url:'testLink',
             icon:'fa fa-share'//test remove when done testing
           },
           {
@@ -39,7 +35,7 @@ export class DraftHistoryModule{
           {
             data:'[Data Value]: [City], [ST]',
             value:'[Data Description1]',
-            url:'',
+            url:'testLink',
             icon:'fa fa-map-marker'
           },
         ],
