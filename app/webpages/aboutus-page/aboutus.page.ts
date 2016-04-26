@@ -2,99 +2,98 @@
  * Created by Victoria on 4/19/2016.
  */
 import {Component, OnInit} from 'angular2/core';
+import {Router,ROUTER_DIRECTIVES, RouteParams} from 'angular2/router';
+
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {TitleComponent} from '../../components/title/title.component';
 import {WidgetModule} from "../../modules/widget/widget.module";
-import {Router,ROUTER_DIRECTIVES, RouteParams} from 'angular2/router';
-import {GlobalPage} from '../../global/global-service';
-import {AboutUsPageInterface} from '../../global/global-interface';
+
+import {AboutUsService,AboutUsInterface} from '../../services/about-us.service';
 import {GlobalFunctions} from '../../global/global-functions';
-import {Injector} from 'angular2/core';
 import {WebApp} from '../../app-layout/app.layout';
-import {AuHeaderComponent} from '../../components/about-us-header/au-header.component';
+
+interface AuBlockData {
+  iconUrl:string;
+  titleText:string;
+  dataText:string;
+}
 
 @Component({
     selector: 'Aboutus-page',
     templateUrl: './app/webpages/aboutus-page/aboutus.page.html',
 
-    directives: [AuHeaderComponent, BackTabComponent, TitleComponent, WidgetModule, ROUTER_DIRECTIVES],
-    providers: [GlobalPage],
+    directives: [ BackTabComponent, TitleComponent, WidgetModule, ROUTER_DIRECTIVES],
+    providers: [AboutUsService],
 })
 
-export class AboutUsPage implements OnInit{
-    whatIs = "";
-    pageName = "";
-
-    au_icon1 = '/app/public/aboutUs_logo1.png';
-    au_icon2 = '/app/public/aboutUs_logo2.png';
-    au_icon3 = '/app/public/aboutUs_logo3.png';
-    au_icon4 = '/app/public/currentWorldSeriesChamp.png';//will need to get the current world series champ from the api
-    nat_map = '/app/public/AboutUs_Map.png';
-
-    subText1 = "Listings For Sale";
-    subText2 = "Cities in United States";
-    subText3 = "Real Estate Agents";
-    subText4 = "Counties in United States";
-    subText_nat = "Where We Are Located";
-
-    mainText1 = ""; // this is for listing for sale
-    mainText2 = "31,102"; // number of cities in the U.S.
-    mainText3 = ""; // Real Easte Angents
-    mainText4 = "3,143"; // United States' counties
-    mainText_nat = ""; // listings nationwide
+export class AboutUsPage {
     public partnerParam: string;
     public partnerID: string;
-    titleData: {};
-    auHeaderTitle: string;
-
-    constructor(private injector:Injector, private _router: Router, private _aboutUs: GlobalPage, private globalFunctions: GlobalFunctions) {
-        // Scroll page to top to fix routerLink bug
-        this._router.root
-            .subscribe(
-                route => {
-                  var curRoute = route;
-                  var partnerID = curRoute.split('/');
-                  if(partnerID[0] == ''){
-                    this.partnerID = null;
-                  }else{
-                    this.partnerID = partnerID[0];
-                  }
-
-                  this.getData();
-                  if(this.partnerID === null ){
-                    this.pageName = "HomeRunLoyal";
-                  } else {
-                    this.pageName = "My HouseKit";
-                  }
-                  this.auHeaderTitle = "<b>What is </b>" + this.pageName;
-                }
-            )//end of route subscribe
+    public auHeaderTitle = "What is Home Run Loyal?";
+    public aboutUsData: AboutUsInterface;
+    
+    public auBlocks:Array<AuBlockData> = [
+      {
+        iconUrl: '/app/public/aboutUs_logo1.png',
+        titleText: 'MLB Team Profiles',
+        dataText: '[##]'
+      },
+      {
+        iconUrl: '/app/public/aboutUs_logo2.png',
+        titleText: 'MLB Divisions',
+        dataText: '[##]'
+      },
+      {
+        iconUrl: '/app/public/aboutUs_logo3.png',
+        titleText: 'MLB Player Profiles',
+        dataText: '[##]'
+      },
+      { //need all three pieces of info from API
+        iconUrl: '/app/public/currentWorldSeriesChamp.png', //will need to get the current world series champ from the api
+        titleText: '[YYYY] World Series Champions',
+        dataText: '[Profile Name]'
+      }
+    ];
+    
+    public titleData = {
+        imageURL : '/app/public/mainLogo.png',
+        smallText1 : 'Last Updated: Monday, April 25, 2016',
+        smallText2 : 'United States',
+        heading1 : 'Want to learn more about Home Run Loyal',
+        heading2 : '',
+        heading3 : '',
+        heading4 : '',
+        icon: 'fa fa-map-marker'
     }
 
-    getData(){
-      this._aboutUs.getAboutUsData().subscribe(data => {
-
-           this.mainText1 = this.globalFunctions.commaSeparateNumber(data.listings);
-           this.mainText2 = this.globalFunctions.commaSeparateNumber(data.cities);
-           this.mainText3 = this.globalFunctions.commaSeparateNumber(data.brokers);
-           this.mainText4 = this.globalFunctions.commaSeparateNumber(data.counties);
-           this.mainText_nat = this.globalFunctions.commaSeparateNumber(data.listings) + " +";
-      })
-      //About us title
-      this.titleData = {
-          imageURL : '/app/public/mainLogo.png',
-          smallText1 : 'Last Updated: Monday, February 26, 2016',
-          smallText2 : ' United States of America',
-          heading1 : 'About Us',
-          heading2 : '',
-          heading3 : 'Take a seat and get to know us better.',
-          heading4 : '',
-          icon: 'fa fa-map-marker',
-          hasHover: false
-      };
+    constructor(private _router: Router, private _service: AboutUsService, private _globalFunctions: GlobalFunctions) {
+        this._router.root.subscribe(route => {
+            var routeValues = route.split('/');
+            this.partnerID = (routeValues[0] == '') ? null : routeValues[0];                  
+            var pageName = (this.partnerID === null)
+              ? "Home Run Loyal" 
+              : "My Home Run Loyal";
+            this.auHeaderTitle = "What is " + pageName;
+            
+            //TODO: change to getAboutUsData() when API is ready
+            this._service.getAboutUsDefaultData().subscribe(
+              data => this.setupAboutUsData(data),
+              err => { console.log("Error getting About Us data"); }
+            );
+          })//end of route subscribe
     }
 
-    ngOnInit(){
-
+    setupAboutUsData(data:AboutUsInterface) {    
+        this.aboutUsData = data;
+        
+        this.auBlocks[0].dataText = this._globalFunctions.commaSeparateNumber(this.aboutUsData.teamProfilesCount);
+        
+        this.auBlocks[1].dataText = this._globalFunctions.commaSeparateNumber(this.aboutUsData.divisionsCount);
+        
+        this.auBlocks[2].dataText = this._globalFunctions.commaSeparateNumber(this.aboutUsData.playerProfilesCount);
+        
+        this.auBlocks[3].iconUrl = this.aboutUsData.worldChampionImageUrl;
+        this.auBlocks[3].titleText = this.aboutUsData.worldChampionYear + " World Series Champions";
+        this.auBlocks[3].dataText = this.aboutUsData.worldChampionName;
     }
 }

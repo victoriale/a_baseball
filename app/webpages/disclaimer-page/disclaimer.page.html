@@ -6,7 +6,7 @@
                     <div class="page-container au">
                         <backtab-component></backtab-component>
                         <title-component [titleData]="title_data"></title-component>
-                        <au-header-component [title]="auHeaderTitle"></au-header-component>
+                        <div class="au-heading" [innerHtml]="auHeaderTitle"></div>
                         <hr class="au-hr" />
                         <div class="au-desc" *ngIf="disclaimer" [innerHTML]="disclaimer"></div>
                     </div>

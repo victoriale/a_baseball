@@ -5,7 +5,6 @@ import {Component, OnInit} from 'angular2/core';
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {TitleComponent} from '../../components/title/title.component';
 import {WidgetModule} from "../../modules/widget/widget.module";
-import {AuHeaderComponent} from '../../components/about-us-header/au-header.component';
 
 declare var jQuery: any;
 
@@ -13,7 +12,7 @@ declare var jQuery: any;
     selector: 'Contactus-page',
     templateUrl: './app/webpages/contactus-page/contactus.page.html',
 
-    directives: [BackTabComponent, TitleComponent, AuHeaderComponent, WidgetModule],
+    directives: [BackTabComponent, TitleComponent, WidgetModule],
     providers: [],
 })
 
