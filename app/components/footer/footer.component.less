@@ -1,0 +1,105 @@
+.footer{
+  width: 100%;
+  min-width: 1440px;
+  height: auto;
+
+  &-top{
+    .flexDisplay;
+    .flexJustify(space-between);
+    .flexAlignItems(center);
+    background-color: @mediumGrey;
+    padding: 0 10%;
+    img{
+      margin: 9px auto;
+    }
+    ul{
+      .flexDisplay;
+      .flexJustify(space-between);
+      text-align: center;
+      width: 17%;
+      li{
+        border-radius: 50%;
+        border: 1px solid @greyTextGlobal;
+        color: @greyShareButton;
+        font-size: 20px;
+        font-weight: 400;
+        height: 40px;
+        width: 40px;
+        i{
+          padding-top: 10px;
+        }
+
+      }
+    }
+  }
+  &-main{
+    background-color: @listSeparatorGrey;
+    height: auto;
+    padding-bottom: 20px;
+    .globalDefaultModFont(14px, 400, @white);
+    .flexAlignItems(center);
+    .flexDisplay;
+    .flexDirection(column);
+    h1{
+      .globalDefaultModFont(30px, 900, @white);
+    }// h1 ends
+    ul{
+      .flexDisplay;
+      li{
+        line-height: 25px;
+        padding-right: 5px;
+        i{
+          padding: 5px;
+        }
+      }
+    }// ul ends
+    hr{
+      width: 70%;
+    }
+  }// footer-main ends
+}
+// .footer {
+//   background-color: @mediumGrey;
+//   height: auto;
+//   width: 100%;
+//   position: absolute;
+//   bottom: 0;
+//   text-align: center;
+//   .footer-btn {
+//     .inlineFlexDisplay;
+//     .flexDirection(row);
+//     .flexAlignItems(center);
+//     height: 35px;
+//     background-color: @masterBrandColor;
+//     .borderRadiusPrefix(5px 5px 0 0);
+//     span:first-child {
+//       border-radius: 50%;
+//       width: 25px;
+//       height: 25px;
+//       margin-left: 10px;
+//       background-image: url(@masterIcon);
+//       background-position: center center;
+//       background-repeat: no-repeat;
+//     }
+//     span:nth-child(2) {
+//       .globalDefaultModFont(16px, 900, @white);
+//       margin-left: 10px;
+//     }
+//     i {
+//       margin: 2px 10px 0 8px;
+//       color: @white;
+//       font-weight: 900;
+//     }
+//     &:hover {
+//       background-color: darken(@masterBrandColor, 10%);
+//     }
+//     &:active {
+//       background-color: @black;
+//       span:first-child {
+//         background-color: @masterBrandColor;
+//         background-position: center center;
+//         background-repeat: no-repeat;
+//       }
+//     }
+//   }
+// }

@@ -1,0 +1,53 @@
+.home{
+  background-color: @white;
+  height: auto;
+  width: 100%;
+  min-width: 1440px;
+  &-hero{
+    height: 475px;
+  }//home-hero ends
+  &-main{
+    padding-left: 55px;
+    h1{
+      padding: 20px;
+      text-align: center;
+      .globalDefaultFont(36px, 400);
+      span{
+        border-bottom: 1px solid @black;
+        border-top: 1px solid @black;
+        padding: 20px;
+      }
+    }//home-main h1 ends
+  }//home-main ends
+  &-league{
+  }//home-league ends
+  &-division{
+    height: auto;
+    min-height: 800px;
+    .flexDisplay;
+    &-each{
+      width: 33%;
+    }
+  }//home-division ends
+  &-team{
+    width: 100%;
+    .flexDisplay;
+    .flexAlignItems(center);
+    &-name{
+      line-height: 0;
+      .globalDefaultFont(18px, 400);
+      p{
+        .globalDefaultFont(24px, 900);
+      }
+    }
+  }
+  b{
+    font-weight: 900;
+  }
+  h2{
+    .globalDefaultFont(32px, 400);
+  }
+  h3{
+    .globalDefaultModFont(24px, 400, @greyTabText);
+  }
+}

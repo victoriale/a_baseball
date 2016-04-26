@@ -1,0 +1,38 @@
+<section class="home">
+  <header-component></header-component>
+  <img class="home-hero" src='/app/public/homePage_hero1.png' />
+  <div class="home-main">
+    <h1><span>PICK YOUR FAVORITE <b>MLB TEAM</b></span></h1>
+    <div class="home-league">
+      <h2><span><b>AMERICAN LEAGUE</b> TEAMS<b>:</b></span></h2>
+
+      <section class="home-division">
+        <div class="home-division-each">
+          <h3>CENTRAL</h3>
+          <div class="home-team">
+            <div *ngFor="#dataItem of testImages">
+                <circle-image [data]="dataItem.imageData"></circle-image>
+            </div>
+            <div class="home-team-name">CHICAGO <p>White Sox</p></div>
+          </div>
+        </div>
+
+        <!-- <div class="home-division-each">
+          <h3>EAST</h3>
+          <div class="home-team">
+            CHICAGO
+          </div>
+        </div>
+
+        <div class="home-division-each">
+          <h3>WEST</h3>
+          <div class="home-team">
+            CHICAGO
+          </div>
+        </div> -->
+
+      </section>
+    </div>
+  </div>
+  <footer-component></footer-component>
+</section>
