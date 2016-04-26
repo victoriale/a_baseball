@@ -7,7 +7,6 @@ const historyApiFallback = require('connect-history-api-fallback');
 const concat = require('gulp-concat');
 const less = require('gulp-less');
 const reload = browserSync.reload;
-const autoprefixer = require('gulp-autoprefixer');
 
 // clean the contents of the distribution directory
 gulp.task('clean', function () {
@@ -52,7 +51,6 @@ gulp.task('less', ['clean'], function() {
     return gulp.src(['./app/**/*.less'])
         .pipe(concat('master.css'))
         .pipe(less())
-        .pipe(autoprefixer())
         .pipe(gulp.dest('dist/app/global/stylesheets'))
 });
 

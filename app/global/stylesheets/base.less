@@ -116,11 +116,10 @@ ToC
 @import url('https://fonts.googleapis.com/css?family=Lato:400,700,900');
 @globalFont: 'Lato', sans-serif;
 
-.globalDefaultFont(@fontSize, @fontWeight, @color) {
+.globalDefaultFont(@fontSize, @fontWeight) {
   font-family: @globalFont;
   font-size: @fontSize;
   font-weight: @fontWeight;
-  color: @color;
 }
 
 .globalDefaultModFont(@fontSize, @fontWeight, @color) {
@@ -152,6 +151,7 @@ ToC
 /****************/
 
 * {
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 body, html {
@@ -165,8 +165,8 @@ body {
   background: @white;
   font-family: @globalFont;
   overflow: auto;
-  margin: 0;
-  background-color: @highlightGrey;
+  margin: 0 !important;
+  background-color: @highlightGrey !important;
   min-width: 1044px;
 }
 
@@ -193,74 +193,12 @@ a {
   }
 }
 img{
-  .no-select
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 }
-
-/* Begin required CSS for line-clamp. */
-.line-clamp
-{
-  display            : block;
-  display            : -webkit-box;
-  -webkit-box-orient : vertical;
-  position           : relative;
-
-  line-height        : 1.2;
-  overflow           : hidden;
-  text-overflow      : ellipsis;
-  padding            : 0 !important;
-}
-
-.line-clamp:after
-{
-  content    : '...';
-  text-align : right;
-  bottom     : 0;
-  right      : 0;
-  width      : 25%;
-  display    : block;
-  position   : absolute;
-  height     : calc(1em * 1.2);
-  background : linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 75%);
-}
-
-@supports (-webkit-line-clamp: 1)
-{
-  .line-clamp:after
-  {
-    display : none !important;
-  }
-}
-
-.line-clamp-1
-{
-  -webkit-line-clamp : 1;
-  height             : calc(1em * 1.2 * 1);
-}
-
-.line-clamp-2
-{
-  -webkit-line-clamp : 2;
-  height             : calc(1em * 1.2 * 2);
-}
-
-.line-clamp-3
-{
-  -webkit-line-clamp : 3;
-  height             : calc(1em * 1.2 * 3);
-}
-
-.line-clamp-4
-{
-  -webkit-line-clamp : 4;
-  height             : calc(1em * 1.2 * 4);
-}
-
-.line-clamp-5
-{
-  -webkit-line-clamp : 5;
-  height             : calc(1em * 1.2 * 5);
-}
-/* End required CSS. line-clamp */
 
 /*******************/
 /* @Global Classes */
@@ -268,28 +206,12 @@ img{
 
 .no-select{
   -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
   user-select: none;
-}
-
-.text-bold{
-  font-weight: 700;
-}
-
-.text-heavy{
-  font-weight: 900;
-}
-
-.clearfix {
-  display: block;
-  zoom: 1;
-  &:after {
-    content: " ";
-    display: block;
-    font-size: 0;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-  }
 }
 
 /****************/
@@ -344,67 +266,174 @@ code.less-var-name-light {
 // https://css-tricks.com/snippets/css/a-guide-to-flexbox/
 
 .flexDisplay {
+  display: -ms-flexbox;
+  display: -webkit-flex;
   display: flex;
 }
 
 .inlineFlexDisplay {
+  display: -webkit-inline-flex;
+  display: -moz-inline-flex;
+  display: -ms-inline-flex;
   display: inline-flex;
 }
 
 .flexDirection(@flexDirectionParam) {
+  -webkit-flex-direction: @flexDirectionParam;
+  -moz-flex-direction: @flexDirectionParam;
+  -ms-flex-direction: @flexDirectionParam;
   flex-direction: @flexDirectionParam;
 }
 
 .flexJustify(@flexJustifyParam) {
+  -webkit-justify-content: @flexJustifyParam;
+  -moz-justify-content: @flexJustifyParam;
+  -ms-justify-content: @flexJustifyParam;
   justify-content: @flexJustifyParam;
 }
 
 .flexAlignItems(@flexAlignItemsParam) {
+  -webkit-align-items: @flexAlignItemsParam;
+  -moz-align-items: @flexAlignItemsParam;
+  -ms-align-items: @flexAlignItemsParam;
   align-items: @flexAlignItemsParam;
 }
 
-.flexAlignContent(@flexAlignContentParam) {
-  -webkit-align-content: @flexAlignContentParam;
-  -moz-align-content: @flexAlignContentParam;
-  -ms-align-content: @flexAlignContentParam;
-  align-content: @flexAlignContentParam;
-}
-
 .borderRadiusPrefix(@radius) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
   border-radius: @radius;
 }
 
 .backgroundClipPBoxPrefixes {
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding;
   background-clip: padding-box;
 }
 
 .transformPrefixes(@transformation) {
+  -webkit-transform: @transformation;
+  -moz-transform: @transformation;
+  -ms-transform: @transformation;
+  -o-transform: @transformation;
   transform: @transformation;
 }
 
 .transformStylePrefixes(@transformStyleVals) {
+  -webkit-transform-style: @transformStyleVals;
+  -moz-transform-style: @transformStyleVals;
+  -ms-transform-style: @transformStyleVals;
+  -o-transform-style: @transformStyleVals;
   transform-style: @transformStyleVals;
 }
 
 .transformOriginPrefixes(@transformOriginVals) {
+  -webkit-transform-origin: @transformOriginVals;
+  -moz-transform-origin: @transformOriginVals;
+  -ms-transform-origin: @transformOriginVals;
   transform-origin: @transformOriginVals;
 }
 
 .transitionPrefixes(@transitionVals) {
+  -webkit-transition: @transitionVals;
+  -moz-transition: @transitionVals;
+  -ms-transition: @transitionVals;
+  -o-transition: @transitionVals;
   transition: @transitionVals;
 }
 
 .backfaceVisibility(@backfaceVisibility){
   backface-visibility: @backfaceVisibility;
+  -webkit-backface-visibility: @backfaceVisibility;
+  -moz-backface-visibility: @backfaceVisibility;
+  -ms-backface-visibility: @backfaceVisibility;
+  -o-backface-visibility: @backfaceVisibility;
 }
 
 .perspective(@perspectiveVals){
+  -webkit-perspective: @perspectiveVals;
+  -moz-perspective: @perspectiveVals;
+  -ms-perspective: @perspectiveVals;
   perspective: @perspectiveVals;
 }
 
-/**********************/
+/* Begin required CSS for line-clamp. */
+.line-clamp
+{
+  display            : block;
+  display            : -webkit-box;
+  -webkit-box-orient : vertical;
+  position           : relative;
+
+  line-height        : 1.2;
+  overflow           : hidden;
+  text-overflow      : ellipsis;
+  padding            : 0 !important;
+}
+.line-clamp:after
+{
+  content    : '...';
+  text-align : right;
+  bottom     : 0;
+  right      : 0;
+  width      : 25%;
+  display    : block;
+  position   : absolute;
+  height     : calc(1em * 1.2);
+  background : linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 75%);
+}
+@supports (-webkit-line-clamp: 1)
+{
+  .line-clamp:after
+  {
+    display : none !important;
+  }
+}
+.line-clamp-1
+{
+  -webkit-line-clamp : 1;
+  height             : calc(1em * 1.2 * 1);
+}
+.line-clamp-2
+{
+  -webkit-line-clamp : 2;
+  height             : calc(1em * 1.2 * 2);
+}
+.line-clamp-3
+{
+  -webkit-line-clamp : 3;
+  height             : calc(1em * 1.2 * 3);
+}
+.line-clamp-4
+{
+  -webkit-line-clamp : 4;
+  height             : calc(1em * 1.2 * 4);
+}
+.line-clamp-5
+{
+  -webkit-line-clamp : 5;
+  height             : calc(1em * 1.2 * 5);
+}
+/* End required CSS. line-clamp */
+
+/*********************/
 /* @Module Box Shadow */
-/**********************/
+/*********************/
 
 @modBoxShadow: 0 0 10px 0 rgba(0,0,0,0.2);
 @whiteGradient: rgba(255, 255, 255, 0);
+
+// clear fix
+.clearfix {
+  display: block;
+  zoom: 1;
+
+  &:after {
+    content: " ";
+    display: block;
+    font-size: 0;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+  }
+}

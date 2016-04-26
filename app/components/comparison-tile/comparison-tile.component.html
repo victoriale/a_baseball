@@ -15,8 +15,9 @@
             </select>
         </div>
     </div>
-
-    <div class="comparison-tile-image image-placeholder-180"></div>
+    <div class="comparison-tile-image">
+        <circle-image [data]="comparisonTileInput.imageConfig"></circle-image>
+    </div>
     <div class="comparison-tile-label">
         <span class="comparison-tile-label-line-one">{{comparisonTileInput.title}}</span>
         <span class="comparison-tile-label-line-two">

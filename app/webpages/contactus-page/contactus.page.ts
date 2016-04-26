@@ -5,7 +5,6 @@ import {Component, OnInit} from 'angular2/core';
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {TitleComponent} from '../../components/title/title.component';
 import {WidgetModule} from "../../modules/widget/widget.module";
-import {AuHeaderComponent} from '../../components/about-us-header/au-header.component';
 
 declare var jQuery: any;
 
@@ -13,14 +12,14 @@ declare var jQuery: any;
     selector: 'Contactus-page',
     templateUrl: './app/webpages/contactus-page/contactus.page.html',
 
-    directives: [BackTabComponent, TitleComponent, AuHeaderComponent, WidgetModule],
+    directives: [BackTabComponent, TitleComponent, WidgetModule],
     providers: [],
 })
 
 export class ContactUsPage implements OnInit{
     //PLACEHOLDERS
     full_name = "John Smith";
-    email = "email@domain.com";
+    email = "name@domain-name.com";
     text_area = "Detailed description of your question here...";
     title_data: {};
     submissionform: any;
@@ -37,9 +36,9 @@ export class ContactUsPage implements OnInit{
             imageURL : '/app/public/mainLogo.png',
             smallText1 : 'Last Updated: Friday, February 26, 2016',
             smallText2 : ' United States of America',
-            heading1 : 'Contact Us',
+            heading1 : 'Have a question about Home Run Loyal? Write us a message.',
             heading2 : '',
-            heading3 : 'Help Us, Help You Faster.',
+            heading3 : '',
             heading4 : '',
             icon: 'fa fa-map-marker',
             hasHover: false
