@@ -2,7 +2,7 @@
     <module-header [moduleTitle]="moduleTitle"></module-header>
     <div class="fli-body">
         <div class="fli-tiles">
-            <tiles-component [tile_data]="tileData"></tiles-component>
+            <flip-tiles [tile_data]="tileData"></flip-tiles>
         </div>
         <div>
             <feature-component *ngIf="listData" [list_data]="listData" (scrollLeft)="left()" (scrollRight)="right()"></feature-component>

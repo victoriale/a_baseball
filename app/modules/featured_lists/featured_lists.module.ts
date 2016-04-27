@@ -2,7 +2,7 @@ import {Component, OnInit, Input, OnChanges} from 'angular2/core';
 import {Router, RouteParams} from 'angular2/router';
 
 import {ModuleHeader} from '../../components/module-header/module-header.component';
-import {TilesComponent} from '../../components/tiles/tiles.component';
+import {FlipTilesComponent, TileData} from '../../components/flip-tiles/flip-tiles.component';
 import {FeatureComponent} from '../../components/feature-list/feature-list.component';
 import {FeaturedListInterface} from '../../global/global-interface';
 import {GlobalFunctions} from '../../global/global-functions';
@@ -10,7 +10,7 @@ import {GlobalFunctions} from '../../global/global-functions';
 @Component({
     selector: 'featured-lists-module',
     templateUrl: './app/modules/featured_lists/featured_lists.module.html',
-    directives: [ModuleHeader, TilesComponent, FeatureComponent],
+    directives: [ModuleHeader, FlipTilesComponent, FeatureComponent],
     providers: [],
     inputs:['locData']
 })
@@ -19,7 +19,7 @@ export class FeaturedListsModule implements OnInit{
     public locData: any;
     public profileType: string;
     public moduleTitle: string;
-    public tileData: Object;
+    public tileData: Array<TileData>;
     public listData: Object;
     public index: number = 0;
     @Input() featuredListData: any;
@@ -136,35 +136,36 @@ export class FeaturedListsModule implements OnInit{
         }
 
         //get tiles data
-        this.tileData = {
-            button_txt: 'Open Page',
-            title1: 'Real Estate Trending List',
-            icon1: 'fa-list-ul',
-            desc1: '',
-            url1: 'List-page',
-            paramOptions1: {
-                viewType: 'list',
-              listname: this.globalFunctions.camelCaseToKababCase(data.listName),
-              state: listData.stateOrProvince,
-              city: listData.city,
-              page: '1',
-            },
-            title2: 'Top City Lists',
-            icon2: 'fa-trophy',
-            desc2: '',
-            url2: 'List-of-lists-page',
-            paramOptions2: {
-              state: listData.stateOrProvince,
-              city: listData.city
-            },
-            title3: 'Similar Statewide Lists',
-            icon3: 'fa-th-large',
-            desc3: '',
-            url3: 'List-of-lists-page-state',
-            paramOptions3: {
-              state: listData.stateOrProvince
-            },
-        }
+        this.tileData = [{
+            buttonText: 'Open Page',
+            title: 'Real Estate Trending List',
+            faIcon: 'fa-list-ul',
+            description: '',
+            routerInfo: ['List-page',
+              { viewType: 'list',
+                listname: this.globalFunctions.camelCaseToKababCase(data.listName),
+                state: listData.stateOrProvince,
+                city: listData.city,
+                page: '1',
+            }],
+          },
+          {
+            buttonText: 'Open Page',
+            title: 'Top City Lists',
+            faIcon: 'fa-trophy',
+            description: '',
+            routerInfo: ['List-of-lists-page',
+              { state: listData.stateOrProvince,
+                city: listData.city
+              }],
+          },
+          {
+            buttonText: 'Open Page',
+            title: 'Similar Statewide Lists',
+            faIcon: 'fa-th-large',
+            description: '',
+            routerInfo: ['List-of-lists-page-state', { state: listData.stateOrProvince }],
+        }]
     }
 
     //On Change Call

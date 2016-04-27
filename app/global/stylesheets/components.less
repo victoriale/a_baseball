@@ -919,6 +919,7 @@ goalsHeader
   }
   &:hover {
     background-color: darken(@masterBrandColor, 10%);
+    text-decoration: none;
   }
   &:active {
     background-color: @black;
@@ -1142,90 +1143,6 @@ goalsHeader
       .flexJustify(center);
       .globalDefaultModFont(12px, 900, @black);
     }
-  }
-}
-
-/*************************/
-/* @Vert Tile Components */
-/*************************/
-.flippy-tile-col {
-  .inlineFlexDisplay;
-  .flexDirection(column);
-  .flexJustify(space-between);
-  height: auto;
-  .tile-container {
-    width: 180px;
-    height: 180px;
-    .perspective(1000);
-    &:hover [class*='tile-front'],
-    &.hover [class*='tile-front'] {
-      .transformPrefixes(rotateY(180deg));
-    }
-    &:hover [class*='tile-back'],
-    &.hover [class*='tile-back'] {
-      .transformPrefixes(rotateY(0deg));
-    }
-    [class*='tile-flipper'] {
-      a{
-        color: @white;
-      }
-      .perspective(1000);
-      position: relative;
-      .transitionPrefixes(0.3s);
-      .transformStylePrefixes(preserve-3d);
-    }
-    [class*='tile-front'],
-    [class*='tile-back'] {
-      .transformStylePrefixes(preserve-3d);
-      .transitionPrefixes(0.3s);
-      width: 180px;
-      height: 180px;
-      background-color: @tileBackground;
-      .backfaceVisibility(hidden);
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-    [class*='tile-front'] {
-      .flexDisplay;
-      .flexDirection(column);
-      .flexAlignItems(center);
-      .transformPrefixes(rotateY(0deg));
-      z-index: 2;
-      text-align: center;
-      i {
-        margin-top: 40px;
-        font-size: 48px;
-        color: @white;
-        .backfaceVisibility(hidden);
-      }
-      p {
-        margin-top: 20px;
-        line-height: 26px;
-        width: 150px;
-        .globalDefaultModFont(22px, 300, @white);
-      }
-    }//tile-front ends
-    [class*='tile-back'] {
-      .flexDisplay;
-      .flexDirection(column);
-      .flexAlignItems(flex-start);
-      padding: 10px;
-      .transformPrefixes(rotateY(-180deg));
-      span:first-child {
-        .globalDefaultModFont(20px, 300, @white);
-        width: 150px;
-      }
-      span:nth-child(2) {
-        display: inline-block;
-        margin-top: 10px;
-        .globalDefaultModFont(12px, 300, @white);
-        line-height: 12px;
-      }
-      span:last-child {
-        .tile-btn;
-      }
-    }//tile-back ends
   }
 }
 

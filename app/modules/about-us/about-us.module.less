@@ -1,0 +1,73 @@
+.au-mod {
+  border: solid 1px @greyBorder;
+  
+  &-body{
+    .flexDisplay;
+    .flexDirection(row);
+    padding:15px;
+  }
+  
+  &-tiles{
+    width: 180px;
+  }
+  
+  &-desc{
+    margin-left: 15px;
+    border: solid 1px @strokeGrey;
+    box-sizing: border-box;
+    background-color: @white;
+    width: 455px;
+    height: 570px;
+    
+    &-header {
+      .globalDefaultFont(16px, 700);
+      background-color: @backgroundGrey;
+      padding: 13px 8px;
+      margin-bottom: 70px;
+      
+      i {
+        color: @masterBrandColor;
+        font-size: 14px;
+        font-weight: 400;
+        margin-right: 8px;
+      }
+    }
+    
+    &-logo {
+      text-align: center;
+      margin-bottom: 80px;
+    
+      img {
+        width: 335px;
+        margin: auto;
+      }
+    }
+    
+    &-content {
+      margin: 0 29px 39px 29px;
+    
+      &-subtitle {
+        .globalDefaultFont(14px, 400);
+        margin-bottom: 1em;
+      }
+      
+      &-detail {
+        .globalDefaultFont(14px, 400);
+        line-height: 16px;
+        
+        a {
+          .globalDefaultModFont(14px, 900, @activeBlue);        
+        }
+      }
+    }
+
+    &-button {
+      text-align: center;
+      margin: auto;
+      
+      &-text {
+        .globalDefaultModFont(14px, 400, @white);
+      }
+    }
+  }
+}
