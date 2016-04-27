@@ -3,6 +3,7 @@ import {FooterComponent} from "../../components/footer/footer.component";
 import {HeaderComponent} from "../../components/header/header.component";
 import {CircleImage} from '../../components/images/circle-image';
 import {ImageData,CircleImageData} from '../../components/images/image-data';
+import {Search} from '../../components/search/search.component';
 
 export interface TestImage {
   imageData: CircleImageData;
@@ -12,17 +13,19 @@ export interface TestImage {
 @Component({
     selector: 'home-page',
     templateUrl: './app/webpages/home-page/home-page.page.html',
-    directives: [CircleImage, FooterComponent, HeaderComponent],
+    directives: [CircleImage, FooterComponent, HeaderComponent, Search],
     inputs: [],
     providers: [],
 })
 
 export class HomePage implements OnInit {
     public teamImages: Array<TestImage>;
+    public placeholderText: string;
     constructor() {
       this.getData();
     }
     getData(){
+      this.placeholderText = "Where do you want to be a fan?";
       var sampleImage = "./app/public/placeholder-location.jpg";
       this.teamImages =[
         {
@@ -39,6 +42,5 @@ export class HomePage implements OnInit {
         }];
 
     }
-    ngOnInit() {
-    }
+    ngOnInit(){}
 }

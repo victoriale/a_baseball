@@ -1,7 +1,7 @@
-<section class="page-container au">
+<section class="page-container global-page">
     <backtab-component></backtab-component>
-    <title-component [titleData]="title_data"></title-component>
-    <au-header-component [title]="auHeaderTitle"></au-header-component>
-    <hr class="au-hr" />
-    <div class="au-desc" *ngIf="disclaimer" [innerHTML]="disclaimer"></div>
+    <title-component [titleData]="titleData"></title-component>
+    <div class="global-page-heading" [innerHtml]="disHeaderTitle"></div>
+    <hr class="global-page-hr" />
+    <div class="global-page-desc" *ngIf="disclaimer" [innerHTML]="disclaimer"></div>
 </section>

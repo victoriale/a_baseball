@@ -12,5 +12,5 @@ interface searchInput {
 })
 
 export class Search{
-
+  @Input() placeholderText;
 }
