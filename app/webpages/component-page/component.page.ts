@@ -12,7 +12,7 @@ import {Search} from '../../components/search/search.component';
 @Component({
     selector: 'Component-page',
     templateUrl: './app/webpages/component-page/component.page.html',
-    directives: [ShareButtonComponent, TeamRosterModule, ComparisonModule, DraftHistoryModule, SchedulesModule, SeasonStatsModule, Search, AboutUsModule],
+    directives: [BoxScoresModule, ShareButtonComponent, TeamRosterModule, ComparisonModule, DraftHistoryModule, SchedulesModule, SeasonStatsModule, Search, AboutUsModule],
     providers: [],
 })
 

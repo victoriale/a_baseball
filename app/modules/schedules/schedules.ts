@@ -41,6 +41,5 @@ export class SchedulesModule implements OnInit{
         }
       },
     }
-    console.log(this.carouselData);
   }
 }
