@@ -2,69 +2,62 @@
  * Created by Victoria on 3/1/2016.
  */
 import {Component, OnInit} from 'angular2/core';
-import {BackTabComponent} from '../../components/backtab/backtab.component';
-import {TitleComponent} from '../../components/title/title.component';
 import {WidgetModule} from "../../modules/widget/widget.module";
+import {ContactUsModule} from '../../modules/contactus/contactus.module';
 
 declare var jQuery: any;
 
 @Component({
     selector: 'Contactus-page',
     templateUrl: './app/webpages/contactus-page/contactus.page.html',
-
-    directives: [BackTabComponent, TitleComponent, WidgetModule],
+    directives: [ContactUsModule, WidgetModule],
     providers: [],
 })
 
 export class ContactUsPage implements OnInit{
-    //PLACEHOLDERS
-    full_name = "John Smith";
-    email = "name@domain-name.com";
-    text_area = "Detailed description of your question here...";
-    title_data: {};
-    submissionform: any;
-    auHeaderTitle = "Contact Us";
-
-    constructor() {
-    // Scroll page to top to fix routerLink bug
-    window.scrollTo(0, 0);
-  }
-
-    getData(){
-        //Contact us data
-        this.title_data = {
-            imageURL : '/app/public/mainLogo.png',
-            smallText1 : 'Last Updated: Friday, February 26, 2016',
-            smallText2 : ' United States of America',
-            heading1 : 'Have a question about Home Run Loyal? Write us a message.',
-            heading2 : '',
-            heading3 : '',
-            heading4 : '',
+    //Object that builds contact us module
+    public contactusInput: Object = {
+        subjects: [
+            {
+                value: 'General Feedback',
+                id: 'general'
+            },
+            {
+                value: 'Advertisement',
+                id: 'advertisement'
+            },
+            {
+                value: 'Copyright Infringement',
+                id: 'copyright'
+            },
+            {
+                value: 'Inquire about partnering with Home Run Loyal',
+                id: 'inquire'
+            }
+        ],
+        titleData: {
+            imageURL: '/app/public/mainLogo.png',
+            smallText1: 'Last Updated: Monday, March 21, 2016',
+            smallText2: ' United States',
+            heading1: 'Have a question about Home Run Loyal? Write us a message.',
+            heading2: '',
+            heading3: '',
+            heading4: '',
             icon: 'fa fa-map-marker',
             hasHover: false
-        };
+        }
+    };
+
+    constructor() {
+        // Scroll page to top to fix routerLink bug
+        window.scrollTo(0, 0);
     }
 
-    formSubmit(){
-      if(jQuery(".ff-fullname").val() == "")
-      {
-        alert("Please Fill in your name.");
-        return false;
-      }
-      if(jQuery(".ff-email").val() == "")
-      {
-        alert("Please enter in an email.");
-        return false;
-      }
-      if(jQuery(".ff-textfield").val() == "")
-      {
-        alert("Please enter in your message.");
-        return false;
-      }
-      return true;
+    formSubmitted(event){
+        console.log('form submitted', event);
     }
 
     ngOnInit(){
-        this.getData();
+
     }
 }
