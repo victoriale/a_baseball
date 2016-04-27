@@ -1,12 +1,7 @@
 <!--ngFor loop here and add background color class within dli-container-->
-  <div *ngFor="#details of testData" class="dli-container">
+  <div *ngFor="#details of detailedItemData" class="dli-container">
     <div class="dli-container-left">
-      <!--put in image component-->
-      <div class="dli-image">
-        <div class="dli-image-top-left">#{{details.rank}}</div>
-        <div class="dli-image-bottom-right"></div>
-      </div>
-      <!--put in image component-->
+      <circle-image [data]="details.imageConfig"></circle-image>
     </div>
     <div class="dli-container-right">
       <!--put in right box styles-->
@@ -19,7 +14,7 @@
       </div>
       <!--cta container-->
       <div class="cta-container">
-        <span>{{details.infoDesc}}</span>
+        <span>{{details.ctaDesc}}</span>
         <span>
           <!--button component goes here-->
           <button>
