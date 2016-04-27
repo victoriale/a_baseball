@@ -4,10 +4,10 @@
       <header-component></header-component>
       <div class="row">
         <div class="home-hero col-md-12">
-          <img class="home-hero-img" src='/app/public/homePage_hero1.png' />
+          <img class="home-hero-img" src='{{imgHero1}}' />
           <div class="home-hero-info">
-            <h1>Stay Loyal to Your Favorite MLB Team</h1>
-            <h4>Find the sports information you need to show your loyalty</h4>
+            <h1>{{homeHeading1}}</h1>
+            <h4>{{homeHeading2}}</h4>
             <div class="home-hero-info-search col-md-4">
               <search [placeholderText]="placeholderText"></search>
             </div>
@@ -15,38 +15,18 @@
         </div>
       </div>
       <div class="home-main col-md-offset-1 col-md-10">
-        <h2><span>PICK YOUR FAVORITE <b>MLB TEAM</b></span></h2>
+        <h2><span [innerHTML]="homeHeading3"></span></h2>
         <div class="home-league">
-          <h3><span><b>AMERICAN LEAGUE</b> TEAMS<b>:</b></span></h3>
+          <h3><span [innerHTML]="leagueHeading"></span></h3>
 
           <section class="row">
-            <div class="col-md-4">
-              <h4>CENTRAL</h4>
+            <div class="col-md-4" *ngFor="#dataItem of teamData">
+              <h4>{{dataItem.divisionName}}</h4>
               <div class="home-team">
-                <div *ngFor="#dataItem of teamImages">
+                <div>
                     <circle-image [data]="dataItem.imageData"></circle-image>
                 </div>
-                <div class="home-team-name">CHICAGO <p>White Sox</p></div>
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <h4>EAST</h4>
-              <div class="home-team">
-                <div *ngFor="#dataItem of teamImages">
-                    <circle-image [data]="dataItem.imageData"></circle-image>
-                </div>
-                <div class="home-team-name">CHICAGO <p>White Sox</p></div>
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <h4>WEST</h4>
-              <div class="home-team">
-                <div *ngFor="#dataItem of teamImages">
-                    <circle-image [data]="dataItem.imageData"></circle-image>
-                </div>
-                <div class="home-team-name">CHICAGO <p>White Sox</p></div>
+                <div class="home-team-name">{{dataItem.location}} <p>{{dataItem.teamName}}</p></div>
               </div>
             </div>
           </section>
@@ -54,7 +34,7 @@
         </div>
         <!-- homne league ends -->
       </div>
-      <footer-component></footer-component>
+      <!-- home main ends -->
     </div>
   </div>
 
@@ -62,7 +42,7 @@
   </div>
 
   <div class="home-features">
-      <h2><b>Features</b> to Note</h2>
+      <div class="home-features-title"><img src='{{imgIcon1}}' /><h2 [innerHTML]="homeFeatures"></h2></div>
       <div></div>
   </div>
 
