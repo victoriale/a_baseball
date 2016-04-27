@@ -1,37 +1,3 @@
-.dli-image{
-  width:121px;
-  height:121px;
-  border:2px solid @strokeGrey;
-  border-radius: 50%;
-  position: relative;
-  background-color: @white;
-  &-top-left{
-    position: absolute;
-    background-color: @white;
-    width:38px;
-    height:38px;
-    border-radius: 50%;
-    border:1px solid @strokeGrey;
-    top:0;
-    left:0;
-    color:@black;
-    font-size: 16px;
-    text-align: center;
-    line-height: 34px;
-
-  }
-  &-bottom-right{
-    position: absolute;
-    background-color: @white;
-    width:38px;
-    height:38px;
-    border-radius: 50%;
-    border:1px solid @strokeGrey;
-    bottom:0;
-    right:0;
-  }
-}
-
 .dli-container{
   width:100%;
   height:155px;
@@ -47,7 +13,7 @@
     width:77.2%;
     height:100%;
     padding: 10px 20px 0 0;
-    .databox{
+    .dataBox{
       width:100%;
       height:auto;
       color:@black;
@@ -55,6 +21,15 @@
       .inlineFlexDisplay;
       .flexDirection(column);
       .flexJustify(space-between);
+      .data-hover{//hover states
+        text-decoration: none;
+        color: @black;
+        &:hover{
+          text-decoration: none;
+          color:@masterBrandColor;
+          cursor: pointer;
+        }
+      }
       div{
         font-size: 14px;
         width: 100%;
@@ -93,8 +68,8 @@
             float: right;
             text-align: right;
           }
-        }
-      }
+        }//END OF a tag css modifier
+      }//END OF <div> tag css modifier
     }
     .cta-container{
       width:100%;
