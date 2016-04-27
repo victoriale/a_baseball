@@ -4,6 +4,7 @@ import {AboutUsPage} from "../webpages/aboutus-page/aboutus.page";
 import {ContactUsPage} from "../webpages/contactus-page/contactus.page";
 import {DisclaimerPage} from "../webpages/disclaimer-page/disclaimer.page";
 import {TeamPage} from "../webpages/team-page/team.page";
+import {HomePage} from "../webpages/home-page/home-page.page";
 import {ComponentPage} from "../webpages/component-page/component.page";
 import {ImagesTestPage} from "../webpages/images-test-page/images-test.page";
 import {TablesTestPage} from "../webpages/tables-test-page/tables-test.page";
@@ -15,16 +16,21 @@ import {GlobalFunctions} from "../global/global-functions";
     selector: 'my-app',
     templateUrl: './app/app-webpage/app.webpage.html',
 
-    directives: [TeamPage, AboutUsPage, ContactUsPage, DisclaimerPage, ComponentPage, RouterOutlet, ROUTER_DIRECTIVES],
+    directives: [HomePage, TeamPage, AboutUsPage, ContactUsPage, DisclaimerPage, ComponentPage, RouterOutlet, ROUTER_DIRECTIVES],
     providers: [ ROUTER_DIRECTIVES],
 })
 
 @RouteConfig([
     {
       path: '/',
+      name: 'Home-page',
+      component: HomePage,
+      useAsDefault: true
+    },
+    {
+      path: '/components',
       name: 'Component-page',
       component: ComponentPage,
-      useAsDefault: true
     },
     {
       path: '/team',
