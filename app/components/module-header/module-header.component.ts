@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from 'angular2/core';
 
-interface moduleHeader{
+export interface ModuleHeaderData {
   moduleTitle:string,
   hasIcon: boolean,
   iconClass: string,
@@ -13,8 +13,8 @@ interface moduleHeader{
     providers: []
 })
 
-export class ModuleHeader{
-   @Input() modHeadData: moduleHeader;
+export class ModuleHeader {
+   @Input() modHeadData: ModuleHeaderData;
 
    ngOnInit(){
      if(typeof this.modHeadData == 'undefined'){
