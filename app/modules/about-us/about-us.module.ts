@@ -5,7 +5,7 @@ import {Router,ROUTER_DIRECTIVES} from 'angular2/router';
 
 @Component({
     selector: 'about-us',
-    templateUrl: './app/modules/aboutus/aboutus.module.html',
+    templateUrl: './app/modules/about-us/about-us.module.html',
     directives: [ModuleHeader, FlipTilesComponent, ROUTER_DIRECTIVES],
     providers: []
 })

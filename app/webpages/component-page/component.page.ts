@@ -4,7 +4,7 @@ import {SeasonStatsModule} from '../../modules/season-stats/season-stats.module'
 import {DraftHistoryModule} from '../../modules/draft-history/draft-history';
 import {SchedulesModule} from '../../modules/schedules/schedules';
 import {TeamRosterModule} from '../../modules/team-roster/team-roster.module';
-import {AboutUsModule} from '../../modules/aboutus/aboutus.module';
+import {AboutUsModule} from '../../modules/about-us/about-us.module';
 import {ShareButtonComponent} from '../../components/share-button/share-button.component';
 import {Search} from '../../components/search/search.component';
 

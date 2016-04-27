@@ -1,27 +1,27 @@
-<section class="module-container aboutUs">
+<section class="module-container au-mod">
     <module-header [modHeadData]="moduleHeader"></module-header>
-    <div class="aboutUs-body">
-        <div class="aboutUs-tiles">
+    <div class="au-mod-body">
+        <div class="au-mod-tiles">
             <flip-tiles [tileData]="aboutUsData"></flip-tiles>
         </div>
-        <div class="aboutUs-desc">
-            <div class="aboutUs-desc-header"><i class="fa fa-circle"></i> {{headerText}}</div>
-            <div class="aboutUs-desc-logo">
+        <div class="au-mod-desc">
+            <div class="au-mod-desc-header"><i class="fa fa-circle"></i> {{headerText}}</div>
+            <div class="au-mod-desc-logo">
               <img src="{{logoUrl}}" onerror="this.src='/app/public/homeRunLoyalLogo.png';" />
             </div>
-            <div class="aboutUs-desc-content">
-              <p class="aboutUs-desc-content-subtitle">Disclaimer</p>
-              <p class="aboutUs-desc-content-detail">All the information on this website is published in good faith and for general information
+            <div class="au-mod-desc-content">
+              <p class="au-mod-desc-content-subtitle">Disclaimer</p>
+              <p class="au-mod-desc-content-detail">All the information on this website is published in good faith and for general information
                  purpose only. <a [routerLink]="['Component-page']">{{homePageLinkName}}</a> does not make any warranties about the completeness, 
                  reliability and accuracy of this information. Any action you take upon the information you
                  find on this website ({{homePageLinkName}}), is strictly at your own risk. 
                  {{homePageLinkName}} will not be liable for any losses and/or damages in 
                  connection with the use of our website.</p>
             </div>
-            <div class="aboutUs-desc-button">
+            <div class="au-mod-desc-button">
               <a [routerLink]="['Disclaimer-page']" class="mod-page-btn">
                   <span></span>
-                  <span class="aboutUs-desc-button-text">{{buttonText}}</span>
+                  <span class="au-mod-desc-button-text">{{buttonText}}</span>
                   <i class="fa fa-angle-right"></i>
               </a>
             </div>
