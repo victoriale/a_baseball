@@ -22,10 +22,6 @@ export class SchedulesModule implements OnInit{
       detail1Data:'Home Stadium:',
       detail1Value:"[Stadium's]",
       detail2Value:'[City], [State]',
-
-
-
-
       imageConfig1:{
         imageClass: "image-125",
         mainImage: {
@@ -35,11 +31,6 @@ export class SchedulesModule implements OnInit{
           imageClass: "border-large"
         }
       },
-
-
-
-
-
       imageConfig2:{
         imageClass: "image-125",
         mainImage: {
