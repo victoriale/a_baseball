@@ -1,19 +1,13 @@
-<div class="content-wrapper">
-    <div class="wrapper">
-        <div class="inner-wrapper">
-            <main class='row'>
-                <section class='content-main eight-col'>
-                    <div class="page-container global-page">
-                        <backtab-component></backtab-component>
-                        <title-component [titleData]="titleData"></title-component>
-                        <hr class="global-page-hr" />
-                        <div style="padding: 8px;">                       
-                          <custom-table [data]="tableData"></custom-table>
-                        </div>
-                    </div>
-
-                </section>
-            </main>
+<main class='row'>
+    <section class='content-main eight-col'>
+        <div class="page-container global-page">
+            <backtab-component></backtab-component>
+            <title-component [titleData]="titleData"></title-component>
+            <hr class="global-page-hr" />
+            <div style="padding: 8px;">
+              <custom-table [data]="tableData"></custom-table>
+            </div>
         </div>
-    </div>
-</div>
+
+    </section>
+</main>

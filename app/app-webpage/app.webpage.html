@@ -1,8 +1,6 @@
 <div id="partner" *ngIf="partnerScript" [innerHTML]="partnerScript"></div>
-<div class=webpage-home>
-  <header-component [partnerID]="partnerID"></header-component>
-</div>
-<nav class="twelve-col testLinks">
+<header-component [partnerID]="partnerID"></header-component>
+<nav class="testLinks">
   <a [routerLink]="['Home-page']">Home</a>
   <a [routerLink]="['Component-page']">Components</a>
   <a [routerLink]="['Team-page']">Team</a>
@@ -20,8 +18,10 @@
   -->
 
 <div class="container-fluid">
-    <router-outlet></router-outlet>
+  <div class="row">
+    <div class="col-xs-12">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
 </div>
-<div class=webpage-home>
-  <footer-component [partnerID]="partnerID" [stateLocation]="stateLocation" [cityLocation]="cityLocation"></footer-component>
-</div>
+<footer-component [partnerID]="partnerID" [stateLocation]="stateLocation" [cityLocation]="cityLocation"></footer-component>
