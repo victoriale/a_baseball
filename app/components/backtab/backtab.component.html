@@ -1,7 +1,6 @@
-<header class='page-hdr'>
-    <a (click)="goBack()" style="background-image: url({{backgroundImg}});">
-        <div><i class='fa fa-reply'></i></div>
-        <div></div>
-        <span>{{heading}}</span>
+<header class='back-tab'>
+    <a (click)="goBack()" class="back-tab-link clearfix">
+        <span class="back-tab-arrow"><i class='fa fa-reply'></i></span>
+        <span class="back-tab-heading">{{label}}</span>
     </a>
 </header>
