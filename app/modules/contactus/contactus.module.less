@@ -1,0 +1,96 @@
+.contactus{
+  &-container{
+    padding: 10px 25px;
+    border-top: 1px solid @strokeGrey;
+  }
+
+  &-required{
+    font-size: 12px;
+    font-weight: 900;
+    margin-bottom: 10px;
+
+    &:first-letter{
+      color: @masterBrandColor;
+    }
+  }
+
+  &-margin{
+    margin-bottom: 30px;
+
+    &-small{
+      margin-bottom: 10px;
+    }
+
+    &-large{
+      margin-bottom: 50px;
+    }
+  }
+
+  &-row-align{
+    .flexDisplay;
+    .flexAlignItems(center);
+  }
+
+  &-label{
+    font-size: 14px;
+    font-weight: 900;
+  }
+
+  &-textinput{
+    width: 100%;
+    height: 35px;
+    padding: 0px 10px;
+    border: 1px solid @strokeGrey;
+
+    &:focus{
+      outline-color: @masterBrandColor;
+    }
+  }
+
+  &-checkbox{
+    margin-right: 10px;;
+    border: 1px solid @strokeGrey;
+
+    &:focus{
+      outline: none;
+    }
+  }
+
+  &-textarea{
+    width: 100%;
+    padding: 10px;
+    min-height: 170px;
+    resize: vertical;;
+    border: 1px solid @strokeGrey;
+    font-style: italic;
+
+    &:focus{
+      outline-color: @masterBrandColor;
+    }
+  }
+
+  &-buttons{
+    &-submit{
+      width: 120px;
+      height: 35px;
+      border-radius: 5px;
+      color: @white;
+      border: none;
+      background-color: @masterBrandColor;
+      float: right;
+      &:focus{
+        outline: none;
+      }
+    }
+
+    &-reset{
+      float: right;
+      background-color: transparent;
+      border: none;
+      margin: 8px 55px 8px 0px;
+      &:focus{
+        outline: none;
+      }
+    }
+  }
+}
