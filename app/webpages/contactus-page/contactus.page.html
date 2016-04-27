@@ -1,14 +1,3 @@
-<div class="content-wrapper">
-    <div class="wrapper">
-        <div class="inner-wrapper">
-            <main>
-                <section class='page-container'>
-                    <contactus-module *ngIf="contactusInput" [contactusInput]="contactusInput" (contactusOutput)="formSubmitted($event)"></contactus-module>
-                </section>
-                <div class="four-col">
-                    <!--<widget-module></widget-module>-->
-                </div>
-            </main>
-        </div>
-    </div>
-</div>
+<section class='page-container'>
+    <contactus-module *ngIf="contactusInput" [contactusInput]="contactusInput" (contactusOutput)="formSubmitted($event)"></contactus-module>
+</section>
