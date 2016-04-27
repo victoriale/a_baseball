@@ -18,13 +18,13 @@ export interface TestImage {
 })
 
 export class HomePage implements OnInit {
-    public testImages: Array<TestImage>;
+    public teamImages: Array<TestImage>;
     constructor() {
       this.getData();
     }
     getData(){
       var sampleImage = "./app/public/placeholder-location.jpg";
-      this.testImages =[
+      this.teamImages =[
         {
           description: "",
           imageData: {
@@ -32,7 +32,7 @@ export class HomePage implements OnInit {
             mainImage: {
               imageUrl: sampleImage,
               urlRouteArray: ['Disclaimer-page'],
-              hoverText: "<p>View</p><p>Profile</p>",
+              hoverText: "<i class='fa fa-mail-forward'></i>",
               imageClass: "border-3"
             }
           }

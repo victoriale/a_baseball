@@ -1,52 +1,83 @@
 .home{
+  b{
+    font-weight: 900;
+  }
+  h1{
+    .globalDefaultFont(60px, 900);
+  }
+  h2{
+    .globalDefaultFont(36px, 400);
+  }
+  h3{
+    .globalDefaultFont(32px, 400);
+  }
+  h4{
+    .globalDefaultFont(24px, 400);
+  }
+
   background-color: @white;
   height: auto;
   &-hero{
     height: 475px;
     width: 100%;
+    position: relative;
+    &-img{
+      height: 100%;
+      width: 100%;
+      position: absolute;
+    }//home-hero-img ends
+    &-info{
+      color: @white;
+      margin-top: 10%;
+      position: absolute;
+      width: 100%;
+      .flexDisplay;
+      .flexDirection(column);
+      .flexAlignItems(center);
+      h1{
+        margin: 0;
+      }
+      h4{
+        margin: 1em;
+      }
+      &-search{
+        background-color: @masterBrandColor;
+        border-radius: 5px;
+        height: 50px;
+        width: 600px;
+      }//home-hero-info-search ends
+    }//home-hero-info ends
   }//home-hero ends
   &-main{
     padding-left: 55px;
-    h1{
+    h2{
       padding: 20px;
       text-align: center;
-      .globalDefaultFont(36px, 400);
       span{
         border-bottom: 1px solid @black;
         border-top: 1px solid @black;
         padding: 20px;
       }
-    }//home-main h1 ends
+    }//home-main h2 ends
   }//home-main ends
   &-league{
-  }//home-league ends
-  &-division{
-    height: auto;
-    min-height: 800px;
-    .flexDisplay;
-    &-each{
-      width: 33%;
+    h4{
+      margin: 0 0 2em 0;
+      color: @greyTabText;
     }
-  }//home-division ends
+  }
   &-team{
     width: 100%;
+    margin-bottom: 25px;
     .flexDisplay;
     .flexAlignItems(center);
     &-name{
-      line-height: 0;
+      margin-left: 15px;
       .globalDefaultFont(18px, 400);
       p{
+        line-height: 0;
         .globalDefaultFont(24px, 900);
       }
-    }
-  }
-  b{
-    font-weight: 900;
-  }
-  h2{
-    .globalDefaultFont(32px, 400);
-  }
-  h3{
-    .globalDefaultModFont(24px, 400, @greyTabText);
-  }
-}
+    }//home-team-name ends
+  }//home-team ends
+}//home ends
