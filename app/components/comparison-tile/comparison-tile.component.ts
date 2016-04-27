@@ -1,4 +1,5 @@
 import {Component, Input, Output, OnInit, EventEmitter} from 'angular2/core';
+import {CircleImage} from '../images/circle-image';
 
 interface comparisonTileInput {
     dropdownOne: Array<string>;
@@ -19,13 +20,12 @@ interface comparisonTileInput {
 @Component({
     selector: 'comparison-tile',
     templateUrl: './app/components/comparison-tile/comparison-tile.component.html',
-    directives:[],
+    directives:[CircleImage],
     providers: []
 })
 
 export class ComparisonTile implements OnInit{
     @Input() comparisonTileInput: comparisonTileInput;
-
     ngOnInit(){
     }
 }

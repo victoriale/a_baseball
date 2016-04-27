@@ -2,19 +2,32 @@
     <label class="comparison-bar-title">
         {{displayData.title}}
     </label>
-    <div class="comparison-bar-capsule">
+    <div #masterBar class="comparison-bar-capsule">
         <div class="comparison-bar-capsule-stroke" [ngClass]="{'stroke-top': displayData.isOneTop}" [style.width]="displayData.barOneWidth + '%'" [style.backgroundColor]="displayData.colorOne">
-            <label class="comparison-bar-capsule-label" [style.color]="displayData.colorOne">
+            <label #labelOne class="comparison-bar-capsule-label" [style.color]="displayData.colorOne">
                 {{displayData.dataOne}}
             </label>
         </div>
         <div class="comparison-bar-capsule-stroke" [ngClass]="{'stroke-top': displayData.isTwoTop}" [style.width]="displayData.barTwoWidth + '%'" [style.backgroundColor]="displayData.colorTwo">
-            <label class="comparison-bar-capsule-label" [style.color]="displayData.colorTwo">
+            <label #labelTwo class="comparison-bar-capsule-label" [style.color]="displayData.colorTwo">
                 {{displayData.dataTwo}}
             </label>
         </div>
-        <label class="comparison-bar-capsule-label">
+        <label class="comparison-bar-capsule-label label-top">
             {{displayData.dataHigh}}
         </label>
+        <!--<div style="position: relative">-->
+            <!--<span style="float: right">-->
+                <!--{{displayData.dataHigh}}-->
+            <!--</span>-->
+            <!--<div style="float: right">-->
+                <!--<span style="float: right">-->
+                    <!--{{displayData.dataOne}}-->
+                <!--</span>-->
+                <!--<span style="float: right">-->
+                    <!--{{displayData.dataTwo}}-->
+                <!--</span>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
 </div>
