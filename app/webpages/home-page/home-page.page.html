@@ -1,4 +1,4 @@
-<section class="home">
+<section class="home container-fluid">
   <header-component></header-component>
   <img class="home-hero" src='/app/public/homePage_hero1.png' />
   <div class="home-main">
@@ -6,8 +6,8 @@
     <div class="home-league">
       <h2><span><b>AMERICAN LEAGUE</b> TEAMS<b>:</b></span></h2>
 
-      <section class="home-division">
-        <div class="home-division-each">
+      <section class="row">
+        <div class="col-md-4">
           <h3>CENTRAL</h3>
           <div class="home-team">
             <div *ngFor="#dataItem of testImages">
@@ -17,19 +17,19 @@
           </div>
         </div>
 
-        <!-- <div class="home-division-each">
+        <div class="col-md-4">
           <h3>EAST</h3>
           <div class="home-team">
             CHICAGO
           </div>
         </div>
 
-        <div class="home-division-each">
+        <div class="col-md-4">
           <h3>WEST</h3>
           <div class="home-team">
             CHICAGO
           </div>
-        </div> -->
+        </div>
 
       </section>
     </div>
