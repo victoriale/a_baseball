@@ -8,7 +8,7 @@ export interface ImageData {
    * 
    *  If this is not included, no hover overlay will be displayed
    */  
-  urlRouteArray?: Array<any>; //TODO make not 'any'
+  urlRouteArray?: Array<any>; //TODO-CJP make not 'any'
   
   /**
    *  The URL location to the image to display. 
