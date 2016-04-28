@@ -1,0 +1,86 @@
+.calendar{
+  width: 100%;
+  height:50px;
+  background-color: @backgroundGrey;
+  .flexDisplay;
+  .flexDirection(row);
+  .flexJustify(space-between);
+  &-carousel{
+    width:calc(~'100% - 40px');
+    height:auto;
+    padding:5px 15px;
+    .flexDisplay;
+    .flexDirection(row);
+    .flexJustify(space-between);
+  }
+  &-dates{
+    width:80%;
+    height:auto;
+    .flexDisplay;
+    .flexDirection(row);
+    .flexJustify(space-between);
+    &-select{
+      width:60px;
+      height:40px;
+      border-radius: 5px;
+      background-color: @white;
+      text-align: center;
+      font-size: 10px;
+      & > span{
+        line-height: 12px;
+        display:block;
+      }
+      & > span:nth-child(2){
+        font-size: 14px;
+        line-height: 12px;
+        font-weight: 900;
+        margin-top:2px;
+        padding-left: 3px;
+        & > sup{
+          font-size: 70%;
+        }
+      }
+    }
+    &.active{
+      color:@masterBrandColor;
+    }
+    &.inactive{
+      color:@bulletGrey;
+    }
+  }
+  &-selection{
+    width:40px;
+    height:100%;
+    font-size: 25px;
+    text-align: left;
+    & > i{
+      color:@greyTabText;
+      line-height: 2em;
+      cursor: pointer;
+      &:hover{
+        color:@masterBrandColor;
+      }
+    }
+  }
+  &-circles{
+    @hoverColor: @masterBrandColor;
+    @circleColor:@bulletGrey;//from base.less
+    font-size: 28px;
+    font-weight: 400;
+    color: @circleColor;
+    cursor: pointer;
+    border: 2px solid @circleColor;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    padding-top: 3px;
+    z-index: 1;
+    .no-select;
+
+    &:hover{
+      color: @hoverColor;
+      border-color: @hoverColor;
+    }
+  }
+}
