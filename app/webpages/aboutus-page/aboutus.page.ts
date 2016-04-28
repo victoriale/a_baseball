@@ -74,7 +74,7 @@ export class AboutUsPage {
               : "My Home Run Loyal";
             this.auHeaderTitle = "What is " + pageName + "?";
             
-            //TODO: change to getAboutUsData() when API is ready
+            //TODO-CJP: change to getAboutUsData() when API is ready
             this._service.getAboutUsDefaultData().subscribe(
               data => this.setupAboutUsData(data),
               err => { console.log("Error getting About Us data"); }
