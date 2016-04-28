@@ -22,6 +22,7 @@
           <section class="row">
             <div class="col-md-4" *ngFor="#dataItem of teamData">
               <h4>{{dataItem.divisionName}}</h4>
+              <!-- ngFor here to get all the teams in the same division -->
               <div class="home-team">
                 <div>
                     <circle-image [data]="dataItem.imageData"></circle-image>
@@ -38,10 +39,20 @@
     </div>
   </div>
 
-  <div class="home-slider col-md-12">
+  <div *ngFor="#newsData of newsData" class="home-slider col-md-12">
+    <div class="home-slider-news col-md-offset-2 col-md-3">
+      <div>{{mlb}}</div>
+      <h3><b>{{newsData.newsTitle}}</b></h3>
+      <hr />
+      <h5>{{newsData.newsSubTitle}}</h5>
+      <a [routerLink]="newsData.routerInfo" class='mod-page-btn-text-only'>
+          <span>{{buttonFullList}}</span>
+      </a>
+    </div>
   </div>
+  <!-- end of news data carousel -->
 
-  <div class="home-features">
+  <div class="home-features col-md-offset-2 col-md-8">
       <div class="home-features-title"><img src='{{imgIcon1}}' /><h2 [innerHTML]="homeFeatures"></h2></div>
       <div></div>
   </div>
