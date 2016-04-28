@@ -321,6 +321,13 @@ code.less-var-name-light {
   align-items: @flexAlignItemsParam;
 }
 
+.flexFlow(@flexFlowParam) {
+  -webkit-aflex-flow: @flexFlowParam;
+  -moz-flex-flow: @flexFlowParam;
+  -ms-flex-flow: @flexFlowParam;
+  flex-flow: @flexFlowParam;
+}
+
 .flexGrow(@flexGrowParam) {
   -webkit-flex-grow: @flexGrowParam;
   -moz-flex-grow: @flexGrowParam;
@@ -332,6 +339,20 @@ code.less-var-name-light {
   -webkit-border-radius: @radius;
   -moz-border-radius: @radius;
   border-radius: @radius;
+}
+
+.backgroundSize(@backgroundSize) {
+  -webkit-background-size: @backgroundSize;
+  -moz-background-size: @backgroundSize;
+  -o-background-size: @backgroundSize;
+  background-size: @backgroundSize;
+}
+
+.backgroundPosition(@backgroundPosition) {
+  -webkit-background-position: @backgroundPosition;
+  -moz-background-position: @backgroundPosition;
+  -o-background-position: @backgroundPosition;
+  background-position: @backgroundPosition;
 }
 
 .backgroundClipPBoxPrefixes {

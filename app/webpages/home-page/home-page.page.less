@@ -3,16 +3,19 @@
     font-weight: 900;
   }
   h1{
-    .globalDefaultFont(60px, 900);
+    .globalDefaultFont(5em, 900);
   }
   h2{
-    .globalDefaultFont(36px, 400);
+    .globalDefaultFont(3em, 400);
   }
   h3{
-    .globalDefaultFont(32px, 400);
+    .globalDefaultFont(2.67em, 400);
   }
   h4{
-    .globalDefaultFont(24px, 400);
+    .globalDefaultFont(2em, 400);
+  }
+  h5{
+    .globalDefaultFont(1.33em, 400);
   }
 
   background-color: @white;
@@ -43,13 +46,14 @@
       &-search{
         background-color: @masterBrandColor;
         border-radius: 5px;
+        color: @black;
+        font-size: 24px;
         height: 50px;
         width: 600px;
       }//home-hero-info-search ends
     }//home-hero-info ends
   }//home-hero ends
   &-main{
-    padding-left: 55px;
     h2{
       padding: 20px;
       text-align: center;
@@ -60,15 +64,22 @@
       }
     }//home-main h2 ends
   }//home-main ends
+
   &-league{
+    h3{
+      margin-left: 60px;
+    }
     h4{
-      margin: 0 0 2em 0;
+      margin: 0 0 1em 60px;
       color: @greyTabText;
     }
-  }
+  }//home-league ends
   &-team{
-    width: 100%;
     margin-bottom: 25px;
+    padding-left: 60px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    width: 100%;
     .flexDisplay;
     .flexAlignItems(center);
     &-name{
@@ -79,5 +90,111 @@
         .globalDefaultFont(24px, 900);
       }
     }//home-team-name ends
-  }//home-team ends
+    .fa-view {
+      color: @masterBrandColor;
+      font-size: 4.17em; /* Approximation due to font substitution */
+      font-weight: 400;
+      line-height: 28px; /* Approximation due to font substitution */
+      margin: 0 57px 0 auto;
+      visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    &:hover{
+      color: @masterBrandColor;
+      background-color: @greyBorder;
+      .fa-view{
+        visibility: visible;
+        -webkit-backface-visibility: visible;
+      }
+    }
+  }//home-team end
+  &-slider{
+    background-image: url('/app/public/homePage_hero2.png');
+    color: @white;
+    height: 449px;
+    .backgroundSize(cover);
+    .flexDisplay;
+    .flexAlignItems(center);
+    &-news{
+      h3{
+        margin-bottom: 12px;
+      }
+      h5{
+        line-height: 1.2em;
+        margin: 20px 0 70px 0;
+      }
+      hr{
+        border-width: 3px;
+        margin: 0 60% 0 0;
+      }
+      div:first-child{
+        background-color: @masterBrandColor;
+        border-radius: 3px;
+        height: 25px;
+        width: 53px;
+        text-align: center;
+        padding: 7px;
+        .globalDefaultFont(1em, 900);
+      }
+    }
+  }//home-slider ends
+  &-features{
+    height: auto;
+    margin-bottom: 30px;
+    &-title{
+      .flexDisplay;
+      .flexJustify(center);
+      .flexAlignItems(center);
+      img{
+        margin-right: 18px;
+        height: 40px;
+        width: 45px;
+      }//img ends
+    }//home-features-title ends
+    &-tiles{
+      color: @white;
+      text-align: center;
+      .flexDisplay;
+      .flexFlow(row wrap);
+      .flexJustify(center);
+    }
+
+    &-tile1{
+      height: 250px;
+      margin: 5px;
+      width: 635px;
+      .backgroundSize(cover);
+      .backgroundPosition(center);
+      .flexDisplay;
+      .flexJustify(center);
+      .flexAlignItems(center);
+      &:hover{
+        box-shadow: inset 0 0 0 1000px rgba(188, 32, 39, 0.75);
+        h3{
+          visibility: hidden;
+          -webkit-backface-visibility: hidden;
+        }
+      }
+    }//home-features-tile1 ends
+    &-tile2{
+      background-color: @black;
+      margin: 5px;
+      height: 250px;
+      width: 315px;
+      .backgroundSize(cover);
+      .backgroundPosition(center);
+      h3{ margin: 0; }
+      h4{ margin: 5px 0; }
+      .flexDisplay;
+      .flexDirection(column);
+      .flexJustify(center);
+      &:hover{
+        box-shadow: inset 0 0 0 1000px rgba(188, 32, 39, 0.75);
+        h3, h4{
+          visibility: hidden;
+          -webkit-backface-visibility: hidden;
+        }
+      }//home-feature-tile2 hover ends
+    }//home-features-tile2 ends
+  }//home-features ends
 }//home ends

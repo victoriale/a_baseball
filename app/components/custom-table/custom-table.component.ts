@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, ViewChildren} from 'angular2/core';
+import {Component, OnInit, Input, ViewChildren, OnChanges} from 'angular2/core';
 import {TableHeader} from '../../components/custom-table/table-header.component';
 import {TableRow, TableColumn} from '../../components/custom-table/table-data.component';
 import {CircleImage} from '../../components/images/circle-image';
@@ -10,7 +10,7 @@ import {CircleImage} from '../../components/images/circle-image';
   providers: []
 })
 
-export class CustomTable implements OnInit {
+export class CustomTable implements OnInit, OnChanges {
   @ViewChildren(TableHeader) _tableHeaders: Array<TableHeader>;
   
   public isSortDropdownVisible: boolean = false;  
@@ -32,10 +32,14 @@ export class CustomTable implements OnInit {
   @Input() columns: Array<TableColumn>;
   
   /**
-   * (Optional) The values to display in the footer. HTML elements
-   * are supported. The footer (if included) is always displayed at the bottom
-   * of the table regardless of the column being sorted. If nothing is
-   * set for the footer, it will not be displayed.
+   * (Optional) The values to display in the footer. The footer keys 
+   * correspond to the keys defined in the TableColumn array and 
+   * the values can contain HTML elements. The footer (if included) 
+   * is always displayed at the bottom of the table regardless of
+   * the column being sorted. If no values are set for the footer, 
+   * it will not be displayed.
+   * 
+   * 
    * 
    * The footer style (.custom-table-footer) defaults to 12px bold and centered. 
    */
@@ -52,7 +56,7 @@ export class CustomTable implements OnInit {
     this.updateData();
   }
   
-  ngOnChange() {
+  ngOnChanges() {
     this.updateData();
   }
   

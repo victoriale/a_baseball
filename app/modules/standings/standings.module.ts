@@ -43,37 +43,44 @@ export class StandingsModule {
       headerValue: "W",
       columnClass: "data-column",
       isNumericType: true,
+      tooltip: "Total Wins",
       key: "w"
     },{
       headerValue: "L",
       columnClass: "data-column",
       isNumericType: true,
+      tooltip: "Total Losses",
       key: "l"
     },{
       headerValue: "PCT",
       columnClass: "data-column",
       isNumericType: true,
       sortDirection: -1, //descending
+      tooltip: "Winning Percentage",
       key: "pct"   
     },{
       headerValue: "GB",
       columnClass: "data-column",
       isNumericType: true,
+      tooltip: "Games Back",
       key: "gb"
     },{
       headerValue: "RS",
       columnClass: "data-column",
       isNumericType: true,
+      tooltip: "Runs Scored",
       key: "rs"
     },{
       headerValue: "RA",
       columnClass: "data-column",
       isNumericType: true,
+      tooltip: "Runs Allowed",
       key: "ra"
     },{
       headerValue: "STRK",
       columnClass: "data-column",
       isNumericType: true,
+      tooltip: "Streak",
       key: "strk"
     }];
   
@@ -91,7 +98,7 @@ export class StandingsModule {
   
   changeSelected() {
     console.log("change selected team");
-    this.selectedTeam = this.selectedTeam === "Baa" ? "Aaa" : "Baa";
+    this.selectedTeam = this.selectedTeam === "Baa" ? "Atlanta Braves" : "Minnesota Twins";
     this.tabs[0].tableData.forEach(row => {
       row.isSelected = ( row.cells["name"].sortValue === this.selectedTeam );
     });
@@ -118,13 +125,13 @@ export class StandingsModule {
     return rowData.map((values, index) => {      
       let cells: { [key:string]: TableCell } = {
           "name": this.formatTeamNameData(values),
-          "w": this.formatNumberData(values.wins),
-          "l": this.formatNumberData(values.losses),
+          "w": this.formatNumberData(values.totalWins),
+          "l": this.formatNumberData(values.totalLosses),
           "pct": this.formatPercentageData(values.winPercentage),
-          "gb": this.formatNumberData(values.groundBalls),
-          "rs": this.formatNumberData(values.runsSaved),
-          "ra": this.formatNumberData(values.runsAllowed),
-          "strk": this.formatStrikeData(values.strikes)
+          "gb": this.formatNumberData(values.gamesBack, "-"),
+          "rs": this.formatNumberData(values.batRunsScored),
+          "ra": this.formatNumberData(values.pitchRunsAllowed),
+          "strk": this.formatStreakData(values.streakType, values.streakCount)
       };
       console.log("creating rows: " + values.teamName);
       return { 
@@ -149,10 +156,10 @@ export class StandingsModule {
     }
   }
   
-  formatNumberData(value:number): TableCell {
+  formatNumberData(value:number, zeroDef?:string): TableCell {    
     return {
         sortValue: value,
-        displayHtml: value.toString()
+        displayHtml: (value == 0 && zeroDef) ? zeroDef : value.toString()
     }
   }
   
@@ -163,10 +170,11 @@ export class StandingsModule {
     }
   }
   
-  formatStrikeData(strikes: number): TableCell {
+  formatStreakData(streakType: string, streakCount: number): TableCell {
+    var str = streakCount.toString();    
     return {
-        sortValue: strikes,
-        displayHtml: "W-" + strikes
+        sortValue: (streakType == "loss" ? "L-" : "W-") + ('0000' + str).substr(str.length), //pad with zeros
+        displayHtml: (streakType == "loss" ? "L-" : "W-") + streakCount
     }
   }
 }
