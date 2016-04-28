@@ -27,7 +27,6 @@ export class DisclaimerPage implements OnInit {
     public partnerID: string;
     public disHeaderTitle = "Disclaimer";
     titleData: TitleInputData;
-    auHeaderTitle = "<b>Disclaimer</b>";
 
     constructor(private injector:Injector, private _router: Router) {
         // Scroll page to top to fix routerLink bug
