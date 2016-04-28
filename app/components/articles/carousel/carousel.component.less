@@ -1,0 +1,95 @@
+.media {
+  &-images {
+    width: 100%;
+    height: 392px;
+    position: relative;
+  }
+}
+
+.plcholder {
+  height: 328px;
+  width: 580px;
+  position: relative;
+  &-img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+  &-details {
+    .inlineFlexDisplay;
+    .flexDirection(row);
+    .flexAlignItems(center);
+    background-color: rgba(0, 0, 0, 0.75);
+    width: 100%;
+    height: 21%;
+    position: absolute;
+    bottom: 0;
+  }
+}
+
+.grey-bar {
+  width: 580px;
+  height: 26px;
+  background-color: rgba(0, 0, 0, 0.6);
+  position: absolute;
+  bottom: 0;
+  &-triangle {
+    width: 17px;
+    height: 9px;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-bottom: 9px solid white;
+    position: absolute;
+    bottom: 0;
+    left: 21px;
+  }
+}
+
+.expand {
+  cursor: pointer;
+  top: 10px;
+  left: 20px;
+}
+
+.virtual {
+  top: 10px;
+  right: 210px;
+}
+
+.images {
+  @colorImages: @masterBrandColor !important;
+  background-color: @colorImages;
+  border-color: @colorImages;
+  right: 25px;
+  top: 10px;
+  span:first-child {
+    padding-right: 5px;
+  }
+}
+
+.sm-images {
+  background-color: @backgroundGrey;
+  height: 17.8%;
+  width: 580px;
+  border-bottom: 1px solid @strokeGrey;
+  overflow: auto;
+  overflow-y: hidden;
+  &-img {
+    position: relative;
+    img {
+      margin: 5px 2px !important;
+      border: 1px solid @strokeGrey;
+      box-sizing: border-box;
+      width: 18.7%;
+      height: 85.5%;
+    }
+  }
+  .square-image {
+    cursor: pointer;
+    &-active {
+      border: 2px solid #ba1a2a;
+      background-color: rgba(186, 26, 42, 0.75) !important;
+      cursor: pointer;
+    }
+  }
+}

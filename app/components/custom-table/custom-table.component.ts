@@ -1,12 +1,12 @@
 import {Component, OnInit, Input, ViewChildren} from 'angular2/core';
 import {TableHeader} from '../../components/custom-table/table-header.component';
-import {TableRow, TableColumn} from '../../components/custom-table/table-data.component';
-import {CircleImage} from '../../components/images/circle-image';
+import {TableRow, TableData, TableColumn} from '../../components/custom-table/table-data.component';
+
 
 @Component({
   selector: 'custom-table',
   templateUrl: './app/components/custom-table/custom-table.component.html',
-  directives: [TableHeader, CircleImage],
+  directives: [TableHeader],
   providers: []
 })
 
@@ -15,38 +15,12 @@ export class CustomTable implements OnInit {
   
   public isSortDropdownVisible: boolean = false;  
   public bodyClass: string;
+  public headerData: Array<TableColumn>;  
+  public footerData: Array<string>;  
+  public rows: Array<TableRow>;
   
-  /**
-   * The list of rows to display in the table. 
-   * 
-  * The length of the columns array is expected to match the length of
-  * each cell array in the rows array as well as the length of the footer array.
-   */
-  @Input() rows: Array<TableRow>;
-  
-  /**
-   * The column data and settings for the table. To sort by 
-   * a particular column, set sortDirection for that column to either
-   * -1 or 1.
-   */
-  @Input() columns: Array<TableColumn>;
-  
-  /**
-   * (Optional) The values to display in the footer. HTML elements
-   * are supported. The footer (if included) is always displayed at the bottom
-   * of the table regardless of the column being sorted. If nothing is
-   * set for the footer, it will not be displayed.
-   * 
-   * The footer style (.custom-table-footer) defaults to 12px bold and centered. 
-   */
-  @Input() footer: { [key: string]: string };
-  
-  /**
-   * If true, then the table body and footer are given the style ".custom-table-compact",
-   * which uses a smaller font-size and smaller table rows.
-   * Otherwise, the table body and footer are given the style ".custom-table-body".
-   */
-  @Input() isCompactStyle: boolean = false;
+  @Input() data: TableData;
+  @Input() tableRowClass: string;
   
   ngOnInit() {
     this.updateData();
@@ -56,20 +30,30 @@ export class CustomTable implements OnInit {
     this.updateData();
   }
   
-  updateData() {    
-    this.bodyClass = this.isCompactStyle ? "custom-table-compact" : "custom-table-body";
+  updateData() {
+    if ( this.tableRowClass === undefined || this.tableRowClass === null ) {
+      this.tableRowClass = "custom-table-row";
+    }
+    
+    this.bodyClass = this.data.isCompactStyle ? "custom-table-compact" : "custom-table-body";
+    
+    this.headerData = this.data.columns;
+    this.rows = this.data.rows;
+    this.footerData = this.data.footer;
     
     var tableHdr = null;
     var columnIndex = 0;
     
-    this.columns.forEach((col) => {
-      if ( col.sortDirection !== 0 && tableHdr !== null ) {
-        tableHdr = col;
+    for ( var i in this.data.columns ) {
+      if ( this.data.columns[i].sortDirection !== 0 ) {
+        tableHdr = this.data.columns[i];
+        columnIndex = +i;
+        break;
       }
-    });
+    }
     
     if ( tableHdr !== null ) {
-      this.sortRows(tableHdr);
+      this.sortRows(tableHdr, columnIndex);
     }
   }
   
@@ -77,25 +61,25 @@ export class CustomTable implements OnInit {
     //Remove sort on other columns;
     var sortedColumn = $event[0];
     var sortedIndex = +$event[1]; //make a number
-     
-    this.columns.forEach((col, i) => {
-      if ( i !== sortedIndex ) {
-        col.sortDirection = 0;
-      }
-    });
+    
+    for ( var i in this.data.columns ) {
+      if ( +i !== sortedIndex ) {//compare with a number
+        this.data.columns[i].sortDirection = 0;
+      }      
+    }
     
     this._tableHeaders.forEach(function(item, index) {    
         item.setSortIcon();
     });
     
-    this.sortRows(sortedColumn);
+    this.sortRows(sortedColumn, sortedIndex);
   }
   
-  //TODO-CJP: Customize sort for numbers?
-  sortRows(tableHdr:TableColumn) {
+  //TODO: Customize sort for numbers?
+  sortRows(tableHdr:TableColumn, columnIndex:number) {
     this.rows.sort((row1, row2) => {
-      var cell1 = row1.cells[tableHdr.key];
-      var cell2 = row2.cells[tableHdr.key];
+      var cell1 = row1.cells[columnIndex];
+      var cell2 = row2.cells[columnIndex];
       
       if ( cell1.sortValue > cell2.sortValue ) {
         return tableHdr.sortDirection * 1;

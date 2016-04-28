@@ -1,0 +1,31 @@
+<section *ngIf="profileHeaderData" class="module-container">
+    <title-component [titleData]="titleComponentData"></title-component>
+    <section class="ph-content">
+        <div class="ph-content-image">
+            <image-180 [hasSubImg]="main_hasSubImg" [imageURL]="mainImageURL" [imageURL2]="subImageURL" [imageClass]="imageClass"></image-180>
+        </div>
+        <div class="ph-content-description">
+            <div class="ph-content-description-title">
+                <div class="ph-content-description-title-icon"><i class="fa {{icon}}"></i></div>
+                <div class="ph-content-description-title-text">{{descriptionTitle}}</div>
+            </div>
+            <div *ngIf="profileType === 'ProfilePage'" class="ph-content-description-text">
+                {{descriptionAddress}}
+                {{descriptionSquareFeet}}
+                <span *ngIf="profileHeaderData.agent !== null">
+                    If you're interested in more information, please contact
+                    <a href="{{emailLink}}" *ngIf="profileHeaderData.email !== null" class="green-text">
+                        {{profileHeaderData.agent}}
+                    </a>
+                    <span *ngIf="profileHeaderData.email === nul">
+                        {{profileHeaderData.agent}}
+                    </span>
+                    {{descriptionContact}}
+                </span>
+            </div>
+            <div *ngIf="profileType === 'LocationPage'" class="ph-content-description-text">
+                {{descriptionLocation}}
+            </div>
+        </div>
+    </section>
+</section>
