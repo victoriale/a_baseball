@@ -5,15 +5,18 @@ import {Http} from 'angular2/http';
 export interface TeamStandingsData {
   teamName: string,
   teamImageUrl: string,
+  conferenceName: string,
+  divisionName: string,
   lastUpdatedDate: Date,
-  rank: number,
-  wins: number,
-  losses: number,
+  // rank: number,
+  totalWins: number,
+  totalLosses: number,
   winPercentage: number,
-  groundBalls: number,
-  runsSaved: number,
-  runsAllowed: number,
-  strikes: number
+  streakType: string,
+  streakCount: number,
+  batRunsScored: number,
+  pitchRunsAllowed: number,
+  gamesBack: number
 }
 
 export interface StandingsTableData {
@@ -27,29 +30,34 @@ export class StandingsService {
   
   //Team Profile
   private _defaultData: Array<TeamStandingsData> = [{
-    teamName: "Aaa",
-    teamImageUrl: "/app/public/profile_placeholder.png",
-    lastUpdatedDate: new Date(),
-    rank: 2,
-    wins: 5,
-    losses: 5,
-    winPercentage: .50,
-    groundBalls: 6,
-    runsSaved: 3,
-    runsAllowed: 20,
-    strikes: 30
-  },{
-    teamName: "Baa",
-    teamImageUrl: "/app/public/profile_placeholder.png",
-    lastUpdatedDate: new Date(),
-    rank: 1,
-    wins: 8,
-    losses: 2,
-    winPercentage: .80,
-    groundBalls: 10,
-    runsSaved: 30,
-    runsAllowed: 3,
-    strikes: 15
+      teamName: "Atlanta Braves",
+      teamImageUrl: "none.jpg",
+      totalWins: 4,
+      totalLosses: 17,
+      batRunsScored: 69,
+      pitchRunsAllowed: 113,
+      streakType: "loss",
+      streakCount: 8,
+      conferenceName: "National",
+      divisionName: "East",
+      winPercentage: 0.19,
+      gamesBack: 10.5,
+      lastUpdatedDate: new Date()
+  },
+  {
+      teamName: "Minnesota Twins",
+      teamImageUrl: "none.jpg",
+      totalWins: 7,
+      totalLosses: 15,
+      batRunsScored: 77,
+      pitchRunsAllowed: 97,
+      streakType: "loss",
+      streakCount: 1,
+      conferenceName: "American",
+      divisionName: "Central",
+      winPercentage: 0.318,
+      gamesBack: 9,
+      lastUpdatedDate: new Date()
   }];
 
   constructor(public http: Http){}

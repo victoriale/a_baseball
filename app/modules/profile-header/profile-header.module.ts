@@ -5,6 +5,7 @@ import {ProfileHeaderData, ProfileHeaderService} from '../../services/profile-he
 
 import {CircleImage} from '../../components/images/circle-image';
 import {CircleImageData} from '../../components/images/image-data';
+import {ScrollableContent} from '../../components/scrollable-content/scrollable-content.component';
 import {GlobalFunctions} from '../../global/global-functions';
 
 declare var moment: any;
@@ -12,7 +13,7 @@ declare var moment: any;
 @Component({
     selector: 'profile-header',
     templateUrl: './app/modules/profile-header/profile-header.module.html',    
-    directives: [CircleImage],
+    directives: [CircleImage, ScrollableContent],
     providers: [ProfileHeaderService]
 })
 export class ProfileHeaderModule {
