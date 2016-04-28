@@ -24,6 +24,6 @@ export class Search{
         this.term.valueChanges
             .debounceTime(400)
             .distinctUntilChanged()
-            .subscribe(data => console.log('hi', data))
+            .subscribe(data => console.log('search term', data))
     }
 }

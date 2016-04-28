@@ -62,7 +62,7 @@ import {ArticleDataService} from "../global/global-service";
         name: 'Images-test-page',
         component: ImagesTestPage,
     },
-        {
+    {
         path: '/tables-test',
         name: 'Tables-test-page',
         component: TablesTestPage,
