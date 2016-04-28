@@ -2,7 +2,12 @@ import {Component} from 'angular2/core';
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {TitleComponent} from '../../components/title/title.component';
 import {CustomTable} from '../../components/custom-table/custom-table.component';
+<<<<<<< Updated upstream
 import {TableRow, TableColumn} from '../../components/custom-table/table-data.component';
+=======
+import {TableRow, TableData, TableColumn} from '../../components/custom-table/table-data.component';
+import {TitleInputData} from "../../components/title/title.component";
+>>>>>>> Stashed changes
 
 @Component({
     selector: 'tables-test-page',
@@ -11,7 +16,7 @@ import {TableRow, TableColumn} from '../../components/custom-table/table-data.co
 })
 
 export class TablesTestPage {
-    titleData: {};
+    titleData: TitleInputData;
     auHeaderTitle: string;
     
     public columns: Array<TableColumn>;
@@ -26,12 +31,10 @@ export class TablesTestPage {
       //About us title
       this.titleData = {
           imageURL : '/app/public/joyfulhome_house.png',
-          smallText1 : 'Last Updated: Monday, February 26, 2016',
-          smallText2 : ' United States of America',
-          heading1 : 'Tables test Page',
-          heading2 : '',
-          heading3 : 'A test page for designing and viewing CSS styles',
-          heading4 : '',
+          text1 : 'Last Updated: Monday, February 26, 2016',
+          text2 : ' United States of America',
+          text3 : 'Tables test Page',
+          text4 : 'A test page for designing and viewing CSS styles',
           icon: 'fa fa-map-marker',
           hasHover: false
       };

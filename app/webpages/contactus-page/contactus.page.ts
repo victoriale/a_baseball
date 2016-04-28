@@ -4,6 +4,7 @@
 import {Component, OnInit} from 'angular2/core';
 import {WidgetModule} from "../../modules/widget/widget.module";
 import {ContactUsModule} from '../../modules/contactus/contactus.module';
+import {TitleInputData} from "../../components/title/title.component";
 
 declare var jQuery: any;
 
