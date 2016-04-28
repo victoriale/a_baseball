@@ -1,6 +1,7 @@
 import {Component, OnInit, Input} from 'angular2/core';
 import {FooterComponent} from "../../components/footer/footer.component";
 import {HeaderComponent} from "../../components/header/header.component";
+import {SliderButton} from "../../components/buttons/slider/slider.button";
 import {CircleImage} from '../../components/images/circle-image';
 import {ImageData,CircleImageData} from '../../components/images/image-data';
 import {Search} from '../../components/search/search.component';
@@ -19,7 +20,7 @@ export interface newsCarouselData{
 @Component({
     selector: 'home-page',
     templateUrl: './app/webpages/home-page/home-page.page.html',
-    directives: [CircleImage, ROUTER_DIRECTIVES, FooterComponent, HeaderComponent, Search],
+    directives: [CircleImage, ROUTER_DIRECTIVES, FooterComponent, HeaderComponent, Search, SliderButton],
     inputs: [],
     providers: [],
 })
