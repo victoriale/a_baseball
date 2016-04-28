@@ -10,13 +10,13 @@ import {CircleImageData} from '../../components/images/image-data';
     inputs: ['titleData']
 })
 export class TitleComponent{
-    public titleData: Array<Object>;
+    public titleData: Object;
     public titleImage: CircleImageData;
 
     titleComp(){
         if(typeof this.titleData == 'undefined'){
             this.titleData =
-            [{
+            {
                 imageURL : '/app/public/mainLogo.png',
                 smallText1 : 'Monday, February 23, 2016',
                 smallText2 : ' United States of America',
@@ -26,7 +26,7 @@ export class TitleComponent{
                 heading4 : '',
                 icon: 'fa fa-map-marker',
                 hasHover: true
-            }];
+            };
         }
     }
 

@@ -1,0 +1,60 @@
+<section class="home container-fluid">
+  <div class="row">
+    <div class="col-xs-12">
+      <header-component></header-component>
+      <div class="row">
+        <div class="home-hero col-md-12">
+          <img class="home-hero-img" src='/app/public/homePage_hero1.png' />
+          <div class="home-hero-info">
+            <h1>Stay Loyal to Your Favorite MLB Team</h1>
+            <h4>Find the sports information you need to show your loyalty</h4>
+            <div class="home-hero-info-search col-md-4">
+              <search [placeholderText]="placeholderText"></search>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="home-main col-md-offset-1 col-md-10">
+        <h2><span>PICK YOUR FAVORITE <b>MLB TEAM</b></span></h2>
+        <div class="home-league">
+          <h3><span><b>AMERICAN LEAGUE</b> TEAMS<b>:</b></span></h3>
+
+          <section class="row">
+            <div class="col-md-4">
+              <h4>CENTRAL</h4>
+              <div class="home-team">
+                <div *ngFor="#dataItem of teamImages">
+                    <circle-image [data]="dataItem.imageData"></circle-image>
+                </div>
+                <div class="home-team-name">CHICAGO <p>White Sox</p></div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <h4>EAST</h4>
+              <div class="home-team">
+                <div *ngFor="#dataItem of teamImages">
+                    <circle-image [data]="dataItem.imageData"></circle-image>
+                </div>
+                <div class="home-team-name">CHICAGO <p>White Sox</p></div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <h4>WEST</h4>
+              <div class="home-team">
+                <div *ngFor="#dataItem of teamImages">
+                    <circle-image [data]="dataItem.imageData"></circle-image>
+                </div>
+                <div class="home-team-name">CHICAGO <p>White Sox</p></div>
+              </div>
+            </div>
+          </section>
+          <!-- divisions end -->
+        </div>
+        <!-- homne league ends -->
+      </div>
+      <footer-component></footer-component>
+    </div>
+  </div>
+</section>

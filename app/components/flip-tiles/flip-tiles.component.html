@@ -1,0 +1,17 @@
+<div class='flippy-tile'>
+    <div class='flippy-tile-col'>     
+        <div *ngFor="#tile of tileData" class='flippy-tile-container'>
+            <div class='flippy-tile-flipper'>
+                <div class='flippy-tile-side flippy-tile-front'>
+                    <i class='fa {{tile.faIcon}}'></i>
+                    <p>{{tile.title}}</p>
+                </div>
+                <a [routerLink]="tile.routerInfo" class='flippy-tile-side flippy-tile-back'>
+                    <span><i class='fa {{tile.faIcon}}'></i> {{tile.title}}</span>
+                    <span>{{tile.description}}</span>
+                    <span>{{tile.buttonText}} <i class='fa fa-mail-forward'></i></span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,10 +1,3 @@
-export interface AboutUsPageInterface {
-    counties: string;
-    listings: string;
-    brokers: string;
-    cities: string;
-}
-
 export interface PropertyListingInterface {
     listingID: string;
     listPrice: string;

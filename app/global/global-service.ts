@@ -178,27 +178,6 @@ export class ListOfListPage {
 
 @Injectable()
 
-export class GlobalPage {
-  public apiUrl: string = 'http://api2.joyfulhome.com';
-
-  constructor(public http: Http){}
-  //Function to set custom headers
-
-  getAboutUsData() {
-    return this.http.get(this.apiUrl + '/aboutUs')
-      .map(
-      res => res.json()
-      )
-      .map(
-      data => {
-        return data.data;
-      }
-      )
-  }
-}
-
-@Injectable()
-
 export class DynamicWidgetCall {
   public apiUrl: string = "http://108.170.11.234:190/list_creator_api.php";
 
