@@ -1,5 +1,3 @@
-import {CircleImageData} from '../../components/images/image-data';
-
 /**
  * TableColumn includes settings for styling and sorting each column,
  * as well as the display value to use for the header row. 
@@ -41,21 +39,16 @@ export interface TableColumn {
    *    1: ascending 
    */
   sortDirection?: number;
-  
-  /** 
-   * The key used to look up the appropriate value for the column's cells.
-   * Each row must contain a TableCell corresponding to this key.
-   */
-  key: string;
 }
 
 export interface TableRow {
-  /** 
-   * A hashmap of TableCells to display for the row. The key for
-   * a cell should match the corresponding column's key (defined 
-   * in the TableColumn object).   
+  /**
+   * A list of the TableCells to display for the row. The user
+   * is expected to list the cells in the same order as their 
+   * corresponding columns (in TableData.columns), as the i-th
+   * column's columnClass is used to style the i-th TableCell.  
    */
-  cells: { [key:string]: TableCell }
+  cells: Array<TableCell>;
   
   /**
    * Set isSelected to true if a particular row should be highlighted as selected.
@@ -82,10 +75,39 @@ export interface TableCell {
    * such before setting the displayHtml string.
    */
   displayHtml: string;
-  
-  /** 
-   * If a table cell contains a profile image, the configuration for that image
-   * is set here. The images are inserted to the left of the displayHtml
+}
+
+/**
+ * The length of the columns array is expected to match the length of
+ * each cell array in the rows array as well as the length of the footer array.
+ */
+export interface TableData {
+  /**
+   * The column data and settings for the table. To sort by 
+   * a particular column, set sortDirection for that column to either
+   * -1 or 1.
    */
-  profileImageConfig?: CircleImageData
+  columns: Array<TableColumn>;
+  
+  /**
+   * The list of rows to display in the table.
+   */
+  rows: Array<TableRow>; 
+  
+  /**
+   * (Optional) The values to display in the footer. HTML elements
+   * are supported. The footer (if included) is always displayed at the bottom
+   * of the table regardless of the column being sorted. If nothing is
+   * set for the footer, it will not be displayed.
+   * 
+   * The footer style (.custom-table-footer) defaults to 12px bold and centered. 
+   */
+  footer?: Array<string>;
+  
+  /**
+   * If true, then the table body and footer are given the style ".custom-table-compact",
+   * which uses a smaller font-size and smaller table rows.
+   * Otherwise, the table body and footer are given the style ".custom-table-body".
+   */
+  isCompactStyle?: boolean;
 }

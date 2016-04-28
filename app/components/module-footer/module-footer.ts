@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from 'angular2/core';
 
-export interface ModuleFooterData {
+interface moduleFooter {
   infoDesc: string,
   text: string,
   url:[any],//USED FOR ROUTER LINK
@@ -14,7 +14,7 @@ export interface ModuleFooterData {
 })
 
 export class ModuleFooter implements OnInit{
-  @Input() footerData: ModuleFooterData;
+  @Input() footerData: moduleFooter;
 
     ngOnInit(){
       if(typeof this.footerData == 'undefined'){
