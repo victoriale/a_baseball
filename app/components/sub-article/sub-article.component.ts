@@ -15,7 +15,7 @@ declare var jQuery:any;
 
 export class ArticleSubComponent {
     articleData:ArticleData[];
-    randomArticles:string;
+    randomArticles:any;
     public league: boolean;
 
     constructor(private _magazineOverviewService:Articles) {

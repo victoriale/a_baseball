@@ -10,6 +10,8 @@ import {Injectable} from 'angular2/core';
 import {HomePageData, ArticleData} from "./global-interface";
 import {Http, Headers} from 'angular2/http';
 import {GlobalFunctions} from './global-functions';
+import {Observable} from "rxjs/Observable";
+import {Router} from "angular2/router";
 
 @Injectable()
 
@@ -252,7 +254,6 @@ export class DynamicWidgetCall {
   )
   }
 }
-
 
 @Injectable()
 export class Articles {
@@ -632,5 +633,47 @@ export class Articles {
       }
     ];
     return Promise.resolve(articleData);
+  }
+}
+
+@Injectable()
+
+export class ArticleDataService {
+  cachedData:ArticleData;
+  public partnerID:string;
+
+  constructor(private _router:Router, public http:Http) {
+    this._router.root
+        .subscribe(
+            route => {
+              var curRoute = route;
+              var partnerID = curRoute.split('/');
+              if (partnerID[0] == '') {
+                this.partnerID = null;
+              } else {
+                this.partnerID = partnerID[0];
+              }
+            }
+        )//end of route subscribe
+  };
+
+  getHistoryData() {
+    if (this.cachedData) {
+      return Observable.of(this.cachedData);
+    } else {
+      if (this.partnerID == null) {
+        return this.http.get('http://dev-homerunloyal-ai.synapsys.us/historical/59445')
+            .map(res => res.json())
+            .do((data) => {
+              this.cachedData = data;
+            });
+      } else {
+        return this.http.get('http://dev-homerunloyal-ai.synapsys.us/historical/59445')
+            .map(res => res.json())
+            .do((data) => {
+              this.cachedData = data;
+            });
+      }
+    }
   }
 }

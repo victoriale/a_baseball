@@ -1,22 +1,21 @@
-import {Component, Input, OnInit} from 'angular2/core';
-import {ArticleData} from "../../global/global-interface";
-import {Articles} from "../../global/global-service";
+import {Component, Input, OnInit } from "angular2/core";
+import {Articles} from "../../../global/global-service";
+import {ArticleData} from "../../../global/global-interface";
 
 @Component({
     selector: 'article-schedule-component',
-    templateUrl: './app/components/article-schedule/article-schedule.component.html',
-    styleUrls: ['./app/global/stylesheets/master.css'],
+    templateUrl: './app/components/articles/article-schedule/article-schedule.component.html',
     directives: [],
     inputs: ['articleData', 'league'],
     providers: [Articles],
 })
 
 export class ArticleScheduleComponent implements OnInit {
-    leftGradient: string;
-    rightGradient: string;
-    articleData: ArticleData[];
-    defaultGradient: string;
-    public league: boolean;
+    leftGrad:string;
+    rightGrad:string;
+    articleData:ArticleData[];
+    defaultGradient:string;
+    public league:boolean;
 
     constructor(private _magazineOverviewService:Articles) {
 
@@ -38,7 +37,7 @@ export class ArticleScheduleComponent implements OnInit {
             let homeBlueValue = this.hexToB(this.articleData[0].metaData[0].hex.homeColor);
             let leftGradientRgb = "rgb(" + homeRedValue + "," + homeGreenValue + "," + homeBlueValue + ")";
             let leftGradientRgba = "rgba(" + homeRedValue + "," + homeGreenValue + "," + homeBlueValue + ", 0)";
-            this.leftGradient = this.leftGradient(leftGradientRgb, leftGradientRgba);
+            this.leftGrad = this.leftGradient(leftGradientRgb, leftGradientRgba);
         } else {
             this.defaultGradient = 'default-gradient';
         }
@@ -51,12 +50,13 @@ export class ArticleScheduleComponent implements OnInit {
             let awayBlueValue = this.hexToB(this.articleData[0].metaData[0].hex.awayColor);
             let rightGradientRgb = "rgb(" + awayRedValue + "," + awayGreenValue + "," + awayBlueValue + ")";
             let rightGradientRgba = "rgba(" + awayRedValue + "," + awayGreenValue + "," + awayBlueValue + ", 0)";
-            this.rightGradient = this.rightGradient(rightGradientRgb, rightGradientRgba);
+            this.rightGrad = this.rightGradient(rightGradientRgb, rightGradientRgba);
         } else {
             this.defaultGradient = 'default-gradient';
         }
     }
 
+    //converts hex to RGB
     hexToR(h) {
         return parseInt((this.cutHex(h)).substring(0, 2), 16)
     }
@@ -73,6 +73,7 @@ export class ArticleScheduleComponent implements OnInit {
         return (h.charAt(0) == "#") ? h.substring(1, 7) : h
     }
 
+    //End conversion
     leftGradient = function (a, b) //loads the left gradient
     {
         var lgc1 = a; //replace with code to retrieve appropriate colors

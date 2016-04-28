@@ -1,23 +1,20 @@
-import {Component, Input, OnInit} from 'angular2/core';
-import {Articles} from "../../global/global-service";
-import {ArticleData} from "../../global/global-interface";
+import {Component, OnInit} from 'angular2/core';
+import {Articles} from "../../../global/global-service";
+import {ArticleData} from "../../../global/global-interface";
 
 declare var jQuery:any;
 
 @Component({
-    selector: 'article-head-to-head-component',
-    templateUrl: './app/components/head-to-head-articles/head-to-head-articles.component.html',
-    styleUrls: ['./app/global/stylesheets/master.css'],
+    selector: 'recommendations-component',
+    templateUrl: './app/components/articles/recommendations/recommendations.component.html',
     directives: [],
     inputs: ['articleData', 'league'],
     providers: [Articles],
 })
 
-export class HeadToHeadComponent {
-    articleData: ArticleData[];
-    randomArticles: string;
-    arrLength: number;
-    public league: boolean;
+export class RecommendationsComponent implements OnInit {
+    articleData:ArticleData[];
+    randomArticles:any;
 
     constructor(private _magazineOverviewService:Articles) {
     }
@@ -26,7 +23,9 @@ export class HeadToHeadComponent {
         var articleArr = [];
         jQuery.map(this.articleData[0], function (val, index) {
             switch (index) {
-                case'startingLineUp':
+                case'aboutTheTeams':
+                case'historicalTeamStats':
+                case'lastMatchUp':
                 case'outfieldLF':
                 case'outfieldCF':
                 case'outfieldRF':
@@ -36,7 +35,12 @@ export class HeadToHeadComponent {
                 case'infield1B':
                 case'pitcher':
                 case'catcher':
+                case'homeTeamInjuryReport':
+                case'awayTeamInjuryReport':
+                case'homeTeamStartingLineUp':
+                case'awayTeamStartingLineUp':
                     val['title'] = val[0].headline;
+                    val['photos'] = val[0].photos.url;
                     articleArr.push(val);
                     break;
             }
@@ -44,13 +48,6 @@ export class HeadToHeadComponent {
         articleArr.sort(function () {
             return 0.5 - Math.random()
         });
-        if (articleArr.length == 10){
-            articleArr.shift();
-            articleArr.pop();
-        } else if (articleArr.length == 9) {
-            articleArr.pop();
-        }
-        this.arrLength = articleArr.length - 1;
         this.randomArticles = articleArr;
     }
 

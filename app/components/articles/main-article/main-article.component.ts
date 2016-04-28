@@ -1,10 +1,10 @@
-import {Component, Input, OnInit} from 'angular2/core';
-import {Articles} from "../../global/global-service";
-import {ArticleData} from "../../global/global-interface";
+import {Component, Input, OnInit}  from "angular2/core";
+import {Articles} from "../../../global/global-service";
+import {ArticleData} from "../../../global/global-interface";
 
 @Component({
     selector: 'article-main-component',
-    templateUrl: './app/components/main-article/main-article.component.html',
+    templateUrl: './app/components/articles/main-article/main-article.component.html',
     directives: [],
     inputs: ['articleData'],
     providers: [Articles],
@@ -17,7 +17,6 @@ export class ArticleMainComponent implements OnInit {
     content:string;
 
     constructor(private _magazineOverviewService:Articles) {
-
     }
 
     getArticles() {
@@ -28,6 +27,7 @@ export class ArticleMainComponent implements OnInit {
     }
 
     getData() {
+        //this will change once data starts coming in.
         if (this.articleData[0].postGameReport[0].status == true) {
             this.headline = this.articleData[0].postGameReport[0].headline;
             this.content = this.articleData[0].postGameReport[0].content;
