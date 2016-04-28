@@ -72,8 +72,7 @@ export class AboutUsPage {
             var pageName = (this.partnerID === null)
               ? "Home Run Loyal" 
               : "My Home Run Loyal";
-            this.auHeaderTitle = "What is " + pageName + "?";
-            
+
             //TODO-CJP: change to getAboutUsData() when API is ready
             this._service.getAboutUsDefaultData().subscribe(
               data => this.setupAboutUsData(data),
