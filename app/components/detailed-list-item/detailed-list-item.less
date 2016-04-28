@@ -30,7 +30,7 @@
           cursor: pointer;
         }
       }
-      div{
+      & > div{
         font-size: 14px;
         width: 100%;
         display: inline-block;
@@ -38,7 +38,7 @@
           font-size: 10px;
           font-weight: 600;
           line-height: 1.3em;
-          i{
+          & > i{
             color:@masterBrandColor;
           }
         }
@@ -50,12 +50,12 @@
         &:last-child{
           font-size: 14px;
           line-height: 1.3em;
-          i{
+          & > i{
             color:@masterBrandColor;
             padding-right:.5em;
           }
         }
-        span{
+        & > span{
           &:first-child{
             display: inline;
             width:70%;
@@ -78,7 +78,7 @@
       background-color: @white;
       line-height: 2em;
       padding: 4px 4px 4px 19px;
-      span:first-child{
+      & > span:first-child{
         display: inline-block;
         width:65%;
         color:@black;
@@ -87,12 +87,12 @@
         float: left;
         margin: 3px 0 3px 5px;
       }
-      span:last-child{
+      & > span:last-child{
         display: inline-block;
         width:33.5%;
         float:right;
       }
-      button{
+      & button{
         font-size: 14px;
         width:160px;
         height:35px;
@@ -107,7 +107,7 @@
         &:hover{
           background-color: @black;
         }
-        span:first-child{
+        & > span:first-child{
           width:25px;
           height:25px;
           border-radius: 50%;
@@ -115,7 +115,7 @@
           background-position: center;
           background-repeat: no-repeat;
         }
-        i{
+        & > i{
           margin-left: 5px;
         }
       }

@@ -1,4 +1,4 @@
-.box-scores{
+.box-scores{// BOX-SCORES CONTAINER
   width:680px;
   height:auto;
 
@@ -14,6 +14,8 @@
     @boardGrey:#e8e8e8;
     widht:100%;
     height:100px;
+    .flexDisplay;
+    .flexDirection(row);
     border-top:1px solid @strokeGrey;
     border-bottom:1px solid @strokeGrey;
     background: -webkit-linear-gradient(90deg, @boardGrey 0%, @white 100%);
@@ -21,11 +23,108 @@
     background: -o-linear-gradient(90deg, @boardGrey 0%, @white 100%);
     background: -ms-linear-gradient(90deg, @boardGrey 0%, @white 100%);
     background: linear-gradient(0deg, @boardGrey 0%, @white 100%);
+
+    &-total{
+      height:100%;
+      width:165px;
+      text-align: center;
+      padding:10px 0;
+      font-size: 72px;
+      font-weight: 900;
+    }
+
+    &-data{
+      width:350px;
+      height: 100%;
+    }
+
+    &-title{
+      width:100%;
+      height:30px;
+      line-height: 30px;
+      font-size: 14px;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .box-table{
+      width:100%;
+      height:calc(~'100% - 30px');
+      color:@black;
+      position: relative;
+      .inlineFlexDisplay;
+      &-arrows{
+        position: absolute;
+        font-size: 30px;
+        top:27%;
+        color:@bulletGrey;
+        &:hover{
+          color:@masterBrandColor;
+          cursor: pointer;
+        }
+        &-left{
+          left:-15px;
+        }
+        &-right{
+          right:-15px;
+        }
+      }
+      &-labels{
+        min-width:107px;
+        height:100%;
+        border: 1px solid @strokeGrey;
+        font-size: 10px;
+        & > span{
+          width:100%;
+          height:22px;
+          display:inline-block;
+          line-height: 2em;
+          font-weight: 900;
+          text-align: center;
+          float:left;
+        }
+        & > span + span{
+          border-top: 1px solid @strokeGrey;
+        }
+      }//end of box-table-labels
+
+      &-max{
+        height:100%;
+        width:350px;
+        overflow: hidden;
+        .inlineFlexDisplay;
+      }//end of box-table-max
+
+      &-container{
+        min-width: 27px;
+        height:100%;
+        font-size: 14px;
+        border-top: 1px solid @strokeGrey;
+        border-bottom: 1px solid @strokeGrey;
+        border-right: 1px solid @strokeGrey;
+        & > span:first-child{
+          font-weight: 900;
+        }
+        & > span{
+          display:inline-block;
+          width: 100%;
+          height:22px;
+          line-height: 1.5em;
+          font-weight: 400;
+          text-align: center;
+          float:left;
+        }
+        & > span + span{
+          color:@greyTabText;
+          border-top: 1px solid @strokeGrey;
+        }
+      }//end of container
+    }//end of .box-table
   }
-}
+}//end of box-scores container
 
 
-.competition{
+.competition{//showing two competitors and their main info
   width:100%;
   height:100px;
   background: -webkit-linear-gradient(0deg, #3299ff 0%, #ff2232 100%);
@@ -52,14 +151,14 @@
   &-left{
     text-align: right;
     float:left;
-    & div{
+    & > div{
       float:right;
     }
   }
   &-right{
     text-align: left;
     float:right;
-    & div{
+    & > div{
       float:left;
     }
   }
@@ -76,18 +175,97 @@
     position: relative;
     top:25%;
     font-size: 16px;
-    & span{
+    & > span{
       display:block;
     }
   }
-}
+}//end of competition
 
-.game-details{
+.game{//start of the game styles
   width:325px;
   height:128px;
   margin: auto 0;
-  background-color: @homeRunLoyalRed;
-}
+  &-title{
+    font-size:14px;
+    line-height: 18px;
+    .flexDisplay;
+    & > span:first-child{
+      display:inline-block;
+      width:170px;
+      font-weight: 900;
+      color:@masterBrandColor;
+      text-align: left;
+    }
+    & > span{
+      display:inline-block;
+      width:50px;
+      color:@black;
+      font-weight: 400;
+      text-align: center;
+    }
+  }//end of &-title
+
+  &-box{//game-box
+    width:100%;
+    height:55px;
+    border: 1px solid @strokeGrey;
+    .flexDisplay;
+
+    &-main{
+      width:170px;
+      text-align: left;
+      border:none;
+      padding:4px 0 4px 4px;
+      &-image{
+        width:45px;
+        height:45px;
+        border:1px solid @strokeGrey;
+        border-radius:50%;
+        background-color:@greyBorder;
+        float:left;
+      }
+      &-details{
+        width:110px;
+        float:left;
+        margin-left: 10px;
+        padding:5px 0;
+        overflow: hidden;
+        & > span{
+          width:100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          display:inline-block;
+          &:first-child{
+            font-size: 14px;
+            font-weight: 900;
+            color:@black;
+            line-height: 18px;
+          }
+          &:nth-child(2){
+            font-size: 12px;
+            color:@bulletGrey;
+            line-height: 18px;
+          }
+        }
+      }//game-box-details end
+    }//game-box-main END
+    &-values{
+      height:auto;
+      & > span{
+        display:inline-block;
+        width:49px;
+        font-size: 18px;
+        color:@black;
+        text-align: center;
+        font-weight: 900;
+        border-left: 1px solid @strokeGrey;
+        padding:18px 0;
+      }
+    }//game-box-values END
+  }//end .game-box
+}//end of .game
+
 .game-article{
   width:320px;
   height:134px;
@@ -121,17 +299,18 @@
       border-radius: 5px;
       background-color: @white;
       text-align: center;
-      font-size: 12px;
-      padding: 4px 0;
-      & span{
-        line-height: 14px;
+      font-size: 10px;
+      & > span{
+        line-height: 12px;
         display:block;
       }
-      & span:nth-child(2){
+      & > span:nth-child(2){
         font-size: 14px;
-        line-height: 14px;
+        line-height: 12px;
         font-weight: 900;
-        sup{
+        margin-top:2px;
+        padding-left: 3px;
+        & > sup{
           font-size: 70%;
         }
       }
@@ -148,7 +327,7 @@
     height:100%;
     font-size: 25px;
     text-align: left;
-    & i{
+    & > i{
       color:@greyTabText;
       line-height: 2em;
       cursor: pointer;

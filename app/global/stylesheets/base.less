@@ -293,6 +293,13 @@ code.less-var-name-light {
   display: inline-flex;
 }
 
+.flexWrap (@flexWrap){
+  -webkit-flex-wrap: @flexWrap;
+  -moz-flex-wrap: @flexWrap;
+  -ms-flex-wrap: @flexWrap;
+  flex-wrap: @flexWrap;
+}
+
 .flexDirection(@flexDirectionParam) {
   -webkit-flex-direction: @flexDirectionParam;
   -moz-flex-direction: @flexDirectionParam;
@@ -313,6 +320,8 @@ code.less-var-name-light {
   -ms-align-items: @flexAlignItemsParam;
   align-items: @flexAlignItemsParam;
 }
+
+
 
 .borderRadiusPrefix(@radius) {
   -webkit-border-radius: @radius;
