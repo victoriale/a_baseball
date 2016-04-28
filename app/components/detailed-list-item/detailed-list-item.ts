@@ -27,6 +27,6 @@ export interface DetailListInput {
 export class DetailedListItem implements OnInit{
   @Input() detailedItemData: DetailListInput[];
     ngOnInit(){
-      console.log(this.detailedItemData);
+
     }
 }

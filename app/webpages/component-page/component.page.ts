@@ -15,6 +15,7 @@ import {Search} from '../../components/search/search.component';
     selector: 'Component-page',
     templateUrl: './app/webpages/component-page/component.page.html',
     directives: [
+      BoxScoresModule,
       ShareButtonComponent, 
       TeamRosterModule, 
       ComparisonModule, 
