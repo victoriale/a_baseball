@@ -1,7 +1,7 @@
 import {Component, Input, Output, OnInit, EventEmitter} from 'angular2/core';
 import {CircleImage} from '../images/circle-image';
 
-interface comparisonTileInput {
+interface ComparisonTileInput {
     dropdownOne: Array<string>;
     dropdownTwo: Array<string>;
     imageConfig: Object;
@@ -25,7 +25,7 @@ interface comparisonTileInput {
 })
 
 export class ComparisonTile implements OnInit{
-    @Input() comparisonTileInput: comparisonTileInput;
+    @Input() comparisonTileInput: ComparisonTileInput;
     ngOnInit(){
     }
 }

@@ -1,4 +1,7 @@
 import {Component, Input, Output, OnInit, EventEmitter} from 'angular2/core';
+import {Observable} from 'rxjs/Rx';
+import {Control} from 'angular2/common';
+
 
 interface searchInput {
     placeholderText: string;
@@ -12,5 +15,15 @@ interface searchInput {
 })
 
 export class Search{
-  @Input() placeholderText;
+    @Input() placeholderText;
+
+    public term: any = new Control();
+
+    ngOnInit(){
+        console.log('search initialized', this);
+        this.term.valueChanges
+            .debounceTime(400)
+            .distinctUntilChanged()
+            .subscribe(data => console.log('hi', data))
+    }
 }

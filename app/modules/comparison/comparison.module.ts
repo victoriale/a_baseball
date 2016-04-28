@@ -12,7 +12,11 @@ import {ComparisonLegend} from '../../components/comparison-legend/comparison-le
 })
 
 export class ComparisonModule implements OnInit{
-    public moduleTitle: string = 'Comparison vs. Competition - [Batter Name]';
+    public moduleHeaderData: Object = {
+        moduleTitle: 'Comparison vs. Competition - [Batter Name]',
+        hasIcon: false,
+        iconClass: ''
+    };
     public comparisonLegendData: Object = {
         legendTitle: [
             {
