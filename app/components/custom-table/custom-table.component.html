@@ -1,7 +1,7 @@
 <table class="custom-table">
   <thead>
     <tr>
-      <th *ngFor="#hdr of headerData; #i = index">
+      <th *ngFor="#hdr of columns; #i = index">
         <custom-table-header
           [headerData]="hdr"
           [headerIndex]="i"
@@ -15,15 +15,16 @@
     <tr *ngFor="#row of rows; #isOdd = odd"
       [class.custom-table-row-selected]="row.isSelected"
       [class.custom-table-row-odd]="isOdd">
-      <td *ngFor="#cell of row.cells; #i = index" [innerHtml]="cell.displayHtml"
-        class="{{bodyClass}}-{{headerData[i].columnClass}} {{bodyClass}}-cell">
+      <td *ngFor="#hdr of columns" class="{{bodyClass}}-{{hdr.columnClass}} {{bodyClass}}-cell">
+        <circle-image *ngIf="row.cells[hdr.key].profileImageConfig" [data]="row.cells[hdr.key].profileImageConfig"></circle-image>
+        <span [innerHtml]="row.cells[hdr.key].displayHtml"></span>
       </td>
     </tr>
   </tbody>
 
-  <tfoot *ngIf="footerData" class="custom-table-footer {{bodyClass}}">
+  <tfoot *ngIf="footer" class="custom-table-footer {{bodyClass}}">
     <tr>
-      <td *ngFor="#value of footerData; #i = index" [innerHtml]="value" class="{{bodyClass}}-cell"></td>
+      <td *ngFor="#hdr of columns" [innerHtml]="footer[hdr.key]" class="{{bodyClass}}-cell"></td>
     </tr>
   </tfoot>
 </table>

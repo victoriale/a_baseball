@@ -35,7 +35,7 @@ export class SortDropdown implements OnDestroy {
     }
   }
   
-  //TODO: setup multiple sort types
+  //TODO-CJP: setup multiple sort types
   sortAscending($event) {
     this.sortAscendingListener.next([]);
   }

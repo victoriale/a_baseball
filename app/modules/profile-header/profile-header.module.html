@@ -1,0 +1,67 @@
+<section *ngIf="profileHeaderData" class="module-container ph">
+  <div class="ph-banner-image">  
+    <div class="ph-hdr">
+      <div class="ph-hdr-date">Last Updated: {{displayDate}}</div>
+      <div class="ph-hdr-title" [innerHtml]="profileHeaderData.profileName"></div>
+      <div class="ph-hdr-datapts">
+        <span *ngFor="#data of profileHeaderData.topDataPoints #isLast = last">
+          <span class="ph-hdr-datapts-label">{{data.label}}:</span>
+          <span  class="ph-hdr-datapts-value">{{data.value}}</span>
+          <span *ngIf="!isLast" class="ph-hdr-datapts-sep">|</span>
+        </span>
+      </div>
+      <div class="ph-hdr-ptr"></div>
+    </div>
+    <div class="ph-content">
+      <div class="ph-content-image">
+        <circle-image [data]="imageConfig"></circle-image>
+      </div>
+      <div class="ph-content-wrapper">
+        <div class="ph-content-title">
+          <circle-image [data]="logoConfig"></circle-image>
+          {{contentTitle}}
+        </div>
+        <div class="ph-content-desc">
+          <div class="ph-content-desc-border"></div>
+          <div class="ph-content-desc-text">{{profileHeaderData.description}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ph-datapts">
+      <div *ngFor="#data of profileHeaderData.bottomDataPoints" class="ph-datapts-pt">
+        <div class="ph-datapts-label">{{data.label}}</div>
+        <div class="ph-datapts-value">{{data.value}}</div>
+        <div class="ph-datapts-label">{{data.labelCont}}</div>
+      </div>    
+  </div>
+    <!--<title-component [titleData]="titleComponentData"></title-component>-->
+    <!--<section class="ph-content">
+        <div class="ph-content-image">
+            <image-180 [hasSubImg]="main_hasSubImg" [imageURL]="mainImageURL" [imageURL2]="subImageURL" [imageClass]="imageClass"></image-180>
+        </div>
+        <div class="ph-content-description">
+            <div class="ph-content-description-title">
+                <div class="ph-content-description-title-icon"><i class="fa {{icon}}"></i></div>
+                <div class="ph-content-description-title-text">{{descriptionTitle}}</div>
+            </div>
+            <div *ngIf="profileType === 'ProfilePage'" class="ph-content-description-text">
+                {{descriptionAddress}}
+                {{descriptionSquareFeet}}
+                <span *ngIf="profileHeaderData.agent !== null">
+                    If you're interested in more information, please contact
+                    <a href="{{emailLink}}" *ngIf="profileHeaderData.email !== null" class="green-text">
+                        {{profileHeaderData.agent}}
+                    </a>
+                    <span *ngIf="profileHeaderData.email === nul">
+                        {{profileHeaderData.agent}}
+                    </span>
+                    {{descriptionContact}}
+                </span>
+            </div>
+            <div *ngIf="profileType === 'LocationPage'" class="ph-content-description-text">
+                {{descriptionLocation}}
+            </div>
+        </div>
+    </section>-->
+</section>
