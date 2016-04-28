@@ -1055,6 +1055,19 @@ goalsHeader
     }
   }
 }
+.mod-page-btn-text-only{
+  background-color: @masterBrandColor;
+  text-align: center;
+  padding: 15px 40px;
+  .borderRadiusPrefix(3px);
+  .globalDefaultModFont(16px, 800, @white);
+  &:hover {
+    background-color: darken(@masterBrandColor, 10%);
+  }
+  &:active {
+    background-color: @black;
+  }
+}
 .dailyUpdateBtns(@containerWidth, @containerHeight, @btnWidthHeight) {
   .inlineFlexDisplay;
   .flexDirection(row);
