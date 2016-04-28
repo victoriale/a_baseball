@@ -54,7 +54,6 @@
     }//home-hero-info ends
   }//home-hero ends
   &-main{
-    padding-left: 55px;
     h2{
       padding: 20px;
       text-align: center;
@@ -67,14 +66,20 @@
   }//home-main ends
 
   &-league{
+    h3{
+      margin-left: 60px;
+    }
     h4{
-      margin: 0 0 2em 0;
+      margin: 0 0 1em 60px;
       color: @greyTabText;
     }
-  }
+  }//home-league ends
   &-team{
-    width: 100%;
     margin-bottom: 25px;
+    padding-left: 60px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    width: 100%;
     .flexDisplay;
     .flexAlignItems(center);
     &-name{
@@ -85,6 +90,23 @@
         .globalDefaultFont(24px, 900);
       }
     }//home-team-name ends
+    .fa-view {
+      color: @masterBrandColor;
+      font-size: 4.17em; /* Approximation due to font substitution */
+      font-weight: 400;
+      line-height: 28px; /* Approximation due to font substitution */
+      margin: 0 57px 0 auto;
+      visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    &:hover{
+      color: @masterBrandColor;
+      background-color: @greyBorder;
+      .fa-view{
+        visibility: visible;
+        -webkit-backface-visibility: visible;
+      }
+    }
   }//home-team end
   &-slider{
     background-image: url('/app/public/homePage_hero2.png');
@@ -161,12 +183,8 @@
       width: 315px;
       .backgroundSize(cover);
       .backgroundPosition(center);
-      h3{
-        margin: 0;
-      }
-      h4{
-        margin: 5px 0;
-      }
+      h3{ margin: 0; }
+      h4{ margin: 5px 0; }
       .flexDisplay;
       .flexDirection(column);
       .flexJustify(center);

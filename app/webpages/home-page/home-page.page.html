@@ -14,7 +14,7 @@
           </div>
         </div>
       </div>
-      <div class="home-main col-md-offset-1 col-md-10">
+      <div class="home-main col-md-12">
         <h2><span [innerHTML]="homeHeading3"></span></h2>
         <div class="home-league">
           <h3><span [innerHTML]="leagueHeading"></span></h3>
@@ -23,12 +23,11 @@
             <div class="col-md-4" *ngFor="#dataItem of teamData">
               <h4>{{dataItem.divisionName}}</h4>
               <!-- ngFor here to get all the teams in the same division -->
-              <div class="home-team">
-                <div>
-                    <circle-image [data]="dataItem.imageData"></circle-image>
-                </div>
+              <a [routerLink]="['Disclaimer-page']" class="home-team">
+                <circle-image [data]="dataItem.imageData"></circle-image>
                 <div class="home-team-name">{{dataItem.location}} <p>{{dataItem.teamName}}</p></div>
-              </div>
+                <i class="fa fa-angle-right fa-view"></i>
+              </a>
             </div>
           </section>
           <!-- divisions end -->
@@ -56,15 +55,7 @@
   <div class="home-features col-md-offset-2 col-md-8">
       <div class="home-features-title"><img src='{{imgIcon1}}' /><h2 [innerHTML]="homeFeatures"></h2></div>
       <div class=home-features-tiles>
-        <a [routerLink]="['Disclaimer-page']" style="background-image:url('{{imageTile1}}');" class="home-features-tile1" [innerHTML]="homeFeaturesTile1">
-          <h3>
-            <!-- <div class="view-box">
-              <div [routerLink]="newsData.routerInfo" class='mod-page-btn-text-only'>
-                  <span>{{buttonFullList}}</span>
-              </div>
-            </div> -->
-          </h3>
-        </a>
+        <a [routerLink]="['Disclaimer-page']" style="background-image:url('{{imageTile1}}');" class="home-features-tile1" [innerHTML]="homeFeaturesTile1"><h3></h3></a>
         <div style="border-top: 5px solid #bc2027;" class="home-features-tile2" [innerHTML]="homeFeaturesTile2"></div>
         <a [routerLink]="['Disclaimer-page']" style="background-image:url('{{imageTile2}}');" class="home-features-tile2" [innerHTML]="homeFeaturesTile3"></a>
         <a [routerLink]="['Disclaimer-page']" style="background-image:url('{{imageTile3}}');" class="home-features-tile1" [innerHTML]="homeFeaturesTile4"></a>
