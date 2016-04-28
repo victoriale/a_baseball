@@ -27,17 +27,24 @@ export interface newsCarouselData{
 export class HomePage implements OnInit {
     public teamData: Array<homePageData>;
     public newsData: Array<newsCarouselData>;
-    public imgHero1: string;
+    public imgHero1: string = "/app/public/homePage_hero1.png";
     public imgIcon1: string = "/app/public/homePage_icon1.png";
-    public placeholderText: string;
-    public homeHeading1: string;
-    public homeHeading2: string;
-    public homeHeading3: string;
+    public imageTile1: string = "/app/public/iphone.png";
+    public imageTile2: string = "/app/public/ipad.png";
+    public imageTile3: string = "/app/public/MLB_Schedule_Image.jpg";
+    public placeholderText: string = "Where do you want to be a fan?";
+    public homeHeading1: string = "Stay Loyal to Your Favorite MLB Team";
+    public homeHeading2: string = "Find the sports information you need to show your loyalty";
+    public homeHeading3: string = "PICK YOUR FAVORITE <b>MLB TEAM</b>";
     public leagueHeading: string;
     public homeFeatures: string;
+    public homeFeaturesTile1: string = "<h3>MLB Standings</h3>";
+    public homeFeaturesTile2: string = "<h3><b>Dive deep</b></h3> <h4>into key information</h4>";;
+    public homeFeaturesTile3: string = "<h3>MLB Scores</h3>";
+    public homeFeaturesTile4: string = "<h3>MLB Schedules</h3>";
     public buttonFullList: string = "See The Full List";
     public mlb: string = "MLB";
-    
+
     constructor(private _router: Router) {
       this.getData();
       this.getNewsData();
@@ -53,15 +60,8 @@ export class HomePage implements OnInit {
     }
     getData(){
       var sampleImage = "./app/public/placeholder-location.jpg";
-      this.imgHero1 = "/app/public/homePage_hero1.png";
-      this.placeholderText = "Where do you want to be a fan?";
-      this.homeHeading1 = "Stay Loyal to Your Favorite MLB Team";
-      this.homeHeading2 = "Find the sports information you need to show your loyalty";
-      this.homeHeading3 = "PICK YOUR FAVORITE <b>MLB TEAM</b>";
       this.leagueHeading = "<b>AMERICAN LEAGUE</b> TEAMS<b>:</b>";
       this.homeFeatures = "<b>Features</b> to Note";
-      // this.divisionName = "CENTRAL";
-
       this.teamData =[
         {
           divisionName: "CENTRAL",

@@ -314,6 +314,13 @@ code.less-var-name-light {
   align-items: @flexAlignItemsParam;
 }
 
+.flexFlow(@flexFlowParam) {
+  -webkit-aflex-flow: @flexFlowParam;
+  -moz-flex-flow: @flexFlowParam;
+  -ms-flex-flow: @flexFlowParam;
+  flex-flow: @flexFlowParam;
+}
+
 .borderRadiusPrefix(@radius) {
   -webkit-border-radius: @radius;
   -moz-border-radius: @radius;
@@ -326,6 +333,14 @@ code.less-var-name-light {
   -o-background-size: @backgroundSize;
   background-size: @backgroundSize;
 }
+
+.backgroundPosition(@backgroundPosition) {
+  -webkit-background-position: @backgroundPosition;
+  -moz-background-position: @backgroundPosition;
+  -o-background-position: @backgroundPosition;
+  background-position: @backgroundPosition;
+}
+
 .backgroundClipPBoxPrefixes {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding;

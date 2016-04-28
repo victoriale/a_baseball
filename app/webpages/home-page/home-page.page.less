@@ -102,8 +102,8 @@
         margin: 20px 0 70px 0;
       }
       hr{
-        border-width: 4px;
-        margin: 0 50% 0 0;
+        border-width: 3px;
+        margin: 0 60% 0 0;
       }
       div:first-child{
         background-color: @masterBrandColor;
@@ -117,8 +117,8 @@
     }
   }//home-slider ends
   &-features{
-    text-align: center;
     height: auto;
+    margin-bottom: 30px;
     &-title{
       .flexDisplay;
       .flexJustify(center);
@@ -127,7 +127,47 @@
         margin-right: 18px;
         height: 40px;
         width: 45px;
-      }
+      }//img ends
+    }//home-features-title ends
+    &-tiles{
+      color: @white;
+      text-align: center;
+      .flexDisplay;
+      .flexFlow(row wrap);
+      .flexJustify(center);
     }
-  }
+    &-tile1{
+      height: 250px;
+      margin: 5px;
+      width: 635px;
+      .backgroundSize(cover);
+      .backgroundPosition(center);
+      .flexDisplay;
+      .flexJustify(center);
+      .flexAlignItems(center);
+      &:hover{
+        background-color: rgba(188, 32, 39, 0.75);
+      }
+    }//home-features-tile1 ends
+    &-tile2{
+      background-color: @black;
+      margin: 5px;
+      height: 250px;
+      width: 315px;
+      .backgroundSize(cover);
+      .backgroundPosition(center);
+      h3{
+        margin: 0;
+      }
+      h4{
+        margin: 5px 0;
+      }
+      .flexDisplay;
+      .flexDirection(column);
+      .flexJustify(center);
+      &:hover{
+        background-color: rgba(188, 32, 39, 0.75);
+      }
+    }//home-features-tile2 ends
+  }//home-features ends
 }//home ends
