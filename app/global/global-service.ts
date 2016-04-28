@@ -57,127 +57,6 @@ export class PartnerHeader {
 
 @Injectable()
 
-export class listViewPage {
-  public protocolToUse: string = (location.protocol == "https:") ? "https" : "http";
-  public apiUrl: string = '://api2.joyfulhome.com';
-
-  constructor(public http: Http, private globalFunctions: GlobalFunctions) {}
-
-  //API for listview page data
-  getListData(listname, state, city, limit, page, sort) {
-    listname = this.globalFunctions.kababCaseToCamelCase(listname);
-
-    var query:any  = {
-      listname: listname,
-      state: state,
-      city: city,
-      zip: 'empty',
-      limit: limit,
-      page: page,
-    };
-
-    if(sort !== null){
-      query.sort = sort;
-    }
-    var fullUrl = this.protocolToUse + this.apiUrl +"/list";
-
-    //list/homesAtLeast5YearsOld/KS/Wichita/empty/10/1
-    for (var q in query) {
-      if (query[q] == 'Null' || query[q] == null || query[q] == 'empty') {
-        query[q] = '/empty';
-      } else {
-        query[q] = '/' + query[q];
-      }
-      if (query[q] == '' || typeof query[q] != 'undefined') {
-
-      }
-      fullUrl += query[q];
-    }
-
-    return this.http.get(fullUrl, {
-    })
-      .map(
-      res => res.json()
-      )
-      .map(
-      data => {
-        return data;
-      }
-      )
-  }
-
-  //API for Find Your Home filtered call
-  getFindYourHome(state, city, priceLowerBound, priceUpperBound, type, bedrooms, bathrooms, squareFeet, lotSize, limit, page) {
-
-    city = encodeURI(city);
-    state = encodeURI(state);
-
-    var fullUrl = this.protocolToUse + this.apiUrl
-
-    // location/findYourHome/{state}/{city}/{priceLowerBound}/{priceUpperBound}/{type}/{bedrooms}/{bathrooms}/{squareFeet}/{lotSize}/{limit}/{page}
-    // types: Townhouse, Condominium, Apartment, and Single Family Attached
-    return this.http.get(fullUrl + '/location/findYourHome/' + state + '/' + city + '/' + priceLowerBound + '/' + priceUpperBound + '/'  + type + '/' + bedrooms + '/' + bathrooms + '/' + squareFeet + '/' + lotSize + '/' + limit + '/' + page)
-        .map(
-            res => res.json()
-        )
-        .map(
-            data => {
-              return data;
-            }
-        )
-  }
-}
-
-@Injectable()
-export class ListOfListPage {
-
-  constructor(public http: Http) { }
-
-  public apiUrl: string = 'http://api2.joyfulhome.com';
-
-  getAddressListOfListPage(address){
-    address = encodeURIComponent(address);
-
-    return this.http.get(this.apiUrl + '/list/listOfListsAddressKey/' + address)
-      .map(
-          res => res.json()
-      )
-    .map(
-        data => {
-          return data.data;
-        }
-    )
-  }
-
-  getListOfListPage(state, city) {
-    //Nearby Cities call (Returns city, state, distance)
-    return this.http.get(this.apiUrl + '/list/listOfLists/' + state + '/' + city)
-      .map(
-      res => res.json()
-      )
-      .map(
-      data => {
-        return data.data;
-      }
-      )
-  }
-
-  getListOfListPageState(state) {
-    //Nearby Cities call (Returns city, state, distance)
-    return this.http.get(this.apiUrl + '/list/listOfLists/' + state)
-        .map(
-            res => res.json()
-        )
-        .map(
-            data => {
-              return data.data;
-            }
-        )
-  }
-}
-
-@Injectable()
-
 export class DynamicWidgetCall {
   public apiUrl: string = "http://108.170.11.234:190/list_creator_api.php";
 
@@ -618,41 +497,41 @@ export class Articles {
 @Injectable()
 
 export class ArticleDataService {
-  cachedData:ArticleData;
-  public partnerID:string;
-
-  constructor(private _router:Router, public http:Http) {
-    this._router.root
-        .subscribe(
-            route => {
-              var curRoute = route;
-              var partnerID = curRoute.split('/');
-              if (partnerID[0] == '') {
-                this.partnerID = null;
-              } else {
-                this.partnerID = partnerID[0];
-              }
-            }
-        )//end of route subscribe
-  };
-
-  getHistoryData() {
-    if (this.cachedData) {
-      return Observable.of(this.cachedData);
-    } else {
-      if (this.partnerID == null) {
-        return this.http.get('http://dev-homerunloyal-ai.synapsys.us/historical/59445')
-            .map(res => res.json())
-            .do((data) => {
-              this.cachedData = data;
-            });
-      } else {
-        return this.http.get('http://dev-homerunloyal-ai.synapsys.us/historical/59445')
-            .map(res => res.json())
-            .do((data) => {
-              this.cachedData = data;
-            });
-      }
-    }
-  }
+  // cachedData:ArticleData;
+  // public partnerID:string;
+  //
+  // constructor(private _router:Router, public http:Http) {
+  //   this._router.root
+  //       .subscribe(
+  //           route => {
+  //             var curRoute = route;
+  //             var partnerID = curRoute.split('/');
+  //             if (partnerID[0] == '') {
+  //               this.partnerID = null;
+  //             } else {
+  //               this.partnerID = partnerID[0];
+  //             }
+  //           }
+  //       )//end of route subscribe
+  // };
+  //
+  // getHistoryData() {
+  //   if (this.cachedData) {
+  //     return Observable.of(this.cachedData);
+  //   } else {
+  //     if (this.partnerID == null) {
+  //       return this.http.get('http://dev-homerunloyal-ai.synapsys.us/historical/59445')
+  //           .map(res => res.json())
+  //           .do((data) => {
+  //             this.cachedData = data;
+  //           });
+  //     } else {
+  //       return this.http.get('http://dev-homerunloyal-ai.synapsys.us/historical/59445')
+  //           .map(res => res.json())
+  //           .do((data) => {
+  //             this.cachedData = data;
+  //           });
+  //     }
+  //   }
+  // }
 }
