@@ -1,0 +1,56 @@
+<span *ngIf="league">
+    <span *ngFor="#subData of randomArticles; #even=even; #odd=odd; #last=last; #i=index;">
+        <div *ngIf="even && i < 10" class="sub-container" style="float: left;">
+            <a href="">
+                <span class="articleBoxSmall">
+                    <img class="sub-container-image" src="{{subData.photos}}"/>
+                    <div>
+                        <p>View</p>
+                    </div>
+                </span>
+                <div class="sub-container-content">
+                    {{subData.title}}
+                </div>
+            </a>
+            <span *ngIf="i != 8">
+                <div class="sub-container-hr"></div>
+            </span>
+        </div>
+        <div *ngIf="odd && i < 10" class="sub-container" style="float: right;">
+            <a href="">
+                <span class="articleBoxSmall">
+                    <img class="sub-container-image" src="{{subData.photos}}"/>
+                    <div>
+                        <p>View</p>
+                    </div>
+                </span>
+                <div class="sub-container-content">
+                    {{subData.title}}
+                </div>
+            </a>
+            <span *ngIf="i != 9">
+                <div class="sub-container-hr"></div>
+            </span>
+        </div>
+    </span>
+</span>
+<span *ngIf="!league">
+    <span *ngFor="#subData of randomArticles; #i=index;">
+        <div *ngIf="i < 5" class="sub-container" style="float: left; width: 50%;">
+            <a href="">
+                <span class="articleBoxSmall">
+                    <img class="sub-container-image" src="{{subData.photos}}"/>
+                    <div>
+                        <p>View</p>
+                    </div>
+                </span>
+                <div class="sub-container-content">
+                    {{subData.title}}
+                </div>
+            </a>
+            <span *ngIf="i != 4">
+                <div class="sub-container-hr"></div>
+            </span>
+        </div>
+    </span>
+</span>

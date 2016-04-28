@@ -325,7 +325,94 @@ goalsHeader
   .backgroundClipPBoxPrefixes;
 }
 
+.rectangleImage(@width, @height) {
+  width: @width;
+  height: @height;
+  .backgroundClipPBoxPrefixes;
+}
+
 /* @Image Hover States */
+/* Articles */
+.articleImageHoverWithText(@hoverEleWidth, @hoverEleHeight) {
+  .flexDisplay;
+  .flexDirection(column);
+  .flexJustify(center);
+  text-align: center;
+  background-color: rgba(188, 32, 39, 0.75);
+  width: @hoverEleWidth;
+  height: @hoverEleHeight;
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  p {
+    &:first-child {
+      @defaultFirstParaFontSize: @hoverEleWidth * 0.06;
+      .globalDefaultModFont(@defaultFirstParaFontSize, 700, @white);
+      line-height: @defaultFirstParaFontSize;
+      margin: 0 auto;
+      height: 38px;
+      width: 208px;
+      padding-top: 7px;
+      border: 1px solid @white;
+      border-radius: 2px;
+      background-color: rgba(0, 0, 0, 0.25);
+    }
+  }
+}
+
+.articleImageHoverWithTextSmall(@hoverEleWidth, @hoverEleHeight) {
+  .flexDisplay;
+  .flexDirection(column);
+  .flexJustify(center);
+  text-align: center;
+  background-color: rgba(188, 32, 39, 0.75);
+  width: @hoverEleWidth;
+  height: @hoverEleHeight;
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  p {
+    &:first-child {
+      @defaultFirstParaFontSize: @hoverEleWidth * 0.13;
+      .globalDefaultModFont(@defaultFirstParaFontSize, 700, @white);
+      line-height: @defaultFirstParaFontSize;
+      margin: 0 auto;
+      height: 28px;
+      width: 78px;
+      padding-top: 7px;
+      border: 1px solid @white;
+      border-radius: 5px;
+      background-color: rgba(0, 0, 0, 0.25);
+    }
+  }
+}
+
+.articleImageHoverWithTextMedium(@hoverEleWidth, @hoverEleHeight) {
+  .flexDisplay;
+  .flexDirection(column);
+  .flexJustify(center);
+  text-align: center;
+  background-color: rgba(188, 32, 39, 0.75);
+  width: @hoverEleWidth;
+  height: @hoverEleHeight;
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  p {
+    &:first-child {
+      @defaultFirstParaFontSize: @hoverEleWidth * 0.1;
+      .globalDefaultModFont(@defaultFirstParaFontSize, 700, @white);
+      line-height: @defaultFirstParaFontSize;
+      margin: 0 auto;
+      height: 28px;
+      width: 120px;
+      padding-top: 3px;
+      border: 1px solid @white;
+      border-radius: 5px;
+      background-color: rgba(0, 0, 0, 0.25);
+    }
+  }
+}
 // @roundImageLinkDemo
 .smallImageHoverWithIcon(@hoverEleWidthHeight) {
   .flexDisplay;
@@ -368,6 +455,60 @@ goalsHeader
       .globalDefaultModFont(@defaultSecondParaFontSize, 400, @white);
       line-height: @defaultSecondParaFontSize;
       margin: 0;
+    }
+  }
+}
+// article Image Links
+.articleImageLinkWithHover(@linkWidth, @linkHeight) {
+  display: inline-block;
+  width: @linkWidth;
+  height: @linkHeight;
+  position: absolute;
+  img {
+    .rectangleImage(@linkWidth, @linkHeight);
+  }
+  div {
+    .articleImageHoverWithText(@linkWidth, @linkHeight);
+  }
+  &:hover {
+    div {
+      left: 0;
+    }
+  }
+}
+
+.articleImageLinkWithHoverSmall(@linkWidth, @linkHeight) {
+  display: inline-block;
+  width: @linkWidth;
+  height: @linkHeight;
+  position: absolute;
+  img {
+    .rectangleImage(@linkWidth, @linkHeight);
+  }
+  div {
+    .articleImageHoverWithTextSmall(@linkWidth, @linkHeight);
+  }
+  &:hover {
+    div {
+      left: 0;
+    }
+  }
+}
+
+.articleImageLinkWithHoverMedium(@linkWidth, @linkHeight) {
+  display: inline-block;
+  width: @linkWidth;
+  height: @linkHeight;
+  position: absolute;
+  img {
+    .rectangleImage(@linkWidth, @linkHeight);
+  }
+  div {
+    .articleImageHoverWithTextMedium(@linkWidth, @linkHeight);
+  }
+  &:hover {
+    div {
+      left: 0;
     }
   }
 }
