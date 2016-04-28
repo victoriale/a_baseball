@@ -7,6 +7,8 @@ import {SchedulesModule} from '../../modules/schedules/schedules';
 import {TeamRosterModule} from '../../modules/team-roster/team-roster.module';
 import {AboutUsModule} from '../../modules/about-us/about-us.module';
 import {ShareButtonComponent} from '../../components/share-button/share-button.component';
+import {ProfileHeaderModule} from '../../modules/profile-header/profile-header.module';
+import {StandingsModule} from '../../modules/standings/standings.module';
 import {Search} from '../../components/search/search.component';
 
 @Component({
