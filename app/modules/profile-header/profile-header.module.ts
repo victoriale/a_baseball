@@ -38,9 +38,7 @@ export class ProfileHeaderModule {
       }
     }; 
 
-    constructor(private _router: Router, private _globalFunctions: GlobalFunctions, private _service: ProfileHeaderService){
-        //Determine what page the profile header module is on
-        //this.profileType = this.router.hostComponent.name;
+    constructor(private _router: Router, private _globalFunctions: GlobalFunctions, private _service: ProfileHeaderService) {
         this._service.getProfileHeaderDefaultData().subscribe(
           data => this.setupData(data),
           err => { console.log("Error getting Profile Header data"); }

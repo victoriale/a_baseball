@@ -8,6 +8,7 @@ import {TeamRosterModule} from '../../modules/team-roster/team-roster.module';
 import {AboutUsModule} from '../../modules/about-us/about-us.module';
 import {ShareButtonComponent} from '../../components/share-button/share-button.component';
 import {ProfileHeaderModule} from '../../modules/profile-header/profile-header.module';
+import {StandingsModule} from '../../modules/standings/standings.module';
 import {Search} from '../../components/search/search.component';
 
 @Component({
@@ -22,7 +23,8 @@ import {Search} from '../../components/search/search.component';
       SeasonStatsModule, 
       Search,
       AboutUsModule,
-      ProfileHeaderModule
+      ProfileHeaderModule,
+      StandingsModule
     ],
     providers: [],
 })

@@ -42,14 +42,14 @@ export class ProfileHeaderService {
 
   constructor(public http: Http){}
 
-  getProfileHeaderData() {
+  getProfileHeaderData(): Observable<ProfileHeaderData> {
     let url = this._apiUrl + '/profileHeader';
     return this.http.get(url)
         .map(res => res.json())
         .map(data => data.data);
   }
   
-  getProfileHeaderDefaultData() {
+  getProfileHeaderDefaultData(): Observable<ProfileHeaderData> {
     return Observable.of(this._defaultData);
   }
 }
