@@ -1,0 +1,133 @@
+@import (reference) "./app/global/stylesheets/components.less";
+@import (reference) "./app/global/stylesheets/base.less";
+
+.default-gradient {
+  height: 100px;
+  width: 680px;
+  position: relative;
+  //background-image: url(/public/BG-dark.png);
+  background-size: 680px 310px;
+  background: -webkit-linear-gradient(0deg, rgba(0, 34, 180, 0.75) 0%, rgba(45, 45, 45, 0.75) 50%, rgba(246, 176, 0, 0.75) 100%);
+  background: -moz-linear-gradient(0deg, rgba(0, 34, 180, 0.75) 0%, rgba(45, 45, 45, 0.75) 50%, rgba(246, 176, 0, 0.75) 100%);
+  background: -o-linear-gradient(0deg, rgba(0, 34, 180, 0.75) 0%, rgba(45, 45, 45, 0.75) 50%, rgba(246, 176, 0, 0.75) 100%);
+  background: -ms-linear-gradient(0deg, rgba(0, 34, 180, 0.75) 0%, rgba(45, 45, 45, 0.75) 50%, rgba(246, 176, 0, 0.75) 100%);
+  background: linear-gradient(90deg, rgba(0, 34, 180, 0.75) 0%, rgba(45, 45, 45, 0.75) 50%, rgba(246, 176, 0, 0.75) 100%);
+  background-color: #363636;
+}
+
+.schedule {
+  width: 100%;
+  height: 100px;
+  background-color: @black;
+  position: relative;
+  &-next {
+    height: 100px;
+    width: 680px;
+    position: relative;
+    &-bkgrnd {
+      background-color: @black;
+    }
+    &-b {
+      font-family: @globalFont;
+      font-weight: 600;
+      font-style: normal;
+    }
+    &-l {
+      font-family: @globalFont;
+      font-weight: 300;
+      font-style: normal;
+    }
+    &-t {
+      font-family: @globalFont;
+      font-weight: 300;
+      font-style: normal;
+    }
+    &-lg //The left gradient
+    {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 340px;
+      height: 100px;
+    }
+    &-rg //The right gradient
+    {
+      position: absolute;
+      top: 0;
+      left: 340px;
+      width: 340px;
+      height: 100px;
+    }
+    &-circle {
+      height: 64px;
+      width: 64px;
+      border-radius: 50%;
+      border: 1px solid rgba(0, 0, 0, 0.25);
+      background-size: contain !important;
+      background-position: center center !important;
+      background-repeat: no-repeat;
+      background-clip: padding-box;
+      position: absolute;
+      top: 15px;
+      &-l {
+        left: 245px;
+      }
+      &-r {
+        right: 245px;
+      }
+    }
+    &-team {
+      font-size: 1em;
+      position: absolute;
+      top: 154px;
+      width: 235px;
+      height: 55px;
+      line-height: 14px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      color: #ffffff;
+      text-transform: uppercase;
+      &-l {
+        left: 0;
+        text-align: right;
+        z-index: 1;
+        position: absolute;
+        top: 25px;
+        &-url {
+          color: @white;
+          display: inline-block;
+        }
+      }
+      &-r {
+        right: 0;
+        text-align: left;
+        z-index: 1;
+        position: absolute;
+        top: 25px;
+        &-url {
+          color: @white;
+          display: inline-block;
+          &:hover {
+            color: @joyfulHomeGreen;
+          }
+        }
+      }
+      &-b {
+        font-size: 16px;
+        line-height: 22px;
+        width: 125px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+    }
+    &-vs {
+      color: #ffffff;
+      font-size: 18px;
+      position: absolute;
+      top: 40px;
+      width: 100%;
+      text-align: center;
+      line-height: 10px;
+    }
+  }
+}

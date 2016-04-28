@@ -1,0 +1,46 @@
+.right-column {
+  width: 250px;
+  position: absolute;
+  right: 20px;
+  margin-top: 10px;
+  &-head {
+    font-family: @globalFont;
+    height: 50px;
+    background-color: @black;
+    color: @white;
+    font-weight: 900;
+    font-size: 22px;
+    text-align: center;
+    padding-top: 15px;
+    >.fa-trophy {
+      color: #ffd700;
+    }
+    &-content {
+      font-family: @globalFont;
+      border-style: solid;
+      border-width: 1px;
+      border-color: #e4e4e4;
+      box-sizing: border-box;
+      background-color: #f1f5f8;
+      width: 250px;
+      height: auto;
+      &-blurb {
+        color: #000000;
+        font-size: 14px;
+        font-weight: 400;
+        text-align: left;
+        margin: 10px;
+        &:hover {
+          color: #bc2027;
+        }
+      }
+      &-hr {
+        border-top: 1px solid rgba(172, 172, 172, 0.5);
+        width: 220px;
+        position: relative;
+        top: 0;
+        left: 10px;
+      }
+    }
+  }
+}

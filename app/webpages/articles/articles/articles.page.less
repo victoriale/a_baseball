@@ -1,0 +1,89 @@
+@import (reference) "./app/global/stylesheets/components.less";
+@import (reference) "./app/global/stylesheets/base.less";
+
+.articles-page-test {
+  width: 1440px;
+  height: 4899px;
+  background-color: @white;
+  margin: 20px;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+  &-content {
+    position: relative;
+    background-color: @white;
+    width: 960px;
+    padding: 0 20px;
+    margin: 0 auto;
+    overflow: hidden;
+    top: 1px;
+  }
+  &-title {
+    font-family: @globalFont;
+    font-size: 40px;
+    font-weight: 900;
+    text-align: left;
+    margin-bottom: 17px;
+  }
+}
+
+.arpt {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 80px;
+  text-align: left;
+  margin-top: 22px;
+
+  &-author {
+    width: 200%;
+    height: 50px;
+    float: left;
+
+    &-image {
+      background-image: url("/app/public/mainLogo.png");
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      border-radius: 100%;
+      width: 50px;
+      height: 50px;
+      float: left;
+    }
+
+    &-text {
+      font-family: @globalFont;
+      width: 520px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      padding-top: 15px;
+      padding-left: 15px;
+      color: #000000;
+      font-size: 16px;
+      font-weight: 400;
+      text-align: left;
+
+      &-name {
+        color: #3098ff;
+        font-size: 16px;
+        font-weight: 700;
+        text-align: left;
+      }
+    }
+  }
+
+  &-date {
+    font-family: @globalFont;
+    width: 100%;
+    height: 11px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #333333;
+    text-transform: uppercase;
+    line-height: 10px;
+    float: left;
+    margin-top: 5px;
+  }
+}
+

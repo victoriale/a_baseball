@@ -1,0 +1,32 @@
+<section class="media-images">
+    <div class="plcholder">
+        <circle-button (scrollLeft)="left()" (scrollRight)="right()"></circle-button>
+        <a class='feature-btn expand' (click)="modalExpand()">
+            {{expandText}}
+            <i class='fa {{expandIcon}}'></i>
+        </a>
+        <div class='feature-btn images'>
+            <span>
+                <i class='fa fa-file-image-o'></i>
+            </span>
+            <span>
+                {{imagesTitle}} ({{displayCounter}}/{{totalImageCount}})
+            </span>
+            <i></i>
+        </div>
+        <img src="{{largeImage}}" onerror="this.src={{image-url}}" class="plcholder-img"
+             alt="placeholder images"/>
+        <div class="grey-bar">
+            <div class="grey-bar-triangle"></div>
+        </div>
+    </div>
+    <div class="sm-images">
+        <div class="sm-images-img">
+            <a *ngFor="#smImages of smallImage">
+                <img id="smImg-{{smImages.id}}" [ngClass]="{'square-image-active': smImages.id == imageCounter}"
+                     class="square-image" src="{{smImages.image}}" onerror="this.src={{image-url}}"
+                     alt="small square images" (click)="changeClick(smImages.id)"/>
+            </a>
+        </div>
+    </div>
+</section>
