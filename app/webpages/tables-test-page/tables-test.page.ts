@@ -2,12 +2,8 @@ import {Component} from 'angular2/core';
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {TitleComponent} from '../../components/title/title.component';
 import {CustomTable} from '../../components/custom-table/custom-table.component';
-<<<<<<< HEAD
-import {TableRow, TableColumn} from '../../components/custom-table/table-data.component';
-import {TitleInputData} from "../../components/title/title.component";
-=======
 import {TableRow, TableData, TableColumn} from '../../components/custom-table/table-data.component';
->>>>>>> develop
+import {TitleInputData} from "../../components/title/title.component";
 
 @Component({
     selector: 'tables-test-page',
