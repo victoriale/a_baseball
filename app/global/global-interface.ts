@@ -1,128 +1,3 @@
-/*BELOW IS MAGAZINE INTERFACE*/
-export interface MagData{
-    overview?: MagOverview;
-    recommendations?: MagRecommendations;
-    neighborhood?: MagNeighborhood;
-    contact?: MagContact;
-    info?: {
-        schools?: MagSchools;
-        demographics?: MagDemographics;
-    };
-    amenities?: MagAmenities;
-}
-
-export interface MagOverview {
-    pageTitle?: string;
-    menuTitle?: string;
-    address?: address;
-    price?: any;
-    formattedPrice?: string;
-    key?: string;
-    content?: string[];
-    photos?: string[];
-}
-
-export interface MagRecommendations {
-    pageTitle?: string;
-    menuTitle?: string;
-    similar?: Array<{
-        address?: address;
-        key?: string;
-        content?: string[];
-        photos?: string[];
-    }>;
-}
-
-export interface MagNeighborhood {
-    pageTitle?: string;
-    menuTitle?: string;
-    key?: string;
-    neighbors?: MagMap[];
-    address?: any;
-}
-
-export interface MagContact {
-    pageTitle?: string;
-    menuTitle?: string;
-    address?: address;
-    price?: number;
-    key?: string;
-    content?: string[];
-    photos?: string[];
-}
-
-export interface MagAmenities {
-    pageTitle?: string;
-    menuTitle?: string;
-    address?: address;
-    restaurant?: MagAmenity;
-    grocery?: MagAmenity;
-    bank?: MagAmenity;
-    stockPhotos?: string;
-}
-
-export interface MagSchools {
-    pageTitle?: string;
-    menuTitle?: string;
-    city?: string;
-    content?: string[];
-    stockPhotos?: string;
-}
-
-export interface MagDemographics {
-    pageTitle?: string;
-    menuTitle?: string;
-    city?: string;
-    content?: string[];
-    stockPhotos?: string;
-}
-
-export interface address {
-    fullStreetAddress?: string;
-    city?: string;
-    county?: string;
-    state?: string;
-    postalCode?: string;
-    country?: string;
-    lat?: number;
-    lng?: number;
-}
-
-export interface MagMap {
-    key?: string;
-    photos?: string[];
-    address?: address;
-    list_price?: number;
-}
-
-export interface MagAmenity {
-    title?: string;
-    content?: string[];
-    photo?: string;
-}
-
-/*ABOVE IS MAGAZINE INTERFACE*/
-export interface AmenitiesNearListingInterface {
-    name: string;
-    url: string;
-    categories: string[];
-    location: Object;
-    display_address: string[];
-    display_phone: string;
-}
-
-export interface SchoolDataInterface {
-    schoolName: string;
-    locationAddress: string;
-    locationCity: string;
-    locationState: string;
-    locationZipcode: string;
-    type: string;
-    firstGradeEnrollment: string;
-    sixthGradeEnrollment: string;
-    ninthGradeEnrollment: string;
-}
-
 export interface PropertyListingInterface {
     listingID: string;
     listPrice: string;
@@ -224,3 +99,257 @@ export interface FeaturedListInterface {
         top10National: string;
     }
 }
+/*BELOW IS ARTICLE MODULE TEST INTERFACE*/
+//export interface ArticleData {
+//    history?: HistoryDataAI;
+//    about?: AboutDataAI;
+//}
+//export interface HistoryDataAI {
+//    displayHeadline: string;
+//    metaHeadline: string;
+//    dateline: string;
+//    article: string;
+//    commentHeader: string;
+//}
+//export interface AboutDataAI {
+//    displayHeadline: string;
+//    metaHeadline: string;
+//    dateline: string;
+//    article: string;
+//    commentHeader: string;
+//}
+export interface ArticleData {
+    metaData: Array<{
+        homeTeamId: string;
+        awayTeamId: string;
+        league: string;
+        homeTeamName: string;
+        awayTeamName: string;
+        homeRecord: string;
+        awayRecord: string;
+        gameAlignment: string;
+        startDateTime: string;
+        hex: {
+            homeColor: string;
+            awayColor: string;
+        }
+        logos: {
+            home: string;
+            away: string;
+        }
+    }>;
+    preGameReport: Array<{
+        status: boolean;
+        photos: {
+            url: string;
+            index: number;
+        }
+        date: string;
+        headline: string;
+        content: string;
+    }>;
+    midGameReport: Array<{
+        status: boolean;
+        photos: {
+            url: string;
+            index: number;
+        }
+        date: string;
+        headline: string;
+        content: any;
+    }>;
+    postGameReport: Array<{
+        status: boolean;
+        photos: {
+            url: string;
+            index: number;
+        }
+        date: string;
+        headline: string;
+        content: any;
+    }>;
+    inningReport3: Array<{
+        status: boolean;
+        photos: {
+            url: string;
+            index: number;
+        }
+        date: string;
+        headline: string;
+        content: any;
+    }>;
+    inningReport5: Array<{
+        status: boolean;
+        photos: {
+            url: string;
+            index: number;
+        }
+        date: string;
+        headline: string;
+        content: any;
+    }>;
+    inningReport7: Array<{
+        status: boolean;
+        photos: {
+            url: string;
+            index: number;
+        }
+        date: string;
+        headline: string;
+        content: any;
+    }>;
+    aboutTheTeams: Array<{
+        photos: {
+            url: string;
+            index: number;
+        }
+        date: string;
+        headline: string;
+        content: any;
+    }>;
+    historicalTeamStats: Array<{
+        photos: {
+            url: string;
+            index: number;
+        }
+        date: string;
+        headline: string;
+        content: any;
+    }>;
+    lastMatchUp: Array<{
+        photos: {
+            url: string;
+            index: number;
+        }
+        date: string;
+        headline: string;
+        content: any;
+    }>;
+    startingLineUp: Array<{
+        photos: {
+            url: string;
+            index: number;
+        }
+        date: string;
+        headline: string;
+        content: any;
+    }>;
+    outfieldLF: Array<{
+        photos: {
+            url: string;
+            index: number;
+        }
+        date: string;
+        headline: string;
+        content: any;
+    }>;
+    outfieldCF: Array<{
+        photos: {
+            url: string;
+            index: number;
+        }
+        date: string;
+        headline: string;
+        content: any;
+    }>;
+    outfieldRF: Array<{
+        photos: {
+            url: string;
+            index: number;
+        }
+        date: string;
+        headline: string;
+        content: any;
+    }>;
+    infield3B: Array<{
+        photos: {
+            url: string;
+            index: number;
+        }
+        date: string;
+        headline: string;
+        content: any;
+    }>;
+    infieldSS: Array<{
+        photos: {
+            url: string;
+            index: number;
+        }
+        date: string;
+        headline: string;
+        content: any;
+    }>;
+    infield2B: Array<{
+        photos: {
+            url: string;
+            index: number;
+        }
+        date: string;
+        headline: string;
+        content: any;
+    }>;
+    infield1B: Array<{
+        photos: {
+            url: string;
+            index: number;
+        }
+        date: string;
+        headline: string;
+        content: any;
+    }>;
+    pitcher: Array<{
+        photos: {
+            url: string;
+            index: number;
+        }
+        date: string;
+        headline: string;
+        content: any;
+    }>;
+    catcher: Array<{
+        photos: {
+            url: string;
+            index: number;
+        }
+        date: string;
+        headline: string;
+        content: any;
+    }>;
+    homeTeamInjuryReport: Array<{
+        photos: {
+            url: string;
+            index: number;
+        }
+        date: string;
+        headline: string;
+        content: any;
+    }>;
+    awayTeamInjuryReport: Array<{
+        photos: {
+            url: string;
+            index: number;
+        }
+        date: string;
+        headline: string;
+        content: any;
+    }>;
+    homeTeamStartingLineUp: Array<{
+        photos: {
+            url: string;
+            index: number;
+        }
+        date: string;
+        headline: string;
+        content: any;
+    }>;
+    awayTeamStartingLineUp: Array<{
+        photos: {
+            url: string;
+            index: number;
+        }
+        date: string;
+        headline: string;
+        content: any;
+    }>;
+}
+/*ABOVE IS ARTICLE MODULE TEST INTERFACE*/

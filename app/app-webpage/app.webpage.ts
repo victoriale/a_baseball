@@ -11,13 +11,18 @@ import {TablesTestPage} from "../webpages/tables-test-page/tables-test.page";
 import {WebApp} from "../app-layout/app.layout";
 import {GlobalFunctions} from "../global/global-functions";
 import {SearchPage} from '../webpages/search-page/search.page';
+import {ModulePage} from "../webpages/module-page/module.page";
+//import {ArticlePageAbout} from "../webpages/articles/about/about.page";
+import {AsyncRoute} from "angular2/router";
+//import {ArticlePageHistory} from "../webpages/articles/history/history.page";
+import {ArticlePage} from "../webpages/articles/articles/articles.page";
+import {ArticleDataService} from "../global/global-service";
 
 @Component({
     selector: 'my-app',
     templateUrl: './app/app-webpage/app.webpage.html',
-
-    directives: [HomePage, TeamPage, AboutUsPage, ContactUsPage, DisclaimerPage, SearchPage, ComponentPage, RouterOutlet, ROUTER_DIRECTIVES],
-    providers: [ ROUTER_DIRECTIVES],
+    directives: [HomePage, TeamPage, AboutUsPage, ContactUsPage, DisclaimerPage, SearchPage, ComponentPage, ModulePage, RouterOutlet, ROUTER_DIRECTIVES],
+    providers: [ ROUTER_DIRECTIVES, ArticleDataService],
 })
 
 @RouteConfig([
@@ -33,47 +38,68 @@ import {SearchPage} from '../webpages/search-page/search.page';
       component: ComponentPage,
     },
     {
-      path: '/team',
-      name: 'Team-page',
-      component: TeamPage,
+        path: '/team',
+        name: 'Team-page',
+        component: TeamPage,
     },
     {
-      path: '/aboutus',
-      name: 'Aboutus-page',
-      component: AboutUsPage,
+        path: '/aboutus',
+        name: 'Aboutus-page',
+        component: AboutUsPage,
     },
     {
-      path: '/contactus',
-      name: 'Contactus-page',
-      component: ContactUsPage,
+        path: '/contactus',
+        name: 'Contactus-page',
+        component: ContactUsPage,
     },
     {
-      path: '/disclaimer',
-      name: 'Disclaimer-page',
-      component: DisclaimerPage,
+        path: '/disclaimer',
+        name: 'Disclaimer-page',
+        component: DisclaimerPage,
     },
     {
-      path: '/images-test',
-      name: 'Images-test-page',
-      component: ImagesTestPage,
+        path: '/images-test',
+        name: 'Images-test-page',
+        component: ImagesTestPage,
     },
-    {
-      path: '/tables-test',
-      name: 'Tables-test-page',
-      component: TablesTestPage,
+        {
+        path: '/tables-test',
+        name: 'Tables-test-page',
+        component: TablesTestPage,
     },
     {
         path: '/search',
         name: 'Search-page',
         component: SearchPage
-    }
+    },
+    {
+        path: '/modules',
+        name: 'Module-page',
+        component: ModulePage
+    },
+    //test AI Page
+    {
+        path: 'articles',
+        name: 'Articles-Page',
+        component: ArticlePage
+    },
+    //new AsyncRoute({
+    //    path: 'articles/history',
+    //    loader: () => Promise.resolve(ArticlePageHistory),
+    //    name: 'Articles-History-Page',
+    //}),
+    //new AsyncRoute({
+    //    path: 'articles/about',
+    //    loader: () => Promise.resolve(ArticlePageAbout),
+    //    name: 'Articles-About-Page',
+    //})
 ])
 
 export class AppComponent implements OnInit {
 
-    constructor(private _injector: Injector, private _params: RouteParams, private route: Router, private routeData: RouteData, private routerLink: RouterLink, private _globalFunctions: GlobalFunctions){
+    constructor(private _injector:Injector, private _params:RouteParams, private route:Router, private routeData:RouteData, private routerLink:RouterLink, private _globalFunctions:GlobalFunctions) {
     }
 
-    ngOnInit(){
+    ngOnInit() {
     }
 }
