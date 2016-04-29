@@ -8,7 +8,7 @@ import {DetailedListItem} from '../../components/detailed-list-item/detailed-lis
 //import {PhotoListComponent} from '../../components/photo-list/photo-list.component';
 import {WidgetModule} from "../../modules/widget/widget.module";
 import {GlobalFunctions} from "../../global/global-functions";
-import {TitleComponent} from '../../components/title/title.component';
+//import {TitleComponent} from '../../components/title/title.component';
 import {PaginationFooter} from "../../components/pagination-footer/pagination-footer.component";
 import {listViewPage} from '../../global/global-service';
 import {LoadingComponent} from '../../components/loading/loading.component';

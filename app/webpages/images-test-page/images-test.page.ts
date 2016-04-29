@@ -8,6 +8,7 @@ import {WidgetModule} from "../../modules/widget/widget.module";
 import {WebApp} from '../../app-layout/app.layout';
 import {CircleImage} from '../../components/images/circle-image';
 import {ImageData,CircleImageData} from '../../components/images/image-data';
+import {TitleInputData} from "../../components/title/title.component";
 
 export interface TestImage {
   imageData: CircleImageData;
@@ -21,7 +22,7 @@ export interface TestImage {
 })
 
 export class ImagesTestPage {
-    titleData: {};
+    titleData: TitleInputData;
     auHeaderTitle: string;
     
     public testImages: Array<TestImage>;
@@ -34,12 +35,10 @@ export class ImagesTestPage {
       //About us title
       this.titleData = {
           imageURL : '/app/public/mainLogo.png',
-          smallText1 : 'Last Updated: Monday, February 26, 2016',
-          smallText2 : ' United States of America',
-          heading1 : 'Test Page',
-          heading2 : '',
-          heading3 : 'A test page for designing and viewing CSS styles',
-          heading4 : '',
+          text1: 'Last Updated: Monday, February 26, 2016',
+          text2: ' United States of America',
+          text3: 'Test Page',
+          text4: 'A test page for designing and viewing CSS styles',
           icon: 'fa fa-map-marker',
           hasHover: false
       };

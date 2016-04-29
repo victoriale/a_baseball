@@ -2,6 +2,16 @@ import {Component, Input} from 'angular2/core';
 import {CircleImage} from '../../components/images/circle-image';
 import {CircleImageData} from '../../components/images/image-data';
 
+export interface TitleInputData{
+    imageURL  : string;
+    text1     : string;
+    text2     : string;
+    text3     : string;
+    text4     : string;
+    icon      : string;
+    hasHover? : boolean;
+}
+
 @Component({
     selector: 'title-component',
     templateUrl: './app/components/title/title.component.html',
@@ -10,7 +20,7 @@ import {CircleImageData} from '../../components/images/image-data';
     inputs: ['titleData']
 })
 export class TitleComponent{
-    public titleData: Object;
+    public titleData: TitleInputData;
     public titleImage: CircleImageData;
 
     titleComp(){
@@ -18,12 +28,10 @@ export class TitleComponent{
             this.titleData =
             {
                 imageURL : '/app/public/mainLogo.png',
-                smallText1 : 'Monday, February 23, 2016',
-                smallText2 : ' United States of America',
-                heading1 : 'Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet',
-                heading2 : '',
-                heading3 : 'Lorem ipsum dolor sit amet Lorem',
-                heading4 : '',
+                text1: "lorem ipsum delor",
+                text2: "ipsum delor lorem",
+                text3: "lorem ipsum delor",
+                text4: "lorem ipsum delor",
                 icon: 'fa fa-map-marker',
                 hasHover: true
             };

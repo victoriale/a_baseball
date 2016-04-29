@@ -1,20 +1,12 @@
-/**
- * Created by Victoria on 3/8/2016.
- */
-import {Component, OnInit, OnChanges} from 'angular2/core';
+import {Component} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
-
-//import {DropdownComponent} from '../../components/buttons/sort-by/sort-by.component';
-//import {ListMenuComponent} from '../../components/list-menu/list-menu.component';
 import {DynamicListComponent} from '../../components/dynamic-list/dynamic-list.component';
 import {WidgetModule} from "../../modules/widget/widget.module";
 import {DynamicWidgetCall} from '../../global/global-service';
 import {GlobalFunctions} from "../../global/global-functions";
-import {TitleComponent} from '../../components/title/title.component';
 import {PaginationFooter} from "../../components/pagination-footer/pagination-footer.component";
 import {ErrorComponent} from "../../components/error/error.component";
 import {BackTabComponent} from "../../components/backtab/backtab.component";
-//import {DynamicCarousel2} from "../../components/carousel/dynamic-carousel2/dynamic-carousel2";
 import {Router} from "angular2/router";
 
 declare var moment: any;
@@ -22,12 +14,11 @@ declare var moment: any;
 @Component({
   selector: 'List-page',
   templateUrl: './app/webpages/dynamic-list-page/dynamic-list.page.html',
-  
-  directives: [PaginationFooter, TitleComponent, DynamicListComponent, WidgetModule, ErrorComponent, BackTabComponent],
+  directives: [PaginationFooter, DynamicListComponent, WidgetModule, ErrorComponent, BackTabComponent],
   providers: [DynamicWidgetCall],
 })
 
-export class DynamicListPage implements OnInit {
+export class DynamicListPage{
   carouselData: any = [];
   listData:any = [];
   headerData: any;
@@ -51,9 +42,6 @@ export class DynamicListPage implements OnInit {
       //query USED TO look something like this "tw=1&sw=103&input=TAMPA";
       //query should look something like this "tw-1+sw-103+input-TAMPA";
       let query = this._params.get("query");
-      //this.tw ="1";
-      //this.sw ="103";
-      //this.input ="TAMPA";
 
       // Setup this way in case we want to switch out null with some default values
       let twArr = query.match(/tw-(.*?)\+/);
@@ -87,7 +75,6 @@ export class DynamicListPage implements OnInit {
             }
         )
   }
-
 
   getDynamicList() {// GET DATA FROM GLOBAL SERVICE
     //EXAMPLE
@@ -180,7 +167,6 @@ export class DynamicListPage implements OnInit {
     this.sanitizeListofListData();
   }//END OF TRANSFORM FUNCTION
 
-
     sanitizeListofListData(){
         var data = this.listData;  // full array
         var size = this.paginationSize;
@@ -238,8 +224,4 @@ export class DynamicListPage implements OnInit {
             this.sanitizeListofListData();// this is where the data will be sanitized for pagination
         }
     }
-
-    ngOnInit() {
-    }
-
 }
