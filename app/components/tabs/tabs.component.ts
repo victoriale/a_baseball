@@ -13,7 +13,6 @@ export class Tabs implements AfterContentInit {
 
   // contentChildren are set
   ngAfterContentInit() {
-    console.log('adfafd;sada');
     // get all active tabs
     let activeTabs = this.tabs.filter((tab)=>tab.active);
     // if there is no active tab set, activate the first
