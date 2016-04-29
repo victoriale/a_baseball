@@ -24,11 +24,47 @@
         width: 40px;
         i{
           padding-top: 10px;
-        }
-
+        }//i ends
+      }// ul li ends
+    }// ul ends
+    li:hover{
+      background-color: @greySocialBarHover;
+      &:first-child{
+        color: @facebook;
+        border-color: @facebook;
       }
-    }
-  }
+      &:nth-child(2){
+        color: @twitter;
+        border-color: @twitter;
+      }
+      &:nth-child(3){
+        color: @linkedin;
+        border-color: @linkedin;
+      }
+      &:nth-child(4){
+        color: @googlePlus;
+        border-color: @googlePlus;
+      }
+    }//li:hover ends
+    li:active{
+      .fa{
+        color: @white;
+      }
+      &:first-child{
+        background-color: @facebook;
+      }
+      &:nth-child(2){
+        background-color: @twitter;
+      }
+      &:nth-child(3){
+        background-color: @linkedin;
+      }
+      &:nth-child(4){
+        background-color: @googlePlus;
+      }
+    }//li:hover ends
+  }// footer-top ends
+
   &-main{
     background-color: @listSeparatorGrey;
     height: auto;
@@ -48,55 +84,21 @@
         i{
           padding: 5px;
         }
+        &:hover{
+          a{
+            color: @masterBrandColor;
+          }
+        }
       }
     }// ul ends
     hr{
       width: 70%;
     }
+
   }// footer-main ends
+  &-text1{
+    a{
+      .globalDefaultModFont(14px, 900, @masterBrandColor);
+    }
+  }
 }
-// .footer {
-//   background-color: @mediumGrey;
-//   height: auto;
-//   width: 100%;
-//   position: absolute;
-//   bottom: 0;
-//   text-align: center;
-//   .footer-btn {
-//     .inlineFlexDisplay;
-//     .flexDirection(row);
-//     .flexAlignItems(center);
-//     height: 35px;
-//     background-color: @masterBrandColor;
-//     .borderRadiusPrefix(5px 5px 0 0);
-//     span:first-child {
-//       border-radius: 50%;
-//       width: 25px;
-//       height: 25px;
-//       margin-left: 10px;
-//       background-image: url(@masterIcon);
-//       background-position: center center;
-//       background-repeat: no-repeat;
-//     }
-//     span:nth-child(2) {
-//       .globalDefaultModFont(16px, 900, @white);
-//       margin-left: 10px;
-//     }
-//     i {
-//       margin: 2px 10px 0 8px;
-//       color: @white;
-//       font-weight: 900;
-//     }
-//     &:hover {
-//       background-color: darken(@masterBrandColor, 10%);
-//     }
-//     &:active {
-//       background-color: @black;
-//       span:first-child {
-//         background-color: @masterBrandColor;
-//         background-position: center center;
-//         background-repeat: no-repeat;
-//       }
-//     }
-//   }
-// }

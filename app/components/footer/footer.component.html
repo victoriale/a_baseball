@@ -2,10 +2,10 @@
   <section class="footer-top">
     <a href="/"><img src="/app/public/homeRunLoyalLogo_Small.png" /></a>
     <ul>
-        <li><a href="https://www.facebook.com/sharer/sharer.php?u={{currentUrl}}" target="_blank"><li><i class="fa fa-facebook "></i></li></a></li>
-        <li><a href="https://twitter.com/home?status={{currentUrl}}" target="_blank"><li><i class="fa fa-twitter"></i></li></a></li>
-        <li><a href="https://www.linkedin.com/shareArticle?mini=true&url={{currentUrl}}" target="_blank"><li><i class="fa fa-linkedin"></i></li></a></li>
-        <li><a href="https://plus.google.com/share?url={{currentUrl}}" target="_blank"> <li><i class="fa fa-google-plus"></i></li></a></li>
+        <li><a href="https://www.facebook.com/sharer/sharer.php?u={{currentUrl}}" target="_blank"><i class="fa fa-facebook "></i></a></li>
+        <li><a href="https://twitter.com/home?status={{currentUrl}}" target="_blank"><i class="fa fa-twitter"></i></a></li>
+        <li><a href="https://www.linkedin.com/shareArticle?mini=true&url={{currentUrl}}" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+        <li><a href="https://plus.google.com/share?url={{currentUrl}}" target="_blank"> <i class="fa fa-google-plus"></i></a></li>
     </ul>
   </section>
 
@@ -14,29 +14,33 @@
     <ul>
         <li>Team Listings </li>
         <!-- <li *ngFor="#listings of alphabets"><a [routerLink]='["Directory-page", {}]'>{{team.name}}</a></li> -->
-        <li>A |</li>
+        <li><a [routerLink]="['Contactus-page']">A </a>|</li>
     </ul>
     <ul>
         <li>Player Listings </li>
         <!-- <li *ngFor="#listings of alphabets"><a [routerLink]='["Directory-page", {}]'>{{player.name}}</a></li> -->
-        <li>A |</li>
+        <li><a [routerLink]="['Contactus-page']">A </a>|</li>
     </ul>
     <hr /><!--line break-->
     <ul>
       <li>MLB Teams: </li>
+      <li><a [routerLink]="['Contactus-page']">Arizona Diamondbacks</a> <i class="fa fa-caret-right"></i></li>
+      <li class="footer-text1"><a [routerLink]="['Contactus-page']">View All MLB Profiles</a> <i class="fa fa-caret-right"></i></li>
     </ul>
     <hr /><!--line break-->
-    <ul>
+    <ul class="footer-text1">
       <li>You Might Like: </li>
+      <li><a [routerLink]="['Contactus-page']"><b>A List Page</b></a> <i class="fa fa-caret-right"></i></li>
     </ul>
     <hr /><!--line break-->
     <ul>
-        <li><a href="/"><b>HomeRunLoyal.com</b></a> <i class="fa fa-caret-right"></i></li>
-        <li><!--<a [routerLink]="['Contactus-page']">-->Advertise with HomeRunLoyal<!--</a>--> <i class="fa fa-caret-right"></i></li>
-        <br />
-        <li><!--<a [routerLink]="['Contactus-page']">--><b>Contact Us</b><!--</a>--> <i class="fa fa-caret-right"></i></li>
-        <li><!--<a [routerLink]="['Disclaimer-page']">--><b>Disclaimer</b><!--</a>--> <i class="fa fa-caret-right"></i></li>
-        <li><!--<a [routerLink]="['Contactus-page']">--><b>About Us</b><!--</a>--></li>
+        <li class="footer-text1"><a href="/"><b>HomeRunLoyal.com</b></a> <i class="fa fa-caret-right"></i></li>
+        <li><a [routerLink]="['Contactus-page']">Advertise with HomeRunLoyal</a> <i class="fa fa-caret-right"></i></li>
+    </ul>
+    <ul>
+        <li><a [routerLink]="['Contactus-page']"><b>Contact Us</b></a> <i class="fa fa-caret-right"></i></li>
+        <li><a [routerLink]="['Disclaimer-page']"><b>Disclaimer</b></a><i class="fa fa-caret-right"></i></li>
+        <li><a [routerLink]="['Aboutus-page']"><b>About Us</b></a></li>
     </ul>
   </section>
 
