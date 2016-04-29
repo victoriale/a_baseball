@@ -4,7 +4,6 @@
   position: relative;
   box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.35);
   border-radius: 5px;
-  overflow: hidden;
   font-family: @globalFont;
   font-size: 18px;
 
@@ -40,6 +39,50 @@
 
     &:focus{
       outline: none;
+    }
+  }
+
+  .search-dropdown{
+    width: 100%;
+    min-height: 25px;
+    height: auto;
+    position: absolute;
+    top: 120%;
+    left: 0px;
+    background-color: @white;
+    list-style-type: none;
+    border-top: 3px solid @masterBrandColor;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.35);
+    z-index: 5;
+    padding-top: 8px;
+
+    &-caret{
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      border-bottom: 10px solid @masterBrandColor;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+    }
+
+    &-item{
+      font-size: 18px;
+      padding: 20px;
+      position: relative;
+
+      .fa-angle-right{
+        font-size: 30px;
+        color: @white;
+        position: absolute;
+        right: 20px;
+        top: 12px;
+      }
+
+      &:hover{
+        color: @white;
+        background-color: @masterBrandColor;
+      }
     }
   }
 }
