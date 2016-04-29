@@ -1,7 +1,7 @@
-<table class="custom-table">
+<table *ngIf="model" class="custom-table">
   <thead>
     <tr>
-      <th *ngFor="#hdr of columns; #i = index">
+      <th *ngFor="#hdr of model.columns; #i = index">
         <custom-table-header
           [headerData]="hdr"
           [headerIndex]="i"
@@ -12,19 +12,19 @@
   </thead>
 
   <tbody class="{{bodyClass}}">
-    <tr *ngFor="#row of rows; #isOdd = odd"
-      [class.custom-table-row-selected]="row.isSelected"
+    <tr *ngFor="#row of model.rows; #isOdd = odd; #i = index"
+      [class.custom-table-row-selected]="model.isRowSelected(row, i)"
       [class.custom-table-row-odd]="isOdd">
-      <td *ngFor="#hdr of columns" class="{{bodyClass}}-{{hdr.columnClass}} {{bodyClass}}-cell">
-        <circle-image *ngIf="row.cells[hdr.key].profileImageConfig" [data]="row.cells[hdr.key].profileImageConfig"></circle-image>
-        <span [innerHtml]="row.cells[hdr.key].displayHtml"></span>
+      <td *ngFor="#hdr of model.columns" class="{{bodyClass}}-{{hdr.columnClass}} {{bodyClass}}-cell">
+        <circle-image *ngIf="model.hasImageConfigAt(hdr)" [data]="model.getImageConfigAt(row, hdr)"></circle-image>
+        <span [innerHtml]="model.getDisplayValueAt(row, hdr)"></span>
       </td>
     </tr>
   </tbody>
 
-  <tfoot *ngIf="footer" class="custom-table-footer {{bodyClass}}">
+  <tfoot *ngIf="model.footer" class="custom-table-footer {{bodyClass}}">
     <tr>
-      <td *ngFor="#hdr of columns" [innerHtml]="footer[hdr.key]" class="{{bodyClass}}-cell"></td>
+      <td *ngFor="#hdr of model.columns" [innerHtml]="model.footer[hdr.key]" class="{{bodyClass}}-cell"></td>
     </tr>
   </tfoot>
 </table>
