@@ -4,13 +4,13 @@ import {Http} from 'angular2/http';
 
 export interface TeamRosterData {
   playerName: string,
-  teamImageUrl: string,
+  playerPos: string,
+  playerHeight: string,
+  playerWeight: number,
+  playerAge: number,
+  playerSalary: string,
   lastUpdatedDate: Date,
-  position: string,
-  height: number,
-  weight: number,
-  age: number,
-  salary: number
+  playerImageUrl: string,
 }
 
 export interface RosterTableData {
@@ -20,48 +20,88 @@ export interface RosterTableData {
 
 @Injectable()
 export class RosterService {
-  private _apiUrl: string = 'http://api2.joyfulhome.com';
+  // private _apiUrl: string = 'http://api2.joyfulhome.com';
 
   //Team Profile
   private _defaultData: Array<TeamRosterData> = [{
-    playerName: "Aaa",
-    teamImageUrl: "/app/public/profile_placeholder.png",
-    lastUpdatedDate: new Date(),
-    position: "[XX]",
-    height: 5.11,
-    weight: 100,
-    age: 6,
-    salary: 500000
+      playerImageUrl: "/app/public/profile_placeholder.png",
+      playerName: "Twilight",
+      playerPos: "MA",
+      playerHeight: "6ft00",
+      playerWeight: 200,
+      playerAge: 21,
+      playerSalary: "9 Bil.",
+      lastUpdatedDate: new Date()
+  },
+  {
+      playerImageUrl: "/app/public/profile_placeholder.png",
+      playerName: "Pinky Pie",
+      playerPos: "PA",
+      playerHeight: "7ft00",
+      playerWeight: 300,
+      playerAge: 50,
+      playerSalary: "8 Bil.",
+      lastUpdatedDate: new Date()
   },{
-    playerName: "Baa",
-    teamImageUrl: "/app/public/profile_placeholder.png",
-    lastUpdatedDate: new Date(),
-    position: "[XX]",
-    height: 6.5,
-    weight: 200,
-    age: 6,
-    salary: 1
+      playerImageUrl: "/app/public/profile_placeholder.png",
+      playerName: "Rainbow Dash",
+      playerPos: "FL",
+      playerHeight: "8ft00",
+      playerWeight: 100,
+      playerAge: 25,
+      playerSalary: "7 Bil.",
+      lastUpdatedDate: new Date()
+  }];
+  private _defaultData2: Array<TeamRosterData> = [{
+      playerImageUrl: "/app/public/profile_placeholder.png",
+      playerName: "Victoria Le",
+      playerPos: "MA",
+      playerHeight: "6ft00",
+      playerWeight: 200,
+      playerAge: 21,
+      playerSalary: "9 Bil.",
+      lastUpdatedDate: new Date()
+  },
+  {
+      playerImageUrl: "/app/public/profile_placeholder.png",
+      playerName: "Larry Pham",
+      playerPos: "PA",
+      playerHeight: "7ft00",
+      playerWeight: 300,
+      playerAge: 50,
+      playerSalary: "8 Bil.",
+      lastUpdatedDate: new Date()
+  },{
+      playerImageUrl: "/app/public/profile_placeholder.png",
+      playerName: "Lutz Lais",
+      playerPos: "FL",
+      playerHeight: "8ft00",
+      playerWeight: 100,
+      playerAge: 25,
+      playerSalary: "7 Bil.",
+      lastUpdatedDate: new Date()
   }];
 
   constructor(public http: Http){}
 
-  getLeagueData(teamId?:number): Observable<Array<RosterTableData>> {
+  getTeamRosterData(teamId?:number): Observable<Array<RosterTableData>> {
     var tabsData: Array<RosterTableData> = [{
-       title: "[Data Point 1]",
+       title: "Tab 1",
        rows: this._defaultData
     },{
-      title: "[Data Point 2]",
+       title: "Tab 2",
+       rows: this._defaultData2
+    },{
+       title: "Tab 3",
        rows: this._defaultData
     },{
-      title: "[Data Point 3]",
+       title: "Tab 4",
        rows: this._defaultData
     },{
-      title: "[Data Point 4]",
+       title: "Tab 5",
        rows: this._defaultData
-    },{
-      title: "[Data Point 5]",
-       rows: this._defaultData
-    }];
+    }
+  ];
     return Observable.of(tabsData);
   }
 }
