@@ -7,7 +7,6 @@ export interface CompetitionInput{
 @Component({
     selector: 'competition',
     templateUrl: './app/components/competition/competition.html',
-
     directives: [],
     providers: [],
 })
