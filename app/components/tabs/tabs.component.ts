@@ -17,7 +17,7 @@ export class Tabs implements AfterContentInit {
     let activeTabs = this.tabs.filter((tab)=>tab.active);
     // if there is no active tab set, activate the first
     if(activeTabs.length === 0) {
-      this.selectTab(this.tabs.first);
+      this.tabs.first.active = true;
     }
     // get width for each tab
     this.tabWidth = 100/(this.tabs.length) + "%";
