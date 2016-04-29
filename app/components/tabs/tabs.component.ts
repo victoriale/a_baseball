@@ -24,7 +24,6 @@ export class Tabs implements AfterContentInit {
   }
 
   selectTab(tab: Tab){
-    console.log('hiya', tab);
     //If selected tab is currently selected, exit function
     if(tab.active === true){
       return false;
