@@ -5,10 +5,8 @@ import {Component, OnInit} from 'angular2/core';
 import {WidgetModule} from "../../modules/widget/widget.module";
 import {ContactUsModule} from '../../modules/contactus/contactus.module';
 
-declare var jQuery: any;
-
 @Component({
-    selector: 'Contactus-page',
+    selector: 'contactus-page',
     templateUrl: './app/webpages/contactus-page/contactus.page.html',
     directives: [ContactUsModule, WidgetModule],
     providers: [],
