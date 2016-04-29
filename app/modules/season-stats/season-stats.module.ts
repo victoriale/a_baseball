@@ -12,7 +12,11 @@ import {ModuleFooter} from '../../components/module-footer/module-footer';
 })
 
 export class SeasonStatsModule {
-    public moduleTitle: string = 'Season Stats - [Pitcher Name]';
+    public moduleHeaderData: Object = {
+        moduleTitle: 'Season Stats - [Pitcher Name]',
+        hasIcon: false,
+        iconClass: ''
+    };
     public seasonStatsLegendData: Object = {
         legendTitle: [
             {

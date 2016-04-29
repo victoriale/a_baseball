@@ -5,10 +5,8 @@ import {Component, OnInit} from 'angular2/core';
 import {WidgetModule} from "../../modules/widget/widget.module";
 import {ContactUsModule} from '../../modules/contactus/contactus.module';
 
-declare var jQuery: any;
-
 @Component({
-    selector: 'Contactus-page',
+    selector: 'contactus-page',
     templateUrl: './app/webpages/contactus-page/contactus.page.html',
     directives: [ContactUsModule, WidgetModule],
     providers: [],
@@ -37,12 +35,10 @@ export class ContactUsPage implements OnInit{
         ],
         titleData: {
             imageURL: '/app/public/mainLogo.png',
-            smallText1: 'Last Updated: Monday, March 21, 2016',
-            smallText2: ' United States',
-            heading1: 'Have a question about Home Run Loyal? Write us a message.',
-            heading2: '',
-            heading3: '',
-            heading4: '',
+            text1: 'Last Updated: Monday, March 21, 2016',
+            text2: ' United States',
+            text3: 'Have a question about Home Run Loyal? Write us a message.',
+            text4: '',
             icon: 'fa fa-map-marker',
             hasHover: false
         }
