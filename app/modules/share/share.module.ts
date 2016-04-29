@@ -1,62 +1,112 @@
-/**
- * Created by Victoria on 2/26/2016.
- */
 import {Component, OnInit, Input} from 'angular2/core';
-import {Router, RouteParams} from 'angular2/router';
-import {ModuleHeader} from "../../components/module-header/module-header.component";
-import {GlobalFunctions} from '../../global/global-functions';
-import {PropertyListingInterface} from '../../global/global-interface';
+import {ModuleHeader} from '../../components/module-header/module-header.component';
+import {CircleImage} from '../../components/images/circle-image';
+//Import needed interfaces
+import {ModuleHeaderData} from '../../components/module-header/module-header.component';
+import {CircleImageData} from '../../components/images/image-data';
+
+export interface ShareModuleInput{
+    //Image url used for the image component
+    imageUrl: string;
+    //Optional - Title of module
+    //Default is 'Share This Profile With Your Friends'
+    moduleTitle?: string;
+    //Optional - Text inside module
+    //Default is 'Share this Profile Below'
+    shareText?: string;
+}
 
 @Component({
     selector: 'share-module',
     templateUrl: './app/modules/share/share.module.html',
-    
-    directives: [ModuleHeader],
-    providers: [],
-    inputs:['locData']
+    directives: [ModuleHeader, CircleImage],
+    providers: []
 })
 
 export class ShareModule implements OnInit{
-    public main_hasSubImg: boolean;
-    public profileType: string;
-    public mainImageURL: string;
+    @Input() shareModuleInput: ShareModuleInput;
+    public moduleHeaderData: ModuleHeaderData = {
+        moduleTitle: 'Share This Profile With Your Friends',
+        hasIcon: false,
+        iconClass: ''
+    };
+    public imageData: CircleImageData = {
+        imageClass: "image-180",
+        mainImage: {
+            imageUrl: '',
+            hoverText: "Sample",
+            imageClass: "border-3"
+        }
+    };
+    public shareText: string = 'Share This Profile Below:';
+    public shareButtons: Array<{
+        class: string;
+        icon: string;
+        text: string;
+        url: string;
+        }> = [
+            {
+                class: 'facebook',
+                icon: 'fa-facebook',
+                text: 'Share on Facebook',
+                url: 'https://www.facebook.com/sharer/sharer.php?u='
+            },
+            {
+                class: 'twitter',
+                icon: 'fa-twitter',
+                text: 'Share on Twitter',
+                url: 'https://twitter.com/home?status='
+            },
+            {
+                class: 'google',
+                icon: 'fa-google-plus',
+                text: 'Share on Google +',
+                url: 'https://plus.google.com/share?url='
+            },
+            {
+                class: 'pinterest',
+                icon: 'fa-pinterest',
+                text: 'Share on Pinterest',
+                url: 'https://pinterest.com/pin/create/button/?url='
+            }
+        ];
 
-    locData: any;
-    moduleTitle: string;
-    currentUrl: any;
-    image_url = '/app/public/img_bckgnd.png';
-    share = 'Share This Profile Below:'; //default if profiletype is undefined
-    icon1 = 'fa fa-facebook';
-    icon2 = 'fa fa-twitter';
-    icon3 = 'fa fa-google-plus';
-    icon4 = 'fa fa-pinterest';
-    shareOn1 = 'Facebook';
-    shareOn2 = 'Twitter';
-    shareOn3 = 'Google +';
-    shareOn4 = 'Pinterest';
+    //Function to configure buttons and components
+    configureModule(){
+        var input = this.shareModuleInput;
+        var currentUrl = window.location.href;
+        var shareButtons = this.shareButtons;
 
-    @Input() propertyListingData: PropertyListingInterface;
-    constructor(private router: Router, private _params: RouteParams, private globalFunctions: GlobalFunctions) {
-      //Determine what page the profile header module is on
-      this.profileType = this.router.hostComponent.name;
+        //If input is undefined, exit function
+        if(typeof input === 'undefined'){
+            return false;
+        }
+        //Set custom module title if it exists
+        if(typeof input.moduleTitle !== 'undefined'){
+            this.moduleHeaderData.moduleTitle = input.moduleTitle;
+        }
+        //Set custom share text if it exists
+        if(typeof input.shareText !== 'undefined'){
+            this.shareText = input.shareText;
+        }
+        //Set image url
+        this.imageData.mainImage.imageUrl = input.imageUrl;
+
+        //Complete Url of share button
+        this.shareButtons.map(function(item){
+            switch(item.class){
+                case 'pinterest':
+                    item.url += currentUrl + '&media=' + input.imageUrl;
+                    break;
+                default:
+                    item.url += currentUrl;
+                    break;
+            }
+            return item;
+        })
     }
-    getData() {
-          if(this.profileType == 'LocationPage') {
-            var paramLocation: string = this._params.get('loc');
-            var paramCity: string = this.globalFunctions.toTitleCase(this.locData.city);
-            paramCity = paramCity.replace(/%20/g, " ");
-            var paramState: string = this.locData.state;
-            this.share = 'Share This Location Below:';
-            this.mainImageURL = this.locData.locationImage;
-          }else if(this.profileType === 'ProfilePage') {
-            this.share = 'Share This Listing Below:';
-            this.mainImageURL = this.locData.listingImage;
-          }
-    }
+
     ngOnInit(){
-        this.getData();
-        this.moduleTitle = 'Share This Profile With Your Friends';
-        this.main_hasSubImg = false;
-        this.currentUrl = window.location.href;
+        this.configureModule();
     }
 }

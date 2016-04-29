@@ -8,6 +8,7 @@ import {WidgetModule} from "../../modules/widget/widget.module";
 import {Router,ROUTER_DIRECTIVES} from 'angular2/router';
 import {Injector} from 'angular2/core';
 import {WebApp} from '../../app-layout/app.layout';
+import {TitleInputData} from "../../components/title/title.component";
 
 @Component({
     selector: 'Disclaimer-page',
@@ -24,8 +25,8 @@ export class DisclaimerPage implements OnInit {
     disclaimer = "";
     public partnerParam: string;
     public partnerID: string;
-    titleData: {};
     public disHeaderTitle = "Disclaimer";
+    titleData: TitleInputData;
 
     constructor(private injector:Injector, private _router: Router) {
         // Scroll page to top to fix routerLink bug
@@ -60,12 +61,10 @@ export class DisclaimerPage implements OnInit {
       //disclaimer data
       this.titleData = {
           imageURL : '/app/public/mainLogo.png',
-          smallText1 : 'Last Updated: Monday, March 21, 2016.',
-          smallText2 : ' United States',
-          heading1 : this.pageName + "'s Disclaimer",
-          heading2 : '',
-          heading3 : '',
-          heading4 : '',
+          text1: 'Last Updated: Monday, March 21, 2016.',
+          text2 : ' United States',
+          text3 : this.pageName + "'s Disclaimer",
+          text4 : '',
           icon: 'fa fa-map-marker',
           hasHover: false
       };

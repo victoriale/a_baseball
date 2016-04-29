@@ -11,6 +11,7 @@ import {WidgetModule} from "../../modules/widget/widget.module";
 import {GlobalFunctions} from "../../global/global-functions";
 import {LoadingComponent} from '../../components/loading/loading.component';
 import {ErrorComponent} from '../../components/error/error.component';
+import {TitleInputData} from "../../components/title/title.component";
 
 @Component({
     selector: 'list-of-lists-page',
@@ -32,7 +33,7 @@ export class ListOfListsPage implements OnInit{
     public isStateOnly: boolean = false;
     listOfLists: any;
     lists: Array<any> = [];
-    titleData: Object;
+    titleData: TitleInputData;
 
     constructor(private _params: RouteParams, private _listOfListPageService: ListOfListPage, private _listOfListPageServiceState: ListOfListPage, private _globalFunctions: GlobalFunctions) {
         // Scroll page to top to fix routerLink bug
@@ -100,12 +101,10 @@ export class ListOfListsPage implements OnInit{
             this.titleData =
             {
                 imageURL: '/app/public/mainLogo.png',
-                smallText1: 'Monday, February 23, 2016',
-                smallText2: ' United States of America',
-                heading1: this.cityLocation + ', ' + this._globalFunctions.stateToAP(this.stateLocation) + ' Top Lists',
-                heading2: '',
-                heading3: '',
-                heading4: '',
+                text1: 'Monday, February 23, 2016',
+                text2: ' United States of America',
+                text3: this.cityLocation + ', ' + this._globalFunctions.stateToAP(this.stateLocation) + ' Top Lists',
+                text4: '',
                 icon: 'fa fa-map-marker',
                 hasHover: false
             };
@@ -113,12 +112,10 @@ export class ListOfListsPage implements OnInit{
             this.titleData =
             {
                 imageURL: '/app/public/mainLogo.png',
-                smallText1: 'Monday, February 23, 2016',
-                smallText2: ' United States of America',
-                heading1: this._globalFunctions.fullstate(this.stateLocation) + ' Top Lists',
-                heading2: '',
-                heading3: '',
-                heading4: '',
+                text1: 'Monday, February 23, 2016',
+                text2: ' United States of America',
+                text3: this._globalFunctions.fullstate(this.stateLocation) + ' Top Lists',
+                text4: '',
                 icon: 'fa fa-map-marker',
                 hasHover: false
             };
