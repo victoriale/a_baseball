@@ -24,6 +24,7 @@ export class Tabs implements AfterContentInit {
   }
 
   selectTab(tab: Tab){
+    console.log('hiya', tab);
     //If selected tab is currently selected, exit function
     if(tab.active === true){
       return false;
@@ -32,6 +33,6 @@ export class Tabs implements AfterContentInit {
     this.tabs.toArray().forEach(tab => tab.active = false);
     // activate the tab the user has clicked on.
     tab.active = true;
-    this.tabSelected.next(tab.title);
+    this.tabSelected.emit(tab.title);
   }
 }
