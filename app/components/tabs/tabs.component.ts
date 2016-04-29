@@ -1,4 +1,4 @@
-import { Component, ContentChildren, QueryList, AfterContentInit, Input } from 'angular2/core';
+import { Component, ContentChildren, QueryList, AfterContentInit, Input, Output, EventEmitter } from 'angular2/core';
 import { Tab } from './tab.component';
 
 @Component({
@@ -9,6 +9,7 @@ import { Tab } from './tab.component';
 export class Tabs implements AfterContentInit {
   public tabWidth: string;
   @ContentChildren(Tab) tabs: QueryList<Tab>;
+  @Output() tabSelected: EventEmitter<string> = new EventEmitter();
 
   // contentChildren are set
   ngAfterContentInit() {
@@ -27,5 +28,6 @@ export class Tabs implements AfterContentInit {
     this.tabs.toArray().forEach(tab => tab.active = false);
     // activate the tab the user has clicked on.
     tab.active = true;
+    this.tabSelected.next(tab.title);
   }
 }
