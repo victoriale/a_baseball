@@ -1,22 +1,7 @@
 import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Rx';
 import {Http} from 'angular2/http';
-
-export interface TeamRosterData {
-  playerName: string,
-  playerPos: string,
-  playerHeight: string,
-  playerWeight: number,
-  playerAge: number,
-  playerSalary: string,
-  lastUpdatedDate: Date,
-  playerImageUrl: string,
-}
-
-export interface RosterTableData {
-  title: string;
-  rows: Array<TeamRosterData>,
-}
+import {RosterTableData, TeamRosterData} from './roster.data';
 
 @Injectable()
 export class RosterService {
@@ -85,23 +70,13 @@ export class RosterService {
   constructor(public http: Http){}
 
   getTeamRosterData(teamId?:number): Observable<Array<RosterTableData>> {
-    var tabsData: Array<RosterTableData> = [{
-       title: "Tab 1",
-       rows: this._defaultData
-    },{
-       title: "Tab 2",
-       rows: this._defaultData2
-    },{
-       title: "Tab 3",
-       rows: this._defaultData
-    },{
-       title: "Tab 4",
-       rows: this._defaultData
-    },{
-       title: "Tab 5",
-       rows: this._defaultData
-    }
-  ];
+    var tabsData: Array<RosterTableData> = [
+      new RosterTableData("Tab 1", this._defaultData),
+      new RosterTableData("Tab 2", this._defaultData),
+      new RosterTableData("Tab 3", this._defaultData),
+      new RosterTableData("Tab 4", this._defaultData),
+      new RosterTableData("Tab 5", this._defaultData)
+    ];
     return Observable.of(tabsData);
   }
 }

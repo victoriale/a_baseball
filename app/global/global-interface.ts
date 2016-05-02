@@ -1,3 +1,16 @@
+export enum Conference { american, national } //to get string value: Conference[myValue], where myValues is a Conference value
+
+export enum Division { east, west, central }  //to get string value: Division[myValue], where myValues is a Division value
+
+export interface MLBPageParameters {
+  conference?: Conference;
+  division?: Division; 
+  teamKey?: string;
+  teamName?: string;
+  playerKey? :string;
+  playerName?: string;
+}
+
 export interface PropertyListingInterface {
     listingID: string;
     listPrice: string;

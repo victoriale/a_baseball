@@ -1,180 +1,164 @@
-import {Component} from 'angular2/core';
+import {Component, Input} from 'angular2/core';
 
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer';
-import {Carousel} from '../../components/carousels/carousel';
+import {SliderCarousel} from '../../components/slider-carousel/slider-carousel.component';
 import {Tabs} from '../../components/tabs/tabs.component';
 import {Tab} from '../../components/tabs/tab.component';
 import {CustomTable} from '../../components/custom-table/custom-table.component';
-import {TableColumn, TableRow, TableCell} from '../../components/custom-table/table-data.component';
 
-import {StandingsService, StandingsTableData, TeamStandingsData} from '../../services/standings.service';
+import {TableColumn, TableRow, TableCell} from '../../components/custom-table/table-data.component';
+import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
+import {GlobalFunctions} from '../../global/global-functions';
+
+import {StandingsService} from '../../services/standings.service';
+import {StandingsTableData, TeamStandingsData} from '../../services/standings.data';
 
 export interface StandingsTabData {
   title: string;
-  tableData: Array<TableRow>;
+  tableData: StandingsTableData; //TODO-CJP: get list of tables, since some tabs have multiple tables
 }
 
+// export interface StandingsTable {
+//   subtitle: string;
+//   tableData: Array<TableRow>
+// }
+
+//TODO-CJP: limit table rows to 5? Or should the API do that? Also, componentize by moving out shared page/module logic
 @Component({
   selector: "standings-module",
   templateUrl: "./app/modules/standings/standings.module.html",
-  directives: [ModuleHeader, ModuleFooter, Carousel, Tabs, Tab, CustomTable],
+  directives: [ModuleHeader, ModuleFooter, SliderCarousel, Tabs, Tab, CustomTable],
   providers: [StandingsService]
 })
 export class StandingsModule {
+  @Input() pageParams: MLBPageParameters;
+  
   public headerInfo: ModuleHeaderData = {
     moduleTitle: "Standings",
     hasIcon: false,
     iconClass: ""
   };
-
+  
   public footerInfo: ModuleFooterData = {
     infoDesc: "Want to see the full standings page?",
     text: "VIEW FULL STANDINGS",
     url: ['Standings-page']
   };
-
-  //Sort by PCT (percentage of wins) by default
-  public columnData: Array<TableColumn> = [{
-      headerValue: "Team Name",
-      columnClass: "image-column",
-      key: "name"
-    },{
-      headerValue: "W",
-      columnClass: "data-column",
-      isNumericType: true,
-      tooltip: "Total Wins",
-      key: "w"
-    },{
-      headerValue: "L",
-      columnClass: "data-column",
-      isNumericType: true,
-      tooltip: "Total Losses",
-      key: "l"
-    },{
-      headerValue: "PCT",
-      columnClass: "data-column",
-      isNumericType: true,
-      sortDirection: -1, //descending
-      tooltip: "Winning Percentage",
-      key: "pct"
-    },{
-      headerValue: "GB",
-      columnClass: "data-column",
-      isNumericType: true,
-      tooltip: "Games Back",
-      key: "gb"
-    },{
-      headerValue: "RS",
-      columnClass: "data-column",
-      isNumericType: true,
-      tooltip: "Runs Scored",
-      key: "rs"
-    },{
-      headerValue: "RA",
-      columnClass: "data-column",
-      isNumericType: true,
-      tooltip: "Runs Allowed",
-      key: "ra"
-    },{
-      headerValue: "STRK",
-      columnClass: "data-column",
-      isNumericType: true,
-      tooltip: "Streak",
-      key: "strk"
-    }];
-
+  
   //TODO-CJP: update once carousel is ready
+  
   public carouselData: any = {};
-  public selectedTeam: string = "Baa";
-  public tabs: Array<StandingsTabData> = [];
-
-  constructor(private _service: StandingsService) {
-    this._service.getLeagueData().subscribe(
-      data => this.setupData(data),
-      err => { console.log("Error getting Profile Header data"); }
+  
+  /**
+   * Three tabs for standings information
+   */
+  public tabs: Array<StandingsTabData> = [null, null, null]; // will be created in setupTabData function
+  
+  constructor(private _service: StandingsService, private _globalFunctions: GlobalFunctions) {
+    if ( this.pageParams === undefined || this.pageParams === null ) {
+      this.pageParams = {
+        division: Division.east,
+        conference: Conference.american
+      };
+    }
+    
+    this.setupData();
+  }
+  
+  formatGroupName(conference?: Conference, division?: Division) {
+    if ( conference !== undefined && conference !== null ) {
+      let leagueName = this._globalFunctions.toTitleCase(Conference[conference]) + " League";
+      if ( division !== undefined && division !== null ) { 
+        return leagueName + " " + this._globalFunctions.toTitleCase(Division[division]);
+      }
+      else {
+        return leagueName;
+      }
+    }
+    else {
+      return "MLB";
+    }
+  }
+  
+  setupData() {
+    let groupName = this.formatGroupName(this.pageParams.conference, this.pageParams.division);
+    
+    this.headerInfo.moduleTitle = groupName + " Standings";
+    if ( this.pageParams.teamName !== undefined && this.pageParams.teamName !== null ) {
+      this.headerInfo.moduleTitle += " - " + this.pageParams.teamName;
+    }
+    
+    if ( this.pageParams.division !== undefined && this.pageParams.division !== null ) {
+      //is team or division profile page.
+      this.loadTabData(0, this.pageParams.conference, this.pageParams.division);    
+      this.loadTabData(1, this.pageParams.conference);
+      this.loadTabData(2);
+    } else {
+      //is league profile page.
+      this.loadTabData(0); //TODO-CJP: order of divisions??    
+      this.loadTabData(1, Conference.american);
+      this.loadTabData(2, Conference.national);
+    }
+  }
+  
+  loadTabData(index:number, conference?: Conference, division?: Division) {
+    this._service.getDefaultData(conference, division).subscribe(
+      data => this.setupTabData(index, conference, division, data),
+      err => { console.log("Error getting standings data for " + Conference[conference] + " and division " + Division[division]); }
     );
   }
-
-  changeSelected() {
-    console.log("change selected team");
-    this.selectedTeam = this.selectedTeam === "Baa" ? "Atlanta Braves" : "Minnesota Twins";
-    this.tabs[0].tableData.forEach(row => {
-      row.isSelected = ( row.cells["name"].sortValue === this.selectedTeam );
-    });
-  }
-
-  setupData(data: Array<StandingsTableData>) {
-    let leagueName = "[League Name]";
-    let profileName = "[Profile Name]";
-    this.headerInfo.moduleTitle = leagueName + " Standings - " + profileName;
-
-    //Carousel
-
-
+  
+  setupTabData(index:number, conference: Conference, division: Division, table: StandingsTableData) {
+    if ( index >= 3 ) {
+      console.error("! invalid tab index for standings module; returning");
+      return;
+    }
+    let groupName = this.formatGroupName(conference, division);        
+    
     //Table tabs
-    data.forEach((tabData) => {
-      this.tabs.push({
-        title: tabData.title,
-        tableData: this.formatRowData(tabData.rows, this.selectedTeam)
-      })
-    });
+    this.tabs[index] = {
+      title: groupName + " Standings",
+      tableData: table
+    };
+    
+    this.setupCarouselData(this.tabs[index], 0);
   }
-
-  formatRowData(rowData: Array<TeamStandingsData>, selectedTeam: string): Array<TableRow> {
-    return rowData.map((values, index) => {
-      let cells: { [key:string]: TableCell } = {
-          "name": this.formatTeamNameData(values),
-          "w": this.formatNumberData(values.totalWins),
-          "l": this.formatNumberData(values.totalLosses),
-          "pct": this.formatPercentageData(values.winPercentage),
-          "gb": this.formatNumberData(values.gamesBack, "-"),
-          "rs": this.formatNumberData(values.batRunsScored),
-          "ra": this.formatNumberData(values.pitchRunsAllowed),
-          "strk": this.formatStreakData(values.streakType, values.streakCount)
-      };
-      console.log("creating rows: " + values.teamName);
-      return {
-        isSelected: (values.teamName === selectedTeam),
-        cells: cells
-      };
-    });
-  }
-
-  formatTeamNameData(values: TeamStandingsData): TableCell {
-    return {
-        sortValue: values.teamName,
-        displayHtml: values.teamName,
-        profileImageConfig: {
-          imageClass: "image-50",
+  
+  setupCarouselData(tab: StandingsTabData, rowIndex: number) {
+    //TODO-CJP: Standings Carousel 
+    if ( tab.tableData.rows.length > rowIndex ) {
+      var row = tab.tableData.rows[rowIndex];
+      var teamRoute = ["Team-profile", {
+        "team": ""//row.teamKey
+      }];
+      var carouselData = {
+        imageConfig: {
+          imageClass: "image-150",
           mainImage: {
-            imageUrl: values.teamImageUrl,
-            placeholderImageUrl: "/app/public/profile_placeholder.png",
-            imageClass: "border-2"
-          }
+            imageClass: "border-10",
+            urlRouteArray: teamRoute,
+            imageUrl: ""//row.cells
+          },
+          subImages: [
+            {
+              imageClass: "lower-right sub-image-50 border-1",
+              urlRouteArray: teamRoute,
+              imageUrl: ""//row.cells
+            }
+          ]
         }
+      };
+      
+      this.carouselData = carouselData;
     }
   }
-
-  formatNumberData(value:number, zeroDef?:string): TableCell {
-    return {
-        sortValue: value,
-        displayHtml: (value == 0 && zeroDef) ? zeroDef : value.toString()
-    }
-  }
-
-  formatPercentageData(value: number): TableCell {
-    return {
-        sortValue: value,
-        displayHtml: value.toPrecision(3).replace(/0\./, ".") //remove leading 0
-    }
-  }
-
-  formatStreakData(streakType: string, streakCount: number): TableCell {
-    var str = streakCount.toString();
-    return {
-        sortValue: (streakType == "loss" ? "L-" : "W-") + ('0000' + str).substr(str.length), //pad with zeros
-        displayHtml: (streakType == "loss" ? "L-" : "W-") + streakCount
-    }
+  
+  //TODO-CJP: link to carousel left/right buttons
+  changeSelected() {
+    var selectedTab:StandingsTabData = this.tabs[0];
+    let selectedIndex = selectedTab.tableData.selectedIndex;
+    selectedIndex = (selectedIndex+1) % selectedTab.tableData.rows.length;
+    selectedTab.tableData.selectedIndex = selectedIndex; 
   }
 }
