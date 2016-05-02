@@ -13,12 +13,13 @@ export class Tabs implements AfterContentInit {
 
   // contentChildren are set
   ngAfterContentInit() {
+    // Disabled: Causes component to throw an exception when used with ngFor
     // get all active tabs
-    let activeTabs = this.tabs.filter((tab)=>tab.active);
-    // if there is no active tab set, activate the first
-    if(activeTabs.length === 0) {
-      this.tabs.first.active = true;
-    }
+    //let activeTabs = this.tabs.filter((tab)=>tab.active);
+    //// if there is no active tab set, activate the first
+    //if(activeTabs.length === 0) {
+    //  this.tabs.first.active = true;
+    //}
     // get width for each tab
     this.tabWidth = 100/(this.tabs.length) + "%";
   }
