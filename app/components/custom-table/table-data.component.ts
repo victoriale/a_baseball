@@ -1,5 +1,25 @@
 import {CircleImageData} from '../../components/images/image-data';
 
+export interface TableModel<T> {
+  title?: string;
+  
+  columns: Array<TableColumn>;
+  
+  rows: Array<T>;
+  
+  footer?: { [key: string]: string };
+  
+  isRowSelected(item:T, rowIndex:number): boolean;
+  
+  getDisplayValueAt(item:T, column:TableColumn):string;
+  
+  getSortValueAt(item:T, column:TableColumn):any;
+  
+  getImageConfigAt(item:T, column:TableColumn):CircleImageData;
+  
+  hasImageConfigAt(column:TableColumn):boolean;
+}
+
 /**
  * TableColumn includes settings for styling and sorting each column,
  * as well as the display value to use for the header row. 
@@ -20,7 +40,7 @@ export interface TableColumn {
    *    Pre-styled classes include:
    *      * "bold-column": applies a bold style with @masterBrandColor and centers the text
    *      * "image-column": applies a bold style and left-aligns the text
-   *      * "data-column": centers the text
+   *      * "data-column": centers the text 
    *    If TableData.isCompactStyle is set to true, then the font size for these 
    *    classes will be 12px. Otherwise the font size will be 16px for those classes.
    */

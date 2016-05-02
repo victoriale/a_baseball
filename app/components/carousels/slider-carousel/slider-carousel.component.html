@@ -1,30 +1,26 @@
 <!-- check if data is available and/or valid -->
-<section class="scc">
+<div class="scc">
   <!-- slider carousel component placeholder section -->
-  <section class="scc-placeholder" style="background-image: url('/app/public/homePage_hero1.png');">
+  <div class="scc-placeholder" style="background-image: url({{carouselData.backgroundImage}});">
     <!-- slider next/previous buttons -->
-    <circle-button (scrollRight)="right()" (scrollLeft)="left()" ></circle-button>
     <!-- center section where images and descriptions details display -->
     <div class="scc-details">
         <!-- main round image -->
         <div class="scc-details-mainImg">
           <!-- image component place here -->
-          <div *ngFor="#dataItem of teamRosterImg">
-              <circle-image [data]="dataItem.imageData"></circle-image>
+          <div>
+              <circle-image [data]="carouselData.imageData"></circle-image>
           </div>
           <!-- image component ends -->
       </div>
       <!-- round main image ends -->
       <!-- carousel description -->
       <div class="scc-details-desc">
-        <p>Line 1</p>
-        <p>Line 2</p>
-        <p>Line 3</p>
-        <p>Line 4</p>
+        <span *ngFor="#description of carouselData.description" [innerHTML]="description"></span>
       </div>
       <!-- desc ends -->
     </div>
     <!-- center details ends -->
-  </section>
+  </div>
   <!-- placeholder ends -->
-</section>
+</div>

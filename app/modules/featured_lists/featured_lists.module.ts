@@ -4,7 +4,6 @@ import {Router, RouteParams} from 'angular2/router';
 import {ModuleHeader} from '../../components/module-header/module-header.component';
 import {FlipTilesComponent, TileData} from '../../components/flip-tiles/flip-tiles.component';
 import {FeatureComponent} from '../../components/feature-list/feature-list.component';
-import {FeaturedListInterface} from '../../global/global-interface';
 import {GlobalFunctions} from '../../global/global-functions';
 
 @Component({

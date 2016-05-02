@@ -1,0 +1,23 @@
+<!--competitors box-->
+<div class="competition">
+  <div class="competition-container competition-left">
+    <div>
+      <circle-image [data]="competition.leftCircle"></circle-image>
+    </div>
+    <div class="competition-details">
+      <span [innerHTML]="competition.leftData"></span>
+      <span [innerHTML]="competition.leftValue"></span>
+    </div>
+  </div>
+  <div class="competition-versus">VS.</div>
+  <div class="competition-container competition-right">
+    <div>
+      <circle-image [data]="competition.rightCircle"></circle-image>
+    </div>
+    <div class="competition-details">
+      <span [innerHTML]="competition.rightData"></span>
+      <span [innerHTML]="competition.rightValue"></span>
+    </div>
+  </div>
+</div>
+<!--competitors box END-->
