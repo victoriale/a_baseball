@@ -6,7 +6,7 @@ export interface CalendarCarouselInput {
 
 @Component({
     selector: 'calendar-carousel',
-    templateUrl: './app/components/calendar/carousel/calendarCar.html',
+    templateUrl: './app/components/calendar/carousel/calendarCar.component.html',
     directives: [],
     providers: [],
 })

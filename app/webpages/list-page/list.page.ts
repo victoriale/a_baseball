@@ -1,6 +1,6 @@
 import {Component, OnInit, OnChanges} from 'angular2/core';
 import {Router, RouteParams, ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
-import {DetailedListItem} from '../../components/detailed-list-item/detailed-list-item';
+import {DetailedListItem} from '../../components/detailed-list-item/detailed-list-item.component';
 import {WidgetModule} from "../../modules/widget/widget.module";
 import {GlobalFunctions} from "../../global/global-functions";
 //import {TitleComponent} from '../../components/title/title.component';

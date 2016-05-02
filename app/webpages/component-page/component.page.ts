@@ -1,9 +1,9 @@
 import {Component, OnInit} from 'angular2/core';
 import {ComparisonModule} from '../../modules/comparison/comparison.module';
 import {SeasonStatsModule} from '../../modules/season-stats/season-stats.module';
-import {DraftHistoryModule} from '../../modules/draft-history/draft-history';
-import {BoxScoresModule} from '../../modules/box-scores/box-scores';
-import {SchedulesModule} from '../../modules/schedules/schedules';
+import {DraftHistoryModule} from '../../modules/draft-history/draft-history.module';
+import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
+import {SchedulesModule} from '../../modules/schedules/schedules.module';
 import {TeamRosterModule} from '../../modules/team-roster/team-roster.module';
 import {AboutUsModule} from '../../modules/about-us/about-us.module';
 import {ShareButtonComponent} from '../../components/share-button/share-button.component';
@@ -16,12 +16,12 @@ import {Search} from '../../components/search/search.component';
     templateUrl: './app/webpages/component-page/component.page.html',
     directives: [
       BoxScoresModule,
-      ShareButtonComponent, 
-      TeamRosterModule, 
-      ComparisonModule, 
-      DraftHistoryModule, 
-      SchedulesModule, 
-      SeasonStatsModule, 
+      ShareButtonComponent,
+      TeamRosterModule,
+      ComparisonModule,
+      DraftHistoryModule,
+      SchedulesModule,
+      SeasonStatsModule,
       Search,
       AboutUsModule,
       ProfileHeaderModule,

@@ -3,7 +3,7 @@ import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/mod
 import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer';
 import {Tabs} from '../../components/tabs/tabs.component';
 import {Tab} from '../../components/tabs/tab.component';
-import {Carousel} from '../../components/carousels/carousel';
+import {Carousel} from '../../components/carousels/carousel.component';
 import {CustomTable} from '../../components/custom-table/custom-table.component';
 import {TableColumn, TableRow, TableCell} from '../../components/custom-table/table-data.component';
 
@@ -42,7 +42,7 @@ export class TeamRosterModule{
       err => { console.log("Error getting Profile Header data"); }
     );
   }
-  
+
   setupData(data: Array<RosterTableData>) {
     let leagueName = "[League Name]";
     let profileName = "[Profile Name]";
@@ -53,11 +53,11 @@ export class TeamRosterModule{
       this.tabs.push(tabData)
     });
   }
-  
+
   changeSelected() {
     var selectedTab = this.tabs[0];
     let selectedIndex = selectedTab.selectedIndex;
     selectedIndex = (selectedIndex+1) % selectedTab.rows.length;
-    selectedTab.selectedIndex = selectedIndex; 
+    selectedTab.selectedIndex = selectedIndex;
   }
 }
