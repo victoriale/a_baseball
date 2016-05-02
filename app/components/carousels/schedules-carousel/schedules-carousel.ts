@@ -26,7 +26,7 @@ export class SchedulesCarousel implements OnInit{
   @Input() carouselData:CarouselInput;
 
   ngOnInit(){
-    if(typeof this.carouselData == 'undefined'){
+    if(typeof this.carouselData == 'undefined' || typeof this.carouselData.imageConfig1 == 'undefined' || typeof this.carouselData.imageConfig2 == 'undefined'){
       this.carouselData = {
         displayNext:'Next Game:',
         displayTime:'[DOW] [Month] [dd], [yyyy] | [Time] [AM/PM] [Zone]',
