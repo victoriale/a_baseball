@@ -15,7 +15,7 @@ interface BoxScores{
     templateUrl: './app/modules/box-scores/box-scores.html',
     directives: [ScoreBoard, GameInfo, Competition, CalendarCarousel, DetailedListItem, ModuleHeader],
     providers: [],
-    inputs:['locData']
+    inputs:[]
 })
 
 export class BoxScoresModule{

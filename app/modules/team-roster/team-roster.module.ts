@@ -3,7 +3,7 @@ import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/mod
 import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer';
 import {Tabs} from '../../components/tabs/tabs.component';
 import {Tab} from '../../components/tabs/tab.component';
-import {SliderCarousel} from '../../components/slider-carousel/slider-carousel.component';
+import {Carousel} from '../../components/carousels/carousel';
 import {CustomTable} from '../../components/custom-table/custom-table.component';
 import {TableColumn, TableRow, TableCell} from '../../components/custom-table/table-data.component';
 
@@ -16,7 +16,7 @@ export interface RosterTabData {
 @Component({
     selector: 'team-roster-module',
     templateUrl: './app/modules/team-roster/team-roster.module.html',
-    directives:[ModuleHeader, ModuleFooter, Tabs, Tab, SliderCarousel, CustomTable],
+    directives:[ModuleHeader, ModuleFooter, Tabs, Tab, Carousel, CustomTable],
     providers: [RosterService]
 })
 

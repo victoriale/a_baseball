@@ -1,0 +1,8 @@
+<!-- check if data is available and/or valid -->
+<section class="carousel">
+  <!-- slider carousel component placeholder section -->
+  <circle-button (scrollRight)="right()" (scrollLeft)="left()" ></circle-button>
+  <slider-carousel *ngIf="type1" [carouselData]="carouselData"></slider-carousel>
+  <schedules-carousel *ngIf="schedule" [carouselData]="carouselData"></schedules-carousel>
+  <!-- placeholder ends -->
+</section>

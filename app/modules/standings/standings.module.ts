@@ -2,7 +2,7 @@ import {Component} from 'angular2/core';
 
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer';
-import {SliderCarousel} from '../../components/slider-carousel/slider-carousel.component';
+import {Carousel} from '../../components/carousels/carousel';
 import {Tabs} from '../../components/tabs/tabs.component';
 import {Tab} from '../../components/tabs/tab.component';
 import {CustomTable} from '../../components/custom-table/custom-table.component';
@@ -18,7 +18,7 @@ export interface StandingsTabData {
 @Component({
   selector: "standings-module",
   templateUrl: "./app/modules/standings/standings.module.html",
-  directives: [ModuleHeader, ModuleFooter, SliderCarousel, Tabs, Tab, CustomTable],
+  directives: [ModuleHeader, ModuleFooter, Carousel, Tabs, Tab, CustomTable],
   providers: [StandingsService]
 })
 export class StandingsModule {
@@ -27,13 +27,13 @@ export class StandingsModule {
     hasIcon: false,
     iconClass: ""
   };
-  
+
   public footerInfo: ModuleFooterData = {
     infoDesc: "Want to see the full standings page?",
     text: "VIEW FULL STANDINGS",
     url: ['Standings-page']
   };
-  
+
   //Sort by PCT (percentage of wins) by default
   public columnData: Array<TableColumn> = [{
       headerValue: "Team Name",
@@ -57,7 +57,7 @@ export class StandingsModule {
       isNumericType: true,
       sortDirection: -1, //descending
       tooltip: "Winning Percentage",
-      key: "pct"   
+      key: "pct"
     },{
       headerValue: "GB",
       columnClass: "data-column",
@@ -83,19 +83,19 @@ export class StandingsModule {
       tooltip: "Streak",
       key: "strk"
     }];
-  
+
   //TODO-CJP: update once carousel is ready
   public carouselData: any = {};
   public selectedTeam: string = "Baa";
   public tabs: Array<StandingsTabData> = [];
-  
+
   constructor(private _service: StandingsService) {
     this._service.getLeagueData().subscribe(
       data => this.setupData(data),
       err => { console.log("Error getting Profile Header data"); }
     );
   }
-  
+
   changeSelected() {
     console.log("change selected team");
     this.selectedTeam = this.selectedTeam === "Baa" ? "Atlanta Braves" : "Minnesota Twins";
@@ -103,15 +103,15 @@ export class StandingsModule {
       row.isSelected = ( row.cells["name"].sortValue === this.selectedTeam );
     });
   }
-  
+
   setupData(data: Array<StandingsTableData>) {
     let leagueName = "[League Name]";
     let profileName = "[Profile Name]";
     this.headerInfo.moduleTitle = leagueName + " Standings - " + profileName;
-    
+
     //Carousel
-        
-    
+
+
     //Table tabs
     data.forEach((tabData) => {
       this.tabs.push({
@@ -120,9 +120,9 @@ export class StandingsModule {
       })
     });
   }
-  
+
   formatRowData(rowData: Array<TeamStandingsData>, selectedTeam: string): Array<TableRow> {
-    return rowData.map((values, index) => {      
+    return rowData.map((values, index) => {
       let cells: { [key:string]: TableCell } = {
           "name": this.formatTeamNameData(values),
           "w": this.formatNumberData(values.totalWins),
@@ -134,13 +134,13 @@ export class StandingsModule {
           "strk": this.formatStreakData(values.streakType, values.streakCount)
       };
       console.log("creating rows: " + values.teamName);
-      return { 
-        isSelected: (values.teamName === selectedTeam),  
+      return {
+        isSelected: (values.teamName === selectedTeam),
         cells: cells
       };
     });
   }
-  
+
   formatTeamNameData(values: TeamStandingsData): TableCell {
     return {
         sortValue: values.teamName,
@@ -155,23 +155,23 @@ export class StandingsModule {
         }
     }
   }
-  
-  formatNumberData(value:number, zeroDef?:string): TableCell {    
+
+  formatNumberData(value:number, zeroDef?:string): TableCell {
     return {
         sortValue: value,
         displayHtml: (value == 0 && zeroDef) ? zeroDef : value.toString()
     }
   }
-  
+
   formatPercentageData(value: number): TableCell {
     return {
         sortValue: value,
         displayHtml: value.toPrecision(3).replace(/0\./, ".") //remove leading 0
     }
   }
-  
+
   formatStreakData(streakType: string, streakCount: number): TableCell {
-    var str = streakCount.toString();    
+    var str = streakCount.toString();
     return {
         sortValue: (streakType == "loss" ? "L-" : "W-") + ('0000' + str).substr(str.length), //pad with zeros
         displayHtml: (streakType == "loss" ? "L-" : "W-") + streakCount
