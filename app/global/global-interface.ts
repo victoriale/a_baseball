@@ -100,24 +100,15 @@ export interface FeaturedListInterface {
     }
 }
 /*BELOW IS ARTICLE MODULE TEST INTERFACE*/
-//export interface ArticleData {
-//    history?: HistoryDataAI;
-//    about?: AboutDataAI;
-//}
-//export interface HistoryDataAI {
-//    displayHeadline: string;
-//    metaHeadline: string;
-//    dateline: string;
-//    article: string;
-//    commentHeader: string;
-//}
-//export interface AboutDataAI {
-//    displayHeadline: string;
-//    metaHeadline: string;
-//    dateline: string;
-//    article: string;
-//    commentHeader: string;
-//}
+
+export interface ArticleData {
+    displayHeadline?: string;
+    metaHeadline?: string;
+    dateline?: string;
+    article?: string;
+    commentHeader?: string;
+}
+
 export interface ArticleData {
     metaData: Array<{
         homeTeamId: string;

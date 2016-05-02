@@ -1,21 +1,21 @@
-<!--<div class="articlesPage_content">-->
-    <!--<shareLinks-component></shareLinks-component>-->
-    <!--<div class="articlesPage_title">{{title}}</div>-->
+<div class="articles-page-content">
+    <shareLinks-component [url]="url"></shareLinks-component>
+    <div class="articles-page-title">{{title}}</div>
     <!--<ai-carousel [articleData]="articleData"></ai-carousel>-->
-    <!--<div class="arpt">-->
-    <!--<div class="arpt-author">-->
-    <!--<div class="arpt-author-image"></div>-->
-    <!--<div class="arpt-author-text">-->
-    <!--By <span class="arpt-author-text-name">Hoopsloyal Columnist</span>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="arpt-date">{{date}}</div>-->
-    <!--</div>-->
-    <!--<article-content-component></article-content-component>-->
-    <!--<disqus-component></disqus-component>-->
-    <!--<recommendations-component></recommendations-component>-->
-    <!--<trending-component></trending-component>-->
+    <div class="arpt">
+        <div class="arpt-author">
+            <div class="arpt-author-image"></div>
+            <div class="arpt-author-text">
+                By <span class="arpt-author-text-name">Hoopsloyal Columnist</span>
+            </div>
+        </div>
+        <div class="arpt-date">{{date}}</div>
+    </div>
+    <article-content-component [singleLogo]="singleLogo" [articleData]="articleData"></article-content-component>
+    <disqus-component [comment]="comment"></disqus-component>
+    <recommendations-component></recommendations-component>
+    <trending-component></trending-component>
     <!--<div class="four-col">-->
     <!--&lt;!&ndash;<widget-module></widget-module>&ndash;&gt;-->
     <!--</div>-->
-<!--</div>-->
+</div>

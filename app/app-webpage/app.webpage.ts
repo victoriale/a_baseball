@@ -11,18 +11,17 @@ import {TablesTestPage} from "../webpages/tables-test-page/tables-test.page";
 import {WebApp} from "../app-layout/app.layout";
 import {GlobalFunctions} from "../global/global-functions";
 import {ModulePage} from "../webpages/module-page/module.page";
-//import {ArticlePageAbout} from "../webpages/articles/about/about.page";
 import {AsyncRoute} from "angular2/router";
-//import {ArticlePageHistory} from "../webpages/articles/history/history.page";
 import {ArticlePage} from "../webpages/articles/articles/articles.page";
 import {ArticleDataService} from "../global/global-service";
+import {ArticlePageAbout} from "../webpages/articles/about/about.page";
+import {ArticlePagePreGame} from "../webpages/articles/pregame/pregame.page";
+import {ArticlePagePostGame} from "../webpages/articles/postgame/postgame.page";
 
 
 @Component({
     selector: 'my-app',
     templateUrl: './app/app-webpage/app.webpage.html',
-
-
     directives: [HomePage, TeamPage, AboutUsPage, ContactUsPage, DisclaimerPage, ComponentPage, ModulePage, RouterOutlet, ROUTER_DIRECTIVES],
     providers: [ ROUTER_DIRECTIVES, ArticleDataService],
 })
@@ -74,22 +73,26 @@ import {ArticleDataService} from "../global/global-service";
         name: 'Module-page',
         component: ModulePage
     },
-    //test AI Page
     {
         path: 'articles',
         name: 'Articles-Page',
         component: ArticlePage
     },
-    //new AsyncRoute({
-    //    path: 'articles/history',
-    //    loader: () => Promise.resolve(ArticlePageHistory),
-    //    name: 'Articles-History-Page',
-    //}),
-    //new AsyncRoute({
-    //    path: 'articles/about',
-    //    loader: () => Promise.resolve(ArticlePageAbout),
-    //    name: 'Articles-About-Page',
-    //})
+    {
+        path: 'articles/about/:eventID',
+        name: 'Articles-About-Page',
+        component: ArticlePageAbout
+    },
+    {
+        path: 'articles/pregame/:eventID',
+        name: 'Articles-PreGame-Page',
+        component: ArticlePagePreGame
+    },
+    {
+        path: 'articles/postgame/:eventID',
+        name: 'Articles-PostGame-Page',
+        component: ArticlePagePostGame
+    }
 ])
 
 export class AppComponent implements OnInit {

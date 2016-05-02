@@ -12,13 +12,13 @@ import {ArticleContentComponent} from "../../../components/articles/article-cont
 import {DisqusComponent} from "../../../components/articles/disqus/disqus.component";
 
 @Component({
-    selector: 'Articles-history-page',
-    templateUrl: './app/webpages/articles/about/about.page.html',
+    selector: 'Articles-postgame-page',
+    templateUrl: './app/webpages/articles/postgame/postgame.page.html',
     directives: [WidgetModule, ROUTER_DIRECTIVES, ArticleImages, ShareLinksComponent, ArticleContentComponent, RecommendationsComponent, TrendingComponent, DisqusComponent],
     providers: [],
 })
 
-export class ArticlePageAbout implements OnInit {
+export class ArticlePagePostGame implements OnInit {
     articleData:ArticleData;
     eventID:string;
     title:string;
@@ -26,7 +26,6 @@ export class ArticlePageAbout implements OnInit {
     content:string;
     url:string;
     comment:string;
-    singleLogo:boolean = false;
     public partnerParam:string;
     public partnerID:string;
 
@@ -37,15 +36,14 @@ export class ArticlePageAbout implements OnInit {
     }
 
     getArticles() {
-        this._articleDataService.getAboutTheTeamsData(this.eventID)
+        this._articleDataService.getPostGameData(this.eventID)
             .subscribe(
                 ArticleData => {
-                    this.articleData = ArticleData['about-the-teams'];
-                    this.title = ArticleData['about-the-teams'].displayHeadline;
-                    this.date = ArticleData['about-the-teams'].dateline;
-                    this.comment = ArticleData['about-the-teams'].commentHeader;
+                    this.articleData = ArticleData['postgame-report'];
+                    this.title = ArticleData['postgame-report'].displayHeadline;
+                    this.date = ArticleData['postgame-report'].dateline;
+                    this.comment = ArticleData['postgame-report'].commentHeader;
                     this.url = window.location.href;
-                    this.singleLogo = true;
                 }
             )
     }

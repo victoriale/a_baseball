@@ -12,13 +12,13 @@ import {ArticleContentComponent} from "../../../components/articles/article-cont
 import {DisqusComponent} from "../../../components/articles/disqus/disqus.component";
 
 @Component({
-    selector: 'Articles-history-page',
-    templateUrl: './app/webpages/articles/about/about.page.html',
+    selector: 'Articles-pregame-page',
+    templateUrl: './app/webpages/articles/pregame/pregame.page.html',
     directives: [WidgetModule, ROUTER_DIRECTIVES, ArticleImages, ShareLinksComponent, ArticleContentComponent, RecommendationsComponent, TrendingComponent, DisqusComponent],
     providers: [],
 })
 
-export class ArticlePageAbout implements OnInit {
+export class ArticlePagePreGame implements OnInit {
     articleData:ArticleData;
     eventID:string;
     title:string;
@@ -26,7 +26,6 @@ export class ArticlePageAbout implements OnInit {
     content:string;
     url:string;
     comment:string;
-    singleLogo:boolean = false;
     public partnerParam:string;
     public partnerID:string;
 
@@ -37,15 +36,14 @@ export class ArticlePageAbout implements OnInit {
     }
 
     getArticles() {
-        this._articleDataService.getAboutTheTeamsData(this.eventID)
+        this._articleDataService.getPreGameData(this.eventID)
             .subscribe(
                 ArticleData => {
-                    this.articleData = ArticleData['about-the-teams'];
-                    this.title = ArticleData['about-the-teams'].displayHeadline;
-                    this.date = ArticleData['about-the-teams'].dateline;
-                    this.comment = ArticleData['about-the-teams'].commentHeader;
+                    this.articleData = ArticleData['pregame-report'];
+                    this.title = ArticleData['pregame-report'].displayHeadline;
+                    this.date = ArticleData['pregame-report'].dateline;
+                    this.comment = ArticleData['pregame-report'].commentHeader;
                     this.url = window.location.href;
-                    this.singleLogo = true;
                 }
             )
     }

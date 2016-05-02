@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from 'angular2/core';
-
 import {ArticleScheduleComponent} from "../../components/articles/article-schedule/article-schedule.component";
 import {Articles} from "../../global/global-service";
 import {ArticleData} from "../../global/global-interface";
@@ -26,7 +25,6 @@ export class ArticlesModule implements OnInit {
     getArticles() {
         this._magazineOverviewService.getArticles().then(data => {
             this.articleData = data;
-            console.log(this.articleData);
         });
         this.league = false;
     }
