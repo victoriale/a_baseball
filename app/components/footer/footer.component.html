@@ -14,32 +14,31 @@
     <ul>
         <li>Team Listings </li>
         <!-- <li *ngFor="#listings of alphabets"><a [routerLink]='["Directory-page", {}]'>{{team.name}}</a></li> -->
-        <li><a [routerLink]="['Contactus-page']">A </a>|</li>
+        <li *ngFor="#teamListings of teamListings"><a [routerLink]='["Disclaimer-page"]'>{{teamListings.name}} </a> |</li>
     </ul>
     <ul>
         <li>Player Listings </li>
-        <!-- <li *ngFor="#listings of alphabets"><a [routerLink]='["Directory-page", {}]'>{{player.name}}</a></li> -->
-        <li><a [routerLink]="['Contactus-page']">A </a>|</li>
+        <li *ngFor="#teamListing of teamListings"><a [routerLink]='["Disclaimer-page"]'>{{teamListing.name}} </a> |</li>
     </ul>
     <hr /><!--line break-->
     <ul>
       <li>MLB Teams: </li>
-      <li><a [routerLink]="['Contactus-page']">Arizona Diamondbacks</a> <i class="fa fa-caret-right"></i></li>
-      <li class="footer-text1"><a [routerLink]="['Contactus-page']">View All MLB Profiles</a> <i class="fa fa-caret-right"></i></li>
+      <li *ngFor="#mlbTeams of mlbTeams"><a [routerLink]='["Disclaimer-page"]'>{{mlbTeams.name}} </a> |</li>
+      <li class="footer-text1"><a [routerLink]="['Disclaimer-page']">View All MLB Profiles</a> <i class="fa fa-caret-right"></i></li>
     </ul>
     <hr /><!--line break-->
     <ul class="footer-text1">
       <li>You Might Like: </li>
-      <li><a [routerLink]="['Contactus-page']"><b>A List Page</b></a> <i class="fa fa-caret-right"></i></li>
+      <li><a [routerLink]="['Disclaimer-page']"><b>A List Page</b></a> <i class="fa fa-caret-right"></i></li>
     </ul>
     <hr /><!--line break-->
     <ul>
         <li class="footer-text1"><a href="/"><b>HomeRunLoyal.com</b></a> <i class="fa fa-caret-right"></i></li>
-        <li><a [routerLink]="['Contactus-page']">Advertise with HomeRunLoyal</a> <i class="fa fa-caret-right"></i></li>
+        <li><a [routerLink]="['Disclaimer-page']">Advertise with HomeRunLoyal</a> <i class="fa fa-caret-right"></i></li>
     </ul>
     <ul>
-        <li><a [routerLink]="['Contactus-page']"><b>Contact Us</b></a> <i class="fa fa-caret-right"></i></li>
-        <li><a [routerLink]="['Disclaimer-page']"><b>Disclaimer</b></a><i class="fa fa-caret-right"></i></li>
+        <li><a [routerLink]="['Disclaimer-page']"><b>Contact Us</b></a> <i class="fa fa-caret-right"></i></li>
+        <li><a [routerLink]="['Contactus-page']"><b>Disclaimer</b></a><i class="fa fa-caret-right"></i></li>
         <li><a [routerLink]="['Aboutus-page']"><b>About Us</b></a></li>
     </ul>
   </section>
