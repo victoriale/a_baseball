@@ -1,32 +1,13 @@
 import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Rx';
 import {Http} from 'angular2/http';
-
-export interface TeamStandingsData {
-  teamName: string,
-  teamImageUrl: string,
-  conferenceName: string,
-  divisionName: string,
-  lastUpdatedDate: Date,
-  // rank: number,
-  totalWins: number,
-  totalLosses: number,
-  winPercentage: number,
-  streakType: string,
-  streakCount: number,
-  batRunsScored: number,
-  pitchRunsAllowed: number,
-  gamesBack: number
-}
-
-export interface StandingsTableData {
-  title: string;
-  rows: Array<TeamStandingsData>,
-}
+import {Conference, Division} from '../global/global-interface';
+import {StandingsTableData, TeamStandingsData} from './standings.data';
 
 @Injectable()
 export class StandingsService {
-  private _apiUrl: string = 'http://api2.joyfulhome.com';
+  private _apiUrl: string = 'http://dev-homerunloyal-api.synapsys.us/standings/pct-low-high/'; 
+// '[API]/standings/{ordering}/{conference}/{division}'
   
   //Team Profile
   private _defaultData: Array<TeamStandingsData> = [{
@@ -62,17 +43,29 @@ export class StandingsService {
 
   constructor(public http: Http){}
 
-  getLeagueData(teamId?:number): Observable<Array<StandingsTableData>> {
-    var tabsData: Array<StandingsTableData> = [{
-       title: "All Division Standings", 
-       rows: this._defaultData
-    },{
-       title: "American League Standings", 
-       rows: this._defaultData
-    },{
-       title: "National League Standings", 
-       rows: this._defaultData
-    }];
-    return Observable.of(tabsData);
+  getData(conference: Conference, division: Division): Observable<StandingsTableData> {
+    let url = this._apiUrl;
+    let title = "Standings";
+    
+    if ( conference !== undefined ) {
+      url += Conference[conference] + "/";
+      
+      if ( division !== undefined ) {
+        url += Division[division] + "/";        
+      }
+    }
+    
+    return this.http.get(url)
+        .map(res => res.json())
+        .map(data => this.createTableModel(data.data));
+  }
+
+  getDefaultData(conference: Conference, division: Division): Observable<StandingsTableData> {
+    return Observable.of(this.createTableModel(this._defaultData));
+  }
+  
+  createTableModel(data: Array<TeamStandingsData>): StandingsTableData {
+    //TODO-CJP: create subtitle string
+    return new StandingsTableData("", data);
   }
 }

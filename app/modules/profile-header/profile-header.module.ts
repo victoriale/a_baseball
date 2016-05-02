@@ -21,6 +21,7 @@ export class ProfileHeaderModule {
     
     public contentTitle: string = "Quick info";
     public displayDate: string;
+    public profileTitle: string;
     
     public imageConfig: CircleImageData = {
       imageClass: "image-180",
@@ -40,7 +41,7 @@ export class ProfileHeaderModule {
     }; 
 
     constructor(private _router: Router, private _globalFunctions: GlobalFunctions, private _service: ProfileHeaderService) {
-        this._service.getProfileHeaderDefaultData().subscribe(
+        this._service.getDefaultData().subscribe(
           data => this.setupData(data),
           err => { console.log("Error getting Profile Header data"); }
         );
@@ -49,8 +50,9 @@ export class ProfileHeaderModule {
     setupData(data: ProfileHeaderData) {
       if ( data !== undefined && data !== null ) {        
         this.profileHeaderData = data;
-        this.imageConfig.mainImage.imageUrl = data.profileImage;
+        this.imageConfig.mainImage.imageUrl = data.profileImageUrl;
         this.contentTitle = "Quick info about " + data.profileName;
+        this.profileTitle = data.profileTitleFirstPart + "<span class='text-heavy'>" + data.profileTitleLastPart + "</span";
         
         var lastUpdated = moment(data.lastUpdatedDate);
         this.displayDate = lastUpdated.format('dddd, MMMM D, YYYY');
