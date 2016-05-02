@@ -94,24 +94,6 @@ export interface ProfileHeaderInterface {
     lastUpdated: string;
 }
 
-//Interface for Featured List Module
-export interface FeaturedListInterface {
-    featured_list: Array<{
-        address: string;
-        bathrooms: string;
-        bedrooms: string;
-        listPrice: string;
-        listingImage: string;
-        listingName: string;
-        neighborhood: string;
-        zipcode: string;
-    }>;
-    url_mod: {
-        "list-of-lists": string;
-        top10Local: string;
-        top10National: string;
-    }
-}
 /*BELOW IS ARTICLE MODULE TEST INTERFACE*/
 //export interface ArticleData {
 //    history?: HistoryDataAI;

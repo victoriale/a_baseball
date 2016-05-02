@@ -1,6 +1,6 @@
 <div class="module-container tr">
   <module-header [modHeadData]="headerInfo"></module-header>
-  <slider-carousel></slider-carousel>
+  <carousel [type]="'type1'"></carousel>
   <tabs *ngIf="tabs.length > 0">
     <tab [tabTitle]="tabs[0].title">
       <custom-table [model]="tabs[0]"></custom-table>
