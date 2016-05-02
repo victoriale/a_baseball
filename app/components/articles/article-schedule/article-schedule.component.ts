@@ -11,8 +11,8 @@ import {ArticleData} from "../../../global/global-interface";
 })
 
 export class ArticleScheduleComponent implements OnInit {
-    leftGrad:string;
-    rightGrad:string;
+    leftGrad:Object;
+    rightGrad:Object;
     articleData:ArticleData[];
     defaultGradient:string;
     public league:boolean;
