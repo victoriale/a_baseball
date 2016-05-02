@@ -1,7 +1,7 @@
 /**
  * Created by Victoria on 4/19/2016.
  */
-import {Component, OnInit, Input, Output, EventEmitter, ContentChildren, AfterContentInit} from 'angular2/core';
+import {Component, OnInit, Input, Output, EventEmitter} from 'angular2/core';
 import {CircleButton} from "../buttons/circle/circle.button";
 import {SliderCarousel} from '../../components/carousels/slider-carousel/slider-carousel.component';
 import {SchedulesCarousel} from '../../components/carousels/schedules-carousel/schedules-carousel';

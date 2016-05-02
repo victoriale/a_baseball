@@ -2,7 +2,6 @@
 <section class="carousel">
   <!-- slider carousel component placeholder section -->
   <circle-button (scrollRight)="right()" (scrollLeft)="left()" ></circle-button>
-  <ng-content></ng-content>
   <slider-carousel *ngIf="type1 && carouselDataPoint" [carouselData]="carouselDataPoint"></slider-carousel>
   <schedules-carousel *ngIf="schedule && carouselDataPoint" [carouselData]="carouselDataPoint"></schedules-carousel>
   <!-- placeholder ends -->
