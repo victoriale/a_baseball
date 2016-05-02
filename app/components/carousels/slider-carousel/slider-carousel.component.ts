@@ -22,7 +22,7 @@ export class SliderCarousel implements OnInit {
   @Input() carouselData: SilderCarouselInput;
 
   constructor() {
-    
+
   }
 
   ngOnInit() {
@@ -36,14 +36,14 @@ export class SliderCarousel implements OnInit {
           imageClass: "image-150",
           mainImage: {
             imageUrl: sampleImage,
-            urlRouteArray: [],
+            urlRouteArray: ['Disclaimer-page'],
             hoverText: "<p>Error</p>",
             imageClass: "border-large"
           },
           subImages: [
             {
               imageUrl: sampleImage,
-              urlRouteArray: [],
+              urlRouteArray: ['Disclaimer-page'],
               hoverText: "<i class='fa fa-mail-forward'></i>",
               imageClass: "image-50-sub image-round-lower-right"
             },

@@ -16,7 +16,7 @@ export class SchedulesModule implements OnInit{
   moduleTitle:string = "Module Title";
 
   ngOnInit(){
-    this.carouselData = {
+    this.carouselData = [{
       displayNext:'Next Game:',
       displayTime:'[DOW] [Month] [dd], [yyyy] | [Time] [AM/PM] [Zone]',
       detail1Data:'Home Stadium:',
@@ -40,6 +40,32 @@ export class SchedulesModule implements OnInit{
           imageClass: "border-large"
         }
       },
-    }
+    },
+    {
+      displayNext:'Next Game:',
+      displayTime:'[Monday] [May] [2nd], [2016] | [2:08] [PM] [EST]',
+      detail1Data:'Home Stadium:',
+      detail1Value:"[Stadium's]",
+      detail2Value:'[City], [State]',
+      imageConfig1:{
+        imageClass: "image-125",
+        mainImage: {
+          imageUrl: "./app/public/placeholder-location.jpg",
+          urlRouteArray: ['Disclaimer-page'],
+          hoverText: "<p>View</p><p>Profile</p>",
+          imageClass: "border-large"
+        }
+      },
+      imageConfig2:{
+        imageClass: "image-125",
+        mainImage: {
+          imageUrl: "./app/public/placeholder-location.jpg",
+          urlRouteArray: ['Disclaimer-page'],
+          hoverText: "<p>View</p><p>Profile</p>",
+          imageClass: "border-large"
+        }
+      },
+    }];
+    console.log(this.carouselData);
   }
 }
