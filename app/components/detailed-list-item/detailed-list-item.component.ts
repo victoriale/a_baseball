@@ -19,7 +19,7 @@ export interface DetailListInput {
 
 @Component({
     selector: 'detailed-list-item',
-    templateUrl: './app/components/detailed-list-item/detailed-list-item.html',
+    templateUrl: './app/components/detailed-list-item/detailed-list-item.component.html',
     directives: [CircleImage],
     providers: [],
 })

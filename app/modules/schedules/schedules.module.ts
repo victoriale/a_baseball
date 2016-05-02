@@ -1,11 +1,11 @@
 import {Component, Input, OnInit} from 'angular2/core';
 import {ModuleFooter} from '../../components/module-footer/module-footer';
 import {ModuleHeader} from '../../components/module-header/module-header.component';
-import {Carousel} from '../../components/carousels/carousel';
+import {Carousel} from '../../components/carousels/carousel.component';
 
 @Component({
     selector: 'schedules',
-    templateUrl: './app/modules/schedules/schedules.html',
+    templateUrl: './app/modules/schedules/schedules.module.html',
     directives: [Carousel, ModuleHeader, ModuleFooter],
     providers: [],
     inputs:['']
@@ -66,6 +66,5 @@ export class SchedulesModule implements OnInit{
         }
       },
     }];
-    console.log(this.carouselData);
   }
 }
