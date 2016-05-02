@@ -1,3 +1,24 @@
 <div>
+    <!-- Back Tab Component -->
     <backtab-component></backtab-component>
+    <!-- Hero Search Component -->
+    <div style="height: 250px; line-height: 250px; color: #fff; background-color: #3098FF; text-transform: uppercase; text-align: center; font-size: 30px;">
+        Hero Search Placeholder
+    </div>
+    <!-- Tabs Component -->
+    <tabs (tabSelected)="tabSelected($event)">
+        <tab *ngFor="#outerItem of searchPageInput" [tabTitle]="outerItem.tabName" [active]="outerItem.isTabDefault">
+
+            <!-- Results -->
+            <ul class="search-page-results">
+                <li *ngFor="#innerItem of outerItem.results" class="search-page-results-item">
+                    <span class="search-page-results-item-title" [innerHtml]="innerItem.title"></span>
+                    <a class="search-page-results-item-link" [routerLink]="['Disclaimer-page']" [innerHtml]="innerItem.urlText"></a><br>
+                    <span class="search-page-results-item-description" [innerHtml]="innerItem.description"></span>
+                </li>
+            </ul>
+
+        </tab>
+    </tabs>
+
 </div>
