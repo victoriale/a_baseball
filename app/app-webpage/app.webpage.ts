@@ -10,6 +10,7 @@ import {ImagesTestPage} from "../webpages/images-test-page/images-test.page";
 import {TablesTestPage} from "../webpages/tables-test-page/tables-test.page";
 import {WebApp} from "../app-layout/app.layout";
 import {GlobalFunctions} from "../global/global-functions";
+import {SearchPage} from '../webpages/search-page/search.page';
 import {ModulePage} from "../webpages/module-page/module.page";
 import {AsyncRoute} from "angular2/router";
 import {ArticlePage} from "../webpages/articles/articles/articles.page";
@@ -18,11 +19,10 @@ import {ArticlePageAbout} from "../webpages/articles/about/about.page";
 import {ArticlePagePreGame} from "../webpages/articles/pregame/pregame.page";
 import {ArticlePagePostGame} from "../webpages/articles/postgame/postgame.page";
 
-
 @Component({
     selector: 'my-app',
     templateUrl: './app/app-webpage/app.webpage.html',
-    directives: [HomePage, TeamPage, AboutUsPage, ContactUsPage, DisclaimerPage, ComponentPage, ModulePage, RouterOutlet, ROUTER_DIRECTIVES],
+    directives: [HomePage, TeamPage, AboutUsPage, ContactUsPage, DisclaimerPage, SearchPage, ComponentPage, ModulePage, RouterOutlet, ROUTER_DIRECTIVES],
     providers: [ ROUTER_DIRECTIVES, ArticleDataService],
 })
 
@@ -67,6 +67,11 @@ import {ArticlePagePostGame} from "../webpages/articles/postgame/postgame.page";
         path: '/tables-test',
         name: 'Tables-test-page',
         component: TablesTestPage,
+    },
+    {
+        path: '/search',
+        name: 'Search-page',
+        component: SearchPage
     },
     {
         path: '/modules',

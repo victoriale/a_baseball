@@ -25,17 +25,8 @@ export interface CarouseInput{
 
 export class SchedulesCarousel implements OnInit{
   @Input() carouselData:CarouseInput;
-  testImage:any;
+
   ngOnInit(){
-    this.testImage = {
-      imageClass: "image-150",
-      mainImage: {
-        imageUrl: "./app/public/placeholder-location.jpg",
-        urlRouteArray: ['Disclaimer-page'],
-        hoverText: "<p>View</p><p>Profile</p>",
-        imageClass: "border-large"
-      }
-    };
-    console.log(this.carouselData);
+
   }
 }

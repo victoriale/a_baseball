@@ -11,6 +11,7 @@ import {WidgetModule} from "../../modules/widget/widget.module";
 import {AboutUsService,AboutUsInterface} from '../../services/about-us.service';
 import {GlobalFunctions} from '../../global/global-functions';
 import {WebApp} from '../../app-layout/app.layout';
+import {TitleInputData} from "../../components/title/title.component";
 
 interface AuBlockData {
   iconUrl:string;
@@ -55,14 +56,12 @@ export class AboutUsPage {
       }
     ];
     
-    public titleData = {
+    public titleData: TitleInputData = {
         imageURL : '/app/public/mainLogo.png',
-        smallText1 : 'Last Updated: Monday, April 25, 2016',
-        smallText2 : 'United States',
-        heading1 : 'Want to learn more about Home Run Loyal',
-        heading2 : '',
-        heading3 : '',
-        heading4 : '',
+        text1: 'Last Updated: Monday, April 25, 2016',
+        text2: 'United States',
+        text3: (this.partnerID == null) ? "Want to learn more about Home Run Loyal?" : "Want to learn more about My Home Run Loyal?",
+        text4: '',
         icon: 'fa fa-map-marker'
     }
 
@@ -73,9 +72,10 @@ export class AboutUsPage {
             var pageName = (this.partnerID === null)
               ? "Home Run Loyal" 
               : "My Home Run Loyal";
-            this.auHeaderTitle = "What is " + pageName;
-            
-            //TODO: change to getAboutUsData() when API is ready
+            this.auHeaderTitle = "What is " + pageName + "?";
+
+
+            //TODO-CJP: change to getAboutUsData() when API is ready
             this._service.getAboutUsDefaultData().subscribe(
               data => this.setupAboutUsData(data),
               err => { console.log("Error getting About Us data"); }
@@ -83,7 +83,7 @@ export class AboutUsPage {
           })//end of route subscribe
     }
 
-    setupAboutUsData(data:AboutUsInterface) {    
+    setupAboutUsData(data:AboutUsInterface) {
         this.aboutUsData = data;
         
         this.auBlocks[0].dataText = this._globalFunctions.commaSeparateNumber(this.aboutUsData.teamProfilesCount);

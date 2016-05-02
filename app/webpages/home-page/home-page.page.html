@@ -4,57 +4,63 @@
       <header-component></header-component>
       <div class="row">
         <div class="home-hero col-md-12">
-          <img class="home-hero-img" src='/app/public/homePage_hero1.png' />
+          <img class="home-hero-img" src='{{imgHero1}}' />
           <div class="home-hero-info">
-            <h1>Stay Loyal to Your Favorite MLB Team</h1>
-            <h4>Find the sports information you need to show your loyalty</h4>
+            <h1>{{homeHeading1}}</h1>
+            <h4>{{homeHeading2}}</h4>
             <div class="home-hero-info-search col-md-4">
               <search [placeholderText]="placeholderText"></search>
             </div>
           </div>
         </div>
       </div>
-      <div class="home-main col-md-offset-1 col-md-10">
-        <h2><span>PICK YOUR FAVORITE <b>MLB TEAM</b></span></h2>
+      <div class="home-main col-md-12">
+        <h2><span [innerHTML]="homeHeading3"></span></h2>
         <div class="home-league">
-          <h3><span><b>AMERICAN LEAGUE</b> TEAMS<b>:</b></span></h3>
+          <h3><span [innerHTML]="leagueHeading"></span></h3>
 
           <section class="row">
-            <div class="col-md-4">
-              <h4>CENTRAL</h4>
-              <div class="home-team">
-                <div *ngFor="#dataItem of teamImages">
-                    <circle-image [data]="dataItem.imageData"></circle-image>
-                </div>
-                <div class="home-team-name">CHICAGO <p>White Sox</p></div>
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <h4>EAST</h4>
-              <div class="home-team">
-                <div *ngFor="#dataItem of teamImages">
-                    <circle-image [data]="dataItem.imageData"></circle-image>
-                </div>
-                <div class="home-team-name">CHICAGO <p>White Sox</p></div>
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <h4>WEST</h4>
-              <div class="home-team">
-                <div *ngFor="#dataItem of teamImages">
-                    <circle-image [data]="dataItem.imageData"></circle-image>
-                </div>
-                <div class="home-team-name">CHICAGO <p>White Sox</p></div>
-              </div>
+            <div class="col-md-4" *ngFor="#dataItem of teamData">
+              <h4>{{dataItem.divisionName}}</h4>
+              <!-- ngFor here to get all the teams in the same division -->
+              <a [routerLink]="['Disclaimer-page']" class="home-team">
+                <circle-image [data]="dataItem.imageData"></circle-image>
+                <div class="home-team-name">{{dataItem.location}} <p>{{dataItem.teamName}}</p></div>
+                <i class="fa fa-angle-right fa-view"></i>
+              </a>
             </div>
           </section>
           <!-- divisions end -->
         </div>
         <!-- homne league ends -->
       </div>
-      <footer-component></footer-component>
+      <!-- home main ends -->
     </div>
   </div>
+
+  <div *ngFor="#newsData of newsData" class="home-slider col-md-12">
+    <slider-button></slider-button>
+    <div class="home-slider-news col-md-offset-2 col-md-3">
+      <div>{{mlb}}</div>
+      <h3><b>{{newsData.newsTitle}}</b></h3>
+      <hr />
+      <h5>{{newsData.newsSubTitle}}</h5>
+      <a [routerLink]="newsData.routerInfo" class='mod-page-btn-text-only'>
+          <span>{{buttonFullList}}</span>
+      </a>
+    </div>
+  </div>
+  <!-- end of news data carousel -->
+
+  <div class="home-features col-md-offset-2 col-md-8">
+      <div class="home-features-title"><img src='{{imgIcon1}}' /><h2 [innerHTML]="homeFeatures"></h2></div>
+      <div class=home-features-tiles>
+        <a [routerLink]="['Disclaimer-page']" style="background-image:url('{{imageTile1}}');" class="home-features-tile1" [innerHTML]="homeFeaturesTile1"><h3></h3></a>
+        <div style="border-top: 5px solid #bc2027;" class="home-features-tile2" [innerHTML]="homeFeaturesTile2"></div>
+        <a [routerLink]="['Disclaimer-page']" style="background-image:url('{{imageTile2}}');" class="home-features-tile2" [innerHTML]="homeFeaturesTile3"></a>
+        <a [routerLink]="['Disclaimer-page']" style="background-image:url('{{imageTile3}}');" class="home-features-tile1" [innerHTML]="homeFeaturesTile4"></a>
+      </div>
+  </div>
+
+  <footer-component></footer-component>
 </section>

@@ -25,14 +25,14 @@ export class AboutUsService {
 
   constructor(public http: Http){}
 
-  getAboutUsData() {
+  getAboutUsData(): Observable<AboutUsInterface> {
     let url = this._apiUrl + '/aboutUs';
     return this.http.get(url)
         .map(res => res.json())
         .map(data => data.data);
   }
   
-  getAboutUsDefaultData() {
+  getAboutUsDefaultData(): Observable<AboutUsInterface> {
     return Observable.of(this._defaultData);
   }
 }
