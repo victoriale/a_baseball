@@ -6,6 +6,7 @@ import {DisclaimerPage} from "../webpages/disclaimer-page/disclaimer.page";
 import {TeamPage} from "../webpages/team-page/team.page";
 import {HomePage} from "../webpages/home-page/home-page.page";
 import {ComponentPage} from "../webpages/component-page/component.page";
+import {TeamrosterPage} from "../webpages/team-roster/team-roster.page";
 import {ImagesTestPage} from "../webpages/images-test-page/images-test.page";
 import {TablesTestPage} from "../webpages/tables-test-page/tables-test.page";
 import {WebApp} from "../app-layout/app.layout";
@@ -82,6 +83,11 @@ import {ArticleDataService} from "../global/global-service";
         path: 'articles',
         name: 'Articles-Page',
         component: ArticlePage
+    },
+    {
+        path: 'team-roster',
+        name: 'Teamroster-Page',
+        component: TeamrosterPage
     },
     //new AsyncRoute({
     //    path: 'articles/history',
