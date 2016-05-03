@@ -55,10 +55,10 @@
   <div class="home-features col-md-offset-2 col-md-8">
       <div class="home-features-title"><img src='{{imgIcon1}}' /><h2 [innerHTML]="homeFeatures"></h2></div>
       <div class=home-features-tiles>
-        <a [routerLink]="['Disclaimer-page']" style="background-image:url('{{imageTile1}}');" class="home-features-tile1" [innerHTML]="homeFeaturesTile1"><h3></h3></a>
+        <a [routerLink]="['Disclaimer-page']" [ngStyle]="{'background-image': 'url('+imageTile1+')'}" class="home-features-tile1" [innerHTML]="homeFeaturesTile1"><h3></h3></a>
         <div style="border-top: 5px solid #bc2027;" class="home-features-tile2" [innerHTML]="homeFeaturesTile2"></div>
-        <a [routerLink]="['Disclaimer-page']" style="background-image:url('{{imageTile2}}');" class="home-features-tile2" [innerHTML]="homeFeaturesTile3"></a>
-        <a [routerLink]="['Disclaimer-page']" style="background-image:url('{{imageTile3}}');" class="home-features-tile1" [innerHTML]="homeFeaturesTile4"></a>
+        <a [routerLink]="['Disclaimer-page']" [ngStyle]="{'background-image': 'url('+imageTile2+')'}" class="home-features-tile2" [innerHTML]="homeFeaturesTile3"></a>
+        <a [routerLink]="['Disclaimer-page']" [ngStyle]="{'background-image': 'url('+imageTile3+')'}" class="home-features-tile1" [innerHTML]="homeFeaturesTile4"></a>
       </div>
   </div>
 
