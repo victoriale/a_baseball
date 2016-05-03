@@ -46,7 +46,7 @@ export class TeamRosterModule{
   setupData(data: Array<RosterTableData>) {
     let leagueName = "[League Name]";
     let profileName = "[Profile Name]";
-    this.headerInfo.moduleTitle = leagueName + " Standings - " + profileName;
+    this.headerInfo.moduleTitle = profileName + " Roster";
     //Carousel
     //Table tabs
     data.forEach((tabData) => {
