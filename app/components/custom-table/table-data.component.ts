@@ -67,12 +67,6 @@ export interface TableColumn {
    * Each row must contain a TableCell corresponding to this key.
    */
   key: string;
-  
-  /**
-   * (Optional) This tooltip will be displayed if the user hovers over 
-   * the header element.
-   */
-  tooltip?: string;
 }
 
 export interface TableRow {
