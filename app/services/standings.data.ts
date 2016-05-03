@@ -4,10 +4,11 @@ import {CircleImageData} from '../components/images/image-data';
 export interface TeamStandingsData {
   teamName: string,
   teamImageUrl: string,
+  teamKey: string; //NEED!
   conferenceName: string,
   divisionName: string,
   lastUpdatedDate: Date,
-  // rank: number,
+  rank: number, //NEED!
   totalWins: number,
   totalLosses: number,
   winPercentage: number,
