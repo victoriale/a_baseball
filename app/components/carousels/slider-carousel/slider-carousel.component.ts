@@ -5,6 +5,12 @@ import {Component, OnInit, Input} from 'angular2/core';
 import {CircleImage} from '../../../components/images/circle-image';
 import {ImageData, CircleImageData} from '../../../components/images/image-data';
 
+
+/*
+  backgroundImage?: string; // incase the carousel requires a background image for the whole carousel container will have default in place if none provided
+  imageData: CircleImageData; // attached interface for the required fields needed for a functional Image for the slider. from image-data.ts please go there for documentation
+  description?: Array<string>; // if there is description then will use angular2 [innerHTML] to render content.  the array can contain anything HTML related and in the slider-carousel.component.html it will loop through and display each item in the array.
+*/
 export interface SilderCarouselInput {
   backgroundImage?: string;
   imageData: CircleImageData;

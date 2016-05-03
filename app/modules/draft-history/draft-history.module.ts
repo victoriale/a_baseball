@@ -1,13 +1,11 @@
 import {Component} from 'angular2/core';
-import {DetailedListItem} from '../../components/detailed-list-item/detailed-list-item';
+import {DetailedListItem, DetailListInput} from '../../components/detailed-list-item/detailed-list-item.component';
 import {ModuleFooter} from '../../components/module-footer/module-footer';
 import {ModuleHeader} from '../../components/module-header/module-header.component';
-import {DetailListInput} from '../../components/detailed-list-item/detailed-list-item';
-
 
 @Component({
     selector: 'draft-history',
-    templateUrl: './app/modules/draft-history/draft-history.html',
+    templateUrl: './app/modules/draft-history/draft-history.module.html',
     directives: [DetailedListItem, ModuleHeader, ModuleFooter],
     providers: [],
     inputs:['locData']

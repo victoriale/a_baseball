@@ -6,7 +6,7 @@ export interface GameInfoInput{
 
 @Component({
     selector: 'game-info',
-    templateUrl: './app/components/game-info/game-info.html',
+    templateUrl: './app/components/game-info/game-info.component.html',
     directives: [],
     providers: [],
 })

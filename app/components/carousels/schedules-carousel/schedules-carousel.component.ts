@@ -17,7 +17,7 @@ export interface CarouselInput{
 
 @Component({
     selector: 'schedules-carousel',
-    templateUrl: './app/components/carousels/schedules-carousel/schedules-carousel.html',
+    templateUrl: './app/components/carousels/schedules-carousel/schedules-carousel.component.html',
     directives: [CircleImage,CircleButton],
     providers: [],
 })
@@ -26,7 +26,6 @@ export class SchedulesCarousel implements OnInit{
   @Input() carouselData:CarouselInput;
 
   ngOnInit(){
-    console.log('schedules', this.carouselData);
     if(typeof this.carouselData == 'undefined' || typeof this.carouselData.imageConfig1 == 'undefined' || typeof this.carouselData.imageConfig2 == 'undefined'){
       this.carouselData = {
         displayNext:'Next Game:',

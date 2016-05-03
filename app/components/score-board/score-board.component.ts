@@ -5,7 +5,7 @@ export interface ScoreBoardInput{
 
 @Component({
     selector: 'score-board',
-    templateUrl: './app/components/score-board/score-board.html',
+    templateUrl: './app/components/score-board/score-board.component.html',
     directives: [],
     providers: [],
     inputs:[]

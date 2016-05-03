@@ -4,11 +4,11 @@
 import {Component, OnInit, Input, Output, EventEmitter} from 'angular2/core';
 import {CircleButton} from "../buttons/circle/circle.button";
 import {SliderCarousel} from '../../components/carousels/slider-carousel/slider-carousel.component';
-import {SchedulesCarousel} from '../../components/carousels/schedules-carousel/schedules-carousel';
+import {SchedulesCarousel} from '../../components/carousels/schedules-carousel/schedules-carousel.component';
 
 @Component({
     selector: 'carousel',
-    templateUrl: './app/components/carousels/carousel.html',
+    templateUrl: './app/components/carousels/carousel.component.html',
     directives: [SchedulesCarousel, SliderCarousel, CircleButton],
     providers: [],
     outputs: ['scrollRight', 'scrollLeft']
