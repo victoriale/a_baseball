@@ -1,4 +1,4 @@
-<section class="module-container">
+<section class="module-container" *ngIf="faqData && faqData.length > 0">
   <module-header [modHeadData]="headerInfo"></module-header>
   <div class="faq-details" *ngFor="#faqData of faqData">
     <div class="faq-details-info">

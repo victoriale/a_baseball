@@ -1,7 +1,8 @@
 import {Component, OnInit} from 'angular2/core';
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
+
 export interface faqModuleData{
-  quesiton: string;
+  question: string;
   answer: string;
 }
 @Component({
@@ -12,7 +13,7 @@ export interface faqModuleData{
 })
 
 export class FAQModule{
-    public faqData: Object;
+    public faqData: Array<faqModuleData>;
     public headerInfo: ModuleHeaderData = {
       moduleTitle: "FAQ - [Profile Name]",
       hasIcon: false,
