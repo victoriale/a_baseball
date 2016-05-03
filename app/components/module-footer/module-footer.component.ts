@@ -21,7 +21,7 @@ export class ModuleFooter implements OnInit{
         this.footerData = {
           infoDesc:'Want to see everybody involved in this list',
           text:'VIEW THE LIST',
-          url:['profile-page'],
+          url:['Disclaimer-page'],
         }
       }
     }
