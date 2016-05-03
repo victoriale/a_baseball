@@ -1,5 +1,7 @@
 import {TableModel, TableColumn} from '../components/custom-table/table-data.component';
 import {CircleImageData} from '../components/images/image-data';
+import {TableTabData, TableComponentData} from '../components/standings/standings.component';
+import {SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
 
 export interface TeamStandingsData {
   teamName: string,
@@ -16,7 +18,54 @@ export interface TeamStandingsData {
   streakCount: number,
   batRunsScored: number,
   pitchRunsAllowed: number,
-  gamesBack: number
+  gamesBack: number,
+  groupName?: string
+}
+
+export class StandingsTabData implements TableTabData<TeamStandingsData> {
+  
+  title: string;
+  
+  isActive: boolean;
+  
+  sections: Array<TableComponentData<TeamStandingsData>>;
+  
+  constructor(title: string, isActive: boolean, sections: Array<TableComponentData<TeamStandingsData>>) {
+    this.title = title;
+    this.isActive = isActive;
+    this.sections = sections;
+  } 
+
+  convertToCarouselItem(item: TeamStandingsData, index:number): SliderCarouselInput {
+    var teamRoute = ["Team-page", {
+      "team": item.teamKey
+    }];
+    var year = "[YYYY]"; //TODO: this.currentYear
+    var subheader = year + " Season " + item.groupName + " Standings";
+    var description = item.teamName + " is currently <span class='text-heavy'>ranked " + item.rank + "</span>" +
+                      " in the <span class='text-heavy'>" + item.groupName + "</span>, with a record of " +
+                      "<span class='text-heavy'>" + item.totalWins + " - " + item.totalLosses + "</span>.";
+    return {
+      index: index,
+      //backgroundImage: null, //optional
+      description: [
+        "<div class='standings-car-subhdr'>" + subheader + "</div>",
+        "<div class='standings-car-hdr'>" + item.teamName + "</div>",
+        "<div class='standings-car-desc'>" + description + "</div>",
+        "<div class='standings-car-date'>Last Updated On [TBA]</div>"
+      ], //TODO-CJP: use moment to format date 
+      imageConfig: {
+        imageClass: "image-150",
+        mainImage: {
+          imageClass: "border-10",
+          urlRouteArray: teamRoute,
+          imageUrl: item.teamImageUrl,
+          hoverText: "<p>View</p><p>Profile</p>"
+        },
+        subImages: []
+      }
+    };
+  }
 }
 
 export class StandingsTableData implements TableModel<TeamStandingsData> {

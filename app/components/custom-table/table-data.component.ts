@@ -9,6 +9,8 @@ export interface TableModel<T> {
   
   footer?: { [key: string]: string };
   
+  selectedIndex: number;
+  
   isRowSelected(item:T, rowIndex:number): boolean;
   
   getDisplayValueAt(item:T, column:TableColumn):string;

@@ -2,7 +2,10 @@ import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Rx';
 import {Http} from 'angular2/http';
 import {Conference, Division} from '../global/global-interface';
-import {StandingsTableData, TeamStandingsData} from './standings.data';
+import {MLBGlobalFunctions} from '../global/mlb-global-functions';
+import {StandingsTabData, StandingsTableData, TeamStandingsData} from './standings.data';
+import {StandingsModule} from '../modules/standings/standings.module';
+import {StandingsComponentData, TableTabData} from '../components/standings/standings.component';
 
 @Injectable()
 export class StandingsService {
@@ -12,7 +15,9 @@ export class StandingsService {
   //Team Profile
   private _defaultData: Array<TeamStandingsData> = [{
       teamName: "Atlanta Braves",
-      teamImageUrl: "none.jpg",
+      teamImageUrl: "/app/public/profile_placeholder_large.png",
+      teamKey: "",
+      rank: 1,
       totalWins: 4,
       totalLosses: 17,
       batRunsScored: 69,
@@ -27,7 +32,9 @@ export class StandingsService {
   },
   {
       teamName: "Minnesota Twins",
-      teamImageUrl: "none.jpg",
+      teamImageUrl: "/app/public/profile_placeholder_large.png",
+      teamKey: "",
+      rank: 2,
       totalWins: 7,
       totalLosses: 15,
       batRunsScored: 77,
@@ -41,8 +48,9 @@ export class StandingsService {
       lastUpdatedDate: new Date()
   }];
 
-  constructor(public http: Http){}
+  constructor(public http: Http, private _mlbFunctions: MLBGlobalFunctions){}
 
+//TODO-CJP: limit to five on module page.
   getData(conference: Conference, division: Division): Observable<StandingsTableData> {
     let url = this._apiUrl;
     let title = "Standings";
@@ -67,5 +75,32 @@ export class StandingsService {
   createTableModel(data: Array<TeamStandingsData>): StandingsTableData {
     //TODO-CJP: create subtitle string
     return new StandingsTableData("", data);
+  }
+
+  loadTabData(standingsData: StandingsComponentData, conference?: Conference, division?: Division) {
+    this.getDefaultData(conference, division).subscribe(
+      data => this.setupTabData(standingsData, conference, division, data),
+      err => { console.log("Error getting standings data for " + Conference[conference] + " and division " + Division[division]); }
+    );
+  }
+
+  setupTabData(standingsData: StandingsComponentData, conference: Conference, division: Division, table: StandingsTableData) {
+    let groupName = this._mlbFunctions.formatGroupName(conference, division);
+    table.rows.forEach(value => {
+      value.groupName = groupName;
+    });
+
+    //Table tabs
+    var sections = [
+      {
+        groupName: "", //only include group name if more than one section
+        tableData: table
+      }
+    ];
+    standingsData.tabs.push(new StandingsTabData(
+      groupName + " Standings", //title
+      standingsData.tabs.length === 0, //isActive
+      sections
+    ));
   }
 }

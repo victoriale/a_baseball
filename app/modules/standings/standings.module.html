@@ -1,29 +1,5 @@
-<div class="module-component standings">
+<div class="module-component">
   <module-header [modHeadData]="headerInfo"></module-header>
-  <slider-carousel *ngIf="carouselData" [carouselData]="carouselData"></slider-carousel>
-  <p>
-    {{carouselData.row1}}
-  </p>
-  <p>
-    {{carouselData.row2}}
-  </p>
-  <p [innerHtml]="carouselData.row3"></p>
-  <p>
-    {{carouselData.row4}}
-  </p>
-  <tabs *ngIf="tabs.length > 0">
-    <tab [tabTitle]="tabs[0].title">
-      <custom-table [model]="tabs[0].tableData"></custom-table>
-    </tab>
-    <tab *ngIf="tabs.length > 1" [tabTitle]="tabs[1].title">
-      <custom-table [model]="tabs[1].tableData"></custom-table>
-    </tab>
-    <tab *ngIf="tabs.length > 2" [tabTitle]="tabs[2].title">
-      <custom-table [model]="tabs[2].tableData"></custom-table>
-    </tab>
-  </tabs>
-  <div (click)="changeSelected()" class="standings-btn">
-    Test switching rows
-  </div>
+  <standings-component [data]="data"></standings-component>
   <module-footer [footerData]="footerInfo"></module-footer>
 </div>

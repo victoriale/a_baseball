@@ -58,7 +58,7 @@ export class DirectoryModule implements OnChanges {
     this.isLoading = false;
     
     var pageName:string = this.data.pageName;
-    var maxPageCount: number = Math.ceil(this.data.listingItems.totalItems / this.data.listingsLimit) + (this.data.listingItems.totalItems % this.data.listingsLimit === 0 ? 0 : 1);
+    var maxPageCount: number = Math.ceil(this.data.listingItems.totalItems / this.data.listingsLimit);
     var currPage: number = this.currentPage;
     
     //Next Page

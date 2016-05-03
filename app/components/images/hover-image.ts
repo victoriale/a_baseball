@@ -15,7 +15,7 @@ export class HoverImage implements OnInit {
     
     ngOnInit() {
       if ( this.imageData.placeholderImageUrl === undefined || this.imageData.placeholderImageUrl === null ) {
-        this.imageData.placeholderImageUrl = "/app/public/placeholder-location.png";
+        this.imageData.placeholderImageUrl = "/app/public/profile_placeholder_large.png";
       }
       this.placeholderJavascript = "this.src='" + this.imageData.placeholderImageUrl + "';";
     }
