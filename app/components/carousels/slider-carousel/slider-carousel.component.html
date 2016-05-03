@@ -25,5 +25,5 @@
     </div>
     <!-- placeholder ends -->
   </div>
-  <module-footer></module-footer>
+  <module-footer *ngIf="dataPoint.footerInfo" [footerData]="footerInfo"></module-footer>
 </carousel>

@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from 'angular2/core';
 
 export interface ModuleFooterData {
-  infoDesc: string,
-  text: string,
+  infoDesc: string, // text description that describes what is the footer going to display
+  text: string, // the text that is in the mod-footer button that describes where the Route link is navigating to
   url:[any],//USED FOR ROUTER LINK
 }
 

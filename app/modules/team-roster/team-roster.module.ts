@@ -14,6 +14,7 @@ export interface RosterTabData {
   title: string;
   tableData: Array<TableRow>;
 }
+
 @Component({
     selector: 'team-roster-module',
     templateUrl: './app/modules/team-roster/team-roster.module.html',

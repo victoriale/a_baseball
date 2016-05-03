@@ -8,10 +8,15 @@ import {Carousel} from '../carousel.component';
 import {ModuleFooter, ModuleFooterData} from '../../module-footer/module-footer.component'
 
 /*
-  index?: // and optional parameter in case it is needed to know the position of the object in its current array
+  index?: //(optional) parameter in case it is needed to know the position of the object in its current array
+
   backgroundImage?: string; // incase the carousel requires a background image for the whole carousel container will have default in place if none provided
+
   imageData: CircleImageData; // attached interface for the required fields needed for a functional Image for the slider. from image-data.ts please go there for documentation
+
   description?: Array<string>; // if there is description then will use angular2 [innerHTML] to render content.  the array can contain anything HTML related and in the slider-carousel.component.html it will loop through and display each item in the array.
+
+  footerInfo?: ModuleFooterData; // (optional) if the carousel has a footer that requires information to link to its desired profile the contents please go to module-footer.component.ts for more info
 */
 export interface SliderCarouselInput {
   index?:any;
