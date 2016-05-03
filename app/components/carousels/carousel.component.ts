@@ -14,6 +14,8 @@ import {CircleButton} from "../buttons/circle/circle.button";
 
 export class Carousel implements OnInit {
   @Input() carouselData: Array<any>;
+  @Input() indexInput: any;//this is an optional Input to determine where the current index is currently positioned. otherwise set the defaul indexInput to 0;
+
   public carouselDataPoint: EventEmitter<any> = new EventEmitter();
   public scrollRight: EventEmitter<boolean> = new EventEmitter();
   public scrollLeft: EventEmitter<boolean> = new EventEmitter();
@@ -166,6 +168,11 @@ export class Carousel implements OnInit {
       ];
     }
 
+    if(typeof this.indexInput == 'undefined'){
+      this.counter = 0;
+    }else{
+      this.counter = this.indexInput;
+    }
     this.max = this.carouselData.length;
     this.changeMain(this.counter);
   }
