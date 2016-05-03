@@ -17,9 +17,7 @@
       li{
         border-radius: 50%;
         border: 1px solid @greyTextGlobal;
-        color: @greyShareButton;
-        font-size: 20px;
-        font-weight: 400;
+        .globalDefaultModFont(20px, 400, @greyShareButton);
         height: 40px;
         width: 40px;
         i{
@@ -27,42 +25,6 @@
         }//i ends
       }// ul li ends
     }// ul ends
-    li:hover{
-      background-color: @greySocialBarHover;
-      &:first-child{
-        color: @facebook;
-        border-color: @facebook;
-      }
-      &:nth-child(2){
-        color: @twitter;
-        border-color: @twitter;
-      }
-      &:nth-child(3){
-        color: @linkedin;
-        border-color: @linkedin;
-      }
-      &:nth-child(4){
-        color: @googlePlus;
-        border-color: @googlePlus;
-      }
-    }//li:hover ends
-    li:active{
-      .fa{
-        color: @white;
-      }
-      &:first-child{
-        background-color: @facebook;
-      }
-      &:nth-child(2){
-        background-color: @twitter;
-      }
-      &:nth-child(3){
-        background-color: @linkedin;
-      }
-      &:nth-child(4){
-        background-color: @googlePlus;
-      }
-    }//li:hover ends
   }// footer-top ends
 
   &-main{
@@ -102,6 +64,45 @@
   &-text1{
     a{
       .globalDefaultModFont(14px, 900, @masterBrandColor);
+    }
+  }
+}
+#share-twitter{
+  &:hover{
+    background-color: @greySocialBarHover;
+    border-color: @twitter;
+    color: @twitter;
+  }
+  &:active{
+    background-color: @twitter;
+    .fa{
+      color: @white;
+    }
+  }
+}
+#share-linkedin{
+  &:hover{
+    background-color: @greySocialBarHover;
+    border-color: @linkedin;
+    color: @linkedin;
+  }
+  &:active{
+    background-color: @linkedin;
+    .fa{
+      color: @white;
+    }
+  }
+}
+#share-google{
+  &:hover{
+    background-color: @greySocialBarHover;
+    border-color: @googlePlus;
+    color: @googlePlus;
+  }
+  &:active{
+    background-color: @googlePlus;
+    .fa{
+      color: @white;
     }
   }
 }
