@@ -1,8 +1,8 @@
 /**
- * Created by Victoria on 3/2/2016.
+ * Created by Victoria on 5/2/2016.
  */
 import {Component, OnInit} from 'angular2/core';
-import {ModuleHeader} from "../../components/module-header/module-header.component";
+import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 
 declare var DISQUS: any;
 
@@ -14,7 +14,11 @@ declare var DISQUS: any;
 })
 export class CommentModule implements OnInit{
     module_title: string;
-
+    public headerInfo: ModuleHeaderData = {
+      moduleTitle: "Share Your Comments With Us",
+      hasIcon: false,
+      iconClass: ""
+    };
     ngOnInit(){
         var script:any = document.createElement("script");
 
@@ -31,12 +35,11 @@ export class CommentModule implements OnInit{
                     });
                 }else{
                     js = d.createElement(s); js.id = id;
-                    js.src = "//myjoyfulhome.disqus.com/embed.js";
+                    js.src = "//homerunloyal.disqus.com/embed.js";
                     fjs.parentNode.insertBefore(js, fjs);
                 }
               }(document, 'script', 'disqusJS'));
 
         document.body.appendChild(script);
-        this.module_title = 'Share Your Comments With Us';
     }
 }
