@@ -7,7 +7,7 @@ import {ImageData, CircleImageData} from '../../../components/images/image-data'
 import {Carousel} from '../carousel.component';
 
 /*
-  index?: is
+  index?: // and optional parameter in case it is needed to know the position of the object in its current array
   backgroundImage?: string; // incase the carousel requires a background image for the whole carousel container will have default in place if none provided
   imageData: CircleImageData; // attached interface for the required fields needed for a functional Image for the slider. from image-data.ts please go there for documentation
   description?: Array<string>; // if there is description then will use angular2 [innerHTML] to render content.  the array can contain anything HTML related and in the slider-carousel.component.html it will loop through and display each item in the array.
