@@ -13,7 +13,7 @@
       .flexDisplay;
       .flexJustify(space-between);
       text-align: center;
-      width: 17%;
+      width: 200px;
       li{
         border-radius: 50%;
         border: 1px solid @greyTextGlobal;
@@ -64,6 +64,19 @@
   &-text1{
     a{
       .globalDefaultModFont(14px, 900, @masterBrandColor);
+    }
+  }
+}
+#share-facebook{
+  &:hover{
+    background-color: @greySocialBarHover;
+    border-color: @facebook;
+    color: @facebook;
+  }
+  &:active{
+    background-color: @facebook;
+    .fa{
+      color: @white;
     }
   }
 }

@@ -3,24 +3,24 @@
     <div class="col-xs-12">
       <header-component></header-component>
       <div class="row">
-        <div class="home-hero col-md-12">
+        <div class="home-hero col-xs-12">
           <img class="home-hero-img" src='{{imgHero1}}' />
           <div class="home-hero-info">
             <h1>{{homeHeading1}}</h1>
             <h4>{{homeHeading2}}</h4>
-            <div class="home-hero-info-search col-md-4">
+            <div class="home-hero-info-search col-xs-4">
               <search [placeholderText]="placeholderText"></search>
             </div>
           </div>
         </div>
       </div>
-      <div class="home-main col-md-12">
+      <div class="home-main col-xs-12">
         <h2><span [innerHTML]="homeHeading3"></span></h2>
         <div class="home-league">
           <h3><span [innerHTML]="leagueHeading"></span></h3>
 
           <section class="row">
-            <div class="col-md-4" *ngFor="#dataItem of teamData">
+            <div class="col-xs-4" *ngFor="#dataItem of teaxsata">
               <h4>{{dataItem.divisionName}}</h4>
               <!-- ngFor here to get all the teams in the same division -->
               <a [routerLink]="['Disclaimer-page']" class="home-team">
@@ -38,9 +38,9 @@
     </div>
   </div>
 
-  <div *ngFor="#newsData of newsData" class="home-slider col-md-12">
+  <div *ngFor="#newsData of newsData" class="home-slider col-xs-12">
     <slider-button></slider-button>
-    <div class="home-slider-news col-md-offset-2 col-md-3">
+    <div class="home-slider-news col-xs-offset-2 col-xs-3">
       <div>{{mlb}}</div>
       <h3><b>{{newsData.newsTitle}}</b></h3>
       <hr />
@@ -52,7 +52,7 @@
   </div>
   <!-- end of news data carousel -->
 
-  <div class="home-features col-md-offset-2 col-md-8">
+  <div class="home-features col-xs-offset-2 col-xs-8">
       <div class="home-features-title"><img src='{{imgIcon1}}' /><h2 [innerHTML]="homeFeatures"></h2></div>
       <div class=home-features-tiles>
         <a [routerLink]="['Disclaimer-page']" style="background-image:url('{{imageTile1}}');" class="home-features-tile1" [innerHTML]="homeFeaturesTile1"><h3></h3></a>
