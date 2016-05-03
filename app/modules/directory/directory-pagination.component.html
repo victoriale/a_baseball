@@ -1,0 +1,22 @@
+<div *ngIf="data" class="directory-pagination row">
+  <div class="col-sm-6 directory-pagination-text">
+    Showing: 
+    <span class="text-heavy">{{data.rangeText}}</span> of 
+    <span class="text-heavy">{{data.totalitems}}</span> 
+    {{data.description}}
+  </div>
+  <div class="col-sm-6 directory-pagination-buttons">
+    <a *ngIf="enablePrev" [routerLink]="[prevLink.page, prevLink.pageParams]" class="directory-pagination-button active">
+        <i class="fa fa-angle-left"></i> {{prevLink.text}}
+    </a>
+    <a *ngIf="!enablePrev" href="#" class="directory-pagination-button">
+        <i class="fa fa-angle-left"></i> {{prevLink.text}}
+    </a>
+    <a *ngIf="enableNext" [routerLink]="[nextLink.page, nextLink.pageParams]" class="directory-pagination-button active">
+        {{nextLink.text}} <i class="fa fa-angle-right"></i>
+    </a>
+    <a *ngIf="!enableNext" href="#" class="directory-pagination-button">
+        {{nextLink.text}} <i class="fa fa-angle-right"></i>
+    </a>
+  </div>
+</div>
