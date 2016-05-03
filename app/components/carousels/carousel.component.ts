@@ -3,21 +3,18 @@
  */
 import {Component, OnInit, Input, Output, EventEmitter} from 'angular2/core';
 import {CircleButton} from "../buttons/circle/circle.button";
-import {SliderCarousel} from '../../components/carousels/slider-carousel/slider-carousel.component';
-import {SchedulesCarousel} from '../../components/carousels/schedules-carousel/schedules-carousel.component';
 
 @Component({
     selector: 'carousel',
     templateUrl: './app/components/carousels/carousel.component.html',
-    directives: [SchedulesCarousel, SliderCarousel, CircleButton],
+    directives: [CircleButton],
     providers: [],
-    outputs: ['scrollRight', 'scrollLeft']
+    outputs: ['scrollRight', 'scrollLeft','carouselDataPoint']
 })
 
 export class Carousel implements OnInit {
   @Input() carouselData: Array<any>;
-  public carouselDataPoint: any;
-
+  public carouselDataPoint: EventEmitter<any> = new EventEmitter();
   public scrollRight: EventEmitter<boolean> = new EventEmitter();
   public scrollLeft: EventEmitter<boolean> = new EventEmitter();
 
@@ -50,24 +47,21 @@ export class Carousel implements OnInit {
 
   left(){
     var returnData = -1;//for outputing data
-    console.log(returnData);
     var counter = this.counter;
     counter--;
 
     //make a check to see if the array is below 0 change the array to the top level
     if(counter < 0){
-      this.counter = this.max;
+      this.counter = (this.max - 1);
     }else{
       this.counter = counter;
     }
-    console.log(this.counter);
     this.changeMain(this.counter);
     return returnData;//a returned variable for output
   }
 
   right(){
     var returnData = 1;
-    console.log(returnData);
     var counter = this.counter;
     counter++;
     //check to see if the end of the obj array of images has reached the end and will go on the the next obj with new set of array
@@ -76,7 +70,6 @@ export class Carousel implements OnInit {
     }else{
       this.counter = counter;
     }
-    console.log(this.counter);
     this.changeMain(this.counter);
     return returnData;//a returned variable for output
   }
@@ -84,7 +77,7 @@ export class Carousel implements OnInit {
 
   //this is where the angular2 decides what is the main image
   changeMain(num){
-    this.carouselDataPoint = this.carouselData[num];
+    this.carouselDataPoint.next(this.carouselData[num]);
   }
 
   ngOnChanges(){
