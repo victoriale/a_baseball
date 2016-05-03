@@ -1,6 +1,6 @@
 import {Component} from 'angular2/core';
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
-import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer';
+import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer.component';
 import {Tabs} from '../../components/tabs/tabs.component';
 import {Tab} from '../../components/tabs/tab.component';
 import {SliderCarousel} from '../../components/carousels/slider-carousel/slider-carousel.component';
@@ -14,6 +14,7 @@ export interface RosterTabData {
   title: string;
   tableData: Array<TableRow>;
 }
+
 @Component({
     selector: 'team-roster-module',
     templateUrl: './app/modules/team-roster/team-roster.module.html',
@@ -94,6 +95,11 @@ export class TeamRosterModule{
           "<p>Line8</p>",
           "<p>Line3</p>",
         ],
+        footerInfo: {
+          infoDesc: "Want to see the full team roster?",
+          text: "VIEW FULL ROSTER",
+          url: ['Home-page']
+        },
       },
       {
         imageConfig: {

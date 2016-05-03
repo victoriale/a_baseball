@@ -2,27 +2,34 @@
  * Created by Victoria on 4/19/2016.
  */
 import {Component, OnInit, Output, Input, EventEmitter} from 'angular2/core';
-import {CircleImage} from '../../../components/images/circle-image';
-import {ImageData, CircleImageData} from '../../../components/images/image-data';
+import {CircleImage} from '../../images/circle-image';
+import {ImageData, CircleImageData} from '../../images/image-data';
 import {Carousel} from '../carousel.component';
+import {ModuleFooter, ModuleFooterData} from '../../module-footer/module-footer.component'
 
 /*
-  index?: // and optional parameter in case it is needed to know the position of the object in its current array
+  index?: //(optional) parameter in case it is needed to know the position of the object in its current array
+
   backgroundImage?: string; // incase the carousel requires a background image for the whole carousel container will have default in place if none provided
+
   imageData: CircleImageData; // attached interface for the required fields needed for a functional Image for the slider. from image-data.ts please go there for documentation
+
   description?: Array<string>; // if there is description then will use angular2 [innerHTML] to render content.  the array can contain anything HTML related and in the slider-carousel.component.html it will loop through and display each item in the array.
+
+  footerInfo?: ModuleFooterData; // (optional) if the carousel has a footer that requires information to link to its desired profile the contents please go to module-footer.component.ts for more info
 */
 export interface SliderCarouselInput {
   index?:any;
   backgroundImage?: string;
   imageConfig: CircleImageData;
   description?: Array<string>;
+  footerInfo?: ModuleFooterData;
 }
 
 @Component({
   selector: 'slider-carousel',
   templateUrl: './app/components/carousels/slider-carousel/slider-carousel.component.html',
-  directives: [Carousel, CircleImage],
+  directives: [ModuleFooter, Carousel, CircleImage],
   providers: [],
   outputs:['indexNum'],
 })
@@ -30,6 +37,8 @@ export interface SliderCarouselInput {
 export class SliderCarousel implements OnInit {
   @Input() carouselData: Array<SliderCarouselInput>;
   @Input() backgroundImage: string;
+  @Input() indexInput: any;//this is an optional Input to determine where the current index is currently positioned. otherwise set the defaul indexInput to 0;
+
   public indexNum: EventEmitter<any> = new EventEmitter();//interface for the output to return an index
   public dataPoint: SliderCarouselInput;
 
@@ -51,7 +60,11 @@ export class SliderCarousel implements OnInit {
   ngOnInit() {
     //on initial component view set the datapoint to the first item in the array if it exists
     if(typeof this.dataPoint != 'undefined'){
-      this.dataPoint = this.carouselData[0];
+      //checks if there is a current position that it was previously at otherwise set it to default of 0
+      if(typeof this.indexInput == 'undefined'){
+        this.indexInput = 0;
+      }
+      this.dataPoint = this.carouselData[this.indexInput];
       //if there is rank then initially set it when component is initially in view
       if(typeof this.dataPoint['index'] != 'undefined'){
         this.indexNum.next(this.dataPoint['index']);

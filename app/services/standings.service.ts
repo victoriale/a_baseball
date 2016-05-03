@@ -6,9 +6,9 @@ import {StandingsTableData, TeamStandingsData} from './standings.data';
 
 @Injectable()
 export class StandingsService {
-  private _apiUrl: string = 'http://dev-homerunloyal-api.synapsys.us/standings/pct-low-high/'; 
+  private _apiUrl: string = 'http://dev-homerunloyal-api.synapsys.us/standings/pct-low-high/';
 // '[API]/standings/{ordering}/{conference}/{division}'
-  
+
   //Team Profile
   private _defaultData: Array<TeamStandingsData> = [{
       teamName: "Atlanta Braves",
@@ -46,15 +46,15 @@ export class StandingsService {
   getData(conference: Conference, division: Division): Observable<StandingsTableData> {
     let url = this._apiUrl;
     let title = "Standings";
-    
+
     if ( conference !== undefined ) {
       url += Conference[conference] + "/";
-      
+
       if ( division !== undefined ) {
-        url += Division[division] + "/";        
+        url += Division[division] + "/";
       }
     }
-    
+
     return this.http.get(url)
         .map(res => res.json())
         .map(data => this.createTableModel(data.data));
@@ -63,7 +63,7 @@ export class StandingsService {
   getDefaultData(conference: Conference, division: Division): Observable<StandingsTableData> {
     return Observable.of(this.createTableModel(this._defaultData));
   }
-  
+
   createTableModel(data: Array<TeamStandingsData>): StandingsTableData {
     //TODO-CJP: create subtitle string
     return new StandingsTableData("", data);

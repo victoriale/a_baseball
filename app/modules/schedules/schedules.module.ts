@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from 'angular2/core';
-import {ModuleFooter} from '../../components/module-footer/module-footer';
+import {ModuleFooter} from '../../components/module-footer/module-footer.component';
 import {ModuleHeader} from '../../components/module-header/module-header.component';
 import {SchedulesCarousel} from '../../components/carousels/schedules-carousel/schedules-carousel.component';
 
