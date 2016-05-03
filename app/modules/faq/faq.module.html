@@ -1,13 +1,12 @@
 <section class="module-container">
-  <module-header [moduleTitle]="moduleTitle"></module-header>
-  <div class="faq-details">
+  <module-header [modHeadData]="headerInfo"></module-header>
+  <div class="faq-details" *ngFor="#faqData of faqData">
     <div class="faq-details-info">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor?
-    </div>
-    <div class="faq-details-icon">
-      <i class="fa fa-chevron-down"></i>
+      <p> {{faqData.question}}</p>
+      <div class="faq-details-info-icon"><i class="fa fa-chevron-down"></i></div>
     </div>
     <div class="faq-details-answer">
+      <i class="fa fa-circle"> </i>{{faqData.answer}}
     </div>
   </div>
 </section>
