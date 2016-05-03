@@ -1,6 +1,7 @@
 import {Component, OnInit, Injector} from 'angular2/core';
 import {RouteParams, Router, RouteData, RouteConfig, RouterOutlet, ROUTER_DIRECTIVES, LocationStrategy, RouterLink} from 'angular2/router';
 import {AboutUsPage} from "../webpages/aboutus-page/aboutus.page";
+import {DirectoryPage} from "../webpages/directory-page/directory.page";
 import {ContactUsPage} from "../webpages/contactus-page/contactus.page";
 import {DisclaimerPage} from "../webpages/disclaimer-page/disclaimer.page";
 import {TeamPage} from "../webpages/team-page/team.page";
@@ -21,7 +22,7 @@ import {ArticleDataService} from "../global/global-service";
 @Component({
     selector: 'my-app',
     templateUrl: './app/app-webpage/app.webpage.html',
-    directives: [HomePage, TeamPage, AboutUsPage, ContactUsPage, DisclaimerPage, SearchPage, ComponentPage, ModulePage, RouterOutlet, ROUTER_DIRECTIVES],
+    directives: [HomePage, TeamPage, DirectoryPage, AboutUsPage, ContactUsPage, DisclaimerPage, SearchPage, ComponentPage, ModulePage, RouterOutlet, ROUTER_DIRECTIVES],
     providers: [ ROUTER_DIRECTIVES, ArticleDataService],
 })
 
@@ -41,6 +42,16 @@ import {ArticleDataService} from "../global/global-service";
         path: '/team',
         name: 'Team-page',
         component: TeamPage,
+    },
+    {
+        path: '/directory/:type/page/:page',
+        name: 'Directory-page',
+        component: DirectoryPage,
+    },
+    {
+        path: '/directory/:type/:startsWith/page/:page',
+        name: 'Directory-page-startswith',
+        component: DirectoryPage,
     },
     {
         path: '/aboutus',

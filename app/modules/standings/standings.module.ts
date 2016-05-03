@@ -16,15 +16,11 @@ import {StandingsTableData, TeamStandingsData} from '../../services/standings.da
 
 export interface StandingsTabData {
   title: string;
+  groupName: string;
   tableData: StandingsTableData; //TODO-CJP: get list of tables, since some tabs have multiple tables
 }
 
-// export interface StandingsTable {
-//   subtitle: string;
-//   tableData: Array<TableRow>
-// }
-
-//TODO-CJP: limit table rows to 5? Or should the API do that? Also, componentize by moving out shared page/module logic
+//TODO-CJP: Also, componentize by moving out shared page/module logic
 @Component({
   selector: "standings-module",
   templateUrl: "./app/modules/standings/standings.module.html",
@@ -119,6 +115,7 @@ export class StandingsModule {
     //Table tabs
     this.tabs[index] = {
       title: groupName + " Standings",
+      groupName: groupName,
       tableData: table
     };
 
@@ -204,5 +201,6 @@ export class StandingsModule {
     let selectedIndex = selectedTab.tableData.selectedIndex;
     selectedIndex = (selectedIndex+1) % selectedTab.tableData.rows.length;
     selectedTab.tableData.selectedIndex = selectedIndex;
+    this.setupCarouselData(selectedTab, selectedIndex); 
   }
 }

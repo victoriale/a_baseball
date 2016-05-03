@@ -4,10 +4,11 @@ import {CircleImageData} from '../components/images/image-data';
 export interface TeamStandingsData {
   teamName: string,
   teamImageUrl: string,
+  teamKey: string; //NEED!
   conferenceName: string,
   divisionName: string,
   lastUpdatedDate: Date,
-  // rank: number,
+  rank: number, //NEED!
   totalWins: number,
   totalLosses: number,
   winPercentage: number,
@@ -29,44 +30,37 @@ export class StandingsTableData implements TableModel<TeamStandingsData> {
       headerValue: "W",
       columnClass: "data-column",
       isNumericType: true,
-      tooltip: "Total Wins",
       key: "w"
     },{
       headerValue: "L",
       columnClass: "data-column",
       isNumericType: true,
-      tooltip: "Total Losses",
       key: "l"
     },{
       headerValue: "PCT",
       columnClass: "data-column",
       isNumericType: true,
       sortDirection: -1, //descending
-      tooltip: "Winning Percentage",
       key: "pct"   
     },{
       headerValue: "GB",
       columnClass: "data-column",
       isNumericType: true,
-      tooltip: "Games Back",
       key: "gb"
     },{
       headerValue: "RS",
       columnClass: "data-column",
       isNumericType: true,
-      tooltip: "Runs Scored",
       key: "rs"
     },{
       headerValue: "RA",
       columnClass: "data-column",
       isNumericType: true,
-      tooltip: "Runs Allowed",
       key: "ra"
     },{
       headerValue: "STRK",
       columnClass: "data-column",
       isNumericType: true,
-      tooltip: "Streak",
       key: "strk"
     }];
   

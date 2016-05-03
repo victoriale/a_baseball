@@ -52,7 +52,7 @@ export class ProfileHeaderModule {
         this.profileHeaderData = data;
         this.imageConfig.mainImage.imageUrl = data.profileImageUrl;
         this.contentTitle = "Quick info about " + data.profileName;
-        this.profileTitle = data.profileTitleFirstPart + "<span class='text-heavy'>" + data.profileTitleLastPart + "</span";
+        this.profileTitle = data.profileTitleFirstPart + "<span class='text-heavy'> " + data.profileTitleLastPart + "</span";
         
         var lastUpdated = moment(data.lastUpdatedDate);
         this.displayDate = lastUpdated.format('dddd, MMMM D, YYYY');

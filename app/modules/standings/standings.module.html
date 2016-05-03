@@ -1,6 +1,16 @@
 <div class="module-component standings">
   <module-header [modHeadData]="headerInfo"></module-header>
   <slider-carousel *ngIf="carouselData" [carouselData]="carouselData"></slider-carousel>
+  <p>
+    {{carouselData.row1}}
+  </p>
+  <p>
+    {{carouselData.row2}}
+  </p>
+  <p [innerHtml]="carouselData.row3"></p>
+  <p>
+    {{carouselData.row4}}
+  </p>
   <tabs *ngIf="tabs.length > 0">
     <tab [tabTitle]="tabs[0].title">
       <custom-table [model]="tabs[0].tableData"></custom-table>
