@@ -11,10 +11,18 @@ import {ProfileHeaderModule} from '../../modules/profile-header/profile-header.m
 import {StandingsModule} from '../../modules/standings/standings.module';
 import {Search} from '../../components/search/search.component';
 
+import {SchedulesCarousel} from '../../components/carousels/schedules-carousel/schedules-carousel.component';
+import {Carousel} from '../../components/carousels/carousel.component';
+import {SliderCarousel} from '../../components/carousels/slider-carousel/slider-carousel.component';
+
+
 @Component({
     selector: 'Component-page',
     templateUrl: './app/webpages/component-page/component.page.html',
     directives: [
+      SliderCarousel,
+      Carousel,
+      SchedulesCarousel,
       BoxScoresModule,
       ShareButtonComponent,
       TeamRosterModule,
@@ -31,7 +39,6 @@ import {Search} from '../../components/search/search.component';
 })
 
 export class ComponentPage implements OnInit{
-
       ngOnInit(){
 
       }

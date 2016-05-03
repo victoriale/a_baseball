@@ -2,7 +2,7 @@ import {Component, Input} from 'angular2/core';
 
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer';
-import {Carousel} from '../../components/carousels/carousel.component';
+import {SliderCarousel} from '../../components/carousels/slider-carousel/slider-carousel.component';
 import {Tabs} from '../../components/tabs/tabs.component';
 import {Tab} from '../../components/tabs/tab.component';
 import {CustomTable} from '../../components/custom-table/custom-table.component';
@@ -28,7 +28,7 @@ export interface StandingsTabData {
 @Component({
   selector: "standings-module",
   templateUrl: "./app/modules/standings/standings.module.html",
-  directives: [ModuleHeader, ModuleFooter, Carousel, Tabs, Tab, CustomTable],
+  directives: [ModuleHeader, ModuleFooter, SliderCarousel, Tabs, Tab, CustomTable],
   providers: [StandingsService]
 })
 export class StandingsModule {
@@ -129,27 +129,71 @@ export class StandingsModule {
     //TODO-CJP: Standings Carousel
     if ( tab.tableData.rows.length > rowIndex ) {
       var row = tab.tableData.rows[rowIndex];
-      var teamRoute = ["Team-profile", {
-        "team": ""//row.teamKey
-      }];
-      var carouselData = {
-        imageConfig: {
-          imageClass: "image-150",
-          mainImage: {
-            imageClass: "border-10",
-            urlRouteArray: teamRoute,
-            imageUrl: ""//row.cells
-          },
-          subImages: [
-            {
-              imageClass: "lower-right sub-image-50 border-1",
-              urlRouteArray: teamRoute,
-              imageUrl: ""//row.cells
-            }
-          ]
-        }
-      };
+      var teamRoute = ['Disclaimer-page'];
 
+      //Carousel Data Below is an array of dummy carouselData that should be replaced with real data
+      var sampleImage = "./app/public/placeholder-location.jpg";
+      var carouselData =[
+        {
+          index:'1',
+          imageConfig: {
+            imageClass: "image-150",
+            mainImage: {
+              imageUrl: sampleImage,
+              urlRouteArray: ['Disclaimer-page'],
+              hoverText: "<p>View</p>Profile",
+              imageClass: "border-large"
+            },
+            subImages: [
+              {
+                imageUrl: sampleImage,
+                urlRouteArray: ['Disclaimer-page'],
+                hoverText: "<i class='fa fa-mail-forward'></i>",
+                imageClass: "image-50-sub image-round-lower-right"
+              },
+              {
+                text: "#1",
+                imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
+              }
+            ]
+          },
+          description: [
+            "<p>Line4</p>",
+            "<p>Line7</p>",
+            "<p>Line8</p>",
+            "<p>Line3</p>",
+          ],
+        },
+        {
+          index:'2',
+          imageConfig: {
+            imageClass: "image-150",
+            mainImage: {
+              imageUrl: sampleImage,
+              urlRouteArray: ['Disclaimer-page'],
+              hoverText: "<p>View</p>Profile",
+              imageClass: "border-large"
+            },
+            subImages: [
+              {
+                imageUrl: sampleImage,
+                urlRouteArray: ['Disclaimer-page'],
+                hoverText: "<i class='fa fa-mail-forward'></i>",
+                imageClass: "image-50-sub image-round-lower-right"
+              },
+              {
+                text: "#1",
+                imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
+              }
+            ]
+          },
+          description: [
+            "<p>Line1</p>",
+            "<p>Line2</p>",
+            "<p>Line3</p>",
+            "<p>Line4</p>",
+          ],
+        },]//END OF DUMMY DATA
       this.carouselData = carouselData;
     }
   }
