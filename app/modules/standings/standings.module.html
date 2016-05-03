@@ -1,6 +1,6 @@
 <div class="module-component standings">
   <module-header [modHeadData]="headerInfo"></module-header>
-  <carousel [type]="'type1'"></carousel>
+  <slider-carousel *ngIf="carouselData" [carouselData]="carouselData"></slider-carousel>
   <p>
     {{carouselData.row1}}
   </p>

@@ -1,26 +1,28 @@
-<!-- check if data is available and/or valid -->
-<div class="scc">
-  <!-- slider carousel component placeholder section -->
-  <div class="scc-placeholder" style="background-image: url({{carouselData.backgroundImage}});">
-    <!-- slider next/previous buttons -->
-    <!-- center section where images and descriptions details display -->
-    <div class="scc-details">
-        <!-- main round image -->
-        <div class="scc-details-mainImg">
-          <!-- image component place here -->
-          <div>
-              <circle-image [data]="carouselData.imageData"></circle-image>
-          </div>
-          <!-- image component ends -->
+<carousel *ngIf="carouselData" [carouselData]="carouselData" (carouselDataPoint)="response($event)">
+  <!-- check if data is available and/or valid -->
+  <div class="scc">
+    <!-- slider carousel component placeholder section -->
+    <div *ngIf="backgroundImage" class="scc-placeholder" style="background-image: url({{backgroundImage}});">
+      <!-- slider next/previous buttons -->
+      <!-- center section where images and descriptions details display -->
+      <div class="scc-details">
+          <!-- main round image -->
+          <div class="scc-details-mainImg">
+            <!-- image component place here -->
+            <div>
+                <circle-image [data]="dataPoint.imageConfig"></circle-image>
+            </div>
+            <!-- image component ends -->
+        </div>
+        <!-- round main image ends -->
+        <!-- carousel description -->
+        <div class="scc-details-desc">
+          <span *ngFor="#description of dataPoint.description" [innerHTML]="description"></span>
+        </div>
+        <!-- desc ends -->
       </div>
-      <!-- round main image ends -->
-      <!-- carousel description -->
-      <div class="scc-details-desc">
-        <span *ngFor="#description of carouselData.description" [innerHTML]="description"></span>
-      </div>
-      <!-- desc ends -->
+      <!-- center details ends -->
     </div>
-    <!-- center details ends -->
+    <!-- placeholder ends -->
   </div>
-  <!-- placeholder ends -->
-</div>
+</carousel>

@@ -5,13 +5,14 @@ import {FAQModule} from "../../modules/faq/faq.module";
 import {TwitterModule} from "../../modules/twitter/twitter.module";
 import {ComparisonModule} from '../../modules/comparison/comparison.module';
 import {ShareModule} from '../../modules/share/share.module';
+import {CommentModule} from '../../modules/comment/comment.module';
 
 import {ShareModuleInput} from '../../modules/share/share.module';
 
 @Component({
     selector: 'Team-page',
     templateUrl: './app/webpages/team-page/team.page.html',
-    directives: [DYKModule, FAQModule, LikeUs, TwitterModule, ComparisonModule, ShareModule],
+    directives: [CommentModule, DYKModule, FAQModule, LikeUs, TwitterModule, ComparisonModule, ShareModule],
     providers: [],
 })
 
