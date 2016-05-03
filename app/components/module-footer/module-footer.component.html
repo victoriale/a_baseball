@@ -1,11 +1,11 @@
-<div *ngIf="footerData" class="module-footer">
+<div *ngIf="footerData && footerStyle" class="module-footer {{footerStyle.ctaBoxClass}}">
   <span class="mf-text">{{footerData.infoDesc}}</span>
   <span class="list-button">
     <!--button component goes here-->
     <!--put inside button when ready [routerLink]="footerData.url"-->
-    <button>
-      <span></span>
-      <span>{{footerData.text}}</span>
+    <button class="{{footerStyle.ctaBtnClass}}">
+      <span *ngIf="footerStyle.hasIcon" class="module-footer-icon"></span>
+      <span class="module-footer-text">{{footerData.text}}</span>
       <i class="fa fa-angle-right"></i>
     </button>
     <!--button component goes here-->

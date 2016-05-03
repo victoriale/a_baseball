@@ -100,7 +100,7 @@ export class Carousel implements OnInit {
       break;
     }
 
-    if(typeof this.carouselData == 'undefined'){
+    if(typeof this.carouselData == 'undefined' || this.carouselData.length == 0){
       var sampleImage = "./app/public/placeholder-location.jpg";
       this.carouselData =[
         {

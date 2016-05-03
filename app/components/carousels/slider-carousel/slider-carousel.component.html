@@ -22,8 +22,8 @@
         <!-- desc ends -->
       </div>
       <!-- center details ends -->
+      <module-footer *ngIf="dataPoint.footerInfo" [footerData]="footerInfo"></module-footer>
     </div>
     <!-- placeholder ends -->
   </div>
-  <module-footer *ngIf="dataPoint.footerInfo" [footerData]="footerInfo"></module-footer>
 </carousel>

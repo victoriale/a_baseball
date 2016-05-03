@@ -6,6 +6,12 @@ export interface ModuleFooterData {
   url:[any],//USED FOR ROUTER LINK
 }
 
+export interface FooterStyle {
+  ctaBoxClass?: string, // to be sent into the style in the html to determine what is the style of the module footer box
+  ctaBtnClass?: string, // to be sent into the style in the html to determine what is the style of the module footer button
+  hasIcon?:boolean, //Input for the button to determine if there is an icon on the left side or not
+}
+
 @Component({
     selector: 'module-footer',
     templateUrl: './app/components/module-footer/module-footer.component.html',
@@ -15,8 +21,17 @@ export interface ModuleFooterData {
 
 export class ModuleFooter implements OnInit{
   @Input() footerData: ModuleFooterData;
+  @Input() footerStyle: FooterStyle;
 
     ngOnInit(){
+      if(typeof this.footerStyle == 'undefined'){
+        this.footerStyle = {
+          ctaBoxClass: '',
+          ctaBtnClass: '',
+          hasIcon: false,
+        };
+      }
+
       if(typeof this.footerData == 'undefined'){
         this.footerData = {
           infoDesc:'Want to see everybody involved in this list',

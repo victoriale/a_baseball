@@ -95,6 +95,11 @@ export class TeamRosterModule{
           "<p>Line8</p>",
           "<p>Line3</p>",
         ],
+        footerInfo: {
+          infoDesc: "Want to see the full team roster?",
+          text: "VIEW FULL ROSTER",
+          url: ['Home-page']
+        },
       },
       {
         imageConfig: {
