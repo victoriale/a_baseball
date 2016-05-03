@@ -58,19 +58,6 @@ export class SliderCarousel implements OnInit {
   }
 
   ngOnInit() {
-    //on initial component view set the datapoint to the first item in the array if it exists
-    if(typeof this.dataPoint != 'undefined'){
-      //checks if there is a current position that it was previously at otherwise set it to default of 0
-      if(typeof this.indexInput == 'undefined'){
-        this.indexInput = 0;
-      }
-      this.dataPoint = this.carouselData[this.indexInput];
-      //if there is rank then initially set it when component is initially in view
-      if(typeof this.dataPoint['index'] != 'undefined'){
-        this.indexNum.next(this.dataPoint['index']);
-      }
-    }
-
     //incase there is no backgroundImage being return set the default background
     if(typeof this.backgroundImage == 'undefined'){
       this.backgroundImage = '/app/public/homePage_hero1.png';

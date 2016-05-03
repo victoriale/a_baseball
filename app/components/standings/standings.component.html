@@ -1,5 +1,7 @@
 <div class="standings">
-  <slider-carousel *ngIf="carouselData" [carouselData]="carouselData" class="standings-car" (indexNum)="indexNum($event)"></slider-carousel>
+  <div class="standings-car">
+    <slider-carousel *ngIf="carouselData" [carouselData]="carouselData" (indexNum)="indexNum($event)" [indexInput]="selectedIndex"></slider-carousel>
+  </div>
   <tabs (tabSelected)="tabSelected($event)">
     <tab *ngFor="#tab of tabs" [tabTitle]="tab.title" [active]="tab.isActive">
       <div *ngFor="#section of tab.sections">

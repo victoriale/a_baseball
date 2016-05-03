@@ -30,12 +30,14 @@ export interface StandingsComponentData {
 })
 export class StandingsComponent implements OnInit {
   @Input() data: StandingsComponentData;
+  
+  public selectedIndex;
 
   public carouselData: Array<SliderCarouselInput> = [];
 
   public tabs: Array<TableTabData<any>> = [];
   
-  private selectedTabTitle: "";
+  private selectedTabTitle: string = "";
 
   constructor() {}
   
@@ -63,11 +65,15 @@ export class StandingsComponent implements OnInit {
     if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) { 
       let selectedTab = matchingTabs[0];
       let carouselData: Array<SliderCarouselInput> = [];
-      let index = 0;      
+      let index = 0;
+      let selectedIndex = 0;      
       selectedTab.sections.forEach(section => {
+        if ( section.tableData.selectedIndex >= 0 ) {
+          selectedIndex = index + section.tableData.selectedIndex;
+        }
         section.tableData.rows
           .map((value) => {
-            let item = selectedTab.convertToCarouselItem(value, index);
+            let item = selectedTab.convertToCarouselItem(value, index); 
             index++;            
             return item;
           })
@@ -75,6 +81,8 @@ export class StandingsComponent implements OnInit {
             carouselData.push(value);
           });
       });
+      
+      this.selectedIndex = selectedIndex;
       this.carouselData = carouselData;
     }
     else {
