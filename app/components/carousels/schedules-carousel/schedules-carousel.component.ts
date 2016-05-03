@@ -1,7 +1,7 @@
 import {Component, Input, Output, EventEmitter, OnInit} from 'angular2/core';
 import {CircleButton} from '../../buttons/circle/circle.button';
-import {CircleImage} from '../../../components/images/circle-image';
-import {CircleImageData} from '../../../components/images/image-data';
+import {CircleImage} from '../../images/circle-image';
+import {CircleImageData} from '../../images/image-data';
 import {Carousel} from '../carousel.component';
 
 export interface CarouselInput{

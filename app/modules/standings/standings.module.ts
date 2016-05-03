@@ -1,7 +1,7 @@
 import {Component, Input} from 'angular2/core';
 
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
-import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer';
+import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer.component';
 import {SliderCarousel} from '../../components/carousels/slider-carousel/slider-carousel.component';
 import {Tabs} from '../../components/tabs/tabs.component';
 import {Tab} from '../../components/tabs/tab.component';
@@ -201,6 +201,6 @@ export class StandingsModule {
     let selectedIndex = selectedTab.tableData.selectedIndex;
     selectedIndex = (selectedIndex+1) % selectedTab.tableData.rows.length;
     selectedTab.tableData.selectedIndex = selectedIndex;
-    this.setupCarouselData(selectedTab, selectedIndex); 
+    this.setupCarouselData(selectedTab, selectedIndex);
   }
 }

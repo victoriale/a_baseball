@@ -1,6 +1,6 @@
 import {Component} from 'angular2/core';
 import {DetailedListItem, DetailListInput} from '../../components/detailed-list-item/detailed-list-item.component';
-import {ModuleFooter} from '../../components/module-footer/module-footer';
+import {ModuleFooter} from '../../components/module-footer/module-footer.component';
 import {ModuleHeader} from '../../components/module-header/module-header.component';
 
 @Component({

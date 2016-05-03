@@ -1,6 +1,6 @@
 import {Component} from 'angular2/core';
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
-import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer';
+import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer.component';
 import {Tabs} from '../../components/tabs/tabs.component';
 import {Tab} from '../../components/tabs/tab.component';
 import {SliderCarousel} from '../../components/carousels/slider-carousel/slider-carousel.component';

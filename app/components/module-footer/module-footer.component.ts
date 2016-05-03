@@ -8,7 +8,7 @@ export interface ModuleFooterData {
 
 @Component({
     selector: 'module-footer',
-    templateUrl: './app/components/module-footer/module-footer.html',
+    templateUrl: './app/components/module-footer/module-footer.component.html',
     directives: [],
     providers: [],
 })

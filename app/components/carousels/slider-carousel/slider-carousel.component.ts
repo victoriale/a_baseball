@@ -2,9 +2,10 @@
  * Created by Victoria on 4/19/2016.
  */
 import {Component, OnInit, Output, Input, EventEmitter} from 'angular2/core';
-import {CircleImage} from '../../../components/images/circle-image';
-import {ImageData, CircleImageData} from '../../../components/images/image-data';
+import {CircleImage} from '../../images/circle-image';
+import {ImageData, CircleImageData} from '../../images/image-data';
 import {Carousel} from '../carousel.component';
+import {ModuleFooter, ModuleFooterData} from '../../module-footer/module-footer.component'
 
 /*
   index?: // and optional parameter in case it is needed to know the position of the object in its current array
@@ -17,12 +18,13 @@ export interface SliderCarouselInput {
   backgroundImage?: string;
   imageConfig: CircleImageData;
   description?: Array<string>;
+  footerInfo?: ModuleFooterData;
 }
 
 @Component({
   selector: 'slider-carousel',
   templateUrl: './app/components/carousels/slider-carousel/slider-carousel.component.html',
-  directives: [Carousel, CircleImage],
+  directives: [ModuleFooter, Carousel, CircleImage],
   providers: [],
   outputs:['indexNum'],
 })
