@@ -6,11 +6,11 @@ import {SliderCarouselInput} from '../components/carousels/slider-carousel/slide
 export interface TeamStandingsData {
   teamName: string,
   teamImageUrl: string,
-  teamKey: string; //NEED!
+  teamId: number;
   conferenceName: string,
   divisionName: string,
   lastUpdatedDate: Date,
-  rank: number, //NEED!
+  rank: number,
   totalWins: number,
   totalLosses: number,
   winPercentage: number,
@@ -19,7 +19,17 @@ export interface TeamStandingsData {
   batRunsScored: number,
   pitchRunsAllowed: number,
   gamesBack: number,
+  seasonId: string,  
+  
+  /**
+   * - Formatted from league and division values that generated the associated table
+   */
   groupName?: string
+  
+  /**
+   * - Formatted from the lastUpdatedDate
+   */
+  displayDate?: string
 }
 
 export class StandingsTabData implements TableTabData<TeamStandingsData> {
@@ -38,10 +48,9 @@ export class StandingsTabData implements TableTabData<TeamStandingsData> {
 
   convertToCarouselItem(item: TeamStandingsData, index:number): SliderCarouselInput {
     var teamRoute = ["Team-page", {
-      "team": item.teamKey
+      "team": item.teamId
     }];
-    var year = "[YYYY]"; //TODO: this.currentYear
-    var subheader = year + " Season " + item.groupName + " Standings";
+    var subheader = item.seasonId + " Season " + item.groupName + " Standings";
     var description = item.teamName + " is currently <span class='text-heavy'>ranked " + item.rank + "</span>" +
                       " in the <span class='text-heavy'>" + item.groupName + "</span>, with a record of " +
                       "<span class='text-heavy'>" + item.totalWins + " - " + item.totalLosses + "</span>.";
@@ -52,7 +61,7 @@ export class StandingsTabData implements TableTabData<TeamStandingsData> {
         "<div class='standings-car-subhdr'>" + subheader + "</div>",
         "<div class='standings-car-hdr'>" + item.teamName + "</div>",
         "<div class='standings-car-desc'>" + description + "</div>",
-        "<div class='standings-car-date'>Last Updated On [TBA]</div>"
+        "<div class='standings-car-date'>Last Updated On " + item.displayDate + "</div>"
       ], //TODO-CJP: use moment to format date 
       imageConfig: {
         imageClass: "image-150",
@@ -115,19 +124,30 @@ export class StandingsTableData implements TableModel<TeamStandingsData> {
   
   rows: Array<TeamStandingsData>;
   
-  selectedIndex: number;
+  selectedKey:string = null;
   
   constructor(title:string, rows: Array<TeamStandingsData>) {
     this.title = title;
     this.rows = rows;
-    this.selectedIndex = 0;
     if ( this.rows === undefined || this.rows === null ) {
       this.rows = [];
+    }
+    else if ( rows.length > 0 ) {
+      this.selectedKey = rows[0].teamId;
+    }
+  }
+  
+  setRowSelected(rowIndex:number) {
+    if ( rowIndex >= 0 && rowIndex < this.rows.length ) {
+      this.selectedKey = this.rows[rowIndex].teamId;
+    }
+    else {
+      this.selectedKey = null;
     }
   }
   
   isRowSelected(item:TeamStandingsData, rowIndex:number): boolean {
-    return this.selectedIndex === rowIndex;
+    return this.selectedKey === item.teamId;
   }
   
   getDisplayValueAt(item:TeamStandingsData, column:TableColumn):string {

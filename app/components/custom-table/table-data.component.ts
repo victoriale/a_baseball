@@ -9,7 +9,7 @@ export interface TableModel<T> {
   
   footer?: { [key: string]: string };
   
-  selectedIndex: number;
+  setRowSelected(rowIndex:number);
   
   isRowSelected(item:T, rowIndex:number): boolean;
   

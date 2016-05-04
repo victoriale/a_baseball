@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from 'angular2/core';
+import {Component, Input, OnChanges, DoCheck} from 'angular2/core';
 
 import {SliderCarousel, SliderCarouselInput} from '../carousels/slider-carousel/slider-carousel.component';
 import {Tabs} from '../tabs/tabs.component';
@@ -20,6 +20,7 @@ export interface TableComponentData<T> {
 
 export interface StandingsComponentData {
   moduleTitle: string;
+  maxRows?: number;
   tabs: Array<TableTabData<any>>
 }
 
@@ -28,21 +29,29 @@ export interface StandingsComponentData {
   templateUrl: "./app/components/standings/standings.component.html",
   directives: [SliderCarousel, Tabs, Tab, CustomTable],
 })
-export class StandingsComponent implements OnInit {
+export class StandingsComponent implements OnChanges, DoCheck {
   @Input() data: StandingsComponentData;
   
   public selectedIndex;
 
   public carouselData: Array<SliderCarouselInput> = [];
 
-  public tabs: Array<TableTabData<any>> = [];
+  @Input() tabs: Array<TableTabData<any>> = [];
   
-  private selectedTabTitle: string = "";
+  private selectedTabTitle: string;
 
   constructor() {}
   
-  ngOnInit() {
+  ngOnChanges() {
+    console.log("setting up data");
     this.setupData();
+  }
+  
+  ngDoCheck() {
+    //check for tabs loaded and update on first tab found
+    if ( this.tabs.length > 0 && this.selectedTabTitle === undefined) {
+      this.tabSelected(this.tabs[0].title);
+    }
   }
   
   setupData() {
@@ -53,41 +62,30 @@ export class StandingsComponent implements OnInit {
       }
     }
     
-    this.tabs = this.data.tabs;
-    if ( this.data.tabs.length > 0 ) {
-      this.tabSelected(this.data.tabs[0].title);
+    // this.tabs = this.data.tabs;
+    if ( this.tabs.length > 0 ) {
+      console.log("setting selected tab");
+      this.tabSelected(this.tabs[0].title);
     }
+    else {      
+      console.log("not enough tabs");
+    }
+  }
+  
+  getSelectedTab(): TableTabData<any> {
+    var matchingTabs = this.tabs.filter(value => value.title === this.selectedTabTitle);
+    if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) { 
+      return matchingTabs[0];
+    }
+    else {
+      console.log("no matching tab found for " + this.selectedTabTitle);
+      return null;
+    }    
   }
   
   tabSelected(newTitle) {
     this.selectedTabTitle = newTitle;
-    var matchingTabs = this.tabs.filter(value => value.title === this.selectedTabTitle);
-    if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) { 
-      let selectedTab = matchingTabs[0];
-      let carouselData: Array<SliderCarouselInput> = [];
-      let index = 0;
-      let selectedIndex = 0;      
-      selectedTab.sections.forEach(section => {
-        if ( section.tableData.selectedIndex >= 0 ) {
-          selectedIndex = index + section.tableData.selectedIndex;
-        }
-        section.tableData.rows
-          .map((value) => {
-            let item = selectedTab.convertToCarouselItem(value, index); 
-            index++;            
-            return item;
-          })
-          .forEach(value => {
-            carouselData.push(value);
-          });
-      });
-      
-      this.selectedIndex = selectedIndex;
-      this.carouselData = carouselData;
-    }
-    else {
-      console.log("no matching tab found for " + this.selectedTabTitle);
-    }
+    this.updateCarousel();
   }
   
   indexNum($event) {
@@ -98,10 +96,10 @@ export class StandingsComponent implements OnInit {
       let offset = 0;
       selectedTab.sections.forEach((section) => {
         if ( selectedIndex < section.tableData.rows.length + offset ) {
-          section.tableData.selectedIndex = selectedIndex;
+          section.tableData.setRowSelected(selectedIndex);
         }
         else {
-          section.tableData.selectedIndex = -1;
+          section.tableData.setRowSelected(-1);
           offset += section.tableData.rows.length;
         }
       });
@@ -109,5 +107,31 @@ export class StandingsComponent implements OnInit {
     else {
       console.log("no matching tab found for " + this.selectedTabTitle);
     }
+  }
+  
+  updateCarousel(sortedRows?) {
+    console.log("updating carousel");
+    var selectedTab = this.getSelectedTab();
+    let carouselData: Array<SliderCarouselInput> = [];
+    let index = 0;
+    let selectedIndex = -1;      
+    selectedTab.sections.forEach(section => {
+      section.tableData.rows
+        .map((value) => {
+          let item = selectedTab.convertToCarouselItem(value, index); 
+          if ( section.tableData.isRowSelected(value, index) ) {
+            selectedIndex = index;
+          }
+          index++;            
+          return item;
+        })
+        .forEach(value => {
+          carouselData.push(value);
+        });
+    });
+    
+    this.selectedIndex = selectedIndex < 0 ? 0 : selectedIndex;
+    console.log("new carousel data: " + carouselData.length);
+    this.carouselData = carouselData;    
   }
 }

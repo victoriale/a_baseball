@@ -57,6 +57,7 @@ export class ComponentPage implements OnInit {
       };
     }
   }
+  
   ngOnInit() {    
     this.setupStandingsData();
   }
@@ -70,6 +71,7 @@ export class ComponentPage implements OnInit {
     
     this.standingsData = {
       moduleTitle: moduletitle,
+      maxRows: 5, // only show 5 in the module
       tabs: []
     }
 

@@ -3,20 +3,22 @@ import {Observable} from 'rxjs/Rx';
 import {Http} from 'angular2/http';
 import {Conference, Division} from '../global/global-interface';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
+import {GlobalFunctions} from '../global/global-functions';
 import {StandingsTabData, StandingsTableData, TeamStandingsData} from './standings.data';
 import {StandingsModule} from '../modules/standings/standings.module';
 import {StandingsComponentData, TableTabData} from '../components/standings/standings.component';
 
 @Injectable()
 export class StandingsService {
-  private _apiUrl: string = 'http://dev-homerunloyal-api.synapsys.us/standings/pct-low-high/';
+  private _apiUrl: string = 'http://dev-homerunloyal-api.synapsys.us/standings';
 // '[API]/standings/{ordering}/{conference}/{division}'
 
   //Team Profile
   private _defaultData: Array<TeamStandingsData> = [{
       teamName: "Atlanta Braves",
       teamImageUrl: "/app/public/profile_placeholder_large.png",
-      teamKey: "",
+      seasonId: "2016",
+      teamId: 1,
       rank: 1,
       totalWins: 4,
       totalLosses: 17,
@@ -33,7 +35,8 @@ export class StandingsService {
   {
       teamName: "Minnesota Twins",
       teamImageUrl: "/app/public/profile_placeholder_large.png",
-      teamKey: "",
+      seasonId: "2016",
+      teamId: 2,
       rank: 2,
       totalWins: 7,
       totalLosses: 15,
@@ -48,7 +51,7 @@ export class StandingsService {
       lastUpdatedDate: new Date()
   }];
 
-  constructor(public http: Http, private _mlbFunctions: MLBGlobalFunctions){}
+  constructor(public http: Http, private _globalFunctions: GlobalFunctions, private _mlbFunctions: MLBGlobalFunctions){}
 
 //TODO-CJP: limit to five on module page.
   getData(conference: Conference, division: Division): Observable<StandingsTableData> {
@@ -56,10 +59,10 @@ export class StandingsService {
     let title = "Standings";
 
     if ( conference !== undefined ) {
-      url += Conference[conference] + "/";
+      url += "/" + Conference[conference];
 
       if ( division !== undefined ) {
-        url += Division[division] + "/";
+        url += "/" + Division[division];
       }
     }
 
@@ -78,16 +81,29 @@ export class StandingsService {
   }
 
   loadTabData(standingsData: StandingsComponentData, conference?: Conference, division?: Division) {
-    this.getDefaultData(conference, division).subscribe(
+    this.getData(conference, division).subscribe(
       data => this.setupTabData(standingsData, conference, division, data),
-      err => { console.log("Error getting standings data for " + Conference[conference] + " and division " + Division[division]); }
+      err => { 
+        console.log("Error getting standings data for " + Conference[conference] + " and division " + Division[division] + ": " + err);
+      }
     );
   }
 
   setupTabData(standingsData: StandingsComponentData, conference: Conference, division: Division, table: StandingsTableData) {
     let groupName = this._mlbFunctions.formatGroupName(conference, division);
-    table.rows.forEach(value => {
+    
+    //Limit to maxRows, if necessary
+    if ( standingsData.maxRows !== undefined ) {
+      table.rows = table.rows.slice(0, standingsData.maxRows);
+    }
+    
+    //Set display values    
+    table.rows.forEach((value, index) => {
       value.groupName = groupName;
+      value.displayDate = this._globalFunctions.formatUpdatedDate(value.lastUpdatedDate, false);
+      if ( value.teamId === undefined || value.teamId === null ) {
+        value.teamId = index;
+      }
     });
 
     //Table tabs
