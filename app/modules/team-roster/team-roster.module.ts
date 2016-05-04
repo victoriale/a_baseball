@@ -57,10 +57,10 @@ export class TeamRosterModule{
   }
 
   changeSelected() {
-    var selectedTab = this.tabs[0];
-    let selectedIndex = selectedTab.selectedIndex;
-    selectedIndex = (selectedIndex+1) % selectedTab.rows.length;
-    selectedTab.selectedIndex = selectedIndex;
+    // var selectedTab = this.tabs[0];
+    // let selectedIndex = selectedTab.selectedIndex;
+    // selectedIndex = (selectedIndex+1) % selectedTab.rows.length;
+    // selectedTab.selectedIndex = selectedIndex;
   }
 
   carData(){
