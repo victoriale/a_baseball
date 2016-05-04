@@ -5,7 +5,7 @@ import {SliderCarouselInput} from '../components/carousels/slider-carousel/slide
 
 export interface TeamStandingsData {
   teamName: string,
-  teamImageUrl: string,
+  imageUrl: string,
   teamId: number;
   conferenceName: string,
   divisionName: string,
@@ -47,9 +47,6 @@ export class StandingsTabData implements TableTabData<TeamStandingsData> {
   } 
 
   convertToCarouselItem(item: TeamStandingsData, index:number): SliderCarouselInput {
-    var teamRoute = ["Team-page", {
-      "team": item.teamId
-    }];
     var subheader = item.seasonId + " Season " + item.groupName + " Standings";
     var description = item.teamName + " is currently <span class='text-heavy'>ranked " + item.rank + "</span>" +
                       " in the <span class='text-heavy'>" + item.groupName + "</span>, with a record of " +
@@ -62,13 +59,15 @@ export class StandingsTabData implements TableTabData<TeamStandingsData> {
         "<div class='standings-car-hdr'>" + item.teamName + "</div>",
         "<div class='standings-car-desc'>" + description + "</div>",
         "<div class='standings-car-date'>Last Updated On " + item.displayDate + "</div>"
-      ], //TODO-CJP: use moment to format date 
+      ],
       imageConfig: {
         imageClass: "image-150",
         mainImage: {
           imageClass: "border-10",
-          urlRouteArray: teamRoute,
-          imageUrl: item.teamImageUrl,
+          urlRouteArray: ["Team-page", {
+            "team": item.teamId
+          }],
+          imageUrl: item.imageUrl,
           hoverText: "<p>View</p><p>Profile</p>"
         },
         subImages: []
@@ -124,7 +123,7 @@ export class StandingsTableData implements TableModel<TeamStandingsData> {
   
   rows: Array<TeamStandingsData>;
   
-  selectedKey:string = null;
+  selectedKey:number = -1;
   
   constructor(title:string, rows: Array<TeamStandingsData>) {
     this.title = title;
@@ -234,9 +233,11 @@ export class StandingsTableData implements TableModel<TeamStandingsData> {
       return {
           imageClass: "image-50",
           mainImage: {
-            imageUrl: item.teamImageUrl,
-            placeholderImageUrl: "/app/public/profile_placeholder.png",
-            imageClass: "border-2"
+            imageUrl: item.imageUrl,
+            imageClass: "border-2",
+            urlRouteArray: ["Team-page", {
+              "team": item.teamId
+            }]
           },
           subImages: []
         };

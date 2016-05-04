@@ -16,7 +16,7 @@ export class StandingsService {
   //Team Profile
   private _defaultData: Array<TeamStandingsData> = [{
       teamName: "Atlanta Braves",
-      teamImageUrl: "/app/public/profile_placeholder_large.png",
+      imageUrl: "/app/public/profile_placeholder_large.png",
       seasonId: "2016",
       teamId: 1,
       rank: 1,
@@ -34,7 +34,7 @@ export class StandingsService {
   },
   {
       teamName: "Minnesota Twins",
-      teamImageUrl: "/app/public/profile_placeholder_large.png",
+      imageUrl: "/app/public/profile_placeholder_large.png",
       seasonId: "2016",
       teamId: 2,
       rank: 2,

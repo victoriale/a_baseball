@@ -43,7 +43,6 @@ export class StandingsComponent implements OnChanges, DoCheck {
   constructor() {}
   
   ngOnChanges() {
-    console.log("setting up data");
     this.setupData();
   }
   
@@ -64,11 +63,7 @@ export class StandingsComponent implements OnChanges, DoCheck {
     
     // this.tabs = this.data.tabs;
     if ( this.tabs.length > 0 ) {
-      console.log("setting selected tab");
       this.tabSelected(this.tabs[0].title);
-    }
-    else {      
-      console.log("not enough tabs");
     }
   }
   
@@ -78,7 +73,6 @@ export class StandingsComponent implements OnChanges, DoCheck {
       return matchingTabs[0];
     }
     else {
-      console.log("no matching tab found for " + this.selectedTabTitle);
       return null;
     }    
   }
@@ -104,13 +98,9 @@ export class StandingsComponent implements OnChanges, DoCheck {
         }
       });
     }
-    else {
-      console.log("no matching tab found for " + this.selectedTabTitle);
-    }
   }
   
   updateCarousel(sortedRows?) {
-    console.log("updating carousel");
     var selectedTab = this.getSelectedTab();
     let carouselData: Array<SliderCarouselInput> = [];
     let index = 0;
@@ -131,7 +121,6 @@ export class StandingsComponent implements OnChanges, DoCheck {
     });
     
     this.selectedIndex = selectedIndex < 0 ? 0 : selectedIndex;
-    console.log("new carousel data: " + carouselData.length);
     this.carouselData = carouselData;    
   }
 }
