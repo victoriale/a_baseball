@@ -1,32 +1,57 @@
 .faq{
+  height: auto;
   &-details{
     border-left: solid 5px @greyBorder;
     border-bottom: solid 1px @greyBorder;
     .flexDisplay;
-    // .flexAlignItems(baseline);
+    .flexDirection(column);
     .globalDefaultModFont(16px, 400, @black);
     width: 100%;
     &-info{
-      width: 92%;
+      width: 95%;
       text-align: left;
-      p{
-        margin: 20px;
-        line-height: 16px;
-      }
-    }
-    &-icon{
-      .globalDefaultModFont(25px, 400, @masterBrandColor);
       .flexDisplay;
       .flexAlignItems(center);
-      a{
-        color: @masterBrandColor;
-        &:hover{
-          color: @black;
-        }
+      p{
+        margin: 20px 10px 10px 20px;
+        line-height: 20px;
+        width: 100%;
       }
-    }
-    &:hover{
-      border-left-color: @masterBrandColor;
+      &-icon{
+        .globalDefaultModFont(25px, 400, @masterBrandColor);
+        .flexDisplay;
+        .flexAlignItems(center);
+        a{
+          color: @masterBrandColor;
+          &:hover{
+            color: @black;
+          }
+        }
+      }//faq-details-info-icon ends
+    }//faq-details-info ends
+    &-answer{
+      visibility: hidden;
+      margin: 0;
+      line-height: 18px;
+      .globalDefaultModFont(14px, 400, @black);
+      i{
+        color: @masterBrandColor;
+        margin-right: 5px;
+        font-size: 14px;
+      }
+    }//faq-details-answer ends
+  }//faq-details ends
+}//faq ends
+.faq-details:hover{
+  border-left-color: @masterBrandColor;
+  .faq-details-info{
+    font-weight: 900;
+    &-icon{
+      visibility: hidden;
     }
   }
-}
+  .faq-details-answer{
+    margin: 0 0 20px 20px ;
+    visibility: visible;
+  }
+}//faq hoover ends
