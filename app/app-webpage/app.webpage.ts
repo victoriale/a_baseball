@@ -14,6 +14,7 @@ import {WebApp} from "../app-layout/app.layout";
 import {GlobalFunctions} from "../global/global-functions";
 import {SearchPage} from '../webpages/search-page/search.page';
 import {ModulePage} from "../webpages/module-page/module.page";
+import {StandingsPage} from "../webpages/standings-page/standings.page";
 //import {ArticlePageAbout} from "../webpages/articles/about/about.page";
 import {AsyncRoute} from "angular2/router";
 //import {ArticlePageHistory} from "../webpages/articles/history/history.page";
@@ -88,6 +89,11 @@ import {ArticleDataService} from "../global/global-service";
         path: '/modules',
         name: 'Module-page',
         component: ModulePage
+    },
+    {
+        path: '/standings',
+        name: 'Standings-page',
+        component: StandingsPage
     },
     //test AI Page
     {

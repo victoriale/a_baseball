@@ -1,0 +1,14 @@
+<section class='content-main eight-col'>
+    <loading-component *ngIf="!data && !isError"></loading-component>
+
+    <error-component *ngIf="isError"></error-component>
+
+    <div class='page-container'>
+        <backtab-component></backtab-component>
+        <title-component *ngIf="titleData" [titleData]="titleData"></title-component>
+        <standings-component [data]="data" [tabs]="data.tabs"></standings-component>
+    </div>
+</section>
+<div class="four-col">
+    <widget-module></widget-module>
+</div>

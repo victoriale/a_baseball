@@ -11,6 +11,7 @@ export class RosterService {
   private _defaultData: Array<TeamRosterData> = [{
       playerImageUrl: "/app/public/profile_placeholder.png",
       playerName: "Twilight",
+      playerKey: "1",
       playerPos: "MA",
       playerHeight: "6ft00",
       playerWeight: 200,
@@ -21,6 +22,7 @@ export class RosterService {
   {
       playerImageUrl: "/app/public/profile_placeholder.png",
       playerName: "Pinky Pie",
+      playerKey: "2",
       playerPos: "PA",
       playerHeight: "7ft00",
       playerWeight: 300,
@@ -30,6 +32,7 @@ export class RosterService {
   },{
       playerImageUrl: "/app/public/profile_placeholder.png",
       playerName: "Rainbow Dash",
+      playerKey: "3",
       playerPos: "FL",
       playerHeight: "8ft00",
       playerWeight: 100,
@@ -40,6 +43,7 @@ export class RosterService {
   private _defaultData2: Array<TeamRosterData> = [{
       playerImageUrl: "/app/public/profile_placeholder.png",
       playerName: "Victoria Le",
+      playerKey: "4",
       playerPos: "MA",
       playerHeight: "6ft00",
       playerWeight: 200,
@@ -50,6 +54,7 @@ export class RosterService {
   {
       playerImageUrl: "/app/public/profile_placeholder.png",
       playerName: "Larry Pham",
+      playerKey: "5",
       playerPos: "PA",
       playerHeight: "7ft00",
       playerWeight: 300,
@@ -59,6 +64,7 @@ export class RosterService {
   },{
       playerImageUrl: "/app/public/profile_placeholder.png",
       playerName: "Lutz Lais",
+      playerKey: "6",
       playerPos: "FL",
       playerHeight: "8ft00",
       playerWeight: 100,

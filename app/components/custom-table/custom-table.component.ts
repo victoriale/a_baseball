@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, ViewChildren, OnChanges} from 'angular2/core';
+import {Component, OnInit, Input, ViewChildren, OnChanges, EventEmitter, Output} from 'angular2/core';
 import {TableHeader} from '../../components/custom-table/table-header.component';
 import {TableModel, TableColumn} from '../../components/custom-table/table-data.component';
 import {CircleImage} from '../../components/images/circle-image';
@@ -13,38 +13,32 @@ import {CircleImage} from '../../components/images/circle-image';
 export class CustomTable implements OnInit, OnChanges {
   @ViewChildren(TableHeader) _tableHeaders: Array<TableHeader>;
   
+  @Output() sortChanged = new EventEmitter();
+  
   public isSortDropdownVisible: boolean = false;  
   
   public bodyClass: string;
   
-  // /**
-  //  * The list of rows to display in the table. 
-  //  * 
-  // * The length of the columns array is expected to match the length of
-  // * each cell array in the rows array as well as the length of the footer array.
-  //  */
-  // @Input() rows: Array<TableRow>;
-  
-  // /**
-  //  * The column data and settings for the table. To sort by 
-  //  * a particular column, set sortDirection for that column to either
-  //  * -1 or 1.
-  //  */
+  /**
+   * The column data and settings for the table. To sort by 
+   * a particular column, set sortDirection for that column to either
+   * -1 or 1.
+   */
   columns: Array<TableColumn>;
   
-  // /**
-  //  * (Optional) The values to display in the footer. The footer keys 
-  //  * correspond to the keys defined in the TableColumn array and 
-  //  * the values can contain HTML elements. The footer (if included) 
-  //  * is always displayed at the bottom of the table regardless of
-  //  * the column being sorted. If no values are set for the footer, 
-  //  * it will not be displayed.
-  //  * 
-  //  * 
-  //  * 
-  //  * The footer style (.custom-table-footer) defaults to 12px bold and centered. 
-  //  */
-  // footer: { [key: string]: string };
+  /**
+   * (Optional) The values to display in the footer. The footer keys 
+   * correspond to the keys defined in the TableColumn array and 
+   * the values can contain HTML elements. The footer (if included) 
+   * is always displayed at the bottom of the table regardless of
+   * the column being sorted. If no values are set for the footer, 
+   * it will not be displayed.
+   * 
+   * 
+   * 
+   * The footer style (.custom-table-footer) defaults to 12px bold and centered. 
+   */
+  footer: { [key: string]: string };
   
   @Input() model: TableModel<any>;
   
@@ -100,6 +94,7 @@ export class CustomTable implements OnInit, OnChanges {
     });
     
     this.sortRows(sortedColumn);
+    this.sortChanged.next(this.model.rows);
   }
   
   //TODO-CJP: Customize sort for numbers?
