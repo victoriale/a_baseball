@@ -3,31 +3,44 @@ import {DetailedListItem, DetailListInput} from '../../components/detailed-list-
 import {ModuleFooter} from '../../components/module-footer/module-footer.component';
 import {ModuleHeader} from '../../components/module-header/module-header.component';
 import {SliderCarousel, SliderCarouselInput} from '../../components/carousels/slider-carousel/slider-carousel.component';
+import {Tabs} from '../../components/tabs/tabs.component';
+import {Tab} from '../../components/tabs/tab.component';
 
 @Component({
     selector: 'draft-history',
     templateUrl: './app/modules/draft-history/draft-history.module.html',
-    directives: [SliderCarousel, DetailedListItem, ModuleHeader, ModuleFooter],
+    directives: [Tab, Tabs, SliderCarousel, DetailedListItem, ModuleHeader, ModuleFooter],
     providers: [],
     inputs:['locData']
 })
 
 export class DraftHistoryModule{
   moduleTitle:string = "Module Title";
+  dataDetail: any = [];
   dataDetails: DetailListInput[];
   carouselData: SliderCarouselInput[];
   footerData: Object;
   constructor(){
+    this.moduleTitle = "Draft History - [Team Profile]"
     this.detailedData();
     this.carData();
-    // console.log('draft-history test',this.testData);
+    this.transformDraftHistory();
   }
 
-  // index?:any;
-  // backgroundImage?: string;
-  // imageConfig: CircleImageData;
-  // description?: Array<string>;
-  // footerInfo?: ModuleFooterData;
+  transformDraftHistory(){
+    var year = 2014;
+    for(var y = 0; y <= 3; y++){
+      this.dataDetail[y] = [];
+      this.dataDetail[y] = {
+        year: year+y,
+        data:this.dataDetails,
+      };
+    }
+  }
+
+  selectedTab(event){//each time a tab is selected the carousel needs to change accordingly to the correct list being shown
+    this.carouselData = this.dataDetail[event-2014]['data'];
+  }
 
   carData(){
     if(typeof this.carouselData == 'undefined' || this.carouselData == null){// test data only
