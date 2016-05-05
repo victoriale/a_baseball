@@ -1,7 +1,7 @@
 <div class="art-hdr">
     <div class="art-hdr-links">
             <span *ngFor="#share of share">
-                <a href="{{share.link}}">
+                <a href="{{share.link}}{{url}}">
                     <i class="fa fa-{{share.fontAwesome}}"
                        [ngStyle]="{'color': share.color, 'margin-right': share.right}"></i>
                 </a>

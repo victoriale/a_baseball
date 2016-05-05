@@ -1,21 +1,23 @@
 <div class="main-article">
-    <a href="">
-        <span class="articleBoxLarge">
-            <img src="{{image}}"/>
-            <div>
-                <p>View this Article</p>
+    <span *ngIf="mainPageIndex">
+        <a [routerLink]="[mainPageIndex, {eventID: mainEventID}]">
+            <span class="articleBoxLarge">
+                <img src="{{images}}"/>
+                <div>
+                    <p>View this Article</p>
+                </div>
+            </span>
+            <div class="main-article-container">
+                <div class="main-article-container-title" style="{{titleFontSize}}">
+                    {{mainTitle}}
+                </div>
+                <div class="main-article-container-content">
+                    {{mainContent}}
+                </div>
+                <!--<div class="main-article-container-source">By&nbsp;-->
+                <!--<span class="main-article-container-source-b"> Hoopsloyal Columnist</span>-->
+                <!--</div>-->
             </div>
-        </span>
-        <div class="main-article-container">
-            <div class="main-article-container-title">
-                {{headline}}
-            </div>
-            <div class="main-article-container-content">
-                {{content}}
-            </div>
-            <div class="main-article-container-source">By&nbsp;
-                <span class="main-article-container-source-b"> Hoopsloyal Columnist</span>
-            </div>
-        </div>
-    </a>
+        </a>
+    </span>
 </div>

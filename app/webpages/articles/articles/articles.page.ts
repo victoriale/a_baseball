@@ -17,23 +17,23 @@ import {ArticleData} from "../../../global/global-interface";
     providers: [Articles],
 })
 
-export class ArticlePage implements OnInit{
-    articleData: ArticleData[];
-    title: string;
-    date: string;
-    public partnerParam: string;
-    public partnerID: string;
+export class ArticlePage implements OnInit {
+    articleData:ArticleData[];
+    title:string;
+    date:string;
+    public partnerParam:string;
+    public partnerID:string;
 
-    constructor(private _router: Router,  private _magazineOverviewService:Articles) {
+    constructor(private _router:Router, private _magazineOverviewService:Articles) {
         // Scroll page to top to fix routerLink bug
         this._router.root
             .subscribe(
                 route => {
                     var curRoute = route;
                     var partnerID = curRoute.split('/');
-                    if(partnerID[0] == ''){
+                    if (partnerID[0] == '') {
                         this.partnerID = null;
-                    }else{
+                    } else {
                         this.partnerID = partnerID[0];
                     }
                 }
@@ -41,7 +41,7 @@ export class ArticlePage implements OnInit{
         window.scrollTo(0, 0);
     }
 
-    getArticles(){
+    getArticles() {
         this._magazineOverviewService.getArticles().then(data => {
             this.articleData = data;
             this.title = this.articleData[0].preGameReport[0].headline;
@@ -49,7 +49,7 @@ export class ArticlePage implements OnInit{
         });
     }
 
-    ngOnInit(){
+    ngOnInit() {
         this.getArticles();
     }
 }
