@@ -5,6 +5,7 @@ import {CircleImage} from '../../components/images/circle-image';
 import {CircleImageData} from '../../components/images/image-data';
 import {ScrollableContent} from '../../components/scrollable-content/scrollable-content.component';
 import {GlobalFunctions} from '../../global/global-functions';
+import {NaValuePipe} from '../../pipes/na.pipe';
 
 export interface DataItem {
   label: string;
@@ -28,7 +29,8 @@ export interface ProfileHeaderData {
 @Component({
     selector: 'profile-header',
     templateUrl: './app/modules/profile-header/profile-header.module.html',    
-    directives: [ROUTER_DIRECTIVES, CircleImage, ScrollableContent]
+    directives: [ROUTER_DIRECTIVES, CircleImage, ScrollableContent],
+    pipes: [NaValuePipe]
 })
 export class ProfileHeaderModule implements OnChanges {
     @Input() profileHeaderData: ProfileHeaderData;
@@ -63,6 +65,9 @@ export class ProfileHeaderModule implements OnChanges {
         console.log("setting up profile header data");
         if ( data.backgroundImageUrl === null || data.backgroundImageUrl === undefined ) {
           data.backgroundImageUrl = "/app/public/image_placeholder.png";
+        }
+        if ( data.profileImageUrl === null || data.profileImageUrl === undefined ) {
+          data.profileImageUrl = "/app/public/profile_placeholder_large.png";
         }
         this.imageConfig.mainImage.imageUrl = data.profileImageUrl;
         this.backgroundImage =  "url(" + data.backgroundImageUrl + ") no-repeat center rgba(0,0,0,.65)";

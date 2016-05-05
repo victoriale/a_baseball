@@ -8,10 +8,10 @@
         <span *ngFor="#data of profileHeaderData.topDataPoints #isLast = last">
           <span class="ph-hdr-datapts-label">{{data.label}}:</span>
           <span *ngIf="!data.value.routerLink" class="ph-hdr-datapts-value">
-            {{data.value}}
+            {{data.value | naValue}}
           </span>
           <a *ngIf="data.value.routerLink" class="ph-hdr-datapts-value" [routerLink]="data.value.routerLink">
-            {{data.value}}
+            {{data.value | naValue}}
           </a>
           <span *ngIf="!isLast" class="ph-hdr-datapts-sep">|</span>
         </span>
@@ -39,7 +39,7 @@
   <div class="ph-datapts">
       <div *ngFor="#data of profileHeaderData.bottomDataPoints" class="ph-datapts-pt">
         <div class="ph-datapts-label">{{data.label}}</div>
-        <div class="ph-datapts-value">{{data.value}}</div>
+        <div class="ph-datapts-value">{{data.value | naValue}}</div>
         <div class="ph-datapts-label">{{data.labelCont}}</div>
       </div>    
   </div>

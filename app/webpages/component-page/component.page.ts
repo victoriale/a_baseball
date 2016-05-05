@@ -49,7 +49,8 @@ import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
 export class ComponentPage implements OnInit {
   pageParams: MLBPageParameters;
   standingsData: StandingsComponentData;
-  profileHeaderData: ProfileHeaderData;
+  playerProfileHeaderData: ProfileHeaderData;
+  teamProfileHeaderData: ProfileHeaderData;
   
   constructor(
     private _standingsService: StandingsService,
@@ -61,7 +62,8 @@ export class ComponentPage implements OnInit {
       this.pageParams = {
         division: Division.east,
         conference: Conference.american,
-        playerId: 96889
+        playerId: 95041,
+        teamId: 2796
       };
     }
   }
@@ -74,10 +76,18 @@ export class ComponentPage implements OnInit {
   private setupProfileData() {
     this._profileService.getPlayerProfile(this.pageParams.playerId).subscribe(
       data => {
-        this.profileHeaderData = data
+        this.playerProfileHeaderData = data
       },
       err => {
         console.log("Error getting player profile data for " + this.pageParams.playerId + ": " + err);
+      }
+    );
+    this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
+      data => {
+        this.teamProfileHeaderData = data
+      },
+      err => {
+        console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
       }
     );
   }
