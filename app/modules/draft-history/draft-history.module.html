@@ -1,8 +1,8 @@
 <div class="module-container draft-history">
   <module-header [moduleTitle]="moduleTitle"></module-header>
-  <slider-carousel *ngIf="carouselData" [carouselData]="carouselData"></slider-carousel>
-  <tabs *ngIf="dataDetail" (tabSelected)='selectedTab($event)'>
-    <tab *ngFor="#data of dataDetail; #i = index" [active]="i == 0" [tabTitle]="data.year">
+  <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray"></slider-carousel>
+  <tabs *ngIf="dataArray" (tabSelected)='selectedTab($event)'>
+    <tab *ngFor="#data of dataArray; #i = index" [active]="i == 0" [tabTitle]="data.year">
       <detailed-list-item *ngIf="data.data" [detailedItemData] = 'data.data'></detailed-list-item>
     </tab>
   </tabs>

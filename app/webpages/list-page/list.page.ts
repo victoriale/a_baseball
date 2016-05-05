@@ -13,219 +13,162 @@ import {BackTabComponent} from '../../components/backtab/backtab.component';
 })
 
 export class ListPage{
-  dataDetail: any = [];
-  dataDetails: DetailListInput[];
-  carouselData: SliderCarouselInput[];
-  footerData: ModuleFooterData;
-  footerStyle: FooterStyle;
-
+  dataArray: any;
+  detailedDataArray:any;
+  carouselDataArray: any;
+  footerData: Object;
+  footerStyle: any;
   constructor(){
-    //give style to footerStyle
     this.footerStyle = {
       ctaBoxClass: "list-footer",
       ctaBtnClass:"list-footer-btn",
       hasIcon: true,
     };
-
-    this.detailedData();
-    this.carData();
-    this.transformDraftHistory();
+    this.detailedDataArray = this.detailedData();
+    this.carouselDataArray = this.carData();
+    this.transformListData();
   }
 
-  transformDraftHistory(){
-    var year = 2014;
-    for(var y = 0; y <= 3; y++){
-      this.dataDetail[y] = [];
-      this.dataDetail[y] = {
-        year: year+y,
-        data:this.dataDetails,
-        carData:this.carouselData,
+  transformListData(){
+    this.dataArray = [];
+    for(var y = 0; y <= 2; y++){
+      this.dataArray[y] = [];
+      this.dataArray[y] = {
+        data:this.detailedDataArray,
+        carData:this.carouselDataArray,
       };
     }
+    console.log('transformListData',this.dataArray);
+  }
+
+  selectedTab(event){//each time a tab is selected the carousel needs to change accordingly to the correct list being shown
+    this.carouselDataArray = this.dataArray[event-2014]['carData'];
   }
 
   carData(){
-    if(typeof this.carouselData == 'undefined' || this.carouselData == null){// test data only
-      this.carouselData =
-      [
-        {
-          index:'1',
-          imageConfig: {//interface is found in image-data.ts
-            imageClass: "image-121",
-            mainImage: {
-                imageUrl: "./app/public/placeholder-location.jpg",
-                urlRouteArray: ['Disclaimer-page'],
-                hoverText: "<p>View</p><p>Profile</p>",
-                imageClass: "border-2"
-            },
-            subImages: [
-                {
-                    imageUrl: "./app/public/placeholder-location.jpg",
-                    urlRouteArray: ['Disclaimer-page'],
-                    hoverText: "<i class='fa fa-mail-forward'></i>",
-                    imageClass: "image-40-sub image-round-lower-right"
-                },
-                {
-                    text: "#1",
-                    imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
-                }
-            ],
-        },
+    var dummyArray = [];
+    var dummyImg = "./app/public/placeholder-location.jpg";
+    var dummyRoute = ['Disclaimer-page'];
+    var dummyRank = '#4';
+
+    if(typeof this.carouselDataArray == 'undefined' || this.carouselDataArray == null){// test data only
+      var dummyCarousel = {
+        index:'2',
+        //imageData(mainImg, mainImgRoute, subImg, subRoute, rank)
+        imageConfig: this.imageData("image-150","border-large",dummyImg,dummyRoute,"image-50-sub",dummyImg,dummyRoute,dummyRank),
         description:[
-          '<p><b>Profile Name 1</b><p>',
-          '<p>[DP1]: <b>[Data Value 1]</b> | [DP 2]: <b>[Data Value 2]</b><p>',
-          '<p><b>[Data Value 1]</b><p>',
-          '<p>[Data Point 1]<p>',
+          '<p><b>Profile Name 2</b><p>',
+          '<p>[DP1]: <b>[Data Value 3]</b> | [DP 2]: <b>[Data Value 4]</b><p>',
+          '<p><b>[Data Value 2]</b><p>',
+          '<p>[Data Point 3]<p>',
         ],
         footerInfo: {
           infoDesc:'Want to see everybody involved in this list',
           text:'VIEW THE LIST',
           url:['Disclaimer-page'],
         }
-      },{
-          index:'2',
-          imageConfig: {//interface is found in image-data.ts
-            imageClass: "image-121",
-            mainImage: {
-                imageUrl: "./app/public/placeholder-location.jpg",
-                urlRouteArray: ['Disclaimer-page'],
-                hoverText: "<p>View</p><p>Profile</p>",
-                imageClass: "border-2"
-            },
-            subImages: [
-                {
-                    imageUrl: "./app/public/placeholder-location.jpg",
-                    urlRouteArray: ['Disclaimer-page'],
-                    hoverText: "<i class='fa fa-mail-forward'></i>",
-                    imageClass: "image-40-sub image-round-lower-right"
-                },
-                {
-                    text: "#2",
-                    imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
-                }
-            ],
-          },
-          description:[
-            '<p><b>Profile Name 2</b><p>',
-            '<p>[DP1]: <b>[Data Value 3]</b> | [DP 2]: <b>[Data Value 4]</b><p>',
-            '<p><b>[Data Value 2]</b><p>',
-            '<p>[Data Point 3]<p>',
-          ],
-          footerInfo: {
-            infoDesc:'Want to see everybody involved in this list',
-            text:'VIEW THE LIST',
-            url:['Disclaimer-page'],
-          }
-        }
-      ];
+      };
+
+      for(var i = 0; i < 20; i++){
+          dummyArray.push(dummyCarousel);
+      }
+      return dummyArray;
     }
   }
 
   detailedData(){
-    if(typeof this.dataDetails == 'undefined' || this.dataDetails == null){// test data only
-      var dummyData = {
-      dataPoints:[
-        {
-          style:'detail-small',
-          data:'',
-          value:'',
-        },
-        {
-          style:'detail-large',
-          data:'[Profile name1]',
-          value:'[Data Value 1]',
-          url:[''],
-          icon:''
-        },
-        {
-          style:'detail-medium',
-          data:'[Data Value]: [City], [ST]',
-          value:'[Data Description1]',
-          url:['testLink'],
-          icon:'fa fa-map-marker'
-        },
-      ],
-      imageConfig: {//interface is found in image-data.ts
-          imageClass: "image-121",
-          mainImage: {
-              imageUrl: "./app/public/placeholder-location.jpg",
-              urlRouteArray: ['Disclaimer-page'],
-              hoverText: "<p>View</p><p>Profile</p>",
-              imageClass: "border-2"
-          },
-          subImages: [
-              {
-                  imageUrl: "./app/public/placeholder-location.jpg",
-                  urlRouteArray: ['Disclaimer-page'],
-                  hoverText: "<i class='fa fa-mail-forward'></i>",
-                  imageClass: "image-40-sub image-round-lower-right"
-              },
-              {
-                  text: "#9",
-                  imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
-              }
-          ],
-      },
+    var dummyArray = [];
+
+    var dummyImg = "./app/public/placeholder-location.jpg";
+    var dummyRoute = ['Disclaimer-page'];
+    var dummyRank = '#4';
+
+    var dummyProfile = "[Profile Name]";
+    var dummyProfVal = "[Data Value 1]";
+    var dummyProfUrl = ['Disclaimer-page'];
+    var dummySubData = "[Data Value]: [City], [ST]";
+    var dummySubDesc = "[Data Description]";
+    var dummySubUrl = ['Disclaimer-page'];
+
+    var dummyData = {
+      dataPoints: this.detailsData(dummyProfile,dummyProfVal,dummyProfUrl,dummySubData,dummySubDesc,dummySubUrl),
+      //detailsData(mainP1,mainV1,subP1,subV2,subUrl2,dataP3?,dataV3?,dataUrl3?)
+      imageConfig: this.imageData("image-121","border-2",
+      dummyImg,dummyRoute,"image-40-sub",dummyImg,dummyRoute,dummyRank),
       hasCTA:true,
       ctaDesc:'Want more info about this [profile type]?',
       ctaBtn:'',
       ctaText:'View Profile',
-      ctaUrl:[''],
+      ctaUrl:['Disclaimer-page']
+    };
+    for(var i = 0; i < 20; i++){
+        dummyArray.push(dummyData);
     }
-    this.dataDetails = [
-    {
-    dataPoints:[
-      {
-        style:'detail-small',
-        data:'',
-        value:'',
-      },
-      {
-        style:'detail-large',
-        data:'[Profile name1]',
-        value:'[Data Value 1]',
-        url:[''],
-        icon:''
-      },
-      {
-        style:'detail-medium',
-        data:'[Data Value]: [City], [ST]',
-        value:'[Data Description1]',
-        url:['testLink'],
-        icon:'fa fa-map-marker'
-      },
-    ],
-    imageConfig: {//interface is found in image-data.ts
-        imageClass: "image-121",
+    return dummyArray;
+  }//end of function
+
+  //this function will have inputs of all required fields that are dynamic and output the full
+  imageData(imageClass, imageBorder, mainImg, mainImgRoute, subImgClass?, subImg?, subRoute?, rank?){
+    if(typeof mainImg =='undefined' || mainImg == ''){
+      mainImg = "./app/public/placeholder-location.jpg";
+    }
+    if(typeof subImg =='undefined' || subImg == ''){
+      mainImg = "./app/public/placeholder-location.jpg";
+    }
+    var image = {//interface is found in image-data.ts
+        imageClass: imageClass,
         mainImage: {
-            imageUrl: "./app/public/placeholder-location.jpg",
-            urlRouteArray: ['Disclaimer-page'],
+            imageUrl: mainImg,
+            urlRouteArray: mainImgRoute,
             hoverText: "<p>View</p><p>Profile</p>",
-            imageClass: "border-2"
+            imageClass: imageBorder
         },
         subImages: [
             {
-                imageUrl: "./app/public/placeholder-location.jpg",
-                urlRouteArray: ['Disclaimer-page'],
+                imageUrl: subImg,
+                urlRouteArray: subRoute,
                 hoverText: "<i class='fa fa-mail-forward'></i>",
-                imageClass: "image-40-sub image-round-lower-right"
+                imageClass: subImgClass + " image-round-lower-right"
             },
             {
-                text: "#9",
+                text: rank,
                 imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
             }
-          ],
-        },
-        hasCTA:true,
-        ctaDesc:'Want more info about this [profile type]?',
-        ctaBtn:'',
-        ctaText:'View Profile',
-        ctaUrl:[''],
-      }];
+        ],
+    };
+    return image;
+  }
 
-      for(var i = 0; i < 20; i++){
-          this.dataDetails.push(dummyData);
-      }
+
+  detailsData(mainP1,mainV1,mainUrl1,subP1,subV2,subUrl2,dataP3?,dataV3?,dataUrl3?){
+    if(typeof dataP3 == 'undefined'){
+      dataP3 = '';
     }
-  }//end of function
+    if(typeof dataV3 == 'undefined'){
+      dataV3 = '';
+    }
+
+    var details = [
+      {
+        style:'detail-small',
+        data:dataP3,
+        value:dataV3,
+        url:dataUrl3,
+      },
+      {
+        style:'detail-large',
+        data:mainP1,
+        value:mainV1,
+        url:mainUrl1,
+      },
+      {
+        style:'detail-medium',
+        data:subP1,
+        value:subV2,
+        url:subUrl2,
+        icon:'fa fa-map-marker',
+      },
+    ];
+    return details
+  }
 }

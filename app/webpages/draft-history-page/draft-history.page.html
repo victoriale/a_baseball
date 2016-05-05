@@ -1,16 +1,14 @@
-<section class='page-container'>
+<section *ngIf="dataArray" class='page-container'>
     <loading-component *ngIf="!listData && !isError"></loading-component>
     <error-component *ngIf="isError"></error-component>
     <backtab-component></backtab-component>
     <title-component></title-component>
     <div class="module-container list-page">
-      <slider-carousel *ngIf="carouselData" [carouselData]="carouselData" [footerStyle]="footerStyle"></slider-carousel>
-      <tabs *ngIf="dataDetail" (tabSelected)='selectedTab($event)'>
-        <tab *ngFor="#data of dataDetail; #i = index" [active]="i == 0" [tabTitle]="data.year">
+      <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray" [footerStyle]="footerStyle"></slider-carousel>
+      <tabs *ngIf="dataArray" (tabSelected)='selectedTab($event)'>
+        <tab *ngFor="#data of dataArray; #i = index" [active]="i == 0" [tabTitle]="data.year">
           <detailed-list-item *ngIf="data.data" [detailedItemData] = 'data.data'></detailed-list-item>
         </tab>
       </tabs>
-      <!-- <detailed-list-item *ngIf="dataDetails" [detailedItemData] = 'dataDetails'></detailed-list-item> -->
-      <module-footer [footerData] = 'footerData'></module-footer>
     </div>
 </section>
