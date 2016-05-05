@@ -3,7 +3,7 @@
     <div class="ph-hdr">
       <div class="ph-hdr-date">Last Updated: {{displayDate}}</div>
       <!-- TODO-CJP: city/first name normal weight; team/last name bold weight -->
-      <div class="ph-hdr-title" [innerHtml]="profileHeaderData.profileName"></div>
+      <div class="ph-hdr-title" [innerHtml]="profileTitle"></div>
       <div class="ph-hdr-datapts">
         <span *ngFor="#data of profileHeaderData.topDataPoints #isLast = last">
           <span class="ph-hdr-datapts-label">{{data.label}}:</span>

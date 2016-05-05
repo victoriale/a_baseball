@@ -1,0 +1,13 @@
+<div class="standings">
+  <div class="standings-car">
+    <slider-carousel *ngIf="carouselData" [carouselData]="carouselData" (indexNum)="indexNum($event)" [indexInput]="selectedIndex"></slider-carousel>
+  </div>
+  <tabs (tabSelected)="tabSelected($event)">
+    <tab *ngFor="#tab of tabs" [tabTitle]="tab.title" [active]="tab.isActive">
+      <div *ngFor="#section of tab.sections">
+        <p [innerHtml]="section.groupName"></p>
+        <custom-table [model]="section.tableData" (sortChanged)="updateCarousel($event)"></custom-table>
+      </div>
+    </tab>
+  </tabs>
+</div>

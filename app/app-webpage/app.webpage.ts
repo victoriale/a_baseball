@@ -1,18 +1,23 @@
 import {Component, OnInit, Injector} from 'angular2/core';
 import {RouteParams, Router, RouteData, RouteConfig, RouterOutlet, ROUTER_DIRECTIVES, LocationStrategy, RouterLink} from 'angular2/router';
 import {AboutUsPage} from "../webpages/aboutus-page/aboutus.page";
+import {DirectoryPage} from "../webpages/directory-page/directory.page";
 import {ContactUsPage} from "../webpages/contactus-page/contactus.page";
 import {DisclaimerPage} from "../webpages/disclaimer-page/disclaimer.page";
 import {TeamPage} from "../webpages/team-page/team.page";
 import {HomePage} from "../webpages/home-page/home-page.page";
 import {ComponentPage} from "../webpages/component-page/component.page";
+import {TeamrosterPage} from "../webpages/team-roster/team-roster.page";
 import {ImagesTestPage} from "../webpages/images-test-page/images-test.page";
 import {TablesTestPage} from "../webpages/tables-test-page/tables-test.page";
 import {WebApp} from "../app-layout/app.layout";
 import {GlobalFunctions} from "../global/global-functions";
 import {SearchPage} from '../webpages/search-page/search.page';
 import {ModulePage} from "../webpages/module-page/module.page";
+import {StandingsPage} from "../webpages/standings-page/standings.page";
+//import {ArticlePageAbout} from "../webpages/articles/about/about.page";
 import {AsyncRoute} from "angular2/router";
+//import {ArticlePageHistory} from "../webpages/articles/history/history.page";
 import {ArticlePage} from "../webpages/articles/articles/articles.page";
 import {ArticlePageAbout} from "../webpages/articles/about/about.page";
 import {ArticlePagePreGame} from "../webpages/articles/pregame/pregame.page";
@@ -23,8 +28,8 @@ import {HeadlineDataService} from "../global/global-ai-headline-module-service";
 @Component({
     selector: 'my-app',
     templateUrl: './app/app-webpage/app.webpage.html',
-    directives: [HomePage, TeamPage, AboutUsPage, ContactUsPage, DisclaimerPage, SearchPage, ComponentPage, ModulePage, RouterOutlet, ROUTER_DIRECTIVES],
-    providers: [ROUTER_DIRECTIVES, ArticleDataService, HeadlineDataService],
+    directives: [HomePage, TeamPage, DirectoryPage, AboutUsPage, ContactUsPage, DisclaimerPage, SearchPage, ComponentPage, ModulePage, RouterOutlet, ROUTER_DIRECTIVES],
+    providers: [ ROUTER_DIRECTIVES, ArticleDataService, HeadlineDataService],
 })
 
 @RouteConfig([
@@ -43,6 +48,16 @@ import {HeadlineDataService} from "../global/global-ai-headline-module-service";
         path: '/team',
         name: 'Team-page',
         component: TeamPage,
+    },
+    {
+        path: '/directory/:type/page/:page',
+        name: 'Directory-page',
+        component: DirectoryPage,
+    },
+    {
+        path: '/directory/:type/:startsWith/page/:page',
+        name: 'Directory-page-startswith',
+        component: DirectoryPage,
     },
     {
         path: '/aboutus',
@@ -79,6 +94,17 @@ import {HeadlineDataService} from "../global/global-ai-headline-module-service";
         name: 'Module-page',
         component: ModulePage
     },
+    {
+        path: '/standings',
+        name: 'Standings-page',
+        component: StandingsPage
+    },
+    {
+        path: 'team-roster',
+        name: 'Teamroster-Page',
+        component: TeamrosterPage
+    },
+    //test AI Page
     {
         path: '/articles',
         name: 'Articles-Page',

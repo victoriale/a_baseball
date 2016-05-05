@@ -1,21 +1,21 @@
 <div class="module-container tr">
   <module-header [modHeadData]="headerInfo"></module-header>
-  <slider-carousel></slider-carousel>
+  <slider-carousel *ngIf="carouselData" [carouselData]="carouselData"></slider-carousel>
   <tabs *ngIf="tabs.length > 0">
     <tab [tabTitle]="tabs[0].title">
-      <custom-table [columns]="columnData" [rows]="tabs[0].tableData"></custom-table>
+      <custom-table [model]="tabs[0]"></custom-table>
     </tab>
     <tab *ngIf="tabs.length > 1" [tabTitle]="tabs[1].title">
-      <custom-table [columns]="columnData" [rows]="tabs[1].tableData"></custom-table>
+      <custom-table [model]="tabs[2]"></custom-table>
     </tab>
     <tab *ngIf="tabs.length > 2" [tabTitle]="tabs[2].title">
-      <custom-table [columns]="columnData" [rows]="tabs[2].tableData"></custom-table>
+      <custom-table [model]="tabs[3]"></custom-table>
     </tab>
     <tab *ngIf="tabs.length > 3" [tabTitle]="tabs[3].title">
-      <custom-table [columns]="columnData" [rows]="tabs[3].tableData"></custom-table>
+      <custom-table [model]="tabs[4]"></custom-table>
     </tab>
     <tab *ngIf="tabs.length > 4" [tabTitle]="tabs[4].title">
-      <custom-table [columns]="columnData" [rows]="tabs[4].tableData"></custom-table>
+      <custom-table [model]="tabs[5]"></custom-table>
     </tab>
   </tabs>
   <module-footer [footerData]="footerInfo"></module-footer>

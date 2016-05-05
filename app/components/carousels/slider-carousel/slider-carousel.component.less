@@ -1,0 +1,31 @@
+.scc{
+  width:100%;
+  height:auto;
+  position: relative;
+    &-placeholder{
+      .flexDisplay;
+      .flexDirection(column);
+      .flexJustify(center);
+      width: 100%;
+      height: 100%;
+    }//.scc-placeholder ends
+    &-details{
+      .flexDisplay;
+      .flexDirection(row);
+      width: 80%;
+      height: auto;
+      margin: 7% auto;
+      &-mainImg{
+        width: 40%;
+        .flexDisplay;
+        .flexDirection(column);
+        .flexAlignItems(center);
+      }//.scc-details-mainImg ends
+      &-desc{
+        width:55%;
+        height:auto;
+        .flexAlignItems(flex-start);
+        .globalDefaultModFont(14px, 400, @white);
+      }//.scc-details-desc ends
+    }//.scc-details ends
+}//.scc ends

@@ -2,7 +2,7 @@ import {Component, Input, Output, OnInit, EventEmitter} from 'angular2/core';
 import {ModuleHeader} from '../../components/module-header/module-header.component';
 import {ComparisonBar} from '../../components/comparison-bar/comparison-bar.component'
 import {ComparisonLegend} from '../../components/comparison-legend/comparison-legend.component';
-import {ModuleFooter} from '../../components/module-footer/module-footer';
+import {ModuleFooter} from '../../components/module-footer/module-footer.component';
 
 @Component({
     selector: 'season-stats-module',

@@ -43,7 +43,7 @@ export class ImagesTestPage {
           hasHover: false
       };
       
-      var sampleImage = "./app/public/placeholder-location.jpg";
+      var sampleImage = "./app/public/placeholder-location-bad.jpg";
       
       this.testImages = [
         {

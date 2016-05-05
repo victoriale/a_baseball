@@ -1,0 +1,28 @@
+.box-scores{// BOX-SCORES CONTAINER
+  width:680px;
+  height:auto;
+
+  &-info{
+    width:100%;
+    height:auto;
+    padding:10px 10px 5px 0;
+    .flexDisplay;
+    .flexDirection(row);
+    .flexJustify(space-between);
+    .flexWrap(wrap);
+
+    .odd{
+      background-color: @backgroundGrey;
+    }
+    .even{
+      background-color: @white;
+    }
+  }
+}//end of box-scores container
+
+.game-article{
+  width:320px;
+  height:134px;
+  margin:5px 0;
+  background-color: @sntMediaBlue;
+}

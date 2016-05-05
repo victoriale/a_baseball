@@ -7,7 +7,7 @@ export interface TitleInputData{
     text1     : string;
     text2     : string;
     text3     : string;
-    text4     : string;
+    text4?     : string;
     icon      : string;
     hasHover? : boolean;
 }

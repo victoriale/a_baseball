@@ -1,0 +1,112 @@
+.score-board{
+  @boardGrey:#e8e8e8;
+  width:100%;
+  height:100px;
+  .flexDisplay;
+  .flexDirection(row);
+  .flexJustify(space-between);
+  border-top:1px solid @strokeGrey;
+  border-bottom:1px solid @strokeGrey;
+  background: -webkit-linear-gradient(90deg, @boardGrey 0%, @white 100%);
+  background: -moz-linear-gradient(90deg, @boardGrey 0%, @white 100%);
+  background: -o-linear-gradient(90deg, @boardGrey 0%, @white 100%);
+  background: -ms-linear-gradient(90deg, @boardGrey 0%, @white 100%);
+  background: linear-gradient(0deg, @boardGrey 0%, @white 100%);
+
+  &-total{
+    height:100%;
+    width:165px;
+    text-align: center;
+    padding:10px 0;
+    font-size: 72px;
+    font-weight: 900;
+  }
+
+  &-data{
+    width:350px;
+    height: 100%;
+  }
+
+  &-title{
+    width:100%;
+    height:30px;
+    line-height: 30px;
+    font-size: 14px;
+    font-weight: 900;
+    text-align: center;
+  }
+
+  .box-table{
+    width:100%;
+    height:calc(~'100% - 30px');
+    color:@black;
+    position: relative;
+    .inlineFlexDisplay;
+    &-arrows{
+      position: absolute;
+      font-size: 30px;
+      top:27%;
+      color:@bulletGrey;
+      &:hover{
+        color:@masterBrandColor;
+        cursor: pointer;
+      }
+      &-left{
+        left:-15px;
+      }
+      &-right{
+        right:-15px;
+      }
+    }
+    &-labels{
+      min-width:107px;
+      height:100%;
+      border: 1px solid @strokeGrey;
+      font-size: 10px;
+      & > span{
+        width:100%;
+        height:22px;
+        display:inline-block;
+        line-height: 2em;
+        font-weight: 900;
+        text-align: center;
+        float:left;
+      }
+      & > span + span{
+        border-top: 1px solid @strokeGrey;
+      }
+    }//end of box-table-labels
+
+    &-max{
+      height:100%;
+      width:350px;
+      overflow: hidden;
+      .inlineFlexDisplay;
+    }//end of box-table-max
+
+    &-container{
+      min-width: 27px;
+      height:100%;
+      font-size: 14px;
+      border-top: 1px solid @strokeGrey;
+      border-bottom: 1px solid @strokeGrey;
+      border-right: 1px solid @strokeGrey;
+      & > span:first-child{
+        font-weight: 900;
+      }
+      & > span{
+        display:inline-block;
+        width: 100%;
+        height:22px;
+        line-height: 1.5em;
+        font-weight: 400;
+        text-align: center;
+        float:left;
+      }
+      & > span + span{
+        color:@greyTabText;
+        border-top: 1px solid @strokeGrey;
+      }
+    }//end of container
+  }//end of .box-table
+}

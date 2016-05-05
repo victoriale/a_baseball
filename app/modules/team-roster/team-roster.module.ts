@@ -1,18 +1,20 @@
 import {Component} from 'angular2/core';
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
-import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer';
+import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer.component';
 import {Tabs} from '../../components/tabs/tabs.component';
 import {Tab} from '../../components/tabs/tab.component';
-import {SliderCarousel} from '../../components/slider-carousel/slider-carousel.component';
+import {SliderCarousel} from '../../components/carousels/slider-carousel/slider-carousel.component';
 import {CustomTable} from '../../components/custom-table/custom-table.component';
 import {TableColumn, TableRow, TableCell} from '../../components/custom-table/table-data.component';
 
-import {RosterService, RosterTableData, TeamRosterData} from '../../services/roster.service';
+import {RosterService} from '../../services/roster.service';
+import {RosterTableData, TeamRosterData} from '../../services/roster.data';
 
 export interface RosterTabData {
   title: string;
   tableData: Array<TableRow>;
 }
+
 @Component({
     selector: 'team-roster-module',
     templateUrl: './app/modules/team-roster/team-roster.module.html',
@@ -21,9 +23,8 @@ export interface RosterTabData {
 })
 
 export class TeamRosterModule{
-  public carouselData: any = {};
-  public selectedPlayer: string = "Baa";
-  public tabs: Array<RosterTabData> = [];
+  public carouselData: Array<any>;
+  public tabs: Array<RosterTableData> = [];
   public headerInfo: ModuleHeaderData = {
     moduleTitle: "Team Roster",
     hasIcon: false,
@@ -36,115 +37,99 @@ export class TeamRosterModule{
     url: ['Home-page']
   };
 
-  public columnData: Array<TableColumn> = [{
-      headerValue: "Player",
-      columnClass: "image-column",
-      key: "name"
-    },{
-      headerValue: "POS.",
-      columnClass: "data-column",
-      key: "position"
-    },{
-      headerValue: "HEIGHT",
-      columnClass: "data-column",
-      key: "height"
-    },{
-      headerValue: "WEIGHT",
-      columnClass: "data-column",
-      isNumericType: true,
-      // sortDirection: -1, //descending
-      key: "weight"
-    },{
-      headerValue: "AGE",
-      columnClass: "data-column",
-      isNumericType: true,
-      key: "age"
-    },{
-      headerValue: "SALARY",
-      columnClass: "data-column",
-      key: "salary"
-    }];
-
   constructor(private _service: RosterService) {
     this._service.getTeamRosterData().subscribe(
       data => this.setupData(data),
       err => { console.log("Error getting Profile Header data"); }
     );
+    this.carData();
   }
-  changeSelected() {
-    console.log("change selected team");
-    this.selectedPlayer = this.selectedPlayer === "Baa" ? "Atlanta Braves" : "Minnesota Twins";
-    this.tabs[0].tableData.forEach(row => {
-      row.isSelected = ( row.cells["name"].sortValue === this.selectedPlayer );
-    });
-  }
+
   setupData(data: Array<RosterTableData>) {
     let leagueName = "[League Name]";
     let profileName = "[Profile Name]";
-    this.headerInfo.moduleTitle = leagueName + " Standings - " + profileName;
+    this.headerInfo.moduleTitle = profileName + " Roster";
     //Carousel
     //Table tabs
     data.forEach((tabData) => {
-      this.tabs.push({
-        title: tabData.title,
-        tableData: this.formatRowData(tabData.rows, this.selectedPlayer)
-      })
+      this.tabs.push(tabData)
     });
   }
-  formatRowData(rowData: Array<TeamRosterData>, selectedPlayer: string): Array<TableRow> {
-    return rowData.map((values, index) => {
-      let cells: { [key:string]: TableCell } = {
-          "name": this.formatPlayerNameData(values),
-          "position": this.formatPlayerPos(values),
-          "height": this.formatPlayerHeight(values),
-          "weight": this.formatNumberData(values.playerWeight, " lbs"),
-          "age": this.formatNumberData(values.playerAge),
-          "salary": this.formatPlayerSalary(values)
 
-      };
-      console.log("creating rows: " + values.playerName);
-      return {
-        isSelected: (values.playerName === selectedPlayer),
-        cells: cells
-      };
-    });
+  changeSelected() {
+    // var selectedTab = this.tabs[0];
+    // let selectedIndex = selectedTab.selectedIndex;
+    // selectedIndex = (selectedIndex+1) % selectedTab.rows.length;
+    // selectedTab.selectedIndex = selectedIndex;
   }
-  formatNumberData(value:number, zeroDef?:string): TableCell {
-    return {
-        sortValue: value,
-        displayHtml: (value == 0 && zeroDef) ? zeroDef : value.toString()
-    }
-  }
-  formatPlayerNameData(values: TeamRosterData): TableCell {
-    return {
-        sortValue: values.playerName,
-        displayHtml: values.playerName,
-        profileImageConfig: {
-          imageClass: "image-50",
+
+  carData(){
+    //Carousel Data Below is an array of dummy carouselData that should be replaced with real data
+    var sampleImage = "./app/public/placeholder-location.jpg";
+    var carouselData =[
+      {
+        imageConfig: {
+          imageClass: "image-150",
           mainImage: {
-            imageUrl: values.playerImageUrl,
-            placeholderImageUrl: "/app/public/profile_placeholder.png",
-            imageClass: "border-2"
-          }
-        }
-    }
-  }//formatPlayerNameData ends
-  formatPlayerPos(values: TeamRosterData): TableCell{
-    return{
-      sortValue: values.playerPos,
-      displayHtml: values.playerPos
-    }
-  }
-  formatPlayerHeight(values: TeamRosterData): TableCell{
-    return{
-      sortValue: values.playerHeight,
-      displayHtml: values.playerHeight
-    }
-  }
-  formatPlayerSalary(values: TeamRosterData): TableCell{
-    return{
-      sortValue: values.playerSalary,
-      displayHtml: values.playerSalary
-    }
+            imageUrl: sampleImage,
+            urlRouteArray: ['Disclaimer-page'],
+            hoverText: "<p>View</p>Profile",
+            imageClass: "border-large"
+          },
+          subImages: [
+            {
+              imageUrl: sampleImage,
+              urlRouteArray: ['Disclaimer-page'],
+              hoverText: "<i class='fa fa-mail-forward'></i>",
+              imageClass: "image-50-sub image-round-lower-right"
+            },
+            {
+              text: "#1",
+              imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
+            }
+          ],
+        },
+        description: [
+          "<p>Line4</p>",
+          "<p>Line7</p>",
+          "<p>Line8</p>",
+          "<p>Line3</p>",
+        ],
+        footerInfo: {
+          infoDesc: "Want to see the full team roster?",
+          text: "VIEW FULL ROSTER",
+          url: ['Home-page']
+        },
+      },
+      {
+        imageConfig: {
+          imageClass: "image-150",
+          mainImage: {
+            imageUrl: sampleImage,
+            urlRouteArray: ['Disclaimer-page'],
+            hoverText: "<p>View</p>Profile",
+            imageClass: "border-large"
+          },
+          subImages: [
+            {
+              imageUrl: sampleImage,
+              urlRouteArray: ['Disclaimer-page'],
+              hoverText: "<i class='fa fa-mail-forward'></i>",
+              imageClass: "image-50-sub image-round-lower-right"
+            },
+            {
+              text: "#1",
+              imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
+            }
+          ],
+        },
+        description: [
+          "<p>Line1</p>",
+          "<p>Line2</p>",
+          "<p>Line3</p>",
+          "<p>Line4</p>",
+        ],
+      },]
+    this.carouselData = carouselData;
   }
 }

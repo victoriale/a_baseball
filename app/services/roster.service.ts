@@ -1,22 +1,7 @@
 import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Rx';
 import {Http} from 'angular2/http';
-
-export interface TeamRosterData {
-  playerName: string,
-  playerPos: string,
-  playerHeight: string,
-  playerWeight: number,
-  playerAge: number,
-  playerSalary: string,
-  lastUpdatedDate: Date,
-  playerImageUrl: string,
-}
-
-export interface RosterTableData {
-  title: string;
-  rows: Array<TeamRosterData>,
-}
+import {RosterTableData, TeamRosterData} from './roster.data';
 
 @Injectable()
 export class RosterService {
@@ -26,6 +11,7 @@ export class RosterService {
   private _defaultData: Array<TeamRosterData> = [{
       playerImageUrl: "/app/public/profile_placeholder.png",
       playerName: "Twilight",
+      playerKey: "1",
       playerPos: "MA",
       playerHeight: "6ft00",
       playerWeight: 200,
@@ -36,6 +22,7 @@ export class RosterService {
   {
       playerImageUrl: "/app/public/profile_placeholder.png",
       playerName: "Pinky Pie",
+      playerKey: "2",
       playerPos: "PA",
       playerHeight: "7ft00",
       playerWeight: 300,
@@ -45,6 +32,7 @@ export class RosterService {
   },{
       playerImageUrl: "/app/public/profile_placeholder.png",
       playerName: "Rainbow Dash",
+      playerKey: "3",
       playerPos: "FL",
       playerHeight: "8ft00",
       playerWeight: 100,
@@ -55,6 +43,7 @@ export class RosterService {
   private _defaultData2: Array<TeamRosterData> = [{
       playerImageUrl: "/app/public/profile_placeholder.png",
       playerName: "Victoria Le",
+      playerKey: "4",
       playerPos: "MA",
       playerHeight: "6ft00",
       playerWeight: 200,
@@ -65,6 +54,7 @@ export class RosterService {
   {
       playerImageUrl: "/app/public/profile_placeholder.png",
       playerName: "Larry Pham",
+      playerKey: "5",
       playerPos: "PA",
       playerHeight: "7ft00",
       playerWeight: 300,
@@ -74,6 +64,7 @@ export class RosterService {
   },{
       playerImageUrl: "/app/public/profile_placeholder.png",
       playerName: "Lutz Lais",
+      playerKey: "6",
       playerPos: "FL",
       playerHeight: "8ft00",
       playerWeight: 100,
@@ -85,23 +76,13 @@ export class RosterService {
   constructor(public http: Http){}
 
   getTeamRosterData(teamId?:number): Observable<Array<RosterTableData>> {
-    var tabsData: Array<RosterTableData> = [{
-       title: "Tab 1",
-       rows: this._defaultData
-    },{
-       title: "Tab 2",
-       rows: this._defaultData2
-    },{
-       title: "Tab 3",
-       rows: this._defaultData
-    },{
-       title: "Tab 4",
-       rows: this._defaultData
-    },{
-       title: "Tab 5",
-       rows: this._defaultData
-    }
-  ];
+    var tabsData: Array<RosterTableData> = [
+      new RosterTableData("Tab 1", this._defaultData),
+      new RosterTableData("Tab 2", this._defaultData),
+      new RosterTableData("Tab 3", this._defaultData),
+      new RosterTableData("Tab 4", this._defaultData),
+      new RosterTableData("Tab 5", this._defaultData)
+    ];
     return Observable.of(tabsData);
   }
 }

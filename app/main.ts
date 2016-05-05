@@ -5,11 +5,12 @@ import {bootstrap} from 'angular2/platform/browser';
 import {ROUTER_PROVIDERS, ROUTER_DIRECTIVES} from 'angular2/router';
 import {AppDomain} from './app-domain/app.domain';
 import {GlobalFunctions} from './global/global-functions';
+import {MLBGlobalFunctions} from './global/mlb-global-functions';
 import {WebApp} from "./app-layout/app.layout";
 import {MyWebApp} from "./app-layout/app.mylayout";
 import {provide} from "angular2/core";
 // Needed for http map on observables
 import 'rxjs/add/operator/map';
 import {HTTP_PROVIDERS} from "angular2/http";
-bootstrap(AppDomain,[ROUTER_PROVIDERS, HTTP_PROVIDERS, ROUTER_DIRECTIVES, GlobalFunctions,MyWebApp,WebApp])
+bootstrap(AppDomain,[ROUTER_PROVIDERS, HTTP_PROVIDERS, ROUTER_DIRECTIVES, GlobalFunctions, MLBGlobalFunctions, MyWebApp,WebApp])
   .catch(err => console.error(err));

@@ -1,5 +1,57 @@
 .header{
   height: 60px;
-  border: 1px solid @greyHeader;
   background-color: @headerBackground;
+  .flexDisplay;
+  &-left{
+    height: 100%;
+    .flexDisplay;
+    .flexAlignItems(center);
+    .flexJustify(flex-end);
+    &-icon{
+      margin: 0 50px;
+    }
+  }
+  &-right{
+    height: 100%;
+    width: 50%;
+    &-search{
+      width: 50%;
+    }
+  }
+  &-tabs{
+    .flexDisplay;
+    height: 100%;
+    width: 50%;
+    &-tab{
+      background-color: @headerBackground;
+      width: 33%;
+      height: 100%;
+      border-left: 1px solid @greyHeader;
+      border-right: 1px solid @greyHeader;
+      .flexDisplay;
+      .flexJustify(center);
+      .flexAlignItems(center);
+      .globalDefaultModFont(1.25em, 400, @white);
+      &:hover{
+        background-color: @masterBrandColor;
+        color: @white;
+      }
+      &.active{
+        background-color: @masterBrandColor;
+
+      }
+    }
+  }//header-tabs ends
+
+}
+.st_sharethis_large{
+  span:first-child{
+    span:first-child{
+      height: 60px;
+      width: 60px;
+      // background-image: url('/app/public/shareAltButton.png');
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+  }
 }

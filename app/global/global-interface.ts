@@ -1,3 +1,16 @@
+export enum Conference { american, national } //to get string value: Conference[myValue], where myValues is a Conference value
+
+export enum Division { east, west, central }  //to get string value: Division[myValue], where myValues is a Division value
+
+export interface MLBPageParameters {
+  conference?: Conference;
+  division?: Division; 
+  teamKey?: string;
+  teamName?: string;
+  playerKey? :string;
+  playerName?: string;
+}
+
 export interface PropertyListingInterface {
     listingID: string;
     listPrice: string;
@@ -81,24 +94,6 @@ export interface ProfileHeaderInterface {
     lastUpdated: string;
 }
 
-//Interface for Featured List Module
-export interface FeaturedListInterface {
-    featured_list: Array<{
-        address: string;
-        bathrooms: string;
-        bedrooms: string;
-        listPrice: string;
-        listingImage: string;
-        listingName: string;
-        neighborhood: string;
-        zipcode: string;
-    }>;
-    url_mod: {
-        "list-of-lists": string;
-        top10Local: string;
-        top10National: string;
-    }
-}
 /*BELOW IS ARTICLE MODULE TEST INTERFACE*/
 
 export interface HeadlineData {
