@@ -52,11 +52,11 @@ export class DraftHistoryService {
     .map(
       data => {
         // this.carData(data.data);
-        this.detailedData(data.data);
+        // this.detailedData(data.data);
         console.log('full data return',data);
         return {
           carData:this.carData(data.data),
-          listData:data.data,
+          listData:this.detailedData(data.data),
           tabArray:tabArray,
         };
       },
@@ -116,10 +116,10 @@ export class DraftHistoryService {
 
     data.forEach(function(val, index){
       var listData = {
-        dataPoints: self.detailsData(val.playerName,dummyProfVal,dummyProfUrl,dummySubData,dummySubDesc,dummySubUrl),
+        dataPoints: self.detailsData(val.playerName,(val.selectionLevel+' Round'),dummyProfUrl,val.draftTeamName,(val.selectionOverall +' Overall'),dummySubUrl),
         //detailsData(mainP1,mainV1,subP1,subV2,subUrl2,dataP3?,dataV3?,dataUrl3?)
         imageConfig: self.imageData("image-121","border-2",
-        dummyImg,dummyRoute,"image-40-sub",dummyImg,dummyRoute,dummyRank),
+        dummyImg,dummyRoute,"image-40-sub",dummyImg,dummyRoute,(index+1)),
         hasCTA:true,
         ctaDesc:'Want more info about this [profile type]?',
         ctaBtn:'',
