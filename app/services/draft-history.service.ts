@@ -67,7 +67,7 @@ export class DraftHistoryService {
 
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
   carData(data){
-    console.log('carousel transform',data);
+    // console.log('carousel transform',data);
     var self = this;
     var carouselArray = [];
     var dummyImg = "./app/public/placeholder-location.jpg";
