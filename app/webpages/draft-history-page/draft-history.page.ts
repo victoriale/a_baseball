@@ -38,9 +38,9 @@ export class DraftHistoryPage implements OnInit{
                   this.dataArray = draftData.tabArray;
                 }
                 this.carouselDataArray = draftData.carData
-                console.log('CAR ARRAY',this.carouselDataArray);
+                // console.log('CAR ARRAY',this.carouselDataArray);
                 this.detailedDataArray = draftData.listData;
-                console.log('LIST ARRAY',this.detailedDataArray);
+                // console.log('LIST ARRAY',this.detailedDataArray);
               },
               err => {
                   console.log('Error: draftData API: ', err);

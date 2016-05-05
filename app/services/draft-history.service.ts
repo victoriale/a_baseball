@@ -28,7 +28,6 @@ export class DraftHistoryService {
   //get past 5 years for tabs
   var tabDates = Number(year);
   var tabArray = [];
-  console.log(tabDates);
   for(var i = 0; i <5; i++){
     if(i == 0){
       var currentYear = 'Current Season';
@@ -42,7 +41,7 @@ export class DraftHistoryService {
   }
 
   var callURL = this._apiUrl + '/team/draftHistory/2791/'+year;
-  console.log(callURL);
+  // console.log(callURL);
   return this.http.get( callURL, {
       headers: headers
     })
@@ -94,12 +93,12 @@ export class DraftHistoryService {
       };
       carouselArray.push(Carousel);
     });
-    console.log('TRANSFORMED CAROUSEL', carouselArray);
+    // console.log('TRANSFORMED CAROUSEL', carouselArray);
     return carouselArray;
   }
 
   detailedData(data){
-    console.log('list data transform',data);
+    // console.log('list data transform',data);
     var self = this;
     var listDataArray = [];
 
@@ -128,7 +127,7 @@ export class DraftHistoryService {
       };
       listDataArray.push(listData);
     });
-    console.log('TRANSFORMED List Data', listDataArray);
+    // console.log('TRANSFORMED List Data', listDataArray);
     return listDataArray;
   }//end of function
 
