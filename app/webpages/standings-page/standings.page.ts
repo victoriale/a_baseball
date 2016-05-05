@@ -8,7 +8,7 @@ import {LoadingComponent} from '../../components/loading/loading.component';
 import {ErrorComponent} from '../../components/error/error.component';
 
 import {StandingsService} from '../../services/standings.service';
-import {StandingsTableData, TeamStandingsData} from '../../services/standings.data';
+import {MLBStandingsTabData, MLBStandingsTableModel, MLBStandingsTableData} from '../../services/standings.data';
 
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
 import {GlobalFunctions} from '../../global/global-functions';
@@ -25,7 +25,7 @@ import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
 export class StandingsPage implements OnInit {
   public data: StandingsComponentData;
     
-  public pageParams: MLBPageParameters;
+  public pageParams: MLBPageParameters = {}
   
   public titleData: TitleInputData = {
     imageURL: "/app/public/profile_placeholder.png",
@@ -35,13 +35,25 @@ export class StandingsPage implements OnInit {
     icon: "fa fa-map-marker"
   }
   
-  constructor(private _standingsService: StandingsService, private _globalFunctions: GlobalFunctions, private _mlbFunctions: MLBGlobalFunctions) {     
-    //TODO: Pull from URL
-    if ( this.pageParams === undefined || this.pageParams === null ) {
-      this.pageParams = {
-        // division: Division.east,
-        // conference: Conference.american
-      };
+  constructor(private _params: RouteParams,
+              private _standingsService: StandingsService, 
+              private _globalFunctions: GlobalFunctions, 
+              private _mlbFunctions: MLBGlobalFunctions) {
+    
+    var conference = _params.get("conference");
+    if ( conference !== null && conference !== undefined ) {
+      this.pageParams.conference = Conference[conference.toLowerCase()];
+    }
+    
+    var division = _params.get("division");
+    if ( division !== null && division !== undefined ) {
+      this.pageParams.division = Division[division.toLowerCase()];
+    }
+    
+    var teamId = _params.get("teamId");
+    if ( teamId !== null && teamId !== undefined ) {
+      this.pageParams.teamId = teamId;
+      // this.pageParams.teamName = "??"
     }
   }
   
@@ -49,28 +61,22 @@ export class StandingsPage implements OnInit {
     this.setupStandingsData();
   }
 
-//TODO-CJP: Move to service and base off of MLBPageParameters
   setupStandingsData() {
     let groupName = this._mlbFunctions.formatGroupName(this.pageParams.conference, this.pageParams.division);
-    let moduletitle = groupName + " Standings";
+    let pageTitle = "MLB Standings Breakdown";
     if ( this.pageParams.teamName !== undefined && this.pageParams.teamName !== null ) {
-      moduletitle += " - " + this.pageParams.teamName;
+      pageTitle = "MLB Standings - " + this.pageParams.teamName;
     }
+    this.titleData.text3 = pageTitle;
+    let tabs = this._standingsService.initializeAllTabs(this.pageParams);
     
     this.data = {
-      moduleTitle: moduletitle,
-      tabs: []
+      moduleTitle: pageTitle,
+      tabs: tabs
     }
-
-    if ( this.pageParams.division !== undefined && this.pageParams.division !== null ) {
-      this._standingsService.loadTabData(this.data, this.pageParams.conference, this.pageParams.division);
-      this._standingsService.loadTabData(this.data, this.pageParams.conference);
-      this._standingsService.loadTabData(this.data);
-    }
-    else {
-      this._standingsService.loadTabData(this.data);
-      this._standingsService.loadTabData(this.data, Conference.american);
-      this._standingsService.loadTabData(this.data, Conference.national);
+    
+    for ( var i = 0; i < tabs.length; i++ ) {
+      this._standingsService.loadTabData(tabs[i]);
     }
   }
 }

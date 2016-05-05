@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, DoCheck} from 'angular2/core';
+import {Component, Input, OnInit, DoCheck} from 'angular2/core';
 
 import {SliderCarousel, SliderCarouselInput} from '../carousels/slider-carousel/slider-carousel.component';
 import {Tabs} from '../tabs/tabs.component';
@@ -20,7 +20,6 @@ export interface TableComponentData<T> {
 
 export interface StandingsComponentData {
   moduleTitle: string;
-  maxRows?: number;
   tabs: Array<TableTabData<any>>
 }
 
@@ -29,7 +28,7 @@ export interface StandingsComponentData {
   templateUrl: "./app/components/standings/standings.component.html",
   directives: [SliderCarousel, Tabs, Tab, CustomTable],
 })
-export class StandingsComponent implements OnChanges, DoCheck {
+export class StandingsComponent implements OnInit, DoCheck {
   @Input() data: StandingsComponentData;
   
   public selectedIndex;
@@ -42,14 +41,16 @@ export class StandingsComponent implements OnChanges, DoCheck {
 
   constructor() {}
   
-  ngOnChanges() {
+  ngOnInit() {
     this.setupData();
   }
   
   ngDoCheck() {
     //check for tabs loaded and update on first tab found
-    if ( this.tabs.length > 0 && this.selectedTabTitle === undefined) {
-      this.tabSelected(this.tabs[0].title);
+    if ( this.tabs.length > 0 ) {
+      if ( this.tabs[0].sections.length > 0 && this.carouselData.length === 0 ) {
+        this.updateCarousel();
+      }
     }
   }
   
