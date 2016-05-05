@@ -14,18 +14,27 @@
             </span>
             <i></i>
         </div>
-        <img src="{{largeImage}}" onerror="this.src={{image-url}}" class="plcholder-img"
-             alt="placeholder images"/>
+        <span [ngStyle]="{'background-image': 'url(' + largeImage + ')'}" onerror="this.src={{image-url}}"
+              class="plcholder-img"></span>
         <div class="grey-bar">
-            <div class="grey-bar-triangle"></div>
         </div>
     </div>
     <div class="sm-images">
         <div class="sm-images-img">
             <a *ngFor="#smImages of smallImage">
-                <img id="smImg-{{smImages.id}}" [ngClass]="{'square-image-active': smImages.id == imageCounter}"
-                     class="square-image" src="{{smImages.image}}" onerror="this.src={{image-url}}"
-                     alt="small square images" (click)="changeClick(smImages.id)"/>
+                <span *ngIf="smImages.id == imageCounter" class="carouselImageBoxSmall">
+                    <img id="smImg-{{smImages.id}}" [ngClass]="{'square-image-active': smImages.id == imageCounter}"
+                         class="square-image" src="{{smImages.image}}" onerror="this.src={{image-url}}"
+                         alt="small square images" (click)="changeClick(smImages.id)"/>
+                    <div>
+                        <p>Now Viewing</p>
+                    </div>
+                </span>
+                <span id="smImg-{{smImages.id}}"
+                      class="square-image" [ngStyle]="{'background-image': 'url(' + smImages.image + ')'}"
+                      onerror="this.src={{image-url}}"
+                      alt="small square images" (click)="changeClick(smImages.id)">
+                </span>
             </a>
         </div>
     </div>

@@ -36,7 +36,6 @@
 //        .subscribe(
 //            ArticleData => {
 //                this.historyDataAI = ArticleData.history;
-//                console.log(ArticleData);
 //                this.title = ArticleData['historical-team-statistics'].displayHeadline;
 //            }
 //        )

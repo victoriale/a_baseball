@@ -3,10 +3,11 @@
         <i class="fa fa-heartbeat recommendations-header-icon"></i><span class="recommendations-header-text">Other Articles You Will Love</span>
     </div>
     <div class="recommendations-articles">
-        <span *ngFor="#data of randomArticles; #i=index;">
-            <a *ngIf="i<6" class="recommendations-articles-six article" href="" title="{{data.title}}">
+        <span *ngFor="#data of randomHeadlines; #i=index;">
+            <a *ngIf="i<6" class="recommendations-articles-six article"
+               [routerLink]="[data.pageIndex, {eventID: data.eventID}]" title="{{data.title}}">
                 <span class="articleBoxMedium">
-                    <img class="recommendations-articles-six-image" src="{{data.photos}}"/>
+                    <img class="recommendations-articles-six-image" src="{{images}}"/>
                     <div>
                         <p>View Article</p>
                     </div>

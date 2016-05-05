@@ -360,6 +360,37 @@ goalsHeader
   }
 }
 
+.carouselImageTextSmall(@hoverEleWidth, @hoverEleHeight) {
+  .flexDisplay;
+  .flexDirection(column);
+  .flexJustify(center);
+  text-align: center;
+  background-color: rgba(188, 22, 36, 0.5);
+  width: @hoverEleWidth;
+  height: @hoverEleHeight;
+  position: absolute;
+  top: 0;
+  left:0;
+  margin: 5px 3px;
+  p {
+    &:first-child {
+      @defaultFirstParaFontSize: @hoverEleWidth * 0.13;
+      .globalDefaultModFont(@defaultFirstParaFontSize, 700, @white);
+      line-height: @defaultFirstParaFontSize;
+      margin: 0 auto;
+      height: 30px;
+      width: 92px;
+      padding-top: 7px;
+      border: 1px solid @white;
+      border-radius: 5px;
+      background-color: rgba(188, 32, 39, 0.5);
+      font-size: 12px;
+      font-weight: 900;
+      font-family: @globalFont;
+    }
+  }
+}
+
 .articleImageHoverWithTextSmall(@hoverEleWidth, @hoverEleHeight) {
   .flexDisplay;
   .flexDirection(column);
@@ -469,6 +500,24 @@ goalsHeader
   }
   div {
     .articleImageHoverWithText(@linkWidth, @linkHeight);
+  }
+  &:hover {
+    div {
+      left: 0;
+    }
+  }
+}
+
+.carouselImageLinkSmall(@linkWidth, @linkHeight) {
+  display: inline-block;
+  width: @linkWidth;
+  height: @linkHeight;
+  position: absolute;
+  img {
+    .rectangleImage(@linkWidth, @linkHeight);
+  }
+  div {
+    .carouselImageTextSmall(@linkWidth, @linkHeight);
   }
   &:hover {
     div {
