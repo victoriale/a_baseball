@@ -6,7 +6,7 @@
     <div class="dli-container-right">
       <!--put in right box styles-->
       <div class="dataBox">
-        <div *ngFor="#data of details.dataPoints">
+        <div *ngFor="#data of details.dataPoints" [ngClass]="data.style">
           <i class="{{data.icon}}"></i>
           <span><a [ngClass]="{'data-hover': data.url != ''}">{{data.data}}</a></span>
           <span>{{data.value}}</span>
