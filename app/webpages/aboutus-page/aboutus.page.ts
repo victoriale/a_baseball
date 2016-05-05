@@ -25,7 +25,9 @@ export class AboutUsPage {
     
     public auHeaderTitle: string = "What is the site about?";
     
-    public auBlocks:Array<AuBlockData> = [];
+    public auBlocks: Array<AuBlockData> = [];
+    
+    public auContent: Array<string> = [];
     
     public titleData: TitleInputData = {
         imageURL : '/app/public/mainLogo.png',
@@ -63,6 +65,7 @@ export class AboutUsPage {
         this.auBlocks = data.blocks;
         this.auHeaderTitle = data.headerTitle;
         this.titleData = data.titleData;
+        this.auContent = data.content;
       }
     }
 }

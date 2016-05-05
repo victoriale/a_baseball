@@ -25,6 +25,7 @@ export interface AboutUsModel {
     blocks: Array<AuBlockData>;
     headerTitle: string;
     titleData: TitleInputData;
+    content: Array<string>;
 }
 
 @Injectable()
@@ -45,6 +46,8 @@ export class AboutUsService {
             ? "Home Run Loyal" 
             : "My Home Run Loyal";
     let lastUpdatedDate = data.lastUpdatedDate !== undefined ? data.lastUpdatedDate : new Date(); //TODO-CJP: update when included in API
+    let teamProfiles = this._globalFunctions.commaSeparateNumber(data.teamProfilesCount);
+    let playerProfiles = this._globalFunctions.commaSeparateNumber(data.playerProfilesCount);
     let model: AboutUsModel = {
       headerTitle: "What is " + pageName + "?",
       titleData: {
@@ -59,7 +62,7 @@ export class AboutUsService {
         {
           iconUrl: '/app/public/aboutUs_logo1.png',
           titleText: 'MLB Team Profiles',
-          dataText: this._globalFunctions.commaSeparateNumber(data.teamProfilesCount)
+          dataText: teamProfiles
         },
         {
           iconUrl: '/app/public/aboutUs_logo2.png',
@@ -69,13 +72,22 @@ export class AboutUsService {
         {
           iconUrl: '/app/public/aboutUs_logo3.png',
           titleText: 'MLB Player Profiles',
-          dataText: this._globalFunctions.commaSeparateNumber(data.playerProfilesCount)
+          dataText: playerProfiles
         },
         {
           iconUrl: data.worldChampImageUrl,
           titleText: data.worldChampYear + ' World Series Champions',
           dataText: data.worldChampName
         }
+      ],
+      content: [
+        
+        "We created Wichita, Kan. -based Home Run Loyal in [June, 2016] to connect baseball fans with insightful, well-informed and up-to-date content.",
+         
+        "Here at Home Run Loyal, we have an appetite for digesting down big data in the world of baseball. " + 
+        "We create unique content so you can learn everything about your favorite team or player." +
+        "From rookie players and underachieving teams to veteran stars and perennial favorites, " + 
+        "Home Run Loyal produces content and statistical information for " + teamProfiles + " MLB teams and over " + playerProfiles + " player profiles."
       ]
     };
     
