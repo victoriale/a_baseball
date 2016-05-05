@@ -16,7 +16,6 @@ export class TableHeader implements OnInit {
 
   @Input() headerData: TableColumn;
   @Input() headerIndex: number;
-  @Input() tableClass: string;
   @Output() sortSwitched = new EventEmitter();
 
   constructor(private _renderer: Renderer) {}
