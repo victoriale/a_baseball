@@ -1,7 +1,7 @@
 /**
  * Created by Victoria on 4/19/2016.
  */
-import {Component, OnInit, Input, Output, EventEmitter} from 'angular2/core';
+import {Component, OnInit, Input, Output, EventEmitter, OnChanges} from 'angular2/core';
 import {CircleButton} from "../buttons/circle/circle.button";
 
 @Component({
@@ -12,33 +12,15 @@ import {CircleButton} from "../buttons/circle/circle.button";
     outputs: ['scrollRight', 'scrollLeft','carouselDataPoint']
 })
 
-export class Carousel implements OnInit {
+export class Carousel implements OnInit, OnChanges {
   @Input() carouselData: Array<any>;
   @Input() indexInput: any;//this is an optional Input to determine where the current index is currently positioned. otherwise set the defaul indexInput to 0;
 
   public carouselDataPoint: EventEmitter<any> = new EventEmitter();
   public scrollRight: EventEmitter<boolean> = new EventEmitter();
   public scrollLeft: EventEmitter<boolean> = new EventEmitter();
-
-  /*
-
-    below are selections that the carousel will be able to accept
-    as inputs for @Input() type;  by choosing one of these it will paint the correct component into the carousel
-
-    ngOnInit will run the @Input() type; through a switch statement which will decide which component carousel to choose;
-    by default it will default to type1 but have placeholder data to represent itself
-
-    'schedule' if chosen will change the carousel to a schedule carousel which will show the appropriate datapoints for scheduling dates and comparison
-    you may find these datapoints that the schedules carousel require here ./app/components/carousels/schedules-carousel/schedules-carousel
-
-    'type1' if chosen will change the carousel to a 'slider carousel' type which is a large image, 2 sub images and 4 lines of text in rows
-    you may find these datapoints that the slider carousel require here ./app/components/carousels/slider-carousel/slider-carousel.component
-
-  */
-
-  @Input() type: string;
+  
   public schedule:boolean;
-  public type1:boolean;
   public counter: number = 0;
   public max: number = 0;
   // public type2:boolean; unused
@@ -79,29 +61,22 @@ export class Carousel implements OnInit {
 
   //this is where the angular2 decides what is the main image
   changeMain(num){
-    this.carouselDataPoint.next(this.carouselData[num]);
-  }
-
-  ngOnChanges(){
-
-  }
-
-  ngOnInit(){
-    switch(this.type){
-      case 'schedule':
-        this.schedule = true;
-      break;
-      case 'type1':
-        this.type1 = true;
-      break;
-      // case 'type2':
-      //   this.type2 = true;
-      // break;
-      default:
-        this.type1 = true;
-      break;
+    if ( num < this.carouselData.length ) {
+      this.carouselDataPoint.next(this.carouselData[num]);
     }
+  }
 
+  ngOnChanges(){ 
+    if(typeof this.indexInput == 'undefined'){
+      this.counter = 0;
+    }else{
+      this.counter = this.indexInput;
+    }
+    this.max = this.carouselData.length;
+    this.changeMain(this.counter);
+  }
+
+  ngOnInit() {
     if(typeof this.carouselData == 'undefined' || this.carouselData.length == 0){
       var sampleImage = "./app/public/placeholder-location.jpg";
       this.carouselData =[
@@ -168,12 +143,12 @@ export class Carousel implements OnInit {
       ];
     }
 
-    if(typeof this.indexInput == 'undefined'){
-      this.counter = 0;
-    }else{
-      this.counter = this.indexInput;
-    }
-    this.max = this.carouselData.length;
-    this.changeMain(this.counter);
+    // if(typeof this.indexInput == 'undefined'){
+    //   this.counter = 0;
+    // }else{
+    //   this.counter = this.indexInput;
+    // }
+    // this.max = this.carouselData.length;
+    // this.changeMain(this.counter);
   }
 }

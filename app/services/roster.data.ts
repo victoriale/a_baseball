@@ -2,6 +2,7 @@ import {TableModel, TableColumn} from '../components/custom-table/table-data.com
 import {CircleImageData} from '../components/images/image-data';
 
 export interface TeamRosterData {
+  playerKey: string,
   playerName: string,
   playerPos: string,
   playerHeight: string,
@@ -46,19 +47,30 @@ export class RosterTableData implements TableModel<TeamRosterData> {
   
   rows: Array<TeamRosterData>;
   
-  selectedIndex: number;
+  selectedKey:string = null;
   
-  constructor(title: string, rows: Array<TeamRosterData>) {
+  constructor(title:string, rows: Array<TeamRosterData>) {
     this.title = title;
     this.rows = rows;
-    this.selectedIndex = 0;
     if ( this.rows === undefined || this.rows === null ) {
       this.rows = [];
+    }
+    else if ( rows.length > 0 ) {
+      this.selectedKey = rows[0].playerKey;
+    }
+  }
+  
+  setRowSelected(rowIndex:number) {
+    if ( rowIndex >= 0 && rowIndex < this.rows.length ) {
+      this.selectedKey = this.rows[rowIndex].playerKey;
+    }
+    else {
+      this.selectedKey = null;
     }
   }
   
   isRowSelected(item:TeamRosterData, rowIndex:number): boolean {
-    return this.selectedIndex === rowIndex;
+    return this.selectedKey === item.playerKey;
   }
   
   getDisplayValueAt(item:TeamRosterData, column:TableColumn):string {
