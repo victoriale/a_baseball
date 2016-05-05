@@ -6,12 +6,13 @@ import {Tabs} from '../../components/tabs/tabs.component';
 import {Tab} from '../../components/tabs/tab.component';
 import {TitleComponent} from '../../components/title/title.component';
 import {BackTabComponent} from '../../components/backtab/backtab.component';
+import {DraftHistoryService} from '../../services/draft-history.service';
 
 @Component({
     selector: 'draft-history-page',
     templateUrl: './app/webpages/draft-history-page/draft-history.page.html',
     directives: [BackTabComponent, TitleComponent, Tab, Tabs, SliderCarousel, DetailedListItem, ModuleFooter],
-    providers: [],
+    providers: [DraftHistoryService],
     inputs:[]
 })
 
@@ -21,37 +22,49 @@ export class DraftHistoryPage implements OnInit{
   carouselDataArray: any;
   footerData: Object;
   footerStyle: any;
-  constructor(){
+  constructor(private draftService:DraftHistoryService){
     this.footerStyle = {
       ctaBoxClass: "list-footer",
       ctaBtnClass:"list-footer-btn",
       hasIcon: true,
     };
-    this.detailedDataArray = this.detailedData();
-    this.carouselDataArray = this.carData();
-    this.transformDraftHistory();
+  }
+
+  getDraftPage(date) {
+      this.draftService.getDraftHistoryService(date)
+          .subscribe(
+              draftData => {
+                if(typeof this.dataArray == 'undefined'){//makes sure it only runs once
+                  this.dataArray = draftData.tabArray;
+                }
+                this.carouselDataArray = draftData.carData
+                console.log(this.carouselDataArray);
+                // this.detailedDataArray = draftData.listData;
+              },
+              err => {
+                  console.log('Error: draftData API: ', err);
+                  // this.isError = true;
+              }
+          );
   }
 
   ngOnInit(){
-
+    this.detailedDataArray = this.detailedData();
+    //MLB starts and ends in same year so can use current year logic to grab all current season and back 4 years for tabs
+    var currentTab = new Date().getFullYear();
+    this.getDraftPage(currentTab);
   }
 
-  transformDraftHistory(){
-    var year = 2014;
-    this.dataArray = [];
-    for(var y = 0; y <= 2; y++){
-      this.dataArray[y] = [];
-      this.dataArray[y] = {
-        year: year+y,
-        data:this.detailedDataArray,
-        carData:this.carouselDataArray,
-      };
-    }
-    console.log('transformDraftHistory',this.dataArray);
+  ngOnChanges(){
+    this.detailedDataArray = this.detailedData();
   }
 
   selectedTab(event){//each time a tab is selected the carousel needs to change accordingly to the correct list being shown
-    this.carouselDataArray = this.dataArray[event-2014]['carData'];
+    console.log(event);
+    if(event == 'Current Season'){
+      event = new Date().getFullYear();
+    }
+    this.getDraftPage(event);
   }
 
   carData(){
@@ -84,6 +97,8 @@ export class DraftHistoryPage implements OnInit{
       return dummyArray;
     }
   }
+
+
 
   detailedData(){
     var dummyArray = [];
