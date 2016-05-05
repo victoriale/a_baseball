@@ -3,9 +3,9 @@
         <i class="fa fa-trophy"></i> Head to Head
     </div>
     <div class="right-column-head-content" style="">
-        <span *ngFor="#headData of randomArticles; #i=index; #last=last">
+        <span *ngFor="#headData of randomHeadToHead; #i=index; #last=last">
             <!--<span *ngIf="i < 9">-->
-                <a href="">
+                <a [routerLink]="[headData.pageIndex, {eventID: headData.eventID}]">
                     <div class="right-column-head-content-blurb" style="">
                         {{headData.title}}
                     </div>

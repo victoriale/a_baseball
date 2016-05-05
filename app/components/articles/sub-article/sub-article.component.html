@@ -1,9 +1,9 @@
 <span *ngIf="league">
-    <span *ngFor="#subData of randomArticles; #even=even; #odd=odd; #last=last; #i=index;">
+    <span *ngFor="#subData of randomLeftColumn; #even=even; #odd=odd; #last=last; #i=index;">
         <div *ngIf="even && i < 10" class="sub-container" style="float: left;">
             <a href="">
                 <span class="articleBoxSmall">
-                    <img class="sub-container-image" src="{{subData.photos}}"/>
+                    <img class="sub-container-image" src="{{images?.home}}"/>
                     <div>
                         <p>View</p>
                     </div>
@@ -17,14 +17,15 @@
             </span>
         </div>
         <div *ngIf="odd && i < 10" class="sub-container" style="float: right;">
-            <a href="">
+            <a [routerLink]="[subData.pageIndex, {eventID: subData.eventID}]">
                 <span class="articleBoxSmall">
-                    <img class="sub-container-image" src="{{subData.photos}}"/>
+                    <img class="sub-container-image" src="{{images}}"/>
                     <div>
                         <p>View</p>
                     </div>
                 </span>
                 <div class="sub-container-content">
+                    {{subData.title}}
                     {{subData.title}}
                 </div>
             </a>
@@ -35,11 +36,11 @@
     </span>
 </span>
 <span *ngIf="!league">
-    <span *ngFor="#subData of randomArticles; #i=index;">
+    <span *ngFor="#subData of randomLeftColumn; #i=index;">
         <div *ngIf="i < 5" class="sub-container" style="float: left; width: 50%;">
-            <a href="">
+            <a [routerLink]="[subData.pageIndex, {eventID: subData.eventID}]">
                 <span class="articleBoxSmall">
-                    <img class="sub-container-image" src="{{subData.photos}}"/>
+                    <img class="sub-container-image" src="{{images}}"/>
                     <div>
                         <p>View</p>
                     </div>

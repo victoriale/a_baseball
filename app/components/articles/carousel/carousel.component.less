@@ -14,6 +14,9 @@
     position: absolute;
     width: 100%;
     height: 100%;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
   }
   &-details {
     .inlineFlexDisplay;
@@ -33,16 +36,6 @@
   background-color: rgba(0, 0, 0, 0.6);
   position: absolute;
   bottom: 0;
-  &-triangle {
-    width: 17px;
-    height: 9px;
-    border-left: 9px solid transparent;
-    border-right: 9px solid transparent;
-    border-bottom: 9px solid white;
-    position: absolute;
-    bottom: 0;
-    left: 21px;
-  }
 }
 
 .expand {
@@ -76,20 +69,40 @@
   overflow-y: hidden;
   &-img {
     position: relative;
-    img {
-      margin: 5px 2px !important;
-      border: 1px solid @strokeGrey;
-      box-sizing: border-box;
-      width: 18.7%;
-      height: 85.5%;
-    }
   }
   .square-image {
+    width: 18.9%;
+    height: 85.5%;
+    float: left;
+    margin: 5px 3px !important;
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0);
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
     cursor: pointer;
-    &-active {
+    &:hover:after {
       border: 2px solid #ba1a2a;
-      background-color: rgba(186, 26, 42, 0.75) !important;
+      background: rgba(188, 22, 36, 0.5);
       cursor: pointer;
+      content: "";
+      width: 18.9%;
+      height: 59px;
+      position: absolute;
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      padding-top: 18px;
+      padding-bottom: 18px;
+    }
+    &-active {
+      width: inherit;
+      height: inherit;
+      border: 2px solid #ba1a2a;
+      pointer-events: none;
     }
   }
 }
+
+.carouselImageBoxSmall {
+  .carouselImageLinkSmall(110px, 59px);
+}
+

@@ -1,6 +1,4 @@
-import {Component, OnInit} from 'angular2/core';
-import {Articles} from "../../../global/global-service";
-import {ArticleData} from "../../../global/global-interface";
+import {Component} from 'angular2/core';
 
 @Component({
     selector: 'disqus-component',
