@@ -6,6 +6,7 @@ import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
 import {SchedulesModule} from '../../modules/schedules/schedules.module';
 import {TeamRosterModule} from '../../modules/team-roster/team-roster.module';
 import {AboutUsModule} from '../../modules/about-us/about-us.module';
+import {NewsModule} from '../../modules/news/news.module';
 import {ShareButtonComponent} from '../../components/share-button/share-button.component';
 import {ProfileHeaderModule} from '../../modules/profile-header/profile-header.module';
 import {Search} from '../../components/search/search.component';
@@ -27,6 +28,7 @@ import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
     templateUrl: './app/webpages/component-page/component.page.html',
     directives: [
       SliderCarousel,
+      NewsModule,
       Carousel,
       SchedulesCarousel,
       BoxScoresModule,
@@ -47,8 +49,8 @@ import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
 export class ComponentPage implements OnInit {
   pageParams: MLBPageParameters;
   standingsData: StandingsComponentData;
-  
-  constructor(private _standingsService: StandingsService, private _globalFunctions: GlobalFunctions, private _mlbFunctions: MLBGlobalFunctions) {     
+
+  constructor(private _standingsService: StandingsService, private _globalFunctions: GlobalFunctions, private _mlbFunctions: MLBGlobalFunctions) {
     //TODO: Pull from URL
     if ( this.pageParams === undefined || this.pageParams === null ) {
       this.pageParams = {
@@ -57,8 +59,8 @@ export class ComponentPage implements OnInit {
       };
     }
   }
-  
-  ngOnInit() {    
+
+  ngOnInit() {
     this.setupStandingsData();
   }
 
@@ -68,7 +70,7 @@ export class ComponentPage implements OnInit {
     if ( this.pageParams.teamName !== undefined && this.pageParams.teamName !== null ) {
       moduletitle += " - " + this.pageParams.teamName;
     }
-    
+
     this.standingsData = {
       moduleTitle: moduletitle,
       maxRows: 5, // only show 5 in the module

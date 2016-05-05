@@ -1,0 +1,19 @@
+<carousel *ngIf="carouselData" [carouselData]="carouselData" (carouselDataPoint)="response($event)" [indexInput]="indexInput">
+  <!-- check if data is available and/or valid -->
+  <div class="news">
+    <div *ngIf="backgroundImage" class="news-placeholder" [ngStyle]="{'background-image': 'url('+backgroundImage+')'}">
+      <div class="news-text">
+        <div class="news-headline">Martin hits three-run shot as Blue Jays shut out New York Yankees 4-0</div>
+        <div class="news-preview">Blue Jays catcher Russell Martin was just trying to make solid contact when he stepped to the plate with two runners on in a tight one-run game against New York on Wednesday night.</div>
+        <div class="news-footer">
+          <span class="news-footer-author">Victoria Le</span>
+          <span class="news-footer-created">5 weeks ago...</span>
+          <a href="#" class="news-footer-share"><i class="fa fa-share-alt"> Share</i></a>
+        </div>
+      </div>
+      <!-- center details ends -->
+      <module-footer *ngIf="dataPoint.footerInfo" [footerData]="footerInfo"></module-footer>
+    </div>
+    <!-- placeholder ends -->
+  </div>
+</carousel>
