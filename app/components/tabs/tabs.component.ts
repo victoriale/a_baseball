@@ -1,4 +1,4 @@
-import { Component, ContentChildren, QueryList, AfterContentInit, Input, Output, EventEmitter } from 'angular2/core';
+import { Component, ContentChildren, QueryList, AfterContentInit, Input, Output, EventEmitter,  OnChanges } from 'angular2/core';
 import { Tab } from './tab.component';
 
 @Component({
@@ -6,7 +6,7 @@ import { Tab } from './tab.component';
   templateUrl: './app/components/tabs/tabs.component.html',
 })
 
-export class Tabs implements AfterContentInit {
+export class Tabs implements AfterContentInit, OnChanges {
   public tabWidth: string;
   @ContentChildren(Tab) tabs: QueryList<Tab>;
   @Output() tabSelected: EventEmitter<string> = new EventEmitter();
@@ -21,7 +21,9 @@ export class Tabs implements AfterContentInit {
     //  this.tabs.first.active = true;
     //}
     // get width for each tab
-    this.tabWidth = 100/(this.tabs.length) + "%";
+    if ( this.tabs.length > 0 ) { //can't divide by 0
+      this.tabWidth = 100/(this.tabs.length) + "%";
+    }
   }
 
   selectTab(tab: Tab){

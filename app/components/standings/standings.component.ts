@@ -20,7 +20,6 @@ export interface TableComponentData<T> {
 
 export interface StandingsComponentData {
   moduleTitle: string;
-  maxRows?: number;
   tabs: Array<TableTabData<any>>
 }
 
@@ -48,8 +47,10 @@ export class StandingsComponent implements OnChanges, DoCheck {
   
   ngDoCheck() {
     //check for tabs loaded and update on first tab found
-    if ( this.tabs.length > 0 && this.selectedTabTitle === undefined) {
-      this.tabSelected(this.tabs[0].title);
+    if ( this.tabs.length > 0 ) {
+      if ( this.tabs[0].sections.length > 0 && this.carouselData.length === 0 ) {
+        this.updateCarousel();
+      }
     }
   }
   

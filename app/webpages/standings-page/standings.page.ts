@@ -8,7 +8,7 @@ import {LoadingComponent} from '../../components/loading/loading.component';
 import {ErrorComponent} from '../../components/error/error.component';
 
 import {StandingsService} from '../../services/standings.service';
-import {StandingsTableData, TeamStandingsData} from '../../services/standings.data';
+import {MLBStandingsTabData, MLBStandingsTableModel, MLBStandingsTableData} from '../../services/standings.data';
 
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
 import {GlobalFunctions} from '../../global/global-functions';
@@ -49,28 +49,21 @@ export class StandingsPage implements OnInit {
     this.setupStandingsData();
   }
 
-//TODO-CJP: Move to service and base off of MLBPageParameters
   setupStandingsData() {
     let groupName = this._mlbFunctions.formatGroupName(this.pageParams.conference, this.pageParams.division);
     let moduletitle = groupName + " Standings";
     if ( this.pageParams.teamName !== undefined && this.pageParams.teamName !== null ) {
       moduletitle += " - " + this.pageParams.teamName;
     }
+    let tabs = this._standingsService.initializeAllTabs(this.pageParams);
     
     this.data = {
       moduleTitle: moduletitle,
-      tabs: []
+      tabs: tabs
     }
-
-    if ( this.pageParams.division !== undefined && this.pageParams.division !== null ) {
-      this._standingsService.loadTabData(this.data, this.pageParams.conference, this.pageParams.division);
-      this._standingsService.loadTabData(this.data, this.pageParams.conference);
-      this._standingsService.loadTabData(this.data);
-    }
-    else {
-      this._standingsService.loadTabData(this.data);
-      this._standingsService.loadTabData(this.data, Conference.american);
-      this._standingsService.loadTabData(this.data, Conference.national);
+    
+    for ( var i = 0; i < tabs.length; i++ ) {
+      this._standingsService.loadTabData(tabs[i]);
     }
   }
 }
