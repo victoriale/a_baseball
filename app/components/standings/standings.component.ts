@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, DoCheck} from 'angular2/core';
+import {Component, Input, OnInit, DoCheck} from 'angular2/core';
 
 import {SliderCarousel, SliderCarouselInput} from '../carousels/slider-carousel/slider-carousel.component';
 import {Tabs} from '../tabs/tabs.component';
@@ -28,7 +28,7 @@ export interface StandingsComponentData {
   templateUrl: "./app/components/standings/standings.component.html",
   directives: [SliderCarousel, Tabs, Tab, CustomTable],
 })
-export class StandingsComponent implements OnChanges, DoCheck {
+export class StandingsComponent implements OnInit, DoCheck {
   @Input() data: StandingsComponentData;
   
   public selectedIndex;
@@ -41,7 +41,7 @@ export class StandingsComponent implements OnChanges, DoCheck {
 
   constructor() {}
   
-  ngOnChanges() {
+  ngOnInit() {
     this.setupData();
   }
   
