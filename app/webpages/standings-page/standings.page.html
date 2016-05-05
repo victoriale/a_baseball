@@ -3,5 +3,5 @@
     <error-component *ngIf="isError"></error-component>
     <backtab-component></backtab-component>
     <title-component *ngIf="titleData" [titleData]="titleData"></title-component>
-    <standings-component [data]="data" [tabs]="data.tabs"></standings-component>
+    <standings-component *ngIf="data" [tabs]="data.tabs"></standings-component>
 </section>

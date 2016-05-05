@@ -52,7 +52,7 @@ export class StandingsPage implements OnInit {
     
     var teamId = _params.get("teamId");
     if ( teamId !== null && teamId !== undefined ) {
-      this.pageParams.teamId = teamId;
+      this.pageParams.teamId = Number(teamId);
       // this.pageParams.teamName = "??"
     }
   }
@@ -61,22 +61,14 @@ export class StandingsPage implements OnInit {
     this.setupStandingsData();
   }
 
-  setupStandingsData() {
-    let groupName = this._mlbFunctions.formatGroupName(this.pageParams.conference, this.pageParams.division);
-    let pageTitle = "MLB Standings Breakdown";
-    if ( this.pageParams.teamName !== undefined && this.pageParams.teamName !== null ) {
-      pageTitle = "MLB Standings - " + this.pageParams.teamName;
-    }
-    this.titleData.text3 = pageTitle;
-    let tabs = this._standingsService.initializeAllTabs(this.pageParams);
-    
-    this.data = {
-      moduleTitle: pageTitle,
-      tabs: tabs
-    }
-    
-    for ( var i = 0; i < tabs.length; i++ ) {
-      this._standingsService.loadTabData(tabs[i]);
-    }
+  private setupStandingsData() {       
+    let self = this;
+    self._standingsService.loadAllTabs(this.pageParams)
+      .subscribe(data => { 
+        this.data = { tabs: data };
+      },
+      err => {
+        console.log("Error getting standings data");
+      });
   }
 }

@@ -18,11 +18,14 @@
 
     <search></search>
 
-
     <div class="component-compbar-container">
-      <profile-header></profile-header>
+      <profile-header [profileHeaderData]="profileHeaderData"></profile-header>
     </div>
 
+    <div class="component-compbar-container">
+      <standings-module [data]="standingsData"></standings-module>
+    </div>
+    
     <div class="component-compbar-container">
       <share-button-component></share-button-component>
     </div>

@@ -1,5 +1,5 @@
 <section *ngIf="profileHeaderData" class="module-container ph">
-  <div class="ph-banner-image">  
+  <div class="ph-banner-image" [ngStyle]="{'background': backgroundImage }">  
     <div class="ph-hdr">
       <div class="ph-hdr-date">Last Updated: {{displayDate}}</div>
       <!-- TODO-CJP: city/first name normal weight; team/last name bold weight -->
@@ -7,7 +7,12 @@
       <div class="ph-hdr-datapts">
         <span *ngFor="#data of profileHeaderData.topDataPoints #isLast = last">
           <span class="ph-hdr-datapts-label">{{data.label}}:</span>
-          <span  class="ph-hdr-datapts-value">{{data.value}}</span>
+          <span *ngIf="!data.value.routerLink" class="ph-hdr-datapts-value">
+            {{data.value}}
+          </span>
+          <a *ngIf="data.value.routerLink" class="ph-hdr-datapts-value" [routerLink]="data.value.routerLink">
+            {{data.value}}
+          </a>
           <span *ngIf="!isLast" class="ph-hdr-datapts-sep">|</span>
         </span>
       </div>
