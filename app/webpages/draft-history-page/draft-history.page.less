@@ -1,0 +1,221 @@
+.currentView{
+  display:block !important;
+}
+
+.lv{
+  box-shadow: @modBoxShadow;
+  margin-bottom: 20px;
+
+  &-tooltip{
+    width: 300px;
+    font-size: 14px;
+    border: 1px solid @greyBorder;
+    margin: 0;
+    margin-bottom: 10px;
+    font-family: @globalFont;
+
+    &-header{
+      background-color: @greyBorder;
+      padding: 4px 10px;
+      
+      &-cancel {
+        float: right;
+        cursor: pointer;
+      }
+    }
+    &-description{
+      line-height: 16px;
+      padding: 10px;
+      background: @backgroundGrey;
+    }
+    
+    .bold{
+      font-weight: 900;
+    }
+  }
+  
+  &-result-summary {
+    font-size: 12px;
+    font-family: @globalFont;    
+    margin-bottom: 10px;
+    
+    .bold{
+      font-weight: 900;
+    }
+  }
+
+
+  &-menu{
+    padding: 10px;
+
+      a{
+        color: @black;
+      }
+      li{
+        display: inline-block;
+        margin-right: 15px;
+        font-size: 14px;
+      }
+    .selected {
+      color: @masterBrandColor;
+      .fa {
+        color: @masterBrandColor;
+      }
+    }
+  }
+
+  &-sort{
+    width: 660px;
+    padding-top: 8px;
+    background-color: @white;
+    margin: 10px auto;
+    font-size: 12px;
+    font-weight: 700;
+
+    select{
+      &:focus{
+        outline: none;
+      }
+    }
+   &-filter{
+     float: right;
+     margin-top: 5px;
+     .globalDefaultModFont(12px, 900, @black);
+     i{
+       color: @masterBrandColor;
+     }
+   }
+  }
+
+  &-map{
+    &-header{
+      height: 35px;
+      line-height: 35px;
+      color: @white;
+      font-size: 16px;
+      font-weight: 900;
+      background-color: rgba(0, 0, 0, 0.75);
+      padding: 0px 15px;
+    }
+    &-unavailable{
+      height: 200px;
+      text-align: center;
+      background-color: @greyUpdate;
+      color: @white;
+      font-size: 20px;
+      padding-top: 50px;
+      line-height: 2;
+
+      .fa{
+        font-size: 36px;
+      }
+    }
+  }
+
+  &-image{
+    .flexDirection(row);
+    .flexAlignItems(center);
+    background-color: @backgroundGrey;
+    height: 345px;
+    width: 337px;
+    margin: 0 1px 2px 1px;
+    position: relative;
+    &-placeHolder{
+      width: 100%;
+      height: 100%;
+      position: absolute;
+    }
+    &:hover &-overlay{
+      display:block;
+      border:2px solid @masterBrandColor;
+      box-shadow: inset 0 0 0 1000px rgba(68, 178, 36, 0.75);
+      color:@white;
+      .flexDisplay;
+      .flexDirection(column);
+      .flexJustify(space-between);
+    }
+    &:hover &-details{
+      display:none;
+    }
+    &:hover &-shade{
+      box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0);
+    }
+    &-overlay{
+      position:absolute;
+      width:100%;
+      height:100%;
+      display:none;
+      font-size:22px;
+      padding: 4.5em 2.9em 5.1em 2.9em;
+      text-align: center;
+      div:first-child{
+        font-size:30px;
+        font-weight: bold;
+        margin:auto;
+      }
+      div:nth-child(2){
+        margin:auto;
+        width:100%;
+      }
+      div:nth-child(3){
+        margin:auto;
+      }
+    }
+    &-button{
+      width: 140px;
+      height: 35px;
+      border:1px solid @white;
+      border-radius: 5px;
+      text-align: center;
+      color: @white;
+      padding-top: 0.5em;
+      font-size:16px;
+      margin:auto;
+    }
+    &-details{
+      .globalDefaultModFont(24px, 400, @white);
+      position: absolute;
+      bottom: 0;
+      margin: 0 0 25px 20px;
+      width: 320px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      div:first-child{
+      }
+      div:nth-child(2){
+        font-size: 18px;
+      }
+      div:last-child{
+        font-size: 18px;
+      }
+    }
+  }
+}
+
+.list-error{
+  width: 580px;
+  margin: 0 auto;
+  border-radius: 5px;
+  padding: 10px;
+  background: @backgroundGrey;
+  text-align: center;
+  p {
+    font-size: 18px;
+    text-align: center;
+  }
+  button {
+    .inlineFlexDisplay;
+    .flexDirection(row);
+    .flexAlignItems(center);
+    height: 35px;
+    padding: 10px;
+    background-color: @masterBrandColor;
+    .borderRadiusPrefix(5px);
+    color: @white;
+    cursor: pointer;
+    border: none;
+    &:hover {
+      background: darken(@masterBrandColor, 10%);
+    }
+  }
+}

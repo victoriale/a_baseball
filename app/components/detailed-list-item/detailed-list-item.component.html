@@ -1,5 +1,5 @@
 <!--ngFor loop here and add background color class within dli-container-->
-  <div *ngFor="#details of detailedItemData" class="dli-container">
+  <div *ngFor="#details of detailedItemData; #i = odd" class="dli-container" [ngClass]="{'odd': i == true}">
     <div class="dli-container-left">
       <circle-image [data]="details.imageConfig"></circle-image>
     </div>
@@ -18,7 +18,7 @@
         <span>
           <!--button component goes here-->
           <button>
-            <span></span>
+            <span class="dli-icon module-footer-icon"></span>
             <span>{{details.ctaText}}</span>
             <i class="fa fa-angle-right"></i>
           </button>

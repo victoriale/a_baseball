@@ -38,12 +38,12 @@ export class SliderCarousel implements OnInit {
   @Input() carouselData: Array<SliderCarouselInput>;
   @Input() backgroundImage: string;
   @Input() indexInput: any;//this is an optional Input to determine where the current index is currently positioned. otherwise set the defaul indexInput to 0;
+  @Input() footerStyle: any;
 
   public indexNum: EventEmitter<any> = new EventEmitter();//interface for the output to return an index
   public dataPoint: SliderCarouselInput;
 
   constructor() {
-
   }
 
   response(event){
@@ -55,6 +55,10 @@ export class SliderCarousel implements OnInit {
     if(typeof this.dataPoint['index'] != 'undefined'){
       this.indexNum.next(this.dataPoint['index']);
     }
+  }
+
+  ngOnChanges(){
+
   }
 
   ngOnInit() {

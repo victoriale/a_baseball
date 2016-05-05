@@ -14,6 +14,8 @@ import {WebApp} from "../app-layout/app.layout";
 import {GlobalFunctions} from "../global/global-functions";
 import {SearchPage} from '../webpages/search-page/search.page';
 import {ModulePage} from "../webpages/module-page/module.page";
+import {ListPage} from "../webpages/list-page/list.page";
+import {DraftHistoryPage} from "../webpages/draft-history-page/draft-history.page";
 import {StandingsPage} from "../webpages/standings-page/standings.page";
 //import {ArticlePageAbout} from "../webpages/articles/about/about.page";
 import {AsyncRoute} from "angular2/router";
@@ -24,7 +26,7 @@ import {ArticleDataService} from "../global/global-service";
 @Component({
     selector: 'my-app',
     templateUrl: './app/app-webpage/app.webpage.html',
-    directives: [HomePage, TeamPage, DirectoryPage, AboutUsPage, ContactUsPage, DisclaimerPage, SearchPage, ComponentPage, ModulePage, RouterOutlet, ROUTER_DIRECTIVES],
+    directives: [DraftHistoryPage, ListPage, HomePage, TeamPage, DirectoryPage, AboutUsPage, ContactUsPage, DisclaimerPage, SearchPage, ComponentPage, ModulePage, RouterOutlet, ROUTER_DIRECTIVES],
     providers: [ ROUTER_DIRECTIVES, ArticleDataService],
 })
 
@@ -94,6 +96,16 @@ import {ArticleDataService} from "../global/global-service";
         path: '/standings',
         name: 'Standings-page',
         component: StandingsPage
+    },
+    {
+        path: '/list',
+        name: 'List-page',
+        component: ListPage
+    },
+    {
+        path: '/drafthistory',
+        name: 'Draft-history-page',
+        component: DraftHistoryPage
     },
     //test AI Page
     {

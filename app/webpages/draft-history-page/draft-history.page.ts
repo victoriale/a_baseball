@@ -1,27 +1,26 @@
 import {Component} from 'angular2/core';
 import {DetailedListItem, DetailListInput} from '../../components/detailed-list-item/detailed-list-item.component';
 import {ModuleFooter} from '../../components/module-footer/module-footer.component';
-import {ModuleHeader} from '../../components/module-header/module-header.component';
 import {SliderCarousel, SliderCarouselInput} from '../../components/carousels/slider-carousel/slider-carousel.component';
 import {Tabs} from '../../components/tabs/tabs.component';
 import {Tab} from '../../components/tabs/tab.component';
+import {TitleComponent} from '../../components/title/title.component';
+import {BackTabComponent} from '../../components/backtab/backtab.component';
 
 @Component({
-    selector: 'draft-history',
-    templateUrl: './app/modules/draft-history/draft-history.module.html',
-    directives: [Tab, Tabs, SliderCarousel, DetailedListItem, ModuleHeader, ModuleFooter],
+    selector: 'list-page',
+    templateUrl: './app/webpages/list-page/list.page.html',
+    directives: [BackTabComponent, TitleComponent, Tab, Tabs, SliderCarousel, DetailedListItem, ModuleFooter],
     providers: [],
-    inputs:['locData']
+    inputs:[]
 })
 
-export class DraftHistoryModule{
-  moduleTitle:string = "Module Title";
+export class DraftHistoryPage{
   dataDetail: any = [];
   dataDetails: DetailListInput[];
   carouselData: SliderCarouselInput[];
   footerData: Object;
   constructor(){
-    this.moduleTitle = "Draft History - [Team Profile]"
     this.detailedData();
     this.carData();
     this.transformDraftHistory();
@@ -112,58 +111,11 @@ export class DraftHistoryModule{
 
   detailedData(){
     if(typeof this.dataDetails == 'undefined' || this.dataDetails == null){// test data only
-      this.dataDetails =[
-        {
-        dataPoints:[
-          {
-            style:'detail-small',
-            data:'test',
-            value:'testvalue',
-            url:['testLink'],
-            icon:'fa fa-share'//test remove when done testing
-          },
-          {
-            style:'detail-large',
-            data:'[Profile name1]',
-            value:'[Data Value 1]',
-            url:[''],
-            icon:''
-          },
-          {
-            style:'detail-medium',
-            data:'[Data Value]: [City], [ST]',
-            value:'[Data Description1]',
-            url:['testLink'],
-            icon:'fa fa-map-marker'
-          },
-        ],
-        imageConfig: {//interface is found in image-data.ts
-            imageClass: "image-121",
-            mainImage: {
-                imageUrl: "./app/public/placeholder-location.jpg",
-                urlRouteArray: ['Disclaimer-page'],
-                hoverText: "<p>View</p><p>Profile</p>",
-                imageClass: "border-2"
-            },
-            subImages: [
-                {
-                    imageUrl: "./app/public/placeholder-location.jpg",
-                    urlRouteArray: ['Disclaimer-page'],
-                    hoverText: "<i class='fa fa-mail-forward'></i>",
-                    imageClass: "image-40-sub image-round-lower-right"
-                },
-                {
-                    text: "#9",
-                    imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
-                }
-            ],
-        },
-        hasCTA:true,
-        ctaDesc:'Want more info about this [profile type]?',
-        ctaBtn:'',
-        ctaText:'View Profile',
-        ctaUrl:[''],
-      },{
+      var dummyImg = "./app/public/placeholder-location.jpg";
+      var dummyRoute = ['Disclaimer-page'];
+      var dummyRank = '#4';
+
+      var dummyData = {
       dataPoints:[
         {
           style:'detail-small',
@@ -185,40 +137,80 @@ export class DraftHistoryModule{
           icon:'fa fa-map-marker'
         },
       ],
-      imageConfig: {//interface is found in image-data.ts
-          imageClass: "image-121",
-          mainImage: {
-              imageUrl: "./app/public/placeholder-location.jpg",
-              urlRouteArray: ['Disclaimer-page'],
-              hoverText: "<p>View</p><p>Profile</p>",
-              imageClass: "border-2"
-          },
-          subImages: [
-              {
-                  imageUrl: "./app/public/placeholder-location.jpg",
-                  urlRouteArray: ['Disclaimer-page'],
-                  hoverText: "<i class='fa fa-mail-forward'></i>",
-                  imageClass: "image-40-sub image-round-lower-right"
-              },
-              {
-                  text: "#9",
-                  imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
-              }
-          ],
-      },
+      //imageData(mainImg, mainImgRoute, subImg, subRoute, rank)
+      imageConfig: this.imageData(dummyImg,dummyRoute,dummyImg,dummyRoute,dummyRank),
+      hasCTA:true,
+      ctaDesc:'Want more info about this [profile type]?',
+      ctaBtn:'',
+      ctaText:'View Profile',
+      ctaUrl:[''],
+    }
+      this.dataDetails =[
+      {
+      dataPoints:[
+        {
+          style:'detail-small',
+          data:'',
+          value:'',
+        },
+        {
+          style:'detail-large',
+          data:'[Profile name1]',
+          value:'[Data Value 1]',
+          url:[''],
+          icon:''
+        },
+        {
+          style:'detail-medium',
+          data:'[Data Value]: [City], [ST]',
+          value:'[Data Description1]',
+          url:['testLink'],
+          icon:'fa fa-map-marker'
+        },
+      ],
+      //imageData(mainImg, mainImgRoute, subImg, subRoute, rank)
+      imageConfig: this.imageData(dummyImg,dummyRoute,dummyImg,dummyRoute,dummyRank),
       hasCTA:true,
       ctaDesc:'Want more info about this [profile type]?',
       ctaBtn:'',
       ctaText:'View Profile',
       ctaUrl:[''],
     }];
-      this.footerData = {
-        infoDesc:'Want to see everybody involved in this list',
-        btn:'',
-        text:'VIEW THE LIST',
-        url:'',
-      }
+
+    // for(var i = 0; i < 20; i++){
+    //     this.dataDetails.push(dummyData);
+    // }
     }
   }//end of function
 
+  imageData(mainImg, mainImgRoute, subImg, subRoute, rank){
+    if(typeof mainImg =='undefined' || mainImg == ''){
+      mainImg = "./app/public/placeholder-location.jpg";
+    }
+    if(typeof subImg =='undefined' || subImg == ''){
+      mainImg = "./app/public/placeholder-location.jpg";
+    }
+    var image = {//interface is found in image-data.ts
+        imageClass: "image-121",
+        mainImage: {
+            imageUrl: mainImg,
+            urlRouteArray: mainImgRoute,
+            hoverText: "<p>View</p><p>Profile</p>",
+            imageClass: "border-2"
+        },
+        subImages: [
+            {
+                imageUrl: subImg,
+                urlRouteArray: subRoute,
+                hoverText: "<i class='fa fa-mail-forward'></i>",
+                imageClass: "image-40-sub image-round-lower-right"
+            },
+            {
+                text: rank,
+                imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
+            }
+        ],
+    }
+    return image;
+  }
 }

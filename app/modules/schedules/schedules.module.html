@@ -1,5 +1,5 @@
 <div class="module-container schedules">
-  <module-header [moduleTitle]="moduleTitle"></module-header>
+  <module-header *ngIf="moduleTitle" [moduleTitle]="moduleTitle"></module-header>
   <schedules-carousel *ngIf="carouselData" [carouselData]="carouselData"></schedules-carousel>
   <!---->
   <div class="schedules-heading">
