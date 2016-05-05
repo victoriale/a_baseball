@@ -1,7 +1,12 @@
 <div class="module-container draft-history">
   <module-header [moduleTitle]="moduleTitle"></module-header>
-  <div class="carouselPlaceholder" style="width:100%;height:250px;background-color:grey;color:white;text-align:center;padding-top:10%;;font-size:30px;">CAROUSEL PLACEHOLDER</div>
-  <div class="tabsPlaceholder" style="width:100%;height:60px;background-color:black;color:white;text-align:center;padding-top:2.5%;;font-size:20px;">TABS PLACEHOLDER</div>
-  <detailed-list-item *ngIf="testData" [detailedItemData] = 'testData'></detailed-list-item>
+  <slider-carousel *ngIf="carouselData" [carouselData]="carouselData"></slider-carousel>
+  <tabs *ngIf="dataDetail" (tabSelected)='selectedTab($event)'>
+    <tab *ngFor="#data of dataDetail; #i = index" [active]="i == 0" [tabTitle]="data.year">
+      <detailed-list-item *ngIf="data.data" [detailedItemData] = 'data.data'></detailed-list-item>
+    </tab>
+  </tabs>
+
+  <!-- <detailed-list-item *ngIf="dataDetails" [detailedItemData] = 'dataDetails'></detailed-list-item> -->
   <module-footer [footerData] = 'footerData'></module-footer>
 </div>
