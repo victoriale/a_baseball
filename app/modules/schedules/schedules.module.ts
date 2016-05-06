@@ -13,9 +13,10 @@ import {SchedulesCarousel} from '../../components/carousels/schedules-carousel/s
 
 export class SchedulesModule implements OnInit{
   carouselData:any;
-  moduleTitle:string = "Module Title";
+  moduleTitle:string;
 
   ngOnInit(){
+    this.moduleTitle = "[Profile] - Schedules";
     this.carouselData = [{
       rank:'1',//the position or rank the object is in the array;
       displayNext:'Next Game:',

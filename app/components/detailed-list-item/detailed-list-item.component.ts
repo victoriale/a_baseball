@@ -1,6 +1,7 @@
 import {Component, OnInit, Input} from 'angular2/core';
 import {CircleImage} from '../../components/images/circle-image';
 import {CircleImageData} from '../../components/images/image-data';
+import {ROUTER_DIRECTIVES} from 'angular2/router';
 
 export interface DetailListInput {
   // must have a length of 3 or the styling will be off
@@ -25,13 +26,13 @@ export interface DetailListInput {
 @Component({
     selector: 'detailed-list-item',
     templateUrl: './app/components/detailed-list-item/detailed-list-item.component.html',
-    directives: [CircleImage],
+    directives: [ROUTER_DIRECTIVES, CircleImage],
     providers: [],
 })
 
 export class DetailedListItem implements OnInit{
   @Input() detailedItemData: DetailListInput[];
-  
+
     ngOnInit(){
 
     }
