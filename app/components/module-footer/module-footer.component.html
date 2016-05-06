@@ -3,7 +3,7 @@
   <span class="list-button">
     <!--button component goes here-->
     <!--put inside button when ready [routerLink]="footerData.url"-->
-    <button class="{{footerStyle.ctaBtnClass}}">
+    <button [routerLink]="footerData.url" class="{{footerStyle.ctaBtnClass}}">
       <span *ngIf="footerStyle.hasIcon" class="module-footer-icon"></span>
       <span class="module-footer-text">{{footerData.text}}</span>
       <i class="fa fa-angle-right"></i>

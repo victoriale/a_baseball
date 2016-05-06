@@ -5,6 +5,7 @@ import {DirectoryPage} from "../webpages/directory-page/directory.page";
 import {ContactUsPage} from "../webpages/contactus-page/contactus.page";
 import {DisclaimerPage} from "../webpages/disclaimer-page/disclaimer.page";
 import {TeamPage} from "../webpages/team-page/team.page";
+import {PlayerPage} from "../webpages/player-page/player.page";
 import {HomePage} from "../webpages/home-page/home-page.page";
 import {ComponentPage} from "../webpages/component-page/component.page";
 import {TeamrosterPage} from "../webpages/team-roster/team-roster.page";
@@ -30,7 +31,7 @@ import {HeadlineDataService} from "../global/global-ai-headline-module-service";
 @Component({
     selector: 'my-app',
     templateUrl: './app/app-webpage/app.webpage.html',
-    directives: [DraftHistoryPage, ListPage, HomePage, TeamPage, DirectoryPage, AboutUsPage, ContactUsPage, DisclaimerPage, SearchPage, ComponentPage, ModulePage, RouterOutlet, ROUTER_DIRECTIVES],
+    directives: [DraftHistoryPage, ListPage, HomePage, TeamPage, PlayerPage, DirectoryPage, AboutUsPage, ContactUsPage, DisclaimerPage, SearchPage, ComponentPage, ModulePage, RouterOutlet, ROUTER_DIRECTIVES],
     providers: [ ROUTER_DIRECTIVES, ArticleDataService, HeadlineDataService],
 })
 
@@ -50,6 +51,11 @@ import {HeadlineDataService} from "../global/global-ai-headline-module-service";
         path: '/team',
         name: 'Team-page',
         component: TeamPage,
+    },
+    {
+        path: '/player/:teamName/:firstName/:lastName/:playerId',
+        name: 'Player-page',
+        component: PlayerPage,
     },
     {
         path: '/directory/:type/page/:page',

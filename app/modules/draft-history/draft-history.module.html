@@ -2,8 +2,11 @@
   <module-header [moduleTitle]="moduleTitle"></module-header>
   <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray"></slider-carousel>
   <tabs *ngIf="dataArray" (tabSelected)='selectedTab($event)'>
-    <tab *ngFor="#data of dataArray; #i = index" [active]="i == 0" [tabTitle]="data.year">
-      <detailed-list-item *ngIf="data.data" [detailedItemData] = 'data.data'></detailed-list-item>
+    <tab *ngFor="#data of dataArray; #i = index" [active]="i == 0" [tabTitle]="data.tabDisplay">
+      <div class="draft-history-container">
+        <detailed-list-item *ngIf="detailedDataArray" [detailedItemData] = 'detailedDataArray'></detailed-list-item>
+        <no-data-box *ngIf="!detailedDataArray" [data]="errorData"></no-data-box>
+      </div>
     </tab>
   </tabs>
   <module-footer [footerData] = 'footerData'></module-footer>

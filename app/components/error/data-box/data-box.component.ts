@@ -9,5 +9,5 @@ import {Component,Input} from 'angular2/core';
 })
 
 export class NoDataBox{
-  @Input() data: any;
+  @Input() data: string;
 }
