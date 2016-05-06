@@ -3,12 +3,12 @@ import {RouteParams} from "angular2/router";
 import {BackTabComponent} from "../../components/backtab/backtab.component";
 import {TitleComponent, TitleInputData} from "../../components/title/title.component";
 import {CircleImageData} from "../../components/images/image-data";
-import {StandingsComponent, StandingsComponentData} from "../../components/standings/standings.component";
+import {StandingsComponent} from "../../components/standings/standings.component";
 import {LoadingComponent} from '../../components/loading/loading.component';
 import {ErrorComponent} from '../../components/error/error.component';
 
 import {StandingsService} from '../../services/standings.service';
-import {MLBStandingsTabData, MLBStandingsTableModel, MLBStandingsTableData} from '../../services/standings.data';
+import {MLBStandingsTabData} from '../../services/standings.data';
 
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
 import {GlobalFunctions} from '../../global/global-functions';
@@ -23,7 +23,7 @@ import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
 })
 
 export class StandingsPage implements OnInit {
-  public data: StandingsComponentData;
+  public tabs: Array<MLBStandingsTabData>;
     
   public pageParams: MLBPageParameters = {}
   
@@ -65,7 +65,7 @@ export class StandingsPage implements OnInit {
     let self = this;
     self._standingsService.loadAllTabs(this.pageParams)
       .subscribe(data => { 
-        this.data = { tabs: data };
+        this.tabs = data;
       },
       err => {
         console.log("Error getting standings data");

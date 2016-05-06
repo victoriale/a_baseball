@@ -12,10 +12,8 @@ import {SchedulesCarousel} from '../../components/carousels/schedules-carousel/s
 import {Carousel} from '../../components/carousels/carousel.component';
 import {SliderCarousel} from '../../components/carousels/slider-carousel/slider-carousel.component';
 
-import {StandingsComponentData, TableTabData} from '../../components/standings/standings.component';
-import {StandingsModule} from '../../modules/standings/standings.module';
+import {StandingsModule, StandingsModuleData} from '../../modules/standings/standings.module';
 import {StandingsService} from '../../services/standings.service';
-import {MLBStandingsTableModel, MLBStandingsTableData} from '../../services/standings.data';
 
 import {ProfileHeaderData, ProfileHeaderModule} from '../../modules/profile-header/profile-header.module';
 import {ProfileHeaderService} from '../../services/profile-header.service';
@@ -48,7 +46,7 @@ import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
 
 export class ComponentPage implements OnInit {
   pageParams: MLBPageParameters;
-  standingsData: StandingsComponentData;
+  standingsData: StandingsModuleData;
   playerProfileHeaderData: ProfileHeaderData;
   teamProfileHeaderData: ProfileHeaderData;
   
@@ -76,7 +74,7 @@ export class ComponentPage implements OnInit {
   private setupProfileData() {
     this._profileService.getPlayerProfile(this.pageParams.playerId).subscribe(
       data => {
-        this.playerProfileHeaderData = data
+        this.playerProfileHeaderData = this._profileService.convertToPlayerProfileHeader(data)
       },
       err => {
         console.log("Error getting player profile data for " + this.pageParams.playerId + ": " + err);
@@ -84,7 +82,7 @@ export class ComponentPage implements OnInit {
     );
     this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
       data => {
-        this.teamProfileHeaderData = data
+        this.teamProfileHeaderData = this._profileService.convertToTeamProfileHeader(data)
       },
       err => {
         console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);

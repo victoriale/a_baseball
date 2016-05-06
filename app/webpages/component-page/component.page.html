@@ -4,6 +4,14 @@
     </div>
 
     <div class="component-compbar-container">
+      <profile-header [profileHeaderData]="playerProfileHeaderData"></profile-header>
+    </div>
+
+    <div class="component-compbar-container">
+      <profile-header [profileHeaderData]="teamProfileHeaderData"></profile-header>
+    </div>
+
+    <div class="component-compbar-container">
       <schedules></schedules>
     </div>
 
@@ -15,15 +23,11 @@
       <standings-module [data]="standingsData"></standings-module>
     </div>
 
-    <div class="composent-compbar-container">
+    <div class="component-compbar-container">
       <box-scores></box-scores>
     </div>
 
     <search></search>
-
-    <div class="component-compbar-container">
-      <profile-header [profileHeaderData]="playerProfileHeaderData"></profile-header>
-    </div>
 
     <div class="component-compbar-container">
       <profile-header [profileHeaderData]="teamProfileHeaderData"></profile-header>

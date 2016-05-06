@@ -1,4 +1,4 @@
-import {Component, Input, Inject, OnChanges, AfterContentInit, AfterViewInit} from 'angular2/core';
+import {Component, Input, Inject, OnChanges, AfterViewInit, AfterViewChecked} from 'angular2/core';
 import {BrowserDomAdapter} from 'angular2/platform/browser'
 import {ElementRef} from 'angular2/src/core/linker/element_ref';
 
@@ -11,13 +11,14 @@ export class ScrollableContent implements AfterViewInit {
   @Input() content: string;
   
   private _elementRef: ElementRef;
+  private _scrollerChecked: boolean = false;
   
   constructor(@Inject(ElementRef) elementRef: ElementRef, private _dom: BrowserDomAdapter) { 
     this._elementRef = elementRef;
   }
   
   ngAfterViewInit() {
-    if ( this.content && this.content.length > 0 ) {
+    if ( this.content && this.content.length > 0 && !this._scrollerChecked ) {
       this.setupScroller();
     }
   }
@@ -71,8 +72,14 @@ export class ScrollableContent implements AfterViewInit {
       var scrollOffset = 5; // should be the same as offset in LESS file 
       var scrollerElement = document.createElement("div");
       scrollerElement.className = 'scrollable-item-scroller';
+      
+      // console.log("scrollWrapper: " + scrollContentWrapper.scrollHeight);
+      // console.log("contentRatio: " + contentRatio);
+      // console.log("scrollerHeight: " + scrollerHeight);
+      // console.log("scrollContainer: " + scrollContainer.offsetHeight);
+      // console.log("scroll content: " + scrollContentWrapper.innerHTML);
 
-      if (scrollerHeight / scrollContainer.offsetHeight < 1) {
+      if (contentRatio < 1) {
           scrollerElement.style.height = scrollerHeight + 'px';
           scrollerElement.style.top = scrollOffset.toString();
 
@@ -96,5 +103,7 @@ export class ScrollableContent implements AfterViewInit {
           scrollerElement.style.top = topPosition + 'px';
       });
     }
+      
+    this._scrollerChecked = true;
   }
 }

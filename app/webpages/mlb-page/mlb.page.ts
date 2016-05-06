@@ -1,6 +1,4 @@
 import {Component, OnInit} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
-
 import {LikeUs} from "../../modules/likeus/likeus.module";
 import {DYKModule} from "../../modules/dyk/dyk.module";
 import {FAQModule} from "../../modules/faq/faq.module";
@@ -20,8 +18,8 @@ import {Division, Conference, MLBPageParameters} from '../../global/global-inter
 import {ShareModuleInput} from '../../modules/share/share.module';
 
 @Component({
-    selector: 'Team-page',
-    templateUrl: './app/webpages/team-page/team.page.html',
+    selector: 'MLB-page',
+    templateUrl: './app/webpages/mlb-page/mlb.page.html',
     directives: [
         ProfileHeaderModule,
         StandingsModule,
@@ -35,28 +33,20 @@ import {ShareModuleInput} from '../../modules/share/share.module';
     providers: [StandingsService, ProfileHeaderService]
 })
 
-export class TeamPage implements OnInit{
+export class MLBPage implements OnInit{
     public shareModuleInput: ShareModuleInput = {
-        imageUrl: './app/public/mainLogo.png'
+    imageUrl: './app/public/mainLogo.png'
     };
 
-    pageParams: MLBPageParameters;
+    pageParams: MLBPageParameters = {}
 
     standingsData: StandingsModuleData;
 
     profileHeaderData: ProfileHeaderData;
 
     constructor(
-        private _params: RouteParams,
-        private _standingsService: StandingsService,
-        private _profileService: ProfileHeaderService) {
-            
-        if ( !this.pageParams ) {
-            //TODO: get team id from URL parameters, other values will be found in profile data
-            this.pageParams = {
-                teamId: Number(_params.get("teamID"))
-            };
-        }
+    private _standingsService: StandingsService,
+    private _profileService: ProfileHeaderService) {
     }
   
   ngOnInit() {    
@@ -64,12 +54,9 @@ export class TeamPage implements OnInit{
   }
   
   private setupProfileData() {
-    this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
+    this._profileService.getMLBProfile().subscribe(
       data => {
-        this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data)
-        this.pageParams.teamName = data.teamName;
-        this.pageParams.conference = data.conference ? Conference[data.conference.name.toLowerCase()] : null;
-        this.pageParams.division = data.division ? Division[data.division.name.toLowerCase()] : null;
+        this.profileHeaderData = this._profileService.convertToLeagueProfileHeader(data)
         this.setupStandingsData();
       },
       err => {
@@ -81,16 +68,7 @@ export class TeamPage implements OnInit{
   private setupStandingsData() {       
     let self = this;
     self._standingsService.loadAllTabs(this.pageParams, 5) //only show 5 rows in the module
-      .subscribe(data => {       
-        if ( data ) {
-            data.forEach(tab => {
-                if ( !tab.sections ) return;
-                
-                tab.sections.forEach(section => {
-                    section.tableData.selectedKey = this.pageParams.teamId;
-                }); 
-            });
-        }
+      .subscribe(data => {
         this.standingsData = {
             moduleTitle: self._standingsService.getModuleTitle(this.pageParams),
             pageRouterLink: self._standingsService.getLinkToPage(this.pageParams),

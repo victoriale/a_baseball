@@ -26,7 +26,7 @@ interface DirectoryListData<T> {
 
 interface MLBTeamDirectoryData {
   teamName: string;
-  teamKey: string;
+  teamId: string;
   lastUpdated: Date;
   league: string;
   division: string;
@@ -37,9 +37,9 @@ interface MLBTeamDirectoryData {
 
 interface MLBPlayerDirectoryData {
   playerName: string;
-  playerKey: string;
+  playerId: string;
   teamName: string;
-  teamKey: string;  
+  teamId: string;  
   lastUpdated: Date;
   position: string;
   city: string;
@@ -54,7 +54,7 @@ export class DirectoryService {
   private _defaultTeamData: Array<MLBTeamDirectoryData> = [
     {
       teamName: "[Team name]",
-      teamKey: "[Team key]",
+      teamId: "[Team key]",
       lastUpdated: new Date(),
       league: "[League]",
       division: "[Division]",      
@@ -64,7 +64,7 @@ export class DirectoryService {
     },
     {
       teamName: "[Team name]",
-      teamKey: "[Team key]",
+      teamId: "[Team key]",
       lastUpdated: new Date(),
       league: "[League]",
       division: "[Division]",      
@@ -74,7 +74,7 @@ export class DirectoryService {
     },
     {
       teamName: "[Team name]",
-      teamKey: "[Team key]",
+      teamId: "[Team key]",
       lastUpdated: new Date(),
       league: "[League]",
       division: "[Division]",      
@@ -84,7 +84,7 @@ export class DirectoryService {
     },
     {
       teamName: "[Team name]",
-      teamKey: "[Team key]",
+      teamId: "[Team key]",
       lastUpdated: new Date(),
       league: "[League]",
       division: "[Division]",      
@@ -94,7 +94,7 @@ export class DirectoryService {
     },
     {
       teamName: "[Team name]",
-      teamKey: "[Team key]",
+      teamId: "[Team key]",
       lastUpdated: new Date(),
       league: "[League]",
       division: "[Division]",      
@@ -107,9 +107,9 @@ export class DirectoryService {
   private _defaultPlayerData: Array<MLBPlayerDirectoryData> = [
     {
       playerName: "[Player Name]",
-      playerKey: "[Player key]",
+      playerId: "[Player key]",
       teamName: "[Team name]",
-      teamKey: "[Team key]",
+      teamId: "[Team key]",
       lastUpdated: new Date(),
       position: "[Position]",
       city: "[City]",
@@ -118,9 +118,9 @@ export class DirectoryService {
     },
     {
       playerName: "[Player Name]",
-      playerKey: "[Player key]",
+      playerId: "[Player key]",
       teamName: "[Team name]",
-      teamKey: "[Team key]",
+      teamId: "[Team key]",
       lastUpdated: new Date(),
       position: "[Position]",
       city: "[City]",
@@ -129,9 +129,9 @@ export class DirectoryService {
     },
     {
       playerName: "[Player Name]",
-      playerKey: "[Player key]",
+      playerId: "[Player key]",
       teamName: "[Team name]",
-      teamKey: "[Team key]",
+      teamId: "[Team key]",
       lastUpdated: new Date(),
       position: "[Position]",
       city: "[City]",
@@ -140,9 +140,9 @@ export class DirectoryService {
     },
     {
       playerName: "[Player Name]",
-      playerKey: "[Player key]",
+      playerId: "[Player key]",
       teamName: "[Team name]",
-      teamKey: "[Team key]",
+      teamId: "[Team key]",
       lastUpdated: new Date(),
       position: "[Position]",
       city: "[City]",
@@ -151,9 +151,9 @@ export class DirectoryService {
     },
     {
       playerName: "[Player Name]",
-      playerKey: "[Player key]",
+      playerId: "[Player key]",
       teamName: "[Team name]",
-      teamKey: "[Team key]",
+      teamId: "[Team key]",
       lastUpdated: new Date(),
       position: "[Position]",
       city: "[City]",
@@ -228,7 +228,7 @@ export class DirectoryService {
       mainDescription: [
         {
           page: "Team-page",
-          pageParams: { teamKey: data.teamKey },
+          pageParams: { teamID: data.teamId },
           text: data.teamName
         },
         {
@@ -254,12 +254,12 @@ export class DirectoryService {
       mainDescription: [
         {
           page: "Player-page", //TODO-CJP: change to Player-page
-          pageParams: { playerId: data.playerKey },
+          pageParams: { playerID: data.playerId },
           text: data.playerName
         },
         {
           page: "Team-page",
-          pageParams: { teamId: data.teamKey },
+          pageParams: { teamID: data.teamId },
           text: data.teamName
         },
         {

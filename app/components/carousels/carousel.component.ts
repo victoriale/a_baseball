@@ -72,7 +72,7 @@ export class Carousel implements OnInit, OnChanges {
     }else{
       this.counter = this.indexInput;
     }
-    this.max = this.carouselData.length;
+    this.max = this.carouselData.length;    
     this.changeMain(this.counter);
   }
 

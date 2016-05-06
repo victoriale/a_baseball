@@ -138,25 +138,28 @@ interface LeagueProfileHeaderData {
 export class ProfileHeaderService {
   constructor(public http: Http){}
 
-  getPlayerProfile(playerId: number): Observable<ProfileHeaderData> {
+  getPlayerProfile(playerId: number): Observable<PlayerProfileHeaderData> {
     let url = GlobalSettings.getApiUrl() + '/player/profileHeader/' + playerId;
+    // console.log("player profile url: " + url);
     return this.http.get(url)
         .map(res => res.json())
-        .map(data => this.convertToPlayerProfileHeader(data.data));
+        .map(data => data.data);
   }
 
-  getTeamProfile(teamId: number): Observable<ProfileHeaderData> {
+  getTeamProfile(teamId: number): Observable<TeamProfileHeaderData> {
     let url = GlobalSettings.getApiUrl() + '/team/profileHeader/' + teamId;
+    // console.log("team profile url: " + url);
     return this.http.get(url)
         .map(res => res.json())
-        .map(data => this.convertToTeamProfileHeader(data.data.stats));
+        .map(data => data.data.stats);
   }
 
-  getMLBProfile(): Observable<ProfileHeaderData> {
+  getMLBProfile(): Observable<LeagueProfileHeaderData> {
     let url = GlobalSettings.getApiUrl() + '/league/profileHeader';
+    // console.log("mlb profile url: " + url);
     return this.http.get(url)
         .map(res => res.json())
-        .map(data => this.convertToLeagueProfileHeader(data.data));
+        .map(data => data.data);
   }
 
   getTeamPageHeader(teamId: number): Observable<any> {
@@ -181,11 +184,10 @@ export class ProfileHeaderService {
     return headerData;
   }
   
-  private convertToPlayerProfileHeader(data: PlayerProfileHeaderData): ProfileHeaderData {
+  convertToPlayerProfileHeader(data: PlayerProfileHeaderData): ProfileHeaderData {
     if (!data.info) {
       return null;
-    }
-    
+    }    
     // [Player Name] started his MLB career on [Month] [Day], [Year] for [Team Name], 
     // accumulating [##] years in the MLB.  
     // [Player Name] was born in [City], [State] on [Month] [Day], [Year] 
@@ -201,7 +203,7 @@ export class ProfileHeaderService {
     var formattedStartDate = GlobalFunctions.formatLongDate(data.info.startDate);
     
     var description = data.info.playerName + " started his MLB career on " + formattedStartDate +
-                      " for " + data.info.teamName + " accumulating " + formattedYearsPlayed + " in the MLB." +
+                      " for " + data.info.teamName + " accumulating " + formattedYearsPlayed + " in the MLB. " +
                       data.info.playerName + " was born in " + formattedCity + ", " + formattedCountry +
                       " on " + formattedBirthDate + " and is " + formattedAge + " old with a height of " +
                        formattedHeight + " and weighing in at " + formattedWeight + "lbs.";
@@ -265,12 +267,12 @@ export class ProfileHeaderService {
       profileTitleFirstPart: data.info.playerFirstName,
       profileTitleLastPart: data.info.playerLastName,
       lastUpdatedDate: data.lastUpdated,
-      description: description + " " + description,
+      description: description,
       topDataPoints: [
         {
           label: "Team",
           value: data.info.teamName,
-          routerLink: ["Team-page", { teamId: data.info.teamId }]          
+          routerLink: ["Team-page", { teamID: data.info.teamId }]          
         },
         {
           label: "Jersey Number",
@@ -286,7 +288,7 @@ export class ProfileHeaderService {
     return header;
   }
   
-  private convertToTeamProfileHeader(data: TeamProfileHeaderData): ProfileHeaderData {
+  convertToTeamProfileHeader(data: TeamProfileHeaderData): ProfileHeaderData {
     //The [Atlanta Braves] play in [Turner Field] located in [Atlanta, GA]. The [Atlanta Braves] are part of the [NL East].
     var teamName = data.teamName ? data.teamName : "N/A";
     var venue = data.venue ? data.venue : "N/A";
@@ -345,7 +347,7 @@ export class ProfileHeaderService {
     return header;
   }
   
-  private convertToLeagueProfileHeader(data: LeagueProfileHeaderData): ProfileHeaderData {
+  convertToLeagueProfileHeader(data: LeagueProfileHeaderData): ProfileHeaderData {
     //The MLB consists of [30] teams and [####] players. These teams and players are divided across [two] leagues and [six] divisions.
     var city = data.city != null ? data.city : "N/A";
     var state = data.state != null ? data.state : "N/A";
