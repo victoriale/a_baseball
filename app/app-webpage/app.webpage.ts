@@ -97,6 +97,21 @@ import {HeadlineDataService} from "../global/global-ai-headline-module-service";
         component: ModulePage
     },
     {
+        path: '/standings/:conference/:division/:teamId',
+        name: 'Standings-page-team',
+        component: StandingsPage
+    },
+    {
+        path: '/standings/:conference/:division',
+        name: 'Standings-page-division',
+        component: StandingsPage
+    },
+    {
+        path: '/standings/:conference',
+        name: 'Standings-page-conference',
+        component: StandingsPage
+    },
+    {
         path: '/standings',
         name: 'Standings-page',
         component: StandingsPage

@@ -16,7 +16,7 @@ import {SliderCarousel} from '../../components/carousels/slider-carousel/slider-
 import {StandingsComponentData, TableTabData} from '../../components/standings/standings.component';
 import {StandingsModule} from '../../modules/standings/standings.module';
 import {StandingsService} from '../../services/standings.service';
-import {StandingsTableData, TeamStandingsData} from '../../services/standings.data';
+import {MLBStandingsTableModel, MLBStandingsTableData} from '../../services/standings.data';
 
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
 import {GlobalFunctions} from '../../global/global-functions';
@@ -71,14 +71,12 @@ export class ComponentPage implements OnInit {
     
     this.standingsData = {
       moduleTitle: moduletitle,
-      maxRows: 5, // only show 5 in the module
-      tabs: []
+      tabs: this._standingsService.initializeAllTabs(this.pageParams)
     }
-
-    if ( this.pageParams.division !== undefined && this.pageParams.division !== null ) {
-      this._standingsService.loadTabData(this.standingsData, this.pageParams.conference, this.pageParams.division);
-      this._standingsService.loadTabData(this.standingsData, this.pageParams.conference);
-      this._standingsService.loadTabData(this.standingsData);
-    }
+    
+    let self = this;
+    this.standingsData.tabs.forEach(tab => function(tab) {
+      self._standingsService.loadTabData(tab, 5) //only show 5 rows in the module
+    });
   }
 }
