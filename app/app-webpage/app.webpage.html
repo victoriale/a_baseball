@@ -3,7 +3,7 @@
 <nav class="testLinks">
   <a [routerLink]="['Home-page']">Home</a>
   <a [routerLink]="['Component-page']">Components</a>
-  <a [routerLink]="['Team-page']">Team</a>
+  <a [routerLink]="['Team-page', { teamID: 2796} ]">Team #2796</a>
   <a [routerLink]="['Directory-page', { type: 'player', page: 1 }]">Directory</a>
   <a [routerLink]="['Aboutus-page']">About Us</a>
   <a [routerLink]="['Contactus-page']">Contact Us</a>
@@ -15,6 +15,7 @@
   <a [routerLink]="['Articles-Page']">Article Page</a>
   <a [routerLink]="['Teamroster-Page']">Team Roster</a>
   <a [routerLink]="['Standings-page']">Standings Page</a>
+  <a [routerLink]="['MLB-page']">MLB Page</a>
 </nav>
 <!--
     <a [routerLink]="['Player-page']">Player Page</a>

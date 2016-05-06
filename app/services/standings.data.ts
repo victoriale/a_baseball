@@ -89,9 +89,7 @@ export class MLBStandingsTabData implements TableTabData<TeamStandingsData> {
         imageClass: "image-150",
         mainImage: {
           imageClass: "border-10",
-          urlRouteArray: ["Team-page", {
-            "team": item.teamId
-          }],
+          urlRouteArray: ["Team-page", { teamID: item.teamId }],
           imageUrl: item.imageUrl,
           hoverText: "<p>View</p><p>Profile</p>"
         },
@@ -171,14 +169,14 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
   }
   
   isRowSelected(item:TeamStandingsData, rowIndex:number): boolean {
-    return this.selectedKey === item.teamId;
+    return this.selectedKey == item.teamId;
   }
   
   getDisplayValueAt(item:TeamStandingsData, column:TableColumn):string {
     var s = "";
     switch (column.key) {
       case "name": 
-        s = item.teamName;
+        s = item.teamName + " (#" + item.teamId + ")";
         break;
       
       case "w": 
@@ -260,9 +258,8 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
           mainImage: {
             imageUrl: item.imageUrl,
             imageClass: "border-2",
-            urlRouteArray: ["Team-page", {
-              "team": item.teamId
-            }]
+            urlRouteArray: ["Team-page", { teamID: item.teamId }],
+            hoverText: "<i class='fa fa-mail-forward'></i>",
           },
           subImages: []
         };

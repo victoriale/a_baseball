@@ -5,8 +5,7 @@ import {Conference, Division, MLBPageParameters} from '../global/global-interfac
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
 import {TeamStandingsData, MLBStandingsTabData, MLBStandingsTableModel, MLBStandingsTableData} from './standings.data';
-import {StandingsModule} from '../modules/standings/standings.module';
-import {StandingsComponentData, TableTabData} from '../components/standings/standings.component';
+import {TableTabData} from '../components/standings/standings.component';
 
 @Injectable()
 export class StandingsService {
