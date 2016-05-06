@@ -47,4 +47,21 @@ export class MLBGlobalFunctions {
       return "MLB";
     }
   }
+  
+  /**
+   * - Formats the height string by removing the dashes and adding
+   * tick marks for feet and inches. 
+   * - If heightStr is null or empty, "N/A" is returned.
+   * - If no dash, the string is returned unchanged
+   * 
+   * @example
+   * // 6'8"
+   * formatHeight('6-8')
+   * 
+   * @param {string} heightStr - a height value from the API, which lists feet and inches separated by a dash (#-#)
+   * @returns the height with ticks for feet and inches (#'#")
+   */
+  static formatHeight(heightStr: string) {
+    return heightStr ? heightStr.replace(/(\d+)-(\d)/, "$1'$2\"") : "N/A";
+  }
 }

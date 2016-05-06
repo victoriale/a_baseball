@@ -430,4 +430,43 @@ export class GlobalFunctions {
           return moment().subtract(daysOnMarket, 'days').format('dddd, MMMM Do, YYYY');
         }
     }
+  
+  /**
+   * Parses the date string with moment and returns it as a long-date formatted string
+   * @param {string} dateStr
+   * @returns MMMM d, YYYY
+   */
+  static formatLongDate(dateStr: string) {
+    if (!dateStr) {
+      return "N/A";
+    }
+    var date = moment(dateStr)
+    if (!date) {
+      return "N/A";
+    }
+    return date.format("MMMM d, YYYY");
+  }
+  
+  /**
+   * Formats the given string as English words if it's between 
+   * 0 and 9. Otherwise the given string is returned unchanged.
+   * 
+   * @param {string} numStr - The number string to format
+   * @returns  
+   */
+  static formatNumber(numStr: string) {
+   switch (numStr) {
+     case "0": return "zero";
+     case "1": return "one";
+     case "2": return "two";
+     case "3": return "three";
+     case "4": return "four";
+     case "5": return "five";
+     case "6": return "six";
+     case "7": return "seven";
+     case "8": return "eight";
+     case "9": return "nine";
+     default: return numStr;
+   }
+  }
 }

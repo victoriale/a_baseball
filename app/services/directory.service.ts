@@ -253,13 +253,13 @@ export class DirectoryService {
       lastUpdated: data.lastUpdated,
       mainDescription: [
         {
-          page: "Team-page", //TODO-CJP: change to Player-page
-          pageParams: { playerKey: data.playerKey },
+          page: "Player-page", //TODO-CJP: change to Player-page
+          pageParams: { playerId: data.playerKey },
           text: data.playerName
         },
         {
           page: "Team-page",
-          pageParams: { teamKey: data.teamKey },
+          pageParams: { teamId: data.teamKey },
           text: data.teamName
         },
         {
