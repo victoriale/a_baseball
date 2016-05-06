@@ -1,48 +1,71 @@
-import {Component} from 'angular2/core';
+import {Component, OnInit} from 'angular2/core';
 import {DetailedListItem, DetailListInput} from '../../components/detailed-list-item/detailed-list-item.component';
-import {ModuleFooter, ModuleFooterData, FooterStyle} from '../../components/module-footer/module-footer.component';
+import {ModuleFooter} from '../../components/module-footer/module-footer.component';
 import {SliderCarousel, SliderCarouselInput} from '../../components/carousels/slider-carousel/slider-carousel.component';
+import {Tabs} from '../../components/tabs/tabs.component';
+import {Tab} from '../../components/tabs/tab.component';
 import {TitleComponent} from '../../components/title/title.component';
 import {BackTabComponent} from '../../components/backtab/backtab.component';
+import {DraftHistoryService} from '../../services/draft-history.service';
+
 @Component({
-    selector: 'list-page',
-    templateUrl: './app/webpages/list-page/list.page.html',
-    directives: [BackTabComponent, TitleComponent, SliderCarousel, DetailedListItem,  ModuleFooter],
-    providers: [],
+    selector: 'draft-history-page',
+    templateUrl: './app/webpages/draft-history-page/draft-history.page.html',
+    directives: [BackTabComponent, TitleComponent, Tab, Tabs, SliderCarousel, DetailedListItem, ModuleFooter],
+    providers: [DraftHistoryService],
     inputs:[]
 })
 
-export class ListPage{
-  dataArray: any;
-  detailedDataArray:any;
+export class DraftHistoryPage implements OnInit{
+  dataArray: any;//array of data for detailed list
+  detailedDataArray:any; //variable that is just a list of the detailed DataArray
   carouselDataArray: any;
   footerData: Object;
   footerStyle: any;
-  constructor(){
+  constructor(private draftService:DraftHistoryService){
     this.footerStyle = {
       ctaBoxClass: "list-footer",
       ctaBtnClass:"list-footer-btn",
       hasIcon: true,
     };
-    this.detailedDataArray = this.detailedData();
-    this.carouselDataArray = this.carData();
-    this.transformListData();
   }
 
-  transformListData(){
-    this.dataArray = [];
-    for(var y = 0; y <= 2; y++){
-      this.dataArray[y] = [];
-      this.dataArray[y] = {
-        data:this.detailedDataArray,
-        carData:this.carouselDataArray,
-      };
-    }
-    console.log('transformListData',this.dataArray);
+  getDraftPage(date) {
+      this.draftService.getDraftHistoryService(date)
+          .subscribe(
+              draftData => {
+                if(typeof this.dataArray == 'undefined'){//makes sure it only runs once
+                  this.dataArray = draftData.tabArray;
+                }
+                this.carouselDataArray = draftData.carData
+                // console.log('CAR ARRAY',this.carouselDataArray);
+                this.detailedDataArray = draftData.listData;
+                // console.log('LIST ARRAY',this.detailedDataArray);
+              },
+              err => {
+                  console.log('Error: draftData API: ', err);
+                  // this.isError = true;
+              }
+          );
+  }
+
+  ngOnInit(){
+    this.detailedDataArray = this.detailedData();
+    //MLB starts and ends in same year so can use current year logic to grab all current season and back 4 years for tabs
+    var currentTab = new Date().getFullYear();
+    this.getDraftPage(currentTab);
+  }
+
+  ngOnChanges(){
+    this.detailedDataArray = this.detailedData();
   }
 
   selectedTab(event){//each time a tab is selected the carousel needs to change accordingly to the correct list being shown
-    this.carouselDataArray = this.dataArray[event-2014]['carData'];
+    console.log(event);
+    if(event == 'Current Season'){
+      event = new Date().getFullYear();
+    }
+    this.getDraftPage(event);
   }
 
   carData(){
@@ -75,6 +98,8 @@ export class ListPage{
       return dummyArray;
     }
   }
+
+
 
   detailedData(){
     var dummyArray = [];
@@ -171,4 +196,5 @@ export class ListPage{
     ];
     return details
   }
+
 }

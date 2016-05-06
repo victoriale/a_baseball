@@ -5,8 +5,10 @@
     <title-component></title-component>
     <div class="module-container list-page">
       <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray" [footerStyle]="footerStyle"></slider-carousel>
-      <span *ngFor="#data of dataArray">
-        <detailed-list-item *ngIf="data.data" [detailedItemData] = 'data.data'></detailed-list-item>
-      </span>
+      <tabs *ngIf="dataArray" (tabSelected)='selectedTab($event)'>
+        <tab *ngFor="#data of dataArray; #i = index" [active]="i == 0" [tabTitle]="data.tabDisplay">
+          <detailed-list-item *ngIf="detailedDataArray" [detailedItemData] = 'detailedDataArray'></detailed-list-item>
+        </tab>
+      </tabs>
     </div>
 </section>
