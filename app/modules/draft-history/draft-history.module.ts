@@ -75,7 +75,8 @@ export class DraftHistoryModule{
 
   //each time a tab is selected the carousel needs to change accordingly to the correct list being shown
   selectedTab(event){
-    if(event == 'Current Season'){
+    var firstTab = 'Current Season';
+    if(event == firstTab){
       event = new Date().getFullYear();
     }
     this.getDraftPage(event);

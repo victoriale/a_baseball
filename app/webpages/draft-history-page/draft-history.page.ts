@@ -76,7 +76,8 @@ export class DraftHistoryPage implements OnInit{
 
 
   selectedTab(event){
-    if(event == 'Current Season'){
+    var firstTab = 'Current Season';
+    if(event == firstTab){
       event = new Date().getFullYear();
     }
     this.getDraftPage(event);
