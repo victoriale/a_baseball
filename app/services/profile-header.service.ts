@@ -178,7 +178,7 @@ export class ProfileHeaderService {
     var formattedStartDate = GlobalFunctions.formatLongDate(data.info.startDate);
     
     var description = data.info.playerName + " started his MLB career on " + formattedStartDate +
-                      " for " + data.info.teamName + " accumulating " + formattedYearsPlayed + " in the MLB." +
+                      " for " + data.info.teamName + " accumulating " + formattedYearsPlayed + " in the MLB. " +
                       data.info.playerName + " was born in " + formattedCity + ", " + formattedCountry +
                       " on " + formattedBirthDate + " and is " + formattedAge + " old with a height of " +
                        formattedHeight + " and weighing in at " + formattedWeight + "lbs.";
@@ -242,7 +242,7 @@ export class ProfileHeaderService {
       profileTitleFirstPart: data.info.playerFirstName,
       profileTitleLastPart: data.info.playerLastName,
       lastUpdatedDate: data.lastUpdated,
-      description: description + " " + description,
+      description: description,
       topDataPoints: [
         {
           label: "Team",
