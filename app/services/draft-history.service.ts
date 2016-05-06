@@ -20,10 +20,9 @@ export class DraftHistoryService {
       return headers;
   }
 
-  getDraftHistoryService(year){
+  getDraftHistoryService(year, type?){
   //Configure HTTP Headers
   var headers = this.setToken();
-
   //for MLB season starts and ends in the same year so return current season
   //get past 5 years for tabs
   var tabDates = Number(year);
@@ -42,6 +41,7 @@ export class DraftHistoryService {
 
   var callURL = this._apiUrl + '/team/draftHistory/2791/'+year;
   // console.log(callURL);
+
   return this.http.get( callURL, {
       headers: headers
     })
@@ -50,14 +50,20 @@ export class DraftHistoryService {
     )
     .map(
       data => {
-        // this.carData(data.data);
-        // this.detailedData(data.data);
-        // console.log('full data return',data);
-        return {
-          carData:this.carData(data.data),
-          listData:this.detailedData(data.data),
-          tabArray:tabArray,
-        };
+        var returnData = {}
+        if(type == 'module'){
+          return returnData = {
+            carData:this.carDataModule(data.data),
+            listData:this.detailedData(data.data),
+            tabArray:tabArray,
+          };
+        }else{
+          return returnData = {
+            carData:this.carDataPage(data.data),
+            listData:this.detailedData(data.data),
+            tabArray:tabArray,
+          };
+        }
       },
       err => {
         console.log('INVALID DATA');
@@ -66,40 +72,90 @@ export class DraftHistoryService {
   }
 
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
-  carData(data){
-    // console.log('carousel transform',data);
-    var self = this;
+  carDataPage(data){
+    let self = this;
     var carouselArray = [];
     var dummyImg = "./app/public/placeholder-location.jpg";
     var dummyRoute = ['Disclaimer-page'];
-    var dummyRank = '#4';
+    var dummyRank = '##';
 
-    data.forEach(function(val, index){
+    if(data.length == 0){
       var Carousel = {
         index:'2',
-        //imageData(mainImg, mainImgRoute, subImg, subRoute, rank)
-        imageConfig: self.imageData("image-150","border-large",dummyImg,dummyRoute,"image-50-sub",dummyImg,dummyRoute,index+1),
+        //TODO
+        imageConfig: self.imageData("image-150","border-large",dummyImg,'',"image-50-sub",dummyImg,'',1),
         description:[
-          '<p><b>'+val.playerName+'</b><p>',
-          '<p>Hometown: <b>'+val.draftTeamName+'</b><p>',
-          '<p><b>'+(index+1)+'<sup>'+self.globalFunc.Suffix(Number(index+1))+'</sup>Pick for Round '+val.selectionLevel+'</b><p>',
-          '<p>'+val.selectionOverall+' Overall<p>',
+          '<p style="font-size:20px"><b>Sorry, the We currently do not have any data for this years draft history</b><p>',
         ],
-        footerInfo: {
-          infoDesc:'Want to see more info about this player?',
-          text:'VIEW PROFILE',
-          url:['Disclaimer-page'],
-        }
       };
       carouselArray.push(Carousel);
-    });
+    }else{
+      //if data is coming through then run through the transforming function for the module
+      data.forEach(function(val, index){
+        var Carousel = {
+          index:'2',
+          //TODO
+          imageConfig: self.imageData("image-150","border-large",dummyImg,dummyRoute,"image-50-sub",dummyImg,dummyRoute,index+1),
+          description:[
+            '<p style="font-size:24px"><b>'+val.playerName+'</b></p>',
+            '<p>Hometown: <b>'+val.draftTeamName+'</b></p>',
+            '<br>',
+            '<p style="font-size:24px"><b>'+(index+1)+'<sup>'+self.globalFunc.Suffix(Number(index+1))+'</sup>Pick for Round '+val.selectionLevel+'</b></p>',
+            '<p>'+val.selectionOverall+' Overall</p>',
+          ],
+          footerInfo: {
+            infoDesc:'Interested in discovering more about this player?',
+            text:'VIEW PROFILE',
+            url:['Team-page'],//NEED TO CHANGE
+          }
+        };
+        carouselArray.push(Carousel);
+      });
+    }
+    // console.log('TRANSFORMED CAROUSEL', carouselArray);
+    return carouselArray;
+  }
+  carDataModule(data){
+    let self = this;
+    var carouselArray = [];
+    var dummyImg = "./app/public/placeholder-location.jpg";
+    var dummyRoute = ['Disclaimer-page'];
+    var dummyRank = '##';
+
+    if(data.length == 0){
+      var Carousel = {
+        index:'2',
+        //TODO
+        imageConfig: self.imageData("image-150","border-large",dummyImg,'',"image-50-sub",dummyImg,'',1),
+        description:[
+          '<p style="font-size:20px"><b>Sorry, the We currently do not have any data for this years draft history</b><p>',
+        ],
+      };
+      carouselArray.push(Carousel);
+    }else{
+      //if data is coming through then run through the transforming function for the module
+      data.forEach(function(val, index){
+        var Carousel = {
+          index:'2',
+          //TODO
+          imageConfig: self.imageData("image-150","border-large",dummyImg,dummyRoute,"image-50-sub",dummyImg,dummyRoute,index+1),
+          description:[
+            '<p style="font-size:24px"><b>'+val.playerName+'</b></p>',
+            '<p>Hometown: <b>'+val.draftTeamName+'</b></p>',
+            '<br>',
+            '<p style="font-size:24px"><b>'+(index+1)+'<sup>'+self.globalFunc.Suffix(Number(index+1))+'</sup>Pick for Round '+val.selectionLevel+'</b></p>',
+            '<p>'+val.selectionOverall+' Overall</p>',
+          ],
+        };
+        carouselArray.push(Carousel);
+      });
+    }
     // console.log('TRANSFORMED CAROUSEL', carouselArray);
     return carouselArray;
   }
 
   detailedData(data){
-    // console.log('list data transform',data);
-    var self = this;
+    let self = this;
     var listDataArray = [];
 
     var dummyImg = "./app/public/placeholder-location.jpg";
@@ -116,14 +172,13 @@ export class DraftHistoryService {
     data.forEach(function(val, index){
       var listData = {
         dataPoints: self.detailsData(val.playerName,(val.selectionLevel+' Round'),dummyProfUrl,val.draftTeamName,(val.selectionOverall +' Overall'),dummySubUrl),
-        //detailsData(mainP1,mainV1,subP1,subV2,subUrl2,dataP3?,dataV3?,dataUrl3?)
         imageConfig: self.imageData("image-121","border-2",
         dummyImg,dummyRoute,"image-40-sub",dummyImg,dummyRoute,(index+1)),
         hasCTA:true,
         ctaDesc:'Want more info about this [profile type]?',
         ctaBtn:'',
         ctaText:'View Profile',
-        ctaUrl:['Disclaimer-page']
+        ctaUrl:['Team-page']
       };
       listDataArray.push(listData);
     });
@@ -132,11 +187,7 @@ export class DraftHistoryService {
   }//end of function
 
   /**
-   *
-   *
    *this function will have inputs of all required fields that are dynamic and output the full
-   *
-   *
   **/
   imageData(imageClass, imageBorder, mainImg, mainImgRoute, subImgClass?, subImg?, subRoute?, rank?){
     if(typeof mainImg =='undefined' || mainImg == ''){
@@ -202,6 +253,6 @@ export class DraftHistoryService {
         icon:'fa fa-map-marker',
       },
     ];
-    return details
+    return details;
   }
 }

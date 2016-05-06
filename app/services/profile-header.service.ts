@@ -6,6 +6,7 @@ import {GlobalSettings} from '../global/global-settings';
 import {GlobalFunctions} from '../global/global-functions';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {DataItem, ProfileHeaderData} from '../modules/profile-header/profile-header.module';
+import {TitleInputData} from '../components/title/title.component';
 
 declare var moment: any;
 
@@ -41,7 +42,7 @@ interface PlayerProfileHeaderData {
     pub1PlayerId: number;
     pub1TeamId: number;
     pub2Id: number;
-    pub2TeamId: number;  
+    pub2TeamId: number;
   };
   stats: {
     //Pitcher stats
@@ -159,6 +160,28 @@ export class ProfileHeaderService {
     return this.http.get(url)
         .map(res => res.json())
         .map(data => data.data);
+  }
+
+  getTeamPageHeader(teamId: number): Observable<any> {
+    let url = GlobalSettings.getApiUrl() + '/team/profileHeader/' + teamId;
+    return this.http.get(url)
+        .map(res => res.json())
+        .map(data => this.convertTeamPageHeader(data.data.stats));
+  }
+
+  private convertTeamPageHeader(data){
+    var headerData = {
+      data:{
+        imageURL: '/app/public/mainLogo.png', //TODO
+        text1: 'Last Updated:', //TODO
+        text2: 'United States',
+        text3: data.teamName + " " + data.seasonId + " Draft History",
+        icon: 'fa fa-map-marker',
+        hasHover : true,
+      },
+      error: "Sorry, the "+data.teamName+" do not currently have any data for the "+data.seasonId+" draft history"
+    }
+    return headerData;
   }
   
   convertToPlayerProfileHeader(data: PlayerProfileHeaderData): ProfileHeaderData {
