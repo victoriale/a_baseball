@@ -25,18 +25,17 @@ export class DraftHistoryPage implements OnInit{
   detailedDataArray:any; //variable that is just a list of the detailed DataArray
   carouselDataArray: any;
   footerData: Object;
-  footerStyle: any;
-  constructor(private draftService:DraftHistoryService, private ProfHeadService:ProfileHeaderService){
-    console.log();
-    this.footerStyle = {
-      ctaBoxClass: "list-footer",
-      ctaBtnClass:"list-footer-btn",
-      hasIcon: true,
-    };
+  footerStyle: any = {
+    ctaBoxClass: "list-footer",
+    ctaBtnClass:"list-footer-btn",
+    hasIcon: true,
+  };
+  constructor(private draftService:DraftHistoryService, private profHeadService:ProfileHeaderService){
+
   }
 
   getDraftPage(date) {
-      this.ProfHeadService.getTeamPageHeader(2799)
+      this.profHeadService.getTeamPageHeader(2799)
       .subscribe(
           profHeader => {
             console.log(profHeader);
@@ -77,7 +76,6 @@ export class DraftHistoryPage implements OnInit{
 
 
   selectedTab(event){
-    console.log(event);
     if(event == 'Current Season'){
       event = new Date().getFullYear();
     }
