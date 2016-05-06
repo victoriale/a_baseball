@@ -38,7 +38,6 @@ export class DraftHistoryModule{
     this.ProfHeadService.getTeamPageHeader(2799)
     .subscribe(
         profHeader => {
-          console.log(profHeader);
           this.profileHeaderData = profHeader.data;
           this.errorData = profHeader.error;
         },
