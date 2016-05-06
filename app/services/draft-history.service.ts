@@ -67,23 +67,21 @@ export class DraftHistoryService {
 
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
   carData(data){
-    // console.log('carousel transform',data);
+    console.log('carousel transform',data);
+    console.log('carousel transform',data.length);
     var self = this;
     var carouselArray = [];
     var dummyImg = "./app/public/placeholder-location.jpg";
     var dummyRoute = ['Disclaimer-page'];
     var dummyRank = '#4';
 
-    data.forEach(function(val, index){
+    if(data.length == 0){
       var Carousel = {
         index:'2',
         //imageData(mainImg, mainImgRoute, subImg, subRoute, rank)
-        imageConfig: self.imageData("image-150","border-large",dummyImg,dummyRoute,"image-50-sub",dummyImg,dummyRoute,index+1),
+        imageConfig: self.imageData("image-150","border-large",dummyImg,dummyRoute,"image-50-sub",dummyImg,dummyRoute,1),
         description:[
-          '<p><b>'+val.playerName+'</b><p>',
-          '<p>Hometown: <b>'+val.draftTeamName+'</b><p>',
-          '<p><b>'+(index+1)+'<sup>'+self.globalFunc.Suffix(Number(index+1))+'</sup>Pick for Round '+val.selectionLevel+'</b><p>',
-          '<p>'+val.selectionOverall+' Overall<p>',
+          '<p style="font-size:20px"><b>Sorry, the We currently do not have any data for the [YYYY] draft history</b><p>',
         ],
         footerInfo: {
           infoDesc:'Want to see more info about this player?',
@@ -92,7 +90,29 @@ export class DraftHistoryService {
         }
       };
       carouselArray.push(Carousel);
-    });
+    }else{
+      //if data is coming through then run through the transforming function for the module
+      data.forEach(function(val, index){
+        var Carousel = {
+          index:'2',
+          //imageData(mainImg, mainImgRoute, subImg, subRoute, rank)
+          imageConfig: self.imageData("image-150","border-large",dummyImg,dummyRoute,"image-50-sub",dummyImg,dummyRoute,index+1),
+          description:[
+            '<p style="font-size:24px"><b>'+val.playerName+'</b></p>',
+            '<p>Hometown: <b>'+val.draftTeamName+'</b></p>',
+            '<br>',
+            '<p style="font-size:24px"><b>'+(index+1)+'<sup>'+self.globalFunc.Suffix(Number(index+1))+'</sup>Pick for Round '+val.selectionLevel+'</b></p>',
+            '<p>'+val.selectionOverall+' Overall</p>',
+          ],
+          footerInfo: {
+            infoDesc:'Want to see more info about this player?',
+            text:'VIEW PROFILE',
+            url:['Disclaimer-page'],
+          }
+        };
+        carouselArray.push(Carousel);
+      });
+    }
     // console.log('TRANSFORMED CAROUSEL', carouselArray);
     return carouselArray;
   }

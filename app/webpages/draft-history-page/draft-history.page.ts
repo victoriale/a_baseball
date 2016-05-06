@@ -7,11 +7,12 @@ import {Tab} from '../../components/tabs/tab.component';
 import {TitleComponent} from '../../components/title/title.component';
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {DraftHistoryService} from '../../services/draft-history.service';
+import {NoDataBox} from '../../components/error/data-box/data-box.component';
 
 @Component({
     selector: 'draft-history-page',
     templateUrl: './app/webpages/draft-history-page/draft-history.page.html',
-    directives: [BackTabComponent, TitleComponent, Tab, Tabs, SliderCarousel, DetailedListItem, ModuleFooter],
+    directives: [NoDataBox, BackTabComponent, TitleComponent, Tab, Tabs, SliderCarousel, DetailedListItem, ModuleFooter],
     providers: [DraftHistoryService],
     inputs:[]
 })
@@ -37,10 +38,14 @@ export class DraftHistoryPage implements OnInit{
                 if(typeof this.dataArray == 'undefined'){//makes sure it only runs once
                   this.dataArray = draftData.tabArray;
                 }
+                if(draftData.listData.length == 0){//makes sure it only runs once
+                  this.detailedDataArray = false;
+                }else{
+                  this.detailedDataArray = draftData.listData;
+                }
                 this.carouselDataArray = draftData.carData
                 // console.log('CAR ARRAY',this.carouselDataArray);
-                this.detailedDataArray = draftData.listData;
-                // console.log('LIST ARRAY',this.detailedDataArray);
+                console.log('LIST ARRAY',this.detailedDataArray);
               },
               err => {
                   console.log('Error: draftData API: ', err);
