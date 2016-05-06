@@ -5,9 +5,9 @@ export enum Division { east, west, central }  //to get string value: Division[my
 export interface MLBPageParameters {
   conference?: Conference;
   division?: Division; 
-  teamId?: string;
+  teamId?: number;
   teamName?: string;
-  playerKey? :string;
+  playerId? :number;
   playerName?: string;
 }
 

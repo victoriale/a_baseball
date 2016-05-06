@@ -1,4 +1,4 @@
-<div class="standings">
+<div *ngIf="tabs" class="standings">
   <div class="standings-car">
     <slider-carousel *ngIf="carouselData" [carouselData]="carouselData" (indexNum)="indexNum($event)" [indexInput]="selectedIndex"></slider-carousel>
   </div>
