@@ -73,7 +73,7 @@ export class DraftHistoryService {
 
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
   carDataPage(data){
-    var self = this;
+    let self = this;
     var carouselArray = [];
     var dummyImg = "./app/public/placeholder-location.jpg";
     var dummyRoute = ['Disclaimer-page'];
@@ -116,7 +116,7 @@ export class DraftHistoryService {
     return carouselArray;
   }
   carDataModule(data){
-    var self = this;
+    let self = this;
     var carouselArray = [];
     var dummyImg = "./app/public/placeholder-location.jpg";
     var dummyRoute = ['Disclaimer-page'];
@@ -155,7 +155,7 @@ export class DraftHistoryService {
   }
 
   detailedData(data){
-    var self = this;
+    let self = this;
     var listDataArray = [];
 
     var dummyImg = "./app/public/placeholder-location.jpg";
