@@ -1,5 +1,5 @@
-<div class="module-component">
+<div *ngIf="data" class="module-component">
   <module-header [modHeadData]="headerInfo"></module-header>
-  <standings-component [data]="data"></standings-component>
+  <standings-component [tabs]="data.tabs"></standings-component>
   <module-footer [footerData]="footerInfo"></module-footer>
 </div>
