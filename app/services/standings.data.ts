@@ -2,6 +2,7 @@ import {TableModel, TableColumn} from '../components/custom-table/table-data.com
 import {CircleImageData} from '../components/images/image-data';
 import {TableTabData, TableComponentData} from '../components/standings/standings.component';
 import {SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
+import {Conference, Division} from '../global/global-interface';
 
 export interface TeamStandingsData {
   teamName: string,
@@ -32,18 +33,42 @@ export interface TeamStandingsData {
   displayDate?: string
 }
 
-export class StandingsTabData implements TableTabData<TeamStandingsData> {
+export class MLBStandingsTableData implements TableComponentData<TeamStandingsData> {
+  groupName: string;
+  
+  tableData: MLBStandingsTableModel; 
+  
+  conference: Conference;
+  
+  division: Division;
+  
+  constructor(title: string, conference: Conference, division: Division, table: MLBStandingsTableModel) {
+    this.groupName = title;
+    this.conference = conference;
+    this.division = division;
+    this.tableData = table;
+  }
+  
+}
+
+export class MLBStandingsTabData implements TableTabData<TeamStandingsData> {
   
   title: string;
   
   isActive: boolean;
   
-  sections: Array<TableComponentData<TeamStandingsData>>;
+  sections: Array<MLBStandingsTableData>;
   
-  constructor(title: string, isActive: boolean, sections: Array<TableComponentData<TeamStandingsData>>) {
+  conference: Conference;
+  
+  division: Division;
+  
+  constructor(title: string, conference: Conference, division: Division, isActive: boolean) {
     this.title = title;
+    this.conference = conference;
+    this.division = division;
     this.isActive = isActive;
-    this.sections = sections;
+    this.sections = [];
   } 
 
   convertToCarouselItem(item: TeamStandingsData, index:number): SliderCarouselInput {
@@ -76,7 +101,7 @@ export class StandingsTabData implements TableTabData<TeamStandingsData> {
   }
 }
 
-export class StandingsTableData implements TableModel<TeamStandingsData> {
+export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
   title: string;
   
   columns: Array<TableColumn> = [{

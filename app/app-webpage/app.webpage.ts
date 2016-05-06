@@ -19,26 +19,30 @@ import {StandingsPage} from "../webpages/standings-page/standings.page";
 import {AsyncRoute} from "angular2/router";
 //import {ArticlePageHistory} from "../webpages/articles/history/history.page";
 import {ArticlePage} from "../webpages/articles/articles/articles.page";
-import {ArticleDataService} from "../global/global-service";
+import {ArticlePageAbout} from "../webpages/articles/about/about.page";
+import {ArticlePagePreGame} from "../webpages/articles/pregame/pregame.page";
+import {ArticlePagePostGame} from "../webpages/articles/postgame/postgame.page";
+import {ArticleDataService} from "../global/global-article-page-service";
+import {HeadlineDataService} from "../global/global-ai-headline-module-service";
 
 @Component({
     selector: 'my-app',
     templateUrl: './app/app-webpage/app.webpage.html',
     directives: [HomePage, TeamPage, DirectoryPage, AboutUsPage, ContactUsPage, DisclaimerPage, SearchPage, ComponentPage, ModulePage, RouterOutlet, ROUTER_DIRECTIVES],
-    providers: [ ROUTER_DIRECTIVES, ArticleDataService],
+    providers: [ ROUTER_DIRECTIVES, ArticleDataService, HeadlineDataService],
 })
 
 @RouteConfig([
     {
-      path: '/',
-      name: 'Home-page',
-      component: HomePage,
-      useAsDefault: true
+        path: '/',
+        name: 'Home-page',
+        component: HomePage,
+        useAsDefault: true
     },
     {
-      path: '/components',
-      name: 'Component-page',
-      component: ComponentPage,
+        path: '/components',
+        name: 'Component-page',
+        component: ComponentPage,
     },
     {
         path: '/team',
@@ -86,36 +90,151 @@ import {ArticleDataService} from "../global/global-service";
         component: SearchPage
     },
     {
-        path: '/modules',
+        path: '/modules/:teamID',
         name: 'Module-page',
         component: ModulePage
+    },
+    {
+        path: '/standings/:conference/:division/:teamId',
+        name: 'Standings-page-team',
+        component: StandingsPage
+    },
+    {
+        path: '/standings/:conference/:division',
+        name: 'Standings-page-division',
+        component: StandingsPage
+    },
+    {
+        path: '/standings/:conference',
+        name: 'Standings-page-conference',
+        component: StandingsPage
     },
     {
         path: '/standings',
         name: 'Standings-page',
         component: StandingsPage
     },
-    //test AI Page
-    {
-        path: 'articles',
-        name: 'Articles-Page',
-        component: ArticlePage
-    },
     {
         path: 'team-roster',
         name: 'Teamroster-Page',
         component: TeamrosterPage
     },
-    //new AsyncRoute({
-    //    path: 'articles/history',
-    //    loader: () => Promise.resolve(ArticlePageHistory),
-    //    name: 'Articles-History-Page',
-    //}),
-    //new AsyncRoute({
-    //    path: 'articles/about',
-    //    loader: () => Promise.resolve(ArticlePageAbout),
-    //    name: 'Articles-About-Page',
-    //})
+    //test AI Page
+    {
+        path: '/articles',
+        name: 'Articles-Page',
+        component: ArticlePage
+    },
+    {
+        path: '/articles/about-the-teams/:eventID',
+        name: 'About-the-teams',
+        component: ArticlePageAbout
+    },
+    {
+        path: '/articles/historical-team-statistics/:eventID',
+        name: 'Historical-team-statistics',
+        component: ArticlePageAbout
+    },
+    {
+        path: '/articles/last-matchup/:eventID',
+        name: 'Last-matchup',
+        component: ArticlePageAbout
+    },
+    {
+        path: '/articles/starting-lineup-home/:eventID',
+        name: 'Starting-lineup-home',
+        component: ArticlePageAbout
+    },
+    {
+        path: '/articles/starting-lineup-away/:eventID',
+        name: 'Starting-lineup-away',
+        component: ArticlePageAbout
+    },
+    {
+        path: '/articles/injuries-home/:eventID',
+        name: 'Injuries-home',
+        component: ArticlePageAbout
+    },
+    {
+        path: '/articles/injuries-away/:eventID',
+        name: 'Injuries-away',
+        component: ArticlePageAbout
+    },
+    {
+        path: '/articles/upcoming-game/:eventID',
+        name: 'Upcoming-game',
+        component: ArticlePageAbout
+    },
+    {
+        path: '/articles/pitcher-player-comparison/:eventID',
+        name: 'Pitcher-player-comparison',
+        component: ArticlePageAbout
+    },
+    {
+        path: '/articles/catcher-player-comparison/:eventID',
+        name: 'Catcher-player-comparison',
+        component: ArticlePageAbout
+    },
+    {
+        path: '/articles/first-base-player-comparison/:eventID',
+        name: 'First-base-player-comparison',
+        component: ArticlePageAbout
+    },
+    {
+        path: '/articles/second-base-player-comparison/:eventID',
+        name: 'Second-base-player-comparison',
+        component: ArticlePageAbout
+    },
+    {
+        path: '/articles/third-base-player-comparison/:eventID',
+        name: 'Third-base-player-comparison',
+        component: ArticlePageAbout
+    },
+    {
+        path: '/articles/shortstop-player-comparison/:eventID',
+        name: 'Shortstop-player-comparison',
+        component: ArticlePageAbout
+    },
+    {
+        path: '/articles/left-field-player-comparison/:eventID',
+        name: 'Left-field-player-comparison',
+        component: ArticlePageAbout
+    },
+    {
+        path: '/articles/center-field-player-comparison/:eventID',
+        name: 'Center-field-player-comparison',
+        component: ArticlePageAbout
+    },
+    {
+        path: '/articles/right-field-player-comparison/:eventID',
+        name: 'Right-field-player-comparison',
+        component: ArticlePageAbout
+    },
+    {
+        path: '/articles/pregame-report/:eventID',
+        name: 'Pregame-report',
+        component: ArticlePagePreGame
+    },
+    {
+        path: '/articles/postgame-report/:eventID',
+        name: 'Postgame-report',
+        component: ArticlePagePostGame
+    },
+    {
+        path: '/articles/third-inning-report/:eventID',
+        name: 'Third-inning-report',
+        component: ArticlePagePreGame
+    },
+    {
+        path: '/articles/fifth-inning-report/:eventID',
+        name: 'Fifth-inning-report',
+        component: ArticlePagePreGame
+    },
+    {
+        path: '/articles/seventh-inning-stretch-report/:eventID',
+        name: 'Seventh-inning-stretch-report',
+        component: ArticlePagePreGame
+    }
 ])
 
 export class AppComponent implements OnInit {
