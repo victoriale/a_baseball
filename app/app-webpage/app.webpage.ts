@@ -5,6 +5,7 @@ import {DirectoryPage} from "../webpages/directory-page/directory.page";
 import {ContactUsPage} from "../webpages/contactus-page/contactus.page";
 import {DisclaimerPage} from "../webpages/disclaimer-page/disclaimer.page";
 import {TeamPage} from "../webpages/team-page/team.page";
+import {MLBPage} from "../webpages/mlb-page/mlb.page";
 import {HomePage} from "../webpages/home-page/home-page.page";
 import {ComponentPage} from "../webpages/component-page/component.page";
 import {TeamrosterPage} from "../webpages/team-roster/team-roster.page";
@@ -47,9 +48,14 @@ import {HeadlineDataService} from "../global/global-ai-headline-module-service";
         component: ComponentPage,
     },
     {
-        path: '/team',
+        path: '/team/:teamID',
         name: 'Team-page',
         component: TeamPage,
+    },
+    {
+        path: '/mlb',
+        name: 'MLB-page',
+        component: MLBPage,
     },
     {
         path: '/directory/:type/page/:page',

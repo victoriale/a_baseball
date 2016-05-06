@@ -62,7 +62,6 @@ export class ProfileHeaderModule implements OnChanges {
     ngOnChanges() {
       var data = this.profileHeaderData;
       if ( data !== undefined && data !== null ) {
-        console.log("setting up profile header data");
         if ( data.backgroundImageUrl === null || data.backgroundImageUrl === undefined ) {
           data.backgroundImageUrl = "/app/public/image_placeholder.png";
         }
@@ -74,9 +73,6 @@ export class ProfileHeaderModule implements OnChanges {
         this.contentTitle = "Quick info about " + data.profileName;
         this.profileTitle = data.profileTitleFirstPart + "<span class='text-heavy'> " + data.profileTitleLastPart + "</span>";
         this.displayDate = this._globalFunctions.formatUpdatedDate(data.lastUpdatedDate);
-      }
-      else {
-        console.log("Error setting up Profile Header data");
       }
     }
 }

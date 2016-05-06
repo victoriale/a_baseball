@@ -18,23 +18,6 @@ export interface TableComponentData<T> {
   tableData: TableModel<T>;  
 }
 
-export interface StandingsComponentData {
-  /**
-   * Only used in Standings module
-   */
-  moduleTitle?: string;
-  
-  /**
-   * Only used in Standings module
-   */
-  pageRouterLink?: Array<any>
-  
-  /**
-   * Sent to Standings component
-   */
-  tabs: Array<TableTabData<any>>
-}
-
 @Component({
   selector: "standings-component",
   templateUrl: "./app/components/standings/standings.component.html",
