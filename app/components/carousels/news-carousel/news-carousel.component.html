@@ -1,7 +1,7 @@
 <carousel *ngIf="carouselData" [carouselData]="carouselData" (carouselDataPoint)="response($event)" [indexInput]="indexInput">
   <!-- check if data is available and/or valid -->
   <div class="news">
-    <div *ngIf="backgroundImage" class="news-placeholder" [ngStyle]="{'background-image': 'url('+backgroundImage+')'}">
+    <div class="news-placeholder">
       <div class="news-text">
         <div class="news-headline">Martin hits three-run shot as Blue Jays shut out New York Yankees 4-0</div>
         <div class="news-preview">Blue Jays catcher Russell Martin was just trying to make solid contact when he stepped to the plate with two runners on in a tight one-run game against New York on Wednesday night.</div>
