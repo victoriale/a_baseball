@@ -52,7 +52,7 @@ export class DraftHistoryService {
       data => {
         // this.carData(data.data);
         // this.detailedData(data.data);
-        console.log('full data return',data);
+        // console.log('full data return',data);
         return {
           carData:this.carData(data.data),
           listData:this.detailedData(data.data),
