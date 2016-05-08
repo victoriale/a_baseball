@@ -7,7 +7,7 @@ import {DisclaimerPage} from "../webpages/disclaimer-page/disclaimer.page";
 import {TeamPage} from "../webpages/team-page/team.page";
 import {HomePage} from "../webpages/home-page/home-page.page";
 import {ComponentPage} from "../webpages/component-page/component.page";
-import {TeamrosterPage} from "../webpages/team-roster/team-roster.page";
+import {TeamRosterPage} from "../webpages/team-roster/team-roster.page";
 import {ImagesTestPage} from "../webpages/images-test-page/images-test.page";
 import {TablesTestPage} from "../webpages/tables-test-page/tables-test.page";
 import {WebApp} from "../app-layout/app.layout";
@@ -127,9 +127,9 @@ import {HeadlineDataService} from "../global/global-ai-headline-module-service";
         component: DraftHistoryPage
     },
     {
-        path: 'team-roster',
+        path: '/team-roster',
         name: 'Teamroster-Page',
-        component: TeamrosterPage
+        component: TeamRosterPage
     },
     //test AI Page
     {
