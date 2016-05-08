@@ -40,7 +40,7 @@ export class DraftHistoryService {
   }
 
   var callURL = this._apiUrl + '/team/draftHistory/2791/'+year;
-  // console.log(callURL);
+  console.log(callURL);
 
   return this.http.get( callURL, {
       headers: headers
@@ -50,6 +50,7 @@ export class DraftHistoryService {
     )
     .map(
       data => {
+        console.log(data);
         var returnData = {}
         if(type == 'module'){
           return returnData = {
@@ -92,6 +93,7 @@ export class DraftHistoryService {
     }else{
       //if data is coming through then run through the transforming function for the module
       data.forEach(function(val, index){
+
         var Carousel = {
           index:'2',
           //TODO
@@ -106,7 +108,7 @@ export class DraftHistoryService {
           footerInfo: {
             infoDesc:'Interested in discovering more about this player?',
             text:'VIEW PROFILE',
-            url:['Team-page'],//NEED TO CHANGE
+            url:['Team-page',{teamName:val.draftTeamName, teamId: val.draftTeam}],//NEED TO CHANGE
           }
         };
         carouselArray.push(Carousel);

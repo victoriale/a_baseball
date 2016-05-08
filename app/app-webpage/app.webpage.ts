@@ -28,6 +28,7 @@ import {ArticlePagePreGame} from "../webpages/articles/pregame/pregame.page";
 import {ArticlePagePostGame} from "../webpages/articles/postgame/postgame.page";
 import {ArticleDataService} from "../global/global-article-page-service";
 import {HeadlineDataService} from "../global/global-ai-headline-module-service";
+import {ErrorPage} from "../webpages/error-page/error-page.page";
 
 @Component({
     selector: 'my-app',
@@ -49,7 +50,7 @@ import {HeadlineDataService} from "../global/global-ai-headline-module-service";
         component: ComponentPage,
     },
     {
-        path: '/team/:teamID',
+        path: '/team/:teamName/:teamID',
         name: 'Team-page',
         component: TeamPage,
     },
@@ -59,7 +60,7 @@ import {HeadlineDataService} from "../global/global-ai-headline-module-service";
         component: MLBPage,
     },
     {
-        path: '/player/:teamName/:firstName/:lastName/:playerId',
+        path: '/player/:teamName/:fullName/:playerId',
         name: 'Player-page',
         component: PlayerPage,
     },
@@ -258,6 +259,11 @@ import {HeadlineDataService} from "../global/global-ai-headline-module-service";
         path: '/articles/seventh-inning-stretch-report/:eventID',
         name: 'Seventh-inning-stretch-report',
         component: ArticlePagePreGame
+    },
+    {
+        path: '/error',
+        name: 'Error-page',
+        component: ErrorPage
     }
 ])
 
