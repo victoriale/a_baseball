@@ -1,6 +1,6 @@
 <div class="module-container schedules">
-  <module-header [moduleTitle]="moduleTitle"></module-header>
-  <carousel *ngIf="carouselData" [type]="'schedule'" [carouselData]="carouselData"></carousel>
+  <module-header *ngIf="moduleTitle" [moduleTitle]="moduleTitle"></module-header>
+  <schedules-carousel *ngIf="carouselData" [carouselData]="carouselData"></schedules-carousel>
   <!---->
   <div class="schedules-heading">
     <div class="schedules-heading-title">

@@ -4,10 +4,10 @@
             <span *ngFor="#scheduleData of data.metaData">
                 <div class="schedule-next {{defaultGradient}}">
                 </div>
-                <div class="schedule-next-lg" style="{{leftGrad}}">
+                <div class="schedule-next-lg" [ngStyle]="leftGrad">
                     <!--gradient with team color-->
                 </div>
-                <div class="schedule-next-rg" style="{{rightGrad}}">
+                <div class="schedule-next-rg" [ngStyle]="rightGrad">
                     <!--gradient with team color-->
                 </div>
                 <div class="schedule-next-team schedule-next-team-l schedule-t">

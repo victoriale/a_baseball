@@ -5,9 +5,9 @@ export enum Division { east, west, central }  //to get string value: Division[my
 export interface MLBPageParameters {
   conference?: Conference;
   division?: Division; 
-  teamKey?: string;
+  teamId?: number;
   teamName?: string;
-  playerKey? :string;
+  playerId? :number;
   playerName?: string;
 }
 
@@ -95,24 +95,101 @@ export interface ProfileHeaderInterface {
 }
 
 /*BELOW IS ARTICLE MODULE TEST INTERFACE*/
-//export interface ArticleData {
-//    history?: HistoryDataAI;
-//    about?: AboutDataAI;
-//}
-//export interface HistoryDataAI {
-//    displayHeadline: string;
-//    metaHeadline: string;
-//    dateline: string;
-//    article: string;
-//    commentHeader: string;
-//}
-//export interface AboutDataAI {
-//    displayHeadline: string;
-//    metaHeadline: string;
-//    dateline: string;
-//    article: string;
-//    commentHeader: string;
-//}
+
+export interface HeadlineData {
+    event: number;
+    displayHeadline: string;
+    metaHeadline: string;
+    dateline: string;
+    article: string;
+    commentHeader: string;
+    leftColumn: {
+        "about-the-teams": {
+            displayHeadline: string;
+            metaHeadline: string;
+        };
+        "historical-team-statistics": {
+            displayHeadline: string;
+            metaHeadline: string;
+        };
+        "last-matchup": {
+            displayHeadline: string;
+            metaHeadline: string;
+        };
+        "starting-lineup-home": {
+            displayHeadline: string;
+            metaHeadline: string;
+        };
+        "starting-lineup-away": {
+            displayHeadline: string;
+            metaHeadline: string;
+        };
+        "injuries-home": {
+            displayHeadline: string;
+            metaHeadline: string;
+        };
+        "injuries-away": {
+            displayHeadline: string;
+            metaHeadline: string;
+        };
+        "upcoming-game": {
+            displayHeadline: string;
+            metaHeadline: string;
+        };
+    };
+    rightColumn: {
+        "pitcher-player-comparison": {
+            displayHeadline: string;
+            metaHeadline: string;
+        };
+        "catcher-player-comparison": {
+            displayHeadline: string;
+            metaHeadline: string;
+        };
+        "first-base-player-comparison": {
+            displayHeadline: string;
+            metaHeadline: string;
+        };
+        "second-base-player-comparison": {
+            displayHeadline: string;
+            metaHeadline: string;
+        };
+        "third-base-player-comparison": {
+            displayHeadline: string;
+            metaHeadline: string;
+        };
+        "shortstop-player-comparison": {
+            displayHeadline: string;
+            metaHeadline: string;
+        };
+        "left-field-player-comparison": {
+            displayHeadline: string;
+            metaHeadline: string;
+        };
+        "center-field-player-comparison": {
+            displayHeadline: string;
+            metaHeadline: string;
+        };
+        "right-field-player-comparison": {
+            displayHeadline: string;
+            metaHeadline: string;
+        };
+    };
+    images: {
+        home: string;
+        away: string;
+    };
+}
+
+
+export interface ArticleData {
+    displayHeadline?: string;
+    metaHeadline?: string;
+    dateline?: string;
+    article?: string;
+    commentHeader?: string;
+}
+
 export interface ArticleData {
     metaData: Array<{
         homeTeamId: string;

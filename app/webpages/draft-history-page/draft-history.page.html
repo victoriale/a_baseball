@@ -1,0 +1,15 @@
+<section *ngIf="dataArray" class='page-container'>
+    <loading-component *ngIf="!listData && !isError"></loading-component>
+    <error-component *ngIf="isError"></error-component>
+    <backtab-component></backtab-component>
+    <title-component [titleData]="profileHeaderData"></title-component>
+    <div class="module-container list-page">
+      <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray" [footerStyle]="footerStyle"></slider-carousel>
+      <tabs *ngIf="dataArray" (tabSelected)='selectedTab($event)'>
+        <tab *ngFor="#data of dataArray; #i = index" [active]="i == 0" [tabTitle]="data.tabDisplay">
+          <detailed-list-item *ngIf="detailedDataArray" [detailedItemData] = 'detailedDataArray'></detailed-list-item>
+          <no-data-box *ngIf="!detailedDataArray" [data]="errorData"></no-data-box>
+        </tab>
+      </tabs>
+    </div>
+</section>

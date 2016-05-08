@@ -1,13 +1,17 @@
 import {TableModel, TableColumn} from '../components/custom-table/table-data.component';
 import {CircleImageData} from '../components/images/image-data';
+import {TableTabData, TableComponentData} from '../components/standings/standings.component';
+import {SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
+import {Conference, Division} from '../global/global-interface';
 
 export interface TeamStandingsData {
   teamName: string,
-  teamImageUrl: string,
+  imageUrl: string,
+  teamId: number;
   conferenceName: string,
   divisionName: string,
   lastUpdatedDate: Date,
-  // rank: number,
+  rank: number,
   totalWins: number,
   totalLosses: number,
   winPercentage: number,
@@ -15,10 +19,87 @@ export interface TeamStandingsData {
   streakCount: number,
   batRunsScored: number,
   pitchRunsAllowed: number,
-  gamesBack: number
+  gamesBack: number,
+  seasonId: string,  
+  
+  /**
+   * - Formatted from league and division values that generated the associated table
+   */
+  groupName?: string
+  
+  /**
+   * - Formatted from the lastUpdatedDate
+   */
+  displayDate?: string
 }
 
-export class StandingsTableData implements TableModel<TeamStandingsData> {
+export class MLBStandingsTableData implements TableComponentData<TeamStandingsData> {
+  groupName: string;
+  
+  tableData: MLBStandingsTableModel; 
+  
+  conference: Conference;
+  
+  division: Division;
+  
+  constructor(title: string, conference: Conference, division: Division, table: MLBStandingsTableModel) {
+    this.groupName = title;
+    this.conference = conference;
+    this.division = division;
+    this.tableData = table;
+  }
+  
+}
+
+export class MLBStandingsTabData implements TableTabData<TeamStandingsData> {
+  
+  title: string;
+  
+  isActive: boolean;
+  
+  sections: Array<MLBStandingsTableData>;
+  
+  conference: Conference;
+  
+  division: Division;
+  
+  constructor(title: string, conference: Conference, division: Division, isActive: boolean) {
+    this.title = title;
+    this.conference = conference;
+    this.division = division;
+    this.isActive = isActive;
+    this.sections = [];
+  } 
+
+  convertToCarouselItem(item: TeamStandingsData, index:number): SliderCarouselInput {
+    var subheader = item.seasonId + " Season " + item.groupName + " Standings";
+    var description = item.teamName + " is currently <span class='text-heavy'>ranked " + item.rank + "</span>" +
+                      " in the <span class='text-heavy'>" + item.groupName + "</span>, with a record of " +
+                      "<span class='text-heavy'>" + item.totalWins + " - " + item.totalLosses + "</span>.";
+    return {
+      index: index,
+      //backgroundImage: null, //optional
+      description: [
+        "<div class='standings-car-subhdr'>" + subheader + "</div>",
+        "<div class='standings-car-hdr'>" + item.teamName + "</div>",
+        "<div class='standings-car-desc'>" + description + "</div>",
+        "<div class='standings-car-date'>Last Updated On " + item.displayDate + "</div>"
+      ],
+      imageConfig: {
+        imageClass: "image-150",
+        mainImage: {
+          imageClass: "border-10",
+          urlRouteArray: ["Team-page", { teamID: item.teamId }],
+          imageUrl: item.imageUrl,
+          hoverText: "<p>View</p><p>Profile</p>"
+        },
+        subImages: []
+      }
+    };
+  }
+}
+
+export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
   title: string;
   
   columns: Array<TableColumn> = [{
@@ -29,69 +110,73 @@ export class StandingsTableData implements TableModel<TeamStandingsData> {
       headerValue: "W",
       columnClass: "data-column",
       isNumericType: true,
-      tooltip: "Total Wins",
       key: "w"
     },{
       headerValue: "L",
       columnClass: "data-column",
       isNumericType: true,
-      tooltip: "Total Losses",
       key: "l"
     },{
       headerValue: "PCT",
       columnClass: "data-column",
       isNumericType: true,
       sortDirection: -1, //descending
-      tooltip: "Winning Percentage",
       key: "pct"   
     },{
       headerValue: "GB",
       columnClass: "data-column",
       isNumericType: true,
-      tooltip: "Games Back",
       key: "gb"
     },{
       headerValue: "RS",
       columnClass: "data-column",
       isNumericType: true,
-      tooltip: "Runs Scored",
       key: "rs"
     },{
       headerValue: "RA",
       columnClass: "data-column",
       isNumericType: true,
-      tooltip: "Runs Allowed",
       key: "ra"
     },{
       headerValue: "STRK",
       columnClass: "data-column",
       isNumericType: true,
-      tooltip: "Streak",
       key: "strk"
     }];
   
   rows: Array<TeamStandingsData>;
   
-  selectedIndex: number;
+  selectedKey:number = -1;
   
   constructor(title:string, rows: Array<TeamStandingsData>) {
     this.title = title;
     this.rows = rows;
-    this.selectedIndex = 0;
     if ( this.rows === undefined || this.rows === null ) {
       this.rows = [];
+    }
+    else if ( rows.length > 0 ) {
+      this.selectedKey = rows[0].teamId;
+    }
+  }
+  
+  setRowSelected(rowIndex:number) {
+    if ( rowIndex >= 0 && rowIndex < this.rows.length ) {
+      this.selectedKey = this.rows[rowIndex].teamId;
+    }
+    else {
+      this.selectedKey = null;
     }
   }
   
   isRowSelected(item:TeamStandingsData, rowIndex:number): boolean {
-    return this.selectedIndex === rowIndex;
+    return this.selectedKey == item.teamId;
   }
   
   getDisplayValueAt(item:TeamStandingsData, column:TableColumn):string {
     var s = "";
     switch (column.key) {
       case "name": 
-        s = item.teamName;
+        s = item.teamName + " (#" + item.teamId + ")";
         break;
       
       case "w": 
@@ -171,9 +256,10 @@ export class StandingsTableData implements TableModel<TeamStandingsData> {
       return {
           imageClass: "image-50",
           mainImage: {
-            imageUrl: item.teamImageUrl,
-            placeholderImageUrl: "/app/public/profile_placeholder.png",
-            imageClass: "border-2"
+            imageUrl: item.imageUrl,
+            imageClass: "border-2",
+            urlRouteArray: ["Team-page", { teamID: item.teamId }],
+            hoverText: "<i class='fa fa-mail-forward'></i>",
           },
           subImages: []
         };

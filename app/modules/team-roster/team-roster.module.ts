@@ -1,9 +1,9 @@
 import {Component} from 'angular2/core';
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
-import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer';
+import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer.component';
 import {Tabs} from '../../components/tabs/tabs.component';
 import {Tab} from '../../components/tabs/tab.component';
-import {Carousel} from '../../components/carousels/carousel.component';
+import {SliderCarousel} from '../../components/carousels/slider-carousel/slider-carousel.component';
 import {CustomTable} from '../../components/custom-table/custom-table.component';
 import {TableColumn, TableRow, TableCell} from '../../components/custom-table/table-data.component';
 
@@ -14,15 +14,16 @@ export interface RosterTabData {
   title: string;
   tableData: Array<TableRow>;
 }
+
 @Component({
     selector: 'team-roster-module',
     templateUrl: './app/modules/team-roster/team-roster.module.html',
-    directives:[ModuleHeader, ModuleFooter, Tabs, Tab, Carousel, CustomTable],
+    directives:[ModuleHeader, ModuleFooter, Tabs, Tab, SliderCarousel, CustomTable],
     providers: [RosterService]
 })
 
 export class TeamRosterModule{
-  public carouselData: any = {};
+  public carouselData: Array<any>;
   public tabs: Array<RosterTableData> = [];
   public headerInfo: ModuleHeaderData = {
     moduleTitle: "Team Roster",
@@ -41,6 +42,7 @@ export class TeamRosterModule{
       data => this.setupData(data),
       err => { console.log("Error getting Profile Header data"); }
     );
+    this.carData();
   }
 
   setupData(data: Array<RosterTableData>) {
@@ -55,9 +57,79 @@ export class TeamRosterModule{
   }
 
   changeSelected() {
-    var selectedTab = this.tabs[0];
-    let selectedIndex = selectedTab.selectedIndex;
-    selectedIndex = (selectedIndex+1) % selectedTab.rows.length;
-    selectedTab.selectedIndex = selectedIndex;
+    // var selectedTab = this.tabs[0];
+    // let selectedIndex = selectedTab.selectedIndex;
+    // selectedIndex = (selectedIndex+1) % selectedTab.rows.length;
+    // selectedTab.selectedIndex = selectedIndex;
+  }
+
+  carData(){
+    //Carousel Data Below is an array of dummy carouselData that should be replaced with real data
+    var sampleImage = "./app/public/placeholder-location.jpg";
+    var carouselData =[
+      {
+        imageConfig: {
+          imageClass: "image-150",
+          mainImage: {
+            imageUrl: sampleImage,
+            urlRouteArray: ['Disclaimer-page'],
+            hoverText: "<p>View</p>Profile",
+            imageClass: "border-large"
+          },
+          subImages: [
+            {
+              imageUrl: sampleImage,
+              urlRouteArray: ['Disclaimer-page'],
+              hoverText: "<i class='fa fa-mail-forward'></i>",
+              imageClass: "image-50-sub image-round-lower-right"
+            },
+            {
+              text: "#1",
+              imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
+            }
+          ],
+        },
+        description: [
+          "<p>Line4</p>",
+          "<p>Line7</p>",
+          "<p>Line8</p>",
+          "<p>Line3</p>",
+        ],
+        footerInfo: {
+          infoDesc: "Want to see the full team roster?",
+          text: "VIEW FULL ROSTER",
+          url: ['Home-page']
+        },
+      },
+      {
+        imageConfig: {
+          imageClass: "image-150",
+          mainImage: {
+            imageUrl: sampleImage,
+            urlRouteArray: ['Disclaimer-page'],
+            hoverText: "<p>View</p>Profile",
+            imageClass: "border-large"
+          },
+          subImages: [
+            {
+              imageUrl: sampleImage,
+              urlRouteArray: ['Disclaimer-page'],
+              hoverText: "<i class='fa fa-mail-forward'></i>",
+              imageClass: "image-50-sub image-round-lower-right"
+            },
+            {
+              text: "#1",
+              imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
+            }
+          ],
+        },
+        description: [
+          "<p>Line1</p>",
+          "<p>Line2</p>",
+          "<p>Line3</p>",
+          "<p>Line4</p>",
+        ],
+      },]
+    this.carouselData = carouselData;
   }
 }

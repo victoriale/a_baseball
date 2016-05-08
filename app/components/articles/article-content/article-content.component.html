@@ -1,6 +1,7 @@
-<div class="content-container" *ngFor="#content of articleData; #i=index; #last=last">
+<div *ngIf="singleLogo" class="content-container" *ngFor="#content of articleData?.article; #i=index; #last=last">
     <p *ngIf="i==0" class="content-first" [innerHTML]="content"></p>
-    <profileData-component *ngIf="i==2"></profileData-component>
+    <profileData-component *ngIf="i==1" [singleLogo]="singleLogo" [articleData]="articleData"></profileData-component>
     <p *ngIf="i!=0" class="content" [innerHTML]="content"></p>
+    <profileData-component *ngIf="i==4" [singleLogo]="singleLogo" [articleData]="articleData"></profileData-component>
     <billboard-component *ngIf="last"></billboard-component>
 </div>

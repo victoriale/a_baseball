@@ -7,16 +7,6 @@ import {ImageData} from '../../components/images/image-data';
     templateUrl: './app/components/images/hover-image.html',
     directives: [ROUTER_DIRECTIVES]
 })
-export class HoverImage implements OnInit {  
-    placeholderJavascript: string;
-    
-    //Inputs
+export class HoverImage {
     @Input() imageData: any;
-    
-    ngOnInit() {
-      if ( this.imageData.placeholderImageUrl === undefined || this.imageData.placeholderImageUrl === null ) {
-        this.imageData.placeholderImageUrl = "/app/public/placeholder-location.png";
-      }
-      this.placeholderJavascript = "this.src='" + this.imageData.placeholderImageUrl + "';";
-    }
 }

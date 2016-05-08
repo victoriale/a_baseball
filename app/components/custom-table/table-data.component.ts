@@ -9,6 +9,8 @@ export interface TableModel<T> {
   
   footer?: { [key: string]: string };
   
+  setRowSelected(rowIndex:number);
+  
   isRowSelected(item:T, rowIndex:number): boolean;
   
   getDisplayValueAt(item:T, column:TableColumn):string;
@@ -67,12 +69,6 @@ export interface TableColumn {
    * Each row must contain a TableCell corresponding to this key.
    */
   key: string;
-  
-  /**
-   * (Optional) This tooltip will be displayed if the user hovers over 
-   * the header element.
-   */
-  tooltip?: string;
 }
 
 export interface TableRow {

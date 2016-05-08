@@ -21,7 +21,9 @@ export class Tabs implements AfterContentInit {
     //  this.tabs.first.active = true;
     //}
     // get width for each tab
-    this.tabWidth = 100/(this.tabs.length) + "%";
+    if ( this.tabs.length > 0 ) { //can't divide by 0
+      this.tabWidth = 100/(this.tabs.length) + "%";
+    }
   }
 
   selectTab(tab: Tab){
