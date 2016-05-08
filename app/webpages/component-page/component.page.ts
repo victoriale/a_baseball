@@ -10,6 +10,7 @@ import {ShareButtonComponent} from '../../components/share-button/share-button.c
 import {ProfileHeaderModule} from '../../modules/profile-header/profile-header.module';
 import {StandingsModule} from '../../modules/standings/standings.module';
 import {Search} from '../../components/search/search.component';
+import {ListOfListModule} from "../../modules/list-of-list/list-of-list.module";
 
 @Component({
     selector: 'Component-page',
@@ -20,6 +21,7 @@ import {Search} from '../../components/search/search.component';
       TeamRosterModule,
       ComparisonModule,
       DraftHistoryModule,
+      ListOfListModule,
       SchedulesModule,
       SeasonStatsModule,
       Search,

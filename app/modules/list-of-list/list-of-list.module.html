@@ -1,0 +1,7 @@
+<div class="module-container list-of-list">
+  <module-header *ngIf="moduleHeader" [modHeadData]="moduleHeader"></module-header>
+  <div *ngIf="testData">
+    <list-of-list-item *ngFor="#itemData of testData" [item] = 'itemData'></list-of-list-item>
+  </div>
+  <module-footer [footerData] = 'footerData'></module-footer>
+</div>

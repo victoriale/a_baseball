@@ -1,0 +1,23 @@
+<div class="loli-container" *ngIf="item">
+  <div class="loli-container-left">
+    <circle-image [data]="item.dataPoints[0]"></circle-image>
+  </div>
+  <div class="loli-container-right">
+    <!--put in right box styles-->
+    <div class="dataBox">
+      <h2 class="loli-title"><a href="#TODO">{{item.name}}</a></h2>
+      <div *ngFor="#imageConfig of item.dataPoints; #i=index" class="loli-sub-item">
+        <circle-image *ngIf="i>0" [data]="imageConfig"></circle-image>
+      </div>
+    </div>
+    <div class="cta-container">
+      <span>
+        <button>
+          <span class="cta-container-icon"></span>
+          <span>{{item.ctaText}}</span>
+          <i class="fa fa-angle-right"></i>
+        </button>
+      </span>
+    </div>
+  </div>
+</div>
