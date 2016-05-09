@@ -176,7 +176,7 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
     var s = "";
     switch (column.key) {
       case "name": 
-        s = item.teamName + " (#" + item.teamId + ")";
+        s = item.teamName;
         break;
       
       case "w": 
@@ -270,6 +270,19 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
   }
   
   hasImageConfigAt(column:TableColumn):boolean {
+    return column.key === "name";
+  }  
+  
+  getRouterLinkAt(item:TeamStandingsData, column:TableColumn):Array<any> {
+    if ( column.key === "name" ) {
+      return ["Team-page", { teamID: item.teamId }];
+    }
+    else {
+      return undefined;
+    }
+  }
+  
+  hasRouterLinkAt(column:TableColumn):boolean {
     return column.key === "name";
   }  
 }
