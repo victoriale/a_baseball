@@ -357,6 +357,20 @@ export class GlobalFunctions {
         return str;
     };
 
+  /**
+   * - Transforms  strings to lower-case kabab case (with hyphens).
+   * - Used mainly for SEO friendly URL values.
+   * - If the str is undefined or null, then it is returned without performing the conversion.
+   *
+   * @param {string} str - The str value to convert to kabab case
+   * @returns {string}
+   */
+    toLowerKebab(str:string):string{
+        str = str.toLowerCase()
+            .replace(/\s+/g, '-');
+        return str;
+    }
+
     /**
      * - Formats the date as 'dddd, MMMM Do, YYYY'
      * - Appends the timestamp as 'hh:mm A' if {includeTimestamp} is true.
@@ -430,7 +444,7 @@ export class GlobalFunctions {
           return moment().subtract(daysOnMarket, 'days').format('dddd, MMMM Do, YYYY');
         }
     }
-  
+
   /**
    * Parses the date string with moment and returns it as a long-date formatted string
    * @param {string} dateStr
@@ -446,13 +460,13 @@ export class GlobalFunctions {
     }
     return date.format("MMMM d, YYYY");
   }
-  
+
   /**
-   * Formats the given string as English words if it's between 
+   * Formats the given string as English words if it's between
    * 0 and 9. Otherwise the given string is returned unchanged.
-   * 
+   *
    * @param {string} numStr - The number string to format
-   * @returns  
+   * @returns
    */
   static formatNumber(numStr: string) {
    switch (numStr) {

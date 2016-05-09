@@ -38,9 +38,11 @@ export class DraftHistoryPage implements OnInit{
       this.profHeadService.getTeamPageHeader(2799)
       .subscribe(
           profHeader => {
-            console.log(profHeader);
             this.profileHeaderData = profHeader.data;
-            this.errorData = profHeader.error;
+            this.errorData = {
+              data:profHeader.error,
+              icon: "fa fa-area-chart"
+            }
           },
           err => {
               console.log('Error: draftData Profile Header API: ', err);
@@ -50,7 +52,6 @@ export class DraftHistoryPage implements OnInit{
       this.draftService.getDraftHistoryService(date)
           .subscribe(
               draftData => {
-                console.log(draftData);
                 if(typeof this.dataArray == 'undefined'){//makes sure it only runs once
                   this.dataArray = draftData.tabArray;
                 }

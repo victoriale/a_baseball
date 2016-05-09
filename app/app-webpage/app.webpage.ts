@@ -24,6 +24,7 @@ import {ArticlePage} from "../webpages/articles/articles/articles.page";
 import {ArticleDataService} from "../global/global-article-page-service";
 import {HeadlineDataService} from "../global/global-ai-headline-module-service";
 import {ArticlePages} from "../webpages/articles/article-pages/article-pages.page";
+import {ErrorPage} from "../webpages/error-page/error-page.page";
 
 @Component({
     selector: 'my-app',
@@ -55,7 +56,7 @@ import {ArticlePages} from "../webpages/articles/article-pages/article-pages.pag
         component: MLBPage,
     },
     {
-        path: '/player/:teamName/:firstName/:lastName/:playerId',
+        path: '/player/:teamName/:fullName/:playerId',
         name: 'Player-page',
         component: PlayerPage,
     },
@@ -125,7 +126,7 @@ import {ArticlePages} from "../webpages/articles/article-pages/article-pages.pag
         component: StandingsPage
     },
     {
-        path: '/list',
+        path: '/list/:profile/:listname/:sort/:conference/:division/:limit/:pageNum',
         name: 'List-page',
         component: ListPage
     },
@@ -149,6 +150,11 @@ import {ArticlePages} from "../webpages/articles/article-pages/article-pages.pag
         path: '/articles/:eventType/:eventID',
         name: 'Article-pages',
         component: ArticlePages
+	},
+    {
+        path: '/error',
+        name: 'Error-page',
+        component: ErrorPage
     }
 ])
 
