@@ -40,7 +40,7 @@ export class DraftHistoryService {
   }
 
   var callURL = this._apiUrl + '/team/draftHistory/2791/'+year;
-  console.log(callURL);
+  // console.log(callURL);
 
   return this.http.get( callURL, {
       headers: headers
@@ -50,7 +50,6 @@ export class DraftHistoryService {
     )
     .map(
       data => {
-        console.log(data);
         var returnData = {}
         if(type == 'module'){
           return returnData = {
