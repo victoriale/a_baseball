@@ -1,4 +1,5 @@
 import {Component, OnInit, Input, ViewChildren, OnChanges, EventEmitter, Output} from 'angular2/core';
+import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {TableHeader} from '../../components/custom-table/table-header.component';
 import {TableModel, TableColumn} from '../../components/custom-table/table-data.component';
 import {CircleImage} from '../../components/images/circle-image';
@@ -6,8 +7,7 @@ import {CircleImage} from '../../components/images/circle-image';
 @Component({
   selector: 'custom-table',
   templateUrl: './app/components/custom-table/custom-table.component.html',
-  directives: [TableHeader, CircleImage],
-  providers: []
+  directives: [TableHeader, CircleImage, ROUTER_DIRECTIVES]
 })
 
 export class CustomTable implements OnInit, OnChanges {

@@ -27,6 +27,8 @@ export class StandingsPage implements OnInit {
     
   public pageParams: MLBPageParameters = {}
   
+  public hasError: boolean = false;
+  
   public titleData: TitleInputData = {
     imageURL: "/app/public/profile_placeholder.png",
     text1: "Last Updated: [date]",
@@ -57,7 +59,7 @@ export class StandingsPage implements OnInit {
     }
   }
   
-  ngOnInit() {    
+  ngOnInit() {
     this.setupStandingsData();
   }
 
@@ -69,6 +71,7 @@ export class StandingsPage implements OnInit {
       },
       err => {
         console.log("Error getting standings data");
+        this.hasError = true;
       });
   }
 }
