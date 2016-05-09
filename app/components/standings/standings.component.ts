@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, DoCheck} from 'angular2/core';
+import {Component, Input, OnInit, DoCheck, OnChanges} from 'angular2/core';
 
 import {SliderCarousel, SliderCarouselInput} from '../carousels/slider-carousel/slider-carousel.component';
 import {Tabs} from '../tabs/tabs.component';
@@ -18,52 +18,26 @@ export interface TableComponentData<T> {
   tableData: TableModel<T>;  
 }
 
-export interface StandingsComponentData {
-  moduleTitle: string;
-  maxRows?: number;
-  tabs: Array<TableTabData<any>>
-}
-
 @Component({
   selector: "standings-component",
   templateUrl: "./app/components/standings/standings.component.html",
   directives: [SliderCarousel, Tabs, Tab, CustomTable],
 })
-export class StandingsComponent implements OnChanges, DoCheck {
-  @Input() data: StandingsComponentData;
-  
+export class StandingsComponent implements OnChanges {  
   public selectedIndex;
 
   public carouselData: Array<SliderCarouselInput> = [];
 
-  @Input() tabs: Array<TableTabData<any>> = [];
+  @Input() tabs: Array<TableTabData<any>>;
   
   private selectedTabTitle: string;
 
   constructor() {}
   
   ngOnChanges() {
-    this.setupData();
-  }
-  
-  ngDoCheck() {
-    //check for tabs loaded and update on first tab found
-    if ( this.tabs.length > 0 && this.selectedTabTitle === undefined) {
+    if ( this.tabs != undefined && this.tabs.length > 0 ) {
       this.tabSelected(this.tabs[0].title);
-    }
-  }
-  
-  setupData() {
-    if ( this.data === undefined || this.data === null ) {
-      this.data = {
-        moduleTitle: "Standings",
-        tabs: []
-      }
-    }
-    
-    // this.tabs = this.data.tabs;
-    if ( this.tabs.length > 0 ) {
-      this.tabSelected(this.tabs[0].title);
+      this.updateCarousel();
     }
   }
   
@@ -102,6 +76,10 @@ export class StandingsComponent implements OnChanges, DoCheck {
   
   updateCarousel(sortedRows?) {
     var selectedTab = this.getSelectedTab();
+    if ( selectedTab === undefined || selectedTab === null ) {
+      return;
+    }
+    
     let carouselData: Array<SliderCarouselInput> = [];
     let index = 0;
     let selectedIndex = -1;      

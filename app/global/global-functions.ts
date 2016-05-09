@@ -6,11 +6,29 @@ declare var moment: any;
 
 export class GlobalFunctions {
 
+    Suffix = function(i) {
+      var a = i % 10,
+        b = i % 100;
+        if (a == 1 && b != 11) {
+            return "st";
+        }
+        if (a == 2 && b != 12) {
+            return "nd";
+        }
+        if (a == 3 && b != 13) {
+            return "rd";
+        }
+        if (i == 0){
+          return '';
+        }
+        return "th";
+    };
+
     /**
-     * - Converts the string to title case by capitalizing the first letter of 
+     * - Converts the string to title case by capitalizing the first letter of
      * each word and lowercasing the rest of the word, where words are separated by whitespace characters.
      * - If the str is undefined or null, then it is returned without performing the conversion
-     * 
+     *
      * @param {string} str - The string value to convert to title case
      * @returns {string}
      */
@@ -27,34 +45,34 @@ export class GlobalFunctions {
      * - Transforms a USA phone number (7 or 10 character string) to a human readable format.
      * - If the string is not 7 or 10 characters long, it returns the string unchanged.
      * - If the val is undefined or null, then "N\A" is returned.
-     * 
+     *
      * @example
      * // "(123) 123-1234" (10 digits)
      * formatPhoneNumber("1231231234");
-     * 
+     *
      * @example
      * // "123-4567" (7 digits)
      * formatPhoneNumber("1234567");
-     * 
+     *
      * @example
      * // "1234" (4 digits);
      * formatPhoneNumber("1234");
-     * 
+     *
      * @example
      * // "12345678911"
      * formatPhoneNumber("12345678911");
-     * 
+     *
      * @param {string} val - The string or number to convert to a phone number
      */
     formatPhoneNumber(val:any): string {
       if ( val === undefined || val === null ) {
         return "N\A";
       }
-      
+
       if(isNaN(val) === false) {
         val = val.toString();
       }
-      
+
       var numberLength = val.length;
       if(numberLength === 10) {
           //Number with area code
@@ -70,31 +88,31 @@ export class GlobalFunctions {
     /**
      * - Returns a comma-delimited string for the given value.
      * - If the value is undefined or null, then the def string is returned instead.
-     * 
+     *
      * @example
      * // returns "456"
      * commaSeparateNumber(456)
-     * 
+     *
      * @example
      * // returns "4,566"
      * commaSeparateNumber(4566)
-     * 
+     *
      * @example
      * // returns "124,566"
      * commaSeparateNumber(124566)
-     * 
+     *
      * @example
      * // returns "2,124,566"
      * commaSeparateNumber(2124566)
-     * 
+     *
      * @example
      * // returns ""
      * commaSeparateNumber(undefined)
-     * 
+     *
      * @example
      * // returns "N/A"
      * commaSeparateNumber(undefined, "N/A")
-     * 
+     *
      * @param {number} value - The value to convert to a comma-delimited number
      * @param {string} def - (Optional) The default string value to use if the value is undefined. If it's not included, then "" is used as the def string.
      * @returns {string}
@@ -103,7 +121,7 @@ export class GlobalFunctions {
       if ( value === null || value === undefined ) {
         return def || "";
       }
-      
+
       var parts = value.toString().split("."); //split on decimal point
       parts[0] = parts[0].replace(/(\d+)(\d{3})/g, "$1,$2"); //replace all groups of three
       return parts.join(".");
@@ -112,7 +130,7 @@ export class GlobalFunctions {
     /**
      * - Returns a comma-delimited currency string for the given value.
      * - If the value is 0, undefined, or null, then the def string is returned instead.
-     * 
+     *
      * @param {number} price - The value to convert to a currency string
      * @param {string} def - (Optional) The default string value to use if the number is 0 or undefined. If it's not included, then "N/A" is used as the def string.
      * @returns {string}
@@ -121,7 +139,7 @@ export class GlobalFunctions {
       if ( def === null || def === undefined ) {
         def = "N\A";
       }
-      
+
       if ( value === null || value === undefined || value === 0 ) {
         return def;
       }
@@ -132,19 +150,19 @@ export class GlobalFunctions {
     }
 
     /**
-     * - Returns the full state name corresponding to the given postal code. 
+     * - Returns the full state name corresponding to the given postal code.
      * Only US states, DC, Puerto Rico, and Ontario (?) are supported.
-     * 
+     *
      * - If state is undefined or null. or if the state could not be found in the lookup
      * table, then state is returned unchanged.
-     *  
+     *
      * @param {string} state - The postal state code to convert to the full state name. Case does not matter.
      * @returns {string}
      */
     fullstate(state:string): string {
         if ( state === undefined || state === null ) {
           return state;
-        }        
+        }
         var stateName = {
             AL: 'Alabama',
             AK: 'Alaska',
@@ -200,9 +218,9 @@ export class GlobalFunctions {
             WI: 'Wisconsin',
             WY: 'Wyoming'
         };
-        
+
         let upperState = state.toUpperCase();
-        let displayState = stateName[upperState]; 
+        let displayState = stateName[upperState];
         return displayState !== undefined ? displayState : state;
     };
 
@@ -212,15 +230,15 @@ export class GlobalFunctions {
      * states and DC are supported.
      * - If state is undefined or null. or if the state could not be found in the lookup
      * table, then state is returned unchanged.
-     * 
+     *
      * @param {string} state - The postal state code to convert to the AP Abbreviation. Case does not matter.
      * @returns {string}
      */
     stateToAP(state: string): string {
         if ( state === undefined || state === null ) {
           return state;
-        }        
-        
+        }
+
         var stateAP = {
             AL: 'Ala.',
             AK: 'Alaska',
@@ -274,18 +292,18 @@ export class GlobalFunctions {
             WI: 'Wis.',
             WY: 'Wyo.'
         };
-        
+
         let upperState = state.toUpperCase();
-        let displayState = stateAP[upperState]; 
+        let displayState = stateAP[upperState];
         return displayState !== undefined ? displayState : state;
     };
 
     /**
      * - Transforms camel case to regular case (Words split up and capitalized)
      * - If the str is undefined or null, then it is returned without performing the conversion
-     * 
-     * @param {string} str - The str value to convert to regular case  
-     * @returns {string}  
+     *
+     * @param {string} str - The str value to convert to regular case
+     * @returns {string}
      */
     camelCaseToRegularCase(str:string): string {
         if ( str === undefined || str === null ) {
@@ -302,9 +320,9 @@ export class GlobalFunctions {
     /**
      * - Transforms kabab cased strings to camel case.
      * - If the str is undefined or null, then it is returned without performing the conversion.
-     * 
+     *
      * @param {string} str - The str value to convert to camel case
-     * @returns {string}  
+     * @returns {string}
      */
     kababCaseToCamelCase(str:string): string {
         if ( str === undefined || str === null ) {
@@ -318,10 +336,10 @@ export class GlobalFunctions {
     };
 
     /**
-     * - Transforms camel-cased strings to lower-case kabab case. 
-     * - Used mainly for SEO friendly URL values. 
+     * - Transforms camel-cased strings to lower-case kabab case.
+     * - Used mainly for SEO friendly URL values.
      * - If the str is undefined or null, then it is returned without performing the conversion.
-     * 
+     *
      * @param {string} str - The str value to convert to kabab case
      * @returns {string}
      */
@@ -338,11 +356,11 @@ export class GlobalFunctions {
         str = str.toLowerCase();
         return str;
     };
-    
+
     /**
      * - Formats the date as 'dddd, MMMM Do, YYYY'
      * - Appends the timestamp as 'hh:mm A' if {includeTimestamp} is true.
-     * 
+     *
      * @param {Date} jsDate - the date to format
      * @param {boolean} includeTimestamp - (Optional) set to true to include a timestamp at the end
      * @param {string} timezone - (Optional) the timezone string to append if {includeTimestamp} is true
@@ -353,7 +371,7 @@ export class GlobalFunctions {
       var str = date.format('dddd, MMMM Do, YYYY');
       if ( includeTimestamp ) {
         str += ' | ' + date.format('hh:mm A') + (timezone !== undefined && timezone !== null ? timezone : "");
-      } 
+      }
       return str;
     }
 
@@ -403,7 +421,7 @@ export class GlobalFunctions {
 
         return typeof names[val] === 'undefined' ? this.camelCaseToRegularCase(val) : names[val];
     }
-    
+
     formatDaysOnMarket = function(daysOnMarket) {
         if ( daysOnMarket === null || daysOnMarket === undefined || daysOnMarket === "N/A" ) {
           return "N/A";
@@ -411,5 +429,44 @@ export class GlobalFunctions {
         else {
           return moment().subtract(daysOnMarket, 'days').format('dddd, MMMM Do, YYYY');
         }
-    } 
+    }
+  
+  /**
+   * Parses the date string with moment and returns it as a long-date formatted string
+   * @param {string} dateStr
+   * @returns MMMM d, YYYY
+   */
+  static formatLongDate(dateStr: string) {
+    if (!dateStr) {
+      return "N/A";
+    }
+    var date = moment(dateStr)
+    if (!date) {
+      return "N/A";
+    }
+    return date.format("MMMM d, YYYY");
+  }
+  
+  /**
+   * Formats the given string as English words if it's between 
+   * 0 and 9. Otherwise the given string is returned unchanged.
+   * 
+   * @param {string} numStr - The number string to format
+   * @returns  
+   */
+  static formatNumber(numStr: string) {
+   switch (numStr) {
+     case "0": return "zero";
+     case "1": return "one";
+     case "2": return "two";
+     case "3": return "three";
+     case "4": return "four";
+     case "5": return "five";
+     case "6": return "six";
+     case "7": return "seven";
+     case "8": return "eight";
+     case "9": return "nine";
+     default: return numStr;
+   }
+  }
 }

@@ -1,27 +1,44 @@
-import {Component, Input} from 'angular2/core';
-import {Router} from 'angular2/router';
-
-import {ProfileHeaderData, ProfileHeaderService} from '../../services/profile-header.service';
+import {Component, Input, OnChanges} from 'angular2/core';
+import {ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {CircleImage} from '../../components/images/circle-image';
 import {CircleImageData} from '../../components/images/image-data';
 import {ScrollableContent} from '../../components/scrollable-content/scrollable-content.component';
 import {GlobalFunctions} from '../../global/global-functions';
+import {NaValuePipe} from '../../pipes/na.pipe';
 
-declare var moment: any;
+export interface DataItem {
+  label: string;
+  labelCont?: string;
+  value: string;
+  routerLink?: Array<any>;
+}
+
+export interface ProfileHeaderData {
+  profileName: string;    
+  profileImageUrl: string;    
+  backgroundImageUrl: string;    
+  profileTitleFirstPart: string;    
+  profileTitleLastPart: string;    
+  lastUpdatedDate: Date;
+  description: string; 
+  topDataPoints: Array<DataItem>
+  bottomDataPoints: Array<DataItem>;
+}
 
 @Component({
     selector: 'profile-header',
     templateUrl: './app/modules/profile-header/profile-header.module.html',    
-    directives: [CircleImage, ScrollableContent],
-    providers: [ProfileHeaderService]
+    directives: [ROUTER_DIRECTIVES, CircleImage, ScrollableContent],
+    pipes: [NaValuePipe]
 })
-export class ProfileHeaderModule {
+export class ProfileHeaderModule implements OnChanges {
     @Input() profileHeaderData: ProfileHeaderData;
     
     public contentTitle: string = "Quick info";
     public displayDate: string;
     public profileTitle: string;
+    public backgroundImage: string;
     
     public imageConfig: CircleImageData = {
       imageClass: "image-180",
@@ -40,25 +57,22 @@ export class ProfileHeaderModule {
       }
     }; 
 
-    constructor(private _router: Router, private _globalFunctions: GlobalFunctions, private _service: ProfileHeaderService) {
-        this._service.getDefaultData().subscribe(
-          data => this.setupData(data),
-          err => { console.log("Error getting Profile Header data"); }
-        );
-    }
+    constructor(private _globalFunctions: GlobalFunctions) {}
     
-    setupData(data: ProfileHeaderData) {
-      if ( data !== undefined && data !== null ) {        
-        this.profileHeaderData = data;
+    ngOnChanges() {
+      var data = this.profileHeaderData;
+      if ( data !== undefined && data !== null ) {
+        if ( data.backgroundImageUrl === null || data.backgroundImageUrl === undefined ) {
+          data.backgroundImageUrl = "/app/public/image_placeholder.png";
+        }
+        if ( data.profileImageUrl === null || data.profileImageUrl === undefined ) {
+          data.profileImageUrl = "/app/public/profile_placeholder_large.png";
+        }
         this.imageConfig.mainImage.imageUrl = data.profileImageUrl;
+        this.backgroundImage =  "url(" + data.backgroundImageUrl + ") no-repeat center rgba(0,0,0,.65)";
         this.contentTitle = "Quick info about " + data.profileName;
-        this.profileTitle = data.profileTitleFirstPart + "<span class='text-heavy'> " + data.profileTitleLastPart + "</span";
-        
-        var lastUpdated = moment(data.lastUpdatedDate);
-        this.displayDate = lastUpdated.format('dddd, MMMM D, YYYY');
-      }
-      else {
-        console.log("Error setting up Profile Header data");
+        this.profileTitle = data.profileTitleFirstPart + "<span class='text-heavy'> " + data.profileTitleLastPart + "</span>";
+        this.displayDate = this._globalFunctions.formatUpdatedDate(data.lastUpdatedDate);
       }
     }
 }

@@ -1,9 +1,10 @@
 import {Component, Input, OnInit} from 'angular2/core';
+import {ROUTER_DIRECTIVES} from 'angular2/router';
 
 export interface ModuleFooterData {
   infoDesc: string, // text description that describes what is the footer going to display
   text: string, // the text that is in the mod-footer button that describes where the Route link is navigating to
-  url:[any],//USED FOR ROUTER LINK
+  url: Array<any>,//USED FOR ROUTER LINK
 }
 
 export interface FooterStyle {
@@ -15,7 +16,7 @@ export interface FooterStyle {
 @Component({
     selector: 'module-footer',
     templateUrl: './app/components/module-footer/module-footer.component.html',
-    directives: [],
+    directives: [ROUTER_DIRECTIVES],
     providers: [],
 })
 
@@ -38,6 +39,12 @@ export class ModuleFooter implements OnInit{
           text:'VIEW THE LIST',
           url:['Disclaimer-page'],
         }
+      }
+    }
+
+    ngOnChanges(){
+      if(typeof this.footerData.url == 'undefined'){
+        this.footerData.url = ['Disclaimer-page'];
       }
     }
 }

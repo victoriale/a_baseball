@@ -1,29 +1,44 @@
 <div class="page-container">
+    <div class="component-compbar-container">
+      <draft-history></draft-history>
+    </div>
+
+    <div class="component-compbar-container">
+      <profile-header [profileHeaderData]="playerProfileHeaderData"></profile-header>
+    </div>
+
+    <div class="component-compbar-container">
+      <profile-header [profileHeaderData]="teamProfileHeaderData"></profile-header>
+    </div>
 
     <div class="component-compbar-container">
       <schedules></schedules>
     </div>
 
     <div class="component-compbar-container">
+      <team-roster-module></team-roster-module>
+    </div>
+
+    <div class="component-compbar-container">
       <standings-module [data]="standingsData"></standings-module>
     </div>
+
     <div class="component-compbar-container">
       <box-scores></box-scores>
     </div>
 
     <search></search>
 
+    <div class="component-compbar-container">
+      <profile-header [profileHeaderData]="teamProfileHeaderData"></profile-header>
+    </div>
 
     <div class="component-compbar-container">
-      <profile-header></profile-header>
+      <standings-module [data]="standingsData"></standings-module>
     </div>
 
     <div class="component-compbar-container">
       <share-button-component></share-button-component>
-    </div>
-
-    <div class="component-compbar-container">
-      <team-roster-module></team-roster-module>
     </div>
 
     <div class="component-compmodule-container">
@@ -32,10 +47,6 @@
 
     <div class="component-compmodule-container">
         <season-stats-module></season-stats-module>
-    </div>
-
-    <div class="component-compbar-container">
-      <draft-history></draft-history>
     </div>
 
     <div class="component-compbar-container">

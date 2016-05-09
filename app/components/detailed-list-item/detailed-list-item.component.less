@@ -1,7 +1,20 @@
+.dli-icon{
+    float:left;
+    position: absolute;
+    left:7px;
+    top:2px !important;
+}
+
 .dli-container{
   width:100%;
   height:155px;
   border-bottom: 1px solid @greyBorder;
+  &.odd{
+    background-color: @backgroundGrey;
+  }
+  &.even{
+    background-color: @white;
+  }
   &-left{
     float:left;
     width:22.8%;
@@ -34,7 +47,7 @@
         font-size: 14px;
         width: 100%;
         display: inline-block;
-        &:first-child{
+        &.detail-small{
           font-size: 10px;
           font-weight: 600;
           line-height: 1.3em;
@@ -42,12 +55,12 @@
             color:@masterBrandColor;
           }
         }
-        &:nth-child(2){
+        &.detail-large{
           font-size: 20px;
           font-weight: 900;
           line-height: 1.2em;
         }
-        &:last-child{
+        &.detail-medium{
           font-size: 14px;
           line-height: 1.3em;
           & > i{
@@ -101,6 +114,7 @@
         border:none;
         line-height: 2.2em;
         border-radius: 5px;
+        position: relative;
         &:focus{
           outline: 0;
         }
