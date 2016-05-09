@@ -1,4 +1,15 @@
 <div class="page-container">
+    <div class="component-compbar-container">
+      <draft-history></draft-history>
+    </div>
+
+    <div class="component-compbar-container">
+      <profile-header [profileHeaderData]="playerProfileHeaderData"></profile-header>
+    </div>
+
+    <div class="component-compbar-container">
+      <profile-header [profileHeaderData]="teamProfileHeaderData"></profile-header>
+    </div>
 
     <div class="component-compbar-container">
       <team-roster-module></team-roster-module>
@@ -23,11 +34,11 @@
     <search></search>
 
     <div class="component-compbar-container">
-      <profile-header [profileHeaderData]="playerProfileHeaderData"></profile-header>
+      <profile-header [profileHeaderData]="teamProfileHeaderData"></profile-header>
     </div>
 
     <div class="component-compbar-container">
-      <profile-header [profileHeaderData]="teamProfileHeaderData"></profile-header>
+      <standings-module [data]="standingsData"></standings-module>
     </div>
 
     <div class="component-compbar-container">
@@ -40,10 +51,6 @@
 
     <div class="component-compmodule-container">
         <season-stats-module></season-stats-module>
-    </div>
-
-    <div class="component-compbar-container">
-      <draft-history></draft-history>
     </div>
 
     <div class="component-compbar-container">

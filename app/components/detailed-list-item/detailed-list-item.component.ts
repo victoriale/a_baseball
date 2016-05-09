@@ -8,6 +8,14 @@ export interface DetailListInput {
   // detail-small will be a small sized texted that are floated left and right of the detailed-list box
   // detail-medium normal size non bolded text that is used for quick description for the large listed item
   // detail-large is the main large font bolded text that should describe what the detailed list should be about
+
+  //within dataPoints the objects are float left => data  and float right => value
+  /*
+    data-----------value
+    data-----------value
+    data-----------value
+  */
+  //as it would appear on the module itself
   dataPoints: Array<{
       style?:string;
       data: string;

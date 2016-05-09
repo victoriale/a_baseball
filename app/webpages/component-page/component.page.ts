@@ -82,7 +82,7 @@ export class ComponentPage implements OnInit {
   private setupProfileData() {
     this._profileService.getPlayerProfile(this.pageParams.playerId).subscribe(
       data => {
-        this.playerProfileHeaderData = data
+        this.playerProfileHeaderData = this._profileService.convertToPlayerProfileHeader(data)
       },
       err => {
         console.log("Error getting player profile data for " + this.pageParams.playerId + ": " + err);
@@ -90,7 +90,7 @@ export class ComponentPage implements OnInit {
     );
     this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
       data => {
-        this.teamProfileHeaderData = data
+        this.teamProfileHeaderData = this._profileService.convertToTeamProfileHeader(data)
       },
       err => {
         console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
