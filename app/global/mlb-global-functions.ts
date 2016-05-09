@@ -31,6 +31,8 @@ export class MLBGlobalFunctions {
     if(typeof teamName != 'undefined' && teamName != null){
       teamName = this._globalFunctions.toLowerKebab(teamName);
       teamRoute = ['Team-page',{teamName:teamName, teamId}];//NOTE: if Team-page is on the same level as the rest of the route-outlets
+    }else{
+      teamRoute = null;
     }
     return teamRoute ? teamRoute : teamRoute = ['Error-page'];
   }
