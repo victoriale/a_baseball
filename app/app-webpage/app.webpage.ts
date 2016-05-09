@@ -29,7 +29,7 @@ import {ErrorPage} from "../webpages/error-page/error-page.page";
 @Component({
     selector: 'my-app',
     templateUrl: './app/app-webpage/app.webpage.html',
-    directives: [DraftHistoryPage, ListPage, HomePage, TeamPage, PlayerPage, DirectoryPage, AboutUsPage, ContactUsPage, DisclaimerPage, SearchPage, ComponentPage, ModulePage, RouterOutlet, ROUTER_DIRECTIVES],
+    directives: [TeamRosterPage, DraftHistoryPage, ListPage, HomePage, TeamPage, PlayerPage, DirectoryPage, AboutUsPage, ContactUsPage, DisclaimerPage, SearchPage, ComponentPage, ModulePage, RouterOutlet, ROUTER_DIRECTIVES],
     providers: [ ROUTER_DIRECTIVES, ArticleDataService, HeadlineDataService],
 })
 
@@ -46,7 +46,7 @@ import {ErrorPage} from "../webpages/error-page/error-page.page";
         component: MLBPage,
     },
     {
-        path: '/team/:teamName/:teamID',
+        path: '/team/:teamName/:teamId',
         name: 'Team-page',
         component: TeamPage,
     },

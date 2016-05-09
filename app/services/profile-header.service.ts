@@ -12,10 +12,10 @@ declare var moment: any;
 
 interface PlayerProfileHeaderData {
   description: string;
-  info: {    
+  info: {
     profileImage: string; //NEED
     backgroundImage: string; //NEED
-    
+
     teamId: number;
     teamName: string;
     playerId: number;
@@ -87,7 +87,7 @@ interface TeamProfileHeaderData {
       city: string; //NEED
       state: string; //NEED
       lastUpdated: Date; //NEED
-      
+
       teamId: number;
       teamName: string;
       seasonId: string;
@@ -116,7 +116,7 @@ interface TeamProfileHeaderData {
       };
       streak: {
         type: string; //win or loss
-        count: number; 
+        count: number;
       };
     };
 }
@@ -184,36 +184,37 @@ export class ProfileHeaderService {
     }
     return headerData;
   }
-  
+
   convertToPlayerProfileHeader(data: PlayerProfileHeaderData): ProfileHeaderData {
+    console.log(data);
     if (!data.info) {
       return null;
-    }    
-    // [Player Name] started his MLB career on [Month] [Day], [Year] for [Team Name], 
-    // accumulating [##] years in the MLB.  
-    // [Player Name] was born in [City], [State] on [Month] [Day], [Year] 
+    }
+    // [Player Name] started his MLB career on [Month] [Day], [Year] for [Team Name],
+    // accumulating [##] years in the MLB.
+    // [Player Name] was born in [City], [State] on [Month] [Day], [Year]
     // and is [##] years old, with a height of [##] and weighing in at [##]lbs.
-    
+
     /* // Done by Backend now.
-    var formattedYearsPlayed = data.info.yearsPlayed == 1 ? "one year" :  data.info.yearsPlayed + " years";    
-    var formattedAge = data.info.age == 1 ? "one year" :  data.info.age + " years";  
-    var formattedBirthDate = GlobalFunctions.formatLongDate(data.info.birthDate); 
-    var formattedHeight = MLBGlobalFunctions.formatHeight(data.info.height); 
+    var formattedYearsPlayed = data.info.yearsPlayed == 1 ? "one year" :  data.info.yearsPlayed + " years";
+    var formattedAge = data.info.age == 1 ? "one year" :  data.info.age + " years";
+    var formattedBirthDate = GlobalFunctions.formatLongDate(data.info.birthDate);
+    var formattedHeight = MLBGlobalFunctions.formatHeight(data.info.height);
     var formattedWeight = data.info.weight ? data.info.weight : "N/A";
     var formattedCity = data.info.city ? data.info.city : "N/A";
     var formattedCountry = data.info.country ? data.info.country : "N/A";
     var formattedStartDate = GlobalFunctions.formatLongDate(data.info.startDate);
-    
+
     var description = data.info.playerName + " started his MLB career on " + formattedStartDate +
                       " for " + data.info.teamName + " accumulating " + formattedYearsPlayed + " in the MLB. " +
                       data.info.playerName + " was born in " + formattedCity + ", " + formattedCountry +
                       " on " + formattedBirthDate + " and is " + formattedAge + " old with a height of " +
                        formattedHeight + " and weighing in at " + formattedWeight + "lbs.";*/
-    var description = data.description; 
-                      
+    var description = data.description;
+
     var dataPoints: Array<DataItem>;
-    var isPitcher = data.info.position.filter(value => value === "P").length > 0;        
-    
+    var isPitcher = data.info.position.filter(value => value === "P").length > 0;
+
     if ( isPitcher ) {
       dataPoints = [
         {
@@ -236,7 +237,7 @@ export class ProfileHeaderService {
           labelCont: "for the current season",
           value: data.stats.earnedRuns.toString()
         }
-      ];      
+      ];
     }
     else {
       dataPoints = [
@@ -262,7 +263,6 @@ export class ProfileHeaderService {
         }
       ];
     }
-    
     var header: ProfileHeaderData = {
       profileName: data.info.playerName,
       profileImageUrl: data.info.profileImage,
@@ -275,7 +275,7 @@ export class ProfileHeaderService {
         {
           label: "Team",
           value: data.info.teamName,
-          routerLink: ["Team-page", { teamID: data.info.teamId }]          
+          routerLink: ["Team-page", { teamName:data.info.teamName ,teamId: data.info.teamId }]
         },
         {
           label: "Jersey Number",
@@ -290,11 +290,11 @@ export class ProfileHeaderService {
     }
     return header;
   }
-  
+
   convertToTeamProfileHeader(data: TeamProfileHeaderData): ProfileHeaderData {
     var description = data.description;
     var stats = data.stats;
-    
+
     if (!stats) {
       return null;
     }
@@ -304,10 +304,10 @@ export class ProfileHeaderService {
     var city = stats.city ? stats.city : "N/A";
     var state = stats.state ? stats.state : "N/A";
     // var divisionLongName = data.division && data.conference ? data.conference.name + " " + data.division.name : "N/A";
-    
-    // var description = "The " + teamName + " play in " + venue + " located in " + city + ", " + state + ". " + 
+
+    // var description = "The " + teamName + " play in " + venue + " located in " + city + ", " + state + ". " +
     //                   "The " + teamName + " are part of the " + divisionLongName + " division.";
-                          
+
     var header: ProfileHeaderData = {
       profileName: stats.teamName,
       profileImageUrl: stats.profileImage,
@@ -319,7 +319,7 @@ export class ProfileHeaderService {
       topDataPoints: [
         {
           label: "Division",
-          value: stats.division ? stats.division.name : null   
+          value: stats.division ? stats.division.name : null
         },
         {
           label: "Rank",
@@ -355,20 +355,20 @@ export class ProfileHeaderService {
     }
     return header;
   }
-  
+
   convertToLeagueProfileHeader(data: LeagueProfileHeaderData): ProfileHeaderData {
     //The MLB consists of [30] teams and [####] players. These teams and players are divided across [two] leagues and [six] divisions.
     var city = data.city != null ? data.city : "N/A";
     var state = data.state != null ? data.state : "N/A";
-    
-    var description = "The MLB consists of " + GlobalFunctions.formatNumber(data.totalTeams) + 
-                      " teams and " + GlobalFunctions.formatNumber(data.totalPlayers) + " players. " + 
-                      "These teams and players are divided across " + GlobalFunctions.formatNumber(data.totalLeagues) + 
+
+    var description = "The MLB consists of " + GlobalFunctions.formatNumber(data.totalTeams) +
+                      " teams and " + GlobalFunctions.formatNumber(data.totalPlayers) + " players. " +
+                      "These teams and players are divided across " + GlobalFunctions.formatNumber(data.totalLeagues) +
                       " leagues and " + GlobalFunctions.formatNumber(data.totalDivisions) + " divisions.";
-                          
+
     var header: ProfileHeaderData = {
       profileName: "MLB",
-      profileImageUrl: data.profileImage, 
+      profileImageUrl: data.profileImage,
       backgroundImageUrl: data.backgroundImage,
       profileTitleFirstPart: "",
       profileTitleLastPart: "Major League Baseball",
@@ -377,7 +377,7 @@ export class ProfileHeaderService {
       topDataPoints: [
         {
           label: "League Headquarters",
-          value: city + ", " + state   
+          value: city + ", " + state
         },
         {
           label: "Founded In",

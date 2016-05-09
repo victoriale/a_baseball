@@ -89,7 +89,7 @@ export class RosterTabData implements RosterTableTabData<TeamRosterData> {
         imageClass: "image-150",
         mainImage: {
           imageClass: "border-10",
-          urlRouteArray: ["Team-page", { teamID: item.teamId }],
+          urlRouteArray: ["Team-page", {teamName:item.teamName, teamId: item.teamId }],
           imageUrl: item.imageUrl,
           hoverText: "<p>View</p><p>Profile</p>"
         },
@@ -231,7 +231,7 @@ export class RosterTableModel implements TableModel<TeamRosterData> {
           mainImage: {
             imageUrl: item.imageUrl,
             imageClass: "border-2",
-            urlRouteArray: ["Team-page", { teamID: item.teamId }],
+            urlRouteArray: ["Team-page", { teamName: item.teamName, teamId: item.teamId }],
           },
           subImages: []
         };
@@ -244,12 +244,12 @@ export class RosterTableModel implements TableModel<TeamRosterData> {
   hasImageConfigAt(column:TableColumn):boolean {
     return column.key === "name";
   }
-  
+
   getRouterLinkAt(item:TeamRosterData, column:TableColumn):CircleImageData {
     return undefined;
   }
-  
+
   hasRouterLinkAt(column:TableColumn):boolean {
     return false;
-  }  
+  }
 }
