@@ -1,0 +1,40 @@
+.stats {
+  &-car {
+    height: 250px;
+    
+    &-subhdr {
+      .globalDefaultModFont(12px, 400, @white);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+    
+    &-hdr {      
+      .globalDefaultModFont(22px, 900, @white);
+      margin-bottom: 8px;
+    }
+    
+    &-desc {
+      .globalDefaultModFont(14px, 400, @white);
+      line-height: 16px;
+      margin-bottom: 16px;
+    }
+    
+    &-date {
+      .globalDefaultModFont(10px, 400, @white);
+    }
+  }
+  
+  &-glossary {
+    border-top: 1px solid @strokeGrey;
+      
+    &-title {
+      .globalDefaultFont(16px, 700);
+    }
+    
+    &-box {
+      background-color: @backgroundGrey;
+      border-top: 1px solid @strokeGrey;
+      padding: 15px;
+    }
+  }
+}
