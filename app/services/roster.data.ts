@@ -244,4 +244,12 @@ export class RosterTableModel implements TableModel<TeamRosterData> {
   hasImageConfigAt(column:TableColumn):boolean {
     return column.key === "name";
   }
+  
+  getRouterLinkAt(item:TeamRosterData, column:TableColumn):CircleImageData {
+    return undefined;
+  }
+  
+  hasRouterLinkAt(column:TableColumn):boolean {
+    return false;
+  }  
 }

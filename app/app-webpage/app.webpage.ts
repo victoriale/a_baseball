@@ -41,19 +41,14 @@ import {ErrorPage} from "../webpages/error-page/error-page.page";
         useAsDefault: true
     },
     {
-        path: '/components',
-        name: 'Component-page',
-        component: ComponentPage,
-    },
-    {
-        path: '/team/:teamID',
-        name: 'Team-page',
-        component: TeamPage,
-    },
-    {
         path: '/mlb',
         name: 'MLB-page',
         component: MLBPage,
+    },
+    {
+        path: '/team/:teamName/:teamID',
+        name: 'Team-page',
+        component: TeamPage,
     },
     {
         path: '/player/:teamName/:fullName/:playerId',
@@ -67,23 +62,92 @@ import {ErrorPage} from "../webpages/error-page/error-page.page";
     },
     {
         path: '/directory/:type/:startsWith/page/:page',
-        name: 'Directory-page-startswith',
+        name: 'Directory-page-starts-with',
         component: DirectoryPage,
     },
     {
-        path: '/aboutus',
-        name: 'Aboutus-page',
+        path: '/about-us',
+        name: 'About-us-page',
         component: AboutUsPage,
     },
     {
-        path: '/contactus',
-        name: 'Contactus-page',
+        path: '/contact-us',
+        name: 'Contact-us-page',
         component: ContactUsPage,
     },
     {
         path: '/disclaimer',
         name: 'Disclaimer-page',
         component: DisclaimerPage,
+    },
+    {
+        path: '/search/:query',
+        name: 'Search-page',
+        component: SearchPage
+    },
+    {
+        path: '/standings',
+        name: 'Standings-page',
+        component: StandingsPage
+    },
+    {
+        path: '/standings/:type',
+        name: 'Standings-page-league',
+        component: StandingsPage
+    },
+    {
+        path: '/standings/:type/:teamId',
+        name: 'Standings-page-team',
+        component: StandingsPage
+    },
+    {
+        path: '/list/:profile/:listname/:sort/:conference/:division/:limit/:pageNum',
+        name: 'List-page',
+        component: ListPage
+    },
+    {
+        path: '/draft-history/:teamName/:teamId',
+        name: 'Draft-history-page',
+        component: DraftHistoryPage
+    },
+    {
+        path: '/team-roster/:teamName/:teamId',
+        name: 'Team-roster-page',
+        component: TeamRosterPage
+    },
+    /*  TODO-JVW uncomment after the player stats page is added
+    {
+        path: '/player-stats/:teamName/:teamId',
+        name: 'Player-stats-page',
+        component: PlayerStatsPage
+    },
+    */
+    //test AI Page
+    {
+        path: '/articles',
+        name: 'Articles-Page',
+        component: ArticlePage
+    },
+    {
+        path: '/articles/:eventType/:eventID',
+        name: 'Article-pages',
+        component: ArticlePages
+	  },
+    {
+        path: '/error',
+        name: 'Error-page',
+        component: ErrorPage
+    },
+    // TODO remove after testing
+    {
+        path: '/modules/:teamID',
+        name: 'Module-page',
+        component: ModulePage
+    },
+    {
+        path: '/components',
+        name: 'Component-page',
+        component: ComponentPage,
     },
     {
         path: '/images-test',
@@ -95,67 +159,6 @@ import {ErrorPage} from "../webpages/error-page/error-page.page";
         name: 'Tables-test-page',
         component: TablesTestPage,
     },
-    {
-        path: '/search',
-        name: 'Search-page',
-        component: SearchPage
-    },
-    {
-        path: '/modules/:teamID',
-        name: 'Module-page',
-        component: ModulePage
-    },
-    {
-        path: '/standings/:conference/:division/:teamId',
-        name: 'Standings-page-team',
-        component: StandingsPage
-    },
-    {
-        path: '/standings/:conference/:division',
-        name: 'Standings-page-division',
-        component: StandingsPage
-    },
-    {
-        path: '/standings/:conference',
-        name: 'Standings-page-conference',
-        component: StandingsPage
-    },
-    {
-        path: '/standings',
-        name: 'Standings-page',
-        component: StandingsPage
-    },
-    {
-        path: '/list/:profile/:listname/:sort/:conference/:division/:limit/:pageNum',
-        name: 'List-page',
-        component: ListPage
-    },
-    {
-        path: '/drafthistory',
-        name: 'Draft-history-page',
-        component: DraftHistoryPage
-    },
-    {
-        path: '/team-roster',
-        name: 'Teamroster-Page',
-        component: TeamRosterPage
-    },
-    //test AI Page
-    {
-        path: '/articles',
-        name: 'Articles-Page',
-        component: ArticlePage
-    },
-    {
-        path: '/articles/:eventType/:eventID',
-        name: 'Article-pages',
-        component: ArticlePages
-	},
-    {
-        path: '/error',
-        name: 'Error-page',
-        component: ErrorPage
-    }
 ])
 
 export class AppComponent implements OnInit {
