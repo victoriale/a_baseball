@@ -29,7 +29,6 @@ export class RosterService {
     )
     .map(
       data => {
-        console.log("team roster data service", data);
         return {
             title: data.data,
             carousel: this.carData(data.data),
@@ -47,7 +46,6 @@ export class RosterService {
     var carouselArray = [];
     var dummyImg = "./app/public/placeholder-location.jpg";
     var dummyRoute = ['Disclaimer-page'];
-    var dummyRank = '#4';
     var curYear = new Date().getFullYear();
     data.forEach(function(val, index){
       var playerNum = "";
@@ -102,7 +100,7 @@ export class RosterService {
       };
       carouselArray.push(Carousel);
     });
-    console.log('TRANSFORMED CAROUSEL', carouselArray);
+    // console.log('TRANSFORMED CAROUSEL', carouselArray);
     return carouselArray;
   }
   imageData(imageClass, imageBorder, mainImg, mainImgRoute, subImgClass?, subImg?, subRoute?, rank?){

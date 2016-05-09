@@ -6,6 +6,7 @@ import {CircleImage} from '../../components/images/circle-image';
 import {ImageData,CircleImageData} from '../../components/images/image-data';
 import {Search} from '../../components/search/search.component';
 import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
+import {LandingPageService} from '../../services/landing-page';
 
 export interface homePageData {
   imageData: CircleImageData;
@@ -22,7 +23,7 @@ export interface newsCarouselData{
     templateUrl: './app/webpages/home-page/home-page.page.html',
     directives: [CircleImage, ROUTER_DIRECTIVES, FooterComponent, HeaderComponent, Search, SliderButton],
     inputs: [],
-    providers: [],
+    providers: [LandingPageService],
 })
 
 export class HomePage implements OnInit {
@@ -45,8 +46,8 @@ export class HomePage implements OnInit {
     public homeFeaturesTile4: string = "<h3>MLB Schedules</h3>";
     public buttonFullList: string = "See The Full List";
     public mlb: string = "MLB";
-
-    constructor(private _router: Router) {
+    public mlbTeams: any;
+    constructor(private _router: Router, private _landingPageService: LandingPageService) {
       this.getData();
       this.getNewsData();
     }
@@ -60,6 +61,12 @@ export class HomePage implements OnInit {
       ];
     }
     getData(){
+      this._landingPageService.getLandingPageService()
+        .subscribe(data => {
+          console.log(data);
+          this.mlbTeams = data.league;
+          console.log(this.mlbTeams);
+        })
       var sampleImage = "./app/public/placeholder-location.jpg";
       this.leagueHeading = "<b>AMERICAN LEAGUE</b> TEAMS<b>:</b>";
       this.homeFeatures = "<b>Features</b> to Note";

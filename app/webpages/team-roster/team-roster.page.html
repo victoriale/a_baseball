@@ -2,12 +2,12 @@
   <backtab-component></backtab-component>
   <title-component [titleData]="titleData"></title-component>
   <slider-carousel *ngIf="carDataArray" [carouselData]="carDataArray" [footerStyle]="footerStyle"></slider-carousel>
-  <!-- <tabs (tabSelected)="tabSelected($event)">
+  <tabs (tabSelected)="tabSelected($event)">
     <tab *ngFor="#tab of tabs" [tabTitle]="tab.title" [active]="tab.isActive">
       <div *ngFor="#section of tab.sections">
         <p [innerHtml]="section.groupName"></p>
         <custom-table [model]="section.tableData" (sortChanged)="updateCarousel($event)"></custom-table>
       </div>
     </tab>
-  </tabs> -->
+  </tabs>
 </section>
