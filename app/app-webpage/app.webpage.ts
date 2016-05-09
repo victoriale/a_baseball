@@ -50,7 +50,7 @@ import {ErrorPage} from "../webpages/error-page/error-page.page";
         component: ComponentPage,
     },
     {
-        path: '/team/:teamName/:teamID',
+        path: '/team/:teamID',
         name: 'Team-page',
         component: TeamPage,
     },
@@ -130,7 +130,7 @@ import {ErrorPage} from "../webpages/error-page/error-page.page";
         component: StandingsPage
     },
     {
-        path: '/list',
+        path: '/list/:profile/:listname/:sort/:conference/:division/:limit/:pageNum',
         name: 'List-page',
         component: ListPage
     },

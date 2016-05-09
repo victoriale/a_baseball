@@ -40,7 +40,10 @@ export class DraftHistoryPage implements OnInit{
           profHeader => {
             console.log(profHeader);
             this.profileHeaderData = profHeader.data;
-            this.errorData = profHeader.error;
+            this.errorData = {
+              data:profHeader.error,
+              icon: "fa fa-area-chart"
+            }
           },
           err => {
               console.log('Error: draftData Profile Header API: ', err);
