@@ -1,0 +1,21 @@
+<section class="module-container">
+  <module-header [modHeadData]="headerInfo"></module-header>
+  <!-- <news-carousel *ngIf="carouselData" [carouselData]="carouselData"></news-carousel> -->
+  <div class="news">
+    <div *ngIf="backgroundImage" class="news-placeholder">
+      <div class="news-text" *ngFor="#newsItems of newsItems">
+        <div class="news-headline">{{newsData.title}}</div>
+        <div class="news-preview">{{newsData.description}}</div>
+        <div class="news-footer">
+          <span class="news-footer-author">{{newsData.tags}}</span>
+          <span class="news-footer-created">{{newsData.published}}</span>
+          <a href="#" class="news-footer-share"><i class="fa fa-share-alt"> Share</i></a>
+        </div>
+      </div>
+      <!-- center details ends -->
+      <module-footer *ngIf="dataPoint.footerInfo" [footerData]="footerInfo"></module-footer>
+    </div>
+    <!-- placeholder ends -->
+  </div>
+  <module-footer [footerData] = 'footerData'></module-footer>
+</section>
