@@ -1,7 +1,30 @@
-<div *ngIf="singleLogo" class="content-container" *ngFor="#content of articleData?.article; #i=index; #last=last">
+<div class="content-container" *ngFor="#content of articleData?.article; #i=index; #last=last">
+
     <p *ngIf="i==0" class="content-first" [innerHTML]="content"></p>
-    <profileData-component *ngIf="i==1" [singleLogo]="singleLogo" [articleData]="articleData"></profileData-component>
-    <p *ngIf="i!=0" class="content" [innerHTML]="content"></p>
-    <profileData-component *ngIf="i==4" [singleLogo]="singleLogo" [articleData]="articleData"></profileData-component>
+
+
+    <profileData-component *ngIf="i==2 && articleType == 'playerComparison'" [articleType]="articleType"
+                           [articleData]="articleData"></profileData-component>
+    <profileData-component *ngIf="i==2 && articleType == 'teamRecord' && articleSubType == 'about'" [index]="'1'"
+                           [articleSubType]="articleSubType" [articleType]="articleType"
+                           [articleData]="articleData"></profileData-component>
+    <profileData-component *ngIf="i==2 && articleType == 'teamRecord' && articleSubType == 'history'" [index]="'1'"
+                           [articleSubType]="articleSubType" [articleType]="articleType"
+                           [articleData]="articleData"></profileData-component>
+
+    <p *ngIf="i!=0 && !content.playerComparisonModule && !content.teamRecordModule" class="content"
+       [innerHTML]="content"></p>
+
+    <!--<profileData-component *ngIf="i==2" [articleType]="articleType" [articleData]="articleData"></profileData-component>-->
+
+
+    <profileData-component *ngIf="i==4 && articleType == 'teamRecord' && articleSubType == 'about'" [index]="'2'"
+                           [articleSubType]="articleSubType" [articleType]="articleType"
+                           [articleData]="articleData"></profileData-component>
+    <profileData-component *ngIf="i==3 && articleType == 'teamRecord' && articleSubType == 'history'" [index]="'2'"
+                           [articleSubType]="articleSubType" [articleType]="articleType"
+                           [articleData]="articleData"></profileData-component>
+
     <billboard-component *ngIf="last"></billboard-component>
+
 </div>
