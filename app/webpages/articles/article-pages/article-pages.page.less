@@ -19,9 +19,7 @@
     top: 1px;
   }
   &-title {
-    font-family: @globalFont;
-    font-size: 40px;
-    font-weight: 900;
+    .globalDefaultFont(40px, 900);
     text-align: left;
     margin-bottom: 17px;
   }
@@ -31,7 +29,7 @@
   overflow: hidden;
   position: relative;
   width: 100%;
-  height: 80px;
+  height: 40px;
   text-align: left;
   margin-top: 22px;
 
@@ -52,38 +50,30 @@
     }
 
     &-text {
-      font-family: @globalFont;
+      .globalDefaultFont(16px, 400);
       width: 520px;
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
       padding-top: 15px;
       padding-left: 15px;
-      color: #000000;
-      font-size: 16px;
-      font-weight: 400;
       text-align: left;
 
       &-name {
-        color: @masterBrandColor;
-        font-size: 16px;
-        font-weight: 700;
+        .globalDefaultModFont(16px, 700, @masterBrandColor);
         text-align: left;
       }
     }
   }
 
   &-date {
-    font-family: @globalFont;
+    .globalDefaultModFont(12px, 400, @partnerLocGrey);
     width: 100%;
     height: 11px;
-    font-size: 12px;
-    font-weight: 400;
-    color: #333333;
     text-transform: uppercase;
     line-height: 10px;
     float: left;
-    margin-top: 5px;
+    margin-top: 25px;
   }
 }
 

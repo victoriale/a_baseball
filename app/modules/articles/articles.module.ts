@@ -31,10 +31,10 @@ export class ArticlesModule implements OnInit {
     mainTitle:string;
     titleFontSize:string;
     mainContent:string;
-    mainPageIndex:string;
     images:any;
     teamID:string;
     eventID:number;
+    eventType:string;
     mainEventID:number;
     arrLength:number;
     league:boolean = false;
@@ -68,7 +68,7 @@ export class ArticlesModule implements OnInit {
         if (this.mainTitle.length >= 85) {
             this.titleFontSize = "font-size: 16px;";
         }
-        this.mainPageIndex = this._globalFunctions.toTitleCase(pageIndex);
+        this.eventType = pageIndex;
         this.mainEventID = eventID;
         var articleContent = headlineData.article[0];
         var maxLength = 240;
@@ -91,7 +91,7 @@ export class ArticlesModule implements OnInit {
                 case'injuries-away':
                 case'upcoming-game':
                     val['title'] = val.displayHeadline;
-                    val['pageIndex'] = self._globalFunctions.toTitleCase(index.toString());
+                    val['eventType'] = index;
                     val['eventID'] = eventID;
                     //val['photos'] = val[0].photos.url;
                     articleArr.push(val);
@@ -119,8 +119,15 @@ export class ArticlesModule implements OnInit {
                 case'left-field-player-comparison':
                 case'center-field-player-comparison':
                 case'right-field-player-comparison':
+                case'outfield-most-putouts':
+                case'outfielder-most-hits':
+                case'outfield-most-home-runs':
+                case'infield-most-hits':
+                case'infield-most-home-runs':
+                case'infield-best-batting-average':
+                case'infield-most-putouts':
                     val['title'] = val.displayHeadline;
-                    val['pageIndex'] = self._globalFunctions.toTitleCase(index.toString());
+                    val['eventType'] = index;
                     val['eventID'] = eventID;
                     articleArr.push(val);
                     break;

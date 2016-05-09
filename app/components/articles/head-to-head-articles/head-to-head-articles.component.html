@@ -5,7 +5,7 @@
     <div class="right-column-head-content" style="">
         <span *ngFor="#headData of randomHeadToHead; #i=index; #last=last">
             <!--<span *ngIf="i < 9">-->
-                <a [routerLink]="[headData.pageIndex, {eventID: headData.eventID}]">
+                <a [routerLink]="['Article-pages', {eventType: headData.eventType, eventID: headData.eventID}]">
                     <div class="right-column-head-content-blurb" style="">
                         {{headData.title}}
                     </div>

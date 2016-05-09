@@ -1,6 +1,6 @@
 <div class="main-article">
-    <span *ngIf="mainPageIndex">
-        <a [routerLink]="[mainPageIndex, {eventID: mainEventID}]">
+    <span *ngIf="eventType">
+        <a [routerLink]="['Article-pages', {eventType: eventType, eventID: mainEventID}]">
             <span class="articleBoxLarge">
                 <img src="{{images}}"/>
                 <div>
