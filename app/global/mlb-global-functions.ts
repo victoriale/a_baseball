@@ -23,13 +23,13 @@ export class MLBGlobalFunctions {
    *
    * @param {teamName} teamName - team name given from data that will be converted to lower kebab case
    * @param {teamId} teamId - team ID the required field needed to successfully navigate to team profile
-   * @returns the height with ticks for feet and inches (#'#")
+   * @returns the teamName => boston-red-sox,  teamId => ##, routeNmae => 'Team-page'
    */
   formatTeamRoute(teamName: string, teamId: number):Array<any> {
     var teamRoute: Array<any>;
 
     teamName = this._globalFunctions.toLowerKebab(teamName);
-    teamRoute = []
+    teamRoute = ['Team-page',{teamName:teamName, teamId}];//NOTE: if Team-page is on the same level as the rest of the route-outlets
     return teamRoute ? teamRoute : teamRoute = ['Error-page'];
   }
 

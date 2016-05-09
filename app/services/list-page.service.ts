@@ -26,7 +26,7 @@ export class DraftHistoryService {
   //for MLB season starts and ends in the same year so return current season
 
   var callURL = this._apiUrl + '/team/draftHistory/2791/';
-  console.log(callURL);
+  // console.log(callURL);
 
   return this.http.get( callURL, {
       headers: headers
@@ -36,7 +36,7 @@ export class DraftHistoryService {
     )
     .map(
       data => {
-        console.log(data);
+        // console.log(data);
       },
       err => {
         console.log('INVALID DATA');
