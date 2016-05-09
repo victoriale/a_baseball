@@ -1,7 +1,6 @@
-<section class="page-container">
-  <backtab-component></backtab-component>
-  <title-component [titleData]="titleData"></title-component>
-  <slider-carousel *ngIf="carDataArray" [carouselData]="carDataArray" [footerStyle]="footerStyle"></slider-carousel>
+<div *ngIf="tabs" class="roster">
+  <div class="roster-car">
+  <slider-carousel *ngIf="carDataArray" [carouselData]="carDataArray" [footerStyle]="footerStyle"></slider-carousel>  </div>
   <tabs (tabSelected)="tabSelected($event)">
     <tab *ngFor="#tab of tabs" [tabTitle]="tab.title" [active]="tab.isActive">
       <div *ngFor="#section of tab.sections">
@@ -10,4 +9,4 @@
       </div>
     </tab>
   </tabs>
-</section>
+</div>

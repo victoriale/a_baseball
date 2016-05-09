@@ -18,19 +18,50 @@ export class MLBGlobalFunctions {
    *
    * @example
    * // teamName => 'Boston Red Sox'
+   * formatTeamRoute('Boston Red Sox', 2124)
+   *
+   *
+   * @param {teamName} teamName - team name given from data that will be converted to lower kebab case
+   * @param {teamId} teamId - team ID the required field needed to successfully navigate to team profile
+   * @returns the teamName => boston-red-sox,  teamId => ##, routeName => 'Team-page'
+   */
+  formatTeamRoute(teamName: string, teamId: number):Array<any> {
+    var teamRoute: Array<any>;
+
+    if(typeof teamName != 'undefined' && teamName != null){
+      teamName = this._globalFunctions.toLowerKebab(teamName);
+      teamRoute = ['Team-page',{teamName:teamName, teamId}];//NOTE: if Team-page is on the same level as the rest of the route-outlets
+    }
+    return teamRoute ? teamRoute : teamRoute = ['Error-page'];
+  }
+
+  /**
+   * - Pass in datapoints to required parameters and formats
+   * them into a single route that is in lowerCase Kebab.
+   * - If parameters given do not fit the requirements them default to the error page.
+   * - Otherwise takes teamName && playerName as a string
+   *
+   * @example
+   * // teamName => 'Boston Red Sox'
+   * // playerName => 'Babe Ruth'
    * formatTeamRoute('Boston Red Sox')
    *
    *
    * @param {teamName} teamName - team name given from data that will be converted to lower kebab case
    * @param {teamId} teamId - team ID the required field needed to successfully navigate to team profile
-   * @returns the teamName => boston-red-sox,  teamId => ##, routeNmae => 'Team-page'
+   * @returns the teamName => 'boston-red-sox',  playerName => 'babe-ruth' playerId => ##, routeName => 'Player-page'
    */
-  formatTeamRoute(teamName: string, teamId: number):Array<any> {
-    var teamRoute: Array<any>;
+  formatPlayerRoute(teamName: string, playerFullName:string, playerId: number):Array<any> {
+    var playerRoute: Array<any>;
 
-    teamName = this._globalFunctions.toLowerKebab(teamName);
-    teamRoute = ['Team-page',{teamName:teamName, teamId}];//NOTE: if Team-page is on the same level as the rest of the route-outlets
-    return teamRoute ? teamRoute : teamRoute = ['Error-page'];
+    if(typeof teamName != 'undefined' && teamName != null && typeof playerFullName != 'undefined' && playerFullName != null){
+      teamName = this._globalFunctions.toLowerKebab(teamName);
+      playerFullName = this._globalFunctions.toLowerKebab(teamName);
+      playerRoute = ['Player-page',{teamName:teamName, fullName:playerFullName, playerId: playerId}];//NOTE: if Player-page is on the same level as the rest of the route-outlets
+    }else{
+      playerRoute = null;
+    }
+    return playerRoute ? playerRoute : playerRoute = ['Error-page'];
   }
 
   /**

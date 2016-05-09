@@ -14,18 +14,20 @@
           </div>
         </div>
       </div>
-      <div class="home-main col-xs-12">
+      <div class="home-main col-xs-offset-1 col-xs-10">
         <h2><span [innerHTML]="homeHeading3"></span></h2>
-        <div class="home-league">
-          <h3><span [innerHTML]="leagueHeading"></span></h3>
+        <!-- ngFor here for league -->
+        <div class="home-league" *ngFor="#league of mlbTeams">
+          <h3><span [innerHTML]="league.displayName"></span></h3>
 
-          <section class="row">
-            <div class="col-xs-4" *ngFor="#dataItem of teaxsata">
-              <h4>{{dataItem.divisionName}}</h4>
+          <section class="row" >
+            <!-- ngFor here for Division -->
+            <div class="col-md-4" *ngFor="#division of league.dataArray">
+              <h4>{{division.displayName}}</h4>
               <!-- ngFor here to get all the teams in the same division -->
-              <a [routerLink]="['Disclaimer-page']" class="home-team">
-                <circle-image [data]="dataItem.imageData"></circle-image>
-                <div class="home-team-name">{{dataItem.location}} <p>{{dataItem.teamName}}</p></div>
+              <a [routerLink]="['Disclaimer-page']" class="home-team" *ngFor="#team of division.dataArray">
+                <circle-image [data]="team.imageData"></circle-image>
+                <div class="home-team-name">[firstname] <p>{{team.teamName}}</p></div>
                 <i class="fa fa-angle-right fa-view"></i>
               </a>
             </div>
@@ -53,13 +55,13 @@
   <!-- end of news data carousel -->
 
   <div class="home-features col-xs-offset-2 col-xs-8">
-      <div class="home-features-title"><img src='{{imgIcon1}}' /><h2 [innerHTML]="homeFeatures"></h2></div>
-      <div class=home-features-tiles>
-        <a [routerLink]="['Disclaimer-page']" [ngStyle]="{'background-image': 'url('+imageTile1+')'}" class="home-features-tile1" [innerHTML]="homeFeaturesTile1"><h3></h3></a>
-        <div style="border-top: 5px solid #bc2027;" class="home-features-tile2" [innerHTML]="homeFeaturesTile2"></div>
-        <a [routerLink]="['Disclaimer-page']" [ngStyle]="{'background-image': 'url('+imageTile2+')'}" class="home-features-tile2" [innerHTML]="homeFeaturesTile3"></a>
-        <a [routerLink]="['Disclaimer-page']" [ngStyle]="{'background-image': 'url('+imageTile3+')'}" class="home-features-tile1" [innerHTML]="homeFeaturesTile4"></a>
-      </div>
+    <div class="home-features-title"><img src='{{imgIcon1}}' /><h2 [innerHTML]="homeFeatures"></h2></div>
+    <div class=home-features-tiles>
+      <a [routerLink]="['Disclaimer-page']" [ngStyle]="{'background-image': 'url('+imageTile1+')'}" class="home-features-tile1" [innerHTML]="homeFeaturesTile1"><h3></h3></a>
+      <div style="border-top: 5px solid #bc2027;" class="home-features-tile2" [innerHTML]="homeFeaturesTile2"></div>
+      <a [routerLink]="['Disclaimer-page']" [ngStyle]="{'background-image': 'url('+imageTile2+')'}" class="home-features-tile2" [innerHTML]="homeFeaturesTile3"></a>
+      <a [routerLink]="['Disclaimer-page']" [ngStyle]="{'background-image': 'url('+imageTile3+')'}" class="home-features-tile1" [innerHTML]="homeFeaturesTile4"></a>
+    </div>
   </div>
 
   <footer-component></footer-component>
