@@ -8,7 +8,7 @@
       <tabs *ngIf="dataArray" (tabSelected)='selectedTab($event)'>
         <tab *ngFor="#data of dataArray; #i = index" [active]="i == 0" [tabTitle]="data.tabDisplay">
           <detailed-list-item *ngIf="detailedDataArray" [detailedItemData] = 'detailedDataArray'></detailed-list-item>
-          <no-data-box *ngIf="!detailedDataArray" [data]="errorData"></no-data-box>
+          <no-data-box *ngIf="!detailedDataArray" [data]="errorData.data" [icon]="errorData.icon"></no-data-box>
         </tab>
       </tabs>
     </div>
