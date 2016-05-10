@@ -39,14 +39,14 @@
     </div>
   </div>
 
-  <div *ngFor="#listData of listData" class="home-slider col-xs-12">
-    <slider-button></slider-button>
+  <div *ngIf="displayData" class="home-slider col-xs-12">
+    <slider-button (scrollRight)="right()" (scrollLeft)="left()"></slider-button>
     <div class="home-slider-news col-xs-offset-2 col-xs-3">
       <div>{{mlb}}</div>
-      <h3><b>{{listData.newsTitle}}</b></h3>
+      <h3><b>{{displayData.newsTitle}}</b></h3>
       <hr />
-      <h5>{{listData.newsSubTitle}}</h5>
-      <a [routerLink]="listData.routerInfo" class='mod-page-btn-text-only'>
+      <h5>{{displayData.newsSubTitle}}</h5>
+      <a [routerLink]="displayData.routerInfo" class='mod-page-btn-text-only'>
           <span>{{buttonFullList}}</span>
       </a>
     </div>

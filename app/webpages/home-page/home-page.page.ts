@@ -29,6 +29,7 @@ export interface newsCarouselData{
 export class HomePage implements OnInit {
     public teamData: Array<homePageData>;
     public listData: Array<newsCarouselData>;
+    public displayData: Object;
     public imgHero1: string = "/app/public/homePage_hero1.png";
     public imgIcon1: string = "/app/public/homePage_icon1.png";
     public imageTile1: string = "/app/public/iphone.png";
@@ -50,6 +51,9 @@ export class HomePage implements OnInit {
     public buttonFullList: string = "See The Full List";
     public mlb: string = "MLB";
     public mlbTeams: any;
+    public counter: number = 0;
+    public max:number = 3;
+
     constructor(private _router: Router, private _landingPageService: LandingPageService) {
       this.getData();
       this.getListData();
@@ -61,8 +65,53 @@ export class HomePage implements OnInit {
           newsSubTitle: "See which MLB teams are performing at the top of their game",
           routerInfo: ['Disclaimer-page']
         },
+        {
+          newsTitle: "Top Pitchers In The League Right Now",
+          newsSubTitle: "See which MLB Player are performing at the top of their game",
+          routerInfo: ['Disclaimer-page']
+        },
+        {
+          newsTitle: "Players with the Most Home Runs",
+          newsSubTitle: "See which MLB Players are performing at the top of their game",
+          routerInfo: ['Disclaimer-page']
+        },
       ];
+      this.changeMain(this.counter);
     }
+    left(){
+      var counter = this.counter;
+      counter--;
+
+      //make a check to see if the array is below 0 change the array to the top level
+      if(counter < 0){
+        this.counter = (this.max - 1);
+      }else{
+        this.counter = counter;
+      }
+      this.changeMain(this.counter);
+    }
+
+    right(){
+      var counter = this.counter;
+      counter++;
+      //check to see if the end of the obj array of images has reached the end and will go on the the next obj with new set of array
+      if(counter == this.max){
+        this.counter = 0;
+      }else{
+        this.counter = counter;
+      }
+      this.changeMain(this.counter);
+    }
+
+
+    //this is where the angular2 decides what is the main image
+    changeMain(num){
+      if ( num < this.listData.length ) {
+        this.displayData = this.listData[num];
+        console.log(this.displayData);
+      }
+    }
+
     getData(){
       this._landingPageService.getLandingPageService()
         .subscribe(data => {
