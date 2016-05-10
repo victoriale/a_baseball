@@ -32,10 +32,8 @@ export class LandingPageService {
     var self = this;
     var leagueArray = [];
     var teamArray = [];
-
     var dummyImg = "./app/public/placeholder-location.jpg";
     var dummyRoute = ['Disclaimer-page'];
-    console.log('Original Data', data);
     for(var league in data){//get each of the league given by data
       var divisionArray = [];
       for(var division in data[league]){//get each division within league data
@@ -62,9 +60,6 @@ export class LandingPageService {
         dataArray:divisionArray
       });
     }
-
-    console.log('Transformed Data',leagueArray)
-
     return leagueArray;
   }
 }// LandingPageService ends

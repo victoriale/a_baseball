@@ -365,7 +365,7 @@ export class GlobalFunctions {
    * @param {string} str - The str value to convert to kabab case
    * @returns {string}
    */
-    toLowerKebab(str:string):string{
+    static toLowerKebab(str:string):string{
         str = str.toLowerCase()
             .replace(/\s+/g, '-');
         return str;
