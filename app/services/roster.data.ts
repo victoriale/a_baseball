@@ -245,7 +245,7 @@ export class RosterTableModel implements TableModel<TeamRosterData> {
     return column.key === "name";
   }
 
-  getRouterLinkAt(item:TeamRosterData, column:TableColumn):CircleImageData {
+  getRouterLinkAt(item:TeamRosterData, column:TableColumn):Array<string> {
     return undefined;
   }
 

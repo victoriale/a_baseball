@@ -67,9 +67,9 @@ export class TeamPage implements OnInit{
     this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
       data => {
         this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data)
-        this.pageParams.teamName = data.teamName;
-        this.pageParams.conference = data.conference ? Conference[data.conference.name.toLowerCase()] : null;
-        this.pageParams.division = data.division ? Division[data.division.name.toLowerCase()] : null;
+        this.pageParams.teamName = data.stats.teamName;
+        this.pageParams.conference = data.stats.conference ? Conference[data.stats.conference.name.toLowerCase()] : null;
+        this.pageParams.division = data.stats.division ? Division[data.stats.division.name.toLowerCase()] : null;
         this.setupStandingsData();
       },
       err => {
