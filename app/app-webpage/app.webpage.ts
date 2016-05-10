@@ -25,6 +25,7 @@ import {ArticleDataService} from "../global/global-article-page-service";
 import {HeadlineDataService} from "../global/global-ai-headline-module-service";
 import {ArticlePages} from "../webpages/articles/article-pages/article-pages.page";
 import {ErrorPage} from "../webpages/error-page/error-page.page";
+import {ListOfListsPage} from "../webpages/list-of-lists-page/list-of-lists.page";
 
 
 import {DesignPage} from "../webpages/design-page/design.page";
@@ -166,6 +167,11 @@ import {DesignPage} from "../webpages/design-page/design.page";
         path: '/tables-test',
         name: 'Tables-test-page',
         component: TablesTestPage,
+    },
+    {
+        path: '/list-of-lists',
+        name: 'List-of-lists-page',
+        component: ListOfListsPage
     },
 ])
 

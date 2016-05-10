@@ -8,6 +8,7 @@ import {AboutUsModule} from '../../modules/about-us/about-us.module';
 import {NewsModule} from '../../modules/news/news.module';
 import {ShareButtonComponent} from '../../components/share-button/share-button.component';
 import {Search} from '../../components/search/search.component';
+import {ListOfListModule} from "../../modules/list-of-list/list-of-list.module";
 import {SchedulesCarousel} from '../../components/carousels/schedules-carousel/schedules-carousel.component';
 import {Carousel} from '../../components/carousels/carousel.component';
 import {SliderCarousel} from '../../components/carousels/slider-carousel/slider-carousel.component';
@@ -21,7 +22,6 @@ import {MLBStandingsTableModel, MLBStandingsTableData} from '../../services/stan
 
 import {ProfileHeaderData, ProfileHeaderModule} from '../../modules/profile-header/profile-header.module';
 import {ProfileHeaderService} from '../../services/profile-header.service';
-
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
 import {GlobalFunctions} from '../../global/global-functions';
 import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
@@ -39,6 +39,7 @@ import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
       TeamRosterModule,
       ComparisonModule,
       DraftHistoryModule,
+      ListOfListModule,
       SchedulesModule,
       SeasonStatsModule,
       Search,
