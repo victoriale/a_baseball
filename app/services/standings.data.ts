@@ -26,12 +26,17 @@ export interface TeamStandingsData {
   /**
    * - Formatted from league and division values that generated the associated table
    */
-  groupName?: string
+  groupName?: string;
 
   /**
    * - Formatted from the lastUpdatedDate
    */
-  displayDate?: string
+  displayDate?: string;
+  
+  /**
+   * Formatted full path to image
+   */
+  fullImageUrl?: string;
 }
 
 export class MLBStandingsTableData implements TableComponentData<TeamStandingsData> {
@@ -91,7 +96,7 @@ export class MLBStandingsTabData implements TableTabData<TeamStandingsData> {
         mainImage: {
           imageClass: "border-10",
           urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId),
-          imageUrl: item.imageUrl,
+          imageUrl: item.fullImageUrl,
           hoverText: "<p>View</p><p>Profile</p>"
         },
         subImages: []
@@ -101,7 +106,7 @@ export class MLBStandingsTabData implements TableTabData<TeamStandingsData> {
 }
 
 export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
-  title: string;
+  // title: string;
 
   columns: Array<TableColumn> = [{
       headerValue: "Team Name",
@@ -149,15 +154,15 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
 
   selectedKey:number = -1;
 
-  constructor(title:string, rows: Array<TeamStandingsData>) {
-    this.title = title;
+  constructor(rows: Array<TeamStandingsData>) {
+    // this.title = title;
     this.rows = rows;
     if ( this.rows === undefined || this.rows === null ) {
       this.rows = [];
     }
-    else if ( rows.length > 0 ) {
-      this.selectedKey = rows[0].teamId;
-    }
+    // else if ( rows.length > 0 ) {
+    //   this.selectedKey = rows[0].teamId;
+    // }
   }
 
   setRowSelected(rowIndex:number) {
@@ -220,27 +225,27 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
         break;
 
       case "w":
-        o = item.totalWins;
+        o = Number(item.totalWins);
         break;
 
       case "l":
-        o = item.totalLosses;
+        o = Number(item.totalLosses);
         break;
 
       case "pct":
-        o = item.winPercentage;
+        o = Number(item.winPercentage);
         break;
 
       case "gb":
-        o = item.gamesBack;
+        o = Number(item.gamesBack);
         break;
 
       case "rs":
-        o = item.batRunsScored;
+        o = Number(item.batRunsScored);
         break;
 
       case "ra":
-        o = item.pitchRunsAllowed;
+        o = Number(item.pitchRunsAllowed);
         break;
 
       case "strk":
@@ -257,7 +262,7 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
       return {
           imageClass: "image-50",
           mainImage: {
-            imageUrl: item.imageUrl,
+            imageUrl: item.fullImageUrl,
             imageClass: "border-2",
             urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId),
             hoverText: "<i class='fa fa-mail-forward'></i>",

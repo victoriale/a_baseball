@@ -6,6 +6,7 @@ import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
 import {TeamStandingsData, MLBStandingsTabData, MLBStandingsTableModel, MLBStandingsTableData} from './standings.data';
 import {TableTabData} from '../components/standings/standings.component';
+import {GlobalSettings} from '../global/global-settings';
 
 @Injectable()
 export class StandingsService {
@@ -67,9 +68,9 @@ export class StandingsService {
     if ( standingsTab.conference !== undefined ) {
       url += "/" + Conference[standingsTab.conference];
 
-      if ( standingsTab.division !== undefined ) {
-        url += "/" + Division[standingsTab.division];
-      }
+      // if ( standingsTab.division !== undefined ) {
+      //   url += "/" + Division[standingsTab.division];
+      // }
     }
 
     return this.http.get(url)
@@ -107,29 +108,53 @@ export class StandingsService {
     return new MLBStandingsTabData(title, conference, division, selectTab);
   }
 
-  private setupTabData(standingsTab: MLBStandingsTabData, data: Array<TeamStandingsData>, maxRows?: number): MLBStandingsTabData {
-    var table = new MLBStandingsTableModel("", data);
-    let groupName = this.formatGroupName(standingsTab.conference, standingsTab.division);
+  private setupTabData(standingsTab: MLBStandingsTabData, apiData: any, maxRows?: number): MLBStandingsTabData {
+    //Array<TeamStandingsData>
+    var sections: Array<MLBStandingsTableData> = [];
+    
+    if ( standingsTab.conference !== null && standingsTab.conference !== undefined &&
+      standingsTab.division !== null && standingsTab.division !== undefined ) {
+      //get only the single division
+      var conferenceKey = Conference[standingsTab.conference];
+      var divisionKey = Division[standingsTab.division];      
+      var divData = conferenceKey && divisionKey ? apiData[conferenceKey][divisionKey] : [];
+      sections.push(this.setupTableData(standingsTab.conference, standingsTab.division, divData, maxRows, false));
+    }
+    else {    
+      //other load all provided divisions
+      for ( var conferenceKey in apiData ) {
+        for ( var divisionKey in apiData[conferenceKey] ) {
+          var divData = conferenceKey && divisionKey ? apiData[conferenceKey][divisionKey] : [];
+          sections.push(this.setupTableData(Conference[conferenceKey], Division[divisionKey], divData, maxRows, true));          
+        }
+      }      
+    }
+    
+    standingsTab.sections = sections;
+    return standingsTab;
+  }
+
+  private setupTableData(conference:Conference, division:Division, rows: Array<TeamStandingsData>, maxRows: number, includeTableName: boolean): MLBStandingsTableData {
+    let groupName = this.formatGroupName(conference, division);
     
     //Limit to maxRows, if necessary
     if ( maxRows !== undefined ) {
-      table.rows = table.rows.slice(0, maxRows);
+      rows = rows.slice(0, maxRows);
     }
     
-    //Set display values    
-    table.rows.forEach((value, index) => {
+    //Set display values
+    rows.forEach((value, index) => {
       value.groupName = groupName;
       value.displayDate = this._globalFunctions.formatUpdatedDate(value.lastUpdatedDate, false);
+      value.fullImageUrl = GlobalSettings.getImageUrl(value.imageUrl);
       if ( value.teamId === undefined || value.teamId === null ) {
         value.teamId = index;
       }
     });
-
-    //Table tabs
-    let title = ""; // only include title if there are multiple tables.
-    let tableData = new MLBStandingsTableData(title, standingsTab.conference, standingsTab.division, table); 
-    standingsTab.sections = [tableData];
-    return standingsTab;
+    
+    let tableName = this.formatGroupName(conference, division, true);
+    var table = new MLBStandingsTableModel(rows);
+    return new MLBStandingsTableData(includeTableName ? tableName : "", conference, division, table);
   }
 
   /**
@@ -153,11 +178,12 @@ export class StandingsService {
    * @returns {string}
    *
    */
-  private formatGroupName(conference: Conference, division: Division): string {
+  private formatGroupName(conference: Conference, division: Division, makeDivisionBold?: boolean): string {
     if ( conference !== undefined && conference !== null ) {
       let leagueName = this._globalFunctions.toTitleCase(Conference[conference]) + " League";
       if ( division !== undefined && division !== null ) {
-        return leagueName + " " + this._globalFunctions.toTitleCase(Division[division]);
+        var divisionName = this._globalFunctions.toTitleCase(Division[division]);
+        return leagueName + " " + (makeDivisionBold ? "<span class='text-heavy'>" + divisionName + "</span>" : divisionName);
       }
       else {
         return leagueName;
