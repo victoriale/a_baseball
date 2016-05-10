@@ -4,7 +4,7 @@ import {Http, Headers} from 'angular2/http';
 import {GlobalFunctions} from '../global/global-functions';
 
 @Injectable()
-export class DraftHistoryService {
+export class ListPageService {
   private _apiUrl: string = 'http://dev-homerunloyal-api.synapsys.us';
   // private _apiToken: string = 'BApA7KEfj';
   // private _headerName: string = 'X-SNT-TOKEN';
