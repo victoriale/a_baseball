@@ -160,13 +160,6 @@ import {ListOfListsPage} from "../webpages/list-of-lists-page/list-of-lists.page
         name: 'Tables-test-page',
         component: TablesTestPage,
     },
-    /*
-    {
-        path: '/articles/seventh-inning-stretch-report/:eventID',
-        name: 'Seventh-inning-stretch-report',
-        component: ArticlePagePreGame
-    },
-    */
     {
         path: '/list-of-lists',
         name: 'List-of-lists-page',
