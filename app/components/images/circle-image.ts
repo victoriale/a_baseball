@@ -70,5 +70,8 @@ export class CircleImage implements OnInit {
       if ( this.data.subImages === undefined || this.data.subImages === null ) {
         this.data.subImages = [];
       }
+      if ( !this.data.mainImage.imageUrl ) {
+        this.data.mainImage.imageUrl = "/app/public/no-image.png";
+      }
     }
 }
