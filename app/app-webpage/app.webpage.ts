@@ -26,6 +26,9 @@ import {HeadlineDataService} from "../global/global-ai-headline-module-service";
 import {ArticlePages} from "../webpages/articles/article-pages/article-pages.page";
 import {ErrorPage} from "../webpages/error-page/error-page.page";
 
+
+import {DesignPage} from "../webpages/design-page/design.page";
+
 @Component({
     selector: 'my-app',
     templateUrl: './app/app-webpage/app.webpage.html',
@@ -148,6 +151,11 @@ import {ErrorPage} from "../webpages/error-page/error-page.page";
         path: '/components',
         name: 'Component-page',
         component: ComponentPage,
+    },
+    {
+        path: '/design/:teamId',
+        name: 'Design-page',
+        component: DesignPage,
     },
     {
         path: '/images-test',
