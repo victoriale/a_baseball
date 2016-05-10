@@ -154,8 +154,8 @@ import {DesignPage} from "../webpages/design-page/design.page";
     },
     {
         path: '/design/:teamId',
-        name: 'Component-page',
-        component: ComponentPage,
+        name: 'Design-page',
+        component: DesignPage,
     },
     {
         path: '/images-test',
