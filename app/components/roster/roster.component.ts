@@ -38,13 +38,9 @@ export class RosterComponent implements OnChanges {
 
   private selectedTabTitle: string;
 
-  constructor() {
-    console.log('Test Data',this.tabs);
-
-  }
+  constructor() {}
 
   ngOnChanges() {
-    console.log(this.tabs);
     if ( this.tabs != undefined && this.tabs.length > 0 ) {
       this.tabSelected(this.tabs[0].title);
       this.updateCarousel();
