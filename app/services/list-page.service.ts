@@ -20,13 +20,28 @@ export class ListPageService {
       return headers;
   }
 
-  getListPageService(){//TODO replace data points for list page
+  getListPageService(query){//TODO replace data points for list page
   //Configure HTTP Headers
   var headers = this.setToken();
-  //for MLB season starts and ends in the same year so return current season
 
-  var callURL = this._apiUrl + '/team/draftHistory/2791/';
-  // console.log(callURL);
+  /*
+  query:{
+    profile: //profile type ex: 'team' or 'player'
+    listname: //list name sent back as lower kebab case  ex: 'batter-runs'
+    sort: //sorting the list by 'desc' or 'asc'
+    conference: //sort list by conference, but if sort by entire league then 'all' would be in place
+    division: //sort list by division, but if sort by all divisions then 'all' would be in place. conference is required if 'all' is in place
+    limit: // limit the amount of data points come back but a number amount
+    pageNum: //  determined by the limit as well detects what page to view based on the limit ex: limit: 10  page 1 holds 1-10 and page 2 holds 11-20
+  }
+  */
+  var callURL = this._apiUrl;
+
+  for(var q in query){
+    callURL += "/" + query[q];
+  }
+
+  console.log(callURL);
 
   return this.http.get( callURL, {
       headers: headers
@@ -36,7 +51,7 @@ export class ListPageService {
     )
     .map(
       data => {
-        // console.log(data);
+        console.log(data);
       },
       err => {
         console.log('INVALID DATA');

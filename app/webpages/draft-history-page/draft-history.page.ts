@@ -7,6 +7,7 @@ import {Tab} from '../../components/tabs/tab.component';
 import {TitleComponent, TitleInputData} from '../../components/title/title.component';
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {DraftHistoryService} from '../../services/draft-history.service';
+import {ListPageService} from '../../services/list-page.service';
 import {NoDataBox} from '../../components/error/data-box/data-box.component';
 import {ProfileHeaderService} from '../../services/profile-header.service';
 
