@@ -145,7 +145,7 @@ export class TeamRosterPage implements OnInit{
 
   private setupRosterData() {
     let self = this;
-    self._rosterService.loadAllTabs("2819")
+    self._rosterService.loadAllTabs("2799", 20)
       .subscribe(data => {
         //set up tabs
         this.tabs = data;

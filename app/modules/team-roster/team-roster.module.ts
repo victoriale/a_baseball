@@ -16,6 +16,8 @@ import {Tabs} from '../../components/tabs/tabs.component';
 import {Tab} from '../../components/tabs/tab.component';
 import {CustomTable} from '../../components/custom-table/custom-table.component';
 import {TableModel, TableColumn, TableRow, TableCell} from '../../components/custom-table/table-data.component';
+import {NoDataBox} from '../../components/error/data-box/data-box.component';
+
 export interface RosterTabData<T> {
   title: string;
   isActive: boolean;
@@ -38,7 +40,8 @@ export interface TableComponentData<T> {
                 CustomTable,
                 Tabs, Tab,
                 ModuleHeader,
-                ModuleFooter
+                ModuleFooter,
+                NoDataBox
               ],
     providers: [RosterService],
 })
@@ -48,6 +51,11 @@ export class TeamRosterModule implements OnChanges{
   private selectedTabTitle: string;
   public tabs: Array<RosterTabData>;
   public data: RosterComponentData;
+  errorData: any = {
+    data: "This team is a National League team and has no designated hitters.",
+    icon: "fa fa-calendar-o"
+  }
+
   public carDataArray: Array<SliderCarouselInput> = [];
   public pageParams: MLBPageParameters = {}
   public headerInfo: ModuleHeaderData = {
@@ -84,6 +92,7 @@ export class TeamRosterModule implements OnChanges{
       this.updateCarousel();
     }
   }
+
   getSelectedTab(): RosterTabData {
     var matchingTabs = this.tabs.filter(value => value.title === this.selectedTabTitle);
     if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) {
@@ -114,6 +123,7 @@ export class TeamRosterModule implements OnChanges{
         }
     }
   }
+
   updateCarousel(sortedRows?) {
     var selectedTab = this.getSelectedTab();
     if ( selectedTab === undefined || selectedTab === null ) {
@@ -143,7 +153,7 @@ export class TeamRosterModule implements OnChanges{
   private setupRosterData() {
     let self = this;
     //set tab limit
-    self._rosterService.loadAllTabs('2796', 5)
+    self._rosterService.loadAllTabs('2799', 5)
       .subscribe(data => {
         //set up tabs
         this.tabs = data;
