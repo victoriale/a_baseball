@@ -260,10 +260,10 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
     if ( column.key === "name" ) {
       //TODO-CJP: store after creation? or create each time?
       return {
-          imageClass: "image-50",
+          imageClass: "image-48",
           mainImage: {
             imageUrl: item.fullImageUrl,
-            imageClass: "border-2",
+            imageClass: "border-1",
             urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId),
             hoverText: "<i class='fa fa-mail-forward'></i>",
           },

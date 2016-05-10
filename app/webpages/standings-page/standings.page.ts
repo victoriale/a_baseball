@@ -44,8 +44,9 @@ export class StandingsPage implements OnInit {
               private _globalFunctions: GlobalFunctions, 
               private _mlbFunctions: MLBGlobalFunctions) {
     
-    var type = _params.get("type").toLowerCase();
+    var type = _params.get("type");;
     if ( type !== null && type !== undefined ) {
+      type = type.toLowerCase();
       this.pageParams.conference = Conference[type];
     }
     

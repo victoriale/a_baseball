@@ -2,6 +2,7 @@
 <header-component [partnerID]="partnerID"></header-component>
 <nav class="testLinks">
   <a [routerLink]="['Home-page']">Home</a>
+  <a [routerLink]="['Design-page',{teamId: 2796}]">Design Review</a>
   <a [routerLink]="['Component-page']">Components</a>
   <a [routerLink]="['Team-page', {teamName:'Yankees', teamId: 2796} ]">Team #2796</a>
   <a [routerLink]="['Draft-history-page', {teamName:'Yankees', teamId: 2796} ]">Draft History #2796</a>
@@ -18,6 +19,7 @@
   <a [routerLink]="['Team-roster-page', {teamName:'orioles',teamId:2799}]">Team Roster</a>
   <a [routerLink]="['Standings-page']">Standings Page</a>
   <a [routerLink]="['MLB-page']">MLB Page</a>
+  <a [routerLink]="['List-of-lists-page']">List of Lists Page</a>
 </nav>
 <!--
     <a [routerLink]="['Player-page']">Player Page</a>
