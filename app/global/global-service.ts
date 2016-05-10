@@ -141,7 +141,7 @@ export class Articles {
           status: true,
           photos: {
             url: "http://cdnph.upi.com/sv/b/upi/UPI-5051455995474/2016/1/c904f0af00b25a07ef7e2cd01254c521/New-York-Yankees-spring-preview-Stronger-bullpen-may-bring-improvement.jpg",
-            index: "1",
+            index: 1,
           },
           date: "Tuesday, April 12 2016",
           headline: "This is the title for the Articles Module. derp1",
@@ -157,7 +157,7 @@ export class Articles {
           status: false,
           photos: {
             url: "http://cdnph.upi.com/sv/b/upi/UPI-5051455995474/2016/1/c904f0af00b25a07ef7e2cd01254c521/New-York-Yankees-spring-preview-Stronger-bullpen-may-bring-improvement.jpg",
-            index: "1",
+            index: 1,
           },
           date: "Tuesday, April 12 2016",
           headline: "This is the title for the Articles Module. derp2",
@@ -173,7 +173,7 @@ export class Articles {
           status: false,
           photos: {
             url: "http://cdn.fansided.com/wp-content/blogs.dir/210/files/2016/01/michael-pineda-joe-girardi-mlb-houston-astros-new-york-yankees.jpg",
-            index: "1",
+            index: 1,
           },
           date: "Tuesday, April 12 2016",
           headline: "This is the title for the Articles Module. derp4",
@@ -189,7 +189,7 @@ export class Articles {
           status: false,
           photos: {
             url: "http://i.dailymail.co.uk/i/pix/2013/05/21/article-2328496-19DBA433000005DC-706_634x422.jpg",
-            index: "1",
+            index: 1,
           },
           date: "Tuesday, April 12 2016",
           headline: "This is the title for the Articles Module. derp5",
@@ -205,7 +205,7 @@ export class Articles {
           status: false,
           photos: {
             url: "http://cache1.asset-cache.net/gc/53074243-jason-giambi-of-the-new-york-yankees-trots-gettyimages.jpg?v=1&c=IWSAsset&k=2&d=OCUJ5gVf7YdJQI2Xhkc2QKfUIsRBDCcqaXHe8w9%2F3FvMyTbEX5b21y78kGNqIsuqUv%2Bv66%2BRtSCW8fXRdj2j4g%3D%3D",
-            index: "1",
+            index: 1,
           },
           date: "Tuesday, April 12 2016",
           headline: "This is the title for the Articles Module. derp6",
@@ -221,7 +221,7 @@ export class Articles {
           status: false,
           photos: {
             url: "http://www2.pictures.zimbio.com/gi/New+York+Yankees+v+Detroit+Tigers+IXsXuIsMZLpl.jpg",
-            index: "1",
+            index: 1,
           },
           date: "Tuesday, April 12 2016",
           headline: "This is the title for the Articles Module. derp3",
@@ -236,7 +236,7 @@ export class Articles {
         aboutTheTeams: [{
           photos: {
             url: "https://static.rukkus.com/images/performer/headshots/boston-red-sox-tickets.jpg.870x570_q70_crop-smart_upscale.jpg",
-            index: "1",
+            index: 1,
           },
           date: "Tuesday, April 12 2016",
           headline: "This is the title for the left side of the Articles Module. derpy1",
@@ -251,7 +251,7 @@ export class Articles {
         historicalTeamStats: [{
           photos: {
             url: "http://images.forbes.com/media/lists/33/2010/boston-red-sox.jpg",
-            index: "1",
+            index: 1,
           },
           date: "Tuesday, April 12 2016",
           headline: "This is the title for the left side of the Articles Module. derpy2",
@@ -266,7 +266,7 @@ export class Articles {
         lastMatchUp: [{
           photos: {
             url: "http://media.gettyimages.com/photos/david-ortiz-of-the-boston-red-sox-watches-the-flight-of-the-ball-the-picture-id85854086",
-            index: "1",
+            index: 1,
           },
           date: "Tuesday, April 12 2016",
           headline: "This is the title for the left side of the Articles Module. derpy3",
@@ -281,7 +281,7 @@ export class Articles {
         startingLineUp: [{
           photos: {
             url: "http://cache3.asset-cache.net/gc/469610884-sandy-leon-of-the-boston-red-sox-hits-a-gettyimages.jpg?v=1&c=IWSAsset&k=2&d=GkZZ8bf5zL1ZiijUmxa7QXBMYnM2zdtNPeqNvPaxfQ93pvbZ2hWWYvIihUR9EEE%2BYxzI4%2F%2Fo6lldtpsYkaPTZBbJmLN2EvlXdihBIdHZ8S8%3D",
-            index: "1",
+            index: 1,
           },
           date: "Tuesday, April 12 2016",
           headline: "This is the title for the right side of the Articles Module. derpy4",
@@ -296,7 +296,7 @@ export class Articles {
         outfieldLF: [{
           photos: {
             url: "http://images.forbes.com/media/lists/33/2010/boston-red-sox.jpg",
-            index: "1",
+            index: 1,
           },
           date: "Tuesday, April 12 2016",
           headline: "This is the title for the right side. derpderp1",
@@ -311,7 +311,7 @@ export class Articles {
         outfieldCF: [{
           photos: {
             url: "http://media.gettyimages.com/photos/david-ortiz-of-the-boston-red-sox-watches-the-flight-of-the-ball-the-picture-id85854086",
-            index: "1",
+            index: 1,
           },
           date: "Tuesday, April 12 2016",
           headline: "This is the title for the right side. derpderp2",
@@ -326,7 +326,7 @@ export class Articles {
         outfieldRF: [{
           photos: {
             url: "http://images.forbes.com/media/lists/33/2010/boston-red-sox.jpg",
-            index: "1",
+            index: 1,
           },
           date: "Tuesday, April 12 2016",
           headline: "This is the title for the right side. derpderp3",
@@ -341,7 +341,7 @@ export class Articles {
         infield3B: [{
           photos: {
             url: "http://images.forbes.com/media/lists/33/2010/boston-red-sox.jpg",
-            index: "1",
+            index: 1,
           },
           date: "Tuesday, April 12 2016",
           headline: "This is the title for the right side. derpderp4",
@@ -356,7 +356,7 @@ export class Articles {
         infieldSS: [{
           photos: {
             url: "http://images.forbes.com/media/lists/33/2010/boston-red-sox.jpg",
-            index: "1",
+            index: 1,
           },
           date: "Tuesday, April 12 2016",
           headline: "This is the title for the right side. derpderp5",
@@ -371,7 +371,7 @@ export class Articles {
         infield2B: [{
           photos: {
             url: "http://media.gettyimages.com/photos/david-ortiz-of-the-boston-red-sox-watches-the-flight-of-the-ball-the-picture-id85854086",
-            index: "1",
+            index: 1,
           },
           date: "Tuesday, April 12 2016",
           headline: "This is the title for the right side. derpderp6",
@@ -386,7 +386,7 @@ export class Articles {
         infield1B: [{
           photos: {
             url: "http://images.forbes.com/media/lists/33/2010/boston-red-sox.jpg",
-            index: "1",
+            index: 1,
           },
           date: "Tuesday, April 12 2016",
           headline: "This is the title for the right side. derpderp7",
@@ -401,7 +401,7 @@ export class Articles {
         pitcher: [{
           photos: {
             url: "http://media.gettyimages.com/photos/david-ortiz-of-the-boston-red-sox-watches-the-flight-of-the-ball-the-picture-id85854086",
-            index: "1",
+            index: 1,
           },
           date: "Tuesday, April 12 2016",
           headline: "This is the title for the right side. derpderp8",
@@ -416,7 +416,7 @@ export class Articles {
         catcher: [{
           photos: {
             url: "http://images.forbes.com/media/lists/33/2010/boston-red-sox.jpg",
-            index: "1",
+            index: 1,
           },
           date: "Tuesday, April 12 2016",
           headline: "This is the title for the right side. derpderp9",
@@ -431,7 +431,7 @@ export class Articles {
         homeTeamInjuryReport: [{
           photos: {
             url: "http://cdnph.upi.com/sv/b/upi/UPI-2661459398773/2016/1/81809bbfda40ce0ca319c6e00ff42d8f/New-York-Yankees-Andrew-Miller-fractures-wrist.jpg",
-            index: "1",
+            index: 1,
           },
           date: "Tuesday, April 12 2016",
           headline: "This is the title for the left side of the Articles Module. derpy5",
@@ -446,7 +446,7 @@ export class Articles {
         awayTeamInjuryReport: [{
           photos: {
             url: "http://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Red_Sox_094_Jacoby_Ellsbury.jpg/680px-Red_Sox_094_Jacoby_Ellsbury.jpg",
-            index: "1",
+            index: 1,
           },
           date: "Tuesday, April 12 2016",
           headline: "This is the title for the left side of the Articles Module. derpy6",
@@ -461,7 +461,7 @@ export class Articles {
         homeTeamStartingLineUp: [{
           photos: {
             url: "https://elyriact.smugmug.com/Sports/Pro-baseball/Indians-April-9-2013/i-R4cPgct/0/M/Yankees_Indians_Baseball__ctnews@chroniclet.com_6-M.jpg",
-            index: "1",
+            index: 1,
           },
           date: "Tuesday, April 12 2016",
           headline: "This is the title for the left side of the Articles Module. derpy7",
@@ -476,7 +476,7 @@ export class Articles {
         awayTeamStartingLineUp: [{
           photos: {
             url: "http://media.gettyimages.com/photos/kevin-millar-of-the-boston-red-sox-swings-at-a-new-york-yankees-pitch-picture-id52989440",
-            index: "1",
+            index: 1,
           },
           date: "Tuesday, April 12 2016",
           headline: "This is the title for the left side of the Articles Module. derpy8",
