@@ -10,9 +10,9 @@ import {Router,ROUTER_DIRECTIVES} from 'angular2/router';
     providers: []
 })
 export class AboutUsModule {
-    
+
     @Input() partnerID: string = null;
-    
+
     public homePageLinkName: string = "homerunloyal";
     public pageName: string;
     public moduleHeader: ModuleHeaderData;
@@ -20,7 +20,7 @@ export class AboutUsModule {
     public logoUrl = '/app/public/homeRunLoyalLogo.png';
     public buttonText = 'See The Full Disclaimer';
     public aboutUsData: Array<TileData>;
-    
+
     constructor(private _router: Router) {
       this._router.root
       .subscribe(
@@ -34,7 +34,7 @@ export class AboutUsModule {
             }
       })
     }
-    
+
     ngOnInit() {
       if(this.partnerID === null) {
           this.homePageLinkName = "www.homerunloyal.com"
@@ -43,24 +43,24 @@ export class AboutUsModule {
           this.homePageLinkName = "www.myhomerun.com/" + this.partnerID;
           this.pageName = "My HomeRun";
       }
-      
+
       this.headerText = this.pageName + ' Disclaimer';
       this.moduleHeader = {
         moduleTitle: 'Learn More About ' + this.pageName,
         hasIcon: false,
         iconClass: ''
       };
-      
+
       this.aboutUsData = [{
         buttonText: 'Open Page',
-        routerInfo: ['Aboutus-page'],
+        routerInfo: ['About-us-page'],
         faIcon: 'fa-info-circle',
         title: 'About Us',
         description: 'What is '+ this.pageName +'?',
       },
       {
         buttonText: 'Open Page',
-        routerInfo: ['Contactus-page'],
+        routerInfo: ['Contact-us-page'],
         faIcon: 'fa-phone',
         title: 'Contact Us',
         description: 'Help us help you faster.',

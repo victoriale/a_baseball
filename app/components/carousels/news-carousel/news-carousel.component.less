@@ -1,0 +1,44 @@
+.news{
+  width: 100%;
+  color: @white;
+  position: relative;
+  font-size: 12px;
+    &-placeholder{
+      width: 100%;
+      height: 350px;
+      background-color: @greyDarkBackGrnd;
+      background-image: url('/app/public/baseball.png');
+    }
+    &-text{
+      .flexDisplay;
+      .flexDirection(column);
+      width: 78%;
+      height: auto;
+      margin:auto;
+      padding-top: 20%;
+    }//.news-text ends
+    &-headline{
+      height: 70px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.2em;
+      .globalDefaultFont(2.33em, 900);
+    }
+    &-preview{
+      height: 75px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin: 10px 0 20px 0;
+      line-height: 1.5em;
+      .globalDefaultFont(1.33em, 400);
+    }
+    &-footer{
+      height: 200px;
+      .flexDisplay;
+      .flexJustify(space-between);
+      .globalDefaultFont(1em, 400);
+      &-created{
+        margin-right: 200px;
+      }
+    }
+}//.news ends

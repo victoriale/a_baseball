@@ -39,7 +39,7 @@ export class StandingsService {
   }
   
   getModuleTitle(pageParams: MLBPageParameters): string {    
-    let groupName = this._mlbFunctions.formatGroupName(pageParams.conference, pageParams.division);
+    let groupName = this.formatGroupName(pageParams.conference, pageParams.division);
     let moduletitle = groupName + " Standings";
     if ( pageParams.teamName !== undefined && pageParams.teamName !== null ) {
       moduletitle += " - " + pageParams.teamName;
@@ -48,7 +48,7 @@ export class StandingsService {
   }
   
   getPageTitle(pageParams: MLBPageParameters): string {    
-    let groupName = this._mlbFunctions.formatGroupName(pageParams.conference, pageParams.division);
+    let groupName = this.formatGroupName(pageParams.conference, pageParams.division);
     let pageTitle = "MLB Standings Breakdown";
     if ( pageParams.teamName !== undefined && pageParams.teamName !== null ) {
       pageTitle = "MLB Standings - " + pageParams.teamName;
@@ -57,7 +57,7 @@ export class StandingsService {
   }
   
   loadAllTabs(pageParams: MLBPageParameters, maxRows?: number): Observable<Array<MLBStandingsTabData>> {    
-    var tabs = this.initializeAllTabs(pageParams); 
+    var tabs = this.initializeAllTabs(pageParams);
     return Observable.forkJoin(tabs.map(tab => this.getData(tab, maxRows)));    
   }
 
@@ -78,7 +78,6 @@ export class StandingsService {
   }
   
   private initializeAllTabs(pageParams: MLBPageParameters): Array<MLBStandingsTabData> {
-    let groupName = this._mlbFunctions.formatGroupName(pageParams.conference, pageParams.division);
     let tabs: Array<MLBStandingsTabData> = [];
     
     if ( pageParams.conference === undefined || pageParams.conference === null ) {
@@ -104,13 +103,13 @@ export class StandingsService {
   }
   
   private createTab(selectTab: boolean, conference?: Conference, division?: Division) {
-    let title = this._mlbFunctions.formatGroupName(conference, division) + " Standings";
+    let title = this.formatGroupName(conference, division) + " Standings";
     return new MLBStandingsTabData(title, conference, division, selectTab);
   }
 
   private setupTabData(standingsTab: MLBStandingsTabData, data: Array<TeamStandingsData>, maxRows?: number): MLBStandingsTabData {
     var table = new MLBStandingsTableModel("", data);
-    let groupName = this._mlbFunctions.formatGroupName(standingsTab.conference, standingsTab.division);
+    let groupName = this.formatGroupName(standingsTab.conference, standingsTab.division);
     
     //Limit to maxRows, if necessary
     if ( maxRows !== undefined ) {
@@ -131,5 +130,41 @@ export class StandingsService {
     let tableData = new MLBStandingsTableData(title, standingsTab.conference, standingsTab.division, table); 
     standingsTab.sections = [tableData];
     return standingsTab;
+  }
+
+  /**
+   * - Returns the group/league name based on the given conference and division values
+   *
+   * @example
+   * // "American League"
+   * formatGroupName(Conference.american)
+   *
+   * @example
+   * // "MLB"
+   * formatGroupName()
+   *
+   * @example
+   * // "American League East"
+   * formatGroupName(Conference.american, Division.east)
+   *
+   * @param {Conference} conference - (Optional)
+   *                                - Expected if {division} is included.
+   * @param {Division} division - (Optional)
+   * @returns {string}
+   *
+   */
+  private formatGroupName(conference: Conference, division: Division): string {
+    if ( conference !== undefined && conference !== null ) {
+      let leagueName = this._globalFunctions.toTitleCase(Conference[conference]) + " League";
+      if ( division !== undefined && division !== null ) {
+        return leagueName + " " + this._globalFunctions.toTitleCase(Division[division]);
+      }
+      else {
+        return leagueName;
+      }
+    }
+    else {
+      return "MLB";
+    }
   }
 }

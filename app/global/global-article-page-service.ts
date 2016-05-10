@@ -24,9 +24,9 @@ export class ArticleDataService {
             )//end of route subscribe
     };
 
-    getAboutTheTeamsData(eventID) {
+    getArticleData(eventID, eventType) {
         if (this.partnerID == null) {
-            return this.http.get('http://dev-homerunloyal-ai.synapsys.us/about-the-teams/' + eventID)
+            return this.http.get('http://dev-homerunloyal-ai.synapsys.us/' + eventType + '/' + eventID)
                 .map(
                     res => res.json()
                 )
@@ -36,55 +36,7 @@ export class ArticleDataService {
                     }
                 )
         } else {
-            return this.http.get('http://dev-homerunloyal-ai.synapsys.us/about-the-teams/' + eventID)
-                .map(
-                    res => res.json()
-                )
-                .map(
-                    data => {
-                        return data;
-                    }
-                )
-        }
-    }
-
-    getPostGameData(eventID) {
-        if (this.partnerID == null) {
-            return this.http.get('http://dev-homerunloyal-ai.synapsys.us/postgame-report/' + eventID)
-                .map(
-                    res => res.json()
-                )
-                .map(
-                    data => {
-                        return data;
-                    }
-                )
-        } else {
-            return this.http.get('http://dev-homerunloyal-ai.synapsys.us/postgame-report/' + eventID)
-                .map(
-                    res => res.json()
-                )
-                .map(
-                    data => {
-                        return data;
-                    }
-                )
-        }
-    }
-
-    getPreGameData(eventID) {
-        if (this.partnerID == null) {
-            return this.http.get('http://dev-homerunloyal-ai.synapsys.us/pregame-report/' + eventID)
-                .map(
-                    res => res.json()
-                )
-                .map(
-                    data => {
-                        return data;
-                    }
-                )
-        } else {
-            return this.http.get('http://dev-homerunloyal-ai.synapsys.us/pregame-report/' + eventID)
+            return this.http.get('http://dev-homerunloyal-ai.synapsys.us/' + eventType + '/' + eventID)
                 .map(
                     res => res.json()
                 )

@@ -8,10 +8,7 @@
     margin: 0 auto;
   }
   &-main-title {
-    font-family: inherit;
-    color: #272727;
-    font-size: 24px;
-    font-weight: 900;
+    .globalDefaultModFont(24px, 900, @textEmphasisGrey);
     line-height: 25px;
     text-align: center;
     border-bottom: solid @masterBrandColor 4px;
@@ -20,25 +17,16 @@
     padding-bottom: 3px;
   }
   &-article-title {
-    font-family: inherit;
-    color: #000;
-    font-size: 32px;
-    font-weight: 900;
+    .globalDefaultFont(32px, 900);
     text-align: left;
   }
   &-article-content {
-    font-family: inherit;
-    color: #000;
-    font-size: 16px;
-    font-weight: 400;
+    .globalDefaultFont(16px, 400);
     text-align: left;
     line-height: 20px;
     &:first-letter {
-      font-family: @globalFont;
+      .globalDefaultFont(120px, 900);
       float: left;
-      color: #000000;
-      font-size: 120px;
-      font-weight: 900;
       line-height: 80px;
       padding-top: 10px;
       padding-right: 25px;
@@ -46,10 +34,7 @@
     }
   }
   &-read-more {
-    font-family: inherit;
-    color: @masterBrandColor;
-    font-size: 16px;
-    font-weight: 900;
+    .globalDefaultModFont(16px, 900, @masterBrandColor);
     line-height: 35px;
     text-align: left;
     margin: 10px 0 25px;

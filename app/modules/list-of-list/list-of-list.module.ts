@@ -1,6 +1,6 @@
 import {Component} from 'angular2/core';
 import {DetailedListItem, DetailListInput} from '../../components/detailed-list-item/detailed-list-item.component';
-import {ModuleFooter} from '../../components/module-footer/module-footer';
+import {ModuleFooter} from "../../components/module-footer/module-footer.component";
 import {ModuleHeader} from '../../components/module-header/module-header.component';
 import {ListOfListItem} from "../../components/list-of-list-item/list-of-list-item.component";
 import {ModuleHeaderData} from "../../components/module-header/module-header.component";
@@ -39,8 +39,7 @@ export class ListOfListModule{
           resultCount:  1,
           pageCount:    1,
           rank:         1,
-          icon:         'fa fa-share'//test remove when done testing
-          test: [{type: "blah"},{},{}],
+          icon:         'fa fa-share',
 
           dataPoints: [
             {//interface is found in image-data.ts
@@ -122,8 +121,7 @@ export class ListOfListModule{
           resultCount:  1,
           pageCount:    1,
           rank:         1,
-          icon:         'fa fa-share'//test remove when done testing
-          test: [{type: "blah"},{},{}],
+          icon:         'fa fa-share',
 
           dataPoints: [
             {//interface is found in image-data.ts
@@ -205,8 +203,7 @@ export class ListOfListModule{
           resultCount:  1,
           pageCount:    1,
           rank:         1,
-          icon:         'fa fa-share'//test remove when done testing
-          test: [{type: "blah"},{},{}],
+          icon:         'fa fa-share',
 
           dataPoints: [
             {//interface is found in image-data.ts
@@ -288,8 +285,7 @@ export class ListOfListModule{
           resultCount:  1,
           pageCount:    1,
           rank:         1,
-          icon:         'fa fa-share'//test remove when done testing
-          test: [{type: "blah"},{},{}],
+          icon:         'fa fa-share',
 
           dataPoints: [
             {//interface is found in image-data.ts

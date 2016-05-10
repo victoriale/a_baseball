@@ -79,7 +79,7 @@ export class DraftHistoryService {
     var dummyRoute = ['Disclaimer-page'];
     var dummyRank = '##';
 
-    if(data.length == 0){
+    if(data.length == 0){//if no data is being returned then show proper Error Message in carousel
       var Carousel = {
         index:'2',
         //TODO
@@ -92,6 +92,7 @@ export class DraftHistoryService {
     }else{
       //if data is coming through then run through the transforming function for the module
       data.forEach(function(val, index){
+
         var Carousel = {
           index:'2',
           //TODO
@@ -106,7 +107,7 @@ export class DraftHistoryService {
           footerInfo: {
             infoDesc:'Interested in discovering more about this player?',
             text:'VIEW PROFILE',
-            url:['Team-page'],//NEED TO CHANGE
+            url:['Team-page',{teamName:val.draftTeamName, teamId: val.draftTeam}],//NEED TO CHANGE
           }
         };
         carouselArray.push(Carousel);
@@ -178,7 +179,7 @@ export class DraftHistoryService {
         ctaDesc:'Want more info about this [profile type]?',
         ctaBtn:'',
         ctaText:'View Profile',
-        ctaUrl:['Team-page']
+        ctaUrl:['Team-page',{teamName:'Yankees', teamId:'2796'}]
       };
       listDataArray.push(listData);
     });

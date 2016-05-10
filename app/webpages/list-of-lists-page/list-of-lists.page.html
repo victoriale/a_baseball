@@ -1,26 +1,16 @@
-<div class="content-wrapper">
-    <div class="wrapper">
-        <div class="inner-wrapper">
-            <main *ngIf="lists">
-                <section class='content-main eight-col'>
-                    <loading-component *ngIf="!listOfLists && !isError"></loading-component>
-
-                    <error-component *ngIf="isError"></error-component>
-
-                    <div *ngIf="listOfLists && !isError" class='page-container'>
-                        <backtab-component></backtab-component>
-                        <title-component *ngIf="titleData" [titleData]="titleData"></title-component>
-                        <list-carousel-component *ngIf="listOfLists" [lists]="lists" [cityLocation]="cityLocation" [stateLocation]="stateLocation" [isStateOnly]="isStateOnly"></list-carousel-component>
-                        <span *ngFor="#item of lists">
-                            <contentlist [data]="item" [cityLocation]="cityLocation" [stateLocation]="stateLocation" [isStateOnly]="isStateOnly"></contentlist>
-                        </span>
-                        <hero-list-component></hero-list-component>
-                    </div>
-                </section>
-                <div class="four-col">
-                    <widget-module></widget-module>
-                </div>
-            </main>
-        </div>
+<section *ngIf="!dataArray" class='page-container'>
+  <h2>Boom!</h2>
+</section>
+<section *ngIf="dataArray" class='page-container'>
+  <loading-component *ngIf="!listData && !isError"></loading-component>
+  <error-component *ngIf="isError"></error-component>
+  <backtab-component></backtab-component>
+  <title-component [titleData]="profileHeaderData"></title-component>
+  <div class="module-container list-page">
+    <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray" [footerStyle]="footerStyle"></slider-carousel>
+    <div *ngIf="detailedDataArray">
+      <list-of-list-item *ngFor="#itemData of detailedDataArray" [item] = 'itemData'></list-of-list-item>
     </div>
-</div>
+    <no-data-box *ngIf="!detailedDataArray" [data]="errorData"></no-data-box>
+  </div>
+</section>

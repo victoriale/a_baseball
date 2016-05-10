@@ -4,16 +4,23 @@ import {SeasonStatsModule} from '../../modules/season-stats/season-stats.module'
 import {DraftHistoryModule} from '../../modules/draft-history/draft-history.module';
 import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
 import {SchedulesModule} from '../../modules/schedules/schedules.module';
-import {TeamRosterModule} from '../../modules/team-roster/team-roster.module';
 import {AboutUsModule} from '../../modules/about-us/about-us.module';
+import {NewsModule} from '../../modules/news/news.module';
 import {ShareButtonComponent} from '../../components/share-button/share-button.component';
 import {Search} from '../../components/search/search.component';
 import {ListOfListModule} from "../../modules/list-of-list/list-of-list.module";
 import {SchedulesCarousel} from '../../components/carousels/schedules-carousel/schedules-carousel.component';
 import {Carousel} from '../../components/carousels/carousel.component';
 import {SliderCarousel} from '../../components/carousels/slider-carousel/slider-carousel.component';
-import {StandingsModule, StandingsModuleData} from '../../modules/standings/standings.module';
+
+import {TableTabData} from '../../components/standings/standings.component';
+import {RosterComponentData} from '../../components/roster/roster.component';
+import {StandingsModuleData, StandingsModule} from '../../modules/standings/standings.module';
 import {StandingsService} from '../../services/standings.service';
+import {TeamRosterModule} from '../../modules/team-roster/team-roster.module';
+import {RosterService} from '../../services/roster.service';
+import {MLBStandingsTableModel, MLBStandingsTableData} from '../../services/standings.data';
+
 import {ProfileHeaderData, ProfileHeaderModule} from '../../modules/profile-header/profile-header.module';
 import {ProfileHeaderService} from '../../services/profile-header.service';
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
@@ -25,6 +32,7 @@ import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
     templateUrl: './app/webpages/component-page/component.page.html',
     directives: [
       SliderCarousel,
+      NewsModule,
       Carousel,
       SchedulesCarousel,
       BoxScoresModule,
@@ -40,20 +48,22 @@ import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
       ProfileHeaderModule,
       StandingsModule
     ],
-    providers: [StandingsService, ProfileHeaderService]
+    providers: [StandingsService, RosterService, ProfileHeaderService]
 })
 
 export class ComponentPage implements OnInit {
   pageParams: MLBPageParameters;
   standingsData: StandingsModuleData;
+  rosterData: RosterComponentData;
   playerProfileHeaderData: ProfileHeaderData;
   teamProfileHeaderData: ProfileHeaderData;
-  
+
   constructor(
+    private _rosterService: RosterService,
     private _standingsService: StandingsService,
-    private _profileService: ProfileHeaderService, 
-    private _globalFunctions: GlobalFunctions, 
-    private _mlbFunctions: MLBGlobalFunctions) {     
+    private _profileService: ProfileHeaderService,
+    private _globalFunctions: GlobalFunctions,
+    private _mlbFunctions: MLBGlobalFunctions) {
     //TODO: Pull from URL
     if ( this.pageParams === undefined || this.pageParams === null ) {
       this.pageParams = {
@@ -64,12 +74,12 @@ export class ComponentPage implements OnInit {
       };
     }
   }
-  
-  ngOnInit() {    
+
+  ngOnInit() {
     this.setupProfileData();
     this.setupStandingsData();
   }
-  
+
   private setupProfileData() {
     this._profileService.getPlayerProfile(this.pageParams.playerId).subscribe(
       data => {
@@ -89,10 +99,10 @@ export class ComponentPage implements OnInit {
     );
   }
 
-  private setupStandingsData() {       
+  private setupStandingsData() {
     let self = this;
     self._standingsService.loadAllTabs(this.pageParams, 5) //only show 5 rows in the module
-      .subscribe(data => { 
+      .subscribe(data => {
         this.standingsData = {
           moduleTitle: self._standingsService.getModuleTitle(this.pageParams),
           pageRouterLink: self._standingsService.getLinkToPage(this.pageParams),
@@ -101,6 +111,20 @@ export class ComponentPage implements OnInit {
       },
       err => {
         console.log("Error getting standings data");
+      });
+  }
+  private setupRosterData() {
+    let self = this;
+    self._rosterService.loadAllTabs(this.pageParams, 5) //only show 5 rows in the module
+      .subscribe(data => {
+        this.rosterData = {
+          moduleTitle: self._rosterService.getModuleTitle(this.pageParams),
+          pageRouterLink: self._rosterService.getLinkToPage(this.pageParams),
+          tabs: data
+        };
+      },
+      err => {
+        console.log("Error getting team roster data");
       });
   }
 }

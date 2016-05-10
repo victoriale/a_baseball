@@ -17,7 +17,8 @@
       [class.custom-table-row-odd]="isOdd">
       <td *ngFor="#hdr of model.columns" class="{{bodyClass}}-{{hdr.columnClass}} {{bodyClass}}-cell">
         <circle-image *ngIf="model.hasImageConfigAt(hdr)" [data]="model.getImageConfigAt(row, hdr)"></circle-image>
-        <span [innerHtml]="model.getDisplayValueAt(row, hdr)"></span>
+        <a *ngIf="model.hasRouterLinkAt(hdr)" [routerLink]="model.getRouterLinkAt(row, hdr)" [innerHtml]="model.getDisplayValueAt(row, hdr)"></a>
+        <span *ngIf="!model.hasRouterLinkAt(hdr)" [innerHtml]="model.getDisplayValueAt(row, hdr)"></span>
       </td>
     </tr>
   </tbody>
