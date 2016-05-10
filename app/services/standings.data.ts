@@ -101,7 +101,7 @@ export class MLBStandingsTabData implements TableTabData<TeamStandingsData> {
 }
 
 export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
-  title: string;
+  // title: string;
 
   columns: Array<TableColumn> = [{
       headerValue: "Team Name",
@@ -149,15 +149,15 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
 
   selectedKey:number = -1;
 
-  constructor(title:string, rows: Array<TeamStandingsData>) {
-    this.title = title;
+  constructor(rows: Array<TeamStandingsData>) {
+    // this.title = title;
     this.rows = rows;
     if ( this.rows === undefined || this.rows === null ) {
       this.rows = [];
     }
-    else if ( rows.length > 0 ) {
-      this.selectedKey = rows[0].teamId;
-    }
+    // else if ( rows.length > 0 ) {
+    //   this.selectedKey = rows[0].teamId;
+    // }
   }
 
   setRowSelected(rowIndex:number) {
