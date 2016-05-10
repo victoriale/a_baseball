@@ -27,6 +27,9 @@ import {ArticlePages} from "../webpages/articles/article-pages/article-pages.pag
 import {ErrorPage} from "../webpages/error-page/error-page.page";
 import {ListOfListsPage} from "../webpages/list-of-lists-page/list-of-lists.page";
 
+
+import {DesignPage} from "../webpages/design-page/design.page";
+
 @Component({
     selector: 'my-app',
     templateUrl: './app/app-webpage/app.webpage.html',
@@ -149,6 +152,11 @@ import {ListOfListsPage} from "../webpages/list-of-lists-page/list-of-lists.page
         path: '/components',
         name: 'Component-page',
         component: ComponentPage,
+    },
+    {
+        path: '/design/:teamId',
+        name: 'Design-page',
+        component: DesignPage,
     },
     {
         path: '/images-test',
