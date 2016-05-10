@@ -29,6 +29,7 @@ export class RosterService {
     )
     .map(
       data => {
+        console.log(data.data);
         return {
             title: data.data,
             carousel: this.carData(data.data),
