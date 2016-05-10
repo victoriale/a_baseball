@@ -4,15 +4,10 @@
 }
 
 .content-first {
-  font-family: @globalFont;
-  font-size: 16px;
-  font-weight: 400;
+  .globalDefaultFont(16px, 400);
   &:first-letter {
-    font-family: @globalFont;
+    .globalDefaultFont(120px, 800);
     float: left;
-    color: #000000;
-    font-size: 120px;
-    font-weight: 800;
     line-height: 80px;
     padding-top: 10px;
     padding-right: 25px;
@@ -21,7 +16,5 @@
 }
 
 .content {
-  font-family: @globalFont;
-  font-size: 16px;
-  font-weight: 400;
+  .globalDefaultFont(16px, 400);
 }

@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from 'angular2/core';
 import {ModuleFooter} from '../../components/module-footer/module-footer.component';
 import {ModuleHeader} from '../../components/module-header/module-header.component';
 import {SchedulesCarousel} from '../../components/carousels/schedules-carousel/schedules-carousel.component';
+import {TableModel, TableColumn} from '../../components/custom-table/table-data.component';
 
 @Component({
     selector: 'schedules',
@@ -14,6 +15,47 @@ import {SchedulesCarousel} from '../../components/carousels/schedules-carousel/s
 export class SchedulesModule implements OnInit{
   carouselData:any;
   moduleTitle:string;
+  columns: Array<TableColumn> = [{
+      headerValue: "Team Name",
+      columnClass: "image-column",
+      key: "name"
+    },{
+      headerValue: "W",
+      columnClass: "data-column",
+      isNumericType: true,
+      key: "w"
+    },{
+      headerValue: "L",
+      columnClass: "data-column",
+      isNumericType: true,
+      key: "l"
+    },{
+      headerValue: "PCT",
+      columnClass: "data-column",
+      isNumericType: true,
+      sortDirection: -1, //descending
+      key: "pct"
+    },{
+      headerValue: "GB",
+      columnClass: "data-column",
+      isNumericType: true,
+      key: "gb"
+    },{
+      headerValue: "RS",
+      columnClass: "data-column",
+      isNumericType: true,
+      key: "rs"
+    },{
+      headerValue: "RA",
+      columnClass: "data-column",
+      isNumericType: true,
+      key: "ra"
+    },{
+      headerValue: "STRK",
+      columnClass: "data-column",
+      isNumericType: true,
+      key: "strk"
+    }];
 
   ngOnInit(){
     this.moduleTitle = "[Profile] - Schedules";

@@ -30,7 +30,7 @@ export interface TableComponentData<T> {
 }
 
 @Component({
-    selector: 'Teamroster-page',
+    selector: 'Team-roster-page',
     templateUrl: './app/webpages/team-roster/team-roster.page.html',
     directives: [SliderCarousel,
                 BackTabComponent,

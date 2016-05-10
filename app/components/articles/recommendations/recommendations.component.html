@@ -5,7 +5,7 @@
     <div class="recommendations-articles">
         <span *ngFor="#data of randomHeadlines; #i=index;">
             <a *ngIf="i<6" class="recommendations-articles-six article"
-               [routerLink]="[data.pageIndex, {eventID: data.eventID}]" title="{{data.title}}">
+               [routerLink]="['Article-pages', {eventType: data.eventType, eventID: data.eventID}]" title="{{data.title}}">
                 <span class="articleBoxMedium">
                     <img class="recommendations-articles-six-image" src="{{images}}"/>
                     <div>

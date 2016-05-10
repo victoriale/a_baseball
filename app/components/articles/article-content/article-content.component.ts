@@ -6,7 +6,7 @@ import {BillboardComponent} from "../billboard/billboard.component";
     selector: 'article-content-component',
     templateUrl: './app/components/articles/article-content/article-content.component.html',
     directives: [ProfileDataComponent, BillboardComponent],
-    inputs: ["articleData", "singleLogo"]
+    inputs: ["articleData", "articleType", "articleSubType"]
 })
 
 export class ArticleContentComponent {

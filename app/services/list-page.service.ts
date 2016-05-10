@@ -20,26 +20,12 @@ export class DraftHistoryService {
       return headers;
   }
 
-  getDraftHistoryService(year, type?){
+  getListPageService(){//TODO replace data points for list page
   //Configure HTTP Headers
   var headers = this.setToken();
   //for MLB season starts and ends in the same year so return current season
-  //get past 5 years for tabs
-  var tabDates = Number(year);
-  var tabArray = [];
-  for(var i = 0; i <5; i++){
-    if(i == 0){
-      var currentYear = 'Current Season';
-    }else{
-      var currentYear = (tabDates - i).toString();
-    }
-    tabArray.push({
-      tabData:tabDates - i,
-      tabDisplay:currentYear,
-    });
-  }
 
-  var callURL = this._apiUrl + '/team/draftHistory/2791/'+year;
+  var callURL = this._apiUrl + '/team/draftHistory/2791/';
   // console.log(callURL);
 
   return this.http.get( callURL, {
@@ -50,20 +36,7 @@ export class DraftHistoryService {
     )
     .map(
       data => {
-        var returnData = {}
-        if(type == 'module'){
-          return returnData = {
-            carData:this.carDataModule(data.data),
-            listData:this.detailedData(data.data),
-            tabArray:tabArray,
-          };
-        }else{
-          return returnData = {
-            carData:this.carDataPage(data.data),
-            listData:this.detailedData(data.data),
-            tabArray:tabArray,
-          };
-        }
+        // console.log(data);
       },
       err => {
         console.log('INVALID DATA');
@@ -72,14 +45,14 @@ export class DraftHistoryService {
   }
 
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
-  carDataPage(data){
+  carDataPage(data){//TODO replace data points for list page
     let self = this;
     var carouselArray = [];
     var dummyImg = "./app/public/placeholder-location.jpg";
     var dummyRoute = ['Disclaimer-page'];
     var dummyRank = '##';
 
-    if(data.length == 0){//if no data is being returned then show proper Error Message in carousel
+    if(data.length == 0){
       var Carousel = {
         index:'2',
         //TODO
@@ -116,46 +89,8 @@ export class DraftHistoryService {
     // console.log('TRANSFORMED CAROUSEL', carouselArray);
     return carouselArray;
   }
-  carDataModule(data){
-    let self = this;
-    var carouselArray = [];
-    var dummyImg = "./app/public/placeholder-location.jpg";
-    var dummyRoute = ['Disclaimer-page'];
-    var dummyRank = '##';
 
-    if(data.length == 0){
-      var Carousel = {
-        index:'2',
-        //TODO
-        imageConfig: self.imageData("image-150","border-large",dummyImg,'',"image-50-sub",dummyImg,'',1),
-        description:[
-          '<p style="font-size:20px"><b>Sorry, the We currently do not have any data for this years draft history</b><p>',
-        ],
-      };
-      carouselArray.push(Carousel);
-    }else{
-      //if data is coming through then run through the transforming function for the module
-      data.forEach(function(val, index){
-        var Carousel = {
-          index:'2',
-          //TODO
-          imageConfig: self.imageData("image-150","border-large",dummyImg,dummyRoute,"image-50-sub",dummyImg,dummyRoute,index+1),
-          description:[
-            '<p style="font-size:24px"><b>'+val.playerName+'</b></p>',
-            '<p>Hometown: <b>'+val.draftTeamName+'</b></p>',
-            '<br>',
-            '<p style="font-size:24px"><b>'+(index+1)+'<sup>'+self.globalFunc.Suffix(Number(index+1))+'</sup>Pick for Round '+val.selectionLevel+'</b></p>',
-            '<p>'+val.selectionOverall+' Overall</p>',
-          ],
-        };
-        carouselArray.push(Carousel);
-      });
-    }
-    // console.log('TRANSFORMED CAROUSEL', carouselArray);
-    return carouselArray;
-  }
-
-  detailedData(data){
+  detailedData(data){//TODO replace data points for list page
     let self = this;
     var listDataArray = [];
 
@@ -179,7 +114,7 @@ export class DraftHistoryService {
         ctaDesc:'Want more info about this [profile type]?',
         ctaBtn:'',
         ctaText:'View Profile',
-        ctaUrl:['Team-page',{teamName:'Yankees', teamId:'2796'}]
+        ctaUrl:['Team-page']
       };
       listDataArray.push(listData);
     });
@@ -190,6 +125,7 @@ export class DraftHistoryService {
   /**
    *this function will have inputs of all required fields that are dynamic and output the full
   **/
+  //TODO replace data points for list page
   imageData(imageClass, imageBorder, mainImg, mainImgRoute, subImgClass?, subImg?, subRoute?, rank?){
     if(typeof mainImg =='undefined' || mainImg == ''){
       mainImg = "./app/public/placeholder-location.jpg";
@@ -224,7 +160,7 @@ export class DraftHistoryService {
     return image;
   }
 
-
+  //TODO replace data points for list page
   detailsData(mainP1,mainV1,mainUrl1,subP1,subV2,subUrl2,dataP3?,dataV3?,dataUrl3?){
     if(typeof dataP3 == 'undefined'){
       dataP3 = '';
