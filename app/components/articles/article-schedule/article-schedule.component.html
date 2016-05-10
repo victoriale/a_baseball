@@ -30,9 +30,9 @@
             vs.
         </div>
         <span *ngFor="#home of homeData">
-            <div class="schedule-next-circle schedule-next-circle-l"
-                 [ngStyle]="{'background-image': 'url(' + home.homeLogo + ')'}">
-            </div>
+            <img class="schedule-next-circle schedule-next-circle-l"
+                 src="{{home.homeLogo}}" onerror="this.src='/app/public/no-image.png'"
+                 alt="home team logo"/>
         </span>
         <span *ngFor="#away of awayData">
             <a href="">
