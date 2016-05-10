@@ -1,9 +1,7 @@
-<section *ngIf="!dataArray" class='page-container'>
-  <h2>Boom!</h2>
-</section>
+<loading-component *ngIf="!dataArray && !isError"></loading-component>
+<error-component *ngIf="isError"></error-component>
 <section *ngIf="dataArray" class='page-container'>
-  <loading-component *ngIf="!listData && !isError"></loading-component>
-  <error-component *ngIf="isError"></error-component>
+  <div>{{ listData | json}}</div>
   <backtab-component></backtab-component>
   <title-component [titleData]="profileHeaderData"></title-component>
   <div class="module-container list-page">
