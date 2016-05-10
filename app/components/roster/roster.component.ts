@@ -32,9 +32,9 @@ export interface RosterComponentData {
 export class RosterComponent implements OnChanges {
   public selectedIndex;
 
-  public carouselData: Array<SliderCarouselInput> = [];
+  @Input() carDataArray: Array<any>
 
-  @Input() tabs: Array<RosterTableTabData<any>>;
+  @Input() tabs: Array<any>;
 
   private selectedTabTitle: string;
 
@@ -104,6 +104,6 @@ export class RosterComponent implements OnChanges {
     });
 
     this.selectedIndex = selectedIndex < 0 ? 0 : selectedIndex;
-    this.carouselData = carouselData;
+    // this.carouselData = carouselData;
   }
 }
