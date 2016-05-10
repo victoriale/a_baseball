@@ -1,43 +1,44 @@
 <div *ngIf="!league" class="schedule">
     <div class="schedule-next">
-        <span *ngFor="#data of articleData">
-            <span *ngFor="#scheduleData of data.metaData">
-                <div class="schedule-next {{defaultGradient}}">
+        <div class="schedule-next {{defaultGradient}}">
+        </div>
+        <div class="schedule-next-lg" [ngStyle]="leftGrad">
+            <!--gradient with team color-->
+        </div>
+        <div class="schedule-next-rg" [ngStyle]="rightGrad">
+            <!--gradient with team color-->
+        </div>
+        <span *ngFor="#home of homeData">
+            <div class="schedule-next-team schedule-next-team-l schedule-t">
+                <div class="schedule-next-team-l-url">
+                    <span class="schedule-next-team-b pts-b">{{home.homeName}}</span>
                 </div>
-                <div class="schedule-next-lg" [ngStyle]="leftGrad">
-                    <!--gradient with team color-->
-                </div>
-                <div class="schedule-next-rg" [ngStyle]="rightGrad">
-                    <!--gradient with team color-->
-                </div>
-                <div class="schedule-next-team schedule-next-team-l schedule-t">
-                    <div class="schedule-next-team-l-url">
-                        <span class="schedule-next-team-b pts-b">{{scheduleData.homeTeamName}}</span>
-                    </div>
-                    <div style="text-align: right;">RECORD: {{scheduleData.homeRecord}}</div>
-                </div>
-                <div class="schedule-next-team schedule-next-team-r schedule-t">
-                    <a href="">
-                        <div class="schedule-next-team-r-url">
-                            <span class="schedule-next-team-b schedule-b pts-b">{{scheduleData.awayTeamName}}</span>
-                        </div>
-                    </a>
-                    <div style="text-align: left;">RECORD: {{scheduleData.awayRecord}}</div>
-                </div>
-                <div class="schedule-next-vs schedule-t">
-                    vs.
-                </div>
-                <div class="schedule-next-circle schedule-next-circle-l"
-                     style="background-image: url('{{scheduleData.logos.home}}')">
-                    <!--for a team logo border-->
-                </div>
+                <div style="text-align: right;">RECORD: {{home.homeWins}} - {{home.homeLosses}}</div>
+            </div>
+        </span>
+        <div class="schedule-next-team schedule-next-team-r schedule-t">
+            <span *ngFor="#away of awayData">
                 <a href="">
-                    <div class="schedule-next-circle schedule-next-circle-r"
-                         style="background-image: url('{{scheduleData.logos.away}}')">
-                        <div class="hover"></div>
+                    <div class="schedule-next-team-r-url">
+                        <span class="schedule-next-team-b schedule-b pts-b">{{away.awayName}}</span>
                     </div>
                 </a>
+                <div style="text-align: left;">RECORD: {{away.awayWins}} - {{away.awayLosses}}</div>
             </span>
+        </div>
+        <div class="schedule-next-vs schedule-t">
+            vs.
+        </div>
+        <span *ngFor="#home of homeData">
+            <div class="schedule-next-circle schedule-next-circle-l"
+                 [ngStyle]="{'background-image': 'url(' + home.homeLogo + ')'}">
+            </div>
+        </span>
+        <span *ngFor="#away of awayData">
+            <a href="">
+                <circle-image *ngIf="away.awayLogo" class="schedule-next-circle schedule-next-circle-r"
+                              [data]="away.awayLogo"></circle-image>
+            </a>
         </span>
     </div>
 </div>
