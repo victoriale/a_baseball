@@ -108,6 +108,6 @@ export class RosterComponent implements OnChanges {
     });
 
     this.selectedIndex = selectedIndex < 0 ? 0 : selectedIndex;
-    this.carouselData = carouselData;
+    // this.carouselData = carouselData;
   }
 }

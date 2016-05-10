@@ -1,5 +1,10 @@
-<div *ngIf="data" class="module-container tr">
-  <module-header *ngIf="data" [modHeadData]="data"></module-header>
-  <roster-component [tabs]="data.tabs"></roster-component>
-  <module-footer [footerData]="data.pageRouterLink"></module-footer>
+<div class="module-container tr">
+  <module-header [modHeadData]="headerInfo"></module-header>
+  <slider-carousel (indexNum)="indexNum($event)" *ngIf="carDataArray" [carouselData]="carDataArray" [footerStyle]="footerStyle"></slider-carousel>
+  <tabs (tabSelected)="tabSelected($event)">
+    <tab *ngFor="#tab of tabs" [tabTitle]="tab.title" [active]="tab.isActive">
+      <custom-table [model]="tab.tableData" (sortChanged)="updateCarousel($event)"></custom-table>
+    </tab>
+  </tabs>
+  <module-footer [footerData]="footerData"></module-footer>
 </div>

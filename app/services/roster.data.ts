@@ -13,7 +13,7 @@ export interface TeamRosterData {
   playerName: string,
   playerFirstName:string,
   playerLastName: string,
-  playerId:string,
+  playerId:number,
   roleStatus: string,
   active: string,
   uniformNumber: string,
@@ -29,44 +29,117 @@ export interface TeamRosterData {
   age: string,
   salary: number,
   lastUpdatedDate: Date,
-
   /**
    * - Formatted from league and division values that generated the associated table
    */
   groupName?: string
-
   /**
    * - Formatted from the lastUpdatedDate
    */
   displayDate?: string
 }
 
-export class RosterTableData {
-  groupName: string;
-
-  tableData: RosterTableModel;
-
-  constructor(title: string, table: RosterTableModel, private _globalFunctions:GlobalFunctions, private _mlbGF: MLBGlobalFunctions) {
-    this.groupName = title;
-    this.tableData = table;
-  }
-
-}
-
 export class RosterTabData {
-
+  type: string;
   title: string;
-
   isActive: boolean;
-
-  sections: Array<RosterTableData>;
-
-  constructor(title: string, isActive: boolean) {
+  tableData: RosterTableModel;
+  constructor(type: string, title: string, isActive: boolean) {
+    this.type = type;
     this.title = title;
     this.isActive = isActive;
-    this.sections = [];
   }
-
+  convertToCarouselItem(val, index){
+    var self = this;
+    var dummyImg = "./app/public/placeholder-location.jpg";
+    var dummyRoute = ['Disclaimer-page'];
+    var curYear = new Date().getFullYear();
+    var playerNum = "";
+    var playerHeight = "";
+    var playerWeight = "";
+    var playerSalary = "";
+    var andCheck = "";
+    if(val.roleStatus == null){
+      val.roleStatus = "N/A";
+    }
+    if(val.uniformNumber != null){
+      playerNum = "is <b>#" + val.uniformNumber + "</b> and";
+    } else {
+      playerNum = "";
+    }
+    if(val.height != null){
+      playerHeight = " stands at <b>" + val.height + "</b> tall";
+    } else {
+      playerHeight = "";
+    }
+    if(val.weight != null){
+      playerWeight = ", weighing <b>" + val.weight + "</b> lbs";
+    } else {
+      playerWeight = "";
+    }
+    if(val.uniformNumber != null || val.height != null || val.weight != null){
+      var andCheck = " and ";
+    } else {
+      var andCheck = " is ";
+    }
+    if(val.salary != null){
+      playerSalary = andCheck + "making a salary of <b>" + val.salary + "</b>";
+    } else {
+      playerSalary = andCheck + "making a salary of <b>N/A</b>";
+    }
+    var Carousel = {
+        index: index,
+        //imageData(mainImg, mainImgRoute, subImg, subRoute, rank)
+        //TODO need to replace image data with actual image path when available
+        imageConfig: self.imageData("image-150","border-large",dummyImg,dummyRoute,"image-50-sub",dummyImg,dummyRoute,index+1),
+        description:[
+          '<p><i class="fa fa-circle"></i> ' + curYear + ' TEAM ROSTER</p>',
+          '<p><b>'+val.playerName+'</b></p>',
+          '<p><b>'+ val.playerName+ '</b>, <b>'+val.roleStatus+'</b> for the <b>'+ val.teamName +'</b>,' + playerNum + playerHeight + playerWeight + playerSalary + '</p>',
+          '<p>Last Updated On ' + val.lastUpdate + '</p>'
+        ],
+        footerInfo: {
+          infoDesc: 'Interested in discovering more about this player?',
+          text: 'View Profile',
+          url: ['Disclaimer-page']
+        }
+      };
+    return Carousel;
+  }
+  //function that returns information from api to an acceptable interface for images
+  imageData(imageClass, imageBorder, mainImg, mainImgRoute, subImgClass?, subImg?, subRoute?, rank?){
+    if(typeof mainImg =='undefined' || mainImg == ''){
+      mainImg = "./app/public/placeholder-location.jpg";
+    }
+    if(typeof subImg =='undefined' || subImg == ''){
+      mainImg = "./app/public/placeholder-location.jpg";
+    }
+    if(typeof rank == 'undefined' || rank == 0){
+      rank = 0;
+    }
+    var image = {//interface is found in image-data.ts
+        imageClass: imageClass,
+        mainImage: {
+            imageUrl: mainImg,
+            urlRouteArray: mainImgRoute,
+            hoverText: "<p>View</p><p>Profile</p>",
+            imageClass: imageBorder
+        },
+        subImages: [
+            {
+                imageUrl: subImg,
+                urlRouteArray: subRoute,
+                hoverText: "<i class='fa fa-mail-forward'></i>",
+                imageClass: subImgClass + " image-round-lower-right"
+            },
+            {
+                text: "#"+rank,
+                imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
+            }
+        ],
+    };
+    return image;
+  }
 }
 
 export class RosterTableModel {
@@ -109,10 +182,9 @@ export class RosterTableModel {
 
   selectedKey:any = -1;
 
-  constructor(title:string, rows: Array<TeamRosterData>, private _globalFunctions:GlobalFunctions, private _mlbGF: MLBGlobalFunctions) {
+  constructor(title:string, rows: Array<TeamRosterData>, private _globalFunctions:GlobalFunctions, private _mlbGF:MLBGlobalFunctions) {
     this.title = title;
     this.rows = rows;
-    console.log('Selected',rows, title);
     if ( this.rows === undefined || this.rows === null ) {
       this.rows = [];
     }
@@ -147,11 +219,11 @@ export class RosterTableModel {
         break;
 
       case "ht":
-        s = typeof item.height == 'undefined' ? "-" : item.age.toString();
+        s = typeof item.height == 'undefined' ? "-" : item.height.toString();
         break;
 
       case "wt":
-        s = typeof item.weight == 'undefined' ? "-" : item.age.toString();
+        s = typeof item.weight == 'undefined' ? "-" : item.weight.toString();
         break;
 
       case "age":
@@ -166,33 +238,33 @@ export class RosterTableModel {
   }
 
   getSortValueAt(item:TeamRosterData, column:TableColumn):any {
-    var o = null;
+    var s = null;
     switch (column.key) {
-      case "name":
-        o = item.teamName;
-        break;
+        case "name":
+          s = item.playerName;
+          break;
 
-      case "w":
-        o = item.totalWins;
-        break;
+        case "pos":
+          s = item.position.toString();
+          break;
 
-      case "l":
-        o = item.totalLosses;
-        break;
+        case "ht":
+          s = item.heightInInches.toString();
+          break;
 
-      case "pct":
-        o = item.winPercentage;
-        break;
+        case "wt":
+          s = item.weight.toString();
+          break;
 
-      case "gb":
-        o = item.gamesBack;
-        break;
+        case "age":
+        s = item.age.toString();
+          break;
 
-      case "rs":
-        o = item.batRunsScored;
-        break;
-    }
-    return o;
+        case "sal":
+          s = item.salary;
+          break;
+      }
+      return s;
   }
 
   getImageConfigAt(item:TeamRosterData, column:TableColumn):CircleImageData {
@@ -201,9 +273,10 @@ export class RosterTableModel {
       return {
           imageClass: "image-50",
           mainImage: {
-            imageUrl: item.imageUrl,
+            imageUrl: 'item.imageUrl',
             imageClass: "border-2",
-            urlRouteArray: ["Team-page", { teamName: item.teamName, teamId: item.teamId }],
+            urlRouteArray: this._mlbGF.formatPlayerRoute(item.teamName,item.playerName,item.playerId),
+            hoverText: "<i class='fa fa-mail-forward'></i>",
           },
           subImages: []
         };
@@ -217,13 +290,14 @@ export class RosterTableModel {
     return column.key === "name";
   }
 
-  getRouterLinkAt(item:TeamRosterData, column:TableColumn):CircleImageData {
+  getRouterLinkAt(item:TeamRosterData, column:TableColumn):Array<any> {
     if ( column.key === "name" ) {
       return this._mlbGF.formatPlayerRoute(item.teamName,item.playerName,item.playerId);
     }
     else {
       return undefined;
     }
+
   }
 
   hasRouterLinkAt(column:TableColumn):boolean {

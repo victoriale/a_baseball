@@ -12,9 +12,8 @@ import {SchedulesCarousel} from '../../components/carousels/schedules-carousel/s
 import {Carousel} from '../../components/carousels/carousel.component';
 import {SliderCarousel} from '../../components/carousels/slider-carousel/slider-carousel.component';
 
-import {StandingsComponentData, TableTabData} from '../../components/standings/standings.component';
 import {RosterComponentData} from '../../components/roster/roster.component';
-import {StandingsModule} from '../../modules/standings/standings.module';
+import {StandingsModuleData, StandingsModule} from '../../modules/standings/standings.module';
 import {StandingsService} from '../../services/standings.service';
 import {TeamRosterModule} from '../../modules/team-roster/team-roster.module';
 import {RosterService} from '../../services/roster.service';
@@ -52,8 +51,8 @@ import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
 
 export class ComponentPage implements OnInit {
   pageParams: MLBPageParameters;
-  standingsData: StandingsComponentData;
-  rosterData: any;
+  standingsData: StandingsModuleData;
+  rosterData: RosterComponentData;
   playerProfileHeaderData: ProfileHeaderData;
   teamProfileHeaderData: ProfileHeaderData;
 
@@ -77,7 +76,7 @@ export class ComponentPage implements OnInit {
   ngOnInit() {
     this.setupProfileData();
     this.setupStandingsData();
-    this.setupRosterData();//ROSTER DATA
+    // this.setupRosterData();//ROSTER DATA
   }
 
   private setupProfileData() {
@@ -115,20 +114,18 @@ export class ComponentPage implements OnInit {
       });
   }
 
-  private setupRosterData() {
-    let self = this;
-    self._rosterService.getRosterservice('2796', 'full') //only show 5 rows in the module
-      .subscribe(data => {
-        console.log('Roster Data',data);
-        this.rosterData = {
-          moduleTitle: data.title,
-          pageRouterLink: data.pageRouterLink,
-          tabs: data
-        };
-        console.log('Roster Data',this.rosterData);
-      },
-      err => {
-        console.log("Error getting team roster data");
-      });
-  }
+  // private setupRosterData() {
+  //   let self = this;
+  //   self._rosterService.loadAllTabs(this.pageParams, 5) //only show 5 rows in the module
+  //     .subscribe(data => {
+  //       this.rosterData = {
+  //         moduleTitle: self._rosterService.getModuleTitle(this.pageParams),
+  //         pageRouterLink: self._rosterService.getLinkToPage(this.pageParams),
+  //         tabs: data
+  //       };
+  //     },
+  //     err => {
+  //       console.log("Error getting team roster data");
+  //     });
+  // }
 }
