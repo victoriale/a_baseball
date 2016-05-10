@@ -11,6 +11,7 @@ import {HeadlineDataService} from "../../global/global-ai-headline-module-servic
 import {RouteParams} from "angular2/router";
 import {ROUTER_DIRECTIVES} from "angular2/router";
 import {ModuleHeaderData} from "../../components/module-header/module-header.component";
+import {LoadingComponent} from "../../components/loading/loading.component";
 
 declare var jQuery:any;
 declare var moment:any;
@@ -18,7 +19,7 @@ declare var moment:any;
 @Component({
     selector: 'articles-module',
     templateUrl: './app/modules/articles/articles.module.html',
-    directives: [ModuleHeader, ROUTER_DIRECTIVES, ArticleScheduleComponent, ArticleMainComponent, ArticleSubComponent, HeadToHeadComponent],
+    directives: [ModuleHeader, ROUTER_DIRECTIVES, ArticleScheduleComponent, ArticleMainComponent, ArticleSubComponent, HeadToHeadComponent, LoadingComponent],
     inputs: [],
     providers: [Articles],
 })
@@ -52,7 +53,7 @@ export class ArticlesModule implements OnInit {
 
     constructor(private _params:RouteParams, private _headlineDataService:HeadlineDataService, private _globalFunctions:GlobalFunctions) {
         window.scrollTo(0, 0);
-        this.teamID = _params.get('teamID');
+        this.teamID = _params.get('teamId');
         this.getArticles();
     }
 
