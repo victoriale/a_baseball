@@ -8,6 +8,9 @@ import {Observable} from "rxjs/Observable";
 
 export class ArticleDataService {
     public partnerID:string;
+    public protocolToUse:string = (location.protocol == "https:") ? "https" : "http";
+    public articleUrl:string = '://dev-homerunloyal-ai.synapsys.us/';
+    public recommendUrl:string = '://dev-homerunloyal-ai.synapsys.us/headlines/event/';
 
     constructor(private _router:Router, public http:Http) {
         this._router.root
@@ -25,8 +28,9 @@ export class ArticleDataService {
     };
 
     getArticleData(eventID, eventType) {
+        var fullUrl = this.protocolToUse + this.articleUrl;
         if (this.partnerID == null) {
-            return this.http.get('http://dev-homerunloyal-ai.synapsys.us/' + eventType + '/' + eventID)
+            return this.http.get(fullUrl + eventType + '/' + eventID)
                 .map(
                     res => res.json()
                 )
@@ -36,7 +40,7 @@ export class ArticleDataService {
                     }
                 )
         } else {
-            return this.http.get('http://dev-homerunloyal-ai.synapsys.us/' + eventType + '/' + eventID)
+            return this.http.get(fullUrl + eventType + '/' + eventID)
                 .map(
                     res => res.json()
                 )
@@ -49,8 +53,9 @@ export class ArticleDataService {
     }
 
     getRecommendationsData(eventID) {
+        var fullUrl = this.protocolToUse + this.recommendUrl;
         if (this.partnerID == null) {
-            return this.http.get('http://dev-homerunloyal-ai.synapsys.us/headlines/event/' + eventID)
+            return this.http.get(fullUrl + eventID)
                 .map(
                     res => res.json()
                 )
@@ -60,7 +65,7 @@ export class ArticleDataService {
                     }
                 )
         } else {
-            return this.http.get('http://dev-homerunloyal-ai.synapsys.us/headlines/event/' + eventID)
+            return this.http.get(fullUrl + eventID)
                 .map(
                     res => res.json()
                 )

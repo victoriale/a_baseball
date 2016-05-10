@@ -1,7 +1,7 @@
 import {CircleImageData} from '../../components/images/image-data';
 
 export interface TableModel<T> {
-  title?: string;
+  // title?: string;
   
   columns: Array<TableColumn>;
   

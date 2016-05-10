@@ -152,7 +152,7 @@ export class ProfileHeaderService {
     // console.log("team profile url: " + url);
     return this.http.get(url)
         .map(res => res.json())
-        .map(data => data.data.stats);
+        .map(data => data.data);
   }
 
   getMLBProfile(): Observable<LeagueProfileHeaderData> {
@@ -190,28 +190,11 @@ export class ProfileHeaderService {
     if (!data.info) {
       return null;
     }
-    // [Player Name] started his MLB career on [Month] [Day], [Year] for [Team Name],
-    // accumulating [##] years in the MLB.
-    // [Player Name] was born in [City], [State] on [Month] [Day], [Year]
-    // and is [##] years old, with a height of [##] and weighing in at [##]lbs.
-
-    /* // Done by Backend now.
-    var formattedYearsPlayed = data.info.yearsPlayed == 1 ? "one year" :  data.info.yearsPlayed + " years";
-    var formattedAge = data.info.age == 1 ? "one year" :  data.info.age + " years";
-    var formattedBirthDate = GlobalFunctions.formatLongDate(data.info.birthDate);
-    var formattedHeight = MLBGlobalFunctions.formatHeight(data.info.height);
-    var formattedWeight = data.info.weight ? data.info.weight : "N/A";
-    var formattedCity = data.info.city ? data.info.city : "N/A";
-    var formattedCountry = data.info.country ? data.info.country : "N/A";
-    var formattedStartDate = GlobalFunctions.formatLongDate(data.info.startDate);
-
-    var description = data.info.playerName + " started his MLB career on " + formattedStartDate +
-                      " for " + data.info.teamName + " accumulating " + formattedYearsPlayed + " in the MLB. " +
-                      data.info.playerName + " was born in " + formattedCity + ", " + formattedCountry +
-                      " on " + formattedBirthDate + " and is " + formattedAge + " old with a height of " +
-                       formattedHeight + " and weighing in at " + formattedWeight + "lbs.";*/
+    
+    data.info.backgroundImage = GlobalSettings.getImageUrl(data.info.backgroundImage);
+    data.info.profileImage = GlobalSettings.getImageUrl(data.info.profileImage);
+    
     var description = data.description;
-
     var dataPoints: Array<DataItem>;
     var isPitcher = data.info.position.filter(value => value === "P").length > 0;
 
@@ -298,22 +281,25 @@ export class ProfileHeaderService {
     if (!stats) {
       return null;
     }
-    //The [Atlanta Braves] play in [Turner Field] located in [Atlanta, GA]. The [Atlanta Braves] are part of the [NL East].
+    
+    data.stats.backgroundImage = GlobalSettings.getImageUrl(data.stats.backgroundImage);
+    data.stats.profileImage = GlobalSettings.getImageUrl(data.stats.profileImage);
+    
     var teamName = stats.teamName ? stats.teamName : "N/A";
-    // var venue = data.venue ? data.venue : "N/A";
     var city = stats.city ? stats.city : "N/A";
     var state = stats.state ? stats.state : "N/A";
-    // var divisionLongName = data.division && data.conference ? data.conference.name + " " + data.division.name : "N/A";
-
-    // var description = "The " + teamName + " play in " + venue + " located in " + city + ", " + state + ". " +
-    //                   "The " + teamName + " are part of the " + divisionLongName + " division.";
+    
+    //TODO-CJP: get from API
+    var lastSpaceIndex = teamName.lastIndexOf(" ");
+    var firstPart = lastSpaceIndex >= 0 ? teamName.substring(0, lastSpaceIndex) : "";
+    var lastPart = lastSpaceIndex >= 0 ? teamName.substring(lastSpaceIndex+1) : teamName;
 
     var header: ProfileHeaderData = {
       profileName: stats.teamName,
       profileImageUrl: stats.profileImage,
       backgroundImageUrl: stats.backgroundImage,
-      profileTitleFirstPart: city + ", " + state,
-      profileTitleLastPart: stats.teamName,
+      profileTitleFirstPart: firstPart,
+      profileTitleLastPart: lastPart,
       lastUpdatedDate: stats.lastUpdated,
       description: description,
       topDataPoints: [
@@ -360,6 +346,9 @@ export class ProfileHeaderService {
     //The MLB consists of [30] teams and [####] players. These teams and players are divided across [two] leagues and [six] divisions.
     var city = data.city != null ? data.city : "N/A";
     var state = data.state != null ? data.state : "N/A";
+    
+    data.backgroundImage = GlobalSettings.getImageUrl(data.backgroundImage);
+    data.profileImage = GlobalSettings.getImageUrl(data.profileImage);
 
     var description = "The MLB consists of " + GlobalFunctions.formatNumber(data.totalTeams) +
                       " teams and " + GlobalFunctions.formatNumber(data.totalPlayers) + " players. " +

@@ -1,13 +1,10 @@
 <section class="page-container">
   <backtab-component></backtab-component>
   <title-component [titleData]="titleData"></title-component>
-  <slider-carousel *ngIf="carDataArray" [carouselData]="carDataArray" [footerStyle]="footerStyle"></slider-carousel>
+  <slider-carousel (indexNum)="indexNum($event)" *ngIf="carDataArray" [carouselData]="carDataArray" [footerStyle]="footerStyle"></slider-carousel>
   <tabs (tabSelected)="tabSelected($event)">
     <tab *ngFor="#tab of tabs" [tabTitle]="tab.title" [active]="tab.isActive">
-      <div *ngFor="#section of tab.sections">
-        <p [innerHtml]="section.groupName"></p>
-        <custom-table [model]="section.tableData" (sortChanged)="updateCarousel($event)"></custom-table>
-      </div>
+      <custom-table [model]="tab.tableData" (sortChanged)="updateCarousel($event)"></custom-table>
     </tab>
   </tabs>
 </section>

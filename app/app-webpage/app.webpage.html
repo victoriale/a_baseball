@@ -3,7 +3,9 @@
 <nav class="testLinks">
   <a [routerLink]="['Home-page']">Home</a>
   <a [routerLink]="['Component-page']">Components</a>
-  <a [routerLink]="['Team-page', {teamName:'yankees', teamId: 2796} ]">Yankees Team</a>
+  <a [routerLink]="['Team-page', {teamName:'Yankees', teamId: 2796} ]">Team #2796</a>
+  <a [routerLink]="['Draft-history-page', {teamName:'Yankees', teamId: 2796} ]">Draft History #2796</a>
+  <!-- <a [routerLink]="['List-page', {profile:'team', listname: '2796'} ]">Team #2796</a> -->
   <a [routerLink]="['Directory-page', { type: 'player', page: 1 }]">Directory</a>
   <a [routerLink]="['About-us-page']">About Us</a>
   <a [routerLink]="['Contact-us-page']">Contact Us</a>
