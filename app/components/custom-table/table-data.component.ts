@@ -19,7 +19,11 @@ export interface TableModel<T> {
   
   getImageConfigAt(item:T, column:TableColumn):CircleImageData;
   
+  getRouterLinkAt(item:T, column:TableColumn):Array<any>;
+  
   hasImageConfigAt(column:TableColumn):boolean;
+  
+  hasRouterLinkAt(column:TableColumn):boolean;
 }
 
 /**

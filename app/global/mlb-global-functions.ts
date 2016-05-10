@@ -18,58 +18,54 @@ export class MLBGlobalFunctions {
    *
    * @example
    * // teamName => 'Boston Red Sox'
+   * formatTeamRoute('Boston Red Sox', 2124)
+   *
+   *
+   * @param {teamName} teamName - team name given from data that will be converted to lower kebab case
+   * @param {teamId} teamId - team ID the required field needed to successfully navigate to team profile
+   * @returns the teamName => boston-red-sox,  teamId => ##, routeName => 'Team-page'
+   */
+  static formatTeamRoute(teamName: string, teamId: number): Array<any> {
+    var teamRoute: Array<any>;
+
+    if(typeof teamName != 'undefined' && teamName != null){
+      teamName = GlobalFunctions.toLowerKebab(teamName);
+      teamRoute = ['Team-page', {teamName: teamName, teamId: teamId}];//NOTE: if Team-page is on the same level as the rest of the route-outlets
+    } else{
+      teamRoute = null;
+    }
+    return teamRoute ? teamRoute : ['Error-page'];
+  }
+
+  /**
+     * - Pass in datapoints to required parameters and formats
+   * them into a single route that is in lowerCase Kebab.
+   * - If parameters given do not fit the requirements them default to the error page.
+   * - Otherwise takes teamName && playerName as a string
+   *
+   * @example
+   * // teamName => 'Boston Red Sox'
+   * // playerName => 'Babe Ruth'
    * formatTeamRoute('Boston Red Sox')
    *
    *
    * @param {teamName} teamName - team name given from data that will be converted to lower kebab case
    * @param {teamId} teamId - team ID the required field needed to successfully navigate to team profile
-   * @returns the teamName => boston-red-sox,  teamId => ##, routeNmae => 'Team-page'
+   * @returns the teamName => 'boston-red-sox',  playerName => 'babe-ruth' playerId => ##, routeName => 'Player-page'
    */
-  formatTeamRoute(teamName: string, teamId: number):Array<any> {
-    var teamRoute: Array<any>;
+  static formatPlayerRoute(teamName: string, playerFullName:string, playerId: number):Array<any> {
+    var playerRoute: Array<any>;
 
-    teamName = this._globalFunctions.toLowerKebab(teamName);
-    teamRoute = ['Team-page',{teamName:teamName, teamId}];//NOTE: if Team-page is on the same level as the rest of the route-outlets
-    return teamRoute ? teamRoute : teamRoute = ['Error-page'];
+    if(typeof teamName != 'undefined' && teamName != null && typeof playerFullName != 'undefined' && playerFullName != null){
+      teamName = GlobalFunctions.toLowerKebab(teamName);
+      playerFullName = GlobalFunctions.toLowerKebab(teamName);
+      playerRoute = ['Player-page',{teamName:teamName, fullName:playerFullName, playerId: playerId}];//NOTE: if Player-page is on the same level as the rest of the route-outlets
+    }else{
+      playerRoute = null;
+    }
+    return playerRoute ? playerRoute : ['Error-page'];
   }
 
-  /**
-   * - Returns the group/league name based on the given conference and division values
-   *
-   * @example
-   * // "American League"
-   * formatGroupName(Conference.american)
-   *
-   * @example
-   * // "MLB"
-   * formatGroupName()
-   *
-   * @example
-   * // "American League East"
-   * formatGroupName(Conference.american, Division.east)
-   *
-   * @param {Conference} conference - (Optional)
-   *                                - Expected if {division} is included.
-   * @param {Division} division - (Optional)
-   * @returns {string}
-   *
-   */
-  formatGroupName(conference?: Conference, division?: Division): string {
-    if ( conference !== undefined && conference !== null ) {
-      let leagueName = this._globalFunctions.toTitleCase(Conference[conference]) + " League";
-      // let leagueName = Conference[conference] + " League";
-      if ( division !== undefined && division !== null ) {
-        return leagueName + " " + this._globalFunctions.toTitleCase(Division[division]);
-        // return leagueName + " " + Division[division];
-      }
-      else {
-        return leagueName;
-      }
-    }
-    else {
-      return "MLB";
-    }
-  }
 
   /**
    * - Formats the height string by removing the dashes and adding

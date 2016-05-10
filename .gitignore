@@ -5,3 +5,4 @@ dist
 **/.idea/workspace.xml
 **/.idea/tasks.xml
 coverage/
+.vscode/settings.json

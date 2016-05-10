@@ -6,6 +6,7 @@ import {CircleImage} from '../../components/images/circle-image';
 import {ImageData,CircleImageData} from '../../components/images/image-data';
 import {Search} from '../../components/search/search.component';
 import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
+import {LandingPageService} from '../../services/landing-page';
 
 export interface homePageData {
   imageData: CircleImageData;
@@ -22,12 +23,13 @@ export interface newsCarouselData{
     templateUrl: './app/webpages/home-page/home-page.page.html',
     directives: [CircleImage, ROUTER_DIRECTIVES, FooterComponent, HeaderComponent, Search, SliderButton],
     inputs: [],
-    providers: [],
+    providers: [LandingPageService],
 })
 
 export class HomePage implements OnInit {
     public teamData: Array<homePageData>;
-    public newsData: Array<newsCarouselData>;
+    public listData: Array<newsCarouselData>;
+    public displayData: Object;
     public imgHero1: string = "/app/public/homePage_hero1.png";
     public imgIcon1: string = "/app/public/homePage_icon1.png";
     public imageTile1: string = "/app/public/iphone.png";
@@ -39,27 +41,83 @@ export class HomePage implements OnInit {
     public homeHeading3: string = "PICK YOUR FAVORITE <b>MLB TEAM</b>";
     public leagueHeading: string;
     public homeFeatures: string;
-    public homeFeaturesTile1: string = "<h3>MLB Standings</h3>";
-    public homeFeaturesTile2: string = "<h3><b>Dive deep</b></h3> <h4>into key information</h4>";;
-    public homeFeaturesTile3: string = "<h3>MLB Scores</h3>";
-    public homeFeaturesTile4: string = "<h3>MLB Schedules</h3>";
+    public homeFeaturesTile1: string = "MLB Standings";
+    public homeFeaturesTile3: string = "MLB Scores";
+    public homeFeaturesTile4: string = "MLB Schedules";
+    public homeFeaturesButton1: string = "View MLB Standings";
+    public homeFeaturesButton2: string = "View All Lists";
+    public homeFeaturesButton3: string = "View MLB Scores";
+    public homeFeaturesButton4: string = "View MLB Schedules";
     public buttonFullList: string = "See The Full List";
     public mlb: string = "MLB";
+    public mlbTeams: any;
+    public counter: number = 0;
+    public max:number = 3;
 
-    constructor(private _router: Router) {
+    constructor(private _router: Router, private _landingPageService: LandingPageService) {
       this.getData();
-      this.getNewsData();
+      this.getListData();
     }
-    getNewsData(){
-      this.newsData = [
+    getListData(){
+      this.listData = [
         {
           newsTitle: "Top Teams In The League Right Now",
           newsSubTitle: "See which MLB teams are performing at the top of their game",
           routerInfo: ['Disclaimer-page']
-        }
+        },
+        {
+          newsTitle: "Top Pitchers In The League Right Now",
+          newsSubTitle: "See which MLB Player are performing at the top of their game",
+          routerInfo: ['Disclaimer-page']
+        },
+        {
+          newsTitle: "Players with the Most Home Runs",
+          newsSubTitle: "See which MLB Players are performing at the top of their game",
+          routerInfo: ['Disclaimer-page']
+        },
       ];
+      this.changeMain(this.counter);
     }
+    left(){
+      var counter = this.counter;
+      counter--;
+
+      //make a check to see if the array is below 0 change the array to the top level
+      if(counter < 0){
+        this.counter = (this.max - 1);
+      }else{
+        this.counter = counter;
+      }
+      this.changeMain(this.counter);
+    }
+
+    right(){
+      var counter = this.counter;
+      counter++;
+      //check to see if the end of the obj array of images has reached the end and will go on the the next obj with new set of array
+      if(counter == this.max){
+        this.counter = 0;
+      }else{
+        this.counter = counter;
+      }
+      this.changeMain(this.counter);
+    }
+
+
+    //this is where the angular2 decides what is the main image
+    changeMain(num){
+      if ( num < this.listData.length ) {
+        this.displayData = this.listData[num];
+      }
+    }
+
     getData(){
+      this._landingPageService.getLandingPageService()
+        .subscribe(data => {
+          // console.log(data);
+          this.mlbTeams = data.league;
+          // console.log(this.mlbTeams);
+        })
       var sampleImage = "./app/public/placeholder-location.jpg";
       this.leagueHeading = "<b>AMERICAN LEAGUE</b> TEAMS<b>:</b>";
       this.homeFeatures = "<b>Features</b> to Note";
