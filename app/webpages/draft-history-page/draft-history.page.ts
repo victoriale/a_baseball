@@ -39,10 +39,11 @@ export class DraftHistoryPage implements OnInit{
   getDraftPage(date) {
       this.profHeadService.getTeamPageHeader(Number(this.params.params['teamId']))
       .subscribe(
-          profHeader => {
+          data => {
+            var profHeader = this.profHeadService.convertTeamPageHeader(data);
             this.profileHeaderData = profHeader.data;
             this.errorData = {
-              data:profHeader.error,
+              data: profHeader.error,
               icon: "fa fa-area-chart"
             }
           },

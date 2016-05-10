@@ -7,6 +7,7 @@ import {GlobalFunctions} from '../global/global-functions';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {DataItem, ProfileHeaderData} from '../modules/profile-header/profile-header.module';
 import {TitleInputData} from '../components/title/title.component';
+import {Division, Conference, MLBPageParameters} from '../global/global-interface';
 
 declare var moment: any;
 
@@ -79,6 +80,13 @@ interface PlayerProfileHeaderData {
   }
 }
 
+interface TeamProfileData {
+  pageParams: MLBPageParameters;
+  fullProfileImageUrl: string;
+  fullBackgroundImageUrl: string;
+  headerData: TeamProfileHeaderData
+}
+
 interface TeamProfileHeaderData {
     description: string;
     stats: {
@@ -147,12 +155,35 @@ export class ProfileHeaderService {
         .map(data => data.data);
   }
 
-  getTeamProfile(teamId: number): Observable<TeamProfileHeaderData> {
+  getTeamProfile(teamId: number): Observable<TeamProfileData> {
     let url = GlobalSettings.getApiUrl() + '/team/profileHeader/' + teamId;
     // console.log("team profile url: " + url);
     return this.http.get(url)
         .map(res => res.json())
-        .map(data => data.data);
+        .map(data => {
+          var headerData: TeamProfileHeaderData = data.data;
+          var confKey = "";
+          var divKey = "";
+          if ( headerData.stats ) {
+            if ( headerData.stats.conference && headerData.stats.conference.name ) {
+              confKey = headerData.stats.conference.name.toLowerCase();
+            }
+            if ( headerData.stats.division && headerData.stats.division.name ) {
+              divKey = headerData.stats.division.name.toLowerCase();
+            }
+          }
+          return {
+            pageParams: {
+              teamId: data.data.stats.teamId,            
+              teamName: data.data.stats.teamName,
+              division: Division[divKey],
+              conference: Conference[confKey],
+            },
+            fullBackgroundImageUrl: GlobalSettings.getImageUrl(data.stats.backgroundImage),
+            fullProfileImageUrl: GlobalSettings.getImageUrl(data.stats.profileImage),
+            headerData: headerData
+          };
+        });
   }
 
   getMLBProfile(): Observable<LeagueProfileHeaderData> {
@@ -163,24 +194,24 @@ export class ProfileHeaderService {
         .map(data => data.data);
   }
 
-  getTeamPageHeader(teamId: number): Observable<any> {
-    let url = GlobalSettings.getApiUrl() + '/team/profileHeader/' + teamId;
-    return this.http.get(url)
-        .map(res => res.json())
-        .map(data => this.convertTeamPageHeader(data.data.stats));
-  }
+  convertTeamPageHeader(data: TeamProfileData) {
+    var description = data.headerData.description;
+    var stats = data.headerData.stats;
 
-  private convertTeamPageHeader(data){
+    if (!stats) {
+      return null;
+    }    
+    
     var headerData = {
       data:{
-        imageURL: '/app/public/mainLogo.png', //TODO
+        imageURL: data.fullProfileImageUrl, //TODO
         text1: 'Last Updated:', //TODO
         text2: 'United States',
-        text3: data.teamName + " " + data.seasonId + " Draft History",
+        text3: stats.teamName + " " + stats.seasonId + " Draft History",
         icon: 'fa fa-map-marker',
         hasHover : true,
       },
-      error: "Sorry, the "+data.teamName+" do not currently have any data for the "+data.seasonId+" draft history"
+      error: "Sorry, the " + stats.teamName + " do not currently have any data for the " + stats.seasonId + " draft history"
     }
     return headerData;
   }
@@ -273,16 +304,13 @@ export class ProfileHeaderService {
     return header;
   }
 
-  convertToTeamProfileHeader(data: TeamProfileHeaderData): ProfileHeaderData {
-    var description = data.description;
-    var stats = data.stats;
+  convertToTeamProfileHeader(data: TeamProfileData): ProfileHeaderData {
+    var description = data.headerData.description;
+    var stats = data.headerData.stats;
 
     if (!stats) {
       return null;
-    }
-    
-    data.stats.backgroundImage = GlobalSettings.getImageUrl(data.stats.backgroundImage);
-    data.stats.profileImage = GlobalSettings.getImageUrl(data.stats.profileImage);
+    }    
     
     var teamName = stats.teamName ? stats.teamName : "N/A";
     var city = stats.city ? stats.city : "N/A";

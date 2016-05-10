@@ -60,9 +60,7 @@ export class StandingsPage implements OnInit {
     if ( this.pageParams.teamId ) {      
       this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
         data => {
-          this.pageParams.teamName = data.stats.teamName;
-          this.pageParams.division = Division[data.stats.division.name.toLowerCase()];
-          this.pageParams.conference = Conference[data.stats.conference.name.toLowerCase()];
+          this.pageParams = data.pageParams;
           this.setupStandingsData();
         },
         err => {
