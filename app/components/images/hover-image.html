@@ -1,7 +1,7 @@
 <!--image (no hover link)-->
 <img *ngIf="!imageData.urlRouteArray && imageData.imageUrl" 
   src='{{imageData.imageUrl}}' 
-  onerror="this.src='/app/public/profile_placeholder_large.png';" />
+  onerror="this.src='/app/public/no-image.png';" />
 
 <!--image (with hover link)-->
 <a *ngIf="imageData.urlRouteArray && imageData.imageUrl" 
@@ -9,7 +9,7 @@
   class="image-round-hover">
   <img 
     src='{{imageData.imageUrl}}' 
-    onerror="this.src='/app/public/profile_placeholder_large.png';" />
+    onerror="this.src='/app/public/no-image.png';" />
   <div [innerHtml]="imageData.hoverText"></div>
 </a>
 

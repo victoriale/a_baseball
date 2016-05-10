@@ -25,16 +25,16 @@ export class MLBGlobalFunctions {
    * @param {teamId} teamId - team ID the required field needed to successfully navigate to team profile
    * @returns the teamName => boston-red-sox,  teamId => ##, routeName => 'Team-page'
    */
-  formatTeamRoute(teamName: string, teamId: number):Array<any> {
+  static formatTeamRoute(teamName: string, teamId: number): Array<any> {
     var teamRoute: Array<any>;
 
     if(typeof teamName != 'undefined' && teamName != null){
-      teamName = this._globalFunctions.toLowerKebab(teamName);
-      teamRoute = ['Team-page',{teamName:teamName, teamId:teamId}];//NOTE: if Team-page is on the same level as the rest of the route-outlets
-    }else{
+      teamName = GlobalFunctions.toLowerKebab(teamName);
+      teamRoute = ['Team-page', {teamName: teamName, teamId: teamId}];//NOTE: if Team-page is on the same level as the rest of the route-outlets
+    } else{
       teamRoute = null;
     }
-    return teamRoute ? teamRoute : teamRoute = ['Error-page'];
+    return teamRoute ? teamRoute : ['Error-page'];
   }
 
   /**
@@ -53,17 +53,17 @@ export class MLBGlobalFunctions {
    * @param {teamId} teamId - team ID the required field needed to successfully navigate to team profile
    * @returns the teamName => 'boston-red-sox',  playerName => 'babe-ruth' playerId => ##, routeName => 'Player-page'
    */
-  formatPlayerRoute(teamName: string, playerFullName:string, playerId: number):Array<any> {
+  static formatPlayerRoute(teamName: string, playerFullName:string, playerId: number):Array<any> {
     var playerRoute: Array<any>;
 
     if(typeof teamName != 'undefined' && teamName != null && typeof playerFullName != 'undefined' && playerFullName != null){
-      teamName = this._globalFunctions.toLowerKebab(teamName);
-      playerFullName = this._globalFunctions.toLowerKebab(teamName);
+      teamName = GlobalFunctions.toLowerKebab(teamName);
+      playerFullName = GlobalFunctions.toLowerKebab(teamName);
       playerRoute = ['Player-page',{teamName:teamName, fullName:playerFullName, playerId: playerId}];//NOTE: if Player-page is on the same level as the rest of the route-outlets
     }else{
       playerRoute = null;
     }
-    return playerRoute ? playerRoute : playerRoute = ['Error-page'];
+    return playerRoute ? playerRoute : ['Error-page'];
   }
 
 

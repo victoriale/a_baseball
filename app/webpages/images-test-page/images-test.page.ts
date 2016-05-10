@@ -92,7 +92,7 @@ export class ImagesTestPage {
           imageData: {
             imageClass: "image-150",
             mainImage: {
-              imageUrl: sampleImage,
+              imageUrl: undefined,
               urlRouteArray: ['Disclaimer-page'],
               hoverText: "<p>View</p><p>Profile</p>",
               imageClass: "border-large"

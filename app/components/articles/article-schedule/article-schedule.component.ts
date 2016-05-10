@@ -1,16 +1,22 @@
 import {Component, Input, OnInit } from "angular2/core";
 import {Articles} from "../../../global/global-service";
 import {ArticleData} from "../../../global/global-interface";
+import {CircleImage} from "../../images/circle-image";
+import {CircleImageData} from '../../images/image-data';
 
 @Component({
     selector: 'article-schedule-component',
     templateUrl: './app/components/articles/article-schedule/article-schedule.component.html',
-    directives: [],
-    inputs: ['articleData', 'league'],
+    directives: [CircleImage],
+    inputs: ['articleData', 'league', 'homeData', 'awayData'],
     providers: [Articles],
 })
 
 export class ArticleScheduleComponent implements OnInit {
+    @Input() homeData:any;
+    @Input() awayData:any;
+    homeHex:string;
+    awayHex:string;
     leftGrad:Object;
     rightGrad:Object;
     articleData:ArticleData[];
@@ -24,16 +30,14 @@ export class ArticleScheduleComponent implements OnInit {
     getArticles() {
         this._magazineOverviewService.getArticles().then(data => {
             this.articleData = data;
-            this.getHomeBackgroundColor();
-            this.getAwayBackgroundColor();
         });
     }
 
-    getHomeBackgroundColor() {
-        if (this.articleData[0].metaData[0].hex.homeColor != null && this.articleData[0].metaData[0].hex.awayColor != null) {
-            let homeRedValue = ArticleScheduleComponent.hexToR(this.articleData[0].metaData[0].hex.homeColor);
-            let homeGreenValue = ArticleScheduleComponent.hexToG(this.articleData[0].metaData[0].hex.homeColor);
-            let homeBlueValue = ArticleScheduleComponent.hexToB(this.articleData[0].metaData[0].hex.homeColor);
+    getHomeBackgroundColor(homeHex) {
+        if (homeHex != null) {
+            let homeRedValue = ArticleScheduleComponent.hexToR(homeHex);
+            let homeGreenValue = ArticleScheduleComponent.hexToG(homeHex);
+            let homeBlueValue = ArticleScheduleComponent.hexToB(homeHex);
             let leftGradientRgb = "rgb(" + homeRedValue + "," + homeGreenValue + "," + homeBlueValue + ")";
             let leftGradientRgba = "rgba(" + homeRedValue + "," + homeGreenValue + "," + homeBlueValue + ", 0)";
             this.leftGrad = this.leftGradient(leftGradientRgb, leftGradientRgba);
@@ -42,11 +46,11 @@ export class ArticleScheduleComponent implements OnInit {
         }
     }
 
-    getAwayBackgroundColor() {
-        if (this.articleData[0].metaData[0].hex.homeColor != null && this.articleData[0].metaData[0].hex.awayColor != null) {
-            let awayRedValue = ArticleScheduleComponent.hexToR(this.articleData[0].metaData[0].hex.awayColor);
-            let awayGreenValue = ArticleScheduleComponent.hexToG(this.articleData[0].metaData[0].hex.awayColor);
-            let awayBlueValue = ArticleScheduleComponent.hexToB(this.articleData[0].metaData[0].hex.awayColor);
+    getAwayBackgroundColor(awayHex) {
+        if (awayHex != null) {
+            let awayRedValue = ArticleScheduleComponent.hexToR(awayHex);
+            let awayGreenValue = ArticleScheduleComponent.hexToG(awayHex);
+            let awayBlueValue = ArticleScheduleComponent.hexToB(awayHex);
             let rightGradientRgb = "rgb(" + awayRedValue + "," + awayGreenValue + "," + awayBlueValue + ")";
             let rightGradientRgba = "rgba(" + awayRedValue + "," + awayGreenValue + "," + awayBlueValue + ", 0)";
             this.rightGrad = this.rightGradient(rightGradientRgb, rightGradientRgba);
@@ -94,6 +98,14 @@ export class ArticleScheduleComponent implements OnInit {
     };
 
     ngOnInit() {
-        this.getArticles();
+    }
+
+    ngOnChanges() {
+        if (typeof this.homeData != 'undefined' && typeof this.awayData != 'undefined') {
+            this.awayHex = this.awayData[0].awayHex;
+            this.homeHex = this.homeData[0].homeHex;
+            this.getHomeBackgroundColor(this.homeHex);
+            this.getAwayBackgroundColor(this.awayHex);
+        }
     }
 }
