@@ -6,9 +6,10 @@
   <title-component [titleData]="profileHeaderData"></title-component>
   <div class="module-container list-page">
     <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray" [footerStyle]="footerStyle"></slider-carousel>
-    <div *ngIf="detailedDataArray">
-      <list-of-list-item *ngFor="#itemData of detailedDataArray" [item] = 'itemData'></list-of-list-item>
+    <div *ngIf="displayData">
+      <list-of-list-item *ngFor="#itemData of displayData" [item] = 'itemData'></list-of-list-item>
+      <pagination-footer *ngIf="paginationParameters" [paginationParameters]="paginationParameters" (newIndex)="newIndex($event)"></pagination-footer>
     </div>
-    <no-data-box *ngIf="!detailedDataArray" [data]="errorData"></no-data-box>
+    <no-data-box *ngIf="!displayData" [data]="errorData"></no-data-box>
   </div>
 </section>

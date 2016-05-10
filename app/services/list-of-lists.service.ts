@@ -49,7 +49,7 @@ export class ListOfListsService {
             };
           }else{
             return {
-              //carData: this.carDataPage(data.data),
+              carData: this.carDataPage(data.data),
               listData: this.detailedData(data.data),
               raw: data
             };
@@ -86,7 +86,6 @@ export class ListOfListsService {
           imageConfig: self.imageData("image-150","border-large",dummyImg,dummyRoute,"image-50-sub",dummyImg,dummyRoute,index+1),
           description:[
             '<p style="font-size:24px"><b>'+val.playerName+'</b></p>',
-            '<p>Hometown: <b></b></p>',
             '<br>',
             '<p style="font-size:24px"><b>'+(index+1)+'<sup>'+self.globalFunc.Suffix(Number(index+1))+'</sup>Pick for Round '+val.selectionLevel+'</b></p>',
             '<p>'+' Overall</p>',
@@ -140,9 +139,9 @@ export class ListOfListsService {
         rank          : itemListInfo.rank          != null  ? itemListInfo.rank         : dummyRank,
         icon          : itemListInfo.icon          != null  ? itemListInfo.icon         : dummyIcon,
         dataPoints    : [],
-        ctaBtn        : '';
-        ctaText       : 'View The List';
-        ctaUrl        : ['Disclaimer-page'];
+        ctaBtn        : '',
+        ctaText       : 'View The List',
+        ctaUrl        : ['Disclaimer-page']
       };
 
       itemListData.forEach(function(val, index){
@@ -165,6 +164,40 @@ export class ListOfListsService {
       listDataArray.push(listData);
     });
     return listDataArray;
+  }
+
+  imageData(imageClass, imageBorder, mainImg, mainImgRoute, subImgClass?, subImg?, subRoute?, rank?){
+    if(typeof mainImg =='undefined' || mainImg == ''){
+      mainImg = "./app/public/placeholder-location.jpg";
+    }
+    if(typeof subImg =='undefined' || subImg == ''){
+      mainImg = "./app/public/placeholder-location.jpg";
+    }
+    if(typeof rank == 'undefined' || rank == 0){
+      rank = 0;
+    }
+    var image = {//interface is found in image-data.ts
+      imageClass: imageClass,
+      mainImage: {
+        imageUrl: mainImg,
+        urlRouteArray: mainImgRoute,
+        hoverText: "<p>View</p><p>Profile</p>",
+        imageClass: imageBorder
+      },
+      subImages: [
+        {
+          imageUrl: subImg,
+          urlRouteArray: subRoute,
+          hoverText: "<i class='fa fa-mail-forward'></i>",
+          imageClass: subImgClass + " image-round-lower-right"
+        },
+        {
+          text: "#"+rank,
+          imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
+        }
+      ],
+    };
+    return image;
   }
 }
 

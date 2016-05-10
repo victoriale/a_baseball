@@ -1,6 +1,7 @@
 import {Component, OnInit, Input} from 'angular2/core';
 import {CircleImage} from '../../components/images/circle-image';
 import {CircleImageData} from '../../components/images/image-data';
+import {ROUTER_DIRECTIVES} from "angular2/router";
 
 export interface IListOfListItem {
     url:          string;  // API url for list call
@@ -44,7 +45,7 @@ export interface IListOfListItem {
 @Component({
     selector: 'list-of-list-item',
     templateUrl: './app/components/list-of-list-item/list-of-list-item.component.html',
-    directives: [CircleImage],
+    directives: [CircleImage, ROUTER_DIRECTIVES],
     providers: [],
 })
 
