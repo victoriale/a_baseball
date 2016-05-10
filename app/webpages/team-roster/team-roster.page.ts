@@ -72,7 +72,6 @@ export class TeamRosterPage implements OnInit{
     var teamId = _params.get("teamId");
     if ( teamId !== null && teamId !== undefined ) {
       this.pageParams.teamId = Number(teamId);
-      // this.pageParams.teamName = "??"
     }
   }
 
@@ -146,9 +145,8 @@ export class TeamRosterPage implements OnInit{
 
   private setupRosterData() {
     let self = this;
-    self._rosterService.getRosterservice("full", "2819")
+    self._rosterService.getRosterService("full", "2819")
       .subscribe(data => {
-        console.log(data);
         this.carDataArray = data.carousel;
       },
       err => {

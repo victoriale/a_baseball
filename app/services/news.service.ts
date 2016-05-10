@@ -1,43 +1,57 @@
 import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Rx';
-import {Http} from 'angular2/http';
-
-export interface DataItem {
-  label: string;
-  labelCont?: string;
-  value: string;
-}
-
-export interface NewsData {
-    title: string;
-    pubDate_ut: number;
-    link: string;
-    description: string;
-    tags: string;
-}
+import {Http, Headers} from 'angular2/http';
+import {GlobalFunctions} from '../global/global-functions';
 
 @Injectable()
 export class NewsService {
   private _apiUrl: string = 'http://newsapi.synapsys.us/news/?action=get_sports_news&q=';
+  constructor(public http: Http, private _globalFunctions: GlobalFunctions){}
 
-  private _defaultData: NewsData = {
-    title: "David Ortiz says his latest milestones are a sign he's 'getting old' - Boston.com",
-    pubDate_ut: 1462541310,
-    link: "https://bosoxinjection.com/2016/05/05/a-boston-red-sox-cinco-de-mayo/",
-    description: "BoSox InjectionA Boston Red Sox Cinco de MayoBoSox InjectionThe Boston Red Sox will celebrate in one way or another the Mexican holiday called Cinco de Mayo that is now an adopted drinking and partying excuse in the United States. The Mexican holiday is in honor of a battle won against French forces in Mexico ...und weitere »",
-    tags: "author"
+  setToken(){
+    var headers = new Headers();
+    return headers;
   }
 
-  constructor(public http: Http){}
+  getNewsService(newsSubject){
+    var headers = this.setToken();
+    var fullUrl = this._apiUrl + "/news/?action=get_sports_news&q=";
+    if(typeof newsSubject != "undefined"){
+      fullUrl += newsSubject;
+    }
+    return this.http.get(fullUrl, {
+      headers: headers
+    })
+    .map(
+      res => res.json()
+    )
+    .map(
+      data => {
+        return {
+          news: this.newsData(data)
+        };
+    })
+  }//getNewsService ends
 
-  getNewsData(): Observable<NewsData> {
-    let url = this._apiUrl + "Boston Red Sox";
-    return this.http.get(url)
-        .map(res => res.json())
-        .map(data => data.data);
-  }
-
-  getDefaultData(): Observable<NewsData> {
-    return Observable.of(this._defaultData);
-  }
+  newsData(data){
+    var self = this;
+    var newsArray = [];
+    var dummyImg = "./app/public/placeholder-location.jpg";
+    data.forEach(function(val, index){
+      var News = {
+        title: val.title,
+        description: val.description,
+        lead_image: dummyImg, //TODO
+        author: "Author", //TODO
+        published: "Published Date",//TODO
+        footerInfo: {
+          infoDesc: 'Want to check out the full story?',
+          text: 'READ THE ARTICLE',
+          url: val.link
+        }
+      };
+      newsArray.push(News);
+    });
+    return newsArray;
+  }//newsData ends
 }
