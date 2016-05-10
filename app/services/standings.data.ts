@@ -220,27 +220,27 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
         break;
 
       case "w":
-        o = item.totalWins;
+        o = Number(item.totalWins);
         break;
 
       case "l":
-        o = item.totalLosses;
+        o = Number(item.totalLosses);
         break;
 
       case "pct":
-        o = item.winPercentage;
+        o = Number(item.winPercentage);
         break;
 
       case "gb":
-        o = item.gamesBack;
+        o = Number(item.gamesBack);
         break;
 
       case "rs":
-        o = item.batRunsScored;
+        o = Number(item.batRunsScored);
         break;
 
       case "ra":
-        o = item.pitchRunsAllowed;
+        o = Number(item.pitchRunsAllowed);
         break;
 
       case "strk":
