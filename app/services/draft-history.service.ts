@@ -179,7 +179,7 @@ export class DraftHistoryService {
         ctaDesc:'Want more info about this [profile type]?',
         ctaBtn:'',
         ctaText:'View Profile',
-        ctaUrl:['Team-page']
+        ctaUrl:['Team-page',{teamName:'Yankees', teamId:'2796'}]
       };
       listDataArray.push(listData);
     });
