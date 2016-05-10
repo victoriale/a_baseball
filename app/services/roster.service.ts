@@ -2,17 +2,20 @@ import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Rx';
 import {Http, Headers} from 'angular2/http';
 import {GlobalFunctions} from '../global/global-functions';
+import {RosterTableModel} from '../services/roster.data';
+import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 
 @Injectable()
 export class RosterService {
   private _apiUrl: string = 'http://dev-homerunloyal-api.synapsys.us';
-  constructor(public http: Http, private _globalFunctions: GlobalFunctions){}
+  constructor(public http: Http, private _globalFunctions: GlobalFunctions, private _mlbGF: MLBGlobalFunctions){}
 
   setToken(){
     var headers = new Headers();
     return headers;
   }
-  getRosterservice(type, teamId){
+  getRosterservice(teamId, type){
+    type = type.toLowerCase();
     var headers = this.setToken();
     var fullUrl = this._apiUrl + "/team/roster";
     if(typeof teamId != "undefined"){
@@ -21,6 +24,7 @@ export class RosterService {
     if(typeof type != "undefined"){
       fullUrl += "/" + type;
     }
+    console.log(fullUrl);
     return this.http.get(fullUrl, {
       headers: headers
     })
@@ -31,7 +35,8 @@ export class RosterService {
       data => {
         console.log(data.data);
         return {
-            title: data.data,
+            title: this.getModuleTitle(data.data[0]),
+            pageRouterLink: this.getLinkToPage(data.data[0]),
             carousel: this.carData(data.data),
             table: data.data
         };
@@ -39,6 +44,30 @@ export class RosterService {
     )
   }//getRosterService ends
 
+  private setupTabData(rosterTabs, data, maxRows?: number) {
+    var table = new RosterTableModel("", data);
+    let groupName = this.formatGroupName(standingsTab.conference, standingsTab.division);
+
+    //Limit to maxRows, if necessary
+    if ( maxRows !== undefined ) {
+      table.rows = table.rows.slice(0, maxRows);
+    }
+
+    //Set display values
+    table.rows.forEach((value, index) => {
+      value.groupName = groupName;
+      value.displayDate = this._globalFunctions.formatUpdatedDate(value.lastUpdatedDate, false);
+      if ( value.teamId === undefined || value.teamId === null ) {
+        value.teamId = index;
+      }
+    });
+
+    //Table tabs
+    let title = ""; // only include title if there are multiple tables.
+    let tableData = new MLBStandingsTableData(title, standingsTab.conference, standingsTab.division, table);
+    standingsTab.sections = [tableData];
+    return standingsTab;
+  }
 
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
   carData(data){
@@ -104,6 +133,8 @@ export class RosterService {
     // console.log('TRANSFORMED CAROUSEL', carouselArray);
     return carouselArray;
   }
+
+  //function that returns information from api to an acceptable interface for images
   imageData(imageClass, imageBorder, mainImg, mainImgRoute, subImgClass?, subImg?, subRoute?, rank?){
     if(typeof mainImg =='undefined' || mainImg == ''){
       mainImg = "./app/public/placeholder-location.jpg";
@@ -137,4 +168,30 @@ export class RosterService {
     };
     return image;
   }
+
+  getModuleTitle(pageParams): string {
+    let moduletitle =" Team Roster";
+    if ( pageParams.teamName !== undefined && pageParams.teamName !== null ) {
+      moduletitle += pageParams.teamName + " - " + moduletitle;
+    }
+    return moduletitle;
+  }
+
+  getLinkToPage(pageParams) {
+    console.log('Link',pageParams);
+    var pageName = "Team-roster-page";
+    var pageValues = {
+      teamName: this._globalFunctions.toLowerKebab(pageParams.teamName),
+      teamId: pageParams.teamId
+    };
+
+    pageValues.teamName = this._globalFunctions.toLowerKebab(pageParams.teamName);
+
+    return {
+      infoDesc: "Want to see the full team roster?",
+      text: "VIEW FULL ROSTER",
+      url: [pageName, pageValues]
+    };
+  }
+
 }

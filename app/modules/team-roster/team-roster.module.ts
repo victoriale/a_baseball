@@ -17,13 +17,8 @@ export class TeamRosterModule implements OnChanges{
     iconClass: ""
   };
 
-  public footerInfo: ModuleFooterData = {
-    infoDesc: "Want to see the full team roster?",
-    text: "VIEW FULL ROSTER",
-    url: ['Teamroster-page']
-  };
-
   ngOnChanges() {
+    console.log('teamRosterModule', this.data);
     if ( this.data === undefined || this.data === null ) {
       this.headerInfo.moduleTitle = "Team Roster";
     }

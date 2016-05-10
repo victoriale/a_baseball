@@ -1,5 +1,5 @@
 <div *ngIf="data" class="module-container tr">
-  <module-header [modHeadData]="headerInfo"></module-header>
+  <module-header *ngIf="data" [modHeadData]="data"></module-header>
   <roster-component [tabs]="data.tabs"></roster-component>
-  <module-footer [footerData]="footerInfo"></module-footer>
+  <module-footer [footerData]="data.pageRouterLink"></module-footer>
 </div>

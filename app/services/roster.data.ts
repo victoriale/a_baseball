@@ -3,24 +3,32 @@ import {CircleImageData} from '../components/images/image-data';
 import {RosterTableTabData, TableComponentData} from '../components/roster/roster.component';
 import {SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
 import {Conference, Division} from '../global/global-interface';
+import {GlobalFunctions} from '../global/global-functions';
+import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 
 export interface TeamRosterData {
-  teamName: string,
   imageUrl: string,
-  teamId: number;
-  conferenceName: string,
-  divisionName: string,
+  teamId: string,
+  teamName: string,
+  playerName: string,
+  playerFirstName:string,
+  playerLastName: string,
+  playerId:string,
+  roleStatus: string,
+  active: string,
+  uniformNumber: string,
+  position:string,
+  depth: string,
+  weight: string,
+  height: string,
+  birthDate: string,
+  city: string,
+  area: string,
+  country: string,
+  heightInInches: string,
+  age: string,
+  salary: number,
   lastUpdatedDate: Date,
-  rank: number,
-  totalWins: number,
-  totalLosses: number,
-  winPercentage: number,
-  streakType: string,
-  streakCount: number,
-  batRunsScored: number,
-  pitchRunsAllowed: number,
-  gamesBack: number,
-  seasonId: string,
 
   /**
    * - Formatted from league and division values that generated the associated table
@@ -33,25 +41,19 @@ export interface TeamRosterData {
   displayDate?: string
 }
 
-export class RosterTableData implements TableComponentData<TeamRosterData> {
+export class RosterTableData {
   groupName: string;
 
   tableData: RosterTableModel;
 
-  conference: Conference;
-
-  division: Division;
-
-  constructor(title: string, conference: Conference, division: Division, table: RosterTableModel) {
+  constructor(title: string, table: RosterTableModel, private _globalFunctions:GlobalFunctions, private _mlbGF: MLBGlobalFunctions) {
     this.groupName = title;
-    this.conference = conference;
-    this.division = division;
     this.tableData = table;
   }
 
 }
 
-export class RosterTabData implements RosterTableTabData<TeamRosterData> {
+export class RosterTabData {
 
   title: string;
 
@@ -59,47 +61,15 @@ export class RosterTabData implements RosterTableTabData<TeamRosterData> {
 
   sections: Array<RosterTableData>;
 
-  conference: Conference;
-
-  division: Division;
-
-  constructor(title: string, conference: Conference, division: Division, isActive: boolean) {
+  constructor(title: string, isActive: boolean) {
     this.title = title;
-    this.conference = conference;
-    this.division = division;
     this.isActive = isActive;
     this.sections = [];
   }
 
-  convertToCarouselItem(item: TeamRosterData, index:number): SliderCarouselInput {
-    var subheader = item.seasonId + " Season " + item.groupName + " Standings";
-    var description = item.teamName + " is currently <span class='text-heavy'>ranked " + item.rank + "</span>" +
-                      " in the <span class='text-heavy'>" + item.groupName + "</span>, with a record of " +
-                      "<span class='text-heavy'>" + item.totalWins + " - " + item.totalLosses + "</span>.";
-    return {
-      index: index,
-      //backgroundImage: null, //optional
-      description: [
-        "<div class='standings-car-subhdr'>" + subheader + "</div>",
-        "<div class='standings-car-hdr'>" + item.teamName + "</div>",
-        "<div class='standings-car-desc'>" + description + "</div>",
-        "<div class='standings-car-date'>Last Updated On " + item.displayDate + "</div>"
-      ],
-      imageConfig: {
-        imageClass: "image-150",
-        mainImage: {
-          imageClass: "border-10",
-          urlRouteArray: ["Team-page", {teamName:item.teamName, teamId: item.teamId }],
-          imageUrl: item.imageUrl,
-          hoverText: "<p>View</p><p>Profile</p>"
-        },
-        subImages: []
-      }
-    };
-  }
 }
 
-export class RosterTableModel implements TableModel<TeamRosterData> {
+export class RosterTableModel {
   title: string;
 
   columns: Array<TableColumn> = [{
@@ -110,49 +80,50 @@ export class RosterTableModel implements TableModel<TeamRosterData> {
       headerValue: "Pos.",
       columnClass: "data-column",
       isNumericType: true,
-      key: "w"
+      key: "pos"
     },{
       headerValue: "Height",
       columnClass: "data-column",
       isNumericType: true,
-      key: "l"
+      key: "ht"
     },{
       headerValue: "Weight",
       columnClass: "data-column",
       isNumericType: true,
-      sortDirection: -1, //descending
-      key: "pct"
+      key: "wt"
     },{
       headerValue: "Age",
       columnClass: "data-column",
       isNumericType: true,
-      key: "gb"
+      key: "age"
     },{
       headerValue: "Salary",
       columnClass: "data-column",
       isNumericType: true,
-      key: "rs"
+      sortDirection: -1, //descending
+      key: "sal"
     }
   ];
 
   rows: Array<TeamRosterData>;
 
-  selectedKey:number = -1;
+  selectedKey:any = -1;
 
-  constructor(title:string, rows: Array<TeamRosterData>) {
+  constructor(title:string, rows: Array<TeamRosterData>, private _globalFunctions:GlobalFunctions, private _mlbGF: MLBGlobalFunctions) {
     this.title = title;
     this.rows = rows;
+    console.log('Selected',rows, title);
     if ( this.rows === undefined || this.rows === null ) {
       this.rows = [];
     }
     else if ( rows.length > 0 ) {
-      this.selectedKey = rows[0].teamId;
+      this.selectedKey = Number(rows[0].playerId);
     }
   }
 
   setRowSelected(rowIndex:number) {
     if ( rowIndex >= 0 && rowIndex < this.rows.length ) {
-      this.selectedKey = this.rows[rowIndex].teamId;
+      this.selectedKey = this.rows[rowIndex].playerId;
     }
     else {
       this.selectedKey = null;
@@ -160,34 +131,35 @@ export class RosterTableModel implements TableModel<TeamRosterData> {
   }
 
   isRowSelected(item:TeamRosterData, rowIndex:number): boolean {
-    return this.selectedKey == item.teamId;
+    return this.selectedKey == item.playerId;
   }
 
   getDisplayValueAt(item:TeamRosterData, column:TableColumn):string {
+    let self = this;
     var s = "";
     switch (column.key) {
       case "name":
-        s = item.teamName;
+        s = item.playerName;
         break;
 
-      case "w":
-        s = item.totalWins.toString();
+      case "pos":
+        s = item.position.toString();
         break;
 
-      case "l":
-        s = item.totalLosses.toString();
+      case "ht":
+        s = typeof item.height == 'undefined' ? "-" : item.age.toString();
         break;
 
-      case "pct":
-        s = item.winPercentage.toString();
+      case "wt":
+        s = typeof item.weight == 'undefined' ? "-" : item.age.toString();
         break;
 
-      case "gb":
-        s = item.gamesBack === 0 ? "-" : item.gamesBack.toString();
+      case "age":
+      s = typeof item.age == 'undefined' ? "-" : item.age.toString();
         break;
 
-      case "rs":
-        s = item.batRunsScored.toString();
+      case "sal":
+        s = item.salary == null ? "-" : self._globalFunctions.commaSeparateNumber(Number(item.salary));
         break;
     }
     return s;
@@ -246,10 +218,15 @@ export class RosterTableModel implements TableModel<TeamRosterData> {
   }
 
   getRouterLinkAt(item:TeamRosterData, column:TableColumn):CircleImageData {
-    return undefined;
+    if ( column.key === "name" ) {
+      return this._mlbGF.formatPlayerRoute(item.teamName,item.playerName,item.playerId);
+    }
+    else {
+      return undefined;
+    }
   }
 
   hasRouterLinkAt(column:TableColumn):boolean {
-    return false;
+    return column.key === "name";
   }
 }

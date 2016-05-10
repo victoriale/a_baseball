@@ -32,15 +32,19 @@ export interface RosterComponentData {
 export class RosterComponent implements OnChanges {
   public selectedIndex;
 
-  public carouselData: Array<SliderCarouselInput> = [];
+  @Input() carDataArray: Array<any>
 
-  @Input() tabs: Array<RosterTableTabData<any>>;
+  @Input() tabs: Array<any>;
 
   private selectedTabTitle: string;
 
-  constructor() {}
+  constructor() {
+    console.log('Test Data',this.tabs);
+
+  }
 
   ngOnChanges() {
+    console.log(this.tabs);
     if ( this.tabs != undefined && this.tabs.length > 0 ) {
       this.tabSelected(this.tabs[0].title);
       this.updateCarousel();
