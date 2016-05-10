@@ -1,35 +1,161 @@
-import {Component, Input, OnInit, OnChanges} from 'angular2/core';
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer.component';
-import {RosterComponent, RosterComponentData} from '../../components/roster/roster.component';
+import {Component, OnInit, Input, DoCheck, OnChanges} from 'angular2/core';
+import {RouteParams} from "angular2/router";
+import {BackTabComponent} from '../../components/backtab/backtab.component';
+import {TitleComponent, TitleInputData} from "../../components/title/title.component";
+import {CircleImage} from '../../components/images/circle-image';
+import {RosterComponent, RosterComponentData} from "../../components/roster/roster.component";
+import {RosterTabData, RosterTableModel} from '../../services/roster.data';
+import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
+import {GlobalFunctions} from '../../global/global-functions';
+import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
+import {RosterService} from '../../services/roster.service';
+import {SliderCarousel, SliderCarouselInput} from '../../components/carousels/slider-carousel/slider-carousel.component';
+import {Tabs} from '../../components/tabs/tabs.component';
+import {Tab} from '../../components/tabs/tab.component';
+import {CustomTable} from '../../components/custom-table/custom-table.component';
+import {TableModel, TableColumn, TableRow, TableCell} from '../../components/custom-table/table-data.component';
+export interface RosterTabData<T> {
+  title: string;
+  isActive: boolean;
+  sections: Array<TableComponentData<T>>;
+  convertToCarouselItem(item:T, index:number):SliderCarouselInput
+}
+
+export interface TableComponentData<T> {
+  groupName: string;
+  tableData: TableModel<T>;
+}
 
 @Component({
     selector: 'team-roster-module',
     templateUrl: './app/modules/team-roster/team-roster.module.html',
-    directives:[ModuleHeader, ModuleFooter],
+    directives: [SliderCarousel,
+                BackTabComponent,
+                TitleComponent,
+                RosterComponent,
+                CustomTable,
+                Tabs, Tab,
+                ModuleHeader,
+                ModuleFooter
+              ],
+    providers: [RosterService],
 })
 
 export class TeamRosterModule implements OnChanges{
-  @Input() data: RosterComponentData;
+  public selectedIndex;
+  private selectedTabTitle: string;
+  public tabs: Array<RosterTabData>;
+  public data: RosterComponentData;
+  public carDataArray: Array<SliderCarouselInput> = [];
+  public pageParams: MLBPageParameters = {}
   public headerInfo: ModuleHeaderData = {
     moduleTitle: "Team Roster",
     hasIcon: false,
     iconClass: ""
   };
-
-  public footerInfo: ModuleFooterData = {
-    infoDesc: "Want to see the full team roster?",
-    text: "VIEW FULL ROSTER",
-    url: ['Teamroster-page']
+  public footerStyle = {
+    ctaBoxClass: "list-footer",
+    ctaBtnClass:"list-footer-btn",
+    hasIcon: true,
+  };
+  public footerData: Object = {
+    infoDesc: 'Want to see everybody involved in this list?',
+    text: 'VIEW FULL ROSTER',
+    url: ['Team-roster-page']
   };
 
+  constructor(private _params: RouteParams,
+              private _rosterService: RosterService,
+              private _globalFunctions: GlobalFunctions,
+              private _mlbFunctions: MLBGlobalFunctions) {
+
+    var teamId = _params.get("teamId");
+    if ( teamId !== null && teamId !== undefined ) {
+      this.pageParams.teamId = Number(teamId);
+      // this.pageParams.teamName = "??"
+    }
+  }
+
   ngOnChanges() {
-    if ( this.data === undefined || this.data === null ) {
-      this.headerInfo.moduleTitle = "Team Roster";
+    if ( this.tabs != undefined && this.tabs.length > 0 ) {
+      this.tabSelected(this.tabs[0].title);
+      this.updateCarousel();
+    }
+  }
+  getSelectedTab(): RosterTabData {
+    var matchingTabs = this.tabs.filter(value => value.title === this.selectedTabTitle);
+    if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) {
+      return matchingTabs[0];
     }
     else {
-      this.headerInfo.moduleTitle = this.data.moduleTitle;
+      return null;
+    }
+  }
+
+  tabSelected(newTitle) {
+    this.selectedTabTitle = newTitle;
+    this.updateCarousel();
+  }
+
+  indexNum($event) {
+    let selectedIndex = Number($event);
+    let matchingTabs = this.tabs.filter(value => value.title === this.selectedTabTitle);
+    if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) {
+      let selectedTab = matchingTabs[0];
+      let offset = 0;
+        if ( selectedIndex < selectedTab.tableData.rows.length + offset ) {
+          selectedTab.tableData.setRowSelected(selectedIndex);
+        }
+        else {
+          selectedTab.tableData.setRowSelected(-1);
+          offset += selectedTab.tableData.rows.length;
+        }
+    }
+  }
+  updateCarousel(sortedRows?) {
+    var selectedTab = this.getSelectedTab();
+    if ( selectedTab === undefined || selectedTab === null ) {
+      return;
     }
 
+    let carDataArray: Array<SliderCarouselInput> = [];
+    let index = 0;
+    let selectedIndex = -1;
+      selectedTab.tableData.rows
+        .map((value) => {
+          let item = selectedTab.convertToCarouselItem(value, index);
+          if ( selectedTab.tableData.isRowSelected(value, index) ) {
+            selectedIndex = index;
+          }
+          index++;
+          return item;
+        })
+        .forEach(value => {
+          carDataArray.push(value);
+    });
+
+    this.selectedIndex = selectedIndex < 0 ? 0 : selectedIndex;
+    this.carDataArray = carDataArray;
+  }
+
+  private setupRosterData() {
+    let self = this;
+    //set tab limit
+    self._rosterService.loadAllTabs('2796', 5)
+      .subscribe(data => {
+        //set up tabs
+        this.tabs = data;
+        this.tabSelected(this.tabs[0].title);
+        this.updateCarousel();
+      },
+      err => {
+        console.log("Error getting team roster data");
+      });
+  }
+
+  ngOnInit() {
+    this.setupRosterData();
   }
 }

@@ -6,7 +6,7 @@ import {CircleImage} from '../../components/images/circle-image';
 import {LoadingComponent} from '../../components/loading/loading.component';
 import {ErrorComponent} from '../../components/error/error.component';
 import {RosterComponent, RosterComponentData} from "../../components/roster/roster.component";
-import {RosterTabData, RosterTableModel, RosterTableData} from '../../services/roster.data';
+import {RosterTabData, RosterTableModel} from '../../services/roster.data';
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
 import {GlobalFunctions} from '../../global/global-functions';
 import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
@@ -17,7 +17,7 @@ import {Tab} from '../../components/tabs/tab.component';
 import {CustomTable} from '../../components/custom-table/custom-table.component';
 import {TableModel, TableColumn, TableRow, TableCell} from '../../components/custom-table/table-data.component';
 
-export interface TableTabData<T> {
+export interface RosterTabData<T> {
   title: string;
   isActive: boolean;
   sections: Array<TableComponentData<T>>;
@@ -56,12 +56,14 @@ export class TeamRosterPage implements OnInit{
     text3: "Team Roster",
     icon: "fa fa-map-marker"
   }
+  //footer style for carousel footer
   footerStyle = {
     ctaBoxClass: "list-footer",
     ctaBtnClass:"list-footer-btn",
     hasIcon: true,
   };
-  public tabs: Array<any>;
+
+  public tabs: Array<RosterTabData>;
   private selectedTabTitle: string;
 
   constructor(private _params: RouteParams,
@@ -82,7 +84,7 @@ export class TeamRosterPage implements OnInit{
     }
   }
 
-  getSelectedTab(): TableTabData<any> {
+  getSelectedTab(): RosterTabData {
     var matchingTabs = this.tabs.filter(value => value.title === this.selectedTabTitle);
     if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) {
       return matchingTabs[0];
@@ -103,15 +105,13 @@ export class TeamRosterPage implements OnInit{
     if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) {
       let selectedTab = matchingTabs[0];
       let offset = 0;
-      selectedTab.sections.forEach((section) => {
-        if ( selectedIndex < section.tableData.rows.length + offset ) {
-          section.tableData.setRowSelected(selectedIndex);
+        if ( selectedIndex < selectedTab.tableData.rows.length + offset ) {
+          selectedTab.tableData.setRowSelected(selectedIndex);
         }
         else {
-          section.tableData.setRowSelected(-1);
-          offset += section.tableData.rows.length;
+          selectedTab.tableData.setRowSelected(-1);
+          offset += selectedTab.tableData.rows.length;
         }
-      });
     }
   }
 
@@ -124,11 +124,10 @@ export class TeamRosterPage implements OnInit{
     let carDataArray: Array<SliderCarouselInput> = [];
     let index = 0;
     let selectedIndex = -1;
-    selectedTab.sections.forEach(section => {
-      section.tableData.rows
+      selectedTab.tableData.rows
         .map((value) => {
           let item = selectedTab.convertToCarouselItem(value, index);
-          if ( section.tableData.isRowSelected(value, index) ) {
+          if ( selectedTab.tableData.isRowSelected(value, index) ) {
             selectedIndex = index;
           }
           index++;
@@ -136,7 +135,6 @@ export class TeamRosterPage implements OnInit{
         })
         .forEach(value => {
           carDataArray.push(value);
-        });
     });
 
     this.selectedIndex = selectedIndex < 0 ? 0 : selectedIndex;
@@ -145,9 +143,12 @@ export class TeamRosterPage implements OnInit{
 
   private setupRosterData() {
     let self = this;
-    self._rosterService.getRosterService("full", "2819")
+    self._rosterService.loadAllTabs("2819")
       .subscribe(data => {
-        this.carDataArray = data.carousel;
+        //set up tabs
+        this.tabs = data;
+        this.tabSelected(this.tabs[0].title);
+        this.updateCarousel();
       },
       err => {
         console.log("Error getting team roster data");
