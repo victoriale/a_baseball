@@ -2,6 +2,7 @@
 <header-component [partnerID]="partnerID"></header-component>
 <nav class="testLinks">
   <a [routerLink]="['Home-page']">Home</a>
+  <a [routerLink]="['Design-page',{teamId: 2796}]">Design Review</a>
   <a [routerLink]="['Component-page']">Components</a>
   <a [routerLink]="['Team-page', {teamName:'Yankees', teamId: 2796} ]">Team #2796</a>
   <a [routerLink]="['Draft-history-page', {teamName:'Yankees', teamId: 2796} ]">Draft History #2796</a>
