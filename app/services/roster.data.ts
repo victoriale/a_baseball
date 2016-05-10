@@ -93,10 +93,10 @@ export class RosterTabData {
         //TODO need to replace image data with actual image path when available
         imageConfig: self.imageData("image-150","border-large",dummyImg,dummyRoute,"image-50-sub",dummyImg,dummyRoute,index+1),
         description:[
-          '<p><i class="fa fa-circle"></i> ' + curYear + ' TEAM ROSTER</p>',
-          '<p><b>'+val.playerName+'</b></p>',
-          '<p><b>'+ val.playerName+ '</b>, <b>'+val.roleStatus+'</b> for the <b>'+ val.teamName +'</b>,' + playerNum + playerHeight + playerWeight + playerSalary + '</p>',
-          '<p>Last Updated On ' + val.lastUpdate + '</p>'
+          '<p><i class="fa fa-circle" style="color:#bc2027; font-size:12px; padding-right: 5px;"></i> ' + curYear + ' TEAM ROSTER</p>',
+          '<p style="font-size: 22px; font-weight: 900; padding:9px 0;">'+val.playerName+'</p>',
+          '<p style="font-size: 14px; line-height: 1.4em;"><b style="font-weight:900;">'+ val.playerName+ '</b>, <b style="font-weight:900;">'+val.roleStatus+'</b> for the <b style="font-weight:900;">'+ val.teamName +'</b>,' + playerNum + playerHeight + playerWeight + playerSalary + '</p>',
+          '<p style="font-size: 10px; padding-top:9px;">Last Updated On ' + val.lastUpdate + '</p>'
         ],
         footerInfo: {
           infoDesc: 'Interested in discovering more about this player?',
@@ -182,7 +182,7 @@ export class RosterTableModel {
 
   selectedKey:any = -1;
 
-  constructor(title:string, rows: Array<TeamRosterData>, private _globalFunctions:GlobalFunctions, private _mlbGF:MLBGlobalFunctions) {
+  constructor(title:string, rows: Array<TeamRosterData>, private _globalFunctions:GlobalFunctions) {
     this.title = title;
     this.rows = rows;
     if ( this.rows === undefined || this.rows === null ) {
@@ -211,7 +211,7 @@ export class RosterTableModel {
     var s = "";
     switch (column.key) {
       case "name":
-        s = item.playerName;
+        s = item.playerLastName + ', ' + item.playerFirstName;
         break;
 
       case "pos":
@@ -275,7 +275,7 @@ export class RosterTableModel {
           mainImage: {
             imageUrl: 'item.imageUrl',
             imageClass: "border-2",
-            urlRouteArray: this._mlbGF.formatPlayerRoute(item.teamName,item.playerName,item.playerId),
+            urlRouteArray: MLBGlobalFunctions.formatPlayerRoute(item.teamName,item.playerName,item.playerId),
             hoverText: "<i class='fa fa-mail-forward'></i>",
           },
           subImages: []
@@ -292,7 +292,7 @@ export class RosterTableModel {
 
   getRouterLinkAt(item:TeamRosterData, column:TableColumn):Array<any> {
     if ( column.key === "name" ) {
-      return this._mlbGF.formatPlayerRoute(item.teamName,item.playerName,item.playerId);
+      return MLBGlobalFunctions.formatPlayerRoute(item.teamName,item.playerName,item.playerId);
     }
     else {
       return undefined;

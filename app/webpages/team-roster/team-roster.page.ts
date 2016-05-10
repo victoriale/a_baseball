@@ -16,6 +16,7 @@ import {Tabs} from '../../components/tabs/tabs.component';
 import {Tab} from '../../components/tabs/tab.component';
 import {CustomTable} from '../../components/custom-table/custom-table.component';
 import {TableModel, TableColumn, TableRow, TableCell} from '../../components/custom-table/table-data.component';
+import {NoDataBox} from '../../components/error/data-box/data-box.component';
 
 export interface RosterTabData<T> {
   title: string;
@@ -39,7 +40,8 @@ export interface TableComponentData<T> {
                 LoadingComponent,
                 ErrorComponent,
                 CustomTable,
-                Tabs, Tab
+                Tabs, Tab,
+                NoDataBox
               ],
     providers: [RosterService],
 })

@@ -2,6 +2,7 @@ import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Rx';
 import {Http, Headers} from 'angular2/http';
 import {GlobalFunctions} from '../global/global-functions';
+import {GlobalSettings} from '../global/global-settings';
 
 @Injectable()
 export class LandingPageService {
@@ -43,7 +44,7 @@ export class LandingPageService {
           val.imageData= {
             imageClass: "image-100",
             mainImage: {
-              imageUrl: val.teamLogo,//TODO
+              imageUrl:  GlobalSettings.getImageUrl(val.teamLogo),//TODO
               urlRouteArray: dummyRoute,
               hoverText: "<i style='font-size:30px;' class='fa fa-mail-forward'></i>",
               imageClass: "border-3"
