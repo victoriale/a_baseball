@@ -55,7 +55,7 @@ export class AboutUsModule {
         buttonText: 'Open Page',
         routerInfo: ['About-us-page'],
         faIcon: 'fa-info-circle',
-        title: 'About Us',
+        title: 'About',
         description: 'What is '+ this.pageName +'?',
       },
       {
