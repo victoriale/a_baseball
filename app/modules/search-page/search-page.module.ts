@@ -5,13 +5,16 @@ import {Tabs} from '../../components/tabs/tabs.component';
 import {Tab} from '../../components/tabs/tab.component';
 
 export interface SearchPageInput {
-    tabName: string;
-    isTabDefault?: boolean;
-    results: Array<{
-        title: string;
-        url: Array<any>;
-        urlText: string;
-        description: string;
+    query: string;
+    tabData: Array<{
+        tabName: string;
+        isTabDefault?: boolean;
+        results: Array<{
+            title: string;
+            url: Array<any>;
+            urlText: string;
+            description: string;
+        }>
     }>
 }
 
@@ -23,7 +26,7 @@ export interface SearchPageInput {
 })
 
 export class SearchPageModule{
-    @Input() searchPageInput: Array<SearchPageInput>;
+    @Input() searchPageInput: SearchPageInput;
 
     public resultsList: Array<Object> = [
         {},
@@ -44,7 +47,7 @@ export class SearchPageModule{
     ];
 
     ngOnInit(){
-
+        console.log('init', this);
     }
 
     tabSelected(event){
