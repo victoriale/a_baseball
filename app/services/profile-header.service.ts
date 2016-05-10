@@ -190,8 +190,11 @@ export class ProfileHeaderService {
     if (!data.info) {
       return null;
     }
+    
+    data.info.backgroundImage = GlobalSettings.getImageUrl(data.info.backgroundImage);
+    data.info.profileImage = GlobalSettings.getImageUrl(data.info.profileImage);
+    
     var description = data.description;
-
     var dataPoints: Array<DataItem>;
     var isPitcher = data.info.position.filter(value => value === "P").length > 0;
 
@@ -278,6 +281,10 @@ export class ProfileHeaderService {
     if (!stats) {
       return null;
     }
+    
+    data.stats.backgroundImage = GlobalSettings.getImageUrl(data.stats.backgroundImage);
+    data.stats.profileImage = GlobalSettings.getImageUrl(data.stats.profileImage);
+    
     var teamName = stats.teamName ? stats.teamName : "N/A";
     var city = stats.city ? stats.city : "N/A";
     var state = stats.state ? stats.state : "N/A";
@@ -339,6 +346,9 @@ export class ProfileHeaderService {
     //The MLB consists of [30] teams and [####] players. These teams and players are divided across [two] leagues and [six] divisions.
     var city = data.city != null ? data.city : "N/A";
     var state = data.state != null ? data.state : "N/A";
+    
+    data.backgroundImage = GlobalSettings.getImageUrl(data.backgroundImage);
+    data.profileImage = GlobalSettings.getImageUrl(data.profileImage);
 
     var description = "The MLB consists of " + GlobalFunctions.formatNumber(data.totalTeams) +
                       " teams and " + GlobalFunctions.formatNumber(data.totalPlayers) + " players. " +

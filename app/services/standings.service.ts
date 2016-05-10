@@ -6,6 +6,7 @@ import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
 import {TeamStandingsData, MLBStandingsTabData, MLBStandingsTableModel, MLBStandingsTableData} from './standings.data';
 import {TableTabData} from '../components/standings/standings.component';
+import {GlobalSettings} from '../global/global-settings';
 
 @Injectable()
 export class StandingsService {
@@ -145,6 +146,7 @@ export class StandingsService {
     rows.forEach((value, index) => {
       value.groupName = groupName;
       value.displayDate = this._globalFunctions.formatUpdatedDate(value.lastUpdatedDate, false);
+      value.fullImageUrl = GlobalSettings.getImageUrl(value.imageUrl);
       if ( value.teamId === undefined || value.teamId === null ) {
         value.teamId = index;
       }
