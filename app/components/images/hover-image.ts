@@ -9,4 +9,6 @@ import {ImageData} from '../../components/images/image-data';
 })
 export class HoverImage {
     @Input() imageData: any;
+    
+    public noImageUrl: string = "/app/public/no-image.png";
 }

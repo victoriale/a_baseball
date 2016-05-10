@@ -3,6 +3,7 @@ import {CircleImageData} from '../components/images/image-data';
 import {TableTabData, TableComponentData} from '../components/standings/standings.component';
 import {SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
 import {Conference, Division} from '../global/global-interface';
+import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 
 export interface TeamStandingsData {
   teamName: string,
@@ -89,7 +90,7 @@ export class MLBStandingsTabData implements TableTabData<TeamStandingsData> {
         imageClass: "image-150",
         mainImage: {
           imageClass: "border-10",
-          urlRouteArray: ["Team-page", {teamName:item.teamName, teamId: item.teamId }],
+          urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId),
           imageUrl: item.imageUrl,
           hoverText: "<p>View</p><p>Profile</p>"
         },
@@ -258,7 +259,7 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
           mainImage: {
             imageUrl: item.imageUrl,
             imageClass: "border-2",
-            urlRouteArray: ["Team-page", { teamName:item.teamName, teamId: item.teamId }],
+            urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId),
             hoverText: "<i class='fa fa-mail-forward'></i>",
           },
           subImages: []
@@ -275,7 +276,7 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
 
   getRouterLinkAt(item:TeamStandingsData, column:TableColumn):Array<any> {
     if ( column.key === "name" ) {
-      return ["Team-page", { teamName:item.teamName, teamId: item.teamId }];
+      return MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId);
     }
     else {
       return undefined;
