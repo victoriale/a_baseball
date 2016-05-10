@@ -14,8 +14,8 @@ import {WebApp} from '../../app-layout/app.layout';
 import {TitleInputData} from "../../components/title/title.component";
 
 @Component({
-    selector: 'Aboutus-page',
-    templateUrl: './app/webpages/aboutus-page/aboutus.page.html',
+    selector: 'About-us-page',
+    templateUrl: './app/webpages/about-us-page/about-us.page.html',
     directives: [ BackTabComponent, TitleComponent, WidgetModule, ROUTER_DIRECTIVES],
     providers: [AboutUsService],
 })
@@ -28,6 +28,8 @@ export class AboutUsPage {
     public auBlocks: Array<AuBlockData> = [];
     
     public auContent: Array<string> = [];
+    
+    public content: string;
     
     public titleData: TitleInputData = {
         imageURL : '/app/public/mainLogo.png',
