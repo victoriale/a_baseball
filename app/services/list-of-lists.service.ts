@@ -12,7 +12,7 @@ export class ListOfListsService {
   // private _apiToken: string = 'BApA7KEfj';
   // private _headerName: string = 'X-SNT-TOKEN';
 
-  constructor(public http: Http, public globalFunc: GlobalFunctions, public mlbFunc: MLBGlobalFunctions){
+  constructor(public http: Http, public globalFunc: GlobalFunctions){
   }
 
   //Function to set custom headers
@@ -43,15 +43,13 @@ export class ListOfListsService {
         data => {
           if(version == 'module'){
             return {
-              // no need for carousel data
+              carData: this.carDataPage(data.data),
               listData: this.detailedData(data.data),
-              raw: data
             };
           }else{
             return {
               carData: this.carDataPage(data.data),
               listData: this.detailedData(data.data),
-              raw: data
             };
           }
         },
@@ -63,9 +61,10 @@ export class ListOfListsService {
 
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
   carDataPage(data){
+    console.log("data:",data);
     let self = this;
     var carouselArray = [];
-    var dummyImg = "./app/public/placeholder-location.jpg";
+    var dummyImg = "http://prod-sports-images.synapsys.us/mlb/players/no-image.png";
     var dummyRoute = ['Disclaimer-page'];
     var dummyRank = '##';
 
@@ -81,14 +80,18 @@ export class ListOfListsService {
     }else{
       //if data is coming through then run through the transforming function for the module
       data.forEach(function(val, index){
+        if( val.listData[0] == null) return;
+        let itemData = val.listData[0];
+        let itemInfo = val.listInfo;
+        //let itemInfo = val.listInfo[0];
         var Carousel = {
           index:'2',
-          imageConfig: self.imageData("image-150","border-large",dummyImg,dummyRoute,"image-50-sub",dummyImg,dummyRoute,index+1),
+          imageConfig: self.imageData("image-150","border-large", self._imageUrl + itemData.imageUrl, dummyRoute,"image-50-sub", MLBGlobalFunctions.formatTeamLogo(itemData.teamName),dummyRoute, itemInfo.listRank),
           description:[
-            '<p style="font-size:24px"><b>'+val.playerName+'</b></p>',
-            '<br>',
-            '<p style="font-size:24px"><b>'+(index+1)+'<sup>'+self.globalFunc.Suffix(Number(index+1))+'</sup>Pick for Round '+val.selectionLevel+'</b></p>',
-            '<p>'+' Overall</p>',
+            '<p class="font-12 fw-400 lh-12 titlecase"><i class="fa fa-circle"></i> Related List - ' + itemData.playerName + '</p>',
+            '<p class="font-22 fw-900 lh-25" style="padding-bottom:16px;">'+ itemInfo.name +'</p>',
+            '<p class="font-14 fw-400 lh-18" style="padding-bottom:6px;">This list contains <b>[##] player profiles</b> ranked by <b>[data point 1]</b>. <b>[Current Profile Name]</b> is <b>ranked [##] over-all</b> with a <b>[data point 1]</b> of <b>[data value]</b> for [YYYY].</p>',
+            '<p class="font-10 fw-400 lh-25">Last Updated on [Day Of The Week], [Month] [Day], [YYYY]</p>'
           ],
           footerInfo: {
             infoDesc:'Interested in discovering more about this player?',
@@ -116,7 +119,7 @@ export class ListOfListsService {
     let dummyDivision     = "all";
     let dummyListCount    = 1;
     let dummyPageCount    = 1;
-    let dummyRank         = 1;
+    let dummyListRank     = 1;
     let dummyIcon         = "fa fa-share";
 
     data.forEach(function(item, index){
@@ -136,7 +139,7 @@ export class ListOfListsService {
         division      : itemListInfo.division      != null  ? itemListInfo.division     : dummyDivision,
         listCount     : itemListInfo.listCount     != null  ? itemListInfo.listCount    : dummyListCount,
         pageCount     : itemListInfo.pageCount     != null  ? itemListInfo.pageCount    : dummyPageCount,
-        rank          : itemListInfo.rank          != null  ? itemListInfo.rank         : dummyRank,
+        listRank      : itemListInfo.listRank      != null  ? itemListInfo.listRank     : dummyListRank,
         icon          : itemListInfo.icon          != null  ? itemListInfo.icon         : dummyIcon,
         dataPoints    : [],
         ctaBtn        : '',
@@ -149,13 +152,13 @@ export class ListOfListsService {
           {
             imageClass : index > 0 ? "image-43" : "image-121",
             mainImage: {
-              imageUrl        : val.imageUrl != null ? self._imageUrl + val.imageUrl : "./app/public/placeholder-location.jpg",
-              urlRouteArray   : itemListInfo.target == "player" ? self.mlbFunc.formatPlayerRoute(val.teamName, val.playerName, val.playerId) : self.mlbFunc.formatTeamRoute(val.teamName, val.teamId),
+              imageUrl        : val.imageUrl != null ? self._imageUrl + val.imageUrl : "http://prod-sports-images.synapsys.us/mlb/players/no-image.png",
+              urlRouteArray   : itemListInfo.target == "player" ? MLBGlobalFunctions.formatPlayerRoute(val.teamName, val.playerName, val.playerId) : MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
               hoverText       : index > 0 ? "<i class='fa fa-mail-forward'></i>" : "<p>View</p><p>Profile</p>",
               imageClass      : index > 0 ? "border-1" : "border-2"
             },
             subImages         : index > 0 ? null : [{
-              text: listData.rank,
+              text: "#"+listData.listRank,
               imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
             }]
           }
@@ -168,10 +171,10 @@ export class ListOfListsService {
 
   imageData(imageClass, imageBorder, mainImg, mainImgRoute, subImgClass?, subImg?, subRoute?, rank?){
     if(typeof mainImg =='undefined' || mainImg == ''){
-      mainImg = "./app/public/placeholder-location.jpg";
+      mainImg = "http://prod-sports-images.synapsys.us/mlb/players/no-image.png";
     }
     if(typeof subImg =='undefined' || subImg == ''){
-      mainImg = "./app/public/placeholder-location.jpg";
+      mainImg = "http://prod-sports-images.synapsys.us/mlb/players/no-image.png";
     }
     if(typeof rank == 'undefined' || rank == 0){
       rank = 0;
