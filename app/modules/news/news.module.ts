@@ -61,7 +61,6 @@ export class NewsModule implements OnInit {
     changeMain(num){
       if ( num < this.max ) {
         this.displayData = this.newsDataArray[num];
-        console.log("display data", this.displayData);
       };
     }
 
@@ -69,7 +68,6 @@ export class NewsModule implements OnInit {
       let self = this;
       self._newsService.getNewsService("Steven Lerud")
         .subscribe(data => {
-          console.log("setupNewsData", data.news);
           this.newsDataArray = data.news;
           // this.max = this.newsDataArray.length;
           this.max = 10;
