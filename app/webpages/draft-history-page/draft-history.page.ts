@@ -61,7 +61,7 @@ export class DraftHistoryPage implements OnInit{
                 }else{
                   this.detailedDataArray = draftData.listData;
                 }
-                this.carouselDataArray = draftData.carData
+                this.carouselDataArray = draftData.carData;
               },
               err => {
                   console.log('Error: draftData API: ', err);
@@ -76,6 +76,11 @@ export class DraftHistoryPage implements OnInit{
     this.getDraftPage(currentTab);
   }
 
+  ngOnChanges(){
+    if(typeof this.errorData !='undefined' && this.detailedDataArray == false){
+      this.carouselDataArray = this.errorData;
+    }
+  }
 
   selectedTab(event){
     var firstTab = 'Current Season';

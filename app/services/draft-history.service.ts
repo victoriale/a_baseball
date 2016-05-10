@@ -1,7 +1,9 @@
 import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Rx';
 import {Http, Headers} from 'angular2/http';
+import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
+import {GlobalSettings} from '../global/global-settings';
 
 @Injectable()
 export class DraftHistoryService {
@@ -78,12 +80,11 @@ export class DraftHistoryService {
     var dummyImg = "/app/public/no-image.png";
     var dummyRoute = ['Disclaimer-page'];
     var dummyRank = '##';
-
     if(data.length == 0){//if no data is being returned then show proper Error Message in carousel
       var Carousel = {
         index:'2',
         //TODO
-        imageConfig: self.imageData("image-150","border-large",dummyImg,'',"image-50-sub",dummyImg,'',1),
+        imageConfig: self.imageData("image-150","border-large",dummyImg,'', 1, "image-50-sub",dummyImg,''),
         description:[
           "<p style='font-size:20px'><b>Sorry, we currently do not have any data for this year's draft history</b><p>",
         ],
@@ -92,11 +93,11 @@ export class DraftHistoryService {
     }else{
       //if data is coming through then run through the transforming function for the module
       data.forEach(function(val, index){
-
+        var playerFullName = val.playerFirstName + " " + val.playerLastName;
         var Carousel = {
-          index:'2',
+          index:index,
           //TODO
-          imageConfig: self.imageData("image-150","border-large",dummyImg,dummyRoute,"image-50-sub",dummyImg,dummyRoute,index+1),
+          imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.imageUrl),MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId), (index+1), "image-50-sub",GlobalSettings.getImageUrl(val.teamLogo),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
           description:[
             '<p style="font-size:24px"><b>'+val.playerName+'</b></p>',
             '<p>Hometown: <b>'+val.draftTeamName+'</b></p>',
@@ -107,7 +108,7 @@ export class DraftHistoryService {
           footerInfo: {
             infoDesc:'Interested in discovering more about this player?',
             text:'VIEW PROFILE',
-            url:['Team-page',{teamName:val.draftTeamName, teamId: val.draftTeam}],//NEED TO CHANGE
+            url:MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId),//NEED TO CHANGE
           }
         };
         carouselArray.push(Carousel);
@@ -136,10 +137,11 @@ export class DraftHistoryService {
     }else{
       //if data is coming through then run through the transforming function for the module
       data.forEach(function(val, index){
+        var playerFullName = val.playerFirstName + " " + val.playerLastName;
         var Carousel = {
-          index:'2',
+          index:index,
           //TODO
-          imageConfig: self.imageData("image-150","border-large",dummyImg,dummyRoute,"image-50-sub",dummyImg,dummyRoute),
+          imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.imageUrl),MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId), (index+1), "image-50-sub",GlobalSettings.getImageUrl(val.teamLogo),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
           description:[
             '<p style="font-size:24px"><b>'+val.playerName+'</b></p>',
             '<p>Hometown: <b>'+val.draftTeamName+'</b></p>',
@@ -171,15 +173,16 @@ export class DraftHistoryService {
     var dummySubUrl = ['Disclaimer-page'];
 
     data.forEach(function(val, index){
+      var playerFullName = val.playerFirstName + " " + val.playerLastName;
       var listData = {
-        dataPoints: self.detailsData(val.playerName,(val.selectionLevel+' Round'),dummyProfUrl,val.draftTeamName,(val.selectionOverall +' Overall'),dummySubUrl),
+        dataPoints: self.detailsData(val.playerName,(val.selectionLevel+' Round'),MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId),val.draftTeamName,(val.selectionOverall +' Overall'),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
         imageConfig: self.imageData("image-121","border-2",
-        dummyImg,dummyRoute,(index+1),"image-40-sub",dummyImg,dummyRoute),
+        GlobalSettings.getImageUrl(val.imageUrl),MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId),(index+1),"image-40-sub",GlobalSettings.getImageUrl(val.teamLogo),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
         hasCTA:true,
-        ctaDesc:'Want more info about this [profile type]?',
+        ctaDesc:'Want more info about this player?',
         ctaBtn:'',
         ctaText:'View Profile',
-        ctaUrl:['Team-page',{teamName:'Yankees', teamId:'2796'}]
+        ctaUrl:MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId)
       };
       listDataArray.push(listData);
     });
@@ -190,7 +193,7 @@ export class DraftHistoryService {
   /**
    *this function will have inputs of all required fields that are dynamic and output the full
   **/
-  imageData(imageClass, imageBorder, mainImg, mainImgRoute, rank, subImgClass?, subImg?, subRoute?){
+  imageData(imageClass, imageBorder, mainImg, mainImgRoute, rank, subImgClass, subImg?, subRoute?){
     if(typeof mainImg =='undefined' || mainImg == ''){
       mainImg = "/app/public/no-image.png";
     }
@@ -206,21 +209,30 @@ export class DraftHistoryService {
             imageUrl: mainImg,
             urlRouteArray: mainImgRoute,
             hoverText: "<p>View</p><p>Profile</p>",
-            imageClass: imageBorder
+            imageClass: imageBorder,
         },
         subImages: [
-            {
-                imageUrl: subImg,
-                urlRouteArray: subRoute,
-                hoverText: "<i class='fa fa-mail-forward'></i>",
-                imageClass: subImgClass + " image-round-lower-right"
-            },
-            {
-                text: "#"+rank,
-                imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
-            }
+          {
+            text: "#"+rank,
+            imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
+          }
         ],
     };
+    if(typeof subRoute != 'undefined'){
+      image['subImages'] = [];
+      image['subImages'] = [
+          {
+              imageUrl: subImg,
+              urlRouteArray: subRoute,
+              hoverText: "<i class='fa fa-mail-forward'></i>",
+              imageClass: subImgClass + " image-round-lower-right"
+          },
+          {
+              text: "#"+rank,
+              imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
+          }
+      ];
+    }
     return image;
   }
 
