@@ -108,7 +108,6 @@ export class HomePage implements OnInit {
     changeMain(num){
       if ( num < this.listData.length ) {
         this.displayData = this.listData[num];
-        console.log(this.displayData);
       }
     }
 
