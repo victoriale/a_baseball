@@ -107,25 +107,9 @@ export class ComponentPage implements OnInit {
           pageRouterLink: self._standingsService.getLinkToPage(this.pageParams),
           tabs: data
         };
-        console.log('standings',this.standingsData);
       },
       err => {
         console.log("Error getting standings data");
       });
   }
-
-  // private setupRosterData() {
-  //   let self = this;
-  //   self._rosterService.loadAllTabs(this.pageParams, 5) //only show 5 rows in the module
-  //     .subscribe(data => {
-  //       this.rosterData = {
-  //         moduleTitle: self._rosterService.getModuleTitle(this.pageParams),
-  //         pageRouterLink: self._rosterService.getLinkToPage(this.pageParams),
-  //         tabs: data
-  //       };
-  //     },
-  //     err => {
-  //       console.log("Error getting team roster data");
-  //     });
-  // }
 }
