@@ -41,7 +41,6 @@ export class RosterService {
 
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
   carData(data){
-    console.log('carousel transform',data);
     var self = this;
     var carouselArray = [];
     var dummyImg = "./app/public/placeholder-location.jpg";
@@ -100,7 +99,6 @@ export class RosterService {
       };
       carouselArray.push(Carousel);
     });
-    console.log('TRANSFORMED CAROUSEL', carouselArray);
     return carouselArray;
   }
   imageData(imageClass, imageBorder, mainImg, mainImgRoute, subImgClass?, subImg?, subRoute?, rank?){
