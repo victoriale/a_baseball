@@ -28,7 +28,7 @@ export interface newsCarouselData{
 
 export class HomePage implements OnInit {
     public teamData: Array<homePageData>;
-    public newsData: Array<newsCarouselData>;
+    public listData: Array<newsCarouselData>;
     public imgHero1: string = "/app/public/homePage_hero1.png";
     public imgIcon1: string = "/app/public/homePage_icon1.png";
     public imageTile1: string = "/app/public/iphone.png";
@@ -40,32 +40,35 @@ export class HomePage implements OnInit {
     public homeHeading3: string = "PICK YOUR FAVORITE <b>MLB TEAM</b>";
     public leagueHeading: string;
     public homeFeatures: string;
-    public homeFeaturesTile1: string = "<h3>MLB Standings</h3>";
-    public homeFeaturesTile2: string = "<h3><b>Dive deep</b></h3> <h4>into key information</h4>";;
-    public homeFeaturesTile3: string = "<h3>MLB Scores</h3>";
-    public homeFeaturesTile4: string = "<h3>MLB Schedules</h3>";
+    public homeFeaturesTile1: string = "MLB Standings";
+    public homeFeaturesTile3: string = "MLB Scores";
+    public homeFeaturesTile4: string = "MLB Schedules";
+    public homeFeaturesButton1: string = "View MLB Standings";
+    public homeFeaturesButton2: string = "View All Lists";
+    public homeFeaturesButton3: string = "View MLB Scores";
+    public homeFeaturesButton4: string = "View MLB Schedules";
     public buttonFullList: string = "See The Full List";
     public mlb: string = "MLB";
     public mlbTeams: any;
     constructor(private _router: Router, private _landingPageService: LandingPageService) {
       this.getData();
-      this.getNewsData();
+      this.getListData();
     }
-    getNewsData(){
-      this.newsData = [
+    getListData(){
+      this.listData = [
         {
           newsTitle: "Top Teams In The League Right Now",
           newsSubTitle: "See which MLB teams are performing at the top of their game",
           routerInfo: ['Disclaimer-page']
-        }
+        },
       ];
     }
     getData(){
       this._landingPageService.getLandingPageService()
         .subscribe(data => {
-          console.log(data);
+          // console.log(data);
           this.mlbTeams = data.league;
-          console.log(this.mlbTeams);
+          // console.log(this.mlbTeams);
         })
       var sampleImage = "./app/public/placeholder-location.jpg";
       this.leagueHeading = "<b>AMERICAN LEAGUE</b> TEAMS<b>:</b>";

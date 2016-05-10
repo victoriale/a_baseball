@@ -1,10 +1,10 @@
-import {Component, Input} from 'angular2/core';
+import {Component, OnInit, Input} from 'angular2/core';
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 import {NewsCarousel, NewsCarouselInput} from '../../components/carousels/news-carousel/news-carousel.component';
 import {ModuleFooter} from '../../components/module-footer/module-footer.component';
-import {NewsData, NewsService} from '../../services/news.service';
-
-declare var moment: any;
+import {NewsService} from '../../services/news.service';
+import {RouteParams} from "angular2/router";
+import {GlobalFunctions} from '../../global/global-functions';
 
 @Component({
     selector: 'news-module',
@@ -13,42 +13,36 @@ declare var moment: any;
     providers: [NewsService]
 })
 
-export class NewsModule {
-    @Input() newsData: NewsData;
+export class NewsModule implements OnInit {
     footerData: Object;
-    newsItems: Object;
-    carouselData: any;
-    public newsBlocks: Array<NewsData> = [];
-    public newsContent: Array<string> = [];
+    public newsData: Array<any> = [];
+    newsDataArray: any;
     moduleTitle: ModuleHeaderData = {
       moduleTitle: "Other Content You Will Love - [Profile Name]",
       hasIcon: false,
       iconClass: "fa fa-heart"
     };
-    constructor(private _service: NewsService){
-      this._service.getDefaultData().subscribe(
-        data => this.setupData(data),
-        err => { console.log("Error getting News data"); }
-      );
+
+    constructor(private _params: RouteParams,
+                private _globalFunctions: GlobalFunctions,
+                private _newsService: NewsService){
+
     }
 
-    setupData(data: NewsData){
-      console.log(data, 'data link', data.link);
-      if ( data !== undefined && data !== null ) {
-        this.footerData = {
-          infoDesc:'Want to check out the full story?',
-          btn:'',
-          text:'READ THE ARTICLE',
-          url: data.link,
-        }
-        this.newsItems = {
-          title: data.title,
-          description: data.description,
-          tags: data.tags,
-          published: data.pubDate_ut
-        }
-      } else {
-        console.log("Error setting up news data");
+    private setupNewsData(){
+      let self = this;
+      self._newsService.getNewsService("Steven Lerud")
+        .subscribe(data => {
+          console.log("setupNewsData", data.news);
+          this.newsDataArray = data.news;
+        },
+        err => {
+          console.log("Error getting news data");
+        });
       }
+
+    ngOnInit(){
+      this.setupNewsData();
     }
+
 }

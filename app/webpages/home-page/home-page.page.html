@@ -19,8 +19,7 @@
         <!-- ngFor here for league -->
         <div class="home-league" *ngFor="#league of mlbTeams">
           <h3><span [innerHTML]="league.displayName"></span></h3>
-
-          <section class="row" >
+          <section class="row">
             <!-- ngFor here for Division -->
             <div class="col-md-4" *ngFor="#division of league.dataArray">
               <h4>{{division.displayName}}</h4>
@@ -40,14 +39,14 @@
     </div>
   </div>
 
-  <div *ngFor="#newsData of newsData" class="home-slider col-xs-12">
+  <div *ngFor="#listData of listData" class="home-slider col-xs-12">
     <slider-button></slider-button>
     <div class="home-slider-news col-xs-offset-2 col-xs-3">
       <div>{{mlb}}</div>
-      <h3><b>{{newsData.newsTitle}}</b></h3>
+      <h3><b>{{listData.newsTitle}}</b></h3>
       <hr />
-      <h5>{{newsData.newsSubTitle}}</h5>
-      <a [routerLink]="newsData.routerInfo" class='mod-page-btn-text-only'>
+      <h5>{{listData.newsSubTitle}}</h5>
+      <a [routerLink]="listData.routerInfo" class='mod-page-btn-text-only'>
           <span>{{buttonFullList}}</span>
       </a>
     </div>
@@ -56,11 +55,23 @@
 
   <div class="home-features col-xs-offset-2 col-xs-8">
     <div class="home-features-title"><img src='{{imgIcon1}}' /><h2 [innerHTML]="homeFeatures"></h2></div>
+
     <div class=home-features-tiles>
-      <a [routerLink]="['Disclaimer-page']" [ngStyle]="{'background-image': 'url('+imageTile1+')'}" class="home-features-tile1" [innerHTML]="homeFeaturesTile1"><h3></h3></a>
-      <div style="border-top: 5px solid #bc2027;" class="home-features-tile2" [innerHTML]="homeFeaturesTile2"></div>
-      <a [routerLink]="['Disclaimer-page']" [ngStyle]="{'background-image': 'url('+imageTile2+')'}" class="home-features-tile2" [innerHTML]="homeFeaturesTile3"></a>
-      <a [routerLink]="['Disclaimer-page']" [ngStyle]="{'background-image': 'url('+imageTile3+')'}" class="home-features-tile1" [innerHTML]="homeFeaturesTile4"></a>
+      <a [routerLink]="['Disclaimer-page']" [ngStyle]="{'background-image': 'url('+imageTile1+')'}" class="home-features-tile1"><h3>{{homeFeaturesTile1}}</h3>
+        <span class="tile-button">{{homeFeaturesButton1}}</span>
+      </a>
+
+      <a [routerLink]="['Disclaimer-page']" style="border-top: 5px solid #bc2027;" class="home-features-tile2"><h3><b>Dive deep</b></h3> <h4>into key information</h4>
+        <span class="tile-button">{{homeFeaturesButton2}}</span>
+      </a>
+
+      <a [routerLink]="['Disclaimer-page']" [ngStyle]="{'background-image': 'url('+imageTile2+')'}" class="home-features-tile2"><h3>{{homeFeaturesTile3}}</h3>
+        <span class="tile-button">{{homeFeaturesButton3}}</span>
+      </a>
+
+      <a [routerLink]="['Disclaimer-page']" [ngStyle]="{'background-image': 'url('+imageTile3+')'}" class="home-features-tile1"><h3>{{homeFeaturesTile4}}</h3>
+        <span class="tile-button">{{homeFeaturesButton4}}</span>
+      </a>
     </div>
   </div>
 
