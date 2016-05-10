@@ -29,6 +29,9 @@
 .image-round {
   position: relative;
   border-radius: 50%;
+  img{
+    background-color: @white;
+  }
   &-main img {
     width: 100%;
     height: 100%;
@@ -140,6 +143,10 @@
   .roundImageMain(50px);
 }
 
+.image-62 {
+  .roundImageMain(62px);
+}
+
 .image-100 {
   .roundImageMain(100px);
 }
@@ -152,6 +159,9 @@
 }
 .image-150 {
   .roundImageMain(150px);
+}
+.image-174 {
+  .roundImageMain(174px);
 }
 .image-180 {
   .roundImageMain(180px);
@@ -171,5 +181,9 @@
 }
 
 .border-10 {
-  .imageShadow(10px, @masterSmallImageShadow);
+  .imageShadow(10px, @masterLargeImageShadow);
+}
+
+.border-logo{
+  .imageShadow(1px, rgba(0, 0, 0, 0.25))
 }

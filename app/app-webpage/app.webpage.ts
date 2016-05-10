@@ -1,6 +1,6 @@
 import {Component, OnInit, Injector} from 'angular2/core';
 import {RouteParams, Router, RouteData, RouteConfig, RouterOutlet, ROUTER_DIRECTIVES, LocationStrategy, RouterLink} from 'angular2/router';
-import {AboutUsPage} from "../webpages/aboutus-page/aboutus.page";
+import {AboutUsPage} from "../webpages/about-us-page/about-us.page";
 import {DirectoryPage} from "../webpages/directory-page/directory.page";
 import {ContactUsPage} from "../webpages/contactus-page/contactus.page";
 import {DisclaimerPage} from "../webpages/disclaimer-page/disclaimer.page";
@@ -25,6 +25,7 @@ import {ArticleDataService} from "../global/global-article-page-service";
 import {HeadlineDataService} from "../global/global-ai-headline-module-service";
 import {ArticlePages} from "../webpages/articles/article-pages/article-pages.page";
 import {ErrorPage} from "../webpages/error-page/error-page.page";
+import {ListOfListsPage} from "../webpages/list-of-lists-page/list-of-lists.page";
 
 
 import {DesignPage} from "../webpages/design-page/design.page";
@@ -166,6 +167,11 @@ import {DesignPage} from "../webpages/design-page/design.page";
         path: '/tables-test',
         name: 'Tables-test-page',
         component: TablesTestPage,
+    },
+    {
+        path: '/list-of-lists',
+        name: 'List-of-lists-page',
+        component: ListOfListsPage
     },
 ])
 

@@ -7,6 +7,9 @@ import {Observable} from "rxjs/Observable";
 
 export class HeadlineDataService {
     public partnerID:string;
+    public protocolToUse:string = (location.protocol == "https:") ? "https" : "http";
+    public apiUrl:string = '://dev-homerunloyal-ai.synapsys.us/headlines/team/';
+
 
     constructor(private _router:Router, public http:Http) {
         this._router.root
@@ -24,8 +27,9 @@ export class HeadlineDataService {
     };
 
     getAiHeadlineData(teamID) {
+        var fullUrl = this.protocolToUse + this.apiUrl;
         if (this.partnerID == null) {
-            return this.http.get('http://dev-homerunloyal-ai.synapsys.us/headlines/team/' + teamID)
+            return this.http.get(fullUrl + teamID)
                 .map(
                     res => res.json()
                 )
@@ -35,7 +39,7 @@ export class HeadlineDataService {
                     }
                 )
         } else {
-            return this.http.get('http://dev-homerunloyal-ai.synapsys.us/headlines/team/' + teamID)
+            return this.http.get(fullUrl + teamID)
                 .map(
                     res => res.json()
                 )

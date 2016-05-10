@@ -26,7 +26,7 @@
               <!-- ngFor here to get all the teams in the same division -->
               <a [routerLink]="['Disclaimer-page']" class="home-team" *ngFor="#team of division.dataArray">
                 <circle-image [data]="team.imageData"></circle-image>
-                <div class="home-team-name">[firstname] <p>{{team.teamName}}</p></div>
+                <div class="home-team-name">{{team.teamFirstName}}<p>{{team.teamLastName}}</p></div>
                 <i class="fa fa-angle-right fa-view"></i>
               </a>
             </div>

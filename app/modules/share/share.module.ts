@@ -31,7 +31,7 @@ export class ShareModule implements OnInit{
         iconClass: ''
     };
     public imageData: CircleImageData = {
-        imageClass: "image-180",
+        imageClass: "image-174",
         mainImage: {
             imageUrl: '',
             hoverText: "Sample",

@@ -36,8 +36,14 @@ export class StandingsComponent implements OnChanges {
   
   ngOnChanges() {
     if ( this.tabs != undefined && this.tabs.length > 0 ) {
-      this.tabSelected(this.tabs[0].title);
-      this.updateCarousel();
+      var selectedTitle = this.tabs[0].title;
+      this.tabs.forEach(tab => {
+        this.setSelectedCarouselIndex(tab, 0);
+        if ( tab.isActive ) {
+          selectedTitle = tab.title;
+        }
+      });      
+      this.tabSelected(selectedTitle);
     }
   }
   
@@ -51,6 +57,19 @@ export class StandingsComponent implements OnChanges {
     }    
   }
   
+  setSelectedCarouselIndex(tab: TableTabData<any>, index: number) {
+      let offset = 0;
+      tab.sections.forEach((section, sectionIndex) => {
+        if ( index >= offset && index < section.tableData.rows.length + offset ) {
+          section.tableData.setRowSelected(index-offset);
+        }
+        else {
+          section.tableData.setRowSelected(-1);
+        }
+        offset += section.tableData.rows.length;
+      });    
+  }
+  
   tabSelected(newTitle) {
     this.selectedTabTitle = newTitle;
     this.updateCarousel();
@@ -61,16 +80,7 @@ export class StandingsComponent implements OnChanges {
     let matchingTabs = this.tabs.filter(value => value.title === this.selectedTabTitle);
     if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) {  
       let selectedTab = matchingTabs[0];
-      let offset = 0;
-      selectedTab.sections.forEach((section) => {
-        if ( selectedIndex < section.tableData.rows.length + offset ) {
-          section.tableData.setRowSelected(selectedIndex);
-        }
-        else {
-          section.tableData.setRowSelected(-1);
-          offset += section.tableData.rows.length;
-        }
-      });
+      this.setSelectedCarouselIndex(selectedTab, selectedIndex);
     }
   }
   

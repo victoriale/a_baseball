@@ -10,13 +10,16 @@ import {GlobalFunctions} from '../../global/global-functions';
 import {HeadlineDataService} from "../../global/global-ai-headline-module-service";
 import {RouteParams} from "angular2/router";
 import {ROUTER_DIRECTIVES} from "angular2/router";
+import {ModuleHeaderData} from "../../components/module-header/module-header.component";
+import {LoadingComponent} from "../../components/loading/loading.component";
 
 declare var jQuery:any;
+declare var moment:any;
 
 @Component({
     selector: 'articles-module',
     templateUrl: './app/modules/articles/articles.module.html',
-    directives: [ModuleHeader, ROUTER_DIRECTIVES, ArticleScheduleComponent, ArticleMainComponent, ArticleSubComponent, HeadToHeadComponent],
+    directives: [ModuleHeader, ROUTER_DIRECTIVES, ArticleScheduleComponent, ArticleMainComponent, ArticleSubComponent, HeadToHeadComponent, LoadingComponent],
     inputs: [],
     providers: [Articles],
 })
@@ -24,6 +27,8 @@ declare var jQuery:any;
 export class ArticlesModule implements OnInit {
     headlineData:HeadlineData;
     imageData:any;
+    scheduleHomeData:any;
+    scheduleAwayData:any;
     leftColumnData:any;
     headToHeadData:any;
     randomLeftColumn:any;
@@ -32,16 +37,23 @@ export class ArticlesModule implements OnInit {
     titleFontSize:string;
     mainContent:string;
     images:any;
+    homeData:any;
+    awayData:any;
     teamID:string;
     eventID:number;
     eventType:string;
     mainEventID:number;
     arrLength:number;
     league:boolean = false;
+    public headerInfo:ModuleHeaderData = {
+        moduleTitle: "",
+        hasIcon: false,
+        iconClass: ""
+    };
 
     constructor(private _params:RouteParams, private _headlineDataService:HeadlineDataService, private _globalFunctions:GlobalFunctions) {
         window.scrollTo(0, 0);
-        this.teamID = _params.get('teamID');
+        this.teamID = _params.get('teamId');
         this.getArticles();
     }
 
@@ -54,11 +66,61 @@ export class ArticlesModule implements OnInit {
                     this.headToHeadData = HeadlineData['rightColumn'];
                     this.imageData = HeadlineData['home'].images[0];
                     this.eventID = HeadlineData.event;
+                    this.scheduleHomeData = HeadlineData['home'];
+                    this.scheduleAwayData = HeadlineData['away'];
+                    this.getHeaderData(HeadlineData);
+                    this.getSchedule(this.scheduleHomeData, this.scheduleAwayData);
                     this.getMainArticle(this.headlineData, this.imageData, this.eventID);
                     this.getLeftColumnArticles(this.leftColumnData, this.imageData, this.eventID);
                     this.getHeadToHeadArticles(this.headToHeadData, this.eventID);
                 }
             )
+    }
+
+    getHeaderData(data) {
+        var dateString = moment.unix(data.timestamp).format("MM/DD/YYYY");
+        var isToday = moment(dateString).isSame(moment(), 'day');
+        if (isToday) {
+            this.headerInfo.moduleTitle = "Today's Gameday Matchup Against the " + data.away.name;
+        }
+        else {
+            this.headerInfo.moduleTitle = moment.unix(dateString).format("dddd") + "'s Gameday Matchup Against the " + data.away.name;
+        }
+    }
+
+    static convertToETMoment(easternDateString) {
+        return moment(moment(easternDateString).format("MM/DD/YYYY"), "America/New_York");
+    };
+
+    getSchedule(homeData, awayData) {
+        var homeArr = [];
+        var awayArr = [];
+        var val = [];
+        val['homeID'] = homeData.id;
+        val['homeName'] = homeData.name;
+        val['homeHex'] = homeData.hex;
+        val['homeLogo'] = homeData.logo;
+        val['homeWins'] = homeData.wins;
+        val['homeLosses'] = homeData.losses;
+        homeArr.push(val);
+        val = [];
+        val['awayID'] = awayData.id;
+        val['awayName'] = awayData.name;
+        val['awayHex'] = awayData.hex;
+        val['awayLogo'] = {//interface is found in image-data.ts
+            imageClass: "image-62",
+            mainImage: {
+                imageUrl: awayData.logo,
+                urlRouteArray: ['Disclaimer-page'],
+                hoverText: "<i class='fa fa-mail-forward'></i>",
+                imageClass: "border-logo"
+            }
+        };
+        val['awayWins'] = awayData.wins;
+        val['awayLosses'] = awayData.losses;
+        awayArr.push(val);
+        this.homeData = homeArr;
+        this.awayData = awayArr;
     }
 
     getMainArticle(headlineData, imageData, eventID) {

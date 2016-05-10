@@ -3,7 +3,7 @@
   
   &-header {
     position: relative;
-    padding: 6px; //30px
+    padding: 7px;
     text-align: center;
     .globalDefaultFont(12px, 400);
     border: @strokeGrey 1px solid;    
@@ -136,7 +136,6 @@
       
       .image-round {
         margin-right: 1em;
-        margin-left: 4px;
         display: inline-block;
       }
     }
@@ -149,17 +148,28 @@
   
   /** row definitions **/
   &-row {    
-    &-odd {
+    margin-left: 1em;
+    border-left: 10px solid transparent;
+    
+    &-even {
       background: @backgroundGrey;
+      border-left: 10px solid transparent;
     }
+    
+    // &-border {
+    //   width: 10px;      
+    // }
     
     &-selected,
     &-selected .custom-table-compact-bold-column,
     &-selected .custom-table-body-bold-column {
-      color: @white;
-      background-color: @masterBrandColor;
+      background-color: @lightMasterBrandColor;
       border-color: @masterBrandColor;
     }
+    
+    // &-selected &-border {
+    //   background-color: @masterBrandColor;
+    // }
   } 
   
   /** footer definitions **/

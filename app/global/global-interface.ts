@@ -175,10 +175,24 @@ export interface HeadlineData {
             metaHeadline: string;
         };
     };
-    images: {
-        home: string;
-        away: string;
-    };
+    home: {
+        id: number;
+        name: string;
+        hex: string;
+        logo: string;
+        images: string;
+        wins: number;
+        losses: number;
+    }
+    away: {
+        id: number;
+        name: string;
+        hex: string;
+        logo: string;
+        images: string;
+        wins: number;
+        losses: number;
+    }
 }
 
 
