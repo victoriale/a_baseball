@@ -17,10 +17,12 @@ import {ProfileHeaderService} from '../../services/profile-header.service';
 import {AboutUsModule} from '../../modules/about-us/about-us.module';
 import {ArticlesModule} from "../../modules/articles/articles.module";
 
+import {ShareModule, ShareModuleInput} from '../../modules/share/share.module';
+
 @Component({
     selector: 'Design-page',
     templateUrl: './app/webpages/design-page/design.page.html',
-    directives: [DraftHistoryModule, AboutUsModule, StandingsModule, ProfileHeaderModule, ArticlesModule],
+    directives: [DraftHistoryModule, AboutUsModule, StandingsModule, ProfileHeaderModule, ArticlesModule, ShareModule],
     providers: [StandingsService, ProfileHeaderService]
 })
 
@@ -30,6 +32,9 @@ export class DesignPage implements OnInit {
   playerProfileHeaderData: ProfileHeaderData;
   teamProfileHeaderData: ProfileHeaderData;
   leagueProfileHeaderData: ProfileHeaderData;
+    public shareModuleInput: ShareModuleInput = {
+        imageUrl: './app/public/mainLogo.png'
+    };
 
   constructor(
     private _params: RouteParams,
