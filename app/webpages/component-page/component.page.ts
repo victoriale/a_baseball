@@ -12,9 +12,8 @@ import {SchedulesCarousel} from '../../components/carousels/schedules-carousel/s
 import {Carousel} from '../../components/carousels/carousel.component';
 import {SliderCarousel} from '../../components/carousels/slider-carousel/slider-carousel.component';
 
-import {StandingsComponentData, TableTabData} from '../../components/standings/standings.component';
 import {RosterComponentData} from '../../components/roster/roster.component';
-import {StandingsModule} from '../../modules/standings/standings.module';
+import {StandingsModuleData, StandingsModule} from '../../modules/standings/standings.module';
 import {StandingsService} from '../../services/standings.service';
 import {TeamRosterModule} from '../../modules/team-roster/team-roster.module';
 import {RosterService} from '../../services/roster.service';
@@ -52,7 +51,7 @@ import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
 
 export class ComponentPage implements OnInit {
   pageParams: MLBPageParameters;
-  standingsData: StandingsComponentData;
+  standingsData: StandingsModuleData;
   rosterData: RosterComponentData;
   playerProfileHeaderData: ProfileHeaderData;
   teamProfileHeaderData: ProfileHeaderData;
@@ -112,18 +111,19 @@ export class ComponentPage implements OnInit {
         console.log("Error getting standings data");
       });
   }
-  private setupRosterData() {
-    let self = this;
-    self._rosterService.loadAllTabs(this.pageParams, 5) //only show 5 rows in the module
-      .subscribe(data => {
-        this.rosterData = {
-          moduleTitle: self._rosterService.getModuleTitle(this.pageParams),
-          pageRouterLink: self._rosterService.getLinkToPage(this.pageParams),
-          tabs: data
-        };
-      },
-      err => {
-        console.log("Error getting team roster data");
-      });
-  }
+  
+  // private setupRosterData() {
+  //   let self = this;
+  //   self._rosterService.loadAllTabs(this.pageParams, 5) //only show 5 rows in the module
+  //     .subscribe(data => {
+  //       this.rosterData = {
+  //         moduleTitle: self._rosterService.getModuleTitle(this.pageParams),
+  //         pageRouterLink: self._rosterService.getLinkToPage(this.pageParams),
+  //         tabs: data
+  //       };
+  //     },
+  //     err => {
+  //       console.log("Error getting team roster data");
+  //     });
+  // }
 }

@@ -218,7 +218,7 @@ export interface ArticleData {
         }
         date: string;
         headline: string;
-        content: string;
+        content: any;
     }>;
     midGameReport: Array<{
         status: boolean;
