@@ -109,7 +109,7 @@ export class ComponentPage implements OnInit {
         };
       },
       err => {
-        console.log("Error getting standings data");
+        console.log("Error getting standings data: " + err);
       });
   }
 }

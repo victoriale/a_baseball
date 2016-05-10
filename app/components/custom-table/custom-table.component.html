@@ -12,9 +12,9 @@
   </thead>
 
   <tbody class="{{bodyClass}}">
-    <tr *ngFor="#row of model.rows; #isOdd = odd; #i = index"
+    <tr *ngFor="#row of model.rows; #isEven = even; #i = index"
       [class.custom-table-row-selected]="model.isRowSelected(row, i)"
-      [class.custom-table-row-odd]="isOdd">
+      [class.custom-table-row-even]="isEven">
       <td *ngFor="#hdr of model.columns" class="{{bodyClass}}-{{hdr.columnClass}} {{bodyClass}}-cell">
         <circle-image *ngIf="model.hasImageConfigAt(hdr)" [data]="model.getImageConfigAt(row, hdr)"></circle-image>
         <a *ngIf="model.hasRouterLinkAt(hdr)" [routerLink]="model.getRouterLinkAt(row, hdr)" [innerHtml]="model.getDisplayValueAt(row, hdr)"></a>

@@ -1,5 +1,25 @@
 <div class="page-container">
   <div class="component-compbar-container">
+    <profile-header [profileHeaderData]="teamProfileHeaderData"></profile-header>
+  </div>
+  
+  <div class="component-compbar-container">
     <draft-history></draft-history>
+  </div>
+
+  <div class="component-compbar-container">
+    <standings-module [data]="standingsData"></standings-module>
+  </div>
+  
+  <div class="component-compbar-container">
+    <profile-header [profileHeaderData]="playerProfileHeaderData"></profile-header>
+  </div>
+  
+  <div class="component-compbar-container">
+    <profile-header [profileHeaderData]="leagueProfileHeaderData"></profile-header>
+  </div>
+
+  <div class="component-compbar-container">
+    <about-us></about-us>
   </div>
 </div>
