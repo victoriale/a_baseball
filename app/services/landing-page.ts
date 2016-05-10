@@ -32,7 +32,7 @@ export class LandingPageService {
     var self = this;
     var leagueArray = [];
     var teamArray = [];
-    var dummyImg = "./app/public/placeholder-location.jpg";
+    var dummyImg = "/app/public/no-image.png";
     var dummyRoute = ['Disclaimer-page'];
     for(var league in data){//get each of the league given by data
       var divisionArray = [];

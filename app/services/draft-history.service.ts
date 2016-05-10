@@ -75,7 +75,7 @@ export class DraftHistoryService {
   carDataPage(data){
     let self = this;
     var carouselArray = [];
-    var dummyImg = "./app/public/placeholder-location.jpg";
+    var dummyImg = "/app/public/no-image.png";
     var dummyRoute = ['Disclaimer-page'];
     var dummyRank = '##';
 
@@ -85,7 +85,7 @@ export class DraftHistoryService {
         //TODO
         imageConfig: self.imageData("image-150","border-large",dummyImg,'',"image-50-sub",dummyImg,'',1),
         description:[
-          '<p style="font-size:20px"><b>Sorry, the We currently do not have any data for this years draft history</b><p>',
+          "<p style='font-size:20px'><b>Sorry, we currently do not have any data for this year's draft history</b><p>",
         ],
       };
       carouselArray.push(Carousel);
@@ -119,7 +119,7 @@ export class DraftHistoryService {
   carDataModule(data){
     let self = this;
     var carouselArray = [];
-    var dummyImg = "./app/public/placeholder-location.jpg";
+    var dummyImg = "/app/public/no-image.png";
     var dummyRoute = ['Disclaimer-page'];
     var dummyRank = '##';
 
@@ -127,7 +127,7 @@ export class DraftHistoryService {
       var Carousel = {
         index:'2',
         //TODO
-        imageConfig: self.imageData("image-150","border-large",dummyImg,'',"image-50-sub",dummyImg,'',1),
+        imageConfig: self.imageData("image-150","border-large",dummyImg,'', 1,"image-50-sub",dummyImg,''),
         description:[
           '<p style="font-size:20px"><b>Sorry, the We currently do not have any data for this years draft history</b><p>',
         ],
@@ -139,7 +139,7 @@ export class DraftHistoryService {
         var Carousel = {
           index:'2',
           //TODO
-          imageConfig: self.imageData("image-150","border-large",dummyImg,dummyRoute,"image-50-sub",dummyImg,dummyRoute,index+1),
+          imageConfig: self.imageData("image-150","border-large",dummyImg,dummyRoute,"image-50-sub",dummyImg,dummyRoute),
           description:[
             '<p style="font-size:24px"><b>'+val.playerName+'</b></p>',
             '<p>Hometown: <b>'+val.draftTeamName+'</b></p>',
@@ -159,7 +159,7 @@ export class DraftHistoryService {
     let self = this;
     var listDataArray = [];
 
-    var dummyImg = "./app/public/placeholder-location.jpg";
+    var dummyImg = "/app/public/no-image.png";
     var dummyRoute = ['Disclaimer-page'];
     var dummyRank = '#4';
 
@@ -174,7 +174,7 @@ export class DraftHistoryService {
       var listData = {
         dataPoints: self.detailsData(val.playerName,(val.selectionLevel+' Round'),dummyProfUrl,val.draftTeamName,(val.selectionOverall +' Overall'),dummySubUrl),
         imageConfig: self.imageData("image-121","border-2",
-        dummyImg,dummyRoute,"image-40-sub",dummyImg,dummyRoute,(index+1)),
+        dummyImg,dummyRoute,(index+1),"image-40-sub",dummyImg,dummyRoute),
         hasCTA:true,
         ctaDesc:'Want more info about this [profile type]?',
         ctaBtn:'',
@@ -190,12 +190,12 @@ export class DraftHistoryService {
   /**
    *this function will have inputs of all required fields that are dynamic and output the full
   **/
-  imageData(imageClass, imageBorder, mainImg, mainImgRoute, subImgClass?, subImg?, subRoute?, rank?){
+  imageData(imageClass, imageBorder, mainImg, mainImgRoute, rank, subImgClass?, subImg?, subRoute?){
     if(typeof mainImg =='undefined' || mainImg == ''){
-      mainImg = "./app/public/placeholder-location.jpg";
+      mainImg = "/app/public/no-image.png";
     }
     if(typeof subImg =='undefined' || subImg == ''){
-      mainImg = "./app/public/placeholder-location.jpg";
+      subImg = "/app/public/no-image.png";
     }
     if(typeof rank == 'undefined' || rank == 0){
       rank = 0;

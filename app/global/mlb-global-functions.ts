@@ -1,12 +1,11 @@
 import {Injectable} from 'angular2/core';
 import {GlobalFunctions} from './global-functions';
 import {Division, Conference} from './global-interface';
-
 @Injectable()
 
 export class MLBGlobalFunctions {
 
-  constructor(private _globalFunctions: GlobalFunctions) {
+  constructor() {
 
   }
 

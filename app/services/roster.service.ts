@@ -44,7 +44,7 @@ export class RosterService {
   carData(data){
     var self = this;
     var carouselArray = [];
-    var dummyImg = "./app/public/placeholder-location.jpg";
+    var dummyImg = "/app/public/no-image.png";
     var dummyRoute = ['Disclaimer-page'];
     var curYear = new Date().getFullYear();
     data.forEach(function(val, index){
@@ -104,10 +104,10 @@ export class RosterService {
   }
   imageData(imageClass, imageBorder, mainImg, mainImgRoute, subImgClass?, subImg?, subRoute?, rank?){
     if(typeof mainImg =='undefined' || mainImg == ''){
-      mainImg = "./app/public/placeholder-location.jpg";
+      mainImg = "/app/public/no-image.png";
     }
     if(typeof subImg =='undefined' || subImg == ''){
-      mainImg = "./app/public/placeholder-location.jpg";
+      mainImg = "/app/public/no-image.png";
     }
     if(typeof rank == 'undefined' || rank == 0){
       rank = 0;
