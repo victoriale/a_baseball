@@ -15,11 +15,12 @@ import {ProfileHeaderData, ProfileHeaderModule} from '../../modules/profile-head
 import {ProfileHeaderService} from '../../services/profile-header.service';
 
 import {AboutUsModule} from '../../modules/about-us/about-us.module';
+import {ArticlesModule} from "../../modules/articles/articles.module";
 
 @Component({
     selector: 'Design-page',
     templateUrl: './app/webpages/design-page/design.page.html',
-    directives: [DraftHistoryModule, AboutUsModule, StandingsModule, ProfileHeaderModule],
+    directives: [DraftHistoryModule, AboutUsModule, StandingsModule, ProfileHeaderModule, ArticlesModule],
     providers: [StandingsService, ProfileHeaderService]
 })
 

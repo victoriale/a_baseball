@@ -1,4 +1,5 @@
 <section class="module-container">
+    <loading-component *ngIf="!headlineData"></loading-component>
     <module-header [modHeadData]="headerInfo"></module-header>
     <article-schedule-component [league]="league" [homeData]="homeData" [awayData]="awayData"></article-schedule-component>
     <article-main-component [mainTitle]="mainTitle" [eventType]="eventType" [mainEventID]="mainEventID" [titleFontSize]="titleFontSize" [mainContent]="mainContent" [images]="images" [league]="league"></article-main-component>
