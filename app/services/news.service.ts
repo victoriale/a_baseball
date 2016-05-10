@@ -38,7 +38,6 @@ export class NewsService {
     var newsArray = [];
     var dummyImg = "./app/public/placeholder-location.jpg";
     data.forEach(function(val, index){
-      console.log(val.link);
       var News = {
         title: val.title,
         description: val.description,
@@ -53,7 +52,6 @@ export class NewsService {
       };
       newsArray.push(News);
     });
-    console.log('TRANSFORMED NEWS ARRAY', newsArray);
     return newsArray;
   }//newsData ends
 }
