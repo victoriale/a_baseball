@@ -1,9 +1,10 @@
 <div class="module-container tr">
   <module-header [modHeadData]="headerInfo"></module-header>
   <slider-carousel (indexNum)="indexNum($event)" *ngIf="carDataArray" [carouselData]="carDataArray" [footerStyle]="footerStyle"></slider-carousel>
-  <tabs (tabSelected)="tabSelected($event)">
+  <tabs  *ngIf="tabs" (tabSelected)="tabSelected($event)">
     <tab *ngFor="#tab of tabs" [tabTitle]="tab.title" [active]="tab.isActive">
       <custom-table [model]="tab.tableData" (sortChanged)="updateCarousel($event)"></custom-table>
+      <!-- <no-data-box [data]="errorData.data" [icon]="errorData.icon"></no-data-box> -->
     </tab>
   </tabs>
   <module-footer [footerData]="footerData"></module-footer>

@@ -5,6 +5,7 @@ import {SliderCarouselInput} from '../components/carousels/slider-carousel/slide
 import {Conference, Division} from '../global/global-interface';
 import {GlobalFunctions} from '../global/global-functions';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
+import {GlobalSettings} from '../global/global-settings';
 
 export interface TeamRosterData {
   imageUrl: string,
@@ -17,6 +18,8 @@ export interface TeamRosterData {
   roleStatus: string,
   active: string,
   uniformNumber: string,
+  headShotUrl: string,
+  teamLogo: string,
   position:string,
   depth: string,
   weight: string,
@@ -52,7 +55,8 @@ export class RosterTabData {
   convertToCarouselItem(val, index){
     var self = this;
     var dummyImg = "./app/public/placeholder-location.jpg";
-    var dummyRoute = ['Disclaimer-page'];
+    var playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.teamName,val.playerName,val.playerId);
+    var teamRoute = MLBGlobalFunctions.formatTeamRoute(val.teamName,val.teamId);
     var curYear = new Date().getFullYear();
     var playerNum = "";
     var playerHeight = "";
@@ -63,7 +67,7 @@ export class RosterTabData {
       val.roleStatus = "N/A";
     }
     if(val.uniformNumber != null){
-      playerNum = "is <b>#" + val.uniformNumber + "</b> and";
+      playerNum = " is <b>#" + val.uniformNumber + "</b> and";
     } else {
       playerNum = "";
     }
@@ -91,19 +95,19 @@ export class RosterTabData {
         index: index,
         //imageData(mainImg, mainImgRoute, subImg, subRoute, rank)
         //TODO need to replace image data with actual image path when available
-        imageConfig: self.imageData("image-150","border-large",dummyImg,dummyRoute,"image-50-sub",dummyImg,dummyRoute,index+1),
+        imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.headShotUrl),playerRoute,"image-50-sub",GlobalSettings.getImageUrl(val.teamLogo),teamRoute,index+1),
         description:[
-          '<p><i class="fa fa-circle"></i> ' + curYear + ' TEAM ROSTER</p>',
-          '<p><b>'+val.playerName+'</b></p>',
-          '<p><b>'+ val.playerName+ '</b>, <b>'+val.roleStatus+'</b> for the <b>'+ val.teamName +'</b>,' + playerNum + playerHeight + playerWeight + playerSalary + '</p>',
-          '<p>Last Updated On ' + val.lastUpdate + '</p>'
+          '<p><i class="fa fa-circle" style="color:#bc2027; font-size:12px; padding-right: 5px;"></i> ' + curYear + ' TEAM ROSTER</p>',
+          '<p style="font-size: 22px; font-weight: 900; padding:9px 0;">'+val.playerName+'</p>',
+          '<p style="font-size: 14px; line-height: 1.4em;"><b style="font-weight:900;">'+ val.playerName+ '</b>, <b style="font-weight:900;">'+val.roleStatus+'</b> for the <b style="font-weight:900;">'+ val.teamName +'</b>,' + playerNum + playerHeight + playerWeight + playerSalary + '</p>',
+          '<p style="font-size: 10px; padding-top:9px;">Last Updated On ' + val.lastUpdate + '</p>'
         ],
         footerInfo: {
-          infoDesc: 'Interested in discovering more about this player?',
-          text: 'View Profile',
-          url: ['Disclaimer-page']
-        }
-      };
+        infoDesc: 'Interested in discovering more about this player?',
+        text: 'View Profile',
+        url: ['Disclaimer-page']
+      }
+    };
     return Carousel;
   }
   //function that returns information from api to an acceptable interface for images
@@ -182,7 +186,7 @@ export class RosterTableModel {
 
   selectedKey:any = -1;
 
-  constructor(title:string, rows: Array<TeamRosterData>, private _globalFunctions:GlobalFunctions, private _mlbGF:MLBGlobalFunctions) {
+  constructor(title:string, rows: Array<TeamRosterData>, private _globalFunctions:GlobalFunctions) {
     this.title = title;
     this.rows = rows;
     if ( this.rows === undefined || this.rows === null ) {
@@ -211,7 +215,7 @@ export class RosterTableModel {
     var s = "";
     switch (column.key) {
       case "name":
-        s = item.playerName;
+        s = item.playerLastName + ', ' + item.playerFirstName;
         break;
 
       case "pos":
@@ -273,9 +277,9 @@ export class RosterTableModel {
       return {
           imageClass: "image-50",
           mainImage: {
-            imageUrl: 'item.imageUrl',
+            imageUrl: GlobalSettings.getImageUrl(item.headShotUrl),
             imageClass: "border-2",
-            urlRouteArray: this._mlbGF.formatPlayerRoute(item.teamName,item.playerName,item.playerId),
+            urlRouteArray: MLBGlobalFunctions.formatPlayerRoute(item.teamName,item.playerName,item.playerId),
             hoverText: "<i class='fa fa-mail-forward'></i>",
           },
           subImages: []
@@ -292,7 +296,7 @@ export class RosterTableModel {
 
   getRouterLinkAt(item:TeamRosterData, column:TableColumn):Array<any> {
     if ( column.key === "name" ) {
-      return this._mlbGF.formatPlayerRoute(item.teamName,item.playerName,item.playerId);
+      return MLBGlobalFunctions.formatPlayerRoute(item.teamName,item.playerName,item.playerId);
     }
     else {
       return undefined;
