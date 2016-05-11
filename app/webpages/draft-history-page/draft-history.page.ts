@@ -1,4 +1,5 @@
 import {Component, OnInit} from 'angular2/core';
+import {RouteParams} from 'angular2/router';
 import {DetailedListItem, DetailListInput} from '../../components/detailed-list-item/detailed-list-item.component';
 import {ModuleFooter} from '../../components/module-footer/module-footer.component';
 import {SliderCarousel, SliderCarouselInput} from '../../components/carousels/slider-carousel/slider-carousel.component';
@@ -31,12 +32,12 @@ export class DraftHistoryPage implements OnInit{
     ctaBtnClass:"list-footer-btn",
     hasIcon: true,
   };
-  constructor(private draftService:DraftHistoryService, private profHeadService:ProfileHeaderService){
+  constructor(public draftService:DraftHistoryService, public profHeadService:ProfileHeaderService, public params: RouteParams){
 
   }
 
   getDraftPage(date) {
-      this.profHeadService.getTeamPageHeader(2799)
+      this.profHeadService.getTeamPageHeader(Number(this.params.params['teamId']))
       .subscribe(
           profHeader => {
             this.profileHeaderData = profHeader.data;
@@ -50,7 +51,7 @@ export class DraftHistoryPage implements OnInit{
               // this.isError = true;
           }
       );
-      this.draftService.getDraftHistoryService(date)
+      this.draftService.getDraftHistoryService(date, Number(this.params.params['teamId']), 'page')
           .subscribe(
               draftData => {
                 if(typeof this.dataArray == 'undefined'){//makes sure it only runs once
