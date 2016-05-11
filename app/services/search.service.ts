@@ -4,8 +4,6 @@ import {Http} from 'angular2/http';
 import {SearchComponentData} from '../components/search/search.component';
 declare let JsSearch: any;
 
-
-
 @Injectable()
 export class SearchService{
     public searchJSON: any;
@@ -25,6 +23,12 @@ export class SearchService{
             ).subscribe(
                 data => {
                     this.searchJSON = data;
+                },
+                err => {
+                    this.searchJSON = {
+                        players: [],
+                        teams: []
+                    }
                 }
             )
     }
@@ -33,11 +37,13 @@ export class SearchService{
     getSearchDropdownData(term: string){
         let data = this.searchJSON;
 
-        //Search for players and teams
-        let playerResults = this.searchPlayers(term, data.players);
-        let teamResults = this.searchTeams(term, data.teams);
-        //Transform data to useable format
-        let searchResults = this.resultsToDropdown(playerResults, teamResults);
+        ////Search for players and teams
+        //let playerResults = this.searchPlayers(term, data.players);
+        //let teamResults = this.searchTeams(term, data.teams);
+        ////Transform data to useable format
+        //let searchResults = this.resultsToDropdown(playerResults, teamResults);
+
+        let searchResults = [];
 
         return Observable.of(searchResults);
     }

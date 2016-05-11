@@ -19,8 +19,6 @@ import {AboutUsModule} from '../../modules/about-us/about-us.module';
 import {ArticlesModule} from "../../modules/articles/articles.module";
 import {ListOfListModule} from "../../modules/list-of-list/list-of-list.module";
 
-import {ShareModule, ShareModuleInput} from '../../modules/share/share.module';
-
 @Component({
     selector: 'Design-page',
     templateUrl: './app/webpages/design-page/design.page.html',

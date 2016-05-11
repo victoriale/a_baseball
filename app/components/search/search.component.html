@@ -6,7 +6,7 @@
     <button class="search-button">
         <i class="fa fa-search"></i>
     </button>
-    <ul *ngIf="searchInput.hasSuggestions && showDropdown && dropdownList.length > 0" class="search-dropdown">
+    <ul *ngIf="searchInput.hasSuggestions && showDropdown && dropdownList.length > 0" (mouseout)="resetSelected()" class="search-dropdown">
         <div class="search-dropdown-caret"></div>
         <li *ngFor="#item of dropdownList; #i = index" (mouseover)="itemHovered(i)" class="search-dropdown-item" [innerHtml]="item.title" [ngClass]="{active: (i + 1 === selectedIndex)}" >
             <i class="fa fa-angle-right"></i>
