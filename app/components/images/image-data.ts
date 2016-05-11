@@ -70,7 +70,7 @@ export interface CircleImageData {
   *    .image-round-lower-left
   *    .image-round-lower-right
    */
-  subImages?: Array<any>;
+  subImages?: Array<ImageData>;
 
   /**
    * The style to use for the entire component. It should
