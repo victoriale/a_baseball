@@ -72,7 +72,7 @@ export class ProfileHeaderModule implements OnChanges {
         this.backgroundImage =  "url(" + data.backgroundImageUrl + ") no-repeat center rgba(0,0,0,.65)";
         this.contentTitle = "Quick info about " + data.profileName;
         this.profileTitle = data.profileTitleFirstPart + "<span class='text-heavy'> " + data.profileTitleLastPart + "</span>";
-        this.displayDate = this._globalFunctions.formatUpdatedDate(data.lastUpdatedDate);
+        this.displayDate = GlobalFunctions.formatUpdatedDate(data.lastUpdatedDate);
       }
     }
 }

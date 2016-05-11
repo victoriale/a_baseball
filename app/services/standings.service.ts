@@ -22,6 +22,7 @@ export class StandingsService {
 
     if ( pageParams.teamId && pageParams.teamName ) {
       pageValues["teamId"] = pageParams.teamId;
+      pageValues["teamName"] = pageParams.teamName;
       pageValues["type"] = "team";
       pageName += "-team";
     }
@@ -60,10 +61,6 @@ export class StandingsService {
 
     if ( standingsTab.conference !== undefined ) {
       url += "/" + Conference[standingsTab.conference];
-
-      // if ( standingsTab.division !== undefined ) {
-      //   url += "/" + Division[standingsTab.division];
-      // }
     }
 
     return this.http.get(url)
@@ -138,7 +135,7 @@ export class StandingsService {
     //Set display values
     rows.forEach((value, index) => {
       value.groupName = groupName;
-      value.displayDate = this._globalFunctions.formatUpdatedDate(value.lastUpdatedDate, false);
+      value.displayDate = GlobalFunctions.formatUpdatedDate(value.lastUpdated, false);
       value.fullImageUrl = GlobalSettings.getImageUrl(value.imageUrl);
       if ( value.teamId === undefined || value.teamId === null ) {
         value.teamId = index;

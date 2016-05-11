@@ -1,8 +1,8 @@
-import {Component, Input} from 'angular2/core';
+import {Component, Input, OnChanges} from 'angular2/core';
 import {CircleImage} from '../../components/images/circle-image';
 import {CircleImageData} from '../../components/images/image-data';
 
-export interface TitleInputData{
+export interface TitleInputData {
     imageURL  : string;
     text1     : string;
     text2     : string;
@@ -14,17 +14,16 @@ export interface TitleInputData{
 
 @Component({
     selector: 'title-component',
-    templateUrl: './app/components/title/title.component.html',
-    
-    directives: [CircleImage],
-    inputs: ['titleData']
+    templateUrl: './app/components/title/title.component.html',    
+    directives: [CircleImage]
 })
-export class TitleComponent{
-    public titleData: TitleInputData;
-    public titleImage: CircleImageData;
-
-    titleComp(){
-        if(typeof this.titleData == 'undefined'){
+export class TitleComponent implements OnChanges {
+    @Input() titleData: TitleInputData;
+    
+    public titleImage: CircleImageData;    
+    
+    ngOnChanges() {
+        if(!this.titleData){
             this.titleData =
             {
                 imageURL : '/app/public/mainLogo.png',
@@ -36,17 +35,14 @@ export class TitleComponent{
                 hasHover: true
             };
         }
-    }
-
-    ngOnInit(){
-      this.titleImage = {
-        imageClass: "page-title-titleImage",
-        mainImage: {
-          imageUrl: "/app/public/mainLogo.png",
-          imageClass: "border-2"
-        }
-      };
-      this.titleComp();
+               
+        this.titleImage = {
+            imageClass: "page-title-titleImage",
+            mainImage: {
+                imageUrl: ( this.titleData.imageURL ? this.titleData.imageURL : '/app/public/mainLogo.png'),
+                imageClass: "border-2"
+            }
+        };
     }
 
 }

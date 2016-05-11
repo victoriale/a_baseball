@@ -11,7 +11,7 @@ export interface TeamStandingsData {
   teamId: number;
   conferenceName: string,
   divisionName: string,
-  lastUpdatedDate: Date,
+  lastUpdated: string,
   rank: number,
   totalWins: number,
   totalLosses: number,

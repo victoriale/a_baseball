@@ -40,7 +40,7 @@ export class AboutUsService {
       headerTitle: "What is " + pageName + "?",
       titleData: {
           imageURL : '/app/public/mainLogo.png',
-          text1: 'Last Updated: ' + this._globalFunctions.formatUpdatedDate(lastUpdatedDate),
+          text1: 'Last Updated: ' + GlobalFunctions.formatUpdatedDate(lastUpdatedDate),
           text2: 'United States',
           text3: "Want to learn more about " + pageName + "?",
           text4: '',

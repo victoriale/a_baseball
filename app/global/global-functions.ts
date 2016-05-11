@@ -375,12 +375,12 @@ export class GlobalFunctions {
      * - Formats the date as 'dddd, MMMM Do, YYYY'
      * - Appends the timestamp as 'hh:mm A' if {includeTimestamp} is true.
      *
-     * @param {Date} jsDate - the date to format
+     * @param {any} jsDate - the date to format; can be a string or a JavaScript Date
      * @param {boolean} includeTimestamp - (Optional) set to true to include a timestamp at the end
      * @param {string} timezone - (Optional) the timezone string to append if {includeTimestamp} is true
      * @returns {string} - formatted string
      */
-    formatUpdatedDate(jsDate:Date, includeTimestamp?:boolean, timezone?:string): string {
+    static formatUpdatedDate(jsDate:any, includeTimestamp?:boolean, timezone?:string): string {
       var date = moment(jsDate);
       var str = date.format('dddd, MMMM Do, YYYY');
       if ( includeTimestamp ) {

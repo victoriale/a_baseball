@@ -13,8 +13,8 @@ declare var moment: any;
 
 interface PlayerProfileHeaderData {
   description: string;
+  profileImage: string;
   info: {
-    profileImage: string; //NEED
     backgroundImage: string; //NEED
 
     teamId: number;
@@ -27,7 +27,7 @@ interface PlayerProfileHeaderData {
     active: string;
     uniformNumber: number;
     position: Array<string>;
-    depth: string; // 'starter'
+    depth: string;
     height: string;
     weight: number;
     birthDate: string;
@@ -36,7 +36,7 @@ interface PlayerProfileHeaderData {
     country: string;
     heightInInches: number;
     age: number;
-    salary: string; // or number??
+    salary: number;
     personKey: number;
     pub1PlayerId: number;
     pub1TeamId: number;
@@ -89,8 +89,8 @@ interface TeamProfileData {
 
 interface TeamProfileHeaderData {
     description: string;
+    profileImage: string;
     stats: {
-      profileImage: string; //NEED
       backgroundImage: string; //NEED
       city: string; //NEED
       state: string; //NEED
@@ -131,7 +131,7 @@ interface TeamProfileHeaderData {
 
 interface LeagueProfileHeaderData {
   lastUpdated: Date; //NEED
-  leagueName: string; //NEED
+  // leagueName: string; //NEED
   city: string; //NEED
   state: string; //NEED
   foundedIn: string;  //NEED // year in [YYYY]
@@ -174,13 +174,13 @@ export class ProfileHeaderService {
           }
           return {
             pageParams: {
-              teamId: data.data.stats.teamId,            
-              teamName: data.data.stats.teamName,
+              teamId: headerData.stats.teamId,            
+              teamName: headerData.stats.teamName,
               division: Division[divKey],
               conference: Conference[confKey],
             },
-            fullBackgroundImageUrl: GlobalSettings.getImageUrl(data.stats.backgroundImage),
-            fullProfileImageUrl: GlobalSettings.getImageUrl(data.stats.profileImage),
+            fullBackgroundImageUrl: GlobalSettings.getImageUrl(headerData.stats.backgroundImage),
+            fullProfileImageUrl: GlobalSettings.getImageUrl(headerData.profileImage),
             headerData: headerData
           };
         });
@@ -222,7 +222,7 @@ export class ProfileHeaderService {
     }
     
     data.info.backgroundImage = GlobalSettings.getImageUrl(data.info.backgroundImage);
-    data.info.profileImage = GlobalSettings.getImageUrl(data.info.profileImage);
+    data.profileImage = GlobalSettings.getImageUrl(data.profileImage);
     
     var description = data.description;
     var dataPoints: Array<DataItem>;
@@ -278,7 +278,7 @@ export class ProfileHeaderService {
     }
     var header: ProfileHeaderData = {
       profileName: data.info.playerName,
-      profileImageUrl: data.info.profileImage,
+      profileImageUrl: data.profileImage,
       backgroundImageUrl: data.info.backgroundImage,
       profileTitleFirstPart: data.info.playerFirstName,
       profileTitleLastPart: data.info.playerLastName,
@@ -323,8 +323,8 @@ export class ProfileHeaderService {
 
     var header: ProfileHeaderData = {
       profileName: stats.teamName,
-      profileImageUrl: stats.profileImage,
-      backgroundImageUrl: stats.backgroundImage,
+      profileImageUrl: data.fullProfileImageUrl,
+      backgroundImageUrl: data.fullBackgroundImageUrl,
       profileTitleFirstPart: firstPart,
       profileTitleLastPart: lastPart,
       lastUpdatedDate: stats.lastUpdated,

@@ -30,13 +30,7 @@ export class StandingsPage implements OnInit {
   
   public hasError: boolean = false;
   
-  public titleData: TitleInputData = {
-    imageURL: "/app/public/profile_placeholder.png",
-    text1: "Last Updated: [date]",
-    text2: "United States",
-    text3: "MLB Standings Breakdown",
-    icon: "fa fa-map-marker"
-  }
+  public titleData: TitleInputData;
   
   constructor(private _params: RouteParams,
               private _profileService: ProfileHeaderService,
@@ -44,7 +38,7 @@ export class StandingsPage implements OnInit {
               private _globalFunctions: GlobalFunctions, 
               private _mlbFunctions: MLBGlobalFunctions) {
     
-    var type = _params.get("type");;
+    var type = _params.get("type");
     if ( type !== null && type !== undefined ) {
       type = type.toLowerCase();
       this.pageParams.conference = Conference[type];
@@ -54,27 +48,51 @@ export class StandingsPage implements OnInit {
     if ( type == "team" && teamId !== null && teamId !== undefined ) {
       this.pageParams.teamId = Number(teamId);
     }
+    
   }
   
-  ngOnInit() {
+  ngOnInit() {    
+    var pageTitle = this._standingsService.getPageTitle(this.pageParams);
     if ( this.pageParams.teamId ) {      
       this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
         data => {
-          this.pageParams = data.pageParams;
-          this.setupStandingsData();
+          this.pageParams = data.pageParams; 
+          this.setupStandingsData(data.fullProfileImageUrl);
         },
         err => {
           console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
         }
       );
     }
-    this.setupStandingsData();
+    else {
+      this.setupStandingsData();      
+    }
+  }
+  
+  private setupTitleData(title: string, imageUrl?: string) {
+    this.titleData = {
+      imageURL: imageUrl,
+      text1: "Last Updated: [date]",
+      text2: "United States",
+      text3: title,
+      icon: "fa fa-map-marker"
+    };
   }
 
-  private setupStandingsData() {       
-    let self = this;
-    self._standingsService.loadAllTabs(this.pageParams)
-      .subscribe(data => { 
+  private setupStandingsData(imageURL?: string) {    
+    var title = this._standingsService.getPageTitle(this.pageParams);
+    this.setupTitleData(title, imageURL);
+    
+    this._standingsService.loadAllTabs(this.pageParams)
+      .subscribe(data => {        
+        //Getting the first 'lastUpdatedDate' listed in the StandingsData
+        if ( data && data.length > 0 && 
+          data[0].sections && data[0].sections.length > 0 &&
+          data[0].sections[0].tableData && data[0].sections[0].tableData.rows &&
+          data[0].sections[0].tableData.rows.length > 0 ) {
+            var lastUpdated = data[0].sections[0].tableData.rows[0].lastUpdated;
+            this.titleData.text1 = "Last Updated: " + GlobalFunctions.formatUpdatedDate(lastUpdated, false); 
+        }
         this.tabs = data;
       },
       err => {
