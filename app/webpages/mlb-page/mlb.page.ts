@@ -16,19 +16,21 @@ import {ProfileHeaderService} from '../../services/profile-header.service';
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
 
 import {ShareModuleInput} from '../../modules/share/share.module';
+import {HeadlineComponent} from '../../components/headline/headline.component';
 
 @Component({
     selector: 'MLB-page',
     templateUrl: './app/webpages/mlb-page/mlb.page.html',
     directives: [
+        HeadlineComponent,
         ProfileHeaderModule,
         StandingsModule,
-        CommentModule, 
-        DYKModule, 
-        FAQModule, 
+        CommentModule,
+        DYKModule,
+        FAQModule,
         LikeUs,
-        TwitterModule, 
-        ComparisonModule, 
+        TwitterModule,
+        ComparisonModule,
         ShareModule],
     providers: [StandingsService, ProfileHeaderService]
 })
@@ -48,11 +50,11 @@ export class MLBPage implements OnInit{
     private _standingsService: StandingsService,
     private _profileService: ProfileHeaderService) {
     }
-  
-  ngOnInit() {    
+
+  ngOnInit() {
     this.setupProfileData();
   }
-  
+
   private setupProfileData() {
     this._profileService.getMLBProfile().subscribe(
       data => {
@@ -65,7 +67,7 @@ export class MLBPage implements OnInit{
     );
   }
 
-  private setupStandingsData() {       
+  private setupStandingsData() {
     let self = this;
     self._standingsService.loadAllTabs(this.pageParams, 5) //only show 5 rows in the module
       .subscribe(data => {

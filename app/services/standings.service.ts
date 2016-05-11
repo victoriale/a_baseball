@@ -18,7 +18,7 @@ export class StandingsService {
   getLinkToPage(pageParams: MLBPageParameters): Array<any> {
     var pageName = "Standings-page";
     var pageValues = {};
-    
+
 
     if ( pageParams.teamId && pageParams.teamName ) {
       pageValues["teamId"] = pageParams.teamId;

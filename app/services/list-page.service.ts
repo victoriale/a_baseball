@@ -51,6 +51,7 @@ export class ListPageService {
     )
     .map(
       data => {
+        console.log(data);
         data.data['query'] = query;
         return {
           profHeader: this.profileHeader(data.data.listInfo),
@@ -118,7 +119,8 @@ export class ListPageService {
               '<p style="font-size:24px"><b>'+val.teamName+'</b></p>',
               '<p><i class="fa fa-map-marker text-master"></i> <b>'+val.teamVenue+'</b></p>',
               '<br>',
-              '<p style="font-size:20px">At a value of '+val.stat+ ' ' + carInfo.stat.replace(/-/g, ' ') +'</p>',
+              '<p style="font-size:24px"><b>'+val.stat+'</b></p>',
+              '<p style="font-size:20px"> '+ carInfo.stat.replace(/-/g, ' ') +'</p>',
             ],
             footerInfo: {
               infoDesc:'Interested in discovering more about this team?',
@@ -140,10 +142,12 @@ export class ListPageService {
               GlobalSettings.getImageUrl(val.teamLogo),
               MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
             description:[
-              '<p style="font-size:24px"><b>'+val.teamName+'</b></p>',
+              '<br>',
+              '<p style="font-size:24px"><b>'+playerFullName+'</b></p>',
               '<p><i class="fa fa-map-marker text-master"></i> <b>'+val.teamName+'</b></p>',
               '<br>',
-              '<p style="font-size:20px">At a value of '+val.stat+ ' ' + carInfo.stat.replace(/-/g, ' ') +'</p>',
+              '<p style="font-size:24px"><b>'+val.stat+'</b></p>',
+              '<p style="font-size:20px"> '+ carInfo.stat.replace(/-/g, ' ') +'</p>',
             ],
             footerInfo: {
               infoDesc:'Interested in discovering more about this player?',
@@ -246,6 +250,12 @@ export class ListPageService {
             imageClass: imageBorder,
         },
         subImages: [
+          {
+              imageUrl: '',
+              urlRouteArray: '',
+              hoverText: '',
+              imageClass: ''
+          },
           {
             text: "#"+rank,
             imageClass: "image-38-rank image-round-upper-left image-round-sub-text"

@@ -7,7 +7,7 @@ import {GlobalSettings} from '../global/global-settings';
 
 @Injectable()
 export class DraftHistoryService {
-  private _apiUrl: string = 'http://dev-homerunloyal-api.synapsys.us';
+  private _apiUrl: string = GlobalSettings.getApiUrl();
   // private _apiToken: string = 'BApA7KEfj';
   // private _headerName: string = 'X-SNT-TOKEN';
 
@@ -22,7 +22,7 @@ export class DraftHistoryService {
       return headers;
   }
 
-  getDraftHistoryService(year, type?){
+  getDraftHistoryService(year, teamId,type?){
   //Configure HTTP Headers
   var headers = this.setToken();
   //for MLB season starts and ends in the same year so return current season
@@ -41,7 +41,7 @@ export class DraftHistoryService {
     });
   }
 
-  var callURL = this._apiUrl + '/team/draftHistory/2791/'+year;
+  var callURL = this._apiUrl + '/team/draftHistory/'+teamId+'/'+year;
   // console.log(callURL);
 
   return this.http.get( callURL, {
@@ -212,6 +212,12 @@ export class DraftHistoryService {
             imageClass: imageBorder,
         },
         subImages: [
+          {
+              imageUrl: '',
+              urlRouteArray: '',
+              hoverText: "",
+              imageClass: ""
+          },
           {
             text: "#"+rank,
             imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
