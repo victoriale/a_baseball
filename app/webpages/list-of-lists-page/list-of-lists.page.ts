@@ -11,7 +11,6 @@ import {RouteParams} from 'angular2/router';
 import {LoadingComponent} from "../../components/loading/loading.component";
 import {ErrorComponent} from "../../components/error/error.component";
 import {PaginationFooter} from "../../components/pagination-footer/pagination-footer.component";
-import {ProfileHeaderData} from "../../modules/profile-header/profile-header.module";
 
 declare var moment:any;
 
