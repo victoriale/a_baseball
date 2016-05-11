@@ -95,7 +95,7 @@ export class MLBStandingsTabData implements TableTabData<TeamStandingsData> {
         imageClass: "image-150",
         mainImage: {
           imageClass: "border-10",
-          urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId),
+          urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId.toString()),
           imageUrl: item.fullImageUrl,
           hoverText: "<p>View</p><p>Profile</p>"
         },
@@ -264,7 +264,7 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
           mainImage: {
             imageUrl: item.fullImageUrl,
             imageClass: "border-1",
-            urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId),
+            urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId.toString()),
             hoverText: "<i class='fa fa-mail-forward'></i>",
           },
           subImages: []
@@ -281,7 +281,7 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
 
   getRouterLinkAt(item:TeamStandingsData, column:TableColumn):Array<any> {
     if ( column.key === "name" ) {
-      return MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId);
+      return MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId.toString());
     }
     else {
       return undefined;
