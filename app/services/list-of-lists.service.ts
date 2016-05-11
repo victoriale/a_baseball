@@ -95,8 +95,8 @@ export class ListOfListsService {
           ],
           footerInfo: {
             infoDesc:'Interested in discovering more about this player?',
-            text:'VIEW PROFILE',
-            url:['Team-page'],//NEED TO CHANGE
+            text:'View This List',
+            url:['Team-page',{teamName:'team-name-here', teamId: '2796'}],//NEED TO CHANGE
           }
         };
         carouselArray.push(Carousel);
@@ -196,11 +196,10 @@ export class ListOfListsService {
         },
         {
           text: "#"+rank,
-          imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
+          imageClass: "image-48-rank image-round-upper-left image-round-sub-text"
         }
       ],
     };
     return image;
   }
 }
-

@@ -3,7 +3,7 @@
 <section *ngIf="dataArray" class='page-container'>
   <div>{{ listData | json}}</div>
   <backtab-component></backtab-component>
-  <title-component [titleData]="profileHeaderData"></title-component>
+  <title-component [titleData]="titleData"></title-component>
   <div class="module-container list-page">
     <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray" [footerStyle]="footerStyle"></slider-carousel>
     <div *ngIf="displayData">

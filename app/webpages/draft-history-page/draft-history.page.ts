@@ -7,6 +7,7 @@ import {Tab} from '../../components/tabs/tab.component';
 import {TitleComponent, TitleInputData} from '../../components/title/title.component';
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {DraftHistoryService} from '../../services/draft-history.service';
+import {ListPageService} from '../../services/list-page.service';
 import {NoDataBox} from '../../components/error/data-box/data-box.component';
 import {ProfileHeaderService} from '../../services/profile-header.service';
 
@@ -60,7 +61,7 @@ export class DraftHistoryPage implements OnInit{
                 }else{
                   this.detailedDataArray = draftData.listData;
                 }
-                this.carouselDataArray = draftData.carData
+                this.carouselDataArray = draftData.carData;
               },
               err => {
                   console.log('Error: draftData API: ', err);
@@ -75,6 +76,11 @@ export class DraftHistoryPage implements OnInit{
     this.getDraftPage(currentTab);
   }
 
+  ngOnChanges(){
+    if(typeof this.errorData !='undefined' && this.detailedDataArray == false){
+      this.carouselDataArray = this.errorData;
+    }
+  }
 
   selectedTab(event){
     var firstTab = 'Current Season';
