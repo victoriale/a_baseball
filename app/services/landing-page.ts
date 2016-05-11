@@ -2,6 +2,7 @@ import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Rx';
 import {Http, Headers} from 'angular2/http';
 import {GlobalFunctions} from '../global/global-functions';
+import {GlobalSettings} from '../global/global-settings';
 
 @Injectable()
 export class LandingPageService {
@@ -33,7 +34,7 @@ export class LandingPageService {
     var leagueArray = [];
     var teamArray = [];
     var dummyImg = "./app/public/placeholder-location.jpg";
-    var dummyRoute = ['Disclaimer-page'];
+    var dummyRoute = ['Team-page', {teamName:'yankees', teamId: 2796}];
     for(var league in data){//get each of the league given by data
       var divisionArray = [];
       for(var division in data[league]){//get each division within league data
@@ -43,8 +44,8 @@ export class LandingPageService {
           val.imageData= {
             imageClass: "image-100",
             mainImage: {
-              imageUrl: dummyImg,//TODO
-              urlRouteArray: ['Disclaimer-page'],
+              imageUrl:  GlobalSettings.getImageUrl(val.teamLogo),//TODO
+              urlRouteArray: dummyRoute,
               hoverText: "<i style='font-size:30px;' class='fa fa-mail-forward'></i>",
               imageClass: "border-3"
             }

@@ -2,7 +2,7 @@ import {Component, OnInit, Injector} from 'angular2/core';
 import {RouteParams, Router, RouteData, RouteConfig, RouterOutlet, ROUTER_DIRECTIVES, LocationStrategy, RouterLink} from 'angular2/router';
 // import {ListPage} from "../webpages/list-page/list.page";
 // import {ListOfListsPage} from "../webpages/list-of-lists-page/list-of-lists.page";
-import {AboutUsPage} from "../webpages/aboutus-page/aboutus.page";
+import {AboutUsPage} from "../webpages/about-us-page/about-us.page";
 import {ComponentPage} from "../webpages/component-page/component.page";
 
 // import {ErrorPage} from "../webpages/error-page/error-page.page";
@@ -26,7 +26,7 @@ import {GlobalFunctions} from "../global/global-functions";
 @RouteConfig([
     {
         path: '/',
-        name: 'Aboutus-page',
+        name: 'About-us-page',
         component: AboutUsPage,
         useAsDefault: true
     }

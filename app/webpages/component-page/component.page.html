@@ -1,6 +1,10 @@
 <div class="page-container">
     <div class="component-compbar-container">
-      <news-module></news-module>
+      <team-roster-module></team-roster-module>
+    </div>
+
+    <div class="component-compbar-container">
+      <standings-module [data]="standingsData"></standings-module>
     </div>
 
     <div class="component-compbar-container">
@@ -16,15 +20,11 @@
     </div>
 
     <div class="component-compbar-container">
-      <team-roster-module></team-roster-module>
+      <news-module></news-module>
     </div>
 
     <div class="component-compbar-container">
       <schedules></schedules>
-    </div>
-
-    <div class="component-compbar-container">
-      <standings-module [data]="standingsData"></standings-module>
     </div>
 
     <div class="component-compbar-container">
@@ -35,6 +35,14 @@
 
     <div class="component-compbar-container">
       <profile-header [profileHeaderData]="teamProfileHeaderData"></profile-header>
+    </div>
+
+    <div class="component-compbar-container">
+      <list-of-list></list-of-list>
+    </div>
+
+    <div class="component-compbar-container">
+      <schedules></schedules>
     </div>
 
     <div class="component-compbar-container">

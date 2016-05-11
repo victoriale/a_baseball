@@ -2,8 +2,11 @@
 <header-component [partnerID]="partnerID"></header-component>
 <nav class="testLinks">
   <a [routerLink]="['Home-page']">Home</a>
+  <a [routerLink]="['Design-page',{teamId: 2796}]">Design Review</a>
   <a [routerLink]="['Component-page']">Components</a>
-  <a [routerLink]="['Team-page', {teamName:'yankees', teamId: 2796} ]">Yankees Team</a>
+  <a [routerLink]="['Team-page', {teamName:'Yankees', teamId: 2796} ]">Team #2796</a>
+  <a [routerLink]="['Draft-history-page', {teamName:'Yankees', teamId: 2796} ]">Draft History #2796</a>
+  <!-- <a [routerLink]="['List-page', {profile:'team', listname: '2796'} ]">Team #2796</a> -->
   <a [routerLink]="['Directory-page', { type: 'player', page: 1 }]">Directory</a>
   <a [routerLink]="['About-us-page']">About Us</a>
   <a [routerLink]="['Contact-us-page']">Contact Us</a>
@@ -13,9 +16,10 @@
   <a [routerLink]="['Tables-test-page']">Tables Page</a>
   <!--<a [routerLink]="['Module-page']">Article Headline Module</a>-->
   <a [routerLink]="['Articles-Page']">Article Page</a>
-  <a [routerLink]="['Team-roster-page', {teamName:'red-sox',teamId:2796}]">Team Roster</a>
+  <a [routerLink]="['Team-roster-page', {teamName:'orioles',teamId:2799}]">Team Roster</a>
   <a [routerLink]="['Standings-page']">Standings Page</a>
   <a [routerLink]="['MLB-page']">MLB Page</a>
+  <a [routerLink]="['List-of-lists-page']">List of Lists Page</a>
 </nav>
 <!--
     <a [routerLink]="['Player-page']">Player Page</a>
