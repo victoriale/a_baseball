@@ -49,6 +49,21 @@
         margin-left: 4px;
         display: inline-block;
       }
+      
+      a:hover {
+        color: @masterBrandColor;
+        text-decoration: none;
+        .image-round-hover {
+          div {
+            .flexDisplay;
+          }
+        }
+      }
+      
+      a:focus {
+        color: @masterBrandColor;
+        text-decoration: none;
+      }
     }
 
     &-data-column {
