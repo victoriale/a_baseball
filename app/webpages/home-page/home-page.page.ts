@@ -63,7 +63,7 @@ export class HomePage implements OnInit {
         {
           newsTitle: "Top Teams In The League Right Now",
           newsSubTitle: "See which MLB teams are performing at the top of their game",
-          routerInfo: ['Disclaimer-page']
+          routerInfo: ['Disclaimer-page']//TODO
         },
         {
           newsTitle: "Top Pitchers In The League Right Now",
@@ -121,51 +121,6 @@ export class HomePage implements OnInit {
       var sampleImage = "./app/public/placeholder-location.jpg";
       this.leagueHeading = "<b>AMERICAN LEAGUE</b> TEAMS<b>:</b>";
       this.homeFeatures = "<b>Features</b> to Note";
-      this.teamData =[
-        {
-          divisionName: "CENTRAL",
-          location: "CHICAGO",
-          teamName: "White Sox",
-          imageData: {
-            imageClass: "image-100",
-            mainImage: {
-              imageUrl: sampleImage,
-              urlRouteArray: ['Disclaimer-page'],
-              hoverText: "<i style='font-size:30px;' class='fa fa-mail-forward'></i>",
-              imageClass: "border-3"
-            }
-          }
-        },
-        {
-          divisionName: "EAST",
-          location: "ATLANTA",
-          teamName: "Braves",
-          imageData: {
-            imageClass: "image-100",
-            mainImage: {
-              imageUrl: sampleImage,
-              urlRouteArray: ['Disclaimer-page'],
-              hoverText: "<i style='font-size:30px;' class='fa fa-mail-forward'></i>",
-              imageClass: "border-3"
-            }
-          }
-        },
-        {
-          divisionName: "WEST",
-          location: "ARIZONA",
-          teamName: "Diamondbacks",
-          imageData: {
-            imageClass: "image-100",
-            mainImage: {
-              imageUrl: sampleImage,
-              urlRouteArray: ['Disclaimer-page'],
-              hoverText: "<i style='font-size:30px;' class='fa fa-mail-forward'></i>",
-              imageClass: "border-3"
-            }
-          }
-        }
-      ];
-
     }
     ngOnInit(){}
 }

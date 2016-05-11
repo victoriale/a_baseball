@@ -74,6 +74,17 @@
       margin: 0 0 1em 60px;
       color: @greyTabText;
     }
+    &-col{
+      border: solid transparent;
+      border-width: 0 1px 0 0;
+      -moz-border-image: -moz-linear-gradient(0deg, @white 0%, @greyVerLineBreak 46%, @white 100%);
+      -webkit-border-image: -webkit-linear-gradient(0deg, @white 0%, @greyVerLineBreak 46%, @white 100%);
+      border-image: linear-gradient(0deg, @white 0%, @greyVerLineBreak 46%, @white 100%);
+      border-image-slice: 1;
+      &:last-child{
+        border-right: 0;
+      }
+    }
   }//home-league ends
 
   &-team{
@@ -88,7 +99,8 @@
       margin-left: 15px;
       .globalDefaultFont(18px, 400);
       & > p {
-        line-height: 1em;
+        line-height: 0;
+        white-space: nowrap;
         .globalDefaultFont(24px, 900);
       }
     }//home-team-name ends

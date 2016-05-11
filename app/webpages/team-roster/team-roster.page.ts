@@ -58,6 +58,11 @@ export class TeamRosterPage implements OnInit{
     text3: "Team Roster",
     icon: "fa fa-map-marker"
   }
+    footerInfo = {
+      infoDesc: 'Interested in discovering more about this player?',
+      text: 'View Profile',
+      url: ['Disclaimer-page']
+  };
   //footer style for carousel footer
   footerStyle = {
     ctaBoxClass: "list-footer",

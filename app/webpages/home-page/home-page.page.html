@@ -21,7 +21,7 @@
           <h3><span [innerHTML]="league.displayName"></span></h3>
           <section class="row">
             <!-- ngFor here for Division -->
-            <div class="col-md-4" *ngFor="#division of league.dataArray">
+            <div class="col-md-4 home-league-col" *ngFor="#division of league.dataArray">
               <h4>{{division.displayName}}</h4>
               <!-- ngFor here to get all the teams in the same division -->
               <a [routerLink]="['Disclaimer-page']" class="home-team" *ngFor="#team of division.dataArray">

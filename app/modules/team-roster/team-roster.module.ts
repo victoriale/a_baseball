@@ -63,11 +63,7 @@ export class TeamRosterModule implements OnChanges{
     hasIcon: false,
     iconClass: ""
   };
-  public footerStyle = {
-    ctaBoxClass: "list-footer",
-    ctaBtnClass:"list-footer-btn",
-    hasIcon: true,
-  };
+
   public footerData: ModuleFooterData = {
     infoDesc: 'Want to see everybody involved in this list?',
     text: 'VIEW FULL ROSTER',

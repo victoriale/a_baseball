@@ -2,7 +2,7 @@
  * Created by Victoria on 4/19/2016.
  */
 import {Component, OnInit} from 'angular2/core';
-import {ModuleHeader} from "../../components/module-header/module-header.component";
+import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 
 @Component({
     selector: 'like-us-module',
@@ -11,8 +11,12 @@ import {ModuleHeader} from "../../components/module-header/module-header.compone
     directives: [ModuleHeader],
 })
 export class LikeUs implements OnInit{
-    module_title: string;
-    ngOnInit(){
+      moduleTitle: ModuleHeaderData = {
+        moduleTitle: "Like Home Run Loyal on Facebook",
+        hasIcon: false,
+        iconClass: ""
+      };
+      ngOnInit(){
         let FB = window['FB'];
 
         var script = document.createElement("script");
@@ -47,6 +51,5 @@ export class LikeUs implements OnInit{
           `
         }
         document.body.appendChild(script);
-        this.module_title = 'Like Home Run Loyal on Facebook';
     }
 }
