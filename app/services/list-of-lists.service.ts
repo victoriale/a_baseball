@@ -95,7 +95,7 @@ export class ListOfListsService {
           ],
           footerInfo: {
             infoDesc:'Interested in discovering more about this player?',
-            text:'VIEW PROFILE',
+            text:'View This List',
             url:['Team-page'],//NEED TO CHANGE
           }
         };
@@ -196,7 +196,7 @@ export class ListOfListsService {
         },
         {
           text: "#"+rank,
-          imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
+          imageClass: "image-48-rank image-round-upper-left image-round-sub-text"
         }
       ],
     };
