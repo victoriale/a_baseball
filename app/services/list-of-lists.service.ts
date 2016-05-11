@@ -86,7 +86,6 @@ export class ListOfListsService {
         //let itemInfo = val.listInfo[0];
         var Carousel = {
           index:'2',
-                          //imageData(imageClass, imageBorder,    mainImg,                            mainImgRoute, subImgClass?, subImg?, subRoute?, rank?){
           imageConfig: self.imageData("image-150","border-large", self._imageUrl + itemData.imageUrl, dummyRoute,"image-50-sub", MLBGlobalFunctions.formatTeamLogo(itemData.teamName),dummyRoute, itemInfo.listRank),
           description:[
             '<p class="font-12 fw-400 lh-12 titlecase"><i class="fa fa-circle"></i> Related List - ' + itemData.playerName + '</p>',
