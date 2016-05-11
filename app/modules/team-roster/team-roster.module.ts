@@ -1,5 +1,5 @@
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
-import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer.component';
+import {ModuleFooter} from '../../components/module-footer/module-footer.component';
 import {Component, OnInit, Input, DoCheck, OnChanges} from 'angular2/core';
 import {RouteParams} from "angular2/router";
 import {BackTabComponent} from '../../components/backtab/backtab.component';
@@ -48,6 +48,8 @@ export interface TableComponentData<T> {
 
 export class TeamRosterModule implements OnChanges{
   public selectedIndex;
+  footerData: Object;
+
   private selectedTabTitle: string;
   public tabs: Array<RosterTabData>;
   public data: RosterComponentData;
@@ -55,7 +57,11 @@ export class TeamRosterModule implements OnChanges{
     data: "This team is a National League team and has no designated hitters.",
     icon: "fa fa-calendar-o"
   }
-
+  public footerStyle = {
+    ctaBoxClass: "list-footer",
+    ctaBtnClass:"list-footer-btn",
+    hasIcon: true
+  };
   public carDataArray: Array<SliderCarouselInput> = [];
   public pageParams: MLBPageParameters = {}
   public headerInfo: ModuleHeaderData = {
@@ -64,34 +70,33 @@ export class TeamRosterModule implements OnChanges{
     iconClass: ""
   };
 
-  public footerData: ModuleFooterData = {
-    infoDesc: 'Want to see everybody involved in this list?',
-    text: 'VIEW FULL ROSTER',
-    url: ['Team-roster-page']
-  };
 
   constructor(private _params: RouteParams,
               private _rosterService: RosterService,
               private _globalFunctions: GlobalFunctions,
               private _mlbFunctions: MLBGlobalFunctions) {
-
+    this.footerData = {
+      infoDesc: 'Want to see everybody involved in this list?',
+      text: 'VIEW FULL ROSTER',
+      url: ['Team-roster-page',{teamName:'team-name-here', teamId: 2799}]
+    };
     var teamId = _params.get("teamId");
     var teamName = _params.get("teamName");
-    if ( teamId  && teamName ) {
-      this.pageParams.teamId = Number(teamId);
-      this.footerData.url = [
-        'Team-roster-page',
-        {
-          teamId: this.pageParams.teamId,
-          teamName: teamName
-        }
-      ];
-    }
-    else {
-      this.footerData.url = [
-        'Error-page'
-      ];
-    }
+    // if ( teamId  && teamName ) {
+    //   this.pageParams.teamId = Number(teamId);
+    //   this.footerData.url = [
+    //     'Team-roster-page',
+    //     {
+    //       teamId: this.pageParams.teamId,
+    //       teamName: teamName
+    //     }
+    //   ];
+    // }
+    // else {
+    //   this.footerData.url = [
+    //     'Error-page'
+    //   ];
+    // }
   }
 
   ngOnChanges() {
