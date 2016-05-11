@@ -5,7 +5,7 @@ import {Http} from 'angular2/http';
 import {DirectoryProfileItem, DirectoryItems} from '../modules/directory/directory.data';
 
 export enum DirectoryType {
-  none,  
+  none,
   team,
   player
 }
@@ -31,7 +31,7 @@ interface MLBTeamDirectoryData {
   league: string;
   division: string;
   city: string;
-  state: string; 
+  state: string;
   venue: string;
 }
 
@@ -39,25 +39,25 @@ interface MLBPlayerDirectoryData {
   playerName: string;
   playerId: string;
   teamName: string;
-  teamId: string;  
+  teamId: string;
   lastUpdated: Date;
   position: string;
   city: string;
-  state: string; 
+  state: string;
   rookieYear: string;
 }
 
 @Injectable()
 export class DirectoryService {
   private _apiUrl: string = 'http://api2.joyfulhome.com';
-  
+
   private _defaultTeamData: Array<MLBTeamDirectoryData> = [
     {
       teamName: "[Team name]",
       teamId: "[Team key]",
       lastUpdated: new Date(),
       league: "[League]",
-      division: "[Division]",      
+      division: "[Division]",
       city: "[City]",
       state: "[State]",
       venue: "[Venue]"
@@ -67,7 +67,7 @@ export class DirectoryService {
       teamId: "[Team key]",
       lastUpdated: new Date(),
       league: "[League]",
-      division: "[Division]",      
+      division: "[Division]",
       city: "[City]",
       state: "[State]",
       venue: "[Venue]"
@@ -77,7 +77,7 @@ export class DirectoryService {
       teamId: "[Team key]",
       lastUpdated: new Date(),
       league: "[League]",
-      division: "[Division]",      
+      division: "[Division]",
       city: "[City]",
       state: "[State]",
       venue: "[Venue]"
@@ -87,7 +87,7 @@ export class DirectoryService {
       teamId: "[Team key]",
       lastUpdated: new Date(),
       league: "[League]",
-      division: "[Division]",      
+      division: "[Division]",
       city: "[City]",
       state: "[State]",
       venue: "[Venue]"
@@ -97,13 +97,13 @@ export class DirectoryService {
       teamId: "[Team key]",
       lastUpdated: new Date(),
       league: "[League]",
-      division: "[Division]",      
+      division: "[Division]",
       city: "[City]",
       state: "[State]",
       venue: "[Venue]"
     }
   ];
-  
+
   private _defaultPlayerData: Array<MLBPlayerDirectoryData> = [
     {
       playerName: "[Player Name]",
@@ -114,7 +114,7 @@ export class DirectoryService {
       position: "[Position]",
       city: "[City]",
       state: "[State]",
-      rookieYear: "[Rookie Year]"      
+      rookieYear: "[Rookie Year]"
     },
     {
       playerName: "[Player Name]",
@@ -125,7 +125,7 @@ export class DirectoryService {
       position: "[Position]",
       city: "[City]",
       state: "[State]",
-      rookieYear: "[Rookie Year]"      
+      rookieYear: "[Rookie Year]"
     },
     {
       playerName: "[Player Name]",
@@ -136,7 +136,7 @@ export class DirectoryService {
       position: "[Position]",
       city: "[City]",
       state: "[State]",
-      rookieYear: "[Rookie Year]"      
+      rookieYear: "[Rookie Year]"
     },
     {
       playerName: "[Player Name]",
@@ -147,7 +147,7 @@ export class DirectoryService {
       position: "[Position]",
       city: "[City]",
       state: "[State]",
-      rookieYear: "[Rookie Year]"      
+      rookieYear: "[Rookie Year]"
     },
     {
       playerName: "[Player Name]",
@@ -158,17 +158,17 @@ export class DirectoryService {
       position: "[Position]",
       city: "[City]",
       state: "[State]",
-      rookieYear: "[Rookie Year]"      
+      rookieYear: "[Rookie Year]"
     }
   ];
 
   constructor(public http: Http){}
-  
-  getData(pageType: DirectoryType, searchParams: DirectorySearchParams): Observable<DirectoryItems> { 
+
+  getData(pageType: DirectoryType, searchParams: DirectorySearchParams): Observable<DirectoryItems> {
     switch ( pageType ) {
       case DirectoryType.player:
         return this.getPlayerData(searchParams);
-        
+
       case DirectoryType.team:
         return this.getTeamData(searchParams);
     }
@@ -193,34 +193,34 @@ export class DirectoryService {
           }
         });
   }
-  
-  getDefaultData(pageType: DirectoryType, searchParams: DirectorySearchParams): Observable<DirectoryItems> { 
+
+  getDefaultData(pageType: DirectoryType, searchParams: DirectorySearchParams): Observable<DirectoryItems> {
     switch ( pageType ) {
       case DirectoryType.player:
         return this.getDefaultPlayerData(searchParams);
-        
+
       case DirectoryType.team:
         return this.getDefaultTeamData(searchParams);
     }
     return null;
   }
-  
-  getDefaultPlayerData(searchParams: DirectorySearchParams): Observable<DirectoryItems> { 
+
+  getDefaultPlayerData(searchParams: DirectorySearchParams): Observable<DirectoryItems> {
     return Observable.of({
       totalItems: 10,
       items: this._defaultPlayerData.map(value => this.convertPlayerDataToDirectory(value))
     });
   }
-  
+
   getDefaultTeamData(searchParams: DirectorySearchParams): Observable<DirectoryItems> {
     return Observable.of({
       totalItems: 10,
       items: this._defaultTeamData.map(value => this.convertTeamDataToDirectory(value))
     });
   }
-  
-  
-  //"<a href=''>[Team Name]</a>  |  League:  [American or National]  |  Division: [Division]", 
+
+
+  //"<a href=''>[Team Name]</a>  |  League:  [American or National]  |  Division: [Division]",
   //"[City], [State]  <i class=\"fa fa-angle-right\"></i>  Stadium: [Stadium Name]"
   convertTeamDataToDirectory(data: MLBTeamDirectoryData): DirectoryProfileItem {
     return {
@@ -228,7 +228,7 @@ export class DirectoryService {
       mainDescription: [
         {
           page: "Team-page",
-          pageParams: { teamID: data.teamId },
+          pageParams: { teamName:data.teamName, teamID: data.teamId },
           text: data.teamName
         },
         {
@@ -244,9 +244,9 @@ export class DirectoryService {
       ]
     };
   }
-  
-  //"Last updated: [Day of the week], [Month] [Day], [YYYY]  |   [Timestamp]" + 
-  //"[Player Name]  |  [Associated Team]  |  Position:  [Position]" + 
+
+  //"Last updated: [Day of the week], [Month] [Day], [YYYY]  |   [Timestamp]" +
+  //"[Player Name]  |  [Associated Team]  |  Position:  [Position]" +
   //"[City], [State]    Rookie Year: {Rookie Year]"
   convertPlayerDataToDirectory(data: MLBPlayerDirectoryData): DirectoryProfileItem {
     return {

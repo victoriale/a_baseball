@@ -360,7 +360,7 @@ export class ListOfListModule{
         infoDesc:'Want to see more lists like the ones above?',
         btn:'',
         text:'VIEW MORE LISTS',
-        url:'',
+        url:['Error-page'],//TODO change to proper url
       }
     }
 

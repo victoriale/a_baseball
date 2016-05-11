@@ -108,7 +108,7 @@ export class DraftHistoryService {
           footerInfo: {
             infoDesc:'Interested in discovering more about this player?',
             text:'VIEW PROFILE',
-            url:MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId),//NEED TO CHANGE
+            url:MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId),
           }
         };
         carouselArray.push(Carousel);

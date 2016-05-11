@@ -30,7 +30,7 @@ export class DraftHistoryModule{
     this.footerData = {
       infoDesc: 'Want to see everybody involved in this list?',
       text: 'VIEW THE LIST',
-      url: ['Draft-history-page']
+      url: ['Draft-history-page',{teamName:'team-name-here', teamId:2796}]
     };
   }
 
