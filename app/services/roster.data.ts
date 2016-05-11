@@ -102,11 +102,6 @@ export class RosterTabData {
           '<p style="font-size: 14px; line-height: 1.4em;"><b style="font-weight:900;">'+ val.playerName+ '</b>, <b style="font-weight:900;">'+val.roleStatus+'</b> for the <b style="font-weight:900;">'+ val.teamName +'</b>,' + playerNum + playerHeight + playerWeight + playerSalary + '</p>',
           '<p style="font-size: 10px; padding-top:9px;">Last Updated On ' + val.lastUpdate + '</p>'
         ],
-        footerInfo: {
-        infoDesc: 'Interested in discovering more about this player?',
-        text: 'View Profile',
-        url: ['Disclaimer-page']
-      }
     };
     return Carousel;
   }

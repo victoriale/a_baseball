@@ -19,11 +19,13 @@ import {ArticlesModule} from "../../modules/articles/articles.module";
 import {ListOfListModule} from "../../modules/list-of-list/list-of-list.module";
 
 import {ShareModule, ShareModuleInput} from '../../modules/share/share.module';
+import {LikeUs} from "../../modules/likeus/likeus.module";
+import {CommentModule} from '../../modules/comment/comment.module';
 
 @Component({
     selector: 'Design-page',
     templateUrl: './app/webpages/design-page/design.page.html',
-    directives: [DraftHistoryModule, AboutUsModule, StandingsModule, ProfileHeaderModule, ArticlesModule, ListOfListModule, ShareModule],
+    directives: [DraftHistoryModule, AboutUsModule, StandingsModule, ProfileHeaderModule, ArticlesModule, ListOfListModule, ShareModule, LikeUs, CommentModule],
     providers: [StandingsService, ProfileHeaderService]
 })
 
