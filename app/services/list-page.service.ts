@@ -55,7 +55,8 @@ export class ListPageService {
         return {
           profHeader: this.profileHeader(data.data.listInfo),
           carData: this.carDataPage(data.data),
-          listData: this.detailedData(data.data)
+          listData: this.detailedData(data.data),
+          pagination: data.data.listInfo
         }
       },
       err => {
@@ -83,7 +84,7 @@ export class ListPageService {
     let self = this;
     var carouselArray = [];
     var dummyImg = "/app/public/no-image.png";
-    var dummyRoute = ['Disclaimer-page'];
+    var dummyRoute = ['Error-page'];
     var dummyRank = '##';
 
     var carData = data.listData;
@@ -91,7 +92,7 @@ export class ListPageService {
     if(carData.length == 0){
       var Carousel = {// dummy data if empty array is sent back
         index:'2',
-        imageConfig: self.imageData("image-150","border-large",dummyImg,'',"image-50-sub",dummyImg,'',1),
+        imageConfig: self.imageData("image-150","border-large",dummyImg,dummyRoute, 1,"image-50-sub"),
         description:[
           '<p style="font-size:20px"><b>Sorry, we currently do not have any data for this particular list</b><p>',
         ],
@@ -106,7 +107,6 @@ export class ListPageService {
         if(data.query.profile == 'team'){
           var Carousel = {
             index:index,
-            //imageData(imageClass, imageBorder, mainImg, mainImgRoute, rank, subImgClass?, subImg?, subRoute?)
             imageConfig: self.imageData(
               "image-150",
               "border-large",
@@ -116,7 +116,7 @@ export class ListPageService {
               'image-50-sub'),
             description:[
               '<p style="font-size:24px"><b>'+val.teamName+'</b></p>',
-              '<p><i class="fa fa-map-marker text-master"></i> <b>'+val.teamName+'</b></p>',
+              '<p><i class="fa fa-map-marker text-master"></i> <b>'+val.teamVenue+'</b></p>',
               '<br>',
               '<p style="font-size:20px">At a value of '+val.stat+ ' ' + carInfo.stat.replace(/-/g, ' ') +'</p>',
             ],
@@ -302,4 +302,6 @@ export class ListPageService {
     ];
     return details;
   }
+
+
 }
