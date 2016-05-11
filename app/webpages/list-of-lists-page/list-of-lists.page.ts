@@ -11,6 +11,9 @@ import {RouteParams} from 'angular2/router';
 import {LoadingComponent} from "../../components/loading/loading.component";
 import {ErrorComponent} from "../../components/error/error.component";
 import {PaginationFooter} from "../../components/pagination-footer/pagination-footer.component";
+import {ProfileHeaderData} from "../../modules/profile-header/profile-header.module";
+
+declare var moment:any;
 
 @Component({
     selector: 'list-of-lists-page',
@@ -36,8 +39,17 @@ export class ListOfListsPage implements OnInit{
         ctaBtnClass:"list-footer-btn",
         hasIcon: true,
     };
+    titleData: {};
 
     constructor(private lolService:ListOfListsService){
+        this.titleData = {
+            imageURL : 'http://prod-sports-images.synapsys.us/mlb/players/no-image.png',
+            text1 : 'Last Updated: ' + moment().format("dddd, MMMM DD, YYYY"),
+            text2 : ' United States',
+            text3 : 'Top lists - [Profile Name]',
+            icon: 'fa fa-map-marker',
+            hasHover: false
+        };
     }
 
     getListOfListsPage() {
