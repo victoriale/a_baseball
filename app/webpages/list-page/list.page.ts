@@ -9,11 +9,12 @@ import {RouteParams} from 'angular2/router';
 import {ListPageService} from '../../services/list-page.service';
 import {NoDataBox} from '../../components/error/data-box/data-box.component';
 import {ProfileHeaderService} from '../../services/profile-header.service';
+import {PaginationFooter} from '../../components/pagination-footer/pagination-footer.component';
 
 @Component({
     selector: 'list-page',
     templateUrl: './app/webpages/list-page/list.page.html',
-    directives: [BackTabComponent, TitleComponent, SliderCarousel, DetailedListItem,  ModuleFooter],
+    directives: [PaginationFooter, BackTabComponent, TitleComponent, SliderCarousel, DetailedListItem,  ModuleFooter],
     providers: [ListPageService, ProfileHeaderService],
     inputs:[]
 })
@@ -31,6 +32,7 @@ export class ListPage implements OnInit{
     ctaBtnClass:"list-footer-btn",
     hasIcon: true,
   };
+  paginationParameters:any;
   constructor(private listService:ListPageService, private profHeadService:ProfileHeaderService, private params: RouteParams){
 
   }
@@ -46,6 +48,7 @@ export class ListPage implements OnInit{
               }else{
                 this.detailedDataArray = list.listData;
               }
+              this.setPaginationParams(list.pagination);
               this.carouselDataArray = list.carData;
             },
             err => {
@@ -53,6 +56,42 @@ export class ListPage implements OnInit{
                 // this.isError = true;
             }
         );
+  }
+
+  //PAGINATION
+  //sets the total pages for particular lists to allow client to move from page to page without losing the sorting of the list
+  setPaginationParams(input) {
+      var info = input.listInfo;
+      var params = this.params.params;
+
+      var navigationParams = {
+        profile: params['profile'],
+        listname: params['listname'],
+        sort: params['sort'],
+        conference: params['conference'],
+        division: params['division'],
+        limit: params['limit'],
+      };
+
+      if(this.detailedDataArray == false){
+        this.paginationParameters = {
+          index: params['pageNum'],
+          max: input.pageCount,
+          paginationType: 'page',
+          navigationPage: 'Error-page',
+          navigationParams: navigationParams,
+          indexKey: 'pageNum'
+        };
+      }else{
+        this.paginationParameters = {
+          index: params['pageNum'],
+          max: input.pageCount,
+          paginationType: 'page',
+          navigationPage: 'List-page',
+          navigationParams: navigationParams,
+          indexKey: 'pageNum'
+        };
+      }
   }
 
   ngOnInit(){

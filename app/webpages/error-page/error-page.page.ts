@@ -10,7 +10,7 @@ import {WebApp} from '../../app-layout/app.layout';
 @Component({
     selector: 'Error-page',
     templateUrl: './app/webpages/error-page/error-page.page.html',
-    
+
     directives: [],
     providers: [],
 })
@@ -31,7 +31,7 @@ export class ErrorPage implements OnInit{
       this.pageLink = "http://www.joyfulhome.com";
     } else {
       this.pageLink = "http://www.myhousekit.com/" + this.partnerID;
-    }    
-    this.errorMessage = "<p>Oops! That page doesn't exist! Try looking for a location below or go to <a style='color: #44b224; text-decoration: inherit;' href='"+ this.pageLink +"'> our home page</a>!</p>";
+    }
+    this.errorMessage = "Oops! That page doesn't exist! Try Refreshing or go to <a class='text-master' href='/'"+ this.pageLink +"'> our home page</a>!";
   }
 }

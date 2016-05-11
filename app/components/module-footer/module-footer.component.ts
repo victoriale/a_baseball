@@ -25,7 +25,6 @@ export class ModuleFooter implements OnInit{
   @Input() footerStyle: FooterStyle;
 
     ngOnInit(){
-      console.log(this.footerData);
       if(typeof this.footerStyle == 'undefined'){
         this.footerStyle = {
           ctaBoxClass: '',
