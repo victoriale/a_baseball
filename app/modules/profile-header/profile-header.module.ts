@@ -73,6 +73,8 @@ export class ProfileHeaderModule implements OnChanges {
         this.contentTitle = "Quick info about " + data.profileName;
         this.profileTitle = data.profileTitleFirstPart + "<span class='text-heavy'> " + data.profileTitleLastPart + "</span>";
         this.displayDate = GlobalFunctions.formatUpdatedDate(data.lastUpdatedDate);
+        
+        data.description = "<div class=\"ph-content-desc-border\"></div>" + data.description;
       }
     }
 }

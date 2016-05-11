@@ -6,7 +6,22 @@ declare var moment: any;
 
 export class GlobalFunctions {
 
-    Suffix = function(i) {
+    /**
+     * Returns the approriate ordinal suffix for the given number
+     * 
+     * @example
+     * Suffix(1) => "st"
+     * 
+     * @example
+     * Suffix(10) => "th"
+     * 
+     * @example
+     * Suffix(23) => "rd"
+     * 
+     * @param {number} 
+     * @returns: string
+     */
+    static Suffix(i: number): string {
       var a = i % 10,
         b = i % 100;
         if (a == 1 && b != 11) {

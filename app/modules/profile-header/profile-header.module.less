@@ -68,21 +68,24 @@
     
     &-desc {
       .globalDefaultModFont(16px, 400, @white);
-      padding-left: 15px;
-      position: relative;
       margin-left: 16px;
-      
+    
       &-border {
         position: absolute;
-        top: 4px;
+        top: 6px;
         left: 2px;
-        height: 120px;
+        bottom: 4px;
         border: 1px solid @strokeGrey;
         content: '';
       }
       
       &-text .scrollable-item {
         height: 130px;
+      }
+      
+      &-text .scrollable-item-content {
+        position: relative;
+        padding-left: 15px;
       }
     }
   }

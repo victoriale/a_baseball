@@ -101,6 +101,7 @@ export class StandingsService {
   private setupTabData(standingsTab: MLBStandingsTabData, apiData: any, maxRows?: number): MLBStandingsTabData {
     //Array<TeamStandingsData>
     var sections: Array<MLBStandingsTableData> = [];
+    var totalRows = 0;
 
     if ( standingsTab.conference !== null && standingsTab.conference !== undefined &&
       standingsTab.division !== null && standingsTab.division !== undefined ) {
@@ -115,7 +116,15 @@ export class StandingsService {
       for ( var conferenceKey in apiData ) {
         for ( var divisionKey in apiData[conferenceKey] ) {
           var divData = conferenceKey && divisionKey ? apiData[conferenceKey][divisionKey] : [];
-          sections.push(this.setupTableData(Conference[conferenceKey], Division[divisionKey], divData, maxRows, true));
+          var table = this.setupTableData(Conference[conferenceKey], Division[divisionKey], divData, maxRows, true);
+          totalRows += table.tableData.rows.length;
+          if ( maxRows && totalRows > maxRows ) {
+            break; //don't add more divisions
+          }
+          sections.push(table);
+        }
+        if ( maxRows && totalRows > maxRows ) {
+          break; //don't add more conferences
         }
       }
     }
