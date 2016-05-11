@@ -43,7 +43,7 @@ export class TitleComponent{
         imageClass: "page-title-titleImage",
         mainImage: {
           imageUrl: "/app/public/mainLogo.png",
-          imageClass: "page-title-border2"
+          imageClass: "border-2"
         }
       };
       this.titleComp();

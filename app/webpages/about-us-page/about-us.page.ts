@@ -8,15 +8,31 @@ import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {TitleComponent} from '../../components/title/title.component';
 import {WidgetModule} from "../../modules/widget/widget.module";
 
-import {AboutUsService,AuBlockData,AboutUsModel} from '../../services/about-us.service';
+import {AboutUsService} from '../../services/about-us.service';
 import {GlobalFunctions} from '../../global/global-functions';
 import {WebApp} from '../../app-layout/app.layout';
 import {TitleInputData} from "../../components/title/title.component";
+import {CircleImage} from "../../components/images/circle-image";
+import {CircleImageData} from "../../components/images/image-data";
+
+export interface AuBlockData {
+  iconUrl?:string;
+  imageConfig?:CircleImageData;
+  titleText:string;
+  dataText:string;
+}
+
+export interface AboutUsModel {
+    blocks: Array<AuBlockData>;
+    headerTitle: string;
+    titleData: TitleInputData;
+    content: Array<string>;
+}
 
 @Component({
     selector: 'About-us-page',
     templateUrl: './app/webpages/about-us-page/about-us.page.html',
-    directives: [ BackTabComponent, TitleComponent, WidgetModule, ROUTER_DIRECTIVES],
+    directives: [CircleImage, BackTabComponent, TitleComponent, WidgetModule, ROUTER_DIRECTIVES],
     providers: [AboutUsService],
 })
 
