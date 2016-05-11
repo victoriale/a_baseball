@@ -68,7 +68,7 @@ export class TeamRosterModule implements OnChanges{
     ctaBtnClass:"list-footer-btn",
     hasIcon: true,
   };
-  public footerData: Object = {
+  public footerData: ModuleFooterData = {
     infoDesc: 'Want to see everybody involved in this list?',
     text: 'VIEW FULL ROSTER',
     url: ['Team-roster-page']
@@ -80,9 +80,21 @@ export class TeamRosterModule implements OnChanges{
               private _mlbFunctions: MLBGlobalFunctions) {
 
     var teamId = _params.get("teamId");
-    if ( teamId !== null && teamId !== undefined ) {
+    var teamName = _params.get("teamName");
+    if ( teamId  && teamName ) {
       this.pageParams.teamId = Number(teamId);
-      // this.pageParams.teamName = "??"
+      this.footerData.url = [
+        'Team-roster-page',
+        {
+          teamId: this.pageParams.teamId,
+          teamName: teamName
+        }
+      ];
+    }
+    else {
+      this.footerData.url = [
+        'Error-page'
+      ];
     }
   }
 
