@@ -4,14 +4,12 @@ import {Http} from 'angular2/http';
 import {MLBPageParameters} from '../global/global-interface';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
+import {GlobalSettings} from '../global/global-settings';
 import {PlayerStatsSeasonData, PlayerStatsData, MLBPlayerStatsTableData, MLBPlayerStatsTableModel} from './player-stats.data';
 import {StatsTableTabData} from '../components/player-stats/player-stats.component';
 
 @Injectable()
 export class PlayerStatsService {
-  private _apiUrl: string = 'http://dev-homerunloyal-api.synapsys.us/player-stats';
-// '[API]/standings/{ordering}/{conference}/{division}'
-
   constructor(public http: Http, private _globalFunctions: GlobalFunctions, private _mlbFunctions: MLBGlobalFunctions){}
   
   getLinkToPage(pageParams: MLBPageParameters): Array<any> {
@@ -35,23 +33,23 @@ export class PlayerStatsService {
   }
 
   private getData(pageParams: MLBPageParameters, standingsTab: MLBPlayerStatsTableData, maxRows?: number): Observable<MLBPlayerStatsTableData> {
-    // let url = this._apiUrl;
+    // let url = GlobalSettings.getApiUrl();
 
     // return this.http.get(url)
     //     .map(res => res.json())
     //     .map(data => this.setupTabData(standingsTab, data.data, maxRows));
     let data = [
       {
-        teamName: "Team Name",
-        teamId: null,
-        teamImageUrl: "none.jpg",
-        playerName: "Player Name",
-        playerId: null,
+        teamName: "Chicago Cubs",
+        teamId: 2790,
+        teamImageUrl: "/mlb/logos/team/MLB_Chicago_White_Sox_Logo.jpg",
+        playerName: "Willis Jones",
+        playerId: 1,
         playerImageUrl: "none.jpg",
         seasionId: "2016",
         lastUpdatedDate: new Date(),        
         //Batting Stats
-        battingAverage: 12,
+        battingAverage: .212,
         homeRuns: 13,
         runsBattedIn: 15,
         sluggingPercent: 16,
@@ -70,16 +68,16 @@ export class PlayerStatsService {
         saves: 3,        
       },
       {
-        teamName: "Team Name",
-        teamId: null,
-        teamImageUrl: "none.jpg",
-        playerName: "Player Name",
-        playerId: null,
-        playerImageUrl: "none.jpg",
+        teamName: "Chicago Cubs",
+        teamId: 2790,
+        teamImageUrl: "/mlb/logos/team/MLB_Chicago_White_Sox_Logo.jpg",
+        playerName: "Frank Bridge",
+        playerId: 2,
+        playerImageUrl: "/mlb/logos/team/MLB_Chicago_White_Sox_Logo.jpg",
         seasionId: "2016",
         lastUpdatedDate: new Date(),        
         //Batting Stats
-        battingAverage: 12,
+        battingAverage: .012,
         homeRuns: 13,
         runsBattedIn: 15,
         sluggingPercent: 16,
@@ -98,16 +96,16 @@ export class PlayerStatsService {
         saves: 3,        
       },
       {
-        teamName: "Team Name",
-        teamId: null,
-        teamImageUrl: "none.jpg",
-        playerName: "Player Name",
-        playerId: null,
-        playerImageUrl: "none.jpg",
+        teamName: "Chicago Cubs",
+        teamId: 2790,
+        teamImageUrl: "/mlb/logos/team/MLB_Chicago_White_Sox_Logo.jpg",
+        playerName: "Josef Myslivecek",
+        playerId: 3,
+        playerImageUrl: "/mlb/logos/team/MLB_Chicago_White_Sox_Logo.jpg",
         seasionId: "2016",
         lastUpdatedDate: new Date(),        
         //Batting Stats
-        battingAverage: 12,
+        battingAverage: .500,
         homeRuns: 13,
         runsBattedIn: 15,
         sluggingPercent: 16,
@@ -144,10 +142,17 @@ export class PlayerStatsService {
 
   private setupTabData(pageParams: MLBPageParameters, standingsTab: MLBPlayerStatsTableData, data: Array<PlayerStatsSeasonData>, maxRows?: number): MLBPlayerStatsTableData {
     var tableName = pageParams.teamName + " " + standingsTab.tabTitle + " Stats";
-    var seasonIds: Array<string> = [];
+    var seasonIds: Array<{key: string, value: string}> = [];
+    var selectedSeasonId;
     var seasonData: { [seasonId: string]: MLBPlayerStatsTableModel } = {};
     data.forEach(value => {
-      seasonIds.push(value.seasonId);
+      seasonIds.push({
+        key: value.seasonId,
+        value: value.seasonId + " Season"
+      });
+      if ( !selectedSeasonId ) {
+        selectedSeasonId = value.seasonId;
+      }
       
       let table = new MLBPlayerStatsTableModel(tableName, value.rows, standingsTab.isPitcherTable);;
       seasonData[value.seasonId] = table;
@@ -159,7 +164,9 @@ export class PlayerStatsService {
       
       //Set display values    
       table.rows.forEach((value, index) => {
-        value.displayDate = this._globalFunctions.formatUpdatedDate(value.lastUpdatedDate, false);
+        value.displayDate = GlobalFunctions.formatUpdatedDate(value.lastUpdatedDate, false);
+        value.fullPlayerImageUrl = GlobalSettings.getImageUrl(value.playerImageUrl);
+        value.fullTeamImageUrl = GlobalSettings.getImageUrl(value.teamImageUrl);
         if ( value.playerId === undefined || value.playerId === null ) {
           value.playerId = index;
         }
@@ -167,7 +174,7 @@ export class PlayerStatsService {
     });
     
     standingsTab.seasonIds = seasonIds;
-    standingsTab.selectedSeasonId = seasonIds && seasonIds.length > 0 ? seasonIds[0] : undefined;
+    standingsTab.selectedSeasonId = selectedSeasonId;
     standingsTab.tableData = seasonData;
     return standingsTab;
   }

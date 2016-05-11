@@ -2,6 +2,8 @@ import {TableModel, TableColumn} from '../components/custom-table/table-data.com
 import {CircleImageData} from '../components/images/image-data';
 import {StatsTableTabData} from '../components/player-stats/player-stats.component';
 import {SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
+// import {GlobalSettings} from '../global/global-settings';
+import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 
 export interface PlayerStatsData {
   teamName: string,
@@ -35,7 +37,11 @@ export interface PlayerStatsData {
   /**
    * - Formatted from the lastUpdatedDate
    */
-  displayDate?: string
+  displayDate?: string;
+  
+  fullPlayerImageUrl?: string;
+  
+  fullTeamImageUrl?: string;
 }
 
 export class PlayerStatsSeasonData {
@@ -50,7 +56,7 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
     [seasonId: string]: TableModel<PlayerStatsData>
   };
   
-  seasonIds: Array<string>;
+  seasonIds: Array<{key: string, value: string}>;
   
   glossary: Array<{key: string, value: string}>;
   
@@ -118,19 +124,14 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
         imageClass: "image-150",
         mainImage: {
           imageClass: "border-10",
-          urlRouteArray: ["Player-page", {
-            teamName: item.teamName,
-            firstName: "",
-            lastName: item.playerName, 
-            playerId: item.playerId 
-          }],
-          imageUrl: item.playerImageUrl,
+          urlRouteArray: MLBGlobalFunctions.formatPlayerRoute(item.teamName, item.playerName, item.playerId.toString()),
+          imageUrl: item.fullPlayerImageUrl,
           hoverText: "<p>View</p><p>Profile</p>"
         },
         subImages: [{
           imageClass: "image-50-sub image-round-lower-right",
-          urlRouteArray: ["Team-page", { teamID: item.teamId }],
-          imageUrl: item.teamImageUrl,
+          urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName, item.teamId.toString()),
+          imageUrl: item.fullTeamImageUrl,
           hoverText: "<i class='fa fa-mail-forward'></i>"
         }]
       }
@@ -336,31 +337,31 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
         break;
       
       case "hr": 
-        o = item.homeRuns;
+        o = Number(item.homeRuns);
         break;
       
       case "ba": 
-        o = item.battingAverage;
+        o = Number(item.battingAverage);
         break;
       
       case "rbi": 
-        o = item.runsBattedIn;
+        o = Number(item.runsBattedIn);
         break;
       
       case "h": 
-        o = item.hits;
+        o = Number(item.hits);
         break;
       
       case "bb": 
-        o = item.walks;
+        o = Number(item.walks);
         break;
       
       case "obp": 
-        o = item.onBasePercent;
+        o = Number(item.onBasePercent);
         break;
       
       case "slg": 
-        o = item.sluggingPercent;
+        o = Number(item.sluggingPercent);
         break;     
       
       //PITCHING
@@ -371,25 +372,25 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
         break;
       
       case "ip": 
-        o = item.inningsPitched;
+        o = Number(item.inningsPitched);
         break;
       
       case "so": 
-        o = item.strikeouts;
+        o = Number(item.strikeouts);
         break;
       
       case "era": 
-        o = item.earnedRunAverage;
+        o = Number(item.earnedRunAverage);
         break;
         
       //case "bb" : see above
       
       case "whip": 
-        o = item.whip;
+        o = Number(item.whip);
         break;
       
       case "sv": 
-        o = item.saves;
+        o = Number(item.saves);
         break;
     }    
     return o;
@@ -401,14 +402,9 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
       return {
           imageClass: "image-50",
           mainImage: {
-            imageUrl: item.playerImageUrl,
+            imageUrl: item.fullPlayerImageUrl,
             imageClass: "border-2",
-            urlRouteArray: ["Player-page", {
-              teamName: item.teamName,
-              firstName: "",
-              lastName: item.playerName, 
-              playerId: item.playerId 
-            }],
+            urlRouteArray: MLBGlobalFunctions.formatPlayerRoute(item.teamName, item.playerName, item.playerId.toString()),
             hoverText: "<i class='fa fa-mail-forward'></i>",
           },
           subImages: []
@@ -425,12 +421,7 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
   
   getRouterLinkAt(item:PlayerStatsData, column:TableColumn):Array<any> {
     if ( column.key === "name" ) {
-      return ["Player-page", {
-        teamName: item.teamName,
-        firstName: "",
-        lastName: item.playerName, 
-        playerId: item.playerId 
-      }];
+      return MLBGlobalFunctions.formatPlayerRoute(item.teamName, item.playerName, item.playerId.toString());
     }
     else {
       return undefined;

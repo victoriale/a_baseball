@@ -1,26 +1,33 @@
-<div *ngIf="tabs" class="standings">
+<div *ngIf="tabs" class="stats">
   <div class="stats-car">
     <slider-carousel *ngIf="carouselData" [carouselData]="carouselData" (indexNum)="indexNum($event)" [indexInput]="selectedIndex"></slider-carousel>
   </div>
   <tabs (tabSelected)="tabSelected($event)">
     <tab *ngFor="#tab of tabs" [tabTitle]="tab.tabTitle" [active]="tab.isActive">
-        <h4>
-          <span [innerHtml]="tab.tableData[tab.selectedSeasonId].tableName"></span>
-          <span>
-            Now Viewing: {{tab.selectedSeasonId}}
-          </span>
-        </h4>
+      
+      <div class="stats-table-title pane-content">
+        <p class="stats-season-dropdown">
+          Now Viewing:
+          <dropdown [list]="tab.seasonIds" [selectedKey]="tab.selectedSeasonId" (selectionChanged)="dropdownChanged($event)"></dropdown>
+        </p>
+        <h4 [innerHtml]="tab.tableData[tab.selectedSeasonId].tableName"></h4>
+      </div>
+      
+      <div class="pane-content">
         <custom-table [model]="tab.tableData[tab.selectedSeasonId]" (sortChanged)="updateCarousel($event)"></custom-table>
-        <div class="stats-glossary">
-          <h4 class="stats-glossary-title">Glossary</h4>
-          <div class="stats-glossary-box row">
-            <ul>
-              <li *ngFor="#term of tab.glossary" class="col-sm-4">
-                <b>{{term.key}}:</b> {{term.value}}
-              </li>
-            </ul>
-          </div>
+      </div>
+      
+      <div class="stats-glossary pane-content">
+        <h4 class="stats-glossary-title">Glossary</h4>
+        <div class="stats-glossary-box row">
+          <ul>
+            <li *ngFor="#term of tab.glossary" class="col-sm-4">
+              <b>{{term.key}}:</b> {{term.value}}
+            </li>
+          </ul>
         </div>
+      </div>
+      
     </tab>
   </tabs>
 </div>

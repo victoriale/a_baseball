@@ -108,8 +108,8 @@ import {DesignPage} from "../webpages/design-page/design.page";
         component: StandingsPage
     },
     {
-        path: '/player-stats',
-        name: 'PlayerStats-page',
+        path: '/player-stats/:teamId',
+        name: 'Player-stats-page',
         component: PlayerStatsPage
     },
     {

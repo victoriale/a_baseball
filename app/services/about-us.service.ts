@@ -18,13 +18,11 @@ export interface AboutUsInterface {
 }
 
 @Injectable()
-export class AboutUsService {
-  private _apiUrl: string = 'http://dev-homerunloyal-api.synapsys.us/landingPage';
-  
+export class AboutUsService {  
   constructor(public http: Http, private _globalFunctions: GlobalFunctions){}
 
   getData(partnerID: string): Observable<AboutUsModel> {
-    let url = this._apiUrl + '/aboutUs';
+    let url = GlobalSettings.getApiUrl() + '/aboutUs';
     return this.http.get(url)
         .map(res => res.json())
         .map(data => this.formatData(data.data, partnerID));

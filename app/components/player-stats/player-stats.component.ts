@@ -5,6 +5,7 @@ import {Tabs} from '../tabs/tabs.component';
 import {Tab} from '../tabs/tab.component';
 import {CustomTable} from '../custom-table/custom-table.component';
 import {TableModel, TableColumn, TableRow, TableCell} from '../custom-table/table-data.component';
+import {DropdownComponent} from '../../components/dropdown/dropdown.component';
 
 export interface StatsTableTabData<T> {
   tabTitle: string;
@@ -12,7 +13,7 @@ export interface StatsTableTabData<T> {
   tableData: {
     [seasonId: string]: TableModel<T>
   };    
-  seasonIds: Array<string>;
+  seasonIds: Array<{key: string, value: string}>;
   glossary: Array<{key: string, value: string}>;
   selectedSeasonId: string;
   convertToCarouselItem(item:T, index:number):SliderCarouselInput
@@ -21,7 +22,7 @@ export interface StatsTableTabData<T> {
 @Component({
   selector: "player-stats-component",
   templateUrl: "./app/components/player-stats/player-stats.component.html",
-  directives: [SliderCarousel, Tabs, Tab, CustomTable],
+  directives: [SliderCarousel, Tabs, Tab, CustomTable, DropdownComponent],
 })
 export class PlayerStatsComponent implements OnChanges {  
   public selectedIndex;
@@ -37,7 +38,15 @@ export class PlayerStatsComponent implements OnChanges {
   ngOnChanges() {
     if ( this.tabs != undefined && this.tabs.length > 0 ) {
       this.tabSelected(this.tabs[0].tabTitle);
-      this.updateCarousel();
+    }
+  }
+  
+  dropdownChanged($event) {
+    let matchingTabs = this.tabs.filter(value => value.tabTitle === this.selectedTabTitle);
+    if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) {
+      let selectedTab = matchingTabs[0];
+      selectedTab.selectedSeasonId = $event;
+      this.updateCarousel();        
     }
   }
   
@@ -61,7 +70,7 @@ export class PlayerStatsComponent implements OnChanges {
     let matchingTabs = this.tabs.filter(value => value.tabTitle === this.selectedTabTitle);
     if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) {  
       let selectedTab = matchingTabs[0];
-      let selectedTable = selectedTab[selectedTab.selectedSeasonId];
+      let selectedTable = selectedTab.tableData[selectedTab.selectedSeasonId];
       if ( selectedTable ) {
         selectedTable.setRowSelected(selectedIndex);
       }
@@ -73,11 +82,7 @@ export class PlayerStatsComponent implements OnChanges {
     if ( !selectedTab ) {
       return;
     }
-    
-    // if ( !selectedTab.selectedSeasonId && selectedTab.seasonIds && selectedTab.seasonIds.length > 0 ) {
-    //   selectedTab.selectedSeasonId = selectedTab.seasonIds[0];
-    // }
-    console.log("selected season id: " + selectedTab.selectedSeasonId);    
+       
     let selectedTable = selectedTab.tableData[selectedTab.selectedSeasonId];
     if ( !selectedTable ) {
       return;

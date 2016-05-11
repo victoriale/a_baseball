@@ -93,6 +93,7 @@
       
       .image-round {
         margin-right: 1em;
+        margin-left: 2px;
         display: inline-block;
       }
     }
@@ -103,21 +104,15 @@
     }
   }
   
-  &-body tr {    
-    border-left: 10px solid transparent;
-  }
-  
   /** row definitions **/
-  &-row {    
-    margin-left: 1em;
-    
+  &-row {
+    &-even, &-odd {      
+      border-left: 10px solid transparent;
+    }
+        
     &-even {
       background: @backgroundGrey;
     }
-    
-    // &-border {
-    //   width: 10px;      
-    // }
     
     &-selected,
     &-selected .custom-table-compact-bold-column,
@@ -125,10 +120,6 @@
       background-color: @lightMasterBrandColor;
       border-color: @masterBrandColor;
     }
-    
-    // &-selected &-border {
-    //   background-color: @masterBrandColor;
-    // }
   } 
   
   /** footer definitions **/

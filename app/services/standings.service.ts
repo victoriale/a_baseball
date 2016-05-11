@@ -10,9 +10,6 @@ import {GlobalSettings} from '../global/global-settings';
 
 @Injectable()
 export class StandingsService {
-  private _apiUrl: string = 'http://dev-homerunloyal-api.synapsys.us/standings';
-// '[API]/standings/{ordering}/{conference}/{division}'
-
   constructor(public http: Http, private _globalFunctions: GlobalFunctions, private _mlbFunctions: MLBGlobalFunctions){}
 
   getLinkToPage(pageParams: MLBPageParameters): Array<any> {
@@ -56,7 +53,7 @@ export class StandingsService {
   }
 
   private getData(standingsTab: MLBStandingsTabData, maxRows?: number): Observable<MLBStandingsTabData> {
-    let url = this._apiUrl;
+    let url = GlobalSettings.getApiUrl() + "/standings";
 
     if ( standingsTab.conference !== undefined ) {
       url += "/" + Conference[standingsTab.conference];

@@ -1,7 +1,5 @@
 .stats {
-  &-car {
-    height: 250px;
-    
+  &-car {    
     &-subhdr {
       .globalDefaultModFont(12px, 400, @white);
       margin-bottom: 16px;
@@ -22,12 +20,45 @@
     &-date {
       .globalDefaultModFont(10px, 400, @white);
     }
+    
+    .scc-details-desc {
+      padding-top: 20px;
+      height: 170px;
+    }
+  }
+  
+  .pane {
+    padding-right: 0px;
+    padding-left: 0px;
+    
+    &-content {
+      padding: 0 15px;
+    }
+  }
+  
+  &-table-title {
+    h4 {
+      margin: 0px;
+      .globalDefaultFont(18px, 400);
+    }
+    margin-bottom: 20px;
+  }
+  
+  &-season-dropdown {
+    margin: 0px;
+    float: right;
+    .globalDefaultFont(12px, 400);
+    
+    .dropdown {
+      margin-left: 10px;
+    }
   }
   
   &-glossary {
     border-top: 1px solid @strokeGrey;
       
     &-title {
+      margin: 10px 0;
       .globalDefaultFont(16px, 700);
     }
     
@@ -35,6 +66,11 @@
       background-color: @backgroundGrey;
       border-top: 1px solid @strokeGrey;
       padding: 15px;
+      .globalDefaultFont(12px, 400);
+      
+      li {
+        line-height: 15px;
+      }
     }
   }
 }
