@@ -58,16 +58,16 @@ export class TeamRosterPage implements OnInit{
     text3: "Team Roster",
     icon: "fa fa-map-marker"
   }
-    footerInfo = {
+  public footerData = {
       infoDesc: 'Interested in discovering more about this player?',
       text: 'View Profile',
       url: ['Disclaimer-page']
   };
   //footer style for carousel footer
-  footerStyle = {
+  public footerStyle = {
     ctaBoxClass: "list-footer",
     ctaBtnClass:"list-footer-btn",
-    hasIcon: true,
+    hasIcon: true
   };
 
   public tabs: Array<RosterTabData>;
