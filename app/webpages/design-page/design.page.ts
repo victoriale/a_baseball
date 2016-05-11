@@ -43,7 +43,7 @@ export class DesignPage implements OnInit {
     private _profileService: ProfileHeaderService,
     private _globalFunctions: GlobalFunctions,
     private _mlbFunctions: MLBGlobalFunctions) {
-      
+
     if ( this.pageParams === undefined || this.pageParams === null ) {
       this.pageParams = {
         division: Division.east,

@@ -96,7 +96,7 @@ export class ListOfListsService {
           footerInfo: {
             infoDesc:'Interested in discovering more about this player?',
             text:'View This List',
-            url:['Team-page'],//NEED TO CHANGE
+            url:['Team-page',{teamName:'team-name-here', teamId: '2796'}],//NEED TO CHANGE
           }
         };
         carouselArray.push(Carousel);
@@ -203,4 +203,3 @@ export class ListOfListsService {
     return image;
   }
 }
-
