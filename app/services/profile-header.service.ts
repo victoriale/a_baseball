@@ -258,7 +258,7 @@ export class ProfileHeaderService {
         {
           label: "Team",
           value: data.info.teamName,
-          routerLink: MLBGlobalFunctions.formatTeamRoute(data.info.teamName,data.info.teamId)
+          routerLink: MLBGlobalFunctions.formatTeamRoute(data.info.teamName,data.info.teamId.toString())
         },
         {
           label: "Jersey Number",

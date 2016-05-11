@@ -18,24 +18,16 @@ export class StandingsService {
   getLinkToPage(pageParams: MLBPageParameters): Array<any> {
     var pageName = "Standings-page";
     var pageValues = {};
-    if ( pageParams.conference != null ) {
-      pageValues["conference"] = Conference[pageParams.conference];
+    
 
-      if ( pageParams.division != null ) {
-        pageValues["division"] = Conference[pageParams.division];
-
-        if ( pageParams.teamId != null ) {
-          pageValues["teamId"] = pageParams.teamId;
-          pageValues["type"] = "Conference";
-          pageName += "";
-        }
-        else {
-          pageName += "-division";
-        }
-      }
-      else {
-        pageName += "-conference";
-      }
+    if ( pageParams.teamId && pageParams.teamName ) {
+      pageValues["teamId"] = pageParams.teamId;
+      pageValues["type"] = "team";
+      pageName += "-team";
+    }
+    else if ( pageParams.conference != null ) {
+      pageValues["type"] = Conference[pageParams.conference];
+      pageName += "-league";
     }
     return [pageName, pageValues];
   }
