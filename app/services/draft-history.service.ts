@@ -7,7 +7,7 @@ import {GlobalSettings} from '../global/global-settings';
 
 @Injectable()
 export class DraftHistoryService {
-  private _apiUrl: string = 'http://dev-homerunloyal-api.synapsys.us';
+  private _apiUrl: string = GlobalSettings.getApiUrl();
   // private _apiToken: string = 'BApA7KEfj';
   // private _headerName: string = 'X-SNT-TOKEN';
 
