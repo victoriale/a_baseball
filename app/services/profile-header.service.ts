@@ -186,7 +186,6 @@ export class ProfileHeaderService {
   }
 
   convertToPlayerProfileHeader(data: PlayerProfileHeaderData): ProfileHeaderData {
-    console.log(data);
     if (!data.info) {
       return null;
     }
