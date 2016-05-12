@@ -56,7 +56,7 @@ export class MLBGlobalFunctions {
 
     if(typeof teamName != 'undefined' && teamName != null && typeof playerFullName != 'undefined' && playerFullName != null){
       teamName = GlobalFunctions.toLowerKebab(teamName);
-      playerFullName = GlobalFunctions.toLowerKebab(teamName);
+      playerFullName = GlobalFunctions.toLowerKebab(playerFullName);
       playerRoute = ['Player-page',{teamName:teamName, fullName:playerFullName, playerId: playerId}];//NOTE: if Player-page is on the same level as the rest of the route-outlets
     }else{
       playerRoute = null;

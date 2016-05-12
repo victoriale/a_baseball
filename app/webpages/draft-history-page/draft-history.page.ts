@@ -53,7 +53,7 @@ export class DraftHistoryPage implements OnInit{
               // this.isError = true;
           }
       );
-      this.draftService.getDraftHistoryService(date, teamId)
+      this.draftService.getDraftHistoryService(date, teamId, 'page')
           .subscribe(
               draftData => {
                 if(typeof this.dataArray == 'undefined'){//makes sure it only runs once

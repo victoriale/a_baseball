@@ -1,4 +1,5 @@
 import {Component} from 'angular2/core';
+import {RouteParams} from 'angular2/router';
 import {DetailedListItem, DetailListInput} from '../../components/detailed-list-item/detailed-list-item.component';
 import {ModuleFooter} from '../../components/module-footer/module-footer.component';
 import {ModuleHeader} from '../../components/module-header/module-header.component';
@@ -26,16 +27,18 @@ export class DraftHistoryModule{
   carouselDataArray: any;
   footerData: Object;
   footerStyle: any;
-  constructor(private draftService:DraftHistoryService, private profHeadService:ProfileHeaderService){
+  teamId:number;
+  constructor(private draftService:DraftHistoryService, private profHeadService:ProfileHeaderService, public params: RouteParams){
+    this.teamId = Number(this.params.params['teamId']);
     this.footerData = {
       infoDesc: 'Want to see everybody involved in this list?',
       text: 'VIEW THE LIST',
-      url: ['Draft-history-page',{teamName:'team-name-here', teamId:2796}]
+      url: ['Draft-history-page',{teamName:this.params.params['teamName'], teamId:this.teamId}]
     };
   }
 
-  getDraftPage(date) {
-    this.profHeadService.getTeamProfile(2799)
+  getDraftPage(date, teamId) {
+    this.profHeadService.getTeamProfile(teamId)
     .subscribe(
         data => {
           var profHeader = this.profHeadService.convertTeamPageHeader(data);
@@ -50,7 +53,7 @@ export class DraftHistoryModule{
             // this.isError = true;
         }
     );
-      this.draftService.getDraftHistoryService(date, 'module')
+      this.draftService.getDraftHistoryService(date, teamId, 'module')
           .subscribe(
               draftData => {
                 if(typeof this.dataArray == 'undefined'){//makes sure it only runs once
@@ -73,7 +76,7 @@ export class DraftHistoryModule{
   ngOnInit(){
     //MLB starts and ends in same year so can use current year logic to grab all current season and back 4 years for tabs
     var currentTab = new Date().getFullYear();
-    this.getDraftPage(currentTab);
+    this.getDraftPage(currentTab, this.teamId);
   }
 
   //each time a tab is selected the carousel needs to change accordingly to the correct list being shown
@@ -82,6 +85,6 @@ export class DraftHistoryModule{
     if(event == firstTab){
       event = new Date().getFullYear();
     }
-    this.getDraftPage(event);
+    this.getDraftPage(event, this.teamId);
   }
 }
