@@ -1,4 +1,4 @@
-<div class="page-container">
+<div class="profile-container">
   <headline-component></headline-component>
   <profile-header *ngIf="profileHeaderData" [profileHeaderData]="profileHeaderData"></profile-header>
   <!-- daily update -->
@@ -6,8 +6,8 @@
 
 
   <headline-component></headline-component>
-  <!-- boxscores -->
-  <!-- schedule -->
+  <box-scores></box-scores>
+  <schedules></schedules>
   <standings-module *ngIf="standingsData" [data]="standingsData"></standings-module>
   <!-- teamroster -->
   <!-- playerstats -->

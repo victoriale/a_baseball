@@ -77,7 +77,6 @@ export class DraftHistoryService {
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
   //FOR THE PAGE
   carDraftHistory(data, type){
-    console.log(data);
     let self = this;
     var carouselArray = [];
     var dummyImg = "/app/public/no-image.png";
@@ -177,7 +176,7 @@ export class DraftHistoryService {
     if(typeof rank == 'undefined' || rank == 0){
       rank = 0;
     }
-    var image: CircleImageData = {//interface is found in image-data.ts
+    var image = {//interface is found in image-data.ts
         imageClass: imageClass,
         mainImage: {
             imageUrl: mainImg,

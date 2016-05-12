@@ -11,11 +11,13 @@ import {DraftHistoryService} from '../../services/draft-history.service';
 import {ListPageService} from '../../services/list-page.service';
 import {NoDataBox} from '../../components/error/data-box/data-box.component';
 import {ProfileHeaderService} from '../../services/profile-header.service';
+import {LoadingComponent} from "../../components/loading/loading.component";
+import {ErrorComponent} from "../../components/error/error.component";
 
 @Component({
     selector: 'draft-history-page',
     templateUrl: './app/webpages/draft-history-page/draft-history.page.html',
-    directives: [NoDataBox, BackTabComponent, TitleComponent, Tab, Tabs, SliderCarousel, DetailedListItem, ModuleFooter],
+    directives: [ErrorComponent, LoadingComponent, NoDataBox, BackTabComponent, TitleComponent, Tab, Tabs, SliderCarousel, DetailedListItem, ModuleFooter],
     providers: [DraftHistoryService, ProfileHeaderService],
     inputs:[]
 })
@@ -33,6 +35,7 @@ export class DraftHistoryPage implements OnInit{
     hasIcon: true,
   };
   teamId: number;
+  isError: boolean = false;
   constructor(public draftService:DraftHistoryService, public profHeadService:ProfileHeaderService, public params: RouteParams){
     this.teamId = Number(this.params.params['teamId']);
   }
@@ -49,6 +52,7 @@ export class DraftHistoryPage implements OnInit{
             }
           },
           err => {
+            this.isError= true;
               console.log('Error: draftData Profile Header API: ', err);
               // this.isError = true;
           }
@@ -67,6 +71,7 @@ export class DraftHistoryPage implements OnInit{
                 this.carouselDataArray = draftData.carData;
               },
               err => {
+                this.isError= true;
                   console.log('Error: draftData API: ', err);
                   // this.isError = true;
               }

@@ -26,14 +26,15 @@ import {HeadlineDataService} from "../global/global-ai-headline-module-service";
 import {ArticlePages} from "../webpages/articles/article-pages/article-pages.page";
 import {ErrorPage} from "../webpages/error-page/error-page.page";
 import {ListOfListsPage} from "../webpages/list-of-lists-page/list-of-lists.page";
-
+import {FooterComponent} from "../components/footer/footer.component";
+import {HeaderComponent} from "../components/header/header.component";
 
 import {DesignPage} from "../webpages/design-page/design.page";
 
 @Component({
     selector: 'my-app',
     templateUrl: './app/app-webpage/app.webpage.html',
-    directives: [TeamRosterPage, DraftHistoryPage, ListPage, HomePage, TeamPage, PlayerPage, DirectoryPage, AboutUsPage, ContactUsPage, DisclaimerPage, SearchPage, ComponentPage, ModulePage, RouterOutlet, ROUTER_DIRECTIVES],
+    directives: [HeaderComponent, FooterComponent, TeamRosterPage, DraftHistoryPage, ListPage, HomePage, TeamPage, PlayerPage, DirectoryPage, AboutUsPage, ContactUsPage, DisclaimerPage, SearchPage, ComponentPage, ModulePage, RouterOutlet, ROUTER_DIRECTIVES],
     providers: [ ROUTER_DIRECTIVES, ArticleDataService, HeadlineDataService],
 })
 

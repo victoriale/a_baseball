@@ -19,7 +19,7 @@ import {ProfileHeaderService} from '../../services/profile-header.service';
 })
 
 export class DraftHistoryModule{
-  moduleTitle: string = "Draft History - [Team Profile]"
+  modHeadData: Object;
   profileHeaderData: any;
   errorData: any;
   dataArray: any;//array of data for detailed list
@@ -35,6 +35,7 @@ export class DraftHistoryModule{
       text: 'VIEW THE LIST',
       url: ['Draft-history-page',{teamName:this.params.params['teamName'], teamId:this.teamId}]
     };
+
   }
 
   getDraftPage(date, teamId) {
@@ -43,6 +44,12 @@ export class DraftHistoryModule{
         data => {
           var profHeader = this.profHeadService.convertTeamPageHeader(data);
           this.profileHeaderData = profHeader.data;
+          console.log(data);
+          this.modHeadData = {
+              moduleTitle: "Draft History - "+ data.headerData.stats.teamName,
+              hasIcon: false,
+              iconClass: '',
+          }
           this.errorData = {
             data:profHeader.error,
             icon: "fa fa-area-chart"

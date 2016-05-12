@@ -10,10 +10,13 @@ import {CommentModule} from '../../modules/comment/comment.module';
 import {ShareModuleInput} from '../../modules/share/share.module';
 import {HeadlineComponent} from '../../components/headline/headline.component';
 
+import {SchedulesModule} from '../../modules/schedules/schedules.module';
+import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
+
 @Component({
     selector: 'Player-page',
     templateUrl: './app/webpages/player-page/player.page.html',
-    directives: [HeadlineComponent, CommentModule, DYKModule, FAQModule, LikeUs, TwitterModule, ComparisonModule, ShareModule],
+    directives: [SchedulesModule, BoxScoresModule, HeadlineComponent, CommentModule, DYKModule, FAQModule, LikeUs, TwitterModule, ComparisonModule, ShareModule],
     providers: [],
 })
 

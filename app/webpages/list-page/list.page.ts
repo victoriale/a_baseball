@@ -10,11 +10,13 @@ import {ListPageService} from '../../services/list-page.service';
 import {NoDataBox} from '../../components/error/data-box/data-box.component';
 import {ProfileHeaderService} from '../../services/profile-header.service';
 import {PaginationFooter} from '../../components/pagination-footer/pagination-footer.component';
+import {LoadingComponent} from "../../components/loading/loading.component";
+import {ErrorComponent} from "../../components/error/error.component";
 
 @Component({
     selector: 'list-page',
     templateUrl: './app/webpages/list-page/list.page.html',
-    directives: [PaginationFooter, BackTabComponent, TitleComponent, SliderCarousel, DetailedListItem,  ModuleFooter],
+    directives: [ErrorComponent, LoadingComponent,PaginationFooter, BackTabComponent, TitleComponent, SliderCarousel, DetailedListItem,  ModuleFooter],
     providers: [ListPageService, ProfileHeaderService],
     inputs:[]
 })
@@ -33,6 +35,7 @@ export class ListPage implements OnInit{
     hasIcon: true,
   };
   paginationParameters:any;
+  isError: boolean = false;
   constructor(private listService:ListPageService, private profHeadService:ProfileHeaderService, private params: RouteParams){
 
   }
@@ -52,6 +55,7 @@ export class ListPage implements OnInit{
               this.carouselDataArray = list.carData;
             },
             err => {
+              this.isError= true;
                 console.log('Error: list API: ', err);
                 // this.isError = true;
             }
