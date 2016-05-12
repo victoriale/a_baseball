@@ -54,12 +54,9 @@ export class TeamPage implements OnInit{
         private _standingsService: StandingsService,
         private _profileService: ProfileHeaderService) {
 
-        if ( !this.pageParams ) {
-            //TODO: get team id from URL parameters, other values will be found in profile data
-            this.pageParams = {
-                teamId: Number(_params.get("teamID"))
-            };
-        }
+        this.pageParams = {
+            teamId: Number(_params.get("teamId"))
+        };
     }
 
   ngOnInit() {

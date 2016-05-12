@@ -4,6 +4,7 @@ import {Http} from 'angular2/http';
 
 import {TitleInputData} from "../components/title/title.component";
 import {GlobalFunctions} from "../global/global-functions";
+import {GlobalSettings} from "../global/global-settings";
 import {MLBGlobalFunctions} from "../global/mlb-global-functions";
 import {AuBlockData, AboutUsModel} from "../webpages/about-us-page/about-us.page";
 
@@ -18,13 +19,11 @@ export interface AboutUsInterface {
 }
 
 @Injectable()
-export class AboutUsService {
-  private _apiUrl: string = 'http://dev-homerunloyal-api.synapsys.us/landingPage';
-  
+export class AboutUsService {  
   constructor(public http: Http, private _globalFunctions: GlobalFunctions){}
 
   getData(partnerID: string): Observable<AboutUsModel> {
-    let url = this._apiUrl + '/aboutUs';
+    let url = GlobalSettings.getApiUrl() + '/aboutUs';
     return this.http.get(url)
         .map(res => res.json())
         .map(data => this.formatData(data.data, partnerID));
