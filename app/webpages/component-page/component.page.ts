@@ -8,7 +8,7 @@ import {AboutUsModule} from '../../modules/about-us/about-us.module';
 import {NewsModule} from '../../modules/news/news.module';
 import {ShareButtonComponent} from '../../components/share-button/share-button.component';
 import {Search} from '../../components/search/search.component';
-import {ListOfListModule} from "../../modules/list-of-list/list-of-list.module";
+import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.module";
 import {SchedulesCarousel} from '../../components/carousels/schedules-carousel/schedules-carousel.component';
 import {Carousel} from '../../components/carousels/carousel.component';
 import {SliderCarousel} from '../../components/carousels/slider-carousel/slider-carousel.component';
@@ -39,7 +39,7 @@ import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
       TeamRosterModule,
       ComparisonModule,
       DraftHistoryModule,
-      ListOfListModule,
+      ListOfListsModule,
       SchedulesModule,
       SeasonStatsModule,
       Search,

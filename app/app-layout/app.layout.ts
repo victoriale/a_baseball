@@ -22,6 +22,6 @@ import {RouteParams, Router, RouteData, RouteConfig, RouterOutlet, ROUTER_DIRECT
 
 export class WebApp {
   constructor(private _params: RouteParams){
-    document.title = "HomeRunLoyal";
+    document.title = "Home Run Loyal";
   }
 }

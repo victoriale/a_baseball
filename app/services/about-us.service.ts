@@ -4,12 +4,8 @@ import {Http} from 'angular2/http';
 
 import {TitleInputData} from "../components/title/title.component";
 import {GlobalFunctions} from "../global/global-functions";
-
-export interface AuBlockData {
-  iconUrl:string;
-  titleText:string;
-  dataText:string;
-}
+import {MLBGlobalFunctions} from "../global/mlb-global-functions";
+import {AuBlockData, AboutUsModel} from "../webpages/about-us-page/about-us.page";
 
 export interface AboutUsInterface {
     teamProfilesCount: number;
@@ -19,13 +15,6 @@ export interface AboutUsInterface {
     worldChampYear: string;
     worldChampImageUrl: string;
     lastUpdatedDate: Date; //TODO-CJP: Needed in API
-}
-
-export interface AboutUsModel {
-    blocks: Array<AuBlockData>;
-    headerTitle: string;
-    titleData: TitleInputData;
-    content: Array<string>;
 }
 
 @Injectable()
@@ -52,7 +41,7 @@ export class AboutUsService {
       headerTitle: "What is " + pageName + "?",
       titleData: {
           imageURL : '/app/public/mainLogo.png',
-          text1: 'Last Updated: ' + this._globalFunctions.formatUpdatedDate(lastUpdatedDate),
+          text1: 'Last Updated: ' + GlobalFunctions.formatUpdatedDate(lastUpdatedDate),
           text2: 'United States',
           text3: "Want to learn more about " + pageName + "?",
           text4: '',
@@ -60,34 +49,43 @@ export class AboutUsService {
       },
       blocks: [
         {
-          iconUrl: '/app/public/aboutUs_logo1.png',
+          iconUrl: '/app/public/team_profile_image.png',
           titleText: 'MLB Team Profiles',
           dataText: teamProfiles
         },
         {
-          iconUrl: '/app/public/aboutUs_logo2.png',
+          iconUrl: '/app/public/division_image.png',
           titleText: 'MLB Divisions',
           dataText: this._globalFunctions.commaSeparateNumber(data.divisionsCount)
         },
         {
-          iconUrl: '/app/public/aboutUs_logo3.png',
+          iconUrl: '/app/public/player_profile_image.png',
           titleText: 'MLB Player Profiles',
           dataText: playerProfiles
         },
         {
-          iconUrl: data.worldChampImageUrl,
+          link: {
+            route: MLBGlobalFunctions.formatTeamRoute(data.worldChampName, "0"), //TODO-CJP: update when API is updated
+            imageConfig: {
+              imageClass: "image-51",
+              mainImage: {
+                imageUrl: data.worldChampImageUrl,
+                imageClass: "border-1"
+              }
+            },            
+          },
           titleText: data.worldChampYear + ' World Series Champions',
-          dataText: data.worldChampName
+          dataText: data.worldChampName,
         }
       ],
       content: [
         
         "We created Wichita, Kan. -based Home Run Loyal in [July, 2016] to connect baseball fans with insightful, well-informed and up-to-date content.",
          
-        "Here at Home Run Loyal, we have an appetite for digesting down big data in the world of baseball. " + 
-        "We create unique content so you can learn everything about your favorite team or player." +
-        "From rookie players and underachieving teams to veteran stars and perennial favorites, " + 
-        "Home Run Loyal produces content and statistical information for " + teamProfiles + " MLB teams and over " + playerProfiles + " player profiles."
+        "Here at Home Run Loyal, we have an appetite for digesting down big data in the world of baseball." + 
+        " We create unique content so you can learn everything about your favorite team or player." +
+        " From rookie players and underachieving teams to veteran stars and perennial favorites," + 
+        " Home Run Loyal produces content and statistical information for " + teamProfiles + " MLB teams and over " + playerProfiles + " player profiles."
       ]
     };
     

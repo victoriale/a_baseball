@@ -4,6 +4,7 @@ import {Http, Headers} from 'angular2/http';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
 import {GlobalSettings} from '../global/global-settings';
+import {CircleImageData} from '../components/images/image-data';
 
 @Injectable()
 export class DraftHistoryService {
@@ -11,7 +12,7 @@ export class DraftHistoryService {
   // private _apiToken: string = 'BApA7KEfj';
   // private _headerName: string = 'X-SNT-TOKEN';
 
-  constructor(public http: Http, public globalFunc: GlobalFunctions){
+  constructor(public http: Http){
 
   }
 
@@ -93,7 +94,6 @@ export class DraftHistoryService {
     }else{
       //if data is coming through then run through the transforming function for the module
       data.forEach(function(val, index){
-        console.log(val);
         var playerFullName = val.playerFirstName + " " + val.playerLastName;
         var Carousel = {
           index:index,
@@ -103,7 +103,7 @@ export class DraftHistoryService {
             '<p style="font-size:24px"><b>'+val.playerName+'</b></p>',
             '<p>Hometown: <b>'+val.draftTeamName+'</b></p>',
             '<br>',
-            '<p style="font-size:24px"><b>'+(index+1)+'<sup>'+self.globalFunc.Suffix(Number(index+1))+'</sup> Pick for Round '+val.selectionLevel+'</b></p>',
+            '<p style="font-size:24px"><b>'+(index+1)+'<sup>'+ GlobalFunctions.Suffix(Number(index+1))+'</sup> Pick for Round '+val.selectionLevel+'</b></p>',
             '<p>'+val.selectionOverall+' Overall</p>',
           ],
           footerInfo: {
@@ -147,7 +147,7 @@ export class DraftHistoryService {
             '<p style="font-size:24px"><b>'+val.playerName+'</b></p>',
             '<p>Hometown: <b>'+val.draftTeamName+'</b></p>',
             '<br>',
-            '<p style="font-size:24px"><b>'+(index+1)+'<sup>'+self.globalFunc.Suffix(Number(index+1))+'</sup>Pick for Round '+val.selectionLevel+'</b></p>',
+            '<p style="font-size:24px"><b>'+(index+1)+'<sup>'+GlobalFunctions.Suffix(Number(index+1))+'</sup>Pick for Round '+val.selectionLevel+'</b></p>',
             '<p>'+val.selectionOverall+' Overall</p>',
           ],
         };
@@ -176,7 +176,7 @@ export class DraftHistoryService {
     data.forEach(function(val, index){
       var playerFullName = val.playerFirstName + " " + val.playerLastName;
       var listData = {
-        dataPoints: self.detailsData(val.playerName,(index+1)+'<sup>'+self.globalFunc.Suffix(Number(index+1))+'</sup> Pick for Round '+val.selectionLevel,MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId),val.draftTeamName,(val.selectionOverall +' Overall'),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
+        dataPoints: self.detailsData(val.playerName,(index+1)+'<sup>'+GlobalFunctions.Suffix(Number(index+1))+'</sup> Pick for Round '+val.selectionLevel,MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId),val.draftTeamName,(val.selectionOverall +' Overall'),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
         imageConfig: self.imageData("image-121","border-2",
         GlobalSettings.getImageUrl(val.imageUrl),MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId),(index+1),"image-40-sub",GlobalSettings.getImageUrl(val.teamLogo),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
         hasCTA:true,
@@ -204,7 +204,7 @@ export class DraftHistoryService {
     if(typeof rank == 'undefined' || rank == 0){
       rank = 0;
     }
-    var image = {//interface is found in image-data.ts
+    var image: CircleImageData = {//interface is found in image-data.ts
         imageClass: imageClass,
         mainImage: {
             imageUrl: mainImg,
@@ -225,9 +225,8 @@ export class DraftHistoryService {
           }
         ],
     };
-    if(typeof subRoute != 'undefined'){
-      image['subImages'] = [];
-      image['subImages'] = [
+    if(typeof subRoute != 'undefined') {
+      image.subImages = [
           {
               imageUrl: subImg,
               urlRouteArray: subRoute,

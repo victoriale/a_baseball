@@ -3,7 +3,7 @@ import {CircleImage} from '../../components/images/circle-image';
 import {CircleImageData} from '../../components/images/image-data';
 import {ROUTER_DIRECTIVES} from "angular2/router";
 
-export interface IListOfListItem {
+export interface IListOfListsItem {
     url:          string;  // API url for list call
     name:         string;  // Display name of list
     type:         string;  // team/player/league
@@ -43,13 +43,13 @@ export interface IListOfListItem {
 }
 
 @Component({
-    selector: 'list-of-list-item',
-    templateUrl: './app/components/list-of-list-item/list-of-list-item.component.html',
+    selector: 'list-of-lists-item',
+    templateUrl: './app/components/list-of-lists-item/list-of-lists-item.component.html',
     directives: [CircleImage, ROUTER_DIRECTIVES],
     providers: [],
 })
 
-export class ListOfListItem implements OnInit{
+export class ListOfListsItem implements OnInit{
     // TODO setup interface for input
     @Input() item: any;
     ngOnChanges(){

@@ -17,7 +17,7 @@ export class AboutUsModule {
     public pageName: string;
     public moduleHeader: ModuleHeaderData;
     public headerText: string = "Disclaimer";
-    public logoUrl = '/app/public/homeRunLoyalLogo.png';
+    public logoUrl = '/app/public/Logo_Home-Run-Loyal-B.png';
     public buttonText = 'See The Full Disclaimer';
     public aboutUsData: Array<TileData>;
 
@@ -38,7 +38,7 @@ export class AboutUsModule {
     ngOnInit() {
       if(this.partnerID === null) {
           this.homePageLinkName = "www.homerunloyal.com"
-          this.pageName = "HomeRunLoyal";
+          this.pageName = "Home Run Loyal";
      } else {
           this.homePageLinkName = "www.myhomerun.com/" + this.partnerID;
           this.pageName = "My HomeRun";
