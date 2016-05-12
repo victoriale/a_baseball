@@ -69,18 +69,18 @@ export class TeamRosterModule implements OnChanges{
     hasIcon: false,
     iconClass: ""
   };
-
+  public teamId: string;
   constructor(private _params: RouteParams,
               private _rosterService: RosterService,
               private _globalFunctions: GlobalFunctions,
               private _mlbFunctions: MLBGlobalFunctions) {
+    this.teamId = _params.get("teamId");
+    var teamName = _params.get("teamName");
     this.footerData = {
       infoDesc: 'Want to see everybody involved in this list?',
       text: 'VIEW FULL ROSTER',
-      url: ['Team-roster-page',{teamName:'team-name-here', teamId: 2799}]
+      url: ['Team-roster-page',{teamName:'team-name-here', teamId: '2799'}]
     };
-    var teamId = _params.get("teamId");
-    var teamName = _params.get("teamName");
     // if ( teamId  && teamName ) {
     //   this.pageParams.teamId = Number(teamId);
     //   this.footerData.url = [
@@ -165,7 +165,7 @@ export class TeamRosterModule implements OnChanges{
   private setupRosterData() {
     let self = this;
     //set tab limit
-    self._rosterService.loadAllTabs('2799', 5)
+    self._rosterService.loadAllTabs(this.teamId, 5)
       .subscribe(data => {
         //set up tabs
         this.tabs = data;
