@@ -195,7 +195,6 @@ export class ProfileHeaderService {
   }
 
   convertTeamPageHeader(data: TeamProfileData) {
-    console.log(data);
     var description = data.headerData.description;
     var stats = data.headerData.stats;
 

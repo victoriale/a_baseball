@@ -25,6 +25,7 @@ import {HeadlineComponent} from '../../components/headline/headline.component';
     selector: 'Team-page',
     templateUrl: './app/webpages/team-page/team.page.html',
     directives: [
+        DraftHistoryModule,
         HeadlineComponent,
         ProfileHeaderModule,
         StandingsModule,
