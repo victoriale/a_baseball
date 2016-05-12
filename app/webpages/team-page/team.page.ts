@@ -13,6 +13,9 @@ import {DraftHistoryModule} from '../../modules/draft-history/draft-history.modu
 import {StandingsModule, StandingsModuleData} from '../../modules/standings/standings.module';
 import {StandingsService} from '../../services/standings.service';
 
+import {TeamRosterModule} from '../../modules/team-roster/team-roster.module';
+import {RosterService} from '../../services/roster.service';
+
 import {ProfileHeaderData, ProfileHeaderModule} from '../../modules/profile-header/profile-header.module';
 import {ProfileHeaderService} from '../../services/profile-header.service';
 
@@ -34,8 +37,9 @@ import {HeadlineComponent} from '../../components/headline/headline.component';
         LikeUs,
         TwitterModule,
         ComparisonModule,
-        ShareModule],
-    providers: [StandingsService, ProfileHeaderService]
+        ShareModule,
+        TeamRosterModule],
+    providers: [StandingsService, ProfileHeaderService, RosterService]
 })
 
 export class TeamPage implements OnInit{
