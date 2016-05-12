@@ -93,6 +93,7 @@ export class DraftHistoryService {
     }else{
       //if data is coming through then run through the transforming function for the module
       data.forEach(function(val, index){
+        console.log(val);
         var playerFullName = val.playerFirstName + " " + val.playerLastName;
         var Carousel = {
           index:index,
@@ -102,7 +103,7 @@ export class DraftHistoryService {
             '<p style="font-size:24px"><b>'+val.playerName+'</b></p>',
             '<p>Hometown: <b>'+val.draftTeamName+'</b></p>',
             '<br>',
-            '<p style="font-size:24px"><b>'+(index+1)+'<sup>'+self.globalFunc.Suffix(Number(index+1))+'</sup>Pick for Round '+val.selectionLevel+'</b></p>',
+            '<p style="font-size:24px"><b>'+(index+1)+'<sup>'+self.globalFunc.Suffix(Number(index+1))+'</sup> Pick for Round '+val.selectionLevel+'</b></p>',
             '<p>'+val.selectionOverall+' Overall</p>',
           ],
           footerInfo: {
@@ -175,7 +176,7 @@ export class DraftHistoryService {
     data.forEach(function(val, index){
       var playerFullName = val.playerFirstName + " " + val.playerLastName;
       var listData = {
-        dataPoints: self.detailsData(val.playerName,(val.selectionLevel+' Round'),MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId),val.draftTeamName,(val.selectionOverall +' Overall'),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
+        dataPoints: self.detailsData(val.playerName,(index+1)+'<sup>'+self.globalFunc.Suffix(Number(index+1))+'</sup> Pick for Round '+val.selectionLevel,MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId),val.draftTeamName,(val.selectionOverall +' Overall'),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
         imageConfig: self.imageData("image-121","border-2",
         GlobalSettings.getImageUrl(val.imageUrl),MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId),(index+1),"image-40-sub",GlobalSettings.getImageUrl(val.teamLogo),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
         hasCTA:true,
