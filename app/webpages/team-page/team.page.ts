@@ -8,10 +8,14 @@ import {TwitterModule} from "../../modules/twitter/twitter.module";
 import {ComparisonModule} from '../../modules/comparison/comparison.module';
 import {ShareModule} from '../../modules/share/share.module';
 import {CommentModule} from '../../modules/comment/comment.module';
+import {DraftHistoryModule} from '../../modules/draft-history/draft-history.module';
 
 import {StandingsModule, StandingsModuleData} from '../../modules/standings/standings.module';
 import {MLBStandingsTabData} from '../../services/standings.data';
 import {StandingsService} from '../../services/standings.service';
+
+import {TeamRosterModule} from '../../modules/team-roster/team-roster.module';
+import {RosterService} from '../../services/roster.service';
 
 import {ProfileHeaderData, ProfileHeaderModule} from '../../modules/profile-header/profile-header.module';
 import {ProfileHeaderService} from '../../services/profile-header.service';
@@ -19,21 +23,24 @@ import {ProfileHeaderService} from '../../services/profile-header.service';
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
 
 import {ShareModuleInput} from '../../modules/share/share.module';
+import {HeadlineComponent} from '../../components/headline/headline.component';
 
 @Component({
     selector: 'Team-page',
     templateUrl: './app/webpages/team-page/team.page.html',
     directives: [
+        HeadlineComponent,
         ProfileHeaderModule,
         StandingsModule,
-        CommentModule, 
-        DYKModule, 
-        FAQModule, 
+        CommentModule,
+        DYKModule,
+        FAQModule,
         LikeUs,
-        TwitterModule, 
-        ComparisonModule, 
-        ShareModule],
-    providers: [StandingsService, ProfileHeaderService]
+        TwitterModule,
+        ComparisonModule,
+        ShareModule,
+        TeamRosterModule],
+    providers: [StandingsService, ProfileHeaderService, RosterService]
 })
 
 export class TeamPage implements OnInit{
@@ -51,17 +58,17 @@ export class TeamPage implements OnInit{
         private _params: RouteParams,
         private _standingsService: StandingsService,
         private _profileService: ProfileHeaderService) {
-            
+
         this.pageParams = {
             teamId: Number(_params.get("teamId"))
         };
     }
-  
-  ngOnInit() {    
+
+  ngOnInit() {
     this.setupProfileData();
   }
-  
-  private setupProfileData() {
+
+private setupProfileData() {
     this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
       data => {
         this.pageParams = data.pageParams;
