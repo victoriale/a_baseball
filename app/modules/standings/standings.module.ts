@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, OnChanges} from 'angular2/core';
+import {Component, Input, OnInit, OnChanges, Output, EventEmitter} from 'angular2/core';
 
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer.component';
@@ -25,6 +25,8 @@ export interface StandingsModuleData {
 })
 export class StandingsModule implements OnChanges {
   @Input() data: StandingsModuleData;
+  
+  @Output("tabSelected") tabSelectedListener = new EventEmitter();
 
   public headerInfo: ModuleHeaderData = {
     moduleTitle: "Standings",
@@ -39,13 +41,16 @@ export class StandingsModule implements OnChanges {
   };
   
   ngOnChanges() {
-    if ( this.data === undefined || this.data === null ) {
+    if ( !this.data ) {
       this.headerInfo.moduleTitle = "Standings";
     }
     else {
       this.headerInfo.moduleTitle = this.data.moduleTitle;
-      this.footerInfo.url = this.data.pageRouterLink; //TODO
-    }
-    
+      this.footerInfo.url = this.data.pageRouterLink;
+    }    
+  }
+  
+  tabSelected(tab) {
+    this.tabSelectedListener.next(tab);
   }
 }

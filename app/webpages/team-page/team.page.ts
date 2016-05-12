@@ -11,8 +11,12 @@ import {CommentModule} from '../../modules/comment/comment.module';
 import {DraftHistoryModule} from '../../modules/draft-history/draft-history.module';
 import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
 import {StandingsModule, StandingsModuleData} from '../../modules/standings/standings.module';
+import {MLBStandingsTabData} from '../../services/standings.data';
 import {StandingsService} from '../../services/standings.service';
 import {SchedulesModule} from '../../modules/schedules/schedules.module';
+
+import {TeamRosterModule} from '../../modules/team-roster/team-roster.module';
+import {RosterService} from '../../services/roster.service';
 
 import {ProfileHeaderData, ProfileHeaderModule} from '../../modules/profile-header/profile-header.module';
 import {ProfileHeaderService} from '../../services/profile-header.service';
@@ -38,8 +42,9 @@ import {HeadlineComponent} from '../../components/headline/headline.component';
         LikeUs,
         TwitterModule,
         ComparisonModule,
-        ShareModule],
-    providers: [StandingsService, ProfileHeaderService]
+        ShareModule,
+        TeamRosterModule],
+    providers: [StandingsService, ProfileHeaderService, RosterService]
 })
 
 export class TeamPage implements OnInit{
@@ -67,40 +72,26 @@ export class TeamPage implements OnInit{
     this.setupProfileData();
   }
 
-  private setupProfileData() {
+private setupProfileData() {
     this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
       data => {
         this.pageParams = data.pageParams;
         this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data)
-        this.setupStandingsData();
+        this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
       },
       err => {
         console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
       }
     );
   }
-
-  private setupStandingsData() {
-    let self = this;
-    self._standingsService.loadAllTabs(this.pageParams, 5) //only show 5 rows in the module
-      .subscribe(data => {
-        if ( data ) {
-            data.forEach(tab => {
-                if ( !tab.sections ) return;
-
-                tab.sections.forEach(section => {
-                    section.tableData.selectedKey = this.pageParams.teamId;
-                });
-            });
-        }
-        this.standingsData = {
-            moduleTitle: self._standingsService.getModuleTitle(this.pageParams),
-            pageRouterLink: self._standingsService.getLinkToPage(this.pageParams),
-            tabs: data
-        };
-      },
-      err => {
-        console.log("Error getting standings data");
-      });
+  
+  private standingsTabSelected(tab: MLBStandingsTabData) {
+    if ( tab && (!tab.sections || tab.sections.length == 0) ) {
+      this._standingsService.getTabData(tab, this.pageParams, 5)//only show 5 rows in the module      
+        .subscribe(data => tab.sections = data,
+        err => {
+          console.log("Error getting standings data");
+        });
+    }
   }
 }

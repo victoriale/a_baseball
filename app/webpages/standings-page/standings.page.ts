@@ -9,7 +9,7 @@ import {ErrorComponent} from '../../components/error/error.component';
 
 import {ProfileHeaderService} from '../../services/profile-header.service';
 import {StandingsService} from '../../services/standings.service';
-import {MLBStandingsTabData} from '../../services/standings.data';
+import {MLBStandingsTabData,MLBStandingsTableData} from '../../services/standings.data';
 
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
 import {GlobalFunctions} from '../../global/global-functions';
@@ -57,7 +57,8 @@ export class StandingsPage implements OnInit {
       this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
         data => {
           this.pageParams = data.pageParams; 
-          this.setupStandingsData(data.fullProfileImageUrl);
+          this.setupTitleData(data.fullProfileImageUrl);          
+          this.tabs = this._standingsService.initializeAllTabs(this.pageParams);
         },
         err => {
           console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
@@ -65,11 +66,13 @@ export class StandingsPage implements OnInit {
       );
     }
     else {
-      this.setupStandingsData();      
+      this.setupTitleData();
+      this.tabs = this._standingsService.initializeAllTabs(this.pageParams);
     }
   }
   
-  private setupTitleData(title: string, imageUrl?: string) {
+  private setupTitleData(imageUrl?: string) {    
+    var title = this._standingsService.getPageTitle(this.pageParams);
     this.titleData = {
       imageURL: imageUrl,
       text1: "Last Updated: [date]",
@@ -78,26 +81,27 @@ export class StandingsPage implements OnInit {
       icon: "fa fa-map-marker"
     };
   }
-
-  private setupStandingsData(imageURL?: string) {    
-    var title = this._standingsService.getPageTitle(this.pageParams);
-    this.setupTitleData(title, imageURL);
-    
-    this._standingsService.loadAllTabs(this.pageParams)
-      .subscribe(data => {        
-        //Getting the first 'lastUpdatedDate' listed in the StandingsData
-        if ( data && data.length > 0 && 
-          data[0].sections && data[0].sections.length > 0 &&
-          data[0].sections[0].tableData && data[0].sections[0].tableData.rows &&
-          data[0].sections[0].tableData.rows.length > 0 ) {
-            var lastUpdated = data[0].sections[0].tableData.rows[0].lastUpdated;
-            this.titleData.text1 = "Last Updated: " + GlobalFunctions.formatUpdatedDate(lastUpdated, false); 
-        }
-        this.tabs = data;
-      },
-      err => {
-        console.log("Error getting standings data: " + err);
-        this.hasError = true;
-      });
+  
+  private standingsTabSelected(tab: MLBStandingsTabData) {
+    if ( tab && (!tab.sections || tab.sections.length == 0) ) {
+      this._standingsService.getTabData(tab, this.pageParams)      
+        .subscribe(data => {
+          this.getLastUpdatedDateForPage(data);
+          tab.sections = data          
+        },
+        err => {
+          console.log("Error getting standings data");
+        });
+    }
+  }
+  
+  private getLastUpdatedDateForPage(data: MLBStandingsTableData[]) {           
+      //Getting the first 'lastUpdatedDate' listed in the StandingsData
+      if ( data && data.length > 0 && 
+        data[0].tableData && data[0].tableData.rows &&
+        data[0].tableData.rows.length > 0 ) {
+          var lastUpdated = data[0].tableData.rows[0].lastUpdated;
+          this.titleData.text1 = "Last Updated: " + GlobalFunctions.formatUpdatedDate(lastUpdated, false); 
+      }
   }
 }

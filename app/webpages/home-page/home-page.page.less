@@ -97,6 +97,7 @@
     .flexAlignItems(center);
     &-name{
       margin-left: 15px;
+      padding-top:10px;
       .globalDefaultFont(18px, 400);
       & > p {
         line-height: 0;
@@ -120,8 +121,14 @@
         visibility: visible;
         -webkit-backface-visibility: visible;
       }
-    }
-  }//home-team end
+      .border-3 img{
+        box-shadow: 0 0 0 3px @white;
+      }
+      .image-round-hover div{
+        display: flex;
+      }
+    }//home-team hover ends
+  }//home-team ends
   &-slider{
     background-image: url('/app/public/homePage_hero2.png');
     color: @white;
@@ -195,6 +202,27 @@
       }
     }//home-features-tile1 ends
     &-tile2{
+      margin: 5px;
+      height: 250px;
+      width: 315px;
+      .backgroundSize(cover);
+      .backgroundPosition(center);
+      .flexDisplay;
+      .flexDirection(column);
+      .flexJustify(center);
+      h3{ margin: 0; }
+      &:hover{
+        box-shadow: inset 0 0 0 1000px rgba(188, 32, 39, 0.75);
+        h3{
+          display: none;
+        }
+        .tile-button{
+          display: block;
+        }
+      }//home-feature-tile2 hover ends
+    }//home-features-tile2 ends
+    &-tile-no-hover{
+      border-top: 5px solid @homeRunLoyalRed;
       background-color: @black;
       margin: 5px;
       height: 250px;
@@ -206,20 +234,11 @@
       .flexDisplay;
       .flexDirection(column);
       .flexJustify(center);
-      &:hover{
-        box-shadow: inset 0 0 0 1000px rgba(188, 32, 39, 0.75);
-        h3, h4{
-          display: none;
-        }
-        .tile-button{
-          display: block;
-        }
-      }//home-feature-tile2 hover ends
     }//home-features-tile2 ends
   }//home-features ends
 }//home ends
 .tile-button{
-  border: 2px solid @white;
+  border: 1px solid @white;
   border-radius: 3px;
   display: none;
   padding: 7px 10px;

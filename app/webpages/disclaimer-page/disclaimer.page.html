@@ -1,7 +1,7 @@
-<section class="page-container global-page">
+<section style="min-height: 950px;" class="page-container global-page">
     <backtab-component></backtab-component>
     <title-component [titleData]="titleData"></title-component>
     <div class="global-page-heading" [innerHtml]="disHeaderTitle"></div>
-    <hr class="global-page-hr" />
-    <div class="global-page-desc" *ngIf="disclaimer" [innerHTML]="disclaimer"></div>
+    <hr class="global-page-hr" style="margin-top: 4px; margin-bottom: 0; width: 640px;"/>
+    <div class="global-page-desc" style="padding: 0 15px;" *ngIf="disclaimer" [innerHTML]="disclaimer"></div>
 </section>
