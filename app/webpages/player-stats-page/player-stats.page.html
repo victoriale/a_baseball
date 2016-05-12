@@ -1,0 +1,7 @@
+<section class='page-container'>
+    <loading-component *ngIf="!tabs && !hasError"></loading-component>
+    <error-component *ngIf="hasError"></error-component>
+    <backtab-component></backtab-component>
+    <title-component *ngIf="titleData" [titleData]="titleData"></title-component>
+    <player-stats-component *ngIf="tabs" [tabs]="tabs"></player-stats-component>
+</section>

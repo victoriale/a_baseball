@@ -174,7 +174,7 @@ export class ProfileHeaderService {
           }
           return {
             pageParams: {
-              teamId: headerData.stats.teamId,            
+              teamId: headerData.stats.teamId,
               teamName: headerData.stats.teamName,
               division: Division[divKey],
               conference: Conference[confKey],
@@ -195,13 +195,14 @@ export class ProfileHeaderService {
   }
 
   convertTeamPageHeader(data: TeamProfileData) {
+    console.log(data);
     var description = data.headerData.description;
     var stats = data.headerData.stats;
 
     if (!stats) {
       return null;
-    }    
-    
+    }
+
     var headerData = {
       data:{
         imageURL: data.fullProfileImageUrl, //TODO
@@ -220,10 +221,10 @@ export class ProfileHeaderService {
     if (!data.info) {
       return null;
     }
-    
+
     data.info.backgroundImage = GlobalSettings.getImageUrl(data.info.backgroundImage);
     data.profileImage = GlobalSettings.getImageUrl(data.profileImage);
-    
+
     var description = data.description;
     var dataPoints: Array<DataItem>;
     var isPitcher = data.info.position.filter(value => value === "P").length > 0;
@@ -310,12 +311,12 @@ export class ProfileHeaderService {
 
     if (!stats) {
       return null;
-    }    
-    
+    }
+
     var teamName = stats.teamName ? stats.teamName : "N/A";
     var city = stats.city ? stats.city : "N/A";
     var state = stats.state ? stats.state : "N/A";
-    
+
     //TODO-CJP: get from API
     var lastSpaceIndex = teamName.lastIndexOf(" ");
     var firstPart = lastSpaceIndex >= 0 ? teamName.substring(0, lastSpaceIndex) : "";
@@ -373,7 +374,7 @@ export class ProfileHeaderService {
     //The MLB consists of [30] teams and [####] players. These teams and players are divided across [two] leagues and [six] divisions.
     var city = data.city != null ? data.city : "N/A";
     var state = data.state != null ? data.state : "N/A";
-    
+
     data.backgroundImage = GlobalSettings.getImageUrl(data.backgroundImage);
     data.profileImage = GlobalSettings.getImageUrl(data.profileImage);
 
