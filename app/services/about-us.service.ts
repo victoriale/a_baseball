@@ -39,6 +39,7 @@ export class AboutUsService {
     let teamProfiles = this._globalFunctions.commaSeparateNumber(data.teamProfilesCount);
     let playerProfiles = this._globalFunctions.commaSeparateNumber(data.playerProfilesCount);
     let fullName = data.worldChampFirstName + " " + data.worldChampLastName;
+    let championLink = MLBGlobalFunctions.formatTeamRoute(fullName, data.worldChampTeamId);
     let model: AboutUsModel = {
       headerTitle: "What is " + pageName + "?",
       titleData: {
@@ -67,12 +68,14 @@ export class AboutUsService {
         },
         {
           link: {
-            route: MLBGlobalFunctions.formatTeamRoute(fullName, data.worldChampTeamId),
+            route: championLink,
             imageConfig: {
               imageClass: "image-50",
               mainImage: {
-                imageUrl: data.worldChampImageUrl,
-                imageClass: "border-1"
+                imageUrl: GlobalSettings.getImageUrl(data.worldChampImageUrl),
+                imageClass: "border-1",
+                urlRouteArray: championLink,
+                hoverText: "<i class=\"fa fa-mail-forward\"></i>"
               }
             },            
           },
@@ -80,8 +83,8 @@ export class AboutUsService {
           dataText: data.worldChampFirstName,
         }
       ],
-      content: [
-        
+      //TODO-CJP: Update [July, 2016] to reflect actual creation date!
+      content: [        
         "We created Wichita, Kan. -based Home Run Loyal in [July, 2016] to connect baseball fans with insightful, well-informed and up-to-date content.",
          
         "Here at Home Run Loyal, we have an appetite for digesting down big data in the world of baseball." + 

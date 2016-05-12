@@ -13,7 +13,7 @@ declare var moment: any;
 
 interface PlayerProfileHeaderData {
   description: string;
-  profileImage: string;
+  fullProfileImage: string;
   info: {
     backgroundImage: string; //NEED
 
@@ -43,6 +43,7 @@ interface PlayerProfileHeaderData {
     pub2Id: number;
     pub2TeamId: number;
     lastUpdate: Date;
+    playerHeadshot: string;
   };
   stats: {
     //Pitcher stats
@@ -206,7 +207,6 @@ export class ProfileHeaderService {
   }
 
   convertTeamPageHeader(data: TeamProfileData) {
-    console.log(data);
     var description = data.headerData.description;
     var stats = data.headerData.stats;
 
@@ -234,7 +234,7 @@ export class ProfileHeaderService {
     }
 
     data.info.backgroundImage = GlobalSettings.getImageUrl(data.info.backgroundImage);
-    data.profileImage = GlobalSettings.getImageUrl(data.profileImage);
+    data.fullProfileImage = GlobalSettings.getImageUrl(data.info.playerHeadshot);
 
     var description = data.description;
     var dataPoints: Array<DataItem>;
@@ -290,7 +290,7 @@ export class ProfileHeaderService {
     }
     var header: ProfileHeaderData = {
       profileName: data.info.playerName,
-      profileImageUrl: data.profileImage,
+      profileImageUrl: data.fullProfileImage,
       backgroundImageUrl: data.info.backgroundImage,
       profileTitleFirstPart: data.info.playerFirstName,
       profileTitleLastPart: data.info.playerLastName,

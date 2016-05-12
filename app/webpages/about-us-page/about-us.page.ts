@@ -60,23 +60,13 @@ export class AboutUsPage {
     }
 
     constructor(private _router: Router, private _service: AboutUsService, private _globalFunctions: GlobalFunctions) {
-        this._router.root.subscribe(route => {
-          var routeValues = route.split('/');
-          this.partnerID = (routeValues[0] == '') ? null : routeValues[0];  
-
-
-          //TODO-CJP: change to getAboutUsData() when API is ready
-          this._service.getData(this.partnerID).subscribe(
-            data => this.setupAboutUsData(data),
-            err => { 
-              console.log("Error getting About Us data: " + err);
-              for ( var key in err ) {
-                console.log("  " + key + " => " + err[key]);
-              }
-            }
-          );
-        });//end of route subscribe
-        
+        this._service.getData(this.partnerID).subscribe(
+          data => this.setupAboutUsData(data),
+          err => { 
+            console.log("Error getting About Us data: " + err);
+          }
+        );
+      
         // Scroll page to top to fix routerLink bug
         window.scrollTo(0, 0);
     }
