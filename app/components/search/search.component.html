@@ -1,7 +1,7 @@
 <div *ngIf="searchInput" class="search-large">
     <div class="search-input-container">
         <input class="search-input autocomplete" disabled [value]="autoCompleteText" />
-        <input #mainInput class="search-input main" (keydown)="searchKeydown($event)" [ngFormControl]="term" placeholder="{{searchInput.placeholderText}}"/>
+        <input class="search-input main" (keydown)="searchKeydown($event)" [ngFormControl]="term" autocomplete="off" placeholder="{{searchInput.placeholderText}}"/>
     </div>
     <button class="search-button">
         <i class="fa fa-search"></i>

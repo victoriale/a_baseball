@@ -17,7 +17,7 @@ export interface SearchComponentData {
 }
 
 //Interface for input of search component
-interface SearchInput {
+export interface SearchInput {
     //Text that goes in as the placeholder for the input
     placeholderText: string;
     //Boolean to determine if the search dropdown should be displayed
@@ -105,6 +105,8 @@ export class Search{
                     this.suppressSearch(value);
                 }
             }
+            //Prevents unwanted cursor jumping when up and down arrows are selected
+            event.preventDefault();
         }else if(event.keyCode === 38){
             //Up Arrow Keystroke
             if(this.dropdownList.length > 0) {
@@ -125,11 +127,14 @@ export class Search{
                     this.suppressSearch(value);
                 }
             }
+            //Prevents unwanted cursor jumping when up and down arrows are selected
+            event.preventDefault();
         }else{
             //If other key is pressed unsuppress search
             this.isSuppressed = false;
             this.resetSelected();
         }
+
     }
 
     //Get value that is
@@ -161,8 +166,8 @@ export class Search{
 
     //Function to check if autocomplete text should be displayed or hidden
     compareAutoComplete(text: string){
-        //If dropdown suggestions exists
         if(this.dropdownList.length > 0){
+            //If dropdown suggestions exists, determine if autocomplete text should be shown
             let suggestionText = this.dropdownList[0].value;
             //Sanitize values to compare. This is to match different case values
             let tempCompare = suggestionText.toLowerCase();
@@ -175,8 +180,12 @@ export class Search{
                 let autoCompleteText = text + suggestionText.substring(text.length);
                 this.autoCompleteText = autoCompleteText;
             }else{
+                //Else remove autocomplete text
                 this.autoCompleteText = '';
             }
+        }else{
+            //Else remove autocomplete text
+            this.autoCompleteText = '';
         }
     }
 
@@ -191,6 +200,7 @@ export class Search{
             .filter(data => !self.isSuppressed)
             //Only continue stream if the input value has changed from the last iteration
             .distinctUntilChanged()
+            //Cancel any previous iterations if they have not completed their cycle. Also used to empty dropdown list if input is blank
             .switchMap((term: string) => term.length > 0 ? self._searchService.getSearchDropdownData(term) : Observable.of([]))
             .subscribe(data => {
                 self.resetSelected();
