@@ -8,6 +8,7 @@ import {TwitterModule} from "../../modules/twitter/twitter.module";
 import {ComparisonModule} from '../../modules/comparison/comparison.module';
 import {ShareModule} from '../../modules/share/share.module';
 import {CommentModule} from '../../modules/comment/comment.module';
+import {DraftHistoryModule} from '../../modules/draft-history/draft-history.module';
 
 import {StandingsModule, StandingsModuleData} from '../../modules/standings/standings.module';
 import {StandingsService} from '../../services/standings.service';
