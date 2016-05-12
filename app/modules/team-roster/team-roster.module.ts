@@ -47,9 +47,10 @@ export interface TableComponentData<T> {
 })
 
 export class TeamRosterModule implements OnChanges{
+  carDataCheck: boolean = true;
   public selectedIndex;
   footerData: Object;
-
+  public dataTable: boolean = true;
   private selectedTabTitle: string;
   public tabs: Array<RosterTabData>;
   public data: RosterComponentData;
@@ -160,6 +161,11 @@ export class TeamRosterModule implements OnChanges{
 
     this.selectedIndex = selectedIndex < 0 ? 0 : selectedIndex;
     this.carDataArray = carDataArray;
+    if(this.carDataArray.length < 1){
+      this.carDataCheck = false;
+    } else {
+      this.carDataCheck = true;
+    }
   }
 
   private setupRosterData() {
@@ -173,6 +179,9 @@ export class TeamRosterModule implements OnChanges{
         this.updateCarousel();
         var teamName = data[0].tableData.rows[0].teamName;
         this.headerInfo.moduleTitle = "Team Roster - " + teamName;
+        if(data[3].tableData.rows.length < 1){
+          this.dataTable = false;
+        }
       },
       err => {
         console.log("Error getting team roster data");

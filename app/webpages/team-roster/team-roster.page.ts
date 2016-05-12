@@ -49,6 +49,7 @@ export interface TableComponentData<T> {
 })
 
 export class TeamRosterPage implements OnInit{
+  public carDataCheck: boolean = true;
   public selectedIndex;
   public carDataArray: Array<SliderCarouselInput> = [];
   public data: RosterComponentData;
@@ -137,6 +138,11 @@ export class TeamRosterPage implements OnInit{
 
     this.selectedIndex = selectedIndex < 0 ? 0 : selectedIndex;
     this.carDataArray = carDataArray;
+    if(this.carDataArray.length < 1){
+      this.carDataCheck = false;
+    } else {
+      this.carDataCheck = true;
+    }
   }
   private setupTitleData(title: string, imageUrl?: string) {
     this.titleData = {

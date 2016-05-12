@@ -26,6 +26,8 @@ import {Division, Conference, MLBPageParameters} from '../../global/global-inter
 import {ShareModuleInput} from '../../modules/share/share.module';
 import {HeadlineComponent} from '../../components/headline/headline.component';
 
+import {NewsModule} from '../../modules/news/news.module';
+
 @Component({
     selector: 'Team-page',
     templateUrl: './app/webpages/team-page/team.page.html',
@@ -43,7 +45,8 @@ import {HeadlineComponent} from '../../components/headline/headline.component';
         TwitterModule,
         ComparisonModule,
         ShareModule,
-        TeamRosterModule],
+        TeamRosterModule,
+        NewsModule],
     providers: [StandingsService, ProfileHeaderService, RosterService]
 })
 
