@@ -5,9 +5,9 @@
 
 
   <headline-component></headline-component>
-  <!-- boxScores -->
-  <!-- schedule -->
-  <standings-module [data]="standingsData"></standings-module>
+  <box-scores></box-scores>
+  <schedules></schedules>
+  <standings-module [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
   <!-- draftHistory -->
   <!-- MVP <===????????????????????????????? -->
   <comparison-module></comparison-module>

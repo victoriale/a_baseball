@@ -1,4 +1,4 @@
-<div class="page-container">
+<div class="profile-container">
   <h2 style="border-bottom:3px solid #999;">Profile Header</h2>
   <div class="component-compbar-container">
     <profile-header [profileHeaderData]="teamProfileHeaderData"></profile-header>
@@ -21,7 +21,7 @@
 
   <h2 style="border-bottom:3px solid #999;">Standings Module</h2>
   <div class="component-compbar-container">
-    <standings-module [data]="standingsData"></standings-module>
+    <standings-module [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
   </div>
 
   <h2 style="border-bottom:3px solid #999;">Profile Header (player)</h2>
