@@ -97,7 +97,7 @@ export class RosterTabData {
         //TODO need to replace image data with actual image path when available
         imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.headShotUrl),playerRoute,"image-50-sub",GlobalSettings.getImageUrl(val.teamLogo),teamRoute,index+1),
         description:[
-          '<p><i class="fa fa-circle" style="color:#bc2027; font-size:12px; padding-right: 5px;"></i> ' + curYear + ' TEAM ROSTER</p>',
+          '<p style="font-size:12px;"><i class="fa fa-circle" style="color:#bc2027; padding-right: 5px;"></i> ' + curYear + ' TEAM ROSTER</p>',
           '<p style="font-size: 22px; font-weight: 900; padding:9px 0;">'+val.playerName+'</p>',
           '<p style="font-size: 14px; line-height: 1.4em;"><b style="font-weight:900;">'+ val.playerName+ '</b>, <b style="font-weight:900;">'+val.roleStatus+'</b> for the <b style="font-weight:900;">'+ val.teamName +'</b>,' + playerNum + playerHeight + playerWeight + playerSalary + '</p>',
           '<p style="font-size: 10px; padding-top:9px;">Last Updated On ' + val.lastUpdate + '</p>'
@@ -227,7 +227,7 @@ export class RosterTableModel {
         break;
 
       case "wt":
-        s = typeof item.weight == 'undefined' ? "-" : item.weight.toString();
+        s = typeof item.weight == 'undefined' ? "-" : item.weight.toString() + " lbs.";
         break;
 
       case "age":
@@ -235,7 +235,7 @@ export class RosterTableModel {
         break;
 
       case "sal":
-        s = item.salary == null ? "-" : self._globalFunctions.commaSeparateNumber(Number(item.salary));
+        s = item.salary == null ? "N/A" : "$" + self._globalFunctions.commaSeparateNumber(Number(item.salary));
         break;
     }
     return s;

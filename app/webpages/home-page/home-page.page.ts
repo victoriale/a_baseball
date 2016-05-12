@@ -45,7 +45,6 @@ export class HomePage implements OnInit {
     public homeFeaturesTile3: string = "MLB Scores";
     public homeFeaturesTile4: string = "MLB Schedules";
     public homeFeaturesButton1: string = "View MLB Standings";
-    public homeFeaturesButton2: string = "View All Lists";
     public homeFeaturesButton3: string = "View MLB Scores";
     public homeFeaturesButton4: string = "View MLB Schedules";
     public buttonFullList: string = "See The Full List";

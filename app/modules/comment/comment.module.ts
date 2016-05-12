@@ -13,9 +13,8 @@ declare var DISQUS: any;
     providers: [],
 })
 export class CommentModule implements OnInit{
-    module_title: string;
     public headerInfo: ModuleHeaderData = {
-      moduleTitle: "Share Your Comments With Us",
+      moduleTitle: "Comments",
       hasIcon: false,
       iconClass: ""
     };
