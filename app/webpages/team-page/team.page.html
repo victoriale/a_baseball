@@ -8,7 +8,7 @@
   <headline-component></headline-component>
   <!-- boxscores -->
   <!-- schedule -->
-  <standings-module *ngIf="standingsData" [data]="standingsData"></standings-module>
+  <standings-module *ngIf="standingsData" [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
   <!-- teamroster -->
   <team-roster-module></team-roster-module>
 

@@ -18,13 +18,10 @@
                  {{homePageLinkName}} will not be liable for any losses and/or damages in 
                  connection with the use of our website.</p>
             </div>
-            <div class="au-mod-desc-button">
-              <a [routerLink]="['Disclaimer-page']">
-                  <span></span>
-                  <span class="au-mod-desc-button-text">{{buttonText}}</span>
-                  <i class="fa fa-mail-forward"></i>
-              </a>
-            </div>
+            <a class="au-mod-desc-button" [routerLink]="['Disclaimer-page']">
+                <span class="au-mod-desc-button-text">{{buttonText}}</span>
+                <i class="fa fa-mail-forward"></i>
+            </a>
         </div>
     </div>
 </section>
