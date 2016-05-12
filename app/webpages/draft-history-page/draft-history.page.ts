@@ -32,12 +32,13 @@ export class DraftHistoryPage implements OnInit{
     ctaBtnClass:"list-footer-btn",
     hasIcon: true,
   };
+  teamId: number;
   constructor(public draftService:DraftHistoryService, public profHeadService:ProfileHeaderService, public params: RouteParams){
-
+    this.teamId = Number(this.params.params['teamId']);
   }
 
-  getDraftPage(date) {
-      this.profHeadService.getTeamPageHeader(Number(this.params.params['teamId']))
+  getDraftPage(date, teamId) {
+      this.profHeadService.getTeamProfile(teamId)
       .subscribe(
           data => {
             var profHeader = this.profHeadService.convertTeamPageHeader(data);
@@ -52,7 +53,7 @@ export class DraftHistoryPage implements OnInit{
               // this.isError = true;
           }
       );
-      this.draftService.getDraftHistoryService(date, Number(this.params.params['teamId']), 'page')
+      this.draftService.getDraftHistoryService(date, teamId)
           .subscribe(
               draftData => {
                 if(typeof this.dataArray == 'undefined'){//makes sure it only runs once
@@ -75,7 +76,7 @@ export class DraftHistoryPage implements OnInit{
   ngOnInit(){
     //MLB starts and ends in same year so can use current year logic to grab all current season and back 4 years for tabs
     var currentTab = new Date().getFullYear();
-    this.getDraftPage(currentTab);
+    this.getDraftPage(currentTab, this.teamId);
   }
 
   ngOnChanges(){
@@ -86,10 +87,11 @@ export class DraftHistoryPage implements OnInit{
 
   selectedTab(event){
     var firstTab = 'Current Season';
+
     if(event == firstTab){
       event = new Date().getFullYear();
     }
-    this.getDraftPage(event);
+    this.getDraftPage(event, this.teamId);
   }
 
 

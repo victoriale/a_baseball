@@ -16,8 +16,10 @@ export class HeadlineComponent implements OnInit{
   }
   ngOnInit(){
     if(typeof this.data == 'undefined'){
-      this.data.title = 'HEADLINE';
-      this.data.icon = 'fa fa-map-marker';
+      this.data={
+        title:'HEADLINE',
+        icon:'fa fa-map-marker'
+      }
     }
   }
 }

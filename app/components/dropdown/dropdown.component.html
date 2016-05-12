@@ -1,0 +1,20 @@
+<div class="dropdown" (click)="displayDropdown()" 
+  [class.dropdown-active]="isDropdownVisible"
+  [class.dropdown-disabled]="!isDropdownEnabled">
+  <div class="dropdown-hdr">
+    <span class="dropdown-hdr-value">
+      {{selectedItem.value}}
+    </span>
+    <span class="dropdown-hdr-button">
+      <i class="fa fa-sort"></i>
+    </span>
+  </div>
+  
+  <div *ngIf="isDropdownVisible" class="dropdown-list">
+    <div *ngFor="#item of list; #i=index" class="dropdown-list-option" (click)="setSelected(item)">
+      <div *ngIf="i==0" class="dropdown-caret-top"></div>
+      <span [innerHtml]="item.value"></span>
+    </div>
+  </div>
+
+</div>

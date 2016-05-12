@@ -1,6 +1,5 @@
 export interface Link {
-  page?: string;
-  pageParams?: any;
+  route?: Array<any>;
   text: string;
 }
 
@@ -31,6 +30,7 @@ export interface DirectoryProfileItem {
 
 export interface DirectoryModuleData {  
   pageName: string;
+  pageParams: any;
   breadcrumbList: Array<Link>;
   directoryListTitle: string;
   hasListings: boolean;
@@ -39,5 +39,4 @@ export interface DirectoryModuleData {
   listingsLimit: number;
   navigationData: NavigationData;
   pagingDescription: string;
-  pageParams: any;
 }
