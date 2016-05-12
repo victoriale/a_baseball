@@ -8,11 +8,12 @@ import {ShareModule} from '../../modules/share/share.module';
 import {CommentModule} from '../../modules/comment/comment.module';
 
 import {ShareModuleInput} from '../../modules/share/share.module';
+import {HeadlineComponent} from '../../components/headline/headline.component';
 
 @Component({
     selector: 'Player-page',
     templateUrl: './app/webpages/player-page/player.page.html',
-    directives: [CommentModule, DYKModule, FAQModule, LikeUs, TwitterModule, ComparisonModule, ShareModule],
+    directives: [HeadlineComponent, CommentModule, DYKModule, FAQModule, LikeUs, TwitterModule, ComparisonModule, ShareModule],
     providers: [],
 })
 
