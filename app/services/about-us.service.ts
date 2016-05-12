@@ -12,7 +12,9 @@ export interface AboutUsInterface {
     teamProfilesCount: number;
     divisionsCount: number;
     playerProfilesCount: number;
-    worldChampName: string;
+    worldChampFirstName: string;
+    worldChampLastName: string;
+    worldChampTeamId: string;
     worldChampYear: string;
     worldChampImageUrl: string;
     lastUpdatedDate: Date; //TODO-CJP: Needed in API
@@ -36,6 +38,7 @@ export class AboutUsService {
     let lastUpdatedDate = data.lastUpdatedDate !== undefined ? data.lastUpdatedDate : new Date(); //TODO-CJP: update when included in API
     let teamProfiles = this._globalFunctions.commaSeparateNumber(data.teamProfilesCount);
     let playerProfiles = this._globalFunctions.commaSeparateNumber(data.playerProfilesCount);
+    let fullName = data.worldChampFirstName + " " + data.worldChampLastName;
     let model: AboutUsModel = {
       headerTitle: "What is " + pageName + "?",
       titleData: {
@@ -64,7 +67,7 @@ export class AboutUsService {
         },
         {
           link: {
-            route: MLBGlobalFunctions.formatTeamRoute(data.worldChampName, "0"), //TODO-CJP: update when API is updated
+            route: MLBGlobalFunctions.formatTeamRoute(fullName, data.worldChampTeamId),
             imageConfig: {
               imageClass: "image-51",
               mainImage: {
@@ -74,7 +77,7 @@ export class AboutUsService {
             },            
           },
           titleText: data.worldChampYear + ' World Series Champions',
-          dataText: data.worldChampName,
+          dataText: data.worldChampFirstName,
         }
       ],
       content: [
