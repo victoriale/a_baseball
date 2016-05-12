@@ -99,15 +99,15 @@ interface TeamProfileHeaderData {
       teamId: number;
       teamName: string;
       seasonId: string;
-      totalWins: string;
-      totalLosses: string;
+      totalWins: number;
+      totalLosses: number;
       batting: {
-        average: string;
-        runsScored: string;
-        homeRuns: string;
+        average: number;
+        runsScored: number;
+        homeRuns: number;
       };
       pitching: {
-        era: string;
+        era: number;
       };
       conference: {
         rank: string;
@@ -162,8 +162,9 @@ export class ProfileHeaderService {
         .map(res => res.json())
         .map(data => {
           var headerData: TeamProfileHeaderData = data.data;
-          var confKey = "";
-          var divKey = "";
+          
+          //Setting up conference and division values
+          var confKey = "", divKey = "";
           if ( headerData.stats ) {
             if ( headerData.stats.conference && headerData.stats.conference.name ) {
               confKey = headerData.stats.conference.name.toLowerCase();
@@ -172,6 +173,16 @@ export class ProfileHeaderService {
               divKey = headerData.stats.division.name.toLowerCase();
             }
           }
+          
+          //Forcing values to be numbers
+          if ( headerData.stats.batting ) {
+            headerData.stats.batting.average = Number(headerData.stats.batting.average); 
+            headerData.stats.batting.runsScored = Number(headerData.stats.batting.runsScored); 
+            headerData.stats.batting.homeRuns = Number(headerData.stats.batting.homeRuns);
+          }  
+          if ( headerData.stats.pitching ) {
+            headerData.stats.pitching.era = Number(headerData.stats.pitching.era);
+          } 
           return {
             pageParams: {
               teamId: headerData.stats.teamId,
@@ -321,6 +332,15 @@ export class ProfileHeaderService {
     var lastSpaceIndex = teamName.lastIndexOf(" ");
     var firstPart = lastSpaceIndex >= 0 ? teamName.substring(0, lastSpaceIndex) : "";
     var lastPart = lastSpaceIndex >= 0 ? teamName.substring(lastSpaceIndex+1) : teamName;
+    var formattedEra = null;
+    if ( stats.pitching ) {
+      if ( stats.pitching.era > 1 ) {
+        formattedEra = stats.pitching.era.toPrecision(3);
+      }
+      else {        
+        formattedEra = stats.pitching.era.toPrecision(2);
+      }
+    }
 
     var header: ProfileHeaderData = {
       profileName: stats.teamName,
@@ -348,22 +368,22 @@ export class ProfileHeaderService {
         {
           label: "Batting Average",
           labelCont: "for the current season",
-          value: stats.batting ? stats.batting.average : null
+          value: stats.batting ? stats.batting.average.toPrecision(3) : null
         },
         {
           label: "Runs",
           labelCont: "for the current season",
-          value: stats.batting ? stats.batting.runsScored : null
+          value: stats.batting ? stats.batting.runsScored.toString() : null
         },
         {
           label: "Home Runs",
           labelCont: "for the current season",
-          value: stats.batting ? stats.batting.homeRuns : null
+          value: stats.batting ? stats.batting.homeRuns.toString() : null
         },
         {
           label: "Earned Run Average",
           labelCont: "for the current season",
-          value: stats.pitching ? stats.pitching.era : null
+          value: formattedEra
         }
       ]
     }
