@@ -87,6 +87,7 @@ export class Search{
         }
     }
 
+    //Function to detect arrow key presses
     searchKeydown(event){
         if(event.keyCode === 40){
             //Down Arrow Keystroke
@@ -136,11 +137,13 @@ export class Search{
         return this.dropdownList[index - 1].value;
     }
 
+    //Prevent search subscription from firing. This is needed to prevent the search from firing when a user selects a dropdown option with the arrow keys
     suppressSearch(value: string){
         this.isSuppressed = true;
         this.term.updateValue(value);
     }
 
+    //Allow search subscription to fire again
     unsuppressSearch(){
         this.term.updateValue(this.storedSearchTerm);
         this.isSuppressed = false;
@@ -151,6 +154,7 @@ export class Search{
         this.selectedIndex = 0;
     }
 
+    //Function to make dropdown item active when hovered
     itemHovered(index: number){
         this.selectedIndex = index + 1;
     }
