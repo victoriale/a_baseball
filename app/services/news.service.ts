@@ -36,7 +36,7 @@ export class NewsService {
   newsData(data){
     var self = this;
     var newsArray = [];
-    var dummyImg = "./app/public/placeholder-location.jpg";
+    var dummyImg = "/app/public/no-image.png";
     data.forEach(function(val, index){
       var News = {
         title: val.title,

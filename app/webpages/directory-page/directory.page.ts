@@ -35,12 +35,12 @@ export class DirectoryPage {
     
     var type = _params.get("type");
     switch ( type ) {
-      case "player": 
-        this.pageType = DirectoryType.player;
+      case "players": 
+        this.pageType = DirectoryType.players;
         break;
         
-      case "team": 
-        this.pageType = DirectoryType.team;
+      case "teams": 
+        this.pageType = DirectoryType.teams;
         break;
         
       default:
@@ -78,7 +78,7 @@ export class DirectoryPage {
       newlyAdded: this.newlyAdded
     }
         
-    this._directoryService.getDefaultData(this.pageType, params)
+    this._directoryService.getData(this.pageType, params)
       .subscribe(
           data => this.setupData(data),
           err => {
@@ -96,14 +96,14 @@ export class DirectoryPage {
     let titleCaseType = "";
     
     switch ( this.pageType ) {
-      case DirectoryType.player:
-        lowerCaseType = "player";
-        titleCaseType = "Player"; 
+      case DirectoryType.players:
+        lowerCaseType = "players";
+        titleCaseType = "Players"; 
         break;
         
-      case DirectoryType.team:
-        lowerCaseType = "team";
-        titleCaseType = "Team"; 
+      case DirectoryType.teams:
+        lowerCaseType = "teams";
+        titleCaseType = "Teams"; 
         break;
         
       default: 
@@ -120,11 +120,11 @@ export class DirectoryPage {
     
     if ( this.startsWith !== undefined && this.startsWith !== null && this.startsWith.length > 0 ) {
       pageParams["startsWith"] = this.startsWith;
-      pageName += "-startswith";
+      pageName += "-starts-with";
     }
     else if ( this.newlyAdded ) {
       pageParams["startsWith"] = "new";
-      pageName += "-startswith";
+      pageName += "-starts-with";
     }
     
     let data:DirectoryModuleData = {
@@ -163,12 +163,12 @@ export class DirectoryPage {
       for ( var i in alphabet ) {
           navigationArray.push({
               text: alphabet[i],
-              page: 'Directory-page-startswith',
-              pageParams: {
-                  type: DirectoryType[this.pageType],
-                  page: 1,
-                  startsWith: alphabet[i]
-              }
+              route: ['Directory-page-starts-with', 
+                {
+                    type: DirectoryType[this.pageType],
+                    page: 1,
+                    startsWith: alphabet[i]
+                }]
           });
       }
 
@@ -177,12 +177,12 @@ export class DirectoryPage {
         links: navigationArray,
         moreLink: {
           text: "Newly Added",
-            page: 'Directory-page-startswith',
-            pageParams: {
+          route: ['Directory-page-starts-with',
+            {
               type: DirectoryType[this.pageType],
               page: 1,
               startsWith: "new"
-            }            
+            }]            
         }
       };  
   }

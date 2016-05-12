@@ -26,18 +26,19 @@ export class DraftHistoryModule{
   carouselDataArray: any;
   footerData: Object;
   footerStyle: any;
-  constructor(private draftService:DraftHistoryService, private ProfHeadService:ProfileHeaderService){
+  constructor(private draftService:DraftHistoryService, private profHeadService:ProfileHeaderService){
     this.footerData = {
       infoDesc: 'Want to see everybody involved in this list?',
       text: 'VIEW THE LIST',
-      url: ['Draft-history-page']
+      url: ['Draft-history-page',{teamName:'team-name-here', teamId:2796}]
     };
   }
 
   getDraftPage(date) {
-    this.ProfHeadService.getTeamPageHeader(2799)
+    this.profHeadService.getTeamProfile(2799)
     .subscribe(
-        profHeader => {
+        data => {
+          var profHeader = this.profHeadService.convertTeamPageHeader(data);
           this.profileHeaderData = profHeader.data;
           this.errorData = {
             data:profHeader.error,

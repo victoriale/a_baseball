@@ -17,6 +17,8 @@ import {Tab} from '../../components/tabs/tab.component';
 import {CustomTable} from '../../components/custom-table/custom-table.component';
 import {TableModel, TableColumn, TableRow, TableCell} from '../../components/custom-table/table-data.component';
 import {NoDataBox} from '../../components/error/data-box/data-box.component';
+import {ProfileHeaderService} from '../../services/profile-header.service';
+import {GlobalSettings} from '../../global/global-settings';
 
 export interface RosterTabData<T> {
   title: string;
@@ -43,7 +45,7 @@ export interface TableComponentData<T> {
                 Tabs, Tab,
                 NoDataBox
               ],
-    providers: [RosterService],
+    providers: [RosterService, ProfileHeaderService],
 })
 
 export class TeamRosterPage implements OnInit{
@@ -51,24 +53,25 @@ export class TeamRosterPage implements OnInit{
   public carDataArray: Array<SliderCarouselInput> = [];
   public data: RosterComponentData;
   public pageParams: MLBPageParameters = {}
-  public titleData: TitleInputData = {
-    imageURL: "/app/public/profile_placeholder.png",
-    text1: "Last Updated: [date]",
-    text2: "United States",
-    text3: "Team Roster",
-    icon: "fa fa-map-marker"
-  }
+  public titleData: TitleInputData;
+  public hasError: boolean = false;
+  public footerData = {
+      infoDesc: 'Interested in discovering more about this player?',
+      text: 'View Profile',
+      url: ['Disclaimer-page']
+  };
   //footer style for carousel footer
-  footerStyle = {
+  public footerStyle = {
     ctaBoxClass: "list-footer",
     ctaBtnClass:"list-footer-btn",
-    hasIcon: true,
+    hasIcon: true
   };
 
   public tabs: Array<RosterTabData>;
   private selectedTabTitle: string;
 
   constructor(private _params: RouteParams,
+              private _profileService: ProfileHeaderService,
               private _rosterService: RosterService,
               private _globalFunctions: GlobalFunctions,
               private _mlbFunctions: MLBGlobalFunctions) {
@@ -76,13 +79,6 @@ export class TeamRosterPage implements OnInit{
     var teamId = _params.get("teamId");
     if ( teamId !== null && teamId !== undefined ) {
       this.pageParams.teamId = Number(teamId);
-    }
-  }
-
-  ngOnChanges() {
-    if ( this.tabs != undefined && this.tabs.length > 0 ) {
-      this.tabSelected(this.tabs[0].title);
-      this.updateCarousel();
     }
   }
 
@@ -142,22 +138,66 @@ export class TeamRosterPage implements OnInit{
     this.selectedIndex = selectedIndex < 0 ? 0 : selectedIndex;
     this.carDataArray = carDataArray;
   }
+  private setupTitleData(title: string, imageUrl?: string) {
+    this.titleData = {
+      imageURL: imageUrl,
+      text1: "Last Updated: [date]",
+      text2: "United States",
+      text3: title,
+      icon: "fa fa-map-marker"
+    };
+  }
 
-  private setupRosterData() {
-    let self = this;
-    self._rosterService.loadAllTabs("2799", 20)
+  private setupRosterData(imageURL?: string) {
+    var title = this._rosterService.getPageTitle(this.pageParams);
+    this.setupTitleData(title, imageURL);
+    this.setupTitleData(title);
+
+    this._rosterService.loadAllTabs("2799", 20)
       .subscribe(data => {
         //set up tabs
         this.tabs = data;
         this.tabSelected(this.tabs[0].title);
         this.updateCarousel();
+        var lastUpdate = data[0].tableData.rows[0].lastUpdate;
+        this.titleData.text1 = "Last Updated: " + GlobalFunctions.formatUpdatedDate(lastUpdate, false);
+        var teamName = data[0].tableData.rows[0].teamName;
+        this.titleData.text3 = "Team Roster - " + teamName;
+        var teamLogo = GlobalSettings.getImageUrl(data[0].tableData.rows[0].teamLogo);
+        this.titleData.imageURL = teamLogo;
       },
       err => {
         console.log("Error getting team roster data");
+        this.hasError = true;
       });
   }
 
-  ngOnInit() {
-    this.setupRosterData();
+  getData(){
+    if ( this.pageParams.teamId ) {
+      this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
+        data => {
+          this.pageParams = data;
+          this.setupRosterData();
+        },
+        err => {
+          console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
+        }
+      );
+    }
+    else {
+      this.setupRosterData();
+    }
   }
+
+  ngOnInit() {
+    this.getData();
+  }
+
+  ngOnChanges() {
+    if ( this.tabs != undefined && this.tabs.length > 0 ) {
+      this.tabSelected(this.tabs[0].title);
+      this.updateCarousel();
+    }
+  }
+
 }

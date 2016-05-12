@@ -7,6 +7,7 @@ import {DisclaimerPage} from "../webpages/disclaimer-page/disclaimer.page";
 import {TeamPage} from "../webpages/team-page/team.page";
 import {MLBPage} from "../webpages/mlb-page/mlb.page";
 import {PlayerPage} from "../webpages/player-page/player.page";
+import {PlayerStatsPage} from "../webpages/player-stats-page/player-stats.page";
 import {HomePage} from "../webpages/home-page/home-page.page";
 import {ComponentPage} from "../webpages/component-page/component.page";
 import {TeamRosterPage} from "../webpages/team-roster/team-roster.page";
@@ -33,7 +34,9 @@ import {DesignPage} from "../webpages/design-page/design.page";
 @Component({
     selector: 'my-app',
     templateUrl: './app/app-webpage/app.webpage.html',
-    directives: [TeamRosterPage, DraftHistoryPage, ListPage, HomePage, TeamPage, PlayerPage, DirectoryPage, AboutUsPage, ContactUsPage, DisclaimerPage, SearchPage, ComponentPage, ModulePage, RouterOutlet, ROUTER_DIRECTIVES],
+    directives: [TeamRosterPage, DraftHistoryPage, ListPage, HomePage, TeamPage, PlayerPage, DirectoryPage, 
+        AboutUsPage, ContactUsPage, DisclaimerPage, SearchPage, ComponentPage, 
+        ModulePage, RouterOutlet, ROUTER_DIRECTIVES, PlayerStatsPage, MLBPage],
     providers: [ ROUTER_DIRECTIVES, ArticleDataService, HeadlineDataService],
 })
 
@@ -100,9 +103,14 @@ import {DesignPage} from "../webpages/design-page/design.page";
         component: StandingsPage
     },
     {
-        path: '/standings/:type/:teamId',
+        path: '/standings/:type/:teamName/:teamId',
         name: 'Standings-page-team',
         component: StandingsPage
+    },
+    {
+        path: '/player-stats/:teamId',
+        name: 'Player-stats-page',
+        component: PlayerStatsPage
     },
     {
         path: '/list/:profile/:listname/:sort/:conference/:division/:limit/:pageNum',

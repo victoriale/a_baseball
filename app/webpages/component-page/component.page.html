@@ -4,7 +4,7 @@
     </div>
 
     <div class="component-compbar-container">
-      <standings-module [data]="standingsData"></standings-module>
+      <standings-module [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
     </div>
 
     <div class="component-compbar-container">
@@ -36,15 +36,11 @@
     </div>
 
     <div class="component-compbar-container">
-      <list-of-list></list-of-list>
+      <list-of-lists></list-of-lists>
     </div>
 
     <div class="component-compbar-container">
       <schedules></schedules>
-    </div>
-
-    <div class="component-compbar-container">
-      <standings-module [data]="standingsData"></standings-module>
     </div>
 
     <div class="component-compbar-container">

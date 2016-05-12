@@ -41,6 +41,7 @@ export class LandingPageService {
         var div = data[league][division];
         div.forEach(function(val, index){//start converting team info
           val.route = "";//TODO
+          val.teamFirstName = val.teamFirstName.toUpperCase();
           val.imageData= {
             imageClass: "image-100",
             mainImage: {

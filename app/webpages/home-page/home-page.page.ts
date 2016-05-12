@@ -48,7 +48,6 @@ export class HomePage implements OnInit {
     public homeFeaturesTile3: string = "MLB Scores";
     public homeFeaturesTile4: string = "MLB Schedules";
     public homeFeaturesButton1: string = "View MLB Standings";
-    public homeFeaturesButton2: string = "View All Lists";
     public homeFeaturesButton3: string = "View MLB Scores";
     public homeFeaturesButton4: string = "View MLB Schedules";
     public buttonFullList: string = "See The Full List";
@@ -66,7 +65,7 @@ export class HomePage implements OnInit {
         {
           newsTitle: "Top Teams In The League Right Now",
           newsSubTitle: "See which MLB teams are performing at the top of their game",
-          routerInfo: ['Disclaimer-page']
+          routerInfo: ['Disclaimer-page']//TODO
         },
         {
           newsTitle: "Top Pitchers In The League Right Now",
@@ -124,51 +123,6 @@ export class HomePage implements OnInit {
       var sampleImage = "./app/public/placeholder-location.jpg";
       this.leagueHeading = "<b>AMERICAN LEAGUE</b> TEAMS<b>:</b>";
       this.homeFeatures = "<b>Features</b> to Note";
-      this.teamData =[
-        {
-          divisionName: "CENTRAL",
-          location: "CHICAGO",
-          teamName: "White Sox",
-          imageData: {
-            imageClass: "image-100",
-            mainImage: {
-              imageUrl: sampleImage,
-              urlRouteArray: ['Disclaimer-page'],
-              hoverText: "<i style='font-size:30px;' class='fa fa-mail-forward'></i>",
-              imageClass: "border-3"
-            }
-          }
-        },
-        {
-          divisionName: "EAST",
-          location: "ATLANTA",
-          teamName: "Braves",
-          imageData: {
-            imageClass: "image-100",
-            mainImage: {
-              imageUrl: sampleImage,
-              urlRouteArray: ['Disclaimer-page'],
-              hoverText: "<i style='font-size:30px;' class='fa fa-mail-forward'></i>",
-              imageClass: "border-3"
-            }
-          }
-        },
-        {
-          divisionName: "WEST",
-          location: "ARIZONA",
-          teamName: "Diamondbacks",
-          imageData: {
-            imageClass: "image-100",
-            mainImage: {
-              imageUrl: sampleImage,
-              urlRouteArray: ['Disclaimer-page'],
-              hoverText: "<i style='font-size:30px;' class='fa fa-mail-forward'></i>",
-              imageClass: "border-3"
-            }
-          }
-        }
-      ];
-
     }
     ngOnInit(){}
 }

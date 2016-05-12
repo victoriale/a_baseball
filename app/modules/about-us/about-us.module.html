@@ -7,7 +7,7 @@
         <div class="au-mod-desc">
             <div class="au-mod-desc-header"><i class="fa fa-circle"></i> {{headerText}}</div>
             <div class="au-mod-desc-logo">
-              <img src="{{logoUrl}}" onerror="this.src='/app/public/homeRunLoyalLogo.png';" />
+              <img src="{{logoUrl}}" onerror="this.src='/app/public/Logo_Home-Run-Loyal-B.png';" />
             </div>
             <div class="au-mod-desc-content">
               <p class="au-mod-desc-content-subtitle">Disclaimer</p>
@@ -18,13 +18,10 @@
                  {{homePageLinkName}} will not be liable for any losses and/or damages in 
                  connection with the use of our website.</p>
             </div>
-            <div class="au-mod-desc-button">
-              <a [routerLink]="['Disclaimer-page']">
-                  <span></span>
-                  <span class="au-mod-desc-button-text">{{buttonText}}</span>
-                  <i class="fa fa-mail-forward"></i>
-              </a>
-            </div>
+            <a class="au-mod-desc-button" [routerLink]="['Disclaimer-page']">
+                <span class="au-mod-desc-button-text">{{buttonText}}</span>
+                <i class="fa fa-mail-forward"></i>
+            </a>
         </div>
     </div>
 </section>

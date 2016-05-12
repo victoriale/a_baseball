@@ -1,8 +1,8 @@
-<section *ngIf="dataArray" class='page-container'>
-    <loading-component *ngIf="!listData && !isError"></loading-component>
+<section *ngIf="profileHeaderData" class='page-container'>
+    <loading-component *ngIf="!detailedDataArray && !isError"></loading-component>
     <error-component *ngIf="isError"></error-component>
     <backtab-component></backtab-component>
-    <title-component [titleData]="profileHeaderData"></title-component>
+    <title-component *ngIf="profileHeaderData" [titleData]="profileHeaderData"></title-component>
     <div class="module-container list-page">
       <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray" [footerStyle]="footerStyle"></slider-carousel>
       <tabs *ngIf="dataArray" (tabSelected)='selectedTab($event)'>

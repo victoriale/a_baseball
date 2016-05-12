@@ -2,17 +2,17 @@ import {Component} from 'angular2/core';
 import {DetailedListItem, DetailListInput} from '../../components/detailed-list-item/detailed-list-item.component';
 import {ModuleFooter} from "../../components/module-footer/module-footer.component";
 import {ModuleHeader} from '../../components/module-header/module-header.component';
-import {ListOfListItem} from "../../components/list-of-list-item/list-of-list-item.component";
+import {ListOfListsItem} from "../../components/list-of-lists-item/list-of-lists-item.component";
 import {ModuleHeaderData} from "../../components/module-header/module-header.component";
 
 @Component({
-    selector: 'list-of-list',
-    templateUrl: './app/modules/list-of-list/list-of-list.module.html',
-    directives: [ModuleHeader, ModuleFooter, ListOfListItem],
+    selector: 'list-of-lists',
+    templateUrl: './app/modules/list-of-lists/list-of-lists.module.html',
+    directives: [ModuleHeader, ModuleFooter, ListOfListsItem],
     inputs:['locData']
 })
 
-export class ListOfListModule{
+export class ListOfListsModule{
   moduleHeader: ModuleHeaderData;
   testData: any;
   footerData: Object;
@@ -360,7 +360,7 @@ export class ListOfListModule{
         infoDesc:'Want to see more lists like the ones above?',
         btn:'',
         text:'VIEW MORE LISTS',
-        url:'',
+        url:['Error-page'],//TODO change to proper url
       }
     }
 

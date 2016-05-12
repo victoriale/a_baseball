@@ -1,15 +1,18 @@
 import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Rx';
 import {Http, Headers} from 'angular2/http';
+import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
+import {GlobalSettings} from '../global/global-settings';
+import {CircleImageData} from '../components/images/image-data';
 
 @Injectable()
 export class DraftHistoryService {
-  private _apiUrl: string = 'http://dev-homerunloyal-api.synapsys.us';
+  private _apiUrl: string = GlobalSettings.getApiUrl();
   // private _apiToken: string = 'BApA7KEfj';
   // private _headerName: string = 'X-SNT-TOKEN';
 
-  constructor(public http: Http, public globalFunc: GlobalFunctions){
+  constructor(public http: Http){
 
   }
 
@@ -20,7 +23,7 @@ export class DraftHistoryService {
       return headers;
   }
 
-  getDraftHistoryService(year, type?){
+  getDraftHistoryService(year, teamId,type?){
   //Configure HTTP Headers
   var headers = this.setToken();
   //for MLB season starts and ends in the same year so return current season
@@ -39,7 +42,7 @@ export class DraftHistoryService {
     });
   }
 
-  var callURL = this._apiUrl + '/team/draftHistory/2791/'+year;
+  var callURL = this._apiUrl + '/team/draftHistory/'+teamId+'/'+year;
   // console.log(callURL);
 
   return this.http.get( callURL, {
@@ -75,39 +78,38 @@ export class DraftHistoryService {
   carDataPage(data){
     let self = this;
     var carouselArray = [];
-    var dummyImg = "./app/public/placeholder-location.jpg";
+    var dummyImg = "/app/public/no-image.png";
     var dummyRoute = ['Disclaimer-page'];
     var dummyRank = '##';
-
     if(data.length == 0){//if no data is being returned then show proper Error Message in carousel
       var Carousel = {
         index:'2',
         //TODO
-        imageConfig: self.imageData("image-150","border-large",dummyImg,'',"image-50-sub",dummyImg,'',1),
+        imageConfig: self.imageData("image-150","border-large",dummyImg,'', 1, "image-50-sub",dummyImg,''),
         description:[
-          '<p style="font-size:20px"><b>Sorry, the We currently do not have any data for this years draft history</b><p>',
+          "<p style='font-size:20px'><b>Sorry, we currently do not have any data for this year's draft history</b><p>",
         ],
       };
       carouselArray.push(Carousel);
     }else{
       //if data is coming through then run through the transforming function for the module
       data.forEach(function(val, index){
-
+        var playerFullName = val.playerFirstName + " " + val.playerLastName;
         var Carousel = {
-          index:'2',
+          index:index,
           //TODO
-          imageConfig: self.imageData("image-150","border-large",dummyImg,dummyRoute,"image-50-sub",dummyImg,dummyRoute,index+1),
+          imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.imageUrl),MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId), (index+1), "image-50-sub",GlobalSettings.getImageUrl(val.teamLogo),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
           description:[
             '<p style="font-size:24px"><b>'+val.playerName+'</b></p>',
             '<p>Hometown: <b>'+val.draftTeamName+'</b></p>',
             '<br>',
-            '<p style="font-size:24px"><b>'+(index+1)+'<sup>'+self.globalFunc.Suffix(Number(index+1))+'</sup>Pick for Round '+val.selectionLevel+'</b></p>',
+            '<p style="font-size:24px"><b>'+(index+1)+'<sup>'+ GlobalFunctions.Suffix(Number(index+1))+'</sup> Pick for Round '+val.selectionLevel+'</b></p>',
             '<p>'+val.selectionOverall+' Overall</p>',
           ],
           footerInfo: {
             infoDesc:'Interested in discovering more about this player?',
             text:'VIEW PROFILE',
-            url:['Team-page',{teamName:val.draftTeamName, teamId: val.draftTeam}],//NEED TO CHANGE
+            url:MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId),
           }
         };
         carouselArray.push(Carousel);
@@ -119,7 +121,7 @@ export class DraftHistoryService {
   carDataModule(data){
     let self = this;
     var carouselArray = [];
-    var dummyImg = "./app/public/placeholder-location.jpg";
+    var dummyImg = "/app/public/no-image.png";
     var dummyRoute = ['Disclaimer-page'];
     var dummyRank = '##';
 
@@ -127,7 +129,7 @@ export class DraftHistoryService {
       var Carousel = {
         index:'2',
         //TODO
-        imageConfig: self.imageData("image-150","border-large",dummyImg,'',"image-50-sub",dummyImg,'',1),
+        imageConfig: self.imageData("image-150","border-large",dummyImg,'', 1,"image-50-sub",dummyImg,''),
         description:[
           '<p style="font-size:20px"><b>Sorry, the We currently do not have any data for this years draft history</b><p>',
         ],
@@ -136,15 +138,16 @@ export class DraftHistoryService {
     }else{
       //if data is coming through then run through the transforming function for the module
       data.forEach(function(val, index){
+        var playerFullName = val.playerFirstName + " " + val.playerLastName;
         var Carousel = {
-          index:'2',
+          index:index,
           //TODO
-          imageConfig: self.imageData("image-150","border-large",dummyImg,dummyRoute,"image-50-sub",dummyImg,dummyRoute,index+1),
+          imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.imageUrl),MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId), (index+1), "image-50-sub",GlobalSettings.getImageUrl(val.teamLogo),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
           description:[
             '<p style="font-size:24px"><b>'+val.playerName+'</b></p>',
             '<p>Hometown: <b>'+val.draftTeamName+'</b></p>',
             '<br>',
-            '<p style="font-size:24px"><b>'+(index+1)+'<sup>'+self.globalFunc.Suffix(Number(index+1))+'</sup>Pick for Round '+val.selectionLevel+'</b></p>',
+            '<p style="font-size:24px"><b>'+(index+1)+'<sup>'+GlobalFunctions.Suffix(Number(index+1))+'</sup>Pick for Round '+val.selectionLevel+'</b></p>',
             '<p>'+val.selectionOverall+' Overall</p>',
           ],
         };
@@ -159,7 +162,7 @@ export class DraftHistoryService {
     let self = this;
     var listDataArray = [];
 
-    var dummyImg = "./app/public/placeholder-location.jpg";
+    var dummyImg = "/app/public/no-image.png";
     var dummyRoute = ['Disclaimer-page'];
     var dummyRank = '#4';
 
@@ -171,15 +174,16 @@ export class DraftHistoryService {
     var dummySubUrl = ['Disclaimer-page'];
 
     data.forEach(function(val, index){
+      var playerFullName = val.playerFirstName + " " + val.playerLastName;
       var listData = {
-        dataPoints: self.detailsData(val.playerName,(val.selectionLevel+' Round'),dummyProfUrl,val.draftTeamName,(val.selectionOverall +' Overall'),dummySubUrl),
+        dataPoints: self.detailsData(val.playerName,(index+1)+'<sup>'+GlobalFunctions.Suffix(Number(index+1))+'</sup> Pick for Round '+val.selectionLevel,MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId),val.draftTeamName,(val.selectionOverall +' Overall'),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
         imageConfig: self.imageData("image-121","border-2",
-        dummyImg,dummyRoute,"image-40-sub",dummyImg,dummyRoute,(index+1)),
+        GlobalSettings.getImageUrl(val.imageUrl),MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId),(index+1),"image-40-sub",GlobalSettings.getImageUrl(val.teamLogo),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
         hasCTA:true,
-        ctaDesc:'Want more info about this [profile type]?',
+        ctaDesc:'Want more info about this player?',
         ctaBtn:'',
         ctaText:'View Profile',
-        ctaUrl:['Team-page',{teamName:'Yankees', teamId:'2796'}]
+        ctaUrl:MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId)
       };
       listDataArray.push(listData);
     });
@@ -190,37 +194,45 @@ export class DraftHistoryService {
   /**
    *this function will have inputs of all required fields that are dynamic and output the full
   **/
-  imageData(imageClass, imageBorder, mainImg, mainImgRoute, subImgClass?, subImg?, subRoute?, rank?){
+  imageData(imageClass, imageBorder, mainImg, mainImgRoute, rank, subImgClass, subImg?, subRoute?){
     if(typeof mainImg =='undefined' || mainImg == ''){
-      mainImg = "./app/public/placeholder-location.jpg";
+      mainImg = "/app/public/no-image.png";
     }
     if(typeof subImg =='undefined' || subImg == ''){
-      mainImg = "./app/public/placeholder-location.jpg";
+      subImg = "/app/public/no-image.png";
     }
     if(typeof rank == 'undefined' || rank == 0){
       rank = 0;
     }
-    var image = {//interface is found in image-data.ts
+    var image: CircleImageData = {//interface is found in image-data.ts
         imageClass: imageClass,
         mainImage: {
             imageUrl: mainImg,
             urlRouteArray: mainImgRoute,
             hoverText: "<p>View</p><p>Profile</p>",
-            imageClass: imageBorder
+            imageClass: imageBorder,
         },
         subImages: [
-            {
-                imageUrl: subImg,
-                urlRouteArray: subRoute,
-                hoverText: "<i class='fa fa-mail-forward'></i>",
-                imageClass: subImgClass + " image-round-lower-right"
-            },
-            {
-                text: "#"+rank,
-                imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
-            }
+          {
+            text: "#"+rank,
+            imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
+          }
         ],
     };
+    if(typeof subRoute != 'undefined') {
+      image.subImages = [
+          {
+              imageUrl: subImg,
+              urlRouteArray: subRoute,
+              hoverText: "<i class='fa fa-mail-forward'></i>",
+              imageClass: subImgClass + " image-round-lower-right"
+          },
+          {
+              text: "#"+rank,
+              imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
+          }
+      ];
+    }
     return image;
   }
 
