@@ -11,9 +11,15 @@ import {Division, Conference, MLBPageParameters} from '../global/global-interfac
 
 declare var moment: any;
 
+interface PlayerProfileData {
+  pageParams: MLBPageParameters;
+  fullProfileImageUrl: string;
+  fullBackgroundImageUrl: string;
+  headerData: PlayerProfileHeaderData
+}
+
 interface PlayerProfileHeaderData {
   description: string;
-  fullProfileImage: string;
   info: {
     backgroundImage: string; //NEED
 
@@ -60,7 +66,7 @@ interface PlayerProfileHeaderData {
       earnedRuns:  number;
       wildPitch:  number;
     //Batter stats
-      average: string;
+      average: number;
       runsScored: number;
       rbi: number;
       atBats: number;
@@ -148,12 +154,34 @@ interface LeagueProfileHeaderData {
 export class ProfileHeaderService {
   constructor(public http: Http){}
 
-  getPlayerProfile(playerId: number): Observable<PlayerProfileHeaderData> {
+  getPlayerProfile(playerId: number): Observable<PlayerProfileData> {
     let url = GlobalSettings.getApiUrl() + '/player/profileHeader/' + playerId;
     // console.log("player profile url: " + url);
     return this.http.get(url)
         .map(res => res.json())
-        .map(data => data.data);
+        .map(data => {
+          var headerData: PlayerProfileHeaderData = data.data;
+          if (!headerData.info) {
+            return null;
+          }
+          //Forcing values to be numbers (all stats values should be numbers)
+          if ( headerData.stats ) {
+            for ( var key in headerData.stats ) {
+              headerData.stats[key] = Number(headerData.stats[key]);
+            }
+          }
+          return {
+            pageParams: {
+              teamId: headerData.info.teamId,
+              teamName: headerData.info.teamName,
+              playerId: headerData.info.playerId,
+              playerName: headerData.info.playerName
+            },
+            fullBackgroundImageUrl: GlobalSettings.getImageUrl(headerData.info.backgroundImage),
+            fullProfileImageUrl: GlobalSettings.getImageUrl(headerData.info.playerHeadshot),
+            headerData: headerData
+          };
+        });
   }
 
   getTeamProfile(teamId: number): Observable<TeamProfileData> {
@@ -228,39 +256,49 @@ export class ProfileHeaderService {
     return headerData;
   }
 
-  convertToPlayerProfileHeader(data: PlayerProfileHeaderData): ProfileHeaderData {
-    if (!data.info) {
+  convertToPlayerProfileHeader(data: PlayerProfileData): ProfileHeaderData {
+    if (!data.headerData || !data.headerData.info) {
       return null;
     }
+    
+    var headerData = data.headerData;
+    var stats = headerData.stats;
+    var info = headerData.info;
 
-    data.info.backgroundImage = GlobalSettings.getImageUrl(data.info.backgroundImage);
-    data.fullProfileImage = GlobalSettings.getImageUrl(data.info.playerHeadshot);
-
-    var description = data.description;
+    var description = headerData.description;
     var dataPoints: Array<DataItem>;
-    var isPitcher = data.info.position.filter(value => value === "P").length > 0;
+    var isPitcher = headerData.info.position.filter(value => value === "P").length > 0;
 
     if ( isPitcher ) {
+      var formattedEra = null;
+      if ( stats && stats.earnedRuns != null ) {
+        if ( stats.earnedRuns > 1 ) {
+          formattedEra = stats.earnedRuns.toPrecision(3);
+        }
+        else {        
+          formattedEra = stats.earnedRuns.toPrecision(2);
+        }
+      }
       dataPoints = [
         {
           label: "Wins/Losses",
           labelCont: "for the current season",
-          value: data.stats.wins + " - " + data.stats.losses
+          value: (stats && stats.wins != null && stats.losses != null ) ? stats.wins + " - " + stats.losses : null
         },
         {
           label: "Innings Pitched",
           labelCont: "for the current season",
-          value: data.stats.inningsPitched.toString()
+          value: (stats && stats.inningsPitched != null) ? stats.inningsPitched.toString() : null
         },
         {
           label: "Strikeouts",
           labelCont: "for the current season",
-          value: data.stats.strikeouts.toString()
+          value: (stats && stats.strikeouts != null) ? stats.strikeouts.toString() : null
         },
         {
           label: "Earned Run Average",
           labelCont: "for the current season",
-          value: data.stats.earnedRuns.toString()
+          value: formattedEra
         }
       ];
     }
@@ -269,46 +307,46 @@ export class ProfileHeaderService {
         {
           label: "Home Runs",
           labelCont: "for the current season",
-          value: data.stats.homeRuns.toString()
+          value: (stats && stats.homeRuns != null) ? stats.homeRuns.toString() : null
         },
         {
           label: "Batting Average",
           labelCont: "for the current season",
-          value: data.stats.average
+          value: (stats && stats.average != null) ? stats.average.toPrecision(3) : null
         },
         {
           label: "RBIs",
           labelCont: "for the current season",
-          value: data.stats.rbi.toString()
+          value: (stats && stats.rbi != null) ? stats.rbi.toString() : null
         },
         {
           label: "Hits",
           labelCont: "for the current season",
-          value: data.stats.hits.toString()
+          value: (stats && stats.hits != null) ? stats.hits.toString() : null
         }
       ];
     }
     var header: ProfileHeaderData = {
-      profileName: data.info.playerName,
-      profileImageUrl: data.fullProfileImage,
-      backgroundImageUrl: data.info.backgroundImage,
-      profileTitleFirstPart: data.info.playerFirstName,
-      profileTitleLastPart: data.info.playerLastName,
-      lastUpdatedDate: data.info.lastUpdate,
+      profileName: info.playerName,
+      profileImageUrl: data.fullProfileImageUrl,
+      backgroundImageUrl: data.fullBackgroundImageUrl,
+      profileTitleFirstPart: info.playerFirstName,
+      profileTitleLastPart: info.playerLastName,
+      lastUpdatedDate: info.lastUpdate,
       description: description,
       topDataPoints: [
         {
           label: "Team",
-          value: data.info.teamName,
-          routerLink: MLBGlobalFunctions.formatTeamRoute(data.info.teamName,data.info.teamId.toString())
+          value: info.teamName,
+          routerLink: MLBGlobalFunctions.formatTeamRoute(info.teamName, info.teamId.toString())
         },
         {
           label: "Jersey Number",
-          value: data.info.uniformNumber.toString()
+          value: info.uniformNumber ? info.uniformNumber.toString() : null
         },
         {
           label: "Position",
-          value: data.info.position.join(",")
+          value: info.position ? info.position.join(",") : null
         }
       ],
       bottomDataPoints: dataPoints
@@ -431,11 +469,11 @@ export class ProfileHeaderService {
           value: data.totalPlayers
         },
         {
-          label: "Total Divisions",
+          label: "Total Divisions:",
           value: data.totalDivisions
         },
         {
-          label: "Total Leagues",
+          label: "Total Leagues:",
           value: data.totalLeagues
         }
       ]

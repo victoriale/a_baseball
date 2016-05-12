@@ -485,7 +485,7 @@ export class GlobalFunctions {
    * @returns
    */
   static formatNumber(numStr: string) {
-   switch (numStr) {
+   switch (numStr.toString()) {
      case "0": return "zero";
      case "1": return "one";
      case "2": return "two";
