@@ -17,7 +17,10 @@ import {CircleImageData} from "../../components/images/image-data";
 
 export interface AuBlockData {
   iconUrl?:string;
-  imageConfig?:CircleImageData;
+  link?: {  
+    imageConfig: CircleImageData;
+    route: Array<any>;
+  }  
   titleText:string;
   dataText:string;
 }
@@ -49,7 +52,7 @@ export class AboutUsPage {
     
     public titleData: TitleInputData = {
         imageURL : '/app/public/mainLogo.png',
-        text1: 'Last Updated: Monday, April 25, 2016',
+        text1: 'Last Updated: [date]',
         text2: 'United States',
         text3: 'Want to learn more?',
         text4: '',
