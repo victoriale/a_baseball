@@ -72,6 +72,7 @@ export class DesignPage implements OnInit {
     this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
       data => {
         this.pageParams = data.pageParams;
+        this.teamProfileHeaderData = this._profileService.convertToTeamProfileHeader(data);        
         this.setupStandingsData();
       },
       err => {

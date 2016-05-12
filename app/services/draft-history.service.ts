@@ -214,12 +214,6 @@ export class DraftHistoryService {
         },
         subImages: [
           {
-              imageUrl: '',
-              urlRouteArray: '',
-              hoverText: "",
-              imageClass: ""
-          },
-          {
             text: "#"+rank,
             imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
           }

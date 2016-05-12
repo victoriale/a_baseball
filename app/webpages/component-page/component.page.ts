@@ -91,7 +91,7 @@ export class ComponentPage implements OnInit {
     );
     this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
       data => {
-        this.teamProfileHeaderData = this._profileService.convertToTeamProfileHeader(data.headerData)
+        this.teamProfileHeaderData = this._profileService.convertToTeamProfileHeader(data)
       },
       err => {
         console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);

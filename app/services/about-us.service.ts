@@ -4,6 +4,7 @@ import {Http} from 'angular2/http';
 
 import {TitleInputData} from "../components/title/title.component";
 import {GlobalFunctions} from "../global/global-functions";
+import {GlobalSettings} from "../global/global-settings";
 import {MLBGlobalFunctions} from "../global/mlb-global-functions";
 import {AuBlockData, AboutUsModel} from "../webpages/about-us-page/about-us.page";
 
