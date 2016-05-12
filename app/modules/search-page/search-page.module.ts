@@ -47,7 +47,7 @@ export class SearchPageModule{
     ];
 
     ngOnInit(){
-        console.log('init', this);
+
     }
 
     tabSelected(event){

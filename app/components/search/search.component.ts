@@ -39,7 +39,6 @@ export class Search{
         placeholderText: 'Enter your favorite team or player',
         hasSuggestions: true
     };
-    @Input() placeholderText: string;
 
     //NgControl of input
     public term: any = new Control();
@@ -57,8 +56,9 @@ export class Search{
     public autoCompleteText: string = '';
     //Index of a dropdown item that is been selected by arrow keys. (0 is no selection or input selected)
     public selectedIndex: number = 0;
-
+    //Boolean to prevent search subscription from firing
     public isSuppressed: boolean = false;
+    //Store search value
     public storedSearchTerm: string;
 
     constructor(_elementRef: ElementRef, private _searchService: SearchService){
