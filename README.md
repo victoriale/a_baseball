@@ -24,6 +24,8 @@ install each one individually
 
       h.`autoprefixer` (automatically adds browser prefixes to css file)
 
+      i.`fuse.js` (Lightweight JSON search library for client side)
+
 2. `npm i`
 
 3. `gulp serve`

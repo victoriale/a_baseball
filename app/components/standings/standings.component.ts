@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, DoCheck, OnChanges} from 'angular2/core';
+import {Component, Input, OnInit, DoCheck, Output, EventEmitter} from 'angular2/core';
 
 import {SliderCarousel, SliderCarouselInput} from '../carousels/slider-carousel/slider-carousel.component';
 import {Tabs} from '../tabs/tabs.component';
@@ -23,27 +23,41 @@ export interface TableComponentData<T> {
   templateUrl: "./app/components/standings/standings.component.html",
   directives: [SliderCarousel, Tabs, Tab, CustomTable],
 })
-export class StandingsComponent implements OnChanges {  
+export class StandingsComponent implements DoCheck {  
   public selectedIndex;
 
   public carouselData: Array<SliderCarouselInput> = [];
 
   @Input() tabs: Array<TableTabData<any>>;
   
+  @Output("tabSelected") tabSelectedListener = new EventEmitter(); 
+  
   private selectedTabTitle: string;
+  private tabsLoaded: {[index:number]:string};
 
   constructor() {}
   
-  ngOnChanges() {
-    if ( this.tabs != undefined && this.tabs.length > 0 ) {
-      var selectedTitle = this.tabs[0].title;
-      this.tabs.forEach(tab => {
-        this.setSelectedCarouselIndex(tab, 0);
-        if ( tab.isActive ) {
-          selectedTitle = tab.title;
+  ngDoCheck() {
+    if ( this.tabs && this.tabs.length > 0 ) {
+      if ( !this.tabsLoaded  ) {
+        this.tabsLoaded = {};
+        var selectedTitle = this.tabs[0].title;
+        this.tabs.forEach(tab => {
+          this.setSelectedCarouselIndex(tab, 0);
+          if ( tab.isActive ) {
+            selectedTitle = tab.title;
+          }
+        });
+        this.tabSelected(selectedTitle);
+      }
+      else {
+        for ( var i = 0; i < this.tabs.length; i++ ) {
+          if ( this.tabs[i].sections && this.tabs[i].sections.length > 0 && !this.tabsLoaded[i] ) {
+            this.updateCarousel();
+            this.tabsLoaded[i] = "1";
+          }
         }
-      });      
-      this.tabSelected(selectedTitle);
+      }
     }
   }
   
@@ -72,6 +86,7 @@ export class StandingsComponent implements OnChanges {
   
   tabSelected(newTitle) {
     this.selectedTabTitle = newTitle;
+    this.tabSelectedListener.next(this.getSelectedTab());
     this.updateCarousel();
   }
   

@@ -11,6 +11,8 @@ import {ShareModuleInput} from '../../modules/share/share.module';
 import {HeadlineComponent} from '../../components/headline/headline.component';
 
 import {NewsModule} from '../../modules/news/news.module';
+import {SchedulesModule} from '../../modules/schedules/schedules.module';
+import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
 
 @Component({
     selector: 'Player-page',
@@ -24,7 +26,9 @@ import {NewsModule} from '../../modules/news/news.module';
           TwitterModule,
           ComparisonModule,
           ShareModule,
-          NewsModule],
+          NewsModule,
+          SchedulesModule,
+          BoxScoresModule],
     providers: [],
 })
 

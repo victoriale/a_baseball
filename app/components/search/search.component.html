@@ -1,13 +1,17 @@
-<div class="search-large">
-    <input class="search-input" (keydown)="searchKeydown($event)" [ngFormControl]="term" placeholder="Enter your favorite team or player"/>
+<div *ngIf="searchInput" class="search-large">
+    <div class="search-input-container">
+        <input class="search-input autocomplete" disabled [value]="autoCompleteText" />
+        <input #mainInput class="search-input main" (keydown)="searchKeydown($event)" [ngFormControl]="term" placeholder="{{searchInput.placeholderText}}"/>
+    </div>
     <button class="search-button">
         <i class="fa fa-search"></i>
     </button>
-    <ul *ngIf="showDropdown" class="search-dropdown">
+    <ul *ngIf="searchInput.hasSuggestions && showDropdown && dropdownList.length > 0" (mouseout)="resetSelected()" class="search-dropdown">
         <div class="search-dropdown-caret"></div>
-        <li *ngFor="#item of dropdownList" class="search-dropdown-item">
-            {{item.text1}}<span class="text-bold">{{item.text2}}</span>
-            <i class="fa fa-angle-right"></i>
-        </li>
+        <a *ngFor="#item of dropdownList; #i = index" [routerLink]="item.routerLink">
+            <li (mouseover)="itemHovered(i)" class="search-dropdown-item" [innerHtml]="item.title" [ngClass]="{active: (i + 1 === selectedIndex)}" >
+                <i class="fa fa-angle-right"></i>
+            </li>
+        </a>
     </ul>
 </div>

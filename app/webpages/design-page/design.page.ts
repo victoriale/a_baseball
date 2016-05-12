@@ -8,8 +8,8 @@ import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
 import {DraftHistoryModule} from '../../modules/draft-history/draft-history.module';
 
 import {StandingsModuleData, StandingsModule} from '../../modules/standings/standings.module';
+import {MLBStandingsTabData} from '../../services/standings.data';
 import {StandingsService} from '../../services/standings.service';
-import {MLBStandingsTableModel, MLBStandingsTableData} from '../../services/standings.data';
 
 import {ProfileHeaderData, ProfileHeaderModule} from '../../modules/profile-header/profile-header.module';
 import {ProfileHeaderService} from '../../services/profile-header.service';
@@ -73,8 +73,8 @@ export class DesignPage implements OnInit {
     this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
       data => {
         this.pageParams = data.pageParams;
-        this.teamProfileHeaderData = this._profileService.convertToTeamProfileHeader(data);
-        this.setupStandingsData();
+        this.teamProfileHeaderData = this._profileService.convertToTeamProfileHeader(data);        
+        this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
       },
       err => {
         console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
@@ -89,19 +89,14 @@ export class DesignPage implements OnInit {
       }
     );
   }
-
-  private setupStandingsData() {
-    let self = this;
-    self._standingsService.loadAllTabs(this.pageParams, 5) //only show 5 rows in the module
-      .subscribe(data => {
-        this.standingsData = {
-          moduleTitle: self._standingsService.getModuleTitle(this.pageParams),
-          pageRouterLink: self._standingsService.getLinkToPage(this.pageParams),
-          tabs: data
-        };
-      },
-      err => {
-        console.log("Error getting standings data: " + err);
-      });
+  
+  private standingsTabSelected(tab: MLBStandingsTabData) {
+    if ( tab && (!tab.sections || tab.sections.length == 0) ) {
+      this._standingsService.getTabData(tab, this.pageParams, 5)//only show 5 rows in the module      
+        .subscribe(data => tab.sections = data,
+        err => {
+          console.log("Error getting standings data");
+        });
+    }
   }
 }
