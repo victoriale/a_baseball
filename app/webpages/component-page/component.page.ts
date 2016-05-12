@@ -7,7 +7,6 @@ import {SchedulesModule} from '../../modules/schedules/schedules.module';
 import {AboutUsModule} from '../../modules/about-us/about-us.module';
 import {NewsModule} from '../../modules/news/news.module';
 import {ShareButtonComponent} from '../../components/share-button/share-button.component';
-import {Search} from '../../components/search/search.component';
 import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.module";
 import {SchedulesCarousel} from '../../components/carousels/schedules-carousel/schedules-carousel.component';
 import {Carousel} from '../../components/carousels/carousel.component';
@@ -42,7 +41,6 @@ import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
       ListOfListsModule,
       SchedulesModule,
       SeasonStatsModule,
-      Search,
       AboutUsModule,
       ProfileHeaderModule,
       StandingsModule

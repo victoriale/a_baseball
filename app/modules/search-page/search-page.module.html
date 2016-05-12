@@ -7,7 +7,7 @@
     </div>
     <!-- Tabs Component -->
     <tabs (tabSelected)="tabSelected($event)">
-        <tab *ngFor="#outerItem of searchPageInput" [tabTitle]="outerItem.tabName" [active]="outerItem.isTabDefault">
+        <tab *ngFor="#outerItem of searchPageInput.tabData" [tabTitle]="outerItem.tabName" [active]="outerItem.isTabDefault">
 
             <!-- Results -->
             <ul class="search-page-results">
@@ -15,6 +15,12 @@
                     <span class="search-page-results-item-title" [innerHtml]="innerItem.title"></span>
                     <a class="search-page-results-item-link" [routerLink]="['Disclaimer-page']" [innerHtml]="innerItem.urlText"></a><br>
                     <span class="search-page-results-item-description" [innerHtml]="innerItem.description"></span>
+                </li>
+                <!-- No Results Found -->
+                <li *ngIf="outerItem.results.length === 0" class="search-page-results-item no-results">
+                    Sorry, your search did not turn up any results.<br><br>
+                    You searched for:<br>
+                    <span class="text-heavy">{{searchPageInput.query}}</span>
                 </li>
             </ul>
 
