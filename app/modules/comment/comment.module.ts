@@ -14,7 +14,7 @@ declare var DISQUS: any;
 })
 export class CommentModule implements OnInit{
     public headerInfo: ModuleHeaderData = {
-      moduleTitle: "Comments",
+      moduleTitle: "Comments - [Profile Name]", //TODO
       hasIcon: false,
       iconClass: ""
     };

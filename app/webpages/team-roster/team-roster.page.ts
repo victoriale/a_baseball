@@ -82,13 +82,6 @@ export class TeamRosterPage implements OnInit{
     }
   }
 
-  ngOnChanges() {
-    if ( this.tabs != undefined && this.tabs.length > 0 ) {
-      this.tabSelected(this.tabs[0].title);
-      this.updateCarousel();
-    }
-  }
-
   getSelectedTab(): RosterTabData {
     var matchingTabs = this.tabs.filter(value => value.title === this.selectedTabTitle);
     if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) {
@@ -179,8 +172,7 @@ export class TeamRosterPage implements OnInit{
       });
   }
 
-  ngOnInit() {
-    this.setupRosterData();
+  getData(){
     if ( this.pageParams.teamId ) {
       this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
         data => {
@@ -196,4 +188,16 @@ export class TeamRosterPage implements OnInit{
       this.setupRosterData();
     }
   }
+
+  ngOnInit() {
+    this.getData();
+  }
+
+  ngOnChanges() {
+    if ( this.tabs != undefined && this.tabs.length > 0 ) {
+      this.tabSelected(this.tabs[0].title);
+      this.updateCarousel();
+    }
+  }
+
 }
