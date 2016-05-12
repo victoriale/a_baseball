@@ -8,17 +8,17 @@ export class GlobalFunctions {
 
     /**
      * Returns the approriate ordinal suffix for the given number
-     * 
+     *
      * @example
      * Suffix(1) => "st"
-     * 
+     *
      * @example
      * Suffix(10) => "th"
-     * 
+     *
      * @example
      * Suffix(23) => "rd"
-     * 
-     * @param {number} 
+     *
+     * @param {number}
      * @returns: string
      */
     static Suffix(i: number): string {
@@ -249,6 +249,7 @@ export class GlobalFunctions {
      * @param {string} state - The postal state code to convert to the AP Abbreviation. Case does not matter.
      * @returns {string}
      */
+
     stateToAP(state: string): string {
         if ( state === undefined || state === null ) {
           return state;

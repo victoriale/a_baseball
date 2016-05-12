@@ -31,7 +31,7 @@ export interface TeamRosterData {
   heightInInches: string,
   age: string,
   salary: number,
-  lastUpdatedDate: Date,
+  lastUpdate: string,
   /**
    * - Formatted from league and division values that generated the associated table
    */
@@ -72,6 +72,7 @@ export class RosterTabData {
       playerNum = "";
     }
     if(val.height != null){
+      val.height = val.height.replace(/"/g, '').replace("-", "'") + '"';
       playerHeight = " stands at <b>" + val.height + "</b> tall";
     } else {
       playerHeight = "";
@@ -95,17 +96,17 @@ export class RosterTabData {
         index: index,
         //imageData(mainImg, mainImgRoute, subImg, subRoute, rank)
         //TODO need to replace image data with actual image path when available
-        imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.headShotUrl),playerRoute,"image-50-sub",GlobalSettings.getImageUrl(val.teamLogo),teamRoute,index+1),
+        imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.playerHeadshot),playerRoute,"image-50-sub",GlobalSettings.getImageUrl(val.teamLogo),teamRoute,index+1),
         description:[
           '<p style="font-size:12px;"><i class="fa fa-circle" style="color:#bc2027; padding-right: 5px;"></i> ' + curYear + ' TEAM ROSTER</p>',
           '<p style="font-size: 22px; font-weight: 900; padding:9px 0;">'+val.playerName+'</p>',
-          '<p style="font-size: 14px; line-height: 1.4em;"><b style="font-weight:900;">'+ val.playerName+ '</b>, <b style="font-weight:900;">'+val.roleStatus+'</b> for the <b style="font-weight:900;">'+ val.teamName +'</b>,' + playerNum + playerHeight + playerWeight + playerSalary + '</p>',
-          '<p style="font-size: 10px; padding-top:9px;">Last Updated On ' + val.lastUpdate + '</p>'
+          '<p style="font-size: 14px; line-height: 1.4em;"><b style="font-weight:900;">'+ val.playerName+ '</b>, <b style="font-weight:900;">'+ MLBGlobalFunctions.MLBPosition(val.position[0]) +'</b> for the <b style="font-weight:900;">'+ val.teamName +'</b>,' + playerNum + playerHeight + playerWeight + playerSalary + '</p>',
+          '<p style="font-size: 10px; padding-top:9px;">Last Updated On ' + GlobalFunctions.formatUpdatedDate(val.lastUpdate) + '</p>'
         ],
         footerInfo: {
           infoDesc: 'Interested in discovering more about this player?',
           text: 'View Profile',
-          url: ['Disclaimer-page']
+          url: ['Disclaimer-page']//TODO
         }
     };
     return Carousel;
@@ -219,19 +220,19 @@ export class RosterTableModel {
         break;
 
       case "pos":
-        s = item.position.toString();
+        s = typeof item.position[0] == 'undefined' ? "N/A" : MLBGlobalFunctions.MLBPositionToAB(item.position[0].toString());
         break;
 
       case "ht":
-        s = typeof item.height == 'undefined' ? "-" : item.height.toString();
+        s = typeof item.height == 'undefined' ? "N/A" : item.height.toString();
         break;
 
       case "wt":
-        s = typeof item.weight == 'undefined' ? "-" : item.weight.toString() + " lbs.";
+        s = typeof item.weight == 'undefined' ? "N/A" : item.weight.toString() + " lbs.";
         break;
 
       case "age":
-      s = typeof item.age == 'undefined' ? "-" : item.age.toString();
+      s = typeof item.age == 'undefined' ? "N/A" : item.age.toString();
         break;
 
       case "sal":

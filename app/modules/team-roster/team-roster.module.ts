@@ -1,5 +1,5 @@
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
-import {ModuleFooter} from '../../components/module-footer/module-footer.component';
+import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer.component';
 import {Component, OnInit, Input, DoCheck, OnChanges} from 'angular2/core';
 import {RouteParams} from "angular2/router";
 import {BackTabComponent} from '../../components/backtab/backtab.component';
@@ -69,7 +69,6 @@ export class TeamRosterModule implements OnChanges{
     hasIcon: false,
     iconClass: ""
   };
-
 
   constructor(private _params: RouteParams,
               private _rosterService: RosterService,
@@ -172,6 +171,8 @@ export class TeamRosterModule implements OnChanges{
         this.tabs = data;
         this.tabSelected(this.tabs[0].title);
         this.updateCarousel();
+        var teamName = data[0].tableData.rows[0].teamName;
+        this.headerInfo.moduleTitle = "Team Roster - " + teamName;
       },
       err => {
         console.log("Error getting team roster data");

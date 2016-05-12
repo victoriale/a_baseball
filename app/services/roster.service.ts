@@ -76,6 +76,15 @@ export class RosterService {
     return moduletitle;
   }
 
+  getPageTitle(pageParams): string {
+    // let groupName = this.formatGroupName(pageParams.conference, pageParams.division);
+    let pageTitle = "Team Roster";
+    if ( pageParams.teamName !== undefined && pageParams.teamName !== null ) {
+      pageTitle = "Team Roster - " + pageParams.teamName;
+    }
+    return pageTitle;
+  }
+
   getLinkToPage(pageParams) {
     var pageName = "Team-roster-page";
     var pageValues = {
