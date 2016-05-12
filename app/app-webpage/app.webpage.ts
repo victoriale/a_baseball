@@ -100,7 +100,7 @@ import {DesignPage} from "../webpages/design-page/design.page";
         component: StandingsPage
     },
     {
-        path: '/standings/:type/:teamId',
+        path: '/standings/:type/:teamName/:teamId',
         name: 'Standings-page-team',
         component: StandingsPage
     },

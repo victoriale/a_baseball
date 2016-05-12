@@ -4,6 +4,7 @@ import {Http} from 'angular2/http';
 
 import {TitleInputData} from "../components/title/title.component";
 import {GlobalFunctions} from "../global/global-functions";
+import {MLBGlobalFunctions} from "../global/mlb-global-functions";
 import {AuBlockData, AboutUsModel} from "../webpages/about-us-page/about-us.page";
 
 export interface AboutUsInterface {
@@ -40,7 +41,7 @@ export class AboutUsService {
       headerTitle: "What is " + pageName + "?",
       titleData: {
           imageURL : '/app/public/mainLogo.png',
-          text1: 'Last Updated: ' + this._globalFunctions.formatUpdatedDate(lastUpdatedDate),
+          text1: 'Last Updated: ' + GlobalFunctions.formatUpdatedDate(lastUpdatedDate),
           text2: 'United States',
           text3: "Want to learn more about " + pageName + "?",
           text4: '',
@@ -63,15 +64,18 @@ export class AboutUsService {
           dataText: playerProfiles
         },
         {
-          imageConfig: {
-            imageClass: "image-51",
-            mainImage: {
-              imageUrl: data.worldChampImageUrl,
-              imageClass: "border-1"
-            }
+          link: {
+            route: MLBGlobalFunctions.formatTeamRoute(data.worldChampName, "0"), //TODO-CJP: update when API is updated
+            imageConfig: {
+              imageClass: "image-51",
+              mainImage: {
+                imageUrl: data.worldChampImageUrl,
+                imageClass: "border-1"
+              }
+            },            
           },
           titleText: data.worldChampYear + ' World Series Champions',
-          dataText: data.worldChampName
+          dataText: data.worldChampName,
         }
       ],
       content: [

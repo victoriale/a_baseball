@@ -71,9 +71,7 @@ export class DesignPage implements OnInit {
     );
     this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
       data => {
-        this.pageParams.teamName = data.stats.teamName;
-        this.pageParams.division = Division[data.stats.division.name.toLowerCase()];
-        this.pageParams.conference = Conference[data.stats.conference.name.toLowerCase()];
+        this.pageParams = data.pageParams;
         this.teamProfileHeaderData = this._profileService.convertToTeamProfileHeader(data);
         this.setupStandingsData();
       },
