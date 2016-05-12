@@ -4,6 +4,14 @@ import {ModuleFooter} from "../../components/module-footer/module-footer.compone
 import {ModuleHeader} from '../../components/module-header/module-header.component';
 import {ListOfListsItem} from "../../components/list-of-lists-item/list-of-lists-item.component";
 import {ModuleHeaderData} from "../../components/module-header/module-header.component";
+import {RouteParams} from "angular2/router";
+import {Router} from "angular2/router";
+import {Input} from "angular2/core";
+import {ProfileHeaderData} from "../profile-header/profile-header.module";
+
+export interface ListOfListsData {
+  listData: any;
+}
 
 @Component({
     selector: 'list-of-lists',
@@ -13,16 +21,15 @@ import {ModuleHeaderData} from "../../components/module-header/module-header.com
 })
 
 export class ListOfListsModule{
+  @Input() profileHeaderData : ProfileHeaderData;
+  @Input() listOfListsData : ListOfListsData;
   moduleHeader: ModuleHeaderData;
   testData: any;
+  displayData: any;
   footerData: Object;
 
-  constructor(){
-    this.moduleHeader = {
-      moduleTitle: "Top Lists - [Profile Name]",
-      hasIcon: false,
-      iconClass: "",
-    }
+  constructor(private _router: Router, private _params: RouteParams) {
+    var type = _params.get("type");
 
     if(typeof this.testData == 'undefined' || this.testData == null){// test data only
       this.testData =[
@@ -362,6 +369,18 @@ export class ListOfListsModule{
         text:'VIEW MORE LISTS',
         url:['Error-page'],//TODO change to proper url
       }
+    }
+
+  }
+
+  ngOnChanges(event) {
+    if(typeof event.listOfListsData != 'undefined'){
+      this.displayData = this.listOfListsData.listData;
+    }
+    this.moduleHeader = {
+      moduleTitle: "Top Lists - " + this.profileHeaderData.profileName,
+      hasIcon: false,
+      iconClass: "",
     }
 
   }

@@ -56,7 +56,6 @@ export class ListOfListsPage implements OnInit{
         this.lolService.getListOfListsService("page", null, null, null, 20, 1)
           .subscribe(
             listOfListsData => {
-                console.log("1",listOfListsData);
                 this.detailedDataArray = listOfListsData.listData;
                 this.dataArray = true
                 this.carouselDataArray = listOfListsData.carData

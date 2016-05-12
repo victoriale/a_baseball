@@ -21,12 +21,14 @@ import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.modul
 import {ShareModule, ShareModuleInput} from '../../modules/share/share.module';
 import {LikeUs} from "../../modules/likeus/likeus.module";
 import {CommentModule} from '../../modules/comment/comment.module';
+import {ListOfListsData} from "../../modules/list-of-lists/list-of-lists.module";
+import {ListOfListsService} from "../../services/list-of-lists.service";
 
 @Component({
     selector: 'Design-page',
     templateUrl: './app/webpages/design-page/design.page.html',
     directives: [DraftHistoryModule, AboutUsModule, StandingsModule, ProfileHeaderModule, ArticlesModule, ListOfListsModule, ShareModule, LikeUs, CommentModule],
-    providers: [StandingsService, ProfileHeaderService]
+    providers: [StandingsService, ProfileHeaderService, ListOfListsService]
 })
 
 export class DesignPage implements OnInit {
@@ -35,14 +37,21 @@ export class DesignPage implements OnInit {
   playerProfileHeaderData: ProfileHeaderData;
   teamProfileHeaderData: ProfileHeaderData;
   leagueProfileHeaderData: ProfileHeaderData;
-    public shareModuleInput: ShareModuleInput = {
-        imageUrl: './app/public/mainLogo.png'
-    };
+  listOfListsData: ListOfListsData;
+  profileType: string;
+  lolDetailedDataArray : any;
+  lolDataArray : boolean;
+  lolCarouselDataArray : any;
+
+  public shareModuleInput: ShareModuleInput = {
+      imageUrl: './app/public/mainLogo.png'
+  };
 
   constructor(
     private _params: RouteParams,
     private _standingsService: StandingsService,
     private _profileService: ProfileHeaderService,
+    private _lolService: ListOfListsService,
     private _globalFunctions: GlobalFunctions,
     private _mlbFunctions: MLBGlobalFunctions) {
 
@@ -58,6 +67,7 @@ export class DesignPage implements OnInit {
 
   ngOnInit() {
     this.setupProfileData();
+    this.setupLolData();
   }
 
   private setupProfileData() {
@@ -103,4 +113,19 @@ export class DesignPage implements OnInit {
         console.log("Error getting standings data: " + err);
       });
   }
+
+  private setupLolData() {
+    //  getListOfListsService(version, type?, scope?, conference?, count?, page?){
+    this._lolService.getListOfListsService("page", null, null, null, 4, 1)
+      .subscribe(
+        listOfListsData => {
+          this.listOfListsData = listOfListsData;
+        },
+        err => {
+          console.log('Error: listOfListsData API: ', err);
+          this.isError = true;
+        }
+      );
+  }
+
 }
