@@ -2,11 +2,13 @@ import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Rx';
 import {Http} from 'angular2/http';
 import {SearchComponentData} from '../components/search/search.component';
-declare let JsSearch: any;
+import {MLBGlobalFunctions}  from '../global/mlb-global-functions';
+declare let Fuse: any;
 
 @Injectable()
 export class SearchService{
     public searchJSON: any;
+    public searchAPI: string = 'http://dev-homerunloyal-api.synapsys.us/landingPage/search';
 
     constructor(private http: Http){
         //Get initial search JSON data
@@ -15,7 +17,7 @@ export class SearchService{
 
     //Function get search JSON object
     getSearchJSON(){
-        return this.http.get('./app/private/search.json', {
+        return this.http.get(this.searchAPI, {
 
             })
             .map(
@@ -35,37 +37,40 @@ export class SearchService{
 
     //Function used by search input to get suggestions dropdown
     getSearchDropdownData(term: string){
+        //TODO: Wrap in async
         let data = this.searchJSON;
 
-        ////Search for players and teams
-        //let playerResults = this.searchPlayers(term, data.players);
-        //let teamResults = this.searchTeams(term, data.teams);
-        ////Transform data to useable format
-        //let searchResults = this.resultsToDropdown(playerResults, teamResults);
-
-        let searchResults = [];
+        //Search for players and teams
+        let playerResults = this.searchPlayers(term, data.players);
+        let teamResults = this.searchTeams(term, data.teams);
+        //Transform data to useable format
+        let searchResults = this.resultsToDropdown(playerResults, teamResults);
 
         return Observable.of(searchResults);
     }
 
     //Function to search through players. Outputs array of players that match criteria
     searchPlayers(term, data){
-        let search = new JsSearch.Search('playerId');
-        search.addIndex('playerFirstName');
-        search.addIndex('playerLastName');
-        search.addDocuments(data);
+        let fuse = new Fuse(data, {
+            //Fields the search is based on
+            keys: ['playerFirstName', 'playerLastName'],
+            //At what point does the match algorithm give up. A threshold of 0.0 requires a perfect match (of both letters and location), a threshold of 1.0 would match anything.
+            threshold: 0.2
+        });
 
-        return search.search(term);
+        return fuse.search(term);
     }
 
     //Function to search through teams. Outputs array of teams that match criteria
     searchTeams(term, data){
-        let search = new JsSearch.Search('teamId');
-        search.addIndex('teamFirstName');
-        search.addIndex('teamLastName');
-        search.addDocuments(data);
+        let fuse = new Fuse(data, {
+            //Fields the search is based on
+            keys: ['teamFirstName', 'teamLastName'],
+            //At what point does the match algorithm give up. A threshold of 0.0 requires a perfect match (of both letters and location), a threshold of 1.0 would match anything.
+            threshold: 0.2
+        });
 
-        return search.search(term);
+        return fuse.search(term);
     }
 
     //Convert players and teams to needed dropdown array format
@@ -79,12 +84,13 @@ export class SearchService{
                 break;
             }
             let item = teamResults[i];
+            let teamName = item.teamFirstName + ' ' + item.teamLastName;
             count++;
             searchArray.push({
-                title: item.teamFirstName + ' ' + item.teamLastName,
-                value: item.teamFirstName + ' ' + item.teamLastName,
+                title: teamName,
+                value: teamName,
                 imageUrl: '',
-                routerLink: []
+                routerLink: MLBGlobalFunctions.formatTeamRoute(teamName, item.teamId)
             })
         }
 
@@ -95,14 +101,17 @@ export class SearchService{
             }
             count++;
             let item = playerResults[i];
+            let playerName = item.playerFirstName + ' ' + item.playerLastName;
             searchArray.push({
-                title: '<span class="text-bold">' + item.playerFirstName + ' ' + item.playerLastName + '</span> - ' + item.teamName,
-                value: item.playerFirstName + ' ' + item.playerLastName,
+                title: '<span class="text-bold">' + playerName + '</span> - ' + item.teamName,
+                value: playerName,
                 imageUrl: '',
-                routerLink: []
+                routerLink: MLBGlobalFunctions.formatPlayerRoute(item.teamName, playerName, item.playerId)
             })
         }
 
         return searchArray;
     }
+
+
 }

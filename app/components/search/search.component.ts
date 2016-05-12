@@ -1,36 +1,26 @@
 import {Component, Input, Output, OnInit, OnDestroy, EventEmitter, ElementRef} from 'angular2/core';
+import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {SearchService} from '../../services/search.service';
 import {Observable} from 'rxjs/Rx';
 import {Control} from 'angular2/common';
 
-
-/*
- *
- *
- *  Interface for search dropdown items
- *  SearchComponentData {
- *      //Html string that is displayed in the dropdown
- *      title: string;
- *      //Value to compare against for autocomplete text
- *      value: string
- *      //Url of image to be displayed next to the dropdown item
- *      imageUrl: string;
- *      //Array for routerLink parameters
- *      routerLink: Array<any>;
- *   }
- *
- *
- */
-
+//Interface for search dropdown items
 export interface SearchComponentData {
+    //Html string that is displayed in the dropdown
     title: string;
+    //Value to compare against for autocomplete text
     value: string;
+    //Url of image to be displayed next to the dropdown item
     imageUrl: string;
+    //Array for routerLink parameters
     routerLink: Array<any>
 }
 
+//Interface for input of search component
 interface SearchInput {
+    //Text that goes in as the placeholder for the input
     placeholderText: string;
+    //Boolean to determine if the search dropdown should be displayed
     hasSuggestions: boolean;
 }
 
@@ -40,7 +30,7 @@ interface SearchInput {
       '(document:click)': 'handleClick($event)'
     },
     templateUrl: './app/components/search/search.component.html',
-    directives: [],
+    directives: [ROUTER_DIRECTIVES],
     providers: []
 })
 
@@ -51,10 +41,14 @@ export class Search{
     };
     @Input() placeholderText: string;
 
+    //NgControl of input
     public term: any = new Control();
+    //Array of suggestions dropdown
     public dropdownList: Array<SearchComponentData> = [];
     public elementRef;
+    //Boolean to determine if dropdown should be shown
     public showDropdown: boolean = false;
+    //Boolean to determine if no results message should be shown
     public hasResults: boolean = true;
     //Subscription objects for observables
     public subscriptionData: any;
@@ -64,14 +58,17 @@ export class Search{
     //Index of a dropdown item that is been selected by arrow keys. (0 is no selection or input selected)
     public selectedIndex: number = 0;
 
+    public isSuppressed: boolean = false;
+    public storedSearchTerm: string;
+
     constructor(_elementRef: ElementRef, private _searchService: SearchService){
         this.elementRef = _elementRef;
     }
 
     //Function to detect if user clicks inside the component
     handleClick(event){
-        var target = event.target;
-        var clickedInside = false;
+        let target = event.target;
+        let clickedInside = false;
         do{
             if(target === this.elementRef.nativeElement){
                 clickedInside = true;
@@ -98,9 +95,13 @@ export class Search{
                 if(this.selectedIndex >= this.dropdownList.length){
                     //If index is equal or greater than last item, reset index to 0 (input is selected)
                     this.selectedIndex = 0;
+                    this.unsuppressSearch();
+
                 }else{
                     //Else increment index by 1
                     this.selectedIndex++;
+                    let value = this.getSelectedValue(this.selectedIndex);
+                    this.suppressSearch(value);
                 }
             }
         }else if(event.keyCode === 38){
@@ -110,12 +111,39 @@ export class Search{
                 if (this.selectedIndex === 0) {
                     //If index is 0 (input is selected), set index to last item
                     this.selectedIndex = this.dropdownList.length;
+                    let value = this.getSelectedValue(this.selectedIndex);
+                    this.suppressSearch(value);
+                } else if(this.selectedIndex === 1) {
+                    //Else if index is 1 (1st dropdown option is selected), set index to input and unsuppress search
+                    this.selectedIndex = 0;
+                    this.unsuppressSearch();
                 } else {
                     //Else decrement index by 1
                     this.selectedIndex--;
+                    let value = this.getSelectedValue(this.selectedIndex);
+                    this.suppressSearch(value);
                 }
             }
+        }else{
+            //If other key is pressed unsuppress search
+            this.isSuppressed = false;
+            this.resetSelected();
         }
+    }
+
+    //Get value that is
+    getSelectedValue(index: number){
+        return this.dropdownList[index - 1].value;
+    }
+
+    suppressSearch(value: string){
+        this.isSuppressed = true;
+        this.term.updateValue(value);
+    }
+
+    unsuppressSearch(){
+        this.term.updateValue(this.storedSearchTerm);
+        this.isSuppressed = false;
     }
 
     //Function to reset the dropdown item selected by arrow keys (Used throughout component)
@@ -123,24 +151,24 @@ export class Search{
         this.selectedIndex = 0;
     }
 
-    itemHovered(index){
+    itemHovered(index: number){
         this.selectedIndex = index + 1;
     }
 
     //Function to check if autocomplete text should be displayed or hidden
-    compareAutoComplete(text){
+    compareAutoComplete(text: string){
         //If dropdown suggestions exists
         if(this.dropdownList.length > 0){
-            var suggestionText = this.dropdownList[0].value;
+            let suggestionText = this.dropdownList[0].value;
             //Sanitize values to compare. This is to match different case values
-            var tempCompare = suggestionText.toLowerCase();
-            var tempText = text.toLowerCase();
+            let tempCompare = suggestionText.toLowerCase();
+            let tempText = text.toLowerCase();
             //Check to see if input text is a substring of suggestion Text
-            var indexOf = tempCompare.indexOf(tempText);
+            let indexOf = tempCompare.indexOf(tempText);
             //If input is a substring of the suggestion text, display suggestion text
             if(indexOf === 0 && text !== ''){
                 //Rebuild auto complete text to display
-                var autoCompleteText = text + suggestionText.substring(text.length);
+                let autoCompleteText = text + suggestionText.substring(text.length);
                 this.autoCompleteText = autoCompleteText;
             }else{
                 this.autoCompleteText = '';
@@ -149,16 +177,21 @@ export class Search{
     }
 
     ngOnInit(){
-        var self = this;
+        let self = this;
 
         //Subscription for function call to service
         this.subscriptionData = this.term.valueChanges
+            //Only continue stream if 400 milliseconds have passed since the last iteration
             .debounceTime(400)
+            //If search is not suppressed, continue rxjs stream
+            .filter(data => !self.isSuppressed)
+            //Only continue stream if the input value has changed from the last iteration
             .distinctUntilChanged()
             .switchMap((term: string) => term.length > 0 ? self._searchService.getSearchDropdownData(term) : Observable.of([]))
             .subscribe(data => {
                 self.resetSelected();
                 self.dropdownList = data;
+                self.storedSearchTerm = self.term.value;
                 self.compareAutoComplete(self.term.value);
             });
 
