@@ -44,7 +44,6 @@ export class DraftHistoryModule{
         data => {
           var profHeader = this.profHeadService.convertTeamPageHeader(data);
           this.profileHeaderData = profHeader.data;
-          console.log(data);
           this.modHeadData = {
               moduleTitle: "Draft History - "+ data.headerData.stats.teamName,
               hasIcon: false,
