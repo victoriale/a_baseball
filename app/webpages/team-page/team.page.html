@@ -6,15 +6,15 @@
 
 
   <headline-component></headline-component>
-  <!-- boxscores -->
-  <!-- schedule -->
+  <box-scores></box-scores>
+  <schedules></schedules>
   <standings-module *ngIf="standingsData" [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
   <!-- teamroster -->
   <team-roster-module></team-roster-module>
 
   <!-- playerstats -->
   <!-- transactions -->
-  <!-- drafthistory -->
+  <draft-history></draft-history>
   <!-- MVP -->
   <comparison-module></comparison-module>
 

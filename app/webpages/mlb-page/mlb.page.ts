@@ -10,6 +10,8 @@ import {CommentModule} from '../../modules/comment/comment.module';
 import {StandingsModule, StandingsModuleData} from '../../modules/standings/standings.module';
 import {MLBStandingsTabData} from '../../services/standings.data';
 import {StandingsService} from '../../services/standings.service';
+import {SchedulesModule} from '../../modules/schedules/schedules.module';
+import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
 
 import {ProfileHeaderData, ProfileHeaderModule} from '../../modules/profile-header/profile-header.module';
 import {ProfileHeaderService} from '../../services/profile-header.service';
@@ -23,6 +25,8 @@ import {HeadlineComponent} from '../../components/headline/headline.component';
     selector: 'MLB-page',
     templateUrl: './app/webpages/mlb-page/mlb.page.html',
     directives: [
+        SchedulesModule,
+        BoxScoresModule,
         HeadlineComponent,
         ProfileHeaderModule,
         StandingsModule,

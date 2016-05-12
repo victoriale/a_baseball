@@ -9,10 +9,11 @@ import {ComparisonModule} from '../../modules/comparison/comparison.module';
 import {ShareModule} from '../../modules/share/share.module';
 import {CommentModule} from '../../modules/comment/comment.module';
 import {DraftHistoryModule} from '../../modules/draft-history/draft-history.module';
-
+import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
 import {StandingsModule, StandingsModuleData} from '../../modules/standings/standings.module';
 import {MLBStandingsTabData} from '../../services/standings.data';
 import {StandingsService} from '../../services/standings.service';
+import {SchedulesModule} from '../../modules/schedules/schedules.module';
 
 import {TeamRosterModule} from '../../modules/team-roster/team-roster.module';
 import {RosterService} from '../../services/roster.service';
@@ -29,6 +30,9 @@ import {HeadlineComponent} from '../../components/headline/headline.component';
     selector: 'Team-page',
     templateUrl: './app/webpages/team-page/team.page.html',
     directives: [
+        SchedulesModule,
+        BoxScoresModule,
+        DraftHistoryModule,
         HeadlineComponent,
         ProfileHeaderModule,
         StandingsModule,

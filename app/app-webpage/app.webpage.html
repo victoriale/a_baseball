@@ -1,11 +1,14 @@
 <div id="partner" *ngIf="partnerScript" [innerHTML]="partnerScript"></div>
-<header-component [partnerID]="partnerID"></header-component>
 <nav class="testLinks">
   <a [routerLink]="['Home-page']">Home</a>
+  <a [routerLink]="['MLB-page']">MLB Page</a>
+  <a [routerLink]="['Team-page', {teamName:'baltimore-orioles', teamId: 2799} ]">Team #2799</a>
+  <a [routerLink]="['Player-page', {teamName:'baltimore-orioles', fullName: 'kevin-gausman', playerId: 95055} ]">Player #95055</a>
+  <br>
   <a [routerLink]="['Design-page',{teamId: 2796}]">Design Review</a>
   <a [routerLink]="['Component-page']">Components</a>
-  <a [routerLink]="['Team-page', {teamName:'Yankees', teamId: 2796} ]">Team #2796</a>
-  <a [routerLink]="['Draft-history-page', {teamName:'Yankees', teamId: 2796} ]">Draft History #2796</a>
+  <br>
+  <a [routerLink]="['Draft-history-page', {teamName:'baltimore-orioles', teamId: 2799}]">Draft History #2799</a>
   <a [routerLink]="['List-page', {profile:'team', listname: 'batter-stolen-bases', sort:'desc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]">List Page</a>
   <a [routerLink]="['Directory-page', { type: 'player', page: 1 }]">Directory</a>
   <a [routerLink]="['About-us-page']">About Us</a>
@@ -18,7 +21,6 @@
   <a [routerLink]="['Articles-Page']">Article Page</a>
   <a [routerLink]="['Team-roster-page', {teamName:'orioles',teamId:2799}]">Team Roster</a>
   <a [routerLink]="['Standings-page']">Standings Page</a>
-  <a [routerLink]="['MLB-page']">MLB Page</a>
   <a [routerLink]="['List-of-lists-page']">List of Lists Page</a>
 </nav>
 <!--
@@ -31,8 +33,11 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-xs-12">
-      <router-outlet></router-outlet>
+      <header-component></header-component>
+      <div class='web-container'>
+        <router-outlet></router-outlet>
+      </div>
+      <footer-component></footer-component>
     </div>
   </div>
 </div>
-<footer-component [partnerID]="partnerID" [stateLocation]="stateLocation" [cityLocation]="cityLocation"></footer-component>
