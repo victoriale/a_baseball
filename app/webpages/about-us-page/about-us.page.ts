@@ -70,6 +70,9 @@ export class AboutUsPage {
             data => this.setupAboutUsData(data),
             err => { 
               console.log("Error getting About Us data: " + err);
+              for ( var key in err ) {
+                console.log("  " + key + " => " + err[key]);
+              }
             }
           );
         });//end of route subscribe

@@ -25,7 +25,7 @@ export class AboutUsService {
   constructor(public http: Http, private _globalFunctions: GlobalFunctions){}
 
   getData(partnerID: string): Observable<AboutUsModel> {
-    let url = GlobalSettings.getApiUrl() + '/aboutUs';
+    let url = GlobalSettings.getApiUrl() + '/landingPage/aboutUs';
     return this.http.get(url)
         .map(res => res.json())
         .map(data => this.formatData(data.data, partnerID));
@@ -69,7 +69,7 @@ export class AboutUsService {
           link: {
             route: MLBGlobalFunctions.formatTeamRoute(fullName, data.worldChampTeamId),
             imageConfig: {
-              imageClass: "image-51",
+              imageClass: "image-50",
               mainImage: {
                 imageUrl: data.worldChampImageUrl,
                 imageClass: "border-1"
