@@ -10,10 +10,21 @@ import {CommentModule} from '../../modules/comment/comment.module';
 import {ShareModuleInput} from '../../modules/share/share.module';
 import {HeadlineComponent} from '../../components/headline/headline.component';
 
+import {NewsModule} from '../../modules/news/news.module';
+
 @Component({
     selector: 'Player-page',
     templateUrl: './app/webpages/player-page/player.page.html',
-    directives: [HeadlineComponent, CommentModule, DYKModule, FAQModule, LikeUs, TwitterModule, ComparisonModule, ShareModule],
+    directives: [
+          HeadlineComponent,
+          CommentModule,
+          DYKModule,
+          FAQModule,
+          LikeUs,
+          TwitterModule,
+          ComparisonModule,
+          ShareModule,
+          NewsModule],
     providers: [],
 })
 

@@ -18,6 +18,8 @@ import {Division, Conference, MLBPageParameters} from '../../global/global-inter
 import {ShareModuleInput} from '../../modules/share/share.module';
 import {HeadlineComponent} from '../../components/headline/headline.component';
 
+import {NewsModule} from '../../modules/news/news.module';
+
 @Component({
     selector: 'MLB-page',
     templateUrl: './app/webpages/mlb-page/mlb.page.html',
@@ -31,7 +33,8 @@ import {HeadlineComponent} from '../../components/headline/headline.component';
         LikeUs,
         TwitterModule,
         ComparisonModule,
-        ShareModule],
+        ShareModule,
+        NewsModule],
     providers: [StandingsService, ProfileHeaderService]
 })
 
