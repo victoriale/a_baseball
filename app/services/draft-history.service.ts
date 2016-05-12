@@ -4,10 +4,11 @@ import {Http, Headers} from 'angular2/http';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
 import {GlobalSettings} from '../global/global-settings';
+import {CircleImageData} from '../components/images/image-data';
 
 @Injectable()
 export class DraftHistoryService {
-  private _apiUrl: string = 'http://dev-homerunloyal-api.synapsys.us';
+  private _apiUrl: string = GlobalSettings.getApiUrl();
   // private _apiToken: string = 'BApA7KEfj';
   // private _headerName: string = 'X-SNT-TOKEN';
 
@@ -22,7 +23,7 @@ export class DraftHistoryService {
       return headers;
   }
 
-  getDraftHistoryService(year, type?){
+  getDraftHistoryService(year, teamId,type?){
   //Configure HTTP Headers
   var headers = this.setToken();
   //for MLB season starts and ends in the same year so return current season
@@ -41,7 +42,7 @@ export class DraftHistoryService {
     });
   }
 
-  var callURL = this._apiUrl + '/team/draftHistory/2791/'+year;
+  var callURL = this._apiUrl + '/team/draftHistory/'+teamId+'/'+year;
   // console.log(callURL);
 
   return this.http.get( callURL, {
@@ -102,7 +103,7 @@ export class DraftHistoryService {
             '<p style="font-size:24px"><b>'+val.playerName+'</b></p>',
             '<p>Hometown: <b>'+val.draftTeamName+'</b></p>',
             '<br>',
-            '<p style="font-size:24px"><b>'+(index+1)+'<sup>'+self.globalFunc.Suffix(Number(index+1))+'</sup>Pick for Round '+val.selectionLevel+'</b></p>',
+            '<p style="font-size:24px"><b>'+(index+1)+'<sup>'+GlobalFunctions.Suffix(Number(index+1))+'</sup>Pick for Round '+val.selectionLevel+'</b></p>',
             '<p>'+val.selectionOverall+' Overall</p>',
           ],
           footerInfo: {
@@ -146,7 +147,7 @@ export class DraftHistoryService {
             '<p style="font-size:24px"><b>'+val.playerName+'</b></p>',
             '<p>Hometown: <b>'+val.draftTeamName+'</b></p>',
             '<br>',
-            '<p style="font-size:24px"><b>'+(index+1)+'<sup>'+self.globalFunc.Suffix(Number(index+1))+'</sup>Pick for Round '+val.selectionLevel+'</b></p>',
+            '<p style="font-size:24px"><b>'+(index+1)+'<sup>'+GlobalFunctions.Suffix(Number(index+1))+'</sup>Pick for Round '+val.selectionLevel+'</b></p>',
             '<p>'+val.selectionOverall+' Overall</p>',
           ],
         };
@@ -203,7 +204,7 @@ export class DraftHistoryService {
     if(typeof rank == 'undefined' || rank == 0){
       rank = 0;
     }
-    var image = {//interface is found in image-data.ts
+    var image: CircleImageData = {//interface is found in image-data.ts
         imageClass: imageClass,
         mainImage: {
             imageUrl: mainImg,
@@ -213,14 +214,19 @@ export class DraftHistoryService {
         },
         subImages: [
           {
+              imageUrl: '',
+              urlRouteArray: '',
+              hoverText: "",
+              imageClass: ""
+          },
+          {
             text: "#"+rank,
             imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
           }
         ],
     };
-    if(typeof subRoute != 'undefined'){
-      image['subImages'] = [];
-      image['subImages'] = [
+    if(typeof subRoute != 'undefined') {
+      image.subImages = [
           {
               imageUrl: subImg,
               urlRouteArray: subRoute,

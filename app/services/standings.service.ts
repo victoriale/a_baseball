@@ -18,10 +18,11 @@ export class StandingsService {
   getLinkToPage(pageParams: MLBPageParameters): Array<any> {
     var pageName = "Standings-page";
     var pageValues = {};
-    
+
 
     if ( pageParams.teamId && pageParams.teamName ) {
       pageValues["teamId"] = pageParams.teamId;
+      pageValues["teamName"] = pageParams.teamName;
       pageValues["type"] = "team";
       pageName += "-team";
     }
@@ -60,10 +61,6 @@ export class StandingsService {
 
     if ( standingsTab.conference !== undefined ) {
       url += "/" + Conference[standingsTab.conference];
-
-      // if ( standingsTab.division !== undefined ) {
-      //   url += "/" + Division[standingsTab.division];
-      // }
     }
 
     return this.http.get(url)
@@ -104,6 +101,7 @@ export class StandingsService {
   private setupTabData(standingsTab: MLBStandingsTabData, apiData: any, maxRows?: number): MLBStandingsTabData {
     //Array<TeamStandingsData>
     var sections: Array<MLBStandingsTableData> = [];
+    var totalRows = 0;
 
     if ( standingsTab.conference !== null && standingsTab.conference !== undefined &&
       standingsTab.division !== null && standingsTab.division !== undefined ) {
@@ -118,7 +116,15 @@ export class StandingsService {
       for ( var conferenceKey in apiData ) {
         for ( var divisionKey in apiData[conferenceKey] ) {
           var divData = conferenceKey && divisionKey ? apiData[conferenceKey][divisionKey] : [];
-          sections.push(this.setupTableData(Conference[conferenceKey], Division[divisionKey], divData, maxRows, true));
+          var table = this.setupTableData(Conference[conferenceKey], Division[divisionKey], divData, maxRows, true);
+          totalRows += table.tableData.rows.length;
+          if ( maxRows && totalRows > maxRows ) {
+            break; //don't add more divisions
+          }
+          sections.push(table);
+        }
+        if ( maxRows && totalRows > maxRows ) {
+          break; //don't add more conferences
         }
       }
     }
@@ -138,7 +144,7 @@ export class StandingsService {
     //Set display values
     rows.forEach((value, index) => {
       value.groupName = groupName;
-      value.displayDate = this._globalFunctions.formatUpdatedDate(value.lastUpdatedDate, false);
+      value.displayDate = GlobalFunctions.formatUpdatedDate(value.lastUpdated, false);
       value.fullImageUrl = GlobalSettings.getImageUrl(value.imageUrl);
       if ( value.teamId === undefined || value.teamId === null ) {
         value.teamId = index;

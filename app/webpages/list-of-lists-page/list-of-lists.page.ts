@@ -5,7 +5,7 @@ import {SliderCarousel, SliderCarouselInput} from '../../components/carousels/sl
 import {TitleComponent, TitleInputData} from '../../components/title/title.component';
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {NoDataBox} from '../../components/error/data-box/data-box.component';
-import {ListOfListItem} from "../../components/list-of-list-item/list-of-list-item.component";
+import {ListOfListsItem} from "../../components/list-of-lists-item/list-of-lists-item.component";
 import {ListOfListsService} from "../../services/list-of-lists.service";
 import {RouteParams} from 'angular2/router';
 import {LoadingComponent} from "../../components/loading/loading.component";
@@ -17,7 +17,7 @@ declare var moment:any;
 @Component({
     selector: 'list-of-lists-page',
     templateUrl: './app/webpages/list-of-lists-page/list-of-lists.page.html',
-    directives: [NoDataBox, BackTabComponent, TitleComponent, SliderCarousel, ListOfListItem, ModuleFooter, LoadingComponent, ErrorComponent, PaginationFooter],
+    directives: [NoDataBox, BackTabComponent, TitleComponent, SliderCarousel, ListOfListsItem, ModuleFooter, LoadingComponent, ErrorComponent, PaginationFooter],
     providers: [ListOfListsService],
     inputs:[]
 })

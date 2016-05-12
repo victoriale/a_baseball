@@ -279,7 +279,7 @@ export class RosterTableModel {
           mainImage: {
             imageUrl: GlobalSettings.getImageUrl(item.headShotUrl),
             imageClass: "border-2",
-            urlRouteArray: MLBGlobalFunctions.formatPlayerRoute(item.teamName,item.playerName,item.playerId),
+            urlRouteArray: MLBGlobalFunctions.formatPlayerRoute(item.teamName,item.playerName,item.playerId.toString()),
             hoverText: "<i class='fa fa-mail-forward'></i>",
           },
           subImages: []
@@ -296,7 +296,7 @@ export class RosterTableModel {
 
   getRouterLinkAt(item:TeamRosterData, column:TableColumn):Array<any> {
     if ( column.key === "name" ) {
-      return MLBGlobalFunctions.formatPlayerRoute(item.teamName,item.playerName,item.playerId);
+      return MLBGlobalFunctions.formatPlayerRoute(item.teamName,item.playerName,item.playerId.toString());
     }
     else {
       return undefined;
