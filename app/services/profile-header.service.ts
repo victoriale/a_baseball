@@ -285,7 +285,7 @@ export class ProfileHeaderService {
     if ( info.draftYear ) {
       var currentYear = (new Date()).getFullYear();
       var yearsInMLB = (currentYear - Number(info.draftYear));      
-      formattedYearsInMLB = yearsInMLB.toString();
+      formattedYearsInMLB = GlobalFunctions.formatNumber(yearsInMLB);
       if ( yearsInMLB == 1 ) {
         yearPluralStr = "year";
       }
@@ -311,7 +311,7 @@ export class ProfileHeaderService {
     var formattedWeight = info.weight ? info.weight.toString() : "N/A";
     
     var description = "<span class='text-heavy'>" + info.playerName +
-                  "</span> started his MLB career on <span class='text-heavy'>" + formattedStartDate +
+                  "</span> started his MLB career in <span class='text-heavy'>" + formattedStartDate +
                   "</span> for the <span class='text-heavy'>" + info.teamName +
                   "</span>, accumulating <span class='text-heavy'>" + formattedYearsInMLB +
                   "</span> " + yearPluralStr + " in the MLB. <span class='text-heavy'>" + info.playerName +
