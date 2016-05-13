@@ -475,19 +475,19 @@ export class ProfileHeaderService {
       bottomDataPoints: [
         {
           label: "Total Teams:",
-          value: data.totalTeams
+          value: data.totalTeams ? data.totalTeams.toString() : null
         },
         {
           label: "Total Players:",
-          value: data.totalPlayers
+          value: data.totalPlayers ? data.totalPlayers.toString() : null
         },
         {
           label: "Total Divisions:",
-          value: data.totalDivisions
+          value: data.totalDivisions ? data.totalDivisions.toString() : null
         },
         {
           label: "Total Leagues:",
-          value: data.totalLeagues
+          value: data.totalLeagues ? data.totalLeagues.toString() : null
         }
       ]
     }

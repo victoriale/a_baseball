@@ -34,7 +34,7 @@ export class HomePage implements OnInit {
     public imageTile1: string = "/app/public/iphone.png";
     public imageTile2: string = "/app/public/ipad.png";
     public imageTile3: string = "/app/public/MLB_Schedule_Image.jpg";
-    public searchInput: SearchComponentData = {
+    public searchInput: SearchInput = {
         placeholderText: "Where do you want to be a fan?",
         hasSuggestions: true
     };
