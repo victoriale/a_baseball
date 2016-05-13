@@ -1,6 +1,6 @@
-<div class="page-container">
+<div *ngIf="profileHeaderData" class="page-container">
   <headline-component></headline-component>
-  <profile-header *ngIf="profileHeaderData" [profileHeaderData]="profileHeaderData"></profile-header>
+  <profile-header [profileHeaderData]="profileHeaderData"></profile-header>
   <!-- daily update -->
   <!-- ai articles -->
 
@@ -14,7 +14,7 @@
 
   <!-- playerstats -->
   <!-- transactions -->
-  <draft-history></draft-history>
+  <draft-history *ngIf="draftHistoryData" [draftData]="draftHistoryData" [profHeader]="profileHeaderData" (tab)="draftTab($event)"></draft-history>
   <!-- MVP -->
   <comparison-module></comparison-module>
 
