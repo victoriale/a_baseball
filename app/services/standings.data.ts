@@ -88,7 +88,7 @@ export class MLBStandingsTabData implements TableTabData<TeamStandingsData> {
       index: index,
       //backgroundImage: null, //optional
       description: [
-        "<div class='standings-car-subhdr'>" + subheader + "</div>",
+        "<div class='standings-car-subhdr'><i class='fa fa-circle'></i>" + subheader + "</div>",
         "<div class='standings-car-hdr'>" + item.teamName + "</div>",
         "<div class='standings-car-desc'>" + description + "</div>",
         "<div class='standings-car-date'>Last Updated On " + item.displayDate + "</div>"
