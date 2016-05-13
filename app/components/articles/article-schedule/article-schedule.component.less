@@ -78,12 +78,15 @@
           }
         }
       }
-      &-b {
-        font-size: 16px;
+      &-name {
+        .globalDefaultFont(16px, 400);
         line-height: 22px;
         width: 125px;
         text-overflow: ellipsis;
         overflow: hidden;
+        &-bold {
+          font-weight: 900;
+        }
       }
       &-record{
         font-weight: 400;
