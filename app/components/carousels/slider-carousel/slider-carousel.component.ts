@@ -49,7 +49,12 @@ export class SliderCarousel implements OnInit {
   response(event){
     //set the data event being emitted back from the carousel component
     this.dataPoint = event;
-
+    if ( this.dataPoint.backgroundImage ) {      
+      this.backgroundImage = this.dataPoint.backgroundImage;
+    }
+    else {      
+      this.backgroundImage = '/app/public/homePage_hero1.png';
+    }
     //sets the index of the dataPoint of its current position in the array
     // the '?' meaning if there is data to even receive
     if(typeof this.dataPoint['index'] != 'undefined'){
