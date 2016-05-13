@@ -8,6 +8,9 @@ export class GlobalSettings {
 
   private static _apiUrl: string = '-homerunloyal-api.synapsys.us';
   private static _imageUrl: string = '-sports-images.synapsys.us';
+  private static _articleUrl: string = '-homerunloyal-ai.synapsys.us/';
+  private static _recommendUrl: string = '-homerunloyal-ai.synapsys.us/headlines/event/';
+  private static _headlineUrl: string = '-homerunloyal-ai.synapsys.us/headlines/team/';
 
   static getEnv(env:string): string{
     if( env == "localhost" ){
@@ -29,14 +32,14 @@ export class GlobalSettings {
   }
 
   static getArticleUrl(): string{
-    return this._articleUrl;
+    return this._proto + "//" + this.getEnv(this._env) + this._articleUrl;
   }
 
   static getRecommendUrl(): string{
-    return this._recommendUrl;
+    return this._proto + "//" + this.getEnv(this._env) + this._recommendUrl;
   }
 
   static getHeadlineUrl(): string{
-    return this._headlineUrl;
+    return this._proto + "//" + this.getEnv(this._env) + this._headlineUrl;
   }
 }
