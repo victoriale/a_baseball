@@ -15,7 +15,6 @@ export class RosterService {
     return headers;
   }
 
-  //
   loadAllTabs(teamId, maxRows?: number): Observable<Array<RosterTabData>> {
     var tabs = this.initializeAllTabs();
     return Observable.forkJoin(tabs.map(tab => this.getRosterService(teamId, tab, maxRows)));
@@ -91,9 +90,7 @@ export class RosterService {
       teamName: GlobalFunctions.toLowerKebab(pageParams.teamName),
       teamId: pageParams.teamId
     };
-
     pageValues.teamName = GlobalFunctions.toLowerKebab(pageParams.teamName);
-
     return {
       infoDesc: "Want to see the full team roster?",
       text: "VIEW FULL ROSTER",
