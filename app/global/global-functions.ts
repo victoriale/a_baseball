@@ -83,6 +83,7 @@ export class GlobalFunctions {
       if ( val === undefined || val === null ) {
         return "N\A";
       }
+      console.log('2');
 
       if(isNaN(val) === false) {
         val = val.toString();
@@ -136,6 +137,7 @@ export class GlobalFunctions {
       if ( value === null || value === undefined ) {
         return def || "";
       }
+      console.log('3');
 
       var parts = value.toString().split("."); //split on decimal point
       parts[0] = parts[0].replace(/(\d+)(\d{3})/g, "$1,$2"); //replace all groups of three

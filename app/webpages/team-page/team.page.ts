@@ -66,23 +66,21 @@ export class TeamPage implements OnInit{
     profileHeaderData: ProfileHeaderData;
 
     draftHistoryData: any;
-    currentYear: number;
+    currentYear: string;
 
     constructor(
         private _params: RouteParams,
         private _standingsService: StandingsService,
         private _profileService: ProfileHeaderService,
-        private draftService:DraftHistoryService
+        private _draftService:DraftHistoryService
     ) {
-
         this.pageParams = {
             teamId: Number(_params.get("teamId"))
         };
-        this.currentYear = new Date().getFullYear();
+        this.currentYear = new Date().getFullYear().toString();
     }
 
   ngOnInit() {
-    console.log(this.currentYear);
     this.setupProfileData();
     this.draftHistoryModule(this.currentYear, this.pageParams.teamId);
   }
@@ -90,7 +88,6 @@ export class TeamPage implements OnInit{
 private setupProfileData() {
     this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
       data => {
-        console.log(data);
         this.pageParams = data.pageParams;
         this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data)
         this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
@@ -123,9 +120,8 @@ private setupProfileData() {
         };
     }
 
-    draftHistoryModule(year, teamId) {
-    console.log(year, teamId);
-      this.draftService.getDraftHistoryService(year, teamId, 'module')
+    private draftHistoryModule(year, teamId) {
+      this._draftService.getDraftHistoryService(year, teamId, 'module')
           .subscribe(
               draftData => {
                 var dataArray, detailedDataArray, carouselDataArray;
@@ -138,11 +134,6 @@ private setupProfileData() {
                   detailedDataArray = draftData.listData;
                 }
                 carouselDataArray = draftData.carData
-                console.log(this.draftHistoryData = {
-                  dataArray:dataArray,
-                  detailedDataArray:detailedDataArray,
-                  carouselDataArray:carouselDataArray
-                });
                 return this.draftHistoryData = {
                   dataArray:dataArray,
                   detailedDataArray:detailedDataArray,

@@ -22,7 +22,6 @@ import {TeamPage} from '../../webpages/team-page/team.page';//to recall function
     inputs:['draftData', 'profHeader']
 })
 
-@Injectable()
 export class DraftHistoryModule{
   draftData:any;
   profHeader:any;
@@ -55,17 +54,17 @@ export class DraftHistoryModule{
     //   data:profHeader.error,
     //   icon: "fa fa-area-chart"
     // }
-    //
-    //
-    // if(typeof this.dataArray == 'undefined'){//makes sure it only runs once
-    //   this.dataArray = draftData.tabArray;
-    // }
-    // if(draftData.listData.length == 0){//makes sure it only runs once
-    //   this.detailedDataArray = false;
-    // }else{
-    //   this.detailedDataArray = draftData.listData;
-    // }
-    // this.carouselDataArray = draftData.carData
+
+
+    if(typeof this.dataArray == 'undefined'){//makes sure it only runs once
+      this.dataArray = this.draftData.tabArray;
+    }
+    if(this.draftData.listData.length == 0){//makes sure it only runs once
+      this.detailedDataArray = false;
+    }else{
+      this.detailedDataArray = this.draftData.listData;
+    }
+    this.carouselDataArray = this.draftData.carData
   }
 
   //each time a tab is selected the carousel needs to change accordingly to the correct list being shown
