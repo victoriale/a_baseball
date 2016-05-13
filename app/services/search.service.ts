@@ -1,7 +1,7 @@
 import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Rx';
 import {Http} from 'angular2/http';
-import {SearchComponentData} from '../components/search/search.component';
+import {SearchComponentResult, SearchComponentData} from '../components/search/search.component';
 import {MLBGlobalFunctions}  from '../global/mlb-global-functions';
 declare let Fuse: any;
 
@@ -45,8 +45,12 @@ export class SearchService{
         let teamResults = this.searchTeams(term, data.teams);
         //Transform data to useable format
         let searchResults = this.resultsToDropdown(playerResults, teamResults);
-
-        return Observable.of(searchResults);
+        //Build output to send to search component
+        let searchOutput: SearchComponentData = {
+            term: term,
+            searchResults: searchResults
+        };
+        return Observable.of(searchOutput);
     }
 
     //Function to search through players. Outputs array of players that match criteria
@@ -75,7 +79,7 @@ export class SearchService{
 
     //Convert players and teams to needed dropdown array format
     resultsToDropdown(playerResults, teamResults){
-        let searchArray: Array<SearchComponentData> = [];
+        let searchArray: Array<SearchComponentResult> = [];
         let count = 0, max = 4;
 
         for(let i = 0, length = teamResults.length; i < length; i++){
@@ -113,5 +117,16 @@ export class SearchService{
         return searchArray;
     }
 
+    //Function to build search route
+    getSearchRoute(term: string){
+        let searchRoute: Array<any>;
+        //Build search Route
+        if(typeof term !== 'undefined') {
+            searchRoute = ['Search-page', {query: term}];
+        }else{
+            searchRoute = null;
+        }
 
+        return searchRoute !== null ? searchRoute : ['Error-page'];
+    }
 }
