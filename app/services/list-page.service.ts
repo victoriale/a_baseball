@@ -5,6 +5,7 @@ import {GlobalFunctions} from '../global/global-functions';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalSettings} from '../global/global-settings';
 
+declare var moment;
 @Injectable()
 export class ListPageService {
   private _apiUrl: string = GlobalSettings.getApiUrl();
@@ -51,10 +52,9 @@ export class ListPageService {
     )
     .map(
       data => {
-        console.log(data);
         data.data['query'] = query;
         return {
-          profHeader: this.profileHeader(data.data.listInfo),
+          profHeader: this.profileHeader(data.data),
           carData: this.carDataPage(data.data),
           listData: this.detailedData(data.data),
           pagination: data.data.listInfo
@@ -67,12 +67,13 @@ export class ListPageService {
   }
 
   profileHeader(data){
-    // console.log('list profile header',data);
+    console.log(data);
+    var profile = data.listInfo;
     var profileData = {
       imageURL: '/app/public/mainLogo.png', //TODO
-      text1: 'Last Updated:', //TODO
+      text1: 'Last Updated: '+ moment(data.listData[0].lastUpdate).format('dddd, MMMM Do, YYYY') + ' at ' + moment(data.listData[0].lastUpdate).format('hh:mm A') + ' ET', //TODO
       text2: 'United States',
-      text3: data.name,
+      text3: profile.name,
       icon: 'fa fa-map-marker',
       hasHover : true,
     };
