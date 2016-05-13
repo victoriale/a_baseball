@@ -3,12 +3,13 @@ import {Observable} from 'rxjs/Rx';
 import {Http} from 'angular2/http';
 import {SearchComponentResult, SearchComponentData} from '../components/search/search.component';
 import {MLBGlobalFunctions}  from '../global/mlb-global-functions';
+import {GlobalSettings}  from '../global/global-settings';
 declare let Fuse: any;
 
 @Injectable()
 export class SearchService{
     public searchJSON: any;
-    public searchAPI: string = 'http://dev-homerunloyal-api.synapsys.us/landingPage/search';
+    public searchAPI: string = GlobalSettings.getApiUrl();
 
     constructor(private http: Http){
         //Get initial search JSON data

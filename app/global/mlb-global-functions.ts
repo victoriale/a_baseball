@@ -1,6 +1,7 @@
 import {Injectable} from 'angular2/core';
 import {GlobalFunctions} from './global-functions';
 import {Division, Conference} from './global-interface';
+import {GlobalSettings} from "./global-settings";
 @Injectable()
 
 export class MLBGlobalFunctions {
@@ -96,7 +97,7 @@ export class MLBGlobalFunctions {
     if(inputTeamName != null) {
       let teamName = inputTeamName.replace(" ", "_");
       teamName = teamName.replace(".", "");
-      let teamLogo = "https://prod-sports-images.synapsys.us/mlb/logos/team/MLB_" + teamName + "_Logo.jpg"
+      let teamLogo = GlobalSettings.getImageUrl("/mlb/logos/team/MLB_" + teamName + "_Logo.jpg");
       return teamLogo;
     }else{
       return "";
