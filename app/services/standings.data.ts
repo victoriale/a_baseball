@@ -10,6 +10,7 @@ import {GlobalFunctions} from '../global/global-functions';
 export interface TeamStandingsData {
   teamName: string,
   imageUrl: string,
+  backgroundImage: string,
   teamId: number;
   conferenceName: string,
   divisionName: string,
@@ -39,6 +40,11 @@ export interface TeamStandingsData {
    * Formatted full path to image
    */
   fullImageUrl?: string;
+  
+  /**
+   * Formatted full path to image
+   */
+  fullBackgroundImageUrl?: string;
 }
 
 export class MLBStandingsTableData implements TableComponentData<TeamStandingsData> {
@@ -84,9 +90,10 @@ export class MLBStandingsTabData implements TableTabData<TeamStandingsData> {
     var description = item.teamName + " is currently <span class='text-heavy'>ranked " + item.rank + GlobalFunctions.Suffix(item.rank) + "</span>" +
                       " in the <span class='text-heavy'>" + item.groupName + "</span>, with a record of " +
                       "<span class='text-heavy'>" + item.totalWins + " - " + item.totalLosses + "</span>.";
+
     return {
       index: index,
-      //backgroundImage: null, //optional
+      backgroundImage: item.fullBackgroundImageUrl, //optional
       description: [
         "<div class='standings-car-subhdr'><i class='fa fa-circle'></i>" + subheader + "</div>",
         "<div class='standings-car-hdr'>" + item.teamName + "</div>",
