@@ -14,11 +14,13 @@
   <tbody class="{{bodyClass}}">
     <tr *ngFor="#row of model.rows; #isEven = even; #i = index"
       [class.custom-table-row-selected]="model.isRowSelected(row, i)"
-      [class.custom-table-row-even]="isEven">
+      [class.custom-table-row-even]="isEven"
+      [class.custom-table-row-odd]="!isEven">
       <td *ngFor="#hdr of model.columns; #cell = index" class="{{bodyClass}}-{{hdr.columnClass}} {{bodyClass}}-cell">
-        <!--<div *ngIf="cell==0" class="custom-table-row-border"></div>-->
-        <circle-image *ngIf="model.hasImageConfigAt(hdr)" [data]="model.getImageConfigAt(row, hdr)"></circle-image>
-        <a *ngIf="model.hasRouterLinkAt(hdr)" [routerLink]="model.getRouterLinkAt(row, hdr)" [innerHtml]="model.getDisplayValueAt(row, hdr)"></a>
+        <a *ngIf="model.hasRouterLinkAt(hdr)" [routerLink]="model.getRouterLinkAt(row, hdr)">
+          <circle-image *ngIf="model.hasImageConfigAt(hdr)" [data]="model.getImageConfigAt(row, hdr)"></circle-image>
+          <span [innerHtml]="model.getDisplayValueAt(row, hdr)"></span>
+        </a>
         <span *ngIf="!model.hasRouterLinkAt(hdr)" [innerHtml]="model.getDisplayValueAt(row, hdr)"></span>
       </td>
     </tr>

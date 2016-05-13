@@ -26,14 +26,14 @@
           </div>
           <div class="directory-nav-links">
               <span *ngFor="#item of data.navigationData.links; #isLast = last">
-                <a [routerLink]="[item.page, item.pageParams]" >
+                <a [routerLink]="item.route" >
                     {{item.text}}
                 </a>
                 <span class="directory-nav-separator" *ngIf="!isLast">|</span>
               </span>
               <span *ngIf="data.navigationData.moreLink">
                 <span class="directory-nav-separator">|</span>
-                <a [routerLink]="[data.navigationData.moreLink.page, data.navigationData.moreLink.pageParams]" class="directory-nav-links-more">
+                <a [routerLink]="data.navigationData.moreLink.route" class="directory-nav-links-more">
                     {{data.navigationData.moreLink.text}}
                 </a>
               </span>
@@ -50,9 +50,9 @@
               </div>
               <div class="directory-list-item-line">
                 <span *ngFor="#link of item.mainDescription; #isLast = last">
-                  <a *ngIf="link.page" [routerLink]="[link.page, link.pageParams]" [innerHtml]="link.text">
+                  <a *ngIf="link.route" [routerLink]="link.route" [innerHtml]="link.text">
                   </a>
-                  <span *ngIf="!link.page" [innerHtml]="link.text"></span>
+                  <span *ngIf="!link.route" [innerHtml]="link.text"></span>
                   <span *ngIf="!isLast" class="directory-list-item-separator">|</span>
                 </span>
               </div>

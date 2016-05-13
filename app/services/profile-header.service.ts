@@ -7,14 +7,20 @@ import {GlobalFunctions} from '../global/global-functions';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {DataItem, ProfileHeaderData} from '../modules/profile-header/profile-header.module';
 import {TitleInputData} from '../components/title/title.component';
+import {Division, Conference, MLBPageParameters} from '../global/global-interface';
 
 declare var moment: any;
+
+interface PlayerProfileData {
+  pageParams: MLBPageParameters;
+  fullProfileImageUrl: string;
+  fullBackgroundImageUrl: string;
+  headerData: PlayerProfileHeaderData
+}
 
 interface PlayerProfileHeaderData {
   description: string;
   info: {
-    profileImage: string; //NEED
-    backgroundImage: string; //NEED
 
     teamId: number;
     teamName: string;
@@ -26,7 +32,7 @@ interface PlayerProfileHeaderData {
     active: string;
     uniformNumber: number;
     position: Array<string>;
-    depth: string; // 'starter'
+    depth: string;
     height: string;
     weight: number;
     birthDate: string;
@@ -35,13 +41,15 @@ interface PlayerProfileHeaderData {
     country: string;
     heightInInches: number;
     age: number;
-    salary: string; // or number??
+    salary: number;
     personKey: number;
     pub1PlayerId: number;
     pub1TeamId: number;
     pub2Id: number;
     pub2TeamId: number;
-    lastUpdate: Date;
+    lastUpdate: string;
+    playerHeadshot: string;
+    backgroundImage: string;
   };
   stats: {
     //Pitcher stats
@@ -58,7 +66,7 @@ interface PlayerProfileHeaderData {
       earnedRuns:  number;
       wildPitch:  number;
     //Batter stats
-      average: string;
+      average: number;
       runsScored: number;
       rbi: number;
       atBats: number;
@@ -79,27 +87,35 @@ interface PlayerProfileHeaderData {
   }
 }
 
+interface TeamProfileData {
+  pageParams: MLBPageParameters;
+  fullProfileImageUrl: string;
+  fullBackgroundImageUrl: string;
+  headerData: TeamProfileHeaderData
+}
+
 interface TeamProfileHeaderData {
     description: string;
+    profileImage: string;
+    backgroundImage: string;
+    lastUpdated: string;
     stats: {
-      profileImage: string; //NEED
-      backgroundImage: string; //NEED
-      city: string; //NEED
-      state: string; //NEED
-      lastUpdated: Date; //NEED
-
+      // city: string; //NEED
+      // state: string; //NEED
       teamId: number;
       teamName: string;
+      teamFirstName: string;
+      teamLastName: string;
       seasonId: string;
-      totalWins: string;
-      totalLosses: string;
+      totalWins: number;
+      totalLosses: number;
       batting: {
-        average: string;
-        runsScored: string;
-        homeRuns: string;
+        average: number;
+        runsScored: number;
+        homeRuns: number;
       };
       pitching: {
-        era: string;
+        era: number;
       };
       conference: {
         rank: string;
@@ -123,36 +139,92 @@ interface TeamProfileHeaderData {
 
 interface LeagueProfileHeaderData {
   lastUpdated: Date; //NEED
-  leagueName: string; //NEED
+  // leagueName: string; //NEED
   city: string; //NEED
   state: string; //NEED
   foundedIn: string;  //NEED // year in [YYYY]
   backgroundImage: string; //NEED
   profileImage: string; //NEED
-  totalTeams: string;
-  totalPlayers: string;
-  totalDivisions: string;
-  totalLeagues: string;
+  totalTeams: number;
+  totalPlayers: number;
+  totalDivisions: number;
+  totalLeagues: number;
 }
 
 @Injectable()
 export class ProfileHeaderService {
   constructor(public http: Http){}
 
-  getPlayerProfile(playerId: number): Observable<PlayerProfileHeaderData> {
+  getPlayerProfile(playerId: number): Observable<PlayerProfileData> {
     let url = GlobalSettings.getApiUrl() + '/player/profileHeader/' + playerId;
     // console.log("player profile url: " + url);
     return this.http.get(url)
         .map(res => res.json())
-        .map(data => data.data);
+        .map(data => {
+          var headerData: PlayerProfileHeaderData = data.data;
+          if (!headerData.info) {
+            return null;
+          }
+          //Forcing values to be numbers (all stats values should be numbers)
+          if ( headerData.stats ) {
+            for ( var key in headerData.stats ) {
+              headerData.stats[key] = Number(headerData.stats[key]);
+            }
+          }
+          return {
+            pageParams: {
+              teamId: headerData.info.teamId,
+              teamName: headerData.info.teamName,
+              playerId: headerData.info.playerId,
+              playerName: headerData.info.playerName
+            },
+            fullBackgroundImageUrl: GlobalSettings.getImageUrl(headerData.info.backgroundImage),
+            fullProfileImageUrl: GlobalSettings.getImageUrl(headerData.info.playerHeadshot),
+            headerData: headerData
+          };
+        });
   }
 
-  getTeamProfile(teamId: number): Observable<TeamProfileHeaderData> {
+  getTeamProfile(teamId: number): Observable<TeamProfileData> {
     let url = GlobalSettings.getApiUrl() + '/team/profileHeader/' + teamId;
     // console.log("team profile url: " + url);
     return this.http.get(url)
         .map(res => res.json())
-        .map(data => data.data);
+        .map(data => {
+          var headerData: TeamProfileHeaderData = data.data;
+          
+          //Setting up conference and division values
+          var confKey = "", divKey = "";
+          if ( headerData.stats ) {
+            if ( headerData.stats.conference && headerData.stats.conference.name ) {
+              confKey = headerData.stats.conference.name.toLowerCase();
+            }
+            if ( headerData.stats.division && headerData.stats.division.name ) {
+              divKey = headerData.stats.division.name.toLowerCase();
+            }
+          }
+          
+          //Forcing values to be numbers
+          if ( headerData.stats.batting ) {
+            headerData.stats.batting.average = Number(headerData.stats.batting.average); 
+            headerData.stats.batting.runsScored = Number(headerData.stats.batting.runsScored); 
+            headerData.stats.batting.homeRuns = Number(headerData.stats.batting.homeRuns);
+          }  
+          if ( headerData.stats.pitching ) {
+            headerData.stats.pitching.era = Number(headerData.stats.pitching.era);
+          } 
+          return {
+            pageParams: {
+              teamId: headerData.stats.teamId,
+              teamName: headerData.stats.teamName,
+              division: Division[divKey],
+              conference: Conference[confKey],
+            },
+            fullBackgroundImageUrl: GlobalSettings.getImageUrl(headerData.backgroundImage),
+            fullProfileImageUrl: GlobalSettings.getImageUrl(headerData.profileImage),
+            headerData: headerData
+          };
+        });
   }
 
   getMLBProfile(): Observable<LeagueProfileHeaderData> {
@@ -160,65 +232,84 @@ export class ProfileHeaderService {
     // console.log("mlb profile url: " + url);
     return this.http.get(url)
         .map(res => res.json())
-        .map(data => data.data);
+        .map(data => {
+          var leagueData: LeagueProfileHeaderData = data.data;
+          
+          //Forcing values to be numbers
+          leagueData.totalDivisions = Number(leagueData.totalDivisions);
+          leagueData.totalLeagues = Number(leagueData.totalLeagues);
+          leagueData.totalPlayers = Number(leagueData.totalPlayers);
+          leagueData.totalTeams = Number(leagueData.totalTeams);
+          
+          return leagueData;
+        });
   }
 
-  getTeamPageHeader(teamId: number): Observable<any> {
-    let url = GlobalSettings.getApiUrl() + '/team/profileHeader/' + teamId;
-    return this.http.get(url)
-        .map(res => res.json())
-        .map(data => this.convertTeamPageHeader(data.data.stats));
-  }
+  convertTeamPageHeader(data: TeamProfileData) {
+    var description = data.headerData.description;
+    var stats = data.headerData.stats;
 
-  private convertTeamPageHeader(data){
+    if (!stats) {
+      return null;
+    }
+
     var headerData = {
       data:{
-        imageURL: '/app/public/mainLogo.png', //TODO
+        imageURL: data.fullProfileImageUrl, //TODO
         text1: 'Last Updated:', //TODO
         text2: 'United States',
-        text3: data.teamName + " " + data.seasonId + " Draft History",
+        text3: stats.teamName + " " + stats.seasonId + " Draft History",
         icon: 'fa fa-map-marker',
         hasHover : true,
       },
-      error: "Sorry, the "+data.teamName+" do not currently have any data for the "+data.seasonId+" draft history"
+      error: "Sorry, the " + stats.teamName + " do not currently have any data for the " + stats.seasonId + " draft history"
     }
     return headerData;
   }
 
-  convertToPlayerProfileHeader(data: PlayerProfileHeaderData): ProfileHeaderData {
-    console.log(data);
-    if (!data.info) {
+  convertToPlayerProfileHeader(data: PlayerProfileData): ProfileHeaderData {
+    if (!data.headerData || !data.headerData.info) {
       return null;
     }
     
-    data.info.backgroundImage = GlobalSettings.getImageUrl(data.info.backgroundImage);
-    data.info.profileImage = GlobalSettings.getImageUrl(data.info.profileImage);
-    
-    var description = data.description;
+    var headerData = data.headerData;
+    var stats = headerData.stats;
+    var info = headerData.info;
+
+    var description = headerData.description;
     var dataPoints: Array<DataItem>;
-    var isPitcher = data.info.position.filter(value => value === "P").length > 0;
+    var isPitcher = headerData.info.position.filter(value => value === "P").length > 0;
 
     if ( isPitcher ) {
+      var formattedEra = null;
+      if ( stats && stats.earnedRuns != null ) {
+        if ( stats.earnedRuns > 1 ) {
+          formattedEra = stats.earnedRuns.toPrecision(3);
+        }
+        else {        
+          formattedEra = stats.earnedRuns.toPrecision(2);
+        }
+      }
       dataPoints = [
         {
           label: "Wins/Losses",
           labelCont: "for the current season",
-          value: data.stats.wins + " - " + data.stats.losses
+          value: (stats && stats.wins != null && stats.losses != null ) ? stats.wins + " - " + stats.losses : null
         },
         {
           label: "Innings Pitched",
           labelCont: "for the current season",
-          value: data.stats.inningsPitched.toString()
+          value: (stats && stats.inningsPitched != null) ? stats.inningsPitched.toString() : null
         },
         {
           label: "Strikeouts",
           labelCont: "for the current season",
-          value: data.stats.strikeouts.toString()
+          value: (stats && stats.strikeouts != null) ? stats.strikeouts.toString() : null
         },
         {
           label: "Earned Run Average",
           labelCont: "for the current season",
-          value: data.stats.earnedRuns.toString()
+          value: formattedEra
         }
       ];
     }
@@ -227,46 +318,46 @@ export class ProfileHeaderService {
         {
           label: "Home Runs",
           labelCont: "for the current season",
-          value: data.stats.homeRuns.toString()
+          value: (stats && stats.homeRuns != null) ? stats.homeRuns.toString() : null
         },
         {
           label: "Batting Average",
           labelCont: "for the current season",
-          value: data.stats.average
+          value: (stats && stats.average != null) ? stats.average.toPrecision(3) : null
         },
         {
           label: "RBIs",
           labelCont: "for the current season",
-          value: data.stats.rbi.toString()
+          value: (stats && stats.rbi != null) ? stats.rbi.toString() : null
         },
         {
           label: "Hits",
           labelCont: "for the current season",
-          value: data.stats.hits.toString()
+          value: (stats && stats.hits != null) ? stats.hits.toString() : null
         }
       ];
     }
     var header: ProfileHeaderData = {
-      profileName: data.info.playerName,
-      profileImageUrl: data.info.profileImage,
-      backgroundImageUrl: data.info.backgroundImage,
-      profileTitleFirstPart: data.info.playerFirstName,
-      profileTitleLastPart: data.info.playerLastName,
-      lastUpdatedDate: data.info.lastUpdate,
+      profileName: info.playerName,
+      profileImageUrl: data.fullProfileImageUrl,
+      backgroundImageUrl: data.fullBackgroundImageUrl,
+      profileTitleFirstPart: info.playerFirstName,
+      profileTitleLastPart: info.playerLastName,
+      lastUpdatedDate: moment(info.lastUpdate),
       description: description,
       topDataPoints: [
         {
           label: "Team",
-          value: data.info.teamName,
-          routerLink: MLBGlobalFunctions.formatTeamRoute(data.info.teamName,data.info.teamId.toString())
+          value: info.teamName,
+          routerLink: MLBGlobalFunctions.formatTeamRoute(info.teamName, info.teamId.toString())
         },
         {
           label: "Jersey Number",
-          value: data.info.uniformNumber.toString()
+          value: info.uniformNumber ? info.uniformNumber.toString() : null
         },
         {
           label: "Position",
-          value: data.info.position.join(",")
+          value: info.position ? info.position.join(",") : null
         }
       ],
       bottomDataPoints: dataPoints
@@ -274,33 +365,41 @@ export class ProfileHeaderService {
     return header;
   }
 
-  convertToTeamProfileHeader(data: TeamProfileHeaderData): ProfileHeaderData {
-    var description = data.description;
-    var stats = data.stats;
+  convertToTeamProfileHeader(data: TeamProfileData): ProfileHeaderData {
+    var description = data.headerData.description;
+    var stats = data.headerData.stats;
 
     if (!stats) {
       return null;
     }
-    
-    data.stats.backgroundImage = GlobalSettings.getImageUrl(data.stats.backgroundImage);
-    data.stats.profileImage = GlobalSettings.getImageUrl(data.stats.profileImage);
-    
+
     var teamName = stats.teamName ? stats.teamName : "N/A";
-    var city = stats.city ? stats.city : "N/A";
-    var state = stats.state ? stats.state : "N/A";
-    
+
     //TODO-CJP: get from API
-    var lastSpaceIndex = teamName.lastIndexOf(" ");
-    var firstPart = lastSpaceIndex >= 0 ? teamName.substring(0, lastSpaceIndex) : "";
-    var lastPart = lastSpaceIndex >= 0 ? teamName.substring(lastSpaceIndex+1) : teamName;
+    var firstPart = stats.teamFirstName;
+    var lastPart = stats.teamLastName;
+    if ( !firstPart || !lastPart ) {
+      var lastSpaceIndex = teamName.lastIndexOf(" ");
+      firstPart = lastSpaceIndex >= 0 ? teamName.substring(0, lastSpaceIndex) : "";
+      lastPart = lastSpaceIndex >= 0 ? teamName.substring(lastSpaceIndex+1) : teamName;
+    }
+    var formattedEra = null;
+    if ( stats.pitching ) {
+      if ( stats.pitching.era > 1 ) {
+        formattedEra = stats.pitching.era.toPrecision(3);
+      }
+      else {        
+        formattedEra = stats.pitching.era.toPrecision(2);
+      }
+    }
 
     var header: ProfileHeaderData = {
       profileName: stats.teamName,
-      profileImageUrl: stats.profileImage,
-      backgroundImageUrl: stats.backgroundImage,
+      profileImageUrl: data.fullProfileImageUrl,
+      backgroundImageUrl: data.fullBackgroundImageUrl,
       profileTitleFirstPart: firstPart,
       profileTitleLastPart: lastPart,
-      lastUpdatedDate: stats.lastUpdated,
+      lastUpdatedDate: moment(data.headerData.lastUpdated),
       description: description,
       topDataPoints: [
         {
@@ -320,22 +419,22 @@ export class ProfileHeaderService {
         {
           label: "Batting Average",
           labelCont: "for the current season",
-          value: stats.batting ? stats.batting.average : null
+          value: stats.batting ? stats.batting.average.toPrecision(3) : null
         },
         {
           label: "Runs",
           labelCont: "for the current season",
-          value: stats.batting ? stats.batting.runsScored : null
+          value: stats.batting ? stats.batting.runsScored.toString() : null
         },
         {
           label: "Home Runs",
           labelCont: "for the current season",
-          value: stats.batting ? stats.batting.homeRuns : null
+          value: stats.batting ? stats.batting.homeRuns.toString() : null
         },
         {
           label: "Earned Run Average",
           labelCont: "for the current season",
-          value: stats.pitching ? stats.pitching.era : null
+          value: formattedEra
         }
       ]
     }
@@ -346,7 +445,7 @@ export class ProfileHeaderService {
     //The MLB consists of [30] teams and [####] players. These teams and players are divided across [two] leagues and [six] divisions.
     var city = data.city != null ? data.city : "N/A";
     var state = data.state != null ? data.state : "N/A";
-    
+
     data.backgroundImage = GlobalSettings.getImageUrl(data.backgroundImage);
     data.profileImage = GlobalSettings.getImageUrl(data.profileImage);
 
@@ -376,19 +475,19 @@ export class ProfileHeaderService {
       bottomDataPoints: [
         {
           label: "Total Teams:",
-          value: data.totalTeams
+          value: data.totalTeams ? data.totalTeams.toString() : null
         },
         {
           label: "Total Players:",
-          value: data.totalPlayers
+          value: data.totalPlayers ? data.totalPlayers.toString() : null
         },
         {
-          label: "Total Divisions",
-          value: data.totalDivisions
+          label: "Total Divisions:",
+          value: data.totalDivisions ? data.totalDivisions.toString() : null
         },
         {
-          label: "Total Leagues",
-          value: data.totalLeagues
+          label: "Total Leagues:",
+          value: data.totalLeagues ? data.totalLeagues.toString() : null
         }
       ]
     }

@@ -65,30 +65,25 @@
       text-align: center;
       margin: auto;
       width: 240px;
-    
-      a {
-        .inlineFlexDisplay;
-        .flexDirection(row);
-        .flexAlignItems(center);
-        height: 35px;
-        background-color: @masterBrandColor;
-        .borderRadiusPrefix(5px);
-        width: 100%;
-        
-        i {
-          margin: 2px 10px 0 10px;
-          color: @white;
-          font-weight: 900;
-        }
-        
-        &:hover {
-          background-color: darken(@masterBrandColor, 10%);
-        }
+      height: 35px;
+      display: block;
+      background-color: @masterBrandColor;
+      .borderRadiusPrefix(5px);
+      .globalDefaultModFont(14px, 900, @white);
+      padding: 10px 0;
+      
+      i {
+        font-weight: 400;
+        padding-left: 8px;
       }
       
-      &-text {
-        .globalDefaultModFont(14px, 400, @white);
-        margin-left: 36px;
+       &:hover {
+        background-color: darken(@masterBrandColor, 10%);
+      }
+      
+      &:active, &:hover, &:focus {
+        color: @white;
+        text-decoration: none;
       }
     }
   }

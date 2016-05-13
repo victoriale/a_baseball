@@ -1,7 +1,6 @@
 <section class="home container-fluid">
   <div class="row">
     <div class="col-xs-12">
-      <header-component></header-component>
       <div class="row">
         <div class="home-hero col-xs-12">
           <img class="home-hero-img" src='{{imgHero1}}' />
@@ -9,7 +8,7 @@
             <h1>{{homeHeading1}}</h1>
             <h4>{{homeHeading2}}</h4>
             <div class="home-hero-info-search col-xs-4">
-              <search [placeholderText]="placeholderText"></search>
+              <search [searchInput]="searchInput"></search>
             </div>
           </div>
         </div>
@@ -61,9 +60,8 @@
         <span class="tile-button">{{homeFeaturesButton1}}</span>
       </a>
 
-      <a [routerLink]="['Disclaimer-page']" style="border-top: 5px solid #bc2027;" class="home-features-tile2"><h3><b>Dive deep</b></h3> <h4>into key information</h4>
-        <span class="tile-button">{{homeFeaturesButton2}}</span>
-      </a>
+      <div class="home-features-tile-no-hover"><h3><b>Dive deep</b></h3> <h4>into key information</h4>
+      </div>
 
       <a [routerLink]="['Disclaimer-page']" [ngStyle]="{'background-image': 'url('+imageTile2+')'}" class="home-features-tile2"><h3>{{homeFeaturesTile3}}</h3>
         <span class="tile-button">{{homeFeaturesButton3}}</span>
@@ -75,5 +73,4 @@
     </div>
   </div>
 
-  <footer-component></footer-component>
 </section>

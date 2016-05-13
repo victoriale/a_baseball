@@ -7,18 +7,17 @@ import {SchedulesModule} from '../../modules/schedules/schedules.module';
 import {AboutUsModule} from '../../modules/about-us/about-us.module';
 import {NewsModule} from '../../modules/news/news.module';
 import {ShareButtonComponent} from '../../components/share-button/share-button.component';
-import {Search} from '../../components/search/search.component';
-import {ListOfListModule} from "../../modules/list-of-list/list-of-list.module";
+import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.module";
 import {SchedulesCarousel} from '../../components/carousels/schedules-carousel/schedules-carousel.component';
 import {Carousel} from '../../components/carousels/carousel.component';
 import {SliderCarousel} from '../../components/carousels/slider-carousel/slider-carousel.component';
 
 import {RosterComponentData} from '../../components/roster/roster.component';
 import {StandingsModuleData, StandingsModule} from '../../modules/standings/standings.module';
+import {MLBStandingsTabData} from '../../services/standings.data';
 import {StandingsService} from '../../services/standings.service';
 import {TeamRosterModule} from '../../modules/team-roster/team-roster.module';
 import {RosterService} from '../../services/roster.service';
-import {MLBStandingsTableModel, MLBStandingsTableData} from '../../services/standings.data';
 
 import {ProfileHeaderData, ProfileHeaderModule} from '../../modules/profile-header/profile-header.module';
 import {ProfileHeaderService} from '../../services/profile-header.service';
@@ -39,10 +38,9 @@ import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
       TeamRosterModule,
       ComparisonModule,
       DraftHistoryModule,
-      ListOfListModule,
+      ListOfListsModule,
       SchedulesModule,
       SeasonStatsModule,
-      Search,
       AboutUsModule,
       ProfileHeaderModule,
       StandingsModule
@@ -76,7 +74,6 @@ export class ComponentPage implements OnInit {
 
   ngOnInit() {
     this.setupProfileData();
-    this.setupStandingsData();
     // this.setupRosterData();//ROSTER DATA
   }
 
@@ -92,25 +89,21 @@ export class ComponentPage implements OnInit {
     this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
       data => {
         this.teamProfileHeaderData = this._profileService.convertToTeamProfileHeader(data)
+        this.standingsData = this._standingsService.loadAllTabsForModule(data.pageParams);
       },
       err => {
         console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
       }
     );
   }
-
-  private setupStandingsData() {
-    let self = this;
-    self._standingsService.loadAllTabs(this.pageParams, 5) //only show 5 rows in the module
-      .subscribe(data => {
-        this.standingsData = {
-          moduleTitle: self._standingsService.getModuleTitle(this.pageParams),
-          pageRouterLink: self._standingsService.getLinkToPage(this.pageParams),
-          tabs: data
-        };
-      },
-      err => {
-        console.log("Error getting standings data: " + err);
-      });
+  
+  private standingsTabSelected(tab: MLBStandingsTabData) {
+    if ( tab && (!tab.sections || tab.sections.length == 0) ) {
+      this._standingsService.getTabData(tab, this.pageParams, 5)//only show 5 rows in the module      
+        .subscribe(data => tab.sections = data,
+        err => {
+          console.log("Error getting standings data");
+        });
+    }
   }
 }

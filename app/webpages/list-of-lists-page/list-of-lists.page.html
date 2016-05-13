@@ -7,7 +7,7 @@
   <div class="module-container list-page">
     <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray" [footerStyle]="footerStyle"></slider-carousel>
     <div *ngIf="displayData">
-      <list-of-list-item *ngFor="#itemData of displayData" [item] = 'itemData'></list-of-list-item>
+      <list-of-lists-item *ngFor="#itemData of displayData" [item] = 'itemData'></list-of-lists-item>
       <pagination-footer *ngIf="paginationParameters" [paginationParameters]="paginationParameters" (newIndex)="newIndex($event)"></pagination-footer>
     </div>
     <no-data-box *ngIf="!displayData" [data]="errorData"></no-data-box>

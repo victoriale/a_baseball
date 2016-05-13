@@ -47,7 +47,10 @@ export interface TableComponentData<T> {
 })
 
 export class TeamRosterModule implements OnChanges{
+  carDataCheck: boolean = true;
   public selectedIndex;
+  footerData: Object;
+  public dataTable: boolean = true;
   private selectedTabTitle: string;
   public tabs: Array<RosterTabData>;
   public data: RosterComponentData;
@@ -55,7 +58,11 @@ export class TeamRosterModule implements OnChanges{
     data: "This team is a National League team and has no designated hitters.",
     icon: "fa fa-calendar-o"
   }
-
+  public footerStyle = {
+    ctaBoxClass: "list-footer",
+    ctaBtnClass:"list-footer-btn",
+    hasIcon: true
+  };
   public carDataArray: Array<SliderCarouselInput> = [];
   public pageParams: MLBPageParameters = {}
   public headerInfo: ModuleHeaderData = {
@@ -63,35 +70,33 @@ export class TeamRosterModule implements OnChanges{
     hasIcon: false,
     iconClass: ""
   };
-
-  public footerData: ModuleFooterData = {
-    infoDesc: 'Want to see everybody involved in this list?',
-    text: 'VIEW FULL ROSTER',
-    url: ['Team-roster-page']
-  };
-
+  public teamId: string;
   constructor(private _params: RouteParams,
               private _rosterService: RosterService,
               private _globalFunctions: GlobalFunctions,
               private _mlbFunctions: MLBGlobalFunctions) {
-
-    var teamId = _params.get("teamId");
+    this.teamId = _params.get("teamId");
     var teamName = _params.get("teamName");
-    if ( teamId  && teamName ) {
-      this.pageParams.teamId = Number(teamId);
-      this.footerData.url = [
-        'Team-roster-page',
-        {
-          teamId: this.pageParams.teamId,
-          teamName: teamName
-        }
-      ];
-    }
-    else {
-      this.footerData.url = [
-        'Error-page'
-      ];
-    }
+    this.footerData = {
+      infoDesc: 'Want to see everybody involved in this list?',
+      text: 'VIEW FULL ROSTER',
+      url: ['Team-roster-page',{teamName:'team-name-here', teamId: '2799'}]
+    };
+    // if ( teamId  && teamName ) {
+    //   this.pageParams.teamId = Number(teamId);
+    //   this.footerData.url = [
+    //     'Team-roster-page',
+    //     {
+    //       teamId: this.pageParams.teamId,
+    //       teamName: teamName
+    //     }
+    //   ];
+    // }
+    // else {
+    //   this.footerData.url = [
+    //     'Error-page'
+    //   ];
+    // }
   }
 
   ngOnChanges() {
@@ -156,17 +161,27 @@ export class TeamRosterModule implements OnChanges{
 
     this.selectedIndex = selectedIndex < 0 ? 0 : selectedIndex;
     this.carDataArray = carDataArray;
+    if(this.carDataArray.length < 1){
+      this.carDataCheck = false;
+    } else {
+      this.carDataCheck = true;
+    }
   }
 
   private setupRosterData() {
     let self = this;
     //set tab limit
-    self._rosterService.loadAllTabs('2799', 5)
+    self._rosterService.loadAllTabs(this.teamId, 5)
       .subscribe(data => {
         //set up tabs
         this.tabs = data;
         this.tabSelected(this.tabs[0].title);
         this.updateCarousel();
+        var teamName = data[0].tableData.rows[0].teamName;
+        this.headerInfo.moduleTitle = "Team Roster - " + teamName;
+        if(data[3].tableData.rows.length < 1){
+          this.dataTable = false;
+        }
       },
       err => {
         console.log("Error getting team roster data");

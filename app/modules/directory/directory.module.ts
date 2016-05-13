@@ -39,7 +39,6 @@ export class DirectoryModule implements OnChanges {
   constructor(private router: Router, private _globalFunctions: GlobalFunctions) {}
 
   ngOnChanges() {
-    console.log(this.data);
     this.setupData();
   }
 
@@ -63,13 +62,11 @@ export class DirectoryModule implements OnChanges {
     var currPage: number = this.currentPage;
 
     //Next Page
-    this.nextLink.page = pageName;
-    this.nextLink.pageParams = { page: currPage + 1 };
+    this.nextLink.route = [pageName, { page: currPage + 1 }]
     this.setPageParams(this.nextLink);
 
     //Previous Page
-    this.prevLink.page = pageName;
-    this.prevLink.pageParams = { page: currPage - 1 };
+    this.prevLink.route = [pageName, { page: currPage - 1 }]
     this.setPageParams(this.prevLink);
 
     //Determine range display for directory page (ex. 1-20, 22-40, etc)
@@ -88,7 +85,7 @@ export class DirectoryModule implements OnChanges {
   setPageParams(link: Link) {
     for ( var key in this.data.pageParams ) {
       //assuming key is field.
-      link.pageParams[key] = this.data.pageParams[key];
+      link.route[1][key] = this.data.pageParams[key];
     }
   }
 }

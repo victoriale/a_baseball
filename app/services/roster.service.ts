@@ -23,11 +23,11 @@ export class RosterService {
 
   private initializeAllTabs(): Array<RosterTabData> {
     let tabs: Array<RosterTabData> = [
-      new RosterTabData('full', 'Full', true),
+      new RosterTabData('full', 'Full Roster', true),
       new RosterTabData('pitchers', 'Pitchers', false),
       new RosterTabData('catchers', 'Catchers', false),
       new RosterTabData('fielders', 'Fielders', false),
-      new RosterTabData('hitters', 'Hitters', false)
+      new RosterTabData('hitters', 'Designated Hitter', false)
     ];
     return tabs;
   }
@@ -74,6 +74,15 @@ export class RosterService {
       moduletitle += pageParams.teamName + " - " + moduletitle;
     }
     return moduletitle;
+  }
+
+  getPageTitle(pageParams): string {
+    // let groupName = this.formatGroupName(pageParams.conference, pageParams.division);
+    let pageTitle = "Team Roster";
+    if ( pageParams.teamName !== undefined && pageParams.teamName !== null ) {
+      pageTitle = "Team Roster - " + pageParams.teamName;
+    }
+    return pageTitle;
   }
 
   getLinkToPage(pageParams) {

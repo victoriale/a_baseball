@@ -23,62 +23,8 @@
           
   &-sort {
     float: right;
-    
-    &-dropdown {
-      box-sizing: border-box;
-      background-color: @white;
-      border: @masterBrandColor 1px solid;
-      width: 146px;
-      
-      position: absolute;
-      top: 34;
-      right: -1;
-    
-      &-option {
-        height: auto;
-        text-align: left;
-        .globalDefaultFont(12px, 400);
-        padding: 10px 8px;
-        
-        &:hover {
-          cursor: pointer;
-          background-color: @masterBrandColor;
-          color: @white;
-          
-          .caret-top::after {
-            border-bottom-color: @masterBrandColor;
-          }
-        }
-      }
-      
-      hr {
-        color: @strokeGrey;
-        height: 1px;
-        margin: 0 5px;
-      }
-
-      .caret-top {
-        content: '';
-        position: absolute;
-        top: -6px;
-        right: 10px;
-        border-bottom: 6px solid @masterBrandColor;
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-
-        &::after {
-          content: '';
-          position: absolute;
-          top: 1px;
-          left: -4px;
-          border-bottom: 5px solid @white;
-          border-left: 4px solid transparent;
-          border-right: 4px solid transparent;
-        }
-      }
-    }
   }
-    
+  
   th:last-of-type &-header {
     margin-right: 0px;
   }
@@ -106,6 +52,21 @@
         margin-right: 10px;
         margin-left: 4px;
         display: inline-block;
+      }
+      
+      a:hover {
+        color: @masterBrandColor;
+        text-decoration: none;
+        .image-round-hover {
+          div {
+            .flexDisplay;
+          }
+        }
+      }
+      
+      a:focus {
+        color: @masterBrandColor;
+        text-decoration: none;
       }
     }
 
@@ -136,6 +97,7 @@
       
       .image-round {
         margin-right: 1em;
+        margin-left: 2px;
         display: inline-block;
       }
     }
@@ -146,21 +108,15 @@
     }
   }
   
-  &-body tr {    
-    border-left: 10px solid transparent;
-  }
-  
   /** row definitions **/
-  &-row {    
-    margin-left: 1em;
-    
+  &-row {
+    &-even, &-odd {      
+      border-left: 5px solid transparent;
+    }
+        
     &-even {
       background: @backgroundGrey;
     }
-    
-    // &-border {
-    //   width: 10px;      
-    // }
     
     &-selected,
     &-selected .custom-table-compact-bold-column,
@@ -168,10 +124,6 @@
       background-color: @lightMasterBrandColor;
       border-color: @masterBrandColor;
     }
-    
-    // &-selected &-border {
-    //   background-color: @masterBrandColor;
-    // }
   } 
   
   /** footer definitions **/
