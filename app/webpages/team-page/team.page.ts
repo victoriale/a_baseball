@@ -23,8 +23,7 @@ import {ProfileHeaderService} from '../../services/profile-header.service';
 
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
 
-import {ShareModule} from '../../modules/share/share.module';
-import {ShareModuleInput} from '../../modules/share/share.module';
+import {ShareModule, ShareModuleInput} from '../../modules/share/share.module';
 import {HeadlineComponent} from '../../components/headline/headline.component';
 
 import {NewsModule} from '../../modules/news/news.module';
@@ -53,9 +52,7 @@ import {NewsModule} from '../../modules/news/news.module';
 })
 
 export class TeamPage implements OnInit{
-    public shareModuleInput: ShareModuleInput = {
-        imageUrl: './app/public/mainLogo.png'
-    };
+    public shareModuleInput: ShareModuleInput;
 
     pageParams: MLBPageParameters;
 
@@ -83,6 +80,7 @@ private setupProfileData() {
         this.pageParams = data.pageParams;
         this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data)
         this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
+          this.setupShareModule();
       },
       err => {
         console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
@@ -99,4 +97,15 @@ private setupProfileData() {
         });
     }
   }
+
+    private setupShareModule(){
+        let profileHeaderData = this.profileHeaderData;
+        let imageUrl = typeof profileHeaderData.profileImageUrl === 'undefined' || profileHeaderData.profileImageUrl === null ? 'http://prod-sports-images.synapsys.us/mlb/players/no-image.png' : profileHeaderData.profileImageUrl;
+        let shareText = typeof profileHeaderData.profileName === 'undefined' || profileHeaderData.profileName === null ? 'Share This Profile Below' : 'Share ' + profileHeaderData.profileName + '\'s Profile Below:';
+
+        this.shareModuleInput = {
+            imageUrl: imageUrl,
+            shareText: shareText
+        };
+    }
 }
