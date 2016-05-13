@@ -1,17 +1,25 @@
 <div *ngIf="searchInput" class="search-large">
-    <div class="search-input-container">
-        <input class="search-input autocomplete" disabled [value]="autoCompleteText" />
-        <input class="search-input main" (keydown)="searchKeydown($event)" [ngFormControl]="term" autocomplete="off" placeholder="{{searchInput.placeholderText}}"/>
-    </div>
-    <button class="search-button">
-        <i class="fa fa-search"></i>
-    </button>
-    <ul *ngIf="searchInput.hasSuggestions && showDropdown && dropdownList.length > 0" (mouseout)="resetSelected()" class="search-dropdown">
+    <form (ngSubmit)="onSubmit()">
+        <div class="search-input-container">
+            <input class="search-input autocomplete" disabled [value]="autoCompleteText" />
+            <input class="search-input main" (keydown)="searchKeydown($event)" [ngFormControl]="term" autocomplete="off" placeholder="{{searchInput.placeholderText}}"/>
+        </div>
+        <button type="submit" class="search-button">
+            <i class="fa fa-search"></i>
+        </button>
+    </form>
+    <div *ngIf="searchInput.hasSuggestions && dropdownIsFocused && hasInputText" class="search-dropdown">
         <div class="search-dropdown-caret"></div>
-        <a *ngFor="#item of dropdownList; #i = index" [routerLink]="item.routerLink">
-            <li (mouseover)="itemHovered(i)" class="search-dropdown-item" [innerHtml]="item.title" [ngClass]="{active: (i + 1 === selectedIndex)}" >
-                <i class="fa fa-angle-right"></i>
-            </li>
-        </a>
-    </ul>
+        <div *ngIf="dropdownList.length === 0" class="search-no-results">
+            No Results Found
+        </div>
+        <ul *ngIf="dropdownList.length > 0" (mouseout)="resetSelected()">
+            <a *ngFor="#item of dropdownList; #i = index" [routerLink]="item.routerLink">
+                <li (mouseover)="itemHovered(i)" class="search-dropdown-item" [ngClass]="{active: (i === selectedIndex)}" >
+                    <span [innerHtml]="item.title"></span>
+                    <i class="fa fa-angle-right"></i>
+                </li>
+            </a>
+        </ul>
+    </div>
 </div>

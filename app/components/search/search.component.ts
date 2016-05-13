@@ -1,11 +1,29 @@
 import {Component, Input, Output, OnInit, OnDestroy, EventEmitter, ElementRef} from 'angular2/core';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
+import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
 import {SearchService} from '../../services/search.service';
 import {Observable} from 'rxjs/Rx';
 import {Control} from 'angular2/common';
 
-//Interface for search dropdown items
-export interface SearchComponentData {
+/*
+ * Search Component
+ * Lutz Lai - 05/13/2016
+ *
+ * Description - This component is a bit tricky. Since this component actively uses an api as a user types,
+ * the search service must be configured in a particular way. The search component expects search-service.ts to contain 2 functions:
+ *
+ * getSearchDropdownData(term: string){} - This is the function the search service subscribes to (function returns an observable) for dropdown data.
+ *  The input is the search term. The data returned from this function should be in the Interface SearchComponentData format
+ *
+ * getSearchRoute(query: string){} - This is the function the component calls to get the search route to the search results page.
+ *  The input is the search term. This allows the component to navigate to the search page on form submit
+ *
+ * I made it this way so you don't have to configure a module/page to watch for debounced output events from this component.
+ * Instead you can just add this component to modules/pages with minimal input. There is probably a better way to do this down the line.
+ *
+ */
+
+//Interface for single search result item
+export interface SearchComponentResult {
     //Html string that is displayed in the dropdown
     title: string;
     //Value to compare against for autocomplete text
@@ -14,6 +32,14 @@ export interface SearchComponentData {
     imageUrl: string;
     //Array for routerLink parameters
     routerLink: Array<any>
+}
+
+//Interface for object returned from search-service.ts
+export interface SearchComponentData {
+    //Input text that search results are based on
+    term: string;
+    //Dropdown items returned from search service
+    searchResults: Array<SearchComponentResult>;
 }
 
 //Interface for input of search component
@@ -43,25 +69,24 @@ export class Search{
     //NgControl of input
     public term: any = new Control();
     //Array of suggestions dropdown
-    public dropdownList: Array<SearchComponentData> = [];
+    public dropdownList: Array<SearchComponentResult> = [];
     public elementRef;
-    //Boolean to determine if dropdown should be shown
-    public showDropdown: boolean = false;
-    //Boolean to determine if no results message should be shown
-    public hasResults: boolean = true;
-    //Subscription objects for observables
-    public subscriptionData: any;
-    public subscriptionText: any;
+    //Boolean to determine if dropdown is focused on by the user
+    public dropdownIsFocused: boolean = false;
+    //Subscription object for observables
+    public subscription: any;
     //Autocomplete string
     public autoCompleteText: string = '';
-    //Index of a dropdown item that is been selected by arrow keys. (0 is no selection or input selected)
-    public selectedIndex: number = 0;
+    //Index of a dropdown item that is been selected by arrow keys. (-1 is no selection or input selected)
+    public selectedIndex: number = -1;
     //Boolean to prevent search subscription from firing
     public isSuppressed: boolean = false;
     //Store search value
     public storedSearchTerm: string;
+    //Boolean used to determine if input has text and results have been searched for
+    public hasInputText: boolean;
 
-    constructor(_elementRef: ElementRef, private _searchService: SearchService){
+    constructor(_elementRef: ElementRef, private _searchService: SearchService, private _router: Router){
         this.elementRef = _elementRef;
     }
 
@@ -80,10 +105,10 @@ export class Search{
         //If the user clicks in the component, show results else hide results
         if(clickedInside){
             //Clicked inside
-            this.showDropdown = true;
+            this.dropdownIsFocused = true;
         }else{
             //Clicked outside
-            this.showDropdown = false;
+            this.dropdownIsFocused = false;
         }
     }
 
@@ -93,9 +118,9 @@ export class Search{
             //Down Arrow Keystroke
             if(this.dropdownList.length > 0){
                 //If dropdown list exists change index
-                if(this.selectedIndex >= this.dropdownList.length){
-                    //If index is equal or greater than last item, reset index to 0 (input is selected)
-                    this.selectedIndex = 0;
+                if(this.selectedIndex >= this.dropdownList.length - 1){
+                    //If index is equal or greater than last item, reset index to -1 (input is selected)
+                    this.selectedIndex = -1;
                     this.unsuppressSearch();
 
                 }else{
@@ -111,14 +136,14 @@ export class Search{
             //Up Arrow Keystroke
             if(this.dropdownList.length > 0) {
                 //If dropdown list exists change index
-                if (this.selectedIndex === 0) {
-                    //If index is 0 (input is selected), set index to last item
-                    this.selectedIndex = this.dropdownList.length;
+                if (this.selectedIndex === -1) {
+                    //If index is -1 (input is selected), set index to last item
+                    this.selectedIndex = this.dropdownList.length - 1;
                     let value = this.getSelectedValue(this.selectedIndex);
                     this.suppressSearch(value);
-                } else if(this.selectedIndex === 1) {
-                    //Else if index is 1 (1st dropdown option is selected), set index to input and unsuppress search
-                    this.selectedIndex = 0;
+                } else if(this.selectedIndex === 0) {
+                    //Else if index is 0 (1st dropdown option is selected), set index to input and unsuppress search
+                    this.selectedIndex = -1;
                     this.unsuppressSearch();
                 } else {
                     //Else decrement index by 1
@@ -139,7 +164,7 @@ export class Search{
 
     //Get value that is
     getSelectedValue(index: number){
-        return this.dropdownList[index - 1].value;
+        return this.dropdownList[index].value;
     }
 
     //Prevent search subscription from firing. This is needed to prevent the search from firing when a user selects a dropdown option with the arrow keys
@@ -154,14 +179,14 @@ export class Search{
         this.isSuppressed = false;
     }
 
-    //Function to reset the dropdown item selected by arrow keys (Used throughout component)
+    //Function to reset the dropdown item selected by arrow keys to default (-1: input selected)
     resetSelected(){
-        this.selectedIndex = 0;
+        this.selectedIndex = -1;
     }
 
     //Function to make dropdown item active when hovered
     itemHovered(index: number){
-        this.selectedIndex = index + 1;
+        this.selectedIndex = index;
     }
 
     //Function to check if autocomplete text should be displayed or hidden
@@ -189,11 +214,29 @@ export class Search{
         }
     }
 
+    //On submit function for input
+    onSubmit(){
+        //Encode input to safely push to URL
+        let term = encodeURIComponent(this.term.value);
+        //If input is empty exit submit
+        if(term === ''){
+            return false;
+        }
+        let searchRoute: Array<any>;
+        searchRoute = this._searchService.getSearchRoute(term);
+        this._router.navigate(searchRoute);
+    }
+
     ngOnInit(){
         let self = this;
 
         //Subscription for function call to service
-        this.subscriptionData = this.term.valueChanges
+        this.subscription = this.term.valueChanges
+            .map(data => {
+                //Check every keystroke to determine if autocomplete text should be displayed
+                self.compareAutoComplete(data);
+                return data;
+            })
             //Only continue stream if 400 milliseconds have passed since the last iteration
             .debounceTime(400)
             //If search is not suppressed, continue rxjs stream
@@ -201,25 +244,25 @@ export class Search{
             //Only continue stream if the input value has changed from the last iteration
             .distinctUntilChanged()
             //Cancel any previous iterations if they have not completed their cycle. Also used to empty dropdown list if input is blank
-            .switchMap((term: string) => term.length > 0 ? self._searchService.getSearchDropdownData(term) : Observable.of([]))
+            .switchMap((term: string) => term.length > 0 ? self._searchService.getSearchDropdownData(term) : Observable.of({term: term, searchResults: []}))
             .subscribe(data => {
+                console.log('results', data, this);
+                let term = data.term;
+                let searchResults = data.searchResults;
+                self.hasInputText = term.length > 0 ? true : false;
+                //Reset dropdown item that is selected
                 self.resetSelected();
-                self.dropdownList = data;
-                self.storedSearchTerm = self.term.value;
-                self.compareAutoComplete(self.term.value);
-            });
-
-        //Subscription to run a function when search input value changes
-        this.subscriptionText = this.term.valueChanges
-            .subscribe(text => {
-                self.compareAutoComplete(text);
+                //Assign data to dropdown
+                self.dropdownList = searchResults;
+                //Store input value for arrow keys dropdown
+                self.storedSearchTerm = term;
+                self.compareAutoComplete(term);
             });
 
     }
 
     ngOnDestroy(){
-        //Unsubscribe to observables to avoid memory leak
-        this.subscriptionData.unsubscribe();
-        this.subscriptionText.unsubscribe();
+        //Unsubscribe to observable to avoid memory leak
+        this.subscription.unsubscribe();
     }
 }
