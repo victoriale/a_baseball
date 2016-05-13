@@ -99,13 +99,11 @@ interface TeamProfileHeaderData {
     profileImage: string;
     backgroundImage: string;
     lastUpdated: string;
+    teamFirstName: string;
+    teamLastName: string;
     stats: {
-      // city: string; //NEED
-      // state: string; //NEED
       teamId: number;
       teamName: string;
-      teamFirstName: string;
-      teamLastName: string;
       seasonId: string;
       totalWins: number;
       totalLosses: number;
@@ -373,16 +371,6 @@ export class ProfileHeaderService {
       return null;
     }
 
-    var teamName = stats.teamName ? stats.teamName : "N/A";
-
-    //TODO-CJP: get from API
-    var firstPart = stats.teamFirstName;
-    var lastPart = stats.teamLastName;
-    if ( !firstPart || !lastPart ) {
-      var lastSpaceIndex = teamName.lastIndexOf(" ");
-      firstPart = lastSpaceIndex >= 0 ? teamName.substring(0, lastSpaceIndex) : "";
-      lastPart = lastSpaceIndex >= 0 ? teamName.substring(lastSpaceIndex+1) : teamName;
-    }
     var formattedEra = null;
     if ( stats.pitching ) {
       if ( stats.pitching.era > 1 ) {
@@ -397,8 +385,8 @@ export class ProfileHeaderService {
       profileName: stats.teamName,
       profileImageUrl: data.fullProfileImageUrl,
       backgroundImageUrl: data.fullBackgroundImageUrl,
-      profileTitleFirstPart: firstPart,
-      profileTitleLastPart: lastPart,
+      profileTitleFirstPart: data.headerData.teamFirstName,
+      profileTitleLastPart: data.headerData.teamLastName,
       lastUpdatedDate: moment(data.headerData.lastUpdated),
       description: description,
       topDataPoints: [
