@@ -22,9 +22,9 @@ export interface PlayerStatsData {
   sluggingPercent: number;
   hits: number;
   walks: number;
+  onBasePercent: number;
   
   //Pitching Stats
-  onBasePercent: number;
   earnedRunAverage: number;
   wins: number;
   losses: number;
