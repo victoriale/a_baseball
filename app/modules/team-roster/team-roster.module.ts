@@ -80,7 +80,7 @@ export class TeamRosterModule implements OnChanges{
     this.footerData = {
       infoDesc: 'Want to see everybody involved in this list?',
       text: 'VIEW FULL ROSTER',
-      url: ['Team-roster-page',{teamName:'team-name-here', teamId: '2799'}]
+      url: ['Team-roster-page',{teamName:teamName, teamId: this.teamId}]
     };
     // if ( teamId  && teamName ) {
     //   this.pageParams.teamId = Number(teamId);

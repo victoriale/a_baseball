@@ -99,7 +99,7 @@ export class RosterTabData {
         description:[
           '<p style="font-size:12px;"><i class="fa fa-circle" style="color:#bc2027; padding-right: 5px;"></i> ' + curYear + ' TEAM ROSTER</p>',
           '<p style="font-size: 22px; font-weight: 900; padding:9px 0;">'+val.playerName+'</p>',
-          '<p style="font-size: 14px; line-height: 1.4em;"><b style="font-weight:900;">'+ val.playerName+ '</b>, <b style="font-weight:900;">'+ MLBGlobalFunctions.MLBPosition(val.position[0]) +'</b> for the <b style="font-weight:900;">'+ val.teamName +'</b>,' + playerNum + playerHeight + playerWeight + playerSalary + '</p>',
+          '<p style="font-size: 14px; line-height: 1.4em;"><b style="font-weight:900;">'+ val.playerName+ '</b>, <b style="font-weight:900;">'+ val.position +'</b> for the <b style="font-weight:900;">'+ val.teamName +'</b>,' + playerNum + playerHeight + playerWeight + playerSalary + '</p>',
           '<p style="font-size: 10px; padding-top:9px;">Last Updated On ' + GlobalFunctions.formatUpdatedDate(val.lastUpdate) + '</p>'
         ],
         footerInfo: {
@@ -219,7 +219,7 @@ export class RosterTableModel {
         break;
 
       case "pos":
-        s = typeof item.position[0] == 'undefined' ? "N/A" : MLBGlobalFunctions.MLBPositionToAB(item.position[0].toString());
+        s = typeof item.position[0] == 'undefined' ? "N/A" : item.position.toString();
         break;
 
       case "ht":
