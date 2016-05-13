@@ -475,19 +475,19 @@ export class ProfileHeaderService {
       bottomDataPoints: [
         {
           label: "Total Teams:",
-          value: data.totalTeams ? data.totalTeams.toString() : null
+          value: data.totalTeams != null ? data.totalTeams.toString() : null
         },
         {
           label: "Total Players:",
-          value: data.totalPlayers ? data.totalPlayers.toString() : null
+          value: data.totalPlayers != null ? data.totalPlayers.toString() : null
         },
         {
           label: "Total Divisions:",
-          value: data.totalDivisions ? data.totalDivisions.toString() : null
+          value: data.totalDivisions != null ? data.totalDivisions.toString() : null
         },
         {
           label: "Total Leagues:",
-          value: data.totalLeagues ? data.totalLeagues.toString() : null
+          value: data.totalLeagues != null ? data.totalLeagues.toString() : null
         }
       ]
     }

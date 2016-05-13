@@ -95,7 +95,6 @@ export class RosterTabData {
     var Carousel = {
         index: index,
         //imageData(mainImg, mainImgRoute, subImg, subRoute, rank)
-        //TODO need to replace image data with actual image path when available
         imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.playerHeadshot),playerRoute,"image-50-sub",GlobalSettings.getImageUrl(val.teamLogo),teamRoute,index+1),
         description:[
           '<p style="font-size:12px;"><i class="fa fa-circle" style="color:#bc2027; padding-right: 5px;"></i> ' + curYear + ' TEAM ROSTER</p>',
@@ -106,7 +105,7 @@ export class RosterTabData {
         footerInfo: {
           infoDesc: 'Interested in discovering more about this player?',
           text: 'View Profile',
-          url: ['Disclaimer-page']//TODO
+          url: MLBGlobalFunctions.formatPlayerRoute(val.teamName,val.playerName,val.playerId.toString()),
         }
     };
     return Carousel;

@@ -33,6 +33,8 @@ export class ArticlesModule implements OnInit {
     headToHeadData:any;
     randomLeftColumn:any;
     randomHeadToHead:any;
+    mainImage:string;
+    subImages:Array<any>;
     mainTitle:string;
     titleFontSize:string;
     mainContent:string;
@@ -64,7 +66,7 @@ export class ArticlesModule implements OnInit {
                     this.headlineData = HeadlineData['featuredReport'];
                     this.leftColumnData = HeadlineData['leftColumn'];
                     this.headToHeadData = HeadlineData['rightColumn'];
-                    this.imageData = HeadlineData['home'].images[0];
+                    this.imageData = HeadlineData['home'].images.concat(HeadlineData['away'].images);
                     this.eventID = HeadlineData.event;
                     this.scheduleHomeData = HeadlineData['home'];
                     this.scheduleAwayData = HeadlineData['away'];
@@ -81,7 +83,7 @@ export class ArticlesModule implements OnInit {
         var dateString = moment.unix(data.timestamp).format("MM/DD/YYYY");
         var isToday = moment(dateString).isSame(moment(), 'day');
         if (isToday) {
-            this.headerInfo.moduleTitle = "Today's Gameday Matchup Against the " + data.away.name;
+            this.headerInfo.moduleTitle = "Today's Gameday Matchup Against the " + data.away.location + ' ' + data.away.name;
         }
         else {
             this.headerInfo.moduleTitle = moment.unix(dateString).format("dddd") + "'s Gameday Matchup Against the " + data.away.name;
@@ -97,6 +99,7 @@ export class ArticlesModule implements OnInit {
         var awayArr = [];
         var val = [];
         val['homeID'] = homeData.id;
+        val['homeLocation'] = homeData.location;
         val['homeName'] = homeData.name;
         val['homeHex'] = homeData.hex;
         val['homeLogo'] = homeData.logo;
@@ -105,6 +108,7 @@ export class ArticlesModule implements OnInit {
         homeArr.push(val);
         val = [];
         val['awayID'] = awayData.id;
+        val['awayLocation'] = awayData.location;
         val['awayName'] = awayData.name;
         val['awayHex'] = awayData.hex;
         val['awayLogo'] = {//interface is found in image-data.ts
@@ -123,6 +127,18 @@ export class ArticlesModule implements OnInit {
         this.awayData = awayArr;
     }
 
+    getImages(imageList, articleType) {
+        imageList.sort(function () {
+            return 0.5 - Math.random()
+        });
+        if (articleType == 'main') {
+            this.mainImage = imageList[0];
+        }
+        if (articleType == 'sub') {
+            return this.subImages = imageList;
+        }
+    }
+
     getMainArticle(headlineData, imageData, eventID) {
         var pageIndex = Object.keys(headlineData)[0];
         headlineData = headlineData[Object.keys(headlineData)[0]];
@@ -133,14 +149,18 @@ export class ArticlesModule implements OnInit {
         this.eventType = pageIndex;
         this.mainEventID = eventID;
         var articleContent = headlineData.article[0];
-        var maxLength = 240;
+        var maxLength = 225;
         var trimmedArticle = articleContent.substring(0, maxLength);
         this.mainContent = trimmedArticle.substr(0, Math.min(trimmedArticle.length, trimmedArticle.lastIndexOf(" ")));
-        this.images = imageData;
+        var articleType = 'main';
+        this.getImages(imageData, articleType);
     }
 
     getLeftColumnArticles(leftColumnData, imageData, eventID) {
+        var articleType = 'sub';
+        this.getImages(imageData, articleType);
         var articleArr = [];
+        var imageCount = 0;
         var self = this;
         jQuery.map(leftColumnData, function (val, index) {
             switch (index) {
@@ -152,10 +172,11 @@ export class ArticlesModule implements OnInit {
                 case'injuries-home':
                 case'injuries-away':
                 case'upcoming-game':
+                    imageCount++;
                     val['title'] = val.displayHeadline;
                     val['eventType'] = index;
                     val['eventID'] = eventID;
-                    //val['photos'] = val[0].photos.url;
+                    val['images'] = self.subImages[imageCount];
                     articleArr.push(val);
                     break;
             }
@@ -164,12 +185,10 @@ export class ArticlesModule implements OnInit {
             return 0.5 - Math.random()
         });
         this.randomLeftColumn = articleArr;
-        this.images = imageData;
     }
 
     getHeadToHeadArticles(headToHeadData, eventID) {
         var articleArr = [];
-        var self = this;
         jQuery.map(headToHeadData, function (val, index) {
             switch (index) {
                 case'pitcher-player-comparison':
