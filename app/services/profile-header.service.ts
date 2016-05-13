@@ -50,6 +50,8 @@ interface PlayerProfileHeaderData {
     lastUpdate: string;
     playerHeadshot: string;
     backgroundImage: string;
+    draftTeam: string;
+    draftYear: string;
   };
   stats: {
     //Pitcher stats
@@ -277,7 +279,46 @@ export class ProfileHeaderService {
     var stats = headerData.stats;
     var info = headerData.info;
     
-    var description = headerData.description;
+    var formattedStartDate = info.draftYear ? info.draftYear : "N/A"; //[September 18, 2015]
+    var formattedYearsInMLB = "N/A"; //[one]
+    var yearPluralStr = "years";
+    if ( info.draftYear ) {
+      var currentYear = (new Date()).getFullYear();
+      var yearsInMLB = (currentYear - Number(info.draftYear));      
+      formattedYearsInMLB = yearsInMLB.toString();
+      if ( yearsInMLB == 1 ) {
+        yearPluralStr = "year";
+      }
+    }
+    
+    var location = "N/A"; //[Wichita], [Kan.]
+    if ( info.city && info.area ) {
+      location = info.city + ", " + info.area;
+    }
+    
+    var formattedBirthDate = "N/A"; //[October] [3], [1991]
+    if ( info.birthDate ) {
+      formattedBirthDate = moment(info.birthDate).format("MMMM D, YYYY");
+    }
+    var formattedAge = info.age ? info.age.toString() : "N/A";
+    
+    var formattedHeight = info.height ? info.height.toString() : "N/A"; //[6-foot-11]
+    formattedHeight.replace(/-/, "-foot-");
+    
+    var formattedWeight = info.weight ? info.weight.toString() : "N/A";
+    
+    var description = "<span class='text-heavy'>" + info.playerName +
+                  "</span> started his MLB career on <span class='text-heavy'>" + formattedStartDate +
+                  "</span> for the <span class='text-heavy'>" + info.teamName +
+                  "</span>, accumulating <span class='text-heavy'>" + formattedYearsInMLB +
+                  "</span> " + yearPluralStr + " in the MLB. <span class='text-heavy'>" + info.playerName +
+                  "</span> was born in <span class='text-heavy'>" + location +
+                  "</span> on <span class='text-heavy'>" + formattedBirthDate +
+                  "</span> and is <span class='text-heavy'>" + formattedAge +
+                  "</span> years old, with a height of <span class='text-heavy'>" + formattedHeight + 
+                  "</span> and weighing in at <span class='text-heavy'>" + formattedWeight +
+                  "</span> pounds.";
+    
     var dataPoints: Array<DataItem>;
     var isPitcher = headerData.info.position.filter(value => value === "P").length > 0;
 
