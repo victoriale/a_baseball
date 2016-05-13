@@ -49,6 +49,7 @@ export interface TableComponentData<T> {
 })
 
 export class TeamRosterPage implements OnInit{
+  public teamId: string;
   public carDataCheck: boolean = true;
   public selectedIndex;
   public carDataArray: Array<SliderCarouselInput> = [];
@@ -79,10 +80,9 @@ export class TeamRosterPage implements OnInit{
               private _rosterService: RosterService,
               private _globalFunctions: GlobalFunctions,
               private _mlbFunctions: MLBGlobalFunctions) {
-
-    var teamId = _params.get("teamId");
-    if ( teamId !== null && teamId !== undefined ) {
-      this.pageParams.teamId = Number(teamId);
+    this.teamId = _params.get("teamId");
+    if ( this.teamId !== null && this.teamId !== undefined ) {
+      this.pageParams.teamId = Number(this.teamId);
     }
   }
 
@@ -162,7 +162,7 @@ export class TeamRosterPage implements OnInit{
     this.setupTitleData(title, imageURL);
     this.setupTitleData(title);
 
-    this._rosterService.loadAllTabs("2799", 20)
+    this._rosterService.loadAllTabs(this.teamId, 20)
       .subscribe(data => {
         //set up tabs
         this.tabs = data;
