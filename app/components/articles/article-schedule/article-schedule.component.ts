@@ -3,11 +3,12 @@ import {Articles} from "../../../global/global-service";
 import {ArticleData} from "../../../global/global-interface";
 import {CircleImage} from "../../images/circle-image";
 import {CircleImageData} from '../../images/image-data';
+import {ROUTER_DIRECTIVES} from "angular2/router";
 
 @Component({
     selector: 'article-schedule-component',
     templateUrl: './app/components/articles/article-schedule/article-schedule.component.html',
-    directives: [CircleImage],
+    directives: [CircleImage, ROUTER_DIRECTIVES],
     inputs: ['articleData', 'league', 'homeData', 'awayData'],
     providers: [Articles],
 })

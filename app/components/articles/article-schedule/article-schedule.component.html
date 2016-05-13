@@ -19,12 +19,10 @@
             vs.
         </div>
         <span *ngFor="#away of awayData">
-            <a href="">
-                <circle-image *ngIf="away.awayLogo" class="schedule-next-circle schedule-next-circle-right"
-                              [data]="away.awayLogo"></circle-image>
-            </a>
+            <circle-image *ngIf="away.awayLogo" class="schedule-next-circle schedule-next-circle-right"
+                          [data]="away.awayLogo"></circle-image>
             <div class="schedule-next-team schedule-next-team-right">
-                <a href="">
+                <a [routerLink]="away.url">
                     <div class="schedule-next-team-right-url">
                         <span class="schedule-next-team-name">{{away.awayLocation}}<span
                                 class="schedule-next-team-name-bold"> {{away.awayName}}</span></span>

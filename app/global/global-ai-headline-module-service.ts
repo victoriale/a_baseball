@@ -1,15 +1,13 @@
 import {Injectable, Injector} from 'angular2/core';
 import {Router, ROUTER_DIRECTIVES, ROUTER_PROVIDERS, RouteConfig, RouteParams } from 'angular2/router';
 import {HTTP_PROVIDERS, Http, Response, Headers} from "angular2/http";
+import {GlobalSettings} from "../global/global-settings";
 import {Observable} from "rxjs/Observable";
 
 @Injectable()
 
 export class HeadlineDataService {
     public partnerID:string;
-    public protocolToUse:string = (location.protocol == "https:") ? "https" : "http";
-    public apiUrl:string = '://dev-homerunloyal-ai.synapsys.us/headlines/team/';
-
 
     constructor(private _router:Router, public http:Http) {
         this._router.root
@@ -27,7 +25,7 @@ export class HeadlineDataService {
     };
 
     getAiHeadlineData(teamID) {
-        var fullUrl = this.protocolToUse + this.apiUrl;
+        var fullUrl = GlobalSettings.getHeadlineUrl();
         if (this.partnerID == null) {
             return this.http.get(fullUrl + teamID)
                 .map(

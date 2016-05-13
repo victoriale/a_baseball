@@ -12,6 +12,7 @@ import {RouteParams} from "angular2/router";
 import {ROUTER_DIRECTIVES} from "angular2/router";
 import {ModuleHeaderData} from "../../components/module-header/module-header.component";
 import {LoadingComponent} from "../../components/loading/loading.component";
+import {MLBGlobalFunctions} from "../../global/mlb-global-functions";
 
 declare var jQuery:any;
 declare var moment:any;
@@ -106,6 +107,8 @@ export class ArticlesModule implements OnInit {
         var homeArr = [];
         var awayArr = [];
         var val = [];
+        var homeName = homeData.location + ' ' + homeData.name;
+        var awayName = awayData.location + ' ' + awayData.name;
         if (this.teamID == homeData.id) {
             val['homeID'] = homeData.id;
             val['homeLocation'] = homeData.location;
@@ -120,11 +123,13 @@ export class ArticlesModule implements OnInit {
             val['awayLocation'] = awayData.location;
             val['awayName'] = awayData.name;
             val['awayHex'] = awayData.hex;
+            let teamLink = MLBGlobalFunctions.formatTeamRoute(awayName, awayData.id);
+            val['url'] = teamLink;
             val['awayLogo'] = {//interface is found in image-data.ts
                 imageClass: "image-62",
                 mainImage: {
                     imageUrl: awayData.logo,
-                    urlRouteArray: ['Disclaimer-page'],
+                    urlRouteArray: teamLink,
                     hoverText: "<i class='fa fa-mail-forward'></i>",
                     imageClass: "border-logo"
                 }
@@ -145,11 +150,13 @@ export class ArticlesModule implements OnInit {
             val['awayLocation'] = homeData.location;
             val['awayName'] = homeData.name;
             val['awayHex'] = homeData.hex;
+            let teamLink = MLBGlobalFunctions.formatTeamRoute(homeName, homeData.id);
+            val['url'] = teamLink;
             val['awayLogo'] = {//interface is found in image-data.ts
                 imageClass: "image-62",
                 mainImage: {
                     imageUrl: homeData.logo,
-                    urlRouteArray: ['Disclaimer-page'],
+                    urlRouteArray: teamLink,
                     hoverText: "<i class='fa fa-mail-forward'></i>",
                     imageClass: "border-logo"
                 }
