@@ -7,7 +7,7 @@ import {GlobalSettings} from '../global/global-settings';
 
 @Injectable()
 export class ListPageService {
-  private _apiUrl: string = 'http://dev-homerunloyal-api.synapsys.us';
+  private _apiUrl: string = GlobalSettings.getApiUrl();
   // private _apiToken: string = 'BApA7KEfj';
   // private _headerName: string = 'X-SNT-TOKEN';
 
@@ -51,7 +51,7 @@ export class ListPageService {
     )
     .map(
       data => {
-        // console.log(data);
+        console.log(data);
         data.data['query'] = query;
         return {
           profHeader: this.profileHeader(data.data.listInfo),

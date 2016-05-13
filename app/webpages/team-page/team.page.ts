@@ -1,5 +1,6 @@
 import {Component, OnInit} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
+import {Injectable} from 'angular2/core';
 
 import {AboutUsModule} from '../../modules/about-us/about-us.module';
 import {LikeUs} from "../../modules/likeus/likeus.module";
@@ -8,7 +9,6 @@ import {FAQModule} from "../../modules/faq/faq.module";
 import {TwitterModule} from "../../modules/twitter/twitter.module";
 import {ComparisonModule} from '../../modules/comparison/comparison.module';
 import {CommentModule} from '../../modules/comment/comment.module';
-import {DraftHistoryModule} from '../../modules/draft-history/draft-history.module';
 import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
 import {StandingsModule, StandingsModuleData} from '../../modules/standings/standings.module';
 import {MLBStandingsTabData} from '../../services/standings.data';
@@ -28,6 +28,11 @@ import {ShareModuleInput} from '../../modules/share/share.module';
 import {HeadlineComponent} from '../../components/headline/headline.component';
 
 import {NewsModule} from '../../modules/news/news.module';
+
+//module | interface | service
+import {DraftHistoryModule} from '../../modules/draft-history/draft-history.module';
+import {DraftHistoryService} from '../../services/draft-history.service';
+
 
 @Component({
     selector: 'Team-page',
@@ -49,7 +54,7 @@ import {NewsModule} from '../../modules/news/news.module';
         TeamRosterModule,
         NewsModule,
         AboutUsModule],
-    providers: [StandingsService, ProfileHeaderService, RosterService]
+    providers: [DraftHistoryService, StandingsService, ProfileHeaderService, RosterService]
 })
 
 export class TeamPage implements OnInit{
@@ -63,23 +68,32 @@ export class TeamPage implements OnInit{
 
     profileHeaderData: ProfileHeaderData;
 
+    draftHistoryData: any;
+    currentYear: number;
+
     constructor(
         private _params: RouteParams,
         private _standingsService: StandingsService,
-        private _profileService: ProfileHeaderService) {
+        private _profileService: ProfileHeaderService,
+        private draftService:DraftHistoryService
+    ) {
 
         this.pageParams = {
             teamId: Number(_params.get("teamId"))
         };
+        this.currentYear = new Date().getFullYear();
     }
 
   ngOnInit() {
+    console.log(this.currentYear);
     this.setupProfileData();
+    this.draftHistoryModule(this.currentYear, this.pageParams.teamId);
   }
 
 private setupProfileData() {
     this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
       data => {
+        console.log(data);
         this.pageParams = data.pageParams;
         this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data)
         this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
@@ -89,14 +103,47 @@ private setupProfileData() {
       }
     );
   }
-  
+
   private standingsTabSelected(tab: MLBStandingsTabData) {
     if ( tab && (!tab.sections || tab.sections.length == 0) ) {
-      this._standingsService.getTabData(tab, this.pageParams, 5)//only show 5 rows in the module      
+      this._standingsService.getTabData(tab, this.pageParams, 5)//only show 5 rows in the module
         .subscribe(data => tab.sections = data,
         err => {
           console.log("Error getting standings data");
         });
     }
+  }
+
+  draftHistoryModule(year, teamId) {
+    console.log(year, teamId);
+      this.draftService.getDraftHistoryService(year, teamId, 'module')
+          .subscribe(
+              draftData => {
+                var dataArray, detailedDataArray, carouselDataArray;
+                if(typeof dataArray == 'undefined'){//makes sure it only runs once
+                  dataArray = draftData.tabArray;
+                }
+                if(draftData.listData.length == 0){//makes sure it only runs once
+                  detailedDataArray = false;
+                }else{
+                  detailedDataArray = draftData.listData;
+                }
+                carouselDataArray = draftData.carData
+                console.log(this.draftHistoryData = {
+                  dataArray:dataArray,
+                  detailedDataArray:detailedDataArray,
+                  carouselDataArray:carouselDataArray
+                });
+                return this.draftHistoryData = {
+                  dataArray:dataArray,
+                  detailedDataArray:detailedDataArray,
+                  carouselDataArray:carouselDataArray
+                }
+              },
+              err => {
+                  console.log('Error: draftData API: ', err);
+                  // this.isError = true;
+              }
+          );
   }
 }
