@@ -1,5 +1,6 @@
 .custom-table {
   width: 100%;
+  // table-layout: fixed;
   
   &-header {
     position: relative;
@@ -36,22 +37,45 @@
     }
     
     &-cell {
+      .globalDefaultFont(16px, 400);
       padding: 6px;
       position: relative;
     }
+  }
+  
+  /** compact body and cell definitions **/
+  &-compact {   
+    tr {
+      height: 50px;
+    }
     
-    &-bold-column {
-      .globalDefaultModFont(16px, 900, @masterBrandColor);
+    &-cell {
+      .globalDefaultFont(12px, 400);
+      padding: 0 6px;
+      position: relative;
+    }
+  }
+  
+  /** row definitions **/
+  &-row {  
+    
+    .bold-column {
+      font-weight: 900;
+      color: @masterBrandColor;
       text-align: center;
     }
     
-    &-image-column {
-      .globalDefaultFont(16px, 900);
-      text-align: left;   
+    .image-column {
+      font-weight: 900;
+      text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 275px;
       
       .image-round {
         margin-right: 10px;
-        margin-left: 4px;
+        margin-left: 5px;
         display: inline-block;
       }
       
@@ -71,48 +95,11 @@
       }
     }
 
-    &-data-column {
-      .globalDefaultFont(16px, 400);
+    .data-column {
       text-align: center;    
-    }
-  }
-  
-  /** compact body and cell definitions **/
-  &-compact {   
-    tr {
-      height: 50px;
-    }
-    
-    &-cell {
-      padding: 0 6px;
-      position: relative;
-    }
-    
-    &-bold-column {
-      .globalDefaultModFont(12px, 900, @masterBrandColor);
-      text-align: center;
-    }
-    
-    &-image-column {
-      .globalDefaultFont(12px, 900);
-      text-align: left;   
-      
-      .image-round {
-        margin-right: 1em;
-        margin-left: 2px;
-        display: inline-block;
-      }
     }
 
-    &-data-column {
-      .globalDefaultFont(12px, 400);
-      text-align: center;    
-    }
-  }
-  
-  /** row definitions **/
-  &-row {    
-    &-even .highlight-box, &-odd .highlight-box {
+    .highlight-box, .highlight-box {
       width: 5px;
       top: 0px;
       bottom: 0px;
