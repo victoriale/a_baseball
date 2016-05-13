@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, Output, EventEmitter} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
 import {Injectable} from 'angular2/core';
 
@@ -9,20 +9,18 @@ import {SliderCarousel, SliderCarouselInput} from '../../components/carousels/sl
 import {Tabs} from '../../components/tabs/tabs.component';
 import {Tab} from '../../components/tabs/tab.component';
 import {NoDataBox} from '../../components/error/data-box/data-box.component';
-import {ProfileHeaderService} from '../../services/profile-header.service';
 
-//module | interfaces | Services then space between each one
-import {TeamPage} from '../../webpages/team-page/team.page';//to recall function that makes api call per tab click
 
 @Component({
     selector: 'draft-history',
     templateUrl: './app/modules/draft-history/draft-history.module.html',
     directives: [NoDataBox, Tab, Tabs, SliderCarousel, DetailedListItem, ModuleHeader, ModuleFooter],
-    providers: [TeamPage, ProfileHeaderService],
+    providers: [],
     inputs:['draftData', 'profHeader']
 })
 
 export class DraftHistoryModule{
+  @Output() tab: EventEmitter<string> = new EventEmitter();
   draftData:any;
   profHeader:any;
   modHeadData: Object;
@@ -34,7 +32,7 @@ export class DraftHistoryModule{
   footerData: Object;
   footerStyle: any;
   teamId:number;
-  constructor(private profHeadService:ProfileHeaderService, public params: RouteParams){
+  constructor( public params: RouteParams){
     this.teamId = Number(this.params.get('teamId'));
     this.footerData = {
       infoDesc: 'Want to see everybody involved in this list?',
@@ -44,18 +42,20 @@ export class DraftHistoryModule{
   }
 
   ngOnInit(){
+    this.displayData();
+  }
 
-    // this.modHeadData = {
-    //     moduleTitle: "Draft History - "+ data.headerData.stats.teamName,
-    //     hasIcon: false,
-    //     iconClass: '',
-    // }
-    // this.errorData = {
-    //   data:profHeader.error,
-    //   icon: "fa fa-area-chart"
-    // }
+  ngOnChanges(){
+    this.displayData();
+  }
 
-
+  displayData(){
+    this.modHeadData = {
+        moduleTitle: "Draft History - "+ this.profHeader.profileName,
+        hasIcon: false,
+        iconClass: '',
+    }
+    this.errorData = this.draftData.errorData;
     if(typeof this.dataArray == 'undefined'){//makes sure it only runs once
       this.dataArray = this.draftData.tabArray;
     }
@@ -63,17 +63,16 @@ export class DraftHistoryModule{
       this.detailedDataArray = false;
     }else{
       this.detailedDataArray = this.draftData.listData;
+      if(this.detailedDataArray == false){
+        this.carouselDataArray = this.draftData.carData
+        this.carouselDataArray[0]['description'][0] = '<br><b style="font-size:20px">'+this.errorData.data+'</b>';
+      }
     }
     this.carouselDataArray = this.draftData.carData
   }
 
   //each time a tab is selected the carousel needs to change accordingly to the correct list being shown
   selectedTab(event){
-    var firstTab = 'Current Season';
-    if(event == firstTab){
-      event = new Date().getFullYear();
-    }
-    // this.draftData = this.teamPage.draftHistoryModule(event, this.teamId);
-    console.log('click', this.draftData);
+    this.tab.emit(event);
   }
 }

@@ -14,7 +14,7 @@
 
   <!-- playerstats -->
   <!-- transactions -->
-  <draft-history *ngIf="draftHistoryData" [draftData]="draftHistoryData" [profHeader]="profileHeaderData"></draft-history>
+  <draft-history *ngIf="draftHistoryData" [draftData]="draftHistoryData" [profHeader]="profileHeaderData" (tab)="draftTab($event)"></draft-history>
   <!-- MVP -->
   <comparison-module></comparison-module>
 

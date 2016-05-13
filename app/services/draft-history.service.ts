@@ -30,6 +30,7 @@ export class DraftHistoryService {
   //get past 5 years for tabs
   var tabDates = Number(year);
   var tabArray = [];
+  var currentYear = '';
   for(var i = 0; i <5; i++){
     if(i == 0){
       var currentYear = 'Current Season';
@@ -99,11 +100,11 @@ export class DraftHistoryService {
         var Carousel = {
           index:index,
           //TODO
-          imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.imageUrl),MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId), (index+1), "image-50-sub",GlobalSettings.getImageUrl(val.teamLogo),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
+          imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.imageUrl),MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId), (index+1), "image-48-rank", "image-50-sub",GlobalSettings.getImageUrl(val.teamLogo),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
           description:[
             '<br>',
             '<p style="font-size:24px"><b>'+val.playerName+'</b></p>',
-            '<p>Hometown: <b>'+val.draftTeamName+'</b></p>',
+            '<p>Hometown: <b>'+ GlobalFunctions.toTitleCase(val.city) + ', ' + GlobalFunctions.stateToAP(val.area) +'</b></p>',
             '<br>',
             '<p style="font-size:24px"><b>'+val.selectionOverall+' Overall</b></p>',
             '<p>Draft Round '+val.selectionLevel+'</p>',
@@ -146,12 +147,12 @@ export class DraftHistoryService {
           val.selectionOverall+' Overall',
           MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName,
           playerFullName, val.personId),
-          'Hometown: '+'[NEED CITY STATE]',
+          'Hometown: '+ GlobalFunctions.toTitleCase(val.city) + ', ' + GlobalFunctions.stateToAP(val.area),
           'Draft Round '+val.selectionLevel,
           MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)
         ),
         imageConfig: self.imageData("image-121","border-2",
-        GlobalSettings.getImageUrl(val.imageUrl),MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId),(index+1),"image-40-sub",GlobalSettings.getImageUrl(val.teamLogo),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
+        GlobalSettings.getImageUrl(val.imageUrl),MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId),(index+1),"image-38-rank","image-40-sub",GlobalSettings.getImageUrl(val.teamLogo),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
         hasCTA:true,
         ctaDesc:'Want more info about this player?',
         ctaBtn:'',
@@ -167,7 +168,7 @@ export class DraftHistoryService {
   /**
    *this function will have inputs of all required fields that are dynamic and output the full
   **/
-  imageData(imageClass, imageBorder, mainImg, mainImgRoute, rank, subImgClass, subImg?, subRoute?){
+  imageData(imageClass, imageBorder, mainImg, mainImgRoute, rank, rankClass, subImgClass, subImg?, subRoute?){
     if(typeof mainImg =='undefined' || mainImg == ''){
       mainImg = "/app/public/no-image.png";
     }
@@ -188,7 +189,7 @@ export class DraftHistoryService {
         subImages: [
           {
             text: "#"+rank,
-            imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
+            imageClass: rankClass+ " image-round-upper-left image-round-sub-text"
           }
         ],
     };
@@ -202,7 +203,7 @@ export class DraftHistoryService {
           },
           {
               text: "#"+rank,
-              imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
+              imageClass: rankClass+ " image-round-upper-left image-round-sub-text"
           }
       ];
     }

@@ -58,7 +58,7 @@ import {DraftHistoryService} from '../../services/draft-history.service';
 
 export class TeamPage implements OnInit{
     public shareModuleInput: ShareModuleInput;
-
+    headerData: any;
     pageParams: MLBPageParameters;
 
     standingsData: StandingsModuleData;
@@ -66,7 +66,7 @@ export class TeamPage implements OnInit{
     profileHeaderData: ProfileHeaderData;
 
     draftHistoryData: any;
-    currentYear: string;
+    currentYear: any;
 
     constructor(
         private _params: RouteParams,
@@ -82,7 +82,6 @@ export class TeamPage implements OnInit{
 
   ngOnInit() {
     this.setupProfileData();
-    this.draftHistoryModule(this.currentYear, this.pageParams.teamId);
   }
 
 private setupProfileData() {
@@ -91,7 +90,8 @@ private setupProfileData() {
         this.pageParams = data.pageParams;
         this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data)
         this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
-          this.setupShareModule();
+        this.setupShareModule();
+        this.draftHistoryModule(this.currentYear, this.pageParams.teamId);//neeeds profile header data will run once header data is in
       },
       err => {
         console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
@@ -120,6 +120,16 @@ private setupProfileData() {
         };
     }
 
+    //each time a tab is selected the carousel needs to change accordingly to the correct list being shown
+    private draftTab(event){
+      var firstTab = 'Current Season';
+      if(event == firstTab){
+        event = this.currentYear;
+      }
+      this.draftHistoryModule(event, this.pageParams.teamId);
+      // this.draftData = this.teamPage.draftHistoryModule(event, this.teamId);
+    }
+
     private draftHistoryModule(year, teamId) {
       this._draftService.getDraftHistoryService(year, teamId, 'module')
           .subscribe(
@@ -135,9 +145,13 @@ private setupProfileData() {
                 }
                 carouselDataArray = draftData.carData
                 return this.draftHistoryData = {
-                  dataArray:dataArray,
-                  detailedDataArray:detailedDataArray,
-                  carouselDataArray:carouselDataArray
+                  tabArray:dataArray,
+                  listData:detailedDataArray,
+                  carData:carouselDataArray,
+                  errorData : {
+                    data:"Sorry, the " + this.profileHeaderData.profileName + " do not currently have any data for the " + year + " draft history",
+                    icon: "fa fa-remove"
+                  }
                 }
               },
               err => {
