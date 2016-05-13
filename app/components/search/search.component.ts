@@ -17,7 +17,7 @@ export interface SearchComponentData {
 }
 
 //Interface for input of search component
-interface SearchInput {
+export interface SearchInput {
     //Text that goes in as the placeholder for the input
     placeholderText: string;
     //Boolean to determine if the search dropdown should be displayed
