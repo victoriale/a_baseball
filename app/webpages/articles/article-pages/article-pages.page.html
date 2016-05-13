@@ -1,4 +1,5 @@
 <div class="articles-page-content">
+    <loading-component *ngIf="!articleData"></loading-component>
     <shareLinks-component [url]="url"></shareLinks-component>
     <div class="articles-page-title">{{title}}</div>
     <ai-carousel [imageData]="imageData"></ai-carousel>
