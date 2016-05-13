@@ -67,7 +67,10 @@ export class TeamRosterPage implements OnInit{
     ctaBtnClass:"list-footer-btn",
     hasIcon: true
   };
-
+  errorData: any = {
+    data: "This team is a National League team and has no designated hitters.",
+    icon: "fa fa-remove"
+  }
   public tabs: Array<RosterTabData>;
   private selectedTabTitle: string;
 
