@@ -15,6 +15,7 @@ export class PlayerStatsService {
   getLinkToPage(pageParams: MLBPageParameters): Array<any> {
     return ["Player-stats-page", {
       teamId: pageParams.teamId,
+      teamName: pageParams.teamName,
       playerId: pageParams.playerId
     }];
   }

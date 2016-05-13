@@ -1,4 +1,5 @@
 import {Injectable} from 'angular2/core';
+import {Link} from './global-interface';
 
 declare var moment: any;
 
@@ -507,5 +508,24 @@ export class GlobalFunctions {
      case 9: return "nine";
      default: return num.toString();
    }
+  }
+  
+  static setupAlphabeticalNavigation(pageType: string): Array<Link> {
+    var navigationArray: Array<Link> = [];
+    var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+    //Build alphabet array for navigation links
+    for ( var i in alphabet ) {
+        navigationArray.push({
+            text: alphabet[i],
+            route: ['Directory-page-starts-with', 
+              {
+                  type: pageType,
+                  page: 1,
+                  startsWith: alphabet[i]
+              }]
+        });
+    }
+    return navigationArray;
   }
 }
