@@ -1,10 +1,9 @@
 import {Component, OnInit, Input} from 'angular2/core';
-import {FooterComponent} from "../../components/footer/footer.component";
-import {HeaderComponent} from "../../components/header/header.component";
+
 import {SliderButton} from "../../components/buttons/slider/slider.button";
 import {CircleImage} from '../../components/images/circle-image';
 import {ImageData,CircleImageData} from '../../components/images/image-data';
-import {Search} from '../../components/search/search.component';
+import {Search, SearchInput} from '../../components/search/search.component';
 import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
 import {LandingPageService} from '../../services/landing-page';
 
@@ -21,7 +20,7 @@ export interface newsCarouselData{
 @Component({
     selector: 'home-page',
     templateUrl: './app/webpages/home-page/home-page.page.html',
-    directives: [CircleImage, ROUTER_DIRECTIVES, FooterComponent, HeaderComponent, Search, SliderButton],
+    directives: [CircleImage, ROUTER_DIRECTIVES, Search, SliderButton],
     inputs: [],
     providers: [LandingPageService],
 })
@@ -35,7 +34,10 @@ export class HomePage implements OnInit {
     public imageTile1: string = "/app/public/iphone.png";
     public imageTile2: string = "/app/public/ipad.png";
     public imageTile3: string = "/app/public/MLB_Schedule_Image.jpg";
-    public placeholderText: string = "Where do you want to be a fan?";
+    public searchInput: SearchInput = {
+        placeholderText: "Where do you want to be a fan?",
+        hasSuggestions: true
+    };
     public homeHeading1: string = "Stay Loyal to Your Favorite MLB Team";
     public homeHeading2: string = "Find the sports information you need to show your loyalty";
     public homeHeading3: string = "PICK YOUR FAVORITE <b>MLB TEAM</b>";
@@ -45,15 +47,18 @@ export class HomePage implements OnInit {
     public homeFeaturesTile3: string = "MLB Scores";
     public homeFeaturesTile4: string = "MLB Schedules";
     public homeFeaturesButton1: string = "View MLB Standings";
-    public homeFeaturesButton2: string = "View All Lists";
     public homeFeaturesButton3: string = "View MLB Scores";
     public homeFeaturesButton4: string = "View MLB Schedules";
+    public routerInfo1 = ['Standings-page'];
     public buttonFullList: string = "See The Full List";
     public mlb: string = "MLB";
     public mlbTeams: any;
     public counter: number = 0;
     public max:number = 3;
-
+    public searchInput: SearchInput = {
+         placeholderText: "Where do you want to be a fan?",
+         hasSuggestions: true
+     };
     constructor(private _router: Router, private _landingPageService: LandingPageService) {
       this.getData();
       this.getListData();
@@ -61,19 +66,19 @@ export class HomePage implements OnInit {
     getListData(){
       this.listData = [
         {
+          newsTitle: "Teams with the Fewest Stolen Bases Right Now",
+          newsSubTitle: "See which MLB Player are performing at the top of their game",
+          routerInfo: ['List-page', {profile:'team', listname: 'batter-stolen-bases', sort:'desc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]
+        },
+        {
           newsTitle: "Top Teams In The League Right Now",
           newsSubTitle: "See which MLB teams are performing at the top of their game",
           routerInfo: ['Disclaimer-page']//TODO
         },
         {
-          newsTitle: "Top Pitchers In The League Right Now",
-          newsSubTitle: "See which MLB Player are performing at the top of their game",
-          routerInfo: ['Disclaimer-page']
-        },
-        {
           newsTitle: "Players with the Most Home Runs",
           newsSubTitle: "See which MLB Players are performing at the top of their game",
-          routerInfo: ['Disclaimer-page']
+          routerInfo: ['Disclaimer-page']//TODO
         },
       ];
       this.changeMain(this.counter);
@@ -102,7 +107,6 @@ export class HomePage implements OnInit {
       }
       this.changeMain(this.counter);
     }
-
 
     //this is where the angular2 decides what is the main image
     changeMain(num){

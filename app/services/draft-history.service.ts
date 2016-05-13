@@ -56,13 +56,13 @@ export class DraftHistoryService {
         var returnData = {}
         if(type == 'module'){
           return returnData = {
-            carData:this.carDataModule(data.data),
+            carData:this.carDraftHistory(data.data, type),
             listData:this.detailedData(data.data),
             tabArray:tabArray,
           };
         }else{
           return returnData = {
-            carData:this.carDataPage(data.data),
+            carData:this.carDraftHistory(data.data, type),
             listData:this.detailedData(data.data),
             tabArray:tabArray,
           };
@@ -75,7 +75,8 @@ export class DraftHistoryService {
   }
 
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
-  carDataPage(data){
+  //FOR THE PAGE
+  carDraftHistory(data, type){
     let self = this;
     var carouselArray = [];
     var dummyImg = "/app/public/no-image.png";
@@ -103,54 +104,17 @@ export class DraftHistoryService {
             '<p style="font-size:24px"><b>'+val.playerName+'</b></p>',
             '<p>Hometown: <b>'+val.draftTeamName+'</b></p>',
             '<br>',
-            '<p style="font-size:24px"><b>'+(index+1)+'<sup>'+ GlobalFunctions.Suffix(Number(index+1))+'</sup> Pick for Round '+val.selectionLevel+'</b></p>',
-            '<p>'+val.selectionOverall+' Overall</p>',
+            '<p style="font-size:24px"><b>'+val.selectionOverall+' Overall</b></p>',
+            '<p>Draft Round '+val.selectionLevel+'</p>',
           ],
-          footerInfo: {
+        };
+        if(type == 'page'){
+          Carousel['footerInfo'] = {
             infoDesc:'Interested in discovering more about this player?',
             text:'VIEW PROFILE',
             url:MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId),
           }
-        };
-        carouselArray.push(Carousel);
-      });
-    }
-    // console.log('TRANSFORMED CAROUSEL', carouselArray);
-    return carouselArray;
-  }
-  carDataModule(data){
-    let self = this;
-    var carouselArray = [];
-    var dummyImg = "/app/public/no-image.png";
-    var dummyRoute = ['Disclaimer-page'];
-    var dummyRank = '##';
-
-    if(data.length == 0){
-      var Carousel = {
-        index:'2',
-        //TODO
-        imageConfig: self.imageData("image-150","border-large",dummyImg,'', 1,"image-50-sub",dummyImg,''),
-        description:[
-          '<p style="font-size:20px"><b>Sorry, the We currently do not have any data for this years draft history</b><p>',
-        ],
-      };
-      carouselArray.push(Carousel);
-    }else{
-      //if data is coming through then run through the transforming function for the module
-      data.forEach(function(val, index){
-        var playerFullName = val.playerFirstName + " " + val.playerLastName;
-        var Carousel = {
-          index:index,
-          //TODO
-          imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.imageUrl),MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId), (index+1), "image-50-sub",GlobalSettings.getImageUrl(val.teamLogo),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
-          description:[
-            '<p style="font-size:24px"><b>'+val.playerName+'</b></p>',
-            '<p>Hometown: <b>'+val.draftTeamName+'</b></p>',
-            '<br>',
-            '<p style="font-size:24px"><b>'+(index+1)+'<sup>'+GlobalFunctions.Suffix(Number(index+1))+'</sup>Pick for Round '+val.selectionLevel+'</b></p>',
-            '<p>'+val.selectionOverall+' Overall</p>',
-          ],
-        };
+        }
         carouselArray.push(Carousel);
       });
     }
@@ -176,7 +140,15 @@ export class DraftHistoryService {
     data.forEach(function(val, index){
       var playerFullName = val.playerFirstName + " " + val.playerLastName;
       var listData = {
-        dataPoints: self.detailsData(val.playerName,(index+1)+'<sup>'+GlobalFunctions.Suffix(Number(index+1))+'</sup> Pick for Round '+val.selectionLevel,MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId),val.draftTeamName,(val.selectionOverall +' Overall'),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
+        dataPoints: self.detailsData(
+          val.playerName,
+          val.selectionOverall+' Overall',
+          MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName,
+          playerFullName, val.personId),
+          'Hometown: '+'[NEED CITY STATE]',
+          'Draft Round '+val.selectionLevel,
+          MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)
+        ),
         imageConfig: self.imageData("image-121","border-2",
         GlobalSettings.getImageUrl(val.imageUrl),MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId),(index+1),"image-40-sub",GlobalSettings.getImageUrl(val.teamLogo),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
         hasCTA:true,

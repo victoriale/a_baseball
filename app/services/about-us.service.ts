@@ -12,7 +12,9 @@ export interface AboutUsInterface {
     teamProfilesCount: number;
     divisionsCount: number;
     playerProfilesCount: number;
-    worldChampName: string;
+    worldChampFirstName: string;
+    worldChampLastName: string;
+    worldChampTeamId: string;
     worldChampYear: string;
     worldChampImageUrl: string;
     lastUpdatedDate: Date; //TODO-CJP: Needed in API
@@ -23,7 +25,7 @@ export class AboutUsService {
   constructor(public http: Http, private _globalFunctions: GlobalFunctions){}
 
   getData(partnerID: string): Observable<AboutUsModel> {
-    let url = GlobalSettings.getApiUrl() + '/aboutUs';
+    let url = GlobalSettings.getApiUrl() + '/landingPage/aboutUs';
     return this.http.get(url)
         .map(res => res.json())
         .map(data => this.formatData(data.data, partnerID));
@@ -36,6 +38,8 @@ export class AboutUsService {
     let lastUpdatedDate = data.lastUpdatedDate !== undefined ? data.lastUpdatedDate : new Date(); //TODO-CJP: update when included in API
     let teamProfiles = this._globalFunctions.commaSeparateNumber(data.teamProfilesCount);
     let playerProfiles = this._globalFunctions.commaSeparateNumber(data.playerProfilesCount);
+    let fullName = data.worldChampFirstName + " " + data.worldChampLastName;
+    let championLink = MLBGlobalFunctions.formatTeamRoute(fullName, data.worldChampTeamId);
     let model: AboutUsModel = {
       headerTitle: "What is " + pageName + "?",
       titleData: {
@@ -64,21 +68,23 @@ export class AboutUsService {
         },
         {
           link: {
-            route: MLBGlobalFunctions.formatTeamRoute(data.worldChampName, "0"), //TODO-CJP: update when API is updated
+            route: championLink,
             imageConfig: {
-              imageClass: "image-51",
+              imageClass: "image-50",
               mainImage: {
-                imageUrl: data.worldChampImageUrl,
-                imageClass: "border-1"
+                imageUrl: GlobalSettings.getImageUrl(data.worldChampImageUrl),
+                imageClass: "border-1",
+                urlRouteArray: championLink,
+                hoverText: "<i class=\"fa fa-mail-forward\"></i>"
               }
             },            
           },
           titleText: data.worldChampYear + ' World Series Champions',
-          dataText: data.worldChampName,
+          dataText: data.worldChampLastName,
         }
       ],
-      content: [
-        
+      //TODO-CJP: Update [July, 2016] to reflect actual creation date!
+      content: [        
         "We created Wichita, Kan. -based Home Run Loyal in [July, 2016] to connect baseball fans with insightful, well-informed and up-to-date content.",
          
         "Here at Home Run Loyal, we have an appetite for digesting down big data in the world of baseball." + 

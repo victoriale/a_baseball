@@ -1,5 +1,5 @@
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
-import {ModuleFooter} from '../../components/module-footer/module-footer.component';
+import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer.component';
 import {Component, OnInit, Input, DoCheck, OnChanges} from 'angular2/core';
 import {RouteParams} from "angular2/router";
 import {BackTabComponent} from '../../components/backtab/backtab.component';
@@ -47,9 +47,10 @@ export interface TableComponentData<T> {
 })
 
 export class TeamRosterModule implements OnChanges{
+  carDataCheck: boolean = true;
   public selectedIndex;
   footerData: Object;
-
+  public dataTable: boolean = true;
   private selectedTabTitle: string;
   public tabs: Array<RosterTabData>;
   public data: RosterComponentData;
@@ -69,19 +70,18 @@ export class TeamRosterModule implements OnChanges{
     hasIcon: false,
     iconClass: ""
   };
-
-
+  public teamId: string;
   constructor(private _params: RouteParams,
               private _rosterService: RosterService,
               private _globalFunctions: GlobalFunctions,
               private _mlbFunctions: MLBGlobalFunctions) {
+    this.teamId = _params.get("teamId");
+    var teamName = _params.get("teamName");
     this.footerData = {
       infoDesc: 'Want to see everybody involved in this list?',
       text: 'VIEW FULL ROSTER',
-      url: ['Team-roster-page',{teamName:'team-name-here', teamId: 2799}]
+      url: ['Team-roster-page',{teamName:teamName, teamId: this.teamId}]
     };
-    var teamId = _params.get("teamId");
-    var teamName = _params.get("teamName");
     // if ( teamId  && teamName ) {
     //   this.pageParams.teamId = Number(teamId);
     //   this.footerData.url = [
@@ -161,17 +161,27 @@ export class TeamRosterModule implements OnChanges{
 
     this.selectedIndex = selectedIndex < 0 ? 0 : selectedIndex;
     this.carDataArray = carDataArray;
+    if(this.carDataArray.length < 1){
+      this.carDataCheck = false;
+    } else {
+      this.carDataCheck = true;
+    }
   }
 
   private setupRosterData() {
     let self = this;
     //set tab limit
-    self._rosterService.loadAllTabs('2799', 5)
+    self._rosterService.loadAllTabs(this.teamId, 5)
       .subscribe(data => {
         //set up tabs
         this.tabs = data;
         this.tabSelected(this.tabs[0].title);
         this.updateCarousel();
+        var teamName = data[0].tableData.rows[0].teamName;
+        this.headerInfo.moduleTitle = "Team Roster - " + teamName;
+        if(data[3].tableData.rows.length < 1){
+          this.dataTable = false;
+        }
       },
       err => {
         console.log("Error getting team roster data");

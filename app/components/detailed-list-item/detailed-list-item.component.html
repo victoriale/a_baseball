@@ -17,11 +17,11 @@
         <span [innerHTML]="details.ctaDesc"></span>
         <span>
           <!--button component goes here-->
-          <button>
+          <a [routerLink]="details.ctaUrl">
             <span class="dli-icon module-footer-icon"></span>
             <span [innerHTML]="details.ctaText"></span>
             <i class="fa fa-angle-right"></i>
-          </button>
+          </a>
           <!--button component goes here-->
         </span>
       </div>

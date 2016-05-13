@@ -6,13 +6,15 @@
 
 
   <headline-component></headline-component>
-  <!-- boxscores -->
-  <!-- schedule -->
-  <standings-module *ngIf="standingsData" [data]="standingsData"></standings-module>
+  <box-scores></box-scores>
+  <schedules></schedules>
+  <standings-module *ngIf="standingsData" [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
   <!-- teamroster -->
+  <team-roster-module></team-roster-module>
+
   <!-- playerstats -->
   <!-- transactions -->
-  <!-- drafthistory -->
+  <draft-history></draft-history>
   <!-- MVP -->
   <comparison-module></comparison-module>
 
@@ -23,14 +25,15 @@
   <faq-module></faq-module>
   <!-- lol -->
   <!-- other news you will love -->
+  <news-module></news-module>
 
   <headline-component></headline-component>
   <twitter-module></twitter-module>
   <!--Like Us On FB Module, only display if not on partner page-->
   <!-- <section *ngIf="!partnerCheck"> -->
-  <share-module [shareModuleInput]="shareModuleInput"></share-module>
+  <share-module *ngIf="profileHeaderData && shareModuleInput" [shareModuleInput]="shareModuleInput"></share-module>
   <like-us-module></like-us-module>
   <!-- </section> -->
   <comment-module></comment-module>
-  <!-- aboutus -->
+  <about-us></about-us>
 </div>
