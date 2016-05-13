@@ -44,7 +44,6 @@ export class ListPage implements OnInit{
     this.listService.getListPageService(urlParams)
         .subscribe(
             list => {
-              console.log(list);
               this.profileHeaderData = list.profHeader;
               if(list.listData.length == 0){//makes sure it only runs once
                 this.detailedDataArray = false;
