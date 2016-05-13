@@ -101,6 +101,7 @@ export class DraftHistoryService {
           //TODO
           imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.imageUrl),MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId), (index+1), "image-50-sub",GlobalSettings.getImageUrl(val.teamLogo),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
           description:[
+            '<br>',
             '<p style="font-size:24px"><b>'+val.playerName+'</b></p>',
             '<p>Hometown: <b>'+val.draftTeamName+'</b></p>',
             '<br>',
@@ -111,7 +112,7 @@ export class DraftHistoryService {
         if(type == 'page'){
           Carousel['footerInfo'] = {
             infoDesc:'Interested in discovering more about this player?',
-            text:'VIEW PROFILE',
+            text:'View Profile',
             url:MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId),
           }
         }
