@@ -80,7 +80,7 @@ export class AboutUsService {
             },            
           },
           titleText: data.worldChampYear + ' World Series Champions',
-          dataText: data.worldChampFirstName,
+          dataText: data.worldChampLastName,
         }
       ],
       //TODO-CJP: Update [July, 2016] to reflect actual creation date!

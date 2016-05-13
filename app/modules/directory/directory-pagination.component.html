@@ -6,13 +6,13 @@
     {{data.description}}
   </div>
   <div class="col-sm-6 directory-pagination-buttons">
-    <a *ngIf="enablePrev" [routerLink]="[prevLink.page, prevLink.pageParams]" class="directory-pagination-button active">
+    <a *ngIf="enablePrev" [routerLink]="prevLink.route" class="directory-pagination-button active">
         <i class="fa fa-angle-left"></i> {{prevLink.text}}
     </a>
     <a *ngIf="!enablePrev" href="#" class="directory-pagination-button">
         <i class="fa fa-angle-left"></i> {{prevLink.text}}
     </a>
-    <a *ngIf="enableNext" [routerLink]="[nextLink.page, nextLink.pageParams]" class="directory-pagination-button active">
+    <a *ngIf="enableNext" [routerLink]="nextLink.route" class="directory-pagination-button active">
         {{nextLink.text}} <i class="fa fa-angle-right"></i>
     </a>
     <a *ngIf="!enableNext" href="#" class="directory-pagination-button">

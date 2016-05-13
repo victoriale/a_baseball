@@ -1,4 +1,6 @@
 import {Component, OnInit} from 'angular2/core';
+
+import {AboutUsModule} from '../../modules/about-us/about-us.module';
 import {LikeUs} from "../../modules/likeus/likeus.module";
 import {DYKModule} from "../../modules/dyk/dyk.module";
 import {FAQModule} from "../../modules/faq/faq.module";
@@ -21,6 +23,8 @@ import {Division, Conference, MLBPageParameters} from '../../global/global-inter
 import {ShareModuleInput} from '../../modules/share/share.module';
 import {HeadlineComponent} from '../../components/headline/headline.component';
 
+import {NewsModule} from '../../modules/news/news.module';
+
 @Component({
     selector: 'MLB-page',
     templateUrl: './app/webpages/mlb-page/mlb.page.html',
@@ -36,7 +40,9 @@ import {HeadlineComponent} from '../../components/headline/headline.component';
         LikeUs,
         TwitterModule,
         ComparisonModule,
-        ShareModule],
+        ShareModule,
+        NewsModule,
+        AboutUsModule],
     providers: [StandingsService, ProfileHeaderService]
 })
 

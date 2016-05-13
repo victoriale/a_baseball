@@ -17,7 +17,8 @@ import {ProfileHeaderService} from '../../services/profile-header.service';
 import {AboutUsModule} from '../../modules/about-us/about-us.module';
 import {ArticlesModule} from "../../modules/articles/articles.module";
 import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.module";
-
+import {TeamRosterModule} from '../../modules/team-roster/team-roster.module';
+import {RosterService} from '../../services/roster.service';
 import {ShareModule, ShareModuleInput} from '../../modules/share/share.module';
 import {LikeUs} from "../../modules/likeus/likeus.module";
 import {CommentModule} from '../../modules/comment/comment.module';
@@ -25,8 +26,8 @@ import {CommentModule} from '../../modules/comment/comment.module';
 @Component({
     selector: 'Design-page',
     templateUrl: './app/webpages/design-page/design.page.html',
-    directives: [DraftHistoryModule, AboutUsModule, StandingsModule, ProfileHeaderModule, ArticlesModule, ListOfListsModule, ShareModule, LikeUs, CommentModule],
-    providers: [StandingsService, ProfileHeaderService]
+    directives: [DraftHistoryModule, TeamRosterModule, AboutUsModule, StandingsModule, ProfileHeaderModule, ArticlesModule, ListOfListsModule, ShareModule, LikeUs, CommentModule],
+    providers: [StandingsService, ProfileHeaderService, RosterService]
 })
 
 export class DesignPage implements OnInit {

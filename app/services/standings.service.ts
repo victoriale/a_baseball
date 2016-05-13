@@ -149,11 +149,21 @@ export class StandingsService {
       rows = rows.slice(0, maxRows);
     }
 
-    //Set display values
+    //Set display values 
     rows.forEach((value, index) => {
       value.groupName = groupName;
       value.displayDate = GlobalFunctions.formatUpdatedDate(value.lastUpdated, false);
       value.fullImageUrl = GlobalSettings.getImageUrl(value.imageUrl);
+      
+      //Make sure numbers are numbers.
+      value.totalWins = Number(value.totalWins);
+      value.totalLosses = Number(value.totalLosses);
+      value.winPercentage = Number(value.winPercentage);
+      value.gamesBack = Number(value.gamesBack);
+      value.streakCount = Number(value.streakCount);
+      value.batRunsScored = Number(value.batRunsScored);
+      value.pitchRunsAllowed = Number(value.pitchRunsAllowed);
+      
       if ( value.teamId === undefined || value.teamId === null ) {
         value.teamId = index;
       }

@@ -1,12 +1,12 @@
 import {Component, OnInit} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
 
+import {AboutUsModule} from '../../modules/about-us/about-us.module';
 import {LikeUs} from "../../modules/likeus/likeus.module";
 import {DYKModule} from "../../modules/dyk/dyk.module";
 import {FAQModule} from "../../modules/faq/faq.module";
 import {TwitterModule} from "../../modules/twitter/twitter.module";
 import {ComparisonModule} from '../../modules/comparison/comparison.module';
-import {ShareModule} from '../../modules/share/share.module';
 import {CommentModule} from '../../modules/comment/comment.module';
 import {DraftHistoryModule} from '../../modules/draft-history/draft-history.module';
 import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
@@ -23,8 +23,11 @@ import {ProfileHeaderService} from '../../services/profile-header.service';
 
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
 
+import {ShareModule} from '../../modules/share/share.module';
 import {ShareModuleInput} from '../../modules/share/share.module';
 import {HeadlineComponent} from '../../components/headline/headline.component';
+
+import {NewsModule} from '../../modules/news/news.module';
 
 @Component({
     selector: 'Team-page',
@@ -43,7 +46,9 @@ import {HeadlineComponent} from '../../components/headline/headline.component';
         TwitterModule,
         ComparisonModule,
         ShareModule,
-        TeamRosterModule],
+        TeamRosterModule,
+        NewsModule,
+        AboutUsModule],
     providers: [StandingsService, ProfileHeaderService, RosterService]
 })
 
