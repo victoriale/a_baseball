@@ -176,7 +176,7 @@ export class DraftHistoryService {
     if(typeof rank == 'undefined' || rank == 0){
       rank = 0;
     }
-    var image = {//interface is found in image-data.ts
+    var image: CircleImageData = {//interface is found in image-data.ts
         imageClass: imageClass,
         mainImage: {
             imageUrl: mainImg,

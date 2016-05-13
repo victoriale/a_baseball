@@ -1,4 +1,6 @@
 import {Component, OnInit} from 'angular2/core';
+
+import {AboutUsModule} from '../../modules/about-us/about-us.module';
 import {LikeUs} from "../../modules/likeus/likeus.module";
 import {DYKModule} from "../../modules/dyk/dyk.module";
 import {FAQModule} from "../../modules/faq/faq.module";
@@ -39,7 +41,8 @@ import {NewsModule} from '../../modules/news/news.module';
         TwitterModule,
         ComparisonModule,
         ShareModule,
-        NewsModule],
+        NewsModule,
+        AboutUsModule],
     providers: [StandingsService, ProfileHeaderService]
 })
 
