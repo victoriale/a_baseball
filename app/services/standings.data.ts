@@ -4,6 +4,7 @@ import {TableTabData, TableComponentData} from '../components/standings/standing
 import {SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
 import {Conference, Division} from '../global/global-interface';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
+import {GlobalFunctions} from '../global/global-functions';
 
 export interface TeamStandingsData {
   teamName: string,
@@ -11,7 +12,7 @@ export interface TeamStandingsData {
   teamId: number;
   conferenceName: string,
   divisionName: string,
-  lastUpdatedDate: Date,
+  lastUpdated: string,
   rank: number,
   totalWins: number,
   totalLosses: number,
@@ -26,12 +27,17 @@ export interface TeamStandingsData {
   /**
    * - Formatted from league and division values that generated the associated table
    */
-  groupName?: string
+  groupName?: string;
 
   /**
    * - Formatted from the lastUpdatedDate
    */
-  displayDate?: string
+  displayDate?: string;
+  
+  /**
+   * Formatted full path to image
+   */
+  fullImageUrl?: string;
 }
 
 export class MLBStandingsTableData implements TableComponentData<TeamStandingsData> {
@@ -74,7 +80,7 @@ export class MLBStandingsTabData implements TableTabData<TeamStandingsData> {
 
   convertToCarouselItem(item: TeamStandingsData, index:number): SliderCarouselInput {
     var subheader = item.seasonId + " Season " + item.groupName + " Standings";
-    var description = item.teamName + " is currently <span class='text-heavy'>ranked " + item.rank + "</span>" +
+    var description = item.teamName + " is currently <span class='text-heavy'>ranked " + item.rank + GlobalFunctions.Suffix(item.rank) + "</span>" +
                       " in the <span class='text-heavy'>" + item.groupName + "</span>, with a record of " +
                       "<span class='text-heavy'>" + item.totalWins + " - " + item.totalLosses + "</span>.";
     return {
@@ -90,8 +96,8 @@ export class MLBStandingsTabData implements TableTabData<TeamStandingsData> {
         imageClass: "image-150",
         mainImage: {
           imageClass: "border-10",
-          urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId),
-          imageUrl: item.imageUrl,
+          urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId.toString()),
+          imageUrl: item.fullImageUrl,
           hoverText: "<p>View</p><p>Profile</p>"
         },
         subImages: []
@@ -220,27 +226,27 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
         break;
 
       case "w":
-        o = item.totalWins;
+        o = Number(item.totalWins);
         break;
 
       case "l":
-        o = item.totalLosses;
+        o = Number(item.totalLosses);
         break;
 
       case "pct":
-        o = item.winPercentage;
+        o = Number(item.winPercentage);
         break;
 
       case "gb":
-        o = item.gamesBack;
+        o = Number(item.gamesBack);
         break;
 
       case "rs":
-        o = item.batRunsScored;
+        o = Number(item.batRunsScored);
         break;
 
       case "ra":
-        o = item.pitchRunsAllowed;
+        o = Number(item.pitchRunsAllowed);
         break;
 
       case "strk":
@@ -255,11 +261,11 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
     if ( column.key === "name" ) {
       //TODO-CJP: store after creation? or create each time?
       return {
-          imageClass: "image-50",
+          imageClass: "image-48",
           mainImage: {
-            imageUrl: item.imageUrl,
-            imageClass: "border-2",
-            urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId),
+            imageUrl: item.fullImageUrl,
+            imageClass: "border-1",
+            urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId.toString()),
             hoverText: "<i class='fa fa-mail-forward'></i>",
           },
           subImages: []
@@ -276,7 +282,7 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
 
   getRouterLinkAt(item:TeamStandingsData, column:TableColumn):Array<any> {
     if ( column.key === "name" ) {
-      return MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId);
+      return MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId.toString());
     }
     else {
       return undefined;

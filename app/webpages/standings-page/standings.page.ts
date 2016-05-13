@@ -9,7 +9,7 @@ import {ErrorComponent} from '../../components/error/error.component';
 
 import {ProfileHeaderService} from '../../services/profile-header.service';
 import {StandingsService} from '../../services/standings.service';
-import {MLBStandingsTabData} from '../../services/standings.data';
+import {MLBStandingsTabData,MLBStandingsTableData} from '../../services/standings.data';
 
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
 import {GlobalFunctions} from '../../global/global-functions';
@@ -30,13 +30,7 @@ export class StandingsPage implements OnInit {
   
   public hasError: boolean = false;
   
-  public titleData: TitleInputData = {
-    imageURL: "/app/public/profile_placeholder.png",
-    text1: "Last Updated: [date]",
-    text2: "United States",
-    text3: "MLB Standings Breakdown",
-    icon: "fa fa-map-marker"
-  }
+  public titleData: TitleInputData;
   
   constructor(private _params: RouteParams,
               private _profileService: ProfileHeaderService,
@@ -44,8 +38,9 @@ export class StandingsPage implements OnInit {
               private _globalFunctions: GlobalFunctions, 
               private _mlbFunctions: MLBGlobalFunctions) {
     
-    var type = _params.get("type").toLowerCase();
+    var type = _params.get("type");
     if ( type !== null && type !== undefined ) {
+      type = type.toLowerCase();
       this.pageParams.conference = Conference[type];
     }
     
@@ -53,34 +48,60 @@ export class StandingsPage implements OnInit {
     if ( type == "team" && teamId !== null && teamId !== undefined ) {
       this.pageParams.teamId = Number(teamId);
     }
+    
   }
   
-  ngOnInit() {
+  ngOnInit() {    
+    var pageTitle = this._standingsService.getPageTitle(this.pageParams);
     if ( this.pageParams.teamId ) {      
       this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
         data => {
-          this.pageParams.teamName = data.stats.teamName;
-          this.pageParams.division = Division[data.stats.division.name.toLowerCase()];
-          this.pageParams.conference = Conference[data.stats.conference.name.toLowerCase()];
-          this.setupStandingsData();
+          this.pageParams = data.pageParams; 
+          this.setupTitleData(data.fullProfileImageUrl);          
+          this.tabs = this._standingsService.initializeAllTabs(this.pageParams);
         },
         err => {
           console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
         }
       );
     }
-    this.setupStandingsData();
+    else {
+      this.setupTitleData();
+      this.tabs = this._standingsService.initializeAllTabs(this.pageParams);
+    }
   }
-
-  private setupStandingsData() {       
-    let self = this;
-    self._standingsService.loadAllTabs(this.pageParams)
-      .subscribe(data => { 
-        this.tabs = data;
-      },
-      err => {
-        console.log("Error getting standings data: " + err);
-        this.hasError = true;
-      });
+  
+  private setupTitleData(imageUrl?: string) {    
+    var title = this._standingsService.getPageTitle(this.pageParams);
+    this.titleData = {
+      imageURL: imageUrl,
+      text1: "Last Updated: [date]",
+      text2: "United States",
+      text3: title,
+      icon: "fa fa-map-marker"
+    };
+  }
+  
+  private standingsTabSelected(tab: MLBStandingsTabData) {
+    if ( tab && (!tab.sections || tab.sections.length == 0) ) {
+      this._standingsService.getTabData(tab, this.pageParams)      
+        .subscribe(data => {
+          this.getLastUpdatedDateForPage(data);
+          tab.sections = data          
+        },
+        err => {
+          console.log("Error getting standings data");
+        });
+    }
+  }
+  
+  private getLastUpdatedDateForPage(data: MLBStandingsTableData[]) {           
+      //Getting the first 'lastUpdatedDate' listed in the StandingsData
+      if ( data && data.length > 0 && 
+        data[0].tableData && data[0].tableData.rows &&
+        data[0].tableData.rows.length > 0 ) {
+          var lastUpdated = data[0].tableData.rows[0].lastUpdated;
+          this.titleData.text1 = "Last Updated: " + GlobalFunctions.formatUpdatedDate(lastUpdated, false); 
+      }
   }
 }

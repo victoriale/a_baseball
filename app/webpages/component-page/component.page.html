@@ -4,7 +4,7 @@
     </div>
 
     <div class="component-compbar-container">
-      <standings-module [data]="standingsData"></standings-module>
+      <standings-module [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
     </div>
 
     <div class="component-compbar-container">
@@ -31,14 +31,16 @@
       <box-scores></box-scores>
     </div>
 
-    <search></search>
-
     <div class="component-compbar-container">
       <profile-header [profileHeaderData]="teamProfileHeaderData"></profile-header>
     </div>
 
     <div class="component-compbar-container">
-      <standings-module [data]="standingsData"></standings-module>
+      <list-of-lists></list-of-lists>
+    </div>
+
+    <div class="component-compbar-container">
+      <schedules></schedules>
     </div>
 
     <div class="component-compbar-container">

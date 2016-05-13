@@ -8,7 +8,7 @@ import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 @Injectable()
 export class RosterService {
   private _apiUrl: string = 'http://dev-homerunloyal-api.synapsys.us';
-  constructor(public http: Http, private _globalFunctions: GlobalFunctions, private _mlbGF: MLBGlobalFunctions){}
+  constructor(public http: Http){}
 
   setToken(){
     var headers = new Headers();
@@ -23,11 +23,11 @@ export class RosterService {
 
   private initializeAllTabs(): Array<RosterTabData> {
     let tabs: Array<RosterTabData> = [
-      new RosterTabData('full', 'Full', true),
+      new RosterTabData('full', 'Full Roster', true),
       new RosterTabData('pitchers', 'Pitchers', false),
       new RosterTabData('catchers', 'Catchers', false),
       new RosterTabData('fielders', 'Fielders', false),
-      new RosterTabData('hitters', 'Hitters', false)
+      new RosterTabData('hitters', 'Designated Hitter', false)
     ];
     return tabs;
   }
@@ -56,7 +56,7 @@ export class RosterService {
   }//getRosterService ends
 
   private setupTabData(rosterTab: RosterTabData, data: Array<TeamRosterData>, maxRows: number) {
-    var table = new RosterTableModel("", data, this._globalFunctions,this._mlbGF);
+    var table = new RosterTableModel("", data, GlobalFunctions, MLBGlobalFunctions);
     //Limit to maxRows, if necessary
     if ( maxRows !== undefined ) {
       table.rows = table.rows.slice(0, maxRows);
@@ -69,21 +69,30 @@ export class RosterService {
   }
 
   getModuleTitle(pageParams): string {
-    let moduletitle =" Team Roster";
+    let moduletitle = " Team Roster";
     if ( pageParams.teamName !== undefined && pageParams.teamName !== null ) {
       moduletitle += pageParams.teamName + " - " + moduletitle;
     }
     return moduletitle;
   }
 
+  getPageTitle(pageParams): string {
+    // let groupName = this.formatGroupName(pageParams.conference, pageParams.division);
+    let pageTitle = "Team Roster";
+    if ( pageParams.teamName !== undefined && pageParams.teamName !== null ) {
+      pageTitle = "Team Roster - " + pageParams.teamName;
+    }
+    return pageTitle;
+  }
+
   getLinkToPage(pageParams) {
     var pageName = "Team-roster-page";
     var pageValues = {
-      teamName: this._globalFunctions.toLowerKebab(pageParams.teamName),
+      teamName: GlobalFunctions.toLowerKebab(pageParams.teamName),
       teamId: pageParams.teamId
     };
 
-    pageValues.teamName = this._globalFunctions.toLowerKebab(pageParams.teamName);
+    pageValues.teamName = GlobalFunctions.toLowerKebab(pageParams.teamName);
 
     return {
       infoDesc: "Want to see the full team roster?",

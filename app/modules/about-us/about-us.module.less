@@ -38,7 +38,7 @@
       margin-bottom: 80px;
     
       img {
-        width: 335px;
+        width: 361px;
         margin: auto;
       }
     }
@@ -47,7 +47,7 @@
       margin: 0 29px 39px 29px;
     
       &-subtitle {
-        .globalDefaultFont(14px, 400);
+        .globalDefaultFont(16px, 400);
         margin-bottom: 1em;
       }
       
@@ -64,9 +64,26 @@
     &-button {
       text-align: center;
       margin: auto;
+      width: 240px;
+      height: 35px;
+      display: block;
+      background-color: @masterBrandColor;
+      .borderRadiusPrefix(5px);
+      .globalDefaultModFont(14px, 900, @white);
+      padding: 10px 0;
       
-      &-text {
-        .globalDefaultModFont(14px, 400, @white);
+      i {
+        font-weight: 400;
+        padding-left: 8px;
+      }
+      
+       &:hover {
+        background-color: darken(@masterBrandColor, 10%);
+      }
+      
+      &:active, &:hover, &:focus {
+        color: @white;
+        text-decoration: none;
       }
     }
   }

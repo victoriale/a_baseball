@@ -1,12 +1,11 @@
-<section *ngIf="dataArray" class='page-container'>
-    <loading-component *ngIf="!listData && !isError"></loading-component>
-    <error-component *ngIf="isError"></error-component>
-    <backtab-component></backtab-component>
-    <title-component></title-component>
-    <div class="module-container list-page">
-      <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray" [footerStyle]="footerStyle"></slider-carousel>
-      <span *ngFor="#data of dataArray">
-        <detailed-list-item *ngIf="data.data" [detailedItemData] = 'data.data'></detailed-list-item>
-      </span>
-    </div>
+<loading-component *ngIf="!profileHeaderData && !isError"></loading-component>
+<error-component *ngIf="isError"></error-component>
+<section class='page-container module-container'>
+  <backtab-component></backtab-component>
+  <title-component *ngIf="profileHeaderData" [titleData]="profileHeaderData"></title-component>
+  <div *ngIf="profileHeaderData" class="module-container list-page">
+    <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray" [footerStyle]="footerStyle"></slider-carousel>
+    <detailed-list-item *ngIf="detailedDataArray" [detailedItemData] = 'detailedDataArray'></detailed-list-item>
+    <pagination-footer [paginationParameters]="paginationParameters"></pagination-footer>
+  </div>
 </section>

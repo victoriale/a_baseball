@@ -1,14 +1,34 @@
 <div class="page-container">
+  <headline-component></headline-component>
   <profile-header [profileHeaderData]="profileHeaderData"></profile-header>
-  <standings-module [data]="standingsData"></standings-module>
+  <!-- aiArticles -->
+
+
+  <headline-component></headline-component>
+  <box-scores></box-scores>
+  <schedules></schedules>
+  <standings-module [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
+  <!-- draftHistory -->
+  <!-- MVP <===????????????????????????????? -->
   <comparison-module></comparison-module>
+
+
+  <headline-component></headline-component>
+  <!-- imagesMedia <===????????????????????????????? -->
   <dyk-module></dyk-module>
-  <comment-module></comment-module>
   <faq-module></faq-module>
+  <!-- lists of lists -->
+  <!-- Other NEWS you will love -->
+  <news-module></news-module>
+
+  <headline-component></headline-component>
   <twitter-module></twitter-module>
   <!--Like Us On FB Module, only display if not on partner page-->
   <!-- <section *ngIf="!partnerCheck"> -->
   <like-us-module></like-us-module>
   <share-module [shareModuleInput]="shareModuleInput"></share-module>
   <!-- </section> -->
+  <comment-module></comment-module>
+  <about-us></about-us>
+
 </div>

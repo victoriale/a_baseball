@@ -1,12 +1,11 @@
 import {Injectable} from 'angular2/core';
 import {GlobalFunctions} from './global-functions';
 import {Division, Conference} from './global-interface';
-
 @Injectable()
 
 export class MLBGlobalFunctions {
 
-  constructor(private _globalFunctions: GlobalFunctions) {
+  constructor() {
 
   }
 
@@ -25,9 +24,8 @@ export class MLBGlobalFunctions {
    * @param {teamId} teamId - team ID the required field needed to successfully navigate to team profile
    * @returns the teamName => boston-red-sox,  teamId => ##, routeName => 'Team-page'
    */
-  static formatTeamRoute(teamName: string, teamId: number): Array<any> {
+  static formatTeamRoute(teamName: string, teamId: string): Array<any> {
     var teamRoute: Array<any>;
-
     if(typeof teamName != 'undefined' && teamName != null){
       teamName = GlobalFunctions.toLowerKebab(teamName);
       teamRoute = ['Team-page', {teamName: teamName, teamId: teamId}];//NOTE: if Team-page is on the same level as the rest of the route-outlets
@@ -53,12 +51,12 @@ export class MLBGlobalFunctions {
    * @param {teamId} teamId - team ID the required field needed to successfully navigate to team profile
    * @returns the teamName => 'boston-red-sox',  playerName => 'babe-ruth' playerId => ##, routeName => 'Player-page'
    */
-  static formatPlayerRoute(teamName: string, playerFullName:string, playerId: number):Array<any> {
+  static formatPlayerRoute(teamName: string, playerFullName:string, playerId: string):Array<any> {
     var playerRoute: Array<any>;
 
     if(typeof teamName != 'undefined' && teamName != null && typeof playerFullName != 'undefined' && playerFullName != null){
       teamName = GlobalFunctions.toLowerKebab(teamName);
-      playerFullName = GlobalFunctions.toLowerKebab(teamName);
+      playerFullName = GlobalFunctions.toLowerKebab(playerFullName);
       playerRoute = ['Player-page',{teamName:teamName, fullName:playerFullName, playerId: playerId}];//NOTE: if Player-page is on the same level as the rest of the route-outlets
     }else{
       playerRoute = null;
@@ -85,4 +83,65 @@ export class MLBGlobalFunctions {
   }
 
 
+  /**
+   * - Outputs a valid image url of a team logo given a valid team name input
+   *
+   * @example
+   * TODO-JVW
+   *
+   * @returns a url string that points to the inputted team's logo
+   */
+
+  static formatTeamLogo(inputTeamName: string):string {
+    if(inputTeamName != null) {
+      let teamName = inputTeamName.replace(" ", "_");
+      teamName = teamName.replace(".", "");
+      let teamLogo = "https://prod-sports-images.synapsys.us/mlb/logos/team/MLB_" + teamName + "_Logo.jpg"
+      return teamLogo;
+    }else{
+      return "";
+    }
+  }
+
+  static MLBPosition(position: string): string{
+      if( typeof position == 'undefined' || position === null){
+        return position;
+      }
+      var posFullName = {
+        1: 'Pitcher',
+        2: 'Catcher',
+        3: '1st Baseman',
+        4: '2nd Baseman',
+        5: '3rd Baseman',
+        6: 'Shortstop',
+        7: 'Left Field',
+        8: 'Center Field',
+        9: 'Right Field',
+        D: 'Designated Hitter'
+      };
+      let upperPosition = position.toUpperCase();
+      let displayPosition = posFullName[upperPosition];
+      return displayPosition !== undefined ? displayPosition: position;
+    }
+
+  static MLBPositionToAB(position: string): string{
+      if( typeof position == 'undefined' || position === null ){
+        return 'DH';
+      }
+      var posAbbrName = {
+        1: 'P',
+        2: 'C',
+        3: '1B',
+        4: '2B',
+        5: '3B',
+        6: 'S',
+        7: 'LF',
+        8: 'CF',
+        9: 'RF',
+        D: 'DH',
+      };
+      let upperPosition = position.toUpperCase();
+      let displayAbbrPosition = posAbbrName[upperPosition];
+      return displayAbbrPosition !== undefined ? displayAbbrPosition: position;
+    }
 }

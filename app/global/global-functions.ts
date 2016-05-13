@@ -6,7 +6,22 @@ declare var moment: any;
 
 export class GlobalFunctions {
 
-    Suffix = function(i) {
+    /**
+     * Returns the approriate ordinal suffix for the given number
+     *
+     * @example
+     * Suffix(1) => "st"
+     *
+     * @example
+     * Suffix(10) => "th"
+     *
+     * @example
+     * Suffix(23) => "rd"
+     *
+     * @param {number}
+     * @returns: string
+     */
+    static Suffix(i: number): string {
       var a = i % 10,
         b = i % 100;
         if (a == 1 && b != 11) {
@@ -234,6 +249,7 @@ export class GlobalFunctions {
      * @param {string} state - The postal state code to convert to the AP Abbreviation. Case does not matter.
      * @returns {string}
      */
+
     stateToAP(state: string): string {
         if ( state === undefined || state === null ) {
           return state;
@@ -372,17 +388,17 @@ export class GlobalFunctions {
     }
 
     /**
-     * - Formats the date as 'dddd, MMMM Do, YYYY'
+     * - Formats the date as 'dddd, MMMM D, YYYY'
      * - Appends the timestamp as 'hh:mm A' if {includeTimestamp} is true.
      *
-     * @param {Date} jsDate - the date to format
+     * @param {any} jsDate - the date to format; can be a string or a JavaScript Date
      * @param {boolean} includeTimestamp - (Optional) set to true to include a timestamp at the end
      * @param {string} timezone - (Optional) the timezone string to append if {includeTimestamp} is true
      * @returns {string} - formatted string
      */
-    formatUpdatedDate(jsDate:Date, includeTimestamp?:boolean, timezone?:string): string {
+    static formatUpdatedDate(jsDate:any, includeTimestamp?:boolean, timezone?:string): string {
       var date = moment(jsDate);
-      var str = date.format('dddd, MMMM Do, YYYY');
+      var str = date.format('dddd, MMMM D, YYYY');
       if ( includeTimestamp ) {
         str += ' | ' + date.format('hh:mm A') + (timezone !== undefined && timezone !== null ? timezone : "");
       }
@@ -465,22 +481,22 @@ export class GlobalFunctions {
    * Formats the given string as English words if it's between
    * 0 and 9. Otherwise the given string is returned unchanged.
    *
-   * @param {string} numStr - The number string to format
+   * @param {number} num - The number to format
    * @returns
    */
-  static formatNumber(numStr: string) {
-   switch (numStr) {
-     case "0": return "zero";
-     case "1": return "one";
-     case "2": return "two";
-     case "3": return "three";
-     case "4": return "four";
-     case "5": return "five";
-     case "6": return "six";
-     case "7": return "seven";
-     case "8": return "eight";
-     case "9": return "nine";
-     default: return numStr;
+  static formatNumber(num: number) {
+   switch (num) {
+     case 0: return "zero";
+     case 1: return "one";
+     case 2: return "two";
+     case 3: return "three";
+     case 4: return "four";
+     case 5: return "five";
+     case 6: return "six";
+     case 7: return "seven";
+     case 8: return "eight";
+     case 9: return "nine";
+     default: return num.toString();
    }
   }
 }

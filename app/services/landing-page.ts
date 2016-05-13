@@ -2,11 +2,13 @@ import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Rx';
 import {Http, Headers} from 'angular2/http';
 import {GlobalFunctions} from '../global/global-functions';
+import {GlobalSettings} from '../global/global-settings';
+import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 
 @Injectable()
 export class LandingPageService {
   private _apiUrl: string = 'http://dev-homerunloyal-api.synapsys.us';
-  constructor(public http: Http, private _globalFunctions: GlobalFunctions){}
+  constructor(public http: Http, private _globalFunctions: GlobalFunctions, private _mlbGlobalFunctions: MLBGlobalFunctions){}
   setToken(){
     var headers = new Headers();
     return headers;
@@ -33,18 +35,20 @@ export class LandingPageService {
     var leagueArray = [];
     var teamArray = [];
     var dummyImg = "./app/public/placeholder-location.jpg";
-    var dummyRoute = ['Disclaimer-page'];
+    var dummyRoute = ['Team-page', {teamName:'yankees', teamId: 2796}];
     for(var league in data){//get each of the league given by data
       var divisionArray = [];
       for(var division in data[league]){//get each division within league data
         var div = data[league][division];
         div.forEach(function(val, index){//start converting team info
-          val.route = "";//TODO
+          val.teamFirstName = val.teamFirstName.toUpperCase();
+          var teamName = val.teamFirstName + ' ' + val.teamLastName;
+          val.teamRoute = MLBGlobalFunctions.formatTeamRoute(teamName, val.teamId.toString());
           val.imageData= {
             imageClass: "image-100",
             mainImage: {
-              imageUrl: dummyImg,//TODO
-              urlRouteArray: ['Disclaimer-page'],
+              imageUrl:  GlobalSettings.getImageUrl(val.teamLogo),
+              urlRouteArray: MLBGlobalFunctions.formatTeamRoute(teamName, val.teamId.toString()),
               hoverText: "<i style='font-size:30px;' class='fa fa-mail-forward'></i>",
               imageClass: "border-3"
             }
