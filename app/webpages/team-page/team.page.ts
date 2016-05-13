@@ -31,6 +31,7 @@ import {NewsModule} from '../../modules/news/news.module';
 //module | interface | service
 import {DraftHistoryModule} from '../../modules/draft-history/draft-history.module';
 import {DraftHistoryService} from '../../services/draft-history.service';
+import {ArticlesModule} from "../../modules/articles/articles.module";
 
 
 @Component({
@@ -52,7 +53,8 @@ import {DraftHistoryService} from '../../services/draft-history.service';
         ShareModule,
         TeamRosterModule,
         NewsModule,
-        AboutUsModule],
+        AboutUsModule,
+        ArticlesModule],
     providers: [DraftHistoryService, StandingsService, ProfileHeaderService, RosterService]
 })
 
