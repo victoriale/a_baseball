@@ -6,6 +6,7 @@ import {Conference, Division} from '../global/global-interface';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
 
+//TODO-CJP: Ask backend to return values as numbers and not strings!
 export interface TeamStandingsData {
   teamName: string,
   imageUrl: string,
@@ -156,14 +157,10 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
   selectedKey:number = -1;
 
   constructor(rows: Array<TeamStandingsData>) {
-    // this.title = title;
     this.rows = rows;
     if ( this.rows === undefined || this.rows === null ) {
       this.rows = [];
     }
-    // else if ( rows.length > 0 ) {
-    //   this.selectedKey = rows[0].teamId;
-    // }
   }
 
   setRowSelected(rowIndex:number) {
@@ -195,11 +192,11 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
         break;
 
       case "pct":
-        s = item.winPercentage.toString();
+        s =item.winPercentage.toPrecision(3);
         break;
 
       case "gb":
-        s = item.gamesBack === 0 ? "-" : item.gamesBack.toString();
+        s = item.gamesBack == 0 ? "-" : item.gamesBack.toString();
         break;
 
       case "rs":
@@ -226,27 +223,27 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
         break;
 
       case "w":
-        o = Number(item.totalWins);
+        o = item.totalWins;
         break;
 
       case "l":
-        o = Number(item.totalLosses);
+        o = item.totalLosses;
         break;
 
       case "pct":
-        o = Number(item.winPercentage);
+        o = item.winPercentage;
         break;
 
       case "gb":
-        o = Number(item.gamesBack);
+        o = item.gamesBack;
         break;
 
       case "rs":
-        o = Number(item.batRunsScored);
+        o = item.batRunsScored;
         break;
 
       case "ra":
-        o = Number(item.pitchRunsAllowed);
+        o = item.pitchRunsAllowed;
         break;
 
       case "strk":
