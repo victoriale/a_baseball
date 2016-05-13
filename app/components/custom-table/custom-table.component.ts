@@ -64,17 +64,17 @@ export class CustomTable implements OnInit, OnChanges {
       return;
     }
     
-    var tableHdr = null;
+    var sortedColumn = null;
     var columnIndex = 0;
     
     this.model.columns.forEach((col) => {
-      if ( col.sortDirection !== 0 && tableHdr !== null ) {
-        tableHdr = col;
+      if ( col.sortDirection && !sortedColumn ) {
+        sortedColumn = col;
       }
     });
     
-    if ( tableHdr !== null ) {
-      this.sortRows(tableHdr);
+    if ( sortedColumn !== null ) {
+      this.sortRows(sortedColumn);
     }
   }
   

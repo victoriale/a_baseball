@@ -177,6 +177,7 @@ export interface HeadlineData {
     };
     home: {
         id: number;
+        location: string;
         name: string;
         hex: string;
         logo: string;
@@ -186,6 +187,7 @@ export interface HeadlineData {
     }
     away: {
         id: number;
+        location: string;
         name: string;
         hex: string;
         logo: string;

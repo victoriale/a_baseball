@@ -103,45 +103,45 @@ export class MLBGlobalFunctions {
     }
   }
 
-  static MLBPosition(position: string): string{
-      if( typeof position == 'undefined' || position === null){
-        return position;
-      }
-      var posFullName = {
-        1: 'Pitcher',
-        2: 'Catcher',
-        3: '1st Baseman',
-        4: '2nd Baseman',
-        5: '3rd Baseman',
-        6: 'Shortstop',
-        7: 'Left Field',
-        8: 'Center Field',
-        9: 'Right Field',
-        D: 'Designated Hitter'
-      };
-      let upperPosition = position.toUpperCase();
-      let displayPosition = posFullName[upperPosition];
-      return displayPosition !== undefined ? displayPosition: position;
-    }
+  // static MLBPosition(position: string): string{
+  //     if( typeof position == 'undefined' || position === null){
+  //       return position;
+  //     }
+  //     var posFullName = {
+  //       1: 'Pitcher',
+  //       2: 'Catcher',
+  //       3: '1st Baseman',
+  //       4: '2nd Baseman',
+  //       5: '3rd Baseman',
+  //       6: 'Shortstop',
+  //       7: 'Left Field',
+  //       8: 'Center Field',
+  //       9: 'Right Field',
+  //       D: 'Designated Hitter'
+  //     };
+  //     let upperPosition = position.toUpperCase();
+  //     let displayPosition = posFullName[upperPosition];
+  //     return displayPosition !== undefined ? displayPosition: position;
+  //   }
 
-  static MLBPositionToAB(position: string): string{
-      if( typeof position == 'undefined' || position === null ){
-        return 'DH';
-      }
-      var posAbbrName = {
-        1: 'P',
-        2: 'C',
-        3: '1B',
-        4: '2B',
-        5: '3B',
-        6: 'S',
-        7: 'LF',
-        8: 'CF',
-        9: 'RF',
-        D: 'DH',
-      };
-      let upperPosition = position.toUpperCase();
-      let displayAbbrPosition = posAbbrName[upperPosition];
-      return displayAbbrPosition !== undefined ? displayAbbrPosition: position;
-    }
+  // static MLBPositionToAB(position: string): string{
+  //     if( typeof position == 'undefined' || position === null ){
+  //       return 'DH';
+  //     }
+  //     var posAbbrName = {
+  //       1: 'P',
+  //       2: 'C',
+  //       3: '1B',
+  //       4: '2B',
+  //       5: '3B',
+  //       6: 'S',
+  //       7: 'LF',
+  //       8: 'CF',
+  //       9: 'RF',
+  //       D: 'DH',
+  //     };
+  //     let upperPosition = position.toUpperCase();
+  //     let displayAbbrPosition = posAbbrName[upperPosition];
+  //     return displayAbbrPosition !== undefined ? displayAbbrPosition: position;
+  //   }
 }
