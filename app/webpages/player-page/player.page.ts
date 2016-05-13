@@ -48,36 +48,49 @@ import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
 })
 
 export class PlayerPage implements OnInit {
-    public shareModuleInput: ShareModuleInput = {
-        imageUrl: './app/public/mainLogo.png'
-    };
+  public shareModuleInput: ShareModuleInput = {
+      imageUrl: './app/public/mainLogo.png'
+  };
 
-    pageParams: MLBPageParameters;
+  pageParams: MLBPageParameters;
 
-    standingsData: StandingsModuleData;
+  standingsData: StandingsModuleData;
 
-    profileHeaderData: ProfileHeaderData;
+  profileHeaderData: ProfileHeaderData;
 
-    constructor(
-        private _params: RouteParams,
-        private _standingsService: StandingsService,
-        private _profileService: ProfileHeaderService) {
-            
-        this.pageParams = {
-            playerId: Number(_params.get("playerId"))
-        };
-    }
+  constructor(
+      private _params: RouteParams,
+      private _standingsService: StandingsService,
+      private _profileService: ProfileHeaderService) {
+          
+      this.pageParams = {
+          playerId: Number(_params.get("playerId"))
+      };
+  }
+
+  ngOnInit() {    
+      this.setupPlayerProfileData();
+  }
   
-    ngOnInit() {    
-        this.setupProfileData();
-    }
-  
-  private setupProfileData() {
+  private setupPlayerProfileData() {
     this._profileService.getPlayerProfile(this.pageParams.playerId).subscribe(
       data => {
         this.pageParams = data.pageParams;
         this.profileHeaderData = this._profileService.convertToPlayerProfileHeader(data);
-        this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
+        this.setupTeamProfileData();
+      },
+      err => {
+        console.log("Error getting player profile data for " + this.pageParams.playerId + ": " + err);
+      }
+    );
+  }
+  
+  //This gets team-specific data such as
+  // conference and division
+  private setupTeamProfileData() {
+    this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
+      data => {
+        this.standingsData = this._standingsService.loadAllTabsForModule(data.pageParams);
       },
       err => {
         console.log("Error getting player profile data for " + this.pageParams.playerId + ": " + err);

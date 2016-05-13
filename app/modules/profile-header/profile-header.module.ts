@@ -1,6 +1,7 @@
 import {Component, Input, OnChanges} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 
+import {LoadingComponent} from '../../components/loading/loading.component';
 import {CircleImage} from '../../components/images/circle-image';
 import {CircleImageData} from '../../components/images/image-data';
 import {ScrollableContent} from '../../components/scrollable-content/scrollable-content.component';
@@ -29,7 +30,7 @@ export interface ProfileHeaderData {
 @Component({
     selector: 'profile-header',
     templateUrl: './app/modules/profile-header/profile-header.module.html',    
-    directives: [ROUTER_DIRECTIVES, CircleImage, ScrollableContent],
+    directives: [ROUTER_DIRECTIVES, CircleImage, ScrollableContent, LoadingComponent],
     pipes: [NaValuePipe]
 })
 export class ProfileHeaderModule implements OnChanges {
@@ -61,12 +62,12 @@ export class ProfileHeaderModule implements OnChanges {
     
     ngOnChanges() {
       var data = this.profileHeaderData;
-      if ( data !== undefined && data !== null ) {
-        if ( data.backgroundImageUrl === null || data.backgroundImageUrl === undefined ) {
-          data.backgroundImageUrl = "/app/public/image_placeholder.png";
+      if ( data ) {
+        if ( !data.backgroundImageUrl ) {
+          data.backgroundImageUrl = "/app/public/no-image.png";
         }
-        if ( data.profileImageUrl === null || data.profileImageUrl === undefined ) {
-          data.profileImageUrl = "/app/public/profile_placeholder_large.png";
+        if ( !data.profileImageUrl ) {
+          data.profileImageUrl = "/app/public/no-image.png";
         }
         this.imageConfig.mainImage.imageUrl = data.profileImageUrl;
         this.backgroundImage =  "url(" + data.backgroundImageUrl + ") no-repeat center rgba(0,0,0,.65)";

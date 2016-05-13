@@ -21,7 +21,6 @@ interface PlayerProfileData {
 interface PlayerProfileHeaderData {
   description: string;
   info: {
-    backgroundImage: string; //NEED
 
     teamId: number;
     teamName: string;
@@ -48,8 +47,9 @@ interface PlayerProfileHeaderData {
     pub1TeamId: number;
     pub2Id: number;
     pub2TeamId: number;
-    lastUpdate: Date;
+    lastUpdate: string;
     playerHeadshot: string;
+    backgroundImage: string;
   };
   stats: {
     //Pitcher stats
@@ -97,14 +97,15 @@ interface TeamProfileData {
 interface TeamProfileHeaderData {
     description: string;
     profileImage: string;
+    backgroundImage: string;
+    lastUpdated: string;
     stats: {
-      backgroundImage: string; //NEED
-      city: string; //NEED
-      state: string; //NEED
-      lastUpdated: Date; //NEED
-
+      // city: string; //NEED
+      // state: string; //NEED
       teamId: number;
       teamName: string;
+      teamFirstName: string;
+      teamLastName: string;
       seasonId: string;
       totalWins: number;
       totalLosses: number;
@@ -144,10 +145,10 @@ interface LeagueProfileHeaderData {
   foundedIn: string;  //NEED // year in [YYYY]
   backgroundImage: string; //NEED
   profileImage: string; //NEED
-  totalTeams: string;
-  totalPlayers: string;
-  totalDivisions: string;
-  totalLeagues: string;
+  totalTeams: number;
+  totalPlayers: number;
+  totalDivisions: number;
+  totalLeagues: number;
 }
 
 @Injectable()
@@ -219,7 +220,7 @@ export class ProfileHeaderService {
               division: Division[divKey],
               conference: Conference[confKey],
             },
-            fullBackgroundImageUrl: GlobalSettings.getImageUrl(headerData.stats.backgroundImage),
+            fullBackgroundImageUrl: GlobalSettings.getImageUrl(headerData.backgroundImage),
             fullProfileImageUrl: GlobalSettings.getImageUrl(headerData.profileImage),
             headerData: headerData
           };
@@ -231,7 +232,17 @@ export class ProfileHeaderService {
     // console.log("mlb profile url: " + url);
     return this.http.get(url)
         .map(res => res.json())
-        .map(data => data.data);
+        .map(data => {
+          var leagueData: LeagueProfileHeaderData = data.data;
+          
+          //Forcing values to be numbers
+          leagueData.totalDivisions = Number(leagueData.totalDivisions);
+          leagueData.totalLeagues = Number(leagueData.totalLeagues);
+          leagueData.totalPlayers = Number(leagueData.totalPlayers);
+          leagueData.totalTeams = Number(leagueData.totalTeams);
+          
+          return leagueData;
+        });
   }
 
   convertTeamPageHeader(data: TeamProfileData) {
@@ -332,7 +343,7 @@ export class ProfileHeaderService {
       backgroundImageUrl: data.fullBackgroundImageUrl,
       profileTitleFirstPart: info.playerFirstName,
       profileTitleLastPart: info.playerLastName,
-      lastUpdatedDate: info.lastUpdate,
+      lastUpdatedDate: moment(info.lastUpdate),
       description: description,
       topDataPoints: [
         {
@@ -363,13 +374,15 @@ export class ProfileHeaderService {
     }
 
     var teamName = stats.teamName ? stats.teamName : "N/A";
-    var city = stats.city ? stats.city : "N/A";
-    var state = stats.state ? stats.state : "N/A";
 
     //TODO-CJP: get from API
-    var lastSpaceIndex = teamName.lastIndexOf(" ");
-    var firstPart = lastSpaceIndex >= 0 ? teamName.substring(0, lastSpaceIndex) : "";
-    var lastPart = lastSpaceIndex >= 0 ? teamName.substring(lastSpaceIndex+1) : teamName;
+    var firstPart = stats.teamFirstName;
+    var lastPart = stats.teamLastName;
+    if ( !firstPart || !lastPart ) {
+      var lastSpaceIndex = teamName.lastIndexOf(" ");
+      firstPart = lastSpaceIndex >= 0 ? teamName.substring(0, lastSpaceIndex) : "";
+      lastPart = lastSpaceIndex >= 0 ? teamName.substring(lastSpaceIndex+1) : teamName;
+    }
     var formattedEra = null;
     if ( stats.pitching ) {
       if ( stats.pitching.era > 1 ) {
@@ -386,7 +399,7 @@ export class ProfileHeaderService {
       backgroundImageUrl: data.fullBackgroundImageUrl,
       profileTitleFirstPart: firstPart,
       profileTitleLastPart: lastPart,
-      lastUpdatedDate: stats.lastUpdated,
+      lastUpdatedDate: moment(data.headerData.lastUpdated),
       description: description,
       topDataPoints: [
         {
