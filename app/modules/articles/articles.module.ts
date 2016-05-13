@@ -83,7 +83,7 @@ export class ArticlesModule implements OnInit {
         var dateString = moment.unix(data.timestamp).format("MM/DD/YYYY");
         var isToday = moment(dateString).isSame(moment(), 'day');
         if (isToday) {
-            this.headerInfo.moduleTitle = "Today's Gameday Matchup Against the " + data.away.name;
+            this.headerInfo.moduleTitle = "Today's Gameday Matchup Against the " + data.away.location + ' ' + data.away.name;
         }
         else {
             this.headerInfo.moduleTitle = moment.unix(dateString).format("dddd") + "'s Gameday Matchup Against the " + data.away.name;
@@ -99,6 +99,7 @@ export class ArticlesModule implements OnInit {
         var awayArr = [];
         var val = [];
         val['homeID'] = homeData.id;
+        val['homeLocation'] = homeData.location;
         val['homeName'] = homeData.name;
         val['homeHex'] = homeData.hex;
         val['homeLogo'] = homeData.logo;
@@ -107,6 +108,7 @@ export class ArticlesModule implements OnInit {
         homeArr.push(val);
         val = [];
         val['awayID'] = awayData.id;
+        val['awayLocation'] = awayData.location;
         val['awayName'] = awayData.name;
         val['awayHex'] = awayData.hex;
         val['awayLogo'] = {//interface is found in image-data.ts
