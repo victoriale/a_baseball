@@ -21,8 +21,13 @@ export class ListOfListsService {
     //headers.append(this.headerName, this.apiToken);
     return headers;
   }
+  // Scope:     [league, division, conference];
+  // listType:  [player, team]
+  // veiwType:  [module, page]
 
-  getListOfListsService(version, type?, scope?, conference?, count?, page?){
+  // http://dev-homerunloyal-api.synapsys.us/listOfLists/team/division/2800/5/1
+  // http://dev-homerunloyal-api.synapsys.us/listOfLists/listType/scope?/2800/5/1
+  getListOfListsService(version, viewType?, listType?, scope?, conference?, count?, page?){
     // Configure HTTP Headers
     var headers = this.setToken();
     // Set url variables
@@ -31,7 +36,7 @@ export class ListOfListsService {
     var count = count != null ? count : 6;
     var page = page != null ? page : 1;
 
-    var callURL = this._apiUrl + '/listOfLists/player/'+ scope +'/'+ conference +'/'+ count +'/' + page;
+    var callURL = this._apiUrl + '/listOfLists/player/'+ scope +'/'+ id +'/'+ count +'/' + page;
 
     return this.http.get( callURL, {
         headers: headers
