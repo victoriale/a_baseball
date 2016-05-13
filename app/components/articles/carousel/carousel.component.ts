@@ -10,12 +10,13 @@ declare var jQuery:any;
     templateUrl: './app/components/articles/carousel/carousel.component.html',
     directives: [ROUTER_DIRECTIVES, CircleButton],
     providers: [Articles],
-    inputs: ['trending', 'mediaImages', 'featureListing', 'modalButton', 'articleData'],
+    inputs: ['trending', 'mediaImages', 'featureListing', 'modalButton', 'articleData', 'imageData'],
     outputs: ['leftCircle', 'rightCircle', 'expand'],
 })
 
 export class ArticleImages implements OnInit {
-    articleData:ArticleData[];
+    @Input() imageData:any;
+    articleData:ArticleData;
     leftCircle:EventEmitter<boolean> = new EventEmitter();
     rightCircle:EventEmitter<boolean> = new EventEmitter();
     expand:EventEmitter<boolean> = new EventEmitter();
@@ -42,10 +43,10 @@ export class ArticleImages implements OnInit {
 
     left() {
         //check to see if the end of the obj array of images has reached the end and will go on the the next obj with new set of array
-        this.imageCounter = (((this.imageCounter - 1) % this.images.length) + this.images.length) % this.images.length;
+        this.imageCounter = (((this.imageCounter - 1) % this.imageData.length) + this.imageData.length) % this.imageData.length;
         this.smallObjCounter = (((this.smallObjCounter - 1) % 5) + 5) % 5;
         if (this.smallObjCounter == 4) {
-            this.mediaImages = this.modifyMedia(this.images, false);
+            this.mediaImages = this.modifyMedia(this.imageData, false);
         }
         //run the changeMain function to change the main image once a new array has been established
         this.changeMain(this.imageCounter);
@@ -53,10 +54,10 @@ export class ArticleImages implements OnInit {
 
     right() {
         //check to see if the end of the obj array of images has reached the end and will go on the the next obj with new set of array
-        this.imageCounter = (this.imageCounter + 1) % this.images.length;
+        this.imageCounter = (this.imageCounter + 1) % this.imageData.length;
         this.smallObjCounter = (this.smallObjCounter + 1) % 5;
         if (this.smallObjCounter == 0) {
-            this.mediaImages = this.modifyMedia(this.images);
+            this.mediaImages = this.modifyMedia(this.imageData);
         }
         //run the changeMain function to change the main image once a new array has been established
         this.changeMain(this.imageCounter);
@@ -85,36 +86,21 @@ export class ArticleImages implements OnInit {
         var arrayStart = (((this.imageCounter + (forward ? 0 : -4)) % totalImgs) + totalImgs) % totalImgs;
         for (var i = arrayStart; i < arrayStart + 5; i++) {
             var index = i % totalImgs;
-            newImageArray.push({id: index, image: images[index].photos});
+            newImageArray.push({id: index, image: images[index]});
         }
         return newImageArray;
     }
 
     //makes sure to show first image and run the modifyMedia function once data has been established
     ngOnChanges(event) {
-        this.getImages();
-        if (typeof this.images != 'undefined') {
+        if (typeof this.imageData != 'undefined') {
             //if data coming from module to variable mediaImages changes in what way then reset to first image and rerun function
             this.smallObjCounter = 0;
             this.imageCounter = 0;
-            this.mediaImages = this.modifyMedia(this.images);
+            this.mediaImages = this.modifyMedia(this.imageData);
             this.changeMain(0);
-            this.totalImageCount = this.images.length;
+            this.totalImageCount = this.imageData.length;
         }
-    }
-
-    getImages() {
-        this._magazineOverviewService.getArticles().then(data => {
-            this.articleData = data;
-            var images = [];
-            jQuery.map(this.articleData[0], function (val, index) {
-                if (index != 'metaData') {
-                    val['photos'] = val[0].photos.url;
-                    images.push(val);
-                }
-            });
-            this.images = images;
-        });
     }
 
     ngOnInit() {

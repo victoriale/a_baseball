@@ -17,8 +17,7 @@ export class ArticleScheduleComponent implements OnInit {
     @Input() awayData:any;
     homeHex:string;
     awayHex:string;
-    leftGrad:Object;
-    rightGrad:Object;
+    gradient:Object;
     articleData:ArticleData[];
     defaultGradient:string;
     public league:boolean;
@@ -33,27 +32,17 @@ export class ArticleScheduleComponent implements OnInit {
         });
     }
 
-    getHomeBackgroundColor(homeHex) {
-        if (homeHex != null) {
+    getGradient(homeHex, awayHex) {
+        if (homeHex != null && awayHex != null) {
             let homeRedValue = ArticleScheduleComponent.hexToR(homeHex);
             let homeGreenValue = ArticleScheduleComponent.hexToG(homeHex);
             let homeBlueValue = ArticleScheduleComponent.hexToB(homeHex);
-            let leftGradientRgb = "rgb(" + homeRedValue + "," + homeGreenValue + "," + homeBlueValue + ")";
-            let leftGradientRgba = "rgba(" + homeRedValue + "," + homeGreenValue + "," + homeBlueValue + ", 0)";
-            this.leftGrad = this.leftGradient(leftGradientRgb, leftGradientRgba);
-        } else {
-            this.defaultGradient = 'default-gradient';
-        }
-    }
-
-    getAwayBackgroundColor(awayHex) {
-        if (awayHex != null) {
+            let leftGradientRgba = "rgba(" + homeRedValue + "," + homeGreenValue + "," + homeBlueValue + ", 0.75) 0%";
             let awayRedValue = ArticleScheduleComponent.hexToR(awayHex);
             let awayGreenValue = ArticleScheduleComponent.hexToG(awayHex);
             let awayBlueValue = ArticleScheduleComponent.hexToB(awayHex);
-            let rightGradientRgb = "rgb(" + awayRedValue + "," + awayGreenValue + "," + awayBlueValue + ")";
-            let rightGradientRgba = "rgba(" + awayRedValue + "," + awayGreenValue + "," + awayBlueValue + ", 0)";
-            this.rightGrad = this.rightGradient(rightGradientRgb, rightGradientRgba);
+            let rightGradientRgba = "rgba(" + awayRedValue + "," + awayGreenValue + "," + awayBlueValue + ", 0.75) 100%";
+            this.gradient = this.fullGradient(leftGradientRgba, rightGradientRgba);
         } else {
             this.defaultGradient = 'default-gradient';
         }
@@ -77,23 +66,14 @@ export class ArticleScheduleComponent implements OnInit {
     }
 
     //End conversion
-    leftGradient = function (a, b) //loads the left gradient
+    fullGradient = function (a, b) //loads the left gradient
     {
-        var lgc1 = a; //replace with code to retrieve appropriate colors
-        var lgc2 = b; //replace with code to retrieve appropriate colors
+        var lgc = a;
+        var mgc = ', rgba(45, 45, 45, 0.75) 50%, ';
+        var rgc = b;
         return {
-            '-ms-filter': "progid:DXImageTransform.Microsoft.gradient (0deg," + lgc1 + "," + lgc2 + ")",
-            'background': "linear-gradient(90deg," + lgc1 + "," + lgc2 + ")"
-        };
-    };
-
-    rightGradient = function (a, b) //loads the right gradient
-    {
-        var rgc1 = a; //replace with code to retrieve appropriate colors
-        var rgc2 = b; //replace with code to retrieve appropriate colors
-        return {
-            '-ms-filter': "progid:DXImageTransform.Microsoft.gradient (180deg," + rgc1 + "," + rgc2 + ")",
-            'background': "linear-gradient(-90deg," + rgc1 + "," + rgc2 + ")"
+            '-ms-filter': "progid:DXImageTransform.Microsoft.gradient (0deg," + lgc + mgc + rgc + ")",
+            'background': "linear-gradient(90deg," + lgc + mgc + rgc + ")"
         };
     };
 
@@ -104,8 +84,7 @@ export class ArticleScheduleComponent implements OnInit {
         if (typeof this.homeData != 'undefined' && typeof this.awayData != 'undefined') {
             this.awayHex = this.awayData[0].awayHex;
             this.homeHex = this.homeData[0].homeHex;
-            this.getHomeBackgroundColor(this.homeHex);
-            this.getAwayBackgroundColor(this.awayHex);
+            this.getGradient(this.homeHex, this.awayHex);
         }
     }
 }
