@@ -24,7 +24,8 @@ declare var jQuery:any;
 export class ArticlePages implements OnInit {
     articleData:ArticleData;
     randomHeadlines:any;
-    images:any;
+    imageData:any;
+    images:Array<any>;
     eventID:string;
     eventType:string;
     title:string;
@@ -66,13 +67,24 @@ export class ArticlePages implements OnInit {
                 HeadlineData => {
                     this.pageIndex = this.eventType;
                     this.eventID = HeadlineData.event;
-                    this.getRandomArticles(HeadlineData, this.pageIndex, this.eventID);
+                    this.imageData = HeadlineData['home'].images.concat(HeadlineData['away'].images);
+                    this.getRandomArticles(HeadlineData, this.pageIndex, this.eventID, this.imageData);
                 }
             );
     }
 
-    getRandomArticles(recommendations, pageIndex, eventID) {
+    getImages(imageList) {
+        imageList.sort(function () {
+            return 0.5 - Math.random()
+        });
+        return this.images = imageList;
+    }
+
+    getRandomArticles(recommendations, pageIndex, eventID, imageData) {
+        this.getImages(imageData);
         var recommendArr = [];
+        var imageCount = 0;
+        var self = this;
         jQuery.map(recommendations.leftColumn, function (val, index) {
             if (pageIndex != index) {
                 switch (index) {
@@ -87,12 +99,14 @@ export class ArticlePages implements OnInit {
                         val['title'] = val.displayHeadline;
                         val['eventType'] = index;
                         val['eventID'] = eventID;
-                        //val['photos'] = val[0].photos.url;
+                        val['images'] = self.images[imageCount];
                         recommendArr.push(val);
+                        imageCount++;
                         break;
                 }
             }
         });
+        imageCount = 0;
         jQuery.map(recommendations.rightColumn, function (val, index) {
             if (pageIndex != index) {
                 switch (index) {
@@ -115,7 +129,9 @@ export class ArticlePages implements OnInit {
                         val['title'] = val.displayHeadline;
                         val['eventType'] = index;
                         val['eventID'] = eventID;
+                        val['images'] = self.images[imageCount];
                         recommendArr.push(val);
+                        imageCount++;
                         break;
                 }
             }
