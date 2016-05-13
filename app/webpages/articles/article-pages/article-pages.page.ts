@@ -11,13 +11,14 @@ import {ArticleContentComponent} from "../../../components/articles/article-cont
 import {DisqusComponent} from "../../../components/articles/disqus/disqus.component";
 import {ArticleDataService} from "../../../global/global-article-page-service";
 import {GlobalFunctions} from "../../../global/global-functions";
+import {LoadingComponent} from "../../../components/loading/loading.component";
 
 declare var jQuery:any;
 
 @Component({
     selector: 'article-pages',
     templateUrl: './app/webpages/articles/article-pages/article-pages.page.html',
-    directives: [WidgetModule, ROUTER_DIRECTIVES, ArticleImages, ShareLinksComponent, ArticleContentComponent, RecommendationsComponent, TrendingComponent, DisqusComponent],
+    directives: [WidgetModule, ROUTER_DIRECTIVES, ArticleImages, ShareLinksComponent, ArticleContentComponent, RecommendationsComponent, TrendingComponent, DisqusComponent, LoadingComponent],
     providers: [],
 })
 
@@ -164,6 +165,9 @@ export class ArticlePages implements OnInit {
                 this.articleType = 'playerRoster';
                 break;
             case'pitcher-player-comparison':
+                this.articleType = 'playerComparison';
+                this.articleSubType = 'pitcher';
+                break;
             case'catcher-player-comparison':
             case'first-base-player-comparison':
             case'second-base-player-comparison':
