@@ -23,6 +23,7 @@ import {Division, Conference, MLBPageParameters} from '../../global/global-inter
 import {HeadlineComponent} from '../../components/headline/headline.component';
 
 import {NewsModule} from '../../modules/news/news.module';
+import {GlobalSettings} from "../../global/global-settings";
 
 @Component({
     selector: 'MLB-page',
@@ -88,7 +89,7 @@ export class MLBPage implements OnInit{
 
     private setupShareModule(){
         let profileHeaderData = this.profileHeaderData;
-        let imageUrl = typeof profileHeaderData.profileImageUrl === 'undefined' || profileHeaderData.profileImageUrl === null ? 'http://prod-sports-images.synapsys.us/mlb/players/no-image.png' : profileHeaderData.profileImageUrl;
+        let imageUrl = typeof profileHeaderData.profileImageUrl === 'undefined' || profileHeaderData.profileImageUrl === null ? GlobalSettings.getImageUrl("/mlb/players/no-image.png") : profileHeaderData.profileImageUrl;
         let shareText = typeof profileHeaderData.profileName === 'undefined' || profileHeaderData.profileName === null ? 'Share This Profile Below' : 'Share ' + profileHeaderData.profileName + '\'s Profile Below:';
 
         this.shareModuleInput = {

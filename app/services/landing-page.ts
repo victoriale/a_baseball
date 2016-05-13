@@ -7,7 +7,7 @@ import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 
 @Injectable()
 export class LandingPageService {
-  private _apiUrl: string = 'http://dev-homerunloyal-api.synapsys.us';
+  private _apiUrl: string = GlobalSettings.getApiUrl();
   constructor(public http: Http, private _globalFunctions: GlobalFunctions, private _mlbGlobalFunctions: MLBGlobalFunctions){}
   setToken(){
     var headers = new Headers();
