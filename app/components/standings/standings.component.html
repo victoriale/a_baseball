@@ -5,7 +5,7 @@
   <tabs (tabSelected)="tabSelected($event)">
     <tab *ngFor="#tab of tabs" [tabTitle]="tab.title" [active]="tab.isActive">
       <div *ngFor="#section of tab.sections">
-        <h4 [innerHtml]="section.groupName"></h4>
+        <h4 *ngIf="section.groupName" [innerHtml]="section.groupName"></h4>
         <custom-table [model]="section.tableData" (sortChanged)="updateCarousel($event)"></custom-table>
       </div>
     </tab>
