@@ -3,7 +3,7 @@ import {Component, OnInit, Input} from 'angular2/core';
 import {SliderButton} from "../../components/buttons/slider/slider.button";
 import {CircleImage} from '../../components/images/circle-image';
 import {ImageData,CircleImageData} from '../../components/images/image-data';
-import {Search, SearchComponentData} from '../../components/search/search.component';
+import {Search, SearchComponentData, SearchInput} from '../../components/search/search.component';
 import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
 import {LandingPageService} from '../../services/landing-page';
 
