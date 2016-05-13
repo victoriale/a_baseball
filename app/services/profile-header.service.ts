@@ -101,6 +101,9 @@ interface TeamProfileHeaderData {
     lastUpdated: string;
     teamFirstName: string;
     teamLastName: string;
+    teamVenue: string;
+    teamCity: string;
+    teamState: string;
     stats: {
       teamId: number;
       teamName: string;
@@ -273,7 +276,7 @@ export class ProfileHeaderService {
     var headerData = data.headerData;
     var stats = headerData.stats;
     var info = headerData.info;
-
+    
     var description = headerData.description;
     var dataPoints: Array<DataItem>;
     var isPitcher = headerData.info.position.filter(value => value === "P").length > 0;
@@ -364,12 +367,40 @@ export class ProfileHeaderService {
   }
 
   convertToTeamProfileHeader(data: TeamProfileData): ProfileHeaderData {
-    var description = data.headerData.description;
+    var headerData = data.headerData;
     var stats = data.headerData.stats;
 
     if (!stats) {
       return null;
     }
+    
+    //The [Atlanta Braves] play in [Turner Field] located in [Atlanta, GA]. The [Atlanta Braves] are part of the [NL East].
+    var location = "N/A";
+    if ( headerData.teamCity && headerData.teamState ) {
+      location = headerData.teamCity + ", " + headerData.teamState;
+    } 
+    
+    var group = "N/A";
+    if ( stats.division && stats.conference ) {
+      if ( stats.conference.name == "American" ) {
+        group = "AL ";
+      }
+      else if ( stats.conference.name == "National" ) {
+        group = "NL ";
+      }
+      else {
+        group = stats.conference.name + " ";
+      }
+      group += stats.division.name;
+    } 
+    
+    var venue = headerData.teamVenue ? headerData.teamVenue : "N/A";
+    var description = "The <span class='text-heavy'>" + stats.teamName +
+                      "</span> play in <span class='text-heavy'>" + venue + 
+                      "</span> located in <span class='text-heavy'>" + location +
+                      "</span>. The <span class='text-heavy'>" + stats.teamName +
+                      "</span> are part of the <span class='text-heavy'>" + group +
+                       "</span>.";
 
     var formattedEra = null;
     if ( stats.pitching ) {
