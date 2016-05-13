@@ -26,7 +26,7 @@
   <!--Like Us On FB Module, only display if not on partner page-->
   <!-- <section *ngIf="!partnerCheck"> -->
   <like-us-module></like-us-module>
-  <share-module [shareModuleInput]="shareModuleInput"></share-module>
+  <share-module *ngIf="profileHeaderData && shareModuleInput" [shareModuleInput]="shareModuleInput"></share-module>
   <!-- </section> -->
   <comment-module></comment-module>
   <about-us></about-us>

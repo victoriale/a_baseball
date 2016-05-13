@@ -18,8 +18,7 @@ import {StandingsService} from '../../services/standings.service';
 import {ProfileHeaderData, ProfileHeaderModule} from '../../modules/profile-header/profile-header.module';
 import {ProfileHeaderService} from '../../services/profile-header.service';
 
-import {ShareModule} from '../../modules/share/share.module';
-import {ShareModuleInput} from '../../modules/share/share.module';
+import {ShareModule, ShareModuleInput} from '../../modules/share/share.module';
 
 import {HeadlineComponent} from '../../components/headline/headline.component';
 
@@ -43,14 +42,13 @@ import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
         TwitterModule, 
         ComparisonModule,
         NewsModule,
+        ShareModule,
         AboutUsModule],
     providers: [StandingsService,ProfileHeaderService],
 })
 
 export class PlayerPage implements OnInit {
-  public shareModuleInput: ShareModuleInput = {
-      imageUrl: './app/public/mainLogo.png'
-  };
+  public shareModuleInput: ShareModuleInput;
 
   pageParams: MLBPageParameters;
 
@@ -78,6 +76,7 @@ export class PlayerPage implements OnInit {
         this.pageParams = data.pageParams;
         this.profileHeaderData = this._profileService.convertToPlayerProfileHeader(data);
         this.setupTeamProfileData();
+          this.setupShareModule();
       },
       err => {
         console.log("Error getting player profile data for " + this.pageParams.playerId + ": " + err);
@@ -107,4 +106,15 @@ export class PlayerPage implements OnInit {
         });
     }
   }
+
+    private setupShareModule(){
+        let profileHeaderData = this.profileHeaderData;
+        let imageUrl = typeof profileHeaderData.profileImageUrl === 'undefined' || profileHeaderData.profileImageUrl === null ? 'http://prod-sports-images.synapsys.us/mlb/players/no-image.png' : profileHeaderData.profileImageUrl;
+        let shareText = typeof profileHeaderData.profileName === 'undefined' || profileHeaderData.profileName === null ? 'Share This Profile Below' : 'Share ' + profileHeaderData.profileName + '\'s Profile Below:';
+
+        this.shareModuleInput = {
+            imageUrl: imageUrl,
+            shareText: shareText
+        };
+    }
 }
