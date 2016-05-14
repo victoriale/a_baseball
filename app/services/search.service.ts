@@ -14,7 +14,6 @@ export class SearchService{
         players: [],
         teams: []
     };
-    //public searchAPI: string = 'http://dev-homerunloyal-api.synapsys.us/landingPage/search';
     public searchAPI: string = GlobalSettings.getApiUrl() + '/landingPage/search';
     constructor(private http: Http){
         //Get initial search JSON data
