@@ -1,10 +1,12 @@
 import {Component, OnInit} from 'angular2/core';
+
+import {AboutUsModule} from '../../modules/about-us/about-us.module';
 import {LikeUs} from "../../modules/likeus/likeus.module";
 import {DYKModule} from "../../modules/dyk/dyk.module";
 import {FAQModule} from "../../modules/faq/faq.module";
 import {TwitterModule} from "../../modules/twitter/twitter.module";
 import {ComparisonModule} from '../../modules/comparison/comparison.module';
-import {ShareModule} from '../../modules/share/share.module';
+import {ShareModule, ShareModuleInput} from '../../modules/share/share.module';
 import {CommentModule} from '../../modules/comment/comment.module';
 
 import {StandingsModule, StandingsModuleData} from '../../modules/standings/standings.module';
@@ -18,8 +20,10 @@ import {ProfileHeaderService} from '../../services/profile-header.service';
 
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
 
-import {ShareModuleInput} from '../../modules/share/share.module';
 import {HeadlineComponent} from '../../components/headline/headline.component';
+
+import {NewsModule} from '../../modules/news/news.module';
+import {GlobalSettings} from "../../global/global-settings";
 
 @Component({
     selector: 'MLB-page',
@@ -36,16 +40,16 @@ import {HeadlineComponent} from '../../components/headline/headline.component';
         LikeUs,
         TwitterModule,
         ComparisonModule,
-        ShareModule],
+        ShareModule,
+        NewsModule,
+        AboutUsModule],
     providers: [StandingsService, ProfileHeaderService]
 })
 
 export class MLBPage implements OnInit{
-    public shareModuleInput: ShareModuleInput = {
-    imageUrl: './app/public/mainLogo.png'
-    };
+    public shareModuleInput: ShareModuleInput;
 
-    pageParams: MLBPageParameters = {}
+    pageParams: MLBPageParameters = {};
 
     standingsData: StandingsModuleData;
 
@@ -64,7 +68,8 @@ export class MLBPage implements OnInit{
     this._profileService.getMLBProfile().subscribe(
       data => {
         this.profileHeaderData = this._profileService.convertToLeagueProfileHeader(data)
-        this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);      
+        this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
+          this.setupShareModule();
       },
       err => {
         console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
@@ -81,4 +86,15 @@ export class MLBPage implements OnInit{
         });
     }
   }
+
+    private setupShareModule(){
+        let profileHeaderData = this.profileHeaderData;
+        let imageUrl = typeof profileHeaderData.profileImageUrl === 'undefined' || profileHeaderData.profileImageUrl === null ? GlobalSettings.getImageUrl("/mlb/players/no-image.png") : profileHeaderData.profileImageUrl;
+        let shareText = typeof profileHeaderData.profileName === 'undefined' || profileHeaderData.profileName === null ? 'Share This Profile Below' : 'Share ' + profileHeaderData.profileName + '\'s Profile Below:';
+
+        this.shareModuleInput = {
+            imageUrl: imageUrl,
+            shareText: shareText
+        };
+    }
 }

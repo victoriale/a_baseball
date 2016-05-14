@@ -112,7 +112,7 @@ export class DirectoryService {
     if ( searchParams.startsWith ) {
       url += "/" + searchParams.startsWith;
     }
-    console.log("player directory: " + url);
+    // console.log("player directory: " + url);
     return this.http.get(url)
         .map(res => res.json())
         .map(data => {
@@ -128,7 +128,7 @@ export class DirectoryService {
     if ( searchParams.startsWith ) {
       url += "/" + searchParams.startsWith;
     }
-    console.log("team directory: " + url);
+    // console.log("team directory: " + url);
     return this.http.get(url)
         .map(res => res.json())
         .map(data => {

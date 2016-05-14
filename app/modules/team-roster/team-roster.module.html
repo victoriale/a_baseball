@@ -4,8 +4,8 @@
   <tabs *ngIf="tabs" (tabSelected)="tabSelected($event)">
     <tab *ngFor="#tab of tabs" [tabTitle]="tab.title" [active]="tab.isActive">
       <custom-table [model]="tab.tableData" (sortChanged)="updateCarousel($event)"></custom-table>
-      <!-- <no-data-box [data]="errorData.data" [icon]="errorData.icon"></no-data-box> -->
     </tab>
+    <no-data-box *ngIf="!carDataCheck" [data]="errorData.data" [icon]="errorData.icon"></no-data-box>
   </tabs>
   <module-footer [footerData]="footerData"></module-footer>
 </div>

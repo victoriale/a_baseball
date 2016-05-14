@@ -47,15 +47,16 @@ export interface TableComponentData<T> {
 })
 
 export class TeamRosterModule implements OnChanges{
+  carDataCheck: boolean = true;
   public selectedIndex;
   footerData: Object;
-
+  public dataTable: boolean = true;
   private selectedTabTitle: string;
   public tabs: Array<RosterTabData>;
   public data: RosterComponentData;
   errorData: any = {
     data: "This team is a National League team and has no designated hitters.",
-    icon: "fa fa-calendar-o"
+    icon: "fa fa-remove"
   }
   public footerStyle = {
     ctaBoxClass: "list-footer",
@@ -77,9 +78,9 @@ export class TeamRosterModule implements OnChanges{
     this.teamId = _params.get("teamId");
     var teamName = _params.get("teamName");
     this.footerData = {
-      infoDesc: 'Want to see everybody involved in this list?',
+      infoDesc: 'Want to see the full team roster?',
       text: 'VIEW FULL ROSTER',
-      url: ['Team-roster-page',{teamName:'team-name-here', teamId: '2799'}]
+      url: ['Team-roster-page',{teamName:teamName, teamId: this.teamId}]
     };
     // if ( teamId  && teamName ) {
     //   this.pageParams.teamId = Number(teamId);
@@ -160,6 +161,11 @@ export class TeamRosterModule implements OnChanges{
 
     this.selectedIndex = selectedIndex < 0 ? 0 : selectedIndex;
     this.carDataArray = carDataArray;
+    if(this.carDataArray.length < 1){
+      this.carDataCheck = false;
+    } else {
+      this.carDataCheck = true;
+    }
   }
 
   private setupRosterData() {
@@ -173,6 +179,9 @@ export class TeamRosterModule implements OnChanges{
         this.updateCarousel();
         var teamName = data[0].tableData.rows[0].teamName;
         this.headerInfo.moduleTitle = "Team Roster - " + teamName;
+        if(data[3].tableData.rows.length < 1){
+          this.dataTable = false;
+        }
       },
       err => {
         console.log("Error getting team roster data");

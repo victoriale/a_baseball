@@ -8,7 +8,7 @@
             <h1>{{homeHeading1}}</h1>
             <h4>{{homeHeading2}}</h4>
             <div class="home-hero-info-search col-xs-4">
-              <search [placeholderText]="placeholderText"></search>
+              <search [searchInput]="searchInput"></search>
             </div>
           </div>
         </div>
@@ -23,7 +23,7 @@
             <div class="col-md-4 home-league-col" *ngFor="#division of league.dataArray">
               <h4>{{division.displayName}}</h4>
               <!-- ngFor here to get all the teams in the same division -->
-              <a [routerLink]="['Disclaimer-page']" class="home-team" *ngFor="#team of division.dataArray">
+              <a [routerLink]="team.teamRoute" class="home-team" *ngFor="#team of division.dataArray">
                 <circle-image [data]="team.imageData"></circle-image>
                 <div class="home-team-name">{{team.teamFirstName}}<p>{{team.teamLastName}}</p></div>
                 <i class="fa fa-angle-right fa-view"></i>
@@ -56,7 +56,7 @@
     <div class="home-features-title"><img src='{{imgIcon1}}' /><h2 [innerHTML]="homeFeatures"></h2></div>
 
     <div class=home-features-tiles>
-      <a [routerLink]="['Disclaimer-page']" [ngStyle]="{'background-image': 'url('+imageTile1+')'}" class="home-features-tile1"><h3>{{homeFeaturesTile1}}</h3>
+      <a [routerLink]="routerInfo1" [ngStyle]="{'background-image': 'url('+imageTile1+')'}" class="home-features-tile1"><h3>{{homeFeaturesTile1}}</h3>
         <span class="tile-button">{{homeFeaturesButton1}}</span>
       </a>
 

@@ -47,14 +47,23 @@ export class GlobalFunctions {
      * @param {string} str - The string value to convert to title case
      * @returns {string}
      */
-    toTitleCase(str:string): string {
-      if ( str === undefined || str === null ) {
-        return str;
-      }
-      return str.replace(/\w\S*/g, function(txt) {
-        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-      });
-    };
+     toTitleCase(str:string): string {
+       if ( str === undefined || str === null ) {
+         return str;
+       }
+       return str.replace(/\w\S*/g, function(txt) {
+         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+       });
+     };
+
+     static toTitleCase(str:string): string { // the above can be removed once conversion is swapped to static
+       if ( str === undefined || str === null ) {
+         return str;
+       }
+       return str.replace(/\w\S*/g, function(txt) {
+         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+       });
+     };
 
     /**
      * - Transforms a USA phone number (7 or 10 character string) to a human readable format.
@@ -174,7 +183,7 @@ export class GlobalFunctions {
      * @param {string} state - The postal state code to convert to the full state name. Case does not matter.
      * @returns {string}
      */
-    fullstate(state:string): string {
+    static fullstate(state:string): string {
         if ( state === undefined || state === null ) {
           return state;
         }
@@ -250,7 +259,7 @@ export class GlobalFunctions {
      * @returns {string}
      */
 
-    stateToAP(state: string): string {
+    static stateToAP(state: string): string {
         if ( state === undefined || state === null ) {
           return state;
         }
@@ -481,22 +490,22 @@ export class GlobalFunctions {
    * Formats the given string as English words if it's between
    * 0 and 9. Otherwise the given string is returned unchanged.
    *
-   * @param {string} numStr - The number string to format
+   * @param {number} num - The number to format
    * @returns
    */
-  static formatNumber(numStr: string) {
-   switch (numStr) {
-     case "0": return "zero";
-     case "1": return "one";
-     case "2": return "two";
-     case "3": return "three";
-     case "4": return "four";
-     case "5": return "five";
-     case "6": return "six";
-     case "7": return "seven";
-     case "8": return "eight";
-     case "9": return "nine";
-     default: return numStr;
+  static formatNumber(num: number) {
+   switch (num) {
+     case 0: return "zero";
+     case 1: return "one";
+     case 2: return "two";
+     case 3: return "three";
+     case 4: return "four";
+     case 5: return "five";
+     case 6: return "six";
+     case 7: return "seven";
+     case 8: return "eight";
+     case 9: return "nine";
+     default: return num.toString();
    }
   }
 }

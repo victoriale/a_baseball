@@ -5,7 +5,7 @@ import {ROUTER_DIRECTIVES} from "angular2/router";
     selector: 'article-main-component',
     templateUrl: './app/components/articles/main-article/main-article.component.html',
     directives: [ROUTER_DIRECTIVES],
-    inputs: ['mainTitle', 'mainContent', 'titleFontSize', 'images', 'eventType', 'mainEventID']
+    inputs: ['mainTitle', 'mainContent', 'titleFontSize', 'mainImage', 'eventType', 'mainEventID']
 })
 
 export class ArticleMainComponent {

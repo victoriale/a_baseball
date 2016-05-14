@@ -2,7 +2,7 @@
     <loading-component *ngIf="!headlineData"></loading-component>
     <module-header [modHeadData]="headerInfo"></module-header>
     <article-schedule-component [league]="league" [homeData]="homeData" [awayData]="awayData"></article-schedule-component>
-    <article-main-component [mainTitle]="mainTitle" [eventType]="eventType" [mainEventID]="mainEventID" [titleFontSize]="titleFontSize" [mainContent]="mainContent" [images]="images" [league]="league"></article-main-component>
-    <article-sub-component [randomLeftColumn]="randomLeftColumn" [images]="images" [teamID]="teamID" [league]="league"></article-sub-component>
+    <article-main-component [mainTitle]="mainTitle" [eventType]="eventType" [mainEventID]="mainEventID" [titleFontSize]="titleFontSize" [mainContent]="mainContent" [mainImage]="mainImage" [league]="league"></article-main-component>
+    <article-sub-component [randomLeftColumn]="randomLeftColumn" [teamID]="teamID" [league]="league"></article-sub-component>
     <article-head-to-head-component [arrLength]="arrLength" [randomHeadToHead]="randomHeadToHead" [teamID]="teamID" [league]="league"></article-head-to-head-component>
 </section>

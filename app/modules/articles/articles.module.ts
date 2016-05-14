@@ -12,6 +12,7 @@ import {RouteParams} from "angular2/router";
 import {ROUTER_DIRECTIVES} from "angular2/router";
 import {ModuleHeaderData} from "../../components/module-header/module-header.component";
 import {LoadingComponent} from "../../components/loading/loading.component";
+import {MLBGlobalFunctions} from "../../global/mlb-global-functions";
 
 declare var jQuery:any;
 declare var moment:any;
@@ -33,6 +34,8 @@ export class ArticlesModule implements OnInit {
     headToHeadData:any;
     randomLeftColumn:any;
     randomHeadToHead:any;
+    mainImage:string;
+    subImages:Array<any>;
     mainTitle:string;
     titleFontSize:string;
     mainContent:string;
@@ -64,7 +67,7 @@ export class ArticlesModule implements OnInit {
                     this.headlineData = HeadlineData['featuredReport'];
                     this.leftColumnData = HeadlineData['leftColumn'];
                     this.headToHeadData = HeadlineData['rightColumn'];
-                    this.imageData = HeadlineData['home'].images[0];
+                    this.imageData = HeadlineData['home'].images.concat(HeadlineData['away'].images);
                     this.eventID = HeadlineData.event;
                     this.scheduleHomeData = HeadlineData['home'];
                     this.scheduleAwayData = HeadlineData['away'];
@@ -81,10 +84,18 @@ export class ArticlesModule implements OnInit {
         var dateString = moment.unix(data.timestamp).format("MM/DD/YYYY");
         var isToday = moment(dateString).isSame(moment(), 'day');
         if (isToday) {
-            this.headerInfo.moduleTitle = "Today's Gameday Matchup Against the " + data.away.name;
+            if (this.teamID == data.home.id) {
+                this.headerInfo.moduleTitle = "Today's Gameday Matchup Against the " + data.away.location + ' ' + data.away.name;
+            } else {
+                this.headerInfo.moduleTitle = "Today's Gameday Matchup Against the " + data.home.location + ' ' + data.home.name;
+            }
         }
         else {
-            this.headerInfo.moduleTitle = moment.unix(dateString).format("dddd") + "'s Gameday Matchup Against the " + data.away.name;
+            if (this.teamID == data.home.id) {
+                this.headerInfo.moduleTitle = moment.unix(dateString).format("dddd") + "'s Gameday Matchup Against the " + data.away.location + ' ' + data.away.name;
+            } else {
+                this.headerInfo.moduleTitle = moment.unix(dateString).format("dddd") + "'s Gameday Matchup Against the " + data.home.location + ' ' + data.home.name;
+            }
         }
     }
 
@@ -96,31 +107,78 @@ export class ArticlesModule implements OnInit {
         var homeArr = [];
         var awayArr = [];
         var val = [];
-        val['homeID'] = homeData.id;
-        val['homeName'] = homeData.name;
-        val['homeHex'] = homeData.hex;
-        val['homeLogo'] = homeData.logo;
-        val['homeWins'] = homeData.wins;
-        val['homeLosses'] = homeData.losses;
-        homeArr.push(val);
-        val = [];
-        val['awayID'] = awayData.id;
-        val['awayName'] = awayData.name;
-        val['awayHex'] = awayData.hex;
-        val['awayLogo'] = {//interface is found in image-data.ts
-            imageClass: "image-62",
-            mainImage: {
-                imageUrl: awayData.logo,
-                urlRouteArray: ['Disclaimer-page'],
-                hoverText: "<i class='fa fa-mail-forward'></i>",
-                imageClass: "border-logo"
-            }
-        };
-        val['awayWins'] = awayData.wins;
-        val['awayLosses'] = awayData.losses;
+        var homeName = homeData.location + ' ' + homeData.name;
+        var awayName = awayData.location + ' ' + awayData.name;
+        if (this.teamID == homeData.id) {
+            val['homeID'] = homeData.id;
+            val['homeLocation'] = homeData.location;
+            val['homeName'] = homeData.name;
+            val['homeHex'] = homeData.hex;
+            val['homeLogo'] = homeData.logo;
+            val['homeWins'] = homeData.wins;
+            val['homeLosses'] = homeData.losses;
+            homeArr.push(val);
+            val = [];
+            val['awayID'] = awayData.id;
+            val['awayLocation'] = awayData.location;
+            val['awayName'] = awayData.name;
+            val['awayHex'] = awayData.hex;
+            let teamLink = MLBGlobalFunctions.formatTeamRoute(awayName, awayData.id);
+            val['url'] = teamLink;
+            val['awayLogo'] = {//interface is found in image-data.ts
+                imageClass: "image-62",
+                mainImage: {
+                    imageUrl: awayData.logo,
+                    urlRouteArray: teamLink,
+                    hoverText: "<i class='fa fa-mail-forward'></i>",
+                    imageClass: "border-logo"
+                }
+            };
+            val['awayWins'] = awayData.wins;
+            val['awayLosses'] = awayData.losses;
+        } else {
+            val['homeID'] = awayData.id;
+            val['homeLocation'] = awayData.location;
+            val['homeName'] = awayData.name;
+            val['homeHex'] = awayData.hex;
+            val['homeLogo'] = awayData.logo;
+            val['homeWins'] = awayData.wins;
+            val['homeLosses'] = awayData.losses;
+            homeArr.push(val);
+            val = [];
+            val['awayID'] = homeData.id;
+            val['awayLocation'] = homeData.location;
+            val['awayName'] = homeData.name;
+            val['awayHex'] = homeData.hex;
+            let teamLink = MLBGlobalFunctions.formatTeamRoute(homeName, homeData.id);
+            val['url'] = teamLink;
+            val['awayLogo'] = {//interface is found in image-data.ts
+                imageClass: "image-62",
+                mainImage: {
+                    imageUrl: homeData.logo,
+                    urlRouteArray: teamLink,
+                    hoverText: "<i class='fa fa-mail-forward'></i>",
+                    imageClass: "border-logo"
+                }
+            };
+            val['awayWins'] = homeData.wins;
+            val['awayLosses'] = homeData.losses;
+        }
         awayArr.push(val);
         this.homeData = homeArr;
         this.awayData = awayArr;
+    }
+
+    getImages(imageList, articleType) {
+        imageList.sort(function () {
+            return 0.5 - Math.random()
+        });
+        if (articleType == 'main') {
+            this.mainImage = imageList[0];
+        }
+        if (articleType == 'sub') {
+            return this.subImages = imageList;
+        }
     }
 
     getMainArticle(headlineData, imageData, eventID) {
@@ -133,14 +191,18 @@ export class ArticlesModule implements OnInit {
         this.eventType = pageIndex;
         this.mainEventID = eventID;
         var articleContent = headlineData.article[0];
-        var maxLength = 240;
+        var maxLength = 225;
         var trimmedArticle = articleContent.substring(0, maxLength);
         this.mainContent = trimmedArticle.substr(0, Math.min(trimmedArticle.length, trimmedArticle.lastIndexOf(" ")));
-        this.images = imageData;
+        var articleType = 'main';
+        this.getImages(imageData, articleType);
     }
 
     getLeftColumnArticles(leftColumnData, imageData, eventID) {
+        var articleType = 'sub';
+        this.getImages(imageData, articleType);
         var articleArr = [];
+        var imageCount = 0;
         var self = this;
         jQuery.map(leftColumnData, function (val, index) {
             switch (index) {
@@ -152,10 +214,11 @@ export class ArticlesModule implements OnInit {
                 case'injuries-home':
                 case'injuries-away':
                 case'upcoming-game':
+                    imageCount++;
                     val['title'] = val.displayHeadline;
                     val['eventType'] = index;
                     val['eventID'] = eventID;
-                    //val['photos'] = val[0].photos.url;
+                    val['images'] = self.subImages[imageCount];
                     articleArr.push(val);
                     break;
             }
@@ -164,12 +227,10 @@ export class ArticlesModule implements OnInit {
             return 0.5 - Math.random()
         });
         this.randomLeftColumn = articleArr;
-        this.images = imageData;
     }
 
     getHeadToHeadArticles(headToHeadData, eventID) {
         var articleArr = [];
-        var self = this;
         jQuery.map(headToHeadData, function (val, index) {
             switch (index) {
                 case'pitcher-player-comparison':
