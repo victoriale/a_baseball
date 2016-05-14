@@ -2,12 +2,17 @@ import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Rx';
 import {Http} from 'angular2/http';
 import {SearchComponentResult, SearchComponentData} from '../components/search/search.component';
+import {SearchPageInput} from '../modules/search-page/search-page.module';
+import {GlobalFunctions} from '../global/global-functions';
 import {MLBGlobalFunctions}  from '../global/mlb-global-functions';
 declare let Fuse: any;
 
 @Injectable()
 export class SearchService{
-    public searchJSON: any;
+    public searchJSON: any = {
+        players: [],
+        teams: []
+    };
     public searchAPI: string = 'http://dev-homerunloyal-api.synapsys.us/landingPage/search';
 
     constructor(private http: Http){
@@ -35,6 +40,10 @@ export class SearchService{
             )
     }
 
+    /*
+     *  Functions for search component
+     */
+
     //Function used by search input to get suggestions dropdown
     getSearchDropdownData(term: string){
         //TODO: Wrap in async
@@ -53,29 +62,6 @@ export class SearchService{
         return Observable.of(searchOutput);
     }
 
-    //Function to search through players. Outputs array of players that match criteria
-    searchPlayers(term, data){
-        let fuse = new Fuse(data, {
-            //Fields the search is based on
-            keys: ['playerFirstName', 'playerLastName'],
-            //At what point does the match algorithm give up. A threshold of 0.0 requires a perfect match (of both letters and location), a threshold of 1.0 would match anything.
-            threshold: 0.2
-        });
-
-        return fuse.search(term);
-    }
-
-    //Function to search through teams. Outputs array of teams that match criteria
-    searchTeams(term, data){
-        let fuse = new Fuse(data, {
-            //Fields the search is based on
-            keys: ['teamFirstName', 'teamLastName'],
-            //At what point does the match algorithm give up. A threshold of 0.0 requires a perfect match (of both letters and location), a threshold of 1.0 would match anything.
-            threshold: 0.2
-        });
-
-        return fuse.search(term);
-    }
 
     //Convert players and teams to needed dropdown array format
     resultsToDropdown(playerResults, teamResults){
@@ -129,4 +115,114 @@ export class SearchService{
 
         return searchRoute !== null ? searchRoute : ['Error-page'];
     }
+
+    /*
+     * Functions for search page
+     */
+
+    getSearchPageData(query: string){
+        let data = this.searchJSON;
+
+        //Search for players and teams
+        let playerResults = this.searchPlayers(query, data.players);
+        let teamResults = this.searchTeams(query, data.teams);
+
+        let searchResults = this.resultsToTabs(query, playerResults, teamResults);
+
+        return Observable.of(searchResults);
+    }
+
+    //Convert players and teams to tabs format
+    resultsToTabs(query, playerResults, teamResults){
+        let searchPageInput: SearchPageInput = {
+            searchComponent : {
+                placeholderText: 'Search for a player or team...',
+                hasSuggestions: false,
+                initialText: query
+            },
+            heroImage: '/app/public/homePage_hero1.png',
+            headerText: 'Discover The Latest In Baseball',
+            subHeaderText: 'Find the Players and Teams you love.',
+            query: query,
+            tabData: [
+                {
+                    tabName: 'Player (' + playerResults.length + ')',
+                    isTabDefault: true,
+                    results: []
+                },
+                {
+                    tabName: 'Team (' + teamResults.length + ')',
+                    isTabDefault: false,
+                    results: []
+                }
+            ]
+        };
+
+        playerResults.forEach(function(item){
+            let self = this;
+            console.log('hallo', this);
+            let playerName = item.playerFirstName + ' ' + item.playerLastName;
+            let title = playerName + '\'s ' + 'Player Profile';
+            let urlText = 'http://www.homerunloyal.com/';
+            urlText += '<span class="text-heavy">player/' + GlobalFunctions.toLowerKebab(item.teamName) + '/' + GlobalFunctions.toLowerKebab(playerName) + '/' + item.playerId + '</span>';
+            let url = MLBGlobalFunctions.formatPlayerRoute(item.teamName, playerName, item.playerId);
+            let regExp = new RegExp(playerName, 'g');
+            let description = item.playerDescription.replace(regExp, ('<span class="text-heavy">' + playerName + '</span>'));
+
+            searchPageInput.tabData[0].results.push({
+                title: title,
+                urlText: urlText,
+                url: url,
+                description: description
+            })
+        });
+
+        teamResults.forEach(function(item){
+            let teamName = item.teamFirstName + ' ' + item.teamLastName;
+            let title = teamName + '\'s ' + 'Team Profile';
+            let urlText = 'http://www.homerunloyal.com/';
+            urlText += '<span class="text-heavy">team/' + GlobalFunctions.toLowerKebab(teamName) + '/' + item.teamId;
+            let url = MLBGlobalFunctions.formatTeamRoute(teamName, item.teamId);
+            let regExp = new RegExp(teamName, 'g');
+            let description = item.teamDescription.replace(regExp, ('<span class="text-heavy">' + teamName + '</span>'));
+
+            searchPageInput.tabData[1].results.push({
+                title: title,
+                urlText: urlText,
+                url: url,
+                description: description
+            })
+        });
+
+        return searchPageInput;
+    }
+
+    /*
+     *  Search Functions used by both component and page
+     */
+
+    //Function to search through players. Outputs array of players that match criteria
+    searchPlayers(term, data){
+        let fuse = new Fuse(data, {
+            //Fields the search is based on
+            keys: ['playerFirstName', 'playerLastName'],
+            //At what point does the match algorithm give up. A threshold of 0.0 requires a perfect match (of both letters and location), a threshold of 1.0 would match anything.
+            threshold: 0.2
+        });
+
+        return fuse.search(term);
+    }
+
+    //Function to search through teams. Outputs array of teams that match criteria
+    searchTeams(term, data){
+        let fuse = new Fuse(data, {
+            //Fields the search is based on
+            keys: ['teamFirstName', 'teamLastName'],
+            //At what point does the match algorithm give up. A threshold of 0.0 requires a perfect match (of both letters and location), a threshold of 1.0 would match anything.
+            threshold: 0.2
+        });
+
+        return fuse.search(term);
+    }
+
 }
