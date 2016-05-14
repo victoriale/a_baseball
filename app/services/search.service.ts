@@ -5,6 +5,7 @@ import {SearchComponentResult, SearchComponentData} from '../components/search/s
 import {SearchPageInput} from '../modules/search-page/search-page.module';
 import {GlobalFunctions} from '../global/global-functions';
 import {MLBGlobalFunctions}  from '../global/mlb-global-functions';
+import {GlobalSettings} from '../global/global-settings';
 declare let Fuse: any;
 
 @Injectable()
@@ -13,8 +14,8 @@ export class SearchService{
         players: [],
         teams: []
     };
-    public searchAPI: string = 'http://dev-homerunloyal-api.synapsys.us/landingPage/search';
-
+    //public searchAPI: string = 'http://dev-homerunloyal-api.synapsys.us/landingPage/search';
+    public searchAPI: string = GlobalSettings.getApiUrl() + '/landingPage/search';
     constructor(private http: Http){
         //Get initial search JSON data
         this.getSearchJSON();
@@ -159,7 +160,6 @@ export class SearchService{
         };
 
         playerResults.forEach(function(item){
-            console.log('hallo', this);
             let playerName = item.playerFirstName + ' ' + item.playerLastName;
             let title = playerName + '\'s ' + 'Player Profile';
             let urlText = 'http://www.homerunloyal.com/';

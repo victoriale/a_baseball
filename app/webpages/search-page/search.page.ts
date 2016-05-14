@@ -34,12 +34,9 @@ export class SearchPage implements OnInit {
         self._searchService.getSearchPageData(query)
             .subscribe(
                 data => {
-                    console.log('datatatata', data);
                     self.searchPageInput = data;
                 }
             );
-
-        console.log('this', this);
     }
 
     ngOnInit() {
