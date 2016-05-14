@@ -71,7 +71,7 @@ export class ListOfListsService {
     if(data.length == 0){
       var Carousel = {
         index:'2',
-        imageConfig: self.imageData("image-150","border-large",dummyImg,'',"image-50-sub",dummyImg,'',1),
+        imageConfig: self.imageData("image-150","border-large",dummyImg,'',"image-50-sub",dummyImg,'',1, false),
         description:[
           '<p style="font-size:20px"><b>Sorry, we currently do not have any data for this list.</b><p>',
         ],
@@ -84,14 +84,14 @@ export class ListOfListsService {
         let itemData          = val.listData[0];
         let itemInfo          = val.listInfo;
         let itemTargetData    = val.targetData;
-        let itemImgUrl        = GlobalSettings.getImageUrl(itemData.imageUrl);
+        let itemImgUrl        = GlobalSettings.getImageUrl(itemTargetData.imageUrl);
         let itemRoute         = index > 0 ? dummyRoute : null;
 
         var Carousel = {
           index:'2',
-          imageConfig: self.imageData("image-150", "border-large", itemImgUrl , itemRoute,"image-50-sub", MLBGlobalFunctions.formatTeamLogo(itemData.teamName),dummyRoute, itemTargetData.rank),
+          imageConfig: self.imageData("image-150", "border-large", itemImgUrl , itemRoute,"image-50-sub", MLBGlobalFunctions.formatTeamLogo(itemTargetData.teamName),dummyRoute, itemTargetData.rank),
           description:[
-            '<p class="font-12 fw-400 lh-12 titlecase"><i class="fa fa-circle"></i> Related List - ' + itemData.playerName + '</p>',
+            '<p class="font-12 fw-400 lh-12 titlecase"><i class="fa fa-circle"></i> Related List - ' + itemTargetData.playerName + '</p>',
             '<p class="font-22 fw-900 lh-25" style="padding-bottom:16px;">'+ itemInfo.name +'</p>',
             '<p class="font-14 fw-400 lh-18" style="padding-bottom:6px;">This list contains <b>[##] player profiles</b> ranked by <b>[data point 1]</b>. <b>[Current Profile Name]</b> is <b>ranked [##] over-all</b> with a <b>[data point 1]</b> of <b>[data value]</b> for [YYYY].</p>',
             '<p class="font-10 fw-400 lh-25">Last Updated on [Day Of The Week], [Month] [Day], [YYYY]</p>'
@@ -128,6 +128,7 @@ export class ListOfListsService {
     data.forEach(function(item, index){
       let itemListData = item.listData;
       if( itemListData.length<1 ) return;
+      itemListData.unshift(item.targetData);
 
       let itemListInfo = item.listInfo;
 
@@ -161,7 +162,7 @@ export class ListOfListsService {
               imageClass      : index > 0 ? "border-1" : "border-2"
             },
             subImages         : index > 0 ? null : [{
-              text: "#"+listData.listRank,
+              text: "#"+ val.rank,
               imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
             }]
           }
@@ -172,7 +173,7 @@ export class ListOfListsService {
     return listDataArray;
   }
 
-  imageData(imageClass, imageBorder, mainImg, mainImgRoute, subImgClass?, subImg?, subRoute?, rank?){
+  imageData(imageClass, imageBorder, mainImg, mainImgRoute, subImgClass?, subImg?, subRoute?, rank?, hasHover?){
     if(typeof mainImg =='undefined' || mainImg == ''){
       mainImg = GlobalSettings.getImageUrl("/mlb/players/no-image.png");
     }
@@ -187,7 +188,7 @@ export class ListOfListsService {
       mainImage: {
         imageUrl: mainImg,
         urlRouteArray: mainImgRoute,
-        hoverText: "<p>View</p><p>Profile</p>",
+        hoverText: hasHover ? "<p>View</p><p>Profile</p>" : null,
         imageClass: imageBorder
       },
       subImages: [
