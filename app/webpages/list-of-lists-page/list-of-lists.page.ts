@@ -52,9 +52,10 @@ export class ListOfListsPage implements OnInit{
         };
     }
 
-    getListOfListsPage() {
-        //   getListOfListsService(version, type?, scope?, conference?, count?, page?){
-        this.lolService.getListOfListsService("page", null, null, null, 20, 1)
+    getListOfListsPage(limit, pageNum) {
+
+        // getListOfListsService(version, type, id, scope?, count?, page?){
+        this.lolService.getListOfListsService("page","player" , "96597", "league", limit, pageNum + 1)
           .subscribe(
             listOfListsData => {
                 this.detailedDataArray = listOfListsData.listData;
@@ -70,7 +71,7 @@ export class ListOfListsPage implements OnInit{
     }
 
     ngOnInit(){
-      this.getListOfListsPage();
+      this.getListOfListsPage( 50, this.index);
     }
 
     sanitizeListofListData(){

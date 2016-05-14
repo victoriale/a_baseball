@@ -21,13 +21,8 @@ export class ListOfListsService {
     //headers.append(this.headerName, this.apiToken);
     return headers;
   }
-  // Scope:     [league, division, conference];
-  // listType:  [player, team]
-  // veiwType:  [module, page]
 
-  // http://dev-homerunloyal-api.synapsys.us/listOfLists/team/division/2800/5/1
-  // http://dev-homerunloyal-api.synapsys.us/listOfLists/listType/scope?/2800/5/1
-  getListOfListsService(version, viewType?, listType?, scope?, conference?, count?, page?){
+  getListOfListsService(version, type?, scope?, conference?, count?, page?){
     // Configure HTTP Headers
     var headers = this.setToken();
     // Set url variables
@@ -36,7 +31,7 @@ export class ListOfListsService {
     var count = count != null ? count : 6;
     var page = page != null ? page : 1;
 
-    var callURL = this._apiUrl + '/listOfLists/player/'+ scope +'/'+ id +'/'+ count +'/' + page;
+    var callURL = this._apiUrl + '/listOfLists/player/'+ scope +'/'+ conference +'/'+ count +'/' + page;
 
     return this.http.get( callURL, {
         headers: headers
@@ -86,12 +81,15 @@ export class ListOfListsService {
       //if data is coming through then run through the transforming function for the module
       data.forEach(function(val, index){
         if( val.listData[0] == null) return;
-        let itemData = val.listData[0];
-        let itemInfo = val.listInfo;
-        //let itemInfo = val.listInfo[0];
+        let itemData          = val.listData[0];
+        let itemInfo          = val.listInfo;
+        let itemTargetData    = val.targetData;
+        let itemImgUrl        = GlobalSettings.getImageUrl(itemData.imageUrl);
+        let itemRoute         = index > 0 ? dummyRoute : null;
+
         var Carousel = {
           index:'2',
-          imageConfig: self.imageData("image-150","border-large", GlobalSettings.getImageUrl(itemData.imageUrl), dummyRoute,"image-50-sub", MLBGlobalFunctions.formatTeamLogo(itemData.teamName),dummyRoute, itemInfo.listRank),
+          imageConfig: self.imageData("image-150", "border-large", itemImgUrl , itemRoute,"image-50-sub", MLBGlobalFunctions.formatTeamLogo(itemData.teamName),dummyRoute, itemTargetData.rank),
           description:[
             '<p class="font-12 fw-400 lh-12 titlecase"><i class="fa fa-circle"></i> Related List - ' + itemData.playerName + '</p>',
             '<p class="font-22 fw-900 lh-25" style="padding-bottom:16px;">'+ itemInfo.name +'</p>',
