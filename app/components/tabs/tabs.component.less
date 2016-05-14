@@ -16,13 +16,14 @@
     text-align: center;
     padding: 0 20px;
     i{
-      visibility: hidden;
+      display: none;
     }
     &:hover {
       cursor: pointer;
     }
     &.active{
       i{
+        display: inline-block;
         visibility: visible;
         color: @activeBlue;
         padding-right: 5px;

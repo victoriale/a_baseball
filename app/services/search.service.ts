@@ -159,7 +159,6 @@ export class SearchService{
         };
 
         playerResults.forEach(function(item){
-            let self = this;
             console.log('hallo', this);
             let playerName = item.playerFirstName + ' ' + item.playerLastName;
             let title = playerName + '\'s ' + 'Player Profile';

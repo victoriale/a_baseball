@@ -11,6 +11,7 @@ import {RouteParams} from 'angular2/router';
 import {LoadingComponent} from "../../components/loading/loading.component";
 import {ErrorComponent} from "../../components/error/error.component";
 import {PaginationFooter} from "../../components/pagination-footer/pagination-footer.component";
+import {GlobalSettings} from "../../global/global-settings";
 
 declare var moment:any;
 
@@ -42,7 +43,7 @@ export class ListOfListsPage implements OnInit{
 
     constructor(private lolService:ListOfListsService){
         this.titleData = {
-            imageURL : 'http://prod-sports-images.synapsys.us/mlb/players/no-image.png',
+            imageURL : GlobalSettings.getImageUrl('/mlb/players/no-image.png'),
             text1 : 'Last Updated: ' + moment().format("dddd, MMMM DD, YYYY"),
             text2 : ' United States',
             text3 : 'Top lists - [Profile Name]',

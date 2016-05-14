@@ -12,14 +12,14 @@ import {NoDataBox} from '../../components/error/data-box/data-box.component';
 
 
 @Component({
-    selector: 'draft-history',
+    selector: 'mvp-batter',
     templateUrl: './app/modules/draft-history/draft-history.module.html',
     directives: [NoDataBox, Tab, Tabs, SliderCarousel, DetailedListItem, ModuleHeader, ModuleFooter],
     providers: [],
     inputs:['draftData', 'profHeader']
 })
 
-export class DraftHistoryModule{
+export class MVPBatter{
   @Output() tab: EventEmitter<string> = new EventEmitter();
   draftData:any;
   profHeader:any;
