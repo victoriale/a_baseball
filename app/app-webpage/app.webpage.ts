@@ -18,6 +18,7 @@ import {GlobalFunctions} from "../global/global-functions";
 import {SearchPage} from '../webpages/search-page/search.page';
 import {ModulePage} from "../webpages/module-page/module.page";
 import {ListPage} from "../webpages/list-page/list.page";
+import {SchedulesPage} from "../webpages/schedules-page/schedules.page";
 import {DraftHistoryPage} from "../webpages/draft-history-page/draft-history.page";
 import {StandingsPage} from "../webpages/standings-page/standings.page";
 import {AsyncRoute} from "angular2/router";
@@ -35,8 +36,8 @@ import {DesignPage} from "../webpages/design-page/design.page";
 @Component({
     selector: 'my-app',
     templateUrl: './app/app-webpage/app.webpage.html',
-    directives: [HeaderComponent, FooterComponent, TeamRosterPage, DraftHistoryPage, ListPage, HomePage, TeamPage, PlayerPage, DirectoryPage, 
-        AboutUsPage, ContactUsPage, DisclaimerPage, SearchPage, ComponentPage, 
+    directives: [SchedulesPage, HeaderComponent, FooterComponent, TeamRosterPage, DraftHistoryPage, ListPage, HomePage, TeamPage, PlayerPage, DirectoryPage,
+        AboutUsPage, ContactUsPage, DisclaimerPage, SearchPage, ComponentPage,
         ModulePage, RouterOutlet, ROUTER_DIRECTIVES, PlayerStatsPage, MLBPage],
     providers: [ ROUTER_DIRECTIVES, ArticleDataService, HeadlineDataService],
 })
@@ -94,8 +95,13 @@ import {DesignPage} from "../webpages/design-page/design.page";
         component: SearchPage
     },
     {
-        path: '/standings',
-        name: 'Standings-page',
+        path: '/schedules',
+        name: 'Schedules-page-league',
+        component: SchedulesPage
+    },
+    {
+        path: '/standings/:teamName/:teamId',
+        name: 'Standings-page-team',
         component: StandingsPage
     },
     {
