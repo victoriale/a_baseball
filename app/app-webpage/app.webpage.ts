@@ -177,7 +177,12 @@ import {DesignPage} from "../webpages/design-page/design.page";
         component: TablesTestPage,
     },
     {
-        path: '/list-of-lists',
+        path: '/list-of-lists/:listName/:scope/:type/:id/:limit/:pageNum',
+        name: 'List-of-lists-page-scoped',
+        component: ListOfListsPage
+    },
+    {
+        path: '/list-of-lists/:listName/:type/:id/:limit/:pageNum',
         name: 'List-of-lists-page',
         component: ListOfListsPage
     },

@@ -35,7 +35,8 @@ import {GlobalSettings} from "../../global/global-settings";
 import {DraftHistoryModule} from '../../modules/draft-history/draft-history.module';
 import {DraftHistoryService} from '../../services/draft-history.service';
 import {ArticlesModule} from "../../modules/articles/articles.module";
-
+import {ListOfListsService} from "../../services/list-of-lists.service";
+import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.module";
 
 @Component({
   selector: 'Team-page',
@@ -57,8 +58,10 @@ import {ArticlesModule} from "../../modules/articles/articles.module";
     TeamRosterModule,
     NewsModule,
     AboutUsModule,
-    ArticlesModule],
-  providers: [SchedulesService, DraftHistoryService, StandingsService, ProfileHeaderService, RosterService]
+    ArticlesModule,
+    ListOfListsModule
+  ],
+  providers: [SchedulesService, DraftHistoryService, StandingsService, ProfileHeaderService, RosterService, ListOfListsService]
 })
 
 export class TeamPage implements OnInit {
@@ -75,12 +78,16 @@ export class TeamPage implements OnInit {
 
   schedulesData: any;
 
+  profileName           : string;
+  listOfListsData       : Object; // paginated data to be displayed
+
   constructor(
     private _params: RouteParams,
     private _standingsService: StandingsService,
     private _schedulesService: SchedulesService,
     private _profileService: ProfileHeaderService,
-    private _draftService: DraftHistoryService
+    private _draftService: DraftHistoryService,
+    private _lolService: ListOfListsService
     ) {
     this.pageParams = {
       teamId: Number(_params.get("teamId")),
@@ -109,6 +116,7 @@ export class TeamPage implements OnInit {
         this.schedulesData = this._schedulesService.loadAllTabsForModule(this.pageParams);
         this.setupShareModule();
         this.draftHistoryModule(this.currentYear, this.pageParams.teamId);//neeeds profile header data will run once header data is in
+        this.setupListOfListsModule();
       },
       err => {
         console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
@@ -179,4 +187,16 @@ export class TeamPage implements OnInit {
   }
 
 
+  setupListOfListsModule() {
+    // getListOfListsService(version, type, id, scope?, count?, page?){
+    this._lolService.getListOfListsService("module","team", this.pageParams.teamId, "league", 4, 1)
+      .subscribe(
+        listOfListsData => {
+          this.listOfListsData = listOfListsData.listData;
+        },
+        err => {
+          console.log('Error: listOfListsData API: ', err);
+        }
+      );
+  }
 }
