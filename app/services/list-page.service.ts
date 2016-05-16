@@ -174,7 +174,7 @@ export class ListPageService {
         index:'2',
         imageConfig: self.imageData("image-150","border-large",dummyImg,dummyRoute, 1, 'image-38-rank',"image-50-sub"),
         description:[
-          '<p style="font-size:20px"><b>Sorry, we currently do not have any data for this particular list</b><p>',
+          '<p style="font-size:20px"><span class="text-heavy">Sorry, we currently do not have any data for this particular list</span><p>',
         ],
       };
       carouselArray.push(Carousel);
@@ -196,7 +196,7 @@ export class ListPageService {
               'image-48-rank',
               'image-50-sub'),
             description:[
-              '<p style="font-size:24px"><b>'+val.teamName+'</b></p>',
+              '<p style="font-size:24px"><span class="text-heavy">'+val.teamName+'</span></p>',
               '<p><i class="fa fa-map-marker text-master"></i>'+val.teamCity +', '+val.teamState+'</p>',
               '<br>',
               '<p style="font-size:24px"><b>'+val.stat+'</b></p>',
@@ -212,13 +212,8 @@ export class ListPageService {
           }
         }else if(data.query.profile == 'player'){
           var position = '';
-          for(var i = 0; i < val.position.length ;i++){
-            if((i+1) != val.position.length){
-              position += val.position[i] + ", ";
-            }else{
-              position += val.position[i];
-            }
-          }
+          position = val.position.join(", ");
+
           var playerFullName = val.playerFirstName + " " + val.playerLastName;
           var Carousel = {
             index:index,
@@ -234,10 +229,10 @@ export class ListPageService {
               MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
             description:[
               '<br>',
-              '<p style="font-size:24px"><b>'+playerFullName+'</b></p>',
-              '<p></i> <b> '+val.teamName+' | Jersey: #'+val.uniformNumber+' Pos: '+position+'</b></p>',
+              '<p style="font-size:24px"><span class="text-heavy">'+playerFullName+'</span></p>',
+              '<p><span class="text-heavy"> '+val.teamName+' | Jersey: #'+val.uniformNumber+' Pos: '+position+'</span></p>',
               '<br>',
-              '<p style="font-size:24px"><b>'+val.stat+'</b></p>',
+              '<p style="font-size:24px"><span class="text-heavy">'+val.stat+'</span></p>',
               '<p style="font-size:20px"> '+ carInfo.stat.replace(/-/g, ' ') +'</p>',
             ],
           };
@@ -301,13 +296,7 @@ export class ListPageService {
       }else if(data.query.profile == 'player'){
         var playerFullName = val.playerFirstName + " " + val.playerLastName;
         var position = '';
-        for(var i = 0; i < val.position.length ;i++){
-          if((i+1) != val.position.length){
-            position += val.position[i] + ", ";
-          }else{
-            position += val.position[i];
-          }
-        }
+        position = val.position.join(", ");
         var listData = {
           dataPoints: self.detailsData(
             playerFullName,
