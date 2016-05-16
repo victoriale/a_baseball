@@ -14,7 +14,6 @@
     <h1>Major League Baseball</h1>
     <ul>
         <li>Team Listings </li>
-        <!-- <li *ngFor="#listings of alphabets"><a [routerLink]='["Directory-page", {}]'>{{team.name}}</a></li> -->
         <li *ngFor="#link of teamDirectoryListings; #isLast=last">
           <a [routerLink]='link.route'>{{link.text}}</a>
           <span *ngIf="!isLast" class="separator">|</span>
@@ -37,7 +36,7 @@
       <li class="footer-text1"><a [routerLink]="['Disclaimer-page']">View All MLB Profiles</a> <i class="fa fa-caret-right"></i></li>
     </ul>
     <hr /><!--line break-->
-    <ul class="footer-text1" style="width: 70%;">
+    <ul class="footer-text1" id="set-width70">
       <li>You Might Like: </li>
       <li><a [routerLink]="['Disclaimer-page']"><b>[Profile type] with the [most/lowest] [data point] for [YYYY]</b></a> <i class="fa fa-caret-right"></i></li>
       <li><a [routerLink]="['Disclaimer-page']"><b>[Profile type] with the [most/lowest] [data point] for [YYYY]</b></a> <i class="fa fa-caret-right"></i></li>
