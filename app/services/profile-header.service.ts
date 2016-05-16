@@ -50,6 +50,8 @@ interface PlayerProfileHeaderData {
     lastUpdate: string;
     playerHeadshot: string;
     backgroundImage: string;
+    draftTeam: string;
+    draftYear: string;
   };
   stats: {
     //Pitcher stats
@@ -99,13 +101,14 @@ interface TeamProfileHeaderData {
     profileImage: string;
     backgroundImage: string;
     lastUpdated: string;
+    teamFirstName: string;
+    teamLastName: string;
+    teamVenue: string;
+    teamCity: string;
+    teamState: string;
     stats: {
-      // city: string; //NEED
-      // state: string; //NEED
       teamId: number;
       teamName: string;
-      teamFirstName: string;
-      teamLastName: string;
       seasonId: string;
       totalWins: number;
       totalLosses: number;
@@ -275,8 +278,50 @@ export class ProfileHeaderService {
     var headerData = data.headerData;
     var stats = headerData.stats;
     var info = headerData.info;
-
-    var description = headerData.description;
+    
+    var formattedStartDate = info.draftYear ? info.draftYear : "N/A"; //[September 18, 2015]
+    var formattedYearsInMLB = "N/A"; //[one]
+    var yearPluralStr = "years";
+    if ( info.draftYear ) {
+      var currentYear = (new Date()).getFullYear();
+      var yearsInMLB = (currentYear - Number(info.draftYear));      
+      formattedYearsInMLB = GlobalFunctions.formatNumber(yearsInMLB);
+      if ( yearsInMLB == 1 ) {
+        yearPluralStr = "year";
+      }
+    }
+    
+    var location = "N/A"; //[Wichita], [Kan.]
+    if ( info.city && info.area ) {
+      location = info.city + ", " + info.area;
+    }
+    
+    var formattedBirthDate = "N/A"; //[October] [3], [1991]
+    if ( info.birthDate ) {
+      formattedBirthDate = moment(info.birthDate).format("MMMM D, YYYY");
+    }
+    var formattedAge = info.age ? info.age.toString() : "N/A";
+    
+    var formattedHeight = "N/A"; //[6-foot-11]
+    if ( info.height ) {
+      var parts = info.height.split("-");
+      formattedHeight = parts.join("-foot-");
+    }
+    
+    var formattedWeight = info.weight ? info.weight.toString() : "N/A";
+    
+    var description = "<span class='text-heavy'>" + info.playerName +
+                  "</span> started his MLB career in <span class='text-heavy'>" + formattedStartDate +
+                  "</span> for the <span class='text-heavy'>" + info.teamName +
+                  "</span>, accumulating <span class='text-heavy'>" + formattedYearsInMLB +
+                  "</span> " + yearPluralStr + " in the MLB. <span class='text-heavy'>" + info.playerName +
+                  "</span> was born in <span class='text-heavy'>" + location +
+                  "</span> on <span class='text-heavy'>" + formattedBirthDate +
+                  "</span> and is <span class='text-heavy'>" + formattedAge +
+                  "</span> years old, with a height of <span class='text-heavy'>" + formattedHeight + 
+                  "</span> and weighing in at <span class='text-heavy'>" + formattedWeight +
+                  "</span> pounds.";
+    
     var dataPoints: Array<DataItem>;
     var isPitcher = headerData.info.position.filter(value => value === "P").length > 0;
 
@@ -366,23 +411,41 @@ export class ProfileHeaderService {
   }
 
   convertToTeamProfileHeader(data: TeamProfileData): ProfileHeaderData {
-    var description = data.headerData.description;
+    var headerData = data.headerData;
     var stats = data.headerData.stats;
 
     if (!stats) {
       return null;
     }
+    
+    //The [Atlanta Braves] play in [Turner Field] located in [Atlanta, GA]. The [Atlanta Braves] are part of the [NL East].
+    var location = "N/A";
+    if ( headerData.teamCity && headerData.teamState ) {
+      location = headerData.teamCity + ", " + headerData.teamState;
+    } 
+    
+    var group = "N/A";
+    if ( stats.division && stats.conference ) {
+      if ( stats.conference.name == "American" ) {
+        group = "AL ";
+      }
+      else if ( stats.conference.name == "National" ) {
+        group = "NL ";
+      }
+      else {
+        group = stats.conference.name + " ";
+      }
+      group += stats.division.name;
+    } 
+    
+    var venue = headerData.teamVenue ? headerData.teamVenue : "N/A";
+    var description = "The <span class='text-heavy'>" + stats.teamName +
+                      "</span> play in <span class='text-heavy'>" + venue + 
+                      "</span> located in <span class='text-heavy'>" + location +
+                      "</span>. The <span class='text-heavy'>" + stats.teamName +
+                      "</span> are part of the <span class='text-heavy'>" + group +
+                       "</span>.";
 
-    var teamName = stats.teamName ? stats.teamName : "N/A";
-
-    //TODO-CJP: get from API
-    var firstPart = stats.teamFirstName;
-    var lastPart = stats.teamLastName;
-    if ( !firstPart || !lastPart ) {
-      var lastSpaceIndex = teamName.lastIndexOf(" ");
-      firstPart = lastSpaceIndex >= 0 ? teamName.substring(0, lastSpaceIndex) : "";
-      lastPart = lastSpaceIndex >= 0 ? teamName.substring(lastSpaceIndex+1) : teamName;
-    }
     var formattedEra = null;
     if ( stats.pitching ) {
       if ( stats.pitching.era > 1 ) {
@@ -397,8 +460,8 @@ export class ProfileHeaderService {
       profileName: stats.teamName,
       profileImageUrl: data.fullProfileImageUrl,
       backgroundImageUrl: data.fullBackgroundImageUrl,
-      profileTitleFirstPart: firstPart,
-      profileTitleLastPart: lastPart,
+      profileTitleFirstPart: data.headerData.teamFirstName,
+      profileTitleLastPart: data.headerData.teamLastName,
       lastUpdatedDate: moment(data.headerData.lastUpdated),
       description: description,
       topDataPoints: [
@@ -475,19 +538,19 @@ export class ProfileHeaderService {
       bottomDataPoints: [
         {
           label: "Total Teams:",
-          value: data.totalTeams ? data.totalTeams.toString() : null
+          value: data.totalTeams != null ? data.totalTeams.toString() : null
         },
         {
           label: "Total Players:",
-          value: data.totalPlayers ? data.totalPlayers.toString() : null
+          value: data.totalPlayers != null ? data.totalPlayers.toString() : null
         },
         {
           label: "Total Divisions:",
-          value: data.totalDivisions ? data.totalDivisions.toString() : null
+          value: data.totalDivisions != null ? data.totalDivisions.toString() : null
         },
         {
           label: "Total Leagues:",
-          value: data.totalLeagues ? data.totalLeagues.toString() : null
+          value: data.totalLeagues != null ? data.totalLeagues.toString() : null
         }
       ]
     }

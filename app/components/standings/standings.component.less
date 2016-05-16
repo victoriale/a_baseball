@@ -2,13 +2,19 @@
   &-car {
     &-subhdr {
       .globalDefaultModFont(12px, 400, @white);
-      margin-bottom: 16px;
+      margin-bottom: 12px;
+      line-height: 14px;
       text-transform: uppercase;
+      
+      .fa {
+        color: @masterBrandColor;
+        padding-right: 8px;
+      }
     }
 
     &-hdr {
-      .globalDefaultModFont(22px, 900, @white);
-      margin-bottom: 8px;
+      .globalDefaultModFont(22px, 800, @white);
+      margin-bottom: 12px;
     }
 
     &-desc {
@@ -28,7 +34,7 @@
   }
 
   .pane {
-    padding-top: 12px;
+    padding-top: 10px;
 
     h4 {
       margin-top: 16px;
@@ -37,7 +43,7 @@
     }
 
     div:first-child h4 {
-      margin-top: 0;
+      margin-top: 0px;
     }
   }
 }

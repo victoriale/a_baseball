@@ -7,7 +7,7 @@
             <a *ngIf="i<6" class="recommendations-articles-six article"
                [routerLink]="['Article-pages', {eventType: data.eventType, eventID: data.eventID}]" title="{{data.title}}">
                 <span class="articleBoxMedium">
-                    <img class="recommendations-articles-six-image" src="{{images}}"/>
+                    <img class="recommendations-articles-six-image" src="{{data.images}}"/>
                     <div>
                         <p>View Article</p>
                     </div>

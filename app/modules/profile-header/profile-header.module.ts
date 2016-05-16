@@ -70,7 +70,7 @@ export class ProfileHeaderModule implements OnChanges {
           data.profileImageUrl = "/app/public/no-image.png";
         }
         this.imageConfig.mainImage.imageUrl = data.profileImageUrl;
-        this.backgroundImage =  "url(" + data.backgroundImageUrl + ") no-repeat center rgba(0,0,0,.65)";
+        this.backgroundImage =  "url(" + data.backgroundImageUrl + ")";
         this.contentTitle = "Quick info about " + data.profileName;
         this.profileTitle = data.profileTitleFirstPart + "<span class='text-heavy'> " + data.profileTitleLastPart + "</span>";
         this.displayDate = GlobalFunctions.formatUpdatedDate(data.lastUpdatedDate);

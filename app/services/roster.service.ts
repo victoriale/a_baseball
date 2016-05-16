@@ -4,10 +4,11 @@ import {Http, Headers} from 'angular2/http';
 import {GlobalFunctions} from '../global/global-functions';
 import {RosterTableModel, RosterTabData, TeamRosterData} from '../services/roster.data';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
+import {GlobalSettings} from '../global/global-settings';
 
 @Injectable()
 export class RosterService {
-  private _apiUrl: string = 'http://dev-homerunloyal-api.synapsys.us';
+  private _apiUrl: string = GlobalSettings.getApiUrl();
   constructor(public http: Http){}
 
   setToken(){

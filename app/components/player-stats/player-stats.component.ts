@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, DoCheck, OnChanges} from 'angular2/core';
+import {Component, Input, OnInit, DoCheck, Output, EventEmitter} from 'angular2/core';
 
 import {SliderCarousel, SliderCarouselInput} from '../carousels/slider-carousel/slider-carousel.component';
 import {Tabs} from '../tabs/tabs.component';
@@ -24,20 +24,47 @@ export interface StatsTableTabData<T> {
   templateUrl: "./app/components/player-stats/player-stats.component.html",
   directives: [SliderCarousel, Tabs, Tab, CustomTable, DropdownComponent],
 })
-export class PlayerStatsComponent implements OnChanges {  
+export class PlayerStatsComponent implements DoCheck {  
   public selectedIndex;
 
   public carouselData: Array<SliderCarouselInput> = [];
 
   @Input() tabs: Array<StatsTableTabData<any>>;
   
+  @Output("tabSelected") tabSelectedListener = new EventEmitter(); 
+  
   private selectedTabTitle: string;
+  private tabsLoaded: {[key: string]: string};
 
   constructor() {}
   
-  ngOnChanges() {
-    if ( this.tabs != undefined && this.tabs.length > 0 ) {
-      this.tabSelected(this.tabs[0].tabTitle);
+  // ngOnChanges() {
+  //   if ( this.tabs != undefined && this.tabs.length > 0 ) {
+  //     this.tabSelected(this.tabs[0].tabTitle);
+  //   }
+  // }
+  
+  ngDoCheck() {
+    if ( this.tabs && this.tabs.length > 0 ) {
+      if ( !this.tabsLoaded  ) {
+        this.tabsLoaded = {};
+        var selectedTitle = this.tabs[0].tabTitle;
+        this.tabs.forEach(tab => {
+          // this.setSelectedCarouselIndex(tab, 0);
+          if ( tab.isActive ) {
+            selectedTitle = tab.tabTitle;
+          }
+        });
+        this.tabSelected(selectedTitle);
+      }
+      else {
+        for ( var i = 0; i < this.tabs.length; i++ ) {
+          if ( this.tabs[i].tableData && !this.tabsLoaded[i] ) {
+            this.updateCarousel();
+            this.tabsLoaded[i] = "1";
+          }
+        }
+      }
     }
   }
   
@@ -62,6 +89,7 @@ export class PlayerStatsComponent implements OnChanges {
   
   tabSelected(newTitle) {
     this.selectedTabTitle = newTitle;
+    this.tabSelectedListener.next(this.getSelectedTab());
     this.updateCarousel();
   }
   
@@ -79,7 +107,7 @@ export class PlayerStatsComponent implements OnChanges {
   
   updateCarousel(sortedRows?) {
     var selectedTab = this.getSelectedTab();
-    if ( !selectedTab ) {
+    if ( !selectedTab || !selectedTab.tableData ) {
       return;
     }
        

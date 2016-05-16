@@ -11,20 +11,23 @@ import {ArticleContentComponent} from "../../../components/articles/article-cont
 import {DisqusComponent} from "../../../components/articles/disqus/disqus.component";
 import {ArticleDataService} from "../../../global/global-article-page-service";
 import {GlobalFunctions} from "../../../global/global-functions";
+import {LoadingComponent} from "../../../components/loading/loading.component";
+import {ImagesMedia} from "../../../components/carousels/images-media-carousel/images-media-carousel.component";
 
 declare var jQuery:any;
 
 @Component({
     selector: 'article-pages',
     templateUrl: './app/webpages/articles/article-pages/article-pages.page.html',
-    directives: [WidgetModule, ROUTER_DIRECTIVES, ArticleImages, ShareLinksComponent, ArticleContentComponent, RecommendationsComponent, TrendingComponent, DisqusComponent],
+    directives: [WidgetModule, ROUTER_DIRECTIVES, ImagesMedia, ShareLinksComponent, ArticleContentComponent, RecommendationsComponent, TrendingComponent, DisqusComponent, LoadingComponent],
     providers: [],
 })
 
 export class ArticlePages implements OnInit {
     articleData:ArticleData;
     randomHeadlines:any;
-    images:any;
+    imageData:any;
+    images:Array<any>;
     eventID:string;
     eventType:string;
     title:string;
@@ -66,13 +69,24 @@ export class ArticlePages implements OnInit {
                 HeadlineData => {
                     this.pageIndex = this.eventType;
                     this.eventID = HeadlineData.event;
-                    this.getRandomArticles(HeadlineData, this.pageIndex, this.eventID);
+                    this.imageData = HeadlineData['home'].images.concat(HeadlineData['away'].images);
+                    this.getRandomArticles(HeadlineData, this.pageIndex, this.eventID, this.imageData);
                 }
             );
     }
 
-    getRandomArticles(recommendations, pageIndex, eventID) {
+    getImages(imageList) {
+        imageList.sort(function () {
+            return 0.5 - Math.random()
+        });
+        return this.images = imageList;
+    }
+
+    getRandomArticles(recommendations, pageIndex, eventID, imageData) {
+        this.getImages(imageData);
         var recommendArr = [];
+        var imageCount = 0;
+        var self = this;
         jQuery.map(recommendations.leftColumn, function (val, index) {
             if (pageIndex != index) {
                 switch (index) {
@@ -87,12 +101,14 @@ export class ArticlePages implements OnInit {
                         val['title'] = val.displayHeadline;
                         val['eventType'] = index;
                         val['eventID'] = eventID;
-                        //val['photos'] = val[0].photos.url;
+                        val['images'] = self.images[imageCount];
                         recommendArr.push(val);
+                        imageCount++;
                         break;
                 }
             }
         });
+        imageCount = 0;
         jQuery.map(recommendations.rightColumn, function (val, index) {
             if (pageIndex != index) {
                 switch (index) {
@@ -115,7 +131,9 @@ export class ArticlePages implements OnInit {
                         val['title'] = val.displayHeadline;
                         val['eventType'] = index;
                         val['eventID'] = eventID;
+                        val['images'] = self.images[imageCount];
                         recommendArr.push(val);
+                        imageCount++;
                         break;
                 }
             }
@@ -148,6 +166,9 @@ export class ArticlePages implements OnInit {
                 this.articleType = 'playerRoster';
                 break;
             case'pitcher-player-comparison':
+                this.articleType = 'playerComparison';
+                this.articleSubType = 'pitcher';
+                break;
             case'catcher-player-comparison':
             case'first-base-player-comparison':
             case'second-base-player-comparison':

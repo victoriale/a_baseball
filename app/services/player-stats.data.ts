@@ -8,31 +8,31 @@ import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 export interface PlayerStatsData {
   teamName: string,
   teamId: number;
-  teamImageUrl: string,
+  teamLogo: string,
   playerName: string;
   playerId: number;
-  playerImageUrl: string;
-  seasionId: string;
+  playerHeadshot: string;
+  seasonId: string;
   lastUpdatedDate: Date,
   
   //Batting Stats
-  battingAverage: number;
-  homeRuns: number;
-  runsBattedIn: number;
-  sluggingPercent: number;
-  hits: number;
-  walks: number;
+  batAverage: number;
+  batHomeRuns: number;
+  batRbi: number;
+  batSluggingPercentage: number;
+  batHits: number;
+  batBasesOnBalls: number;
+  batOnBasePercentage: number;
   
   //Pitching Stats
-  onBasePercent: number;
-  earnedRunAverage: number;
-  wins: number;
-  losses: number;
-  strikeouts: number;
-  inningsPitched: number;
-  walksPitched: number;
-  whip: number;
-  saves: number;
+  pitchEra: number;
+  pitchWins: number;
+  pitchLosses: number;
+  pitchStrikeouts: number;
+  pitchInningsPitched: number;
+  pitchBasesOnBalls: number;
+  pitchWhip: number;
+  pitchSaves: number;
   
   /**
    * - Formatted from the lastUpdatedDate
@@ -92,30 +92,32 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
         {key: "SLG", value: "Slugging Percentage"}
       ];
     }
+    this.selectedSeasonId = new Date().getFullYear().toString();
+    this.tableData = {};
   }  
 
   convertToCarouselItem(item: PlayerStatsData, index:number): SliderCarouselInput {
     var subheader = "Current " + item.teamName + " Player Stats";
     var description = "";
     if ( this.isPitcherTable ) {
-      description = item.playerName + " has a <span class='text-heavy'>" + item.earnedRunAverage + 
-                    " ERA</span> with <span class='text-heavy'>" + item.strikeouts + 
-                    " Strikeouts</span>, <span class='text-heavy'>" + item.wins + 
-                    " Wins</span> and a <span class='text-heavy'>" + item.saves + 
+      description = item.playerName + " has a <span class='text-heavy'>" + item.pitchEra + 
+                    " ERA</span> with <span class='text-heavy'>" + item.pitchStrikeouts + 
+                    " Strikeouts</span>, <span class='text-heavy'>" + item.pitchWins + 
+                    " Wins</span> and a <span class='text-heavy'>" + item.pitchLosses + 
                     " Saves</span>.";
     }
     else {
-      description = item.playerName + " has a <span class='text-heavy'>" + item.battingAverage + 
-                    " Batting Average</span> with <span class='text-heavy'>" + item.homeRuns + 
-                    " Homeruns</span>, <span class='text-heavy'>" + item.runsBattedIn + 
-                    " RBI's</span> and a <span class='text-heavy'>" + item.sluggingPercent + 
+      description = item.playerName + " has a <span class='text-heavy'>" + item.batAverage + 
+                    " Batting Average</span> with <span class='text-heavy'>" + item.batHomeRuns + 
+                    " Homeruns</span>, <span class='text-heavy'>" + item.batRbi + 
+                    " RBI's</span> and a <span class='text-heavy'>" + item.batSluggingPercentage + 
                     " Slugging Percentage</span>.";
     }
     return {
       index: index,
       //backgroundImage: null, //optional
       description: [
-        "<div class='stats-car-subhdr'>" + subheader + "</div>",
+        "<div class='stats-car-subhdr'><i class='fa fa-circle'></i> " + subheader + "</div>",
         "<div class='stats-car-hdr'>" + item.playerName + "</div>",
         "<div class='stats-car-desc'>" + description + "</div>",
         "<div class='stats-car-date'>Last Updated On " + item.displayDate + "</div>"
@@ -190,7 +192,7 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
         headerValue: "BB",
         columnClass: "data-column",
         isNumericType: true,
-        key: "bb"
+        key: "pbb"
       },{
         headerValue: "WHIP",
         columnClass: "data-column",
@@ -233,7 +235,7 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
         headerValue: "BB",
         columnClass: "data-column",
         isNumericType: true,
-        key: "bb"
+        key: "bbb"
       },{
         headerValue: "OBA",
         columnClass: "data-column",
@@ -270,60 +272,60 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
       
       //BATTING
       case "hr": 
-        s = item.homeRuns ? item.homeRuns.toString() : null;
+        s = item.batHomeRuns ? item.batHomeRuns.toString() : null;
         break;
       
       case "ba": 
-        s = item.battingAverage ? item.battingAverage.toString() : null;
+        s = item.batAverage ? item.batAverage.toString() : null;
         break;
       
       case "rbi": 
-        s = item.runsBattedIn ? item.runsBattedIn.toString() : null;
+        s = item.batRbi ? item.batRbi.toString() : null;
         break;
       
       case "h": 
-        s = item.hits ? item.hits.toString() : null;
+        s = item.batHits ? item.batHits.toString() : null;
         break;
       
-      case "bb": 
-        s = this.isPitcher ?
-          (item.walksPitched ? item.walksPitched.toString() : null) : 
-          (item.walks ? item.walks.toString() : null);
+      case "bbb": 
+        s = item.batBasesOnBalls ? item.batBasesOnBalls.toString() : null;
         break;
       
       case "obp": 
-        s = item.onBasePercent ? item.onBasePercent.toString() : null;
+        s = item.batOnBasePercentage ? item.batOnBasePercentage.toString() : null;
         break;
       
       case "slg": 
-        s = item.sluggingPercent ? item.sluggingPercent.toString() : null;
+        s = item.batSluggingPercentage ? item.batSluggingPercentage.toString() : null;
         break;
       
       //PITCHING
       case "wl": 
-        s = item.wins && item.losses ? item.wins + "/" + item.losses : null;
+        s = item.pitchWins != null && item.pitchLosses != null ? item.pitchWins + "/" + item.pitchLosses : null;
         break;
       
       case "ip": 
-        s = item.inningsPitched ? item.inningsPitched.toString() : null;
+        s = item.pitchInningsPitched != null ? item.pitchInningsPitched.toString() : null;
         break;
       
       case "so": 
-        s = item.strikeouts ? item.strikeouts.toString() : null;
+        s = item.pitchStrikeouts != null ? item.pitchStrikeouts.toString() : null;
         break;
       
       case "era": 
-        s = item.earnedRunAverage ? item.earnedRunAverage.toString() : null;
+        s = item.pitchEra != null ? item.pitchEra.toString() : null;
         break;
         
-      //case "bb" : see above
+      case "pbb": 
+        s = item.pitchBasesOnBalls ? item.pitchBasesOnBalls.toString() : null;
+        break;
       
       case "whip": 
-        s = item.whip ? item.whip.toString() : null;
+        s = item.pitchWhip != null ? item.pitchWhip.toString() : null;
         break;
       
       case "sv": 
-        s = item.saves ? item.saves.toString() : null;
+        s = item.pitchSaves != null ? item.pitchSaves.toString() : null;
         break;
     }    
     return s;
@@ -337,60 +339,62 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
         break;
       
       case "hr": 
-        o = Number(item.homeRuns);
+        o = Number(item.batHomeRuns);
         break;
       
       case "ba": 
-        o = Number(item.battingAverage);
+        o = Number(item.batAverage);
         break;
       
       case "rbi": 
-        o = Number(item.runsBattedIn);
+        o = Number(item.batRbi);
         break;
       
       case "h": 
-        o = Number(item.hits);
+        o = Number(item.batHits);
         break;
       
-      case "bb": 
-        o = Number(item.walks);
+      case "bbb": 
+        o = Number(item.batBasesOnBalls);
         break;
       
       case "obp": 
-        o = Number(item.onBasePercent);
+        o = Number(item.batOnBasePercentage);
         break;
       
       case "slg": 
-        o = Number(item.sluggingPercent);
+        o = Number(item.batSluggingPercentage);
         break;     
       
       //PITCHING
       case "wl": 
-        var wins = item.wins + "";
-        var losses = item.losses + "";
+        var wins = item.pitchWins + "";
+        var losses = item.pitchLosses + "";
         o = ('00000' + wins).substr(wins.length) + "/" + ('00000' + losses).substr(losses.length); //pad with zeros
         break;
       
       case "ip": 
-        o = Number(item.inningsPitched);
+        o = Number(item.pitchInningsPitched);
         break;
       
       case "so": 
-        o = Number(item.strikeouts);
+        o = Number(item.pitchStrikeouts);
         break;
       
       case "era": 
-        o = Number(item.earnedRunAverage);
+        o = Number(item.pitchEra);
         break;
         
-      //case "bb" : see above
+      case "pbb": 
+        o = Number(item.pitchBasesOnBalls);
+        break;
       
       case "whip": 
-        o = Number(item.whip);
+        o = Number(item.pitchWhip);
         break;
       
       case "sv": 
-        o = Number(item.saves);
+        o = Number(item.pitchSaves);
         break;
     }    
     return o;

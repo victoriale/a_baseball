@@ -18,46 +18,12 @@
 .schedule {
   width: 100%;
   height: 100px;
-  background-color: @black;
+  background-color: #363636;
   position: relative;
   &-next {
     height: 100px;
     width: 680px;
     position: relative;
-    &-bkgrnd {
-      background-color: @black;
-    }
-    &-b {
-      font-family: @globalFont;
-      font-weight: 600;
-      font-style: normal;
-    }
-    &-l {
-      font-family: @globalFont;
-      font-weight: 300;
-      font-style: normal;
-    }
-    &-t {
-      font-family: @globalFont;
-      font-weight: 300;
-      font-style: normal;
-    }
-    &-lg //The left gradient
-    {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 340px;
-      height: 100px;
-    }
-    &-rg //The right gradient
-    {
-      position: absolute;
-      top: 0;
-      left: 340px;
-      width: 340px;
-      height: 100px;
-    }
     &-circle {
       height: 64px;
       width: 64px;
@@ -69,10 +35,10 @@
       background-clip: padding-box;
       position: absolute;
       top: 15px;
-      &-l {
+      &-left {
         left: 245px;
       }
-      &-r {
+      &-right {
         right: 245px;
       }
     }
@@ -87,7 +53,7 @@
       overflow: hidden;
       color: #ffffff;
       text-transform: uppercase;
-      &-l {
+      &-left {
         left: 0;
         text-align: right;
         z-index: 1;
@@ -98,7 +64,7 @@
           display: inline-block;
         }
       }
-      &-r {
+      &-right {
         right: 0;
         text-align: left;
         z-index: 1;
@@ -112,12 +78,21 @@
           }
         }
       }
-      &-b {
-        font-size: 16px;
+      &-name {
+        .globalDefaultFont(16px, 400);
         line-height: 22px;
         width: 125px;
         text-overflow: ellipsis;
         overflow: hidden;
+        &-bold {
+          font-weight: 800;
+        }
+      }
+      &-record{
+        font-weight: 400;
+        &-bold {
+          font-weight: 800;
+        }
       }
     }
     &-vs {

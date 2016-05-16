@@ -5,9 +5,10 @@ import {GlobalFunctions} from '../global/global-functions';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalSettings} from '../global/global-settings';
 
+declare var moment;
 @Injectable()
 export class ListPageService {
-  private _apiUrl: string = 'http://dev-homerunloyal-api.synapsys.us';
+  private _apiUrl: string = GlobalSettings.getApiUrl();
   // private _apiToken: string = 'BApA7KEfj';
   // private _headerName: string = 'X-SNT-TOKEN';
 
@@ -51,10 +52,9 @@ export class ListPageService {
     )
     .map(
       data => {
-        console.log(data);
         data.data['query'] = query;
         return {
-          profHeader: this.profileHeader(data.data.listInfo),
+          profHeader: this.profileHeader(data.data),
           carData: this.carDataPage(data.data),
           listData: this.detailedData(data.data),
           pagination: data.data.listInfo
@@ -67,12 +67,13 @@ export class ListPageService {
   }
 
   profileHeader(data){
-    // console.log('list profile header',data);
+    console.log(data);
+    var profile = data.listInfo;
     var profileData = {
       imageURL: '/app/public/mainLogo.png', //TODO
-      text1: 'Last Updated:', //TODO
+      text1: 'Last Updated: '+ moment(data.listData[0].lastUpdate).format('dddd, MMMM Do, YYYY') + ' at ' + moment(data.listData[0].lastUpdate).format('hh:mm A') + ' ET', //TODO
       text2: 'United States',
-      text3: data.name,
+      text3: profile.name,
       icon: 'fa fa-map-marker',
       hasHover : true,
     };
@@ -93,7 +94,7 @@ export class ListPageService {
     if(carData.length == 0){
       var Carousel = {// dummy data if empty array is sent back
         index:'2',
-        imageConfig: self.imageData("image-150","border-large",dummyImg,dummyRoute, 1,"image-50-sub"),
+        imageConfig: self.imageData("image-150","border-large",dummyImg,dummyRoute, 1, 'image-38-rank',"image-50-sub"),
         description:[
           '<p style="font-size:20px"><b>Sorry, we currently do not have any data for this particular list</b><p>',
         ],
@@ -114,17 +115,18 @@ export class ListPageService {
               GlobalSettings.getImageUrl(val.teamLogo),
               MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
               val.listRank,
+              'image-48-rank',
               'image-50-sub'),
             description:[
               '<p style="font-size:24px"><b>'+val.teamName+'</b></p>',
-              '<p><i class="fa fa-map-marker text-master"></i>'+val.teamVenue+'</p>',
+              '<p><i class="fa fa-map-marker text-master"></i> Hometown:'+val.teamCity +', '+val.teamState+'</p>',
               '<br>',
               '<p style="font-size:24px"><b>'+val.stat+'</b></p>',
               '<p style="font-size:20px"> '+ carInfo.stat.replace(/-/g, ' ') +'</p>',
             ],
             footerInfo: {
               infoDesc:'Interested in discovering more about this team?',
-              text:'VIEW PROFILE',
+              text:'View Profile',
               url:MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
             }
           };
@@ -138,20 +140,21 @@ export class ListPageService {
               GlobalSettings.getImageUrl(val.imageUrl),
               MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId),
               val.listRank,
+              'image-48-rank',
               'image-50-sub',
               GlobalSettings.getImageUrl(val.teamLogo),
               MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
             description:[
               '<br>',
               '<p style="font-size:24px"><b>'+playerFullName+'</b></p>',
-              '<p><i class="fa fa-map-marker text-master"></i> <b>'+val.teamName+'</b></p>',
+              '<p><i class="fa fa-map-marker text-master"></i> <b>'+val.teamName+' Jersey: [##] Pos:[##]'+'</b></p>',
               '<br>',
               '<p style="font-size:24px"><b>'+val.stat+'</b></p>',
               '<p style="font-size:20px"> '+ carInfo.stat.replace(/-/g, ' ') +'</p>',
             ],
             footerInfo: {
               infoDesc:'Interested in discovering more about this player?',
-              text:'VIEW PROFILE',
+              text:'View Profile',
               url:MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId),
             }
           };
@@ -185,9 +188,20 @@ export class ListPageService {
       val.listRank = rank;
       if(data.query.profile == 'team'){
         var listData = {
-          dataPoints: self.detailsData(val.teamName,(val.stat),MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),val.teamVenue, self.globalFunc.toTitleCase(detailInfo.stat.replace(/-/g, ' ')) , MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
+          dataPoints: self.detailsData(
+            val.teamName,
+            (val.stat),
+            MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
+            'Hometown: '+val.teamCity +', '+val.teamState,
+            self.globalFunc.toTitleCase(detailInfo.stat.replace(/-/g, ' ')) ,
+            MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
           imageConfig: self.imageData("image-121","border-2",
-          GlobalSettings.getImageUrl(val.teamLogo),MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId), val.listRank, 'image-50-sub'),
+          GlobalSettings.getImageUrl(
+            val.teamLogo),
+            MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
+            val.listRank,
+            'image-38-rank',
+            'image-40-sub'),
           hasCTA:true,
           ctaDesc:'Want more info about this team?',
           ctaBtn:'',
@@ -201,23 +215,24 @@ export class ListPageService {
             playerFullName,
             (val.stat),
             MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId),
-            val.teamName,
+            val.teamName +' Jersey: [##] Pos:[##]',
             self.globalFunc.toTitleCase(detailInfo.stat.replace(/-/g, ' ')),
-            MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId)),
+            MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
           imageConfig: self.imageData(
             "image-121",
             "border-2",
             GlobalSettings.getImageUrl(val.imageUrl),
             MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId),
             val.listRank,
-            'image-50-sub',
+            'image-38-rank',
+            'image-40-sub',
             GlobalSettings.getImageUrl(val.teamLogo),
             MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
           hasCTA:true,
           ctaDesc:'Want more info about this player?',
           ctaBtn:'',
           ctaText:'View Profile',
-          ctaUrl: MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)
+          ctaUrl: MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId)
         };
       }
 
@@ -231,7 +246,7 @@ export class ListPageService {
    *this function will have inputs of all required fields that are dynamic and output the full
   **/
   //TODO replace data points for list page
-  imageData(imageClass, imageBorder, mainImg, mainImgRoute, rank, subImgClass, subImg?, subRoute?){
+  imageData(imageClass, imageBorder, mainImg, mainImgRoute, rank, rankClass, subImgClass, subImg?, subRoute?){
     if(typeof mainImg =='undefined' || mainImg == ''){
       mainImg = "/app/public/no-image.png";
     }
@@ -258,7 +273,7 @@ export class ListPageService {
           },
           {
             text: "#"+rank,
-            imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
+            imageClass: rankClass+" image-round-upper-left image-round-sub-text"
           }
         ],
     };
@@ -273,7 +288,7 @@ export class ListPageService {
           },
           {
               text: "#"+rank,
-              imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
+              imageClass: rankClass+" image-round-upper-left image-round-sub-text"
           }
       ];
     }

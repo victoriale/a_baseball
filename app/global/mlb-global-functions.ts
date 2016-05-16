@@ -1,6 +1,7 @@
 import {Injectable} from 'angular2/core';
 import {GlobalFunctions} from './global-functions';
 import {Division, Conference} from './global-interface';
+import {GlobalSettings} from "./global-settings";
 @Injectable()
 
 export class MLBGlobalFunctions {
@@ -96,7 +97,7 @@ export class MLBGlobalFunctions {
     if(inputTeamName != null) {
       let teamName = inputTeamName.replace(" ", "_");
       teamName = teamName.replace(".", "");
-      let teamLogo = "https://prod-sports-images.synapsys.us/mlb/logos/team/MLB_" + teamName + "_Logo.jpg"
+      let teamLogo = GlobalSettings.getImageUrl("/mlb/logos/team/MLB_" + teamName + "_Logo.jpg");
       return teamLogo;
     }else{
       return "";
@@ -144,4 +145,25 @@ export class MLBGlobalFunctions {
   //     let displayAbbrPosition = posAbbrName[upperPosition];
   //     return displayAbbrPosition !== undefined ? displayAbbrPosition: position;
   //   }
+  
+  /**
+   * Returns the abbreviation for American or National leagues 
+   * 
+   * @param {string} confName - 'American' or 'National' (case insensitive)
+   * @param {string} divName - (Optional) If included, is appended to end of string in title case
+   * 
+   * @returns abbreviation or confName if it cannot be mapped to an abbreviation
+   */
+  static formatShortNameDivison(confName: string, divName?: string): string {
+    if ( !confName ) return confName;
+    
+    let abbr = confName;
+    switch ( confName.toLowerCase() ) {
+      case 'american': abbr = "AL"; break;
+      case 'national': abbr = "NL"; break;
+      default: break;
+    }
+    
+    return divName ? abbr + " " + GlobalFunctions.toTitleCase(divName) : abbr;
+  }
 }

@@ -2,7 +2,11 @@
   border-bottom: 2px solid @black;
   
   &-banner-image {
-    background: url('/app/public/image_placeholder.png') no-repeat center rgba(0,0,0,.65);
+    background-color: rgba(0, 0, 0, 0.65);
+    background-image: url("/app/public/image_placeholder.png");
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: center center;
     background-size: cover;
   }
 
@@ -38,7 +42,7 @@
       margin-bottom: 14px;
       
       &-value {
-        font-weight: 900;
+        font-weight: 800;
         padding-left: 2px;
       }
       
@@ -120,7 +124,7 @@
     }
     
     &-value {
-      .globalDefaultModFont(28px, 900, @black); 
+      .globalDefaultModFont(28px, 800, @black);
       margin-top: 6px;
     }
   }

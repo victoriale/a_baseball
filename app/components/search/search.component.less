@@ -7,6 +7,10 @@
   font-family: @globalFont;
   font-size: 18px;
 
+  form{
+    margin: 0px;
+  }
+
   .search-input-container{
     position: absolute;
     top: 0px;
@@ -27,6 +31,7 @@
     border-bottom-left-radius: 5px;
     transition: box-shadow 0.3s ease-in-out, border 0.3s ease-in-out;
     -webkit-transition: box-shadow 0.3s ease-in-out, border 0.3s ease-in-out;
+    color: @black;
 
     &:focus{
       outline: none;
@@ -104,5 +109,10 @@
         background-color: @masterBrandColor;
       }
     }
+  }
+
+  .search-no-results{
+    padding: 20px;
+    font-size: 18px;
   }
 }

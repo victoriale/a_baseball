@@ -3,7 +3,7 @@ import {Component, OnInit, Input} from 'angular2/core';
 import {SliderButton} from "../../components/buttons/slider/slider.button";
 import {CircleImage} from '../../components/images/circle-image';
 import {ImageData,CircleImageData} from '../../components/images/image-data';
-import {Search, SearchComponentData, SearchInput} from '../../components/search/search.component';
+import {Search, SearchInput} from '../../components/search/search.component';
 import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
 import {LandingPageService} from '../../services/landing-page';
 
@@ -34,10 +34,6 @@ export class HomePage implements OnInit {
     public imageTile1: string = "/app/public/iphone.png";
     public imageTile2: string = "/app/public/ipad.png";
     public imageTile3: string = "/app/public/MLB_Schedule_Image.jpg";
-    public searchInput: SearchInput = {
-        placeholderText: "Where do you want to be a fan?",
-        hasSuggestions: true
-    };
     public homeHeading1: string = "Stay Loyal to Your Favorite MLB Team";
     public homeHeading2: string = "Find the sports information you need to show your loyalty";
     public homeHeading3: string = "PICK YOUR FAVORITE <b>MLB TEAM</b>";
@@ -55,8 +51,8 @@ export class HomePage implements OnInit {
     public mlbTeams: any;
     public counter: number = 0;
     public max:number = 3;
-    public searchInput: SearchComponentData = {
-         placeholderText: "Where do you want to be a fan?",
+    public searchInput: SearchInput = {
+         placeholderText: "Search for a player or team...",
          hasSuggestions: true
      };
     constructor(private _router: Router, private _landingPageService: LandingPageService) {

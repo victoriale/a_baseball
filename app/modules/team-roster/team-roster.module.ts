@@ -56,7 +56,7 @@ export class TeamRosterModule implements OnChanges{
   public data: RosterComponentData;
   errorData: any = {
     data: "This team is a National League team and has no designated hitters.",
-    icon: "fa fa-calendar-o"
+    icon: "fa fa-remove"
   }
   public footerStyle = {
     ctaBoxClass: "list-footer",
@@ -78,7 +78,7 @@ export class TeamRosterModule implements OnChanges{
     this.teamId = _params.get("teamId");
     var teamName = _params.get("teamName");
     this.footerData = {
-      infoDesc: 'Want to see everybody involved in this list?',
+      infoDesc: 'Want to see the full team roster?',
       text: 'VIEW FULL ROSTER',
       url: ['Team-roster-page',{teamName:teamName, teamId: this.teamId}]
     };

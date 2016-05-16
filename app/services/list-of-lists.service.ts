@@ -3,11 +3,11 @@ import {Observable} from 'rxjs/Rx';
 import {Http, Headers} from 'angular2/http';
 import {GlobalFunctions} from '../global/global-functions';
 import {MLBGlobalFunctions}  from '../global/mlb-global-functions';
+import {GlobalSettings}  from '../global/global-settings';
 
 @Injectable()
 export class ListOfListsService {
-  private _apiUrl: string = 'http://dev-homerunloyal-api.synapsys.us';
-  private _imageUrl = "http://prod-sports-images.synapsys.us";
+  private _apiUrl: string = GlobalSettings.getApiUrl();
 
   // private _apiToken: string = 'BApA7KEfj';
   // private _headerName: string = 'X-SNT-TOKEN';
@@ -64,7 +64,7 @@ export class ListOfListsService {
     console.log("data:",data);
     let self = this;
     var carouselArray = [];
-    var dummyImg = "http://prod-sports-images.synapsys.us/mlb/players/no-image.png";
+    var dummyImg = GlobalSettings.getImageUrl("/mlb/players/no-image.png");
     var dummyRoute = ['Disclaimer-page'];
     var dummyRank = '##';
 
@@ -86,10 +86,10 @@ export class ListOfListsService {
         //let itemInfo = val.listInfo[0];
         var Carousel = {
           index:'2',
-          imageConfig: self.imageData("image-150","border-large", self._imageUrl + itemData.imageUrl, dummyRoute,"image-50-sub", MLBGlobalFunctions.formatTeamLogo(itemData.teamName),dummyRoute, itemInfo.listRank),
+          imageConfig: self.imageData("image-150","border-large", GlobalSettings.getImageUrl(itemData.imageUrl), dummyRoute,"image-50-sub", MLBGlobalFunctions.formatTeamLogo(itemData.teamName),dummyRoute, itemInfo.listRank),
           description:[
             '<p class="font-12 fw-400 lh-12 titlecase"><i class="fa fa-circle"></i> Related List - ' + itemData.playerName + '</p>',
-            '<p class="font-22 fw-900 lh-25" style="padding-bottom:16px;">'+ itemInfo.name +'</p>',
+            '<p class="font-22 fw-800 lh-25" style="padding-bottom:16px;">'+ itemInfo.name +'</p>',
             '<p class="font-14 fw-400 lh-18" style="padding-bottom:6px;">This list contains <b>[##] player profiles</b> ranked by <b>[data point 1]</b>. <b>[Current Profile Name]</b> is <b>ranked [##] over-all</b> with a <b>[data point 1]</b> of <b>[data value]</b> for [YYYY].</p>',
             '<p class="font-10 fw-400 lh-25">Last Updated on [Day Of The Week], [Month] [Day], [YYYY]</p>'
           ],
@@ -152,7 +152,7 @@ export class ListOfListsService {
           {
             imageClass : index > 0 ? "image-43" : "image-121",
             mainImage: {
-              imageUrl        : val.imageUrl != null ? self._imageUrl + val.imageUrl : "http://prod-sports-images.synapsys.us/mlb/players/no-image.png",
+              imageUrl        : val.imageUrl != null ? GlobalSettings.getImageUrl(val.imageUrl) : GlobalSettings.getImageUrl("/mlb/players/no-image.png"),
               urlRouteArray   : itemListInfo.target == "player" ? MLBGlobalFunctions.formatPlayerRoute(val.teamName, val.playerName, val.playerId) : MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
               hoverText       : index > 0 ? "<i class='fa fa-mail-forward'></i>" : "<p>View</p><p>Profile</p>",
               imageClass      : index > 0 ? "border-1" : "border-2"
@@ -171,10 +171,10 @@ export class ListOfListsService {
 
   imageData(imageClass, imageBorder, mainImg, mainImgRoute, subImgClass?, subImg?, subRoute?, rank?){
     if(typeof mainImg =='undefined' || mainImg == ''){
-      mainImg = "http://prod-sports-images.synapsys.us/mlb/players/no-image.png";
+      mainImg = GlobalSettings.getImageUrl("/mlb/players/no-image.png");
     }
     if(typeof subImg =='undefined' || subImg == ''){
-      mainImg = "http://prod-sports-images.synapsys.us/mlb/players/no-image.png";
+      mainImg = GlobalSettings.getImageUrl("/mlb/players/no-image.png");
     }
     if(typeof rank == 'undefined' || rank == 0){
       rank = 0;

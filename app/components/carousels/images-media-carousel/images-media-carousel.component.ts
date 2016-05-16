@@ -1,22 +1,20 @@
 import {Component, OnInit, Input, Output, EventEmitter} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {CircleButton} from "../../buttons/circle/circle.button";
-import {Articles} from "../../../global/global-service";
-import {ArticleData} from "../../../global/global-interface";
 
 declare var jQuery:any;
+
 @Component({
-    selector: 'ai-carousel',
-    templateUrl: './app/components/articles/carousel/carousel.component.html',
+    selector: 'images-media-carousel',
+    templateUrl: './app/components/carousels/images-media-carousel/images-media-carousel.component.html',
     directives: [ROUTER_DIRECTIVES, CircleButton],
-    providers: [Articles],
-    inputs: ['trending', 'mediaImages', 'featureListing', 'modalButton', 'articleData', 'imageData'],
+    providers: [],
+    inputs: ['trending', 'mediaImages', 'featureListing', 'modalButton', 'imageData'],
     outputs: ['leftCircle', 'rightCircle', 'expand'],
 })
 
-export class ArticleImages implements OnInit {
+export class ImagesMedia implements OnInit {
     @Input() imageData:any;
-    articleData:ArticleData;
     leftCircle:EventEmitter<boolean> = new EventEmitter();
     rightCircle:EventEmitter<boolean> = new EventEmitter();
     expand:EventEmitter<boolean> = new EventEmitter();
@@ -33,9 +31,6 @@ export class ArticleImages implements OnInit {
     image_url = './app/public/no_photo_images/onError.png';
     images:any;
     displayCounter:number;
-
-    constructor(private _magazineOverviewService:Articles) {
-    }
 
     modalExpand() {
         this.expand.next(true);
