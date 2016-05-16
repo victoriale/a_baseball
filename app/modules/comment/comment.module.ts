@@ -1,8 +1,9 @@
 /**
  * Created by Victoria on 5/2/2016.
  */
-import {Component, OnInit} from 'angular2/core';
+import {Component, OnInit, Input, OnChanges} from 'angular2/core';
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
+import {MLBPageParameters} from '../../global/global-interface';
 
 declare var DISQUS: any;
 
@@ -12,12 +13,21 @@ declare var DISQUS: any;
     directives: [ModuleHeader],
     providers: [],
 })
-export class CommentModule implements OnInit{
+export class CommentModule implements OnInit, OnChanges {
+    
+    @Input() profileName: string;
+    
     public headerInfo: ModuleHeaderData = {
-      moduleTitle: "Comments - [Profile Name]", //TODO
+      moduleTitle: "Comments - [Profile Name]",
       hasIcon: false,
       iconClass: ""
     };
+    
+    ngOnChanges() {
+        let profileName = this.profileName ? this.profileName : "[Profile Name]";
+        this.headerInfo.moduleTitle = "Comments - " + profileName;
+    }
+    
     ngOnInit(){
         var script:any = document.createElement("script");
 

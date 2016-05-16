@@ -1,4 +1,4 @@
-import {Component, OnInit} from 'angular2/core';
+import {Component, OnInit, OnChanges, Input} from 'angular2/core';
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 
 export interface faqModuleData{
@@ -12,14 +12,25 @@ export interface faqModuleData{
     providers: []
 })
 
-export class FAQModule{
-    public faqData: Array<faqModuleData>;
-    public headerInfo: ModuleHeaderData = {
-      moduleTitle: "FAQ - [Profile Name]",
-      hasIcon: false,
-      iconClass: ""
-    };
-    getData(){
+export class FAQModule implements OnInit, OnChanges {
+  
+  @Input() profileName: string;
+
+  @Input() faqData: Array<faqModuleData>;
+  
+  public headerInfo: ModuleHeaderData = {
+    moduleTitle: "FAQ - [Profile Name]",
+    hasIcon: false,
+    iconClass: ""
+  };
+    
+  ngOnChanges() {
+    let profileName = this.profileName ? this.profileName : "[Profile Name]";
+    this.headerInfo.moduleTitle = "FAQ - " + profileName;
+  }
+  
+  getData(){
+    if ( !this.faqData ) {
       this.faqData = [
       {
         question: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed dosit amet, consectetur adipisicing elit, sed  eiusmod tempor Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do e?",
@@ -35,7 +46,9 @@ export class FAQModule{
         answer: "Ipsum dolor sit amet, consectetur adipisicing elit."
       }]
     }
-    ngOnInit(){
-      this.getData();
-    }
+  }
+  
+  ngOnInit(){
+    this.getData();
+  }
 }
