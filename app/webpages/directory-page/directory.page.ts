@@ -117,15 +117,13 @@ export class DirectoryPage {
     let noResultsMessage = "There are no " + lowerCaseType + " profiles in this category.";
     let pagingDescription = titleCaseType + " profiles";
     let navTitle = "Browse all " + lowerCaseType + " profiles from A to Z";
-    let pageName = "Directory-page";
+    let pageName = "Directory-page-starts-with";
     
     if ( this.startsWith !== undefined && this.startsWith !== null && this.startsWith.length > 0 ) {
       pageParams["startsWith"] = this.startsWith;
-      pageName += "-starts-with";
     }
     else if ( this.newlyAdded ) {
       pageParams["startsWith"] = "new";
-      pageName += "-starts-with";
     }
     
     let data:DirectoryModuleData = {
