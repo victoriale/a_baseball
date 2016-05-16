@@ -28,7 +28,7 @@ export class GlobalSettings {
   }
 
   static getImageUrl(relativePath): string{
-    return this._proto + "//" + this.getEnv(this._env) + this._imageUrl + relativePath;
+    return this._proto + "//" + "prod" + this._imageUrl + relativePath;
   }
 
   static getArticleUrl(): string{

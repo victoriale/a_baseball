@@ -89,7 +89,7 @@ export class ListOfListsService {
           imageConfig: self.imageData("image-150","border-large", GlobalSettings.getImageUrl(itemData.imageUrl), dummyRoute,"image-50-sub", MLBGlobalFunctions.formatTeamLogo(itemData.teamName),dummyRoute, itemInfo.listRank),
           description:[
             '<p class="font-12 fw-400 lh-12 titlecase"><i class="fa fa-circle"></i> Related List - ' + itemData.playerName + '</p>',
-            '<p class="font-22 fw-900 lh-25" style="padding-bottom:16px;">'+ itemInfo.name +'</p>',
+            '<p class="font-22 fw-800 lh-25" style="padding-bottom:16px;">'+ itemInfo.name +'</p>',
             '<p class="font-14 fw-400 lh-18" style="padding-bottom:6px;">This list contains <b>[##] player profiles</b> ranked by <b>[data point 1]</b>. <b>[Current Profile Name]</b> is <b>ranked [##] over-all</b> with a <b>[data point 1]</b> of <b>[data value]</b> for [YYYY].</p>',
             '<p class="font-10 fw-400 lh-25">Last Updated on [Day Of The Week], [Month] [Day], [YYYY]</p>'
           ],
