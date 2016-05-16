@@ -96,7 +96,7 @@ export class ComponentPage implements OnInit {
       }
     );
   }
-  
+
   private standingsTabSelected(tab: MLBStandingsTabData) {
     if ( tab && (!tab.sections || tab.sections.length == 0) ) {
       this._standingsService.getTabData(tab, this.pageParams, 5)//only show 5 rows in the module      
