@@ -36,7 +36,7 @@ import {DesignPage} from "../webpages/design-page/design.page";
 @Component({
     selector: 'my-app',
     templateUrl: './app/app-webpage/app.webpage.html',
-    directives: [SchedulesPage, HeaderComponent, FooterComponent, TeamRosterPage, DraftHistoryPage, ListPage, HomePage, TeamPage, PlayerPage, DirectoryPage,
+    directives: [StandingsPage, SchedulesPage, HeaderComponent, FooterComponent, TeamRosterPage, DraftHistoryPage, ListPage, HomePage, TeamPage, PlayerPage, DirectoryPage,
         AboutUsPage, ContactUsPage, DisclaimerPage, SearchPage, ComponentPage,
         ModulePage, RouterOutlet, ROUTER_DIRECTIVES, PlayerStatsPage, MLBPage],
     providers: [ ROUTER_DIRECTIVES, ArticleDataService, HeadlineDataService],
@@ -100,8 +100,13 @@ import {DesignPage} from "../webpages/design-page/design.page";
         component: SchedulesPage
     },
     {
-        path: '/standings/:teamName/:teamId',
-        name: 'Standings-page-team',
+        path: '/schedules/:teamName/:teamId',
+        name: 'Schedules-page-team',
+        component: SchedulesPage
+    },
+    {
+        path: '/standings',
+        name: 'Standings-page',
         component: StandingsPage
     },
     {

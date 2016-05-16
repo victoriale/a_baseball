@@ -38,6 +38,7 @@ export class SchedulesService {
     return [pageName, pageValues];
   }// Returns all parameters used to get to page of Schedules
 
+
   getModuleTitle(pageParams: MLBPageParameters): string {
     let moduletitle = "Weekly Schedules";
     if ( pageParams.teamName !== undefined && pageParams.teamName !== null ) {
@@ -48,6 +49,7 @@ export class SchedulesService {
     return moduletitle;
   }// Sets the title of the modules with data returned by schedules
 
+
   getPageTitle(pageParams: MLBPageParameters): string {
     let pageTitle = "MLB Schedules Breakdown";
     if ( pageParams.teamName !== undefined && pageParams.teamName !== null ) {
@@ -56,13 +58,15 @@ export class SchedulesService {
     return pageTitle;
   }// Sets the title of the Page with data returne by shedules
 
+
   loadAllTabsForModule(pageParams: MLBPageParameters) {
     return {
         moduleTitle: this.getModuleTitle(pageParams),
         pageRouterLink: this.getLinkToPage(pageParams),
         tabs: this.initializeAllTabs(pageParams)
     };
-  }// Load all tabs
+  }// Load all tabs but for schedules there is no tabs
+
 
   initializeAllTabs(pageParams: MLBPageParameters): Array<any> {
     let tabs: Array<any> = [];
@@ -87,12 +91,14 @@ export class SchedulesService {
     }
 
     return tabs;
-  }
+  }//there will only be one tab so this function only needs to return one for the time being
+
 
   private createTab(selectTab: boolean, conference?: Conference, division?: Division) {
     let title = this.formatGroupName('2016') + " Schedules";
     return new MLBStandingsTabData(title, conference, division, selectTab);
-  }
+  }//creates a tab with the new interface
+
 
   //Function to set custom headers
   setToken(){
