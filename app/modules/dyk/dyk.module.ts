@@ -1,5 +1,5 @@
-import {Component, OnInit} from 'angular2/core';
-import {ModuleHeader} from '../../components/module-header/module-header.component';
+import {Component, OnInit, OnChanges, Input} from 'angular2/core';
+import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 
 export interface dykData{
   info: string;
@@ -12,19 +12,34 @@ export interface dykData{
     providers: []
 })
 
-export class DYKModule{
-    public moduleTitle: string = 'Did You Know - [Profile Name]';
-    public dykInfo: Object;
+export class DYKModule implements OnInit, OnChanges {
+  
+  @Input() profileName: string;
+  
+  @Input() dykInfo: Array<{ info }>;  
+  
+  public headerInfo: ModuleHeaderData = {
+    moduleTitle: "Did You Know - [Profile Name]",
+    hasIcon: false,
+    iconClass: ""
+  };
+    
+  ngOnChanges() {
+    let profileName = this.profileName ? this.profileName : "[Profile Name]";
+    this.headerInfo.moduleTitle = "Did You Know - " + profileName;
+  }
 
     ngOnInit(){
-      this.dykInfo = [{
-        info: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa."
-      },{
-        info: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo con sunt in culpa."
-      },{
-        info: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, culpa.",
-      },{
-        info: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-      }]
+      if ( !this.dykInfo ) {          
+        this.dykInfo = [{
+          info: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa."
+        },{
+          info: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo con sunt in culpa."
+        },{
+          info: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, culpa.",
+        },{
+          info: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+        }];
+      }
     }
 }
