@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from 'angular2/core';
-import {List} from '../../global/global-interface';
 import {ROUTER_DIRECTIVES} from "angular2/router";
 import {GlobalFunctions} from "../../global/global-functions";
 

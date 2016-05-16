@@ -11,6 +11,18 @@ export interface MLBPageParameters {
   playerName?: string;
 }
 
+export interface Link {
+  route?: Array<any>;
+  text: string;
+}
+
+export interface NavigationData {
+  title: string;
+  links: Array<Link>;
+  moreLink?: Link;
+}
+
+//Used by Trending-Homes module
 export interface PropertyListingInterface {
     listingID: string;
     listPrice: string;
@@ -35,63 +47,6 @@ export interface PropertyListingInterface {
     heating: string;
     exterior: string;
     roof: string;
-}
-
-export interface List {
-    title: string;
-    location: string;
-    bigImage: string;
-    smallImage: any;
-}
-
-export interface HomePageData {
-    citylocation: string;
-    statelocation: string;
-    cityarea: any;
-}
-
-export interface List2 {
-    bigImage: string;
-    city: string;
-    list_name: string;
-    list_addr: string;
-    list_day: string;
-    detail1: string;
-    lotSize: string;
-    unit1: string;
-    detail2: string;
-    unit2: string;
-    price: string;
-    price_name: string;
-    smallImage: string[];
-}
-
-//Interface for Profile Header Module
-export interface ProfileHeaderInterface {
-    //Listing data
-    address: string;
-    agent: string;
-    brokerageLogoURL: string;
-    email: string;
-    listingID: string;
-    listingImage: string;
-    listingPrice: number;
-    listingStatus: string;
-    officeNumber: number;
-    originalLink: string;
-    phoneNumber: number;
-    squareFeet: number;
-    zipCode: string;
-    //Location data
-    numberOfListings: number;
-    averageListingPrice: number;
-    averageRentalPrice: number;
-    averageAge: string;
-    locationImage: string;
-    //Shared data
-    city: string;
-    state: string;
-    lastUpdated: string;
 }
 
 /*BELOW IS ARTICLE MODULE TEST INTERFACE*/

@@ -4,7 +4,6 @@
 import {Component, OnInit, Input, Output, EventEmitter} from 'angular2/core';
 import {CircleButton} from "../../components/buttons/circle/circle.button";
 import {ROUTER_DIRECTIVES} from 'angular2/router';
-import {List2} from '../../global/global-interface';
 import {PriceFormatPipe} from '../../pipes/price-format.pipe';
 
 declare var jQuery : any;
