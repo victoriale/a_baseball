@@ -145,4 +145,26 @@ export class MLBGlobalFunctions {
   //     let displayAbbrPosition = posAbbrName[upperPosition];
   //     return displayAbbrPosition !== undefined ? displayAbbrPosition: position;
   //   }
+
+
+  //path: '/list/:profile/:listname/:sort/:conference/:division/:limit/:pageNum',
+  static formatListRoute(urlArr: Array<any>): Array<any> {
+    var listRoute: Array<any>;
+    for(var arg in urlArr) {
+      if (arg == null) return ['Error-page'];
+    }
+    let kebabArr = urlArr.map( item => GlobalFunctions.toLowerKebab(item) );
+
+    let listRoute = ['List-page', {
+      profile     : kebabArr[0],
+      listname    : kebabArr[1],
+      sort        : kebabArr[2],
+      conference  : kebabArr[3],
+      division    : kebabArr[4],
+      limit       : kebabArr[5],
+      pageNum     : kebabArr[6]
+    }];
+    return listRoute;
+  }
+
 }

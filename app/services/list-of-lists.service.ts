@@ -5,6 +5,8 @@ import {GlobalFunctions} from '../global/global-functions';
 import {MLBGlobalFunctions}  from '../global/mlb-global-functions';
 import {GlobalSettings}  from '../global/global-settings';
 
+declare var moment: any;
+
 @Injectable()
 export class ListOfListsService {
   private _apiUrl: string = GlobalSettings.getApiUrl();
@@ -33,7 +35,6 @@ export class ListOfListsService {
     else{
       scopePath = "";
     }
-    if( scope == null ){scope = ""};
     var count = count != null ? count : 4;
     var page = page != null ? page : 1;
 
@@ -49,14 +50,14 @@ export class ListOfListsService {
         data => {
           if(version == 'module'){
             return {
-              carData: this.carDataPage(data.data, scope),
-              listData: this.detailedData(data.data, scope),
+              carData: this.carDataPage(data.data, version, type),
+              listData: this.detailedData(data.data, version, type),
               targetData: this.getTargetData(data.data),
             };
           }else{
             return {
-              carData: this.carDataPage(data.data, scope),
-              listData: this.detailedData(data.data, scope),
+              carData: this.carDataPage(data.data, version, type),
+              listData: this.detailedData(data.data, version, type),
               targetData: this.getTargetData(data.data),
             };
           }
@@ -71,7 +72,7 @@ export class ListOfListsService {
   }
 
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
-  carDataPage(data, scope){
+  carDataPage(data, version, type){
     let self = this;
     var carouselArray = [];
     var dummyImg = GlobalSettings.getImageUrl("/mlb/players/no-image.png");
@@ -94,24 +95,56 @@ export class ListOfListsService {
         let itemData          = val.listData[0];
         let itemInfo          = val.listInfo;
         let itemTargetData    = val.targetData;
+        let itemProfile       = itemTargetData.playerName != null ? itemTargetData.playerName : itemTargetData.teamName;
         let itemImgUrl        = itemTargetData.imageUrl != null ? GlobalSettings.getImageUrl(itemTargetData.imageUrl) : GlobalSettings.getImageUrl(itemTargetData.teamLogo);
-        let itemRoute         = index > 0 ? dummyRoute : null;
-        let itemSubImg        = itemTargetData.playerName != null ? MLBGlobalFunctions.formatTeamLogo(itemTargetData.teamName) : null;
+        let itemRoute         = version == "page"               ? MLBGlobalFunctions.formatPlayerRoute(itemTargetData.teamName, itemTargetData.playerName, itemTargetData.playerId) : MLBGlobalFunctions.formatTeamRoute(itemTargetData.teamName, itemTargetData.teamId);
+        let itemSubImg        = type == "player"                ? MLBGlobalFunctions.formatTeamLogo(itemTargetData.teamName) : null;
+        let itemSubRoute      = type == "player"                ? MLBGlobalFunctions.formatTeamRoute(itemTargetData.teamName, itemTargetData.teamId) : null;
+        let itemHasHover      = version == "page";
+        let ctaUrlArray       = itemInfo.url.split("/");
+        let itemStatName      = (itemInfo.stat).replace(/-/g," ");
+        let itemStat          = (itemTargetData.stat).replace(/-/g," ");
+        let statYear          = moment(itemTargetData.lastUpdated).format("YYYY");  // TODO get a year from Backend
+        let updatedDate       = moment(itemTargetData.lastUpdated).format('dddd, MMMM Do, YYYY');
+        let isCase            = type == "player"                ? "is" : "are";
+        let theCase           = type == "player"                ? ""   : "The ";
+        let itemDescription   = "";
+        let rankStr           = itemTargetData.rank;
+        rankStr += GlobalFunctions.Suffix(rankStr);
+
+        function getGetOrdinal(n) {
+          var s=["th","st","nd","rd"],
+            v=n%100;
+          return n+(s[(v-20)%10]||s[v]||s[0]);
+        }
+
+        if( type == "player"){
+          itemDescription += "<b>"+ itemProfile + "</b> is currently ranked <b>"+ rankStr +"</b> in the <b>"+ itemInfo.scope +"</b> with the most <b>" + itemStatName + "</b>.";
+        }else{
+          itemDescription += "The <b>"+ itemProfile + "</b> are currently ranked <b>"+ rankStr +"</b> in the <b>"+ itemInfo.scope +"</b> with the most <b>" + itemStatName + "</b>.";
+        }
+
+        // removes first empty item and second "list" item
+        ctaUrlArray.splice(0,2);
+        ctaUrlArray.push.apply(ctaUrlArray,["10","1"]);
+
+        ctaUrl        : MLBGlobalFunctions.formatListRoute(ctaUrlArray)
 
         var Carousel = {
           index:'2',
           // imageData(imageClass, imageBorder, mainImg, mainImgRoute, subImgClass?, subImg?, subRoute?, rank?, hasHover?){
-          imageConfig: self.imageData("image-150", "border-large", itemImgUrl , itemRoute,"image-50-sub", itemSubImg,dummyRoute, itemTargetData.rank, false),
+          imageConfig: self.imageData("image-150", "border-large", itemImgUrl , itemRoute,"image-50-sub", itemSubImg, itemSubRoute, itemTargetData.rank, itemHasHover),
           description:[
-            '<p class="font-12 fw-400 lh-12 titlecase"><i class="fa fa-circle"></i> Related List - ' + itemTargetData.playerName + '</p>',
+            '<p class="font-12 fw-400 lh-12 titlecase"><i class="fa fa-circle"></i> Related List - ' + itemProfile + '</p>',
             '<p class="font-22 fw-900 lh-25" style="padding-bottom:16px;">'+ itemInfo.name +'</p>',
-            '<p class="font-14 fw-400 lh-18" style="padding-bottom:6px;">This list contains <b>[##] player profiles</b> ranked by <b>[data point 1]</b>. <b>[Current Profile Name]</b> is <b>ranked [##] over-all</b> with a <b>[data point 1]</b> of <b>[data value]</b> for [YYYY].</p>',
-            '<p class="font-10 fw-400 lh-25">Last Updated on [Day Of The Week], [Month] [Day], [YYYY]</p>'
+            '<p class="font-14 fw-400 lh-18" style="padding-bottom:6px;">'+ itemDescription +'<p>',
+            '<p class="font-10 fw-400 lh-25">Last Updated on '+ updatedDate +'</p>'
           ],
           footerInfo: {
-            infoDesc:'Interested in discovering more about this player?',
-            text:'View This List',
-            url:['Team-page',{teamName:'team-name-here', teamId: '2796'}],//NEED TO CHANGE
+            infoDesc  :'Interested in discovering more about this ' + type +'?',
+            text      :'View This List',
+            url       : MLBGlobalFunctions.formatListRoute(ctaUrlArray)
+            //url:['Team-page',{teamName:'team-name-here', teamId: '2796'}],//NEED TO CHANGE
           }
         };
         carouselArray.push(Carousel);
@@ -121,7 +154,7 @@ export class ListOfListsService {
     return carouselArray;
   }
 
-  detailedData(data, scope){
+  detailedData(data, version, type){
     let self              = this;
     let listDataArray     = [];
     let dummyUrl          = "/list/player/batter-home-runs/asc/National";
@@ -143,12 +176,15 @@ export class ListOfListsService {
       itemListData.unshift(item.targetData);
 
       let itemListInfo = item.listInfo;
-      console.log("itemListInfo", itemListInfo);
+      let ctaUrlArray = itemListInfo.url.split("/");
+      // removes first empty item and second "list" item
+      ctaUrlArray.splice(0,2);
+      ctaUrlArray.push.apply(ctaUrlArray,["10","1"]);
 
       var listData = {
         url           : itemListInfo.url           != null  ? itemListInfo.url          : dummyUrl,
         name          : itemListInfo.name          != null  ? itemListInfo.name         : dummyName,
-        target        : itemListInfo.playerName    != null  ? "player"                  : "team",
+        target        : type == "player"                    ? "player"                  : "team",
         stat          : itemListInfo.stat          != null  ? itemListInfo.stat         : dummyStat,
         ordering      : itemListInfo.ordering      != null  ? itemListInfo.ordering     : dummyOrdering,
         scope         : itemListInfo.scope         != null  ? itemListInfo.scope        : dummyScope,
@@ -161,27 +197,25 @@ export class ListOfListsService {
         dataPoints    : [],
         ctaBtn        : '',
         ctaText       : 'View The List',
-        ctaUrl        : ['Disclaimer-page']
+        //http://localhost:3000/list/team/batter-stolen-bases/desc/all/all/20/1
+        //static formatListRoute(profile: string, listname: string, sort: string, conference: string, division: string, limit: number, pageNum: number): Array<any> {
+        //['List-page', {profile:'team', listname: 'batter-stolen-bases', sort:'desc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]
+        ctaUrl        : MLBGlobalFunctions.formatListRoute(ctaUrlArray)
       };
 
       itemListData.forEach(function(val, index){
-        let itemUrlRouteArray   = [];
-
         // reset  the target since data is always returning player //TODO Backend
-        itemListInfo.target = itemListInfo.playerName != null  ? "player" : "team";
+        itemListInfo.target   = type == "player"  ? type : "team";
+        let itemUrlRouteArray = type == "player"  ? MLBGlobalFunctions.formatPlayerRoute(val.teamName, val.playerName, val.playerId) : MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId); let firstItemHover    = version == "page" ? "<p>View</p><p>Profile</p>" : null;
 
-        if( index > 0 ){
-          itemUrlRouteArray = itemListInfo.target == "player" ? MLBGlobalFunctions.formatPlayerRoute(val.teamName, val.playerName, val.playerId) : MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId);
-        }
-
-        console.log("ili target:",itemListInfo.target);
         listData.dataPoints.push(
           {
             imageClass : index > 0 ? "image-43" : "image-121",
             mainImage: {
               imageUrl        : val.imageUrl != null ? GlobalSettings.getImageUrl(val.imageUrl) : GlobalSettings.getImageUrl(val.teamLogo),
-              urlRouteArray   : index > 0 ? itemUrlRouteArray : null,
-              hoverText       : index > 0 ? "<i class='fa fa-mail-forward'></i>" : "<p>View</p><p>Profile</p>",
+              urlRouteArray   : itemUrlRouteArray,
+              urlRouteArray   : version == "page" ? itemUrlRouteArray : null,
+              hoverText       : index > 0 ? "<i class='fa fa-mail-forward'></i>" : firstItemHover,
               imageClass      : index > 0 ? "border-1" : "border-2"
             },
             subImages         : index > 0 ? null : [

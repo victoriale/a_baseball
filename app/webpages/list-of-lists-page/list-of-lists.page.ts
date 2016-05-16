@@ -74,7 +74,6 @@ export class ListOfListsPage implements OnInit{
         this._lolService.getListOfListsService("page",this.type, this.id, this.scope, this.limit, this.pageNum)
           .subscribe(
             listOfListsData => {
-                console.log("target",listOfListsData.targetData);
                 this.detailedDataArray = listOfListsData.listData;
                 this.dataArray = true
                 this.carouselDataArray = listOfListsData.carData
@@ -133,7 +132,6 @@ export class ListOfListsPage implements OnInit{
             index: this.index+1,
             max: max,
             paginationType: 'module',
-            viewAllPage: 'Widget-page'
         }
     }
 
