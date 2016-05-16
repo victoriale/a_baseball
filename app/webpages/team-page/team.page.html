@@ -1,7 +1,4 @@
-<!-- <div *ngIf="profileHeaderData" class="page-container">
-  <schedules></schedules>
-</div> -->
-<div *ngIf="profileHeaderData" class="page-container">
+<div *ngIf="profileHeaderData && pageParams" class="page-container">
   <headline-component></headline-component>
   <profile-header [profileHeaderData]="profileHeaderData"></profile-header>
   <!-- daily update -->
@@ -10,7 +7,7 @@
 
   <headline-component></headline-component>
   <box-scores></box-scores>
-  <!-- <schedules></schedules> -->
+  <schedules></schedules>
   <standings-module *ngIf="standingsData" [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
   <!-- teamroster -->
   <team-roster-module></team-roster-module>
@@ -24,19 +21,19 @@
 
   <headline-component></headline-component>
   <!-- images media -->
-  <dyk-module></dyk-module>
-  <faq-module></faq-module>
+  <dyk-module [profileName]="pageParams.teamName"></dyk-module>
+  <faq-module [profileName]="pageParams.teamName"></faq-module>
   <!-- lol -->
   <!-- other news you will love -->
   <news-module></news-module>
 
   <headline-component></headline-component>
-  <twitter-module></twitter-module>
+  <twitter-module [profileName]="pageParams.teamName"></twitter-module>
   <!--Like Us On FB Module, only display if not on partner page-->
   <!-- <section *ngIf="!partnerCheck"> -->
-  <share-module *ngIf="profileHeaderData && shareModuleInput" [shareModuleInput]="shareModuleInput"></share-module>
+  <share-module *ngIf="shareModuleInput" [shareModuleInput]="shareModuleInput"></share-module>
   <like-us-module></like-us-module>
   <!-- </section> -->
-  <comment-module></comment-module>
+  <comment-module [profileName]="pageParams.teamName"></comment-module>
   <about-us></about-us>
 </div>
