@@ -76,8 +76,6 @@ export class ListOfListsService {
     let self = this;
     var carouselArray = [];
     var dummyImg = GlobalSettings.getImageUrl("/mlb/players/no-image.png");
-    var dummyRoute = ['Disclaimer-page'];
-    var dummyRank = '##';
 
     if(data.length == 0){
       var Carousel = {
@@ -92,7 +90,6 @@ export class ListOfListsService {
       //if data is coming through then run through the transforming function for the module
       data.forEach(function(val, index){
         if( val.listData[0] == null) return;
-        let itemData          = val.listData[0];
         let itemInfo          = val.listInfo;
         let itemTargetData    = val.targetData;
         let itemProfile       = itemTargetData.playerName != null ? itemTargetData.playerName : itemTargetData.teamName;
@@ -103,20 +100,10 @@ export class ListOfListsService {
         let itemHasHover      = version == "page";
         let ctaUrlArray       = itemInfo.url.split("/");
         let itemStatName      = (itemInfo.stat).replace(/-/g," ");
-        let itemStat          = (itemTargetData.stat).replace(/-/g," ");
-        let statYear          = moment(itemTargetData.lastUpdated).format("YYYY");  // TODO get a year from Backend
         let updatedDate       = moment(itemTargetData.lastUpdated).format('dddd, MMMM Do, YYYY');
-        let isCase            = type == "player"                ? "is" : "are";
-        let theCase           = type == "player"                ? ""   : "The ";
         let itemDescription   = "";
         let rankStr           = itemTargetData.rank;
         rankStr += GlobalFunctions.Suffix(rankStr);
-
-        function getGetOrdinal(n) {
-          var s=["th","st","nd","rd"],
-            v=n%100;
-          return n+(s[(v-20)%10]||s[v]||s[0]);
-        }
 
         if( type == "player"){
           itemDescription += "<b>"+ itemProfile + "</b> is currently ranked <b>"+ rankStr +"</b> in the <b>"+ itemInfo.scope +"</b> with the most <b>" + itemStatName + "</b>.";
@@ -153,11 +140,9 @@ export class ListOfListsService {
   }
 
   detailedData(data, version, type){
-    let self              = this;
     let listDataArray     = [];
     let dummyUrl          = "/list/player/batter-home-runs/asc/National";
     let dummyName         = "Batters with the most home runs in the National League";
-    let dummyTarget       = "player";
     let dummyStat         = "batter-home-runs";
     let dummyOrdering     = "asc";
     let dummyScope        = "conference";
@@ -195,9 +180,6 @@ export class ListOfListsService {
         dataPoints    : [],
         ctaBtn        : '',
         ctaText       : 'View The List',
-        //http://localhost:3000/list/team/batter-stolen-bases/desc/all/all/20/1
-        //static formatListRoute(profile: string, listname: string, sort: string, conference: string, division: string, limit: number, pageNum: number): Array<any> {
-        //['List-page', {profile:'team', listname: 'batter-stolen-bases', sort:'desc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]
         ctaUrl        : MLBGlobalFunctions.formatListRoute(ctaUrlArray)
       };
 
