@@ -64,11 +64,6 @@ import {DesignPage} from "../webpages/design-page/design.page";
         component: PlayerPage,
     },
     {
-        path: '/directory/:type/page/:page',
-        name: 'Directory-page',
-        component: DirectoryPage,
-    },
-    {
         path: '/directory/:type/:startsWith/page/:page',
         name: 'Directory-page-starts-with',
         component: DirectoryPage,

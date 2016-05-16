@@ -10,7 +10,7 @@
   <br>
   <a [routerLink]="['Draft-history-page', {teamName:'baltimore-orioles', teamId: 2799}]">Draft History #2799</a>
   <a [routerLink]="['List-page', {profile:'team', listname: 'batter-stolen-bases', sort:'desc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]">List Page</a>
-  <a [routerLink]="['Directory-page', { type: 'player', page: 1 }]">Directory</a>
+  <a [routerLink]="['Directory-page-starts-with', { type: 'players', startsWith: 'A', page: 1 }]">Directory</a>
   <a [routerLink]="['Player-stats-page', {teamName:'baltimore-orioles', teamId: 2799} ]">Player Stats #2799</a>
   <a [routerLink]="['About-us-page']">About Us</a>
   <a [routerLink]="['Contact-us-page']">Contact Us</a>
