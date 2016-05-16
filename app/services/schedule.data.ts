@@ -1,7 +1,7 @@
 import {TableModel, TableColumn} from '../components/custom-table/table-data.component';
 import {CircleImageData} from '../components/images/image-data';
-import {TableTabData, TableComponentData} from '../components/standings/standings.component';
-import {SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
+import {TableTabData, TableComponentData} from '../components/schedules/schedules.component';
+import {SchedulesCarouselInput} from '../components/carousels/schedules-carousel/schedules-carousel.component';
 import {Conference, Division} from '../global/global-interface';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
@@ -85,7 +85,7 @@ export class MLBStandingsTabData implements TableTabData<TeamStandingsData> {
     this.sections = [];
   }
 
-  convertToCarouselItem(item: TeamStandingsData, index:number): SliderCarouselInput {
+  convertToCarouselItem(item: TeamStandingsData, index:number): SchedulesCarouselInput {
     var subheader = item.seasonId + " Season " + item.groupName + " Standings";
     var description = item.teamName + " is currently <span class='text-heavy'>ranked " + item.rank + GlobalFunctions.Suffix(item.rank) + "</span>" +
                       " in the <span class='text-heavy'>" + item.groupName + "</span>, with a record of " +

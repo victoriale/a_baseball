@@ -3,7 +3,6 @@ import {ComparisonModule} from '../../modules/comparison/comparison.module';
 import {SeasonStatsModule} from '../../modules/season-stats/season-stats.module';
 import {DraftHistoryModule} from '../../modules/draft-history/draft-history.module';
 import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
-import {SchedulesModule} from '../../modules/schedules/schedules.module';
 import {AboutUsModule} from '../../modules/about-us/about-us.module';
 import {NewsModule} from '../../modules/news/news.module';
 import {ShareButtonComponent} from '../../components/share-button/share-button.component';
@@ -12,6 +11,7 @@ import {SchedulesCarousel} from '../../components/carousels/schedules-carousel/s
 import {Carousel} from '../../components/carousels/carousel.component';
 import {SliderCarousel} from '../../components/carousels/slider-carousel/slider-carousel.component';
 import {SchedulesComponent} from '../../components/schedules/schedules.component';
+import {SchedulesModule} from '../../modules/schedules/schedules.module';
 
 import {RosterComponentData} from '../../components/roster/roster.component';
 import {StandingsModuleData, StandingsModule} from '../../modules/standings/standings.module';
