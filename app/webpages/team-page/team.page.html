@@ -24,6 +24,9 @@
   <dyk-module [profileName]="pageParams.teamName"></dyk-module>
   <faq-module [profileName]="pageParams.teamName"></faq-module>
   <!-- lol -->
+  <div class="component-compbar-container" *ngIf="profileHeaderData && listOfListsData">
+    <list-of-lists [profileHeaderData]="profileHeaderData" [listOfListsData]="listOfListsData" [pageParams]="pageParams"></list-of-lists>
+  </div>
   <!-- other news you will love -->
   <news-module></news-module>
 

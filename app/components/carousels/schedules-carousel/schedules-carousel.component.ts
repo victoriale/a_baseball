@@ -4,7 +4,7 @@ import {CircleImage} from '../../images/circle-image';
 import {CircleImageData} from '../../images/image-data';
 import {Carousel} from '../carousel.component';
 
-export interface CarouselInput{
+export interface SchedulesCarouselInput{
   index?:any;//to know the or position of the input in the array it could possibly be in
   displayNext:string;
   displayTime:string;
@@ -26,9 +26,9 @@ export interface CarouselInput{
 })
 
 export class SchedulesCarousel implements OnInit{
-  @Input() carouselData:Array<CarouselInput>;
+  @Input() carouselData:Array<SchedulesCarouselInput>;
   public indexNum: EventEmitter<any> = new EventEmitter();//interface for the output to return an index
-  public dataPoint: CarouselInput;
+  public dataPoint: SchedulesCarouselInput;
 
   response(event){
     //set the data event being emitted back from the carousel component

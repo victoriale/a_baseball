@@ -1,0 +1,12 @@
+<schedules-carousel *ngIf="carouselData" [carouselData]="carouselData"></schedules-carousel>
+
+<div class="schedules-heading">
+  <div class="schedules-heading-title">
+    <span>[YYYY] Season:</span><span>Upcoming Games</span>
+  </div>
+  <span class="schedules-heading-time">Times are displayed in ET and are subject to change</span>
+</div>
+
+<div class="schedules-table">
+  <custom-table [model]="tableData" (sortChanged)="updateCarousel($event)"></custom-table>
+</div>
