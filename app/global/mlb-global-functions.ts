@@ -147,6 +147,11 @@ export class MLBGlobalFunctions {
   //   }
 
 
+  /**
+   * TODO-JVW
+   * @param urlArr
+   * @returns {any}
+   */
   //path: '/list/:profile/:listname/:sort/:conference/:division/:limit/:pageNum',
   static formatListRoute(urlArr: Array<any>): Array<any> {
     for(var arg in urlArr) {
@@ -166,4 +171,25 @@ export class MLBGlobalFunctions {
     return listRoute;
   }
 
+
+  /**
+   * Returns the abbreviation for American or National leagues 
+   * 
+   * @param {string} confName - 'American' or 'National' (case insensitive)
+   * @param {string} divName - (Optional) If included, is appended to end of string in title case
+   * 
+   * @returns abbreviation or confName if it cannot be mapped to an abbreviation
+   */
+  static formatShortNameDivison(confName: string, divName?: string): string {
+    if ( !confName ) return confName;
+    
+    let abbr = confName;
+    switch ( confName.toLowerCase() ) {
+      case 'american': abbr = "AL"; break;
+      case 'national': abbr = "NL"; break;
+      default: break;
+    }
+    
+    return divName ? abbr + " " + GlobalFunctions.toTitleCase(divName) : abbr;
+  }
 }

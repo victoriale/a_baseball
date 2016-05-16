@@ -1,13 +1,4 @@
-export interface Link {
-  route?: Array<any>;
-  text: string;
-}
-
-export interface NavigationData {
-  title: string;
-  links: Array<Link>;
-  moreLink?: Link;
-}
+import {Link, NavigationData} from '../../global/global-interface';
 
 export interface PagingData {
   rangeText: string;

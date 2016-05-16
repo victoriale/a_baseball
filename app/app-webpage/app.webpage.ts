@@ -64,11 +64,6 @@ import {DesignPage} from "../webpages/design-page/design.page";
         component: PlayerPage,
     },
     {
-        path: '/directory/:type/page/:page',
-        name: 'Directory-page',
-        component: DirectoryPage,
-    },
-    {
         path: '/directory/:type/:startsWith/page/:page',
         name: 'Directory-page-starts-with',
         component: DirectoryPage,
@@ -109,11 +104,6 @@ import {DesignPage} from "../webpages/design-page/design.page";
         component: StandingsPage
     },
     {
-        path: '/player-stats/:teamId',
-        name: 'Player-stats-page',
-        component: PlayerStatsPage
-    },
-    {
         path: '/list/:profile/:listname/:sort/:conference/:division/:limit/:pageNum',
         name: 'List-page',
         component: ListPage
@@ -128,13 +118,11 @@ import {DesignPage} from "../webpages/design-page/design.page";
         name: 'Team-roster-page',
         component: TeamRosterPage
     },
-    /*  TODO-JVW uncomment after the player stats page is added
     {
         path: '/player-stats/:teamName/:teamId',
         name: 'Player-stats-page',
         component: PlayerStatsPage
     },
-    */
     //test AI Page
     {
         path: '/articles',

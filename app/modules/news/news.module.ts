@@ -1,7 +1,7 @@
 import {Component, OnInit, Input} from 'angular2/core';
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 import {NewsCarousel, NewsCarouselInput} from '../../components/carousels/news-carousel/news-carousel.component';
-import {ModuleFooter} from '../../components/module-footer/module-footer.component';
+import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer.component';
 import {NewsService} from '../../services/news.service';
 import {RouteParams} from "angular2/router";
 import {GlobalFunctions} from '../../global/global-functions';
@@ -17,8 +17,9 @@ import {CircleButton} from "../../components/buttons/circle/circle.button";
 export class NewsModule implements OnInit {
     public counter: number = 0;
     public max:number;
-    footerData: Object;
+    public newsLink: string;
     public displayData: Object;
+    public title: string = "Articles";
     newsDataArray: any;
     moduleTitle: ModuleHeaderData = {
       moduleTitle: "Other Content You Will Love - [Profile Name]",
@@ -26,11 +27,16 @@ export class NewsModule implements OnInit {
       iconClass: "fa fa-heart"
     };
 
+    footerInfo: ModuleFooterData = {
+      infoDesc: 'Want to check out the full story?',
+      text: 'READ THE ARTICLE',
+      url: ['Disclaimer-page']
+    };
+
     constructor(private _params: RouteParams,
                 private _globalFunctions: GlobalFunctions,
-                private _newsService: NewsService){
+                private _newsService: NewsService){ }
 
-    }
     left(){
       var counter = this.counter;
       counter--;
@@ -61,12 +67,13 @@ export class NewsModule implements OnInit {
     changeMain(num){
       if ( num < this.max ) {
         this.displayData = this.newsDataArray[num];
+        this.newsLink = this.newsDataArray[num].footerData.url;
       };
     }
 
     private setupNewsData(){
       let self = this;
-      self._newsService.getNewsService("Steven Lerud")
+      self._newsService.getNewsService("Major League Baseball")
         .subscribe(data => {
           this.newsDataArray = data.news;
           // this.max = this.newsDataArray.length;
