@@ -31,7 +31,7 @@ export class MVPModule implements OnInit{
   footerData: Object;
   footerStyle: any;
 
-  constructor( public params: RouteParams){
+  constructor(){
   }
 
   ngOnInit(){
@@ -64,7 +64,7 @@ export class MVPModule implements OnInit{
       this.detailedDataArray = this.mvpData.listData;
       if(this.detailedDataArray == false){
         this.carouselDataArray = this.mvpData.carData
-        this.carouselDataArray[0]['description'][0] = '<br><b style="font-size:20px">'+this.errorData.data+'</b>';
+        this.carouselDataArray[0]['description'][0] = '<br><span class="text-heavy" style="font-size:20px">'+this.errorData.data+'</span>';
       }
     }
     this.carouselDataArray = this.mvpData.carData
