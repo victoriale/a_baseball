@@ -145,4 +145,25 @@ export class MLBGlobalFunctions {
   //     let displayAbbrPosition = posAbbrName[upperPosition];
   //     return displayAbbrPosition !== undefined ? displayAbbrPosition: position;
   //   }
+  
+  /**
+   * Returns the abbreviation for American or National leagues 
+   * 
+   * @param {string} confName - 'American' or 'National' (case insensitive)
+   * @param {string} divName - (Optional) If included, is appended to end of string in title case
+   * 
+   * @returns abbreviation or confName if it cannot be mapped to an abbreviation
+   */
+  static formatShortNameDivison(confName: string, divName?: string): string {
+    if ( !confName ) return confName;
+    
+    let abbr = confName;
+    switch ( confName.toLowerCase() ) {
+      case 'american': abbr = "AL"; break;
+      case 'national': abbr = "NL"; break;
+      default: break;
+    }
+    
+    return divName ? abbr + " " + GlobalFunctions.toTitleCase(divName) : abbr;
+  }
 }

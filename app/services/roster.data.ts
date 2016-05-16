@@ -98,8 +98,8 @@ export class RosterTabData {
         imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.playerHeadshot),playerRoute,"image-50-sub",GlobalSettings.getImageUrl(val.teamLogo),teamRoute,index+1),
         description:[
           '<p style="font-size:12px;"><i class="fa fa-circle" style="color:#bc2027; padding-right: 5px;"></i> ' + curYear + ' TEAM ROSTER</p>',
-          '<p style="font-size: 22px; font-weight: 900; padding:9px 0;">'+val.playerName+'</p>',
-          '<p style="font-size: 14px; line-height: 1.4em;"><b style="font-weight:900;">'+ val.playerName+ '</b>, <b style="font-weight:900;">'+ val.position.join(', ') +'</b> for the <b style="font-weight:900;">'+ val.teamName +'</b>,' + playerNum + playerHeight + playerWeight + playerSalary + '</p>',
+          '<p style="font-size: 22px; font-weight: 800; padding:9px 0;">'+val.playerName+'</p>',
+          '<p style="font-size: 14px; line-height: 1.4em;"><b style="font-weight:800;">'+ val.playerName+ '</b>, <b style="font-weight:800;">'+ val.position.join(', ') +'</b> for the <b style="font-weight:800;">'+ val.teamName +'</b>,' + playerNum + playerHeight + playerWeight + playerSalary + '</p>',
           '<p style="font-size: 10px; padding-top:9px;">Last Updated On ' + GlobalFunctions.formatUpdatedDate(val.lastUpdate) + '</p>'
         ],
         footerInfo: {

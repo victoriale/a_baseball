@@ -1,5 +1,8 @@
 import {Component, OnInit, OnChanges, Input} from 'angular2/core';
 import {Router, ROUTER_DIRECTIVES} from "angular2/router";
+import {GlobalFunctions} from '../../global/global-functions';
+import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
+import {Link, NavigationData} from '../../global/global-interface';
 
 @Component({
     selector: 'footer-component',
@@ -9,47 +12,38 @@ import {Router, ROUTER_DIRECTIVES} from "angular2/router";
     providers: [],
 })
 export class FooterComponent implements OnInit {
-    ngOnInit() {
-    }
-
-    teamListings = [
-        { "name": "A"},
-        { "name": "B"},
-        { "name": "C"},
-        { "name": "D"},
-        { "name": "E"},
-        { "name": "F"},
-        { "name": "G"},
-        { "name": "H"},
-        { "name": "I"},
-        { "name": "J"},
-        { "name": "K"},
-        { "name": "L"},
-        { "name": "M"},
-        { "name": "N"},
-        { "name": "O"},
-        { "name": "P"},
-        { "name": "Q"},
-        { "name": "R"},
-        { "name": "S"},
-        { "name": "U"},
-        { "name": "V"},
-        { "name": "W"},
-        { "name": "X"},
-        { "name": "Y"},
-        { "name": "Z"}
-    ];
+    
+    teamDirectoryListings: Array<Link> = []
+    
+    playerDirectoryListings: Array<Link> = []
+    
+    mlbTeamListings: Array<Link> = [];
+    
+    //TODO: create footer links for mlb by specifying ID
     mlbTeams = [
-        { "name": "Arizona Diamondbacks"},
-        { "name": "Atlanta Braves"},
-        { "name": "Baltimore Orioles"},
-        { "name": "Boston Red Sox"},
-        { "name": "Chicago Cubs"},
-        { "name": "Chicago White Sox"},
-        { "name": "Cincinnati Reds"},
-        { "name": "Cleveland Indians"},
-        { "name": "Colorado Rockies"},
-        { "name": "Detroit Tigers"}
+        { name: "Arizona Diamondbacks", id: 0},
+        { name: "Atlanta Braves", id: 0},
+        { name: "Baltimore Orioles", id: 0},
+        { name: "Boston Red Sox", id: 0},
+        { name: "Chicago Cubs", id: 0},
+        { name: "Chicago White Sox", id: 0},
+        { name: "Cincinnati Reds", id: 0},
+        { name: "Cleveland Indians", id: 0},
+        { name: "Colorado Rockies", id: 0},
+        { name: "Detroit Tigers", id: 0}
     ];
+    
+    
+    ngOnInit() {
+        this.teamDirectoryListings = GlobalFunctions.setupAlphabeticalNavigation("teams");
+        this.playerDirectoryListings = GlobalFunctions.setupAlphabeticalNavigation("players");
+        
+        this.mlbTeams.forEach(team => {
+           this.mlbTeamListings.push({
+              text: team.name,
+              route: MLBGlobalFunctions.formatTeamRoute(team.name, team.id.toString())
+           }); 
+        });
+    }
 
 }
