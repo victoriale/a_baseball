@@ -9,6 +9,7 @@ export interface MLBPageParameters {
   teamName?: string;
   playerId? :number;
   playerName?: string;
+  type?: string;
 }
 
 export interface Link {

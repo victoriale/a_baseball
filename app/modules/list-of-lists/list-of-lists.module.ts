@@ -17,19 +17,16 @@ export interface ListOfListsData {
     selector: 'list-of-lists',
     templateUrl: './app/modules/list-of-lists/list-of-lists.module.html',
     directives: [ModuleHeader, ModuleFooter, ListOfListsItem],
-    inputs:['locData']
 })
 
 export class ListOfListsModule{
   @Input() profileHeaderData : ProfileHeaderData;
   @Input() listOfListsData : ListOfListsData;
   moduleHeader: ModuleHeaderData;
-  testData: any;
-  displayData: any;
+  displayData: Array<any>;
   footerData: Object;
 
-  constructor(private _router: Router, private _params: RouteParams) {
-    var type = _params.get("type");
+  constructor(private _router: Router) {
     this.footerData = {
       infoDesc:'Want to see more lists like the ones above?',
       btn:'',

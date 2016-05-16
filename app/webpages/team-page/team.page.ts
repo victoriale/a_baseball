@@ -75,11 +75,8 @@ export class TeamPage implements OnInit{
     draftHistoryData: any;
     currentYear: any;
 
-    detailedDataArray     : any; //variable that is just a list of the detailed DataArray
-    dataArray             : any; //array of data for detailed list
-    carouselDataArray     : any;
     profileName           : string;
-    listOfListsData       : any; // paginated data to be displayed
+    listOfListsData       : Object; // paginated data to be displayed
 
     constructor(
         private _params: RouteParams,
@@ -89,7 +86,8 @@ export class TeamPage implements OnInit{
         private _lolService:ListOfListsService
     ) {
         this.pageParams = {
-            teamId: Number(_params.get("teamId"))
+            teamId: Number(_params.get("teamId")),
+            type: _params.get("type")
         };
         this.currentYear = new Date().getFullYear().toString();
     }
@@ -182,6 +180,7 @@ private setupProfileData() {
     this._lolService.getListOfListsService("module","team", this.pageParams.teamId, "league", 4, 1)
       .subscribe(
         listOfListsData => {
+          console.log("lolD",listOfListsData);
           this.listOfListsData = listOfListsData.listData;
         },
         err => {
