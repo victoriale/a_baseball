@@ -22,33 +22,6 @@ export interface NavigationData {
   moreLink?: Link;
 }
 
-//Used by Trending-Homes module
-export interface PropertyListingInterface {
-    listingID: string;
-    listPrice: string;
-    squareFeet: string;
-    lotSize: string;
-    listingDate: string;
-    daysOnMarket: string;
-    address: string;
-    zipCode: string;
-    city: string;
-    state: string;
-    imageCount: string;
-    numBathrooms: string;
-    numBedrooms: string;
-    fullBathrooms: string;
-    halfBathrooms: string;
-    architecturalStyle: string;
-    numFloors: string;
-    hasBasement: string;
-    listingImages: any;
-    appliance: string;
-    heating: string;
-    exterior: string;
-    roof: string;
-}
-
 /*BELOW IS ARTICLE MODULE TEST INTERFACE*/
 
 export interface HeadlineData {
