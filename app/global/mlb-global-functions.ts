@@ -149,7 +149,6 @@ export class MLBGlobalFunctions {
 
   //path: '/list/:profile/:listname/:sort/:conference/:division/:limit/:pageNum',
   static formatListRoute(urlArr: Array<any>): Array<any> {
-    var listRoute: Array<any>;
     for(var arg in urlArr) {
       if (arg == null) return ['Error-page'];
     }

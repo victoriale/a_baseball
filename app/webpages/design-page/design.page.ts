@@ -119,7 +119,6 @@ export class DesignPage implements OnInit {
         },
         err => {
           console.log('Error: listOfListsData API: ', err);
-          this.isError = true;
         }
       );
   }

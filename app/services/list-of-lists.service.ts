@@ -128,8 +128,6 @@ export class ListOfListsService {
         ctaUrlArray.splice(0,2);
         ctaUrlArray.push.apply(ctaUrlArray,["10","1"]);
 
-        ctaUrl        : MLBGlobalFunctions.formatListRoute(ctaUrlArray)
-
         var Carousel = {
           index:'2',
           // imageData(imageClass, imageBorder, mainImg, mainImgRoute, subImgClass?, subImg?, subRoute?, rank?, hasHover?){
@@ -213,7 +211,6 @@ export class ListOfListsService {
             imageClass : index > 0 ? "image-43" : "image-121",
             mainImage: {
               imageUrl        : val.imageUrl != null ? GlobalSettings.getImageUrl(val.imageUrl) : GlobalSettings.getImageUrl(val.teamLogo),
-              urlRouteArray   : itemUrlRouteArray,
               urlRouteArray   : version == "page" ? itemUrlRouteArray : null,
               hoverText       : index > 0 ? "<i class='fa fa-mail-forward'></i>" : firstItemHover,
               imageClass      : index > 0 ? "border-1" : "border-2"

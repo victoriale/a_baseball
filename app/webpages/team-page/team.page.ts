@@ -33,6 +33,7 @@ import {GlobalSettings} from "../../global/global-settings";
 import {DraftHistoryModule} from '../../modules/draft-history/draft-history.module';
 import {DraftHistoryService} from '../../services/draft-history.service';
 import {ArticlesModule} from "../../modules/articles/articles.module";
+import {ListOfListsService} from "../../services/list-of-lists.service";
 
 
 @Component({
@@ -56,7 +57,7 @@ import {ArticlesModule} from "../../modules/articles/articles.module";
         NewsModule,
         AboutUsModule,
         ArticlesModule],
-    providers: [DraftHistoryService, StandingsService, ProfileHeaderService, RosterService]
+    providers: [DraftHistoryService, StandingsService, ProfileHeaderService, RosterService, ListOfListsService]
 })
 
 export class TeamPage implements OnInit{
@@ -71,11 +72,18 @@ export class TeamPage implements OnInit{
     draftHistoryData: any;
     currentYear: any;
 
+    detailedDataArray     : any; //variable that is just a list of the detailed DataArray
+    dataArray             : any; //array of data for detailed list
+    carouselDataArray     : any;
+    profileName           : string;
+    listOfListsData           : any; // paginated data to be displayed
+
     constructor(
         private _params: RouteParams,
         private _standingsService: StandingsService,
         private _profileService: ProfileHeaderService,
-        private _draftService:DraftHistoryService
+        private _draftService:DraftHistoryService,
+        private _lolService:ListOfListsService
     ) {
         this.pageParams = {
             teamId: Number(_params.get("teamId"))
@@ -95,6 +103,7 @@ private setupProfileData() {
         this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
         this.setupShareModule();
         this.draftHistoryModule(this.currentYear, this.pageParams.teamId);//neeeds profile header data will run once header data is in
+        this.setupListOfListsModule();
       },
       err => {
         console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
@@ -162,5 +171,19 @@ private setupProfileData() {
                   // this.isError = true;
               }
           );
+  }
+
+
+  setupListOfListsModule() {
+    // getListOfListsService(version, type, id, scope?, count?, page?){
+    this._lolService.getListOfListsService("module","team", this.pageParams.teamId, "league", 4, 1)
+      .subscribe(
+        listOfListsData => {
+          this.listOfListsData = listOfListsData.listData;
+        },
+        err => {
+          console.log('Error: listOfListsData API: ', err);
+        }
+      );
   }
 }

@@ -50,11 +50,11 @@ export class ListOfListsPage implements OnInit{
     titleData: {};
 
     constructor(private _lolService:ListOfListsService, private _params: RouteParams){
-        this.type    = _params.params.type;
-        this.id      = _params.params.id;
-        this.scope   = _params.params.scope != null ? _params.params.scope : null;
-        this.limit   = _params.params.limit;
-        this.pageNum = _params.params.pageNum;
+        this.type    = _params.params['type'];
+        this.id      = _params.params['id'];
+        this.scope   = _params.params['scope'] != null ? _params.params['scope'] : null;
+        this.limit   = _params.params['limit'];
+        this.pageNum = _params.params['pageNum'];
     }
 
     setProfileHeader(profile:string){
@@ -69,7 +69,6 @@ export class ListOfListsPage implements OnInit{
     }
 
     getListOfListsPage() {
-
         // getListOfListsService(version, type, id, scope?, count?, page?){
         this._lolService.getListOfListsService("page",this.type, this.id, this.scope, this.limit, this.pageNum)
           .subscribe(
