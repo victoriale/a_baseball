@@ -48,6 +48,8 @@ export interface SearchInput {
     placeholderText: string;
     //Boolean to determine if the search dropdown should be displayed
     hasSuggestions: boolean;
+    //Text that goes in the input on load
+    initialText?: string;
 }
 
 @Component({
@@ -61,10 +63,7 @@ export interface SearchInput {
 })
 
 export class Search{
-    @Input() searchInput: SearchInput = {
-        placeholderText: 'Enter your favorite team or player',
-        hasSuggestions: true
-    };
+    @Input() searchInput: SearchInput;
 
     //NgControl of input
     public term: any = new Control();
@@ -114,52 +113,55 @@ export class Search{
 
     //Function to detect arrow key presses
     searchKeydown(event){
-        if(event.keyCode === 40){
-            //Down Arrow Keystroke
-            if(this.dropdownList.length > 0){
-                //If dropdown list exists change index
-                if(this.selectedIndex >= this.dropdownList.length - 1){
-                    //If index is equal or greater than last item, reset index to -1 (input is selected)
-                    this.selectedIndex = -1;
-                    this.unsuppressSearch();
+        //If search input has suggestions, allow for arrow key functionality
+        if(this.searchInput.hasSuggestions === true) {
 
-                }else{
-                    //Else increment index by 1
-                    this.selectedIndex++;
-                    let value = this.getSelectedValue(this.selectedIndex);
-                    this.suppressSearch(value);
+            if (event.keyCode === 40) {
+                //Down Arrow Keystroke
+                if (this.dropdownList.length > 0) {
+                    //If dropdown list exists change index
+                    if (this.selectedIndex >= this.dropdownList.length - 1) {
+                        //If index is equal or greater than last item, reset index to -1 (input is selected)
+                        this.selectedIndex = -1;
+                        this.unsuppressSearch();
+
+                    } else {
+                        //Else increment index by 1
+                        this.selectedIndex++;
+                        let value = this.getSelectedValue(this.selectedIndex);
+                        this.suppressSearch(value);
+                    }
                 }
-            }
-            //Prevents unwanted cursor jumping when up and down arrows are selected
-            event.preventDefault();
-        }else if(event.keyCode === 38){
-            //Up Arrow Keystroke
-            if(this.dropdownList.length > 0) {
-                //If dropdown list exists change index
-                if (this.selectedIndex === -1) {
-                    //If index is -1 (input is selected), set index to last item
-                    this.selectedIndex = this.dropdownList.length - 1;
-                    let value = this.getSelectedValue(this.selectedIndex);
-                    this.suppressSearch(value);
-                } else if(this.selectedIndex === 0) {
-                    //Else if index is 0 (1st dropdown option is selected), set index to input and unsuppress search
-                    this.selectedIndex = -1;
-                    this.unsuppressSearch();
-                } else {
-                    //Else decrement index by 1
-                    this.selectedIndex--;
-                    let value = this.getSelectedValue(this.selectedIndex);
-                    this.suppressSearch(value);
+                //Prevents unwanted cursor jumping when up and down arrows are selected
+                event.preventDefault();
+            } else if (event.keyCode === 38) {
+                //Up Arrow Keystroke
+                if (this.dropdownList.length > 0) {
+                    //If dropdown list exists change index
+                    if (this.selectedIndex === -1) {
+                        //If index is -1 (input is selected), set index to last item
+                        this.selectedIndex = this.dropdownList.length - 1;
+                        let value = this.getSelectedValue(this.selectedIndex);
+                        this.suppressSearch(value);
+                    } else if (this.selectedIndex === 0) {
+                        //Else if index is 0 (1st dropdown option is selected), set index to input and unsuppress search
+                        this.selectedIndex = -1;
+                        this.unsuppressSearch();
+                    } else {
+                        //Else decrement index by 1
+                        this.selectedIndex--;
+                        let value = this.getSelectedValue(this.selectedIndex);
+                        this.suppressSearch(value);
+                    }
                 }
+                //Prevents unwanted cursor jumping when up and down arrows are selected
+                event.preventDefault();
+            } else {
+                //If other key is pressed unsuppress search
+                this.isSuppressed = false;
+                this.resetSelected();
             }
-            //Prevents unwanted cursor jumping when up and down arrows are selected
-            event.preventDefault();
-        }else{
-            //If other key is pressed unsuppress search
-            this.isSuppressed = false;
-            this.resetSelected();
         }
-
     }
 
     //Get value that is
@@ -229,6 +231,12 @@ export class Search{
 
     ngOnInit(){
         let self = this;
+        let input = this.searchInput;
+
+        //If initial text exists
+        if(typeof input.initialText !== 'undefined'){
+            this.term.updateValue(input.initialText);
+        }
 
         //Subscription for function call to service
         this.subscription = this.term.valueChanges
@@ -246,7 +254,6 @@ export class Search{
             //Cancel any previous iterations if they have not completed their cycle. Also used to empty dropdown list if input is blank
             .switchMap((term: string) => term.length > 0 ? self._searchService.getSearchDropdownData(term) : Observable.of({term: term, searchResults: []}))
             .subscribe(data => {
-                console.log('results', data, this);
                 let term = data.term;
                 let searchResults = data.searchResults;
                 self.hasInputText = term.length > 0 ? true : false;
