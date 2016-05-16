@@ -5,9 +5,8 @@
  _@BATCH-1
  _@BATCH
  */
-import {List, List2} from './global-interface';
 import {Injectable} from 'angular2/core';
-import {HomePageData, ArticleData} from "./global-interface";
+import {ArticleData} from "./global-interface";
 import {Http, Headers} from 'angular2/http';
 import {GlobalFunctions} from './global-functions';
 import {Observable} from "rxjs/Observable";

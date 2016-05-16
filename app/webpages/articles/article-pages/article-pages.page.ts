@@ -12,13 +12,14 @@ import {DisqusComponent} from "../../../components/articles/disqus/disqus.compon
 import {ArticleDataService} from "../../../global/global-article-page-service";
 import {GlobalFunctions} from "../../../global/global-functions";
 import {LoadingComponent} from "../../../components/loading/loading.component";
+import {ImagesMedia} from "../../../components/carousels/images-media-carousel/images-media-carousel.component";
 
 declare var jQuery:any;
 
 @Component({
     selector: 'article-pages',
     templateUrl: './app/webpages/articles/article-pages/article-pages.page.html',
-    directives: [WidgetModule, ROUTER_DIRECTIVES, ArticleImages, ShareLinksComponent, ArticleContentComponent, RecommendationsComponent, TrendingComponent, DisqusComponent, LoadingComponent],
+    directives: [WidgetModule, ROUTER_DIRECTIVES, ImagesMedia, ShareLinksComponent, ArticleContentComponent, RecommendationsComponent, TrendingComponent, DisqusComponent, LoadingComponent],
     providers: [],
 })
 
