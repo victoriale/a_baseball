@@ -13,7 +13,7 @@ import {NoDataBox} from '../../components/error/data-box/data-box.component';
 
 @Component({
     selector: 'mvp-batter',
-    templateUrl: './app/modules/draft-history/draft-history.module.html',
+    templateUrl: './app/modules/mvp-batter/mvp-batter.module.html',
     directives: [NoDataBox, Tab, Tabs, SliderCarousel, DetailedListItem, ModuleHeader, ModuleFooter],
     providers: [],
     inputs:['draftData', 'profHeader']
@@ -32,6 +32,7 @@ export class MVPBatter{
   footerData: Object;
   footerStyle: any;
   teamId:number;
+
   constructor( public params: RouteParams){
     this.teamId = Number(this.params.get('teamId'));
     this.footerData = {
@@ -39,6 +40,7 @@ export class MVPBatter{
       text: 'VIEW THE LIST',
       url: ['Draft-history-page',{teamName:this.params.get('teamName'), teamId:this.teamId}]
     };
+
   }
 
   ngOnInit(){
@@ -50,8 +52,9 @@ export class MVPBatter{
   }
 
   displayData(){
+    console.log(this.profHeader);
     this.modHeadData = {
-        moduleTitle: "Draft History - "+ this.profHeader.profileName,
+        moduleTitle: "MVP Batter - "+ this.profHeader.profileName,
         hasIcon: false,
         iconClass: '',
     }

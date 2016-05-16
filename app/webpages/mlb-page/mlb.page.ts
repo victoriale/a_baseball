@@ -14,6 +14,7 @@ import {MLBStandingsTabData} from '../../services/standings.data';
 import {StandingsService} from '../../services/standings.service';
 import {SchedulesModule} from '../../modules/schedules/schedules.module';
 import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
+import {MVPBatter} from '../../modules/mvp-batter/mvp-batter.module';
 
 import {ProfileHeaderData, ProfileHeaderModule} from '../../modules/profile-header/profile-header.module';
 import {ProfileHeaderService} from '../../services/profile-header.service';
@@ -24,11 +25,13 @@ import {HeadlineComponent} from '../../components/headline/headline.component';
 
 import {NewsModule} from '../../modules/news/news.module';
 import {GlobalSettings} from "../../global/global-settings";
+import {ListPageService} from '../../services/list-page.service';
 
 @Component({
     selector: 'MLB-page',
     templateUrl: './app/webpages/mlb-page/mlb.page.html',
     directives: [
+        MVPBatter,
         SchedulesModule,
         BoxScoresModule,
         HeadlineComponent,
@@ -43,7 +46,7 @@ import {GlobalSettings} from "../../global/global-settings";
         ShareModule,
         NewsModule,
         AboutUsModule],
-    providers: [StandingsService, ProfileHeaderService]
+    providers: [ListPageService, StandingsService, ProfileHeaderService]
 })
 
 export class MLBPage implements OnInit{
@@ -55,9 +58,22 @@ export class MLBPage implements OnInit{
 
     profileHeaderData: ProfileHeaderData;
 
+    mvpParams:Object;
+    mvpData: any;
+
     constructor(
     private _standingsService: StandingsService,
-    private _profileService: ProfileHeaderService) {
+    private _profileService: ProfileHeaderService,
+    private listService:ListPageService
+    ) {
+      this.mvpParams ={ //Initial load for mvp Data
+        profile: 'player',
+        listname: 'batter-home-runs',
+        sort: 'desc',
+        conference: 'all',
+        division: 'all',
+        limit: 2,
+      };
     }
 
   ngOnInit() {
@@ -69,6 +85,8 @@ export class MLBPage implements OnInit{
       data => {
         this.profileHeaderData = this._profileService.convertToLeagueProfileHeader(data)
         this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
+        this.mvpData = this.getMVPBatter(this.mvpParams);
+
           this.setupShareModule();
       },
       err => {
@@ -76,10 +94,10 @@ export class MLBPage implements OnInit{
       }
     );
   }
-  
+
   private standingsTabSelected(tab: MLBStandingsTabData) {
     if ( tab && (!tab.sections || tab.sections.length == 0) ) {
-      this._standingsService.getTabData(tab, this.pageParams, 5)//only show 5 rows in the module      
+      this._standingsService.getTabData(tab, this.pageParams, 5)//only show 5 rows in the module
         .subscribe(data => tab.sections = data,
         err => {
           console.log("Error getting standings data");
@@ -97,4 +115,25 @@ export class MLBPage implements OnInit{
             shareText: shareText
         };
     }
+
+    private getMVPBatter(urlParams) {
+        this.listService.getListPageService(urlParams)
+            .subscribe(
+                list => {
+                  console.log('MVP', list);
+                  // this.profileHeaderData = list.profHeader;
+                  if(list.listData.length == 0){//makes sure it only runs once
+                    // this.detailedDataArray = false;
+                  }else{
+                    // this.detailedDataArray = list.listData;
+                  }
+                  // this.setPaginationParams(list.pagination);
+                  // this.carouselDataArray = list.carData;
+                },
+                err => {
+                    console.log('Error: list API: ', err);
+                    // this.isError = true;
+                }
+            );
+      }
 }

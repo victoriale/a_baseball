@@ -23,12 +23,8 @@ export class ListPageService {
       return headers;
   }
 
-  getListPageService(query){//TODO replace data points for list page
-  //Configure HTTP Headers
-  var headers = this.setToken();
-
   /*
-  query:{
+    query:{
     profile: //profile type ex: 'team' or 'player'
     listname: //list name sent back as lower kebab case  ex: 'batter-runs'
     sort: //sorting the list by 'desc' or 'asc'
@@ -36,9 +32,60 @@ export class ListPageService {
     division: //sort list by division, but if sort by all divisions then 'all' would be in place. conference is required if 'all' is in place
     limit: // limit the amount of data points come back but a number amount
     pageNum: //  determined by the limit as well detects what page to view based on the limit ex: limit: 10  page 1 holds 1-10 and page 2 holds 11-20
-  }
+    }
   */
+  getListPageService(query){
+  //Configure HTTP Headers
+  var headers = this.setToken();
+
   var callURL = this._apiUrl+'/list';
+
+  for(var q in query){
+    callURL += "/" + query[q];
+  }
+
+  return this.http.get( callURL, {
+      headers: headers
+    })
+    .map(
+      res => res.json()
+    )
+    .map(
+      data => {
+        data.data['query'] = query;
+        return {
+          profHeader: this.profileHeader(data.data),
+          carData: this.carDataPage(data.data),
+          listData: this.detailedData(data.data),
+          pagination: data.data.listInfo
+        }
+      },
+      err => {
+        console.log('INVALID DATA');
+      }
+    )
+  }
+
+  //moduleType can be either 'pitcher' or 'batter' to generate the tabs list used to generate a static list for MVP module
+  getListModuleService(query, moduleType){
+  //Configure HTTP Headers
+  var headers = this.setToken();
+
+  var callURL = this._apiUrl+'/list';
+
+  for(var i = 0; i <5; i++){//for loop to create 5 tabs
+    if(moduleType == 'pitcher'){
+      console.log('pitcher tab list generation');
+    }else{//defaults to 'batter' if nothing is sent to moduleType
+      console.log('batter tab list generation')
+    }
+    // tabArray.push({
+    //   tabData:tabDates - i,
+    //   tabDisplay:currentYear,
+    // });
+  }
+
+
 
   for(var q in query){
     callURL += "/" + query[q];
