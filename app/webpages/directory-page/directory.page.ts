@@ -1,8 +1,9 @@
 import {Component, OnInit} from 'angular2/core';
 import {RouteParams, Router} from 'angular2/router';
 import {GlobalFunctions} from '../../global/global-functions';
+import {NavigationData, Link} from '../../global/global-interface';
 import {DirectoryService, DirectoryType, DirectorySearchParams} from '../../services/directory.service';
-import {Link, PagingData, NavigationData, DirectoryProfileItem, DirectoryItems, DirectoryModuleData} from '../../modules/directory/directory.data';
+import {PagingData, DirectoryProfileItem, DirectoryItems, DirectoryModuleData} from '../../modules/directory/directory.data';
 import {DirectoryModule} from '../../modules/directory/directory.module';
 
 @Component({
@@ -97,13 +98,13 @@ export class DirectoryPage {
     
     switch ( this.pageType ) {
       case DirectoryType.players:
-        lowerCaseType = "players";
-        titleCaseType = "Players"; 
+        lowerCaseType = "player";
+        titleCaseType = "Player"; 
         break;
         
       case DirectoryType.teams:
-        lowerCaseType = "teams";
-        titleCaseType = "Teams"; 
+        lowerCaseType = "team";
+        titleCaseType = "Team"; 
         break;
         
       default: 
@@ -116,15 +117,13 @@ export class DirectoryPage {
     let noResultsMessage = "There are no " + lowerCaseType + " profiles in this category.";
     let pagingDescription = titleCaseType + " profiles";
     let navTitle = "Browse all " + lowerCaseType + " profiles from A to Z";
-    let pageName = "Directory-page";
+    let pageName = "Directory-page-starts-with";
     
     if ( this.startsWith !== undefined && this.startsWith !== null && this.startsWith.length > 0 ) {
       pageParams["startsWith"] = this.startsWith;
-      pageName += "-starts-with";
     }
     else if ( this.newlyAdded ) {
       pageParams["startsWith"] = "new";
-      pageName += "-starts-with";
     }
     
     let data:DirectoryModuleData = {
@@ -137,7 +136,7 @@ export class DirectoryPage {
       noResultsMessage: noResultsMessage,
       listingItems: null,
       listingsLimit: this.listingsLimit,
-      navigationData: this.setupAlphabeticalCityNavigation(navTitle),
+      navigationData: this.setupAlphabeticalNavigation(navTitle),
       pagingDescription: pagingDescription,
       pageParams: pageParams
     };
@@ -155,22 +154,8 @@ export class DirectoryPage {
     this.data = data;
   }
 
-  setupAlphabeticalCityNavigation(title: string): NavigationData {
-      var navigationArray: Array<Link> = [];
-      var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-
-      //Build alphabet array for navigation links
-      for ( var i in alphabet ) {
-          navigationArray.push({
-              text: alphabet[i],
-              route: ['Directory-page-starts-with', 
-                {
-                    type: DirectoryType[this.pageType],
-                    page: 1,
-                    startsWith: alphabet[i]
-                }]
-          });
-      }
+  setupAlphabeticalNavigation(title: string): NavigationData {
+      var navigationArray = GlobalFunctions.setupAlphabeticalNavigation(DirectoryType[this.pageType]);
 
       return {
         title: title,
