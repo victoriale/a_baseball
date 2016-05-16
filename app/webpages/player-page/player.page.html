@@ -1,4 +1,4 @@
-<div class="page-container">
+<div *ngIf="profileHeaderData && pageParams" class="page-container">
   <headline-component></headline-component>
   <profile-header *ngIf="profileHeaderData" [profileHeaderData]="profileHeaderData"></profile-header>
   <!-- daily update -->
@@ -14,19 +14,19 @@
 
   <headline-component></headline-component>
   <!-- images media -->
-  <dyk-module></dyk-module>
-  <faq-module></faq-module>
+  <dyk-module [profileName]="pageParams.playerName"></dyk-module>
+  <faq-module [profileName]="pageParams.playerName"></faq-module>
   <!-- lol lists -->
   <!-- other news -->
   <news-module></news-module>
 
   <headline-component></headline-component>
 
-  <comment-module></comment-module>
-  <twitter-module></twitter-module>
+  <comment-module [profileTitle]="pageParams.playerName"></comment-module>
+  <twitter-module [profileName]="pageParams.playerName"></twitter-module>
   <!--Like Us On FB Module, only display if not on partner page-->
   <!-- <section *ngIf="!partnerCheck"> -->
-  <share-module *ngIf="shareModuleInput && profileHeaderData" [shareModuleInput]="shareModuleInput"></share-module>
+  <share-module *ngIf="shareModuleInput" [shareModuleInput]="shareModuleInput"></share-module>
   <like-us-module></like-us-module>
   <!-- </section> -->
   <about-us></about-us>
