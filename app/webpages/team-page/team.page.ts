@@ -192,7 +192,6 @@ export class TeamPage implements OnInit {
     this._lolService.getListOfListsService("module","team", this.pageParams.teamId, "league", 4, 1)
       .subscribe(
         listOfListsData => {
-          console.log("lolD",listOfListsData);
           this.listOfListsData = listOfListsData.listData;
         },
         err => {
