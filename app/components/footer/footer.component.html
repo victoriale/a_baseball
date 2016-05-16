@@ -38,9 +38,9 @@
     <hr /><!--line break-->
     <ul class="footer-text1" id="set-width70">
       <li>You Might Like: </li>
-      <li><a [routerLink]="['Disclaimer-page']"><b>[Profile type] with the [most/lowest] [data point] for [YYYY]</b></a> <i class="fa fa-caret-right"></i></li>
-      <li><a [routerLink]="['Disclaimer-page']"><b>[Profile type] with the [most/lowest] [data point] for [YYYY]</b></a> <i class="fa fa-caret-right"></i></li>
-      <li><a [routerLink]="['Disclaimer-page']"><b>[Profile type] with the [most/lowest] [data point] for [YYYY]</b></a></li>
+      <li><a [routerLink]="['list-page', {profile:'team', listname: 'batter-stolen-bases', sort:'desc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]"><b>Batters with the highest batting average</b></a> <i class="fa fa-caret-right"></i></li>
+      <li><a [routerLink]="['Disclaimer-page']"><b>Batters with the most home runs</b></a> <i class="fa fa-caret-right"></i></li>
+      <li><a [routerLink]="['Disclaimer-page']"><b>Batters with the most strikeouts</b></a></li>
     </ul>
     <hr /><!--line break-->
     <ul>
