@@ -66,7 +66,7 @@ export class MLBSchedulesTableData implements TableComponentData<any> {
 
 }
 
-export class MLBSchedulesTabData implements TableTabData<any> {
+export class MLBSchedulesTabData {//TODO
 
   title: string;
 

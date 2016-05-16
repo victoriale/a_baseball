@@ -36,6 +36,7 @@ import {DraftHistoryModule} from '../../modules/draft-history/draft-history.modu
 import {DraftHistoryService} from '../../services/draft-history.service';
 import {ArticlesModule} from "../../modules/articles/articles.module";
 
+import {ListPageService} from '../../services/list-page.service';
 
 @Component({
   selector: 'Team-page',
@@ -80,7 +81,8 @@ export class TeamPage implements OnInit {
     private _standingsService: StandingsService,
     private _schedulesService: SchedulesService,
     private _profileService: ProfileHeaderService,
-    private _draftService: DraftHistoryService
+    private _draftService: DraftHistoryService,
+    private listService:ListPageService
     ) {
     this.pageParams = {
       teamId: Number(_params.get("teamId")),
@@ -177,4 +179,24 @@ export class TeamPage implements OnInit {
       }
       );
   }
+
+  getListPage(urlParams) {
+      this.listService.getListPageService(urlParams)
+          .subscribe(
+              list => {
+                // this.profileHeaderData = list.profHeader;
+                if(list.listData.length == 0){//makes sure it only runs once
+                  // this.detailedDataArray = false;
+                }else{
+                  // this.detailedDataArray = list.listData;
+                }
+                // this.setPaginationParams(list.pagination);
+                // this.carouselDataArray = list.carData;
+              },
+              err => {
+                  console.log('Error: list API: ', err);
+                  // this.isError = true;
+              }
+          );
+    }
 }

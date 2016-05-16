@@ -130,18 +130,18 @@ export class SchedulesService {
     )
   }
 
-  private setupTabData(SchedulesTab: any, apiData: any, teamId: number, maxRows: number): Array<any> {
+  private setupTabData(schedulesTab: any, apiData: any, teamId: number, maxRows: number): Array<any> {
     //Array<TeamSchedulesData>
     var sections: Array<any> = [];
     var totalRows = 0;
 
-    if ( standingsTab.conference !== null && standingsTab.conference !== undefined &&
-      standingsTab.division !== null && standingsTab.division !== undefined ) {
+    if ( schedulesTab.conference !== null && schedulesTab.conference !== undefined &&
+      schedulesTab.division !== null && schedulesTab.division !== undefined ) {
       //get only the single division
-      var conferenceKey = Conference[standingsTab.conference];
-      var divisionKey = Division[standingsTab.division];
+      var conferenceKey = Conference[schedulesTab.conference];
+      var divisionKey = Division[schedulesTab.division];
       var divData = conferenceKey && divisionKey ? apiData[conferenceKey][divisionKey] : [];
-      sections.push(this.setupTableData(standingsTab.conference, standingsTab.division, divData, maxRows, false));
+      sections.push(this.setupTableData(schedulesTab.conference, schedulesTab.division, divData, maxRows, false));
     }
     else {
       //other load all provided divisions
