@@ -98,13 +98,13 @@ export class DirectoryPage {
     
     switch ( this.pageType ) {
       case DirectoryType.players:
-        lowerCaseType = "players";
-        titleCaseType = "Players"; 
+        lowerCaseType = "player";
+        titleCaseType = "Player"; 
         break;
         
       case DirectoryType.teams:
-        lowerCaseType = "teams";
-        titleCaseType = "Teams"; 
+        lowerCaseType = "team";
+        titleCaseType = "Team"; 
         break;
         
       default: 

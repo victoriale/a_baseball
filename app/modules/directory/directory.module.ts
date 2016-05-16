@@ -81,6 +81,8 @@ export class DirectoryModule implements OnChanges {
       currentPage: currPage,
       description: this.data.pagingDescription
     }
+    
+    console.log("total items: " + this.pagingDescription.totalItems);
   }
 
   setPageParams(link: Link) {
