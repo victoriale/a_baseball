@@ -193,7 +193,7 @@ export class ListOfListsService {
             imageClass : index > 0 ? "image-43" : "image-121",
             mainImage: {
               imageUrl        : val.imageUrl != null ? GlobalSettings.getImageUrl(val.imageUrl) : GlobalSettings.getImageUrl(val.teamLogo),
-              urlRouteArray   : version == "page" ? itemUrlRouteArray : null,
+              urlRouteArray   : version == "page" || index > 0 ? itemUrlRouteArray : null,
               hoverText       : index > 0 ? "<i class='fa fa-mail-forward'></i>" : firstItemHover,
               imageClass      : index > 0 ? "border-1" : "border-2"
             },
