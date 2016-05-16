@@ -8,7 +8,8 @@ import {GlobalFunctions} from '../global/global-functions';
 
 //TODO-CJP: Ask backend to return values as numbers and not strings!
 export interface SchedulesData {
-  imageUrl: string,
+  homeImageUrl: string,
+  awayImageUrl: string,
   backgroundImage: string,
   teamId: number;
   eventId: string,
@@ -47,16 +48,16 @@ export interface SchedulesData {
   fullBackgroundImageUrl?: string;
 }
 
-export class MLBStandingsTableData implements TableComponentData<TeamStandingsData> {
+export class MLBSchedulesTableData implements TableComponentData<any> {
   groupName: string;
 
-  tableData: MLBStandingsTableModel;
+  tableData: MLBSchedulesTableModel;
 
   conference: Conference;
 
   division: Division;
 
-  constructor(title: string, conference: Conference, division: Division, table: MLBStandingsTableModel) {
+  constructor(title: string, conference: Conference, division: Division, table: MLBSchedulesTableModel) {
     this.groupName = title;
     this.conference = conference;
     this.division = division;
@@ -65,13 +66,13 @@ export class MLBStandingsTableData implements TableComponentData<TeamStandingsDa
 
 }
 
-export class MLBStandingsTabData implements TableTabData<TeamStandingsData> {
+export class MLBSchedulesTabData implements TableTabData<any> {
 
   title: string;
 
   isActive: boolean;
 
-  sections: Array<MLBStandingsTableData>;
+  sections: Array<MLBSchedulesTableData>;
 
   conference: Conference;
 
@@ -85,36 +86,12 @@ export class MLBStandingsTabData implements TableTabData<TeamStandingsData> {
     this.sections = [];
   }
 
-  convertToCarouselItem(item: TeamStandingsData, index:number): SchedulesCarouselInput {
-    var subheader = item.seasonId + " Season " + item.groupName + " Standings";
-    var description = item.teamName + " is currently <span class='text-heavy'>ranked " + item.rank + GlobalFunctions.Suffix(item.rank) + "</span>" +
-                      " in the <span class='text-heavy'>" + item.groupName + "</span>, with a record of " +
-                      "<span class='text-heavy'>" + item.totalWins + " - " + item.totalLosses + "</span>.";
-
-    return {
-      index: index,
-      backgroundImage: item.fullBackgroundImageUrl, //optional
-      description: [
-        "<div class='standings-car-subhdr'><i class='fa fa-circle'></i>" + subheader + "</div>",
-        "<div class='standings-car-hdr'>" + item.teamName + "</div>",
-        "<div class='standings-car-desc'>" + description + "</div>",
-        "<div class='standings-car-date'>Last Updated On " + item.displayDate + "</div>"
-      ],
-      imageConfig: {
-        imageClass: "image-150",
-        mainImage: {
-          imageClass: "border-10",
-          urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId.toString()),
-          imageUrl: item.fullImageUrl,
-          hoverText: "<p>View</p><p>Profile</p>"
-        },
-        subImages: []
-      }
-    };
+  convertToCarouselItem(item: any, index:number) {
+  return 'to be continued...'
   }
 }
 
-export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
+export class MLBSchedulesTableModel implements TableModel<any> {
   // title: string;
 
   columns: Array<TableColumn> = [{
@@ -159,11 +136,11 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
       key: "strk"
     }];
 
-  rows: Array<TeamStandingsData>;
+  rows: Array<any>;
 
   selectedKey:number = -1;
 
-  constructor(rows: Array<TeamStandingsData>) {
+  constructor(rows: Array<any>) {
     this.rows = rows;
     if ( this.rows === undefined || this.rows === null ) {
       this.rows = [];
@@ -179,11 +156,11 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
     }
   }
 
-  isRowSelected(item:TeamStandingsData, rowIndex:number): boolean {
+  isRowSelected(item, rowIndex:number): boolean {
     return this.selectedKey == item.teamId;
   }
 
-  getDisplayValueAt(item:TeamStandingsData, column:TableColumn):string {
+  getDisplayValueAt(item, column:TableColumn):string {
     var s = "";
     switch (column.key) {
       case "name":
@@ -222,7 +199,7 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
     return s;
   }
 
-  getSortValueAt(item:TeamStandingsData, column:TableColumn):any {
+  getSortValueAt(item, column:TableColumn) {
     var o = null;
     switch (column.key) {
       case "name":
@@ -261,7 +238,7 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
     return o;
   }
 
-  getImageConfigAt(item:TeamStandingsData, column:TableColumn):CircleImageData {
+  getImageConfigAt(item, column:TableColumn):CircleImageData {
     if ( column.key === "name" ) {
       //TODO-CJP: store after creation? or create each time?
       return {
@@ -284,7 +261,7 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
     return column.key === "name";
   }
 
-  getRouterLinkAt(item:TeamStandingsData, column:TableColumn):Array<any> {
+  getRouterLinkAt(item, column:TableColumn):Array<any> {
     if ( column.key === "name" ) {
       return MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId.toString());
     }

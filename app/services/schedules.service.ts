@@ -6,7 +6,7 @@ import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalSettings} from '../global/global-settings';
 import {Conference, Division, MLBPageParameters} from '../global/global-interface';
 
-import {TeamStandingsData, MLBStandingsTabData, MLBStandingsTableModel, MLBStandingsTableData} from './standings.data';
+import { MLBSchedulesTabData, MLBSchedulesTableModel, MLBSchedulesTableData} from './schedules.data';
 
 
 declare var moment;
@@ -60,43 +60,33 @@ export class SchedulesService {
 
 
   loadAllTabsForModule(pageParams: MLBPageParameters) {
-    return {
-        moduleTitle: this.getModuleTitle(pageParams),
-        pageRouterLink: this.getLinkToPage(pageParams),
-        tabs: this.initializeAllTabs(pageParams)
-    };
+    console.log(pageParams);
+    var test = this.initializeAllTabs(pageParams);
+    console.log(test);
+    // return {
+    //     moduleTitle: this.getModuleTitle(pageParams),
+    //     pageRouterLink: this.getLinkToPage(pageParams),
+    //     tabs: this.initializeAllTabs(pageParams)
+    // };
   }// Load all tabs but for schedules there is no tabs
 
+  loadAllTabs(pageParams: MLBPageParameters, maxRows?: number): Observable<Array<any>> {
+    var tabs = this.initializeAllTabs(pageParams);
+    return Observable.forkJoin(tabs.map(tab => this.getSchedulesService('team','2799', 'pre-game')));
+  }
 
   initializeAllTabs(pageParams: MLBPageParameters): Array<any> {
     let tabs: Array<any> = [];
 
-    if ( pageParams.conference === undefined || pageParams.conference === null ) {
-      //Is an MLB page: show MLB, then American, then National
-      tabs.push(this.createTab(true));
-      tabs.push(this.createTab(false, Conference.american));
-      tabs.push(this.createTab(false, Conference.national));
-    }
-    else if ( pageParams.division === undefined || pageParams.division === null ) {
-      //Is a League page: show All Divisions, then American, then National
-      tabs.push(this.createTab(false));
-      tabs.push(this.createTab(pageParams.conference === Conference.american, Conference.american));
-      tabs.push(this.createTab(pageParams.conference === Conference.national, Conference.national));
-    }
-    else {
-      //Is a Team page: show team's division, then team's league, then MLB
-      tabs.push(this.createTab(true, pageParams.conference, pageParams.division));
-      tabs.push(this.createTab(false, pageParams.conference));
-      tabs.push(this.createTab(false));
-    }
-
+    tabs.push(this.createTab(true));
+    console.log('initializeAllTabs', tabs);
     return tabs;
   }//there will only be one tab so this function only needs to return one for the time being
 
 
   private createTab(selectTab: boolean, conference?: Conference, division?: Division) {
     let title = this.formatGroupName('2016') + " Schedules";
-    return new MLBStandingsTabData(title, conference, division, selectTab);
+    return new MLBSchedulesTabData(title, conference, division, selectTab);
   }//creates a tab with the new interface
 
 
@@ -140,9 +130,9 @@ export class SchedulesService {
     )
   }
 
-  private setupTabData(standingsTab: any, apiData: any, teamId: number, maxRows: number): Array<any> {
-    //Array<TeamStandingsData>
-    var sections: Array<MLBStandingsTableData> = [];
+  private setupTabData(SchedulesTab: any, apiData: any, teamId: number, maxRows: number): Array<any> {
+    //Array<TeamSchedulesData>
+    var sections: Array<any> = [];
     var totalRows = 0;
 
     if ( standingsTab.conference !== null && standingsTab.conference !== undefined &&
@@ -209,8 +199,8 @@ export class SchedulesService {
     // });
 
     let tableName = this.formatGroupName('2016');
-    var table = new MLBStandingsTableModel(rows);
-    return new MLBStandingsTableData(includeTableName ? tableName : "", conference, division, table);
+    var table = new MLBSchedulesTableModel(rows);
+    return new MLBSchedulesTableData(includeTableName ? tableName : "", conference, division, table);
   }
 
   private formatGroupName(date): string {
