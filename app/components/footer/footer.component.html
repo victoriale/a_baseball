@@ -1,5 +1,6 @@
 <footer class="footer container-fluid">
-  <section class="footer-top">
+  <section class="footer-top col-xs-12">
+    <!-- TODO if partner then hide the logo -->
     <a href="/"><img src="/app/public/homeRunLoyalLogo_Small.png" /></a>
     <ul>
         <a href="https://www.facebook.com/sharer/sharer.php?u={{currentUrl}}" target="_blank"><li id="share-facebook"><i class="fa fa-facebook"></i></li></a>
@@ -9,16 +10,16 @@
     </ul>
   </section>
 
-  <section class="footer-main">
+  <section class="footer-main col-xs-12">
     <h1>Major League Baseball</h1>
     <ul>
         <li>Team Listings </li>
         <!-- <li *ngFor="#listings of alphabets"><a [routerLink]='["Directory-page", {}]'>{{team.name}}</a></li> -->
-        <li *ngFor="#teamListings of teamListings"><a [routerLink]='["Disclaimer-page"]'>{{teamListings.name}} </a> |</li>
+        <li *ngFor="#teamListings of teamListings"><a [routerLink]='["Disclaimer-page"]'>{{teamListings.name}} </a> <span>|</span></li>
     </ul>
     <ul>
         <li>Player Listings </li>
-        <li *ngFor="#teamListing of teamListings"><a [routerLink]='["Disclaimer-page"]'>{{teamListing.name}} </a> |</li>
+        <li *ngFor="#teamListing of teamListings"><a [routerLink]='["Disclaimer-page"]'>{{teamListing.name}} </a> <span>|</span></li>
     </ul>
     <hr /><!--line break-->
     <ul>
@@ -27,14 +28,16 @@
       <li class="footer-text1"><a [routerLink]="['Disclaimer-page']">View All MLB Profiles</a> <i class="fa fa-caret-right"></i></li>
     </ul>
     <hr /><!--line break-->
-    <ul class="footer-text1">
+    <ul class="footer-text1" style="width: 70%;">
       <li>You Might Like: </li>
-      <li><a [routerLink]="['Disclaimer-page']"><b>A List Page</b></a> <i class="fa fa-caret-right"></i></li>
+      <li><a [routerLink]="['Disclaimer-page']"><b>[Profile type] with the [most/lowest] [data point] for [YYYY]</b></a> <i class="fa fa-caret-right"></i></li>
+      <li><a [routerLink]="['Disclaimer-page']"><b>[Profile type] with the [most/lowest] [data point] for [YYYY]</b></a> <i class="fa fa-caret-right"></i></li>
+      <li><a [routerLink]="['Disclaimer-page']"><b>[Profile type] with the [most/lowest] [data point] for [YYYY]</b></a></li>
     </ul>
     <hr /><!--line break-->
     <ul>
-        <li class="footer-text1"><a href="/"><b>HomeRunLoyal.com</b></a> <i class="fa fa-caret-right"></i></li>
-        <li><a [routerLink]="['Disclaimer-page']">Advertise with HomeRunLoyal</a> <i class="fa fa-caret-right"></i></li>
+        <li class="footer-text1"><a href="/"><b>{{pageName}}.com</b></a> <i class="fa fa-caret-right"></i></li>
+        <li><a [routerLink]="['Contact-us-page']">Advertise with {{pageName}}</a> <i class="fa fa-caret-right"></i></li>
     </ul>
     <ul>
         <li><a [routerLink]="['Disclaimer-page']"><b>Contact Us</b></a> <i class="fa fa-caret-right"></i></li>

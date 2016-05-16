@@ -1,8 +1,28 @@
+.articles{
+  padding: 10px;
+  @colorImages: @masterBrandColor !important;
+  background-color: @colorImages;
+  border-color: @colorImages;
+  border-radius: 5px;
+  font-weight: 400;
+  right: 25px;
+  top: 10px;
+  span:first-child{
+    padding-right: 5px;
+  }
+  b{
+    font-weight: 800;
+  }
+}
+
 .news{
   width: 100%;
   color: @white;
   position: relative;
   font-size: 12px;
+  .circles-left, .circles-right{
+    top: 35%;
+  }
     &-placeholder{
       width: 100%;
       height: 350px;
@@ -15,30 +35,36 @@
       width: 78%;
       height: auto;
       margin:auto;
-      padding-top: 20%;
+      padding-top: 18%;
+      padding-left: 10px;
+
     }//.news-text ends
     &-headline{
-      height: 70px;
       overflow: hidden;
-      text-overflow: ellipsis;
+      max-height: 70px;
       line-height: 1.2em;
-      .globalDefaultFont(2.33em, 900);
+      // .line-clamp-2;
+      // .line-clamp;
+      .globalDefaultFont(2.33em, 800);
     }
     &-preview{
-      height: 75px;
       overflow: hidden;
-      text-overflow: ellipsis;
-      margin: 10px 0 20px 0;
-      line-height: 1.5em;
+      margin: 15px 0 30px 0;
+      .line-clamp-3;
+      .line-clamp;
       .globalDefaultFont(1.33em, 400);
     }
     &-footer{
-      height: 200px;
       .flexDisplay;
       .flexJustify(space-between);
+      .flexAlignItems(baseline);
       .globalDefaultFont(1em, 400);
       &-created{
         margin-right: 200px;
+      }
+      .fa-share-alt{
+        font-size: 1.5em;
+        padding-right: 5px;
       }
     }
 }//.news ends

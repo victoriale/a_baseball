@@ -4,7 +4,7 @@
     .flexDisplay;
     .flexJustify(space-between);
     .flexAlignItems(center);
-    background-color: @mediumGrey;
+    background-color: @medDarkGrey;
     padding: 0 10%;
     img{
       margin: 9px auto;
@@ -28,7 +28,7 @@
   }// footer-top ends
 
   &-main{
-    background-color: @listSeparatorGrey;
+    background-color: @mediumGrey;
     height: auto;
     padding-bottom: 20px;
     .globalDefaultModFont(14px, 400, @white);
@@ -36,16 +36,19 @@
     .flexDisplay;
     .flexDirection(column);
     h1{
-      .globalDefaultModFont(30px, 900, @white);
+      .globalDefaultModFont(30px, 800, @white);
     }// h1 ends
     ul{
       .flexDisplay;
       .flexWrap(wrap);
       .flexJustify(center);
-      width: 55%;
+      width: 40%;
       li{
         line-height: 25px;
         padding-right: 5px;
+        span{
+          color: @listSeparatorGrey;
+        }
         i{
           padding: 5px;
         }
@@ -54,19 +57,27 @@
             color: @masterBrandColor;
           }
         }
-      }
+        &:last-child{
+          span{
+            visibility: hidden;
+          }
+        }
+      }//li ends
     }// ul ends
     hr{
-      width: 70%;
+      width: 50%;
     }
 
   }// footer-main ends
   &-text1{
     a{
-      .globalDefaultModFont(14px, 900, @masterBrandColor);
+      .globalDefaultModFont(14px, 800, @masterBrandColor);
+    }
+    b{
+      font-weight: 800;
     }
   }
-}
+}//footer ENDS
 #share-facebook{
   &:hover{
     background-color: @greySocialBarHover;
@@ -117,5 +128,11 @@
     .fa{
       color: @white;
     }
+  }
+}
+.listing-line-break{
+  color: @listSeparatorGrey;
+  &:last-child{
+    display: none;
   }
 }

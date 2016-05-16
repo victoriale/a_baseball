@@ -9,6 +9,7 @@ import {Router, ROUTER_DIRECTIVES} from "angular2/router";
     providers: [],
 })
 export class FooterComponent implements OnInit {
+  public pageName: string = "HomeRunLoyal"; //TODO
     ngOnInit() {
     }
 
