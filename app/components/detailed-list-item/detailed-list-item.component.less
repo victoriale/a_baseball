@@ -64,20 +64,22 @@
           font-size: 14px;
           line-height: 1.3em;
           & > i{
+            float:left;
             color:@masterBrandColor;
-            padding-right:.5em;
+            padding-right:.2em;
           }
         }
         & span{
-          &:first-child{
             display: inline;
-            width:50%;
+            width:62%;
             float: left;
             text-align: left;
-          }
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
           &:last-child{
             display: inline;
-            width:45%;
+            width:33%;
             float: right;
             text-align: right;
           }

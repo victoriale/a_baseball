@@ -43,7 +43,7 @@ export class ListPageService {
   for(var q in query){
     callURL += "/" + query[q];
   }
-
+  // console.log(callURL);
   return this.http.get( callURL, {
       headers: headers
     })
@@ -179,7 +179,6 @@ export class ListPageService {
       };
       carouselArray.push(Carousel);
     }else{
-      console.log(carData);
       //if data is coming through then run through the transforming function for the module
       carData.forEach(function(val, index){
         var rank = ((Number(data.query.pageNum) - 1) * Number(data.query.limit)) + (index+1);
@@ -236,7 +235,7 @@ export class ListPageService {
             description:[
               '<br>',
               '<p style="font-size:24px"><b>'+playerFullName+'</b></p>',
-              '<p><i class="fa fa-map-marker text-master"></i> <b> '+val.teamName+' | Jersey: #'+val.uniformNumber+' Pos: '+position+'</b></p>',
+              '<p></i> <b> '+val.teamName+' | Jersey: #'+val.uniformNumber+' Pos: '+position+'</b></p>',
               '<br>',
               '<p style="font-size:24px"><b>'+val.stat+'</b></p>',
               '<p style="font-size:20px"> '+ carInfo.stat.replace(/-/g, ' ') +'</p>',
@@ -283,9 +282,9 @@ export class ListPageService {
             val.teamName,
             (val.stat),
             MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
-            'Hometown: '+val.teamCity +', '+val.teamState + ' | Division: '+ GlobalFunctions.formatShortNameDivison(val.conferenceName) + val.division.charAt(0),
-            self.globalFunc.toTitleCase(detailInfo.stat.replace(/-/g, ' ')) ,
-            MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
+            val.teamCity +', '+val.teamState + ' | Division: '+ MLBGlobalFunctions.formatShortNameDivison(val.conferenceName) + val['divisionName'].charAt(0).toUpperCase(),
+            self.globalFunc.toTitleCase(detailInfo.stat.replace(/-/g, ' ')),
+            MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),'fa fa-map-marker'),
             imageConfig: self.imageData("image-121","border-2",
             GlobalSettings.getImageUrl(
             val.teamLogo),
@@ -317,7 +316,7 @@ export class ListPageService {
             val.teamName +' | Position: ' + position,
             self.globalFunc.toTitleCase(detailInfo.stat.replace(/-/g, ' ')),
             MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
-          imageConfig: self.imageData(
+            imageConfig: self.imageData(
             "image-121",
             "border-2",
             GlobalSettings.getImageUrl(val.imageUrl),
@@ -395,7 +394,7 @@ export class ListPageService {
   }
 
   //TODO replace data points for list page
-  detailsData(mainP1,mainV1,mainUrl1,subP1,subV2,subUrl2,dataP3?,dataV3?,dataUrl3?){
+  detailsData(mainP1,mainV1,mainUrl1,subP1,subV2,subUrl2, icon?, dataP3?,dataV3?,dataUrl3?){
     if(typeof dataP3 == 'undefined'){
       dataP3 = '';
     }
@@ -421,7 +420,7 @@ export class ListPageService {
         data:subP1,
         value:subV2,
         url:subUrl2,
-        icon:'fa fa-map-marker',
+        icon:icon,
       },
     ];
     return details;
