@@ -34,6 +34,7 @@ import {DraftHistoryModule} from '../../modules/draft-history/draft-history.modu
 import {DraftHistoryService} from '../../services/draft-history.service';
 import {ArticlesModule} from "../../modules/articles/articles.module";
 import {ListOfListsService} from "../../services/list-of-lists.service";
+import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.module";
 
 
 @Component({
@@ -56,7 +57,9 @@ import {ListOfListsService} from "../../services/list-of-lists.service";
         TeamRosterModule,
         NewsModule,
         AboutUsModule,
-        ArticlesModule],
+        ArticlesModule,
+        ListOfListsModule
+    ],
     providers: [DraftHistoryService, StandingsService, ProfileHeaderService, RosterService, ListOfListsService]
 })
 
@@ -76,7 +79,7 @@ export class TeamPage implements OnInit{
     dataArray             : any; //array of data for detailed list
     carouselDataArray     : any;
     profileName           : string;
-    listOfListsData           : any; // paginated data to be displayed
+    listOfListsData       : any; // paginated data to be displayed
 
     constructor(
         private _params: RouteParams,
