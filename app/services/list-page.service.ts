@@ -197,7 +197,7 @@ export class ListPageService {
               'image-50-sub'),
             description:[
               '<p style="font-size:24px"><b>'+val.teamName+'</b></p>',
-              '<p><i class="fa fa-map-marker text-master"></i> Hometown:'+val.teamCity +', '+val.teamState+'</p>',
+              '<p><i class="fa fa-map-marker text-master"></i>'+val.teamCity +', '+val.teamState+'</p>',
               '<br>',
               '<p style="font-size:24px"><b>'+val.stat+'</b></p>',
               '<p style="font-size:20px"> '+ carInfo.stat.replace(/-/g, ' ') +'</p>',
