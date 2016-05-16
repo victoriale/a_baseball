@@ -95,45 +95,31 @@ export class MLBSchedulesTableModel implements TableModel<any> {
   // title: string;
 
   columns: Array<TableColumn> = [{
-      headerValue: "Team Name",
-      columnClass: "image-column",
-      key: "name"
-    },{
-      headerValue: "W",
+      headerValue: "DATE",
       columnClass: "data-column",
-      isNumericType: true,
-      key: "w"
-    },{
-      headerValue: "L",
-      columnClass: "data-column",
-      isNumericType: true,
-      key: "l"
-    },{
-      headerValue: "PCT",
-      columnClass: "data-column",
-      isNumericType: true,
       sortDirection: -1, //descending
-      key: "pct"
+      isNumericType: false,
+      key: "date"
     },{
-      headerValue: "GB",
+      headerValue: "TIME",
+      columnClass: "data-column",
+      isNumericType: false,
+      key: "t"
+    },{
+      headerValue: "AWAY",
+      columnClass: "image-column",
+      isNumericType: false,
+      key: "away"
+    },{
+      headerValue: "HOME",
+      columnClass: "data-column",
+      isNumericType: false,
+      key: "home"
+    },{
+      headerValue: "GAME SUMMARY",
       columnClass: "data-column",
       isNumericType: true,
-      key: "gb"
-    },{
-      headerValue: "RS",
-      columnClass: "data-column",
-      isNumericType: true,
-      key: "rs"
-    },{
-      headerValue: "RA",
-      columnClass: "data-column",
-      isNumericType: true,
-      key: "ra"
-    },{
-      headerValue: "STRK",
-      columnClass: "data-column",
-      isNumericType: true,
-      key: "strk"
+      key: "gs"
     }];
 
   rows: Array<any>;
@@ -163,39 +149,46 @@ export class MLBSchedulesTableModel implements TableModel<any> {
   getDisplayValueAt(item, column:TableColumn):string {
     var s = "";
     switch (column.key) {
-      case "name":
-        s = item.teamName;
+      case "date":
+        s = item.stateDateTime;
         break;
 
-      case "w":
-        s = item.totalWins.toString();
+      case "t":
+        s = item.stateDateTime;
         break;
 
-      case "l":
-        s = item.totalLosses.toString();
+      case "away":
+        s = item.awayTeamName;
         break;
 
-      case "pct":
-        s =item.winPercentage.toPrecision(3);
+      case "home":
+        s =item.homeTeamName;
         break;
 
-      case "gb":
-        s = item.gamesBack == 0 ? "-" : item.gamesBack.toString();
-        break;
-
-      case "rs":
-        s = item.batRunsScored.toString();
-        break;
-
-      case "ra":
-        s = item.pitchRunsAllowed.toString();
-        break;
-
-      case "strk":
-        var str = item.streakCount.toString();
-        s = (item.streakType == "loss" ? "L-" : "W-") + item.streakCount.toString();
+      case "gs":
+        s = item.eventStatus;
         break;
     }
+    /*
+    homeImageUrl: string,
+    awayImageUrl: string,
+    backgroundImage: string,
+    teamId: number;
+    eventId: string,
+    stateDateTime: string,
+    eventStatus: string,
+    siteId: number,
+    homeTeamId: number,
+    awatTeamId: number,
+    homeScore: number,
+    awayScore: string,
+    homeOutcome: number,
+    awayOutcome: number,
+    seasonId: string,
+    homeTeamName: number,
+    awayTeamName: number,
+    reportUrlMod: number,
+    */
     return s;
   }
 
