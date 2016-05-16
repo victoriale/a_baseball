@@ -14,7 +14,7 @@ import {MLBStandingsTabData} from '../../services/standings.data';
 import {StandingsService} from '../../services/standings.service';
 import {SchedulesModule} from '../../modules/schedules/schedules.module';
 import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
-import {MVPBatter} from '../../modules/mvp-batter/mvp-batter.module';
+import {MVPModule} from '../../modules/mvp/mvp.module';
 
 import {ProfileHeaderData, ProfileHeaderModule} from '../../modules/profile-header/profile-header.module';
 import {ProfileHeaderService} from '../../services/profile-header.service';
@@ -31,7 +31,7 @@ import {ListPageService} from '../../services/list-page.service';
     selector: 'MLB-page',
     templateUrl: './app/webpages/mlb-page/mlb.page.html',
     directives: [
-        MVPBatter,
+        MVPModule,
         SchedulesModule,
         BoxScoresModule,
         HeadlineComponent,
@@ -58,21 +58,33 @@ export class MLBPage implements OnInit{
 
     profileHeaderData: ProfileHeaderData;
 
-    mvpParams:Object;
-    mvpData: any;
-
+    batterParams:any;
+    batterData: any;
+    pitcherParams:any;
+    pitcherData: any;
+    listMax: number = 10;
     constructor(
     private _standingsService: StandingsService,
     private _profileService: ProfileHeaderService,
     private listService:ListPageService
     ) {
-      this.mvpParams ={ //Initial load for mvp Data
+      this.batterParams = { //Initial load for mvp Data
         profile: 'player',
         listname: 'batter-home-runs',
-        sort: 'desc',
+        sort: 'asc',
         conference: 'all',
         division: 'all',
-        limit: 2,
+        limit: this.listMax,
+        pageNum:1
+      };
+      this.pitcherParams = { //Initial load for mvp Data
+        profile: 'player',
+        listname: 'pitcher-innings-pitched',
+        sort: 'asc',
+        conference: 'all',
+        division: 'all',
+        limit: this.listMax,
+        pageNum:1
       };
     }
 
@@ -85,9 +97,9 @@ export class MLBPage implements OnInit{
       data => {
         this.profileHeaderData = this._profileService.convertToLeagueProfileHeader(data)
         this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
-        this.mvpData = this.getMVPBatter(this.mvpParams);
-
-          this.setupShareModule();
+        this.batterData = this.getMVP(this.batterParams, 'batter');
+        this.pitcherData = this.getMVP(this.pitcherParams, 'pitcher');
+        this.setupShareModule();
       },
       err => {
         console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
@@ -116,19 +128,72 @@ export class MLBPage implements OnInit{
         };
     }
 
-    private getMVPBatter(urlParams) {
-        this.listService.getListPageService(urlParams)
+
+    //each time a tab is selected the carousel needs to change accordingly to the correct list being shown
+    private batterTab(event) {
+      this.batterParams ={ //Initial load for mvp Data
+        profile: 'player',
+        listname: event,
+        sort: 'asc',
+        conference: 'all',
+        division: 'all',
+        limit: this.listMax,
+        pageNum:1
+      };
+      this.getMVP(this.batterParams, 'batter');
+    }
+
+    //each time a tab is selected the carousel needs to change accordingly to the correct list being shown
+    private pitcherTab(event) {
+      this.pitcherParams ={ //Initial load for mvp Data
+        profile: 'player',
+        listname: event,
+        sort: 'asc',
+        conference: 'all',
+        division: 'all',
+        limit: this.listMax,
+        pageNum:1
+      };
+      this.getMVP(this.pitcherParams, 'pitcher');
+    }
+
+    private getMVP(urlParams, moduleType) {
+
+        this.listService.getListModuleService(urlParams, moduleType)
             .subscribe(
                 list => {
-                  console.log('MVP', list);
-                  // this.profileHeaderData = list.profHeader;
+                  var dataArray, detailedDataArray, carouselDataArray;
                   if(list.listData.length == 0){//makes sure it only runs once
-                    // this.detailedDataArray = false;
+                    detailedDataArray = false;
                   }else{
-                    // this.detailedDataArray = list.listData;
+                    detailedDataArray = list.listData;
                   }
-                  // this.setPaginationParams(list.pagination);
-                  // this.carouselDataArray = list.carData;
+                  dataArray = list.tabArray;
+                  carouselDataArray = list.carData;
+                  if(moduleType == 'batter'){
+                    return this.batterData = {
+                      query:this.batterParams,
+                      tabArray: dataArray,
+                      listData: detailedDataArray,
+                      carData: carouselDataArray,
+                      errorData: {
+                        data: "Sorry, we do not currently have any data for this mvp list",
+                        icon: "fa fa-remove"
+                      }
+                    }
+                  }else{
+                    return this.pitcherData = {
+                      query:this.pitcherParams,
+                      tabArray: dataArray,
+                      listData: detailedDataArray,
+                      carData: carouselDataArray,
+                      errorData: {
+                        data: "Sorry, we do not currently have any data for this mvp list",
+                        icon: "fa fa-remove"
+                      }
+                    }
+                  }
+
                 },
                 err => {
                     console.log('Error: list API: ', err);
