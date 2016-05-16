@@ -22,7 +22,7 @@ export class DYKService {
     )
     .map(
       data => {
-        console.log(data);
+        // console.log("service", data);
         return {
             data
         };
