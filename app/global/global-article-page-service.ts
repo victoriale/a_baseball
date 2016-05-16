@@ -2,15 +2,13 @@ import {Injectable, Injector} from 'angular2/core';
 import {Router, ROUTER_DIRECTIVES, ROUTER_PROVIDERS, RouteConfig, RouteParams } from 'angular2/router';
 import {HTTP_PROVIDERS, Http, Response, Headers} from "angular2/http";
 import {GlobalFunctions} from './global-functions';
+import {GlobalSettings} from "../global/global-settings";
 import {Observable} from "rxjs/Observable";
 
 @Injectable()
 
 export class ArticleDataService {
     public partnerID:string;
-    public protocolToUse:string = (location.protocol == "https:") ? "https" : "http";
-    public articleUrl:string = '://dev-homerunloyal-ai.synapsys.us/';
-    public recommendUrl:string = '://dev-homerunloyal-ai.synapsys.us/headlines/event/';
 
     constructor(private _router:Router, public http:Http) {
         this._router.root
@@ -28,7 +26,7 @@ export class ArticleDataService {
     };
 
     getArticleData(eventID, eventType) {
-        var fullUrl = this.protocolToUse + this.articleUrl;
+        var fullUrl = GlobalSettings.getArticleUrl();
         if (this.partnerID == null) {
             return this.http.get(fullUrl + eventType + '/' + eventID)
                 .map(
@@ -53,7 +51,7 @@ export class ArticleDataService {
     }
 
     getRecommendationsData(eventID) {
-        var fullUrl = this.protocolToUse + this.recommendUrl;
+        var fullUrl = GlobalSettings.getRecommendUrl();
         if (this.partnerID == null) {
             return this.http.get(fullUrl + eventID)
                 .map(

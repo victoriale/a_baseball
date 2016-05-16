@@ -27,10 +27,12 @@ import {ShareModule, ShareModuleInput} from '../../modules/share/share.module';
 import {HeadlineComponent} from '../../components/headline/headline.component';
 
 import {NewsModule} from '../../modules/news/news.module';
+import {GlobalSettings} from "../../global/global-settings";
 
 //module | interface | service
 import {DraftHistoryModule} from '../../modules/draft-history/draft-history.module';
 import {DraftHistoryService} from '../../services/draft-history.service';
+import {ArticlesModule} from "../../modules/articles/articles.module";
 
 
 @Component({
@@ -52,7 +54,8 @@ import {DraftHistoryService} from '../../services/draft-history.service';
         ShareModule,
         TeamRosterModule,
         NewsModule,
-        AboutUsModule],
+        AboutUsModule,
+        ArticlesModule],
     providers: [DraftHistoryService, StandingsService, ProfileHeaderService, RosterService]
 })
 
@@ -111,7 +114,7 @@ private setupProfileData() {
 
     private setupShareModule(){
         let profileHeaderData = this.profileHeaderData;
-        let imageUrl = typeof profileHeaderData.profileImageUrl === 'undefined' || profileHeaderData.profileImageUrl === null ? 'http://prod-sports-images.synapsys.us/mlb/players/no-image.png' : profileHeaderData.profileImageUrl;
+        let imageUrl = typeof profileHeaderData.profileImageUrl === 'undefined' || profileHeaderData.profileImageUrl === null ? GlobalSettings.getImageUrl('/mlb/players/no-image.png') : profileHeaderData.profileImageUrl;
         let shareText = typeof profileHeaderData.profileName === 'undefined' || profileHeaderData.profileName === null ? 'Share This Profile Below' : 'Share ' + profileHeaderData.profileName + '\'s Profile Below:';
 
         this.shareModuleInput = {

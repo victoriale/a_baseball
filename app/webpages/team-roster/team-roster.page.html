@@ -1,4 +1,4 @@
-<section *ngIf="tabs" class="page-container">
+<section *ngIf="tabs" class="page-container team-roster-page">
   <backtab-component></backtab-component>
   <title-component *ngIf="titleData" [titleData]="titleData"></title-component>
   <slider-carousel (indexNum)="indexNum($event)" *ngIf="carDataArray" [carouselData]="carDataArray" [footerStyle]="footerStyle"></slider-carousel>
@@ -6,6 +6,8 @@
     <tab *ngFor="#tab of tabs" [tabTitle]="tab.title" [active]="tab.isActive">
       <custom-table [model]="tab.tableData" (sortChanged)="updateCarousel($event)"></custom-table>
     </tab>
-    <no-data-box *ngIf="!carDataCheck" [data]="errorData.data" [icon]="errorData.icon"></no-data-box>
+    <div>
+      <no-data-box *ngIf="!carDataCheck" [data]="errorData.data" [icon]="errorData.icon"></no-data-box>
+    </div>
   </tabs>
 </section>
