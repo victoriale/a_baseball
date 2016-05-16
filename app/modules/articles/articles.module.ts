@@ -191,7 +191,7 @@ export class ArticlesModule implements OnInit {
         this.eventType = pageIndex;
         this.mainEventID = eventID;
         var articleContent = headlineData.article[0];
-        var maxLength = 225;
+        var maxLength = 235;
         var trimmedArticle = articleContent.substring(0, maxLength);
         this.mainContent = trimmedArticle.substr(0, Math.min(trimmedArticle.length, trimmedArticle.lastIndexOf(" ")));
         var articleType = 'main';
