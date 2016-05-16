@@ -70,11 +70,10 @@ export class ArticleScheduleComponent implements OnInit {
     fullGradient = function (a, b) //loads the left gradient
     {
         var lgc = a;
-        var mgc = ', rgba(45, 45, 45, 0.75) 50%, ';
         var rgc = b;
         return {
-            '-ms-filter': "progid:DXImageTransform.Microsoft.gradient (0deg," + lgc + mgc + rgc + ")",
-            'background': "linear-gradient(90deg," + lgc + mgc + rgc + ")"
+            '-ms-filter': "progid:DXImageTransform.Microsoft.gradient (0deg," + lgc + ',' + rgc + ")",
+            'background': "linear-gradient(90deg," + lgc + ',' + rgc + ")"
         };
     };
 
