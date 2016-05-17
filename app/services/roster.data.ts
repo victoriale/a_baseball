@@ -235,7 +235,7 @@ export class RosterTableModel {
         break;
 
       case "sal":
-        s = item.salary == null ? "N/A" : "$" + self._globalFunctions.commaSeparateNumber(Number(item.salary));
+        s = item.salary == null ? "N/A" : "$" + GlobalFunctions.commaSeparateNumber(Number(item.salary));
         break;
     }
     return s;
