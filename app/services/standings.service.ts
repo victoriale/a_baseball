@@ -18,7 +18,7 @@ export class StandingsService {
 
     if ( pageParams.teamId && pageParams.teamName ) {
       pageValues["teamId"] = pageParams.teamId;
-      pageValues["teamName"] = pageParams.teamName;
+      pageValues["teamName"] = GlobalFunctions.toLowerKebab(pageParams.teamName);
       pageValues["type"] = "team";
       pageName += "-team";
     }

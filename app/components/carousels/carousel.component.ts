@@ -58,7 +58,6 @@ export class Carousel implements OnInit, OnChanges {
     return returnData;//a returned variable for output
   }
 
-
   //this is where the angular2 decides what is the main image
   changeMain(num){
     if ( num < this.carouselData.length ) {
@@ -142,13 +141,5 @@ export class Carousel implements OnInit, OnChanges {
         }
       ];
     }
-
-    // if(typeof this.indexInput == 'undefined'){
-    //   this.counter = 0;
-    // }else{
-    //   this.counter = this.indexInput;
-    // }
-    // this.max = this.carouselData.length;
-    // this.changeMain(this.counter);
   }
 }
