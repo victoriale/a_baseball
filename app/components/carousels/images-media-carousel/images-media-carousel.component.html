@@ -1,4 +1,48 @@
-<section class="media-images">
+<section *ngIf="isProfilePage" class="module-container">
+    <div class="profile-carousel">
+        <module-header [modHeadData]="headerInfo"></module-header>
+        <div class="plcholder">
+            <circle-button (scrollLeft)="left()" (scrollRight)="right()"></circle-button>
+            <a class='feature-btn expand' (click)="modalExpand()">
+                {{expandText}}
+                <i class='fa {{expandIcon}}'></i>
+            </a>
+            <div class='feature-btn images'>
+                <span>
+                    <i class='fa fa-file-image-o'></i>
+                </span>
+                <span>
+                    {{imagesTitle}} ({{displayCounter}}/{{totalImageCount}})
+                </span>
+            </div>
+            <span [ngStyle]="{'background-image': 'url(' + largeImage + ')'}" onerror="this.src={{image-url}}"
+                  class="plcholder-img"></span>
+            <div class="grey-bar">Photo&nbsp;<span class="grey-bar-credit"> by {{imageCredit}}</span></div>
+        </div>
+        <div class="sm-images">
+            <span *ngFor="#smImages of smallImage">
+                <div class="sm-images-container">
+                    <div *ngIf="smImages.id == imageCounter" class="carouselImageBoxSmall">
+                        <img id="smImg-{{smImages.id}}"
+                             [ngClass]="{'sm-images-square-image-active': smImages.id == imageCounter}"
+                             class="sm-images-square-image" src="{{smImages.image}}" onerror="this.src={{image-url}}"
+                             alt="small square images" (click)="changeClick(smImages.id)"/>
+                        <div>
+                            <p>Now Viewing</p>
+                        </div>
+                    </div>
+                    <div id="smImg-{{smImages.id}}"
+                         class="sm-images-square-image" [ngStyle]="{'background-image': 'url(' + smImages.image + ')'}"
+                         onerror="this.src={{image-url}}"
+                         alt="small square images" (click)="changeClick(smImages.id)">
+                    </div>
+                </div>
+            </span>
+        </div>
+    </div>
+</section>
+
+<section *ngIf="!isProfilePage" class="article-carousel">
     <div class="plcholder">
         <circle-button (scrollLeft)="left()" (scrollRight)="right()"></circle-button>
         <a class='feature-btn expand' (click)="modalExpand()">
@@ -6,37 +50,35 @@
             <i class='fa {{expandIcon}}'></i>
         </a>
         <div class='feature-btn images'>
-            <span>
-                <i class='fa fa-file-image-o'></i>
-            </span>
-            <span>
-                {{imagesTitle}} ({{displayCounter}}/{{totalImageCount}})
-            </span>
-            <i></i>
+                <span>
+                    <i class='fa fa-file-image-o'></i>
+                </span>
+                <span>
+                    {{imagesTitle}} ({{displayCounter}}/{{totalImageCount}})
+                </span>
         </div>
-        <span [ngStyle]="{'background-image': 'url(' + largeImage + ')'}" onerror="this.src={{image-url}}"
-              class="plcholder-img"></span>
-        <div class="grey-bar">
-        </div>
+            <span [ngStyle]="{'background-image': 'url(' + largeImage + ')'}" onerror="this.src={{image-url}}"
+                  class="plcholder-img"></span>
+        <div class="grey-bar">Photo&nbsp;<span class="grey-bar-credit"> by </span></div>
     </div>
     <div class="sm-images">
-        <span *ngFor="#smImages of smallImage">
-            <div class="sm-images-container">
-                <div *ngIf="smImages.id == imageCounter" class="carouselImageBoxSmall">
-                    <img id="smImg-{{smImages.id}}"
-                         [ngClass]="{'sm-images-square-image-active': smImages.id == imageCounter}"
-                         class="sm-images-square-image" src="{{smImages.image}}" onerror="this.src={{image-url}}"
-                         alt="small square images" (click)="changeClick(smImages.id)"/>
-                    <div>
-                        <p>Now Viewing</p>
+            <span *ngFor="#smImages of smallImage">
+                <div class="sm-images-container">
+                    <div *ngIf="smImages.id == imageCounter" class="carouselImageBoxSmall">
+                        <img id="smImg-{{smImages.id}}"
+                             [ngClass]="{'sm-images-square-image-active': smImages.id == imageCounter}"
+                             class="sm-images-square-image" src="{{smImages.image}}" onerror="this.src={{image-url}}"
+                             alt="small square images" (click)="changeClick(smImages.id)"/>
+                        <div>
+                            <p>Now Viewing</p>
+                        </div>
+                    </div>
+                    <div id="smImg-{{smImages.id}}"
+                         class="sm-images-square-image" [ngStyle]="{'background-image': 'url(' + smImages.image + ')'}"
+                         onerror="this.src={{image-url}}"
+                         alt="small square images" (click)="changeClick(smImages.id)">
                     </div>
                 </div>
-                <div id="smImg-{{smImages.id}}"
-                     class="sm-images-square-image" [ngStyle]="{'background-image': 'url(' + smImages.image + ')'}"
-                     onerror="this.src={{image-url}}"
-                     alt="small square images" (click)="changeClick(smImages.id)">
-                </div>
-            </div>
-        </span>
+            </span>
     </div>
 </section>

@@ -6,7 +6,6 @@ import {Component, OnInit, OnDestroy, Input, Output, EventEmitter, Renderer, OnC
   providers: []
 })
 
-// [list]="tab.seasonIds" [selectedKey]="tab.selectedSeasonId" (selectionChanged)="dropdownChanged($event)"
 export class DropdownComponent implements OnDestroy, OnChanges {  
   public isDropdownVisible: boolean = false;  
   public isDropdownEnabled: boolean = true;
@@ -17,7 +16,7 @@ export class DropdownComponent implements OnDestroy, OnChanges {
   
   selectedItem: {key: string, value: string};
   
-  @Output("dropdownChanged") dropdownChangedListener = new EventEmitter();
+  @Output("selectionChanged") dropdownChangedListener = new EventEmitter();
   
   private hideDropdownListener: Function;
   

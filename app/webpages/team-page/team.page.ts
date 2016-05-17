@@ -35,86 +35,103 @@ import {GlobalSettings} from "../../global/global-settings";
 import {DraftHistoryModule} from '../../modules/draft-history/draft-history.module';
 import {DraftHistoryService} from '../../services/draft-history.service';
 import {ArticlesModule} from "../../modules/articles/articles.module";
-
+import {ImagesService} from "../../services/carousel.service";
+import {ImagesMedia} from "../../components/carousels/images-media-carousel/images-media-carousel.component";
+import {GlobalFunctions} from "../../global/global-functions";
+import {ListOfListsService} from "../../services/list-of-lists.service";
+import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.module";
 
 @Component({
-  selector: 'Team-page',
-  templateUrl: './app/webpages/team-page/team.page.html',
-  directives: [
-    SchedulesModule,
-    BoxScoresModule,
-    DraftHistoryModule,
-    HeadlineComponent,
-    ProfileHeaderModule,
-    StandingsModule,
-    CommentModule,
-    DYKModule,
-    FAQModule,
-    LikeUs,
-    TwitterModule,
-    ComparisonModule,
-    ShareModule,
-    TeamRosterModule,
-    NewsModule,
-    AboutUsModule,
-    ArticlesModule],
-  providers: [SchedulesService, DraftHistoryService, StandingsService, ProfileHeaderService, RosterService]
+    selector: 'Team-page',
+    templateUrl: './app/webpages/team-page/team.page.html',
+    directives: [
+        SchedulesModule,
+        BoxScoresModule,
+        DraftHistoryModule,
+        HeadlineComponent,
+        ProfileHeaderModule,
+        StandingsModule,
+        CommentModule,
+        DYKModule,
+        FAQModule,
+        LikeUs,
+        TwitterModule,
+        ComparisonModule,
+        ShareModule,
+        TeamRosterModule,
+        NewsModule,
+        AboutUsModule,
+        ArticlesModule,
+        ImagesMedia,
+        ListOfListsModule
+    ],
+    providers: [SchedulesService, DraftHistoryService, StandingsService, ProfileHeaderService, RosterService, ListOfListsService, ImagesService]
 })
 
 export class TeamPage implements OnInit {
-  public shareModuleInput: ShareModuleInput;
-  headerData: any;
-  pageParams: MLBPageParameters;
+    public shareModuleInput:ShareModuleInput;
+    headerData:any;
+    pageParams:MLBPageParameters;
 
-  standingsData: StandingsModuleData;
+    standingsData:StandingsModuleData;
 
-  profileHeaderData: ProfileHeaderData;
+    profileHeaderData:ProfileHeaderData;
 
-  draftHistoryData: any;
-  currentYear: any;
+    imageData:any;
+    copyright:any;
+    profileType:string;
+    isProfilePage:boolean = false;
+    draftHistoryData:any;
+    currentYear:any;
 
-  schedulesData: any;
+    schedulesData:any;
 
-  constructor(
-    private _params: RouteParams,
-    private _standingsService: StandingsService,
-    private _schedulesService: SchedulesService,
-    private _profileService: ProfileHeaderService,
-    private _draftService: DraftHistoryService
-    ) {
-    this.pageParams = {
-      teamId: Number(_params.get("teamId")),
-      teamName: _params.get("teamName")
-    };
-    this.currentYear = new Date().getFullYear().toString();
-  }
+    profileName:string;
+    listOfListsData:Object; // paginated data to be displayed
 
-  ngOnInit() {
-    this.setupProfileData();
-  }
+    constructor(private _params:RouteParams,
+                private _standingsService:StandingsService,
+                private _schedulesService:SchedulesService,
+                private _profileService:ProfileHeaderService,
+                private _draftService:DraftHistoryService,
+                private _lolService:ListOfListsService,
+                private _imagesService:ImagesService,
+                private _globalFunctions:GlobalFunctions) {
+        this.pageParams = {
+            teamId: Number(_params.get("teamId")),
+            teamName: _params.get("teamName")
+        };
+        this.currentYear = new Date().getFullYear().toString();
+    }
 
-  /**
-  *
-  * Profile Header data is needed to fill in data info for other modules.
-  * It is required to synchronously aquire data first before making any asynchronous
-  * calls from other modules.
-  *
-  **/
-  private setupProfileData() {
-    this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
-      data => {
-        this.pageParams = data.pageParams;
-        this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data)
-        this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
-        this.getSchedulesData();
-        this.setupShareModule();
-        this.draftHistoryModule(this.currentYear, this.pageParams.teamId);//neeeds profile header data will run once header data is in
-      },
-      err => {
-        console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
-      }
-      );
-  }
+    ngOnInit() {
+        this.setupProfileData();
+    }
+
+    /**
+     *
+     * Profile Header data is needed to fill in data info for other modules.
+     * It is required to synchronously aquire data first before making any asynchronous
+     * calls from other modules.
+     *
+     **/
+    private setupProfileData() {
+        this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
+            data => {
+                this.pageParams = data.pageParams;
+                this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data)
+                this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
+                this.getSchedulesData();
+                this.setupShareModule();
+                this.getImages(this.imageData);
+                this.draftHistoryModule(this.currentYear, this.pageParams.teamId);//neeeds profile header data will run once header data is in
+                this.setupListOfListsModule();
+            },
+            err => {
+                console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
+            }
+        );
+    }
 
   //grab tab to make api calls for post of pre event table
   private scheduleTab(tab) {
@@ -134,68 +151,103 @@ export class TeamPage implements OnInit {
       }
     )
   }
-
-  private standingsTabSelected(tab: MLBStandingsTabData) {
-    if (tab && (!tab.sections || tab.sections.length == 0)) {
-      this._standingsService.getTabData(tab, this.pageParams, 5)//only show 5 rows in the module
-        .subscribe(data => tab.sections = data,
-        err => {
-          console.log("Error getting standings data");
-        });
+  
+    private getImages(imageData) {
+        this.isProfilePage = true;
+        this.profileType = 'team';
+        let name = this.pageParams.teamName.replace(/-/g, " ");
+        this.profileName = this._globalFunctions.toTitleCase(name);
+        var imageArray = [];
+        var copyArray = [];
+        this._imagesService.getImages(this.pageParams.teamId, this.profileType)
+            .subscribe(data => {
+                    imageData = data;
+                    imageData.images.forEach(function (val, index) {
+                        val['images'] = val.image_url;
+                        val['copyright'] = val.image_copyright;
+                        imageArray.push(val['images']);
+                        copyArray.push(val['copyright'])
+                    });
+                    return this.imageData = imageArray, this.copyright = copyArray;
+                },
+                err => {
+                    console.log("Error getting image data");
+                });
     }
-  }
 
-  private setupShareModule() {
-    let profileHeaderData = this.profileHeaderData;
-    let imageUrl = typeof profileHeaderData.profileImageUrl === 'undefined' || profileHeaderData.profileImageUrl === null ? GlobalSettings.getImageUrl('/mlb/players/no-image.png') : profileHeaderData.profileImageUrl;
-    let shareText = typeof profileHeaderData.profileName === 'undefined' || profileHeaderData.profileName === null ? 'Share This Profile Below' : 'Share ' + profileHeaderData.profileName + '\'s Profile Below:';
-
-    this.shareModuleInput = {
-      imageUrl: imageUrl,
-      shareText: shareText
-    };
-  }
-
-  //each time a tab is selected the carousel needs to change accordingly to the correct list being shown
-  private draftTab(event) {
-    var firstTab = 'Current Season';
-    if (event == firstTab) {
-      event = this.currentYear;
+    private standingsTabSelected(tab:MLBStandingsTabData) {
+        if (tab && (!tab.sections || tab.sections.length == 0)) {
+            this._standingsService.getTabData(tab, this.pageParams, 5)//only show 5 rows in the module
+                .subscribe(data => tab.sections = data,
+                    err => {
+                        console.log("Error getting standings data");
+                    });
+        }
     }
-    this.draftHistoryModule(event, this.pageParams.teamId);
-    // this.draftData = this.teamPage.draftHistoryModule(event, this.teamId);
-  }
 
-  private draftHistoryModule(year, teamId) {
-    this._draftService.getDraftHistoryService(year, teamId, 'module')
-      .subscribe(
-      draftData => {
-        var dataArray, detailedDataArray, carouselDataArray;
-        if (typeof dataArray == 'undefined') {//makes sure it only runs once
-          dataArray = draftData.tabArray;
+    private setupShareModule() {
+        let profileHeaderData = this.profileHeaderData;
+        let imageUrl = typeof profileHeaderData.profileImageUrl === 'undefined' || profileHeaderData.profileImageUrl === null ? GlobalSettings.getImageUrl('/mlb/players/no-image.png') : profileHeaderData.profileImageUrl;
+        let shareText = typeof profileHeaderData.profileName === 'undefined' || profileHeaderData.profileName === null ? 'Share This Profile Below' : 'Share ' + profileHeaderData.profileName + '\'s Profile Below:';
+
+        this.shareModuleInput = {
+            imageUrl: imageUrl,
+            shareText: shareText
+        };
+    }
+
+    //each time a tab is selected the carousel needs to change accordingly to the correct list being shown
+    private draftTab(event) {
+        var firstTab = 'Current Season';
+        if (event == firstTab) {
+            event = this.currentYear;
         }
-        if (draftData.listData.length == 0) {//makes sure it only runs once
-          detailedDataArray = false;
-        } else {
-          detailedDataArray = draftData.listData;
-        }
-        carouselDataArray = draftData.carData
-        return this.draftHistoryData = {
-          tabArray: dataArray,
-          listData: detailedDataArray,
-          carData: carouselDataArray,
-          errorData: {
-            data: "Sorry, the " + this.profileHeaderData.profileName + " do not currently have any data for the " + year + " draft history",
-            icon: "fa fa-remove"
-          }
-        }
-      },
-      err => {
-        console.log('Error: draftData API: ', err);
-        // this.isError = true;
-      }
-      );
-  }
+        this.draftHistoryModule(event, this.pageParams.teamId);
+        // this.draftData = this.teamPage.draftHistoryModule(event, this.teamId);
+    }
+
+    private draftHistoryModule(year, teamId) {
+        this._draftService.getDraftHistoryService(year, teamId, 'module')
+            .subscribe(
+                draftData => {
+                    var dataArray, detailedDataArray, carouselDataArray;
+                    if (typeof dataArray == 'undefined') {//makes sure it only runs once
+                        dataArray = draftData.tabArray;
+                    }
+                    if (draftData.listData.length == 0) {//makes sure it only runs once
+                        detailedDataArray = false;
+                    } else {
+                        detailedDataArray = draftData.listData;
+                    }
+                    carouselDataArray = draftData.carData
+                    return this.draftHistoryData = {
+                        tabArray: dataArray,
+                        listData: detailedDataArray,
+                        carData: carouselDataArray,
+                        errorData: {
+                            data: "Sorry, the " + this.profileHeaderData.profileName + " do not currently have any data for the " + year + " draft history",
+                            icon: "fa fa-remove"
+                        }
+                    }
+                },
+                err => {
+                    console.log('Error: draftData API: ', err);
+                    // this.isError = true;
+                }
+            );
+    }
 
 
+    setupListOfListsModule() {
+        // getListOfListsService(version, type, id, scope?, count?, page?){
+        this._lolService.getListOfListsService("module", "team", this.pageParams.teamId, "league", 4, 1)
+            .subscribe(
+                listOfListsData => {
+                    this.listOfListsData = listOfListsData.listData;
+                },
+                err => {
+                    console.log('Error: listOfListsData API: ', err);
+                }
+            );
+    }
 }
