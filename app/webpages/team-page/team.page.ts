@@ -139,19 +139,17 @@ export class TeamPage implements OnInit {
   }
 
   private getSchedulesData(){
-    console.log('Page Calling Team Schedules');
     this._schedulesService.getSchedulesService('team', 2799, 'pre-event')
     .subscribe(
       data => {
         this.schedulesData = data;
-        console.log('teamPage',this.schedulesData);
       },
       err => {
         console.log("Error getting Schedules Data");
       }
     )
   }
-  
+
     private getImages(imageData) {
         this.isProfilePage = true;
         this.profileType = 'team';

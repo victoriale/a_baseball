@@ -109,7 +109,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
          key: "away"
        },{
          headerValue: "HOME",
-         columnClass: "data-column",
+         columnClass: "image-column",
          isNumericType: false,
          key: "home"
        },{
@@ -166,11 +166,11 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
     var s = "";
     switch (column.key) {
       case "date":
-        s = item.stateDateTime;
+        s = item.startDateTime;
         break;
 
       case "t":
-        s = item.stateDateTime;
+        s = item.startDateTime;
         break;
 
       case "away":
@@ -196,11 +196,11 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
     var o = null;
     switch (column.key) {
       case "date":
-        o = item.stateDateTime;
+        o = item.startDateTime;
         break;
 
       case "t":
-        o = item.stateDateTime;
+        o = item.startDateTime;
         break;
 
       case "away":
