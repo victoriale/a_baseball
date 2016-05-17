@@ -106,7 +106,7 @@ export class TeamPage implements OnInit {
         this.pageParams = data.pageParams;
         this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data)
         this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
-        this.schedulesData = this._schedulesService.loadAllTabsForModule(this.pageParams);
+        this.getSchedulesData();
         this.setupShareModule();
         this.draftHistoryModule(this.currentYear, this.pageParams.teamId);//neeeds profile header data will run once header data is in
       },
@@ -114,6 +114,25 @@ export class TeamPage implements OnInit {
         console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
       }
       );
+  }
+
+  //grab tab to make api calls for post of pre event table
+  private scheduleTab(tab) {
+    console.log(tab);
+  }
+
+  private getSchedulesData(){
+    console.log('Page Calling Team Schedules');
+    this._schedulesService.getSchedulesService('team', 2799, 'pre-event')
+    .subscribe(
+      data => {
+        this.schedulesData = data;
+        console.log('teamPage',this.schedulesData);
+      },
+      err => {
+        console.log("Error getting Schedules Data");
+      }
+    )
   }
 
   private standingsTabSelected(tab: MLBStandingsTabData) {

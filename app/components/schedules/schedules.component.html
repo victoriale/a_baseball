@@ -6,7 +6,10 @@
   </div>
   <span class="schedules-heading-time">Times are displayed in ET and are subject to change</span>
 </div>
-
-<div class="schedules-table">
-  <custom-table [model]="tableData" (sortChanged)="updateCarousel($event)"></custom-table>
-</div>
+<tabs (tabSelected)="tabSelected($event)">
+  <tab *ngFor="#tab of tabs; #i = index"[active]="i == 0" [tabTitle]="tab.display" >
+    <div class="schedules-table">
+      <custom-table [model]="data.tableData" (sortChanged)="updateCarousel($event)"></custom-table>
+    </div>
+  </tab>
+</tabs>
