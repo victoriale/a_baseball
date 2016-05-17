@@ -18,7 +18,11 @@ export class DYKModule implements OnInit, OnChanges {
 
   @Input() dykInfo: Array<{ info }>;
 
-  public headerInfo: ModuleHeaderData;
+  public headerInfo: ModuleHeaderData = {
+    moduleTitle: "Did You Know - [Profile Name]",
+    hasIcon: false,
+    iconClass: ""
+  };
 
   constructor(private _dykService: DYKService) {
     this._dykService.getDYKService()
