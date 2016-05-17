@@ -7,32 +7,32 @@ import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 
 export interface PlayerStatsData {
   teamName: string,
-  teamId: number;
+  teamId: string;
   teamLogo: string,
   playerName: string;
-  playerId: number;
+  playerId: string;
   playerHeadshot: string;
   seasonId: string;
-  lastUpdatedDate: Date,
+  lastUpdate: string;
   
   //Batting Stats
-  batAverage: number;
-  batHomeRuns: number;
-  batRbi: number;
-  batSluggingPercentage: number;
-  batHits: number;
-  batBasesOnBalls: number;
-  batOnBasePercentage: number;
+  batAverage: string;
+  batHomeRuns: string;
+  batRbi: string;
+  batSluggingPercentage: string;
+  batHits: string;
+  batBasesOnBalls: string;
+  batOnBasePercentage: string;
   
   //Pitching Stats
-  pitchEra: number;
-  pitchWins: number;
-  pitchLosses: number;
-  pitchStrikeouts: number;
-  pitchInningsPitched: number;
-  pitchBasesOnBalls: number;
-  pitchWhip: number;
-  pitchSaves: number;
+  pitchEra: string;
+  pitchWins: string;
+  pitchLosses: string;
+  pitchStrikeouts: string;
+  pitchInningsPitched: string;
+  pitchBasesOnBalls: string;
+  pitchWhip: string;
+  pitchSaves: string;
   
   /**
    * - Formatted from the lastUpdatedDate
@@ -44,19 +44,19 @@ export interface PlayerStatsData {
   fullTeamImageUrl?: string;
 }
 
-export class PlayerStatsSeasonData {
-  seasonId: string;
-  rows: Array<PlayerStatsData>
-}
+// export class PlayerStatsSeasonData {
+//   seasonId: string;
+//   rows: Array<PlayerStatsData>
+// }
 
 export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsData> {  
   tabTitle: string;
   
-  tableData: {
-    [seasonId: string]: TableModel<PlayerStatsData>
-  };
+  tableData: TableModel<PlayerStatsData>;
   
-  seasonIds: Array<{key: string, value: string}>;
+  seasonTableData: { [key: string]: TableModel<PlayerStatsData> } = {};
+  
+  seasonIds: Array<{key: string, value: string}> = []
   
   glossary: Array<{key: string, value: string}>;
   
@@ -92,8 +92,16 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
         {key: "SLG", value: "Slugging Percentage"}
       ];
     }
-    this.selectedSeasonId = new Date().getFullYear().toString();
-    this.tableData = {};
+    var currYear = new Date().getFullYear();
+    var year = currYear;
+    this.selectedSeasonId = currYear.toString();
+    for ( var i = 0; i < 5; i++ ) {
+      this.seasonIds.push({
+        key: year.toString(), 
+        value: i == 0 ? "Current Season" : year.toString() + " Season"
+      });
+      year--; 
+    }
   }  
 
   convertToCarouselItem(item: PlayerStatsData, index:number): SliderCarouselInput {
@@ -148,7 +156,7 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
   
   rows: Array<PlayerStatsData>;
   
-  selectedKey:number = -1;
+  selectedKey:string = "";
   
   isPitcher: boolean;
   
@@ -276,7 +284,7 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
         break;
       
       case "ba": 
-        s = item.batAverage ? item.batAverage.toFixed(3) : null;
+        s = item.batAverage ? item.batAverage : null;
         break;
       
       case "rbi": 
@@ -292,11 +300,11 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
         break;
       
       case "obp": 
-        s = item.batOnBasePercentage ? item.batOnBasePercentage.toFixed(3) : null;
+        s = item.batOnBasePercentage ? item.batOnBasePercentage : null;
         break;
       
       case "slg": 
-        s = item.batSluggingPercentage ? item.batSluggingPercentage.toFixed(3) : null;
+        s = item.batSluggingPercentage ? item.batSluggingPercentage : null;
         break;
       
       //PITCHING
@@ -313,7 +321,7 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
         break;
       
       case "era": 
-        s = item.pitchEra != null ? item.pitchEra.toFixed(2) : null;
+        s = item.pitchEra != null ? item.pitchEra : null;
         break;
         
       case "pbb": 
@@ -321,14 +329,14 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
         break;
       
       case "whip": 
-        s = item.pitchWhip != null ? item.pitchWhip.toFixed(2) : null;
+        s = item.pitchWhip != null ? item.pitchWhip : null;
         break;
       
       case "sv": 
         s = item.pitchSaves != null ? item.pitchSaves.toString() : null;
         break;
     }    
-    return s;
+    return s != null ? s : "N/A";
   }
   
   getSortValueAt(item:PlayerStatsData, column:TableColumn):any {
