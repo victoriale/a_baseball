@@ -65,7 +65,7 @@ import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.modul
         ImagesMedia,
         ListOfListsModule
     ],
-    providers: [SchedulesService, DraftHistoryService, StandingsService, ProfileHeaderService, RosterService, ListOfListsService]
+    providers: [SchedulesService, DraftHistoryService, StandingsService, ProfileHeaderService, RosterService, ListOfListsService, ImagesService]
 })
 
 export class TeamPage implements OnInit {
