@@ -23,6 +23,17 @@ export interface NavigationData {
   moreLink?: Link;
 }
 
+export interface Images {
+    image_url: string;
+    image_title: string;
+    image_copyright: string;
+    image_date: string;
+    image_height: string;
+    image_width: string;
+    team_name: string;
+    team_id: string;
+}
+
 /*BELOW IS ARTICLE MODULE TEST INTERFACE*/
 
 export interface HeadlineData {

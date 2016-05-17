@@ -24,7 +24,7 @@ export interface AboutUsInterface {
 
 @Injectable()
 export class AboutUsService {  
-  constructor(public http: Http, private _globalFunctions: GlobalFunctions){}
+  constructor(public http: Http){}
 
   getData(partnerID: string): Observable<AboutUsModel> {
     let url = GlobalSettings.getApiUrl() + '/landingPage/aboutUs';
@@ -38,8 +38,8 @@ export class AboutUsService {
             ? "Home Run Loyal" 
             : "My Home Run Loyal";
     let lastUpdatedDate = moment(data.lastUpdated);
-    let teamProfiles = this._globalFunctions.commaSeparateNumber(data.teamProfilesCount);
-    let playerProfiles = this._globalFunctions.commaSeparateNumber(data.playerProfilesCount);
+    let teamProfiles = GlobalFunctions.commaSeparateNumber(data.teamProfilesCount);
+    let playerProfiles = GlobalFunctions.commaSeparateNumber(data.playerProfilesCount);
     let fullName = data.worldChampFirstName + " " + data.worldChampLastName;
     let championLink = MLBGlobalFunctions.formatTeamRoute(fullName, data.worldChampTeamId);
     let model: AboutUsModel = {
@@ -61,7 +61,7 @@ export class AboutUsService {
         {
           iconUrl: '/app/public/division_image.png',
           titleText: 'MLB Divisions',
-          dataText: this._globalFunctions.commaSeparateNumber(data.divisionsCount)
+          dataText: GlobalFunctions.commaSeparateNumber(data.divisionsCount)
         },
         {
           iconUrl: '/app/public/player_profile_image.png',

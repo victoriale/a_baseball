@@ -10,9 +10,7 @@ import {DropdownComponent} from '../../components/dropdown/dropdown.component';
 export interface StatsTableTabData<T> {
   tabTitle: string;
   isActive: boolean;
-  tableData: {
-    [seasonId: string]: TableModel<T>
-  };    
+  tableData: TableModel<T>;
   seasonIds: Array<{key: string, value: string}>;
   glossary: Array<{key: string, value: string}>;
   selectedSeasonId: string;
@@ -38,19 +36,12 @@ export class PlayerStatsComponent implements DoCheck {
 
   constructor() {}
   
-  // ngOnChanges() {
-  //   if ( this.tabs != undefined && this.tabs.length > 0 ) {
-  //     this.tabSelected(this.tabs[0].tabTitle);
-  //   }
-  // }
-  
   ngDoCheck() {
     if ( this.tabs && this.tabs.length > 0 ) {
       if ( !this.tabsLoaded  ) {
         this.tabsLoaded = {};
         var selectedTitle = this.tabs[0].tabTitle;
         this.tabs.forEach(tab => {
-          // this.setSelectedCarouselIndex(tab, 0);
           if ( tab.isActive ) {
             selectedTitle = tab.tabTitle;
           }
@@ -73,6 +64,7 @@ export class PlayerStatsComponent implements DoCheck {
     if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) {
       let selectedTab = matchingTabs[0];
       selectedTab.selectedSeasonId = $event;
+      this.tabSelectedListener.next(selectedTab);
       this.updateCarousel();        
     }
   }
@@ -98,9 +90,8 @@ export class PlayerStatsComponent implements DoCheck {
     let matchingTabs = this.tabs.filter(value => value.tabTitle === this.selectedTabTitle);
     if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) {  
       let selectedTab = matchingTabs[0];
-      let selectedTable = selectedTab.tableData[selectedTab.selectedSeasonId];
-      if ( selectedTable ) {
-        selectedTable.setRowSelected(selectedIndex);
+      if ( selectedTab.tableData ) {
+        selectedTab.tableData.setRowSelected(selectedIndex);
       }
     }
   }
@@ -110,18 +101,13 @@ export class PlayerStatsComponent implements DoCheck {
     if ( !selectedTab || !selectedTab.tableData ) {
       return;
     }
-       
-    let selectedTable = selectedTab.tableData[selectedTab.selectedSeasonId];
-    if ( !selectedTable ) {
-      return;
-    }
     
     let carouselData: Array<SliderCarouselInput> = [];
     let index = 0;
     let selectedIndex = -1; 
-    selectedTable.rows.map((value) => {
+    selectedTab.tableData.rows.map((value) => {
       let item = selectedTab.convertToCarouselItem(value, index); 
-      if ( selectedTable.isRowSelected(value, index) ) {
+      if ( selectedTab.tableData.isRowSelected(value, index) ) {
         selectedIndex = index;
       }
       index++;            

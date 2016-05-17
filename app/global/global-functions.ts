@@ -142,13 +142,15 @@ export class GlobalFunctions {
      * @param {string} def - (Optional) The default string value to use if the value is undefined. If it's not included, then "" is used as the def string.
      * @returns {string}
      */
-    commaSeparateNumber(value:number, def?:string): string {
+      static commaSeparateNumber(value:number, def?:string): string {
       if ( value === null || value === undefined ) {
         return def || "";
       }
 
-      var parts = value.toString().split("."); //split on decimal point
-      parts[0] = parts[0].replace(/(\d+)(\d{3})/g, "$1,$2"); //replace all groups of three
+      var parts = value.toString().split("."); //split on decimal point      
+      while (/(\d+)(\d{3})/.test(parts[0])){
+          parts[0] = parts[0].replace(/(\d+)(\d{3})/, '$1'+','+'$2');
+      }
       return parts.join(".");
     }
 
@@ -170,7 +172,7 @@ export class GlobalFunctions {
       }
       else {
         //TODO: support multiple currencies?
-        return "$" + this.commaSeparateNumber(value);
+        return "$" + GlobalFunctions.commaSeparateNumber(value);
       }
     }
 
