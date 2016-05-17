@@ -1,20 +1,22 @@
 <section class="header container-fluid">
-  <!-- <div class="row"> -->
+  <div class="header-top">
     <div class="header-left col-md-6">
       <a href="/" class="header-left-icon"><img src="/app/public/homeRunLoyalLogo_Small.png" /></a>
-      <div class="header-tabs">
-        <a class="header-tabs-tab" [routerLink]="['Home-page']">Home</a>
-        <a class="header-tabs-tab" [routerLink]="['Component-page']">Scores</a>
-        <a class="header-tabs-tab" [routerLink]="['MLB-page']">Stats</a>
-      </div>
+      <div class="header-mlb">MLB</div>
     </div>
     <div class="header-right col-md-6">
-      <div class="header-share">
-        <!-- <span class='st_sharethis_large' displayText='ShareThis'></span> -->
-      </div>
       <div class="header-search">
-        <!-- <search></search> -->
+        <search [searchInput]="searchInput"></search>
       </div>
+      <div class="header-share"><i class="fa fa-share-alt"></i></div>
     </div>
-  <!-- </div> -->
+  </div>
+  <div class="header-bottom">
+    <div class="header-tabs">
+      <a class="header-tabs-tab" [routerLink]="['Home-page']">Home</a>
+      <a class="header-tabs-tab" [routerLink]="['Standings-page']">Standings</a>
+      <a class="header-tabs-tab" [routerLink]="['MLB-page']">Schedule</a>
+      <a class="header-tabs-tab" [routerLink]="['MLB-page']">MLB Profile</a>
+    </div>
+  </div>
 </section>

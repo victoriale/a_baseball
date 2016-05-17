@@ -26,6 +26,9 @@ import {Division, Conference, MLBPageParameters} from '../../global/global-inter
 import {GlobalFunctions} from '../../global/global-functions';
 import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
 
+import {FAQModule} from "../../modules/faq/faq.module";
+import {DYKModule} from "../../modules/dyk/dyk.module";
+
 @Component({
     selector: 'Component-page',
     templateUrl: './app/webpages/component-page/component.page.html',
@@ -45,7 +48,9 @@ import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
       AboutUsModule,
       ProfileHeaderModule,
       StandingsModule,
-      SchedulesComponent
+      SchedulesComponent,
+      FAQModule,
+      DYKModule
     ],
     providers: [StandingsService, RosterService, ProfileHeaderService]
 })
