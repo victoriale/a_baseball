@@ -88,7 +88,7 @@ export class RosterTabData {
       var andCheck = " is ";
     }
     if(val.salary != null){
-      playerSalary = andCheck + "making a salary of <b>" + val.salary + "</b>";
+      playerSalary = andCheck + "making a salary of <b>$" + GlobalFunctions.commaSeparateNumber(Number(val.salary)) + "</b>";
     } else {
       playerSalary = andCheck + "making a salary of <b>N/A</b>";
     }
