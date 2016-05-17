@@ -37,7 +37,7 @@ export class DirectoryModule implements OnChanges {
     text: "Back"
   }
 
-  constructor(private router: Router, private _globalFunctions: GlobalFunctions) {}
+  constructor(private router: Router) {}
 
   ngOnChanges() {
     this.setupData();
@@ -75,7 +75,7 @@ export class DirectoryModule implements OnChanges {
     var rangeEnd = (currPage * this.data.listingsLimit <= this.data.listingItems.totalItems) ? (currPage * this.data.listingsLimit) : this.data.listingItems.totalItems;
 
     this.pagingDescription = {
-      rangeText: this._globalFunctions.commaSeparateNumber(rangeStart) + "-" + this._globalFunctions.commaSeparateNumber(rangeEnd),
+      rangeText: GlobalFunctions.commaSeparateNumber(rangeStart) + "-" + GlobalFunctions.commaSeparateNumber(rangeEnd),
       totalItems: this.data.listingItems.totalItems,
       totalPages: maxPageCount,
       currentPage: currPage,
