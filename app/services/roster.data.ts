@@ -265,7 +265,7 @@ export class RosterTableModel {
           break;
 
         case "sal":
-          s = item.salary;
+          s = Number(item.salary);
           break;
       }
       return s;
