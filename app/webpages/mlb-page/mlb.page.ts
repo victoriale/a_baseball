@@ -24,6 +24,8 @@ import {HeadlineComponent} from '../../components/headline/headline.component';
 
 import {NewsModule} from '../../modules/news/news.module';
 import {GlobalSettings} from "../../global/global-settings";
+import {ImagesService} from "../../services/carousel.service";
+import {ImagesMedia} from "../../components/carousels/images-media-carousel/images-media-carousel.component";
 
 @Component({
     selector: 'MLB-page',
@@ -42,52 +44,82 @@ import {GlobalSettings} from "../../global/global-settings";
         ComparisonModule,
         ShareModule,
         NewsModule,
-        AboutUsModule],
-    providers: [StandingsService, ProfileHeaderService]
+        AboutUsModule,
+        ImagesMedia],
+    providers: [StandingsService, ProfileHeaderService, ImagesService]
 })
 
-export class MLBPage implements OnInit{
-    public shareModuleInput: ShareModuleInput;
+export class MLBPage implements OnInit {
+    public shareModuleInput:ShareModuleInput;
 
-    pageParams: MLBPageParameters = {};
+    pageParams:MLBPageParameters = {};
 
-    standingsData: StandingsModuleData;
+    standingsData:StandingsModuleData;
 
-    profileHeaderData: ProfileHeaderData;
+    profileHeaderData:ProfileHeaderData;
 
-    constructor(
-    private _standingsService: StandingsService,
-    private _profileService: ProfileHeaderService) {
+    imageData:any;
+    copyright:any;
+    profileType:string;
+    isProfilePage:boolean = false;
+    profileName:string;
+
+    constructor(private _standingsService:StandingsService,
+                private _profileService:ProfileHeaderService,
+                private _imagesService:ImagesService) {
     }
 
-  ngOnInit() {
-    this.setupProfileData();
-  }
-
-  private setupProfileData() {
-    this._profileService.getMLBProfile().subscribe(
-      data => {
-        this.profileHeaderData = this._profileService.convertToLeagueProfileHeader(data)
-        this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
-          this.setupShareModule();
-      },
-      err => {
-        console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
-      }
-    );
-  }
-  
-  private standingsTabSelected(tab: MLBStandingsTabData) {
-    if ( tab && (!tab.sections || tab.sections.length == 0) ) {
-      this._standingsService.getTabData(tab, this.pageParams, 5)//only show 5 rows in the module      
-        .subscribe(data => tab.sections = data,
-        err => {
-          console.log("Error getting standings data");
-        });
+    ngOnInit() {
+        this.setupProfileData();
     }
-  }
 
-    private setupShareModule(){
+    private setupProfileData() {
+        this._profileService.getMLBProfile().subscribe(
+            data => {
+                this.profileHeaderData = this._profileService.convertToLeagueProfileHeader(data);
+                this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
+                this.setupShareModule();
+                this.getImages(this.imageData);
+            },
+            err => {
+                console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
+            }
+        );
+    }
+
+    private getImages(imageData) {
+        this.isProfilePage = true;
+        this.profileType = 'league';
+        this.profileName = 'MLB';
+        var imageArray = [];
+        var copyArray = [];
+        this._imagesService.getImages(null, this.profileType)
+            .subscribe(data => {
+                    imageData = data;
+                    imageData.images.forEach(function (val, index) {
+                        val['images'] = val.image_url;
+                        val['copyright'] = val.image_copyright;
+                        imageArray.push(val['images']);
+                        copyArray.push(val['copyright'])
+                    });
+                    return this.imageData = imageArray, this.copyright = copyArray;
+                },
+                err => {
+                    console.log("Error getting image data");
+                });
+    }
+
+    private standingsTabSelected(tab:MLBStandingsTabData) {
+        if (tab && (!tab.sections || tab.sections.length == 0)) {
+            this._standingsService.getTabData(tab, this.pageParams, 5)//only show 5 rows in the module
+                .subscribe(data => tab.sections = data,
+                    err => {
+                        console.log("Error getting standings data");
+                    });
+        }
+    }
+
+    private setupShareModule() {
         let profileHeaderData = this.profileHeaderData;
         let imageUrl = typeof profileHeaderData.profileImageUrl === 'undefined' || profileHeaderData.profileImageUrl === null ? GlobalSettings.getImageUrl("/mlb/players/no-image.png") : profileHeaderData.profileImageUrl;
         let shareText = typeof profileHeaderData.profileName === 'undefined' || profileHeaderData.profileName === null ? 'Share This Profile Below' : 'Share ' + profileHeaderData.profileName + '\'s Profile Below:';

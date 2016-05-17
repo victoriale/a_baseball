@@ -1,14 +1,22 @@
-.media {
-  &-images {
+.profile {
+  &-carousel {
     width: 100%;
-    height: 392px;
+    height: 50%;
+    position: relative;
+  }
+}
+
+.article {
+  &-carousel {
+    width: 100%;
+    height: 100%;
     position: relative;
   }
 }
 
 .plcholder {
-  height: 328px;
-  width: 580px;
+  height: 73%;
+  width: 100%;
   position: relative;
   &-img {
     position: absolute;
@@ -31,11 +39,22 @@
 }
 
 .grey-bar {
-  width: 580px;
+  width: 100%;
   height: 26px;
   background-color: rgba(0, 0, 0, 0.6);
   position: absolute;
   bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 10px;
+  color: #379afc;
+  font-size: 80%;
+  font-weight: 800;
+  &-credit {
+    color: @white;
+    font-weight: 400;
+  }
 }
 
 .expand {
@@ -62,15 +81,15 @@
 
 .sm-images {
   background-color: @backgroundGrey;
-  height: 17.8%;
-  width: 580px;
+  height: 18%;
+  width: 100%;
   border-bottom: 1px solid @strokeGrey;
   overflow: hidden;
   position: relative;
   &-container {
-    width: 110px;
-    height: 59px;
-    margin: 5px 3px;
+    width: 19%;
+    height: 85%;
+    margin: 1% .5%;
     float: left;
   }
   &-square-image {
@@ -86,8 +105,8 @@
       background: rgba(188, 22, 36, 0.5);
       cursor: pointer;
       content: "";
-      width: 110px;
-      height: 59px;
+      width: 19%;
+      height: 85%;
       position: absolute;
       box-sizing: border-box;
       -moz-box-sizing: border-box;
@@ -95,8 +114,8 @@
       padding-bottom: 18px;
     }
     &-active {
-      width: inherit;
-      height: inherit;
+      width: 100%;
+      height: 100%;
       border: 2px solid #ba1a2a;
       pointer-events: none;
     }
@@ -104,6 +123,6 @@
 }
 
 .carouselImageBoxSmall {
-  .carouselImageLinkSmall(110px, 59px);
+  .carouselImageLinkSmall(19%, 85%);
 }
 

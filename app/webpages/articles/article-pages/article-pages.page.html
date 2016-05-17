@@ -3,7 +3,9 @@
     <span *ngIf="articleData">
         <shareLinks-component [url]="url"></shareLinks-component>
         <div class="articles-page-title">{{title}}</div>
-        <images-media-carousel [imageData]="imageData"></images-media-carousel>
+        <div class="carousel-container">
+            <images-media-carousel [imageData]="imageData"></images-media-carousel>
+        </div>
         <div class="arpt">
             <!--<div class="arpt-author">-->
                 <!--<div class="arpt-author-image"></div>-->

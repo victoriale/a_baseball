@@ -66,6 +66,17 @@ export interface List2 {
     smallImage: string[];
 }
 
+export interface Images {
+    image_url: string;
+    image_title: string;
+    image_copyright: string;
+    image_date: string;
+    image_height: string;
+    image_width: string;
+    team_name: string;
+    team_id: string;
+}
+
 //Interface for Profile Header Module
 export interface ProfileHeaderInterface {
     //Listing data
