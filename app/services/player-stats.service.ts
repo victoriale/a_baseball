@@ -10,7 +10,7 @@ import {StatsTableTabData} from '../components/player-stats/player-stats.compone
 
 @Injectable()
 export class PlayerStatsService {
-  constructor(public http: Http, private _globalFunctions: GlobalFunctions, private _mlbFunctions: MLBGlobalFunctions){}
+  constructor(public http: Http){}
   
   getLinkToPage(pageParams: MLBPageParameters): Array<any> {
     return ["Player-stats-page", {
@@ -108,13 +108,13 @@ export class PlayerStatsService {
         batAverage: .212,
         batHomeRuns: 13,
         batRbi: 15,
-        batSluggingPercentage: 16,
+        batSluggingPercentage: .16,
         batHits: 17,
-        batOnBasePercentage: 18,
+        batOnBasePercentage: .18,
         batBasesOnBalls: 45,
         
         //Pitching Stats
-        pitchEra: .1234,
+        pitchEra: 1.234,
         pitchWins: 2,
         pitchLosses: 5,
         pitchStrikeouts: 6,
@@ -136,13 +136,13 @@ export class PlayerStatsService {
         batAverage: .012,
         batHomeRuns: 13,
         batRbi: 15,
-        batSluggingPercentage: 16,
+        batSluggingPercentage: .16,
         batHits: 17,
-        batOnBasePercentage: 18,
+        batOnBasePercentage: .18,
         batBasesOnBalls: 45,
         
         //Pitching Stats
-        pitchEra: .1234,
+        pitchEra: 1.234,
         pitchWins: 2,
         pitchLosses: 5,
         pitchStrikeouts: 6,
@@ -164,13 +164,13 @@ export class PlayerStatsService {
         batAverage: .500,
         batHomeRuns: 13,
         batRbi: 15,
-        batSluggingPercentage: 16,
+        batSluggingPercentage: .16,
         batHits: 17,
-        batOnBasePercentage: 18,
+        batOnBasePercentage: .18,
         batBasesOnBalls: 45,
         
         //Pitching Stats
-        pitchEra: .1234,
+        pitchEra: 1.234,
         pitchWins: 2,
         pitchLosses: 5,
         pitchStrikeouts: 6,

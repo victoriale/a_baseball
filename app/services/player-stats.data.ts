@@ -185,7 +185,7 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
       },{
         headerValue: "ERA",
         columnClass: "data-column",
-        sortDirection: -  1, //descending
+        sortDirection: 1, //ascending
         isNumericType: true,
         key: "era"
       },{
@@ -218,7 +218,7 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
       },{
         headerValue: "BA",
         columnClass: "data-column",
-        sortDirection: -  1, //descending
+        sortDirection: 1, //ascending
         isNumericType: true,
         key: "ba"
       },{
@@ -276,7 +276,7 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
         break;
       
       case "ba": 
-        s = item.batAverage ? item.batAverage.toString() : null;
+        s = item.batAverage ? item.batAverage.toFixed(3) : null;
         break;
       
       case "rbi": 
@@ -292,11 +292,11 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
         break;
       
       case "obp": 
-        s = item.batOnBasePercentage ? item.batOnBasePercentage.toString() : null;
+        s = item.batOnBasePercentage ? item.batOnBasePercentage.toFixed(3) : null;
         break;
       
       case "slg": 
-        s = item.batSluggingPercentage ? item.batSluggingPercentage.toString() : null;
+        s = item.batSluggingPercentage ? item.batSluggingPercentage.toFixed(3) : null;
         break;
       
       //PITCHING
@@ -313,7 +313,7 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
         break;
       
       case "era": 
-        s = item.pitchEra != null ? item.pitchEra.toString() : null;
+        s = item.pitchEra != null ? item.pitchEra.toFixed(2) : null;
         break;
         
       case "pbb": 
@@ -321,7 +321,7 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
         break;
       
       case "whip": 
-        s = item.pitchWhip != null ? item.pitchWhip.toString() : null;
+        s = item.pitchWhip != null ? item.pitchWhip.toFixed(2) : null;
         break;
       
       case "sv": 
@@ -402,12 +402,11 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
   
   getImageConfigAt(item:PlayerStatsData, column:TableColumn):CircleImageData {
     if ( column.key === "name" ) {
-      //TODO-CJP: store after creation? or create each time?
       return {
-          imageClass: "image-50",
+          imageClass: "image-48",
           mainImage: {
             imageUrl: item.fullPlayerImageUrl,
-            imageClass: "border-2",
+            imageClass: "border-1",
             urlRouteArray: MLBGlobalFunctions.formatPlayerRoute(item.teamName, item.playerName, item.playerId.toString()),
             hoverText: "<i class='fa fa-mail-forward'></i>",
           },
