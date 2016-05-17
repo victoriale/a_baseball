@@ -58,7 +58,7 @@ export class SliderCarousel implements OnInit {
     //sets the index of the dataPoint of its current position in the array
     // the '?' meaning if there is data to even receive
     if(typeof this.dataPoint['index'] != 'undefined'){
-      this.indexNum.next(this.dataPoint['index']);
+      this.indexNum.next(this.dataPoint.index);
     }
   }
 

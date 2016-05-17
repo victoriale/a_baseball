@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, ViewChildren, OnChanges, EventEmitter, Output} from 'angular2/core';
+import {Component, Input, ViewChildren, OnChanges, EventEmitter, Output} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {TableHeader} from '../../components/custom-table/table-header.component';
 import {TableModel, TableColumn} from '../../components/custom-table/table-data.component';
@@ -10,7 +10,7 @@ import {CircleImage} from '../../components/images/circle-image';
   directives: [TableHeader, CircleImage, ROUTER_DIRECTIVES]
 })
 
-export class CustomTable implements OnInit, OnChanges {
+export class CustomTable implements OnChanges {
   @ViewChildren(TableHeader) _tableHeaders: Array<TableHeader>;
   
   @Output() sortChanged = new EventEmitter();
@@ -48,10 +48,6 @@ export class CustomTable implements OnInit, OnChanges {
    * Otherwise, the table body and footer are given the style ".custom-table-body".
    */
   @Input() isCompactStyle: boolean = false;
-  
-  ngOnInit() {
-    this.updateData();
-  }
   
   ngOnChanges() {
     this.updateData();
@@ -94,7 +90,6 @@ export class CustomTable implements OnInit, OnChanges {
     });
     
     this.sortRows(sortedColumn);
-    this.sortChanged.next(this.model.rows);
   }
   
   //TODO-CJP: Customize sort for numbers?
@@ -113,5 +108,6 @@ export class CustomTable implements OnInit, OnChanges {
       
       return 0;
     });
+    this.sortChanged.next(this.model.rows);
   }
 }

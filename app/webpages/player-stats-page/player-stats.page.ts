@@ -10,7 +10,7 @@ import {DropdownComponent} from '../../components/dropdown/dropdown.component';
 
 import {PlayerStatsService} from '../../services/player-stats.service';
 import {ProfileHeaderService} from '../../services/profile-header.service';
-import {MLBPlayerStatsTableData} from '../../services/player-stats.data';
+import {MLBPlayerStatsTableData, MLBPlayerStatsTableModel} from '../../services/player-stats.data';
 
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
 import {GlobalFunctions} from '../../global/global-functions';
@@ -80,50 +80,42 @@ export class PlayerStatsPage implements OnInit {
   }
 
   private setupPlayerStatsData() {
-    let self = this;
-    self._statsService.loadAllTabs(this.pageParams)
-      .subscribe(data => { 
-        this.tabs = data;
-      },
-      err => {
-        console.log("Error getting player stats data");
-        this.hasError = true;
-      });
+    this.tabs = this._statsService.initializeAllTabs(this.pageParams);
   }
   
   private playerStatsTabSelected(tab: MLBPlayerStatsTableData) {
     var hasData = false;
-    if ( tab && tab.tableData ) {
-      for ( var key in tab.tableData ) {
+    if ( tab ) {
+      var table = tab.seasonTableData[tab.selectedSeasonId];
+      if ( table ) {     
         hasData = true;
-        break;
+        tab.tableData = table;
+      }
+      else {
+        tab.tableData = null;
       }
     }    
     
     if ( !hasData ) {
-      this._statsService.getTabData(tab, this.pageParams)      
-        .subscribe(data => {
+      this._statsService.getTabData(tab, this.pageParams, tab.selectedSeasonId)
+        .subscribe(data => { 
           this.getLastUpdatedDateForPage(data);
-          tab = data;
+          tab.seasonTableData[tab.selectedSeasonId] = data;
+          tab.tableData = data;
         },
         err => {
-          console.log("Error getting standings data");
+          console.log("Error getting player stats data");
+          this.hasError = true;
         });
     }
   }
   
-  private getLastUpdatedDateForPage(data: MLBPlayerStatsTableData) {           
+  private getLastUpdatedDateForPage(table: MLBPlayerStatsTableModel) {           
     //Getting the first 'lastUpdatedDate' listed in the StandingsData
-    if ( !this.lastUpdatedDateSet && data && data.tableData ) {
-      for ( var key in data.tableData ) {
-        var table = data.tableData[key];
-        if ( table && table.rows && table.rows.length > 0 ) {
-          var lastUpdated = table.rows[0].lastUpdatedDate;
-          this.titleData.text1 = "Last Updated: " + GlobalFunctions.formatUpdatedDate(lastUpdated, false); 
-          this.lastUpdatedDateSet = true;            
-        }
-        break; //only do this for the first key
-      }
+    if ( !this.lastUpdatedDateSet && table && table.rows && table.rows.length > 0 ) {
+      var lastUpdated = table.rows[0].lastUpdate;
+      this.titleData.text1 = "Last Updated: " + GlobalFunctions.formatUpdatedDate(lastUpdated, false); 
+      this.lastUpdatedDateSet = true;
     }
   }
 }
