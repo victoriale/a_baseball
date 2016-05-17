@@ -1,20 +1,24 @@
 import {Component, OnInit, Input, Output, EventEmitter} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {CircleButton} from "../../buttons/circle/circle.button";
+import {ModuleHeader} from "../../module-header/module-header.component";
+import {ModuleHeaderData} from "../../module-header/module-header.component";
 
 declare var jQuery:any;
 
 @Component({
     selector: 'images-media-carousel',
     templateUrl: './app/components/carousels/images-media-carousel/images-media-carousel.component.html',
-    directives: [ROUTER_DIRECTIVES, CircleButton],
+    directives: [ROUTER_DIRECTIVES, CircleButton, ModuleHeader],
     providers: [],
-    inputs: ['trending', 'mediaImages', 'featureListing', 'modalButton', 'imageData'],
+    inputs: ['trending', 'mediaImages', 'featureListing', 'modalButton', 'imageData', 'copyright', 'profileName', 'isProfilePage'],
     outputs: ['leftCircle', 'rightCircle', 'expand'],
 })
 
 export class ImagesMedia implements OnInit {
     @Input() imageData:any;
+    @Input() copyright:any;
+    @Input() profileName:string;
     leftCircle:EventEmitter<boolean> = new EventEmitter();
     rightCircle:EventEmitter<boolean> = new EventEmitter();
     expand:EventEmitter<boolean> = new EventEmitter();
@@ -31,6 +35,12 @@ export class ImagesMedia implements OnInit {
     image_url = './app/public/no_photo_images/onError.png';
     images:any;
     displayCounter:number;
+    imageCredit:any;
+    public headerInfo:ModuleHeaderData = {
+        moduleTitle: "",
+        hasIcon: false,
+        iconClass: ""
+    };
 
     modalExpand() {
         this.expand.next(true);
@@ -41,7 +51,7 @@ export class ImagesMedia implements OnInit {
         this.imageCounter = (((this.imageCounter - 1) % this.imageData.length) + this.imageData.length) % this.imageData.length;
         this.smallObjCounter = (((this.smallObjCounter - 1) % 5) + 5) % 5;
         if (this.smallObjCounter == 4) {
-            this.mediaImages = this.modifyMedia(this.imageData, false);
+            this.mediaImages = this.modifyMedia(this.imageData, this.copyright, false);
         }
         //run the changeMain function to change the main image once a new array has been established
         this.changeMain(this.imageCounter);
@@ -52,7 +62,7 @@ export class ImagesMedia implements OnInit {
         this.imageCounter = (this.imageCounter + 1) % this.imageData.length;
         this.smallObjCounter = (this.smallObjCounter + 1) % 5;
         if (this.smallObjCounter == 0) {
-            this.mediaImages = this.modifyMedia(this.imageData);
+            this.mediaImages = this.modifyMedia(this.imageData, this.copyright);
         }
         //run the changeMain function to change the main image once a new array has been established
         this.changeMain(this.imageCounter);
@@ -63,6 +73,7 @@ export class ImagesMedia implements OnInit {
         this.displayCounter = this.imageCounter + 1;
         this.smallImage = this.mediaImages;
         this.largeImage = this.mediaImages[this.smallObjCounter].image;
+        this.imageCredit = this.mediaImages[this.smallObjCounter].copyData;
     }
 
     changeClick(num) {
@@ -71,7 +82,7 @@ export class ImagesMedia implements OnInit {
         this.changeMain(this.imageCounter);
     }
 
-    modifyMedia(images, forward = true) {
+    modifyMedia(images, copyright, forward = true) {
         if (this.modalButton) {//just so the carousel knows that the expand button is
             this.expandText = 'Collapse';
             this.expandIcon = 'fa-compress';
@@ -81,7 +92,11 @@ export class ImagesMedia implements OnInit {
         var arrayStart = (((this.imageCounter + (forward ? 0 : -4)) % totalImgs) + totalImgs) % totalImgs;
         for (var i = arrayStart; i < arrayStart + 5; i++) {
             var index = i % totalImgs;
-            newImageArray.push({id: index, image: images[index]});
+            if (typeof this.copyright != 'undefined') {
+                newImageArray.push({id: index, image: images[index], copyData: copyright[index]});
+            } else {
+                newImageArray.push({id: index, image: images[index]});
+            }
         }
         return newImageArray;
     }
@@ -92,9 +107,13 @@ export class ImagesMedia implements OnInit {
             //if data coming from module to variable mediaImages changes in what way then reset to first image and rerun function
             this.smallObjCounter = 0;
             this.imageCounter = 0;
-            this.mediaImages = this.modifyMedia(this.imageData);
+            if (this.copyright == 'undefined') {
+                this.copyright = '';
+            }
+            this.mediaImages = this.modifyMedia(this.imageData, this.copyright);
             this.changeMain(0);
             this.totalImageCount = this.imageData.length;
+            this.headerInfo.moduleTitle = "Images & Media - " + this.profileName;
         }
     }
 
