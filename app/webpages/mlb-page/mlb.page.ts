@@ -14,6 +14,7 @@ import {MLBStandingsTabData} from '../../services/standings.data';
 import {StandingsService} from '../../services/standings.service';
 import {SchedulesModule} from '../../modules/schedules/schedules.module';
 import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
+import {MVPModule} from '../../modules/mvp/mvp.module';
 
 import {ProfileHeaderData, ProfileHeaderModule} from '../../modules/profile-header/profile-header.module';
 import {ProfileHeaderService} from '../../services/profile-header.service';
@@ -24,6 +25,7 @@ import {HeadlineComponent} from '../../components/headline/headline.component';
 
 import {NewsModule} from '../../modules/news/news.module';
 import {GlobalSettings} from "../../global/global-settings";
+import {ListPageService} from '../../services/list-page.service';
 import {ImagesService} from "../../services/carousel.service";
 import {ImagesMedia} from "../../components/carousels/images-media-carousel/images-media-carousel.component";
 
@@ -31,6 +33,7 @@ import {ImagesMedia} from "../../components/carousels/images-media-carousel/imag
     selector: 'MLB-page',
     templateUrl: './app/webpages/mlb-page/mlb.page.html',
     directives: [
+        MVPModule,
         SchedulesModule,
         BoxScoresModule,
         HeadlineComponent,
@@ -46,48 +49,75 @@ import {ImagesMedia} from "../../components/carousels/images-media-carousel/imag
         NewsModule,
         AboutUsModule,
         ImagesMedia],
-    providers: [StandingsService, ProfileHeaderService, ImagesService]
+    providers: [ListPageService, StandingsService, ProfileHeaderService, ImagesService]
 })
 
-export class MLBPage implements OnInit {
-    public shareModuleInput:ShareModuleInput;
+export class MLBPage implements OnInit{
+    public shareModuleInput: ShareModuleInput;
 
-    pageParams:MLBPageParameters = {};
+    pageParams: MLBPageParameters = {};
 
-    standingsData:StandingsModuleData;
+    standingsData: StandingsModuleData;
 
-    profileHeaderData:ProfileHeaderData;
+    profileHeaderData: ProfileHeaderData;
 
+    batterParams:any;
+    batterData: any;
+    pitcherParams:any;
+    pitcherData: any;
     imageData:any;
     copyright:any;
     profileType:string;
     isProfilePage:boolean = false;
     profileName:string;
-
-    constructor(private _standingsService:StandingsService,
-                private _profileService:ProfileHeaderService,
-                private _imagesService:ImagesService) {
+    listMax: number = 10;
+    constructor(
+    private _standingsService: StandingsService,
+    private _profileService: ProfileHeaderService,
+    private _imagesService:ImagesService,
+    private listService:ListPageService
+    ) {
+      this.batterParams = { //Initial load for mvp Data
+        profile: 'player',
+        listname: 'batter-home-runs',
+        sort: 'asc',
+        conference: 'all',
+        division: 'all',
+        limit: this.listMax,
+        pageNum:1
+      };
+      this.pitcherParams = { //Initial load for mvp Data
+        profile: 'player',
+        listname: 'pitcher-innings-pitched',
+        sort: 'asc',
+        conference: 'all',
+        division: 'all',
+        limit: this.listMax,
+        pageNum:1
+      };
     }
 
-    ngOnInit() {
-        this.setupProfileData();
-    }
+  ngOnInit() {
+    this.setupProfileData();
+  }
 
-    private setupProfileData() {
-        this._profileService.getMLBProfile().subscribe(
-            data => {
-                this.profileHeaderData = this._profileService.convertToLeagueProfileHeader(data);
-                this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
-                this.setupShareModule();
-                this.getImages(this.imageData);
-            },
-            err => {
-                console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
-            }
-        );
-    }
+  private setupProfileData() {
+    this._profileService.getMLBProfile().subscribe(
+      data => {
+        this.profileHeaderData = this._profileService.convertToLeagueProfileHeader(data)
+        this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
+        this.batterData = this.getMVP(this.batterParams, 'batter');
+        this.pitcherData = this.getMVP(this.pitcherParams, 'pitcher');
+        this.setupShareModule();
+        this.getImages(this.imageData);
+      },
+      err => {
+        console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
+      }
+    );
+  }
 
-    private getImages(imageData) {
+  private getImages(imageData) {
         this.isProfilePage = true;
         this.profileType = 'league';
         this.profileName = 'MLB';
@@ -109,17 +139,17 @@ export class MLBPage implements OnInit {
                 });
     }
 
-    private standingsTabSelected(tab:MLBStandingsTabData) {
-        if (tab && (!tab.sections || tab.sections.length == 0)) {
-            this._standingsService.getTabData(tab, this.pageParams, 5)//only show 5 rows in the module
-                .subscribe(data => tab.sections = data,
-                    err => {
-                        console.log("Error getting standings data");
-                    });
-        }
+  private standingsTabSelected(tab: MLBStandingsTabData) {
+    if ( tab && (!tab.sections || tab.sections.length == 0) ) {
+      this._standingsService.getTabData(tab, this.pageParams, 5)//only show 5 rows in the module
+        .subscribe(data => tab.sections = data,
+        err => {
+          console.log("Error getting standings data");
+        });
     }
+  }
 
-    private setupShareModule() {
+    private setupShareModule(){
         let profileHeaderData = this.profileHeaderData;
         let imageUrl = typeof profileHeaderData.profileImageUrl === 'undefined' || profileHeaderData.profileImageUrl === null ? GlobalSettings.getImageUrl("/mlb/players/no-image.png") : profileHeaderData.profileImageUrl;
         let shareText = typeof profileHeaderData.profileName === 'undefined' || profileHeaderData.profileName === null ? 'Share This Profile Below' : 'Share ' + profileHeaderData.profileName + '\'s Profile Below:';
@@ -129,4 +159,78 @@ export class MLBPage implements OnInit {
             shareText: shareText
         };
     }
+
+
+    //each time a tab is selected the carousel needs to change accordingly to the correct list being shown
+    private batterTab(event) {
+      this.batterParams ={ //Initial load for mvp Data
+        profile: 'player',
+        listname: event,
+        sort: 'asc',
+        conference: 'all',
+        division: 'all',
+        limit: this.listMax,
+        pageNum:1
+      };
+      this.getMVP(this.batterParams, 'batter');
+    }
+
+    //each time a tab is selected the carousel needs to change accordingly to the correct list being shown
+    private pitcherTab(event) {
+      this.pitcherParams ={ //Initial load for mvp Data
+        profile: 'player',
+        listname: event,
+        sort: 'asc',
+        conference: 'all',
+        division: 'all',
+        limit: this.listMax,
+        pageNum:1
+      };
+      this.getMVP(this.pitcherParams, 'pitcher');
+    }
+
+    private getMVP(urlParams, moduleType) {
+
+        this.listService.getListModuleService(urlParams, moduleType)
+            .subscribe(
+                list => {
+                  var dataArray, detailedDataArray, carouselDataArray;
+                  if(list.listData.length == 0){//makes sure it only runs once
+                    detailedDataArray = false;
+                  }else{
+                    detailedDataArray = list.listData;
+                  }
+                  dataArray = list.tabArray;
+                  carouselDataArray = list.carData;
+                  if(moduleType == 'batter'){
+                    return this.batterData = {
+                      query:this.batterParams,
+                      tabArray: dataArray,
+                      listData: detailedDataArray,
+                      carData: carouselDataArray,
+                      errorData: {
+                        data: "Sorry, we do not currently have any data for this mvp list",
+                        icon: "fa fa-remove"
+                      }
+                    }
+                  }else{
+                    return this.pitcherData = {
+                      query:this.pitcherParams,
+                      tabArray: dataArray,
+                      listData: detailedDataArray,
+                      carData: carouselDataArray,
+                      errorData: {
+                        data: "Sorry, we do not currently have any data for this mvp list",
+                        icon: "fa fa-remove"
+                      }
+                    }
+                  }
+
+                },
+                err => {
+                    console.log('Error: list API: ', err);
+                    // this.isError = true;
+                }
+            );
+      }
 }

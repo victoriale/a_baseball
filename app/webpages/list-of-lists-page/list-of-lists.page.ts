@@ -24,44 +24,61 @@ declare var moment:any;
 })
 
 export class ListOfListsPage implements OnInit{
-    errorData: any;
-    dataArray: any; //array of data for detailed list
-    detailedDataArray: any; //variable that is just a list of the detailed DataArray
-    displayData: any; // paginated data to be displayed
-    carouselDataArray: any;
-    isError: boolean = false;
-    paginationSize: number = 10;
-    paginationParameters: Object;
-    index: number = 0;
-    footerData: Object;
-    footerStyle: any = {
-        ctaBoxClass: "list-footer",
-        ctaBtnClass:"list-footer-btn",
-        hasIcon: true,
+    errorData             : any;
+    dataArray             : any; //array of data for detailed list
+    detailedDataArray     : any; //variable that is just a list of the detailed DataArray
+    displayData           : any; // paginated data to be displayed
+    carouselDataArray     : any;
+    profileName           : string;
+    isError               : boolean = false;
+    version               : string; // [page,module]
+    type                  : string; // [player,team]
+    id                    : string; // [playerId, teamId]
+    scope                 : string; // [league, division, conference]
+    limit                 : string; // pagination limit
+    pageNum               : string; // page of pages to show
+
+    paginationSize        : number = 10;
+    index                 : number = 0;
+    paginationParameters  : Object;
+    footerData            : Object;
+    footerStyle : any = {
+        ctaBoxClass       : "list-footer",
+        ctaBtnClass       : "list-footer-btn",
+        hasIcon           : true
     };
     titleData: {};
 
-    constructor(private lolService:ListOfListsService){
+    constructor(private _lolService:ListOfListsService, private _params: RouteParams){
+        this.type    = _params.params['type'];
+        this.id      = _params.params['id'];
+        this.scope   = _params.params['scope'] != null ? _params.params['scope'] : null;
+        this.limit   = _params.params['limit'];
+        this.pageNum = _params.params['pageNum'];
+    }
+
+    setProfileHeader(profile:string){
         this.titleData = {
             imageURL : GlobalSettings.getImageUrl('/mlb/players/no-image.png'),
             text1 : 'Last Updated: ' + moment().format("dddd, MMMM DD, YYYY"),
             text2 : ' United States',
-            text3 : 'Top lists - [Profile Name]',
+            text3 : 'Top lists - ' + profile,
             icon: 'fa fa-map-marker',
             hasHover: false
         };
     }
 
     getListOfListsPage() {
-        //   getListOfListsService(version, type?, scope?, conference?, count?, page?){
-        this.lolService.getListOfListsService("page", null, null, null, 20, 1)
+        // getListOfListsService(version, type, id, scope?, count?, page?){
+        this._lolService.getListOfListsService("page",this.type, this.id, this.scope, this.limit, this.pageNum)
           .subscribe(
             listOfListsData => {
-                console.log("1",listOfListsData);
                 this.detailedDataArray = listOfListsData.listData;
                 this.dataArray = true
                 this.carouselDataArray = listOfListsData.carData
                 this.sanitizeListofListData();
+                this.profileName = listOfListsData.targetData.playerName != null ? listOfListsData.targetData.playerName : listOfListsData.targetData.teamName;
+                this.setProfileHeader(this.profileName)
             },
             err => {
                 console.log('Error: listOfListsData API: ', err);
@@ -114,7 +131,6 @@ export class ListOfListsPage implements OnInit{
             index: this.index+1,
             max: max,
             paginationType: 'module',
-            viewAllPage: 'Widget-page'
         }
     }
 

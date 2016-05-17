@@ -5,7 +5,8 @@ import {GlobalFunctions} from '../../global/global-functions';
 import {LoadingComponent} from '../../components/loading/loading.component';
 import {ErrorComponent} from '../../components/error/error.component';
 import {DateTimePipe} from '../../pipes/datetime-format.pipe';
-import {Link, PagingData, NavigationData, DirectoryProfileItem, DirectoryItems, DirectoryModuleData} from './directory.data';
+import {Link} from '../../global/global-interface';
+import {PagingData, DirectoryModuleData} from './directory.data';
 import {DirectoryPagination} from './directory-pagination.component';
 
 declare var moment: any;

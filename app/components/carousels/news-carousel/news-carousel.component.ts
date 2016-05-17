@@ -3,18 +3,16 @@
  */
 import {Component, OnInit, Output, Input, EventEmitter} from 'angular2/core';
 import {Carousel} from '../carousel.component';
-import {ModuleFooter, ModuleFooterData} from '../../module-footer/module-footer.component'
 
 export interface NewsCarouselInput {
   index?:any;
   description?: Array<string>;
-  footerInfo?: ModuleFooterData;
 }
 
 @Component({
   selector: 'news-carousel',
   templateUrl: './app/components/carousels/news-carousel/news-carousel.component.html',
-  directives: [ModuleFooter, Carousel],
+  directives: [Carousel],
   providers: [],
   inputs: ['newsData'],
   outputs:['indexNum'],

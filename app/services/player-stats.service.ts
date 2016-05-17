@@ -15,6 +15,7 @@ export class PlayerStatsService {
   getLinkToPage(pageParams: MLBPageParameters): Array<any> {
     return ["Player-stats-page", {
       teamId: pageParams.teamId,
+      teamName: pageParams.teamName,
       playerId: pageParams.playerId
     }];
   }
@@ -29,109 +30,23 @@ export class PlayerStatsService {
   
   loadAllTabs(pageParams: MLBPageParameters, maxRows?: number): Observable<Array<MLBPlayerStatsTableData>> {    
     var tabs = this.initializeAllTabs(pageParams); 
-    return Observable.forkJoin(tabs.map(tab => this.getData(pageParams, tab, maxRows)));    
+    return Observable.forkJoin(tabs.map(tab => this.getTabData(tab, pageParams, maxRows)));    
   }
 
-  private getData(pageParams: MLBPageParameters, standingsTab: MLBPlayerStatsTableData, maxRows?: number): Observable<MLBPlayerStatsTableData> {
+  getTabData(standingsTab: MLBPlayerStatsTableData, pageParams: MLBPageParameters, maxRows?: number): Observable<MLBPlayerStatsTableData> {
     // let url = GlobalSettings.getApiUrl();
 
     // return this.http.get(url)
     //     .map(res => res.json())
     //     .map(data => this.setupTabData(standingsTab, data.data, maxRows));
-    let data = [
-      {
-        teamName: "Chicago Cubs",
-        teamId: 2790,
-        teamImageUrl: "/mlb/logos/team/MLB_Chicago_White_Sox_Logo.jpg",
-        playerName: "Willis Jones",
-        playerId: 1,
-        playerImageUrl: "none.jpg",
-        seasionId: "2016",
-        lastUpdatedDate: new Date(),        
-        //Batting Stats
-        battingAverage: .212,
-        homeRuns: 13,
-        runsBattedIn: 15,
-        sluggingPercent: 16,
-        hits: 17,
-        walks: 18,
-        
-        //Pitching Stats
-        onBasePercent: .123,
-        earnedRunAverage: .1234,
-        wins: 2,
-        losses: 5,
-        strikeouts: 6,
-        inningsPitched: 78,
-        walksPitched: 66,
-        whip: 3,
-        saves: 3,        
-      },
-      {
-        teamName: "Chicago Cubs",
-        teamId: 2790,
-        teamImageUrl: "/mlb/logos/team/MLB_Chicago_White_Sox_Logo.jpg",
-        playerName: "Frank Bridge",
-        playerId: 2,
-        playerImageUrl: "/mlb/logos/team/MLB_Chicago_White_Sox_Logo.jpg",
-        seasionId: "2016",
-        lastUpdatedDate: new Date(),        
-        //Batting Stats
-        battingAverage: .012,
-        homeRuns: 13,
-        runsBattedIn: 15,
-        sluggingPercent: 16,
-        hits: 17,
-        walks: 18,
-        
-        //Pitching Stats
-        onBasePercent: .123,
-        earnedRunAverage: .1234,
-        wins: 2,
-        losses: 5,
-        strikeouts: 6,
-        inningsPitched: 78,
-        walksPitched: 66,
-        whip: 3,
-        saves: 3,        
-      },
-      {
-        teamName: "Chicago Cubs",
-        teamId: 2790,
-        teamImageUrl: "/mlb/logos/team/MLB_Chicago_White_Sox_Logo.jpg",
-        playerName: "Josef Myslivecek",
-        playerId: 3,
-        playerImageUrl: "/mlb/logos/team/MLB_Chicago_White_Sox_Logo.jpg",
-        seasionId: "2016",
-        lastUpdatedDate: new Date(),        
-        //Batting Stats
-        battingAverage: .500,
-        homeRuns: 13,
-        runsBattedIn: 15,
-        sluggingPercent: 16,
-        hits: 17,
-        walks: 18,
-        
-        //Pitching Stats
-        onBasePercent: .123,
-        earnedRunAverage: .1234,
-        wins: 2,
-        losses: 5,
-        strikeouts: 6,
-        inningsPitched: 78,
-        walksPitched: 66,
-        whip: 3,
-        saves: 3,        
-      }
-    ];
-    return Observable.of(this.setupTabData(pageParams, standingsTab, [
-      {seasonId: "2016", rows: data},
-      {seasonId: "2015", rows: data},
-      {seasonId: "2014", rows: data}
+    return Observable.of(this.setupTabData(standingsTab, pageParams, [
+      {seasonId: "2016", rows: this.data},
+      {seasonId: "2015", rows: this.data},
+      {seasonId: "2014", rows: this.data}
     ], maxRows));    
   }
   
-  private initializeAllTabs(pageParams: MLBPageParameters): Array<MLBPlayerStatsTableData> {
+  initializeAllTabs(pageParams: MLBPageParameters): Array<MLBPlayerStatsTableData> {
     let tabs: Array<MLBPlayerStatsTableData> = [];
     
     tabs.push(new MLBPlayerStatsTableData("Batting", false, true)); //isPitcher = false, isActive = true
@@ -140,8 +55,8 @@ export class PlayerStatsService {
     return tabs;
   }
 
-  private setupTabData(pageParams: MLBPageParameters, standingsTab: MLBPlayerStatsTableData, data: Array<PlayerStatsSeasonData>, maxRows?: number): MLBPlayerStatsTableData {
-    var tableName = pageParams.teamName + " " + standingsTab.tabTitle + " Stats";
+  private setupTabData(standingsTab: MLBPlayerStatsTableData, pageParams: MLBPageParameters, data: Array<PlayerStatsSeasonData>, maxRows?: number): MLBPlayerStatsTableData {
+    var tableName = "<span class='text-heavy'>" + pageParams.teamName + "</span> " + standingsTab.tabTitle + " Stats";
     var seasonIds: Array<{key: string, value: string}> = [];
     var selectedSeasonId;
     var seasonData: { [seasonId: string]: MLBPlayerStatsTableModel } = {};
@@ -165,8 +80,8 @@ export class PlayerStatsService {
       //Set display values    
       table.rows.forEach((value, index) => {
         value.displayDate = GlobalFunctions.formatUpdatedDate(value.lastUpdatedDate, false);
-        value.fullPlayerImageUrl = GlobalSettings.getImageUrl(value.playerImageUrl);
-        value.fullTeamImageUrl = GlobalSettings.getImageUrl(value.teamImageUrl);
+        value.fullPlayerImageUrl = GlobalSettings.getImageUrl(value.playerHeadshot);
+        value.fullTeamImageUrl = GlobalSettings.getImageUrl(value.teamLogo);
         if ( value.playerId === undefined || value.playerId === null ) {
           value.playerId = index;
         }
@@ -178,4 +93,91 @@ export class PlayerStatsService {
     standingsTab.tableData = seasonData;
     return standingsTab;
   }
+    
+  data: Array<PlayerStatsData> = [
+      {
+        teamName: "Chicago Cubs",
+        teamId: 2790,
+        teamLogo: "/mlb/logos/team/MLB_Chicago_White_Sox_Logo.jpg",
+        playerName: "Willis Jones",
+        playerId: 1,
+        playerHeadshot: "none.jpg",
+        seasonId: "2016",
+        lastUpdatedDate: new Date(),        
+        //Batting Stats
+        batAverage: .212,
+        batHomeRuns: 13,
+        batRbi: 15,
+        batSluggingPercentage: 16,
+        batHits: 17,
+        batOnBasePercentage: 18,
+        batBasesOnBalls: 45,
+        
+        //Pitching Stats
+        pitchEra: .1234,
+        pitchWins: 2,
+        pitchLosses: 5,
+        pitchStrikeouts: 6,
+        pitchInningsPitched: 78,
+        pitchBasesOnBalls: 66,
+        pitchWhip: 3,
+        pitchSaves: 3,        
+      },
+      {
+        teamName: "Chicago Cubs",
+        teamId: 2790,
+        teamLogo: "/mlb/logos/team/MLB_Chicago_White_Sox_Logo.jpg",
+        playerName: "Frank Bridge",
+        playerId: 2,
+        playerHeadshot: "/mlb/logos/team/MLB_Chicago_White_Sox_Logo.jpg",
+        seasonId: "2016",
+        lastUpdatedDate: new Date(),        
+        //Batting Stats
+        batAverage: .012,
+        batHomeRuns: 13,
+        batRbi: 15,
+        batSluggingPercentage: 16,
+        batHits: 17,
+        batOnBasePercentage: 18,
+        batBasesOnBalls: 45,
+        
+        //Pitching Stats
+        pitchEra: .1234,
+        pitchWins: 2,
+        pitchLosses: 5,
+        pitchStrikeouts: 6,
+        pitchInningsPitched: 78,
+        pitchBasesOnBalls: 66,
+        pitchWhip: 3,
+        pitchSaves: 3,        
+      },
+      {
+        teamName: "Chicago Cubs",
+        teamId: 2790,
+        teamLogo: "/mlb/logos/team/MLB_Chicago_White_Sox_Logo.jpg",
+        playerName: "Josef Myslivecek",
+        playerId: 3,
+        playerHeadshot: "/mlb/logos/team/MLB_Chicago_White_Sox_Logo.jpg",
+        seasonId: "2016",
+        lastUpdatedDate: new Date(),        
+        //Batting Stats
+        batAverage: .500,
+        batHomeRuns: 13,
+        batRbi: 15,
+        batSluggingPercentage: 16,
+        batHits: 17,
+        batOnBasePercentage: 18,
+        batBasesOnBalls: 45,
+        
+        //Pitching Stats
+        pitchEra: .1234,
+        pitchWins: 2,
+        pitchLosses: 5,
+        pitchStrikeouts: 6,
+        pitchInningsPitched: 78,
+        pitchBasesOnBalls: 66,
+        pitchWhip: 3,
+        pitchSaves: 3,        
+      }
+    ];
 }

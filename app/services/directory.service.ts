@@ -116,9 +116,16 @@ export class DirectoryService {
     return this.http.get(url)
         .map(res => res.json())
         .map(data => {
+          //TODO-CJP change when backend adds pagination
+          var start = searchParams.page * searchParams.listingsLimit;
+          var end = start + searchParams.listingsLimit;
+          if ( end > data.data.length ) {
+            end = data.data.length;
+          }
+          var items = data.data.slice(start, end);
           return {
             totalItems: data.data.length,
-            items: data.data.map(value => this.convertPlayerDataToDirectory(value))
+            items: items.map(value => this.convertPlayerDataToDirectory(value))
           }
         });
   }
@@ -142,6 +149,15 @@ export class DirectoryService {
   //"<a href=''>[Team Name]</a>  |  League:  [American or National]  |  Division: [Division]",
   //"[City], [State]  <i class=\"fa fa-angle-right\"></i>  Stadium: [Stadium Name]"
   convertTeamDataToDirectory(data: MLBTeamDirectoryData): DirectoryProfileItem {
+    var location = "N/A";
+    if ( data.teamCity && data.teamState ) {
+      location = data.teamCity + ", " + data.teamState;
+    }
+    
+    var venue = "N/A";
+    if ( data.teamVenue ) {
+      venue = data.teamVenue;
+    }
     return {
       lastUpdated: moment(data.lastUpdated),
       mainDescription: [
@@ -157,8 +173,8 @@ export class DirectoryService {
         }
       ],
       subDescription: [
-        data.teamCity + ", " + data.teamState,
-        "Stadium: " + data.teamVenue
+        location,
+        "Stadium: " + venue
       ]
     };
   }
@@ -167,6 +183,16 @@ export class DirectoryService {
   //"[Player Name]  |  [Associated Team]  |  Position:  [Position]" +
   //"[City], [State]    Rookie Year: {Rookie Year]"
   convertPlayerDataToDirectory(data: MLBPlayerDirectoryData): DirectoryProfileItem {
+    var location = "N/A";
+    if ( data.city && data.area ) {
+      location = data.city + ", " + data.area;
+    }
+    
+    var positions = "N/A";
+    if ( data.position && data.position.length > 0 ) {
+      positions = data.position.split(",").join(", ");
+    }
+    
     return {
       lastUpdated: moment(data.lastUpdate),
       mainDescription: [
@@ -179,11 +205,11 @@ export class DirectoryService {
           text: data.teamName
         },
         {
-          text: "Position: " + data.position
+          text: "Position: " + positions
         }
       ],
       subDescription: [
-        data.city + ", " + data.country,
+        location,
         "Rookie Year: " + "N/A" //TODO-CJP: set rookie year
       ]
     };

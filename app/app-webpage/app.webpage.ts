@@ -18,6 +18,7 @@ import {GlobalFunctions} from "../global/global-functions";
 import {SearchPage} from '../webpages/search-page/search.page';
 import {ModulePage} from "../webpages/module-page/module.page";
 import {ListPage} from "../webpages/list-page/list.page";
+import {SchedulesPage} from "../webpages/schedules-page/schedules.page";
 import {DraftHistoryPage} from "../webpages/draft-history-page/draft-history.page";
 import {StandingsPage} from "../webpages/standings-page/standings.page";
 import {AsyncRoute} from "angular2/router";
@@ -35,8 +36,8 @@ import {DesignPage} from "../webpages/design-page/design.page";
 @Component({
     selector: 'my-app',
     templateUrl: './app/app-webpage/app.webpage.html',
-    directives: [HeaderComponent, FooterComponent, TeamRosterPage, DraftHistoryPage, ListPage, HomePage, TeamPage, PlayerPage, DirectoryPage, 
-        AboutUsPage, ContactUsPage, DisclaimerPage, SearchPage, ComponentPage, 
+    directives: [StandingsPage, SchedulesPage, HeaderComponent, FooterComponent, TeamRosterPage, DraftHistoryPage, ListPage, HomePage, TeamPage, PlayerPage, DirectoryPage,
+        AboutUsPage, ContactUsPage, DisclaimerPage, SearchPage, ComponentPage,
         ModulePage, RouterOutlet, ROUTER_DIRECTIVES, PlayerStatsPage, MLBPage],
     providers: [ ROUTER_DIRECTIVES, ArticleDataService, HeadlineDataService],
 })
@@ -64,11 +65,6 @@ import {DesignPage} from "../webpages/design-page/design.page";
         component: PlayerPage,
     },
     {
-        path: '/directory/:type/page/:page',
-        name: 'Directory-page',
-        component: DirectoryPage,
-    },
-    {
         path: '/directory/:type/:startsWith/page/:page',
         name: 'Directory-page-starts-with',
         component: DirectoryPage,
@@ -94,6 +90,16 @@ import {DesignPage} from "../webpages/design-page/design.page";
         component: SearchPage
     },
     {
+        path: '/schedules',
+        name: 'Schedules-page-league',
+        component: SchedulesPage
+    },
+    {
+        path: '/schedules/:teamName/:teamId',
+        name: 'Schedules-page-team',
+        component: SchedulesPage
+    },
+    {
         path: '/standings',
         name: 'Standings-page',
         component: StandingsPage
@@ -107,11 +113,6 @@ import {DesignPage} from "../webpages/design-page/design.page";
         path: '/standings/:type/:teamName/:teamId',
         name: 'Standings-page-team',
         component: StandingsPage
-    },
-    {
-        path: '/player-stats/:teamId',
-        name: 'Player-stats-page',
-        component: PlayerStatsPage
     },
     {
         path: '/list/:profile/:listname/:sort/:conference/:division/:limit/:pageNum',
@@ -128,13 +129,11 @@ import {DesignPage} from "../webpages/design-page/design.page";
         name: 'Team-roster-page',
         component: TeamRosterPage
     },
-    /*  TODO-JVW uncomment after the player stats page is added
     {
         path: '/player-stats/:teamName/:teamId',
         name: 'Player-stats-page',
         component: PlayerStatsPage
     },
-    */
     //test AI Page
     {
         path: '/articles',
@@ -178,7 +177,12 @@ import {DesignPage} from "../webpages/design-page/design.page";
         component: TablesTestPage,
     },
     {
-        path: '/list-of-lists',
+        path: '/list-of-lists/:listName/:scope/:type/:id/:limit/:pageNum',
+        name: 'List-of-lists-page-scoped',
+        component: ListOfListsPage
+    },
+    {
+        path: '/list-of-lists/:listName/:type/:id/:limit/:pageNum',
         name: 'List-of-lists-page',
         component: ListOfListsPage
     },
