@@ -21,10 +21,12 @@ install each one individually
       f.`highcharts` (used for any type of graphs)
 
       g.`moment` (used for time manipulation of dates)
+      
+      h. `moment-timezone`
 
-      h.`autoprefixer` (automatically adds browser prefixes to css file)
+      i.`autoprefixer` (automatically adds browser prefixes to css file)
 
-      i.`fuse.js` (Lightweight JSON search library for client side)
+      j.`fuse.js` (Lightweight JSON search library for client side)
 
 2. `npm i`
 
