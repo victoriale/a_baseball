@@ -5,7 +5,7 @@ declare var jQuery: any;
 @Component({
     selector: 'pagination-footer',
     templateUrl: './app/components/pagination-footer/pagination-footer.component.html',
-    
+
     directives:[ROUTER_DIRECTIVES],
     providers: [],
     outputs: ['newIndex']
@@ -111,14 +111,14 @@ export class PaginationFooter implements OnChanges{
 
     //Build button structure for pagination Type module
     buildModuleButtons(){
-        var index = this.paginationParameters.index;
-        var max = this.paginationParameters.max;
+        var index = Number(this.paginationParameters.index);
+        var max = Number(this.paginationParameters.max);
         var range = this.buttonRange;
 
         this.paginationButtonsModule = [];
 
         //Determine values before index that can be added to button array
-        for(var p = range; p > 0; p--){
+        for(var p = range; p > 1; p--){
             if(index - p > 1){
                 this.paginationButtonsModule.push(index - p);
             }
@@ -131,7 +131,7 @@ export class PaginationFooter implements OnChanges{
 
         //Determine values after index that can be added to button array
         for(var n = 1; n <= range; n++){
-            if(index + n < max){
+            if((index + n) < max){
                 this.paginationButtonsModule.push(index + n);
             }
         }
@@ -153,8 +153,8 @@ export class PaginationFooter implements OnChanges{
 
     //Build button(anchor tag) structure for pagination Type page
     buildPageButtons(){
-        var index = this.paginationParameters.index;
-        var max = this.paginationParameters.max;
+        var index = Number(this.paginationParameters.index);
+        var max = Number(this.paginationParameters.max);
         var range = this.buttonRange;
 
         this.paginationButtonsPage = [];
@@ -175,7 +175,6 @@ export class PaginationFooter implements OnChanges{
                 });
             }
         }
-
         if(index !== 1 && index !== max) {
             //Build routerLink params for inputted index value
             var params = this.copyDynamicParams();
@@ -214,7 +213,7 @@ export class PaginationFooter implements OnChanges{
         this.maxButtonParameters = params;
 
         //Determine if absolute first button should be shown (show ellipsis if first item in array is not 2)
-        if(this.paginationButtonsPage.length !== 0 && this.paginationButtonsPage[0].index !== (1 + 1)){
+        if(this.paginationButtonsPage.length !== 0 && this.paginationButtonsPage[0].index !== (1 + 1) && this.paginationButtonsPage[0].index !== 1){
             this.showMinSkip = true;
         }else{
             this.showMinSkip = false;
@@ -269,7 +268,7 @@ export class PaginationFooter implements OnChanges{
     //Function to navigate angle left button for paginationType module
     indexLeft(event){
         //If index equals 1 exit function, else set new index
-        if(this.paginationParameters.index === 1){
+        if(this.paginationParameters.index == 1){
             return false;
         }else{
             var newIndex = this.paginationParameters.index - 1;
@@ -284,7 +283,7 @@ export class PaginationFooter implements OnChanges{
     //Function to navigate angle right button for paginationType module
     indexRight(event){
         //If index equals max exit function, else set new index
-        if(this.paginationParameters.index === this.paginationParameters.max){
+        if(this.paginationParameters.index == this.paginationParameters.max){
             return false;
         }else{
             var newIndex = this.paginationParameters.index + 1;
