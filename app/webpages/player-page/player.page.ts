@@ -108,7 +108,7 @@ export class PlayerPage implements OnInit {
         this._imagesService.getImages(this.pageParams.playerId, this.profileType)
             .subscribe(data => {
                     imageData = data;
-                    imageData.images.forEach(function (val, index) {
+                    imageData['data'].images.forEach(function (val, index) {
                         val['images'] = val.image_url;
                         val['copyright'] = val.image_copyright;
                         imageArray.push(val['images']);
