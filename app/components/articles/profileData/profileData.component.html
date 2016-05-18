@@ -100,7 +100,7 @@
 <div *ngIf="articleType == 'teamRecord' && articleSubType == 'last'" class="comparison">
     <div class="comparison-hr"></div>
     <span *ngFor="#data of articleData?.article; #i = index;">
-        <span *ngIf="data.teamRecordModule && index == 1 && i == 1">
+        <span *ngIf="data.teamRecordModule && index == 1 && i == 3">
             <div class="comparison-single">
                 <div class="comparison-single-logo"
                      [ngStyle]="{'background-image': 'url(' + data.teamRecordModule.logo + ')'}"></div>
@@ -110,7 +110,7 @@
                 </div>
             </div>
         </span>
-        <span *ngIf="data.teamRecordModule && index == 2 && i == 3">
+        <span *ngIf="data.teamRecordModule && index == 2 && i == 7">
             <div class="comparison-single">
                 <div class="comparison-single-logo"
                      [ngStyle]="{'background-image': 'url(' + data.teamRecordModule.logo + ')'}"></div>

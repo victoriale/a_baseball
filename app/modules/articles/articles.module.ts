@@ -195,7 +195,7 @@ export class ArticlesModule implements OnInit {
             switch (index) {
                 case'about-the-teams':
                 case'historical-team-statistics':
-                case'last-matchUp':
+                case'last-matchup':
                 case'starting-lineup-home':
                 case'starting-lineup-away':
                 case'injuries-home':
