@@ -5,6 +5,7 @@ import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/mod
 import {RouteParams} from "angular2/router";
 import {GlobalFunctions} from '../../global/global-functions';
 import {CircleButton} from "../../components/buttons/circle/circle.button";
+declare var stButtons: any;
 
 @Component({
     selector: 'news-module',
@@ -19,6 +20,9 @@ export class NewsModule implements OnInit, OnChanges {
     public newsLink: string;
     public displayData: Object;
     public title: string = "Articles";
+    public locateShareThis = function(){
+      stButtons.locateElements();
+    };
     @Input() newsDataArray: Array<Object>;
     @Input() profileName: string;
     public headerInfo: ModuleHeaderData = {

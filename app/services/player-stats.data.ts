@@ -108,17 +108,17 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
     var subheader = "Current " + item.teamName + " Player Stats";
     var description = "";
     if ( this.isPitcherTable ) {
-      description = item.playerName + " has a <span class='text-heavy'>" + item.pitchEra + 
+      description = item.playerName + " has a <span class='text-heavy'>" + (item.pitchEra != null ? item.pitchEra.toFixed(2) : "N/A") + 
                     " ERA</span> with <span class='text-heavy'>" + item.pitchStrikeouts + 
                     " Strikeouts</span>, <span class='text-heavy'>" + item.pitchWins + 
                     " Wins</span> and a <span class='text-heavy'>" + item.pitchLosses + 
                     " Saves</span>.";
     }
     else {
-      description = item.playerName + " has a <span class='text-heavy'>" + item.batAverage + 
+      description = item.playerName + " has a <span class='text-heavy'>" + (item.batAverage != null ? item.batAverage.toPrecision(3) : "N/A") + 
                     " Batting Average</span> with <span class='text-heavy'>" + item.batHomeRuns + 
                     " Homeruns</span>, <span class='text-heavy'>" + item.batRbi + 
-                    " RBI's</span> and a <span class='text-heavy'>" + item.batSluggingPercentage + 
+                    " RBI's</span> and a <span class='text-heavy'>" + (item.batSluggingPercentage != null ? item.batSluggingPercentage.toPrecision(3) : "N/A") + 
                     " Slugging Percentage</span>.";
     }
     return {
