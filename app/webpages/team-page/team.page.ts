@@ -29,6 +29,8 @@ import {ShareModule, ShareModuleInput} from '../../modules/share/share.module';
 import {HeadlineComponent} from '../../components/headline/headline.component';
 
 import {NewsModule} from '../../modules/news/news.module';
+import {NewsService} from '../../services/news.service';
+
 import {GlobalSettings} from "../../global/global-settings";
 
 //module | interface | service
@@ -65,7 +67,16 @@ import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.modul
         ImagesMedia,
         ListOfListsModule
     ],
-    providers: [SchedulesService, DraftHistoryService, StandingsService, ProfileHeaderService, RosterService, ListOfListsService, ImagesService]
+    providers: [
+      SchedulesService,
+      DraftHistoryService,
+      StandingsService,
+      ProfileHeaderService,
+      RosterService,
+      ListOfListsService,
+      ImagesService,
+      NewsService
+    ]
 })
 
 export class TeamPage implements OnInit {
@@ -88,6 +99,7 @@ export class TeamPage implements OnInit {
 
     profileName:string;
     listOfListsData:Object; // paginated data to be displayed
+    newsDataArray: Array<Object>;
 
     constructor(private _params:RouteParams,
                 private _standingsService:StandingsService,
@@ -96,6 +108,7 @@ export class TeamPage implements OnInit {
                 private _draftService:DraftHistoryService,
                 private _lolService:ListOfListsService,
                 private _imagesService:ImagesService,
+                private _newsService: NewsService,
                 private _globalFunctions:GlobalFunctions) {
         this.pageParams = {
             teamId: Number(_params.get("teamId")),
@@ -119,11 +132,12 @@ export class TeamPage implements OnInit {
         this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
             data => {
                 this.pageParams = data.pageParams;
-                this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data)
+                this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data);
                 this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
                 this.schedulesData = this._schedulesService.loadAllTabsForModule(this.pageParams);
                 this.setupShareModule();
                 this.getImages(this.imageData);
+                this.getNewsService(this.pageParams.teamName)
                 this.draftHistoryModule(this.currentYear, this.pageParams.teamId);//neeeds profile header data will run once header data is in
                 this.setupListOfListsModule();
             },
@@ -131,6 +145,19 @@ export class TeamPage implements OnInit {
                 console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
             }
         );
+    }
+    private getNewsService(teamName) {
+        this.isProfilePage = true;
+        this.profileType = 'team';
+        let name = this.pageParams.teamName.replace(/-/g, " ");
+        this.profileName = this._globalFunctions.toTitleCase(name);
+        this._newsService.getNewsService(this.pageParams.teamName)
+            .subscribe(data => {
+                    this.newsDataArray = data.news;
+                },
+                err => {
+                    console.log("Error getting image data");
+                });
     }
 
     private getImages(imageData) {

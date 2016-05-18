@@ -21,22 +21,22 @@
 
   <headline-component></headline-component>
   <images-media-carousel [imageData]="imageData" [copyright]="copyright" [profileName]="profileName" [isProfilePage]="isProfilePage"></images-media-carousel>
-  <dyk-module [profileName]="pageParams.teamName"></dyk-module>
-  <faq-module [profileName]="pageParams.teamName"></faq-module>
+  <dyk-module [profileName]="profileHeaderData.profileName"></dyk-module>
+  <faq-module [profileName]="profileHeaderData.profileName"></faq-module>
   <!-- lol -->
   <div class="component-compbar-container" *ngIf="profileHeaderData && listOfListsData">
     <list-of-lists [profileHeaderData]="profileHeaderData" [listOfListsData]="listOfListsData" [pageParams]="pageParams"></list-of-lists>
   </div>
   <!-- other news you will love -->
-  <news-module></news-module>
+  <news-module *ngIf="newsDataArray" [newsDataArray]="newsDataArray" [profileName]="profileHeaderData.profileName"></news-module>
 
   <headline-component></headline-component>
-  <twitter-module [profileName]="pageParams.teamName"></twitter-module>
+  <twitter-module [profileName]="profileHeaderData.profileName"></twitter-module>
   <!--Like Us On FB Module, only display if not on partner page-->
   <!-- <section *ngIf="!partnerCheck"> -->
   <share-module *ngIf="shareModuleInput" [shareModuleInput]="shareModuleInput"></share-module>
   <like-us-module></like-us-module>
   <!-- </section> -->
-  <comment-module [profileName]="pageParams.teamName"></comment-module>
+  <comment-module [profileName]="profileHeaderData.profileName"></comment-module>
   <about-us></about-us>
 </div>
