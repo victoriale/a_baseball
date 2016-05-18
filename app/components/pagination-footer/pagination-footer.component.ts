@@ -9,7 +9,7 @@ export interface PaginationParameters {
     viewAllPage?: string;
     viewAllParams?: Object;
     navigationPage?: string;
-    navigationParams: Object;
+    navigationParams?: Object;
     indexKey?: string;
 }
 
