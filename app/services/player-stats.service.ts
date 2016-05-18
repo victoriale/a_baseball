@@ -19,8 +19,7 @@ export class PlayerStatsService {
   getLinkToPage(pageParams: MLBPageParameters): Array<any> {
     return ["Player-stats-page", {
       teamId: pageParams.teamId,
-      teamName: GlobalFunctions.toLowerKebab(pageParams.teamName),
-      playerId: pageParams.playerId
+      teamName: GlobalFunctions.toLowerKebab(pageParams.teamName)
     }];
   }
   
