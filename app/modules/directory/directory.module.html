@@ -2,7 +2,7 @@
 
   <error-component *ngIf="isError"></error-component>
 
-  <div *ngIf="!isLoading && !isError" class="dir-container">
+  <div *ngIf="!isLoading && !isError" class="dir-container module-container">
 
       <!-- Title and Path Name -->
       <header class="dir-hdr">
@@ -40,7 +40,7 @@
           </div>
       </div>
 
-      <directory-pagination *ngIf="data.hasListings" [data]="pagingDescription" [nextLink]="nextLink" [prevLink]="prevLink"></directory-pagination>
+      <directory-pagination *ngIf="data.pagingDescription" [data]="pagingDescription" [nextLink]="nextLink" [prevLink]="prevLink"></directory-pagination>
       
       <!-- Directory List Data -->
       <ul *ngIf="data.hasListings && data.listingItems" class="dir-list">
@@ -65,10 +65,10 @@
           </li>
       </ul>
 
-      <div *ngIf="!data.hasListings" class="dir-pagination">
-        {{data.noResultsMessage}}
+      <div *ngIf="!data.hasListings" class="dir-list">
+          <no-data-box [data]="data.noResultsMessage" [icon]="'fa fa-remove'" [class]="'dir-list-noresults'"></no-data-box>
       </div>
 
-      <directory-pagination *ngIf="data.hasListings" [data]="pagingDescription" [nextLink]="nextLink" [prevLink]="prevLink"></directory-pagination>
+      <directory-pagination *ngIf="data.pagingDescription" [data]="pagingDescription" [nextLink]="nextLink" [prevLink]="prevLink"></directory-pagination>
       
   </div>

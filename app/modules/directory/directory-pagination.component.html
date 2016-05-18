@@ -6,12 +6,12 @@
     {{data.description}}
   </div>
   <div class="col-sm-6 dir-pag-buttons">
-    <a [routerLink]="prevLink.route" class="dir-pag-button"
+    <a [routerLink]="prevLink.route" class="dir-pag-button dir-pag-button-l"
      [class.dir-pag-button-active]="enablePrev"
      [class.dir-pag-button-disabled]="!enablePrev">
         <i class="fa fa-angle-left"></i> {{prevLink.text}}
     </a>
-    <a [routerLink]="nextLink.route" class="dir-pag-button"
+    <a [routerLink]="nextLink.route" class="dir-pag-button dir-pag-button-r"
      [class.dir-pag-button-active]="enableNext"
      [class.dir-pag-button-disabled]="!enableNext">
         {{nextLink.text}} <i class="fa fa-angle-right"></i>

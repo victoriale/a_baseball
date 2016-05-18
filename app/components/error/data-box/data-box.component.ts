@@ -11,6 +11,7 @@ import {Component,Input} from 'angular2/core';
 export class NoDataBox{
   @Input() data: string;
   @Input() icon: string;
+  @Input() class: string;
 
   constructor(){
     if(typeof this.icon == 'undefined'){
