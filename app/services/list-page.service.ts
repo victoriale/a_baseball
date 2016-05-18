@@ -82,7 +82,7 @@ export class ListPageService {
       },
       {
         tabData:'pitcher-strikeouts',
-        tabDisplay: 'Strike Outs',
+        tabDisplay: 'Strikeouts',
       },
       {
         tabData:'pitcher-earned-run-average',
@@ -97,7 +97,7 @@ export class ListPageService {
     var tabArray = [
       {
         tabData:'batter-home-runs',
-        tabDisplay: 'Home Runs',
+        tabDisplay: 'Runs',
       },
       {
         tabData:'batter-batting-average',
@@ -230,11 +230,11 @@ export class ListPageService {
               MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
             description:[
               '<br>',
-              '<p style="font-size:24px"><span class="text-heavy">'+playerFullName+'</span></p>',
-              '<p><span class="text-heavy"> '+val.teamName+' | Jersey: #'+val.uniformNumber+' Pos: '+position+'</span></p>',
+              '<p style="font-size:22px"><span class="text-heavy">'+playerFullName+'</span></p>',
+              '<p>'+val.teamName+' | Jersey: #'+val.uniformNumber+' Pos: '+position+'</p>',
               '<br>',
-              '<p style="font-size:24px"><span class="text-heavy">'+val.stat+'</span></p>',
-              '<p style="font-size:20px"> '+ carInfo.stat.replace(/-/g, ' ') +'</p>',
+              '<p style="font-size:22px"><span class="text-heavy">'+val.stat+'</span></p>',
+              '<p style="font-size:16px"> '+ self.globalFunc.toTitleCase(carInfo.stat.replace(/-/g, ' ')) +' for the current season</p>',
             ],
           };
           if(profileType == 'page'){
@@ -270,6 +270,9 @@ export class ListPageService {
     var detailData = data.listData;
     var detailInfo = data.listInfo;
     detailData.forEach(function(val, index){
+      if(val.stat == 'batter-home-runs'){// for design display purposes
+        val.stat = 'Home Runs';
+      }
       var rank = ((Number(data.query.pageNum) - 1) * Number(data.query.limit)) + (index+1);
       val.listRank = rank;
       if(data.query.profile == 'team'){
