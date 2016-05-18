@@ -1,15 +1,17 @@
 <schedules-carousel *ngIf="carouselData" [carouselData]="carouselData"></schedules-carousel>
-
-<div class="schedules-heading">
-  <div class="schedules-heading-title">
-    <span>[YYYY] Season:</span><span>Upcoming Games</span>
-  </div>
-  <span class="schedules-heading-time">Times are displayed in ET and are subject to change</span>
-</div>
 <tabs (tabSelected)="tabSelected($event)">
   <tab *ngFor="#tab of tabs; #i = index"[active]="i == 0" [tabTitle]="tab.display" >
-    <div class="schedules-table">
-      <custom-table [model]="data.tableData" (sortChanged)="updateCarousel($event)"></custom-table>
+    <div style="margin:-15px -10px;">
+      <div class="schedules-heading">
+        <div class="schedules-heading-title">
+          <p><span>[YYYY] Season:</span><span>Upcoming Games</span></p>
+          <p><span class="schedules-heading-title-time">Times are displayed in ET and are subject to change</span></p>
+        </div>
+        <span class="schedules-heading-time">Games are displayed by most recent</span>
+      </div>
+      <div class="schedules-table">
+        <custom-table [model]="data.tableData" (sortChanged)="updateCarousel($event)"></custom-table>
+      </div>
     </div>
   </tab>
 </tabs>
