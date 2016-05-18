@@ -15,7 +15,7 @@
     </div>
     <!-- Tabs Component -->
     <tabs (tabSelected)="tabSelected($event)">
-        <tab *ngFor="#outerItem of searchPageInput.tabData" [tabTitle]="outerItem.tabName" [active]="outerItem.isTabDefault">
+        <tab *ngFor="#outerItem of searchPageInput.tabData; #i = index" [tabTitle]="outerItem.tabName" [active]="outerItem.isTabDefault">
 
             <!-- Results -->
             <ul class="search-page-results">
@@ -32,6 +32,7 @@
                 </li>
             </ul>
 
+            <pagination-footer *ngIf="outerItem.paginationParameters" [paginationParameters]="outerItem.paginationParameters" (newIndex)="newIndex($event, i)"></pagination-footer>
         </tab>
     </tabs>
 

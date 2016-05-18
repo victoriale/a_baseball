@@ -74,7 +74,7 @@ export class SearchService{
                 break;
             }
             let item = teamResults[i];
-            let teamName = item.teamFirstName + ' ' + item.teamLastName;
+            let teamName = item.teamName;
             count++;
             searchArray.push({
                 title: teamName,
@@ -91,7 +91,7 @@ export class SearchService{
             }
             count++;
             let item = playerResults[i];
-            let playerName = item.playerFirstName + ' ' + item.playerLastName;
+            let playerName = item.playerName;
             searchArray.push({
                 title: '<span class="text-bold">' + playerName + '</span> - ' + item.teamName,
                 value: playerName,
@@ -144,22 +144,33 @@ export class SearchService{
             headerText: 'Discover The Latest In Baseball',
             subHeaderText: 'Find the Players and Teams you love.',
             query: query,
+            paginationPageLimit: 25,
             tabData: [
                 {
                     tabName: 'Player (' + playerResults.length + ')',
                     isTabDefault: true,
-                    results: []
+                    results: [],
+                    paginationParameters: {
+                        index: 1,
+                        max: 2,
+                        paginationType: 'module'
+                    }
                 },
                 {
                     tabName: 'Team (' + teamResults.length + ')',
                     isTabDefault: false,
-                    results: []
+                    results: [],
+                    paginationParameters: {
+                        index: 1,
+                        max: 2,
+                        paginationType: 'module'
+                    }
                 }
             ]
         };
 
         playerResults.forEach(function(item){
-            let playerName = item.playerFirstName + ' ' + item.playerLastName;
+            let playerName = item.playerName;
             let title = playerName + '\'s ' + 'Player Profile';
             let urlText = 'http://www.homerunloyal.com/';
             urlText += '<span class="text-heavy">player/' + GlobalFunctions.toLowerKebab(item.teamName) + '/' + GlobalFunctions.toLowerKebab(playerName) + '/' + item.playerId + '</span>';
@@ -176,7 +187,7 @@ export class SearchService{
         });
 
         teamResults.forEach(function(item){
-            let teamName = item.teamFirstName + ' ' + item.teamLastName;
+            let teamName = item.teamName;
             let title = teamName + '\'s ' + 'Team Profile';
             let urlText = 'http://www.homerunloyal.com/';
             urlText += '<span class="text-heavy">team/' + GlobalFunctions.toLowerKebab(teamName) + '/' + item.teamId;
@@ -203,7 +214,7 @@ export class SearchService{
     searchPlayers(term, data){
         let fuse = new Fuse(data, {
             //Fields the search is based on
-            keys: ['playerFirstName', 'playerLastName'],
+            keys: ['playerName'],
             //At what point does the match algorithm give up. A threshold of 0.0 requires a perfect match (of both letters and location), a threshold of 1.0 would match anything.
             threshold: 0.2
         });
@@ -215,7 +226,7 @@ export class SearchService{
     searchTeams(term, data){
         let fuse = new Fuse(data, {
             //Fields the search is based on
-            keys: ['teamFirstName', 'teamLastName'],
+            keys: ['teamName'],
             //At what point does the match algorithm give up. A threshold of 0.0 requires a perfect match (of both letters and location), a threshold of 1.0 would match anything.
             threshold: 0.2
         });
