@@ -13,7 +13,9 @@
   <!-- teamroster -->
   <team-roster-module></team-roster-module>
   <player-stats-module *ngIf="playerStatsData" [data]="playerStatsData" (tabSelected)="playerStatsTabSelected($event)"></player-stats-module>
-  <!-- transactions -->
+  <!--<div class="component-compbar-container" *ngIf="profileHeaderData && listOfListsData">-->
+    <!--<transactions *ngIf="transactionsData" [transactionsData]="transactionsData" [profHeader]="profileHeaderData" (tab)="transactionsTab($event)"></transactions>-->
+  <!--</div>-->
   <draft-history *ngIf="draftHistoryData" [draftData]="draftHistoryData" [profHeader]="profileHeaderData" (tab)="draftTab($event)"></draft-history>
   <!-- MVP -->
   <!--<comparison-module></comparison-module>-->
@@ -24,7 +26,7 @@
   <faq-module *ngIf="faqData" [profileName]="profileHeaderData.profileName" [faqData]="faqData"></faq-module>
   <!-- lol -->
   <div class="component-compbar-container" *ngIf="profileHeaderData && listOfListsData">
-    <list-of-lists [profileHeaderData]="profileHeaderData" [listOfListsData]="listOfListsData" [pageParams]="pageParams"></list-of-lists>
+    <list-of-lists [profileHeaderData]="profileHeaderData" [listOfListsData]="listOfListsData"></list-of-lists>
   </div>
   <!-- other news you will love -->
   <news-module *ngIf="newsDataArray" [newsDataArray]="newsDataArray" [profileName]="profileHeaderData.profileName"></news-module>
