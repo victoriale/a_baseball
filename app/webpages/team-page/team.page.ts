@@ -160,6 +160,7 @@ export class TeamPage implements OnInit {
         this._imagesService.getImages(this.pageParams.teamId, this.profileType)
             .subscribe(data => {
                     imageData = data;
+                    console.log(data);
                     imageData.images.forEach(function (val, index) {
                         val['images'] = val.image_url;
                         val['copyright'] = val.image_copyright;

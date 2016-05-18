@@ -27,8 +27,8 @@ export class SchedulesComponent implements OnInit{
   public selectedIndex;
 
   public carouselData: Array<SchedulesCarouselInput> = [];
-  @Input() data;
-  @Input() tabs;
+  @Input() data;// the data to display is inputed through this variable
+  @Input() tabs;// the tab data gets inputed through here to display all tabs
 
   @Output("tabSelected") tabSelectedListener = new EventEmitter();
 

@@ -90,7 +90,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
 
   selectedKey:number = -1;
 
-  constructor(rows: Array<any>, private _globalFunc:GlobalFunctions) {
+  constructor(rows: Array<any>) {
 
     if(this.isTeamId){
       this.columns = [{
@@ -175,15 +175,21 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
         break;
 
       case "away":
-        s = item.awayTeamName;
+        s = "<span class='location-wrap'>"+item.awayTeamName+"</span>";
         break;
 
       case "home":
-        s =item.homeTeamName;
+        s = "<span class='location-wrap'>"+item.homeTeamName+"</span>";
         break;
 
       case "gs":
-        s = this._globalFunc.toTitleCase(item.eventStatus) + " <i class='fa fa-angle-right'><i>";
+        if(item.eventStatus === 'pre-event'){
+          s = "Pregame Report <i class='fa fa-angle-right'><i>";
+        }else if(item.eventStatus === 'post-event'){
+          s = "Postgame Report <i class='fa fa-angle-right'><i>";
+        }else{
+          s = "N/A";
+        }
         break;
 
       case "r":

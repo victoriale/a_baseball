@@ -46,7 +46,7 @@ export class ImagesService {
                 )
                 .map(
                     data => {
-                        return data
+                        return data.data
                     }
                 )
         } else {
@@ -56,7 +56,7 @@ export class ImagesService {
                 )
                 .map(
                     data => {
-                        return data
+                        return data.data
                     }
                 )
         }
