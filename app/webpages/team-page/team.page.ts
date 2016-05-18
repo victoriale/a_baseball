@@ -349,7 +349,7 @@ export class TeamPage implements OnInit {
             listData: detailedDataArray,
             carData: carouselDataArray,
             errorData: {
-              data: "Sorry, the " + this.profileHeaderData.profileName + " do not currently have any data for the " + year + " draft history",
+              data: "Sorry, the " + this.profileHeaderData.profileName + " do not currently have any data for the " + year + " transactions",
               icon: "fa fa-remove"
             }
           }
