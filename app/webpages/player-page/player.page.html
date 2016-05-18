@@ -20,7 +20,7 @@
     <faq-module [profileName]="pageParams.playerName"></faq-module>
     <!-- lol lists -->
     <!-- other news -->
-    <news-module></news-module>
+    <news-module *ngIf="newsDataArray" [newsDataArray]="newsDataArray" [profileName]="profileHeaderData.profileName"></news-module>
 
     <headline-component></headline-component>
 

@@ -23,6 +23,8 @@ import {ShareModule, ShareModuleInput} from '../../modules/share/share.module';
 import {HeadlineComponent} from '../../components/headline/headline.component';
 
 import {NewsModule} from '../../modules/news/news.module';
+import {NewsService} from '../../services/news.service';
+
 import {SchedulesModule} from '../../modules/schedules/schedules.module';
 import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
 import {GlobalSettings} from "../../global/global-settings";
@@ -49,7 +51,12 @@ import {GlobalFunctions} from "../../global/global-functions";
         ShareModule,
         AboutUsModule,
         ImagesMedia],
-    providers: [StandingsService, ProfileHeaderService, ImagesService],
+    providers: [
+      StandingsService,
+      ProfileHeaderService,
+      ImagesService,
+      NewsService
+    ],
 })
 
 export class PlayerPage implements OnInit {
@@ -66,11 +73,13 @@ export class PlayerPage implements OnInit {
     profileType:string;
     isProfilePage:boolean = false;
     profileName:string;
+    newsDataArray: Array<Object>;
 
     constructor(private _params:RouteParams,
                 private _standingsService:StandingsService,
                 private _profileService:ProfileHeaderService,
                 private _imagesService:ImagesService,
+                private _newsService: NewsService,
                 private _globalFunctions:GlobalFunctions) {
 
         this.pageParams = {
@@ -91,13 +100,26 @@ export class PlayerPage implements OnInit {
                 this.setupTeamProfileData();
                 this.setupShareModule();
                 this.getImages(this.imageData);
+                this.getNewsService(this.pageParams.playerName)
             },
             err => {
                 console.log("Error getting player profile data for " + this.pageParams.playerId + ": " + err);
             }
         );
     }
-
+    private getNewsService(playerName) {
+        this.isProfilePage = true;
+        this.profileType = 'player';
+        let name = this.pageParams.playerName.replace(/-/g, " ");
+        this.profileName = this._globalFunctions.toTitleCase(name);
+        this._newsService.getNewsService(this.pageParams.playerName)
+            .subscribe(data => {
+                    this.newsDataArray = data.news;
+                },
+                err => {
+                    console.log("Error getting news data");
+                });
+    }
     private getImages(imageData) {
         this.isProfilePage = true;
         this.profileType = 'player';

@@ -156,7 +156,7 @@ export class TeamPage implements OnInit {
                     this.newsDataArray = data.news;
                 },
                 err => {
-                    console.log("Error getting image data");
+                    console.log("Error getting news data");
                 });
     }
 
