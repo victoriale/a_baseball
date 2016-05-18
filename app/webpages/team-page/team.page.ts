@@ -51,6 +51,8 @@ import {ImagesMedia} from "../../components/carousels/images-media-carousel/imag
 import {GlobalFunctions} from "../../global/global-functions";
 import {ListOfListsService} from "../../services/list-of-lists.service";
 import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.module";
+import {TransactionsModule} from "../../modules/transactions/transactions.module";
+import {TransactionsService} from "../../services/transactions.service";
 
 @Component({
     selector: 'Team-page',
@@ -88,7 +90,8 @@ import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.modul
       NewsService,
       FaqService,
       DykService,
-      PlayerStatsService
+      PlayerStatsService,
+      TransactionsService
     ]
 })
 
@@ -99,14 +102,15 @@ export class TeamPage implements OnInit {
 
     profileHeaderData:ProfileHeaderData;
 
-  standingsData: StandingsModuleData;
-  playerStatsData: PlayerStatsModuleData;
+    standingsData: StandingsModuleData;
+    playerStatsData: PlayerStatsModuleData;
 
     imageData:any;
     copyright:any;
-    profileType:string;
+    profileType:string = "team";
     isProfilePage:boolean = false;
     draftHistoryData:any;
+    transactionsData:any;
     currentYear:any;
 
     schedulesData:any;
@@ -123,6 +127,7 @@ export class TeamPage implements OnInit {
                 private _profileService:ProfileHeaderService,
                 private _draftService:DraftHistoryService,
                 private _lolService: ListOfListsService,
+                private _transactionsService:TransactionsService,
                 private _imagesService:ImagesService,
                 private _playerStatsService: PlayerStatsService,
                 private _newsService: NewsService,
@@ -154,7 +159,7 @@ export class TeamPage implements OnInit {
                 this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data);
                 this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
                 this.getSchedulesData();
-        this.playerStatsData = this._playerStatsService.loadAllTabsForModule(this.pageParams);
+                this.playerStatsData = this._playerStatsService.loadAllTabsForModule(this.pageParams);
                 this.setupShareModule();
                 this.getImages(this.imageData);
                 this.getNewsService(this.pageParams.teamName);
@@ -238,7 +243,9 @@ export class TeamPage implements OnInit {
         var copyArray = [];
         this._imagesService.getImages(this.pageParams.teamId, this.profileType)
             .subscribe(data => {
-                    imageData = data;
+                    imageData = data.data;
+                    console.log("imageData",data);
+                    if( data == null) return;
                     imageData.images.forEach(function (val, index) {
                         val['images'] = val.image_url;
                         val['copyright'] = val.image_copyright;
@@ -294,6 +301,14 @@ export class TeamPage implements OnInit {
         // this.draftData = this.teamPage.draftHistoryModule(event, this.teamId);
     }
 
+    private transactionsTab(event) {
+      var firstTab = 'Current Season';
+      if (event == firstTab) {
+        event = this.currentYear;
+      }
+      this.transactionsModule(event, this.pageParams.teamId);
+    }
+
     private draftHistoryModule(year, teamId) {
         this._draftService.getDraftHistoryService(year, teamId, 'module')
             .subscribe(
@@ -325,6 +340,38 @@ export class TeamPage implements OnInit {
             );
     }
 
+  private transactionsModule(year, teamId) {
+    this._transactionsService.getTransactionsService(year, teamId, 'module')
+      .subscribe(
+        transactionsData => {
+          console.log("data", transactionsData);
+          var dataArray, detailedDataArray, carouselDataArray;
+          if (typeof dataArray == 'undefined') {//makes sure it only runs once
+            dataArray = transactionsData.tabArray;
+          }
+          if (transactionsData.listData.length == 0) {//makes sure it only runs once
+            detailedDataArray = false;
+          } else {
+            detailedDataArray = transactionsData.listData;
+          }
+          carouselDataArray = transactionsData.carData
+          return this.draftHistoryData = {
+            tabArray: dataArray,
+            listData: detailedDataArray,
+            carData: carouselDataArray,
+            errorData: {
+              data: "Sorry, the " + this.profileHeaderData.profileName + " do not currently have any data for the " + year + " draft history",
+              icon: "fa fa-remove"
+            }
+          }
+        },
+        err => {
+          console.log('Error: transactionsData API: ', err);
+          // this.isError = true;
+        }
+      );
+  }
+
 
     setupListOfListsModule() {
         // getListOfListsService(version, type, id, scope?, count?, page?){
@@ -332,6 +379,8 @@ export class TeamPage implements OnInit {
             .subscribe(
                 listOfListsData => {
                     this.listOfListsData = listOfListsData.listData;
+                    this.listOfListsData["type"] = "team";
+                    this.listOfListsData["id"] = this.pageParams.teamId;
                 },
                 err => {
                     console.log('Error: listOfListsData API: ', err);
