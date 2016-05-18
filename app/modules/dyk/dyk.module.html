@@ -1,9 +1,8 @@
 <section class="module-container dyk">
   <module-header [modHeadData]="headerInfo"></module-header>
-  <!-- ngFor here -->
-  <div class="dyk-details" *ngFor="#dykInfo of dykInfo">
+  <div class="dyk-details" *ngFor="#dykInfo of dykData">
     <div class="dyk-details-info">
-      <p>{{dykInfo.info}}</p>
+      <p>{{dykInfo}}</p>
     </div>
     <div class="dyk-details-icon">
       <!-- share icon will need a pop up window from 3rd party similar to investkit -->

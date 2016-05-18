@@ -4,7 +4,8 @@ import {ROUTER_DIRECTIVES} from 'angular2/router';
 export interface ModuleFooterData {
   infoDesc: string, // text description that describes what is the footer going to display
   text: string, // the text that is in the mod-footer button that describes where the Route link is navigating to
-  url: Array<any>,//USED FOR ROUTER LINK
+  url: any,//USED FOR ROUTER LINK
+  hrefUrl?: boolean
 }
 
 export interface FooterStyle {
@@ -42,9 +43,4 @@ export class ModuleFooter implements OnInit{
       }
     }
 
-    ngOnChanges(){
-      if(typeof this.footerData.url == 'undefined'){
-        this.footerData.url = ['Disclaimer-page'];
-      }
-    }
 }

@@ -4,8 +4,13 @@ import {Injectable} from 'angular2/core';
 
 import {AboutUsModule} from '../../modules/about-us/about-us.module';
 import {LikeUs} from "../../modules/likeus/likeus.module";
-import {DYKModule} from "../../modules/dyk/dyk.module";
-import {FAQModule} from "../../modules/faq/faq.module";
+
+import {DYKModule, dykModuleData} from "../../modules/dyk/dyk.module";
+import {DykService} from '../../services/dyk.service';
+
+import {FAQModule, faqModuleData} from "../../modules/faq/faq.module";
+import {FaqService} from '../../services/faq.service';
+
 import {TwitterModule} from "../../modules/twitter/twitter.module";
 import {ComparisonModule} from '../../modules/comparison/comparison.module';
 import {CommentModule} from '../../modules/comment/comment.module';
@@ -29,6 +34,8 @@ import {ShareModule, ShareModuleInput} from '../../modules/share/share.module';
 import {HeadlineComponent} from '../../components/headline/headline.component';
 
 import {NewsModule} from '../../modules/news/news.module';
+import {NewsService} from '../../services/news.service';
+
 import {GlobalSettings} from "../../global/global-settings";
 
 //module | interface | service
@@ -65,7 +72,18 @@ import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.modul
         ImagesMedia,
         ListOfListsModule
     ],
-    providers: [SchedulesService, DraftHistoryService, StandingsService, ProfileHeaderService, RosterService, ListOfListsService, ImagesService]
+    providers: [
+      SchedulesService,
+      DraftHistoryService,
+      StandingsService,
+      ProfileHeaderService,
+      RosterService,
+      ListOfListsService,
+      ImagesService,
+      NewsService,
+      FaqService,
+      DykService
+    ]
 })
 
 export class TeamPage implements OnInit {
@@ -88,6 +106,9 @@ export class TeamPage implements OnInit {
 
     profileName:string;
     listOfListsData:Object; // paginated data to be displayed
+    newsDataArray: Array<Object>;
+    faqData: Array<faqModuleData>;
+    dykData: Array<dykModuleData>;
 
     constructor(private _params:RouteParams,
                 private _standingsService:StandingsService,
@@ -96,6 +117,9 @@ export class TeamPage implements OnInit {
                 private _draftService:DraftHistoryService,
                 private _lolService:ListOfListsService,
                 private _imagesService:ImagesService,
+                private _newsService: NewsService,
+                private _faqService: FaqService,
+                private _dykService: DykService,
                 private _globalFunctions:GlobalFunctions) {
         this.pageParams = {
             teamId: Number(_params.get("teamId")),
@@ -119,11 +143,14 @@ export class TeamPage implements OnInit {
         this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
             data => {
                 this.pageParams = data.pageParams;
-                this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data)
+                this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data);
                 this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
                 this.getSchedulesData();
                 this.setupShareModule();
                 this.getImages(this.imageData);
+                this.getNewsService(this.pageParams.teamName);
+                this.getFaqService(this.profileType, this.pageParams.teamId);
+                this.getDykService(this.profileType, this.pageParams.teamId);
                 this.draftHistoryModule(this.currentYear, this.pageParams.teamId);//neeeds profile header data will run once header data is in
                 this.setupListOfListsModule();
             },
@@ -133,22 +160,65 @@ export class TeamPage implements OnInit {
         );
     }
 
-  //grab tab to make api calls for post of pre event table
-  private scheduleTab(tab) {
-    // console.log(tab);
-  }
+    private getDykService(profileType, teamId) {
+        this.isProfilePage = true;
+        this.profileType = 'team';
+        let name = this.pageParams.teamName.replace(/-/g, " ");
+        this.profileName = this._globalFunctions.toTitleCase(name);
+        this._dykService.getDykService(this.profileType, this.pageParams.teamId)
+            .subscribe(data => {
+                    this.dykData = data;
+                },
+                err => {
+                    console.log("Error getting did you know data");
+                });
+    }
 
-  private getSchedulesData(){
-    this._schedulesService.getSchedulesService('team', 2799, 'pre-event')
-    .subscribe(
-      data => {
-        this.schedulesData = data;
-      },
-      err => {
-        console.log("Error getting Schedules Data");
-      }
-    )
-  }
+    private getFaqService(profileType, teamId) {
+        this.isProfilePage = true;
+        this.profileType = 'team';
+        let name = this.pageParams.teamName.replace(/-/g, " ");
+        this.profileName = this._globalFunctions.toTitleCase(name);
+        this._faqService.getFaqService(this.profileType, this.pageParams.teamId)
+            .subscribe(data => {
+                    this.faqData = data;
+                },
+                err => {
+                    console.log("Error getting faq data");
+                });
+    }
+
+
+    private getNewsService(teamName) {
+        this.isProfilePage = true;
+        this.profileType = 'team';
+        let name = this.pageParams.teamName.replace(/-/g, " ");
+        this.profileName = this._globalFunctions.toTitleCase(name);
+        this._newsService.getNewsService(this.pageParams.teamName)
+            .subscribe(data => {
+                    this.newsDataArray = data.news;
+                },
+                err => {
+                    console.log("Error getting news data");
+                });
+    }
+
+    //grab tab to make api calls for post of pre event table
+    private scheduleTab(tab) {
+     // console.log(tab);
+    }
+
+    private getSchedulesData(){
+      this._schedulesService.getSchedulesService('team', 2799, 'pre-event')
+      .subscribe(
+        data => {
+          this.schedulesData = data;
+        },
+        err => {
+          console.log("Error getting Schedules Data");
+        }
+      )
+    }
 
     private getImages(imageData) {
         this.isProfilePage = true;

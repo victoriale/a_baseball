@@ -5,8 +5,13 @@ import {MLBPageParameters} from '../../global/global-interface';
 
 import {AboutUsModule} from '../../modules/about-us/about-us.module';
 import {LikeUs} from "../../modules/likeus/likeus.module";
-import {DYKModule} from "../../modules/dyk/dyk.module";
-import {FAQModule} from "../../modules/faq/faq.module";
+
+import {DYKModule, dykModuleData} from "../../modules/dyk/dyk.module";
+import {DykService} from '../../services/dyk.service';
+
+import {FAQModule, faqModuleData} from "../../modules/faq/faq.module";
+import {FaqService} from '../../services/faq.service';
+
 import {TwitterModule} from "../../modules/twitter/twitter.module";
 import {ComparisonModule} from '../../modules/comparison/comparison.module';
 import {CommentModule} from '../../modules/comment/comment.module';
@@ -23,6 +28,8 @@ import {ShareModule, ShareModuleInput} from '../../modules/share/share.module';
 import {HeadlineComponent} from '../../components/headline/headline.component';
 
 import {NewsModule} from '../../modules/news/news.module';
+import {NewsService} from '../../services/news.service';
+
 import {SchedulesModule} from '../../modules/schedules/schedules.module';
 import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
 import {GlobalSettings} from "../../global/global-settings";
@@ -49,7 +56,14 @@ import {GlobalFunctions} from "../../global/global-functions";
         ShareModule,
         AboutUsModule,
         ImagesMedia],
-    providers: [StandingsService, ProfileHeaderService, ImagesService],
+    providers: [
+      StandingsService,
+      ProfileHeaderService,
+      ImagesService,
+      NewsService,
+      FaqService,
+      DykService
+    ],
 })
 
 export class PlayerPage implements OnInit {
@@ -66,11 +80,17 @@ export class PlayerPage implements OnInit {
     profileType:string;
     isProfilePage:boolean = false;
     profileName:string;
+    newsDataArray: Array<Object>;
+    faqData: Array<faqModuleData>;
+    dykData: Array<dykModuleData>;
 
     constructor(private _params:RouteParams,
                 private _standingsService:StandingsService,
                 private _profileService:ProfileHeaderService,
                 private _imagesService:ImagesService,
+                private _newsService: NewsService,
+                private _faqService: FaqService,
+                private _dykService: DykService,
                 private _globalFunctions:GlobalFunctions) {
 
         this.pageParams = {
@@ -91,13 +111,57 @@ export class PlayerPage implements OnInit {
                 this.setupTeamProfileData();
                 this.setupShareModule();
                 this.getImages(this.imageData);
+                this.getNewsService(this.pageParams.playerName);
+                this.getFaqService(this.profileType, this.pageParams.playerId);
+                this.getDykService(this.profileType, this.pageParams.teamId);
+
             },
             err => {
                 console.log("Error getting player profile data for " + this.pageParams.playerId + ": " + err);
             }
         );
     }
+    private getDykService(profileType, playerId) {
+        this.isProfilePage = true;
+        this.profileType = 'player';
+        let name = this.pageParams.playerName.replace(/-/g, " ");
+        this.profileName = this._globalFunctions.toTitleCase(name);
+        this._dykService.getDykService(this.profileType, this.pageParams.playerId)
+            .subscribe(data => {
+                    this.dykData = data;
+                },
+                err => {
+                    console.log("Error getting did you know data");
+                });
+    }
 
+    private getFaqService(profileType, playerId){
+      this.isProfilePage = true;
+      this.profileType = 'player';
+      let name = this.pageParams.playerName.replace(/-/g, " ");
+      this.profileName = this._globalFunctions.toTitleCase(name);
+      this._faqService.getFaqService(this.profileType, this.pageParams.playerId)
+          .subscribe(data => {
+            this.faqData = data;
+          },
+          err => {
+              console.log("Error getting faq data");
+          });
+    }
+
+    private getNewsService(playerName) {
+        this.isProfilePage = true;
+        this.profileType = 'player';
+        let name = this.pageParams.playerName.replace(/-/g, " ");
+        this.profileName = this._globalFunctions.toTitleCase(name);
+        this._newsService.getNewsService(this.pageParams.playerName)
+            .subscribe(data => {
+                    this.newsDataArray = data.news;
+                },
+                err => {
+                    console.log("Error getting news data");
+                });
+    }
     private getImages(imageData) {
         this.isProfilePage = true;
         this.profileType = 'player';

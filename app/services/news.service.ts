@@ -3,10 +3,11 @@ import {Observable} from 'rxjs/Rx';
 import {Http, Headers} from 'angular2/http';
 import {GlobalFunctions} from '../global/global-functions';
 import {Conference, Division, MLBPageParameters} from '../global/global-interface';
+import {GlobalSettings} from '../global/global-settings';
 
 @Injectable()
 export class NewsService {
-  private _apiUrl: string = 'http://newsapi.synapsys.us/news/?action=get_sports_news&q=';
+  private _apiUrl: string = GlobalSettings.getNewsUrl();
   constructor(public http: Http, private _globalFunctions: GlobalFunctions){}
 
   setToken(){
@@ -71,7 +72,8 @@ export class NewsService {
         footerData: {
           infoDesc: 'Want to check out the full story?',
           text: 'READ THE ARTICLE',
-          url: val.link
+          url: val.link,
+          hrefUrl: true
         }
       };
       newsArray.push(News);
