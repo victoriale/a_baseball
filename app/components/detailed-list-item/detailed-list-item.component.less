@@ -37,10 +37,12 @@
       .data-hover{//hover states
         text-decoration: none;
         color: @black;
-        &:hover{
-          text-decoration: none;
-          color:@masterBrandColor;
-          cursor: pointer;
+        a{
+          &:hover{
+            text-decoration: none;
+            color:@masterBrandColor;
+            cursor: pointer;
+          }
         }
       }
       & > div{
@@ -69,7 +71,7 @@
             padding-right:.2em;
           }
         }
-        & span{
+        & > span{
             display: inline;
             width:62%;
             float: left;
