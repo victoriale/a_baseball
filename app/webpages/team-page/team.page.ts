@@ -38,6 +38,10 @@ import {NewsService} from '../../services/news.service';
 
 import {GlobalSettings} from "../../global/global-settings";
 
+import {PlayerStatsModule, PlayerStatsModuleData} from '../../modules/player-stats/player-stats.module';
+import {PlayerStatsService} from '../../services/player-stats.service'
+import {MLBPlayerStatsTableData} from '../../services/player-stats.data'
+
 //module | interface | service
 import {DraftHistoryModule} from '../../modules/draft-history/draft-history.module';
 import {DraftHistoryService} from '../../services/draft-history.service';
@@ -70,7 +74,8 @@ import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.modul
         AboutUsModule,
         ArticlesModule,
         ImagesMedia,
-        ListOfListsModule
+        ListOfListsModule,
+        PlayerStatsModule
     ],
     providers: [
       SchedulesService,
@@ -82,7 +87,8 @@ import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.modul
       ImagesService,
       NewsService,
       FaqService,
-      DykService
+      DykService,
+      PlayerStatsService
     ]
 })
 
@@ -91,9 +97,10 @@ export class TeamPage implements OnInit {
     headerData:any;
     pageParams:MLBPageParameters;
 
-    standingsData:StandingsModuleData;
-
     profileHeaderData:ProfileHeaderData;
+
+  standingsData: StandingsModuleData;
+  playerStatsData: PlayerStatsModuleData;
 
     imageData:any;
     copyright:any;
@@ -115,8 +122,9 @@ export class TeamPage implements OnInit {
                 private _schedulesService:SchedulesService,
                 private _profileService:ProfileHeaderService,
                 private _draftService:DraftHistoryService,
-                private _lolService:ListOfListsService,
+                private _lolService: ListOfListsService,
                 private _imagesService:ImagesService,
+                private _playerStatsService: PlayerStatsService,
                 private _newsService: NewsService,
                 private _faqService: FaqService,
                 private _dykService: DykService,
@@ -146,6 +154,7 @@ export class TeamPage implements OnInit {
                 this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data);
                 this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
                 this.getSchedulesData();
+        this.playerStatsData = this._playerStatsService.loadAllTabsForModule(this.pageParams);
                 this.setupShareModule();
                 this.getImages(this.imageData);
                 this.getNewsService(this.pageParams.teamName);
@@ -225,18 +234,9 @@ export class TeamPage implements OnInit {
         this.profileType = 'team';
         let name = this.pageParams.teamName.replace(/-/g, " ");
         this.profileName = this._globalFunctions.toTitleCase(name);
-        var imageArray = [];
-        var copyArray = [];
-        this._imagesService.getImages(this.pageParams.teamId, this.profileType)
+        this._imagesService.getImages(this.profileType, this.pageParams.teamId)
             .subscribe(data => {
-                    imageData = data;
-                    imageData.images.forEach(function (val, index) {
-                        val['images'] = val.image_url;
-                        val['copyright'] = val.image_copyright;
-                        imageArray.push(val['images']);
-                        copyArray.push(val['copyright'])
-                    });
-                    return this.imageData = imageArray, this.copyright = copyArray;
+                    return this.imageData = data.imageArray, this.copyright = data.copyArray;
                 },
                 err => {
                     console.log("Error getting image data");
@@ -251,6 +251,17 @@ export class TeamPage implements OnInit {
                         console.log("Error getting standings data");
                     });
         }
+  }
+
+  private playerStatsTabSelected(tab: MLBPlayerStatsTableData) {
+    this._playerStatsService.getTabData(tab, this.pageParams, 4)//only show 4 rows in the module
+      .subscribe(data => {        
+        tab.seasonTableData[tab.selectedSeasonId] = data;
+        tab.tableData = data;
+      },
+      err => {
+        console.log("Error getting player stats data");
+      });
     }
 
     private setupShareModule() {

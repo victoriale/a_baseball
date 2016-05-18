@@ -3,5 +3,8 @@
     <error-component *ngIf="hasError"></error-component>
     <backtab-component></backtab-component>
     <title-component *ngIf="titleData" [titleData]="titleData"></title-component>
-    <player-stats-component *ngIf="tabs" [tabs]="tabs" (tabSelected)="playerStatsTabSelected($event)"></player-stats-component>
+    <player-stats-component *ngIf="tabs" 
+        [tabs]="tabs" 
+        [showGlossary]="true"
+        (tabSelected)="playerStatsTabSelected($event)"></player-stats-component>
 </section>

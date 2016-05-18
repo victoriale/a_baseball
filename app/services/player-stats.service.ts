@@ -19,7 +19,7 @@ export class PlayerStatsService {
   getLinkToPage(pageParams: MLBPageParameters): Array<any> {
     return ["Player-stats-page", {
       teamId: pageParams.teamId,
-      teamName: pageParams.teamName,
+      teamName: GlobalFunctions.toLowerKebab(pageParams.teamName),
       playerId: pageParams.playerId
     }];
   }
@@ -31,25 +31,30 @@ export class PlayerStatsService {
   getPageTitle(pageParams: MLBPageParameters): string {    
     return "Player Stats - " + pageParams.teamName;
   }
-  
-  // loadAllTabs(pageParams: MLBPageParameters, maxRows?: number): Observable<Array<MLBPlayerStatsTableData>> {    
-  //   var tabs = this.initializeAllTabs(pageParams); 
-  //   return Observable.forkJoin(tabs.map(tab => this.getTabData(tab, pageParams, maxRows)));    
-  // }
 
-//http://dev-homerunloyal-api.synapsys.us/team/seasonStats/2800/pitchers/2015
-  getTabData(standingsTab: MLBPlayerStatsTableData, pageParams: MLBPageParameters, seasonId: string, maxRows?: number): Observable<MLBPlayerStatsTableModel> {
+  loadAllTabsForModule(pageParams: MLBPageParameters) {
+    return {
+        moduleTitle: this.getModuleTitle(pageParams),
+        pageRouterLink: this.getLinkToPage(pageParams),
+        tabs: this.initializeAllTabs(pageParams)
+    };
+  }
+
+  getTabData(standingsTab: MLBPlayerStatsTableData, pageParams: MLBPageParameters, maxRows?: number): Observable<MLBPlayerStatsTableModel> {    
+    var hasData = false;
+    if ( standingsTab ) {
+      var table = standingsTab.seasonTableData[standingsTab.selectedSeasonId];
+      if ( table ) {     
+        return Observable.of(table);
+      }
+    }    
+    
     var tabName = standingsTab.isPitcherTable ? "pitchers" : "batters";
-    let url = this._apiUrl + "/team/seasonStats/" + pageParams.teamId + "/" + tabName + "/" + seasonId;    
+    let url = this._apiUrl + "/team/seasonStats/" + pageParams.teamId + "/" + tabName + "/" + standingsTab.selectedSeasonId;    
 
     return this.http.get(url)
         .map(res => res.json())
-        .map(data => this.setupTableData(standingsTab, pageParams, data.data, maxRows));
-    // return Observable.of(this.setupTabData(standingsTab, pageParams, [
-    //   {seasonId: "2016", rows: this.data},
-    //   {seasonId: "2015", rows: this.data},
-    //   {seasonId: "2014", rows: this.data}
-    // ], maxRows));    
+        .map(data => this.setupTableData(standingsTab, pageParams, data.data, maxRows));    
   }
   
   initializeAllTabs(pageParams: MLBPageParameters): Array<MLBPlayerStatsTableData> {
@@ -74,134 +79,14 @@ export class PlayerStatsService {
       value.displayDate = GlobalFunctions.formatUpdatedDate(value.lastUpdate, false);
       value.fullPlayerImageUrl = GlobalSettings.getImageUrl(value.playerHeadshot);
       value.fullTeamImageUrl = GlobalSettings.getImageUrl(value.teamLogo);
+      
+      //force these fields to numbers:
+      value.batAverage = value.batAverage != null ? Number(value.batAverage) : undefined;
+      value.batSluggingPercentage = value.batSluggingPercentage != null ? Number(value.batSluggingPercentage) : undefined;
+      value.batOnBasePercentage = value.batOnBasePercentage != null ? Number(value.batOnBasePercentage) : undefined;
+      value.pitchEra = value.pitchEra != null ? Number(value.pitchEra) : undefined;
     });
     
     return table;
   }
-
-  // private setupTabData(standingsTab: MLBPlayerStatsTableData, pageParams: MLBPageParameters, data: Array<PlayerStatsSeasonData>, maxRows?: number): MLBPlayerStatsTableData {
-  //   var tableName = "<span class='text-heavy'>" + pageParams.teamName + "</span> " + standingsTab.tabTitle + " Stats";
-  //   var seasonIds: Array<{key: string, value: string}> = [];
-  //   var selectedSeasonId;
-  //   var seasonData: { [seasonId: string]: MLBPlayerStatsTableModel } = {};
-  //   data.forEach(value => {
-  //     seasonIds.push({
-  //       key: value.seasonId,
-  //       value: value.seasonId + " Season"
-  //     });
-  //     if ( !selectedSeasonId ) {
-  //       selectedSeasonId = value.seasonId;
-  //     }
-      
-  //     let table = new MLBPlayerStatsTableModel(tableName, value.rows, standingsTab.isPitcherTable);;
-  //     seasonData[value.seasonId] = table;
-    
-  //     //Limit to maxRows, if necessary
-  //     if ( maxRows !== undefined ) {
-  //       table.rows = table.rows.slice(0, maxRows);
-  //     }
-      
-  //     //Set display values    
-  //     table.rows.forEach((value, index) => {
-  //       value.displayDate = GlobalFunctions.formatUpdatedDate(value.lastUpdatedDate, false);
-  //       value.fullPlayerImageUrl = GlobalSettings.getImageUrl(value.playerHeadshot);
-  //       value.fullTeamImageUrl = GlobalSettings.getImageUrl(value.teamLogo);
-  //       if ( value.playerId === undefined || value.playerId === null ) {
-  //         value.playerId = index;
-  //       }
-  //     });
-  //   });
-    
-  //   standingsTab.seasonIds = seasonIds;
-  //   standingsTab.selectedSeasonId = selectedSeasonId;
-  //   standingsTab.tableData = seasonData;
-  //   return standingsTab;
-  // }
-    
-  // data: Array<PlayerStatsData> = [
-  //     {
-  //       teamName: "Chicago Cubs",
-  //       teamId: 2790,
-  //       teamLogo: "/mlb/logos/team/MLB_Chicago_White_Sox_Logo.jpg",
-  //       playerName: "Willis Jones",
-  //       playerId: 1,
-  //       playerHeadshot: "none.jpg",
-  //       seasonId: "2016",
-  //       lastUpdatedDate: new Date(),        
-  //       //Batting Stats
-  //       batAverage: .212,
-  //       batHomeRuns: 13,
-  //       batRbi: 15,
-  //       batSluggingPercentage: .16,
-  //       batHits: 17,
-  //       batOnBasePercentage: .18,
-  //       batBasesOnBalls: 45,
-        
-  //       //Pitching Stats
-  //       pitchEra: 1.234,
-  //       pitchWins: 2,
-  //       pitchLosses: 5,
-  //       pitchStrikeouts: 6,
-  //       pitchInningsPitched: 78,
-  //       pitchBasesOnBalls: 66,
-  //       pitchWhip: 3,
-  //       pitchSaves: 3,        
-  //     },
-  //     {
-  //       teamName: "Chicago Cubs",
-  //       teamId: 2790,
-  //       teamLogo: "/mlb/logos/team/MLB_Chicago_White_Sox_Logo.jpg",
-  //       playerName: "Frank Bridge",
-  //       playerId: 2,
-  //       playerHeadshot: "/mlb/logos/team/MLB_Chicago_White_Sox_Logo.jpg",
-  //       seasonId: "2016",
-  //       lastUpdatedDate: new Date(),        
-  //       //Batting Stats
-  //       batAverage: .012,
-  //       batHomeRuns: 13,
-  //       batRbi: 15,
-  //       batSluggingPercentage: .16,
-  //       batHits: 17,
-  //       batOnBasePercentage: .18,
-  //       batBasesOnBalls: 45,
-        
-  //       //Pitching Stats
-  //       pitchEra: 1.234,
-  //       pitchWins: 2,
-  //       pitchLosses: 5,
-  //       pitchStrikeouts: 6,
-  //       pitchInningsPitched: 78,
-  //       pitchBasesOnBalls: 66,
-  //       pitchWhip: 3,
-  //       pitchSaves: 3,        
-  //     },
-  //     {
-  //       teamName: "Chicago Cubs",
-  //       teamId: 2790,
-  //       teamLogo: "/mlb/logos/team/MLB_Chicago_White_Sox_Logo.jpg",
-  //       playerName: "Josef Myslivecek",
-  //       playerId: 3,
-  //       playerHeadshot: "/mlb/logos/team/MLB_Chicago_White_Sox_Logo.jpg",
-  //       seasonId: "2016",
-  //       lastUpdatedDate: new Date(),        
-  //       //Batting Stats
-  //       batAverage: .500,
-  //       batHomeRuns: 13,
-  //       batRbi: 15,
-  //       batSluggingPercentage: .16,
-  //       batHits: 17,
-  //       batOnBasePercentage: .18,
-  //       batBasesOnBalls: 45,
-        
-  //       //Pitching Stats
-  //       pitchEra: 1.234,
-  //       pitchWins: 2,
-  //       pitchLosses: 5,
-  //       pitchStrikeouts: 6,
-  //       pitchInningsPitched: 78,
-  //       pitchBasesOnBalls: 66,
-  //       pitchWhip: 3,
-  //       pitchSaves: 3,        
-  //     }
-  //   ];
 }
