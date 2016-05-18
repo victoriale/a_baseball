@@ -426,16 +426,7 @@ export class ProfileHeaderService {
     
     var group = "N/A";
     if ( stats.division && stats.conference ) {
-      if ( stats.conference.name == "American" ) {
-        group = "AL ";
-      }
-      else if ( stats.conference.name == "National" ) {
-        group = "NL ";
-      }
-      else {
-        group = stats.conference.name + " ";
-      }
-      group += stats.division.name;
+      group = MLBGlobalFunctions.formatShortNameDivison(stats.conference.name, stats.division.name);
     } 
     
     var venue = headerData.teamVenue ? headerData.teamVenue : "N/A";

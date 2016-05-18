@@ -81,22 +81,9 @@ export class ArticlesModule implements OnInit {
     }
 
     getHeaderData(data) {
-        var dateString = moment.unix(data.timestamp).format("MM/DD/YYYY");
-        var isToday = moment(dateString).isSame(moment(), 'day');
-        if (isToday) {
-            if (this.teamID == data.home.id) {
-                this.headerInfo.moduleTitle = "Today's Gameday Matchup Against the " + data.away.location + ' ' + data.away.name;
-            } else {
-                this.headerInfo.moduleTitle = "Today's Gameday Matchup Against the " + data.home.location + ' ' + data.home.name;
-            }
-        }
-        else {
-            if (this.teamID == data.home.id) {
-                this.headerInfo.moduleTitle = moment.unix(dateString).format("dddd") + "'s Gameday Matchup Against the " + data.away.location + ' ' + data.away.name;
-            } else {
-                this.headerInfo.moduleTitle = moment.unix(dateString).format("dddd") + "'s Gameday Matchup Against the " + data.home.location + ' ' + data.home.name;
-            }
-        }
+        var dateString = moment.tz(moment.unix(data.timestamp), 'America/New_York').format("MM/DD/YYYY");
+        var isToday = moment(dateString).isSame(moment().tz('America/New_York'), 'day');
+        this.headerInfo.moduleTitle = (isToday ? "Today's" : moment.unix(data.timestamp).format("dddd") + "'s") + " Gameday Matchup Against the " + (this.teamID == data.home.id ? data.away.location + ' ' + data.away.name : data.home.location + ' ' + data.home.name);
     }
 
     static convertToETMoment(easternDateString) {
@@ -208,7 +195,7 @@ export class ArticlesModule implements OnInit {
             switch (index) {
                 case'about-the-teams':
                 case'historical-team-statistics':
-                case'last-matchUp':
+                case'last-matchup':
                 case'starting-lineup-home':
                 case'starting-lineup-away':
                 case'injuries-home':

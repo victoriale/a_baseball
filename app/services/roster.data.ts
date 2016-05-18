@@ -88,7 +88,7 @@ export class RosterTabData {
       var andCheck = " is ";
     }
     if(val.salary != null){
-      playerSalary = andCheck + "making a salary of <b>" + val.salary + "</b>";
+      playerSalary = andCheck + "making a salary of <b>$" + GlobalFunctions.commaSeparateNumber(Number(val.salary)) + "</b>";
     } else {
       playerSalary = andCheck + "making a salary of <b>N/A</b>";
     }
@@ -235,7 +235,7 @@ export class RosterTableModel {
         break;
 
       case "sal":
-        s = item.salary == null ? "N/A" : "$" + self._globalFunctions.commaSeparateNumber(Number(item.salary));
+        s = item.salary == null ? "N/A" : "$" + GlobalFunctions.commaSeparateNumber(Number(item.salary));
         break;
     }
     return s;
@@ -265,7 +265,7 @@ export class RosterTableModel {
           break;
 
         case "sal":
-          s = item.salary;
+          s = Number(item.salary);
           break;
       }
       return s;

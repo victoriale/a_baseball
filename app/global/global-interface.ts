@@ -9,6 +9,7 @@ export interface MLBPageParameters {
   teamName?: string;
   playerId? :number;
   playerName?: string;
+  type?: string;
 }
 
 export interface Link {
@@ -20,6 +21,17 @@ export interface NavigationData {
   title: string;
   links: Array<Link>;
   moreLink?: Link;
+}
+
+export interface Images {
+    image_url: string;
+    image_title: string;
+    image_copyright: string;
+    image_date: string;
+    image_height: string;
+    image_width: string;
+    team_name: string;
+    team_id: string;
 }
 
 /*BELOW IS ARTICLE MODULE TEST INTERFACE*/

@@ -6,10 +6,10 @@
     <div class="dli-container-right">
       <!--put in right box styles-->
       <div class="dataBox">
-        <div *ngFor="#data of details.dataPoints" [ngClass]="data.style">
+        <div class="dataBox-info" *ngFor="#data of details.dataPoints" [ngClass]="data.style">
           <i class="{{data.icon}}"></i>
-          <span><a *ngIf="data?.url" [routerLink]="data.url" [ngClass]="{'data-hover': data.url != ''}" [innerHTML]="data.data"></a></span>
-          <span [innerHTML]="data.value"></span>
+          <span class="databox-info-text"><a *ngIf="data?.url" [routerLink]="data.url" [ngClass]="{'data-hover': data.url != ''}" [innerHTML]="data.data"></a></span>
+          <span class="databox-info-text-right" [innerHTML]="data.value"></span>
         </div>
       </div>
       <!--cta container-->

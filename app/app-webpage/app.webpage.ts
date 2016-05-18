@@ -18,6 +18,7 @@ import {GlobalFunctions} from "../global/global-functions";
 import {SearchPage} from '../webpages/search-page/search.page';
 import {ModulePage} from "../webpages/module-page/module.page";
 import {ListPage} from "../webpages/list-page/list.page";
+import {SchedulesPage} from "../webpages/schedules-page/schedules.page";
 import {DraftHistoryPage} from "../webpages/draft-history-page/draft-history.page";
 import {StandingsPage} from "../webpages/standings-page/standings.page";
 import {AsyncRoute} from "angular2/router";
@@ -35,8 +36,8 @@ import {DesignPage} from "../webpages/design-page/design.page";
 @Component({
     selector: 'my-app',
     templateUrl: './app/app-webpage/app.webpage.html',
-    directives: [HeaderComponent, FooterComponent, TeamRosterPage, DraftHistoryPage, ListPage, HomePage, TeamPage, PlayerPage, DirectoryPage, 
-        AboutUsPage, ContactUsPage, DisclaimerPage, SearchPage, ComponentPage, 
+    directives: [StandingsPage, SchedulesPage, HeaderComponent, FooterComponent, TeamRosterPage, DraftHistoryPage, ListPage, HomePage, TeamPage, PlayerPage, DirectoryPage,
+        AboutUsPage, ContactUsPage, DisclaimerPage, SearchPage, ComponentPage,
         ModulePage, RouterOutlet, ROUTER_DIRECTIVES, PlayerStatsPage, MLBPage],
     providers: [ ROUTER_DIRECTIVES, ArticleDataService, HeadlineDataService],
 })
@@ -87,6 +88,16 @@ import {DesignPage} from "../webpages/design-page/design.page";
         path: '/search/:query',
         name: 'Search-page',
         component: SearchPage
+    },
+    {
+        path: '/schedules',
+        name: 'Schedules-page-league',
+        component: SchedulesPage
+    },
+    {
+        path: '/schedules/:teamName/:teamId',
+        name: 'Schedules-page-team',
+        component: SchedulesPage
     },
     {
         path: '/standings',
@@ -166,7 +177,12 @@ import {DesignPage} from "../webpages/design-page/design.page";
         component: TablesTestPage,
     },
     {
-        path: '/list-of-lists',
+        path: '/list-of-lists/:listName/:scope/:type/:id/:limit/:pageNum',
+        name: 'List-of-lists-page-scoped',
+        component: ListOfListsPage
+    },
+    {
+        path: '/list-of-lists/:listName/:type/:id/:limit/:pageNum',
         name: 'List-of-lists-page',
         component: ListOfListsPage
     },

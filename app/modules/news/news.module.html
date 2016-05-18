@@ -5,17 +5,27 @@
     <div class="news-placeholder">
       <circle-button (scrollRight)="right()" (scrollLeft)="left()"></circle-button>
       <div class="news-text" *ngIf="displayData">
+        <div class='feature-btn articles'>
+          <span>
+            <i class='fa fa-newspaper-o'></i>
+          </span>
+          <span>
+            {{title}} <b>{{counter + 1}}/{{max}}</b>
+          </span>
+          <i></i>
+        </div>
         <div class="news-headline">{{displayData.title}}</div>
         <div class="news-preview">{{displayData.description}}</div>
         <div class="news-footer">
           <span class="news-footer-author">{{displayData.author}}</span>
           <span class="news-footer-created">{{displayData.published}}</span>
-          <a href="#" class="news-footer-share"><i class="fa fa-share-alt"> Share</i></a>
+          <a href="#" class="news-footer-share"><i class="fa fa-share-alt"></i> Share</a>
         </div>
       </div>
       <!-- center details ends -->
-      <module-footer *ngIf="footerInfo" [footerData]="footerInfo"></module-footer>
     </div>
+    <module-footer [footerData]="footerInfo"></module-footer>
+
     <!-- placeholder ends -->
   </div>
 </section>

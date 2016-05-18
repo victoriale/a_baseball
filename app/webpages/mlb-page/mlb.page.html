@@ -1,4 +1,6 @@
 <div class="page-container">
+
+
   <headline-component></headline-component>
   <profile-header [profileHeaderData]="profileHeaderData"></profile-header>
   <!-- aiArticles -->
@@ -9,12 +11,13 @@
   <schedules></schedules>
   <standings-module [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
   <!-- draftHistory -->
-  <!-- MVP <===????????????????????????????? -->
+  <mvp-module *ngIf="batterData" [title]="'Batter'" [mvpData]="batterData" (tab)="batterTab($event)"></mvp-module>
+  <mvp-module *ngIf="pitcherData" [title]="'Pitcher'" [mvpData]="pitcherData" (tab)="pitcherTab($event)"></mvp-module>
   <comparison-module></comparison-module>
 
 
   <headline-component></headline-component>
-  <!-- imagesMedia <===????????????????????????????? -->
+  <images-media-carousel [imageData]="imageData" [copyright]="copyright" [profileName]="profileName" [isProfilePage]="isProfilePage"></images-media-carousel>
   <dyk-module></dyk-module>
   <faq-module></faq-module>
   <!-- lists of lists -->

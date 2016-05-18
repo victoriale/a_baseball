@@ -1,5 +1,6 @@
-import {Component, OnInit} from 'angular2/core';
-import {ModuleHeader} from '../../components/module-header/module-header.component';
+import {Component, OnInit, OnChanges, Input} from 'angular2/core';
+import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
+import {DYKService} from '../../services/dyk.service';
 
 export interface dykData{
   info: string;
@@ -9,14 +10,34 @@ export interface dykData{
     selector: 'dyk-module',
     templateUrl: './app/modules/dyk/dyk.module.html',
     directives: [ModuleHeader],
-    providers: []
+    providers: [DYKService]
 })
 
-export class DYKModule{
-    public moduleTitle: string = 'Did You Know - [Profile Name]';
-    public dykInfo: Object;
+export class DYKModule implements OnInit, OnChanges {
+  @Input() profileName: string;
 
-    ngOnInit(){
+  @Input() dykInfo: Array<{ info }>;
+
+  public headerInfo: ModuleHeaderData = {
+    moduleTitle: "Did You Know - [Profile Name]",
+    hasIcon: false,
+    iconClass: ""
+  };
+
+  constructor(private _dykService: DYKService) {
+    this._dykService.getDYKService()
+      .subscribe(data => {
+        // console.log("data", data);
+      })
+  }
+
+  ngOnChanges() {
+    let profileName = this.profileName ? this.profileName : "MLB";
+    this.headerInfo.moduleTitle = "Did You Know - " + profileName;
+  }//ngOnChanges ends
+
+  ngOnInit(){
+    if ( !this.dykInfo ) {
       this.dykInfo = [{
         info: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa."
       },{
@@ -25,6 +46,7 @@ export class DYKModule{
         info: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, culpa.",
       },{
         info: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-      }]
+      }];
     }
+  }//ngOnInit ends
 }

@@ -23,12 +23,8 @@ export class ListPageService {
       return headers;
   }
 
-  getListPageService(query){//TODO replace data points for list page
-  //Configure HTTP Headers
-  var headers = this.setToken();
-
   /*
-  query:{
+    query:{
     profile: //profile type ex: 'team' or 'player'
     listname: //list name sent back as lower kebab case  ex: 'batter-runs'
     sort: //sorting the list by 'desc' or 'asc'
@@ -36,14 +32,18 @@ export class ListPageService {
     division: //sort list by division, but if sort by all divisions then 'all' would be in place. conference is required if 'all' is in place
     limit: // limit the amount of data points come back but a number amount
     pageNum: //  determined by the limit as well detects what page to view based on the limit ex: limit: 10  page 1 holds 1-10 and page 2 holds 11-20
-  }
+    }
   */
+  getListPageService(query){
+  //Configure HTTP Headers
+  var headers = this.setToken();
+
   var callURL = this._apiUrl+'/list';
 
   for(var q in query){
     callURL += "/" + query[q];
   }
-
+  // console.log(callURL);
   return this.http.get( callURL, {
       headers: headers
     })
@@ -55,7 +55,86 @@ export class ListPageService {
         data.data['query'] = query;
         return {
           profHeader: this.profileHeader(data.data),
-          carData: this.carDataPage(data.data),
+          carData: this.carDataPage(data.data, 'page'),
+          listData: this.detailedData(data.data),
+          pagination: data.data.listInfo
+        }
+      },
+      err => {
+        console.log('INVALID DATA');
+      }
+    )
+  }
+
+  //moduleType can be either 'pitcher' or 'batter' to generate the tabs list used to generate a static list for MVP module
+  getListModuleService(query, moduleType){
+  //Configure HTTP Headers
+  var headers = this.setToken();
+
+  var callURL = this._apiUrl+'/list';
+
+  //generate a static list of tab array based on the moduleType to emit the tabData and have a tabDisplay for the DOM
+  if(moduleType == 'pitcher'){
+    var tabArray = [
+      {
+        tabData:'pitcher-innings-pitched',
+        tabDisplay: 'Innings Pitched',
+      },
+      {
+        tabData:'pitcher-strikeouts',
+        tabDisplay: 'Strike Outs',
+      },
+      {
+        tabData:'pitcher-earned-run-average',
+        tabDisplay: 'ERA',
+      },
+      {
+        tabData:'pitcher-hits-allowed',
+        tabDisplay: 'Hits',
+      },
+    ];
+  }else{//defaults to 'batter' if nothing is sent to moduleType
+    var tabArray = [
+      {
+        tabData:'batter-home-runs',
+        tabDisplay: 'Home Runs',
+      },
+      {
+        tabData:'batter-batting-average',
+        tabDisplay: 'Batting Avg.',
+      },
+      {
+        tabData:'batter-runs-batted-in',
+        tabDisplay: 'Runs Batted In',
+      },
+      {
+        tabData:'batter-hits',
+        tabDisplay: 'Hits',
+      },
+      {
+        tabData:'batter-bases-on-balls',
+        tabDisplay: 'Walks',
+      },
+    ];
+  }
+
+  for(var q in query){
+    callURL += "/" + query[q];
+  }
+  // console.log(callURL);
+  return this.http.get( callURL, {
+      headers: headers
+    })
+    .map(
+      res => res.json()
+    )
+    .map(
+      data => {
+        data.data['query'] = query;//used in some functions below
+        return {
+          tabArray:tabArray,
+          profHeader: this.profileHeader(data.data),
+          carData: this.carDataPage(data.data,'module'),
           listData: this.detailedData(data.data),
           pagination: data.data.listInfo
         }
@@ -67,7 +146,6 @@ export class ListPageService {
   }
 
   profileHeader(data){
-    console.log(data);
     var profile = data.listInfo;
     var profileData = {
       imageURL: '/app/public/mainLogo.png', //TODO
@@ -81,7 +159,7 @@ export class ListPageService {
   }
 
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
-  carDataPage(data){//TODO replace data points for list page
+  carDataPage(data, profileType){
     // console.log('original carousel data', data);
     let self = this;
     var carouselArray = [];
@@ -96,7 +174,7 @@ export class ListPageService {
         index:'2',
         imageConfig: self.imageData("image-150","border-large",dummyImg,dummyRoute, 1, 'image-38-rank',"image-50-sub"),
         description:[
-          '<p style="font-size:20px"><b>Sorry, we currently do not have any data for this particular list</b><p>',
+          '<p style="font-size:20px"><span class="text-heavy">Sorry, we currently do not have any data for this particular list</span><p>',
         ],
       };
       carouselArray.push(Carousel);
@@ -118,19 +196,25 @@ export class ListPageService {
               'image-48-rank',
               'image-50-sub'),
             description:[
-              '<p style="font-size:24px"><b>'+val.teamName+'</b></p>',
-              '<p><i class="fa fa-map-marker text-master"></i> Hometown:'+val.teamCity +', '+val.teamState+'</p>',
               '<br>',
-              '<p style="font-size:24px"><b>'+val.stat+'</b></p>',
-              '<p style="font-size:20px"> '+ carInfo.stat.replace(/-/g, ' ') +'</p>',
+              '<p style="font-size:22px"><span class="text-heavy">'+val.teamName+'</span></p>',
+              '<p><i class="fa fa-map-marker text-master"></i> '+val.teamCity +', '+val.teamState+'</p>',
+              '<br>',
+              '<p style="font-size:22px"><b>'+val.stat+'</b></p>',
+              '<p style="font-size:16px"> '+ self.globalFunc.toTitleCase(carInfo.stat.replace(/-/g, ' ')) +'</p>',
             ],
-            footerInfo: {
+          };
+          if(profileType == 'page'){
+            Carousel['footerInfo'] = {
               infoDesc:'Interested in discovering more about this team?',
               text:'View Profile',
               url:MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
             }
-          };
+          }
         }else if(data.query.profile == 'player'){
+          var position = '';
+          position = val.position.join(", ");
+
           var playerFullName = val.playerFirstName + " " + val.playerLastName;
           var Carousel = {
             index:index,
@@ -146,18 +230,20 @@ export class ListPageService {
               MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
             description:[
               '<br>',
-              '<p style="font-size:24px"><b>'+playerFullName+'</b></p>',
-              '<p><i class="fa fa-map-marker text-master"></i> <b>'+val.teamName+' Jersey: [##] Pos:[##]'+'</b></p>',
+              '<p style="font-size:24px"><span class="text-heavy">'+playerFullName+'</span></p>',
+              '<p><span class="text-heavy"> '+val.teamName+' | Jersey: #'+val.uniformNumber+' Pos: '+position+'</span></p>',
               '<br>',
-              '<p style="font-size:24px"><b>'+val.stat+'</b></p>',
+              '<p style="font-size:24px"><span class="text-heavy">'+val.stat+'</span></p>',
               '<p style="font-size:20px"> '+ carInfo.stat.replace(/-/g, ' ') +'</p>',
             ],
-            footerInfo: {
+          };
+          if(profileType == 'page'){
+            Carousel['footerInfo'] = {
               infoDesc:'Interested in discovering more about this player?',
               text:'View Profile',
               url:MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId),
             }
-          };
+          }
         }
         carouselArray.push(Carousel);
       });
@@ -189,14 +275,14 @@ export class ListPageService {
       if(data.query.profile == 'team'){
         var listData = {
           dataPoints: self.detailsData(
-            val.teamName,
+            "<a>"+val.teamName+"</a>",
             (val.stat),
             MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
-            'Hometown: '+val.teamCity +', '+val.teamState,
-            self.globalFunc.toTitleCase(detailInfo.stat.replace(/-/g, ' ')) ,
-            MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
-          imageConfig: self.imageData("image-121","border-2",
-          GlobalSettings.getImageUrl(
+            "<a>"+val.teamCity +', '+val.teamState + '</a> | Division: <span class="text-heavy text-master">'+ MLBGlobalFunctions.formatShortNameDivison(val.conferenceName) + val['divisionName'].charAt(0).toUpperCase() + "</span>",
+            self.globalFunc.toTitleCase(detailInfo.stat.replace(/-/g, ' ')),
+            MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),'fa fa-map-marker'),
+            imageConfig: self.imageData("image-121","border-2",
+            GlobalSettings.getImageUrl(
             val.teamLogo),
             MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
             val.listRank,
@@ -210,15 +296,17 @@ export class ListPageService {
         };
       }else if(data.query.profile == 'player'){
         var playerFullName = val.playerFirstName + " " + val.playerLastName;
+        var position = '';
+        position = val.position.join(", ");
         var listData = {
           dataPoints: self.detailsData(
-            playerFullName,
+            "<a>"+playerFullName+"<a>",
             (val.stat),
             MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId),
-            val.teamName +' Jersey: [##] Pos:[##]',
+            "<a>"+val.teamName +'</a> | Position: <span class="text-heavy text-master">' + position+ "</span>",
             self.globalFunc.toTitleCase(detailInfo.stat.replace(/-/g, ' ')),
             MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
-          imageConfig: self.imageData(
+            imageConfig: self.imageData(
             "image-121",
             "border-2",
             GlobalSettings.getImageUrl(val.imageUrl),
@@ -296,7 +384,7 @@ export class ListPageService {
   }
 
   //TODO replace data points for list page
-  detailsData(mainP1,mainV1,mainUrl1,subP1,subV2,subUrl2,dataP3?,dataV3?,dataUrl3?){
+  detailsData(mainP1,mainV1,mainUrl1,subP1,subV2,subUrl2, icon?, dataP3?,dataV3?,dataUrl3?){
     if(typeof dataP3 == 'undefined'){
       dataP3 = '';
     }
@@ -322,7 +410,7 @@ export class ListPageService {
         data:subP1,
         value:subV2,
         url:subUrl2,
-        icon:'fa fa-map-marker',
+        icon:icon,
       },
     ];
     return details;
