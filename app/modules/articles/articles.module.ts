@@ -81,6 +81,7 @@ export class ArticlesModule implements OnInit {
     }
 
     getHeaderData(data) {
+        moment.tz.add('America/New_York|EST EDT|50 40|0101|1Lz50 1zb0 Op0');
         var dateString = moment.tz(moment.unix(data.timestamp), 'America/New_York').format("MM/DD/YYYY");
         var isToday = moment(dateString).isSame(moment().tz('America/New_York'), 'day');
         this.headerInfo.moduleTitle = (isToday ? "Today's" : moment.unix(data.timestamp).format("dddd") + "'s") + " Gameday Matchup Against the " + (this.teamID == data.home.id ? data.away.location + ' ' + data.away.name : data.home.location + ' ' + data.home.name);
