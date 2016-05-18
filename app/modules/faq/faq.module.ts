@@ -1,4 +1,4 @@
-import {Component, OnInit, OnChanges, Input, Output, EventEmitter} from 'angular2/core';
+import {Component, OnChanges, Input, Output, EventEmitter} from 'angular2/core';
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 
 export interface faqModuleData{
@@ -12,7 +12,7 @@ export interface faqModuleData{
     directives: [ModuleHeader],
 })
 
-export class FAQModule implements OnInit, OnChanges {
+export class FAQModule implements OnChanges {
   @Input() profileName: string;
   @Input() faqData: Array<faqModuleData>;
   @Output() faqSelected: EventEmitter<string> = new EventEmitter();
@@ -34,6 +34,4 @@ export class FAQModule implements OnInit, OnChanges {
     let profileName = this.profileName ? this.profileName : "MLB";
     this.headerInfo.moduleTitle = "FAQ - " + profileName;
   }
-
-  ngOnInit(){ }
 }
