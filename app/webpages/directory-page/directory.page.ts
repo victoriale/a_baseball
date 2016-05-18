@@ -114,16 +114,18 @@ export class DirectoryPage {
     }    
     
     let directoryListTitle = "Latest MLB " + titleCaseType + " Profiles in the Nation.";
-    let noResultsMessage = "There are no " + lowerCaseType + " profiles in this category.";
+    let noResultsMessage = "Sorry, there are no results for " + titleCaseType + "s";
     let pagingDescription = titleCaseType + " profiles";
     let navTitle = "Browse all " + lowerCaseType + " profiles from A to Z";
     let pageName = "Directory-page-starts-with";
     
     if ( this.startsWith !== undefined && this.startsWith !== null && this.startsWith.length > 0 ) {
       pageParams["startsWith"] = this.startsWith;
+      noResultsMessage = "Sorry, there are no results for " + titleCaseType + "s starting with the letter '" + this.startsWith + "'";
     }
     else if ( this.newlyAdded ) {
       pageParams["startsWith"] = "new";
+      noResultsMessage = "Sorry, there are no results for " + titleCaseType + "s that are newly added";
     }
     
     let data:DirectoryModuleData = {

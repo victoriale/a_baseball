@@ -6,9 +6,9 @@
       <div class="draft-history-container">
         <div style="margin:-1em"> <!-- due to tab having a default value of padding 1em for tab purposes so we just reverse it with margin -->
           <detailed-list-item *ngIf="detailedDataArray" [detailedItemData] = 'detailedDataArray'></detailed-list-item>
-          <no-data-box *ngIf="!detailedDataArray && errorData" [data]="errorData.data" [icon]="errorData.icon"></no-data-box>
         </div>
       </div>
+      <no-data-box *ngIf="!detailedDataArray && errorData" [data]="errorData.data" [icon]="errorData.icon"></no-data-box>
     </tab>
   </tabs>
   <module-footer [footerData] = 'footerData'></module-footer>
