@@ -6,7 +6,7 @@ import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalSettings} from '../global/global-settings';
 import {Conference, Division, MLBPageParameters} from '../global/global-interface';
 
-import { MLBSchedulesTabData, MLBSchedulesTableModel, MLBSchedulesTableData} from './schedules.data';
+import { MLBSchedulesTableModel, MLBSchedulesTableData} from './schedules.data';
 
 
 declare var moment;
@@ -58,38 +58,6 @@ export class SchedulesService {
     return pageTitle;
   }// Sets the title of the Page with data returne by shedules
 
-
-  loadAllTabsForModule(pageParams: MLBPageParameters) {
-    console.log(pageParams);
-    var test = this.initializeAllTabs(pageParams);
-    console.log(test);
-    // return {
-    //     moduleTitle: this.getModuleTitle(pageParams),
-    //     pageRouterLink: this.getLinkToPage(pageParams),
-    //     tabs: this.initializeAllTabs(pageParams)
-    // };
-  }// Load all tabs but for schedules there is no tabs
-
-  loadAllTabs(pageParams: MLBPageParameters, maxRows?: number): Observable<Array<any>> {
-    var tabs = this.initializeAllTabs(pageParams);
-    return Observable.forkJoin(tabs.map(tab => this.getSchedulesService('team','2799', 'pre-game')));
-  }
-
-  initializeAllTabs(pageParams: MLBPageParameters): Array<any> {
-    let tabs: Array<any> = [];
-
-    tabs.push(this.createTab(true));
-    console.log('initializeAllTabs', tabs);
-    return tabs;
-  }//there will only be one tab so this function only needs to return one for the time being
-
-
-  private createTab(selectTab: boolean, conference?: Conference, division?: Division) {
-    let title = this.formatGroupName('2016') + " Schedules";
-    return new MLBSchedulesTabData(title, conference, division, selectTab);
-  }//creates a tab with the new interface
-
-
   //Function to set custom headers
   setToken(){
       var headers = new Headers();
@@ -97,110 +65,47 @@ export class SchedulesService {
       return headers;
   }
 
-  getSchedulesService(profile, teamId, eventStatus){//TODO replace data points for list page
+  getSchedulesService(profile, id, eventStatus){
   //Configure HTTP Headers
   var headers = this.setToken();
-
+  // console.log(profile,id, eventStatus)/
   /*
   http://dev-homerunloyal-api.synapsys.us/team/schedule/2819/pre-event
   http://dev-homerunloyal-api.synapsys.us/team/schedule/2819/post-event
   */
   var callURL = this._apiUrl+'/'+profile+'/schedule';
-
-  if(typeof teamId != 'undefined'){
-    callURL += '/'+teamId;
+  var tabData = [
+    {display: 'Upcoming Games', data:'pre-event'},
+    {display: 'Previous games', data:'post-event'}
+  ]
+  if(typeof id != 'undefined'){
+    callURL += '/'+id;
   }
-  callURL += '/'+eventStatus;
+  callURL += '/'+eventStatus+'/5/1';  //default pagination limit: 5; page: 1
 
-  console.log(callURL);
-  return this.http.get( callURL, {
-      headers: headers
+  // console.log(callURL);
+  return this.http.get(callURL, {headers: headers})
+    .map(res => res.json())
+    .map(data => {
+      return {
+        data:this.setupTableData(eventStatus, data.data, 5),
+        tabs:tabData
+      };
     })
-    .map(
-      res => res.json()
-    )
-    .map(
-      data => {
-        console.log('Original Schedules Data', data);
-        return 'hi schedules data';
-      },
-      err => {
-        console.log('INVALID DATA');
-      }
-    )
   }
 
-  private setupTabData(schedulesTab: any, apiData: any, teamId: number, maxRows: number): Array<any> {
-    //Array<TeamSchedulesData>
-    var sections: Array<any> = [];
-    var totalRows = 0;
-
-    if ( schedulesTab.conference !== null && schedulesTab.conference !== undefined &&
-      schedulesTab.division !== null && schedulesTab.division !== undefined ) {
-      //get only the single division
-      var conferenceKey = Conference[schedulesTab.conference];
-      var divisionKey = Division[schedulesTab.division];
-      var divData = conferenceKey && divisionKey ? apiData[conferenceKey][divisionKey] : [];
-      sections.push(this.setupTableData(schedulesTab.conference, schedulesTab.division, divData, maxRows, false));
-    }
-    else {
-      //other load all provided divisions
-      for ( var conferenceKey in apiData ) {
-        for ( var divisionKey in apiData[conferenceKey] ) {
-          var divData = conferenceKey && divisionKey ? apiData[conferenceKey][divisionKey] : [];
-          var table = this.setupTableData(Conference[conferenceKey], Division[divisionKey], divData, maxRows, true);
-          totalRows += table.tableData.rows.length;
-          if ( maxRows && totalRows > maxRows ) {
-            break; //don't add more divisions
-          }
-          sections.push(table);
-        }
-        if ( maxRows && totalRows > maxRows ) {
-          break; //don't add more conferences
-        }
-      }
-    }
-
-    if ( teamId ) {
-      sections.forEach(section => {
-        section.tableData.selectedKey = teamId;
-      });
-    }
-    return sections;
-  }
-
-  private setupTableData(conference, division, rows: Array<any>, maxRows: number, includeTableName: boolean) {
-    let groupName = this.formatGroupName('2016');
-
+  //rows is the data coming in
+  private setupTableData(eventStatus, rows: Array<any>, maxRows: number) {
+    let groupName = eventStatus;
+    maxRows = 5;  // TODO replace current number
     //Limit to maxRows, if necessary
     if ( maxRows !== undefined ) {
       rows = rows.slice(0, maxRows);
     }
 
-    // //Set display values
-    // rows.forEach((value, index) => {
-    //   value.groupName = groupName;
-    //   value.displayDate = GlobalFunctions.formatUpdatedDate(value.lastUpdated, false);
-    //   value.fullImageUrl = GlobalSettings.getImageUrl(value.imageUrl);
-    //   value.fullBackgroundImageUrl = GlobalSettings.getImageUrl(value.backgroundImage);
-    //
-    //   //Make sure numbers are numbers.
-    //   value.totalWins = Number(value.totalWins);
-    //   value.totalLosses = Number(value.totalLosses);
-    //   value.winPercentage = Number(value.winPercentage);
-    //   value.gamesBack = Number(value.gamesBack);
-    //   value.streakCount = Number(value.streakCount);
-    //   value.batRunsScored = Number(value.batRunsScored);
-    //   value.pitchRunsAllowed = Number(value.pitchRunsAllowed);
-    //
-    //   if ( value.teamId === undefined || value.teamId === null ) {
-    //     value.teamId = index;
-    //   }
-    // });
-
-    let tableName = this.formatGroupName('2016');
+    let tableName = eventStatus;
     var table = new MLBSchedulesTableModel(rows);
-    return new MLBSchedulesTableData(includeTableName ? tableName : "", conference, division, table);
+    return new MLBSchedulesTableData(tableName, table);
   }
 
   private formatGroupName(date): string {

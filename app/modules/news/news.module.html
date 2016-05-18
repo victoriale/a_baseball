@@ -1,6 +1,5 @@
 <section class="module-container">
-  <module-header [modHeadData]="moduleTitle"></module-header>
-  <!-- <news-carousel *ngIf="carouselData" [carouselData]="carouselData"></news-carousel> -->
+  <module-header [modHeadData]="headerInfo"></module-header>
   <div class="news">
     <div class="news-placeholder">
       <circle-button (scrollRight)="right()" (scrollLeft)="left()"></circle-button>
@@ -24,7 +23,7 @@
       </div>
       <!-- center details ends -->
     </div>
-    <module-footer [footerData]="footerInfo"></module-footer>
+    <module-footer [footerData]="displayData.footerData"></module-footer>
 
     <!-- placeholder ends -->
   </div>
