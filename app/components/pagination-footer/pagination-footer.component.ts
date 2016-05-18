@@ -2,6 +2,17 @@ import {Component, Input, Output, OnInit, OnChanges, EventEmitter} from 'angular
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 declare var jQuery: any;
 
+export interface PaginationParameters {
+    index: number;
+    max: number;
+    paginationType: string;
+    viewAllPage?: string;
+    viewAllParams?: Object;
+    navigationPage?: string;
+    navigationParams: Object;
+    indexKey?: string;
+}
+
 @Component({
     selector: 'pagination-footer',
     templateUrl: './app/components/pagination-footer/pagination-footer.component.html',
@@ -38,16 +49,7 @@ declare var jQuery: any;
  */
 
 export class PaginationFooter implements OnChanges{
-    @Input() paginationParameters: {
-        index: number,
-        max: number,
-        paginationType: string,
-        viewAllPage: string,
-        viewAllParams: Object,
-        navigationPage: string,
-        navigationParams: Object,
-        indexKey: string
-    };
+    @Input() paginationParameters: PaginationParameters;
     //Booleans to determine if max/min skip buttons should be shown
     public showMinSkip: boolean = false;
     public showMaxSkip: boolean = false;
