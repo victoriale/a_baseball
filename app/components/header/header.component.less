@@ -93,7 +93,10 @@
     }
   }//header-search ends
   &-share{
-
+    cursor: pointer;
+    span:first-child{
+        display: none;
+    }
     background-color: @altShareGreen;
     height: 60px;
     width: 64px;
@@ -125,6 +128,12 @@
       .globalDefaultModFont(1.17em, 400, @white);
       &:hover{
         .globalDefaultModFont(1.17em, 800, @white);
+      }
+      &:active{
+        font-weight: 800;
+      }
+      .active{
+        font-weight: 800;
       }
     }
   }//header-tabs ends
