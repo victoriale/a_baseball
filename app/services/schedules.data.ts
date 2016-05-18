@@ -7,6 +7,8 @@ import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
 import {GlobalSettings} from '../global/global-settings';
 
+declare var moment;
+
 //TODO-CJP: Ask backend to return values as numbers and not strings!
 export interface SchedulesData {
   backgroundImage: string,
@@ -88,33 +90,33 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
 
   selectedKey:number = -1;
 
-  constructor(rows: Array<any>) {
+  constructor(rows: Array<any>, private _globalFunc:GlobalFunctions) {
 
     if(this.isTeamId){
       this.columns = [{
          headerValue: "DATE",
-         columnClass: "data-column",
+         columnClass: "date-column",
          sortDirection: -1, //descending
          isNumericType: true,
          key: "date"
        },{
          headerValue: "TIME",
-         columnClass: "data-column",
+         columnClass: "date-column",
          isNumericType: false,
          key: "t"
        },{
          headerValue: "AWAY",
-         columnClass: "image-column",
+         columnClass: "image-column location-column",
          isNumericType: false,
          key: "away"
        },{
          headerValue: "HOME",
-         columnClass: "image-column",
+         columnClass: "image-column location-column",
          isNumericType: false,
          key: "home"
        },{
          headerValue: "GAME SUMMARY",
-         columnClass: "data-column",
+         columnClass: "summary-column location-column",
          isNumericType: true,
          key: "gs"
        }];
@@ -136,7 +138,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
          key: "r"
        },{
          headerValue: "GAME SUMMARY",
-         columnClass: "data-column",
+         columnClass: "data-column summary-link",
          isNumericType: true,
          key: "gs"
        }];
@@ -166,11 +168,10 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
     var s = "";
     switch (column.key) {
       case "date":
-        s = item.startDateTime;
+        s = moment(item.startDateTime).format('MMMM DD');
         break;
-
       case "t":
-        s = item.startDateTime;
+        s = moment(item.startDateTime).format('h:mm a');
         break;
 
       case "away":
@@ -182,7 +183,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
         break;
 
       case "gs":
-        s = item.eventStatus;
+        s = this._globalFunc.toTitleCase(item.eventStatus) + " <i class='fa fa-angle-right'><i>";
         break;
 
       case "r":
@@ -223,14 +224,26 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
   }
 
   getImageConfigAt(item, column:TableColumn):CircleImageData {
-    if ( column.key === "name" ) {
+    if ( column.key === "away") {
       //TODO-CJP: store after creation? or create each time?
       return {
           imageClass: "image-48",
           mainImage: {
-            imageUrl: GlobalSettings.getImageUrl(item.fullImageUrl),
+            imageUrl: GlobalSettings.getImageUrl(item.awayTeamLogo),
             imageClass: "border-1",
-            urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId.toString()),
+            urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.awayTeamName,item.awayTeamId.toString()),
+            hoverText: "<i class='fa fa-mail-forward'></i>",
+          },
+          subImages: []
+        };
+    }else if ( column.key === "home") {
+      //TODO-CJP: store after creation? or create each time?
+      return {
+          imageClass: "image-48",
+          mainImage: {
+            imageUrl: GlobalSettings.getImageUrl(item.homeTeamLogo),
+            imageClass: "border-1",
+            urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.homeTeamName,item.homeTeamId.toString()),
             hoverText: "<i class='fa fa-mail-forward'></i>",
           },
           subImages: []
@@ -242,12 +255,14 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
   }
 
   hasImageConfigAt(column:TableColumn):boolean {
-    return column.key === "name";
+    return (column.key === "home" || column.key === "away");
   }
 
   getRouterLinkAt(item, column:TableColumn):Array<any> {
-    if ( column.key === "name" ) {
-      return MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId.toString());
+    if ( column.key === "home" ) {
+      return MLBGlobalFunctions.formatTeamRoute(item.homeTeamName,item.homeTeamId.toString());
+    }else if ( column.key === "away" ) {
+      return MLBGlobalFunctions.formatTeamRoute(item.awayTeamName,item.awayTeamId.toString());
     }
     else {
       return undefined;
@@ -255,6 +270,6 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
   }
 
   hasRouterLinkAt(column:TableColumn):boolean {
-    return column.key === "name";
+    return (column.key === "home" || column.key === "away");
   }
 }

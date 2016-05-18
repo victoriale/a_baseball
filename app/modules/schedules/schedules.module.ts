@@ -19,7 +19,7 @@ export class SchedulesModule implements OnInit{
   moduleTitle:string;
 
   ngOnInit(){
-    // console.log('SchedulesModule',this.data.data);
+    console.log('SchedulesModule',this.data.data);
     this.moduleTitle = "[Profile] - Schedules";
   }
 
