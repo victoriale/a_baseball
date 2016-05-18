@@ -1,4 +1,5 @@
 <div *ngIf="profileHeaderData && pageParams" class="page-container">
+  <schedules *ngIf="schedulesData" [data]="schedulesData" (tabSelected)="scheduleTab($event)"></schedules>
   <headline-component></headline-component>
   <profile-header [profileHeaderData]="profileHeaderData"></profile-header>
   <!-- daily update -->
@@ -7,7 +8,7 @@
 
   <headline-component></headline-component>
   <box-scores></box-scores>
-  <schedules></schedules>
+  <!-- <schedules *ngIf="schedulesData" [data]="schedulesData" (tabSelected)="scheduleTab($event)"></schedules> -->
   <standings-module *ngIf="standingsData" [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
   <!-- teamroster -->
   <team-roster-module></team-roster-module>

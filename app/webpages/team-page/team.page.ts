@@ -145,7 +145,7 @@ export class TeamPage implements OnInit {
                 this.pageParams = data.pageParams;
                 this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data);
                 this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
-                this.schedulesData = this._schedulesService.loadAllTabsForModule(this.pageParams);
+                this.getSchedulesData();
                 this.setupShareModule();
                 this.getImages(this.imageData);
                 this.getNewsService(this.pageParams.teamName);
@@ -201,6 +201,23 @@ export class TeamPage implements OnInit {
                 err => {
                     console.log("Error getting news data");
                 });
+    }
+
+    //grab tab to make api calls for post of pre event table
+    private scheduleTab(tab) {
+     // console.log(tab);
+    }
+
+    private getSchedulesData(){
+      this._schedulesService.getSchedulesService('team', 2799, 'pre-event')
+      .subscribe(
+        data => {
+          this.schedulesData = data;
+        },
+        err => {
+          console.log("Error getting Schedules Data");
+        }
+      )
     }
 
     private getImages(imageData) {
