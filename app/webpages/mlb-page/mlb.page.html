@@ -22,7 +22,7 @@
   <faq-module></faq-module>
   <!-- lists of lists -->
   <!-- Other NEWS you will love -->
-  <!-- <news-module></news-module> -->
+  <news-module *ngIf="newsDataArray" [newsDataArray]="newsDataArray" [profileName]="profileHeaderData.profileName"></news-module>
 
   <headline-component></headline-component>
   <twitter-module></twitter-module>
