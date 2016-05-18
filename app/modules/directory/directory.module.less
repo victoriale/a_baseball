@@ -77,8 +77,9 @@
         background-color: @masterBrandColor;
       }
 
-      &:focus {
-        color: @black;
+      &:focus, &:hover {
+        background-color: @black;
+        color: @white;
         text-decoration: none;
       }
     }
@@ -119,6 +120,7 @@
 
   &-list {
     padding: 0px;
+    min-height: 800px;
 
     &-item {
       width: inherit;
