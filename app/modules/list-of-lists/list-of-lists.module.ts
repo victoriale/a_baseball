@@ -27,11 +27,12 @@ export class ListOfListsModule{
   footerData: Object;
 
   constructor(private _router: Router) {
+    console.log("phd",this.profileHeaderData);
     this.footerData = {
       infoDesc:'Want to see more lists like the ones above?',
       btn:'',
       text:'VIEW MORE LISTS',
-      url:['Error-page'],//TODO change to proper url
+      url:['Error-page'], // Gets updated in ngOnChanges
     }
   }
 
@@ -44,6 +45,6 @@ export class ListOfListsModule{
       hasIcon: false,
       iconClass: "",
     }
-
+    this.footerData['url'] = ['List-of-lists-page', { type: this.listOfListsData['type'], id: this.listOfListsData['id'], limit:10, pageNum:1}];
   }
 }

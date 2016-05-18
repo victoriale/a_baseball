@@ -12,32 +12,32 @@
   <standings-module *ngIf="standingsData" [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
   <!-- teamroster -->
   <team-roster-module></team-roster-module>
-
-  <!-- playerstats -->
-  <!-- transactions -->
+  <player-stats-module *ngIf="playerStatsData" [data]="playerStatsData" (tabSelected)="playerStatsTabSelected($event)"></player-stats-module>
+  <!--<div class="component-compbar-container" *ngIf="profileHeaderData && listOfListsData">-->
+    <!--<transactions *ngIf="transactionsData" [transactionsData]="transactionsData" [profHeader]="profileHeaderData" (tab)="transactionsTab($event)"></transactions>-->
+  <!--</div>-->
   <draft-history *ngIf="draftHistoryData" [draftData]="draftHistoryData" [profHeader]="profileHeaderData" (tab)="draftTab($event)"></draft-history>
   <!-- MVP -->
-  <comparison-module></comparison-module>
-
+  <!--<comparison-module></comparison-module>-->
 
   <headline-component></headline-component>
   <images-media-carousel [imageData]="imageData" [copyright]="copyright" [profileName]="profileName" [isProfilePage]="isProfilePage"></images-media-carousel>
-  <dyk-module [profileName]="pageParams.teamName"></dyk-module>
-  <faq-module [profileName]="pageParams.teamName"></faq-module>
+  <dyk-module *ngIf="dykData" [profileName]="profileHeaderData.profileName" [dykData]="dykData"></dyk-module>
+  <faq-module *ngIf="faqData" [profileName]="profileHeaderData.profileName" [faqData]="faqData"></faq-module>
   <!-- lol -->
   <div class="component-compbar-container" *ngIf="profileHeaderData && listOfListsData">
-    <list-of-lists [profileHeaderData]="profileHeaderData" [listOfListsData]="listOfListsData" [pageParams]="pageParams"></list-of-lists>
+    <list-of-lists [profileHeaderData]="profileHeaderData" [listOfListsData]="listOfListsData"></list-of-lists>
   </div>
   <!-- other news you will love -->
-  <news-module></news-module>
+  <news-module *ngIf="newsDataArray" [newsDataArray]="newsDataArray" [profileName]="profileHeaderData.profileName"></news-module>
 
   <headline-component></headline-component>
-  <twitter-module [profileName]="pageParams.teamName"></twitter-module>
+  <twitter-module [profileName]="profileHeaderData.profileName"></twitter-module>
   <!--Like Us On FB Module, only display if not on partner page-->
   <!-- <section *ngIf="!partnerCheck"> -->
   <share-module *ngIf="shareModuleInput" [shareModuleInput]="shareModuleInput"></share-module>
   <like-us-module></like-us-module>
   <!-- </section> -->
-  <comment-module [profileName]="pageParams.teamName"></comment-module>
+  <comment-module [profileName]="profileHeaderData.profileName"></comment-module>
   <about-us></about-us>
 </div>

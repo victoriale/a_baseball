@@ -24,19 +24,12 @@ export class ImagesService {
             )//end of route subscribe
     };
 
-    getImages(profileId, profileType) {
-        if (profileType == 'team') {
-            var baseUrl = GlobalSettings.getCarouselTeamUrl();
-        } else if (profileType == 'player') {
-            var baseUrl = GlobalSettings.getCarouselPlayerUrl();
-        } else {
-            var baseUrl = GlobalSettings.getCarouselLeagueUrl();
-        }
+    getImages(profileType, profileId?) {
+        var baseUrl = GlobalSettings.getApiUrl() + "/" + profileType.toLowerCase() + "/imagesAndMedia/";
         var fullUrl;
         if (profileId != 'undefined') {
             fullUrl = baseUrl + profileId;
-        }
-        if (profileType == 'league') {
+        } else {
             fullUrl = baseUrl;
         }
         if (this.partnerID == null) {
@@ -46,7 +39,7 @@ export class ImagesService {
                 )
                 .map(
                     data => {
-                        return data.data
+                        return this.getImageArray(data.data);
                     }
                 )
         } else {
@@ -56,9 +49,24 @@ export class ImagesService {
                 )
                 .map(
                     data => {
-                        return data.data
+                        return this.getImageArray(data.data);
                     }
                 )
+        }
+    }
+
+    getImageArray(imageData) {
+        var imageArray = [];
+        var copyArray = [];
+        imageData.images.forEach(function (val, index) {
+            val['images'] = val.image_url;
+            val['copyright'] = val.image_copyright;
+            imageArray.push(val['images']);
+            copyArray.push(val['copyright'])
+        });
+        return {
+            imageArray: imageArray,
+            copyArray: copyArray
         }
     }
 }

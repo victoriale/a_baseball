@@ -122,16 +122,9 @@ export class MLBPage implements OnInit {
         this.profileName = 'MLB';
         var imageArray = [];
         var copyArray = [];
-        this._imagesService.getImages(null, this.profileType)
+        this._imagesService.getImages(this.profileType)
             .subscribe(data => {
-                    imageData = data;
-                    imageData.images.forEach(function (val, index) {
-                        val['images'] = val.image_url;
-                        val['copyright'] = val.image_copyright;
-                        imageArray.push(val['images']);
-                        copyArray.push(val['copyright'])
-                    });
-                    return this.imageData = imageArray, this.copyright = copyArray;
+                    return this.imageData = data.imageArray, this.copyright = data.copyArray;
                 },
                 err => {
                     console.log("Error getting image data");

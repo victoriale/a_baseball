@@ -16,16 +16,16 @@ export interface PlayerStatsData {
   lastUpdate: string;
   
   //Batting Stats
-  batAverage: string;
+  batAverage: number;
   batHomeRuns: string;
   batRbi: string;
-  batSluggingPercentage: string;
+  batSluggingPercentage: number;
   batHits: string;
   batBasesOnBalls: string;
-  batOnBasePercentage: string;
+  batOnBasePercentage: number;
   
   //Pitching Stats
-  pitchEra: string;
+  pitchEra: number;
   pitchWins: string;
   pitchLosses: string;
   pitchStrikeouts: string;
@@ -108,17 +108,17 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
     var subheader = "Current " + item.teamName + " Player Stats";
     var description = "";
     if ( this.isPitcherTable ) {
-      description = item.playerName + " has a <span class='text-heavy'>" + item.pitchEra + 
+      description = item.playerName + " has a <span class='text-heavy'>" + (item.pitchEra != null ? item.pitchEra.toFixed(2) : "N/A") + 
                     " ERA</span> with <span class='text-heavy'>" + item.pitchStrikeouts + 
                     " Strikeouts</span>, <span class='text-heavy'>" + item.pitchWins + 
                     " Wins</span> and a <span class='text-heavy'>" + item.pitchLosses + 
                     " Saves</span>.";
     }
     else {
-      description = item.playerName + " has a <span class='text-heavy'>" + item.batAverage + 
+      description = item.playerName + " has a <span class='text-heavy'>" + (item.batAverage != null ? item.batAverage.toPrecision(3) : "N/A") + 
                     " Batting Average</span> with <span class='text-heavy'>" + item.batHomeRuns + 
                     " Homeruns</span>, <span class='text-heavy'>" + item.batRbi + 
-                    " RBI's</span> and a <span class='text-heavy'>" + item.batSluggingPercentage + 
+                    " RBI's</span> and a <span class='text-heavy'>" + (item.batSluggingPercentage != null ? item.batSluggingPercentage.toPrecision(3) : "N/A") + 
                     " Slugging Percentage</span>.";
     }
     return {
@@ -167,7 +167,7 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
       this.rows = [];
     }
     else if ( rows.length > 0 ) {
-      this.selectedKey = rows[0].playerId;
+      // this.selectedKey = rows[0].playerId;
     }
     this.isPitcher = isPitcher;
     if ( this.isPitcher ) {
@@ -245,7 +245,7 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
         isNumericType: true,
         key: "bbb"
       },{
-        headerValue: "OBA",
+        headerValue: "OBP",
         columnClass: "data-column",
         isNumericType: true,
         key: "obp"
@@ -280,36 +280,36 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
       
       //BATTING
       case "hr": 
-        s = item.batHomeRuns ? item.batHomeRuns.toString() : null;
+        s = item.batHomeRuns ? item.batHomeRuns : null;
         break;
       
       case "ba": 
-        s = item.batAverage ? item.batAverage : null;
+        s = item.batAverage ? item.batAverage.toFixed(3) : null;
         break;
       
       case "rbi": 
-        s = item.batRbi ? item.batRbi.toString() : null;
+        s = item.batRbi ? item.batRbi : null;
         break;
       
       case "h": 
-        s = item.batHits ? item.batHits.toString() : null;
+        s = item.batHits ? item.batHits : null;
         break;
       
       case "bbb": 
-        s = item.batBasesOnBalls ? item.batBasesOnBalls.toString() : null;
+        s = item.batBasesOnBalls ? item.batBasesOnBalls : null;
         break;
       
       case "obp": 
-        s = item.batOnBasePercentage ? item.batOnBasePercentage : null;
+        s = item.batOnBasePercentage ? item.batOnBasePercentage.toFixed(3) : null;
         break;
       
       case "slg": 
-        s = item.batSluggingPercentage ? item.batSluggingPercentage : null;
+        s = item.batSluggingPercentage ? item.batSluggingPercentage.toFixed(3) : null;
         break;
       
       //PITCHING
       case "wl": 
-        s = item.pitchWins != null && item.pitchLosses != null ? item.pitchWins + "/" + item.pitchLosses : null;
+        s = item.pitchWins != null && item.pitchLosses != null ? item.pitchWins + "-" + item.pitchLosses : null;
         break;
       
       case "ip": 
@@ -321,7 +321,7 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
         break;
       
       case "era": 
-        s = item.pitchEra != null ? item.pitchEra : null;
+        s = item.pitchEra != null ? item.pitchEra.toPrecision(3) : null;
         break;
         
       case "pbb": 
