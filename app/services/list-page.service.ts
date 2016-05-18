@@ -275,7 +275,7 @@ export class ListPageService {
       if(data.query.profile == 'team'){
         var listData = {
           dataPoints: self.detailsData(
-            val.teamName,
+            "<a>"+val.teamName+"</a>",
             (val.stat),
             MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
             "<a>"+val.teamCity +', '+val.teamState + '</a> | Division: <span class="text-heavy text-master">'+ MLBGlobalFunctions.formatShortNameDivison(val.conferenceName) + val['divisionName'].charAt(0).toUpperCase() + "</span>",
@@ -300,7 +300,7 @@ export class ListPageService {
         position = val.position.join(", ");
         var listData = {
           dataPoints: self.detailsData(
-            playerFullName,
+            "<a>"+playerFullName+"<a>",
             (val.stat),
             MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId),
             "<a>"+val.teamName +'</a> | Position: <span class="text-heavy text-master">' + position+ "</span>",

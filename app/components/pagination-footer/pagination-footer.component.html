@@ -44,7 +44,7 @@
             ...
         </span>
         <!-- Button Array -->
-        <a *ngFor="#item of paginationButtonsPage" class="pagination-button-circle" [ngClass]="{active: paginationParameters.index === item.index}" [routerLink]="[item.page, item.params]">
+        <a *ngFor="#item of paginationButtonsPage" class="pagination-button-circle" [ngClass]="{active: paginationParameters.index === item.index && item.index !== 1 && item.index !== paginationParameters.max}" [routerLink]="[item.page, item.params]">
             {{item.index}}
         </a>
         <!-- Maximum Button -->
