@@ -68,7 +68,7 @@ export class SchedulesService {
   getSchedulesService(profile, id, eventStatus){
   //Configure HTTP Headers
   var headers = this.setToken();
-  console.log(profile,id, eventStatus)
+  // console.log(profile,id, eventStatus)/
   /*
   http://dev-homerunloyal-api.synapsys.us/team/schedule/2819/pre-event
   http://dev-homerunloyal-api.synapsys.us/team/schedule/2819/post-event
@@ -83,7 +83,7 @@ export class SchedulesService {
   }
   callURL += '/'+eventStatus+'/5/1';  //default pagination limit: 5; page: 1
 
-  console.log(callURL);
+  // console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
