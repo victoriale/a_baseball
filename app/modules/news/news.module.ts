@@ -28,8 +28,7 @@ export class NewsModule implements OnInit, OnChanges {
     };
 
     constructor(private _params: RouteParams,
-                private _globalFunctions: GlobalFunctions
-                ){ }
+                private _globalFunctions: GlobalFunctions){ }
 
     left(){
       var counter = this.counter;

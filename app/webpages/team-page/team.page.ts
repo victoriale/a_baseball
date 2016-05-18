@@ -4,8 +4,13 @@ import {Injectable} from 'angular2/core';
 
 import {AboutUsModule} from '../../modules/about-us/about-us.module';
 import {LikeUs} from "../../modules/likeus/likeus.module";
-import {DYKModule} from "../../modules/dyk/dyk.module";
-import {FAQModule} from "../../modules/faq/faq.module";
+
+import {DYKModule, dykModuleData} from "../../modules/dyk/dyk.module";
+import {DykService} from '../../services/dyk.service';
+
+import {FAQModule, faqModuleData} from "../../modules/faq/faq.module";
+import {FaqService} from '../../services/faq.service';
+
 import {TwitterModule} from "../../modules/twitter/twitter.module";
 import {ComparisonModule} from '../../modules/comparison/comparison.module';
 import {CommentModule} from '../../modules/comment/comment.module';
@@ -75,7 +80,9 @@ import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.modul
       RosterService,
       ListOfListsService,
       ImagesService,
-      NewsService
+      NewsService,
+      FaqService,
+      DykService
     ]
 })
 
@@ -100,6 +107,8 @@ export class TeamPage implements OnInit {
     profileName:string;
     listOfListsData:Object; // paginated data to be displayed
     newsDataArray: Array<Object>;
+    faqData: Array<faqModuleData>;
+    dykData: Array<dykModuleData>;
 
     constructor(private _params:RouteParams,
                 private _standingsService:StandingsService,
@@ -109,6 +118,8 @@ export class TeamPage implements OnInit {
                 private _lolService:ListOfListsService,
                 private _imagesService:ImagesService,
                 private _newsService: NewsService,
+                private _faqService: FaqService,
+                private _dykService: DykService,
                 private _globalFunctions:GlobalFunctions) {
         this.pageParams = {
             teamId: Number(_params.get("teamId")),
@@ -137,7 +148,9 @@ export class TeamPage implements OnInit {
                 this.schedulesData = this._schedulesService.loadAllTabsForModule(this.pageParams);
                 this.setupShareModule();
                 this.getImages(this.imageData);
-                this.getNewsService(this.pageParams.teamName)
+                this.getNewsService(this.pageParams.teamName);
+                this.getFaqService(this.profileType, this.pageParams.teamId);
+                this.getDykService(this.profileType, this.pageParams.teamId);
                 this.draftHistoryModule(this.currentYear, this.pageParams.teamId);//neeeds profile header data will run once header data is in
                 this.setupListOfListsModule();
             },
@@ -146,6 +159,36 @@ export class TeamPage implements OnInit {
             }
         );
     }
+
+    private getDykService(profileType, teamId) {
+        this.isProfilePage = true;
+        this.profileType = 'team';
+        let name = this.pageParams.teamName.replace(/-/g, " ");
+        this.profileName = this._globalFunctions.toTitleCase(name);
+        this._dykService.getDykService(this.profileType, this.pageParams.teamId)
+            .subscribe(data => {
+                    this.dykData = data;
+                },
+                err => {
+                    console.log("Error getting did you know data");
+                });
+    }
+
+    private getFaqService(profileType, teamId) {
+        this.isProfilePage = true;
+        this.profileType = 'team';
+        let name = this.pageParams.teamName.replace(/-/g, " ");
+        this.profileName = this._globalFunctions.toTitleCase(name);
+        this._faqService.getFaqService(this.profileType, this.pageParams.teamId)
+            .subscribe(data => {
+                    this.faqData = data;
+                },
+                err => {
+                    console.log("Error getting faq data");
+                });
+    }
+
+
     private getNewsService(teamName) {
         this.isProfilePage = true;
         this.profileType = 'team';

@@ -21,8 +21,8 @@
 
   <headline-component></headline-component>
   <images-media-carousel [imageData]="imageData" [copyright]="copyright" [profileName]="profileName" [isProfilePage]="isProfilePage"></images-media-carousel>
-  <dyk-module [profileName]="profileHeaderData.profileName"></dyk-module>
-  <faq-module [profileName]="profileHeaderData.profileName"></faq-module>
+  <dyk-module *ngIf="dykData" [profileName]="profileHeaderData.profileName" [dykData]="dykData"></dyk-module>
+  <faq-module *ngIf="faqData" [profileName]="profileHeaderData.profileName" [faqData]="faqData"></faq-module>
   <!-- lol -->
   <div class="component-compbar-container" *ngIf="profileHeaderData && listOfListsData">
     <list-of-lists [profileHeaderData]="profileHeaderData" [listOfListsData]="listOfListsData" [pageParams]="pageParams"></list-of-lists>

@@ -13,16 +13,10 @@ export class FaqService {
     return headers;
   }
 
-  getFaqService(playerId, teamId){
+  getFaqService(profile, id?){
     var headers = this.setToken();
     var fullUrl = this._apiUrl;
-    if(typeof teamId != 'undefined') {
-      fullUrl += "/team/faq/" + teamId;
-    } else if(typeof playerId != 'undefined'){
-      fullUrl += "/player/faq/" + playerId;
-    } else {
-      fullUrl += "/league/faq";
-    }
+    fullUrl += "/"+profile+"/faq/"+id;
     return this.http.get( fullUrl, {
         headers: headers
       })

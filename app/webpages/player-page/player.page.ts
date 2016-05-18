@@ -5,8 +5,13 @@ import {MLBPageParameters} from '../../global/global-interface';
 
 import {AboutUsModule} from '../../modules/about-us/about-us.module';
 import {LikeUs} from "../../modules/likeus/likeus.module";
-import {DYKModule} from "../../modules/dyk/dyk.module";
-import {FAQModule} from "../../modules/faq/faq.module";
+
+import {DYKModule, dykModuleData} from "../../modules/dyk/dyk.module";
+import {DykService} from '../../services/dyk.service';
+
+import {FAQModule, faqModuleData} from "../../modules/faq/faq.module";
+import {FaqService} from '../../services/faq.service';
+
 import {TwitterModule} from "../../modules/twitter/twitter.module";
 import {ComparisonModule} from '../../modules/comparison/comparison.module';
 import {CommentModule} from '../../modules/comment/comment.module';
@@ -55,7 +60,9 @@ import {GlobalFunctions} from "../../global/global-functions";
       StandingsService,
       ProfileHeaderService,
       ImagesService,
-      NewsService
+      NewsService,
+      FaqService,
+      DykService
     ],
 })
 
@@ -74,12 +81,16 @@ export class PlayerPage implements OnInit {
     isProfilePage:boolean = false;
     profileName:string;
     newsDataArray: Array<Object>;
+    faqData: Array<faqModuleData>;
+    dykData: Array<dykModuleData>;
 
     constructor(private _params:RouteParams,
                 private _standingsService:StandingsService,
                 private _profileService:ProfileHeaderService,
                 private _imagesService:ImagesService,
                 private _newsService: NewsService,
+                private _faqService: FaqService,
+                private _dykService: DykService,
                 private _globalFunctions:GlobalFunctions) {
 
         this.pageParams = {
@@ -100,13 +111,44 @@ export class PlayerPage implements OnInit {
                 this.setupTeamProfileData();
                 this.setupShareModule();
                 this.getImages(this.imageData);
-                this.getNewsService(this.pageParams.playerName)
+                this.getNewsService(this.pageParams.playerName);
+                this.getFaqService(this.profileType, this.pageParams.playerId);
+                this.getDykService(this.profileType, this.pageParams.teamId);
+
             },
             err => {
                 console.log("Error getting player profile data for " + this.pageParams.playerId + ": " + err);
             }
         );
     }
+    private getDykService(profileType, playerId) {
+        this.isProfilePage = true;
+        this.profileType = 'player';
+        let name = this.pageParams.playerName.replace(/-/g, " ");
+        this.profileName = this._globalFunctions.toTitleCase(name);
+        this._dykService.getDykService(this.profileType, this.pageParams.playerId)
+            .subscribe(data => {
+                    this.dykData = data;
+                },
+                err => {
+                    console.log("Error getting did you know data");
+                });
+    }
+
+    private getFaqService(profileType, playerId){
+      this.isProfilePage = true;
+      this.profileType = 'player';
+      let name = this.pageParams.playerName.replace(/-/g, " ");
+      this.profileName = this._globalFunctions.toTitleCase(name);
+      this._faqService.getFaqService(this.profileType, this.pageParams.playerId)
+          .subscribe(data => {
+            this.faqData = data;
+          },
+          err => {
+              console.log("Error getting faq data");
+          });
+    }
+
     private getNewsService(playerName) {
         this.isProfilePage = true;
         this.profileType = 'player';
