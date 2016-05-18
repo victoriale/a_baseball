@@ -65,8 +65,8 @@
           </li>
       </ul>
 
-      <div *ngIf="!data.hasListings" class="dir-list">
-          <no-data-box [data]="data.noResultsMessage" [icon]="'fa fa-remove'" [class]="'dir-list-noresults'"></no-data-box>
+      <div *ngIf="!data.hasListings" class="dir-list dir-list-noresults">
+          <no-data-box [data]="data.noResultsMessage" [icon]="'fa fa-remove'"></no-data-box>
       </div>
 
       <directory-pagination *ngIf="data.pagingDescription" [data]="pagingDescription" [nextLink]="nextLink" [prevLink]="prevLink"></directory-pagination>
