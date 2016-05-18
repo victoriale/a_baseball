@@ -32,7 +32,7 @@ export class ListOfListsModule{
       infoDesc:'Want to see more lists like the ones above?',
       btn:'',
       text:'VIEW MORE LISTS',
-      url:['Error-page'], // Gets updated in ngOnInit
+      url:['Error-page'], // Gets updated in ngOnChanges
     }
   }
 
