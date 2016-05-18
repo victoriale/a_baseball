@@ -225,18 +225,9 @@ export class TeamPage implements OnInit {
         this.profileType = 'team';
         let name = this.pageParams.teamName.replace(/-/g, " ");
         this.profileName = this._globalFunctions.toTitleCase(name);
-        var imageArray = [];
-        var copyArray = [];
-        this._imagesService.getImages(this.pageParams.teamId, this.profileType)
+        this._imagesService.getImages(this.profileType, this.pageParams.teamId)
             .subscribe(data => {
-                    imageData = data;
-                    imageData['data'].images.forEach(function (val, index) {
-                        val['images'] = val.image_url;
-                        val['copyright'] = val.image_copyright;
-                        imageArray.push(val['images']);
-                        copyArray.push(val['copyright'])
-                    });
-                    return this.imageData = imageArray, this.copyright = copyArray;
+                    return this.imageData = data.imageArray, this.copyright = data.copyArray;
                 },
                 err => {
                     console.log("Error getting image data");
