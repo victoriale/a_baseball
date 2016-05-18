@@ -22,7 +22,7 @@ install each one individually
 
       g.`moment` (used for time manipulation of dates)
       
-      h. `moment-timezone`
+      h.`moment-timezone`
 
       i.`autoprefixer` (automatically adds browser prefixes to css file)
 
