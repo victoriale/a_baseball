@@ -57,8 +57,20 @@
       .flexJustify(space-between);
       .flexAlignItems(baseline);
       .globalDefaultFont(1em, 400);
+      .st_sharethis_large{
+          cursor: pointer;
+      }
+      .stButton{
+        span:first-child{
+          display: none;
+        }
+      }
       &-created{
         margin-right: 200px;
+      }
+      &-share{
+        .flexDisplay;
+        .flexAlignItems(center);
       }
       .fa-share-alt{
         font-size: 1.5em;

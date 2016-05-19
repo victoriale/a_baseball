@@ -1,3 +1,7 @@
+// .st_sharethis_custom{
+//     background: url("/app/public/icons/HRL_Favicon.png") no-repeat scroll left top transparent;
+//     padding:0px 16px 0 0;
+// }
 .header{
   height: auto;
   &-top{
@@ -89,6 +93,10 @@
     }
   }//header-search ends
   &-share{
+    cursor: pointer;
+    span:first-child{
+        display: none;
+    }
     background-color: @altShareGreen;
     height: 60px;
     width: 64px;
@@ -120,6 +128,12 @@
       .globalDefaultModFont(1.17em, 400, @white);
       &:hover{
         .globalDefaultModFont(1.17em, 800, @white);
+      }
+      &:active{
+        font-weight: 800;
+      }
+      .active{
+        font-weight: 800;
       }
     }
   }//header-tabs ends

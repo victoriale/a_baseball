@@ -38,6 +38,10 @@ import {NewsService} from '../../services/news.service';
 
 import {GlobalSettings} from "../../global/global-settings";
 
+import {PlayerStatsModule, PlayerStatsModuleData} from '../../modules/player-stats/player-stats.module';
+import {PlayerStatsService} from '../../services/player-stats.service'
+import {MLBPlayerStatsTableData} from '../../services/player-stats.data'
+
 //module | interface | service
 import {DraftHistoryModule} from '../../modules/draft-history/draft-history.module';
 import {DraftHistoryService} from '../../services/draft-history.service';
@@ -47,6 +51,8 @@ import {ImagesMedia} from "../../components/carousels/images-media-carousel/imag
 import {GlobalFunctions} from "../../global/global-functions";
 import {ListOfListsService} from "../../services/list-of-lists.service";
 import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.module";
+import {TransactionsModule} from "../../modules/transactions/transactions.module";
+import {TransactionsService} from "../../services/transactions.service";
 
 @Component({
     selector: 'Team-page',
@@ -70,7 +76,8 @@ import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.modul
         AboutUsModule,
         ArticlesModule,
         ImagesMedia,
-        ListOfListsModule
+        ListOfListsModule,
+        PlayerStatsModule
     ],
     providers: [
       SchedulesService,
@@ -82,7 +89,9 @@ import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.modul
       ImagesService,
       NewsService,
       FaqService,
-      DykService
+      DykService,
+      PlayerStatsService,
+      TransactionsService
     ]
 })
 
@@ -91,15 +100,17 @@ export class TeamPage implements OnInit {
     headerData:any;
     pageParams:MLBPageParameters;
 
-    standingsData:StandingsModuleData;
-
     profileHeaderData:ProfileHeaderData;
+
+    standingsData: StandingsModuleData;
+    playerStatsData: PlayerStatsModuleData;
 
     imageData:any;
     copyright:any;
-    profileType:string;
+    profileType:string = "team";
     isProfilePage:boolean = false;
     draftHistoryData:any;
+    transactionsData:any;
     currentYear:any;
 
     schedulesData:any;
@@ -115,8 +126,10 @@ export class TeamPage implements OnInit {
                 private _schedulesService:SchedulesService,
                 private _profileService:ProfileHeaderService,
                 private _draftService:DraftHistoryService,
-                private _lolService:ListOfListsService,
+                private _lolService: ListOfListsService,
+                private _transactionsService:TransactionsService,
                 private _imagesService:ImagesService,
+                private _playerStatsService: PlayerStatsService,
                 private _newsService: NewsService,
                 private _faqService: FaqService,
                 private _dykService: DykService,
@@ -146,6 +159,7 @@ export class TeamPage implements OnInit {
                 this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data);
                 this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
                 this.getSchedulesData();
+                this.playerStatsData = this._playerStatsService.loadAllTabsForModule(this.pageParams);
                 this.setupShareModule();
                 this.getImages(this.imageData);
                 this.getNewsService(this.pageParams.teamName);
@@ -242,6 +256,17 @@ export class TeamPage implements OnInit {
                         console.log("Error getting standings data");
                     });
         }
+  }
+
+  private playerStatsTabSelected(tab: MLBPlayerStatsTableData) {
+    this._playerStatsService.getTabData(tab, this.pageParams, 4)//only show 4 rows in the module
+      .subscribe(data => {        
+        tab.seasonTableData[tab.selectedSeasonId] = data;
+        tab.tableData = data;
+      },
+      err => {
+        console.log("Error getting player stats data");
+      });
     }
 
     private setupShareModule() {
@@ -263,6 +288,14 @@ export class TeamPage implements OnInit {
         }
         this.draftHistoryModule(event, this.pageParams.teamId);
         // this.draftData = this.teamPage.draftHistoryModule(event, this.teamId);
+    }
+
+    private transactionsTab(event) {
+      var firstTab = 'Current Season';
+      if (event == firstTab) {
+        event = this.currentYear;
+      }
+      this.transactionsModule(event, this.pageParams.teamId);
     }
 
     private draftHistoryModule(year, teamId) {
@@ -296,6 +329,38 @@ export class TeamPage implements OnInit {
             );
     }
 
+  private transactionsModule(year, teamId) {
+    this._transactionsService.getTransactionsService(year, teamId, 'module')
+      .subscribe(
+        transactionsData => {
+          console.log("data", transactionsData);
+          var dataArray, detailedDataArray, carouselDataArray;
+          if (typeof dataArray == 'undefined') {//makes sure it only runs once
+            dataArray = transactionsData.tabArray;
+          }
+          if (transactionsData.listData.length == 0) {//makes sure it only runs once
+            detailedDataArray = false;
+          } else {
+            detailedDataArray = transactionsData.listData;
+          }
+          carouselDataArray = transactionsData.carData
+          return this.draftHistoryData = {
+            tabArray: dataArray,
+            listData: detailedDataArray,
+            carData: carouselDataArray,
+            errorData: {
+              data: "Sorry, the " + this.profileHeaderData.profileName + " do not currently have any data for the " + year + " transactions",
+              icon: "fa fa-remove"
+            }
+          }
+        },
+        err => {
+          console.log('Error: transactionsData API: ', err);
+          // this.isError = true;
+        }
+      );
+  }
+
 
     setupListOfListsModule() {
         // getListOfListsService(version, type, id, scope?, count?, page?){
@@ -303,6 +368,8 @@ export class TeamPage implements OnInit {
             .subscribe(
                 listOfListsData => {
                     this.listOfListsData = listOfListsData.listData;
+                    this.listOfListsData["type"] = "team";
+                    this.listOfListsData["id"] = this.pageParams.teamId;
                 },
                 err => {
                     console.log('Error: listOfListsData API: ', err);

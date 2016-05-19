@@ -24,6 +24,8 @@ import {Division, Conference, MLBPageParameters} from '../../global/global-inter
 import {HeadlineComponent} from '../../components/headline/headline.component';
 
 import {NewsModule} from '../../modules/news/news.module';
+import {NewsService} from '../../services/news.service';
+
 import {GlobalSettings} from "../../global/global-settings";
 import {ListPageService} from '../../services/list-page.service';
 import {ImagesService} from "../../services/carousel.service";
@@ -49,7 +51,13 @@ import {ImagesMedia} from "../../components/carousels/images-media-carousel/imag
         NewsModule,
         AboutUsModule,
         ImagesMedia],
-    providers: [ListPageService, StandingsService, ProfileHeaderService, ImagesService]
+    providers: [
+        ListPageService,
+        StandingsService,
+        ProfileHeaderService,
+        ImagesService,
+        NewsService
+      ]
 })
 
 export class MLBPage implements OnInit {
@@ -71,10 +79,12 @@ export class MLBPage implements OnInit {
     isProfilePage:boolean = false;
     profileName:string;
     listMax:number = 10;
+    newsDataArray: Array<Object>;
 
     constructor(private _standingsService:StandingsService,
                 private _profileService:ProfileHeaderService,
                 private _imagesService:ImagesService,
+                private _newsService: NewsService,
                 private listService:ListPageService) {
         this.batterParams = { //Initial load for mvp Data
             profile: 'player',
@@ -109,11 +119,25 @@ export class MLBPage implements OnInit {
                 this.pitcherData = this.getMVP(this.pitcherParams, 'pitcher');
                 this.setupShareModule();
                 this.getImages(this.imageData);
+                this.getNewsService();
             },
             err => {
                 console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
             }
         );
+    }
+
+    private getNewsService() {
+        this.isProfilePage = true;
+        this.profileType = 'league';
+        this.profileName = "MLB";
+        this._newsService.getNewsService('Major League Baseball')
+            .subscribe(data => {
+                    this.newsDataArray = data.news;
+                },
+                err => {
+                    console.log("Error getting news data");
+                });
     }
 
     private getImages(imageData) {
