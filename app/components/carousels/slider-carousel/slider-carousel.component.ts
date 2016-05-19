@@ -75,7 +75,7 @@ export class SliderCarousel implements OnInit {
 
     //In case of errors display below
     if (typeof this.dataPoint == 'undefined') {
-      var sampleImage = "./app/public/placeholder-location.jpg";
+      var sampleImage = "./app/public/no-image.png";
       this.dataPoint =
       {//placeholder data
         index:'1',
@@ -83,20 +83,12 @@ export class SliderCarousel implements OnInit {
           imageClass: "image-150",
           mainImage: {
             imageUrl: sampleImage,
-            urlRouteArray: ['Disclaimer-page'],
-            hoverText: "<p>Error</p>",
             imageClass: "border-large"
           },
           subImages: [
             {
               imageUrl: sampleImage,
-              urlRouteArray: ['Disclaimer-page'],
-              hoverText: "<i class='fa fa-mail-forward'></i>",
               imageClass: "image-50-sub image-round-lower-right"
-            },
-            {
-              text: "#1",
-              imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
             }
           ],
         },
