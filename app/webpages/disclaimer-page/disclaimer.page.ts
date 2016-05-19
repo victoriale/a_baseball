@@ -29,7 +29,6 @@ export class DisclaimerPage implements OnInit {
     titleData: TitleInputData;
 
     constructor(private injector:Injector, private _router: Router) {
-        // Scroll page to top to fix routerLink bug
         this._router.root
             .subscribe(
                 route => {
@@ -43,6 +42,9 @@ export class DisclaimerPage implements OnInit {
                   this.getData();
                 }
             )//end of route subscribe
+      
+        // Scroll page to top to fix routerLink bug
+        window.scrollTo(0, 0);
     }
 
     getData(){

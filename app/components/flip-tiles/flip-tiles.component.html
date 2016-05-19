@@ -7,9 +7,9 @@
                     <p>{{tile.title}}</p>
                 </div>
                 <a [routerLink]="tile.routerInfo" class='flippy-tile-side flippy-tile-back'>
-                    <span><i class='fa {{tile.faIcon}}'></i> {{tile.title}}</span>
-                    <span>{{tile.description}}</span>
-                    <span>{{tile.buttonText}} <i class='fa fa-mail-forward'></i></span>
+                    <span class="flippy-tile-back-title"><i class='fa {{tile.faIcon}}'></i> {{tile.title}}</span>
+                    <span class="flippy-tile-back-desc">{{tile.description}}</span>
+                    <span class="flippy-tile-back-btn">{{tile.buttonText}} <i class='fa fa-mail-forward'></i></span>
                 </a>
             </div>
         </div>
