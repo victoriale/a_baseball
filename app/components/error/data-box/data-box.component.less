@@ -1,24 +1,26 @@
-.no-data{
+.no-data {
   background-color: @backgroundGrey;
-  width:100%;
-  height:85px;
-  padding:25px 0;
-  &-icon{
-    width:10%;
-    height:100%;
-    font-size: 32px;
-    color:@masterBrandColor;
-    text-align: center;
-    float:left;
+  height: 85px;
+  width: 100%;
+  .flexDisplay;
+  .flexAlignItems(start);
+  
+  &-column {
+    .flexDisplay;
+    .flexAlignItems(center);
+    .flexJustify(center);
+    height: 100%;
   }
+  
+  &-icon{
+    font-size: 35px;
+    color:@masterBrandColor;
+    padding: 0 15px;
+  }
+  
   &-message{
-    width:90%;
-    height:100%;
-    color:@black;
+    color: @black;
     font-size: 16px;
-    text-align: left;
-    float:left;
-    display: inline-block;
-    padding:0 15px;
+    padding-right: 15px;
   }
 }

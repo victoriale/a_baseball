@@ -9,6 +9,7 @@ import {WebApp} from '../../app-layout/app.layout';
 import {CircleImage} from '../../components/images/circle-image';
 import {ImageData,CircleImageData} from '../../components/images/image-data';
 import {TitleInputData} from "../../components/title/title.component";
+import {Gradient} from "../../global/global-gradient";
 
 export interface TestImage {
   imageData: CircleImageData;
@@ -24,6 +25,7 @@ export interface TestImage {
 export class ImagesTestPage {
     titleData: TitleInputData;
     auHeaderTitle: string;
+    gradientStyles: Array<any> = [];
     
     public testImages: Array<TestImage>;
 
@@ -42,6 +44,9 @@ export class ImagesTestPage {
           icon: 'fa fa-map-marker',
           hasHover: false
       };
+      
+      this.gradientStyles.push(Gradient.getGradientStyles(["#A71930","#000000","#E3D4AD"], .75));
+      this.gradientStyles.push(Gradient.getGradientStyles(["#CE1141","#13274F"], .75));
       
       var sampleImage = "./app/public/placeholder-location-bad.jpg";
       

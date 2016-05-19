@@ -5,28 +5,31 @@ import {SchedulesCarouselInput} from '../components/carousels/schedules-carousel
 import {Conference, Division} from '../global/global-interface';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
+import {GlobalSettings} from '../global/global-settings';
+
+declare var moment;
 
 //TODO-CJP: Ask backend to return values as numbers and not strings!
 export interface SchedulesData {
-  homeImageUrl: string,
-  awayImageUrl: string,
   backgroundImage: string,
-  teamId: number;
   eventId: string,
   stateDateTime: string,
   eventStatus: string,
-  siteId: number,
   homeTeamId: number,
-  awatTeamId: number,
+  awayTeamId: number,
+  siteId: number,
   homeScore: number,
   awayScore: string,
   homeOutcome: number,
   awayOutcome: number,
   seasonId: string,
+  homeTeamLogo: string,
+  awayTeamLogo: string,
   homeTeamName: number,
   awayTeamName: number,
   reportUrlMod: number,
-
+  results:string,
+  teamId: number;
   /**
    * - Formatted from league and division values that generated the associated table
    */
@@ -48,25 +51,7 @@ export interface SchedulesData {
   fullBackgroundImageUrl?: string;
 }
 
-export class MLBSchedulesTableData implements TableComponentData<any> {
-  groupName: string;
-
-  tableData: MLBSchedulesTableModel;
-
-  conference: Conference;
-
-  division: Division;
-
-  constructor(title: string, conference: Conference, division: Division, table: MLBSchedulesTableModel) {
-    this.groupName = title;
-    this.conference = conference;
-    this.division = division;
-    this.tableData = table;
-  }
-
-}
-
-export class MLBSchedulesTabData {//TODO
+export class MLBScheduleTabData implements TableTabData<SchedulesData> {
 
   title: string;
 
@@ -74,59 +59,91 @@ export class MLBSchedulesTabData {//TODO
 
   sections: Array<MLBSchedulesTableData>;
 
-  conference: Conference;
-
-  division: Division;
-
-  constructor(title: string, conference: Conference, division: Division, isActive: boolean) {
+  constructor(title: string, isActive: boolean) {
     this.title = title;
-    this.conference = conference;
-    this.division = division;
     this.isActive = isActive;
     this.sections = [];
   }
 
-  convertToCarouselItem(item: any, index:number) {
-  return 'to be continued...'
+  convertToCarouselItem(item: SchedulesData, index:number) {
+    return null;
   }
 }
 
-export class MLBSchedulesTableModel implements TableModel<any> {
-  // title: string;
+export class MLBSchedulesTableData implements TableComponentData<SchedulesData> {
+  groupName: string;
 
-  columns: Array<TableColumn> = [{
-      headerValue: "DATE",
-      columnClass: "data-column",
-      sortDirection: -1, //descending
-      isNumericType: false,
-      key: "date"
-    },{
-      headerValue: "TIME",
-      columnClass: "data-column",
-      isNumericType: false,
-      key: "t"
-    },{
-      headerValue: "AWAY",
-      columnClass: "image-column",
-      isNumericType: false,
-      key: "away"
-    },{
-      headerValue: "HOME",
-      columnClass: "data-column",
-      isNumericType: false,
-      key: "home"
-    },{
-      headerValue: "GAME SUMMARY",
-      columnClass: "data-column",
-      isNumericType: true,
-      key: "gs"
-    }];
+  tableData: MLBSchedulesTableModel;
+
+  constructor(title: string, table: MLBSchedulesTableModel) {
+    this.groupName = title;
+    this.tableData = table;
+  }
+}
+
+export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
+  // title: string;
+  isTeamId: boolean = true;
+  columns: Array<TableColumn>;
 
   rows: Array<any>;
 
   selectedKey:number = -1;
 
   constructor(rows: Array<any>) {
+
+    if(this.isTeamId){
+      this.columns = [{
+         headerValue: "DATE",
+         columnClass: "date-column",
+         sortDirection: -1, //descending
+         isNumericType: true,
+         key: "date"
+       },{
+         headerValue: "TIME",
+         columnClass: "date-column",
+         isNumericType: false,
+         key: "t"
+       },{
+         headerValue: "AWAY",
+         columnClass: "image-column location-column",
+         isNumericType: false,
+         key: "away"
+       },{
+         headerValue: "HOME",
+         columnClass: "image-column location-column",
+         isNumericType: false,
+         key: "home"
+       },{
+         headerValue: "GAME SUMMARY",
+         columnClass: "summary-column location-column",
+         isNumericType: true,
+         key: "gs"
+       }];
+    }else{
+      this.columns = [{
+        headerValue: "HOME",
+        columnClass: "image-column",
+        isNumericType: false,
+        key: "home"
+      },{
+         headerValue: "AWAY",
+         columnClass: "image-column",
+         isNumericType: false,
+         key: "away"
+       },{
+         headerValue: "RESULTS",
+         columnClass: "data-column",
+         isNumericType: false,
+         key: "r"
+       },{
+         headerValue: "GAME SUMMARY",
+         columnClass: "data-column summary-link",
+         isNumericType: true,
+         key: "gs"
+       }];
+    }
+
     this.rows = rows;
     if ( this.rows === undefined || this.rows === null ) {
       this.rows = [];
@@ -143,103 +160,96 @@ export class MLBSchedulesTableModel implements TableModel<any> {
   }
 
   isRowSelected(item, rowIndex:number): boolean {
-    return this.selectedKey == item.teamId;
+    return this.selectedKey == item.eventId;
   }
 
+  //what is displaying in the html
   getDisplayValueAt(item, column:TableColumn):string {
     var s = "";
     switch (column.key) {
       case "date":
-        s = item.stateDateTime;
+        s = moment(item.startDateTime).format('MMMM DD');
         break;
-
       case "t":
-        s = item.stateDateTime;
+        s = moment(item.startDateTime).format('h:mm a');
         break;
 
       case "away":
-        s = item.awayTeamName;
+        s = "<span class='location-wrap'>"+item.awayTeamName+"</span>";
         break;
 
       case "home":
-        s =item.homeTeamName;
+        s = "<span class='location-wrap'>"+item.homeTeamName+"</span>";
         break;
 
       case "gs":
-        s = item.eventStatus;
+        if(item.eventStatus === 'pre-event'){
+          s = "Pregame Report <i class='fa fa-angle-right'><i>";
+        }else if(item.eventStatus === 'post-event'){
+          s = "Postgame Report <i class='fa fa-angle-right'><i>";
+        }else{
+          s = "N/A";
+        }
+        break;
+
+      case "r":
+        s = item.results;
         break;
     }
-    /*
-    homeImageUrl: string,
-    awayImageUrl: string,
-    backgroundImage: string,
-    teamId: number;
-    eventId: string,
-    stateDateTime: string,
-    eventStatus: string,
-    siteId: number,
-    homeTeamId: number,
-    awatTeamId: number,
-    homeScore: number,
-    awayScore: string,
-    homeOutcome: number,
-    awayOutcome: number,
-    seasonId: string,
-    homeTeamName: number,
-    awayTeamName: number,
-    reportUrlMod: number,
-    */
     return s;
   }
 
   getSortValueAt(item, column:TableColumn) {
     var o = null;
     switch (column.key) {
-      case "name":
-        o = item.teamName;
+      case "date":
+        o = item.startDateTime;
         break;
 
-      case "w":
-        o = item.totalWins;
+      case "t":
+        o = item.startDateTime;
         break;
 
-      case "l":
-        o = item.totalLosses;
+      case "away":
+        o = item.awayTeamName;
         break;
 
-      case "pct":
-        o = item.winPercentage;
+      case "home":
+        o =item.homeTeamName;
         break;
 
-      case "gb":
-        o = item.gamesBack;
+      case "gs":
+        o = item.eventStatus;
         break;
 
-      case "rs":
-        o = item.batRunsScored;
-        break;
-
-      case "ra":
-        o = item.pitchRunsAllowed;
-        break;
-
-      case "strk":
-        var str = item.streakCount.toString();
-        o = (item.streakType == "loss" ? "L-" : "W-") + ('0000' + str).substr(str.length); //pad with zeros
+      case "r":
+        o = item.results;
         break;
     }
     return o;
   }
 
   getImageConfigAt(item, column:TableColumn):CircleImageData {
-    if ( column.key === "name" ) {
+    if ( column.key === "away") {
       //TODO-CJP: store after creation? or create each time?
       return {
           imageClass: "image-48",
           mainImage: {
-            imageUrl: item.fullImageUrl,
+            imageUrl: GlobalSettings.getImageUrl(item.awayTeamLogo),
             imageClass: "border-1",
-            urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId.toString()),
+            urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.awayTeamName,item.awayTeamId.toString()),
+            hoverText: "<i class='fa fa-mail-forward'></i>",
+          },
+          subImages: []
+        };
+    }else if ( column.key === "home") {
+      //TODO-CJP: store after creation? or create each time?
+      return {
+          imageClass: "image-48",
+          mainImage: {
+            imageUrl: GlobalSettings.getImageUrl(item.homeTeamLogo),
+            imageClass: "border-1",
+            urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.homeTeamName,item.homeTeamId.toString()),
             hoverText: "<i class='fa fa-mail-forward'></i>",
           },
           subImages: []
@@ -251,12 +261,14 @@ export class MLBSchedulesTableModel implements TableModel<any> {
   }
 
   hasImageConfigAt(column:TableColumn):boolean {
-    return column.key === "name";
+    return (column.key === "home" || column.key === "away");
   }
 
   getRouterLinkAt(item, column:TableColumn):Array<any> {
-    if ( column.key === "name" ) {
-      return MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId.toString());
+    if ( column.key === "home" ) {
+      return MLBGlobalFunctions.formatTeamRoute(item.homeTeamName,item.homeTeamId.toString());
+    }else if ( column.key === "away" ) {
+      return MLBGlobalFunctions.formatTeamRoute(item.awayTeamName,item.awayTeamId.toString());
     }
     else {
       return undefined;
@@ -264,6 +276,6 @@ export class MLBSchedulesTableModel implements TableModel<any> {
   }
 
   hasRouterLinkAt(column:TableColumn):boolean {
-    return column.key === "name";
+    return (column.key === "home" || column.key === "away");
   }
 }

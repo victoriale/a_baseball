@@ -82,7 +82,7 @@ export class ListPageService {
       },
       {
         tabData:'pitcher-strikeouts',
-        tabDisplay: 'Strike Outs',
+        tabDisplay: 'Strikeouts',
       },
       {
         tabData:'pitcher-earned-run-average',
@@ -97,7 +97,7 @@ export class ListPageService {
     var tabArray = [
       {
         tabData:'batter-home-runs',
-        tabDisplay: 'Home Runs',
+        tabDisplay: 'Runs',
       },
       {
         tabData:'batter-batting-average',
@@ -196,11 +196,12 @@ export class ListPageService {
               'image-48-rank',
               'image-50-sub'),
             description:[
-              '<p style="font-size:24px"><span class="text-heavy">'+val.teamName+'</span></p>',
-              '<p><i class="fa fa-map-marker text-master"></i>'+val.teamCity +', '+val.teamState+'</p>',
               '<br>',
-              '<p style="font-size:24px"><b>'+val.stat+'</b></p>',
-              '<p style="font-size:20px"> '+ carInfo.stat.replace(/-/g, ' ') +'</p>',
+              '<p style="font-size:22px"><span class="text-heavy">'+val.teamName+'</span></p>',
+              '<p><i class="fa fa-map-marker text-master"></i> '+val.teamCity +', '+val.teamState+'</p>',
+              '<br>',
+              '<p style="font-size:22px"><b>'+val.stat+'</b></p>',
+              '<p style="font-size:16px"> '+ self.globalFunc.toTitleCase(carInfo.stat.replace(/-/g, ' ')) +'</p>',
             ],
           };
           if(profileType == 'page'){
@@ -229,11 +230,11 @@ export class ListPageService {
               MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
             description:[
               '<br>',
-              '<p style="font-size:24px"><span class="text-heavy">'+playerFullName+'</span></p>',
-              '<p><span class="text-heavy"> '+val.teamName+' | Jersey: #'+val.uniformNumber+' Pos: '+position+'</span></p>',
+              '<p style="font-size:22px"><span class="text-heavy">'+playerFullName+'</span></p>',
+              '<p>'+val.teamName+' | Jersey: #'+val.uniformNumber+' Pos: '+position+'</p>',
               '<br>',
-              '<p style="font-size:24px"><span class="text-heavy">'+val.stat+'</span></p>',
-              '<p style="font-size:20px"> '+ carInfo.stat.replace(/-/g, ' ') +'</p>',
+              '<p style="font-size:22px"><span class="text-heavy">'+val.stat+'</span></p>',
+              '<p style="font-size:16px"> '+ self.globalFunc.toTitleCase(carInfo.stat.replace(/-/g, ' ')) +' for the current season</p>',
             ],
           };
           if(profileType == 'page'){
@@ -269,15 +270,18 @@ export class ListPageService {
     var detailData = data.listData;
     var detailInfo = data.listInfo;
     detailData.forEach(function(val, index){
+      if(val.stat == 'batter-home-runs'){// for design display purposes
+        val.stat = 'Home Runs';
+      }
       var rank = ((Number(data.query.pageNum) - 1) * Number(data.query.limit)) + (index+1);
       val.listRank = rank;
       if(data.query.profile == 'team'){
         var listData = {
           dataPoints: self.detailsData(
-            val.teamName,
+            "<a>"+val.teamName+"</a>",
             (val.stat),
             MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
-            val.teamCity +', '+val.teamState + ' | Division: '+ MLBGlobalFunctions.formatShortNameDivison(val.conferenceName) + val['divisionName'].charAt(0).toUpperCase(),
+            "<a>"+val.teamCity +', '+val.teamState + '</a> | Division: <span class="text-heavy text-master">'+ MLBGlobalFunctions.formatShortNameDivison(val.conferenceName) + val['divisionName'].charAt(0).toUpperCase() + "</span>",
             self.globalFunc.toTitleCase(detailInfo.stat.replace(/-/g, ' ')),
             MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),'fa fa-map-marker'),
             imageConfig: self.imageData("image-121","border-2",
@@ -299,10 +303,10 @@ export class ListPageService {
         position = val.position.join(", ");
         var listData = {
           dataPoints: self.detailsData(
-            playerFullName,
+            "<a>"+playerFullName+"<a>",
             (val.stat),
             MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId),
-            val.teamName +' | Position: ' + position,
+            "<a>"+val.teamName +'</a> | Position: <span class="text-heavy text-master">' + position+ "</span>",
             self.globalFunc.toTitleCase(detailInfo.stat.replace(/-/g, ' ')),
             MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
             imageConfig: self.imageData(

@@ -4,18 +4,19 @@ import {Http, Headers} from 'angular2/http';
 import {GlobalSettings} from '../global/global-settings';
 
 @Injectable()
-export class DykService {
+export class FaqService {
   private _apiUrl: string = GlobalSettings.getApiUrl();
   constructor(public http: Http){}
+
   setToken(){
     var headers = new Headers();
     return headers;
   }
-  // getDykService(profile, id){
-  getDykService(profile, id?){
+
+  getFaqService(profile, id?){
     var headers = this.setToken();
     var fullUrl = this._apiUrl;
-    fullUrl += "/"+profile+"/didYouKnow";
+    fullUrl += "/"+profile+"/faq";
     if(id !== undefined){
       fullUrl += "/" + id;
     }
@@ -27,12 +28,30 @@ export class DykService {
       )
       .map(
         data => {
-          return data.data;
+          return this.faqData(data.data);
         },
         err => {
           console.log('INVALID DATA');
         }
       )
-  }//getDykService ends
+  }//getFaqService ends
 
-}//DykService ENDS
+  faqData(data){
+    var self = this;
+    var faqArray = [];
+    data.forEach(function(val, index){
+      if(index == 0){
+        val.active = true;
+      }else{
+        val.active = false;
+      }
+      var FAQ = {
+        answer: val.answer,
+        question: val.question,
+        active: val.active
+      }
+      faqArray.push(FAQ);
+    });
+    return faqArray;
+  }
+}

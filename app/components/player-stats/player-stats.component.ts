@@ -29,6 +29,8 @@ export class PlayerStatsComponent implements DoCheck {
 
   @Input() tabs: Array<StatsTableTabData<any>>;
   
+  @Input() showGlossary: boolean;
+  
   @Output("tabSelected") tabSelectedListener = new EventEmitter(); 
   
   private selectedTabTitle: string;

@@ -2,54 +2,57 @@ import {Component, Input, OnInit, OnChanges, Output, EventEmitter} from 'angular
 
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer.component';
-import {StandingsComponent, TableTabData} from '../../components/standings/standings.component';
+import {PlayerStatsComponent, StatsTableTabData} from '../../components/player-stats/player-stats.component';
 
-export interface StandingsModuleData {
+export interface PlayerStatsModuleData {
   moduleTitle: string;
-
+ 
   /**
     * Used for the link in the footer button
     */
   pageRouterLink: Array<any>;
-
+  
   /**
    * Sent to Standings component
    */
-  tabs: Array<TableTabData<any>>;
+  tabs: Array<StatsTableTabData<any>>;
 }
 
 @Component({
-  selector: "standings-module",
-  templateUrl: "./app/modules/standings/standings.module.html",
-  directives: [ModuleHeader, ModuleFooter, StandingsComponent],
+  selector: "player-stats-module",
+  templateUrl: "./app/modules/player-stats/player-stats.module.html",
+  directives: [ModuleHeader, ModuleFooter, PlayerStatsComponent],
 })
-export class StandingsModule implements OnChanges {
-  @Input() data: StandingsModuleData;
-
+export class PlayerStatsModule implements OnChanges {
+  @Input() data: PlayerStatsModuleData;
+  
   @Output("tabSelected") tabSelectedListener = new EventEmitter();
 
   public headerInfo: ModuleHeaderData = {
-    moduleTitle: "Standings",
+    moduleTitle: "Player Stats",
     hasIcon: false,
     iconClass: ""
   };
 
   public footerInfo: ModuleFooterData = {
-    infoDesc: "Want to see the full standings page?",
+    infoDesc: "Want to see more player statistics?",
     text: "VIEW FULL STANDINGS",
-    url: ['Standings-page']
+    url: ['Player-stats-page']
   };
-
+  
+  public tabs: Array<StatsTableTabData<any>>;  
+  
   ngOnChanges() {
     if ( !this.data ) {
-      this.headerInfo.moduleTitle = "Standings";
+      this.headerInfo.moduleTitle = "Player Stats";
     }
     else {
       this.headerInfo.moduleTitle = this.data.moduleTitle;
       this.footerInfo.url = this.data.pageRouterLink;
-    }
+      this.tabs = this.data.tabs;
+    }    
   }
-
+  
   tabSelected(tab) {
     this.tabSelectedListener.next(tab);
   }

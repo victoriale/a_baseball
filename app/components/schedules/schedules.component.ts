@@ -1,6 +1,8 @@
-import {Component, Input, OnInit, DoCheck} from 'angular2/core';
+import {Component, Input, Output, OnInit, DoCheck, EventEmitter} from 'angular2/core';
 
 import {SchedulesCarousel, SchedulesCarouselInput} from '../carousels/schedules-carousel/schedules-carousel.component';
+import {Tabs} from '../tabs/tabs.component';
+import {Tab} from '../tabs/tab.component';
 import {CustomTable} from '../custom-table/custom-table.component';
 import {TableModel, TableColumn, TableRow, TableCell} from '../custom-table/table-data.component';
 
@@ -18,54 +20,17 @@ export interface TableComponentData<T> {
 @Component({
     selector: 'schedules-component',
     templateUrl: './app/components/schedules/schedules.component.html',
-    directives: [SchedulesCarousel, CustomTable],
+    directives: [Tabs, Tab, SchedulesCarousel, CustomTable],
 })
 
-export class SchedulesComponent implements DoCheck{
-  public carouselData: Array<SchedulesCarouselInput> = [];
+export class SchedulesComponent implements OnInit{
   public selectedIndex;
 
-  columns: Array<TableColumn> = [{
-      headerValue: "Team Name",
-      columnClass: "image-column",
-      key: "name"
-    },{
-      headerValue: "W",
-      columnClass: "data-column",
-      isNumericType: true,
-      key: "w"
-    },{
-      headerValue: "L",
-      columnClass: "data-column",
-      isNumericType: true,
-      key: "l"
-    },{
-      headerValue: "PCT",
-      columnClass: "data-column",
-      isNumericType: true,
-      sortDirection: -1, //descending
-      key: "pct"
-    },{
-      headerValue: "GB",
-      columnClass: "data-column",
-      isNumericType: true,
-      key: "gb"
-    },{
-      headerValue: "RS",
-      columnClass: "data-column",
-      isNumericType: true,
-      key: "rs"
-    },{
-      headerValue: "RA",
-      columnClass: "data-column",
-      isNumericType: true,
-      key: "ra"
-    },{
-      headerValue: "STRK",
-      columnClass: "data-column",
-      isNumericType: true,
-      key: "strk"
-    }];
+  public carouselData: Array<SchedulesCarouselInput> = [];
+  @Input() data;// the data to display is inputed through this variable
+  @Input() tabs;// the tab data gets inputed through here to display all tabs
+
+  @Output("tabSelected") tabSelectedListener = new EventEmitter();
 
   setSelectedCarouselIndex() {
 
@@ -77,10 +42,14 @@ export class SchedulesComponent implements DoCheck{
 
   updateCarousel(sortedRows?) {
 
+
   }
-  constructor() {} //constructor ENDS
-  ngDoCheck() {} //ngDoCheck ENDS
+  constructor() {
+  } //constructor ENDS
+
   ngOnInit(){
+    // console.log('tabs tabs',this.tabs);
+    // console.log('tabs Data',this.data);
     this.carouselData = [{
       displayNext:'Next Game:',
       displayTime:'[DOW] [Month] [dd], [yyyy] | [Time] [AM/PM] [Zone]',
