@@ -27,7 +27,6 @@ export class ListOfListsModule{
   footerData: Object;
 
   constructor(private _router: Router) {
-    console.log("phd",this.profileHeaderData);
     this.footerData = {
       infoDesc:'Want to see more lists like the ones above?',
       btn:'',
