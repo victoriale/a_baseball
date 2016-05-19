@@ -1,7 +1,7 @@
-import {Component, Input, OnInit, EventEmitter, ViewChild} from 'angular2/core';
+import {Component, Input, OnInit, OnChanges, ViewChild, AfterViewChecked} from 'angular2/core';
 declare var jQuery: any;
 
-interface ComparisonBarInput {
+export interface ComparisonBarInput {
     data: Array<{
         dataOne: number;
         dataTwo: number;
@@ -10,24 +10,23 @@ interface ComparisonBarInput {
     title: string;
     colorOne: string;
     colorTwo: string;
-    background: string;
 }
 
 @Component({
     selector: 'comparison-bar',
-    templateUrl: './app/components/comparison-bar/comparison-bar.component.html',
-    directives:[],
-    providers: []
+    templateUrl: './app/components/comparison-bar/comparison-bar.component.html'
 })
 
-export class ComparisonBar{
+export class ComparisonBar implements OnChanges, AfterViewChecked {
     //Pull in DOM Elements
     @ViewChild('labelOne') labelOne;
     @ViewChild('labelTwo') labelTwo;
     @ViewChild('masterBar') masterBar;
 
     @Input() comparisonBarInput: ComparisonBarInput;
+    @Input() index: number;
     @Input() dataIndex: number;
+    
     public displayData: any;
 
     ngOnChanges(event){

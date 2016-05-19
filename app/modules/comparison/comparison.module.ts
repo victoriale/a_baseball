@@ -1,39 +1,65 @@
-import {Component, Input, Output, OnInit, EventEmitter} from 'angular2/core';
+import {Component, Input, Output, OnInit, EventEmitter, OnChanges} from 'angular2/core';
 import {ModuleHeader} from '../../components/module-header/module-header.component';
-import {ComparisonTile} from '../../components/comparison-tile/comparison-tile.component';
-import {ComparisonBar} from '../../components/comparison-bar/comparison-bar.component'
-import {ComparisonLegend} from '../../components/comparison-legend/comparison-legend.component';
+import {ComparisonTile, ComparisonTileInput} from '../../components/comparison-tile/comparison-tile.component';
+import {ComparisonBar, ComparisonBarInput} from '../../components/comparison-bar/comparison-bar.component'
+import {ComparisonLegend, ComparisonLegendInput} from '../../components/comparison-legend/comparison-legend.component';
+import {Tabs} from '../../components/tabs/tabs.component';
+import {Tab} from '../../components/tabs/tab.component';
+
+import {GlobalSettings} from '../../global/global-settings';
+import {GlobalFunctions} from '../../global/global-functions';
+import {MLBPageParameters} from '../../global/global-interface';
+import {ComparisonStatsData, PlayerData, TeamData} from '../../services/comparison-stats.service';
+import {Gradient} from '../../global/global-gradient'
+
+export interface ComparisonTabData {
+    tabTitle: string;
+    barData: Array<ComparisonBarInput>;
+    isActive: boolean;
+}
 
 @Component({
     selector: 'comparison-module',
     templateUrl: './app/modules/comparison/comparison.module.html',
-    directives:[ModuleHeader, ComparisonTile, ComparisonBar, ComparisonLegend],
-    providers: []
+    directives:[ModuleHeader, ComparisonTile, ComparisonBar, ComparisonLegend, Tabs, Tab]
 })
 
-export class ComparisonModule implements OnInit{
+export class ComparisonModule implements OnInit, OnChanges {    
+    @Input() teamList: Array<{key: string, value: string}>;
+    
+    @Input() data: ComparisonStatsData;
+    
+    public gradient: any;
+    
     public moduleHeaderData: Object = {
         moduleTitle: 'Comparison vs. Competition - [Batter Name]',
         hasIcon: false,
         iconClass: ''
     };
-    public comparisonLegendData: Object = {
+    
+    public comparisonLegendData: ComparisonLegendInput = {
         legendTitle: [
             {
-                text: '2016 Season',
+                text: '[YYYY] Season',
                 class: 'text-heavy'
             },
             {
                 text: ' Breakdown',
-                class: ''
             }
         ],
-        titleOne: '[Batter Name 1]',
-        colorOne: '#3098FF',
-        titleTwo: '[Batter Name 2]',
-        colorTwo: '#FF2232'
+        legendValues: [
+            {
+                title: '[Batter Name 1]',
+                color: '#3098FF'
+            },
+            {
+                title: '[Batter Name 2]',
+                color: '#FF2232'
+            }
+        ]
     };
-    public comparisonBarData: Array<Object> = [
+    
+    public comparisonBarData: Array<ComparisonBarInput> = [
         {
             title: 'Home Runs',
             data: [
@@ -54,8 +80,7 @@ export class ComparisonModule implements OnInit{
                 }
             ],
             colorOne: '#3098FF',
-            colorTwo: '#FF2232',
-            background: 0
+            colorTwo: '#FF2232'
         },
         {
             title: 'Batting Average',
@@ -77,8 +102,7 @@ export class ComparisonModule implements OnInit{
                 }
             ],
             colorOne: '#3098FF',
-            colorTwo: '#FF2232',
-            background: 1
+            colorTwo: '#FF2232'
         },
         {
             title: 'RBIS',
@@ -100,8 +124,7 @@ export class ComparisonModule implements OnInit{
                 }
             ],
             colorOne: '#3098FF',
-            colorTwo: '#FF2232',
-            background: 0
+            colorTwo: '#FF2232'
         },
         {
             title: 'Hits',
@@ -123,8 +146,7 @@ export class ComparisonModule implements OnInit{
                 }
             ],
             colorOne: '#3098FF',
-            colorTwo: '#FF2232',
-            background: 1
+            colorTwo: '#FF2232'
         },
         {
             title: 'Walks',
@@ -146,8 +168,7 @@ export class ComparisonModule implements OnInit{
                 }
             ],
             colorOne: '#3098FF',
-            colorTwo: '#FF2232',
-            background: 0
+            colorTwo: '#FF2232'
         },
         {
             title: 'On Base Percentage',
@@ -169,8 +190,7 @@ export class ComparisonModule implements OnInit{
                 }
             ],
             colorOne: '#3098FF',
-            colorTwo: '#FF2232',
-            background: 1
+            colorTwo: '#FF2232'
         },
         {
             title: 'Doubles',
@@ -192,8 +212,7 @@ export class ComparisonModule implements OnInit{
                 }
             ],
             colorOne: '#3098FF',
-            colorTwo: '#FF2232',
-            background: 0
+            colorTwo: '#FF2232'
         },
         {
             title: 'Triples',
@@ -215,160 +234,150 @@ export class ComparisonModule implements OnInit{
                 }
             ],
             colorOne: '#3098FF',
-            colorTwo: '#FF2232',
-            background: 1
+            colorTwo: '#FF2232'
         }
     ];
+    
     public dataIndex: number = 0;
 
-    public comparisonTileDataOne: Object = {
-        dropdownOne: [
-            'Team Profile',
-            'Player Profile'
-        ],
-        dropdownTwo: [
-            'Lutz',
-            'Larry'
-        ],
-        imageConfig: {
-            imageClass: "image-180",
-            mainImage: {
-                imageUrl: "./app/public/placeholder-location.jpg",
-                urlRouteArray: ['Disclaimer-page'],
-                hoverText: "<p>View</p><p>Profile</p>",
-                imageClass: "border-large"
-            },
-            subImages: [
-                {
-                    imageUrl: "./app/public/placeholder-location.jpg",
-                    urlRouteArray: ['Disclaimer-page'],
-                    hoverText: "<i class='fa fa-mail-forward'></i>",
-                    imageClass: "image-50-sub image-round-lower-right"
-                },
-                {
-                    text: "#12",
-                    imageClass: "image-48-rank image-round-upper-left image-round-sub-text"
-                }
-            ],
-        },
-        title: 'Lutz',
-        description: [
+    public comparisonTileDataOne: ComparisonTileInput;
+    
+    public comparisonTileDataTwo: ComparisonTileInput;
+    
+    tabs: Array<ComparisonTabData> = [
             {
-                text: 'Position: ',
-                class: ''
+                tabTitle: "Current Season",
+                barData: this.comparisonBarData,
+                isActive: true
             },
             {
-                text: 'RF',
-                class: 'text-heavy'
+                tabTitle: "[YYYY]",
+                barData: this.comparisonBarData,
+                isActive: false
             },
             {
-                text: ' | Team: ',
-                class: ''
-            },
-            {
-                text: '[Team Name 1]',
-                class: 'text-heavy'
+                tabTitle: "Career Stats",
+                barData: this.comparisonBarData,
+                isActive: false
             }
-        ],
-        data: [
-            {
-                data: '6\'1"',
-                key: 'Height'
-            },
-            {
-                data: '180lbs',
-                key: 'Weight'
-            },
-            {
-                data: '25',
-                key: 'Age'
-            },
-            {
-                data: '?',
-                key: 'Season'
-            },
-        ]
-    };
-    public comparisonTileDataTwo: Object = {
-        dropdownOne: [
-            'Team Profile',
-            'Player Profile'
-        ],
-        dropdownTwo: [
-            'Lutz',
-            'Larry'
-        ],
-        imageConfig: {
-            imageClass: "image-180",
-            mainImage: {
-                imageUrl: "./app/public/placeholder-location.jpg",
-                urlRouteArray: ['Disclaimer-page'],
-                hoverText: "<p>View</p><p>Profile</p>",
-                imageClass: "border-large"
-            },
-            subImages: [
-                {
-                    imageUrl: "./app/public/placeholder-location.jpg",
-                    urlRouteArray: ['Disclaimer-page'],
-                    hoverText: "<i class='fa fa-mail-forward'></i>",
-                    imageClass: "image-50-sub image-round-lower-right"
-                },
-                {
-                    text: "#32",
-                    imageClass: "image-48-rank image-round-upper-left image-round-sub-text"
-                }
-            ],
-        },
-        title: 'Larry',
-        description: [
-            {
-                text: 'Position: ',
-                class: ''
-            },
-            {
-                text: 'RF',
-                class: 'text-heavy'
-            },
-            {
-                text: ' | Team: ',
-                class: ''
-            },
-            {
-                text: '[Team Name 2]',
-                class: 'text-heavy'
-            }
-        ],
-        data: [
-            {
-                data: '4\'10"',
-                key: 'Height'
-            },
-            {
-                data: '90lbs',
-                key: 'Weight'
-            },
-            {
-                data: '12',
-                key: 'Age'
-            },
-            {
-                data: '?',
-                key: 'Season'
-            },
-        ]
-    };
-
-    dataOne(){
-        this.dataIndex = 0;
-    }
-    dataTwo(){
-        this.dataIndex = 1;
-    }
-    dataThree(){
-        this.dataIndex = 2;
-    }
+        ];
 
     ngOnInit(){
-
+    }
+    
+    ngOnChanges() {
+        if ( this.data && this.tabs ) {
+            var selectedSeason = "2016";
+            this.formatData(this.data, selectedSeason);
+        }
+    }
+    
+    //TODO-CJP: think about passing of data
+    formatData(data: ComparisonStatsData, selectedSeason: string) {
+        
+        this.comparisonLegendData = {
+            legendTitle: [
+                {
+                    text: selectedSeason + ' Season',
+                    class: 'text-heavy'
+                },
+                {
+                    text: ' Breakdown',
+                }
+            ],
+            legendValues: [
+                {
+                    title: "Stat High",
+                    color: "#e1e1e1"
+                },
+                {
+                    title: data.playerTwo.playerName,
+                    color: data.playerTwo.teamColors[0]
+                },
+                {
+                    title: data.playerOne.playerName,
+                    color: data.playerOne.teamColors[0]
+                }
+            ]
+        }; 
+        
+        this.comparisonTileDataOne = this.setupTile(data.playerOne);
+        this.comparisonTileDataTwo = this.setupTile(data.playerTwo);        
+        this.gradient = Gradient.getGradientStyles([data.playerOne.teamColors[0], data.playerTwo.teamColors[0]], 1);
+        this.tabs[0].barData = data.bars;
+    }
+    
+    setupTile(player: PlayerData): ComparisonTileInput {
+        var listOfTeams = [ //TODO
+            'Team Profile'
+        ];
+        var listOfPlayers = [ //TODO
+            'Player Profile'
+        ];
+        return {
+            dropdownOneKey: player.teamId,
+            dropdownTwoKey: player.playerId,
+            imageConfig: {
+                imageClass: "image-180",
+                mainImage: {
+                    imageUrl: GlobalSettings.getImageUrl(player.playerHeadshot),
+                    urlRouteArray: ['Disclaimer-page'],
+                    hoverText: "<p>View</p><p>Profile</p>",
+                    imageClass: "border-large"
+                },
+                subImages: [
+                    {
+                        imageUrl: GlobalSettings.getImageUrl(player.teamLogo),
+                        urlRouteArray: ['Disclaimer-page'],
+                        hoverText: "<i class='fa fa-mail-forward'></i>",
+                        imageClass: "image-50-sub image-round-lower-right"
+                    },
+                    {
+                        text: "#" + player.uniformNumber,
+                        imageClass: "image-48-rank image-round-upper-left image-round-sub-text"
+                    }
+                ],
+            },
+            title: player.playerName,
+            description: [
+                {
+                    text: 'Position: '
+                },
+                {
+                    text: player.position,
+                    class: 'text-heavy'
+                },
+                {
+                    text: ' | Team: ', //TODO: differently
+                    class: ''
+                },
+                {
+                    text: player.teamName,
+                    class: 'text-heavy'
+                }
+            ],
+            data: [
+                {
+                    data: player.height.split("-").join("'") + "\"",
+                    key: 'Height'
+                },
+                {
+                    data: player.weight + 'lbs',
+                    key: 'Weight'
+                },
+                {
+                    data: player.age.toString(),
+                    key: 'Age'
+                },
+                {
+                    data: player.yearsExperience + GlobalFunctions.Suffix(player.yearsExperience),
+                    key: 'Season'
+                },
+            ]
+        }
+    }
+    
+    tabSelected(tabTitle) {
+        
     }
 }
