@@ -97,7 +97,7 @@ export class ListPageService {
     var tabArray = [
       {
         tabData:'batter-home-runs',
-        tabDisplay: 'Runs',
+        tabDisplay: 'Home Runs',
       },
       {
         tabData:'batter-batting-average',
