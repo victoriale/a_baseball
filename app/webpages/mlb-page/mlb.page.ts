@@ -2,16 +2,21 @@ import {Component, OnInit} from 'angular2/core';
 
 import {AboutUsModule} from '../../modules/about-us/about-us.module';
 import {LikeUs} from "../../modules/likeus/likeus.module";
-import {DYKModule} from "../../modules/dyk/dyk.module";
-import {FAQModule} from "../../modules/faq/faq.module";
 import {TwitterModule} from "../../modules/twitter/twitter.module";
 import {ComparisonModule} from '../../modules/comparison/comparison.module';
 import {ShareModule, ShareModuleInput} from '../../modules/share/share.module';
 import {CommentModule} from '../../modules/comment/comment.module';
 
+import {DYKModule, dykModuleData} from "../../modules/dyk/dyk.module";
+import {DykService} from '../../services/dyk.service';
+
+import {FAQModule, faqModuleData} from "../../modules/faq/faq.module";
+import {FaqService} from '../../services/faq.service';
+
 import {StandingsModule, StandingsModuleData} from '../../modules/standings/standings.module';
 import {MLBStandingsTabData} from '../../services/standings.data';
 import {StandingsService} from '../../services/standings.service';
+
 import {SchedulesModule} from '../../modules/schedules/schedules.module';
 import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
 import {MVPModule} from '../../modules/mvp/mvp.module';
@@ -56,7 +61,9 @@ import {ImagesMedia} from "../../components/carousels/images-media-carousel/imag
         StandingsService,
         ProfileHeaderService,
         ImagesService,
-        NewsService
+        NewsService,
+        FaqService,
+        DykService
       ]
 })
 
@@ -80,11 +87,14 @@ export class MLBPage implements OnInit {
     profileName:string;
     listMax:number = 10;
     newsDataArray: Array<Object>;
-
+    faqData: Array<faqModuleData>;
+    dykData: Array<dykModuleData>;
     constructor(private _standingsService:StandingsService,
                 private _profileService:ProfileHeaderService,
                 private _imagesService:ImagesService,
                 private _newsService: NewsService,
+                private _faqService: FaqService,
+                private _dykService: DykService,
                 private listService:ListPageService) {
         this.batterParams = { //Initial load for mvp Data
             profile: 'player',
@@ -120,13 +130,39 @@ export class MLBPage implements OnInit {
                 this.setupShareModule();
                 this.getImages(this.imageData);
                 this.getNewsService();
+                this.getFaqService(this.profileType);
+                this.getDykService(this.profileType);
             },
             err => {
                 console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
             }
         );
     }
+    private getDykService(profileType) {
+      this.isProfilePage = true;
+      this.profileType = 'league';
+      this.profileName = "MLB";
+      this._dykService.getDykService(this.profileType)
+          .subscribe(data => {
+                  this.dykData = data;
+              },
+              err => {
+                  console.log("Error getting did you know data");
+              });
+  }
 
+    private getFaqService(profileType) {
+      this.isProfilePage = true;
+      this.profileType = 'league';
+      this.profileName = "MLB";
+      this._faqService.getFaqService(this.profileType)
+          .subscribe(data => {
+                  this.faqData = data;
+              },
+              err => {
+                  console.log("Error getting faq data");
+              });
+   }
     private getNewsService() {
         this.isProfilePage = true;
         this.profileType = 'league';

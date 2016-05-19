@@ -15,7 +15,10 @@ export class DykService {
   getDykService(profile, id?){
     var headers = this.setToken();
     var fullUrl = this._apiUrl;
-    fullUrl += "/"+profile+"/didYouKnow/" + id;
+    fullUrl += "/"+profile+"/didYouKnow";
+    if(id !== undefined){
+      fullUrl += "/" + id;
+    }
     return this.http.get( fullUrl, {
         headers: headers
       })
