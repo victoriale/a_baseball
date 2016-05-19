@@ -25,12 +25,9 @@ export class ImagesService {
     };
 
     getImages(profileType, profileId?) {
-        var baseUrl = GlobalSettings.getApiUrl() + "/" + profileType.toLowerCase() + "/imagesAndMedia/";
-        var fullUrl;
-        if (profileId != 'undefined') {
-            fullUrl = baseUrl + profileId;
-        } else {
-            fullUrl = baseUrl;
+        var fullUrl = GlobalSettings.getApiUrl() + "/" + profileType.toLowerCase() + "/imagesAndMedia";
+        if (profileId !== undefined) {
+            fullUrl += "/" + profileId;
         }
         if (this.partnerID == null) {
             return this.http.get(fullUrl)
