@@ -321,7 +321,7 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
         break;
       
       case "era": 
-        s = item.pitchEra != null ? item.pitchEra.toPrecision(3) : null;
+        s = item.pitchEra != null ? item.pitchEra.toFixed(2) : null;
         break;
         
       case "pbb": 
@@ -329,7 +329,7 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
         break;
       
       case "whip": 
-        s = item.whip != null ? item.whip.toPrecision(3) : null;
+        s = item.whip != null ? item.whip.toFixed(2) : null;
         break;
       
       case "sv": 
