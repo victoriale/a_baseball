@@ -16,7 +16,10 @@ export class FaqService {
   getFaqService(profile, id?){
     var headers = this.setToken();
     var fullUrl = this._apiUrl;
-    fullUrl += "/"+profile+"/faq/"+id;
+    fullUrl += "/"+profile+"/faq";
+    if(id !== undefined){
+      fullUrl += "/" + id;
+    }
     return this.http.get( fullUrl, {
         headers: headers
       })
