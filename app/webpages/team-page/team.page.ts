@@ -260,21 +260,15 @@ export class TeamPage implements OnInit {
   }
 
   private playerStatsTabSelected(tab: MLBPlayerStatsTableData) {
-    this._playerStatsService.getTabData(tab, this.pageParams, 4)//only show 4 rows in the module
-      .subscribe(data => {
-        tab.seasonTableData[tab.selectedSeasonId] = data;
-        tab.tableData = data;
-      },
-      err => {
-        console.log("Error getting player stats data");
-      });
-    }
+    tab.isLoaded = false;
+    this._playerStatsService.getTabData(tab, this.pageParams, data => {}, 4) //only show 4 rows in the module
+  }
 
     private setupShareModule() {
         let profileHeaderData = this.profileHeaderData;
         let imageUrl = typeof profileHeaderData.profileImageUrl === 'undefined' || profileHeaderData.profileImageUrl === null ? GlobalSettings.getImageUrl('/mlb/players/no-image.png') : profileHeaderData.profileImageUrl;
         let shareText = typeof profileHeaderData.profileName === 'undefined' || profileHeaderData.profileName === null ? 'Share This Profile Below' : 'Share ' + profileHeaderData.profileName + '\'s Profile Below:';
-
+        
         this.shareModuleInput = {
             imageUrl: imageUrl,
             shareText: shareText

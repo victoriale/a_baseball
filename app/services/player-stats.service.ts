@@ -6,7 +6,6 @@ import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
 import {GlobalSettings} from '../global/global-settings';
 import {PlayerStatsData, MLBPlayerStatsTableData, MLBPlayerStatsTableModel} from './player-stats.data';
-import {StatsTableTabData} from '../components/player-stats/player-stats.component';
 
 declare var moment: any;
 
@@ -39,35 +38,49 @@ export class PlayerStatsService {
     };
   }
 
-  getTabData(standingsTab: MLBPlayerStatsTableData, pageParams: MLBPageParameters, maxRows?: number): Observable<MLBPlayerStatsTableModel> {    
+  getTabData(standingsTab: MLBPlayerStatsTableData, pageParams: MLBPageParameters, tabDataLoaded: Function, maxRows?: number) {    
     var hasData = false;
     if ( standingsTab ) {
       var table = standingsTab.seasonTableData[standingsTab.selectedSeasonId];
       if ( table ) {     
-        return Observable.of(table);
+        standingsTab.isLoaded = true;
+        standingsTab.tableData = table;
+        return;
       }
     }    
+    
+    standingsTab.isLoaded = false;
+    standingsTab.tableData = null;
     
     var tabName = standingsTab.isPitcherTable ? "pitchers" : "batters";
     let url = this._apiUrl + "/team/seasonStats/" + pageParams.teamId + "/" + tabName + "/" + standingsTab.selectedSeasonId;    
 
-    return this.http.get(url)
+    this.http.get(url)
         .map(res => res.json())
-        .map(data => this.setupTableData(standingsTab, pageParams, data.data, maxRows));    
+        .map(data => this.setupTableData(standingsTab, pageParams, data.data, maxRows))
+        .subscribe(data => { 
+          standingsTab.isLoaded = true;
+          standingsTab.seasonTableData[standingsTab.selectedSeasonId] = data;
+          standingsTab.tableData = data;
+          tabDataLoaded(data);
+        },
+        err => {
+          console.log("Error getting player stats data");
+          standingsTab.hasError = true;
+        });;    
   }
   
   initializeAllTabs(pageParams: MLBPageParameters): Array<MLBPlayerStatsTableData> {
     let tabs: Array<MLBPlayerStatsTableData> = [];
     
-    tabs.push(new MLBPlayerStatsTableData("Batting", false, true)); //isPitcher = false, isActive = true
-    tabs.push(new MLBPlayerStatsTableData("Pitching", true, false)); //isPitcher = true, isActive = false
+    tabs.push(new MLBPlayerStatsTableData(pageParams.teamName, "Batting", false, true)); //isPitcher = false, isActive = true
+    tabs.push(new MLBPlayerStatsTableData(pageParams.teamName, "Pitching", true, false)); //isPitcher = true, isActive = false
     
     return tabs;
   }
 
   private setupTableData(standingsTab: MLBPlayerStatsTableData, pageParams: MLBPageParameters, data: Array<PlayerStatsData>, maxRows?: number): MLBPlayerStatsTableModel {
-    var tableName = "<span class='text-heavy'>" + pageParams.teamName + "</span> " + standingsTab.tabTitle + " Stats";  
-    let table = new MLBPlayerStatsTableModel(tableName, data, standingsTab.isPitcherTable);;    
+    let table = new MLBPlayerStatsTableModel(data, standingsTab.isPitcherTable);;    
     //Limit to maxRows, if necessary
     if ( maxRows !== undefined ) {
       table.rows = table.rows.slice(0, maxRows);
@@ -87,6 +100,9 @@ export class PlayerStatsService {
       value.pitchEra = value.pitchEra != null ? Number(value.pitchEra) : undefined;
       value.whip = value.whip != null ? Number(value.whip) : undefined;
     });
+    
+    standingsTab.isLoaded = true;
+    standingsTab.hasError = false;
     
     return table;
   }

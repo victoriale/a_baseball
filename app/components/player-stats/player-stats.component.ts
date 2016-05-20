@@ -6,10 +6,13 @@ import {Tab} from '../tabs/tab.component';
 import {CustomTable} from '../custom-table/custom-table.component';
 import {TableModel, TableColumn, TableRow, TableCell} from '../custom-table/table-data.component';
 import {DropdownComponent} from '../../components/dropdown/dropdown.component';
+import {LoadingComponent} from '../../components/loading/loading.component';
 
 export interface StatsTableTabData<T> {
   tabTitle: string;
   isActive: boolean;
+  isLoaded: boolean;  
+  hasError: boolean;
   tableData: TableModel<T>;
   seasonIds: Array<{key: string, value: string}>;
   glossary: Array<{key: string, value: string}>;
@@ -20,7 +23,7 @@ export interface StatsTableTabData<T> {
 @Component({
   selector: "player-stats-component",
   templateUrl: "./app/components/player-stats/player-stats.component.html",
-  directives: [SliderCarousel, Tabs, Tab, CustomTable, DropdownComponent],
+  directives: [SliderCarousel, Tabs, Tab, CustomTable, DropdownComponent, LoadingComponent],
 })
 export class PlayerStatsComponent implements DoCheck {  
   public selectedIndex;
@@ -52,7 +55,7 @@ export class PlayerStatsComponent implements DoCheck {
       }
       else {
         for ( var i = 0; i < this.tabs.length; i++ ) {
-          if ( this.tabs[i].tableData && !this.tabsLoaded[i] ) {
+          if ( this.tabs[i].isLoaded && !this.tabsLoaded[i] ) {
             this.updateCarousel();
             this.tabsLoaded[i] = "1";
           }
@@ -83,6 +86,7 @@ export class PlayerStatsComponent implements DoCheck {
   
   tabSelected(newTitle) {
     this.selectedTabTitle = newTitle;
+    // this.getSelectedTab().isLoaded = false;
     this.tabSelectedListener.next(this.getSelectedTab());
     this.updateCarousel();
   }

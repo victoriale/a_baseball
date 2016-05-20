@@ -47,13 +47,14 @@ export interface PlayerStatsData {
   fullBackgroundImageUrl?: string;
 }
 
-// export class PlayerStatsSeasonData {
-//   seasonId: string;
-//   rows: Array<PlayerStatsData>
-// }
-
 export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsData> {  
   tabTitle: string;
+  
+  tableName: string;
+  
+  isLoaded: boolean;
+  
+  hasError: boolean; 
   
   tableData: TableModel<PlayerStatsData>;
   
@@ -69,8 +70,9 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
   
   selectedSeasonId: string;
   
-  constructor(tabName: string, isPitcherTable: boolean, isActive: boolean) {
-    this.tabTitle = tabName;
+  constructor(teamName: string, tabName: string, isPitcherTable: boolean, isActive: boolean) {
+    this.tabTitle = tabName;    
+    this.tableName = "<span class='text-heavy'>" + teamName + "</span> " + tabName + " Stats";  
     this.isActive = isActive;
     this.isPitcherTable = isPitcherTable;
     if ( this.isPitcherTable ) {
@@ -152,9 +154,7 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
   }
 }
 
-export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
-  tableName: string;
-  
+export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {  
   columns: Array<TableColumn>;
   
   rows: Array<PlayerStatsData>;
@@ -163,8 +163,7 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
   
   isPitcher: boolean;
   
-  constructor(title:string, rows: Array<PlayerStatsData>, isPitcher: boolean) {
-    this.tableName = title;
+  constructor(rows: Array<PlayerStatsData>, isPitcher: boolean) {
     this.rows = rows;
     if ( this.rows === undefined || this.rows === null ) {
       this.rows = [];
