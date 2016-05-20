@@ -1,4 +1,4 @@
-.flippy-tile {
+.flpy {
   width: 180px;
   height: 570px;
   position: absolute;
@@ -16,13 +16,13 @@
     .perspective(1000);
     margin-bottom: 15px;
     
-    &:hover .flippy-tile-front,
-    &.hover .flippy-tile-front {
+    &:hover .flpy-front,
+    &.hover .flpy-front {
       .transformPrefixes(rotateY(180deg));
     }
     
-    &:hover .flippy-tile-back,
-    &.hover .flippy-tile-back {
+    &:hover .flpy-back,
+    &.hover .flpy-back {
       .transformPrefixes(rotateY(0deg));
     }
   }
@@ -61,37 +61,62 @@
     .transformPrefixes(rotateY(0deg));
     z-index: 2;
     text-align: center;
-    i {
-      margin-top: 40px;
+    padding-top: 40px;
+    
+    &-icon {
       font-size: 48px;
       color: @white;
-      .backfaceVisibility(hidden);
+      margin-bottom: 18px;
+      // .backfaceVisibility(hidden);
     }
-    p {
-      margin-top: 20px;
-      line-height: 26px;
-      width: 150px;
+    
+    &-title {
+      margin: 0;
       .globalDefaultModFont(22px, 400, @white);
     }
-  }//tile-front ends
+  }
   
   &-back {
-    .flexAlignItems(flex-start);
-    padding: 10px;
+    .flexJustify(space-between);
+    padding: 10px 10px 20px 10px;
     .transformPrefixes(rotateY(-180deg));
+    
     &-title {
-      .globalDefaultModFont(20px, 400, @white);
-      width: 150px;
+      margin: 0 0 8px 0;
+      .globalDefaultModFont(18px, 400, @white);
+      .fa {
+        padding-right: 4px;
+      }
     }
+    
     &-desc {
-      display: inline-block;
-      margin-top: 10px;
+      margin: 0px;
       .globalDefaultModFont(12px, 400, @white);
-      line-height: 12px;
-      // text-align: justify;
+      line-height: 14px;
+      text-align: justify;
     }
+    
+    &-bottom {
+      text-align: center;
+    }
+    
     &-btn {
-      .tile-btn;
+      .flexDisplay;
+      .flexJustify(center);
+      .flexAlignItems(center);
+      width: 140px;
+      height: 35px;
+      margin: auto;
+      .globalDefaultModFont(12px, 800, @white);
+      
+      border: 1px solid @masterBrandColor;
+      background-color: @masterBrandColor;
+      .borderRadiusPrefix(2px);
+      
+      .fa {
+        margin-left: 8px;
+        font-weight: 400;
+      }
     }
-  }//tile-back ends
+  }
 }
