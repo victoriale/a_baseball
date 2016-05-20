@@ -36,7 +36,7 @@ export class PlayerStatsModule implements OnChanges {
 
   public footerInfo: ModuleFooterData = {
     infoDesc: "Want to see more player statistics?",
-    text: "VIEW FULL STANDINGS",
+    text: "VIEW FULL STATISTICS",
     url: ['Player-stats-page']
   };
   
