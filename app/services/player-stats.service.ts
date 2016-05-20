@@ -84,6 +84,7 @@ export class PlayerStatsService {
       value.batSluggingPercentage = value.batSluggingPercentage != null ? Number(value.batSluggingPercentage) : undefined;
       value.batOnBasePercentage = value.batOnBasePercentage != null ? Number(value.batOnBasePercentage) : undefined;
       value.pitchEra = value.pitchEra != null ? Number(value.pitchEra) : undefined;
+      value.whip = value.whip != null ? Number(value.whip) : undefined;
     });
     
     return table;

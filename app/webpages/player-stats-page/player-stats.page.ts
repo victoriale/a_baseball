@@ -47,6 +47,9 @@ export class PlayerStatsPage implements OnInit {
     if ( teamId !== null && teamId !== undefined ) {
       this.pageParams.teamId = Number(teamId);
     }
+      
+    // Scroll page to top to fix routerLink bug
+    window.scrollTo(0, 0);
   }
   
   ngOnInit() {    
