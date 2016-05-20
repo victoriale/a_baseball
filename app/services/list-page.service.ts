@@ -171,7 +171,6 @@ export class ListPageService {
 
     var carData = data.listData;
     var carInfo = data.listInfo;
-    console.log(data);
     if(carData.length == 0){
       var Carousel = {// dummy data if empty array is sent back
         index:'2',
