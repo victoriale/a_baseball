@@ -229,7 +229,7 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
       },{
         headerValue: "BA",
         columnClass: "data-column",
-        sortDirection: 1, //ascending
+        sortDirection: -1, //descending
         isNumericType: true,
         key: "ba"
       },{
