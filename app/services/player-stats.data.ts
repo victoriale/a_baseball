@@ -31,7 +31,7 @@ export interface PlayerStatsData {
   pitchStrikeouts: string;
   pitchInningsPitched: string;
   pitchBasesOnBalls: string;
-  pitchWhip: string;
+  whip: number;
   pitchSaves: string;
   
   /**
@@ -321,7 +321,7 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
         break;
       
       case "era": 
-        s = item.pitchEra != null ? item.pitchEra.toPrecision(3) : null;
+        s = item.pitchEra != null ? item.pitchEra.toFixed(2) : null;
         break;
         
       case "pbb": 
@@ -329,7 +329,7 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
         break;
       
       case "whip": 
-        s = item.pitchWhip != null ? item.pitchWhip : null;
+        s = item.whip != null ? item.whip.toFixed(2) : null;
         break;
       
       case "sv": 
@@ -398,7 +398,7 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
         break;
       
       case "whip": 
-        o = Number(item.pitchWhip);
+        o = Number(item.whip);
         break;
       
       case "sv": 

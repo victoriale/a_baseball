@@ -1,9 +1,18 @@
 import {Component, OnInit} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
 import {Injectable} from 'angular2/core';
+import {GlobalFunctions} from "../../global/global-functions";
+import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
+import {GlobalSettings} from "../../global/global-settings";
+
+import {HeadlineComponent} from '../../components/headline/headline.component';
 
 import {AboutUsModule} from '../../modules/about-us/about-us.module';
+import {ArticlesModule} from "../../modules/articles/articles.module";
+import {CommentModule} from '../../modules/comment/comment.module';
 import {LikeUs} from "../../modules/likeus/likeus.module";
+import {TwitterModule} from "../../modules/twitter/twitter.module";
+import {ShareModule, ShareModuleInput} from '../../modules/share/share.module';
 
 import {DYKModule, dykModuleData} from "../../modules/dyk/dyk.module";
 import {DykService} from '../../services/dyk.service';
@@ -11,10 +20,9 @@ import {DykService} from '../../services/dyk.service';
 import {FAQModule, faqModuleData} from "../../modules/faq/faq.module";
 import {FaqService} from '../../services/faq.service';
 
-import {TwitterModule} from "../../modules/twitter/twitter.module";
 import {ComparisonModule} from '../../modules/comparison/comparison.module';
-import {CommentModule} from '../../modules/comment/comment.module';
 import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
+
 import {StandingsModule, StandingsModuleData} from '../../modules/standings/standings.module';
 import {MLBStandingsTabData} from '../../services/standings.data';
 import {StandingsService} from '../../services/standings.service';
@@ -28,15 +36,8 @@ import {RosterService} from '../../services/roster.service';
 import {ProfileHeaderData, ProfileHeaderModule} from '../../modules/profile-header/profile-header.module';
 import {ProfileHeaderService} from '../../services/profile-header.service';
 
-import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
-
-import {ShareModule, ShareModuleInput} from '../../modules/share/share.module';
-import {HeadlineComponent} from '../../components/headline/headline.component';
-
 import {NewsModule} from '../../modules/news/news.module';
 import {NewsService} from '../../services/news.service';
-
-import {GlobalSettings} from "../../global/global-settings";
 
 import {PlayerStatsModule, PlayerStatsModuleData} from '../../modules/player-stats/player-stats.module';
 import {PlayerStatsService} from '../../services/player-stats.service'
@@ -45,12 +46,13 @@ import {MLBPlayerStatsTableData} from '../../services/player-stats.data'
 //module | interface | service
 import {DraftHistoryModule} from '../../modules/draft-history/draft-history.module';
 import {DraftHistoryService} from '../../services/draft-history.service';
-import {ArticlesModule} from "../../modules/articles/articles.module";
-import {ImagesService} from "../../services/carousel.service";
+
 import {ImagesMedia} from "../../components/carousels/images-media-carousel/images-media-carousel.component";
-import {GlobalFunctions} from "../../global/global-functions";
-import {ListOfListsService} from "../../services/list-of-lists.service";
+import {ImagesService} from "../../services/carousel.service";
+
 import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.module";
+import {ListOfListsService} from "../../services/list-of-lists.service";
+
 import {TransactionsModule} from "../../modules/transactions/transactions.module";
 import {TransactionsService} from "../../services/transactions.service";
 
@@ -202,7 +204,6 @@ export class TeamPage implements OnInit {
                 });
     }
 
-
     private getNewsService(teamName) {
         this.isProfilePage = true;
         this.profileType = 'team';
@@ -260,7 +261,7 @@ export class TeamPage implements OnInit {
 
   private playerStatsTabSelected(tab: MLBPlayerStatsTableData) {
     this._playerStatsService.getTabData(tab, this.pageParams, 4)//only show 4 rows in the module
-      .subscribe(data => {        
+      .subscribe(data => {
         tab.seasonTableData[tab.selectedSeasonId] = data;
         tab.tableData = data;
       },
