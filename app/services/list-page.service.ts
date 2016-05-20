@@ -167,8 +167,11 @@ export class ListPageService {
     var dummyRoute = ['Error-page'];
     var dummyRank = '##';
 
+    var currentYear = new Date().getFullYear();//TODO FOR POSSIBLE past season stats but for now we have lists for current year season
+
     var carData = data.listData;
     var carInfo = data.listInfo;
+    console.log(data);
     if(carData.length == 0){
       var Carousel = {// dummy data if empty array is sent back
         index:'2',
@@ -201,7 +204,7 @@ export class ListPageService {
               '<p><i class="fa fa-map-marker text-master"></i> '+val.teamCity +', '+val.teamState+'</p>',
               '<br>',
               '<p style="font-size:22px"><b>'+val.stat+'</b></p>',
-              '<p style="font-size:16px"> '+ MLBGlobalFunctions.formatStatName(carInfo.stat) +'</p>',
+              '<p style="font-size:16px"> '+ MLBGlobalFunctions.formatStatName(carInfo.stat)+' for '+ currentYear +'</p>',
             ],
           };
           if(profileType == 'page'){
@@ -234,7 +237,7 @@ export class ListPageService {
               '<p>'+val.teamName+' | #'+val.uniformNumber+' '+position+'</p>',
               '<br>',
               '<p style="font-size:22px"><span class="text-heavy">'+val.stat+'</span></p>',
-              '<p style="font-size:16px"> '+ MLBGlobalFunctions.formatStatName(carInfo.stat) +' for the current season</p>',
+              '<p style="font-size:16px"> '+ MLBGlobalFunctions.formatStatName(carInfo.stat) +' for '+ currentYear+'</p>',
             ],
           };
           if(profileType == 'page'){
@@ -267,6 +270,8 @@ export class ListPageService {
     var dummySubDesc = "[Data Description]";
     var dummySubUrl = ['Disclaimer-page'];
 
+    var currentYear = new Date().getFullYear();//TODO FOR POSSIBLE past season stats but for now we have lists for current year season
+
     var detailData = data.listData;
     var detailInfo = data.listInfo;
     detailData.forEach(function(val, index){
@@ -279,7 +284,7 @@ export class ListPageService {
             (val.stat),
             MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
             "<a>"+val.teamCity +', '+val.teamState + '</a> | Division: <span class="text-heavy text-master">'+ MLBGlobalFunctions.formatShortNameDivison(val.conferenceName) + val['divisionName'].charAt(0).toUpperCase() + "</span>",
-            MLBGlobalFunctions.formatStatName(detailInfo.stat),
+            MLBGlobalFunctions.formatStatName(detailInfo.stat) + ' for ' + currentYear,
             MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),'fa fa-map-marker'),
             imageConfig: self.imageData("image-121","border-2",
             GlobalSettings.getImageUrl(
@@ -303,8 +308,8 @@ export class ListPageService {
             "<a>"+playerFullName+"<a>",
             (val.stat),
             MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId),
-            "<a>"+val.teamName +'</a> | Position: <span class="text-heavy text-master">' + position+ "</span>",
-            MLBGlobalFunctions.formatStatName(detailInfo.stat),
+            "<a>"+val.teamName +'</a> | <span class="text-heavy text-master">#'+val.uniformNumber+' '+position+'</span>',
+            MLBGlobalFunctions.formatStatName(detailInfo.stat) + ' for ' + currentYear,
             MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
             imageConfig: self.imageData(
             "image-121",
