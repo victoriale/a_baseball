@@ -48,8 +48,8 @@ export class SchedulesComponent implements OnInit{
   } //constructor ENDS
 
   ngOnInit(){
-    console.log('tabs tabs',this.tabs);
-    console.log('tabs Data',this.data);
+    // console.log('tabs tabs',this.tabs);
+    // console.log('tabs Data',this.data);
     this.carouselData = [{
       displayNext:'Next Game:',
       displayTime:'[DOW] [Month] [dd], [yyyy] | [Time] [AM/PM] [Zone]',
