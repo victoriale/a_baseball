@@ -13,14 +13,14 @@
   <section class="footer-main col-xs-12">
     <h1>Major League Baseball</h1>
     <ul>
-        <li id="sortCategory">Team Listings </li>
+        <li class="sortCategory">Team Listings </li>
         <li *ngFor="#link of teamDirectoryListings; #isLast=last">
           <a [routerLink]='link.route'>{{link.text}}</a>
           <span *ngIf="!isLast" class="separator">|</span>
         </li>
     </ul>
     <ul>
-        <li id="sortCategory">Player Listings </li>
+        <li class="sortCategory">Player Listings </li>
         <li *ngFor="#link of playerDirectoryListings; #isLast=last">
           <a [routerLink]='link.route'>{{link.text}}</a>
           <span *ngIf="!isLast" class="separator">|</span>
