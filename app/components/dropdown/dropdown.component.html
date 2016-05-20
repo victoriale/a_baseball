@@ -10,10 +10,10 @@
     </span>
   </div>
   
-  <div  *ngIf="isDropdownVisible" class="dropdown-wrapper">        
+  <div *ngIf="isDropdownVisible" class="dropdown-wrapper">        
     <div class="dropdown-caret-top" [class.dropdown-caret-top-hover]="highlightCaret"></div>
-    <scrollable-content class="dropdown-list"
-      [class.dropdown-list-scroll]="list.length > 4">
+    <scrollable-content class="dropdown-list dropdown-list-scroll"
+      [class.dropdown-list-scroll]="list.length > 5">
       <div *ngFor="#item of list; #i=index" 
         class="dropdown-list-option"
         (mouseenter)="onMouseEnter(i)"
