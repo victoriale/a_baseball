@@ -197,18 +197,28 @@ export class MLBGlobalFunctions {
   static formatStatName(stat: string) {
    switch (stat) {
      //pitcher
-     case 'pitcher-innings-pitched': return "Innings pitched";
-     case 'pitcher-strikeouts': return "Strikeouts";
-     case 'pitcher-earned-run-average': return "ERA";
-     case 'pitcher-hits-allowed': return "Hits";
+     case 'pitcher-innings-pitched':
+      return "Innings pitched";
+     case 'pitcher-strikeouts':
+      return "Strikeouts";
+     case 'pitcher-earned-run-average':
+      return "ERA";
+     case 'pitcher-hits-allowed':
+      return "Hits";
 
      //batter
-     case 'batter-home-runs': return "Home runs";
-     case 'batter-batting-average': return "Batting average";
-     case 'batter-runs-batted-in': return "RBIs";
-     case 'batter-hits': return "Hits";
-     case 'batter-bases-on-balls': return "Walks";
+     case 'batter-home-runs':
+      return "Home runs";
+     case 'batter-batting-average':
+      return "Batting average";
+     case 'batter-runs-batted-in':
+        return "RBIs";
+     case 'batter-hits':
+      return "Hits";
+     case 'batter-bases-on-balls':
+      return "Walks";
      default: return GlobalFunctions.toTitleCase(stat.replace(/-/g, ' '));
    }
   }
+
 }
