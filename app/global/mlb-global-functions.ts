@@ -205,6 +205,8 @@ export class MLBGlobalFunctions {
       return "ERA";
      case 'pitcher-hits-allowed':
       return "Hits";
+     case 'batter-stolen-bases':
+      return "Stolen bases";
 
      //batter
      case 'batter-home-runs':
