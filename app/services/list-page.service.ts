@@ -105,7 +105,7 @@ export class ListPageService {
       },
       {
         tabData:'batter-runs-batted-in',
-        tabDisplay: 'Runs Batted In',
+        tabDisplay: 'RBIs',
       },
       {
         tabData:'batter-hits',
@@ -282,9 +282,9 @@ export class ListPageService {
             "<a>"+val.teamName+"</a>",
             (val.stat),
             MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
-            "<a>"+val.teamCity +', '+val.teamState + '</a> | <span class="no-select">Division: <span class="text-heavy text-master">'+ MLBGlobalFunctions.formatShortNameDivison(val.conferenceName) + val['divisionName'].charAt(0).toUpperCase() + "</span></span>",
+            "<a>"+val.teamCity +', '+val.teamState + '</a> | Division: <span class="">'+ MLBGlobalFunctions.formatShortNameDivison(val.conferenceName) + val['divisionName'].charAt(0).toUpperCase() + "</span>",
             MLBGlobalFunctions.formatStatName(detailInfo.stat) + ' for ' + currentYear,
-            MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),'fa fa-map-marker'),
+            '','fa fa-map-marker'),
             imageConfig: self.imageData("image-121","border-2",
             GlobalSettings.getImageUrl(
             val.teamLogo),

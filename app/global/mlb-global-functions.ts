@@ -195,6 +195,7 @@ export class MLBGlobalFunctions {
 
 
   static formatStatName(stat: string) {
+    //coming from backend as a stat in the list info 
    switch (stat) {
      //pitcher
      case 'pitcher-innings-pitched':
@@ -204,9 +205,14 @@ export class MLBGlobalFunctions {
      case 'pitcher-earned-run-average':
       return "ERA";
      case 'pitcher-hits-allowed':
-      return "Hits";
-     case 'batter-stolen-bases':
-      return "Stolen bases";
+      return "Hits Allowed";
+
+     case 'pitcher-bases-on-balls':
+      return "Walks";
+     case 'pitcher-runs-allowed':
+      return "Runs allowed";
+     case 'pitcher-earned-runs':
+      return "Runs earned";
 
      //batter
      case 'batter-home-runs':
@@ -214,11 +220,27 @@ export class MLBGlobalFunctions {
      case 'batter-batting-average':
       return "Batting average";
      case 'batter-runs-batted-in':
-        return "RBIs";
+      return "RBIs";
      case 'batter-hits':
       return "Hits";
      case 'batter-bases-on-balls':
       return "Walks";
+     case 'batter-stolen-bases':
+      return "Stolen bases";
+
+     case 'batter-triples':
+      return "Triples ";
+     case 'batter-strikeouts':
+      return "Strikeouts";
+     case 'batter-singles':
+      return "Singles";
+     case 'batter-runs':
+      return "Runs";
+     case 'batter-on-base-percentage':
+      return "OBP";
+     case 'batter-doubles':
+      return "Doubles";
+
      default: return GlobalFunctions.toTitleCase(stat.replace(/-/g, ' '));
    }
   }
