@@ -5,7 +5,7 @@
     .flexJustify(space-between);
     .flexAlignItems(center);
     background-color: @medDarkGrey;
-    padding: 0 10%;
+    padding: 0 130px;
     img{
       margin: 9px auto;
       height: 42px;
@@ -81,12 +81,8 @@
   }
 }//footer ENDS
 #share-facebook{
-  &:hover{
-    background-color: @greySocialBarHover;
-    border-color: @facebook;
-    color: @facebook;
-  }
-  &:active{
+  &:hover, &:active{
+    border: none;
     background-color: @facebook;
     .fa{
       color: @white;
@@ -94,12 +90,8 @@
   }
 }
 #share-twitter{
-  &:hover{
-    background-color: @greySocialBarHover;
-    border-color: @twitter;
-    color: @twitter;
-  }
-  &:active{
+  &:hover, &:active{
+    border: none;
     background-color: @twitter;
     .fa{
       color: @white;
@@ -107,12 +99,8 @@
   }
 }
 #share-linkedin{
-  &:hover{
-    background-color: @greySocialBarHover;
-    border-color: @linkedin;
-    color: @linkedin;
-  }
-  &:active{
+  &:hover, &:active{
+    border: none;
     background-color: @linkedin;
     .fa{
       color: @white;
@@ -120,12 +108,8 @@
   }
 }
 #share-google{
-  &:hover{
-    background-color: @greySocialBarHover;
-    border-color: @googlePlus;
-    color: @googlePlus;
-  }
-  &:active{
+  &:hover, &:active{
+    border: none;
     background-color: @googlePlus;
     .fa{
       color: @white;
@@ -134,4 +118,8 @@
 }
 #set-width70{
   width: 70%;
+}
+
+#sortCategory{
+  padding-right: 12px;
 }
