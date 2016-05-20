@@ -307,7 +307,7 @@ export class ListPageService {
             "<a>"+playerFullName+"<a>",
             (val.stat),
             MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId),
-            "<a>"+val.teamName +'</a> | <span class="text-heavy text-master">Jersey: #'+val.uniformNumber+' | '+position+'</span>',
+            "<a class='text-master text-heavy'>"+val.teamName +'</a> | <span>Jersey: #'+val.uniformNumber+' | '+position+'</span>',
             MLBGlobalFunctions.formatStatName(detailInfo.stat) + ' for ' + currentYear,
             MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
             imageConfig: self.imageData(
