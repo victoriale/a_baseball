@@ -121,7 +121,7 @@ export class ListOfListsService {
           imageConfig: self.imageData("image-150", "border-large", itemImgUrl , itemRoute,"image-50-sub", itemSubImg, itemSubRoute, itemTargetData.rank, itemHasHover),
           description:[
             '<p class="font-12 fw-400 lh-12 titlecase"><i class="fa fa-circle"></i> Related List - ' + itemProfile + '</p>',
-            '<p class="font-22 fw-900 lh-25" style="padding-bottom:16px;">'+ itemInfo.name +'</p>',
+            '<p class="font-22 fw-800 lh-25" style="padding-bottom:16px;">'+ itemInfo.name +'</p>',
             '<p class="font-14 fw-400 lh-18" style="padding-bottom:6px;">'+ itemDescription +'<p>',
             '<p class="font-10 fw-400 lh-25">Last Updated on '+ updatedDate +'</p>'
           ],
