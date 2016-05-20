@@ -147,7 +147,7 @@ export class GlobalFunctions {
         return def || "";
       }
 
-      var parts = value.toString().split("."); //split on decimal point      
+      var parts = value.toString().split("."); //split on decimal point
       while (/(\d+)(\d{3})/.test(parts[0])){
           parts[0] = parts[0].replace(/(\d+)(\d{3})/, '$1'+','+'$2');
       }
@@ -441,21 +441,39 @@ export class GlobalFunctions {
    * @param {number} num - The number to format
    * @returns
    */
-  static formatNumber(num: number) {
-   switch (num) {
-     case 0: return "zero";
-     case 1: return "one";
-     case 2: return "two";
-     case 3: return "three";
-     case 4: return "four";
-     case 5: return "five";
-     case 6: return "six";
-     case 7: return "seven";
-     case 8: return "eight";
-     case 9: return "nine";
-     default: return num.toString();
+   static formatNumber(num: number) {
+    switch (num) {
+      case 0: return "zero";
+      case 1: return "one";
+      case 2: return "two";
+      case 3: return "three";
+      case 4: return "four";
+      case 5: return "five";
+      case 6: return "six";
+      case 7: return "seven";
+      case 8: return "eight";
+      case 9: return "nine";
+      default: return num.toString();
+    }
    }
-  }
+
+   static formatStatName(stat: string) {
+    switch (stat) {
+      //pitcher
+      case 'pitcher-innings-pitched': return "Innings pitched";
+      case 'pitcher-strikeouts': return "Strikeouts";
+      case 'pitcher-earned-run-average': return "ERA";
+      case 'pitcher-hits-allowed': return "Hits";
+
+      //batter
+      case 'batter-home-runs': return "Home runs";
+      case 'batter-batting-average': return "Batting average";
+      case 'batter-runs-batted-in': return "RBIs";
+      case 'batter-hits': return "Hits";
+      case 'batter-bases-on-balls': return "Walks";
+      default: return GlobalFunctions.toTitleCase(stat.replace(/-/g, ' '));
+    }
+   }
 
   static setupAlphabeticalNavigation(pageType: string): Array<Link> {
     var navigationArray: Array<Link> = [];
