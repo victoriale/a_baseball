@@ -2,7 +2,8 @@
   <!-- check if data is available and/or valid -->
   <div class="scc">
     <!-- slider carousel component placeholder section -->
-    <div *ngIf="backgroundImage" class="scc-placeholder" [ngStyle]="{'background-image': 'url('+backgroundImage+')'}">
+    <div class="scc-placeholder">
+      <img *ngIf="backgroundImage" src="{{backgroundImage}}"  class="scc-slide-background" />
       <!-- slider next/previous buttons -->
       <!-- center section where images and descriptions details display -->
       <div class="scc-details">

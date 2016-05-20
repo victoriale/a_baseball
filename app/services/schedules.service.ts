@@ -5,7 +5,7 @@ import {GlobalFunctions} from '../global/global-functions';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalSettings} from '../global/global-settings';
 import {Conference, Division, MLBPageParameters} from '../global/global-interface';
-
+import {SchedulesCarouselInput} from '../components/carousels/schedules-carousel/schedules-carousel.component';
 import { MLBSchedulesTableModel, MLBSchedulesTableData} from './schedules.data';
 
 
@@ -68,6 +68,7 @@ export class SchedulesService {
   getSchedulesService(profile, id, eventStatus){
   //Configure HTTP Headers
   var headers = this.setToken();
+  var year = new Date().getFullYear();//DEFAULT YEAR DATA TO CURRENT YEAR
   // console.log(profile,id, eventStatus)/
   /*
   http://dev-homerunloyal-api.synapsys.us/team/schedule/2819/pre-event
@@ -88,36 +89,90 @@ export class SchedulesService {
     .map(res => res.json())
     .map(data => {
       return {
-        data:this.setupTableData(eventStatus, data.data, 5),
-        tabs:tabData
+        data:this.setupTableData(eventStatus, year, data.data, 5),
+        tabs:tabData,
+        carData: this.setupCarouselData(data.data, 5),
       };
     })
   }
 
   //rows is the data coming in
-  private setupTableData(eventStatus, rows: Array<any>, maxRows: number) {
-    let groupName = eventStatus;
-    maxRows = 5;  // TODO replace current number
+  private setupTableData(eventStatus, year, rows: Array<any>, maxRows?: number) {
     //Limit to maxRows, if necessary
     if ( maxRows !== undefined ) {
       rows = rows.slice(0, maxRows);
     }
 
-    let tableName = eventStatus;
+    let tableName = this.formatGroupName(year,eventStatus);
     var table = new MLBSchedulesTableModel(rows);
-    return new MLBSchedulesTableData(tableName, table);
+    return new MLBSchedulesTableData(tableName , table);
   }
 
-  private formatGroupName(date): string {
-    var currentDate = new Date();
+  private setupCarouselData(origData, maxRows?: number){
+    // console.log(origData);
+    var carouselData: SchedulesCarouselInput; // set a variable to the interface
+    var carData = [];
+    //Limit to maxRows, if necessary
+    if ( maxRows !== undefined ) {
+      origData = origData.slice(0, maxRows);
+    }
+    origData.forEach(function(val, index){
+      let displayNext = '';
+      if(origData.eventStatus == 'pre-event'){
+        let displayNext = 'Next Game:';
+      }else{
+        let displayNext = 'Previous Game:';
+      }
+      carouselData = {//placeholder data
+        index:index,
+        displayNext: displayNext,
+        displayTime:moment(origData.startDateTime).format('dddd MMMM DDDD, YYYY | h:mm A') + " [ZONE]",
+        detail1Data:'Home Stadium:',
+        detail1Value:"[Stadium's]",
+        detail2Value:'[City], [State]',
+        imageConfig1:{
+          imageClass: "image-125",
+          mainImage: {
+            imageUrl: "./app/public/placeholder-location.jpg",
+            urlRouteArray: ['Disclaimer-page'],
+            hoverText: "<p>View</p><p>Profile</p>",
+            imageClass: "border-large"
+          }
+        },
+        imageConfig2:{
+          imageClass: "image-125",
+          mainImage: {
+            imageUrl: "./app/public/placeholder-location.jpg",
+            urlRouteArray: ['Disclaimer-page'],
+            hoverText: "<p>View</p><p>Profile</p>",
+            imageClass: "border-large"
+          }
+        },
+        teamName1: 'string',
+        teamName2: 'string',
+        teamLocation1:'string',
+        teamLocation2:'string',
+        teamRecord1:'string',
+        teamRecord2:'string',
+      };
+      carData.push(carouselData);
+    });
+    // console.log('returned Data',carData);
 
-    if ( date > currentDate ) {
-      let leagueName = " Upcoming Games";
-      return leagueName;
+    return carData;
+  }
+
+  private formatGroupName(year, eventStatus): string {
+    var currentDate = new Date().getFullYear();
+    let games = "";
+    if ( eventStatus == 'pre-event' ) {
+      games = "<span class='text-heavy>Current Season</span> Upcoming Games";
     }
-    else {
-      let leagueName = " Current Season";
-      return leagueName;
+    else if(year == currentDate){
+      games = "<span class='text-heavy>Current Season</span> Previously Played Games";
+    }else{
+      games = year + " Season";
     }
+    return games;
   }
 }

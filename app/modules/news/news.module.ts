@@ -1,41 +1,38 @@
-import {Component, OnInit, Input} from 'angular2/core';
+import {Component, OnInit, Input, OnChanges} from 'angular2/core';
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 import {NewsCarousel, NewsCarouselInput} from '../../components/carousels/news-carousel/news-carousel.component';
 import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer.component';
-import {NewsService} from '../../services/news.service';
 import {RouteParams} from "angular2/router";
 import {GlobalFunctions} from '../../global/global-functions';
 import {CircleButton} from "../../components/buttons/circle/circle.button";
+declare var stButtons: any;
 
 @Component({
     selector: 'news-module',
     templateUrl: './app/modules/news/news.module.html',
     directives: [ModuleHeader, NewsCarousel, ModuleFooter, CircleButton],
-    providers: [NewsService]
+    providers: []
 })
 
-export class NewsModule implements OnInit {
+export class NewsModule implements OnInit, OnChanges {
     public counter: number = 0;
     public max:number;
     public newsLink: string;
     public displayData: Object;
     public title: string = "Articles";
-    newsDataArray: any;
-    moduleTitle: ModuleHeaderData = {
+    public locateShareThis = function(){
+      stButtons.locateElements();
+    };
+    @Input() newsDataArray: Array<Object>;
+    @Input() profileName: string;
+    public headerInfo: ModuleHeaderData = {
       moduleTitle: "Other Content You Will Love - [Profile Name]",
       hasIcon: true,
       iconClass: "fa fa-heart"
     };
 
-    footerInfo: ModuleFooterData = {
-      infoDesc: 'Want to check out the full story?',
-      text: 'READ THE ARTICLE',
-      url: ['Disclaimer-page']
-    };
-
     constructor(private _params: RouteParams,
-                private _globalFunctions: GlobalFunctions,
-                private _newsService: NewsService){ }
+                private _globalFunctions: GlobalFunctions){ }
 
     left(){
       var counter = this.counter;
@@ -62,28 +59,23 @@ export class NewsModule implements OnInit {
       this.changeMain(this.counter);
     }
 
-
     //this is where the angular2 decides what is the main image
     changeMain(num){
       if ( num < this.max ) {
         this.displayData = this.newsDataArray[num];
-        this.newsLink = this.newsDataArray[num].footerData.url;
       };
     }
 
     private setupNewsData(){
-      let self = this;
-      self._newsService.getNewsService("Major League Baseball")
-        .subscribe(data => {
-          this.newsDataArray = data.news;
-          // this.max = this.newsDataArray.length;
-          this.max = 10;
-          this.changeMain(this.counter);
-        },
-        err => {
-          console.log("Error getting news data");
-        });
-      }
+        // this.max = this.newsDataArray.length;
+        this.max = 10;
+        this.changeMain(this.counter);
+    }
+
+    ngOnChanges() {
+      let profileName = this.profileName ? this.profileName : "MLB";
+      this.headerInfo.moduleTitle = "Other Content You Will Love - " + profileName;
+    }
 
     ngOnInit(){
       this.setupNewsData();

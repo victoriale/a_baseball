@@ -14,13 +14,13 @@
 
 
     <headline-component></headline-component>
-    <images-media-carousel [imageData]="imageData" [copyright]="copyright" [profileName]="profileName"
-                           [isProfilePage]="isProfilePage"></images-media-carousel>
-    <dyk-module [profileName]="pageParams.playerName"></dyk-module>
-    <faq-module [profileName]="pageParams.playerName"></faq-module>
+    <images-media-carousel [imageData]="imageData" [copyright]="copyright" [profileName]="profileName" [isProfilePage]="isProfilePage"></images-media-carousel>
+    <dyk-module *ngIf="dykData" [profileName]="profileHeaderData.profileName" [dykData]="dykData"></dyk-module>
+    <faq-module *ngIf="faqData" [profileName]="profileHeaderData.profileName" [faqData]="faqData"></faq-module>
+
     <!-- lol lists -->
     <!-- other news -->
-    <news-module></news-module>
+    <news-module *ngIf="newsDataArray" [newsDataArray]="newsDataArray" [profileName]="profileHeaderData.profileName"></news-module>
 
     <headline-component></headline-component>
 

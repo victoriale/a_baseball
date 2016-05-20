@@ -1,12 +1,12 @@
 .dir {
   &-container {
-    max-width: 1000px; 
-    border: 1px solid @greyBorder;
-    background-color: @white;
+    width: 1012px;
     margin: 20px auto;
-    padding: 35px 30px 0 30px;
-    font-family: @globalFont;
+    padding: 35px 30px 0 32px;
+    overflow: hidden;
     box-shadow: @modBoxShadow;
+    font-family: @globalFont;
+    background-color: @white;
   }
 
   &-hdr {
@@ -43,6 +43,10 @@
     &-text {
       padding-top: 11px;
       margin-bottom: 4px;
+      
+      &-lbl {
+        padding-right: 4px; 
+      }
     }
     
     &-buttons {
@@ -56,10 +60,13 @@
       border-radius: 5px;
       border: none;
       .globalDefaultModFont(14px, 800, @white);
-      margin-left: 20px;
       background-color: @bulletGrey;
       text-align: center;
       padding-top: 10px;
+      
+      &-r {
+        margin-left: 20px;        
+      }
 
       .fa {
         font-weight: 400;
@@ -79,8 +86,9 @@
         background-color: @masterBrandColor;
       }
 
-      &:focus {
-        color: @black;
+      &:focus, &:hover {
+        background-color: @black;
+        color: @white;
         text-decoration: none;
       }
     }
@@ -121,6 +129,7 @@
 
   &-list {
     padding: 0px;
+    min-height: 1000px;
 
     &-item {
       width: inherit;
@@ -156,6 +165,17 @@
       a {
         color: @masterBrandColor;
       }
+    }
+    
+    &-noresults {
+      min-height: 1500px;
+      border-bottom: 1px solid @strokeGrey;
+    }
+    
+    .no-data {
+      border-left: 5px solid @highlightGrey;
+      height: 75px;
+      font-size: 16px;
     }
 
     li:nth-child(even) {

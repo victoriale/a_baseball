@@ -1,6 +1,7 @@
 import {Component, OnInit} from 'angular2/core';
 import {Search, SearchInput} from '../../components/search/search.component';
 import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
+declare var stButtons: any;
 
 @Component({
     selector: 'header-component',
@@ -14,6 +15,8 @@ export class HeaderComponent implements OnInit {
        placeholderText: "Search for a player or team...",
        hasSuggestions: true
   };
-  ngOnInit(){}
+  ngOnInit(){
+    stButtons.locateElements();
+  }
 
 }

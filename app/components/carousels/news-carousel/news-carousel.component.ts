@@ -3,6 +3,7 @@
  */
 import {Component, OnInit, Output, Input, EventEmitter} from 'angular2/core';
 import {Carousel} from '../carousel.component';
+declare var stButtons: any;
 
 export interface NewsCarouselInput {
   index?:any;
@@ -21,6 +22,9 @@ export interface NewsCarouselInput {
 export class NewsCarousel implements OnInit {
   public indexNum: EventEmitter<any> = new EventEmitter();//interface for the output to return an index
   public newsData: NewsCarouselInput;
+  public locateShareThis = function(){
+    stButtons.locateElements();
+  };
   response(event){
     this.newsData = event;
     if(typeof this.newsData['index'] != 'undefined'){

@@ -27,8 +27,8 @@ export class SchedulesComponent implements OnInit{
   public selectedIndex;
 
   public carouselData: Array<SchedulesCarouselInput> = [];
-  @Input() data;
-  @Input() tabs;
+  @Input() data;// the data to display is inputed through this variable
+  @Input() tabs;// the tab data gets inputed through here to display all tabs
 
   @Output("tabSelected") tabSelectedListener = new EventEmitter();
 
@@ -74,6 +74,12 @@ export class SchedulesComponent implements OnInit{
           imageClass: "border-large"
         }
       },
+      teamName1: 'string',
+      teamName2: 'string',
+      teamLocation1:'string',
+      teamLocation2:'string',
+      teamRecord1:'string',
+      teamRecord2:'string',
     },
     {
       displayNext:'Next Game:',
@@ -99,6 +105,12 @@ export class SchedulesComponent implements OnInit{
           imageClass: "border-large"
         }
       },
+      teamName1: 'string',
+      teamName2: 'string',
+      teamLocation1:'string',
+      teamLocation2:'string',
+      teamRecord1:'string',
+      teamRecord2:'string',
     }];
   }//ngOnInit ENDS
 }
