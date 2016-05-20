@@ -31,10 +31,12 @@
       display:block;
       &:focus{
         outline: 0;
+        text-decoration: none;
       }
-      &:hover{
-        background-color:@black;
+      &:hover, &:active{
+        background-color:@textEmphasisGrey;
         color:@white;
+        text-decoration: none;
       }
       .module-footer-text{
         font-size: 14px;

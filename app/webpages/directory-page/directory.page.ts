@@ -123,10 +123,6 @@ export class DirectoryPage {
       pageParams["startsWith"] = this.startsWith;
       noResultsMessage = "Sorry, there are no results for " + titleCaseType + "s starting with the letter '" + this.startsWith + "'";
     }
-    else if ( this.newlyAdded ) {
-      pageParams["startsWith"] = "new";
-      noResultsMessage = "Sorry, there are no results for " + titleCaseType + "s that are newly added";
-    }
     
     let data:DirectoryModuleData = {
       pageName: pageName,
@@ -161,16 +157,7 @@ export class DirectoryPage {
 
       return {
         title: title,
-        links: navigationArray,
-        moreLink: {
-          text: "Newly Added",
-          route: ['Directory-page-starts-with',
-            {
-              type: DirectoryType[this.pageType],
-              page: 1,
-              startsWith: "new"
-            }]            
-        }
+        links: navigationArray
       };  
   }
 }

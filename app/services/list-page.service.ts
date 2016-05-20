@@ -105,7 +105,7 @@ export class ListPageService {
       },
       {
         tabData:'batter-runs-batted-in',
-        tabDisplay: 'Runs Batted In',
+        tabDisplay: 'RBIs',
       },
       {
         tabData:'batter-hits',
@@ -233,7 +233,7 @@ export class ListPageService {
             description:[
               '<br>',
               '<p style="font-size:22px"><span class="text-heavy">'+playerFullName+'</span></p>',
-              '<p>'+val.teamName+' | #'+val.uniformNumber+' '+position+'</p>',
+              '<p>'+val.teamName+' | Jersey: #'+val.uniformNumber+' | '+position+'</p>',
               '<br>',
               '<p style="font-size:22px"><span class="text-heavy">'+val.stat+'</span></p>',
               '<p style="font-size:16px"> '+ MLBGlobalFunctions.formatStatName(carInfo.stat) +' for '+ currentYear+'</p>',
@@ -282,9 +282,9 @@ export class ListPageService {
             "<a>"+val.teamName+"</a>",
             (val.stat),
             MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
-            "<a>"+val.teamCity +', '+val.teamState + '</a> | Division: <span class="text-heavy text-master">'+ MLBGlobalFunctions.formatShortNameDivison(val.conferenceName) + val['divisionName'].charAt(0).toUpperCase() + "</span>",
+            "<a>"+val.teamCity +', '+val.teamState + '</a> | Division: <span class="">'+ MLBGlobalFunctions.formatShortNameDivison(val.conferenceName) + val['divisionName'].charAt(0).toUpperCase() + "</span>",
             MLBGlobalFunctions.formatStatName(detailInfo.stat) + ' for ' + currentYear,
-            MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),'fa fa-map-marker'),
+            '','fa fa-map-marker'),
             imageConfig: self.imageData("image-121","border-2",
             GlobalSettings.getImageUrl(
             val.teamLogo),
@@ -307,7 +307,7 @@ export class ListPageService {
             "<a>"+playerFullName+"<a>",
             (val.stat),
             MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId),
-            "<a>"+val.teamName +'</a> | <span class="text-heavy text-master">#'+val.uniformNumber+' '+position+'</span>',
+            "<a class='text-master text-heavy'>"+val.teamName +'</a> | <span>Jersey: #'+val.uniformNumber+' | '+position+'</span>',
             MLBGlobalFunctions.formatStatName(detailInfo.stat) + ' for ' + currentYear,
             MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
             imageConfig: self.imageData(
