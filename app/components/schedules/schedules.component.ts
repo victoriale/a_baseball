@@ -74,6 +74,12 @@ export class SchedulesComponent implements OnInit{
           imageClass: "border-large"
         }
       },
+      teamName1: 'string',
+      teamName2: 'string',
+      teamLocation1:'string',
+      teamLocation2:'string',
+      teamRecord1:'string',
+      teamRecord2:'string',
     },
     {
       displayNext:'Next Game:',
@@ -99,6 +105,12 @@ export class SchedulesComponent implements OnInit{
           imageClass: "border-large"
         }
       },
+      teamName1: 'string',
+      teamName2: 'string',
+      teamLocation1:'string',
+      teamLocation2:'string',
+      teamRecord1:'string',
+      teamRecord2:'string',
     }];
   }//ngOnInit ENDS
 }

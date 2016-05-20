@@ -85,6 +85,7 @@ export class SchedulesService {
   callURL += '/'+eventStatus+'/5/1';  //default pagination limit: 5; page: 1
 
   console.log(callURL);
+  console
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -108,15 +109,17 @@ export class SchedulesService {
     return new MLBSchedulesTableData(tableName , table);
   }
 
-  private setupCarouselData(carData, maxRows?: number){
+  private setupCarouselData(origData, maxRows?: number){
+    console.log(origData);
     var carouselData: SchedulesCarouselInput; // set a variable to the interface
+    var carData = [];
     //Limit to maxRows, if necessary
     if ( maxRows !== undefined ) {
-      carData = carData.slice(0, maxRows);
+      origData = origData.slice(0, maxRows);
     }
-    carData.forEach(function(val, index){
+    origData.forEach(function(val, index){
       let displayNext = '';
-      if(carData.eventStatus == 'pre-event'){
+      if(origData.eventStatus == 'pre-event'){
         let displayNext = 'Next Game:';
       }else{
         let displayNext = 'Previous Game:';
@@ -124,7 +127,7 @@ export class SchedulesService {
       carouselData = {//placeholder data
         index:index,
         displayNext: displayNext,
-        displayTime:moment(carData.startDateTime).format('dddd MMMM DDDD, YYYY | h:mm a'),
+        displayTime:moment(origData.startDateTime).format('dddd MMMM DDDD, YYYY | h:mm A') + " [ZONE]",
         detail1Data:'Home Stadium:',
         detail1Value:"[Stadium's]",
         detail2Value:'[City], [State]',
@@ -146,18 +149,25 @@ export class SchedulesService {
             imageClass: "border-large"
           }
         },
+        teamName1: 'string',
+        teamName2: 'string',
+        teamLocation1:'string',
+        teamLocation2:'string',
+        teamRecord1:'string',
+        teamRecord2:'string',
       };
-    })
-    console.log(carData);
+      carData.push(carouselData);
+    });
+    console.log('returned Data',carData);
 
-    return carouselData;
+    return carData;
   }
 
   private formatGroupName(year, eventStatus): string {
     var currentDate = new Date().getFullYear();
     let games = "";
     if ( eventStatus == 'pre-event' ) {
-      games = "<span class='text-heavy>Current Season</span> Upcoming Games Games";
+      games = "<span class='text-heavy>Current Season</span> Upcoming Games";
     }
     else if(year == currentDate){
       games = "<span class='text-heavy>Current Season</span> Previously Played Games";
