@@ -55,11 +55,6 @@ export class StandingsService {
     };
   }
 
-  loadAllTabs(pageParams: MLBPageParameters, maxRows?: number): Observable<Array<MLBStandingsTabData>> {
-    var tabs = this.initializeAllTabs(pageParams);
-    return Observable.forkJoin(tabs.map(tab => this.getTabData(tab, maxRows)));
-  }
-
   initializeAllTabs(pageParams: MLBPageParameters): Array<MLBStandingsTabData> {
     let tabs: Array<MLBStandingsTabData> = [];
 
@@ -85,16 +80,28 @@ export class StandingsService {
     return tabs;
   }
 
-  getTabData(standingsTab: MLBStandingsTabData, pageParams: MLBPageParameters, maxRows?: number): Observable<Array<MLBStandingsTableData>> {
-    let url = GlobalSettings.getApiUrl() + "/standings";
+  getStandingsTabData(standingsTab: MLBStandingsTabData, pageParams: MLBPageParameters, onTabsLoaded: Function, maxRows?: number) {
+    if ( standingsTab && (!standingsTab.sections || standingsTab.sections.length == 0) ) {
+      let url = GlobalSettings.getApiUrl() + "/standings";
 
-    if ( standingsTab.conference !== undefined ) {
-      url += "/" + Conference[standingsTab.conference];
+      if ( standingsTab.conference !== undefined ) {
+        url += "/" + Conference[standingsTab.conference];
+      }
+
+      standingsTab.isLoaded = false;
+
+      this.http.get(url)
+          .map(res => res.json())
+          .map(data => this.setupTabData(standingsTab, data.data, pageParams.teamId, maxRows))
+          .subscribe(data => {
+            standingsTab.isLoaded = true;
+            standingsTab.sections = data;
+            onTabsLoaded(data);        
+          },
+          err => {
+            console.log("Error getting standings data");
+          });
     }
-
-    return this.http.get(url)
-        .map(res => res.json())
-        .map(data => this.setupTabData(standingsTab, data.data, pageParams.teamId, maxRows));
   }
 
   private createTab(selectTab: boolean, conference?: Conference, division?: Division) {
@@ -138,6 +145,7 @@ export class StandingsService {
         section.tableData.selectedKey = teamId;
       });
     }
+    console.log("setting up sections: " + sections);
     return sections;
   }
 

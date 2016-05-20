@@ -38,7 +38,7 @@ export class PlayerStatsService {
     };
   }
 
-  getTabData(standingsTab: MLBPlayerStatsTableData, pageParams: MLBPageParameters, tabDataLoaded: Function, maxRows?: number) {    
+  getStatsTabData(standingsTab: MLBPlayerStatsTableData, pageParams: MLBPageParameters, tabDataLoaded: Function, maxRows?: number) {    
     var hasData = false;
     if ( standingsTab ) {
       var table = standingsTab.seasonTableData[standingsTab.selectedSeasonId];

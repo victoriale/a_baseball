@@ -192,13 +192,8 @@ export class MLBPage implements OnInit {
     }
 
     private standingsTabSelected(tab:MLBStandingsTabData) {
-        if (tab && (!tab.sections || tab.sections.length == 0)) {
-            this._standingsService.getTabData(tab, this.pageParams, 5)//only show 5 rows in the module
-                .subscribe(data => tab.sections = data,
-                    err => {
-                        console.log("Error getting standings data");
-                    });
-        }
+        //only show 5 rows in the module
+        this._standingsService.getStandingsTabData(tab, this.pageParams, (data) => {}, 5);
     }
 
     private setupShareModule() {
