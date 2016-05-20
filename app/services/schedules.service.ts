@@ -84,8 +84,7 @@ export class SchedulesService {
   }
   callURL += '/'+eventStatus+'/5/1';  //default pagination limit: 5; page: 1
 
-  console.log(callURL);
-  console
+  // console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -110,7 +109,7 @@ export class SchedulesService {
   }
 
   private setupCarouselData(origData, maxRows?: number){
-    console.log(origData);
+    // console.log(origData);
     var carouselData: SchedulesCarouselInput; // set a variable to the interface
     var carData = [];
     //Limit to maxRows, if necessary
@@ -158,7 +157,7 @@ export class SchedulesService {
       };
       carData.push(carouselData);
     });
-    console.log('returned Data',carData);
+    // console.log('returned Data',carData);
 
     return carData;
   }
