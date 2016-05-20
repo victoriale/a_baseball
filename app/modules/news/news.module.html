@@ -13,8 +13,10 @@
           </span>
           <i></i>
         </div>
-        <div class="news-headline">{{displayData.title}}</div>
-        <div class="news-preview">{{displayData.description}}</div>
+        <a href="{{displayData.newsUrl}}">
+          <div class="news-headline">{{displayData.title}}</div>
+          <div class="news-preview">{{displayData.description}}</div>
+        </a>
         <div class="news-footer">
           <span class="news-footer-author">{{displayData.author}}</span>
           <span class="news-footer-created">{{displayData.published}}</span>
