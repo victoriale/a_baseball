@@ -13,14 +13,14 @@
   <section class="footer-main col-xs-12">
     <h1>Major League Baseball</h1>
     <ul>
-        <li>Team Listings </li>
+        <li class="sortCategory">Team Listings </li>
         <li *ngFor="#link of teamDirectoryListings; #isLast=last">
           <a [routerLink]='link.route'>{{link.text}}</a>
           <span *ngIf="!isLast" class="separator">|</span>
         </li>
     </ul>
     <ul>
-        <li>Player Listings </li>
+        <li class="sortCategory">Player Listings </li>
         <li *ngFor="#link of playerDirectoryListings; #isLast=last">
           <a [routerLink]='link.route'>{{link.text}}</a>
           <span *ngIf="!isLast" class="separator">|</span>
@@ -38,9 +38,9 @@
     <hr /><!--line break-->
     <ul class="footer-text1" id="set-width70">
       <li>You Might Like: </li>
-      <li><a [routerLink]="['List-page', {profile:'team', listname: 'batter-batting-average', sort:'desc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]"><b>Batters with the highest batting average</b></a> <i class="fa fa-caret-right"></i></li>
-      <li><a [routerLink]="['List-page', {profile:'team', listname: 'batter-home-runs', sort:'desc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]"><b>Batters with the most home runs</b></a> <i class="fa fa-caret-right"></i></li>
-      <li><a [routerLink]="['List-page', {profile:'team', listname: 'batter-strikeouts', sort:'desc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]"><b>Batters with the most strikeouts</b></a></li>
+      <li><a [routerLink]="['List-page', {profile:'team', listname: 'batter-home-runs', sort:'desc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]"><b>Teams with the most home runs</b></a> <i class="fa fa-caret-right"></i></li>
+      <li><a [routerLink]="['List-page', {profile:'player', listname: 'batter-bases-on-balls', sort:'desc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]"><b>Batters with the most bases on balls received</b></a> <i class="fa fa-caret-right"></i></li>
+      <li><a [routerLink]="['List-page', {profile:'player', listname: 'pitcher-strikeouts', sort:'desc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]"><b>Pitchers with the most strikeouts thrown</b></a></li>
     </ul>
     <hr /><!--line break-->
     <ul>

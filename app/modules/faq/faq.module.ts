@@ -27,6 +27,8 @@ export class FAQModule implements OnChanges {
 
   isSelected(faqData){
     faqData.active = !faqData.active;
+    this.faqData.forEach(faqData => faqData.active = false);
+    faqData.active = true;
     this.faqSelected.emit(faqData.question);
   }
 

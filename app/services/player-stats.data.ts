@@ -12,6 +12,7 @@ export interface PlayerStatsData {
   playerName: string;
   playerId: string;
   playerHeadshot: string;
+  profileHeader: string;
   seasonId: string;
   lastUpdate: string;
   
@@ -42,6 +43,8 @@ export interface PlayerStatsData {
   fullPlayerImageUrl?: string;
   
   fullTeamImageUrl?: string;
+  
+  fullBackgroundImageUrl?: string;
 }
 
 // export class PlayerStatsSeasonData {
@@ -123,7 +126,7 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
     }
     return {
       index: index,
-      //backgroundImage: null, //optional
+      backgroundImage: item.fullBackgroundImageUrl, //optional
       description: [
         "<div class='stats-car-subhdr'><i class='fa fa-circle'></i> " + subheader + "</div>",
         "<div class='stats-car-hdr'>" + item.playerName + "</div>",
@@ -226,7 +229,7 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
       },{
         headerValue: "BA",
         columnClass: "data-column",
-        sortDirection: 1, //ascending
+        sortDirection: -1, //descending
         isNumericType: true,
         key: "ba"
       },{

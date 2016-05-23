@@ -49,10 +49,10 @@ export class SliderCarousel implements OnInit {
   response(event){
     //set the data event being emitted back from the carousel component
     this.dataPoint = event;
-    if ( this.dataPoint.backgroundImage ) {      
+    if ( this.dataPoint.backgroundImage ) {
       this.backgroundImage = this.dataPoint.backgroundImage;
     }
-    else {      
+    else {
       this.backgroundImage = '/app/public/homePage_hero1.png';
     }
     //sets the index of the dataPoint of its current position in the array
@@ -93,10 +93,10 @@ export class SliderCarousel implements OnInit {
           ],
         },
         description: [
-          "<p>Line1</p>",
-          "<p>Line2</p>",
-          "<p>Line3</p>",
-          "<p>Line4</p>",
+          "<p></p>",
+          "<p></p>",
+          "<p></p>",
+          "<p></p>",
         ],
       };
     }

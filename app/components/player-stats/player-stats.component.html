@@ -6,7 +6,7 @@
     <tab *ngFor="#tab of tabs" [tabTitle]="tab.tabTitle" [active]="tab.isActive">
       
       <div *ngIf="tab.tableData">
-        <div class="stats-table-title pane-content">
+        <div class="stats-table-title">
           <p class="stats-season-dropdown">
             Now Viewing:<dropdown [list]="tab.seasonIds" [selectedKey]="tab.selectedSeasonId" (selectionChanged)="dropdownChanged($event)"></dropdown>
           </p>
