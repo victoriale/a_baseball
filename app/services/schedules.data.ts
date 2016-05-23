@@ -139,7 +139,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
        },{
          headerValue: "GAME SUMMARY",
          columnClass: "data-column summary-link",
-         isNumericType: true,
+         isNumericType: false,
          key: "gs"
        }];
     }

@@ -2,7 +2,7 @@
 
   <error-component *ngIf="isError"></error-component>
 
-  <div *ngIf="!isLoading && !isError" class="dir-container module-container">
+  <div *ngIf="!isLoading && !isError" class="dir-container">
 
       <!-- Title and Path Name -->
       <header class="dir-hdr">
@@ -26,7 +26,7 @@
           </div>
           <div class="dir-nav-links">
               <span *ngFor="#item of data.navigationData.links; #isLast = last">
-                <span class="dir-nav-separator" *ngIf="!isLast || data.navigationData.moreLink">|</span>
+                <span class="dir-nav-separator">|</span>
                 <a [routerLink]="item.route" >
                     {{item.text}}
                 </a>

@@ -173,23 +173,76 @@ export class MLBGlobalFunctions {
 
 
   /**
-   * Returns the abbreviation for American or National leagues 
-   * 
+   * Returns the abbreviation for American or National leagues
+   *
    * @param {string} confName - 'American' or 'National' (case insensitive)
    * @param {string} divName - (Optional) If included, is appended to end of string in title case
-   * 
+   *
    * @returns abbreviation or confName if it cannot be mapped to an abbreviation
    */
   static formatShortNameDivison(confName: string, divName?: string): string {
     if ( !confName ) return confName;
-    
+
     let abbr = confName;
     switch ( confName.toLowerCase() ) {
       case 'american': abbr = "AL"; break;
       case 'national': abbr = "NL"; break;
       default: break;
     }
-    
+
     return divName ? abbr + " " + GlobalFunctions.toTitleCase(divName) : abbr;
   }
+
+
+  static formatStatName(stat: string) {
+    //coming from backend as a stat in the list info 
+   switch (stat) {
+     //pitcher
+     case 'pitcher-innings-pitched':
+      return "Innings pitched";
+     case 'pitcher-strikeouts':
+      return "Strikeouts";
+     case 'pitcher-earned-run-average':
+      return "ERA";
+     case 'pitcher-hits-allowed':
+      return "Hits Allowed";
+
+     case 'pitcher-bases-on-balls':
+      return "Walks";
+     case 'pitcher-runs-allowed':
+      return "Runs allowed";
+     case 'pitcher-earned-runs':
+      return "Runs earned";
+
+     //batter
+     case 'batter-home-runs':
+      return "Home runs";
+     case 'batter-batting-average':
+      return "Batting average";
+     case 'batter-runs-batted-in':
+      return "RBIs";
+     case 'batter-hits':
+      return "Hits";
+     case 'batter-bases-on-balls':
+      return "Walks";
+     case 'batter-stolen-bases':
+      return "Stolen bases";
+
+     case 'batter-triples':
+      return "Triples ";
+     case 'batter-strikeouts':
+      return "Strikeouts";
+     case 'batter-singles':
+      return "Singles";
+     case 'batter-runs':
+      return "Runs";
+     case 'batter-on-base-percentage':
+      return "OBP";
+     case 'batter-doubles':
+      return "Doubles";
+
+     default: return GlobalFunctions.toTitleCase(stat.replace(/-/g, ' '));
+   }
+  }
+
 }

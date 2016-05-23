@@ -44,7 +44,7 @@ export class AboutUsModule {
           this.pageName = "My HomeRun";
       }
 
-      this.headerText = this.pageName + ' Disclaimer';
+      this.headerText = this.pageName + '\'s Disclaimer';
       this.moduleHeader = {
         moduleTitle: 'Learn More About ' + this.pageName,
         hasIcon: false,

@@ -15,6 +15,12 @@ export interface SchedulesCarouselInput{
   detail2Route?: Array<any>;
   imageConfig1:CircleImageData;
   imageConfig2:CircleImageData;
+  teamName1: string;
+  teamName2: string;
+  teamLocation1:string;
+  teamLocation2:string;
+  teamRecord1:string;
+  teamRecord2:string;
 }
 
 @Component({
@@ -78,6 +84,12 @@ export class SchedulesCarousel implements OnInit{
             imageClass: "border-large"
           }
         },
+        teamName1:'[Team Name 1]',
+        teamName2:'[Team Name 2]',
+        teamLocation1:'[City], [State]',
+        teamLocation2:'[City], [State]',
+        teamRecord1:'[Record]',
+        teamRecord2:'[Record]',
       };
       this.indexNum.next(this.dataPoint['index']);
     }

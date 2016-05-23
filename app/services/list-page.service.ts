@@ -97,7 +97,7 @@ export class ListPageService {
     var tabArray = [
       {
         tabData:'batter-home-runs',
-        tabDisplay: 'Runs',
+        tabDisplay: 'Home Runs',
       },
       {
         tabData:'batter-batting-average',
@@ -105,7 +105,7 @@ export class ListPageService {
       },
       {
         tabData:'batter-runs-batted-in',
-        tabDisplay: 'Runs Batted In',
+        tabDisplay: 'RBIs',
       },
       {
         tabData:'batter-hits',
@@ -167,6 +167,8 @@ export class ListPageService {
     var dummyRoute = ['Error-page'];
     var dummyRank = '##';
 
+    var currentYear = new Date().getFullYear();//TODO FOR POSSIBLE past season stats but for now we have lists for current year season
+
     var carData = data.listData;
     var carInfo = data.listInfo;
     if(carData.length == 0){
@@ -182,7 +184,7 @@ export class ListPageService {
       //if data is coming through then run through the transforming function for the module
       carData.forEach(function(val, index){
         var rank = ((Number(data.query.pageNum) - 1) * Number(data.query.limit)) + (index+1);
-        val.listRank = rank;
+        val['listRank'] = rank;
 
         if(data.query.profile == 'team'){
           var Carousel = {
@@ -201,7 +203,7 @@ export class ListPageService {
               '<p><i class="fa fa-map-marker text-master"></i> '+val.teamCity +', '+val.teamState+'</p>',
               '<br>',
               '<p style="font-size:22px"><b>'+val.stat+'</b></p>',
-              '<p style="font-size:16px"> '+ self.globalFunc.toTitleCase(carInfo.stat.replace(/-/g, ' ')) +'</p>',
+              '<p style="font-size:16px"> '+ MLBGlobalFunctions.formatStatName(carInfo.stat)+' for '+ currentYear +'</p>',
             ],
           };
           if(profileType == 'page'){
@@ -231,10 +233,10 @@ export class ListPageService {
             description:[
               '<br>',
               '<p style="font-size:22px"><span class="text-heavy">'+playerFullName+'</span></p>',
-              '<p>'+val.teamName+' | Jersey: #'+val.uniformNumber+' Pos: '+position+'</p>',
+              '<p>'+val.teamName+' | Jersey: #'+val.uniformNumber+' | '+position+'</p>',
               '<br>',
               '<p style="font-size:22px"><span class="text-heavy">'+val.stat+'</span></p>',
-              '<p style="font-size:16px"> '+ self.globalFunc.toTitleCase(carInfo.stat.replace(/-/g, ' ')) +' for the current season</p>',
+              '<p style="font-size:16px"> '+ MLBGlobalFunctions.formatStatName(carInfo.stat) +' for '+ currentYear+'</p>',
             ],
           };
           if(profileType == 'page'){
@@ -267,23 +269,22 @@ export class ListPageService {
     var dummySubDesc = "[Data Description]";
     var dummySubUrl = ['Disclaimer-page'];
 
+    var currentYear = new Date().getFullYear();//TODO FOR POSSIBLE past season stats but for now we have lists for current year season
+
     var detailData = data.listData;
     var detailInfo = data.listInfo;
     detailData.forEach(function(val, index){
-      if(val.stat == 'batter-home-runs'){// for design display purposes
-        val.stat = 'Home Runs';
-      }
       var rank = ((Number(data.query.pageNum) - 1) * Number(data.query.limit)) + (index+1);
-      val.listRank = rank;
+      val['listRank'] = rank;
       if(data.query.profile == 'team'){
         var listData = {
           dataPoints: self.detailsData(
             "<a>"+val.teamName+"</a>",
             (val.stat),
             MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
-            "<a>"+val.teamCity +', '+val.teamState + '</a> | Division: <span class="text-heavy text-master">'+ MLBGlobalFunctions.formatShortNameDivison(val.conferenceName) + val['divisionName'].charAt(0).toUpperCase() + "</span>",
-            self.globalFunc.toTitleCase(detailInfo.stat.replace(/-/g, ' ')),
-            MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),'fa fa-map-marker'),
+            "<a>"+val.teamCity +', '+val.teamState + '</a> | Division: <span class="">'+ MLBGlobalFunctions.formatShortNameDivison(val.conferenceName) + val['divisionName'].charAt(0).toUpperCase() + "</span>",
+            MLBGlobalFunctions.formatStatName(detailInfo.stat) + ' for ' + currentYear,
+            '','fa fa-map-marker'),
             imageConfig: self.imageData("image-121","border-2",
             GlobalSettings.getImageUrl(
             val.teamLogo),
@@ -306,8 +307,8 @@ export class ListPageService {
             "<a>"+playerFullName+"<a>",
             (val.stat),
             MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId),
-            "<a>"+val.teamName +'</a> | Position: <span class="text-heavy text-master">' + position+ "</span>",
-            self.globalFunc.toTitleCase(detailInfo.stat.replace(/-/g, ' ')),
+            "<a class='text-master text-heavy'>"+val.teamName +'</a> | <span>Jersey: #'+val.uniformNumber+' | '+position+'</span>',
+            MLBGlobalFunctions.formatStatName(detailInfo.stat) + ' for ' + currentYear,
             MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
             imageConfig: self.imageData(
             "image-121",

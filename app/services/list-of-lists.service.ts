@@ -6,7 +6,6 @@ import {MLBGlobalFunctions}  from '../global/mlb-global-functions';
 import {GlobalSettings}  from '../global/global-settings';
 
 declare var moment: any;
-
 @Injectable()
 export class ListOfListsService {
   private _apiUrl: string = GlobalSettings.getApiUrl();
@@ -24,21 +23,27 @@ export class ListOfListsService {
     return headers;
   }
 
-  getListOfListsService(version, type, id, scope?, count?, page?){
+  getListOfListsService(urlParams, version){
     // Configure HTTP Headers
     var headers = this.setToken();
-    // Set url variables
-    var scopePath;
+
+    let type    = urlParams.type;
+    let id      = urlParams.id;
+    var limit   = urlParams.limit != null ? urlParams.limit: 4;
+    var pageNum = urlParams.pageNum != null ? urlParams.pageNum : 1;
+    var scope   = urlParams.scope != null ? urlParams.scope : null;
+
+    // Set scope for url based on type
+    let scopePath;
     if(type=="player"){
+      // if no scope is set for player list, default to league scope
       scopePath = scope != null && type == "player" ? '/' + scope : "/league";
     }
     else{
       scopePath = "";
     }
-    var count = count != null ? count : 4;
-    var page = page != null ? page : 1;
 
-    var callURL = this._apiUrl + '/listOfLists/' + type + '/' + id + scopePath +'/'+ count +'/' + page;
+    var callURL = this._apiUrl + '/listOfLists/' + type + '/' + id + scopePath +'/'+ limit +'/' + pageNum;
 
     return this.http.get( callURL, {
         headers: headers
@@ -53,12 +58,14 @@ export class ListOfListsService {
               carData: this.carDataPage(data.data, version, type),
               listData: this.detailedData(data.data, version, type),
               targetData: this.getTargetData(data.data),
+              pagination: data.data[0].listInfo
             };
           }else{
             return {
               carData: this.carDataPage(data.data, version, type),
               listData: this.detailedData(data.data, version, type),
               targetData: this.getTargetData(data.data),
+              pagination: data.data[0].listInfo
             };
           }
         },
@@ -67,6 +74,7 @@ export class ListOfListsService {
         }
       )
   }
+
   getTargetData(data) {
     return(data[0].targetData);
   }
@@ -90,7 +98,7 @@ export class ListOfListsService {
       //if data is coming through then run through the transforming function for the module
       data.forEach(function(val, index){
         if( val.listData[0] == null) return;
-        let itemInfo          = val.listInfo;
+        let itemInfo          = val['listInfo'];
         let itemTargetData    = val.targetData;
         let itemProfile       = itemTargetData.playerName != null ? itemTargetData.playerName : itemTargetData.teamName;
         let itemImgUrl        = itemTargetData.imageUrl != null ? GlobalSettings.getImageUrl(itemTargetData.imageUrl) : GlobalSettings.getImageUrl(itemTargetData.teamLogo);
@@ -121,7 +129,7 @@ export class ListOfListsService {
           imageConfig: self.imageData("image-150", "border-large", itemImgUrl , itemRoute,"image-50-sub", itemSubImg, itemSubRoute, itemTargetData.rank, itemHasHover),
           description:[
             '<p class="font-12 fw-400 lh-12 titlecase"><i class="fa fa-circle"></i> Related List - ' + itemProfile + '</p>',
-            '<p class="font-22 fw-900 lh-25" style="padding-bottom:16px;">'+ itemInfo.name +'</p>',
+            '<p class="font-22 fw-800 lh-25" style="padding-bottom:16px;">'+ itemInfo.name +'</p>',
             '<p class="font-14 fw-400 lh-18" style="padding-bottom:6px;">'+ itemDescription +'<p>',
             '<p class="font-10 fw-400 lh-25">Last Updated on '+ updatedDate +'</p>'
           ],
@@ -158,7 +166,7 @@ export class ListOfListsService {
       if( itemListData.length<1 ) return;
       itemListData.unshift(item.targetData);
 
-      let itemListInfo = item.listInfo;
+      let itemListInfo = item['listInfo'];
       let ctaUrlArray = itemListInfo.url.split("/");
       // removes first empty item and second "list" item
       ctaUrlArray.splice(0,2);

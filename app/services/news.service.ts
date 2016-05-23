@@ -66,7 +66,7 @@ export class NewsService {
       var News = {
         title: val.title,
         description: val.description,
-        lead_image: dummyImg, //TODO
+        newsUrl: val.link,
         author: "Author", //TODO
         published: "Published Date",//TODO
         footerData: {

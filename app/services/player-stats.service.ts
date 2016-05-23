@@ -78,12 +78,14 @@ export class PlayerStatsService {
       value.displayDate = GlobalFunctions.formatUpdatedDate(value.lastUpdate, false);
       value.fullPlayerImageUrl = GlobalSettings.getImageUrl(value.playerHeadshot);
       value.fullTeamImageUrl = GlobalSettings.getImageUrl(value.teamLogo);
+      value.fullBackgroundImageUrl = GlobalSettings.getImageUrl(value.profileHeader);
       
       //force these fields to numbers:
       value.batAverage = value.batAverage != null ? Number(value.batAverage) : undefined;
       value.batSluggingPercentage = value.batSluggingPercentage != null ? Number(value.batSluggingPercentage) : undefined;
       value.batOnBasePercentage = value.batOnBasePercentage != null ? Number(value.batOnBasePercentage) : undefined;
       value.pitchEra = value.pitchEra != null ? Number(value.pitchEra) : undefined;
+      value.whip = value.whip != null ? Number(value.whip) : undefined;
     });
     
     return table;
