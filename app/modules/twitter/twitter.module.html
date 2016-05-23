@@ -1,4 +1,6 @@
-<section class="module-container">
+<section class="module-container tweet" *ngIf="twitterData">
   <module-header [modHeadData]="headerInfo"></module-header>
-  <a class="twitter-timeline" href="https://twitter.com/MLB" data-widget-id="734601271349510144">Tweets by @MLB</a>
+  <section class="tweet-embedded">
+    <a class="twitter-timeline" href="{{twitterData.twitterUrl}}" data-widget-id="731220831196450817">Tweets by {{twitterData.twitterUserName}}</a>
+  </section>
 </section>

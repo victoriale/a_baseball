@@ -31,7 +31,7 @@
   <news-module *ngIf="newsDataArray" [newsDataArray]="newsDataArray" [profileName]="profileHeaderData.profileName"></news-module>
 
   <headline-component></headline-component>
-  <twitter-module [profileName]="profileHeaderData.profileName"></twitter-module>
+  <twitter-module *ngIf="twitterData" [profileName]="profileHeaderData.profileName" [twitterData]="twitterData"></twitter-module>
   <!--Like Us On FB Module, only display if not on partner page-->
   <!-- TODO <section *ngIf="!partnerCheck"> -->
   <share-module *ngIf="shareModuleInput" [shareModuleInput]="shareModuleInput"></share-module>
