@@ -3,6 +3,6 @@
 <section *ngIf="schedulesData" class='page-container module-container'>
   <backtab-component></backtab-component>
   <title-component [titleData]="profileHeaderData"></title-component>
-  <schedules-component *ngIf="schedulesData" [data]="schedulesData.data" [tabs]="schedulesData.tabs" (tabSelected)="tabSelected($event)" ></schedules-component>
+  <schedules-component *ngIf="schedulesData" [carouselData]="schedulesData.carData" [data]="schedulesData.data" [tabs]="schedulesData.tabs" (tabSelected)="tabSelected($event)" ></schedules-component>
   <pagination-footer *ngIf="paginationParameters" [paginationParameters]="paginationParameters"></pagination-footer>
 </section>

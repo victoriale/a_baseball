@@ -26,7 +26,7 @@ export interface TableComponentData<T> {
 export class SchedulesComponent implements OnInit{
   public selectedIndex;
 
-  public carouselData: Array<SchedulesCarouselInput> = [];
+  @Input() carouselData: Array<SchedulesCarouselInput> = [];// the data to send through the schedules carousel to display
   @Input() data;// the data to display is inputed through this variable
   @Input() tabs;// the tab data gets inputed through here to display all tabs
 
@@ -50,67 +50,72 @@ export class SchedulesComponent implements OnInit{
   ngOnInit(){
     // console.log('tabs tabs',this.tabs);
     // console.log('tabs Data',this.data);
-    this.carouselData = [{
-      displayNext:'Next Game:',
-      displayTime:'[DOW] [Month] [dd], [yyyy] | [Time] [AM/PM] [Zone]',
-      detail1Data:'Home Stadium:',
-      detail1Value:"[University]",
-      detail2Value:'[Wichita], [KS]',
-      imageConfig1:{
-        imageClass: "image-125",
-        mainImage: {
-          imageUrl: "./app/public/placeholder-location.jpg",
-          urlRouteArray: ['Disclaimer-page'],
-          hoverText: "<p>View</p><p>Profile</p>",
-          imageClass: "border-large"
-        }
+    // console.log('car Data',this.carouselData);
+
+    if(typeof this.carouselData == 'undefined'){
+      this.carouselData = [{
+        displayNext:'Next Game:',
+        displayTime:'[DOW] [Month] [dd], [yyyy] | [Time] [AM/PM] [Zone]',
+        detail1Data:'Home Stadium:',
+        detail1Value:"[University]",
+        detail2Value:'[Wichita], [KS]',
+        imageConfig1:{
+          imageClass: "image-125",
+          mainImage: {
+            imageUrl: "./app/public/placeholder-location.jpg",
+            urlRouteArray: ['Disclaimer-page'],
+            hoverText: "<p>View</p><p>Profile</p>",
+            imageClass: "border-large"
+          }
+        },
+        imageConfig2:{
+          imageClass: "image-125",
+          mainImage: {
+            imageUrl: "./app/public/placeholder-location.jpg",
+            urlRouteArray: ['Disclaimer-page'],
+            hoverText: "<p>View</p><p>Profile</p>",
+            imageClass: "border-large"
+          }
+        },
+        teamName1: 'string',
+        teamName2: 'string',
+        teamLocation1:'string',
+        teamLocation2:'string',
+        teamRecord1:'string',
+        teamRecord2:'string',
       },
-      imageConfig2:{
-        imageClass: "image-125",
-        mainImage: {
-          imageUrl: "./app/public/placeholder-location.jpg",
-          urlRouteArray: ['Disclaimer-page'],
-          hoverText: "<p>View</p><p>Profile</p>",
-          imageClass: "border-large"
-        }
-      },
-      teamName1: 'string',
-      teamName2: 'string',
-      teamLocation1:'string',
-      teamLocation2:'string',
-      teamRecord1:'string',
-      teamRecord2:'string',
-    },
-    {
-      displayNext:'Next Game:',
-      displayTime:'[Monday] [May] [2nd], [2016] | [2:08] [PM] [EST]',
-      detail1Data:'Home Stadium:',
-      detail1Value:"[Stadium's]",
-      detail2Value:'[City], [State]',
-      imageConfig1:{
-        imageClass: "image-125",
-        mainImage: {
-          imageUrl: "./app/public/placeholder-location.jpg",
-          urlRouteArray: ['Disclaimer-page'],
-          hoverText: "<p>View</p><p>Profile</p>",
-          imageClass: "border-large"
-        }
-      },
-      imageConfig2:{
-        imageClass: "image-125",
-        mainImage: {
-          imageUrl: "./app/public/placeholder-location.jpg",
-          urlRouteArray: ['Disclaimer-page'],
-          hoverText: "<p>View</p><p>Profile</p>",
-          imageClass: "border-large"
-        }
-      },
-      teamName1: 'string',
-      teamName2: 'string',
-      teamLocation1:'string',
-      teamLocation2:'string',
-      teamRecord1:'string',
-      teamRecord2:'string',
-    }];
+        {
+          displayNext:'Next Game:',
+          displayTime:'[Monday] [May] [2nd], [2016] | [2:08] [PM] [EST]',
+          detail1Data:'Home Stadium:',
+          detail1Value:"[Stadium's]",
+          detail2Value:'[City], [State]',
+          imageConfig1:{
+            imageClass: "image-125",
+            mainImage: {
+              imageUrl: "./app/public/placeholder-location.jpg",
+              urlRouteArray: ['Disclaimer-page'],
+              hoverText: "<p>View</p><p>Profile</p>",
+              imageClass: "border-large"
+            }
+          },
+          imageConfig2:{
+            imageClass: "image-125",
+            mainImage: {
+              imageUrl: "./app/public/placeholder-location.jpg",
+              urlRouteArray: ['Disclaimer-page'],
+              hoverText: "<p>View</p><p>Profile</p>",
+              imageClass: "border-large"
+            }
+          },
+          teamName1: 'string',
+          teamName2: 'string',
+          teamLocation1:'string',
+          teamLocation2:'string',
+          teamRecord1:'string',
+          teamRecord2:'string',
+        }];
+    }
+
   }//ngOnInit ENDS
 }

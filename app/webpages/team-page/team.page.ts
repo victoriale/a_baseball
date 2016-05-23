@@ -220,7 +220,7 @@ export class TeamPage implements OnInit {
 
     //grab tab to make api calls for post of pre event table
     private scheduleTab(tab) {
-     // console.log(tab);
+      //console.log(tab);
     }
 
     private getSchedulesData(){

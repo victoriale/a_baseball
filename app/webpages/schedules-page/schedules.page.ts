@@ -32,6 +32,17 @@ export class SchedulesPage implements OnInit{
   schedulesData:any;
 
   constructor(private _schedulesService:SchedulesService, private profHeadService:ProfileHeaderService, private params: RouteParams){
+      var currentYear = new Date().getFullYear();
+      this.profileHeaderData =
+      {
+          imageURL : '/app/public/mainLogo.png',
+          text1: "Last updated tag",
+          text2: "United States",
+          text3: currentYear + " Full Season Schedule - [teamName]",
+          text4: "",
+          icon: 'fa fa-map-marker',
+          hasHover: true
+      };
   }
 
   //grab tab to make api calls for post of pre event table
@@ -48,6 +59,7 @@ export class SchedulesPage implements OnInit{
         data => {
           this.schedulesData = data;
           this.setPaginationParams(data.pageInfo);
+            //console.log(data);
         },
         err => {
           console.log("Error getting Schedules Data");
