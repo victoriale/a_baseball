@@ -355,7 +355,6 @@ export class TeamPage implements OnInit {
     this._transactionsService.getTransactionsService(year, teamId, 'module')
       .subscribe(
         transactionsData => {
-          console.log("data", transactionsData);
           var dataArray, detailedDataArray, carouselDataArray;
           if (typeof dataArray == 'undefined') {//makes sure it only runs once
             dataArray = transactionsData.tabArray;
@@ -386,7 +385,13 @@ export class TeamPage implements OnInit {
 
     setupListOfListsModule() {
         // getListOfListsService(version, type, id, scope?, count?, page?){
-        this._lolService.getListOfListsService("module", "team", this.pageParams.teamId, "league", 4, 1)
+        let params = {
+          id : this.pageParams.teamId,
+          limit : 4,
+          pageNum : 1,
+          type : "team"
+        }
+        this._lolService.getListOfListsService(params, "module")
             .subscribe(
                 listOfListsData => {
                     this.listOfListsData = listOfListsData.listData;
