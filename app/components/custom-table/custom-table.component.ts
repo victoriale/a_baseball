@@ -92,21 +92,16 @@ export class CustomTable implements OnChanges {
     this.sortRows(sortedColumn);
   }
   
-  //TODO-CJP: Customize sort for numbers?
   sortRows(tableHdr:TableColumn) {
     this.model.rows.sort((row1, row2) => {
       var value1 = this.model.getSortValueAt(row1, tableHdr);
       var value2 = this.model.getSortValueAt(row2, tableHdr);
       
-      if ( value1 > value2 ) {
-        return tableHdr.sortDirection * 1;
+      if ( value1 == null || value2 == null ) {
+        return value1 == null ? (value2 == null ? 0 : 1) : -1;
       }
       
-      if ( value1 < value2 ) {
-        return tableHdr.sortDirection * -1;
-      }
-      
-      return 0;
+      return tableHdr.sortDirection * (value1-value2);
     });
     this.sortChanged.next(this.model.rows);
   }

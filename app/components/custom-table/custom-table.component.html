@@ -1,7 +1,7 @@
 <table *ngIf="model" class="custom-table">
   <thead>
     <tr>
-      <th *ngFor="#hdr of model.columns; #i = index">
+      <th *ngFor="#hdr of model.columns; #i = index" class="{{hdr.columnClass}}-hdr">
         <custom-table-header
           [headerData]="hdr"
           [headerIndex]="i"

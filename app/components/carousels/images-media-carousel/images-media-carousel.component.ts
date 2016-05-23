@@ -77,8 +77,10 @@ export class ImagesMedia implements OnInit {
     changeMain(num) {
         this.displayCounter = this.imageCounter + 1;
         this.smallImage = this.mediaImages;
-        this.largeImage = this.mediaImages[this.smallObjCounter].image;
-        this.imageCredit = this.mediaImages[this.smallObjCounter].copyData;
+        if ( this.mediaImages && this.smallObjCounter < this.mediaImages.length ) {
+            this.largeImage = this.mediaImages[this.smallObjCounter].image;
+            this.imageCredit = this.mediaImages[this.smallObjCounter].copyData;
+        }
     }
 
     changeClick(num) {

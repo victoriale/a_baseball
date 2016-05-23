@@ -186,7 +186,7 @@ export class RosterTableModel {
 
   selectedKey:any = -1;
 
-  constructor(title:string, rows: Array<TeamRosterData>, private _globalFunctions:GlobalFunctions) {
+  constructor(title:string, rows: Array<TeamRosterData>) {
     this.title = title;
     this.rows = rows;
     if ( this.rows === undefined || this.rows === null ) {

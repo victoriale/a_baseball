@@ -84,17 +84,10 @@ export class StandingsPage implements OnInit {
     };
   }
   
-  private standingsTabSelected(tab: MLBStandingsTabData) {
-    if ( tab && (!tab.sections || tab.sections.length == 0) ) {
-      this._standingsService.getTabData(tab, this.pageParams)      
-        .subscribe(data => {
-          this.getLastUpdatedDateForPage(data);
-          tab.sections = data          
-        },
-        err => {
-          console.log("Error getting standings data");
-        });
-    }
+  private standingsTabSelected(tab: MLBStandingsTabData) {    
+    this._standingsService.getStandingsTabData(tab, this.pageParams, data => {
+      this.getLastUpdatedDateForPage(data);
+    });
   }
   
   private getLastUpdatedDateForPage(data: MLBStandingsTableData[]) {           
