@@ -10,8 +10,8 @@
             <circle-image [data]="dataPoint.imageConfig1"></circle-image>
           </div>
           <div class="competitors-stats">
-            <span>[Profile Name 1]</span>
-            <span><i class="fa fa-map-marker"></i>[Location] <span style="margin:0 5px">|</span> [Record]</span>
+            <span>{{dataPoint.teamName1}}</span>
+            <span><i class="fa fa-map-marker"></i>{{dataPoint.teamLocation1}} <span style="margin:0 5px">|</span> {{dataPoint.teamRecord1}}</span>
           </div>
         </div>
       </div>
@@ -23,8 +23,8 @@
             <circle-image [data]="dataPoint.imageConfig2"></circle-image>
           </div>
           <div class="competitors-stats">
-            <span>[Profile Name 2]</span>
-            <span><i class="fa fa-map-marker"></i>[Location] <span style="margin:0 5px">|</span> [Record]</span>
+            <span>{{dataPoint.teamName2}}</span>
+            <span><i class="fa fa-map-marker"></i>{{dataPoint.teamLocation2}} <span style="margin:0 5px">|</span> {{dataPoint.teamRecord2}}</span>
           </div>
         </div>
       </div>

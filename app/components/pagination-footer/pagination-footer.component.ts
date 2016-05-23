@@ -259,7 +259,7 @@ export class PaginationFooter implements OnChanges{
 
     //Function to navigate number buttons for paginationType module
     indexClick(event){
-        var newIndex = Number(jQuery(event.target).html());
+        var newIndex = Number(event.target.html());
         //Send new index to output event emitter
         this.newIndex.next(newIndex);
 

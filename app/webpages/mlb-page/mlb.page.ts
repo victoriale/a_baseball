@@ -86,9 +86,8 @@ export class MLBPage implements OnInit {
     pitcherData:any;
     imageData:any;
     copyright:any;
-    profileType:string;
-    isProfilePage:boolean = false;
-    profileName:string;
+    profileType:string = "league";
+    profileName:string = "MLB";
     listMax:number = 10;
     newsDataArray: Array<Object>;
     faqData: Array<faqModuleData>;
@@ -131,6 +130,7 @@ export class MLBPage implements OnInit {
         this._profileService.getMLBProfile().subscribe(
             data => {
                 this.profileHeaderData = this._profileService.convertToLeagueProfileHeader(data)
+                this.profileName = "MLB";
                 this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
                 this.batterData = this.getMVP(this.batterParams, 'batter');
                 this.pitcherData = this.getMVP(this.pitcherParams, 'pitcher');
@@ -159,47 +159,35 @@ export class MLBPage implements OnInit {
               });
     }
     private getDykService(profileType) {
-      this.isProfilePage = true;
-      this.profileType = 'league';
-      this.profileName = "MLB";
       this._dykService.getDykService(this.profileType)
           .subscribe(data => {
-                  this.dykData = data;
-              },
-              err => {
-                  console.log("Error getting did you know data");
-              });
-    }
+                this.dykData = data;
+            },
+            err => {
+                console.log("Error getting did you know data");
+            });
+  }
 
     private getFaqService(profileType) {
-      this.isProfilePage = true;
-      this.profileType = 'league';
-      this.profileName = "MLB";
       this._faqService.getFaqService(this.profileType)
-          .subscribe(data => {
-                  this.faqData = data;
-              },
-              err => {
-                  console.log("Error getting faq data");
-              });
-    }
+        .subscribe(data => {
+            this.faqData = data;
+        },
+        err => {
+            console.log("Error getting faq data");
+        });
+   }
     private getNewsService() {
-        this.isProfilePage = true;
-        this.profileType = 'league';
-        this.profileName = "MLB";
         this._newsService.getNewsService('Major League Baseball')
             .subscribe(data => {
-                    this.newsDataArray = data.news;
-                },
-                err => {
-                    console.log("Error getting news data");
-                });
+                this.newsDataArray = data.news;
+            },
+            err => {
+                console.log("Error getting news data");
+            });
     }
 
     private getImages(imageData) {
-        this.isProfilePage = true;
-        this.profileType = 'league';
-        this.profileName = 'MLB';
         var imageArray = [];
         var copyArray = [];
         this._imagesService.getImages(this.profileType)
@@ -212,19 +200,14 @@ export class MLBPage implements OnInit {
     }
 
     private standingsTabSelected(tab:MLBStandingsTabData) {
-        if (tab && (!tab.sections || tab.sections.length == 0)) {
-            this._standingsService.getTabData(tab, this.pageParams, 5)//only show 5 rows in the module
-                .subscribe(data => tab.sections = data,
-                    err => {
-                        console.log("Error getting standings data");
-                    });
-        }
+        //only show 5 rows in the module
+        this._standingsService.getStandingsTabData(tab, this.pageParams, (data) => {}, 5);
     }
 
     private setupShareModule() {
         let profileHeaderData = this.profileHeaderData;
-        let imageUrl = typeof profileHeaderData.profileImageUrl === 'undefined' || profileHeaderData.profileImageUrl === null ? GlobalSettings.getImageUrl("/mlb/players/no-image.png") : profileHeaderData.profileImageUrl;
-        let shareText = typeof profileHeaderData.profileName === 'undefined' || profileHeaderData.profileName === null ? 'Share This Profile Below' : 'Share ' + profileHeaderData.profileName + '\'s Profile Below:';
+        let imageUrl = !profileHeaderData.profileImageUrl ? GlobalSettings.getImageUrl("/mlb/players/no-image.png") : profileHeaderData.profileImageUrl;
+        let shareText = !profileHeaderData.profileName ? 'Share This Profile Below' : 'Share ' + profileHeaderData.profileName + '\'s Profile Below:';
 
         this.shareModuleInput = {
             imageUrl: imageUrl,
