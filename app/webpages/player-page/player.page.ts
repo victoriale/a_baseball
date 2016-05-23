@@ -36,6 +36,8 @@ import {GlobalSettings} from "../../global/global-settings";
 import {ImagesService} from "../../services/carousel.service";
 import {ImagesMedia} from "../../components/carousels/images-media-carousel/images-media-carousel.component";
 import {GlobalFunctions} from "../../global/global-functions";
+import {ListOfListsService} from "../../services/list-of-lists.service";
+import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.module";
 
 @Component({
     selector: 'Player-page',
@@ -55,6 +57,7 @@ import {GlobalFunctions} from "../../global/global-functions";
         NewsModule,
         ShareModule,
         AboutUsModule,
+        ListOfListsModule,
         ImagesMedia],
     providers: [
       StandingsService,
@@ -62,7 +65,8 @@ import {GlobalFunctions} from "../../global/global-functions";
       ImagesService,
       NewsService,
       FaqService,
-      DykService
+      DykService,
+      ListOfListsService
     ],
 })
 
@@ -83,6 +87,7 @@ export class PlayerPage implements OnInit {
     newsDataArray: Array<Object>;
     faqData: Array<faqModuleData>;
     dykData: Array<dykModuleData>;
+    listOfListsData: Object; // paginated data to be displayed
 
     constructor(private _params:RouteParams,
                 private _standingsService:StandingsService,
@@ -91,6 +96,7 @@ export class PlayerPage implements OnInit {
                 private _newsService: NewsService,
                 private _faqService: FaqService,
                 private _dykService: DykService,
+                private _lolService : ListOfListsService,
                 private _globalFunctions:GlobalFunctions) {
 
         this.pageParams = {
@@ -114,6 +120,7 @@ export class PlayerPage implements OnInit {
                 this.getNewsService(this.pageParams.playerName);
                 this.getFaqService(this.profileType, this.pageParams.playerId);
                 this.getDykService(this.profileType, this.pageParams.teamId);
+                this.setupListOfListsModule();
 
             },
             err => {
@@ -210,5 +217,26 @@ export class PlayerPage implements OnInit {
             imageUrl: imageUrl,
             shareText: shareText
         };
+    }
+
+    setupListOfListsModule() {
+      // getListOfListsService(version, type, id, scope?, count?, page?){
+      let params = {
+        id : this.pageParams.playerId,
+        limit : 4,
+        pageNum : 1,
+        type : "player"
+      }
+      this._lolService.getListOfListsService(params, "module")
+        .subscribe(
+          listOfListsData => {
+            this.listOfListsData = listOfListsData.listData;
+            this.listOfListsData["type"] = "player";
+            this.listOfListsData["id"] = this.pageParams.playerId;
+          },
+          err => {
+            console.log('Error: listOfListsData API: ', err);
+          }
+        );
     }
 }
