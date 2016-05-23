@@ -94,11 +94,11 @@ export class PlayerStatsService {
       value.fullBackgroundImageUrl = GlobalSettings.getImageUrl(value.profileHeader);
       
       //force these fields to numbers:
-      value.batAverage = value.batAverage != null ? Number(value.batAverage) : undefined;
-      value.batSluggingPercentage = value.batSluggingPercentage != null ? Number(value.batSluggingPercentage) : undefined;
-      value.batOnBasePercentage = value.batOnBasePercentage != null ? Number(value.batOnBasePercentage) : undefined;
-      value.pitchEra = value.pitchEra != null ? Number(value.pitchEra) : undefined;
-      value.whip = value.whip != null ? Number(value.whip) : undefined;
+      value.batAverage = value.batAverage != null ? Number(value.batAverage) : null;
+      value.batSluggingPercentage = value.batSluggingPercentage != null ? Number(value.batSluggingPercentage) : null;
+      value.batOnBasePercentage = value.batOnBasePercentage != null ? Number(value.batOnBasePercentage) : null;
+      value.pitchEra = value.pitchEra != null ? Number(value.pitchEra) : null;
+      value.whip = value.whip != null ? Number(value.whip) : null;
     });
     
     standingsTab.isLoaded = true;

@@ -282,31 +282,31 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
       
       //BATTING
       case "hr": 
-        s = item.batHomeRuns ? item.batHomeRuns : null;
+        s = item.batHomeRuns != null ? item.batHomeRuns : null;
         break;
       
       case "ba": 
-        s = item.batAverage ? item.batAverage.toFixed(3) : null;
+        s = item.batAverage != null  ? item.batAverage.toFixed(3) : null;
         break;
       
       case "rbi": 
-        s = item.batRbi ? item.batRbi : null;
+        s = item.batRbi != null  ? item.batRbi : null;
         break;
       
       case "h": 
-        s = item.batHits ? item.batHits : null;
+        s = item.batHits != null  ? item.batHits : null;
         break;
       
       case "bbb": 
-        s = item.batBasesOnBalls ? item.batBasesOnBalls : null;
+        s = item.batBasesOnBalls != null  ? item.batBasesOnBalls : null;
         break;
       
       case "obp": 
-        s = item.batOnBasePercentage ? item.batOnBasePercentage.toFixed(3) : null;
+        s = item.batOnBasePercentage != null ? item.batOnBasePercentage.toFixed(3) : null;
         break;
       
       case "slg": 
-        s = item.batSluggingPercentage ? item.batSluggingPercentage.toFixed(3) : null;
+        s = item.batSluggingPercentage != null ? item.batSluggingPercentage.toFixed(3) : null;
         break;
       
       //PITCHING
@@ -327,7 +327,7 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
         break;
         
       case "pbb": 
-        s = item.pitchBasesOnBalls ? item.pitchBasesOnBalls.toString() : null;
+        s = item.pitchBasesOnBalls != null  ? item.pitchBasesOnBalls.toString() : null;
         break;
       
       case "whip": 
@@ -349,31 +349,31 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
         break;
       
       case "hr": 
-        o = Number(item.batHomeRuns);
+        o = item.batHomeRuns != null ? Number(item.batHomeRuns) : null;
         break;
       
       case "ba": 
-        o = Number(item.batAverage);
+        o = item.batAverage != null ? Number(item.batAverage) : null;
         break;
       
       case "rbi": 
-        o = Number(item.batRbi);
+        o = item.batRbi != null ? Number(item.batRbi) : null;
         break;
       
       case "h": 
-        o = Number(item.batHits);
+        o = item.batHits != null ? Number(item.batHits) : null;
         break;
       
       case "bbb": 
-        o = Number(item.batBasesOnBalls);
+        o = item.batBasesOnBalls != null ? Number(item.batBasesOnBalls) : null;
         break;
       
       case "obp": 
-        o = Number(item.batOnBasePercentage);
+        o = item.batOnBasePercentage != null ? Number(item.batOnBasePercentage) : null;
         break;
       
       case "slg": 
-        o = Number(item.batSluggingPercentage);
+        o = item.batSluggingPercentage != null ? Number(item.batSluggingPercentage) : null;
         break;     
       
       //PITCHING
@@ -384,27 +384,27 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
         break;
       
       case "ip": 
-        o = Number(item.pitchInningsPitched);
+        o = item.pitchInningsPitched != null ? Number(item.pitchInningsPitched) : null;
         break;
       
       case "so": 
-        o = Number(item.pitchStrikeouts);
+        o = item.pitchStrikeouts != null ? Number(item.pitchStrikeouts) : null;
         break;
       
       case "era": 
-        o = Number(item.pitchEra);
+        o = item.pitchEra != null ? Number(item.pitchEra) : null;
         break;
         
       case "pbb": 
-        o = Number(item.pitchBasesOnBalls);
+        o = item.pitchBasesOnBalls != null ? Number(item.pitchBasesOnBalls) : null;
         break;
       
       case "whip": 
-        o = Number(item.whip);
+        o = item.whip != null ? Number(item.whip) : null;
         break;
       
       case "sv": 
-        o = Number(item.pitchSaves);
+        o = item.pitchSaves != null ? Number(item.pitchSaves) : null;
         break;
     }    
     return o;
