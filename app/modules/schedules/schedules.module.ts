@@ -3,6 +3,7 @@ import {ModuleFooter} from '../../components/module-footer/module-footer.compone
 import {ModuleHeader} from '../../components/module-header/module-header.component';
 import {SchedulesComponent} from '../../components/schedules/schedules.component';
 import {RouteParams} from 'angular2/router';
+import {GlobalFunctions} from '../../global/global-functions';
 
 @Component({
     selector: 'schedules',
@@ -29,7 +30,7 @@ export class SchedulesModule implements OnInit{
             this.footerData = {
                 infoDesc: 'Want to see everybody involved in this list?',
                 text: 'VIEW THE LIST',
-                url: ['Schedules-page-team',{teamName:this.profHeader.profileName, teamId:this.params.get('teamId'), pageNum:1}]
+                url: ['Schedules-page-team',{teamName:GlobalFunctions.toLowerKebab(this.profHeader.profileName), teamId:this.params.get('teamId'), pageNum:1}]
             };
         }else{
             this.footerData = {

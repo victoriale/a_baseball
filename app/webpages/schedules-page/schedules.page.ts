@@ -53,7 +53,7 @@ export class SchedulesPage implements OnInit{
           this.getSchedulesData('post-event');
       }else{
           this.getSchedulesData('post-event');// fall back just in case no status event is present
-      } 
+      }
   }
 
   private getSchedulesData(status){
@@ -68,7 +68,6 @@ export class SchedulesPage implements OnInit{
                 this.tabData = data.tabs;
             }
           this.setPaginationParams(data.pageInfo);
-            //console.log(data);
         },
         err => {
           console.log("Error getting Schedules Data");
@@ -79,6 +78,9 @@ export class SchedulesPage implements OnInit{
       .subscribe(
         data => {
           this.schedulesData = data;
+          if(typeof this.tabData == 'undefined'){
+              this.tabData = data.tabs;
+          }
           this.setPaginationParams(data.pageInfo);
         },
         err => {
@@ -114,7 +116,7 @@ export class SchedulesPage implements OnInit{
           index: params['pageNum'],
           max: input.totalPages,
           paginationType: 'page',
-          navigationPage: '/g',
+          navigationPage: 'Schedules-page-league',
           navigationParams: navigationParams,
           indexKey: 'pageNum'
         };
