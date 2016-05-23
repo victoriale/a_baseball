@@ -35,14 +35,6 @@ export class NewsService {
     })
   }//getNewsService ends
 
-  getModuleTitle(pageParams: MLBPageParameters): string {
-    let groupName = this.formatGroupName(pageParams.conference, pageParams.division);
-    let moduletitle = "Other Content You Will Love - " + groupName;
-    if ( pageParams.teamName !== undefined && pageParams.teamName !== null ) {
-      moduletitle += " - " + pageParams.teamName;
-    }
-    return moduletitle;
-  }
   private formatGroupName(conference: Conference, division: Division, makeDivisionBold?: boolean): string {
     if ( conference !== undefined && conference !== null ) {
       let leagueName = this._globalFunctions.toTitleCase(Conference[conference]) + " League";

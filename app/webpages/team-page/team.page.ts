@@ -114,10 +114,10 @@ export class TeamPage implements OnInit {
     imageData:any;
     copyright:any;
     profileType:string = "team";
-    isProfilePage:boolean = false;
+    isProfilePage:boolean = true;
     draftHistoryData:any;
     transactionsData:any;
-    currentYear:any;
+    currentYear: number;
 
     schedulesData:any;
 
@@ -143,10 +143,9 @@ export class TeamPage implements OnInit {
                 private _twitterService: TwitterService,
                 private _globalFunctions:GlobalFunctions) {
         this.pageParams = {
-            teamId: Number(_params.get("teamId")),
-            teamName: _params.get("teamName")
+            teamId: Number(_params.get("teamId"))
         };
-        this.currentYear = new Date().getFullYear().toString();
+        this.currentYear = new Date().getFullYear();
     }
 
     ngOnInit() {
@@ -164,17 +163,18 @@ export class TeamPage implements OnInit {
         this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
             data => {
                 this.pageParams = data.pageParams;
+                this.profileName = data.teamName;
                 this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data);
-                this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
+                this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams, data.teamName);
                 this.getSchedulesData('pre-event');//grab pre event data for upcoming games
-                this.playerStatsData = this._playerStatsService.loadAllTabsForModule(this.pageParams);
+                this.playerStatsData = this._playerStatsService.loadAllTabsForModule(this.pageParams.teamId, data.teamName);
                 this.setupShareModule();
                 this.getImages(this.imageData);
-                this.getNewsService(this.pageParams.teamName);
-                this.getFaqService(this.profileType, this.pageParams.teamId);
-                this.getDykService(this.profileType, this.pageParams.teamId);
-                this.getTwitterService(this.profileType, this.pageParams.teamId);
-                this.draftHistoryModule(this.currentYear, this.pageParams.teamId);//neeeds profile header data will run once header data is in
+                this.getNewsService();
+                this.getFaqService();
+                this.getDykService();
+                this.getTwitterService();
+                this.draftHistoryModule(this.currentYear, this.pageParams.teamId);
                 this.setupListOfListsModule();
             },
             err => {
@@ -182,11 +182,7 @@ export class TeamPage implements OnInit {
             }
         );
     }
-    private getTwitterService(profileType, teamId) {
-        this.isProfilePage = true;
-        this.profileType = 'team';
-        let name = this.pageParams.teamName.replace(/-/g, " ");
-        this.profileName = this._globalFunctions.toTitleCase(name);
+    private getTwitterService() {
         this._twitterService.getTwitterService(this.profileType, this.pageParams.teamId)
             .subscribe(data => {
                 this.twitterData = data;
@@ -196,25 +192,17 @@ export class TeamPage implements OnInit {
             });
     }
 
-    private getDykService(profileType, teamId) {
-        this.isProfilePage = true;
-        this.profileType = 'team';
-        let name = this.pageParams.teamName.replace(/-/g, " ");
-        this.profileName = this._globalFunctions.toTitleCase(name);
+    private getDykService() {
         this._dykService.getDykService(this.profileType, this.pageParams.teamId)
             .subscribe(data => {
-                    this.dykData = data;
-                },
-                err => {
-                    console.log("Error getting did you know data");
-                });
+                this.dykData = data;
+            },
+            err => {
+                console.log("Error getting did you know data");
+            });
     }
 
-    private getFaqService(profileType, teamId) {
-        this.isProfilePage = true;
-        this.profileType = 'team';
-        let name = this.pageParams.teamName.replace(/-/g, " ");
-        this.profileName = this._globalFunctions.toTitleCase(name);
+    private getFaqService() {
         this._faqService.getFaqService(this.profileType, this.pageParams.teamId)
             .subscribe(data => {
                     this.faqData = data;
@@ -224,18 +212,14 @@ export class TeamPage implements OnInit {
                 });
     }
 
-    private getNewsService(teamName) {
-        this.isProfilePage = true;
-        this.profileType = 'team';
-        let name = this.pageParams.teamName.replace(/-/g, " ");
-        this.profileName = this._globalFunctions.toTitleCase(name);
-        this._newsService.getNewsService(this.pageParams.teamName)
+    private getNewsService() {
+        this._newsService.getNewsService(this.profileName)
             .subscribe(data => {
-                    this.newsDataArray = data.news;
-                },
-                err => {
-                    console.log("Error getting news data");
-                });
+                this.newsDataArray = data.news;
+            },
+            err => {
+                console.log("Error getting news data");
+            });
     }
 
     //grab tab to make api calls for post of pre event table
@@ -285,8 +269,8 @@ export class TeamPage implements OnInit {
 
     private setupShareModule() {
         let profileHeaderData = this.profileHeaderData;
-        let imageUrl = typeof profileHeaderData.profileImageUrl === 'undefined' || profileHeaderData.profileImageUrl === null ? GlobalSettings.getImageUrl('/mlb/players/no-image.png') : profileHeaderData.profileImageUrl;
-        let shareText = typeof profileHeaderData.profileName === 'undefined' || profileHeaderData.profileName === null ? 'Share This Profile Below' : 'Share ' + profileHeaderData.profileName + '\'s Profile Below:';
+        let imageUrl = !profileHeaderData.profileImageUrl ? GlobalSettings.getImageUrl('/mlb/players/no-image.png') : profileHeaderData.profileImageUrl;
+        let shareText = !profileHeaderData.profileName ? 'Share This Profile Below' : 'Share ' + profileHeaderData.profileName + '\'s Profile Below:';
         
         this.shareModuleInput = {
             imageUrl: imageUrl,
@@ -312,7 +296,7 @@ export class TeamPage implements OnInit {
       this.transactionsModule(event, this.pageParams.teamId);
     }
 
-    private draftHistoryModule(year, teamId) {
+    private draftHistoryModule(year: number, teamId: number) {
         this._draftService.getDraftHistoryService(year, teamId, 'module')
             .subscribe(
                 draftData => {

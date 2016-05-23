@@ -53,13 +53,12 @@ export class PlayerStatsPage implements OnInit {
   }
   
   ngOnInit() {    
-    var pageTitle = this._statsService.getPageTitle(this.pageParams);
     if ( this.pageParams.teamId ) {      
       this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
         data => {
           this.pageParams = data.pageParams; 
-          this.setupTitleData(data.fullProfileImageUrl);
-          this.tabs = this._statsService.initializeAllTabs(this.pageParams);
+          this.setupTitleData(data.teamName, data.fullProfileImageUrl);
+          this.tabs = this._statsService.initializeAllTabs(data.teamName);
         },
         err => {
           console.log("Error getting player stats data for " + this.pageParams.teamId + ": " + err);
@@ -71,8 +70,8 @@ export class PlayerStatsPage implements OnInit {
     }
   }
   
-  private setupTitleData(imageUrl?: string) {    
-    var title = this._statsService.getPageTitle(this.pageParams);
+  private setupTitleData(teamName?: string, imageUrl?: string) {    
+    var title = this._statsService.getPageTitle(teamName);
     this.titleData = {
       imageURL: imageUrl,
       text1: "Last Updated: [date]",
@@ -80,10 +79,6 @@ export class PlayerStatsPage implements OnInit {
       text3: title,
       icon: "fa fa-map-marker"
     };
-  }
-
-  private setupPlayerStatsData() {
-    this.tabs = this._statsService.initializeAllTabs(this.pageParams);
   }
   
   private playerStatsTabSelected(tab: MLBPlayerStatsTableData) {

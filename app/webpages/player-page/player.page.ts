@@ -80,13 +80,14 @@ export class PlayerPage implements OnInit {
 
   standingsData:StandingsModuleData;
 
-  profileHeaderData:ProfileHeaderData;
+  profileHeaderData: ProfileHeaderData;
 
   imageData:any;
   copyright:any;
-  profileType:string;
-  isProfilePage:boolean = false;
+  profileType:string = "player";
+  isProfilePage:boolean = true;
   profileName:string;
+  teamName: string;
   newsDataArray: Array<Object>;
   faqData: Array<faqModuleData>;
   dykData: Array<dykModuleData>;
@@ -105,8 +106,7 @@ export class PlayerPage implements OnInit {
               private _globalFunctions:GlobalFunctions) {
 
       this.pageParams = {
-          playerId: Number(_params.get("playerId")),
-          playerName: String(_params.get("fullName"))
+          playerId: Number(_params.get("playerId"))
       };
       
         // Scroll page to top to fix routerLink bug
@@ -121,15 +121,17 @@ export class PlayerPage implements OnInit {
       this._profileService.getPlayerProfile(this.pageParams.playerId).subscribe(
           data => {
               this.pageParams = data.pageParams;
+              this.profileName = data.headerData.info.playerName;
+              this.teamName = data.headerData.info.teamName;
               this.profileHeaderData = this._profileService.convertToPlayerProfileHeader(data);
               this.setupTeamProfileData();
               this.setupShareModule();
               this.getImages(this.imageData);
-              this.getNewsService(this.pageParams.playerName);
-              this.getFaqService(this.profileType, this.pageParams.playerId);
-              this.getDykService(this.profileType, this.pageParams.teamId);
+              this.getNewsService();
+              this.getFaqService();
+              this.getDykService();
               this.setupListOfListsModule();
-              this.getTwitterService(this.profileType, this.pageParams.teamId);
+              this.getTwitterService();
           },
           err => {
               console.log("Error getting player profile data for " + this.pageParams.playerId + ": " + err);
@@ -137,39 +139,27 @@ export class PlayerPage implements OnInit {
       );
   }
 
-  private getTwitterService(profileType, teamId) {
-          this.isProfilePage = true;
-          this.profileType = 'team';
-          let name = this.pageParams.teamName.replace(/-/g, " ");
-          this.profileName = this._globalFunctions.toTitleCase(name);
-          this._twitterService.getTwitterService(this.profileType, this.pageParams.teamId)
-              .subscribe(data => {
-                  this.twitterData = data;
-              },
-              err => {
-                  console.log("Error getting twitter data");
-              });
+  private getTwitterService() {
+    this._twitterService.getTwitterService("team", this.pageParams.teamId) //getting team twitter information for now
+        .subscribe(data => {
+            this.twitterData = data;
+        },
+        err => {
+            console.log("Error getting twitter data");
+        });
     }
 
-    private getDykService(profileType, playerId) {
-        this.isProfilePage = true;
-        this.profileType = 'player';
-        let name = this.pageParams.playerName.replace(/-/g, " ");
-        this.profileName = this._globalFunctions.toTitleCase(name);
+    private getDykService() {
         this._dykService.getDykService(this.profileType, this.pageParams.playerId)
             .subscribe(data => {
-                    this.dykData = data;
-                },
-                err => {
-                    console.log("Error getting did you know data");
-                });
+                this.dykData = data;
+            },
+            err => {
+                console.log("Error getting did you know data");
+            });
     }
 
-    private getFaqService(profileType, playerId){
-      this.isProfilePage = true;
-      this.profileType = 'player';
-      let name = this.pageParams.playerName.replace(/-/g, " ");
-      this.profileName = this._globalFunctions.toTitleCase(name);
+    private getFaqService(){
       this._faqService.getFaqService(this.profileType, this.pageParams.playerId)
           .subscribe(data => {
             this.faqData = data;
@@ -179,29 +169,26 @@ export class PlayerPage implements OnInit {
           });
     }
 
-    private getNewsService(playerName) {
-        this.isProfilePage = true;
-        this.profileType = 'player';
-        let name = this.pageParams.playerName.replace(/-/g, " ");
-        this.profileName = this._globalFunctions.toTitleCase(name);
-        this._newsService.getNewsService(this.pageParams.playerName)
+    private getNewsService() {
+        this._newsService.getNewsService(this.profileName)
             .subscribe(data => {
-                    this.newsDataArray = data.news;
-                },
-                err => {
-                    console.log("Error getting news data");
-                });
+                this.newsDataArray = data.news;
+            },
+            err => {
+                console.log("Error getting news data");
+            });
     }
+    
     private getImages(imageData) {
         this.isProfilePage = true;
         this.profileType = 'player';
         this._imagesService.getImages(this.profileType, this.pageParams.playerId)
             .subscribe(data => {
-                    return this.imageData = data.imageArray, this.copyright = data.copyArray;
-                },
-                err => {
-                    console.log("Error getting image data" + err);
-                });
+                return this.imageData = data.imageArray, this.copyright = data.copyArray;
+            },
+            err => {
+                console.log("Error getting image data" + err);
+            });
     }
 
     //This gets team-specific data such as
@@ -209,7 +196,7 @@ export class PlayerPage implements OnInit {
     private setupTeamProfileData() {
         this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
             data => {
-                this.standingsData = this._standingsService.loadAllTabsForModule(data.pageParams);
+                this.standingsData = this._standingsService.loadAllTabsForModule(data.pageParams, data.teamName);
             },
             err => {
                 console.log("Error getting player profile data for " + this.pageParams.playerId + ": " + err);

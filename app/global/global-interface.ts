@@ -6,9 +6,7 @@ export interface MLBPageParameters {
   conference?: Conference;
   division?: Division; 
   teamId?: number;
-  teamName?: string;
   playerId? :number;
-  playerName?: string;
   type?: string;
 }
 
