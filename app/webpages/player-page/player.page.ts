@@ -180,8 +180,6 @@ export class PlayerPage implements OnInit {
     }
     
     private getImages(imageData) {
-        this.isProfilePage = true;
-        this.profileType = 'player';
         this._imagesService.getImages(this.profileType, this.pageParams.playerId)
             .subscribe(data => {
                 return this.imageData = data.imageArray, this.copyright = data.copyArray;

@@ -246,8 +246,6 @@ export class TeamPage implements OnInit {
     }
 
     private getImages(imageData) {
-        this.isProfilePage = true;
-        this.profileType = 'team';
         this._imagesService.getImages(this.profileType, this.pageParams.teamId)
             .subscribe(data => {
                     return this.imageData = data.imageArray, this.copyright = data.copyArray;

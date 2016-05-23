@@ -169,8 +169,6 @@ export class MLBPage implements OnInit {
     }
 
     private getImages(imageData) {
-        this.isProfilePage = true;
-        this.profileType = 'league';
         this._imagesService.getImages(this.profileType)
             .subscribe(data => {
                     return this.imageData = data.imageArray, this.copyright = data.copyArray;
