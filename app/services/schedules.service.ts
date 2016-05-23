@@ -160,7 +160,7 @@ export class SchedulesService {
             imageUrl: GlobalSettings.getImageUrl(val.awayTeamLogo),
             urlRouteArray: MLBGlobalFunctions.formatTeamRoute(val.awayTeamName, val.awayTeamId),
             hoverText: "<p>View</p><p>Profile</p>",
-            imageClass: "border-large"
+            imageClass: "border-5"
           }
         },
         imageConfig2:{//HOME
@@ -169,7 +169,7 @@ export class SchedulesService {
             imageUrl: GlobalSettings.getImageUrl(val.homeTeamLogo),
             urlRouteArray: MLBGlobalFunctions.formatTeamRoute(val.homeTeamName, val.homeTeamId),
             hoverText: "<p>View</p><p>Profile</p>",
-            imageClass: "border-large"
+            imageClass: "border-5"
           }
         },
         teamName1: val.awayTeamName,
