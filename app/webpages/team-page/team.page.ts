@@ -166,7 +166,7 @@ export class TeamPage implements OnInit {
                 this.pageParams = data.pageParams;
                 this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data);
                 this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
-                this.getSchedulesData();
+                this.getSchedulesData('pre-event');//grab pre event data for upcoming games
                 this.playerStatsData = this._playerStatsService.loadAllTabsForModule(this.pageParams);
                 this.setupShareModule();
                 this.getImages(this.imageData);
@@ -240,11 +240,17 @@ export class TeamPage implements OnInit {
 
     //grab tab to make api calls for post of pre event table
     private scheduleTab(tab) {
-     // console.log(tab);
+        if(tab == 'Upcoming Games'){
+            this.getSchedulesData('pre-event');
+        }else if(tab == 'Previous Games'){
+            this.getSchedulesData('post-event');
+        }else{
+            this.getSchedulesData('post-event');// fall back just in case no status event is present
+        }
     }
 
-    private getSchedulesData(){
-      this._schedulesService.getSchedulesService('team', 2799, 'pre-event')
+    private getSchedulesData(status){
+      this._schedulesService.getSchedulesService('team', status, 5, 1, 2799)
       .subscribe(
         data => {
           this.schedulesData = data;

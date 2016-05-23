@@ -90,12 +90,12 @@ import {DesignPage} from "../webpages/design-page/design.page";
         component: SearchPage
     },
     {
-        path: '/schedules',
+        path: '/schedules/:pageNum',
         name: 'Schedules-page-league',
         component: SchedulesPage
     },
     {
-        path: '/schedules/:teamName/:teamId',
+        path: '/schedules/:teamName/:teamId/:pageNum',
         name: 'Schedules-page-team',
         component: SchedulesPage
     },
