@@ -65,7 +65,7 @@ export class SchedulesService {
       return headers;
   }
 
-  getSchedulesService(profile, id, eventStatus){
+  getSchedulesService(profile, eventStatus, limit, pageNum, id?){
   //Configure HTTP Headers
   var headers = this.setToken();
   var year = new Date().getFullYear();//DEFAULT YEAR DATA TO CURRENT YEAR
@@ -73,6 +73,8 @@ export class SchedulesService {
   /*
   http://dev-homerunloyal-api.synapsys.us/team/schedule/2819/pre-event
   http://dev-homerunloyal-api.synapsys.us/team/schedule/2819/post-event
+  http://dev-homerunloyal-api.synapsys.us/league/schedule/pre-event/5/1
+  http://dev-homerunloyal-api.synapsys.us/league/schedule/post-event/5/1
   */
   var callURL = this._apiUrl+'/'+profile+'/schedule';
   var tabData = [
@@ -82,17 +84,22 @@ export class SchedulesService {
   if(typeof id != 'undefined'){
     callURL += '/'+id;
   }
-  callURL += '/'+eventStatus+'/5/1';  //default pagination limit: 5; page: 1
+  callURL += '/'+eventStatus+'/'+limit+'/'+ pageNum;  //default pagination limit: 5; page: 1
 
   console.log(callURL);
   console
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
+      // console.log(data);
       return {
-        data:this.setupTableData(eventStatus, year, data.data, 5),
+        data:this.setupTableData(eventStatus, year, data.data, limit),
         tabs:tabData,
-        carData: this.setupCarouselData(data.data, 5),
+        carData: this.setupCarouselData(data.data, limit),
+        pageInfo:{
+          totalPages: data.data[0].totalPages,
+          totalResults: data.data[0].totalResults,
+        }
       };
     })
   }
@@ -124,6 +131,24 @@ export class SchedulesService {
       }else{
         let displayNext = 'Previous Game:';
       }
+
+      if(val.homeScore === null){
+        val.homeScore = '#';
+      }
+      if(val.homeOutcome === null){
+        val.homeOutcome = '#';
+      }
+      if(val.awayScore === null){
+        val.awayScore = '#';
+      }
+      if(val.awayOutcome === null){
+        val.awayOutcome = '#';
+      }
+
+      // combine together the win and loss of a team to create their record
+      val.homeRecord = val.homeOutcome + '-' + val.homeScore;//?? is this really the win and loss
+      val.awayRecord = val.awayOutcome + '-' + val.awayScore;//?? is this really the win and loss
+
       carouselData = {//placeholder data
         index:index,
         displayNext: displayNext,
@@ -149,12 +174,12 @@ export class SchedulesService {
             imageClass: "border-large"
           }
         },
-        teamName1: 'string',
-        teamName2: 'string',
-        teamLocation1:'string',
-        teamLocation2:'string',
-        teamRecord1:'string',
-        teamRecord2:'string',
+        teamName1: val.homeTeamName,
+        teamName2: val.awayTeamName,
+        teamLocation1:'[Location]',
+        teamLocation2:'[Location]',
+        teamRecord1:val.homeRecord,
+        teamRecord2:val.awayRecord,
       };
       carData.push(carouselData);
     });

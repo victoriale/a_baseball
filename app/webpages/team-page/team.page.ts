@@ -224,7 +224,7 @@ export class TeamPage implements OnInit {
     }
 
     private getSchedulesData(){
-      this._schedulesService.getSchedulesService('team', 2799, 'pre-event')
+      this._schedulesService.getSchedulesService('team', 'pre-event', 5, 1, 2799)
       .subscribe(
         data => {
           this.schedulesData = data;
