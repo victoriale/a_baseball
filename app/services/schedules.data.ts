@@ -168,7 +168,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
     var s = "";
     switch (column.key) {
       case "date":
-        s = moment(item.startDateTime).format('MMMM DD');
+        s = moment(item.startDateTime).format('MMM DD');
         break;
       case "t":
         s = moment(item.startDateTime).format('h:mm a');

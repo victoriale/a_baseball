@@ -70,6 +70,10 @@ export class MLBStandingsTabData implements TableTabData<TeamStandingsData> {
   title: string;
 
   isActive: boolean;
+  
+  isLoaded: boolean;
+  
+  hasError: boolean;
 
   sections: Array<MLBStandingsTableData>;
 

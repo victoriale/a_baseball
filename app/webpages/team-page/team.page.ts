@@ -5,13 +5,16 @@ import {GlobalFunctions} from "../../global/global-functions";
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
 import {GlobalSettings} from "../../global/global-settings";
 
+import {CommentModule} from '../../modules/comment/comment.module';
+import {LikeUs} from "../../modules/likeus/likeus.module";
 import {HeadlineComponent} from '../../components/headline/headline.component';
 
 import {AboutUsModule} from '../../modules/about-us/about-us.module';
 import {ArticlesModule} from "../../modules/articles/articles.module";
-import {CommentModule} from '../../modules/comment/comment.module';
-import {LikeUs} from "../../modules/likeus/likeus.module";
-import {TwitterModule} from "../../modules/twitter/twitter.module";
+
+import {TwitterModule, twitterModuleData} from "../../modules/twitter/twitter.module";
+import {TwitterService} from '../../services/twitter.service';
+
 import {ShareModule, ShareModuleInput} from '../../modules/share/share.module';
 
 import {DYKModule, dykModuleData} from "../../modules/dyk/dyk.module";
@@ -93,7 +96,8 @@ import {TransactionsService} from "../../services/transactions.service";
       FaqService,
       DykService,
       PlayerStatsService,
-      TransactionsService
+      TransactionsService,
+      TwitterService
     ]
 })
 
@@ -122,6 +126,7 @@ export class TeamPage implements OnInit {
     newsDataArray: Array<Object>;
     faqData: Array<faqModuleData>;
     dykData: Array<dykModuleData>;
+    twitterData: Array<twitterModuleData>;
 
     constructor(private _params:RouteParams,
                 private _standingsService:StandingsService,
@@ -135,6 +140,7 @@ export class TeamPage implements OnInit {
                 private _newsService: NewsService,
                 private _faqService: FaqService,
                 private _dykService: DykService,
+                private _twitterService: TwitterService,
                 private _globalFunctions:GlobalFunctions) {
         this.pageParams = {
             teamId: Number(_params.get("teamId")),
@@ -160,13 +166,14 @@ export class TeamPage implements OnInit {
                 this.pageParams = data.pageParams;
                 this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data);
                 this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
-                this.getSchedulesData();
+                this.getSchedulesData('pre-event');//grab pre event data for upcoming games
                 this.playerStatsData = this._playerStatsService.loadAllTabsForModule(this.pageParams);
                 this.setupShareModule();
                 this.getImages(this.imageData);
                 this.getNewsService(this.pageParams.teamName);
                 this.getFaqService(this.profileType, this.pageParams.teamId);
                 this.getDykService(this.profileType, this.pageParams.teamId);
+                this.getTwitterService(this.profileType, this.pageParams.teamId);
                 this.draftHistoryModule(this.currentYear, this.pageParams.teamId);//neeeds profile header data will run once header data is in
                 this.setupListOfListsModule();
             },
@@ -174,6 +181,19 @@ export class TeamPage implements OnInit {
                 console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
             }
         );
+    }
+    private getTwitterService(profileType, teamId) {
+        this.isProfilePage = true;
+        this.profileType = 'team';
+        let name = this.pageParams.teamName.replace(/-/g, " ");
+        this.profileName = this._globalFunctions.toTitleCase(name);
+        this._twitterService.getTwitterService(this.profileType, this.pageParams.teamId)
+            .subscribe(data => {
+                this.twitterData = data;
+            },
+            err => {
+                console.log("Error getting twitter data");
+            });
     }
 
     private getDykService(profileType, teamId) {
@@ -220,11 +240,17 @@ export class TeamPage implements OnInit {
 
     //grab tab to make api calls for post of pre event table
     private scheduleTab(tab) {
-     // console.log(tab);
+        if(tab == 'Upcoming Games'){
+            this.getSchedulesData('pre-event');
+        }else if(tab == 'Previous Games'){
+            this.getSchedulesData('post-event');
+        }else{
+            this.getSchedulesData('post-event');// fall back just in case no status event is present
+        }
     }
 
-    private getSchedulesData(){
-      this._schedulesService.getSchedulesService('team', 2799, 'pre-event')
+    private getSchedulesData(status){
+      this._schedulesService.getSchedulesService('team', status, 5, 1, 2799)
       .subscribe(
         data => {
           this.schedulesData = data;
@@ -248,31 +274,20 @@ export class TeamPage implements OnInit {
     }
 
     private standingsTabSelected(tab:MLBStandingsTabData) {
-        if (tab && (!tab.sections || tab.sections.length == 0)) {
-            this._standingsService.getTabData(tab, this.pageParams, 5)//only show 5 rows in the module
-                .subscribe(data => tab.sections = data,
-                    err => {
-                        console.log("Error getting standings data");
-                    });
-        }
-  }
+        //only show 5 rows in the module
+        this._standingsService.getStandingsTabData(tab, this.pageParams, (data) => {}, 5);
+    }
 
-  private playerStatsTabSelected(tab: MLBPlayerStatsTableData) {
-    this._playerStatsService.getTabData(tab, this.pageParams, 4)//only show 4 rows in the module
-      .subscribe(data => {
-        tab.seasonTableData[tab.selectedSeasonId] = data;
-        tab.tableData = data;
-      },
-      err => {
-        console.log("Error getting player stats data");
-      });
+    private playerStatsTabSelected(tab: MLBPlayerStatsTableData) {
+         //only show 4 rows in the module
+        this._playerStatsService.getStatsTabData(tab, this.pageParams, data => {}, 4);
     }
 
     private setupShareModule() {
         let profileHeaderData = this.profileHeaderData;
         let imageUrl = typeof profileHeaderData.profileImageUrl === 'undefined' || profileHeaderData.profileImageUrl === null ? GlobalSettings.getImageUrl('/mlb/players/no-image.png') : profileHeaderData.profileImageUrl;
         let shareText = typeof profileHeaderData.profileName === 'undefined' || profileHeaderData.profileName === null ? 'Share This Profile Below' : 'Share ' + profileHeaderData.profileName + '\'s Profile Below:';
-
+        
         this.shareModuleInput = {
             imageUrl: imageUrl,
             shareText: shareText

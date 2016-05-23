@@ -386,7 +386,7 @@ export class GlobalFunctions {
     };
 
   /**
-   * - Transforms  strings to lower-case kabab case (with hyphens).
+   * - Transforms strings to lower-case kabab case with hyphens and strips commas, periods, and single quotes.
    * - Used mainly for SEO friendly URL values.
    * - If the str is undefined or null, then it is returned without performing the conversion.
    *
@@ -395,7 +395,8 @@ export class GlobalFunctions {
    */
     static toLowerKebab(str:string):string{
         str = str.toLowerCase()
-            .replace(/\s+/g, '-');
+            .replace(/\s+/g, '-')
+            .replace(/[\.,']/g, '');
         return str;
     }
 
