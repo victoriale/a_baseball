@@ -39,7 +39,9 @@ export class SchedulesComponent implements OnInit{
   indexNum($event) {
 
   }
-
+  tabSelected(event){
+    this.tabSelectedListener.emit(event);
+  }
   updateCarousel(sortedRows?) {
 
 

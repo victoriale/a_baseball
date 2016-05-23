@@ -30,7 +30,7 @@ export class SchedulesPage implements OnInit{
   paginationParameters:any;
   isError: boolean = false;
   schedulesData:any;
-
+    tabData: any;
   constructor(private _schedulesService:SchedulesService, private profHeadService:ProfileHeaderService, private params: RouteParams){
       var currentYear = new Date().getFullYear();
       this.profileHeaderData =
@@ -47,17 +47,26 @@ export class SchedulesPage implements OnInit{
 
   //grab tab to make api calls for post of pre event table
   private scheduleTab(tab) {
-   // console.log(tab);
+      if(tab == 'Upcoming Games'){
+          this.getSchedulesData('pre-event');
+      }else if(tab == 'Previous Games'){
+          this.getSchedulesData('post-event');
+      }else{
+          this.getSchedulesData('post-event');// fall back just in case no status event is present
+      } 
   }
 
-  private getSchedulesData(){
+  private getSchedulesData(status){
     var teamId = this.params.params['teamId']; //determines to call league page or team page for schedules-table
     var pageNum = this.params.params['pageNum'];
     if(typeof teamId != 'undefined'){
-      this._schedulesService.getSchedulesService('team', 'pre-event', 10, pageNum, teamId)
+      this._schedulesService.getSchedulesService('team', status, 10, pageNum, teamId)
       .subscribe(
         data => {
           this.schedulesData = data;
+            if(typeof this.tabData == 'undefined'){
+                this.tabData = data.tabs;
+            }
           this.setPaginationParams(data.pageInfo);
             //console.log(data);
         },
@@ -66,7 +75,7 @@ export class SchedulesPage implements OnInit{
         }
       )
     }else{
-      this._schedulesService.getSchedulesService('league', 'pre-event', 10, pageNum)
+      this._schedulesService.getSchedulesService('league', status, 10, pageNum)
       .subscribe(
         data => {
           this.schedulesData = data;
@@ -113,7 +122,7 @@ export class SchedulesPage implements OnInit{
   }
 
   ngOnInit(){
-      this.getSchedulesData();
+      this.getSchedulesData('pre-event');// on load load any upcoming games
   }
 
 }

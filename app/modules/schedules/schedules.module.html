@@ -1,5 +1,5 @@
 <div class="module-container schedules">
   <module-header [moduleTitle]="moduleTitle"></module-header>
-  <schedules-component *ngIf="data" [carouselData]="data.carData" [data]="data.data" [tabs]="data.tabs" (tabSelected)="tabSelected($event)" ></schedules-component>
+  <schedules-component *ngIf="data" [carouselData]="data.carData" [data]="data.data" [tabs]="tabData" (tabSelected)="tabSelected($event)" ></schedules-component>
   <module-footer [footerData]="footerData"></module-footer>
 </div>

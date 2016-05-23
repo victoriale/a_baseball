@@ -79,7 +79,7 @@ export class SchedulesService {
   var callURL = this._apiUrl+'/'+profile+'/schedule';
   var tabData = [
     {display: 'Upcoming Games', data:'pre-event'},
-    {display: 'Previous games', data:'post-event'}
+    {display: 'Previous Games', data:'post-event'}
   ]
   if(typeof id != 'undefined'){
     callURL += '/'+id;

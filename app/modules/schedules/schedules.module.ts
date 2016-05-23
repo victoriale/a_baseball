@@ -16,7 +16,7 @@ export class SchedulesModule implements OnInit{
     @Input() data;
     footerData:any;
     @Output("tabSelected") tabSelectedListener = new EventEmitter();
-
+    tabData: any;
     constructor(private params: RouteParams){
         if(typeof this.params.get('teamId') != 'undefined'){
             this.footerData = {
@@ -36,6 +36,15 @@ export class SchedulesModule implements OnInit{
 
     ngOnInit(){
         this.moduleTitle = "[Profile] - Schedules";
+
+    }
+
+    ngOnChanges(){
+        if(typeof this.data != 'undefined'){
+            if(typeof this.tabData == 'undefined'){
+                this.tabData = this.data.tabs;
+            }
+        }
     }
 
     tabSelected(tab) {
