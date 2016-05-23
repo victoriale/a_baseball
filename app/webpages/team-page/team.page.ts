@@ -251,7 +251,7 @@ export class TeamPage implements OnInit {
                     return this.imageData = data.imageArray, this.copyright = data.copyArray;
                 },
                 err => {
-                    console.log("Error getting image data");
+                    console.log("Error getting image data" + err);
                 });
     }
 
