@@ -20,16 +20,16 @@ export class SchedulesService {
 
   }
 
-  getLinkToPage(pageParams: MLBPageParameters): Array<any> {
+  getLinkToPage(pageParams: MLBPageParameters, teamName?: string): Array<any> {
     var pageName = "Schedules-page";
     var pageValues = {};
 
-    if ( pageParams.teamId && pageParams.teamName ) {
+    if ( pageParams.teamId && teamName ) {
       pageValues["teamId"] = pageParams.teamId;
-      pageValues["teamName"] = pageParams.teamName;
+      pageValues["teamName"] = teamName;
       pageName += "-team";
     }
-    else if( typeof pageParams.teamId == 'undefined' && typeof pageParams.teamName == 'undefined' ) {
+    else if( !pageParams.teamId && !teamName ) {
       pageName += "-league";
     }
     else{
@@ -39,10 +39,10 @@ export class SchedulesService {
   }// Returns all parameters used to get to page of Schedules
 
 
-  getModuleTitle(pageParams: MLBPageParameters): string {
+  getModuleTitle(teamName?: string): string {
     let moduletitle = "Weekly Schedules";
-    if ( pageParams.teamName !== undefined && pageParams.teamName !== null ) {
-      moduletitle += " - " + pageParams.teamName;
+    if ( teamName ) {
+      moduletitle += " - " + teamName;
     } else {
       moduletitle += " - League";
     }
@@ -50,10 +50,10 @@ export class SchedulesService {
   }// Sets the title of the modules with data returned by schedules
 
 
-  getPageTitle(pageParams: MLBPageParameters): string {
+  getPageTitle(teamName?: string): string {
     let pageTitle = "MLB Schedules Breakdown";
-    if ( pageParams.teamName !== undefined && pageParams.teamName !== null ) {
-      pageTitle = "MLB Schedules - " + pageParams.teamName;
+    if ( teamName ) {
+      pageTitle = "MLB Schedules - " + teamName;
     }
     return pageTitle;
   }// Sets the title of the Page with data returne by shedules

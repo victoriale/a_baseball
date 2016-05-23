@@ -54,7 +54,6 @@ export class StandingsPage implements OnInit {
   }
   
   ngOnInit() {    
-    var pageTitle = this._standingsService.getPageTitle(this.pageParams);
     if ( this.pageParams.teamId ) {      
       this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
         data => {
@@ -73,8 +72,8 @@ export class StandingsPage implements OnInit {
     }
   }
   
-  private setupTitleData(imageUrl?: string) {    
-    var title = this._standingsService.getPageTitle(this.pageParams);
+  private setupTitleData(teamName?: string, imageUrl?: string) {    
+    var title = this._standingsService.getPageTitle(this.pageParams, teamName);
     this.titleData = {
       imageURL: imageUrl,
       text1: "Last Updated: [date]",

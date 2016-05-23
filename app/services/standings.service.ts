@@ -12,13 +12,13 @@ import {GlobalSettings} from '../global/global-settings';
 export class StandingsService {
   constructor(public http: Http, private _globalFunctions: GlobalFunctions, private _mlbFunctions: MLBGlobalFunctions){}
 
-  getLinkToPage(pageParams: MLBPageParameters): Array<any> {
+  private getLinkToPage(pageParams: MLBPageParameters, teamName: string): Array<any> {
     var pageName = "Standings-page";
     var pageValues = {};
 
-    if ( pageParams.teamId && pageParams.teamName ) {
+    if ( pageParams.teamId && teamName ) {
       pageValues["teamId"] = pageParams.teamId;
-      pageValues["teamName"] = GlobalFunctions.toLowerKebab(pageParams.teamName);
+      pageValues["teamName"] = GlobalFunctions.toLowerKebab(teamName);
       pageValues["type"] = "team";
       pageName += "-team";
     }
@@ -29,28 +29,28 @@ export class StandingsService {
     return [pageName, pageValues];
   }
 
-  getModuleTitle(pageParams: MLBPageParameters): string {
+  private getModuleTitle(pageParams: MLBPageParameters, teamName: string): string {
     let groupName = this.formatGroupName(pageParams.conference, pageParams.division);
     let moduletitle = groupName + " Standings";
-    if ( pageParams.teamName !== undefined && pageParams.teamName !== null ) {
-      moduletitle += " - " + pageParams.teamName;
+    if ( teamName ) {
+      moduletitle += " - " + teamName;
     }
     return moduletitle;
   }
 
-  getPageTitle(pageParams: MLBPageParameters): string {
+  getPageTitle(pageParams: MLBPageParameters, teamName: string): string {
     let groupName = this.formatGroupName(pageParams.conference, pageParams.division);
     let pageTitle = "MLB Standings Breakdown";
-    if ( pageParams.teamName !== undefined && pageParams.teamName !== null ) {
-      pageTitle = "MLB Standings - " + pageParams.teamName;
+    if ( teamName ) {
+      pageTitle = "MLB Standings - " + teamName;
     }
     return pageTitle;
   }
 
-  loadAllTabsForModule(pageParams: MLBPageParameters) {
+  loadAllTabsForModule(pageParams: MLBPageParameters, teamName?: string) {
     return {
-        moduleTitle: this.getModuleTitle(pageParams),
-        pageRouterLink: this.getLinkToPage(pageParams),
+        moduleTitle: this.getModuleTitle(pageParams, teamName),
+        pageRouterLink: this.getLinkToPage(pageParams, teamName),
         tabs: this.initializeAllTabs(pageParams)
     };
   }
