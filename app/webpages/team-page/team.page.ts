@@ -190,7 +190,6 @@ export class TeamPage implements OnInit {
         this._twitterService.getTwitterService(this.profileType, this.pageParams.teamId)
             .subscribe(data => {
                 this.twitterData = data;
-                console.log("tweet data", this.twitterData);
             },
             err => {
                 console.log("Error getting twitter data");

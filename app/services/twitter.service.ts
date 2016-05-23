@@ -27,7 +27,6 @@ export class TwitterService {
       )
       .map(
         data => {
-          console.log("service twitter",data.data);
           return data.data;
         },
         err => {
