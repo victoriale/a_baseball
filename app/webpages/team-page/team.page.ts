@@ -1,15 +1,28 @@
 import {Component, OnInit} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
 import {Injectable} from 'angular2/core';
+import {GlobalFunctions} from "../../global/global-functions";
+import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
+import {GlobalSettings} from "../../global/global-settings";
+
+import {HeadlineComponent} from '../../components/headline/headline.component';
 
 import {AboutUsModule} from '../../modules/about-us/about-us.module';
-import {LikeUs} from "../../modules/likeus/likeus.module";
-import {DYKModule} from "../../modules/dyk/dyk.module";
-import {FAQModule} from "../../modules/faq/faq.module";
-import {TwitterModule} from "../../modules/twitter/twitter.module";
-import {ComparisonModule} from '../../modules/comparison/comparison.module';
+import {ArticlesModule} from "../../modules/articles/articles.module";
 import {CommentModule} from '../../modules/comment/comment.module';
+import {LikeUs} from "../../modules/likeus/likeus.module";
+import {TwitterModule} from "../../modules/twitter/twitter.module";
+import {ShareModule, ShareModuleInput} from '../../modules/share/share.module';
+
+import {DYKModule, dykModuleData} from "../../modules/dyk/dyk.module";
+import {DykService} from '../../services/dyk.service';
+
+import {FAQModule, faqModuleData} from "../../modules/faq/faq.module";
+import {FaqService} from '../../services/faq.service';
+
+import {ComparisonModule} from '../../modules/comparison/comparison.module';
 import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
+
 import {StandingsModule, StandingsModuleData} from '../../modules/standings/standings.module';
 import {MLBStandingsTabData} from '../../services/standings.data';
 import {StandingsService} from '../../services/standings.service';
@@ -23,23 +36,25 @@ import {RosterService} from '../../services/roster.service';
 import {ProfileHeaderData, ProfileHeaderModule} from '../../modules/profile-header/profile-header.module';
 import {ProfileHeaderService} from '../../services/profile-header.service';
 
-import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
-
-import {ShareModule, ShareModuleInput} from '../../modules/share/share.module';
-import {HeadlineComponent} from '../../components/headline/headline.component';
-
 import {NewsModule} from '../../modules/news/news.module';
-import {GlobalSettings} from "../../global/global-settings";
+import {NewsService} from '../../services/news.service';
+
+import {PlayerStatsModule, PlayerStatsModuleData} from '../../modules/player-stats/player-stats.module';
+import {PlayerStatsService} from '../../services/player-stats.service'
+import {MLBPlayerStatsTableData} from '../../services/player-stats.data'
 
 //module | interface | service
 import {DraftHistoryModule} from '../../modules/draft-history/draft-history.module';
 import {DraftHistoryService} from '../../services/draft-history.service';
-import {ArticlesModule} from "../../modules/articles/articles.module";
-import {ImagesService} from "../../services/carousel.service";
+
 import {ImagesMedia} from "../../components/carousels/images-media-carousel/images-media-carousel.component";
-import {GlobalFunctions} from "../../global/global-functions";
-import {ListOfListsService} from "../../services/list-of-lists.service";
+import {ImagesService} from "../../services/carousel.service";
+
 import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.module";
+import {ListOfListsService} from "../../services/list-of-lists.service";
+
+import {TransactionsModule} from "../../modules/transactions/transactions.module";
+import {TransactionsService} from "../../services/transactions.service";
 
 @Component({
     selector: 'Team-page',
@@ -63,9 +78,23 @@ import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.modul
         AboutUsModule,
         ArticlesModule,
         ImagesMedia,
-        ListOfListsModule
+        ListOfListsModule,
+        PlayerStatsModule
     ],
-    providers: [SchedulesService, DraftHistoryService, StandingsService, ProfileHeaderService, RosterService, ListOfListsService, ImagesService]
+    providers: [
+      SchedulesService,
+      DraftHistoryService,
+      StandingsService,
+      ProfileHeaderService,
+      RosterService,
+      ListOfListsService,
+      ImagesService,
+      NewsService,
+      FaqService,
+      DykService,
+      PlayerStatsService,
+      TransactionsService
+    ]
 })
 
 export class TeamPage implements OnInit {
@@ -73,29 +102,39 @@ export class TeamPage implements OnInit {
     headerData:any;
     pageParams:MLBPageParameters;
 
-    standingsData:StandingsModuleData;
-
     profileHeaderData:ProfileHeaderData;
+
+    standingsData: StandingsModuleData;
+    playerStatsData: PlayerStatsModuleData;
 
     imageData:any;
     copyright:any;
-    profileType:string;
+    profileType:string = "team";
     isProfilePage:boolean = false;
     draftHistoryData:any;
+    transactionsData:any;
     currentYear:any;
 
     schedulesData:any;
 
     profileName:string;
     listOfListsData:Object; // paginated data to be displayed
+    newsDataArray: Array<Object>;
+    faqData: Array<faqModuleData>;
+    dykData: Array<dykModuleData>;
 
     constructor(private _params:RouteParams,
                 private _standingsService:StandingsService,
                 private _schedulesService:SchedulesService,
                 private _profileService:ProfileHeaderService,
                 private _draftService:DraftHistoryService,
-                private _lolService:ListOfListsService,
+                private _lolService: ListOfListsService,
+                private _transactionsService:TransactionsService,
                 private _imagesService:ImagesService,
+                private _playerStatsService: PlayerStatsService,
+                private _newsService: NewsService,
+                private _faqService: FaqService,
+                private _dykService: DykService,
                 private _globalFunctions:GlobalFunctions) {
         this.pageParams = {
             teamId: Number(_params.get("teamId")),
@@ -119,11 +158,15 @@ export class TeamPage implements OnInit {
         this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
             data => {
                 this.pageParams = data.pageParams;
-                this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data)
+                this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data);
                 this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
-                this.schedulesData = this._schedulesService.loadAllTabsForModule(this.pageParams);
+                this.getSchedulesData();
+                this.playerStatsData = this._playerStatsService.loadAllTabsForModule(this.pageParams);
                 this.setupShareModule();
                 this.getImages(this.imageData);
+                this.getNewsService(this.pageParams.teamName);
+                this.getFaqService(this.profileType, this.pageParams.teamId);
+                this.getDykService(this.profileType, this.pageParams.teamId);
                 this.draftHistoryModule(this.currentYear, this.pageParams.teamId);//neeeds profile header data will run once header data is in
                 this.setupListOfListsModule();
             },
@@ -133,23 +176,73 @@ export class TeamPage implements OnInit {
         );
     }
 
+    private getDykService(profileType, teamId) {
+        this.isProfilePage = true;
+        this.profileType = 'team';
+        let name = this.pageParams.teamName.replace(/-/g, " ");
+        this.profileName = this._globalFunctions.toTitleCase(name);
+        this._dykService.getDykService(this.profileType, this.pageParams.teamId)
+            .subscribe(data => {
+                    this.dykData = data;
+                },
+                err => {
+                    console.log("Error getting did you know data");
+                });
+    }
+
+    private getFaqService(profileType, teamId) {
+        this.isProfilePage = true;
+        this.profileType = 'team';
+        let name = this.pageParams.teamName.replace(/-/g, " ");
+        this.profileName = this._globalFunctions.toTitleCase(name);
+        this._faqService.getFaqService(this.profileType, this.pageParams.teamId)
+            .subscribe(data => {
+                    this.faqData = data;
+                },
+                err => {
+                    console.log("Error getting faq data");
+                });
+    }
+
+    private getNewsService(teamName) {
+        this.isProfilePage = true;
+        this.profileType = 'team';
+        let name = this.pageParams.teamName.replace(/-/g, " ");
+        this.profileName = this._globalFunctions.toTitleCase(name);
+        this._newsService.getNewsService(this.pageParams.teamName)
+            .subscribe(data => {
+                    this.newsDataArray = data.news;
+                },
+                err => {
+                    console.log("Error getting news data");
+                });
+    }
+
+    //grab tab to make api calls for post of pre event table
+    private scheduleTab(tab) {
+     // console.log(tab);
+    }
+
+    private getSchedulesData(){
+      this._schedulesService.getSchedulesService('team', 2799, 'pre-event')
+      .subscribe(
+        data => {
+          this.schedulesData = data;
+        },
+        err => {
+          console.log("Error getting Schedules Data");
+        }
+      )
+    }
+
     private getImages(imageData) {
         this.isProfilePage = true;
         this.profileType = 'team';
         let name = this.pageParams.teamName.replace(/-/g, " ");
         this.profileName = this._globalFunctions.toTitleCase(name);
-        var imageArray = [];
-        var copyArray = [];
-        this._imagesService.getImages(this.pageParams.teamId, this.profileType)
+        this._imagesService.getImages(this.profileType, this.pageParams.teamId)
             .subscribe(data => {
-                    imageData = data;
-                    imageData.images.forEach(function (val, index) {
-                        val['images'] = val.image_url;
-                        val['copyright'] = val.image_copyright;
-                        imageArray.push(val['images']);
-                        copyArray.push(val['copyright'])
-                    });
-                    return this.imageData = imageArray, this.copyright = copyArray;
+                    return this.imageData = data.imageArray, this.copyright = data.copyArray;
                 },
                 err => {
                     console.log("Error getting image data");
@@ -164,6 +257,17 @@ export class TeamPage implements OnInit {
                         console.log("Error getting standings data");
                     });
         }
+  }
+
+  private playerStatsTabSelected(tab: MLBPlayerStatsTableData) {
+    this._playerStatsService.getTabData(tab, this.pageParams, 4)//only show 4 rows in the module
+      .subscribe(data => {
+        tab.seasonTableData[tab.selectedSeasonId] = data;
+        tab.tableData = data;
+      },
+      err => {
+        console.log("Error getting player stats data");
+      });
     }
 
     private setupShareModule() {
@@ -185,6 +289,14 @@ export class TeamPage implements OnInit {
         }
         this.draftHistoryModule(event, this.pageParams.teamId);
         // this.draftData = this.teamPage.draftHistoryModule(event, this.teamId);
+    }
+
+    private transactionsTab(event) {
+      var firstTab = 'Current Season';
+      if (event == firstTab) {
+        event = this.currentYear;
+      }
+      this.transactionsModule(event, this.pageParams.teamId);
     }
 
     private draftHistoryModule(year, teamId) {
@@ -218,6 +330,38 @@ export class TeamPage implements OnInit {
             );
     }
 
+  private transactionsModule(year, teamId) {
+    this._transactionsService.getTransactionsService(year, teamId, 'module')
+      .subscribe(
+        transactionsData => {
+          console.log("data", transactionsData);
+          var dataArray, detailedDataArray, carouselDataArray;
+          if (typeof dataArray == 'undefined') {//makes sure it only runs once
+            dataArray = transactionsData.tabArray;
+          }
+          if (transactionsData.listData.length == 0) {//makes sure it only runs once
+            detailedDataArray = false;
+          } else {
+            detailedDataArray = transactionsData.listData;
+          }
+          carouselDataArray = transactionsData.carData
+          return this.draftHistoryData = {
+            tabArray: dataArray,
+            listData: detailedDataArray,
+            carData: carouselDataArray,
+            errorData: {
+              data: "Sorry, the " + this.profileHeaderData.profileName + " do not currently have any data for the " + year + " transactions",
+              icon: "fa fa-remove"
+            }
+          }
+        },
+        err => {
+          console.log('Error: transactionsData API: ', err);
+          // this.isError = true;
+        }
+      );
+  }
+
 
     setupListOfListsModule() {
         // getListOfListsService(version, type, id, scope?, count?, page?){
@@ -225,6 +369,8 @@ export class TeamPage implements OnInit {
             .subscribe(
                 listOfListsData => {
                     this.listOfListsData = listOfListsData.listData;
+                    this.listOfListsData["type"] = "team";
+                    this.listOfListsData["id"] = this.pageParams.teamId;
                 },
                 err => {
                     console.log('Error: listOfListsData API: ', err);

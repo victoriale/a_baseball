@@ -1,6 +1,5 @@
 <section class="module-container">
-  <module-header [modHeadData]="moduleTitle"></module-header>
-  <!-- <news-carousel *ngIf="carouselData" [carouselData]="carouselData"></news-carousel> -->
+  <module-header [modHeadData]="headerInfo"></module-header>
   <div class="news">
     <div class="news-placeholder">
       <circle-button (scrollRight)="right()" (scrollLeft)="left()"></circle-button>
@@ -14,17 +13,19 @@
           </span>
           <i></i>
         </div>
-        <div class="news-headline">{{displayData.title}}</div>
-        <div class="news-preview">{{displayData.description}}</div>
+        <a href="{{displayData.newsUrl}}">
+          <div class="news-headline">{{displayData.title}}</div>
+          <div class="news-preview">{{displayData.description}}</div>
+        </a>
         <div class="news-footer">
           <span class="news-footer-author">{{displayData.author}}</span>
           <span class="news-footer-created">{{displayData.published}}</span>
-          <a href="#" class="news-footer-share"><i class="fa fa-share-alt"></i> Share</a>
+          <div (mouseover)="locateShareThis()" class="st_sharethis_large"><i class="fa fa-share-alt"></i> Share</div>
         </div>
       </div>
       <!-- center details ends -->
     </div>
-    <module-footer [footerData]="footerInfo"></module-footer>
+    <module-footer [footerData]="displayData.footerData"></module-footer>
 
     <!-- placeholder ends -->
   </div>

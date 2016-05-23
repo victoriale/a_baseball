@@ -6,7 +6,7 @@
     <tab *ngFor="#tab of tabs" [tabTitle]="tab.tabTitle" [active]="tab.isActive">
       
       <div *ngIf="tab.tableData">
-        <div class="stats-table-title pane-content">
+        <div class="stats-table-title">
           <p class="stats-season-dropdown">
             Now Viewing:<dropdown [list]="tab.seasonIds" [selectedKey]="tab.selectedSeasonId" (selectionChanged)="dropdownChanged($event)"></dropdown>
           </p>
@@ -18,12 +18,12 @@
         </div>
       </div>
       
-      <div class="stats-glossary pane-content">
+      <div *ngIf="showGlossary" class="stats-glossary pane-content">
         <h4 class="stats-glossary-title">Glossary</h4>
         <div class="stats-glossary-box row">
           <ul>
             <li *ngFor="#term of tab.glossary" class="col-sm-4">
-              <b>{{term.key}}:</b> {{term.value}}
+              <span class="text-heavy">{{term.key}}:</span> {{term.value}}
             </li>
           </ul>
         </div>

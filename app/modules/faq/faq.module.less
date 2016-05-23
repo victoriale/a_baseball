@@ -1,6 +1,7 @@
 .faq{
   height: auto;
   &-details{
+    cursor:pointer;
     border-left: solid 5px @greyBorder;
     border-bottom: solid 1px @greyBorder;
     .flexDisplay;
@@ -13,7 +14,7 @@
       .flexDisplay;
       .flexAlignItems(center);
       p{
-        margin: 20px 10px 10px 20px;
+        margin: 25px;
         line-height: 20px;
         width: 100%;
       }
@@ -30,28 +31,32 @@
       }//faq-details-info-icon ends
     }//faq-details-info ends
     &-answer{
-      visibility: hidden;
+      display: none;
       margin: 0;
       line-height: 18px;
       .globalDefaultModFont(14px, 400, @black);
       i{
         color: @masterBrandColor;
         margin-right: 5px;
-        font-size: 14px;
+        font-size: 12px;
       }
     }//faq-details-answer ends
+    &.active{
+      border-left-color: @masterBrandColor;
+      background-color: @backgroundGrey;
+      .faq-details-info{
+        font-weight: 800;
+        &-icon{
+          display: none;
+        }
+      }
+      .faq-details-answer{
+        margin: -15px 0 25px 25px;
+        display: block;
+      }
+    }
   }//faq-details ends
 }//faq ends
 .faq-details:hover{
   border-left-color: @masterBrandColor;
-  .faq-details-info{
-    font-weight: 800;
-    &-icon{
-      visibility: hidden;
-    }
-  }
-  .faq-details-answer{
-    margin: 0 0 20px 20px ;
-    visibility: visible;
-  }
 }//faq hoover ends

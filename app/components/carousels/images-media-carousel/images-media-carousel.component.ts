@@ -21,7 +21,7 @@ export class ImagesMedia implements OnInit {
     @Input() profileName:string;
     leftCircle:EventEmitter<boolean> = new EventEmitter();
     rightCircle:EventEmitter<boolean> = new EventEmitter();
-    expand:EventEmitter<boolean> = new EventEmitter();
+    expand:any = new EventEmitter();
     expandText:string = 'Expand';
     expandIcon:string = 'fa-expand';
     modalButton:boolean = false;
@@ -43,7 +43,12 @@ export class ImagesMedia implements OnInit {
     };
 
     modalExpand() {
-        this.expand.next(true);
+        if (this.expand == true) {
+            this.expand = false;
+        } else {
+            this.expand = true;
+        }
+        return this.expand;
     }
 
     left() {

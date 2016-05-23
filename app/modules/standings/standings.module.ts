@@ -6,12 +6,12 @@ import {StandingsComponent, TableTabData} from '../../components/standings/stand
 
 export interface StandingsModuleData {
   moduleTitle: string;
- 
+
   /**
     * Used for the link in the footer button
     */
   pageRouterLink: Array<any>;
-  
+
   /**
    * Sent to Standings component
    */
@@ -25,7 +25,7 @@ export interface StandingsModuleData {
 })
 export class StandingsModule implements OnChanges {
   @Input() data: StandingsModuleData;
-  
+
   @Output("tabSelected") tabSelectedListener = new EventEmitter();
 
   public headerInfo: ModuleHeaderData = {
@@ -39,7 +39,7 @@ export class StandingsModule implements OnChanges {
     text: "VIEW FULL STANDINGS",
     url: ['Standings-page']
   };
-  
+
   ngOnChanges() {
     if ( !this.data ) {
       this.headerInfo.moduleTitle = "Standings";
@@ -47,9 +47,9 @@ export class StandingsModule implements OnChanges {
     else {
       this.headerInfo.moduleTitle = this.data.moduleTitle;
       this.footerInfo.url = this.data.pageRouterLink;
-    }    
+    }
   }
-  
+
   tabSelected(tab) {
     this.tabSelectedListener.next(tab);
   }

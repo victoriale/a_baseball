@@ -2,7 +2,6 @@
     <div class="profile-carousel">
         <module-header [modHeadData]="headerInfo"></module-header>
         <div class="plcholder">
-            <circle-button (scrollLeft)="left()" (scrollRight)="right()"></circle-button>
             <a class='feature-btn expand' (click)="modalExpand()">
                 {{expandText}}
                 <i class='fa {{expandIcon}}'></i>
@@ -16,8 +15,11 @@
                 </span>
             </div>
             <span [ngStyle]="{'background-image': 'url(' + largeImage + ')'}" onerror="this.src={{image-url}}"
-                  class="plcholder-img"></span>
-            <div class="grey-bar">Photo&nbsp;<span class="grey-bar-credit"> by {{imageCredit}}</span></div>
+                  class="plcholder-img">
+                <circle-button class="plcholder-img-navigation" (scrollLeft)="left()"
+                               (scrollRight)="right()"></circle-button>
+            </span>
+            <div class="grey-bar">Photo by<span class="grey-bar-credit">{{imageCredit}}</span></div>
         </div>
         <div class="sm-images">
             <span *ngFor="#smImages of smallImage">
@@ -44,7 +46,6 @@
 
 <section *ngIf="!isProfilePage" class="article-carousel">
     <div class="plcholder">
-        <circle-button (scrollLeft)="left()" (scrollRight)="right()"></circle-button>
         <a class='feature-btn expand' (click)="modalExpand()">
             {{expandText}}
             <i class='fa {{expandIcon}}'></i>
@@ -58,8 +59,11 @@
                 </span>
         </div>
             <span [ngStyle]="{'background-image': 'url(' + largeImage + ')'}" onerror="this.src={{image-url}}"
-                  class="plcholder-img"></span>
-        <div class="grey-bar">Photo&nbsp;<span class="grey-bar-credit"> by </span></div>
+                  class="plcholder-img">
+                <circle-button class="plcholder-img-navigation" (scrollLeft)="left()"
+                               (scrollRight)="right()"></circle-button>
+            </span>
+        <div class="grey-bar">Photo by<span class="grey-bar-credit"></span></div>
     </div>
     <div class="sm-images">
             <span *ngFor="#smImages of smallImage">
@@ -82,3 +86,27 @@
             </span>
     </div>
 </section>
+<div class="modal" (keyup)="close($event)" [ngClass]="{'modal-open': expand == true}">
+    <div class="modal-exit" (click)="modalExpand()">X</div>
+    <section *ngIf="isProfilePage">
+        <div class="modal-plcholder">
+            <span [ngStyle]="{'background-image': 'url(' + largeImage + ')'}" onerror="this.src={{image-url}}"
+                  class="modal-plcholder-img">
+                <circle-button class="modal-plcholder-img-navigation" (scrollLeft)="left()"
+                               (scrollRight)="right()"></circle-button>
+            </span>
+            <div class="modal-grey-bar">Photo by<span class="modal-grey-bar-credit">{{imageCredit}}</span></div>
+        </div>
+    </section>
+
+    <section *ngIf="!isProfilePage">
+        <div class="modal-plcholder">
+            <span [ngStyle]="{'background-image': 'url(' + largeImage + ')'}" onerror="this.src={{image-url}}"
+                  class="modal-plcholder-img">
+                <circle-button class="modal-plcholder-img-navigation" (scrollLeft)="left()"
+                               (scrollRight)="right()"></circle-button>
+            </span>
+            <div class="modal-grey-bar">Photo by<span class="modal-grey-bar-credit"></span></div>
+        </div>
+    </section>
+</div>

@@ -47,6 +47,9 @@ export class PlayerStatsPage implements OnInit {
     if ( teamId !== null && teamId !== undefined ) {
       this.pageParams.teamId = Number(teamId);
     }
+      
+    // Scroll page to top to fix routerLink bug
+    window.scrollTo(0, 0);
   }
   
   ngOnInit() {    
@@ -84,30 +87,16 @@ export class PlayerStatsPage implements OnInit {
   }
   
   private playerStatsTabSelected(tab: MLBPlayerStatsTableData) {
-    var hasData = false;
-    if ( tab ) {
-      var table = tab.seasonTableData[tab.selectedSeasonId];
-      if ( table ) {     
-        hasData = true;
-        tab.tableData = table;
-      }
-      else {
-        tab.tableData = null;
-      }
-    }    
-    
-    if ( !hasData ) {
-      this._statsService.getTabData(tab, this.pageParams, tab.selectedSeasonId)
-        .subscribe(data => { 
-          this.getLastUpdatedDateForPage(data);
-          tab.seasonTableData[tab.selectedSeasonId] = data;
-          tab.tableData = data;
-        },
-        err => {
-          console.log("Error getting player stats data");
-          this.hasError = true;
-        });
-    }
+    this._statsService.getTabData(tab, this.pageParams)
+      .subscribe(data => { 
+        this.getLastUpdatedDateForPage(data);
+        tab.seasonTableData[tab.selectedSeasonId] = data;
+        tab.tableData = data;
+      },
+      err => {
+        console.log("Error getting player stats data");
+        this.hasError = true;
+      });
   }
   
   private getLastUpdatedDateForPage(table: MLBPlayerStatsTableModel) {           

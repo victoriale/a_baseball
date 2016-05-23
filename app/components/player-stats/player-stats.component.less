@@ -2,9 +2,14 @@
   &-car {    
     &-subhdr {
       .globalDefaultModFont(12px, 400, @white);
-      margin-bottom: 14px;
+      margin-bottom: 10px;
       text-transform: uppercase;
       line-height: 1.2em;
+      
+      .fa {
+        color: @masterBrandColor;
+        padding-right: 8px;
+      }
     }
     
     &-hdr {      
@@ -24,24 +29,21 @@
       line-height: 1.2em;
     }
     
-    .scc-details {      
-      min-height: 250px;
-      padding-top: 51px;
-    }
-    
     .scc-details-desc {
-      height: 150px;
-      
-      .fa {
-        color: @masterBrandColor;
-        padding-right: 8px;
-      }
+      height: 170px;
     }
   }
   
+  .data-column {
+    width: 60px;
+  }
+  
+  .image-column {
+    width: 205px;
+  }
+  
   .pane {
-    padding-right: 0px;
-    padding-left: 0px;
+    padding: 0px;
     
     &-content {
       padding: 0 10px;
@@ -53,7 +55,7 @@
       margin: 0px;
       .globalDefaultFont(18px, 400);
     }
-    margin-bottom: 20px;
+    margin: 20px 25px;
   }
   
   &-season-dropdown {
@@ -69,6 +71,7 @@
   
   &-glossary {
     border-top: 1px solid @strokeGrey;
+    margin-bottom: 10px;
       
     &-title {
       margin: 10px 0;
