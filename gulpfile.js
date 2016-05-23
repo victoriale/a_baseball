@@ -37,6 +37,8 @@ gulp.task('copy:libs', ['clean'], function() {
       'node_modules/angular2/es6/dev/src/testing/shims_for_IE.js',
       'node_modules/highcharts/highcharts.js',
       'node_modules/moment/moment.js',
+      'node_modules/moment-timezone/moment-timezone.js',
+      'node_modules/fuse.js/src/fuse.min.js'
     ])
     .pipe(gulp.dest('dist/lib'))
 });

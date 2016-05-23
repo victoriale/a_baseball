@@ -18,7 +18,7 @@ export interface TeamRosterData {
   roleStatus: string,
   active: string,
   uniformNumber: string,
-  headShotUrl: string,
+  playerHeadshot: string,
   teamLogo: string,
   position:string,
   depth: string,
@@ -88,25 +88,24 @@ export class RosterTabData {
       var andCheck = " is ";
     }
     if(val.salary != null){
-      playerSalary = andCheck + "making a salary of <b>" + val.salary + "</b>";
+      playerSalary = andCheck + "making a salary of <b>$" + GlobalFunctions.commaSeparateNumber(Number(val.salary)) + "</b>";
     } else {
       playerSalary = andCheck + "making a salary of <b>N/A</b>";
     }
     var Carousel = {
         index: index,
         //imageData(mainImg, mainImgRoute, subImg, subRoute, rank)
-        //TODO need to replace image data with actual image path when available
         imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.playerHeadshot),playerRoute,"image-50-sub",GlobalSettings.getImageUrl(val.teamLogo),teamRoute,index+1),
         description:[
           '<p style="font-size:12px;"><i class="fa fa-circle" style="color:#bc2027; padding-right: 5px;"></i> ' + curYear + ' TEAM ROSTER</p>',
-          '<p style="font-size: 22px; font-weight: 900; padding:9px 0;">'+val.playerName+'</p>',
-          '<p style="font-size: 14px; line-height: 1.4em;"><b style="font-weight:900;">'+ val.playerName+ '</b>, <b style="font-weight:900;">'+ MLBGlobalFunctions.MLBPosition(val.position[0]) +'</b> for the <b style="font-weight:900;">'+ val.teamName +'</b>,' + playerNum + playerHeight + playerWeight + playerSalary + '</p>',
+          '<p style="font-size: 22px; font-weight: 800; padding:9px 0;">'+val.playerName+'</p>',
+          '<p style="font-size: 14px; line-height: 1.4em;"><b style="font-weight:800;">'+ val.playerName+ '</b>, <b style="font-weight:800;">'+ val.position.join(', ') +'</b> for the <b style="font-weight:800;">'+ val.teamName +'</b>,' + playerNum + playerHeight + playerWeight + playerSalary + '</p>',
           '<p style="font-size: 10px; padding-top:9px;">Last Updated On ' + GlobalFunctions.formatUpdatedDate(val.lastUpdate) + '</p>'
         ],
         footerInfo: {
           infoDesc: 'Interested in discovering more about this player?',
           text: 'View Profile',
-          url: ['Disclaimer-page']//TODO
+          url: MLBGlobalFunctions.formatPlayerRoute(val.teamName,val.playerName,val.playerId.toString()),
         }
     };
     return Carousel;
@@ -220,7 +219,7 @@ export class RosterTableModel {
         break;
 
       case "pos":
-        s = typeof item.position[0] == 'undefined' ? "N/A" : MLBGlobalFunctions.MLBPositionToAB(item.position[0].toString());
+        s = typeof item.position[0] == 'undefined' ? "N/A" : item.position.toString().replace(',', ', ');
         break;
 
       case "ht":
@@ -236,7 +235,7 @@ export class RosterTableModel {
         break;
 
       case "sal":
-        s = item.salary == null ? "N/A" : "$" + self._globalFunctions.commaSeparateNumber(Number(item.salary));
+        s = item.salary == null ? "N/A" : "$" + GlobalFunctions.commaSeparateNumber(Number(item.salary));
         break;
     }
     return s;
@@ -266,7 +265,7 @@ export class RosterTableModel {
           break;
 
         case "sal":
-          s = item.salary;
+          s = Number(item.salary);
           break;
       }
       return s;
@@ -278,7 +277,7 @@ export class RosterTableModel {
       return {
           imageClass: "image-50",
           mainImage: {
-            imageUrl: GlobalSettings.getImageUrl(item.headShotUrl),
+            imageUrl: GlobalSettings.getImageUrl(item.playerHeadshot),
             imageClass: "border-2",
             urlRouteArray: MLBGlobalFunctions.formatPlayerRoute(item.teamName,item.playerName,item.playerId.toString()),
             hoverText: "<i class='fa fa-mail-forward'></i>",

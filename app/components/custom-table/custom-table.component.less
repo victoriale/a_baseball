@@ -1,59 +1,87 @@
 .custom-table {
   width: 100%;
-  
+  // table-layout: fixed;
+
   &-header {
     position: relative;
-    padding: 7px;
+    padding: 8px;
     text-align: center;
     .globalDefaultFont(12px, 400);
-    border: @strokeGrey 1px solid;    
-        
-    margin-right: 4px;
-    margin-bottom: 6px;        
-    
+    border: @strokeGrey 1px solid;
+
+    margin-left: 5px;
+    margin-bottom: 10px;
+
     &:hover {
       border-color: @masterBrandColor;
       cursor: pointer;
     }
-    
+
     &-name {
       text-transform: uppercase;
     }
   }
-          
+
   &-sort {
     float: right;
   }
-  
-  th:last-of-type &-header {
-    margin-right: 0px;
+
+  th:first-of-type &-header {
+    margin-left: 0px;
   }
-  
+
   /** regular body and cell definitions **/
-  &-body {   
+  &-body {
     tr {
       height: 70px;
     }
-    
+
+    td {
+      position: relative;
+    }
+
     &-cell {
+      .globalDefaultFont(16px, 400);
       padding: 6px;
     }
-    
-    &-bold-column {
-      .globalDefaultModFont(16px, 900, @masterBrandColor);
+  }
+
+  /** compact body and cell definitions **/
+  &-compact {
+    tr {
+      height: 50px;
+    }
+
+    &-cell {
+      .globalDefaultFont(12px, 400);
+      padding: 10px 6px;
+    }
+  }
+
+  /** row definitions **/
+  &-row {
+
+    .bold-column {
+      font-weight: 800;
+      color: @masterBrandColor;
       text-align: center;
     }
-    
-    &-image-column {
-      .globalDefaultFont(16px, 900);
-      text-align: left;   
-      
+
+    .image-column {
+      font-weight: 800;
+      text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 275px;
+
+
       .image-round {
         margin-right: 10px;
-        margin-left: 4px;
+        margin-left: 5px;
         display: inline-block;
       }
-      
+
       a:hover {
         color: @masterBrandColor;
         text-decoration: none;
@@ -63,76 +91,78 @@
           }
         }
       }
-      
+
       a:focus {
         color: @masterBrandColor;
         text-decoration: none;
       }
     }
 
-    &-data-column {
-      .globalDefaultFont(16px, 400);
-      text-align: center;    
-    }
-  }
-  
-  /** compact body and cell definitions **/
-  &-compact {   
-    tr {
-      height: 50px;
-    }
-    
-    &-cell {
-      padding: 0 6px;
-    }
-    
-    &-bold-column {
-      .globalDefaultModFont(12px, 900, @masterBrandColor);
-      text-align: center;
-    }
-    
-    &-image-column {
-      .globalDefaultFont(12px, 900);
-      text-align: left;   
-      
-      .image-round {
-        margin-right: 1em;
-        margin-left: 2px;
+    .location-column{
+      width:168px;
+
+      .location-wrap{
+        width: 60%;
+        height: 100%;
+        white-space: normal;
         display: inline-block;
+        position: relative;
+        top: 7px;
       }
     }
 
-    &-data-column {
-      .globalDefaultFont(12px, 400);
-      text-align: center;    
+    .date-column {
+      width:70px;
+      text-align: center;
+      white-space: nowrap;
     }
-  }
-  
-  /** row definitions **/
-  &-row {
-    &-even, &-odd {      
-      border-left: 5px solid transparent;
+
+    .data-column {
+      text-align: center;
     }
-        
+
+    .summary-column{
+      font-size: 16px;
+      color:@masterBrandColor;
+      font-weight: 800;
+      text-align: center;
+      i{
+          margin-left: 5px;
+          font-weight: 400;
+      }
+    }
+
+    .highlight-box, .highlight-box {
+      width: 5px;
+      top: 0px;
+      bottom: 0px;
+      left: 0px;
+      position: absolute;
+    }
+
     &-even {
       background: @backgroundGrey;
     }
-    
+
     &-selected,
     &-selected .custom-table-compact-bold-column,
     &-selected .custom-table-body-bold-column {
       background-color: @lightMasterBrandColor;
       border-color: @masterBrandColor;
     }
-  } 
-  
+
+    &-selected .highlight-box {
+      background-color: @masterBrandColor;
+    }
+  }
+
   /** footer definitions **/
   &-footer {
     td {
-      .globalDefaultFont(12px, 900);
+      .globalDefaultFont(12px, 800);
       text-align: center;
     }
-    
+
     background: @backgroundGrey;
   }
 }

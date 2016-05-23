@@ -14,7 +14,7 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    background-size: cover;
+    background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;
   }
@@ -65,27 +65,28 @@
   height: 17.8%;
   width: 580px;
   border-bottom: 1px solid @strokeGrey;
-  overflow: auto;
-  overflow-y: hidden;
-  &-img {
-    position: relative;
-  }
-  .square-image {
-    width: 18.9%;
-    height: 85.5%;
+  overflow: hidden;
+  position: relative;
+  &-container {
+    width: 110px;
+    height: 59px;
+    margin: 5px 3px;
     float: left;
-    margin: 5px 3px !important;
+  }
+  &-square-image {
+    width: 100%;
+    height: 100%;
     box-sizing: border-box;
     background: rgba(0, 0, 0, 0);
-    background-size: cover !important;
-    background-repeat: no-repeat !important;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
     cursor: pointer;
     &:hover:after {
       border: 2px solid #ba1a2a;
       background: rgba(188, 22, 36, 0.5);
       cursor: pointer;
       content: "";
-      width: 18.9%;
+      width: 110px;
       height: 59px;
       position: absolute;
       box-sizing: border-box;

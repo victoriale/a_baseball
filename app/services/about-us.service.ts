@@ -8,6 +8,8 @@ import {GlobalSettings} from "../global/global-settings";
 import {MLBGlobalFunctions} from "../global/mlb-global-functions";
 import {AuBlockData, AboutUsModel} from "../webpages/about-us-page/about-us.page";
 
+declare var moment: any;
+
 export interface AboutUsInterface {
     teamProfilesCount: number;
     divisionsCount: number;
@@ -17,12 +19,12 @@ export interface AboutUsInterface {
     worldChampTeamId: string;
     worldChampYear: string;
     worldChampImageUrl: string;
-    lastUpdatedDate: Date; //TODO-CJP: Needed in API
+    lastUpdated: string;
 }
 
 @Injectable()
 export class AboutUsService {  
-  constructor(public http: Http, private _globalFunctions: GlobalFunctions){}
+  constructor(public http: Http){}
 
   getData(partnerID: string): Observable<AboutUsModel> {
     let url = GlobalSettings.getApiUrl() + '/landingPage/aboutUs';
@@ -35,9 +37,9 @@ export class AboutUsService {
     let pageName = (partnerID === null)
             ? "Home Run Loyal" 
             : "My Home Run Loyal";
-    let lastUpdatedDate = data.lastUpdatedDate !== undefined ? data.lastUpdatedDate : new Date(); //TODO-CJP: update when included in API
-    let teamProfiles = this._globalFunctions.commaSeparateNumber(data.teamProfilesCount);
-    let playerProfiles = this._globalFunctions.commaSeparateNumber(data.playerProfilesCount);
+    let lastUpdatedDate = moment(data.lastUpdated);
+    let teamProfiles = GlobalFunctions.commaSeparateNumber(data.teamProfilesCount);
+    let playerProfiles = GlobalFunctions.commaSeparateNumber(data.playerProfilesCount);
     let fullName = data.worldChampFirstName + " " + data.worldChampLastName;
     let championLink = MLBGlobalFunctions.formatTeamRoute(fullName, data.worldChampTeamId);
     let model: AboutUsModel = {
@@ -59,7 +61,7 @@ export class AboutUsService {
         {
           iconUrl: '/app/public/division_image.png',
           titleText: 'MLB Divisions',
-          dataText: this._globalFunctions.commaSeparateNumber(data.divisionsCount)
+          dataText: GlobalFunctions.commaSeparateNumber(data.divisionsCount)
         },
         {
           iconUrl: '/app/public/player_profile_image.png',
@@ -80,7 +82,7 @@ export class AboutUsService {
             },            
           },
           titleText: data.worldChampYear + ' World Series Champions',
-          dataText: data.worldChampFirstName,
+          dataText: data.worldChampLastName,
         }
       ],
       //TODO-CJP: Update [July, 2016] to reflect actual creation date!

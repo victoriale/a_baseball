@@ -4,11 +4,14 @@
 
 
     <profileData-component *ngIf="i==2 && articleType == 'playerComparison'" [articleType]="articleType"
-                           [articleData]="articleData"></profileData-component>
+                           [articleSubType]="articleSubType" [articleData]="articleData"></profileData-component>
     <profileData-component *ngIf="i==2 && articleType == 'teamRecord' && articleSubType == 'about'" [index]="'1'"
                            [articleSubType]="articleSubType" [articleType]="articleType"
                            [articleData]="articleData"></profileData-component>
     <profileData-component *ngIf="i==2 && articleType == 'teamRecord' && articleSubType == 'history'" [index]="'1'"
+                           [articleSubType]="articleSubType" [articleType]="articleType"
+                           [articleData]="articleData"></profileData-component>
+    <profileData-component *ngIf="i==4 && articleType == 'teamRecord' && articleSubType == 'last'" [index]="'1'"
                            [articleSubType]="articleSubType" [articleType]="articleType"
                            [articleData]="articleData"></profileData-component>
 
@@ -22,6 +25,9 @@
                            [articleSubType]="articleSubType" [articleType]="articleType"
                            [articleData]="articleData"></profileData-component>
     <profileData-component *ngIf="i==3 && articleType == 'teamRecord' && articleSubType == 'history'" [index]="'2'"
+                           [articleSubType]="articleSubType" [articleType]="articleType"
+                           [articleData]="articleData"></profileData-component>
+    <profileData-component *ngIf="i==6 && articleType == 'teamRecord' && articleSubType == 'last'" [index]="'2'"
                            [articleSubType]="articleSubType" [articleType]="articleType"
                            [articleData]="articleData"></profileData-component>
 

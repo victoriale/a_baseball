@@ -11,6 +11,7 @@ import {RouteParams} from 'angular2/router';
 import {LoadingComponent} from "../../components/loading/loading.component";
 import {ErrorComponent} from "../../components/error/error.component";
 import {PaginationFooter} from "../../components/pagination-footer/pagination-footer.component";
+import {GlobalSettings} from "../../global/global-settings";
 
 declare var moment:any;
 
@@ -23,110 +24,106 @@ declare var moment:any;
 })
 
 export class ListOfListsPage implements OnInit{
-    errorData: any;
-    dataArray: any; //array of data for detailed list
-    detailedDataArray: any; //variable that is just a list of the detailed DataArray
-    displayData: any; // paginated data to be displayed
-    carouselDataArray: any;
-    isError: boolean = false;
-    paginationSize: number = 10;
-    paginationParameters: Object;
-    index: number = 0;
-    footerData: Object;
-    footerStyle: any = {
-        ctaBoxClass: "list-footer",
-        ctaBtnClass:"list-footer-btn",
-        hasIcon: true,
-    };
-    titleData: {};
+    errorData             : any;
+    detailedDataArray     : any; //variable that is just a list of the detailed DataArray
+    displayData           : any; // paginated data to be displayed
+    carouselDataArray     : any;
+    profileName           : string;
+    isError               : boolean = false;
+    version               : string = "page"; // [page,module]
+    type                  : string; // [player,team]
+    id                    : string; // [playerId, teamId]
+    limit                 : string; // pagination limit
+    pageNum               : string; // page of pages to show
 
-    constructor(private lolService:ListOfListsService){
-        this.titleData = {
-            imageURL : 'http://prod-sports-images.synapsys.us/mlb/players/no-image.png',
-            text1 : 'Last Updated: ' + moment().format("dddd, MMMM DD, YYYY"),
-            text2 : ' United States',
-            text3 : 'Top lists - [Profile Name]',
-            icon: 'fa fa-map-marker',
-            hasHover: false
-        };
+    paginationSize        : number = 10;
+    index                 : number = 0;
+    paginationParameters  : any;
+    footerData            : Object;
+    footerStyle : any = {
+        ctaBoxClass       : "list-footer",
+        ctaBtnClass       : "list-footer-btn",
+        hasIcon           : true
+    };
+    titleData             : Object;
+    profileHeaderData: TitleInputData;
+
+    constructor(private listService:ListOfListsService, private params: RouteParams){
     }
 
-    getListOfListsPage() {
-        //   getListOfListsService(version, type?, scope?, conference?, count?, page?){
-        this.lolService.getListOfListsService("page", null, null, null, 20, 1)
+    //getListOfListsService(version, type, id, scope?, count?, page?){
+    getListOfListsPage(urlParams, version) {
+        this.listService.getListOfListsService(urlParams, version)
           .subscribe(
-            listOfListsData => {
-                this.detailedDataArray = listOfListsData.listData;
-                this.dataArray = true
-                this.carouselDataArray = listOfListsData.carData
-                this.sanitizeListofListData();
+            list => {
+                //this.profileHeaderData = list.profHeader;
+                if(list.listData.length == 0){//makes sure it only runs once
+                    this.detailedDataArray = false;
+                }else{
+                    this.detailedDataArray = list.listData;
+                }
+                this.setPaginationParams(list.pagination);
+                this.carouselDataArray = list.carData;
+
+                this.profileName = list.targetData.playerName != null ? list.targetData.playerName : list.targetData.teamName;  // TODO include this
+                this.setProfileHeader(this.profileName)
+
             },
             err => {
-                console.log('Error: listOfListsData API: ', err);
-                this.isError = true;
+                this.isError= true;
+                console.log('Error: ListOfLists API: ', err);
             }
           );
     }
 
-    ngOnInit(){
-      this.getListOfListsPage();
-    }
+    //PAGINATION
+    //sets the total pages for particular lists to allow client to move from page to page without losing the sorting of the list
+    setPaginationParams(input) {
+        var params = this.params.params;
 
-    sanitizeListofListData(){
-        var data = this.detailedDataArray;  // full array
-        var size = this.paginationSize;
-        var sanitizedArray = [];
-        var max = Math.ceil(data.length / size);
-        var objCount = 0;
-
-        //Run through a loop the check data and generated and obj array fill with a max of size variable
-        data.forEach(function(item, index){
-            if(typeof sanitizedArray[objCount] == 'undefined'){
-                sanitizedArray[objCount] = [];
-            }
-            sanitizedArray[objCount].push(item);
-            if(item !== null  && sanitizedArray[objCount].length == size){
-                objCount++;
-            }
-        });
-
-        //display current data that user has click on and possibly the page user has declared
-        this.displayData = sanitizedArray[this.index];
-
-        if(typeof this.displayData == 'undefined'){
-            this.displayData = null;
+        var navigationParams = {
+            type       : params['type'],
+            id         : params['id'],
+            limit      : params['limit'],
+            pageNum    : params['pageNum'],
+        };
+        if(params['scope'] != null) {
+           navigationParams['scope'] = params['scope'];
         }
 
-        if(data != '' || data.length > 0){ //only show if there are results
-            //Set up parameters for pagination display
-            this.setPaginationParameters(max);
+        if(this.detailedDataArray == false){
+            this.paginationParameters = {
+                index: params['pageNum'],
+                max: input.pageCount,
+                paginationType: 'page',
+                navigationPage: 'Error-page',
+                navigationParams: navigationParams,
+                indexKey: 'pageNum'
+            };
         }else{
-            this.paginationParameters = false;
+            this.paginationParameters = {
+                index: params['pageNum'],
+                max: input.pageCount,
+                paginationType: 'page',
+                navigationPage: navigationParams['scope'] != null ? 'List-of-lists-page-scoped' : 'List-of-lists-page',
+                navigationParams: navigationParams,
+                indexKey: 'pageNum'
+            };
         }
     }
 
-    //Function to set up parameters for pagination footer
-    setPaginationParameters(max){
-        //Define parameters to send to pagination footer
-        this.paginationParameters = {
-            index: this.index+1,
-            max: max,
-            paginationType: 'module',
-            viewAllPage: 'Widget-page'
-        }
+    ngOnInit(){
+        this.getListOfListsPage(this.params.params, this.version);
     }
 
-    //Function that fires when a new index is clicked on pagination footer
-    newIndex(index){
-        this.index = index-1;
-        this.showCurrentData();
-    }
-
-    //will run for every event that triggers, keystroke, click, tab changes and it will updated the page
-    showCurrentData() {
-        //check to make sure to only run correctly if data is being shown
-        if (typeof this.detailedDataArray !== 'undefined' && typeof this.detailedDataArray !== 'undefined') {
-            this.sanitizeListofListData();// this is where the data will be sanitized for pagination
-        }
+    setProfileHeader(profile:string){
+        this.titleData = {
+            imageURL : GlobalSettings.getImageUrl('/mlb/players/no-image.png'),
+            text1 : 'Last Updated: ' + moment().format("dddd, MMMM DD, YYYY"),
+            text2 : ' United States',
+            text3 : 'Top lists - ' + profile,
+            icon: 'fa fa-map-marker',
+            hasHover: false
+        };
     }
 }

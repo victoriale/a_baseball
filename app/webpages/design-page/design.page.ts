@@ -17,7 +17,8 @@ import {ProfileHeaderService} from '../../services/profile-header.service';
 import {AboutUsModule} from '../../modules/about-us/about-us.module';
 import {ArticlesModule} from "../../modules/articles/articles.module";
 import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.module";
-
+import {TeamRosterModule} from '../../modules/team-roster/team-roster.module';
+import {RosterService} from '../../services/roster.service';
 import {ShareModule, ShareModuleInput} from '../../modules/share/share.module';
 import {LikeUs} from "../../modules/likeus/likeus.module";
 import {CommentModule} from '../../modules/comment/comment.module';
@@ -27,8 +28,8 @@ import {ListOfListsService} from "../../services/list-of-lists.service";
 @Component({
     selector: 'Design-page',
     templateUrl: './app/webpages/design-page/design.page.html',
-    directives: [DraftHistoryModule, AboutUsModule, StandingsModule, ProfileHeaderModule, ArticlesModule, ListOfListsModule, ShareModule, LikeUs, CommentModule],
-    providers: [StandingsService, ProfileHeaderService, ListOfListsService]
+    directives: [DraftHistoryModule, TeamRosterModule, AboutUsModule, StandingsModule, ProfileHeaderModule, ArticlesModule, ListOfListsModule, ShareModule, LikeUs, CommentModule],
+    providers: [StandingsService, ProfileHeaderService, RosterService, ListOfListsService]
 })
 
 export class DesignPage implements OnInit {
@@ -111,14 +112,19 @@ export class DesignPage implements OnInit {
 
   private setupLolData() {
     //  getListOfListsService(version, type?, scope?, conference?, count?, page?){
-    this._lolService.getListOfListsService("page", null, null, null, 4, 1)
+    let params = {
+      id : "2799",
+      limit : 4,
+      pageNum : 1,
+      type : "team"
+    }
+    this._lolService.getListOfListsService(params, "module")
       .subscribe(
         listOfListsData => {
           this.listOfListsData = listOfListsData;
         },
         err => {
           console.log('Error: listOfListsData API: ', err);
-          this.isError = true;
         }
       );
   }

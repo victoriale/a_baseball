@@ -51,11 +51,10 @@ export class StandingsComponent implements DoCheck {
         this.tabSelected(selectedTitle);
       }
       else {
-        for ( var i = 0; i < this.tabs.length; i++ ) {
-          if ( this.tabs[i].sections && this.tabs[i].sections.length > 0 && !this.tabsLoaded[i] ) {
-            this.updateCarousel();
-            this.tabsLoaded[i] = "1";
-          }
+        let selectedTab = this.getSelectedTab();
+        if ( selectedTab && selectedTab.sections && selectedTab.sections.length > 0 && !this.tabsLoaded[selectedTab.title] ) {
+          this.updateCarousel();
+          this.tabsLoaded[selectedTab.title] = "1";
         }
       }
     }
@@ -72,16 +71,16 @@ export class StandingsComponent implements DoCheck {
   }
   
   setSelectedCarouselIndex(tab: TableTabData<any>, index: number) {
-      let offset = 0;
-      tab.sections.forEach((section, sectionIndex) => {
-        if ( index >= offset && index < section.tableData.rows.length + offset ) {
-          section.tableData.setRowSelected(index-offset);
-        }
-        else {
-          section.tableData.setRowSelected(-1);
-        }
-        offset += section.tableData.rows.length;
-      });    
+    let offset = 0;
+    tab.sections.forEach((section, sectionIndex) => {
+      if ( index >= offset && index < section.tableData.rows.length + offset ) {
+        section.tableData.setRowSelected(index-offset);
+      }
+      else {
+        section.tableData.setRowSelected(-1);
+      }
+      offset += section.tableData.rows.length;
+    });    
   }
   
   tabSelected(newTitle) {

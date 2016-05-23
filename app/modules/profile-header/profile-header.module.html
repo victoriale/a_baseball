@@ -1,15 +1,18 @@
+<section *ngIf="!profileHeaderData" class="module-container ph">
+  <loading-component></loading-component>
+</section>
 <section *ngIf="profileHeaderData" class="module-container ph">
-  <div class="ph-banner-image" [ngStyle]="{'background': backgroundImage }">  
+  <div class="ph-banner-image" [ngStyle]="{'background-image': backgroundImage}">  
     <div class="ph-hdr">
       <div class="ph-hdr-date">Last Updated: {{displayDate}}</div>
       <div class="ph-hdr-title" [innerHtml]="profileTitle"></div>
       <div class="ph-hdr-datapts">
         <span *ngFor="#data of profileHeaderData.topDataPoints #isLast = last">
           <span class="ph-hdr-datapts-label">{{data.label}}:</span>
-          <span *ngIf="!data.value || !data.value.routerLink" class="ph-hdr-datapts-value">
+          <span *ngIf="!data.value || !data.routerLink" class="ph-hdr-datapts-value">
             {{data.value | naValue}}
           </span>
-          <a *ngIf="data.value && data.value.routerLink" class="ph-hdr-datapts-value" [routerLink]="data.value.routerLink">
+          <a *ngIf="data.value && data.routerLink" class="ph-hdr-datapts-value" [routerLink]="data.routerLink">
             {{data.value | naValue}}
           </a>
           <span *ngIf="!isLast" class="ph-hdr-datapts-sep">|</span>
@@ -41,33 +44,4 @@
         <div class="ph-datapts-label">{{data.labelCont}}</div>
       </div>    
   </div>
-    <!--<title-component [titleData]="titleComponentData"></title-component>-->
-    <!--<section class="ph-content">
-        <div class="ph-content-image">
-            <image-180 [hasSubImg]="main_hasSubImg" [imageURL]="mainImageURL" [imageURL2]="subImageURL" [imageClass]="imageClass"></image-180>
-        </div>
-        <div class="ph-content-description">
-            <div class="ph-content-description-title">
-                <div class="ph-content-description-title-icon"><i class="fa {{icon}}"></i></div>
-                <div class="ph-content-description-title-text">{{descriptionTitle}}</div>
-            </div>
-            <div *ngIf="profileType === 'ProfilePage'" class="ph-content-description-text">
-                {{descriptionAddress}}
-                {{descriptionSquareFeet}}
-                <span *ngIf="profileHeaderData.agent !== null">
-                    If you're interested in more information, please contact
-                    <a href="{{emailLink}}" *ngIf="profileHeaderData.email !== null" class="green-text">
-                        {{profileHeaderData.agent}}
-                    </a>
-                    <span *ngIf="profileHeaderData.email === nul">
-                        {{profileHeaderData.agent}}
-                    </span>
-                    {{descriptionContact}}
-                </span>
-            </div>
-            <div *ngIf="profileType === 'LocationPage'" class="ph-content-description-text">
-                {{descriptionLocation}}
-            </div>
-        </div>
-    </section>-->
 </section>

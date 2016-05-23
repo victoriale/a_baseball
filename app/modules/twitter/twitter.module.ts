@@ -1,5 +1,5 @@
-import {Component, OnInit} from 'angular2/core';
-import {ModuleHeader} from '../../components/module-header/module-header.component';
+import {Component, OnInit, OnChanges, Input} from 'angular2/core';
+import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 
 @Component({
     selector: 'twitter-module',
@@ -8,12 +8,25 @@ import {ModuleHeader} from '../../components/module-header/module-header.compone
     providers: []
 })
 
-export class TwitterModule{
-    public moduleTitle: string = 'Twitter Feed - [Profile Name]';
-    getData(){
-
-    }
-    ngOnInit(){
-      this.getData();
-    }
+export class TwitterModule implements OnInit, OnChanges {
+  
+  @Input() profileName: string;
+  
+  public headerInfo: ModuleHeaderData = {
+    moduleTitle: "Twitter Feed - [Profile Name]",
+    hasIcon: false,
+    iconClass: ""
+  };
+    
+  ngOnChanges() {
+    let profileName = this.profileName ? this.profileName : "[Profile Name]";
+    this.headerInfo.moduleTitle = "Twitter Feed - " + profileName;
+  }
+  
+  getData() {
+  }
+  
+  ngOnInit() {
+    this.getData();
+  }
 }

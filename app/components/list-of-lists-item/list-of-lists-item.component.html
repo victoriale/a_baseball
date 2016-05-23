@@ -5,14 +5,14 @@
   <div class="loli-container-right">
     <!--put in right box styles-->
     <div class="dataBox">
-      <h2 class="loli-title"><a href="#TODO">{{item.name}}</a></h2>
+      <h2 class="loli-title">{{item.name}}</h2>
       <div *ngFor="#imageConfig of item.dataPoints; #i=index" class="loli-sub-item">
         <circle-image *ngIf="i>0" [data]="imageConfig"></circle-image>
       </div>
     </div>
     <div class="cta-container">
       <span>
-        <button [routerLink]="['Home-page']">
+        <button [routerLink]="item.ctaUrl">
           <span class="cta-container-icon"></span>
           <span>{{item.ctaText}}</span>
           <i class="fa fa-angle-right"></i>

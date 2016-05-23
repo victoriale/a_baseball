@@ -14,11 +14,11 @@ export class StandingsService {
 
   getLinkToPage(pageParams: MLBPageParameters): Array<any> {
     var pageName = "Standings-page";
-    var pageValues = {};    
+    var pageValues = {};
 
     if ( pageParams.teamId && pageParams.teamName ) {
       pageValues["teamId"] = pageParams.teamId;
-      pageValues["teamName"] = pageParams.teamName;
+      pageValues["teamName"] = GlobalFunctions.toLowerKebab(pageParams.teamName);
       pageValues["type"] = "team";
       pageName += "-team";
     }
@@ -46,8 +46,8 @@ export class StandingsService {
     }
     return pageTitle;
   }
-  
-  loadAllTabsForModule(pageParams: MLBPageParameters) {    
+
+  loadAllTabsForModule(pageParams: MLBPageParameters) {
     return {
         moduleTitle: this.getModuleTitle(pageParams),
         pageRouterLink: this.getLinkToPage(pageParams),
@@ -132,11 +132,11 @@ export class StandingsService {
         }
       }
     }
-            
-    if ( teamId ) {        
+
+    if ( teamId ) {
       sections.forEach(section => {
         section.tableData.selectedKey = teamId;
-      }); 
+      });
     }
     return sections;
   }
@@ -154,6 +154,17 @@ export class StandingsService {
       value.groupName = groupName;
       value.displayDate = GlobalFunctions.formatUpdatedDate(value.lastUpdated, false);
       value.fullImageUrl = GlobalSettings.getImageUrl(value.imageUrl);
+      value.fullBackgroundImageUrl = GlobalSettings.getImageUrl(value.backgroundImage);
+
+      //Make sure numbers are numbers.
+      value.totalWins = Number(value.totalWins);
+      value.totalLosses = Number(value.totalLosses);
+      value.winPercentage = Number(value.winPercentage);
+      value.gamesBack = Number(value.gamesBack);
+      value.streakCount = Number(value.streakCount);
+      value.batRunsScored = Number(value.batRunsScored);
+      value.pitchRunsAllowed = Number(value.pitchRunsAllowed);
+
       if ( value.teamId === undefined || value.teamId === null ) {
         value.teamId = index;
       }

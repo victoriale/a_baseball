@@ -1,24 +1,28 @@
-import {Component} from 'angular2/core';
+import {Component, Output, EventEmitter} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
+import {Injectable} from 'angular2/core';
+
 import {DetailedListItem, DetailListInput} from '../../components/detailed-list-item/detailed-list-item.component';
 import {ModuleFooter} from '../../components/module-footer/module-footer.component';
 import {ModuleHeader} from '../../components/module-header/module-header.component';
 import {SliderCarousel, SliderCarouselInput} from '../../components/carousels/slider-carousel/slider-carousel.component';
 import {Tabs} from '../../components/tabs/tabs.component';
 import {Tab} from '../../components/tabs/tab.component';
-import {TransactionsService} from '../../services/transactions.service';
 import {NoDataBox} from '../../components/error/data-box/data-box.component';
-import {ProfileHeaderService} from '../../services/profile-header.service';
+
 
 @Component({
-    selector: 'transactions',
-    templateUrl: './app/modules/transactions/transactions.module.html',
-    directives: [NoDataBox, Tab, Tabs, SliderCarousel, DetailedListItem, ModuleHeader, ModuleFooter],
-    providers: [TransactionsService, ProfileHeaderService],
-    inputs:[]
+  selector: 'transactions',
+  templateUrl: './app/modules/transactions/transactions.module.html',
+  directives: [NoDataBox, Tab, Tabs, SliderCarousel, DetailedListItem, ModuleHeader, ModuleFooter],
+  providers: [],
+  inputs:['transactionsData', 'profHeader']
 })
 
 export class TransactionsModule{
+  @Output() tab: EventEmitter<string> = new EventEmitter();
+  transactionsData:any;
+  profHeader:any;
   modHeadData: Object;
   profileHeaderData: any;
   errorData: any;
@@ -28,69 +32,49 @@ export class TransactionsModule{
   footerData: Object;
   footerStyle: any;
   teamId:number;
-  constructor(private transactionsService:TransactionsService, private profHeadService:ProfileHeaderService, public params: RouteParams){
-    this.teamId = Number(this.params.params['teamId']);
+  constructor( public params: RouteParams){
+    console.log("transParams", params);
+    this.teamId = Number(this.params.get('teamId'));
     this.footerData = {
       infoDesc: 'Want to see everybody involved in this list?',
       text: 'VIEW THE LIST',
-      url: ['Transactions-page',{teamName:this.params.params['teamName'], teamId:this.teamId}]
+      url: ['Transactions-page',{teamName:this.params.get('teamName'), teamId:this.teamId}]
     };
-
-  }
-
-  getTransactionsPage(date, teamId) {
-    this.profHeadService.getTeamProfile(teamId)
-    .subscribe(
-        data => {
-          var profHeader = this.profHeadService.convertTeamPageHeader(data);
-          this.profileHeaderData = profHeader.data;
-          this.modHeadData = {
-              moduleTitle: "Transactions - "+ data.headerData.stats.teamName,
-              hasIcon: false,
-              iconClass: '',
-          }
-          this.errorData = {
-            data:profHeader.error,
-            icon: "fa fa-area-chart"
-          }
-        },
-        err => {
-            console.log('Error: transactionsData Profile Header API: ', err);
-            // this.isError = true;
-        }
-    );
-      this.transactionsService.getTransactionsService(date, teamId, 'module')
-          .subscribe(
-              transactionsData => {
-                if(typeof this.dataArray == 'undefined'){//makes sure it only runs once
-                  this.dataArray = transactionsData.tabArray;
-                }
-                if(transactionsData.listData.length == 0){//makes sure it only runs once
-                  this.detailedDataArray = false;
-                }else{
-                  this.detailedDataArray = transactionsData.listData;
-                }
-                this.carouselDataArray = transactionsData.carData
-              },
-              err => {
-                  console.log('Error: transactionsData API: ', err);
-                  // this.isError = true;
-              }
-          );
   }
 
   ngOnInit(){
-    //MLB starts and ends in same year so can use current year logic to grab all current season and back 4 years for tabs
-    var currentTab = new Date().getFullYear();
-    this.getTransactionsPage(currentTab, this.teamId);
+    this.displayData();
+  }
+
+  ngOnChanges(){
+    console.log(this.transactionsData);
+    this.displayData();
+  }
+
+  displayData(){
+    this.modHeadData = {
+      moduleTitle: "Transactions - "+ this.profHeader.profileName,
+      hasIcon: false,
+      iconClass: '',
+    }
+    this.errorData = this.transactionsData.errorData;
+    if(typeof this.dataArray == 'undefined'){//makes sure it only runs once
+      this.dataArray = this.transactionsData.tabArray;
+    }
+    if(this.transactionsData.listData.length == 0){//makes sure it only runs once
+      this.detailedDataArray = false;
+    }else{
+      this.detailedDataArray = this.transactionsData.listData;
+      if(this.detailedDataArray == false){
+        this.carouselDataArray = this.transactionsData.carData
+        this.carouselDataArray[0]['description'][0] = '<br><b style="font-size:20px">'+this.errorData.data+'</b>';
+      }
+    }
+    this.carouselDataArray = this.transactionsData.carData
   }
 
   //each time a tab is selected the carousel needs to change accordingly to the correct list being shown
   selectedTab(event){
-    var firstTab = 'Current Season';
-    if(event == firstTab){
-      event = new Date().getFullYear();
-    }
-    this.getTransactionsPage(event, this.teamId);
+    this.tab.emit(event);
   }
 }

@@ -1,13 +1,12 @@
 <section class="module-container dyk">
-  <module-header [moduleTitle]="moduleTitle"></module-header>
-  <!-- ngFor here -->
-  <div class="dyk-details" *ngFor="#dykInfo of dykInfo">
+  <module-header [modHeadData]="headerInfo"></module-header>
+  <div class="dyk-details" *ngFor="#dykInfo of dykData">
     <div class="dyk-details-info">
-      <p>{{dykInfo.info}}</p>
+      <p>{{dykInfo}}</p>
     </div>
     <div class="dyk-details-icon">
-      <!-- share icon will need a pop up window from 3rd party similar to investkit -->
-      <a href='#' data-toggle="tooltip title="><i class='fa fa-share-alt'></i></a>
+      <!-- using third party sharethis -->
+      <div class='st_sharethis_large' (mouseover)="locateShareThis()" data-toggle="tooltip title="><i class='fa fa-share-alt'></i></div>
     </div>
   </div>
 </section>

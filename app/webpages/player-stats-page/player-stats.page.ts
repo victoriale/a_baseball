@@ -10,7 +10,7 @@ import {DropdownComponent} from '../../components/dropdown/dropdown.component';
 
 import {PlayerStatsService} from '../../services/player-stats.service';
 import {ProfileHeaderService} from '../../services/profile-header.service';
-import {MLBPlayerStatsTableData} from '../../services/player-stats.data';
+import {MLBPlayerStatsTableData, MLBPlayerStatsTableModel} from '../../services/player-stats.data';
 
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
 import {GlobalFunctions} from '../../global/global-functions';
@@ -25,7 +25,7 @@ import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
 })
 
 export class PlayerStatsPage implements OnInit {
-  public tabs: Array<MLBPlayerStatsTableData>;
+  public tabs: Array<MLBPlayerStatsTableData>;  
     
   public pageParams: MLBPageParameters = {}
   
@@ -37,41 +37,74 @@ export class PlayerStatsPage implements OnInit {
     icon: "fa fa-map-marker"
   }
   
-  public hasError: boolean = false;
+  hasError: boolean = false;
+  lastUpdatedDateSet:boolean = false;
   
   constructor(private _params: RouteParams,
               private _profileService: ProfileHeaderService,
-              private _statsService: PlayerStatsService, 
-              private _globalFunctions: GlobalFunctions, 
-              private _mlbFunctions: MLBGlobalFunctions) {
-    this.pageParams.teamId = Number(_params["teamId"]);
+              private _statsService: PlayerStatsService) {    
+    var teamId = _params.get("teamId");
+    if ( teamId !== null && teamId !== undefined ) {
+      this.pageParams.teamId = Number(teamId);
+    }
+      
+    // Scroll page to top to fix routerLink bug
+    window.scrollTo(0, 0);
   }
   
-  ngOnInit() {
-    
-    this.pageParams.teamName = "Sample Team";
-    this.titleData.text3 = "Player Stats - " + "Sample Team";
-    this.setupPlayerStatsData();
-    // this._profileService.getTeamProfile(this.pageParams.teamId)
-    //   .subscribe(data => {
-    //     this.pageParams.teamName = data.teamName;
-    //     this.titleData.text3 = "Player Stats - " + data.teamName;
-    //     this.setupPlayerStatsData();
-    //   },
-    //   err => {
-    //     console.log("Error getting team profile data");
-    //   })
+  ngOnInit() {    
+    var pageTitle = this._statsService.getPageTitle(this.pageParams);
+    if ( this.pageParams.teamId ) {      
+      this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
+        data => {
+          this.pageParams = data.pageParams; 
+          this.setupTitleData(data.fullProfileImageUrl);
+          this.tabs = this._statsService.initializeAllTabs(this.pageParams);
+        },
+        err => {
+          console.log("Error getting player stats data for " + this.pageParams.teamId + ": " + err);
+        }
+      );
+    }
+    else {
+      this.setupTitleData();
+    }
+  }
+  
+  private setupTitleData(imageUrl?: string) {    
+    var title = this._statsService.getPageTitle(this.pageParams);
+    this.titleData = {
+      imageURL: imageUrl,
+      text1: "Last Updated: [date]",
+      text2: "United States",
+      text3: title,
+      icon: "fa fa-map-marker"
+    };
   }
 
   private setupPlayerStatsData() {
-    let self = this;
-    self._statsService.loadAllTabs(this.pageParams)
+    this.tabs = this._statsService.initializeAllTabs(this.pageParams);
+  }
+  
+  private playerStatsTabSelected(tab: MLBPlayerStatsTableData) {
+    this._statsService.getTabData(tab, this.pageParams)
       .subscribe(data => { 
-        this.tabs = data;
+        this.getLastUpdatedDateForPage(data);
+        tab.seasonTableData[tab.selectedSeasonId] = data;
+        tab.tableData = data;
       },
       err => {
         console.log("Error getting player stats data");
         this.hasError = true;
       });
+  }
+  
+  private getLastUpdatedDateForPage(table: MLBPlayerStatsTableModel) {           
+    //Getting the first 'lastUpdatedDate' listed in the StandingsData
+    if ( !this.lastUpdatedDateSet && table && table.rows && table.rows.length > 0 ) {
+      var lastUpdated = table.rows[0].lastUpdate;
+      this.titleData.text1 = "Last Updated: " + GlobalFunctions.formatUpdatedDate(lastUpdated, false); 
+      this.lastUpdatedDateSet = true;
+    }
   }
 }

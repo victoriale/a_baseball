@@ -5,9 +5,10 @@ import {GlobalFunctions} from '../global/global-functions';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalSettings} from '../global/global-settings';
 
+declare var moment;
 @Injectable()
 export class ListPageService {
-  private _apiUrl: string = 'http://dev-homerunloyal-api.synapsys.us';
+  private _apiUrl: string = GlobalSettings.getApiUrl();
   // private _apiToken: string = 'BApA7KEfj';
   // private _headerName: string = 'X-SNT-TOKEN';
 
@@ -22,12 +23,8 @@ export class ListPageService {
       return headers;
   }
 
-  getListPageService(query){//TODO replace data points for list page
-  //Configure HTTP Headers
-  var headers = this.setToken();
-
   /*
-  query:{
+    query:{
     profile: //profile type ex: 'team' or 'player'
     listname: //list name sent back as lower kebab case  ex: 'batter-runs'
     sort: //sorting the list by 'desc' or 'asc'
@@ -35,14 +32,18 @@ export class ListPageService {
     division: //sort list by division, but if sort by all divisions then 'all' would be in place. conference is required if 'all' is in place
     limit: // limit the amount of data points come back but a number amount
     pageNum: //  determined by the limit as well detects what page to view based on the limit ex: limit: 10  page 1 holds 1-10 and page 2 holds 11-20
-  }
+    }
   */
+  getListPageService(query){
+  //Configure HTTP Headers
+  var headers = this.setToken();
+
   var callURL = this._apiUrl+'/list';
 
   for(var q in query){
     callURL += "/" + query[q];
   }
-
+  // console.log(callURL);
   return this.http.get( callURL, {
       headers: headers
     })
@@ -51,11 +52,89 @@ export class ListPageService {
     )
     .map(
       data => {
-        console.log(data);
         data.data['query'] = query;
         return {
-          profHeader: this.profileHeader(data.data.listInfo),
-          carData: this.carDataPage(data.data),
+          profHeader: this.profileHeader(data.data),
+          carData: this.carDataPage(data.data, 'page'),
+          listData: this.detailedData(data.data),
+          pagination: data.data.listInfo
+        }
+      },
+      err => {
+        console.log('INVALID DATA');
+      }
+    )
+  }
+
+  //moduleType can be either 'pitcher' or 'batter' to generate the tabs list used to generate a static list for MVP module
+  getListModuleService(query, moduleType){
+  //Configure HTTP Headers
+  var headers = this.setToken();
+
+  var callURL = this._apiUrl+'/list';
+
+  //generate a static list of tab array based on the moduleType to emit the tabData and have a tabDisplay for the DOM
+  if(moduleType == 'pitcher'){
+    var tabArray = [
+      {
+        tabData:'pitcher-innings-pitched',
+        tabDisplay: 'Innings Pitched',
+      },
+      {
+        tabData:'pitcher-strikeouts',
+        tabDisplay: 'Strikeouts',
+      },
+      {
+        tabData:'pitcher-earned-run-average',
+        tabDisplay: 'ERA',
+      },
+      {
+        tabData:'pitcher-hits-allowed',
+        tabDisplay: 'Hits',
+      },
+    ];
+  }else{//defaults to 'batter' if nothing is sent to moduleType
+    var tabArray = [
+      {
+        tabData:'batter-home-runs',
+        tabDisplay: 'Home Runs',
+      },
+      {
+        tabData:'batter-batting-average',
+        tabDisplay: 'Batting Avg.',
+      },
+      {
+        tabData:'batter-runs-batted-in',
+        tabDisplay: 'RBIs',
+      },
+      {
+        tabData:'batter-hits',
+        tabDisplay: 'Hits',
+      },
+      {
+        tabData:'batter-bases-on-balls',
+        tabDisplay: 'Walks',
+      },
+    ];
+  }
+
+  for(var q in query){
+    callURL += "/" + query[q];
+  }
+  // console.log(callURL);
+  return this.http.get( callURL, {
+      headers: headers
+    })
+    .map(
+      res => res.json()
+    )
+    .map(
+      data => {
+        data.data['query'] = query;//used in some functions below
+        return {
+          tabArray:tabArray,
+          profHeader: this.profileHeader(data.data),
+          carData: this.carDataPage(data.data,'module'),
           listData: this.detailedData(data.data),
           pagination: data.data.listInfo
         }
@@ -67,12 +146,12 @@ export class ListPageService {
   }
 
   profileHeader(data){
-    // console.log('list profile header',data);
+    var profile = data.listInfo;
     var profileData = {
       imageURL: '/app/public/mainLogo.png', //TODO
-      text1: 'Last Updated:', //TODO
+      text1: 'Last Updated: '+ moment(data.listData[0].lastUpdate).format('dddd, MMMM Do, YYYY') + ' at ' + moment(data.listData[0].lastUpdate).format('hh:mm A') + ' ET', //TODO
       text2: 'United States',
-      text3: data.name,
+      text3: profile.name,
       icon: 'fa fa-map-marker',
       hasHover : true,
     };
@@ -80,7 +159,7 @@ export class ListPageService {
   }
 
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
-  carDataPage(data){//TODO replace data points for list page
+  carDataPage(data, profileType){
     // console.log('original carousel data', data);
     let self = this;
     var carouselArray = [];
@@ -88,14 +167,16 @@ export class ListPageService {
     var dummyRoute = ['Error-page'];
     var dummyRank = '##';
 
+    var currentYear = new Date().getFullYear();//TODO FOR POSSIBLE past season stats but for now we have lists for current year season
+
     var carData = data.listData;
     var carInfo = data.listInfo;
     if(carData.length == 0){
       var Carousel = {// dummy data if empty array is sent back
         index:'2',
-        imageConfig: self.imageData("image-150","border-large",dummyImg,dummyRoute, 1,"image-50-sub"),
+        imageConfig: self.imageData("image-150","border-large",dummyImg,dummyRoute, 1, 'image-38-rank',"image-50-sub"),
         description:[
-          '<p style="font-size:20px"><b>Sorry, we currently do not have any data for this particular list</b><p>',
+          '<p style="font-size:20px"><span class="text-heavy">Sorry, we currently do not have any data for this particular list</span><p>',
         ],
       };
       carouselArray.push(Carousel);
@@ -103,7 +184,7 @@ export class ListPageService {
       //if data is coming through then run through the transforming function for the module
       carData.forEach(function(val, index){
         var rank = ((Number(data.query.pageNum) - 1) * Number(data.query.limit)) + (index+1);
-        val.listRank = rank;
+        val['listRank'] = rank;
 
         if(data.query.profile == 'team'){
           var Carousel = {
@@ -114,21 +195,28 @@ export class ListPageService {
               GlobalSettings.getImageUrl(val.teamLogo),
               MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
               val.listRank,
+              'image-48-rank',
               'image-50-sub'),
             description:[
-              '<p style="font-size:24px"><b>'+val.teamName+'</b></p>',
-              '<p><i class="fa fa-map-marker text-master"></i>'+val.teamVenue+'</p>',
               '<br>',
-              '<p style="font-size:24px"><b>'+val.stat+'</b></p>',
-              '<p style="font-size:20px"> '+ carInfo.stat.replace(/-/g, ' ') +'</p>',
+              '<p style="font-size:22px"><span class="text-heavy">'+val.teamName+'</span></p>',
+              '<p><i class="fa fa-map-marker text-master"></i> '+val.teamCity +', '+val.teamState+'</p>',
+              '<br>',
+              '<p style="font-size:22px"><b>'+val.stat+'</b></p>',
+              '<p style="font-size:16px"> '+ MLBGlobalFunctions.formatStatName(carInfo.stat)+' for '+ currentYear +'</p>',
             ],
-            footerInfo: {
+          };
+          if(profileType == 'page'){
+            Carousel['footerInfo'] = {
               infoDesc:'Interested in discovering more about this team?',
-              text:'VIEW PROFILE',
+              text:'View Profile',
               url:MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
             }
-          };
+          }
         }else if(data.query.profile == 'player'){
+          var position = '';
+          position = val.position.join(", ");
+
           var playerFullName = val.playerFirstName + " " + val.playerLastName;
           var Carousel = {
             index:index,
@@ -138,23 +226,26 @@ export class ListPageService {
               GlobalSettings.getImageUrl(val.imageUrl),
               MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId),
               val.listRank,
+              'image-48-rank',
               'image-50-sub',
               GlobalSettings.getImageUrl(val.teamLogo),
               MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
             description:[
               '<br>',
-              '<p style="font-size:24px"><b>'+playerFullName+'</b></p>',
-              '<p><i class="fa fa-map-marker text-master"></i> <b>'+val.teamName+'</b></p>',
+              '<p style="font-size:22px"><span class="text-heavy">'+playerFullName+'</span></p>',
+              '<p>'+val.teamName+' | Jersey: #'+val.uniformNumber+' | '+position+'</p>',
               '<br>',
-              '<p style="font-size:24px"><b>'+val.stat+'</b></p>',
-              '<p style="font-size:20px"> '+ carInfo.stat.replace(/-/g, ' ') +'</p>',
+              '<p style="font-size:22px"><span class="text-heavy">'+val.stat+'</span></p>',
+              '<p style="font-size:16px"> '+ MLBGlobalFunctions.formatStatName(carInfo.stat) +' for '+ currentYear+'</p>',
             ],
-            footerInfo: {
+          };
+          if(profileType == 'page'){
+            Carousel['footerInfo'] = {
               infoDesc:'Interested in discovering more about this player?',
-              text:'VIEW PROFILE',
+              text:'View Profile',
               url:MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId),
             }
-          };
+          }
         }
         carouselArray.push(Carousel);
       });
@@ -178,16 +269,29 @@ export class ListPageService {
     var dummySubDesc = "[Data Description]";
     var dummySubUrl = ['Disclaimer-page'];
 
+    var currentYear = new Date().getFullYear();//TODO FOR POSSIBLE past season stats but for now we have lists for current year season
+
     var detailData = data.listData;
     var detailInfo = data.listInfo;
     detailData.forEach(function(val, index){
       var rank = ((Number(data.query.pageNum) - 1) * Number(data.query.limit)) + (index+1);
-      val.listRank = rank;
+      val['listRank'] = rank;
       if(data.query.profile == 'team'){
         var listData = {
-          dataPoints: self.detailsData(val.teamName,(val.stat),MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),val.teamVenue, self.globalFunc.toTitleCase(detailInfo.stat.replace(/-/g, ' ')) , MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
-          imageConfig: self.imageData("image-121","border-2",
-          GlobalSettings.getImageUrl(val.teamLogo),MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId), val.listRank, 'image-50-sub'),
+          dataPoints: self.detailsData(
+            "<a>"+val.teamName+"</a>",
+            (val.stat),
+            MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
+            "<a>"+val.teamCity +', '+val.teamState + '</a> | Division: <span class="">'+ MLBGlobalFunctions.formatShortNameDivison(val.conferenceName) + val['divisionName'].charAt(0).toUpperCase() + "</span>",
+            MLBGlobalFunctions.formatStatName(detailInfo.stat) + ' for ' + currentYear,
+            '','fa fa-map-marker'),
+            imageConfig: self.imageData("image-121","border-2",
+            GlobalSettings.getImageUrl(
+            val.teamLogo),
+            MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
+            val.listRank,
+            'image-38-rank',
+            'image-40-sub'),
           hasCTA:true,
           ctaDesc:'Want more info about this team?',
           ctaBtn:'',
@@ -196,28 +300,31 @@ export class ListPageService {
         };
       }else if(data.query.profile == 'player'){
         var playerFullName = val.playerFirstName + " " + val.playerLastName;
+        var position = '';
+        position = val.position.join(", ");
         var listData = {
           dataPoints: self.detailsData(
-            playerFullName,
+            "<a>"+playerFullName+"<a>",
             (val.stat),
             MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId),
-            val.teamName,
-            self.globalFunc.toTitleCase(detailInfo.stat.replace(/-/g, ' ')),
-            MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId)),
-          imageConfig: self.imageData(
+            "<a class='text-master text-heavy'>"+val.teamName +'</a> | <span>Jersey: #'+val.uniformNumber+' | '+position+'</span>',
+            MLBGlobalFunctions.formatStatName(detailInfo.stat) + ' for ' + currentYear,
+            MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
+            imageConfig: self.imageData(
             "image-121",
             "border-2",
             GlobalSettings.getImageUrl(val.imageUrl),
             MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId),
             val.listRank,
-            'image-50-sub',
+            'image-38-rank',
+            'image-40-sub',
             GlobalSettings.getImageUrl(val.teamLogo),
             MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
           hasCTA:true,
           ctaDesc:'Want more info about this player?',
           ctaBtn:'',
           ctaText:'View Profile',
-          ctaUrl: MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)
+          ctaUrl: MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId)
         };
       }
 
@@ -231,7 +338,7 @@ export class ListPageService {
    *this function will have inputs of all required fields that are dynamic and output the full
   **/
   //TODO replace data points for list page
-  imageData(imageClass, imageBorder, mainImg, mainImgRoute, rank, subImgClass, subImg?, subRoute?){
+  imageData(imageClass, imageBorder, mainImg, mainImgRoute, rank, rankClass, subImgClass, subImg?, subRoute?){
     if(typeof mainImg =='undefined' || mainImg == ''){
       mainImg = "/app/public/no-image.png";
     }
@@ -258,7 +365,7 @@ export class ListPageService {
           },
           {
             text: "#"+rank,
-            imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
+            imageClass: rankClass+" image-round-upper-left image-round-sub-text"
           }
         ],
     };
@@ -273,7 +380,7 @@ export class ListPageService {
           },
           {
               text: "#"+rank,
-              imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
+              imageClass: rankClass+" image-round-upper-left image-round-sub-text"
           }
       ];
     }
@@ -281,7 +388,7 @@ export class ListPageService {
   }
 
   //TODO replace data points for list page
-  detailsData(mainP1,mainV1,mainUrl1,subP1,subV2,subUrl2,dataP3?,dataV3?,dataUrl3?){
+  detailsData(mainP1,mainV1,mainUrl1,subP1,subV2,subUrl2, icon?, dataP3?,dataV3?,dataUrl3?){
     if(typeof dataP3 == 'undefined'){
       dataP3 = '';
     }
@@ -307,7 +414,7 @@ export class ListPageService {
         data:subP1,
         value:subV2,
         url:subUrl2,
-        icon:'fa fa-map-marker',
+        icon:icon,
       },
     ];
     return details;

@@ -1,4 +1,5 @@
 import {Injectable} from 'angular2/core';
+import {Link} from './global-interface';
 
 declare var moment: any;
 
@@ -47,14 +48,23 @@ export class GlobalFunctions {
      * @param {string} str - The string value to convert to title case
      * @returns {string}
      */
-    toTitleCase(str:string): string {
-      if ( str === undefined || str === null ) {
-        return str;
-      }
-      return str.replace(/\w\S*/g, function(txt) {
-        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-      });
-    };
+     toTitleCase(str:string): string {
+       if ( str === undefined || str === null ) {
+         return str;
+       }
+       return str.replace(/\w\S*/g, function(txt) {
+         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+       });
+     };
+
+     static toTitleCase(str:string): string { // the above can be removed once conversion is swapped to static
+       if ( str === undefined || str === null ) {
+         return str;
+       }
+       return str.replace(/\w\S*/g, function(txt) {
+         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+       });
+     };
 
     /**
      * - Transforms a USA phone number (7 or 10 character string) to a human readable format.
@@ -132,13 +142,15 @@ export class GlobalFunctions {
      * @param {string} def - (Optional) The default string value to use if the value is undefined. If it's not included, then "" is used as the def string.
      * @returns {string}
      */
-    commaSeparateNumber(value:number, def?:string): string {
+      static commaSeparateNumber(value:number, def?:string): string {
       if ( value === null || value === undefined ) {
         return def || "";
       }
 
       var parts = value.toString().split("."); //split on decimal point
-      parts[0] = parts[0].replace(/(\d+)(\d{3})/g, "$1,$2"); //replace all groups of three
+      while (/(\d+)(\d{3})/.test(parts[0])){
+          parts[0] = parts[0].replace(/(\d+)(\d{3})/, '$1'+','+'$2');
+      }
       return parts.join(".");
     }
 
@@ -160,7 +172,7 @@ export class GlobalFunctions {
       }
       else {
         //TODO: support multiple currencies?
-        return "$" + this.commaSeparateNumber(value);
+        return "$" + GlobalFunctions.commaSeparateNumber(value);
       }
     }
 
@@ -174,7 +186,7 @@ export class GlobalFunctions {
      * @param {string} state - The postal state code to convert to the full state name. Case does not matter.
      * @returns {string}
      */
-    fullstate(state:string): string {
+    static fullstate(state:string): string {
         if ( state === undefined || state === null ) {
           return state;
         }
@@ -250,7 +262,7 @@ export class GlobalFunctions {
      * @returns {string}
      */
 
-    stateToAP(state: string): string {
+    static stateToAP(state: string): string {
         if ( state === undefined || state === null ) {
           return state;
         }
@@ -405,61 +417,6 @@ export class GlobalFunctions {
       return str;
     }
 
-    convertListName = function(val){
-        var names = {
-            'homesAtLeast5YearsOld': 'Homes at least 5 years old',
-            'homes-at-least-5-years-old': 'Homes at least 5 years old',
-            'homesLessThan5YearsOld': 'Homes less than 5 years old',
-            'homes-less-than-5-years-old': 'Homes less than 5 years old',
-            'homesWithSprinklerAndDeck': 'Homes with sprinkler and deck',
-            'homes-with-sprinkler-and-deck': 'Homes with sprinkler and deck',
-            'homesWithVaultedCeilingsAndSecuritySystem': 'Homes with vaulted ceiling and security system',
-            'homes-with-vaulted-ceilings-and-security-system': 'Homes with vaulted ceiling and security system',
-            'homesLargest': 'Largest homes',
-            'homes-largest': 'Largest homes',
-            'homesBrickLeastExpensive': 'Least expensive brick houses',
-            'homes-brick-least-expensive': 'Least expensive brick houses',
-            'homesLeastExpensive': 'Least expensive homes',
-            'homes-least-expensive': 'Least expensive homes',
-            'homesWithPoolLeastExpensive': 'Least expensive homes with a swimming pool',
-            'homes-with-pool-least-expensive': 'Least expensive homes with a swimming pool',
-            'homesWithWaterfrontLeastExpensive': 'Least expensive homes with waterfront',
-            'homes-with-waterfront-least-expensive': 'Least expensive homes with waterfront',
-            'homesWith2BedroomsMostExpensive': 'Most expensive 2 bedroom homes',
-            'homes-with-2-bedrooms-most-expensive': 'Most expensive 2 bedroom homes',
-            'homesWith3BedroomsMostExpensive': 'Most expensive 3 bedroom homes',
-            'homes-with-3-bedrooms-most-expensive': 'Most expensive 3 bedroom homes',
-            'homesMostExpensive': 'Most expensive homes',
-            'homes-most-expensive': 'Most expensive homes',
-            'homesNewTraditional': 'New traditional homes',
-            'homes-new-traditional': 'New traditional homes',
-            'listingsInWealthiestZipCode': 'Listings in wealthiest ZIP code in area',
-            'listings-in-wealthiest-zipcode': 'Listings in wealthiest ZIP code in area',
-            'listingsWithLongDescriptions': 'Listings with long descriptions',
-            'listings-with-long-descriptions': 'Listings with long descriptions',
-            'listingsWithMoreThan10Photos': 'Listings with more than 10 photos',
-            'listings-with-more-than-10-photos': 'Listings with more than 10 photos',
-            'listingsWithMoreThan5Photos': 'Listings with more than 5 photos',
-            'listings-with-more-than-5-photos': 'Listings with more than 5 photos',
-            'listingsWithVirtualTours': 'Listings with virtual tours',
-            'listings-with-virtual-tours': 'Listings with virtual tours',
-            'listingsMostRecent': 'Most recent listings',
-            'listings-most-recent': 'Most recent listings',
-            'condosMostExpensive': 'Most expensive condos',
-            'condos-most-expensive': 'Most expensive condos'
-        };
-
-        return typeof names[val] === 'undefined' ? this.camelCaseToRegularCase(val) : names[val];
-    }
-
-    formatDaysOnMarket = function(daysOnMarket) {
-        if ( daysOnMarket === null || daysOnMarket === undefined || daysOnMarket === "N/A" ) {
-          return "N/A";
-        }
-        else {
-          return moment().subtract(daysOnMarket, 'days').format('dddd, MMMM Do, YYYY');
-        }
-    }
 
   /**
    * Parses the date string with moment and returns it as a long-date formatted string
@@ -481,22 +438,41 @@ export class GlobalFunctions {
    * Formats the given string as English words if it's between
    * 0 and 9. Otherwise the given string is returned unchanged.
    *
-   * @param {string} numStr - The number string to format
+   * @param {number} num - The number to format
    * @returns
    */
-  static formatNumber(numStr: string) {
-   switch (numStr) {
-     case "0": return "zero";
-     case "1": return "one";
-     case "2": return "two";
-     case "3": return "three";
-     case "4": return "four";
-     case "5": return "five";
-     case "6": return "six";
-     case "7": return "seven";
-     case "8": return "eight";
-     case "9": return "nine";
-     default: return numStr;
+   static formatNumber(num: number) {
+    switch (num) {
+      case 0: return "zero";
+      case 1: return "one";
+      case 2: return "two";
+      case 3: return "three";
+      case 4: return "four";
+      case 5: return "five";
+      case 6: return "six";
+      case 7: return "seven";
+      case 8: return "eight";
+      case 9: return "nine";
+      default: return num.toString();
+    }
    }
+
+  static setupAlphabeticalNavigation(pageType: string): Array<Link> {
+    var navigationArray: Array<Link> = [];
+    var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+    //Build alphabet array for navigation links
+    for ( var i in alphabet ) {
+        navigationArray.push({
+            text: alphabet[i],
+            route: ['Directory-page-starts-with',
+              {
+                  type: pageType,
+                  page: 1,
+                  startsWith: alphabet[i]
+              }]
+        });
+    }
+    return navigationArray;
   }
 }

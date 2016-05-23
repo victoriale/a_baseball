@@ -9,89 +9,29 @@ export interface MLBPageParameters {
   teamName?: string;
   playerId? :number;
   playerName?: string;
+  type?: string;
 }
 
-export interface PropertyListingInterface {
-    listingID: string;
-    listPrice: string;
-    squareFeet: string;
-    lotSize: string;
-    listingDate: string;
-    daysOnMarket: string;
-    address: string;
-    zipCode: string;
-    city: string;
-    state: string;
-    imageCount: string;
-    numBathrooms: string;
-    numBedrooms: string;
-    fullBathrooms: string;
-    halfBathrooms: string;
-    architecturalStyle: string;
-    numFloors: string;
-    hasBasement: string;
-    listingImages: any;
-    appliance: string;
-    heating: string;
-    exterior: string;
-    roof: string;
+export interface Link {
+  route?: Array<any>;
+  text: string;
 }
 
-export interface List {
-    title: string;
-    location: string;
-    bigImage: string;
-    smallImage: any;
+export interface NavigationData {
+  title: string;
+  links: Array<Link>;
+  moreLink?: Link;
 }
 
-export interface HomePageData {
-    citylocation: string;
-    statelocation: string;
-    cityarea: any;
-}
-
-export interface List2 {
-    bigImage: string;
-    city: string;
-    list_name: string;
-    list_addr: string;
-    list_day: string;
-    detail1: string;
-    lotSize: string;
-    unit1: string;
-    detail2: string;
-    unit2: string;
-    price: string;
-    price_name: string;
-    smallImage: string[];
-}
-
-//Interface for Profile Header Module
-export interface ProfileHeaderInterface {
-    //Listing data
-    address: string;
-    agent: string;
-    brokerageLogoURL: string;
-    email: string;
-    listingID: string;
-    listingImage: string;
-    listingPrice: number;
-    listingStatus: string;
-    officeNumber: number;
-    originalLink: string;
-    phoneNumber: number;
-    squareFeet: number;
-    zipCode: string;
-    //Location data
-    numberOfListings: number;
-    averageListingPrice: number;
-    averageRentalPrice: number;
-    averageAge: string;
-    locationImage: string;
-    //Shared data
-    city: string;
-    state: string;
-    lastUpdated: string;
+export interface Images {
+    image_url: string;
+    image_title: string;
+    image_copyright: string;
+    image_date: string;
+    image_height: string;
+    image_width: string;
+    team_name: string;
+    team_id: string;
 }
 
 /*BELOW IS ARTICLE MODULE TEST INTERFACE*/
@@ -177,6 +117,7 @@ export interface HeadlineData {
     };
     home: {
         id: number;
+        location: string;
         name: string;
         hex: string;
         logo: string;
@@ -186,6 +127,7 @@ export interface HeadlineData {
     }
     away: {
         id: number;
+        location: string;
         name: string;
         hex: string;
         logo: string;

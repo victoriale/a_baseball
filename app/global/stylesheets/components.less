@@ -106,7 +106,7 @@ goalsHeader
     background-color: @masterBrandColor;
   }
   span:last-child {
-    .globalDefaultModFont(18px, 900, @white);
+    .globalDefaultModFont(18px, 800, @white);
   }
 }
 .mod-hdr-ratio-demo-1 {
@@ -124,7 +124,7 @@ goalsHeader
   }
   span:last-child {
     @modHdrFontSize: @defaultModHdrHeight * 0.4;
-    .globalDefaultModFont(@modHdrFontSize, 900, @white);
+    .globalDefaultModFont(@modHdrFontSize, 800, @white);
   }
 }
 .mod-hdr-ratio-demo-2 {
@@ -142,7 +142,7 @@ goalsHeader
   }
   span:last-child {
     @modHdrFontSize: @defaultModHdrHeight * 0.4;
-    .globalDefaultModFont(@modHdrFontSize, 900, @white);
+    .globalDefaultModFont(@modHdrFontSize, 800, @white);
   }
 }
 .mod-hdr-ratio-demo-3 {
@@ -160,7 +160,7 @@ goalsHeader
   }
   span:last-child {
     @modHdrFontSize: @defaultModHdrHeight * 0.4;
-    .globalDefaultModFont(@modHdrFontSize, 900, @white);
+    .globalDefaultModFont(@modHdrFontSize, 800, @white);
   }
 }
 .page-hdr {
@@ -194,7 +194,7 @@ goalsHeader
       .globalDefaultModFont(18px, 300, @white);
       margin-left: 20px;
       &.strong {
-        font-weight: 900;
+        font-weight: 800;
       }
     }
   }
@@ -232,7 +232,7 @@ goalsHeader
       .globalDefaultModFont(@pageHdrFontSize, 300, @white);
       margin-left: 20px;
       &.strong {
-        font-weight: 900;
+        font-weight: 800;
       }
     }
   }
@@ -270,7 +270,7 @@ goalsHeader
       .globalDefaultModFont(@pageHdrFontSize, 300, @white);
       margin-left: 20px;
       &.strong {
-        font-weight: 900;
+        font-weight: 800;
       }
     }
   }
@@ -308,7 +308,7 @@ goalsHeader
       .globalDefaultModFont(@pageHdrFontSize, 300, @white);
       margin-left: 20px;
       &.strong {
-        font-weight: 900;
+        font-weight: 800;
       }
     }
   }
@@ -366,26 +366,27 @@ goalsHeader
   .flexJustify(center);
   text-align: center;
   background-color: rgba(188, 22, 36, 0.5);
-  width: @hoverEleWidth;
-  height: @hoverEleHeight;
+  width: 100%;
+  height: 100%;
   position: absolute;
   top: 0;
   left:0;
-  margin: 5px 3px;
   p {
     &:first-child {
       @defaultFirstParaFontSize: @hoverEleWidth * 0.13;
       .globalDefaultModFont(@defaultFirstParaFontSize, 700, @white);
       line-height: @defaultFirstParaFontSize;
       margin: 0 auto;
-      height: 30px;
-      width: 92px;
-      padding-top: 7px;
+      height: 35%;
+      width: 75%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       border: 1px solid @white;
       border-radius: 5px;
       background-color: rgba(188, 32, 39, 0.5);
-      font-size: 12px;
-      font-weight: 900;
+      font-size: 80%;
+      font-weight: 800;
       font-family: @globalFont;
     }
   }
@@ -514,7 +515,7 @@ goalsHeader
   height: @linkHeight;
   position: absolute;
   img {
-    .rectangleImage(@linkWidth, @linkHeight);
+    .rectangleImage(100%, 100%);
   }
   div {
     .carouselImageTextSmall(@linkWidth, @linkHeight);
@@ -528,8 +529,8 @@ goalsHeader
 
 .articleImageLinkWithHoverSmall(@linkWidth, @linkHeight) {
   display: inline-block;
-  width: @linkWidth;
-  height: @linkHeight;
+  width: 100%;
+  height: 100%;
   position: absolute;
   img {
     .rectangleImage(@linkWidth, @linkHeight);
@@ -1060,7 +1061,7 @@ goalsHeader
   & > i {
     margin: 2px 10px 0;
     color: @white;
-    font-weight: 900;
+    font-weight: 800;
   }
   &:hover {
     background-color: darken(@masterBrandColor, 10%);
@@ -1088,7 +1089,7 @@ goalsHeader
     font-weight: 400;
   }
   & > span {
-    .globalDefaultModFont(12px, 900, @white);
+    .globalDefaultModFont(12px, 800, @white);
     margin-left: 10px;
   }
 
@@ -1149,43 +1150,22 @@ goalsHeader
         .globalDefaultModFont(14px, 300, #666);
         &.active {
           color: @white;
-          font-weight: 900;
+          font-weight: 800;
           background-color: @masterBrandColor;
           &:hover {
             color: @white;
-            font-weight: 900;
+            font-weight: 800;
             background-color: @masterBrandColor;
           }
         }
         &:hover {
-          font-weight: 900;
+          font-weight: 800;
           color: @white;
           background-color: @masterFontIconColor;
         }
       }
     }
   }
-}
-.tile-btn {
-  .inlineFlexDisplay;
-  .flexDirection(row);
-  .flexJustify(center);
-  .flexAlignItems(center);
-  width: 140px;
-  height: 35px;
-  position: absolute;
-  bottom: 10px;
-  left: 20px;
-  .globalDefaultModFont(12px, 900, @white);
-  border: 1px solid @masterBrandColor;
-  .borderRadiusPrefix(3px);
-  background-color: @masterBrandColor;
-  i {
-    margin-left: 8px;
-  }
-  // &:hover {
-  //   background-color: @masterBrandColor;
-  // }
 }
 .feature-btn {
   .inlineFlexDisplay;
@@ -1201,7 +1181,7 @@ goalsHeader
   background-color: rgba(54, 54, 54, 0.85);
   border: 1px solid  rgba(54, 54, 54, 0.85);
   .borderRadiusPrefix(3px);
-  .globalDefaultModFont(14px, 900, @white);
+  .globalDefaultModFont(14px, 800, @white);
   i {
     margin-left: 8px;
   }
@@ -1259,7 +1239,7 @@ goalsHeader
       p {
         .globalDefaultModFont(12px, 400, #666);
         &:nth-child(2) {
-          .globalDefaultModFont(32px, 900, @black);
+          .globalDefaultModFont(32px, 800, @black);
           margin-top: 5px;
           span {
             font-size: 12px;
@@ -1299,7 +1279,7 @@ goalsHeader
       .inlineFlexDisplay;
       .flexDirection(column);
       .flexJustify(center);
-      .globalDefaultModFont(12px, 900, @black);
+      .globalDefaultModFont(12px, 800, @black);
     }
   }
 }

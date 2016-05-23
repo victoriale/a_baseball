@@ -1,10 +1,29 @@
+slider-carousel{
+    display:block;
+    overflow: hidden;
+}
 .scc{
   width:100%;
   height:auto;
   position: relative;
+  &-slide-background{
+    position: absolute;
+    top:0;
+    right:0;
+
+  }
     &-placeholder{
       width: 100%;
       height: auto;
+      background-position: center center;
+      background-color: rgba(0, 0, 0, 0.65);
+      module-footer{
+        position: relative;
+        .list-footer{
+          float:left;
+          position: relative;
+        }
+      }
     }//.scc-placeholder ends
     &-details{
       .flexDisplay;
@@ -13,7 +32,9 @@
       height: auto;
       margin:auto;
       padding-top: 7%;
-      min-height: 245px;
+      min-height: 250px;
+      position: relative;
+
       &-mainImg{
         width: 40%;
         .flexDisplay;
@@ -30,6 +51,7 @@
           line-height: 1.2em;
           margin:0;
           i.fa{
+            padding-top:2px;
             color: @masterBrandColor;
           }
           &.font-10{
@@ -71,14 +93,14 @@
           &.fw-700{
             font-weight: 700;
           }
-          &.fw-900{
-            font-weight: 900;
+          &.fw-800{
+            font-weight: 800;
           }
           &.titlecase{
             text-transform: uppercase;
           }
           b{
-            font-weight: 900;
+            font-weight: 800;
           }
 
         }

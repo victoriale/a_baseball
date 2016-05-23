@@ -11,7 +11,8 @@
 
   <h2 style="border-bottom:3px solid #999;">Draft History</h2>
   <div class="component-compbar-container">
-    <draft-history></draft-history>
+    <!-- <draft-history></draft-history> -->
+    <share-module [shareModuleInput]="shareModuleInput"></share-module>
   </div>
 
   <h2 style="border-bottom:3px solid #999;">List of Lists Module</h2>
@@ -22,6 +23,11 @@
   <h2 style="border-bottom:3px solid #999;">Standings Module</h2>
   <div class="component-compbar-container">
     <standings-module [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
+  </div>
+
+  <h2 style="border-bottom:3px solid #999;">Team Roster Module</h2>
+  <div class="component-compbar-container">
+    <team-roster-module></team-roster-module>
   </div>
 
   <h2 style="border-bottom:3px solid #999;">Profile Header (player)</h2>

@@ -48,7 +48,7 @@ export class DraftHistoryPage implements OnInit{
             this.profileHeaderData = profHeader.data;
             this.errorData = {
               data: profHeader.error,
-              icon: "fa fa-area-chart"
+              icon: "fa fa-remove"
             }
           },
           err => {

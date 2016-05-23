@@ -49,11 +49,16 @@ export class SliderCarousel implements OnInit {
   response(event){
     //set the data event being emitted back from the carousel component
     this.dataPoint = event;
-
+    if ( this.dataPoint.backgroundImage ) {
+      this.backgroundImage = this.dataPoint.backgroundImage;
+    }
+    else {
+      this.backgroundImage = '/app/public/homePage_hero1.png';
+    }
     //sets the index of the dataPoint of its current position in the array
     // the '?' meaning if there is data to even receive
     if(typeof this.dataPoint['index'] != 'undefined'){
-      this.indexNum.next(this.dataPoint['index']);
+      this.indexNum.next(this.dataPoint.index);
     }
   }
 
@@ -70,7 +75,7 @@ export class SliderCarousel implements OnInit {
 
     //In case of errors display below
     if (typeof this.dataPoint == 'undefined') {
-      var sampleImage = "./app/public/placeholder-location.jpg";
+      var sampleImage = "./app/public/no-image.png";
       this.dataPoint =
       {//placeholder data
         index:'1',
@@ -78,28 +83,20 @@ export class SliderCarousel implements OnInit {
           imageClass: "image-150",
           mainImage: {
             imageUrl: sampleImage,
-            urlRouteArray: ['Disclaimer-page'],
-            hoverText: "<p>Error</p>",
             imageClass: "border-large"
           },
           subImages: [
             {
               imageUrl: sampleImage,
-              urlRouteArray: ['Disclaimer-page'],
-              hoverText: "<i class='fa fa-mail-forward'></i>",
               imageClass: "image-50-sub image-round-lower-right"
-            },
-            {
-              text: "#1",
-              imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
             }
           ],
         },
         description: [
-          "<p>Line1</p>",
-          "<p>Line2</p>",
-          "<p>Line3</p>",
-          "<p>Line4</p>",
+          "<p></p>",
+          "<p></p>",
+          "<p></p>",
+          "<p></p>",
         ],
       };
     }

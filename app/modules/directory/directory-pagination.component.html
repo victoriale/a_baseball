@@ -1,21 +1,19 @@
-<div *ngIf="data" class="directory-pagination row">
-  <div class="col-sm-6 directory-pagination-text">
-    Showing: 
+<div *ngIf="data" class="dir-pag row">
+  <div class="col-sm-6 dir-pag-text">
+    <span class="dir-pag-text-lbl">Showing:</span> 
     <span class="text-heavy">{{data.rangeText}}</span> of 
-    <span class="text-heavy">{{data.totalitems}}</span> 
+    <span class="text-heavy">{{data.totalItems}}</span> 
     {{data.description}}
   </div>
-  <div class="col-sm-6 directory-pagination-buttons">
-    <a *ngIf="enablePrev" [routerLink]="[prevLink.page, prevLink.pageParams]" class="directory-pagination-button active">
+  <div class="col-sm-6 dir-pag-buttons">
+    <a [routerLink]="prevLink.route" class="dir-pag-button dir-pag-button-l"
+     [class.dir-pag-button-active]="enablePrev"
+     [class.dir-pag-button-disabled]="!enablePrev">
         <i class="fa fa-angle-left"></i> {{prevLink.text}}
     </a>
-    <a *ngIf="!enablePrev" href="#" class="directory-pagination-button">
-        <i class="fa fa-angle-left"></i> {{prevLink.text}}
-    </a>
-    <a *ngIf="enableNext" [routerLink]="[nextLink.page, nextLink.pageParams]" class="directory-pagination-button active">
-        {{nextLink.text}} <i class="fa fa-angle-right"></i>
-    </a>
-    <a *ngIf="!enableNext" href="#" class="directory-pagination-button">
+    <a [routerLink]="nextLink.route" class="dir-pag-button dir-pag-button-r"
+     [class.dir-pag-button-active]="enableNext"
+     [class.dir-pag-button-disabled]="!enableNext">
         {{nextLink.text}} <i class="fa fa-angle-right"></i>
     </a>
   </div>

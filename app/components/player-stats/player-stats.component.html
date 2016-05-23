@@ -5,24 +5,25 @@
   <tabs (tabSelected)="tabSelected($event)">
     <tab *ngFor="#tab of tabs" [tabTitle]="tab.tabTitle" [active]="tab.isActive">
       
-      <div class="stats-table-title pane-content">
-        <p class="stats-season-dropdown">
-          Now Viewing:
-          <dropdown [list]="tab.seasonIds" [selectedKey]="tab.selectedSeasonId" (selectionChanged)="dropdownChanged($event)"></dropdown>
-        </p>
-        <h4 [innerHtml]="tab.tableData[tab.selectedSeasonId].tableName"></h4>
+      <div *ngIf="tab.tableData">
+        <div class="stats-table-title">
+          <p class="stats-season-dropdown">
+            Now Viewing:<dropdown [list]="tab.seasonIds" [selectedKey]="tab.selectedSeasonId" (selectionChanged)="dropdownChanged($event)"></dropdown>
+          </p>
+          <h4 [innerHtml]="tab.tableData.tableName"></h4>
+        </div>
+        
+        <div class="pane-content">
+          <custom-table [model]="tab.tableData" (sortChanged)="updateCarousel($event)"></custom-table>
+        </div>
       </div>
       
-      <div class="pane-content">
-        <custom-table [model]="tab.tableData[tab.selectedSeasonId]" (sortChanged)="updateCarousel($event)"></custom-table>
-      </div>
-      
-      <div class="stats-glossary pane-content">
+      <div *ngIf="showGlossary" class="stats-glossary pane-content">
         <h4 class="stats-glossary-title">Glossary</h4>
         <div class="stats-glossary-box row">
           <ul>
             <li *ngFor="#term of tab.glossary" class="col-sm-4">
-              <b>{{term.key}}:</b> {{term.value}}
+              <span class="text-heavy">{{term.key}}:</span> {{term.value}}
             </li>
           </ul>
         </div>

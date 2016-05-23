@@ -7,7 +7,7 @@ declare var jQuery:any;
     templateUrl: './app/components/articles/sub-article/sub-article.component.html',
     styleUrls: ['./app/global/stylesheets/master.css'],
     directives: [ROUTER_DIRECTIVES],
-    inputs: ['randomLeftColumn', 'images', 'league', 'teamID'],
+    inputs: ['randomLeftColumn', 'league', 'teamID'],
 })
 
 export class ArticleSubComponent {

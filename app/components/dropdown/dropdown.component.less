@@ -5,13 +5,14 @@
   
   &-hdr {
     background-color: @backgroundGrey;
-    border: @strokeGrey 1px solid;
-    padding: 4px;
+    padding: 5px;
     text-align: left;
+    .globalDefaultFont(12px, 400);
   
     &-button {
       padding-left: 12px;
       text-align: right;
+      float: right;
     }    
   }
   
@@ -23,6 +24,7 @@
   &-list {
     background-color: @white;
     border: @masterBrandColor 1px solid;
+    border-radius: 3px;
     width: 100%;
     
     position: absolute;
@@ -35,6 +37,11 @@
       text-align: left;
       .globalDefaultFont(12px, 400);
       padding: 10px 8px;
+      border-bottom: 1px solid @strokeGrey;
+      
+      &:last-child {
+        border-bottom: none;
+      }
       
       &:hover {
         cursor: pointer;

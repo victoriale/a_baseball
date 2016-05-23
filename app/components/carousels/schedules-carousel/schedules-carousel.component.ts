@@ -4,7 +4,7 @@ import {CircleImage} from '../../images/circle-image';
 import {CircleImageData} from '../../images/image-data';
 import {Carousel} from '../carousel.component';
 
-export interface CarouselInput{
+export interface SchedulesCarouselInput{
   index?:any;//to know the or position of the input in the array it could possibly be in
   displayNext:string;
   displayTime:string;
@@ -15,6 +15,12 @@ export interface CarouselInput{
   detail2Route?: Array<any>;
   imageConfig1:CircleImageData;
   imageConfig2:CircleImageData;
+  teamName1: string;
+  teamName2: string;
+  teamLocation1:string;
+  teamLocation2:string;
+  teamRecord1:string;
+  teamRecord2:string;
 }
 
 @Component({
@@ -26,9 +32,9 @@ export interface CarouselInput{
 })
 
 export class SchedulesCarousel implements OnInit{
-  @Input() carouselData:Array<CarouselInput>;
+  @Input() carouselData:Array<SchedulesCarouselInput>;
   public indexNum: EventEmitter<any> = new EventEmitter();//interface for the output to return an index
-  public dataPoint: CarouselInput;
+  public dataPoint: SchedulesCarouselInput;
 
   response(event){
     //set the data event being emitted back from the carousel component
@@ -78,6 +84,12 @@ export class SchedulesCarousel implements OnInit{
             imageClass: "border-large"
           }
         },
+        teamName1:'[Team Name 1]',
+        teamName2:'[Team Name 2]',
+        teamLocation1:'[City], [State]',
+        teamLocation2:'[City], [State]',
+        teamRecord1:'[Record]',
+        teamRecord2:'[Record]',
       };
       this.indexNum.next(this.dataPoint['index']);
     }

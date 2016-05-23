@@ -1,6 +1,4 @@
-.au-mod {
-  border: solid 1px @greyBorder;
-  
+.au-mod {  
   &-body{
     .flexDisplay;
     .flexDirection(row);
@@ -22,14 +20,14 @@
     &-header {
       .globalDefaultFont(16px, 700);
       background-color: @backgroundGrey;
-      padding: 13px 8px;
+      padding: 12px 8px;
       margin-bottom: 70px;
       
       i {
         color: @masterBrandColor;
         font-size: 14px;
         font-weight: 400;
-        margin-right: 8px;
+        margin-right: 4px;
       }
     }
     
@@ -56,7 +54,7 @@
         line-height: 16px;
         
         a {
-          .globalDefaultModFont(14px, 900, @activeBlue);        
+          .globalDefaultModFont(14px, 800, @activeBlue);
         }
       }
     }
@@ -69,7 +67,7 @@
       display: block;
       background-color: @masterBrandColor;
       .borderRadiusPrefix(5px);
-      .globalDefaultModFont(14px, 900, @white);
+      .globalDefaultModFont(14px, 800, @white);
       padding: 10px 0;
       
       i {
@@ -78,7 +76,7 @@
       }
       
        &:hover {
-        background-color: darken(@masterBrandColor, 10%);
+        background-color: @black;
       }
       
       &:active, &:hover, &:focus {

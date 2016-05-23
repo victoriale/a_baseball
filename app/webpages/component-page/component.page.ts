@@ -3,15 +3,15 @@ import {ComparisonModule} from '../../modules/comparison/comparison.module';
 import {SeasonStatsModule} from '../../modules/season-stats/season-stats.module';
 import {DraftHistoryModule} from '../../modules/draft-history/draft-history.module';
 import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
-import {SchedulesModule} from '../../modules/schedules/schedules.module';
 import {AboutUsModule} from '../../modules/about-us/about-us.module';
 import {NewsModule} from '../../modules/news/news.module';
 import {ShareButtonComponent} from '../../components/share-button/share-button.component';
-import {Search} from '../../components/search/search.component';
 import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.module";
 import {SchedulesCarousel} from '../../components/carousels/schedules-carousel/schedules-carousel.component';
 import {Carousel} from '../../components/carousels/carousel.component';
 import {SliderCarousel} from '../../components/carousels/slider-carousel/slider-carousel.component';
+import {SchedulesComponent} from '../../components/schedules/schedules.component';
+import {SchedulesModule} from '../../modules/schedules/schedules.module';
 
 import {RosterComponentData} from '../../components/roster/roster.component';
 import {StandingsModuleData, StandingsModule} from '../../modules/standings/standings.module';
@@ -25,6 +25,9 @@ import {ProfileHeaderService} from '../../services/profile-header.service';
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
 import {GlobalFunctions} from '../../global/global-functions';
 import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
+
+import {FAQModule} from "../../modules/faq/faq.module";
+import {DYKModule} from "../../modules/dyk/dyk.module";
 
 @Component({
     selector: 'Component-page',
@@ -42,10 +45,12 @@ import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
       ListOfListsModule,
       SchedulesModule,
       SeasonStatsModule,
-      Search,
       AboutUsModule,
       ProfileHeaderModule,
-      StandingsModule
+      StandingsModule,
+      SchedulesComponent,
+      FAQModule,
+      DYKModule
     ],
     providers: [StandingsService, RosterService, ProfileHeaderService]
 })
@@ -98,10 +103,10 @@ export class ComponentPage implements OnInit {
       }
     );
   }
-  
+
   private standingsTabSelected(tab: MLBStandingsTabData) {
     if ( tab && (!tab.sections || tab.sections.length == 0) ) {
-      this._standingsService.getTabData(tab, this.pageParams, 5)//only show 5 rows in the module      
+      this._standingsService.getTabData(tab, this.pageParams, 5)//only show 5 rows in the module
         .subscribe(data => tab.sections = data,
         err => {
           console.log("Error getting standings data");

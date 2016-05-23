@@ -1,15 +1,19 @@
-<div class='flippy-tile'>
-    <div class='flippy-tile-col'>     
-        <div *ngFor="#tile of tileData" class='flippy-tile-container'>
-            <div class='flippy-tile-flipper'>
-                <div class='flippy-tile-side flippy-tile-front'>
-                    <i class='fa {{tile.faIcon}}'></i>
-                    <p>{{tile.title}}</p>
+<div class='flpy'>
+    <div class='flpy-col'>     
+        <div *ngFor="#tile of tileData" class='flpy-container'>
+            <div class='flpy-flipper'>
+                <div class='flpy-side flpy-front'>
+                    <div class="flpy-front-icon"><i class='fa {{tile.faIcon}}'></i></div>
+                    <h4 class="flpy-front-title">{{tile.title}}</h4>
                 </div>
-                <a [routerLink]="tile.routerInfo" class='flippy-tile-side flippy-tile-back'>
-                    <span><i class='fa {{tile.faIcon}}'></i> {{tile.title}}</span>
-                    <span>{{tile.description}}</span>
-                    <span>{{tile.buttonText}} <i class='fa fa-mail-forward'></i></span>
+                <a [routerLink]="tile.routerInfo" class='flpy-side flpy-back'>
+                    <div>
+                        <h4 class="flpy-back-title"><i class='fa {{tile.faIcon}}'></i> {{tile.title}}</h4>
+                        <p class="flpy-back-desc">{{tile.description}}</p>
+                    </div>
+                    <div class="flpy-back-bottom">
+                        <div class="flpy-back-btn">{{tile.buttonText}} <i class='fa fa-mail-forward'></i></div>
+                    </div>
                 </a>
             </div>
         </div>

@@ -1,6 +1,7 @@
 import {Injectable} from 'angular2/core';
 import {GlobalFunctions} from './global-functions';
 import {Division, Conference} from './global-interface';
+import {GlobalSettings} from "./global-settings";
 @Injectable()
 
 export class MLBGlobalFunctions {
@@ -96,52 +97,152 @@ export class MLBGlobalFunctions {
     if(inputTeamName != null) {
       let teamName = inputTeamName.replace(" ", "_");
       teamName = teamName.replace(".", "");
-      let teamLogo = "https://prod-sports-images.synapsys.us/mlb/logos/team/MLB_" + teamName + "_Logo.jpg"
+      let teamLogo = GlobalSettings.getImageUrl("/mlb/logos/team/MLB_" + teamName + "_Logo.jpg");
       return teamLogo;
     }else{
       return "";
     }
   }
 
-  static MLBPosition(position: string): string{
-      if( typeof position == 'undefined' || position === null){
-        return position;
-      }
-      var posFullName = {
-        1: 'Pitcher',
-        2: 'Catcher',
-        3: '1st Baseman',
-        4: '2nd Baseman',
-        5: '3rd Baseman',
-        6: 'Shortstop',
-        7: 'Left Field',
-        8: 'Center Field',
-        9: 'Right Field',
-        D: 'Designated Hitter'
-      };
-      let upperPosition = position.toUpperCase();
-      let displayPosition = posFullName[upperPosition];
-      return displayPosition !== undefined ? displayPosition: position;
+  // static MLBPosition(position: string): string{
+  //     if( typeof position == 'undefined' || position === null){
+  //       return position;
+  //     }
+  //     var posFullName = {
+  //       1: 'Pitcher',
+  //       2: 'Catcher',
+  //       3: '1st Baseman',
+  //       4: '2nd Baseman',
+  //       5: '3rd Baseman',
+  //       6: 'Shortstop',
+  //       7: 'Left Field',
+  //       8: 'Center Field',
+  //       9: 'Right Field',
+  //       D: 'Designated Hitter'
+  //     };
+  //     let upperPosition = position.toUpperCase();
+  //     let displayPosition = posFullName[upperPosition];
+  //     return displayPosition !== undefined ? displayPosition: position;
+  //   }
+
+  // static MLBPositionToAB(position: string): string{
+  //     if( typeof position == 'undefined' || position === null ){
+  //       return 'DH';
+  //     }
+  //     var posAbbrName = {
+  //       1: 'P',
+  //       2: 'C',
+  //       3: '1B',
+  //       4: '2B',
+  //       5: '3B',
+  //       6: 'S',
+  //       7: 'LF',
+  //       8: 'CF',
+  //       9: 'RF',
+  //       D: 'DH',
+  //     };
+  //     let upperPosition = position.toUpperCase();
+  //     let displayAbbrPosition = posAbbrName[upperPosition];
+  //     return displayAbbrPosition !== undefined ? displayAbbrPosition: position;
+  //   }
+
+
+  /**
+   * TODO-JVW
+   * @param urlArr
+   * @returns {any}
+   */
+  //path: '/list/:profile/:listname/:sort/:conference/:division/:limit/:pageNum',
+  static formatListRoute(urlArr: Array<any>): Array<any> {
+    for(var arg in urlArr) {
+      if (arg == null) return ['Error-page'];
+    }
+    let kebabArr = urlArr.map( item => GlobalFunctions.toLowerKebab(item) );
+
+    let listRoute = ['List-page', {
+      profile     : kebabArr[0],
+      listname    : kebabArr[1],
+      sort        : kebabArr[2],
+      conference  : kebabArr[3],
+      division    : kebabArr[4],
+      limit       : kebabArr[5],
+      pageNum     : kebabArr[6]
+    }];
+    return listRoute;
+  }
+
+
+  /**
+   * Returns the abbreviation for American or National leagues
+   *
+   * @param {string} confName - 'American' or 'National' (case insensitive)
+   * @param {string} divName - (Optional) If included, is appended to end of string in title case
+   *
+   * @returns abbreviation or confName if it cannot be mapped to an abbreviation
+   */
+  static formatShortNameDivison(confName: string, divName?: string): string {
+    if ( !confName ) return confName;
+
+    let abbr = confName;
+    switch ( confName.toLowerCase() ) {
+      case 'american': abbr = "AL"; break;
+      case 'national': abbr = "NL"; break;
+      default: break;
     }
 
-  static MLBPositionToAB(position: string): string{
-      if( typeof position == 'undefined' || position === null ){
-        return 'DH';
-      }
-      var posAbbrName = {
-        1: 'P',
-        2: 'C',
-        3: '1B',
-        4: '2B',
-        5: '3B',
-        6: 'S',
-        7: 'LF',
-        8: 'CF',
-        9: 'RF',
-        D: 'DH',
-      };
-      let upperPosition = position.toUpperCase();
-      let displayAbbrPosition = posAbbrName[upperPosition];
-      return displayAbbrPosition !== undefined ? displayAbbrPosition: position;
-    }
+    return divName ? abbr + " " + GlobalFunctions.toTitleCase(divName) : abbr;
+  }
+
+
+  static formatStatName(stat: string) {
+    //coming from backend as a stat in the list info 
+   switch (stat) {
+     //pitcher
+     case 'pitcher-innings-pitched':
+      return "Innings pitched";
+     case 'pitcher-strikeouts':
+      return "Strikeouts";
+     case 'pitcher-earned-run-average':
+      return "ERA";
+     case 'pitcher-hits-allowed':
+      return "Hits Allowed";
+
+     case 'pitcher-bases-on-balls':
+      return "Walks";
+     case 'pitcher-runs-allowed':
+      return "Runs allowed";
+     case 'pitcher-earned-runs':
+      return "Runs earned";
+
+     //batter
+     case 'batter-home-runs':
+      return "Home runs";
+     case 'batter-batting-average':
+      return "Batting average";
+     case 'batter-runs-batted-in':
+      return "RBIs";
+     case 'batter-hits':
+      return "Hits";
+     case 'batter-bases-on-balls':
+      return "Walks";
+     case 'batter-stolen-bases':
+      return "Stolen bases";
+
+     case 'batter-triples':
+      return "Triples ";
+     case 'batter-strikeouts':
+      return "Strikeouts";
+     case 'batter-singles':
+      return "Singles";
+     case 'batter-runs':
+      return "Runs";
+     case 'batter-on-base-percentage':
+      return "OBP";
+     case 'batter-doubles':
+      return "Doubles";
+
+     default: return GlobalFunctions.toTitleCase(stat.replace(/-/g, ' '));
+   }
+  }
+
 }

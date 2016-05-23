@@ -26,6 +26,9 @@
     width:77.2%;
     height:100%;
     padding: 10px 20px 0 0;
+    i{
+      padding-top: 5px
+    }
     .dataBox{
       width:100%;
       height:auto;
@@ -37,13 +40,15 @@
       .data-hover{//hover states
         text-decoration: none;
         color: @black;
-        &:hover{
-          text-decoration: none;
-          color:@masterBrandColor;
-          cursor: pointer;
+        a{
+          &:hover{
+            text-decoration: none;
+            color:@masterBrandColor;
+            cursor: pointer;
+          }
         }
       }
-      & > div{
+      &-info{
         font-size: 14px;
         width: 100%;
         display: inline-block;
@@ -57,27 +62,30 @@
         }
         &.detail-large{
           font-size: 20px;
-          font-weight: 900;
+          font-weight: 800;
           line-height: 1.2em;
         }
         &.detail-medium{
           font-size: 14px;
           line-height: 1.3em;
           & > i{
+            float:left;
             color:@masterBrandColor;
-            padding-right:.5em;
+            padding-right:.2em;
+            padding-top:2px;
           }
         }
-        & span{
-          &:first-child{
+        &-text{
             display: inline;
-            width:50%;
+            width:62%;
             float: left;
             text-align: left;
-          }
-          &:last-child{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          &-right{
             display: inline;
-            width:45%;
+            width:33%;
             float: right;
             text-align: right;
           }

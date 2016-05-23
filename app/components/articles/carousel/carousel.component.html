@@ -20,22 +20,23 @@
         </div>
     </div>
     <div class="sm-images">
-        <div class="sm-images-img">
-            <a *ngFor="#smImages of smallImage">
-                <span *ngIf="smImages.id == imageCounter" class="carouselImageBoxSmall">
-                    <img id="smImg-{{smImages.id}}" [ngClass]="{'square-image-active': smImages.id == imageCounter}"
-                         class="square-image" src="{{smImages.image}}" onerror="this.src={{image-url}}"
+        <span *ngFor="#smImages of smallImage">
+            <div class="sm-images-container">
+                <div *ngIf="smImages.id == imageCounter" class="carouselImageBoxSmall">
+                    <img id="smImg-{{smImages.id}}"
+                         [ngClass]="{'sm-images-square-image-active': smImages.id == imageCounter}"
+                         class="sm-images-square-image" src="{{smImages.image}}" onerror="this.src={{image-url}}"
                          alt="small square images" (click)="changeClick(smImages.id)"/>
                     <div>
                         <p>Now Viewing</p>
                     </div>
-                </span>
-                <span id="smImg-{{smImages.id}}"
-                      class="square-image" [ngStyle]="{'background-image': 'url(' + smImages.image + ')'}"
-                      onerror="this.src={{image-url}}"
-                      alt="small square images" (click)="changeClick(smImages.id)">
-                </span>
-            </a>
-        </div>
+                </div>
+                <div id="smImg-{{smImages.id}}"
+                     class="sm-images-square-image" [ngStyle]="{'background-image': 'url(' + smImages.image + ')'}"
+                     onerror="this.src={{image-url}}"
+                     alt="small square images" (click)="changeClick(smImages.id)">
+                </div>
+            </div>
+        </span>
     </div>
 </section>

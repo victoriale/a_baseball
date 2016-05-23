@@ -5,8 +5,10 @@ import {GlobalFunctions} from '../../global/global-functions';
 import {LoadingComponent} from '../../components/loading/loading.component';
 import {ErrorComponent} from '../../components/error/error.component';
 import {DateTimePipe} from '../../pipes/datetime-format.pipe';
-import {Link, PagingData, NavigationData, DirectoryProfileItem, DirectoryItems, DirectoryModuleData} from './directory.data';
+import {Link} from '../../global/global-interface';
+import {PagingData, DirectoryModuleData} from './directory.data';
 import {DirectoryPagination} from './directory-pagination.component';
+import {NoDataBox} from '../../components/error/data-box/data-box.component';
 
 declare var moment: any;
 // declare var lh: any;
@@ -14,7 +16,7 @@ declare var moment: any;
 @Component({
     selector: 'directory-module',
     templateUrl: './app/modules/directory/directory.module.html',
-    directives: [ROUTER_DIRECTIVES, NgClass, LoadingComponent, ErrorComponent, DirectoryPagination],
+    directives: [ROUTER_DIRECTIVES, NgClass, LoadingComponent, ErrorComponent, DirectoryPagination, NoDataBox],
     providers: [],
     pipes: [DateTimePipe]
 })
@@ -36,7 +38,7 @@ export class DirectoryModule implements OnChanges {
     text: "Back"
   }
 
-  constructor(private router: Router, private _globalFunctions: GlobalFunctions) {}
+  constructor(private router: Router) {}
 
   ngOnChanges() {
     this.setupData();
@@ -70,12 +72,18 @@ export class DirectoryModule implements OnChanges {
     this.setPageParams(this.prevLink);
 
     //Determine range display for directory page (ex. 1-20, 22-40, etc)
-    var rangeStart = (currPage - 1) * this.data.listingsLimit + 1;
-    var rangeEnd = (currPage * this.data.listingsLimit <= this.data.listingItems.totalItems) ? (currPage * this.data.listingsLimit) : this.data.listingItems.totalItems;
+    var rangeStart = 0;
+    var rangeEnd = 0;    
+    var totalItems = 0;
+    if ( this.data.hasListings ) {
+      rangeStart = (currPage - 1) * this.data.listingsLimit + 1;
+      rangeEnd = (currPage * this.data.listingsLimit <= this.data.listingItems.totalItems) ? (currPage * this.data.listingsLimit) : this.data.listingItems.totalItems;
+      totalItems = this.data.listingItems.totalItems;
+    }
 
     this.pagingDescription = {
-      rangeText: this._globalFunctions.commaSeparateNumber(rangeStart) + "-" + this._globalFunctions.commaSeparateNumber(rangeEnd),
-      totalItems: this.data.listingItems.totalItems,
+      rangeText: GlobalFunctions.commaSeparateNumber(rangeStart) + "-" + GlobalFunctions.commaSeparateNumber(rangeEnd),
+      totalItems: totalItems,
       totalPages: maxPageCount,
       currentPage: currPage,
       description: this.data.pagingDescription

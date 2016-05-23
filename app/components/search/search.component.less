@@ -7,7 +7,22 @@
   font-family: @globalFont;
   font-size: 18px;
 
+  form{
+    margin: 0px;
+  }
+
+  .search-input-container{
+    position: absolute;
+    top: 0px;
+    right: 100px;
+    left: 0px;
+    bottom: 0px;
+  }
+
   .search-input{
+    position: absolute;
+    top: 0px;
+    left: 0px;
     height: 100%;
     width: 100%;
     border: 1px solid transparent;
@@ -16,11 +31,24 @@
     border-bottom-left-radius: 5px;
     transition: box-shadow 0.3s ease-in-out, border 0.3s ease-in-out;
     -webkit-transition: box-shadow 0.3s ease-in-out, border 0.3s ease-in-out;
+    color: @black;
 
     &:focus{
       outline: none;
       box-shadow: 0 3px 7px 0 @masterBrandColor;
       border: 1px solid @masterBrandColor;
+    }
+
+    &.autocomplete{
+      z-index: 1;
+      color: silver;
+    }
+    &.main{
+      z-index: 2;
+      background: transparent;
+      hr{
+        display: none;
+      }
     }
   }
 
@@ -79,10 +107,15 @@
         top: 12px;
       }
 
-      &:hover{
+      &.active{
         color: @white;
         background-color: @masterBrandColor;
       }
     }
+  }
+
+  .search-no-results{
+    padding: 20px;
+    font-size: 18px;
   }
 }

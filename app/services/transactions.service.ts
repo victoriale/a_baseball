@@ -30,20 +30,8 @@ export class TransactionsService {
   //get past 5 years for tabs
   var tabDates = Number(year);
   var tabArray = [];
-  for(var i = 0; i <5; i++){
-    if(i == 0){
-      var currentYear = 'Current Season';
-    }else{
-      var currentYear = (tabDates - i).toString();
-    }
-    tabArray.push({
-      tabData:tabDates - i,
-      tabDisplay:currentYear,
-    });
-  }
-
   var callURL = this._apiUrl + '/team/transactions/'+teamId+'/'+year;
-  // console.log(callURL);
+   console.log("callURL",callURL);
 
   return this.http.get( callURL, {
       headers: headers
@@ -53,6 +41,7 @@ export class TransactionsService {
     )
     .map(
       data => {
+        console.log("transData",data);
         var returnData = {}
         if(type == 'module'){
           return returnData = {
@@ -99,20 +88,20 @@ export class TransactionsService {
         var Carousel = {
           index:index,
           //TODO
-          imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.imageUrl),MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId), (index+1), "image-50-sub",GlobalSettings.getImageUrl(val.teamLogo),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
+          imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.imageUrl),MLBGlobalFunctions.formatPlayerRoute(val['draftTeamName'], playerFullName, val['personId']), (index+1), "image-50-sub",GlobalSettings.getImageUrl(val.teamLogo),MLBGlobalFunctions.formatTeamRoute(val['draftTeamName'], val.draftTeam)),
           description:[
             '<p style="font-size:24px"><b>'+val.playerName+'</b></p>',
-            '<p>Hometown: <b>'+val.draftTeamName+'</b></p>',
+            '<p>Hometown: <b>'+val['draftTeamName']+'</b></p>',
             '<br>',
-            '<p style="font-size:24px"><b>'+val.selectionOverall+' Overall</b></p>',
-            '<p>Transaction '+val.selectionLevel+'</p>',
+            '<p style="font-size:24px"><b>'+val['selectionOverall']+' Overall</b></p>',
+            '<p>Transaction '+val['selectionLevel']+'</p>',
           ],
         };
         if(type == 'page'){
           Carousel['footerInfo'] = {
             infoDesc:'Interested in discovering more about this player?',
             text:'VIEW PROFILE',
-            url:MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId),
+            url:MLBGlobalFunctions.formatPlayerRoute(val['draftTeamName'], playerFullName, val['personId']),
           }
         }
         carouselArray.push(Carousel);
@@ -142,20 +131,20 @@ export class TransactionsService {
       var listData = {
         dataPoints: self.detailsData(
           val.playerName,
-          val.selectionOverall+' Overall',
-          MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName,
-          playerFullName, val.personId),
+          val['selectionOverall']+' Overall',
+          MLBGlobalFunctions.formatPlayerRoute(val['draftTeamName'],
+          playerFullName, val['personId']),
           'Hometown: '+'[NEED CITY STATE]',
-          'Transaction '+val.selectionLevel,
-          MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)
+          'Transaction '+val['selectionLevel'],
+          MLBGlobalFunctions.formatTeamRoute(val['draftTeamName'], val.draftTeam)
         ),
         imageConfig: self.imageData("image-121","border-2",
-        GlobalSettings.getImageUrl(val.imageUrl),MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId),(index+1),"image-40-sub",GlobalSettings.getImageUrl(val.teamLogo),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
+        GlobalSettings.getImageUrl(val.imageUrl),MLBGlobalFunctions.formatPlayerRoute(val['draftTeamName'], playerFullName, val['personId']),(index+1),"image-40-sub",GlobalSettings.getImageUrl(val.teamLogo),MLBGlobalFunctions.formatTeamRoute(val['draftTeamName'], val.draftTeam)),
         hasCTA:true,
         ctaDesc:'Want more info about this player?',
         ctaBtn:'',
         ctaText:'View Profile',
-        ctaUrl:MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId)
+        ctaUrl:MLBGlobalFunctions.formatPlayerRoute(val['draftTeamName'], playerFullName, val['personId'])
       };
       listDataArray.push(listData);
     });

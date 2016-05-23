@@ -3,6 +3,7 @@ import {Observable} from 'rxjs/Rx';
 import {Http} from 'angular2/http';
 
 import {GlobalSettings} from '../global/global-settings';
+import {GlobalFunctions} from '../global/global-functions';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {DirectoryProfileItem, DirectoryItems} from '../modules/directory/directory.data';
 
@@ -42,16 +43,11 @@ interface MLBTeamDirectoryData {
   teamCurrentActivePlayers: string;
   pub2Id: string;
   twitterHandle: string;
+  divisionName: string;
+  conferenceName: string;
   lastUpdated: string;
-  
-  // teamName: string;
-  // teamId: string;
-  // lastUpdated: Date;
-  // league: string;
-  // division: string;
-  // city: string;
-  // state: string;
-  // venue: string;
+  resultCount: number;
+  pageCount: number;
 }
 
 interface MLBPlayerDirectoryData {
@@ -64,7 +60,7 @@ interface MLBPlayerDirectoryData {
   roleStatus: string;
   active: string;
   uniformNumber: string;
-  position: string;
+  position: Array<string>;
   depth: string;
   height: string;
   weight: string;
@@ -80,16 +76,10 @@ interface MLBPlayerDirectoryData {
   pub1TeamId: string;
   pub2Id: string;
   pub2TeamId: string;
-  lastUpdate: string;    
-  // playerName: string;
-  // playerId: string;
-  // teamName: string;
-  // teamId: string;
-  // lastUpdated: Date;
-  // position: string;
-  // city: string;
-  // state: string;
-  // rookieYear: string;
+  startDate: string;
+  lastUpdate: string;
+  resultCount: number;
+  pageCount: number;
 }
 
 @Injectable()
@@ -112,13 +102,16 @@ export class DirectoryService {
     if ( searchParams.startsWith ) {
       url += "/" + searchParams.startsWith;
     }
-    console.log("player directory: " + url);
+    url += "/" + searchParams.listingsLimit + "/" + searchParams.page;
+    // console.log("player directory: " + url);
     return this.http.get(url)
         .map(res => res.json())
         .map(data => {
+          var items = data.data;
+          var firstItem = items.length > 0 ? items[0] : null;
           return {
-            totalItems: data.data.length,
-            items: data.data.map(value => this.convertPlayerDataToDirectory(value))
+            totalItems: firstItem ? firstItem.resultCount : 0,
+            items: items.map(value => this.convertPlayerDataToDirectory(value))
           }
         });
   }
@@ -128,12 +121,15 @@ export class DirectoryService {
     if ( searchParams.startsWith ) {
       url += "/" + searchParams.startsWith;
     }
-    console.log("team directory: " + url);
+    url += "/" + searchParams.listingsLimit + "/" + searchParams.page;
+    // console.log("team directory: " + url);
     return this.http.get(url)
         .map(res => res.json())
         .map(data => {
+          var items = data.data;
+          var firstItem = items.length > 0 ? items[0] : null;
           return {
-            totalItems: data.data.length,
+            totalItems: firstItem ? firstItem.resultCount : 0,
             items: data.data.map(value => this.convertTeamDataToDirectory(value))
           }
         });
@@ -142,6 +138,15 @@ export class DirectoryService {
   //"<a href=''>[Team Name]</a>  |  League:  [American or National]  |  Division: [Division]",
   //"[City], [State]  <i class=\"fa fa-angle-right\"></i>  Stadium: [Stadium Name]"
   convertTeamDataToDirectory(data: MLBTeamDirectoryData): DirectoryProfileItem {
+    var location = "N/A";
+    if ( data.teamCity && data.teamState ) {
+      location = data.teamCity + ", " + data.teamState;
+    }
+    
+    var venue = "N/A";
+    if ( data.teamVenue ) {
+      venue = data.teamVenue;
+    }
     return {
       lastUpdated: moment(data.lastUpdated),
       mainDescription: [
@@ -150,15 +155,15 @@ export class DirectoryService {
           text: data.teamName
         },
         {
-          text: "League: N\A",// TODO-CJP + data..league
+          text: "League: " + (data.conferenceName ? data.conferenceName : "N/A")
         },
         {
-          text: "Division: N\A",// TODO-CJP + data.division
+          text: "Division: "  + (data.divisionName ? data.divisionName : "N/A")
         }
       ],
       subDescription: [
-        data.teamCity + ", " + data.teamState,
-        "Stadium: " + data.teamVenue
+        location,
+        "Stadium: " + venue
       ]
     };
   }
@@ -167,6 +172,16 @@ export class DirectoryService {
   //"[Player Name]  |  [Associated Team]  |  Position:  [Position]" +
   //"[City], [State]    Rookie Year: {Rookie Year]"
   convertPlayerDataToDirectory(data: MLBPlayerDirectoryData): DirectoryProfileItem {
+    var location = "N/A";
+    if ( data.city && data.area ) {
+      location = data.city + ", " + GlobalFunctions.stateToAP(data.area);
+    }
+    
+    var positions = "N/A";
+    if ( data.position && data.position.length > 0 ) {
+      positions = data.position.join(", ");
+    }
+    
     return {
       lastUpdated: moment(data.lastUpdate),
       mainDescription: [
@@ -179,12 +194,12 @@ export class DirectoryService {
           text: data.teamName
         },
         {
-          text: "Position: " + data.position
+          text: "Position: " + positions
         }
       ],
       subDescription: [
-        data.city + ", " + data.country,
-        "Rookie Year: " + "N/A" //TODO-CJP: set rookie year
+        location,
+        "Rookie Year: " + (data.startDate != null ? data.startDate : "N/A")
       ]
     };
   }

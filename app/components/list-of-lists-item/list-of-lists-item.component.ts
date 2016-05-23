@@ -49,10 +49,7 @@ export interface IListOfListsItem {
     providers: [],
 })
 
-export class ListOfListsItem implements OnInit{
-    // TODO setup interface for input
+export class ListOfListsItem{
+    // TODO-JVW setup interface for input
     @Input() item: any;
-    ngOnChanges(){
-    }
-    ngOnInit(){}
 }

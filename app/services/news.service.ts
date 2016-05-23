@@ -2,10 +2,12 @@ import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Rx';
 import {Http, Headers} from 'angular2/http';
 import {GlobalFunctions} from '../global/global-functions';
+import {Conference, Division, MLBPageParameters} from '../global/global-interface';
+import {GlobalSettings} from '../global/global-settings';
 
 @Injectable()
 export class NewsService {
-  private _apiUrl: string = 'http://newsapi.synapsys.us/news/?action=get_sports_news&q=';
+  private _apiUrl: string = GlobalSettings.getNewsUrl();
   constructor(public http: Http, private _globalFunctions: GlobalFunctions){}
 
   setToken(){
@@ -33,6 +35,29 @@ export class NewsService {
     })
   }//getNewsService ends
 
+  getModuleTitle(pageParams: MLBPageParameters): string {
+    let groupName = this.formatGroupName(pageParams.conference, pageParams.division);
+    let moduletitle = "Other Content You Will Love - " + groupName;
+    if ( pageParams.teamName !== undefined && pageParams.teamName !== null ) {
+      moduletitle += " - " + pageParams.teamName;
+    }
+    return moduletitle;
+  }
+  private formatGroupName(conference: Conference, division: Division, makeDivisionBold?: boolean): string {
+    if ( conference !== undefined && conference !== null ) {
+      let leagueName = this._globalFunctions.toTitleCase(Conference[conference]) + " League";
+      if ( division !== undefined && division !== null ) {
+        var divisionName = this._globalFunctions.toTitleCase(Division[division]);
+        return leagueName + " " + (makeDivisionBold ? "<span class='text-heavy'>" + divisionName + "</span>" : divisionName);
+      }
+      else {
+        return leagueName;
+      }
+    }
+    else {
+      return "MLB";
+    }
+  }
   newsData(data){
     var self = this;
     var newsArray = [];
@@ -41,13 +66,14 @@ export class NewsService {
       var News = {
         title: val.title,
         description: val.description,
-        lead_image: dummyImg, //TODO
+        newsUrl: val.link,
         author: "Author", //TODO
         published: "Published Date",//TODO
-        footerInfo: {
+        footerData: {
           infoDesc: 'Want to check out the full story?',
           text: 'READ THE ARTICLE',
-          url: val.link
+          url: val.link,
+          hrefUrl: true
         }
       };
       newsArray.push(News);
