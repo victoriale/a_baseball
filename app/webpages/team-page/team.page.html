@@ -23,15 +23,12 @@
   <images-media-carousel [imageData]="imageData" [copyright]="copyright" [profileName]="profileName" [isProfilePage]="isProfilePage"></images-media-carousel>
   <dyk-module *ngIf="dykData" [profileName]="profileHeaderData.profileName" [dykData]="dykData"></dyk-module>
   <faq-module *ngIf="faqData" [profileName]="profileHeaderData.profileName" [faqData]="faqData"></faq-module>
-  <!-- lol -->
-  <div class="component-compbar-container" *ngIf="profileHeaderData && listOfListsData">
-    <list-of-lists [profileHeaderData]="profileHeaderData" [listOfListsData]="listOfListsData"></list-of-lists>
-  </div>
+  <list-of-lists  *ngIf="profileHeaderData && listOfListsData" [profileHeaderData]="profileHeaderData" [listOfListsData]="listOfListsData"></list-of-lists>
   <!-- other news you will love -->
   <news-module *ngIf="newsDataArray" [newsDataArray]="newsDataArray" [profileName]="profileHeaderData.profileName"></news-module>
 
   <headline-component></headline-component>
-  <twitter-module [profileName]="profileHeaderData.profileName"></twitter-module>
+  <twitter-module *ngIf="twitterData" [profileName]="profileHeaderData.profileName" [twitterData]="twitterData"></twitter-module>
   <!--Like Us On FB Module, only display if not on partner page-->
   <!-- TODO <section *ngIf="!partnerCheck"> -->
   <share-module *ngIf="shareModuleInput" [shareModuleInput]="shareModuleInput"></share-module>
