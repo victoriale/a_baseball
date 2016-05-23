@@ -15,26 +15,26 @@ export class PlayerStatsService {
     
   constructor(public http: Http){}
   
-  getLinkToPage(pageParams: MLBPageParameters): Array<any> {
+  private getLinkToPage(teamId: number, teamName: string): Array<any> {
     return ["Player-stats-page", {
-      teamId: pageParams.teamId,
-      teamName: GlobalFunctions.toLowerKebab(pageParams.teamName)
+      teamId: teamId,
+      teamName: GlobalFunctions.toLowerKebab(teamName)
     }];
   }
   
-  getModuleTitle(pageParams: MLBPageParameters): string {
-    return "Player Stats - " + pageParams.teamName;
+  private getModuleTitle(teamName: string): string {
+    return "Player Stats - " + teamName;
   }
   
-  getPageTitle(pageParams: MLBPageParameters): string {    
-    return "Player Stats - " + pageParams.teamName;
+  getPageTitle(teamName: string): string {    
+    return teamName ? "Player Stats - " + teamName : "Player Stats";
   }
 
-  loadAllTabsForModule(pageParams: MLBPageParameters) {
+  loadAllTabsForModule(teamId: number, teamName: string) {
     return {
-        moduleTitle: this.getModuleTitle(pageParams),
-        pageRouterLink: this.getLinkToPage(pageParams),
-        tabs: this.initializeAllTabs(pageParams)
+        moduleTitle: this.getModuleTitle(teamName),
+        pageRouterLink: this.getLinkToPage(teamId, teamName),
+        tabs: this.initializeAllTabs(teamName)
     };
   }
 
@@ -71,11 +71,11 @@ export class PlayerStatsService {
         });;    
   }
   
-  initializeAllTabs(pageParams: MLBPageParameters): Array<MLBPlayerStatsTableData> {
+  initializeAllTabs(teamName: string): Array<MLBPlayerStatsTableData> {
     let tabs: Array<MLBPlayerStatsTableData> = [];
     
-    tabs.push(new MLBPlayerStatsTableData(pageParams.teamName, "Batting", false, true)); //isPitcher = false, isActive = true
-    tabs.push(new MLBPlayerStatsTableData(pageParams.teamName, "Pitching", true, false)); //isPitcher = true, isActive = false
+    tabs.push(new MLBPlayerStatsTableData(teamName, "Batting", false, true)); //isPitcher = false, isActive = true
+    tabs.push(new MLBPlayerStatsTableData(teamName, "Pitching", true, false)); //isPitcher = true, isActive = false
     
     return tabs;
   }

@@ -101,7 +101,14 @@ export class CustomTable implements OnChanges {
         return value1 == null ? (value2 == null ? 0 : 1) : -1;
       }
       
-      return tableHdr.sortDirection * (value1-value2);
+      //Comparison method works for both numbers and strings
+      if ( value1 > value2 ) {
+        return tableHdr.sortDirection * 1;
+      }
+      if ( value1 < value2 ) {
+        return tableHdr.sortDirection * -1;
+      }
+      return 0;
     });
     this.sortChanged.next(this.model.rows);
   }
