@@ -97,6 +97,9 @@ export class PlayerPage implements OnInit {
             playerId: Number(_params.get("playerId")),
             playerName: String(_params.get("fullName"))
         };
+      
+        // Scroll page to top to fix routerLink bug
+        window.scrollTo(0, 0);
     }
 
     ngOnInit() {
