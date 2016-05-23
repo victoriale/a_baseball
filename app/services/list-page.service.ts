@@ -184,7 +184,7 @@ export class ListPageService {
       //if data is coming through then run through the transforming function for the module
       carData.forEach(function(val, index){
         var rank = ((Number(data.query.pageNum) - 1) * Number(data.query.limit)) + (index+1);
-        val.listRank = rank;
+        val['listRank'] = rank;
 
         if(data.query.profile == 'team'){
           var Carousel = {
@@ -275,7 +275,7 @@ export class ListPageService {
     var detailInfo = data.listInfo;
     detailData.forEach(function(val, index){
       var rank = ((Number(data.query.pageNum) - 1) * Number(data.query.limit)) + (index+1);
-      val.listRank = rank;
+      val['listRank'] = rank;
       if(data.query.profile == 'team'){
         var listData = {
           dataPoints: self.detailsData(
