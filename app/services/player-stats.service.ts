@@ -60,6 +60,7 @@ export class PlayerStatsService {
         .map(data => this.setupTableData(standingsTab, pageParams, data.data, maxRows))
         .subscribe(data => { 
           standingsTab.isLoaded = true;
+          standingsTab.hasError = false;
           standingsTab.seasonTableData[standingsTab.selectedSeasonId] = data;
           standingsTab.tableData = data;
           tabDataLoaded(data);
@@ -100,9 +101,6 @@ export class PlayerStatsService {
       value.pitchEra = value.pitchEra != null ? Number(value.pitchEra) : null;
       value.whip = value.whip != null ? Number(value.whip) : null;
     });
-    
-    standingsTab.isLoaded = true;
-    standingsTab.hasError = false;
     
     return table;
   }
