@@ -17,8 +17,9 @@
         <ul *ngIf="dropdownList.length > 0" (mouseout)="resetSelected()">
             <a *ngFor="#item of dropdownList; #i = index" [routerLink]="item.routerLink">
                 <li (mouseover)="itemHovered(i)" class="search-dropdown-item" [ngClass]="{active: (i === selectedIndex)}" >
-                    <span [innerHtml]="item.title"></span>
-                    <i class="fa fa-angle-right"></i>
+                    <span class="search-dropdown-item-img"><circle-image [data]="item.imageUrl"></circle-image></span>
+                    <span class="search-dropdown-item-title" [innerHtml]="item.title"></span>
+                    <!-- <i class="fa fa-angle-right"></i> -->
                 </li>
             </a>
         </ul>

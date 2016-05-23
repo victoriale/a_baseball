@@ -122,7 +122,7 @@ export class PlayerPage implements OnInit {
               this.setupTeamProfileData();
               this.setupShareModule();
               this.getImages(this.imageData);
-              this.getNewsService(this.pageParams.playerName);
+              this.getNewsService(this.profileHeaderData.profileName);
               this.getFaqService(this.profileType, this.pageParams.playerId);
               this.getDykService(this.profileType, this.pageParams.teamId);
               this.setupListOfListsModule();
@@ -151,7 +151,7 @@ export class PlayerPage implements OnInit {
     private getDykService(profileType, playerId) {
         this.isProfilePage = true;
         this.profileType = 'player';
-        let name = this.pageParams.playerName.replace(/-/g, " ");
+        let name = this.profileHeaderData.profileName.replace(/-/g, " ");
         this.profileName = this._globalFunctions.toTitleCase(name);
         this._dykService.getDykService(this.profileType, this.pageParams.playerId)
             .subscribe(data => {
@@ -165,7 +165,7 @@ export class PlayerPage implements OnInit {
     private getFaqService(profileType, playerId){
       this.isProfilePage = true;
       this.profileType = 'player';
-      let name = this.pageParams.playerName.replace(/-/g, " ");
+      let name = this.profileHeaderData.profileName.replace(/-/g, " ");
       this.profileName = this._globalFunctions.toTitleCase(name);
       this._faqService.getFaqService(this.profileType, this.pageParams.playerId)
           .subscribe(data => {
@@ -179,9 +179,9 @@ export class PlayerPage implements OnInit {
     private getNewsService(playerName) {
         this.isProfilePage = true;
         this.profileType = 'player';
-        let name = this.pageParams.playerName.replace(/-/g, " ");
+        let name = this.profileHeaderData.profileName.replace(/-/g, " ");
         this.profileName = this._globalFunctions.toTitleCase(name);
-        this._newsService.getNewsService(this.pageParams.playerName)
+        this._newsService.getNewsService(this.profileHeaderData.profileName)
             .subscribe(data => {
                     this.newsDataArray = data.news;
                 },
@@ -192,7 +192,7 @@ export class PlayerPage implements OnInit {
     private getImages(imageData) {
         this.isProfilePage = true;
         this.profileType = 'player';
-        let name = this.pageParams.playerName.replace(/-/g, " ");
+        let name = this.profileHeaderData.profileName.replace(/-/g, " ");
         this.profileName = this._globalFunctions.toTitleCase(name);
         var imageArray = [];
         var copyArray = [];

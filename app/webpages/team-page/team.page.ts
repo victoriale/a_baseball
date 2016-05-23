@@ -170,7 +170,7 @@ export class TeamPage implements OnInit {
                 this.playerStatsData = this._playerStatsService.loadAllTabsForModule(this.pageParams);
                 this.setupShareModule();
                 this.getImages(this.imageData);
-                this.getNewsService(this.pageParams.teamName);
+                this.getNewsService(this.profileHeaderData.profileName);
                 this.getFaqService(this.profileType, this.pageParams.teamId);
                 this.getDykService(this.profileType, this.pageParams.teamId);
                 this.getTwitterService(this.profileType, this.pageParams.teamId);
@@ -185,7 +185,7 @@ export class TeamPage implements OnInit {
     private getTwitterService(profileType, teamId) {
         this.isProfilePage = true;
         this.profileType = 'team';
-        let name = this.pageParams.teamName.replace(/-/g, " ");
+        let name = this.profileHeaderData.profileName.replace(/-/g, " ");
         this.profileName = this._globalFunctions.toTitleCase(name);
         this._twitterService.getTwitterService(this.profileType, this.pageParams.teamId)
             .subscribe(data => {
@@ -199,7 +199,7 @@ export class TeamPage implements OnInit {
     private getDykService(profileType, teamId) {
         this.isProfilePage = true;
         this.profileType = 'team';
-        let name = this.pageParams.teamName.replace(/-/g, " ");
+        let name = this.profileHeaderData.profileName.replace(/-/g, " ");
         this.profileName = this._globalFunctions.toTitleCase(name);
         this._dykService.getDykService(this.profileType, this.pageParams.teamId)
             .subscribe(data => {
@@ -213,7 +213,7 @@ export class TeamPage implements OnInit {
     private getFaqService(profileType, teamId) {
         this.isProfilePage = true;
         this.profileType = 'team';
-        let name = this.pageParams.teamName.replace(/-/g, " ");
+        let name = this.profileHeaderData.profileName.replace(/-/g, " ");
         this.profileName = this._globalFunctions.toTitleCase(name);
         this._faqService.getFaqService(this.profileType, this.pageParams.teamId)
             .subscribe(data => {
@@ -227,9 +227,9 @@ export class TeamPage implements OnInit {
     private getNewsService(teamName) {
         this.isProfilePage = true;
         this.profileType = 'team';
-        let name = this.pageParams.teamName.replace(/-/g, " ");
+        let name = this.profileHeaderData.profileName.replace(/-/g, " ");
         this.profileName = this._globalFunctions.toTitleCase(name);
-        this._newsService.getNewsService(this.pageParams.teamName)
+        this._newsService.getNewsService(this.profileHeaderData.profileName)
             .subscribe(data => {
                     this.newsDataArray = data.news;
                 },
@@ -258,7 +258,7 @@ export class TeamPage implements OnInit {
     private getImages(imageData) {
         this.isProfilePage = true;
         this.profileType = 'team';
-        let name = this.pageParams.teamName.replace(/-/g, " ");
+        let name = this.profileHeaderData.profileName.replace(/-/g, " ");
         this.profileName = this._globalFunctions.toTitleCase(name);
         this._imagesService.getImages(this.profileType, this.pageParams.teamId)
             .subscribe(data => {
