@@ -1,7 +1,3 @@
-// .st_sharethis_custom{
-//     background: url("/app/public/icons/HRL_Favicon.png") no-repeat scroll left top transparent;
-//     padding:0px 16px 0 0;
-// }
 .header{
   height: auto;
   &-top{
@@ -28,7 +24,6 @@
     height: 100%;
     width: 50%;
     .flexDisplay;
-    .flexAlignItems(center);
     .flexJustify(flex-end);
   }//header-right ends
   // modify search style begins
@@ -55,15 +50,15 @@
       width: auto;
     }
     .search-large .search-input.main{
-      background: none;
+      background-color: @white;
     }
     hr{
       width: 80%;
       border-top: 1px solid @highlightBlue;
       position: absolute;
-      z-index: 1;
+      z-index: 2;
       top: 42%;
-      left: 6%;
+      left: 27px;
       display: block;
     }
     .search-large .search-input{
@@ -77,14 +72,14 @@
       -webkit-transition: none;
     }
     .search-large .search-input-container{
-      right: 64px;
+      right: 63px;
     }
     .search-large .search-input:focus{
       border: none;
       box-shadow: none;
     }
     .search-large .search-button{
-      width: 64px;
+      width: 63px;
       background-color: @activeBlue;
       border: none;
       font-size: 30px;
@@ -119,6 +114,7 @@
   &-tabs{
     .flexDisplay;
     padding-left: 396px;
+    color: @white;
     &-tab{
       width: 120px;
       height: 100%;
