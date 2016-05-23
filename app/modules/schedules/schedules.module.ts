@@ -14,15 +14,22 @@ import {RouteParams} from 'angular2/router';
 
 export class SchedulesModule implements OnInit{
     @Input() data;
-    footerData:any;
+    @Input() profHeader;
     @Output("tabSelected") tabSelectedListener = new EventEmitter();
+    footerData:any;
     tabData: any;
     constructor(private params: RouteParams){
+
+    }
+    moduleTitle:string;
+
+    ngOnInit(){
+        this.moduleTitle = this.profHeader.profileName + " - Schedules";
         if(typeof this.params.get('teamId') != 'undefined'){
             this.footerData = {
                 infoDesc: 'Want to see everybody involved in this list?',
                 text: 'VIEW THE LIST',
-                url: ['Schedules-page-team',{teamName:this.params.get('teamName'), teamId:this.params.get('teamId'), pageNum:1}]
+                url: ['Schedules-page-team',{teamName:this.profHeader.profileName, teamId:this.params.get('teamId'), pageNum:1}]
             };
         }else{
             this.footerData = {
@@ -31,12 +38,6 @@ export class SchedulesModule implements OnInit{
                 url: ['Schedules-page-league', {pageNum:1}]
             };
         }
-    }
-    moduleTitle:string;
-
-    ngOnInit(){
-        this.moduleTitle = "[Profile] - Schedules";
-
     }
 
     ngOnChanges(){

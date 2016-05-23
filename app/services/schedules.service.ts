@@ -124,13 +124,13 @@ export class SchedulesService {
       origData = origData.slice(0, maxRows);
     }
     origData.forEach(function(val, index){
-      let displayNext = '';
-      if(origData.eventStatus == 'pre-event'){
-        let displayNext = 'Next Game:';
+      var displayNext = '';
+      if(val.eventStatus == 'pre-event'){
+        var displayNext = 'Next Game:';
       }else{
-        let displayNext = 'Previous Game:';
+        var displayNext = 'Previous Game:';
       }
-
+      
       if(val.homeScore === null){
         val.homeScore = '#';
       }
