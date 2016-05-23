@@ -90,7 +90,6 @@ export class SchedulesService {
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
-       //console.log(data);
       return {
         data:this.setupTableData(eventStatus, year, data.data, limit),
         tabs:tabData,
@@ -130,7 +129,7 @@ export class SchedulesService {
       }else{
         var displayNext = 'Previous Game:';
       }
-      
+
       if(val.homeScore === null){
         val.homeScore = '#';
       }
