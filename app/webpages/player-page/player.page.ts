@@ -172,10 +172,6 @@ export class PlayerPage implements OnInit {
     private getImages(imageData) {
         this.isProfilePage = true;
         this.profileType = 'player';
-        let name = this.pageParams.playerName.replace(/-/g, " ");
-        this.profileName = this._globalFunctions.toTitleCase(name);
-        var imageArray = [];
-        var copyArray = [];
         this._imagesService.getImages(this.profileType, this.pageParams.playerId)
             .subscribe(data => {
                     return this.imageData = data.imageArray, this.copyright = data.copyArray;

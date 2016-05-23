@@ -179,15 +179,12 @@ export class MLBPage implements OnInit {
     private getImages(imageData) {
         this.isProfilePage = true;
         this.profileType = 'league';
-        this.profileName = 'MLB';
-        var imageArray = [];
-        var copyArray = [];
         this._imagesService.getImages(this.profileType)
             .subscribe(data => {
                     return this.imageData = data.imageArray, this.copyright = data.copyArray;
                 },
                 err => {
-                    console.log("Error getting image data");
+                    console.log("Error getting image data" + err);
                 });
     }
 
