@@ -56,7 +56,6 @@ export class StandingsComponent implements DoCheck {
       else {
         let selectedTab = this.getSelectedTab();
         if ( selectedTab && selectedTab.sections && selectedTab.sections.length > 0 && !this.tabsLoaded[selectedTab.title] ) {          
-          console.log("sections: "+ selectedTab.sections);
           this.updateCarousel();
           this.tabsLoaded[selectedTab.title] = "1";
         }
