@@ -80,7 +80,7 @@ export class PlayerStatsService {
   }
 
   private setupTableData(standingsTab: MLBPlayerStatsTableData, pageParams: MLBPageParameters, data: Array<PlayerStatsData>, maxRows?: number): MLBPlayerStatsTableModel {
-    let table = new MLBPlayerStatsTableModel(data, standingsTab.isPitcherTable);;    
+    let table = new MLBPlayerStatsTableModel(data, standingsTab.isPitcherTable);    
     //Limit to maxRows, if necessary
     if ( maxRows !== undefined ) {
       table.rows = table.rows.slice(0, maxRows);
