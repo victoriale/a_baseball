@@ -270,31 +270,20 @@ export class TeamPage implements OnInit {
     }
 
     private standingsTabSelected(tab:MLBStandingsTabData) {
-        if (tab && (!tab.sections || tab.sections.length == 0)) {
-            this._standingsService.getTabData(tab, this.pageParams, 5)//only show 5 rows in the module
-                .subscribe(data => tab.sections = data,
-                    err => {
-                        console.log("Error getting standings data");
-                    });
-        }
-  }
+        //only show 5 rows in the module
+        this._standingsService.getStandingsTabData(tab, this.pageParams, (data) => {}, 5);
+    }
 
-  private playerStatsTabSelected(tab: MLBPlayerStatsTableData) {
-    this._playerStatsService.getTabData(tab, this.pageParams, 4)//only show 4 rows in the module
-      .subscribe(data => {
-        tab.seasonTableData[tab.selectedSeasonId] = data;
-        tab.tableData = data;
-      },
-      err => {
-        console.log("Error getting player stats data");
-      });
+    private playerStatsTabSelected(tab: MLBPlayerStatsTableData) {
+         //only show 4 rows in the module
+        this._playerStatsService.getStatsTabData(tab, this.pageParams, data => {}, 4);
     }
 
     private setupShareModule() {
         let profileHeaderData = this.profileHeaderData;
         let imageUrl = typeof profileHeaderData.profileImageUrl === 'undefined' || profileHeaderData.profileImageUrl === null ? GlobalSettings.getImageUrl('/mlb/players/no-image.png') : profileHeaderData.profileImageUrl;
         let shareText = typeof profileHeaderData.profileName === 'undefined' || profileHeaderData.profileName === null ? 'Share This Profile Below' : 'Share ' + profileHeaderData.profileName + '\'s Profile Below:';
-
+        
         this.shareModuleInput = {
             imageUrl: imageUrl,
             shareText: shareText

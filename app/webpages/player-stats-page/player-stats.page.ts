@@ -87,15 +87,9 @@ export class PlayerStatsPage implements OnInit {
   }
   
   private playerStatsTabSelected(tab: MLBPlayerStatsTableData) {
-    this._statsService.getTabData(tab, this.pageParams)
-      .subscribe(data => { 
-        this.getLastUpdatedDateForPage(data);
-        tab.seasonTableData[tab.selectedSeasonId] = data;
-        tab.tableData = data;
-      },
-      err => {
-        console.log("Error getting player stats data");
-        this.hasError = true;
+    tab.isLoaded = false;
+    this._statsService.getStatsTabData(tab, this.pageParams, data => {
+        this.getLastUpdatedDateForPage(data);        
       });
   }
   
