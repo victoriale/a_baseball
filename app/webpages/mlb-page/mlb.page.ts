@@ -82,6 +82,7 @@ export class MLBPage implements OnInit {
     pitcherData:any;
     imageData:any;
     copyright:any;
+    isProfilePage:boolean = true;
     profileType:string = "league";
     profileName:string = "MLB";
     listMax:number = 10;
