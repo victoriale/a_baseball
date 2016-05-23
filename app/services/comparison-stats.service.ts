@@ -15,8 +15,7 @@ export interface PlayerData {
   playerHeadshot: string;
   teamLogo: string;
   teamName: string;
-  teamId: string; //NEED
-  //teamColor: string;
+  teamId: string;
   teamColors: Array<string>
   uniformNumber: number;
   position: string;
@@ -26,34 +25,33 @@ export interface PlayerData {
   yearsExperience: number;
 }
 
-export interface TeamData {
-  teamId: string;
-  teamName: string;
+export interface DataPoint {
+  [playerId: string]: number
 } 
 
 export interface SeasonStats {
   isCurrentSeason: boolean;
-  batHomeRuns: { [playerId: string]: number };
-  batAverage: { [playerId: string]: number };
-  batRbi: { [playerId: string]: number };
-  batSluggingPercentage: { [playerId: string]: number };
-  batHits: { [playerId: string]: number };
-  batBasesOnBalls: { [playerId: string]: number };
-  batOnBasePercentage: { [playerId: string]: number };
-  batDoubles: { [playerId: string]: number };
-  batTriples: { [playerId: string]: number };
-  pitchEra: { [playerId: string]: number };
-  pitchWins: { [playerId: string]: number };
-  pitchLosses: { [playerId: string]: number };
-  pitchStrikeouts: { [playerId: string]: number };
-  pitchInningsPitched: { [playerId: string]: number };
-  pitchBasesOnBalls: { [playerId: string]: number };
-  pitchWhip: { [playerId: string]: number };
-  pitchSaves: { [playerId: string]: number };
-  pitchIpa: { [playerId: string]: number };
-  pitchHits: { [playerId: string]: number };
-  pitchEarnedRuns: { [playerId: string]: number };
-  pitchHomeRunsAllowed: { [playerId: string]: number };
+  batHomeRuns: DataPoint;
+  batAverage: DataPoint;
+  batRbi: DataPoint;
+  batSluggingPercentage: DataPoint;
+  batHits: DataPoint;
+  batBasesOnBalls: DataPoint;
+  batOnBasePercentage: DataPoint;
+  batDoubles: DataPoint;
+  batTriples: DataPoint;
+  pitchEra: DataPoint;
+  pitchWins: DataPoint;
+  pitchLosses: DataPoint;
+  pitchStrikeouts: DataPoint;
+  pitchInningsPitched: DataPoint;
+  pitchBasesOnBalls: DataPoint;
+  pitchWhip: DataPoint;
+  pitchSaves: DataPoint;
+  pitchIpa: DataPoint;
+  pitchHits: DataPoint;
+  pitchEarnedRuns: DataPoint;
+  pitchHomeRunsAllowed: DataPoint;
 }
 
 export interface ComparisonStatsData {
@@ -63,7 +61,7 @@ export interface ComparisonStatsData {
 
   data: { [year: string]: SeasonStats };
   
-  bars: Array<ComparisonBarInput>;
+  bars: { [year: string]: Array<ComparisonBarInput> };
 }
 
 @Injectable()
@@ -84,124 +82,98 @@ export class ComparisonStatsService {
 
   constructor(public http: Http) { }
 
-  getPlayerStats(playerId: number, seasonId?: string): Observable<ComparisonStatsData> {
-    if ( !seasonId ) {
-      seasonId = new Date().getFullYear().toString();
+  getPlayerStats(pageParams: MLBPageParameters): Observable<ComparisonStatsData> {
+    let url = this._apiUrl + "/player/comparison/";
+    
+    if ( pageParams.playerId ) {
+      //http://dev-homerunloyal-api.synapsys.us/player/comparison/player/95622
+      url += "player/" + pageParams.playerId;
     }
-    let url = this._apiUrl + "/player/seasonStats/" + playerId + "/" + seasonId;
+    else if ( pageParams.teamId ) {
+      //http://dev-homerunloyal-api.synapsys.us/player/comparison/team/2800
+      url += "team/" + pageParams.teamId;      
+    }
+    else {
+      //http://dev-homerunloyal-api.synapsys.us/player/comparison/league
+      url += "league";
+    }
+    
     console.log("getting player stats: " + url);
-
-    // return this.http.get(url)
-    //   .map(res => res.json())
-    //   .map(data => {
-    //     data.data.playerOne.teamColors = data.data.playerOne.teamColor.split(", ");
-    //     data.data.playerTwo.teamColors = data.data.playerTwo.teamColor.split(", ");
-    //     return data.data;
-    //   });
-    return Observable.of(this.formatData(this.sampleData.data, seasonId));
+    return this.http.get(url)
+      .map(res => res.json())
+      .map(data => {
+        return this.formatData(data.data);
+      });
+    // return Observable.of(this.formatData(this.sampleData.data, seasonId));
   }
 
   getTeamList(): Observable<Array<{key: string, value: string}>> {
-    // let url = this._apiUrl + "/player/seasonStats/" + playerId + "/" + seasonId;
-    // console.log("getting team list: " + url);
-    // return this.http.get(url)
-    //   .map(res => res.json())
-    //   .map(data => {
-    //     data.data.playerOne.teamColors = data.data.playerOne.teamColor.split(", ");
-    //     data.data.playerTwo.teamColors = data.data.playerTwo.teamColor.split(", ");
-    //     return data.data;
-    //   });
-    var data = [
-      {
-        teamName: "Toronto Blue Jays",
-        teamId: "2802"
-      },
-      {
-        teamName: "Baltimore Orioles",
-        teamId: "2799"
-      },
-      {
-        teamName: "Tampa Bay Rays",
-        teamId: "2798"
-      },
-      {
-        teamName: "Boston Red Sox",
-        teamId: "2791"
-      },
-      {
-        teamName: "New York Yankees",
-        teamId: "2803"
-      },
-      {
-        teamName: "Tampa Bay Rays 1",
-        teamId: "27981"
-      },
-      {
-        teamName: "Boston Red Sox 1",
-        teamId: "27911"
-      },
-      {
-        teamName: "New York Yankees 1",
-        teamId: "28031"
-      }
-    ];
-    return Observable.of(data.map(item => {
-      return {key: item.teamId, value: item.teamName};
-    }));
+    //http://dev-homerunloyal-api.synapsys.us/team/comparisonTeamList
+    /*
+    teamItem {
+      teamId: string;
+      teamFirstName: string;
+      teamLastName: string;
+      teamLogo: string;
+    }
+    */
+    let url = this._apiUrl + "/team/comparisonTeamList";
+    console.log("getting team list: " + url);
+    return this.http.get(url)
+      .map(res => res.json())
+      .map(data => {
+        return this.formatTeamList(data.data);;
+    });
+  }
+  
+  private formatTeamList(teamList) {
+    return teamList.map(team => {
+      var teamName = team.teamFIrstName + " " + team.teamLastName;
+      return {key: team.teamId, value: teamName};
+    });
   }
   
   //TODO-CJP: figure out if pitcher or not
-  formatData(data: any, seasonId: string): ComparisonStatsData {
-    var seasonData: SeasonStats = data.data[seasonId];
+  private formatData(data: ComparisonStatsData): ComparisonStatsData {    
+    var bars: { [year: string]: Array<ComparisonBarInput> } = {};
     
-    var bars: Array<ComparisonBarInput> = [];
-    
-    for ( var i = 0; i < this.battingFields.length; i++ ) {
-      var key = this.battingFields[i];
-      var dataPoint: { [playerId: string]: number } = seasonData[key];
-      if ( !dataPoint ) {
-        console.log("no data point for " + key);
+    for ( var seasonId in data.data ) {
+      var seasonStatData = data.data[seasonId];
+      var seasonBarList = [];
+      
+      for ( var i = 0; i < this.battingFields.length; i++ ) {
+        var key = this.battingFields[i];
+        var dataPoint: DataPoint = seasonStatData[key];
+        if ( !dataPoint ) {
+          console.log("no data point for " + key);
           break;
-      }
-      
-      var title = this.getKeyDisplayTitle(key);
-      if ( !title ) {
-        console.log("no title for " + title);
-        break;
-      }
-      
-      bars.push({
+        }
+        
+        var title = this.getKeyDisplayTitle(key);
+        if ( !title ) {
+          console.log("no title for " + title);
+          break;
+        }
+        
+        seasonBarList.push({
           title: title,
           data: [{
-              dataOne: dataPoint[data.playerOne.playerId],
-              dataTwo: dataPoint[data.playerTwo.playerId],
-              dataHigh: dataPoint["statHigh"]
+            value: dataPoint[data.playerOne.playerId],
+            color: data.playerOne.teamColors[0]
+          }, 
+          {
+            value: dataPoint[data.playerTwo.playerId],
+            color: data.playerTwo.teamColors[0]
           }],
-          colorOne: data.playerOne.teamColors[0],
-          colorTwo: data.playerTwo.teamColors[0]
-      });
+          maxValue: dataPoint['statHigh']
+        });
+      }
+      
+      bars[seasonId] = seasonBarList;
     }
     
     data.bars = bars;
     return data;
-  }
-    
-  setupBar(data: ComparisonStatsData, selectedSeason: string, title: string):ComparisonBarInput {
-      var dataPoint: { [playerId: string]: number } = data.data[selectedSeason][title];
-      if ( !dataPoint ) {
-          return undefined;
-      }
-      
-      return {
-          title: title,
-          data: [{
-              dataOne: dataPoint[data.playerOne.playerId],
-              dataTwo: dataPoint[data.playerTwo.playerId],
-              dataHigh: dataPoint["statHigh"]
-          }],
-          colorOne: data.playerOne.teamColors[0],
-          colorTwo: data.playerTwo.teamColors[0]
-      };
   }
   
   private getKeyDisplayTitle(key: string): string {

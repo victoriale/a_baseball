@@ -16,6 +16,7 @@ import {TwitterModule, twitterModuleData} from "../../modules/twitter/twitter.mo
 import {TwitterService} from '../../services/twitter.service';
 
 import {ComparisonModule} from '../../modules/comparison/comparison.module';
+import {ComparisonStatsService, ComparisonStatsData} from '../../services/comparison-stats.service';
 import {CommentModule} from '../../modules/comment/comment.module';
 
 import {StandingsModule, StandingsModuleData} from '../../modules/standings/standings.module';
