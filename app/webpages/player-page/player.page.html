@@ -8,7 +8,7 @@
     <!-- <schedules></schedules> -->
     <standings-module *ngIf="standingsData" [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
     <!-- season stats -->
-    <comparison-module></comparison-module>
+    <comparison-module [pageParams]="pageParams" [data]="comparisonData" [teamList]="teamList"></comparison-module>
 
     <headline-component></headline-component>
     <images-media-carousel [imageData]="imageData" [copyright]="copyright" [profHeader]="profileHeaderData" [isProfilePage]="isProfilePage"></images-media-carousel>

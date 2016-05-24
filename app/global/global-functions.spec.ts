@@ -82,109 +82,109 @@ import {GlobalFunctions} from './global-functions';
     
     /*** commaSeparateNumber ***/      
     it('commaSeparateNumber 4 is "4"', () => {
-      expect(this.functions.commaSeparateNumber(4) === "4");
+      expect(GlobalFunctions.commaSeparateNumber(4) === "4");
     });
       
     it('commaSeparateNumber null is ""', () => {
-      expect(this.functions.commaSeparateNumber(null) === "");
+      expect(GlobalFunctions.commaSeparateNumber(null) === "");
     });
       
     it('commaSeparateNumber undefined is ""', () => {
-      expect(this.functions.commaSeparateNumber(undefined) === "");
+      expect(GlobalFunctions.commaSeparateNumber(undefined) === "");
     });
       
     it('commaSeparateNumber null is "N\A"', () => {
-      expect(this.functions.commaSeparateNumber(null, "N\A") === "N\A");
+      expect(GlobalFunctions.commaSeparateNumber(null, "N\A") === "N\A");
     });
       
     it('commaSeparateNumber 0 is "N\A"', () => {
-      expect(this.functions.commaSeparateNumber(0) === "N\A");
+      expect(GlobalFunctions.commaSeparateNumber(0) === "N\A");
     });
       
     it('commaSeparateNumber -1 is "-1"', () => {
-      expect(this.functions.commaSeparateNumber(-1) === "-1");
+      expect(GlobalFunctions.commaSeparateNumber(-1) === "-1");
     });
       
     it('commaSeparateNumber 999999 is "999,999"', () => {
-      expect(this.functions.commaSeparateNumber(999999) === "999,999");
+      expect(GlobalFunctions.commaSeparateNumber(999999) === "999,999");
     });
       
     it('commaSeparateNumber 4000 is "4,000"', () => {
-      expect(this.functions.commaSeparateNumber(4000) === "4,000");
+      expect(GlobalFunctions.commaSeparateNumber(4000) === "4,000");
     });
       
     it('commaSeparateNumber 4000.01 is "4,000.01"', () => {
-      expect(this.functions.commaSeparateNumber(4000.01) === "4,000.01");
+      expect(GlobalFunctions.commaSeparateNumber(4000.01) === "4,000.01");
     });
       
     it('commaSeparateNumber .0514 is ".0514"', () => {
-      expect(this.functions.commaSeparateNumber(.0514) === ".0514");
+      expect(GlobalFunctions.commaSeparateNumber(.0514) === ".0514");
     });
       
     it('commaSeparateNumber 1000000 is "1,000,000"', () => {
-      expect(this.functions.commaSeparateNumber(1000000) === "1,000,000");
+      expect(GlobalFunctions.commaSeparateNumber(1000000) === "1,000,000");
     });
     
     /*** fullstate ***/      
     it('fullstate "KS" is "Kansas"', () => {
-      expect(this.functions.fullstate("KS") === "Kansas");
+      expect(GlobalFunctions.fullstate("KS") === "Kansas");
     });
        
     it('fullstate "ny" is "New York"', () => {
-      expect(this.functions.fullstate("ny") === "New York");
+      expect(GlobalFunctions.fullstate("ny") === "New York");
     });
        
     it('fullstate "Pr" is "Puerto Rico"', () => {
-      expect(this.functions.fullstate("Pr") === "Puerto Rico");
+      expect(GlobalFunctions.fullstate("Pr") === "Puerto Rico");
     });
        
     it('fullstate "AA" is "AA"', () => {
-      expect(this.functions.fullstate("AA") === "AA");
+      expect(GlobalFunctions.fullstate("AA") === "AA");
     });
        
     it('fullstate "Nothing" is "Nothing"', () => {
-      expect(this.functions.fullstate("Nothing") === "Nothing");
+      expect(GlobalFunctions.fullstate("Nothing") === "Nothing");
     });
        
     it('fullstate null is null', () => {
-      expect(this.functions.fullstate(null) === null);
+      expect(GlobalFunctions.fullstate(null) === null);
     });
        
     it('fullstate undefined is undefined', () => {
-      expect(this.functions.fullstate(undefined) === undefined);
+      expect(GlobalFunctions.fullstate(undefined) === undefined);
     });
     
     /*** stateToAP ***/      
     it('stateToAP "KS" is "Kan."', () => {
-      expect(this.functions.stateToAP("KS") === "Kan.");
+      expect(GlobalFunctions.stateToAP("KS") === "Kan.");
     });
        
     it('stateToAP "ny" is "N.Y."', () => {
-      expect(this.functions.stateToAP("ny") === "N.Y.");
+      expect(GlobalFunctions.stateToAP("ny") === "N.Y.");
     });
        
     it('stateToAP "Dc" is "D.C."', () => {
-      expect(this.functions.stateToAP("Dc") === "D.C.");
+      expect(GlobalFunctions.stateToAP("Dc") === "D.C.");
     });
        
     it('stateToAP "Pr" is "Pr"', () => {
-      expect(this.functions.stateToAP("Pr") === "Pr");
+      expect(GlobalFunctions.stateToAP("Pr") === "Pr");
     });
        
     it('stateToAP "AA" is "AA"', () => {
-      expect(this.functions.stateToAP("AA") === "AA");
+      expect(GlobalFunctions.stateToAP("AA") === "AA");
     });
        
     it('stateToAP "Nothing" is "Nothing"', () => {
-      expect(this.functions.stateToAP("Nothing") === "Nothing");
+      expect(GlobalFunctions.stateToAP("Nothing") === "Nothing");
     });
        
     it('stateToAP null is null', () => {
-      expect(this.functions.stateToAP(null) === null);
+      expect(GlobalFunctions.stateToAP(null) === null);
     });
        
     it('stateToAP undefined is undefined', () => {
-      expect(this.functions.stateToAP(undefined) === undefined);
+      expect(GlobalFunctions.stateToAP(undefined) === undefined);
     });
     
     /*** camelCaseToRegularCase ***/      
