@@ -41,7 +41,7 @@ export class ImagesMedia implements OnInit {
     profileHeaderData: any;
 
     modalExpand() {
-        if (this.expand) {
+        if (this.expand == true) {
             this.expand = false;
         } else {
             this.expand = true;
