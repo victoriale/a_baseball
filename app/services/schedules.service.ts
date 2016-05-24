@@ -7,7 +7,7 @@ import {GlobalSettings} from '../global/global-settings';
 import {Conference, Division, MLBPageParameters} from '../global/global-interface';
 import {SchedulesCarouselInput} from '../components/carousels/schedules-carousel/schedules-carousel.component';
 import { MLBSchedulesTableModel, MLBSchedulesTableData} from './schedules.data';
-
+import {Gradient} from '../global/global-gradient';
 
 declare var moment;
 @Injectable()
@@ -153,14 +153,13 @@ export class SchedulesService {
       if(val.awayOutcome === null){
         val.awayOutcome = '#';
       }
-
       // combine together the win and loss of a team to create their record
       val.homeRecord = val.homeOutcome + '-' + val.homeScore;//?? is this really the win and loss
       val.awayRecord = val.awayOutcome + '-' + val.awayScore;//?? is this really the win and loss
-
       carouselData = {//placeholder data
         index:index,
         displayNext: displayNext,
+        backgroundGradient: Gradient.getGradientStyles([val.awayTeamColors.split(',')[0],val.homeTeamColors.split(',')[0]]),
         displayTime:moment(val.startDateTime).format('dddd MMMM Do, YYYY | h:mm A') + " [ZONE]",
         detail1Data:'Home Stadium:',
         detail1Value:"[Stadium's]",

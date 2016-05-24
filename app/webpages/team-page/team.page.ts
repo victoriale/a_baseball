@@ -238,6 +238,7 @@ export class TeamPage implements OnInit {
       this._schedulesService.getSchedulesService('team', status, 5, 1, this.pageParams.teamId)
       .subscribe(
         data => {
+          console.log(data);
           this.schedulesData = data;
         },
         err => {

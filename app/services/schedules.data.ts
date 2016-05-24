@@ -6,6 +6,7 @@ import {Conference, Division} from '../global/global-interface';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
 import {GlobalSettings} from '../global/global-settings';
+import {Gradient} from '../global/global-gradient';
 
 declare var moment;
 
@@ -87,9 +88,12 @@ export class MLBSchedulesTableData implements TableComponentData<SchedulesData> 
     }else{
       var displayNext = 'Previous Game:';
     }
+    console.log(item);
+    console.log(displayNext);
     return {//placeholder data
       index:index,
       displayNext: displayNext,
+      backgroundGradient: Gradient.getGradientStyles([item.awayTeamColors.split(',')[0],item.homeTeamColors.split(',')[0]]),
       displayTime:moment(item.startDateTime).format('dddd MMMM Do, YYYY | h:mm A') + " [ZONE]",
       detail1Data:'Home Stadium:',
       detail1Value:"[Stadium's]",

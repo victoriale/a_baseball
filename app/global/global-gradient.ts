@@ -2,7 +2,7 @@ class Color {
   red: number;
   green: number;
   blue: number;
-  
+
   constructor(hexValue) {
     if ( /#(\w{6})/.exec(hexValue) ) {
       let hexOnly = (hexValue.charAt(0) == "#") ? hexValue.substring(1, 7) : hexValue;
@@ -11,20 +11,20 @@ class Color {
       this.blue  = parseInt(hexOnly.substring(4, 6), 16);
     }
   }
-  
+
   toRgbFormat(alpha?: number) {
-    if ( alpha ) {      
+    if ( alpha ) {
       return "rgba(" + this.red + "," + this.green + "," + this.blue + "," + alpha + ")";
     }
     else {
       return "rgba(" + this.red + "," + this.green + "," + this.blue + ")";
     }
   }
-  
+
 }
 
-export class Gradient {  
-  static getGradientStyles(colorStrings: Array<string>, alpha?: number): any {  
+export class Gradient {
+  static getGradientStyles(colorStrings: Array<string>, alpha?: number): any {
     var colors: Array<Color> = [];
     for ( var i = 0; i < colorStrings.length; i++ ) {
       colors.push(new Color(colorStrings[i]));
@@ -45,7 +45,7 @@ export class Gradient {
       return {
           '-ms-filter': "progid:DXImageTransform.Microsoft.gradient (0deg," + gradientStr + ")",
           'background': "linear-gradient(90deg," + gradientStr + ")"
-      }  
+      }
     }
   }
 }

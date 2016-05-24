@@ -27,5 +27,6 @@ interface ComparisonTileInput {
 export class ComparisonTile implements OnInit{
     @Input() comparisonTileInput: ComparisonTileInput;
     ngOnInit(){
+      console.log(this.comparisonTileInput);
     }
 }
