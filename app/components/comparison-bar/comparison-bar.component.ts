@@ -78,19 +78,28 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
         //Determines what percentage the scale starts at (ex. 0 starts at 2% of bars width)
         var scaleStart = 2;
 
+        if ( barData.maxValue > 0 ) {
+            // console.log("max value: " + barData.maxValue);
+        }
         //Determine widths of bars and add to display list
         for (var i = 0; i < barData.data.length; i++ ) {
             var dataItem = barData.data[i];
             dataItem.width = (Math.round(dataItem.value / maxValue * (100 - scaleStart) * 10) / 10) + scaleStart;
+            // if ( barData.maxValue > 0 ) {
+            //     console.log("data item " + i);
+            //     console.log("   value: " + dataItem.value);
+            //     console.log("   width: " + dataItem.width);
+            //     console.log("   color: " + dataItem.color);
+            // }
         }
         barData.data.sort((a,b) => {
             var diff = a.width - b.width;
             if ( Math.abs(diff) <= 0.5 ) {
                 if ( diff >= 0 ) {
-                    a.width += 1;
+                    b.width += 1;
                 }
                 else {
-                    b.width += 1;
+                    a.width += 1;
                 }
             }
             return diff;

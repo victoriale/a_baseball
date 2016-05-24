@@ -8,6 +8,7 @@ import {Tab} from '../../components/tabs/tab.component';
 
 import {GlobalSettings} from '../../global/global-settings';
 import {GlobalFunctions} from '../../global/global-functions';
+import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
 import {MLBPageParameters} from '../../global/global-interface';
 import {ComparisonStatsData, PlayerData, SeasonStats} from '../../services/comparison-stats.service';
 import {Gradient} from '../../global/global-gradient'
@@ -105,6 +106,13 @@ export class ComparisonModule implements OnInit, OnChanges {
     //TODO-CJP: think about passing of data
     formatData(data: ComparisonStatsData) {
         var selectedSeason = new Date().getFullYear(); //TODO: get from selected tab.
+        this.comparisonTileDataOne = this.setupTile(data.playerOne);
+        this.comparisonTileDataTwo = this.setupTile(data.playerTwo);        
+        this.gradient = Gradient.getGradientStyles([data.playerOne.teamColors[0], data.playerTwo.teamColors[0]], 1);
+        
+        for ( var i = 0; i < this.tabs.length; i++ ) {
+            this.tabs[i].barData = data.bars[this.tabs[i].seasonId];
+        }
         this.comparisonLegendData = {
             legendTitle: [
                 {
@@ -129,23 +137,10 @@ export class ComparisonModule implements OnInit, OnChanges {
                     color: data.playerOne.teamColors[0]
                 }
             ]
-        };         
-        this.comparisonTileDataOne = this.setupTile(data.playerOne);
-        this.comparisonTileDataTwo = this.setupTile(data.playerTwo);        
-        this.gradient = Gradient.getGradientStyles([data.playerOne.teamColors[0], data.playerTwo.teamColors[0]], 1);
-        
-        for ( var i = 0; i < this.tabs.length; i++ ) {
-            this.tabs[0].barData = data.bars[selectedSeason];            
-        }
+        };
     }
     
     setupTile(player: PlayerData): ComparisonTileInput {
-        var listOfTeams = [ //TODO
-            'Team Profile'
-        ];
-        var listOfPlayers = [ //TODO
-            'Player Profile'
-        ];
         return {
             dropdownOneKey: player.teamId,
             dropdownTwoKey: player.playerId,
@@ -153,14 +148,14 @@ export class ComparisonModule implements OnInit, OnChanges {
                 imageClass: "image-180",
                 mainImage: {
                     imageUrl: GlobalSettings.getImageUrl(player.playerHeadshot),
-                    urlRouteArray: ['Disclaimer-page'],
+                    urlRouteArray: MLBGlobalFunctions.formatPlayerRoute(player.teamName, player.playerName, player.playerId),
                     hoverText: "<p>View</p><p>Profile</p>",
                     imageClass: "border-large"
                 },
                 subImages: [
                     {
                         imageUrl: GlobalSettings.getImageUrl(player.teamLogo),
-                        urlRouteArray: ['Disclaimer-page'],
+                        urlRouteArray: MLBGlobalFunctions.formatTeamRoute(player.teamName, player.teamId),
                         hoverText: "<i class='fa fa-mail-forward'></i>",
                         imageClass: "image-50-sub image-round-lower-right"
                     },
@@ -210,6 +205,16 @@ export class ComparisonModule implements OnInit, OnChanges {
     }
     
     tabSelected(tabTitle) {
-        
+        var selectedTabs = this.tabs.filter(tab => {
+           return tab.tabTitle == tabTitle; 
+        });
+        if ( selectedTabs.length > 0 ) {
+            if ( tabTitle == "Career Stats" ) {
+                this.comparisonLegendData.legendTitle[0].text = tabTitle;
+            }
+            else {
+                this.comparisonLegendData.legendTitle[0].text = selectedTabs[0].seasonId + " Season";
+            } 
+        } 
     }
 }

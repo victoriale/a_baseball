@@ -70,6 +70,7 @@ import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.modul
       FaqService,
       DykService,
       ListOfListsService,
+      ComparisonStatsService,
       TwitterService
     ],
 })
@@ -82,6 +83,9 @@ export class PlayerPage implements OnInit {
   standingsData:StandingsModuleData;
 
   profileHeaderData: ProfileHeaderData;
+  
+  comparisonData: ComparisonStatsData;
+  teamList: Array<{key: string, value: string}>;
 
   imageData:any;
   copyright:any;
@@ -104,6 +108,7 @@ export class PlayerPage implements OnInit {
               private _dykService: DykService,
               private _lolService : ListOfListsService,
               private _twitterService: TwitterService,
+              private _comparisonService: ComparisonStatsService,
               private _globalFunctions:GlobalFunctions) {
 
       this.pageParams = {
@@ -127,6 +132,7 @@ export class PlayerPage implements OnInit {
               this.profileHeaderData = this._profileService.convertToPlayerProfileHeader(data);
               this.setupTeamProfileData();
               this.setupShareModule();
+              this.setupComparisonData();
               this.getImages(this.imageData);
               this.getNewsService();
               this.getFaqService();
@@ -206,6 +212,17 @@ export class PlayerPage implements OnInit {
     private standingsTabSelected(tab:MLBStandingsTabData) {
         //only show 5 rows in the module;
         this._standingsService.getStandingsTabData(tab, this.pageParams, (data) => {}, 5);
+    }
+    
+    private setupComparisonData() {
+        this._comparisonService.getPlayerStats(this.pageParams).subscribe(
+            data => {
+                this.comparisonData = data[0];
+                this.teamList = data[1];
+            },
+            err => {
+                console.log("Error getting comparison data for "+ this.pageParams.playerId);
+            });
     }
 
     private setupShareModule() {
