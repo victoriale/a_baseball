@@ -153,9 +153,11 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
   setRowSelected(rowIndex:number) {
     if ( rowIndex >= 0 && rowIndex < this.rows.length ) {
       this.selectedKey = this.rows[rowIndex].teamId;
+      return 'hi';
     }
     else {
       this.selectedKey = null;
+      return 'hi';
     }
   }
 

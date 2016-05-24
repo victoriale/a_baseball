@@ -32,12 +32,11 @@ export class SchedulesComponent implements OnInit{
 
   @Output("tabSelected") tabSelectedListener = new EventEmitter();
 
-  setSelectedCarouselIndex() {
-
-  }
-
   indexNum($event) {
-
+    let selectedIndex = Number($event);
+    console.log(selectedIndex);
+    console.log(this.data.tableData.setRowSelected(selectedIndex));
+    this.data.tableData.setRowSelected(selectedIndex);
   }
   tabSelected(event){
     this.tabSelectedListener.emit(event);
@@ -51,7 +50,7 @@ export class SchedulesComponent implements OnInit{
 
   ngOnInit(){
     // console.log('tabs tabs',this.tabs);
-    // console.log('tabs Data',this.data);
+    console.log('tabs Data',this.data);
     // console.log('car Data',this.carouselData);
 
     if(typeof this.carouselData == 'undefined'){
