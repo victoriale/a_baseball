@@ -233,8 +233,9 @@ export class TeamPage implements OnInit {
         }
     }
 
+    //api for Schedules
     private getSchedulesData(status){
-      this._schedulesService.getSchedulesService('team', status, 5, 1, 2799)
+      this._schedulesService.getSchedulesService('team', status, 5, 1, this.pageParams.teamId)
       .subscribe(
         data => {
           this.schedulesData = data;
@@ -269,7 +270,7 @@ export class TeamPage implements OnInit {
         let profileHeaderData = this.profileHeaderData;
         let imageUrl = !profileHeaderData.profileImageUrl ? GlobalSettings.getImageUrl('/mlb/players/no-image.png') : profileHeaderData.profileImageUrl;
         let shareText = !profileHeaderData.profileName ? 'Share This Profile Below' : 'Share ' + profileHeaderData.profileName + '\'s Profile Below:';
-        
+
         this.shareModuleInput = {
             imageUrl: imageUrl,
             shareText: shareText

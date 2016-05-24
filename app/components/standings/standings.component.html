@@ -3,7 +3,7 @@
     <slider-carousel *ngIf="carouselData" [carouselData]="carouselData" (indexNum)="indexNum($event)" [indexInput]="selectedIndex"></slider-carousel>
   </div>
   <tabs (tabSelected)="tabSelected($event)">
-    <tab *ngFor="#tab of tabs" [tabTitle]="tab.title" [active]="tab.isActive">      
+    <tab *ngFor="#tab of tabs" [tabTitle]="tab.title" [active]="tab.isActive">
       <loading-component *ngIf="!tab.isLoaded && !tab.hasError"></loading-component>
       <div *ngIf="tab.isLoaded">
         <div *ngFor="#section of tab.sections" class="standings-tab-section">
