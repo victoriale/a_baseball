@@ -113,7 +113,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
          key: "home"
        },{
          headerValue: "GAME SUMMARY",
-         columnClass: "summary-column location-column",
+         columnClass: "summary-column",
          ignoreSort: true,
          key: "gs"
        }];
