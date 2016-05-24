@@ -56,7 +56,7 @@ export class ImagesService {
         var imageArray = [];
         var copyArray = [];
         imageData.images.forEach(function (val, index) {
-            val['images'] = val.image_url;
+            val['images'] = GlobalSettings.getImageUrl(val.image_url);
             val['copyright'] = val.image_copyright;
             imageArray.push(val['images']);
             copyArray.push(val['copyright'])

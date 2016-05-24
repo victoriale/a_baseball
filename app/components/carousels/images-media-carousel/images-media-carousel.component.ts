@@ -21,7 +21,7 @@ export class ImagesMedia implements OnInit {
     @Input() isProfilePage:boolean;
     leftCircle:EventEmitter<boolean> = new EventEmitter();
     rightCircle:EventEmitter<boolean> = new EventEmitter();
-    expand:boolean = new EventEmitter();
+    expand:any = new EventEmitter();
     expandText:string = 'Expand';
     expandIcon:string = 'fa-expand';
     modalButton:boolean = false;
