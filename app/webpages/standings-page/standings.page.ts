@@ -54,7 +54,6 @@ export class StandingsPage implements OnInit {
   }
   
   ngOnInit() {    
-    var pageTitle = this._standingsService.getPageTitle(this.pageParams);
     if ( this.pageParams.teamId ) {      
       this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
         data => {
@@ -73,8 +72,8 @@ export class StandingsPage implements OnInit {
     }
   }
   
-  private setupTitleData(imageUrl?: string) {    
-    var title = this._standingsService.getPageTitle(this.pageParams);
+  private setupTitleData(teamName?: string, imageUrl?: string) {    
+    var title = this._standingsService.getPageTitle(this.pageParams, teamName);
     this.titleData = {
       imageURL: imageUrl,
       text1: "Last Updated: [date]",
@@ -84,17 +83,10 @@ export class StandingsPage implements OnInit {
     };
   }
   
-  private standingsTabSelected(tab: MLBStandingsTabData) {
-    if ( tab && (!tab.sections || tab.sections.length == 0) ) {
-      this._standingsService.getTabData(tab, this.pageParams)      
-        .subscribe(data => {
-          this.getLastUpdatedDateForPage(data);
-          tab.sections = data          
-        },
-        err => {
-          console.log("Error getting standings data");
-        });
-    }
+  private standingsTabSelected(tab: MLBStandingsTabData) {    
+    this._standingsService.getStandingsTabData(tab, this.pageParams, data => {
+      this.getLastUpdatedDateForPage(data);
+    });
   }
   
   private getLastUpdatedDateForPage(data: MLBStandingsTableData[]) {           

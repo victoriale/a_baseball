@@ -5,10 +5,13 @@ import {Tabs} from '../tabs/tabs.component';
 import {Tab} from '../tabs/tab.component';
 import {CustomTable} from '../custom-table/custom-table.component';
 import {TableModel, TableColumn, TableRow, TableCell} from '../custom-table/table-data.component';
+import {LoadingComponent} from '../loading/loading.component';
 
 export interface TableTabData<T> {
   title: string;
   isActive: boolean;
+  isLoaded: boolean;
+  hasError: boolean;
   sections: Array<TableComponentData<T>>;
   convertToCarouselItem(item:T, index:number):SliderCarouselInput
 }
@@ -21,7 +24,7 @@ export interface TableComponentData<T> {
 @Component({
   selector: "standings-component",
   templateUrl: "./app/components/standings/standings.component.html",
-  directives: [SliderCarousel, Tabs, Tab, CustomTable],
+  directives: [SliderCarousel, Tabs, Tab, CustomTable, LoadingComponent],
 })
 export class StandingsComponent implements DoCheck {  
   public selectedIndex;
@@ -52,7 +55,7 @@ export class StandingsComponent implements DoCheck {
       }
       else {
         let selectedTab = this.getSelectedTab();
-        if ( selectedTab && selectedTab.sections && selectedTab.sections.length > 0 && !this.tabsLoaded[selectedTab.title] ) {
+        if ( selectedTab && selectedTab.sections && selectedTab.sections.length > 0 && !this.tabsLoaded[selectedTab.title] ) {          
           this.updateCarousel();
           this.tabsLoaded[selectedTab.title] = "1";
         }

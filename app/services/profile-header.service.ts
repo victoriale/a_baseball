@@ -93,7 +93,8 @@ interface TeamProfileData {
   pageParams: MLBPageParameters;
   fullProfileImageUrl: string;
   fullBackgroundImageUrl: string;
-  headerData: TeamProfileHeaderData
+  headerData: TeamProfileHeaderData;
+  teamName: string;
 }
 
 interface TeamProfileHeaderData {
@@ -216,6 +217,7 @@ export class ProfileHeaderService {
           if ( headerData.stats.pitching ) {
             headerData.stats.pitching.era = Number(headerData.stats.pitching.era);
           } 
+          var teamName = headerData.teamFirstName + " " + headerData.teamLastName;
           return {
             pageParams: {
               teamId: headerData.stats.teamId,
@@ -225,7 +227,8 @@ export class ProfileHeaderService {
             },
             fullBackgroundImageUrl: GlobalSettings.getImageUrl(headerData.backgroundImage),
             fullProfileImageUrl: GlobalSettings.getImageUrl(headerData.profileImage),
-            headerData: headerData
+            headerData: headerData,
+            teamName: teamName
           };
         });
   }

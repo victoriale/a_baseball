@@ -3,7 +3,8 @@ import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
 import {SearchService} from '../../services/search.service';
 import {Observable} from 'rxjs/Rx';
 import {Control} from 'angular2/common';
-
+import {CircleImage} from '../images/circle-image';
+import {ImageData, CircleImageData} from '../images/image-data';
 /*
  * Search Component
  * Lutz Lai - 05/13/2016
@@ -29,7 +30,7 @@ export interface SearchComponentResult {
     //Value to compare against for autocomplete text
     value: string;
     //Url of image to be displayed next to the dropdown item
-    imageUrl: string;
+    imageUrl: CircleImageData;
     //Array for routerLink parameters
     routerLink: Array<any>
 }
@@ -58,7 +59,7 @@ export interface SearchInput {
       '(document:click)': 'handleClick($event)'
     },
     templateUrl: './app/components/search/search.component.html',
-    directives: [ROUTER_DIRECTIVES],
+    directives: [CircleImage, ROUTER_DIRECTIVES],
     providers: []
 })
 
