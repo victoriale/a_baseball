@@ -102,22 +102,19 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
        },{
          headerValue: "TIME",
          columnClass: "date-column",
-         isNumericType: false,
          key: "t"
        },{
          headerValue: "AWAY",
          columnClass: "image-column location-column",
-         isNumericType: false,
          key: "away"
        },{
          headerValue: "HOME",
          columnClass: "image-column location-column",
-         isNumericType: false,
          key: "home"
        },{
          headerValue: "GAME SUMMARY",
-         columnClass: "summary-column location-column",
-         isNumericType: true,
+         columnClass: "summary-column",
+         ignoreSort: true,
          key: "gs"
        }];
     }else{
