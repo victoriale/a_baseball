@@ -1,4 +1,6 @@
 import {Component, Input, OnInit, OnChanges, ViewChild, AfterViewChecked} from 'angular2/core';
+
+//TODO: remove jQuery
 declare var jQuery: any;
 
 export interface ComparisonBarInput {

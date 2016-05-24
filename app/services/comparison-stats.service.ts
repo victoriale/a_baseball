@@ -5,6 +5,7 @@ import {MLBPageParameters} from '../global/global-interface';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
 import {GlobalSettings} from '../global/global-settings';
+import {Gradient} from '../global/global-gradient';
 
 import {ComparisonBarInput} from '../components/comparison-bar/comparison-bar.component';
 
@@ -17,12 +18,20 @@ export interface PlayerData {
   teamName: string;
   teamId: string;
   teamColors: Array<string>
+  mainTeamColor: string;
   uniformNumber: number;
   position: string;
   height: string;
   weight: number;
   age: number;
   yearsExperience: number;
+}
+
+export interface TeamPlayers {
+  pitchers: Array<PlayerData>;
+  catchers: Array<PlayerData>;
+  fielders: Array<PlayerData>;
+  batters: Array<PlayerData>;  
 }
 
 export interface DataPoint {
@@ -146,6 +155,16 @@ export class ComparisonStatsService {
     var bars: { [year: string]: Array<ComparisonBarInput> } = {};    
     var fields = data.playerOne.position[0] == "Pitcher" ? this.pitchingFields : this.battingFields;
     
+    data.playerOne.mainTeamColor = data.playerOne.teamColors[0];
+    data.playerTwo.mainTeamColor = data.playerTwo.teamColors[0];
+    if ( Gradient.areColorsClose(data.playerOne.teamColors[0], data.playerTwo.teamColors[0]) ) {
+      if ( data.playerTwo.teamColors.length >= 2) {
+        data.playerTwo.mainTeamColor = data.playerTwo.teamColors[1];
+      } else if ( data.playerOne.teamColors.length >=2 ) {
+        data.playerOne.mainTeamColor = data.playerOne.teamColors[1];
+      }
+    }
+    
     for ( var seasonId in data.data ) {
       var seasonStatData = data.data[seasonId];
       var seasonBarList = [];
@@ -168,11 +187,11 @@ export class ComparisonStatsService {
           title: title,
           data: [{
             value: dataPoint[data.playerOne.playerId],
-            color: data.playerOne.teamColors[0]
+            color: data.playerOne.mainTeamColor
           }, 
           {
             value: dataPoint[data.playerTwo.playerId],
-            color: data.playerTwo.teamColors[0]
+            color: data.playerTwo.mainTeamColor
           }],
           maxValue: dataPoint['statHigh']
         });

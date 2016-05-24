@@ -108,7 +108,7 @@ export class ComparisonModule implements OnInit, OnChanges {
         var selectedSeason = new Date().getFullYear(); //TODO: get from selected tab.
         this.comparisonTileDataOne = this.setupTile(data.playerOne);
         this.comparisonTileDataTwo = this.setupTile(data.playerTwo);        
-        this.gradient = Gradient.getGradientStyles([data.playerOne.teamColors[0], data.playerTwo.teamColors[0]], 1);
+        this.gradient = Gradient.getGradientStyles([data.playerOne.mainTeamColor, data.playerTwo.mainTeamColor], 1);
         
         for ( var i = 0; i < this.tabs.length; i++ ) {
             this.tabs[i].barData = data.bars[this.tabs[i].seasonId];
@@ -130,11 +130,11 @@ export class ComparisonModule implements OnInit, OnChanges {
                 },
                 {
                     title: data.playerTwo.playerName,
-                    color: data.playerTwo.teamColors[0]
+                    color: data.playerTwo.mainTeamColor
                 },
                 {
                     title: data.playerOne.playerName,
-                    color: data.playerOne.teamColors[0]
+                    color: data.playerOne.mainTeamColor
                 }
             ]
         };
