@@ -20,7 +20,7 @@
 
   <headline-component></headline-component>
 
-  <images-media-carousel [imageData]="imageData" [copyright]="copyright" [profileName]="profileName" [isProfilePage]="isProfilePage"></images-media-carousel>
+  <images-media-carousel [imageData]="imageData" [copyright]="copyright" [profHeader]="profileHeaderData" [isProfilePage]="isProfilePage"></images-media-carousel>
 
   <dyk-module *ngIf="dykData" [profileName]="profileHeaderData.profileName" [dykData]="dykData"></dyk-module>
 
@@ -31,7 +31,7 @@
 
   <headline-component></headline-component>
 
-  <twitter-module></twitter-module>
+  <twitter-module *ngIf="twitterData" [profileName]="profileHeaderData.profileName" [twitterData]="twitterData"></twitter-module>
 
   <!--Like Us On FB Module, only display if not on partner page-->
   <!-- TODO <section *ngIf="!partnerCheck"> -->

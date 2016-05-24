@@ -11,14 +11,14 @@ declare var jQuery:any;
     templateUrl: './app/components/carousels/images-media-carousel/images-media-carousel.component.html',
     directives: [ROUTER_DIRECTIVES, CircleButton, ModuleHeader],
     providers: [],
-    inputs: ['trending', 'mediaImages', 'featureListing', 'modalButton', 'imageData', 'copyright', 'profileName', 'isProfilePage'],
+    inputs: ['trending', 'mediaImages', 'featureListing', 'modalButton', 'imageData', 'copyright', 'profHeader', 'isProfilePage'],
     outputs: ['leftCircle', 'rightCircle', 'expand'],
 })
 
 export class ImagesMedia implements OnInit {
     @Input() imageData:any;
     @Input() copyright:any;
-    @Input() profileName:string;
+    @Input() isProfilePage:boolean;
     leftCircle:EventEmitter<boolean> = new EventEmitter();
     rightCircle:EventEmitter<boolean> = new EventEmitter();
     expand:any = new EventEmitter();
@@ -36,14 +36,12 @@ export class ImagesMedia implements OnInit {
     images:any;
     displayCounter:number;
     imageCredit:any;
-    public headerInfo:ModuleHeaderData = {
-        moduleTitle: "",
-        hasIcon: false,
-        iconClass: ""
-    };
+    profHeader:any;
+    modHeadData: Object;
+    profileHeaderData: any;
 
     modalExpand() {
-        if (this.expand == true) {
+        if (this.expand) {
             this.expand = false;
         } else {
             this.expand = true;
@@ -120,7 +118,13 @@ export class ImagesMedia implements OnInit {
             this.mediaImages = this.modifyMedia(this.imageData, this.copyright);
             this.changeMain(0);
             this.totalImageCount = this.imageData.length;
-            this.headerInfo.moduleTitle = "Images & Media - " + this.profileName;
+            if (this.isProfilePage) {
+                this.modHeadData = {
+                    moduleTitle: "Images & Media - " + this.profHeader.profileName,
+                    hasIcon: false,
+                    iconClass: '',
+                };
+            }
         }
     }
 

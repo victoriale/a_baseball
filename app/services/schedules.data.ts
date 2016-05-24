@@ -78,6 +78,8 @@ export class MLBSchedulesTableData implements TableComponentData<SchedulesData> 
   constructor(title: string, table: MLBSchedulesTableModel) {
     this.groupName = title;
     this.tableData = table;
+    console.log(this.tableData);
+    console.log(this.tableData.setRowSelected);
   }
 }
 
@@ -151,8 +153,10 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
   }
 
   setRowSelected(rowIndex:number) {
+    console.log(rowIndex);
+    console.log(typeof rowIndex);
     if ( rowIndex >= 0 && rowIndex < this.rows.length ) {
-      this.selectedKey = this.rows[rowIndex].teamId;
+      this.selectedKey = this.rows[rowIndex].eventId;
       return 'hi';
     }
     else {
