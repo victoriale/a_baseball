@@ -33,7 +33,6 @@ export class TransactionsModule{
   footerStyle: any;
   teamId:number;
   constructor( public params: RouteParams){
-    console.log("transParams", params);
     this.teamId = Number(this.params.get('teamId'));
     this.footerData = {
       infoDesc: 'Want to see everybody involved in this list?',
@@ -47,7 +46,6 @@ export class TransactionsModule{
   }
 
   ngOnChanges(){
-    console.log(this.transactionsData);
     this.displayData();
   }
 

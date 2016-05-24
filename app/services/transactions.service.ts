@@ -6,6 +6,8 @@ import {GlobalFunctions} from '../global/global-functions';
 import {GlobalSettings} from '../global/global-settings';
 import {CircleImageData} from '../components/images/image-data';
 
+declare var moment: any;
+
 @Injectable()
 export class TransactionsService {
   private _apiUrl: string = GlobalSettings.getApiUrl();
@@ -23,15 +25,26 @@ export class TransactionsService {
       return headers;
   }
 
-  getTransactionsService(year, teamId,type?){
+  getTransactionsService(year, teamId, type?){
   //Configure HTTP Headers
   var headers = this.setToken();
-  //for MLB season starts and ends in the same year so return current season
-  //get past 5 years for tabs
-  var tabDates = Number(year);
-  var tabArray = [];
+  //var tabArray = ['Transactions', 'Suspensions', 'Injury Reports' ];
+    var tabArray = [
+      {
+        tabData     : 'transactions',
+        tabDisplay  : 'Transactions'
+      },
+      {
+        tabData     : 'suspensions',
+        tabDisplay  : 'Suspensions'
+      },
+      {
+        tabData     : 'injuries',
+        tabDisplay  : 'Injury Reports'
+      }
+    ];
+
   var callURL = this._apiUrl + '/team/transactions/'+teamId+'/'+year;
-   console.log("callURL",callURL);
 
   return this.http.get( callURL, {
       headers: headers
@@ -41,18 +54,17 @@ export class TransactionsService {
     )
     .map(
       data => {
-        console.log("transData",data);
         var returnData = {}
         if(type == 'module'){
           return returnData = {
             carData:this.carTransactions(data.data, type),
-            listData:this.detailedData(data.data),
+            listData:this.detailedData(data.data, type),
             tabArray:tabArray,
           };
         }else{
           return returnData = {
             carData:this.carTransactions(data.data, type),
-            listData:this.detailedData(data.data),
+            listData:this.detailedData(data.data, type),
             tabArray:tabArray,
           };
         }
@@ -90,11 +102,11 @@ export class TransactionsService {
           //TODO
           imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.imageUrl),MLBGlobalFunctions.formatPlayerRoute(val['draftTeamName'], playerFullName, val['personId']), (index+1), "image-50-sub",GlobalSettings.getImageUrl(val.teamLogo),MLBGlobalFunctions.formatTeamRoute(val['draftTeamName'], val.draftTeam)),
           description:[
-            '<p style="font-size:24px"><b>'+val.playerName+'</b></p>',
-            '<p>Hometown: <b>'+val['draftTeamName']+'</b></p>',
-            '<br>',
-            '<p style="font-size:24px"><b>'+val['selectionOverall']+' Overall</b></p>',
-            '<p>Transaction '+val['selectionLevel']+'</p>',
+            '<p class="font-12 fw-400 lh-12 titlecase"><i class="fa fa-circle"></i> Transactions Report for ' + val.teamName + '</p>',
+            '<p class="font-22 fw-800 lh-25" style="padding-bottom:16px;">'+ val.teamName +'</p>',
+            '<p class="font-14 fw-400 lh-18" style="padding-bottom:6px;">'+ val.playerLastName + ', ' + val.playerFirstName + ': ' + val.contents + '<p>',
+            '<p class="font-10 fw-400 lh-25">'+ val['repDate'] +'</p>',
+            '<p class="font-10 fw-400 lh-25">Last Updated on '+ moment(val.lastUpdate).format('ddd MMM DD YYYY') +'</p>'
           ],
         };
         if(type == 'page'){
@@ -107,27 +119,20 @@ export class TransactionsService {
         carouselArray.push(Carousel);
       });
     }
-    // console.log('TRANSFORMED CAROUSEL', carouselArray);
     return carouselArray;
   }
 
-  detailedData(data){
+  detailedData(data, type){
     let self = this;
     var listDataArray = [];
 
-    var dummyImg = "/app/public/no-image.png";
-    var dummyRoute = ['Disclaimer-page'];
-    var dummyRank = '#4';
-
-    var dummyProfile = "[Profile Name]";
-    var dummyProfVal = "[Data Value 1]";
-    var dummyProfUrl = ['Disclaimer-page'];
-    var dummySubData = "[Data Value]: [City], [ST]";
-    var dummySubDesc = "[Data Description]";
-    var dummySubUrl = ['Disclaimer-page'];
-
     data.forEach(function(val, index){
+      if(type == "module" && index >= 4){
+        // module only needs two list items
+        return false;
+      }
       var playerFullName = val.playerFirstName + " " + val.playerLastName;
+      console.log("each List data:",listData);
       var listData = {
         dataPoints: self.detailsData(
           val.playerName,
@@ -148,7 +153,6 @@ export class TransactionsService {
       };
       listDataArray.push(listData);
     });
-    // console.log('TRANSFORMED List Data', listDataArray);
     return listDataArray;
   }//end of function
 
