@@ -123,17 +123,6 @@ export class ComparisonStatsService {
     
     return Observable.forkJoin(playerStatsObservable, teamListObservable);
   }
-
-  // getTeamList(): Observable<Array<{key: string, value: string}>> {
-  //   //http://dev-homerunloyal-api.synapsys.us/team/comparisonTeamList
-    
-  //   console.log("getting team list: " + url);
-  //   return this.http.get(url)
-  //     .map(res => res.json())
-  //     .map(data => {
-  //       return this.formatTeamList(data.data);;
-  //   });
-  // }
   
   /*
   teamItem {
