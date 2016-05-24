@@ -78,8 +78,47 @@ export class MLBSchedulesTableData implements TableComponentData<SchedulesData> 
   constructor(title: string, table: MLBSchedulesTableModel) {
     this.groupName = title;
     this.tableData = table;
-    console.log(this.tableData);
-    console.log(this.tableData.setRowSelected);
+  }
+
+  updateCarouselData(item, index){
+    var displayNext = '';
+    if(item.eventStatus == 'pre-event'){
+      var displayNext = 'Next Game:';
+    }else{
+      var displayNext = 'Previous Game:';
+    }
+    return {//placeholder data
+      index:index,
+      displayNext: displayNext,
+      displayTime:moment(item.startDateTime).format('dddd MMMM Do, YYYY | h:mm A') + " [ZONE]",
+      detail1Data:'Home Stadium:',
+      detail1Value:"[Stadium's]",
+      detail2Value:'[City], [State]',
+      imageConfig1:{//AWAY
+        imageClass: "image-125",
+        mainImage: {
+          imageUrl: GlobalSettings.getImageUrl(item.awayTeamLogo),
+          urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.awayTeamName, item.awayTeamId),
+          hoverText: "<p>View</p><p>Profile</p>",
+          imageClass: "border-5"
+        }
+      },
+      imageConfig2:{//HOME
+        imageClass: "image-125",
+        mainImage: {
+          imageUrl: GlobalSettings.getImageUrl(item.homeTeamLogo),
+          urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.homeTeamName, item.homeTeamId),
+          hoverText: "<p>View</p><p>Profile</p>",
+          imageClass: "border-5"
+        }
+      },
+      teamName1: item.awayTeamName,
+      teamName2: item.homeTeamName,
+      teamLocation1:'[Location]',
+      teamLocation2:'[Location]',
+      teamRecord1:item.awayRecord,
+      teamRecord2:item.homeRecord,
+    };
   }
 }
 
@@ -153,15 +192,11 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
   }
 
   setRowSelected(rowIndex:number) {
-    console.log(rowIndex);
-    console.log(typeof rowIndex);
     if ( rowIndex >= 0 && rowIndex < this.rows.length ) {
       this.selectedKey = this.rows[rowIndex].eventId;
-      return 'hi';
     }
     else {
       this.selectedKey = null;
-      return 'hi';
     }
   }
 

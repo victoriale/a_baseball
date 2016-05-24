@@ -65,21 +65,33 @@ export class SchedulesService {
       return headers;
   }
 
-  getSchedulesService(profile, eventStatus, limit, pageNum, id?){
+  getSchedulesService(profile, eventStatus, limit, pageNum, id?, year?){
   //Configure HTTP Headers
   var headers = this.setToken();
-  var year = new Date().getFullYear();//DEFAULT YEAR DATA TO CURRENT YEAR
+  var jsYear = new Date().getFullYear();//DEFAULT YEAR DATA TO CURRENT YEAR
+  var displayYear;
+
+  if(typeof year == 'undefined'){
+    year = new Date().getFullYear();//once we have historic data we shall show this
+  }
+
+  if(jsYear == year){
+    displayYear = "Current Season";
+  }else{
+    displayYear = year;
+  }
   // console.log(profile,id, eventStatus)/
   /*
-  http://dev-homerunloyal-api.synapsys.us/team/schedule/2819/pre-event
-  http://dev-homerunloyal-api.synapsys.us/team/schedule/2819/post-event
+  http://dev-homerunloyal-api.synapsys.us/team/schedule/2819/pre-event/5/1
+  http://dev-homerunloyal-api.synapsys.us/team/schedule/2819/post-event/5/1
   http://dev-homerunloyal-api.synapsys.us/league/schedule/pre-event/5/1
   http://dev-homerunloyal-api.synapsys.us/league/schedule/post-event/5/1
   */
   var callURL = this._apiUrl+'/'+profile+'/schedule';
+
   var tabData = [
-    {display: 'Upcoming Games', data:'pre-event'},
-    {display: 'Previous Games', data:'post-event'}
+    {display: 'Upcoming Games', data:'pre-event', season:displayYear},
+    {display: 'Previous Games', data:'post-event', season:displayYear}
   ]
   if(typeof id != 'undefined'){
     callURL += '/'+id;
@@ -108,7 +120,6 @@ export class SchedulesService {
     if ( maxRows !== undefined ) {
       rows = rows.slice(0, maxRows);
     }
-
     let tableName = this.formatGroupName(year,eventStatus);
     var table = new MLBSchedulesTableModel(rows);
     return new MLBSchedulesTableData(tableName , table);
