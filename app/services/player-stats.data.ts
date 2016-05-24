@@ -12,7 +12,7 @@ export interface PlayerStatsData {
   playerName: string;
   playerId: string;
   playerHeadshot: string;
-  profileHeader: string;
+  backgroundImage: string;
   seasonId: string;
   lastUpdate: string;
   
@@ -110,8 +110,6 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
   }  
 
   convertToCarouselItem(item: PlayerStatsData, index:number): SliderCarouselInput {
-    console.log("selected season: " + this.selectedSeasonId);
-    console.log("first seasonal value: " + this.seasonIds[0].value);
     var subheader = "Current " + item.teamName + " Player Stats";
     var description = "";
     var tense = " has";
