@@ -12,7 +12,7 @@ export interface PlayerStatsData {
   playerName: string;
   playerId: string;
   playerHeadshot: string;
-  profileHeader: string;
+  backgroundImage: string;
   seasonId: string;
   lastUpdate: string;
   
@@ -112,19 +112,25 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
   convertToCarouselItem(item: PlayerStatsData, index:number): SliderCarouselInput {
     var subheader = "Current " + item.teamName + " Player Stats";
     var description = "";
+    var tense = " has";
+    var temporalInfo = "";
+    if ( this.selectedSeasonId != this.seasonIds[0].key ) {
+      tense = " had";
+      temporalInfo = " in " + this.selectedSeasonId;
+    }
     if ( this.isPitcherTable ) {
-      description = item.playerName + " has a <span class='text-heavy'>" + (item.pitchEra != null ? item.pitchEra.toFixed(2) : "N/A") + 
+      description = item.playerName + tense + " a <span class='text-heavy'>" + (item.pitchEra != null ? item.pitchEra.toFixed(2) : "N/A") + 
                     " ERA</span> with <span class='text-heavy'>" + item.pitchStrikeouts + 
                     " Strikeouts</span>, <span class='text-heavy'>" + item.pitchWins + 
                     " Wins</span> and a <span class='text-heavy'>" + item.pitchLosses + 
-                    " Saves</span>.";
+                    " Saves</span>" + temporalInfo + ".";
     }
     else {
-      description = item.playerName + " has a <span class='text-heavy'>" + (item.batAverage != null ? item.batAverage.toPrecision(3) : "N/A") + 
+      description = item.playerName + tense + " a <span class='text-heavy'>" + (item.batAverage != null ? item.batAverage.toPrecision(3) : "N/A") + 
                     " Batting Average</span> with <span class='text-heavy'>" + item.batHomeRuns + 
                     " Homeruns</span>, <span class='text-heavy'>" + item.batRbi + 
                     " RBI's</span> and a <span class='text-heavy'>" + (item.batSluggingPercentage != null ? item.batSluggingPercentage.toPrecision(3) : "N/A") + 
-                    " Slugging Percentage</span>.";
+                    " Slugging Percentage</span>" + temporalInfo + ".";
     }
     return {
       index: index,
