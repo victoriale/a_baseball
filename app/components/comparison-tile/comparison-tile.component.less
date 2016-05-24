@@ -4,40 +4,16 @@
     padding-bottom: 16px;
   }
 
-  &-dropdown{
-    background-color: rgba(0, 0, 0, 0.35);
-    height: 35px;
-    overflow: hidden;
 
-    //&:first-child{
-      border-right: 1px solid rgba(153, 153, 153, 0.5);
-    //}
-
-    &::after{
-      content: "";
-      width: 0px;
-      height: 0px;
-      border-color: @white transparent transparent transparent;
-      border-style: solid;
-      border-width: 6px 5px 0px 5px;
-      position: absolute;
-      top: 16px;
-      right: 15px;
-    }
-
-    select{
-      background-color: transparent;
-      border: none;
-      color: @white;
-      height: 35px;
-      width: 120%;
-      margin-left: 15px;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      appearance: none;
-
-      &:focus{
-        outline: none;
+  &-dropdown {
+    .dropdown {
+      width: 100%;
+      
+      &-hdr {
+        padding: 10px 15px;
+        background-color: rgba(39, 39, 39, 0.35);
+        border-right: 1px solid rgba(153, 153, 153, 0.5);
+        .globalDefaultModFont(14px, 400, @white);
       }
     }
   }
