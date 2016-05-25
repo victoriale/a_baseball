@@ -1,11 +1,19 @@
-<div *ngIf="data" class="module-container">
+<div *ngIf="modelData" class="module-container">
     <module-header [modHeadData]="moduleHeaderData"></module-header>
     <div class="row comparison-module-tiles" [ngStyle]="gradient" [class.default-gradient]="!gradient">
         <div class="col-xs-6">
-            <comparison-tile *ngIf="comparisonTileDataOne" [comparisonTileInput]="comparisonTileDataOne" [dropdownList1]="teamList"></comparison-tile>
+            <comparison-tile *ngIf="comparisonTileDataOne" 
+                [comparisonTileInput]="comparisonTileDataOne"  
+                [dropdownList1]="teamList"
+                [dropdownList2]="teamOnePlayerList"
+                (dropdownSwitched)="tileDropdownSwitched(0, $event)"></comparison-tile>
         </div>
         <div class="col-xs-6">
-            <comparison-tile *ngIf="comparisonTileDataTwo" [comparisonTileInput]="comparisonTileDataTwo" [dropdownList1]="teamList"></comparison-tile>
+            <comparison-tile *ngIf="comparisonTileDataTwo" 
+                [comparisonTileInput]="comparisonTileDataTwo" 
+                [dropdownList1]="teamList" 
+                [dropdownList2]="teamTwoPlayerList" 
+                (dropdownSwitched)="tileDropdownSwitched(1, $event)"></comparison-tile>
         </div>
         <div class="comparison-module-tiles-vs">
             vs
@@ -13,9 +21,9 @@
     </div>
     <tabs (tabSelected)="tabSelected($event)">
         <tab *ngFor="#tab of tabs" [tabTitle]="tab.tabTitle" [active]="tab.isActive">            
-            <comparison-legend [comparisonLegendInput]="comparisonLegendData"></comparison-legend>
+            <comparison-legend *ngIf="comparisonLegendData" [comparisonLegendInput]="comparisonLegendData"></comparison-legend>
             <div class="comparison-module-bars">
-                <comparison-bar *ngFor="#item of tab.barData; #i = index" [comparisonBarInput]="item" [dataIndex]="dataIndex" [index]="i"></comparison-bar>
+                <comparison-bar *ngFor="#item of tab.barData; #i = index" [comparisonBarInput]="item" [index]="i"></comparison-bar>
             </div>
         </tab>        
     </tabs>
