@@ -79,6 +79,47 @@ export class MLBSchedulesTableData implements TableComponentData<SchedulesData> 
     this.groupName = title;
     this.tableData = table;
   }
+
+  updateCarouselData(item, index){
+    var displayNext = '';
+    if(item.eventStatus == 'pre-event'){
+      var displayNext = 'Next Game:';
+    }else{
+      var displayNext = 'Previous Game:';
+    }
+    return {//placeholder data
+      index:index,
+      displayNext: displayNext,
+      displayTime:moment(item.startDateTime).format('dddd MMMM Do, YYYY | h:mm A') + " [ZONE]",
+      detail1Data:'Home Stadium:',
+      detail1Value:"[Stadium's]",
+      detail2Value:'[City], [State]',
+      imageConfig1:{//AWAY
+        imageClass: "image-125",
+        mainImage: {
+          imageUrl: GlobalSettings.getImageUrl(item.awayTeamLogo),
+          urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.awayTeamName, item.awayTeamId),
+          hoverText: "<p>View</p><p>Profile</p>",
+          imageClass: "border-5"
+        }
+      },
+      imageConfig2:{//HOME
+        imageClass: "image-125",
+        mainImage: {
+          imageUrl: GlobalSettings.getImageUrl(item.homeTeamLogo),
+          urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.homeTeamName, item.homeTeamId),
+          hoverText: "<p>View</p><p>Profile</p>",
+          imageClass: "border-5"
+        }
+      },
+      teamName1: item.awayTeamName,
+      teamName2: item.homeTeamName,
+      teamLocation1:'[Location]',
+      teamLocation2:'[Location]',
+      teamRecord1:item.awayRecord,
+      teamRecord2:item.homeRecord,
+    };
+  }
 }
 
 export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
@@ -102,22 +143,19 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
        },{
          headerValue: "TIME",
          columnClass: "date-column",
-         isNumericType: false,
          key: "t"
        },{
          headerValue: "AWAY",
          columnClass: "image-column location-column",
-         isNumericType: false,
          key: "away"
        },{
          headerValue: "HOME",
          columnClass: "image-column location-column",
-         isNumericType: false,
          key: "home"
        },{
          headerValue: "GAME SUMMARY",
-         columnClass: "summary-column location-column",
-         isNumericType: true,
+         columnClass: "summary-column",
+         ignoreSort: true,
          key: "gs"
        }];
     }else{
@@ -152,7 +190,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
 
   setRowSelected(rowIndex:number) {
     if ( rowIndex >= 0 && rowIndex < this.rows.length ) {
-      this.selectedKey = this.rows[rowIndex].teamId;
+      this.selectedKey = this.rows[rowIndex].eventId;
     }
     else {
       this.selectedKey = null;

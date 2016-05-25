@@ -1,31 +1,29 @@
-import {Component, Input, OnChanges, EventEmitter} from 'angular2/core';
+import {Component, Input} from 'angular2/core';
 
-interface ComparisonLegendInput {
+export interface ComparisonLegendInput {
     legendTitle: Array<{
-        text: string;
-        class: string;
+        text: string,
+        class?: string
     }>;
-    titleOne: string;
-    colorOne: string;
-    titleTwo: string;
-    colorTwo: string;
-    titleHigh?: string;
-    colorHigh?: string;
+    legendValues: Array<{
+       title: string,
+       color: string 
+    }>;
 }
 
 @Component({
     selector: 'comparison-legend',
-    templateUrl: './app/components/comparison-legend/comparison-legend.component.html',
-    directives:[],
-    providers: []
+    templateUrl: './app/components/comparison-legend/comparison-legend.component.html'
 })
 
 export class ComparisonLegend{
     @Input() comparisonLegendInput: ComparisonLegendInput;
-
-    ngOnInit(){
-    }
-
-    ngOnChanges(){
+    
+    ngOnInit() {
+        // if ( this.comparisonLegendInput ) {
+        //     this.comparisonLegendInput.legendTitle.forEach(item => {
+        //         if ( item.class == )
+        //     })
+        // }
     }
 }

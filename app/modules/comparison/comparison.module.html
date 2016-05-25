@@ -1,32 +1,22 @@
-<div class="module-container">
+<div *ngIf="data" class="module-container">
     <module-header [modHeadData]="moduleHeaderData"></module-header>
-    <div class="row comparison-module-tiles">
+    <div class="row comparison-module-tiles" [ngStyle]="gradient" [class.default-gradient]="!gradient">
         <div class="col-xs-6">
-            <comparison-tile [comparisonTileInput]="comparisonTileDataOne"></comparison-tile>
+            <comparison-tile *ngIf="comparisonTileDataOne" [comparisonTileInput]="comparisonTileDataOne" [dropdownList1]="teamList"></comparison-tile>
         </div>
         <div class="col-xs-6">
-            <comparison-tile [comparisonTileInput]="comparisonTileDataTwo"></comparison-tile>
+            <comparison-tile *ngIf="comparisonTileDataTwo" [comparisonTileInput]="comparisonTileDataTwo" [dropdownList1]="teamList"></comparison-tile>
         </div>
         <div class="comparison-module-tiles-vs">
             vs
         </div>
     </div>
-    <!-- Placeholder -->
-    <div class="tabs-placeholder">
-        Tabs Placeholder
-    </div>
-    <button (click)="dataOne()">
-        Data 1
-    </button>
-    <button (click)="dataTwo()">
-        Data 2
-    </button>
-    <button (click)="dataThree()">
-        Data 3
-    </button>
-    <!-- End Placeholder -->
-    <comparison-legend [comparisonLegendInput]="comparisonLegendData"></comparison-legend>
-    <div class="comparison-module-bars">
-        <comparison-bar *ngFor="#item of comparisonBarData" [comparisonBarInput]="item" [dataIndex]="dataIndex"></comparison-bar>
-    </div>
+    <tabs (tabSelected)="tabSelected($event)">
+        <tab *ngFor="#tab of tabs" [tabTitle]="tab.tabTitle" [active]="tab.isActive">            
+            <comparison-legend [comparisonLegendInput]="comparisonLegendData"></comparison-legend>
+            <div class="comparison-module-bars">
+                <comparison-bar *ngFor="#item of tab.barData; #i = index" [comparisonBarInput]="item" [dataIndex]="dataIndex" [index]="i"></comparison-bar>
+            </div>
+        </tab>        
+    </tabs>
 </div>

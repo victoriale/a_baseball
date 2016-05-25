@@ -13,6 +13,7 @@ export class TableHeader implements OnInit {
 
   public iconSortDirection: string;
   public iconSortType: string;
+  public isSortable: boolean;
 
   @Input() headerData: TableColumn;
   @Input() headerIndex: number;
@@ -21,6 +22,7 @@ export class TableHeader implements OnInit {
   constructor(private _renderer: Renderer) {}
 
   ngOnInit() {
+    this.isSortable = !this.headerData.ignoreSort;
     this.iconSortType = this.headerData.isNumericType ? "numeric" : "alpha";
     this.setSortIcon();
   }
@@ -43,21 +45,23 @@ export class TableHeader implements OnInit {
   }
 
   sortRows($event) {
-    switch ( this.headerData.sortDirection ) {
-      case this.SORT_ASC:
-        this.headerData.sortDirection = this.SORT_DESC;
-        break;
+    if ( this.isSortable ) {
+      switch ( this.headerData.sortDirection ) {
+        case this.SORT_ASC:
+          this.headerData.sortDirection = this.SORT_DESC;
+          break;
 
-      case this.SORT_DESC:
-        this.headerData.sortDirection = this.SORT_ASC;
-        break;
+        case this.SORT_DESC:
+          this.headerData.sortDirection = this.SORT_ASC;
+          break;
 
-      default:
-      case this.SORT_NONE:
-        this.headerData.sortDirection = this.SORT_ASC;
-        break;
+        default:
+        case this.SORT_NONE:
+          this.headerData.sortDirection = this.SORT_ASC;
+          break;
+      }
+      this.setSortIcon();
+      this.sortSwitched.next([this.headerData, this.headerIndex]);
     }
-    this.setSortIcon();
-    this.sortSwitched.next([this.headerData, this.headerIndex]);
   }
 }
