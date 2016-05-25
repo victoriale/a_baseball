@@ -32,7 +32,6 @@
     
     position: absolute;
     top: 10px;
-    right: -1px;
     z-index: 100;
     
     &-scroll .scrollable-item {
@@ -70,8 +69,24 @@
         cursor: pointer;
         background-color: @masterBrandColor;
         color: @white;
+  
+        &.dropdown-grp-lbl {
+          cursor: default;
+          background-color: @white;
+          color: @bulletGrey;
+        } 
       }
     }    
+  }
+  
+  .dropdown-grp {
+    &-lbl {
+      color: @bulletGrey;
+    } 
+    
+    &-item-txt {
+      padding-left: 15px;
+    }
   }
 
   &-caret-top {

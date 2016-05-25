@@ -10,16 +10,16 @@
     </span>
   </div>
   
-  <div *ngIf="isDropdownVisible" class="dropdown-wrapper">        
+  <div *ngIf="isDropdownVisible" class="dropdown-wrapper">
     <div class="dropdown-caret-top" [class.dropdown-caret-top-hover]="highlightCaret"></div>
     <scrollable-content class="dropdown-list dropdown-list-scroll"
       [class.dropdown-list-scroll]="list.length > 5">
       <div *ngFor="#item of list; #i=index" 
-        class="dropdown-list-option"
+        class="dropdown-list-option {{item.class}}"
         (mouseenter)="onMouseEnter(i)"
         (mouseleave)="onMouseLeave(i)"
         (click)="setSelected(item)">
-        <span [innerHtml]="item.value"></span>
+        <span class="{{item.class}}-txt" [innerHtml]="item.value"></span>
       </div>
     </scrollable-content>
   </div>

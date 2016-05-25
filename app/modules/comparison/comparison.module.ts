@@ -1,5 +1,5 @@
 import {Component, Input, Output, OnInit, EventEmitter, OnChanges} from 'angular2/core';
-import {ModuleHeader} from '../../components/module-header/module-header.component';
+import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 import {ComparisonTile, ComparisonTileInput} from '../../components/comparison-tile/comparison-tile.component';
 import {ComparisonBar, ComparisonBarInput} from '../../components/comparison-bar/comparison-bar.component'
 import {ComparisonLegend, ComparisonLegendInput} from '../../components/comparison-legend/comparison-legend.component';
@@ -20,52 +20,55 @@ export interface ComparisonTabData {
     isActive: boolean;
 }
 
+export interface ComparisonModuleData {
+    data: ComparisonStatsData;
+    
+    teamList: Array<{key: string, value: string}>;
+    
+    playerLists: Array<{
+      teamId: string,
+      playerList: Array<{key: string, value: string}>
+    }>;
+    
+    loadTeamList(listLoaded: Function);
+    
+    loadPlayerList(index: number, teamId: string, listLoaded: Function);
+}
+
 @Component({
     selector: 'comparison-module',
     templateUrl: './app/modules/comparison/comparison.module.html',
     directives:[ModuleHeader, ComparisonTile, ComparisonBar, ComparisonLegend, Tabs, Tab]
 })
 
-export class ComparisonModule implements OnInit, OnChanges {    
-    @Input() teamList: Array<{key: string, value: string}>;
+export class ComparisonModule implements OnInit, OnChanges {
+    @Input() modelData: ComparisonModuleData;
     
-    @Input() data: ComparisonStatsData;
+    @Input() profileName: string;
     
-    public gradient: any;
+    teamOnePlayerList: Array<{key: string, value: string}>;
     
-    public moduleHeaderData: Object = {
+    teamTwoPlayerList: Array<{key: string, value: string}>;
+     
+    teamList: Array<{key: string, value: string}>;
+    
+    gradient: any;
+    
+    moduleHeaderData: ModuleHeaderData = {
         moduleTitle: 'Comparison vs. Competition - [Batter Name]',
         hasIcon: false,
         iconClass: ''
     };
     
-    public comparisonLegendData: ComparisonLegendInput = {
-        legendTitle: [
-            {
-                text: '[YYYY] Season',
-                class: 'text-heavy'
-            },
-            {
-                text: ' Breakdown',
-            }
-        ],
-        legendValues: [
-            {
-                title: '[Batter Name 1]',
-                color: '#3098FF'
-            },
-            {
-                title: '[Batter Name 2]',
-                color: '#FF2232'
-            }
-        ]
-    };
+    comparisonLegendData: ComparisonLegendInput;
     
-    public dataIndex: number = 0;
+    selectedTeamOne: string;
+    
+    selectedTeamTwo: string;
 
-    public comparisonTileDataOne: ComparisonTileInput;
+    comparisonTileDataOne: ComparisonTileInput;
     
-    public comparisonTileDataTwo: ComparisonTileInput;
+    comparisonTileDataTwo: ComparisonTileInput;
     
     tabs: Array<ComparisonTabData> = [];
     
@@ -98,16 +101,33 @@ export class ComparisonModule implements OnInit, OnChanges {
     }
     
     ngOnChanges() {
-        if ( this.data && this.tabs ) {
-            this.formatData(this.data);
+        if ( this.modelData ) {
+            this.teamList = this.modelData.teamList;
+            if ( this.modelData.playerLists && this.modelData.playerLists.length >= 2 ) {
+                this.teamOnePlayerList = this.modelData.playerLists[0].playerList;
+                this.teamTwoPlayerList = this.modelData.playerLists[1].playerList;
+            }
+            if ( this.modelData.data && this.tabs ) {
+                this.formatData(this.modelData.data);
+                this.modelData.loadTeamList(teamList => {
+                    this.teamList = teamList;
+                    this.loadPlayerList(0, this.modelData.data.playerOne.teamId);
+                    this.loadPlayerList(1, this.modelData.data.playerTwo.teamId);
+                });
+            }
+        }
+        if ( this.profileName ) {
+            this.moduleHeaderData.moduleTitle = 'Comparison vs. Competition - ' + this.profileName;
         }
     }
     
-    //TODO-CJP: think about passing of data
+    //TODO-CJP: think about passing of data and creating a list of players rather than player one and player two
     formatData(data: ComparisonStatsData) {
         var selectedSeason = new Date().getFullYear(); //TODO: get from selected tab.
+        // this.selectedTeamOne = data.playerOne.teamId;
+        // this.selectedTeamTwo = data.playerTwo.teamId;
         this.comparisonTileDataOne = this.setupTile(data.playerOne);
-        this.comparisonTileDataTwo = this.setupTile(data.playerTwo);        
+        this.comparisonTileDataTwo = this.setupTile(data.playerTwo);
         this.gradient = Gradient.getGradientStyles([data.playerOne.mainTeamColor, data.playerTwo.mainTeamColor], 1);
         
         for ( var i = 0; i < this.tabs.length; i++ ) {
@@ -175,7 +195,7 @@ export class ComparisonModule implements OnInit, OnChanges {
                     class: 'text-heavy'
                 },
                 {
-                    text: ' | Team: ', //TODO: differently
+                    text: ' |&nbsp;&nbsp;Team: ', //TODO: differently
                     class: ''
                 },
                 {
@@ -189,7 +209,7 @@ export class ComparisonModule implements OnInit, OnChanges {
                     key: 'Height'
                 },
                 {
-                    data: player.weight + 'lbs',
+                    data: player.weight + "<sup>lbs</sup>",
                     key: 'Weight'
                 },
                 {
@@ -197,11 +217,46 @@ export class ComparisonModule implements OnInit, OnChanges {
                     key: 'Age'
                 },
                 {
-                    data: player.yearsExperience + GlobalFunctions.Suffix(player.yearsExperience),
+                    data: player.yearsExperience + "<sup>" + GlobalFunctions.Suffix(player.yearsExperience) + "</sup>",
                     key: 'Season'
                 },
             ]
         }
+    }
+    
+    /**
+     * @param {number} tileIndex - 0 : left tile
+     *                           - 1 : right tile
+     * @param value an object containing
+     *  - {number} dropdownIndex: 0 = left dropdown or team list, 1 right dropdown or player list
+     *  - {string} key - The key selected in the dropdown
+     */
+    tileDropdownSwitched(tileIndex:number, value) {
+        var dropdownIndex:number = value.dropdownIndex;
+        var key:string = value.key;
+        if ( dropdownIndex == 0 ) { //team dropdown
+            this.loadPlayerList(tileIndex, key);
+        }
+        else if ( dropdownIndex == 1 ) { //player dropdown            
+            //load new player list and comparison stats
+        }
+    }
+    
+    loadPlayerList(tileIndex:number, teamId: string) {
+        if ( tileIndex == 0 ) {
+            this.selectedTeamOne = teamId;
+        }
+        else {
+            this.selectedTeamTwo = teamId;
+        }
+        this.modelData.loadPlayerList(tileIndex, teamId, playerList => {
+            if ( tileIndex == 0 ) {
+                this.teamOnePlayerList = playerList;
+            }
+            else {
+                this.teamTwoPlayerList = playerList;                   
+            } 
+        });
     }
     
     tabSelected(tabTitle) {
