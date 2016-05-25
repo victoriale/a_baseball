@@ -5,6 +5,7 @@ import {ComparisonBar, ComparisonBarInput} from '../../components/comparison-bar
 import {ComparisonLegend, ComparisonLegendInput} from '../../components/comparison-legend/comparison-legend.component';
 import {Tabs} from '../../components/tabs/tabs.component';
 import {Tab} from '../../components/tabs/tab.component';
+import {NoDataBox} from '../../components/error/data-box/data-box.component';
 
 import {GlobalSettings} from '../../global/global-settings';
 import {GlobalFunctions} from '../../global/global-functions';
@@ -38,7 +39,7 @@ export interface ComparisonModuleData {
 @Component({
     selector: 'comparison-module',
     templateUrl: './app/modules/comparison/comparison.module.html',
-    directives:[ModuleHeader, ComparisonTile, ComparisonBar, ComparisonLegend, Tabs, Tab]
+    directives:[ModuleHeader, ComparisonTile, ComparisonBar, ComparisonLegend, Tabs, Tab, NoDataBox]
 })
 
 export class ComparisonModule implements OnInit, OnChanges {
@@ -71,6 +72,8 @@ export class ComparisonModule implements OnInit, OnChanges {
     comparisonTileDataTwo: ComparisonTileInput;
     
     tabs: Array<ComparisonTabData> = [];
+    
+    noDataMessage = "Sorry, there are no values for this season.";
     
     constructor() {
         var year = new Date().getFullYear();
@@ -264,11 +267,14 @@ export class ComparisonModule implements OnInit, OnChanges {
            return tab.tabTitle == tabTitle; 
         });
         if ( selectedTabs.length > 0 ) {
+            var tab = selectedTabs[0];
             if ( tabTitle == "Career Stats" ) {
                 this.comparisonLegendData.legendTitle[0].text = tabTitle;
+                this.noDataMessage = "Sorry, there are no career stats available for these players.";
             }
             else {
-                this.comparisonLegendData.legendTitle[0].text = selectedTabs[0].seasonId + " Season";
+                this.comparisonLegendData.legendTitle[0].text = tab.seasonId + " Season";
+                this.noDataMessage = "Sorry, there are no statistics available for " + tab.seasonId + ".";
             } 
         } 
     }
