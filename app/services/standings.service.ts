@@ -145,7 +145,6 @@ export class StandingsService {
         section.tableData.selectedKey = teamId;
       });
     }
-    console.log(sections);
     return sections;
   }
 
