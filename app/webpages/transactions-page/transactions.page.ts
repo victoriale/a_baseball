@@ -75,7 +75,7 @@ export class TransactionsPage implements OnInit{
                 }
                 this.carouselDataArray = transactionsData.carData;
 
-                this.profileName = list.targetData.playerName != null ? list.targetData.playerName : list.targetData.teamName;  // TODO include this
+                //this.profileName = transactionsData.targetData.playerName != null ? transactionsData.targetData.playerName : transactionsData.targetData.teamName;  // TODO include this
                 this.setProfileHeader(this.profileName)
 
               },
@@ -117,15 +117,6 @@ export class TransactionsPage implements OnInit{
         break;
     }
     this.getTransactionsPage(transactionType, this.teamId);
-  }
-
-  selectedTab(event){
-    var firstTab = 'Current Season';
-
-    if(event == firstTab){
-      event = new Date().getFullYear();
-    }
-    this.getTransactionsPage(event, this.teamId);
   }
 
   setProfileHeader(profile:string){
