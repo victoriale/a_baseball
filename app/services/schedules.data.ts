@@ -56,6 +56,12 @@ export class MLBScheduleTabData implements TableTabData<SchedulesData> {
 
   title: string;
 
+  display:string;
+
+  dataType: string;
+
+  season: string;
+
   isActive: boolean;
 
   sections: Array<MLBSchedulesTableData>;
@@ -74,9 +80,9 @@ export class MLBScheduleTabData implements TableTabData<SchedulesData> {
 export class MLBSchedulesTableData implements TableComponentData<SchedulesData> {
   groupName: string;
 
-  tableData: MLBSchedulesTableModel;
+  tableData: any;
 
-  constructor(title: string, table: MLBSchedulesTableModel) {
+  constructor(title: string, table: any) {
     this.groupName = title;
     this.tableData = table;
   }
@@ -159,17 +165,18 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
          key: "gs"
        }];
     }else{
-      this.columns = [{
-        headerValue: "HOME",
-        columnClass: "image-column location-column2",
-        isNumericType: false,
-        key: "home"
-      },{
+      this.columns = [
+      {
          headerValue: "AWAY",
          columnClass: "image-column location-column2",
          isNumericType: false,
          key: "away"
        },{
+        headerValue: "HOME",
+        columnClass: "image-column location-column2",
+        isNumericType: false,
+        key: "home"
+      },{
          headerValue: "RESULTS",
          columnClass: "data-column results-column",
          isNumericType: false,

@@ -6,7 +6,7 @@ import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalSettings} from '../global/global-settings';
 import {Conference, Division, MLBPageParameters} from '../global/global-interface';
 import {SchedulesCarouselInput} from '../components/carousels/schedules-carousel/schedules-carousel.component';
-import { MLBSchedulesTableModel, MLBSchedulesTableData} from './schedules.data';
+import { MLBSchedulesTableModel, MLBSchedulesTableData, MLBScheduleTabData} from './schedules.data';
 import {Gradient} from '../global/global-gradient';
 
 declare var moment;
@@ -89,10 +89,7 @@ export class SchedulesService {
   */
   var callURL = this._apiUrl+'/'+profile+'/schedule';
 
-  var tabData = [
-    {display: 'Upcoming Games', data:'pre-event', season:displayYear},
-    {display: 'Previous Games', data:'post-event', season:displayYear}
-  ]
+
   if(typeof id != 'undefined'){
     callURL += '/'+id;
   }
@@ -102,8 +99,14 @@ export class SchedulesService {
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
+      var tableData = this.setupTableData(eventStatus, year, data.data, limit);
+      console.log(tableData);
+      var tabData = [
+        {display: 'Upcoming Games', data:'pre-event', season:displayYear, tabData: new MLBScheduleTabData(this.formatGroupName(year,'pre-event'), true)},
+        {display: 'Previous Games', data:'post-event', season:displayYear, tabData: new MLBScheduleTabData(this.formatGroupName(year,'post-event'), true)}
+      ];
       return {
-        data:this.setupTableData(eventStatus, year, data.data, limit),
+        data:tableData,
         tabs:tabData,
         carData: this.setupCarouselData(data.data, limit),
         pageInfo:{
@@ -114,15 +117,45 @@ export class SchedulesService {
     })
   }
 
+
+
   //rows is the data coming in
   private setupTableData(eventStatus, year, rows: Array<any>, maxRows?: number) {
     //Limit to maxRows, if necessary
     if ( maxRows !== undefined ) {
       rows = rows.slice(0, maxRows);
     }
-    let tableName = this.formatGroupName(year,eventStatus);
-    var table = new MLBSchedulesTableModel(rows, eventStatus);
-    return new MLBSchedulesTableData(tableName , table);
+    console.log(eventStatus);
+    //TWO tables are to be made depending on what type of tabs the use is click on in the table
+    if(eventStatus == 'pre-event'){
+      // let tableName = this.formatGroupName(year,eventStatus);
+      var table = new MLBSchedulesTableModel(rows, eventStatus);
+      var tableArray = new MLBSchedulesTableData('' , table);
+      return [tableArray];
+    }else{
+      var postDate = [];
+      var dateObject = {};
+      // let tableName = this.formatGroupName(year,eventStatus);
+      var table = new MLBSchedulesTableModel(rows, eventStatus);
+
+      rows.forEach(function(val,index){// seperate the dates into their own Obj tables for post game reports
+        var splitToDate = val.startDateTime.split(' ')[0];
+        if(typeof dateObject[splitToDate] == 'undefined'){
+          dateObject[splitToDate] = {};
+          dateObject[splitToDate]['tableData'] = [];
+          dateObject[splitToDate]['display'] = moment(val.startDateTime).format('dddd MMMM Do, YYYY') + " Games";
+          dateObject[splitToDate]['tableData'].push(val);
+        }else{
+          dateObject[splitToDate]['tableData'].push(val);
+        }
+      });
+      for(var date in dateObject){
+        var newPostModel = new MLBSchedulesTableModel(dateObject[date]['tableData'], eventStatus);
+        var newPostTable = new MLBSchedulesTableData( dateObject[date]['display'], newPostModel);
+        postDate.push(newPostTable);
+      }
+      return postDate;
+    }
   }
 
   private setupCarouselData(origData, maxRows?: number){//ANY CHANGES HERE CHECK updateCarouselData in schedules.data.ts

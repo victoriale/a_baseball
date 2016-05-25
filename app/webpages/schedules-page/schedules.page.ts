@@ -30,7 +30,8 @@ export class SchedulesPage implements OnInit{
   paginationParameters:any;
   isError: boolean = false;
   schedulesData:any;
-    tabData: any;
+  tabData: any;
+
   constructor(private _schedulesService:SchedulesService, private profHeadService:ProfileHeaderService, private params: RouteParams){
       var currentYear = new Date().getFullYear();
       this.profileHeaderData =
@@ -63,6 +64,7 @@ export class SchedulesPage implements OnInit{
       this._schedulesService.getSchedulesService('team', status, 10, pageNum, teamId)
       .subscribe(
         data => {
+          console.log('SCHEDULES PAGE',data);
           this.schedulesData = data;
             if(typeof this.tabData == 'undefined'){
                 this.tabData = data.tabs;
