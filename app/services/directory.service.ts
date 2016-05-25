@@ -7,8 +7,6 @@ import {GlobalFunctions} from '../global/global-functions';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {DirectoryProfileItem, DirectoryItems} from '../modules/directory/directory.data';
 
-declare var moment: any;
-
 export enum DirectoryType {
   none,
   teams,
@@ -148,7 +146,7 @@ export class DirectoryService {
       venue = data.teamVenue;
     }
     return {
-      lastUpdated: moment(data.lastUpdated),
+      lastUpdated: data.lastUpdated,
       mainDescription: [
         {
           route: MLBGlobalFunctions.formatTeamRoute(data.teamName, data.teamId),
@@ -183,7 +181,7 @@ export class DirectoryService {
     }
     
     return {
-      lastUpdated: moment(data.lastUpdate),
+      lastUpdated: data.lastUpdate,
       mainDescription: [
         {
           route: MLBGlobalFunctions.formatPlayerRoute(data.teamName, data.playerName, data.playerId),

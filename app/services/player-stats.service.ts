@@ -7,8 +7,6 @@ import {GlobalFunctions} from '../global/global-functions';
 import {GlobalSettings} from '../global/global-settings';
 import {PlayerStatsData, MLBPlayerStatsTableData, MLBPlayerStatsTableModel} from './player-stats.data';
 
-declare var moment: any;
-
 @Injectable()
 export class PlayerStatsService {
   private _apiUrl = GlobalSettings.getApiUrl();

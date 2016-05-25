@@ -411,7 +411,7 @@ export class GlobalFunctions {
      */
     static formatUpdatedDate(jsDate:any, includeTimestamp?:boolean, timezone?:string): string {
       var date = moment(jsDate);
-      var str = date.format('dddd, MMMM D, YYYY');
+      var str = date.format("dddd, ") + GlobalFunctions.formatAPMonth(date.month()) + date.format(' D, YYYY');
       if ( includeTimestamp ) {
         str += ' | ' + date.format('hh:mm A') + (timezone !== undefined && timezone !== null ? timezone : "");
       }
@@ -432,8 +432,32 @@ export class GlobalFunctions {
     if (!date) {
       return "N/A";
     }
-    return date.format("MMMM d, YYYY");
+    return GlobalFunctions.formatAPMonth(date.month()) + date.format(" d, YYYY");
   }
+
+  /**
+   * Returns the English name of the month formatted in AP style
+   *
+   * @param {number} month - The month to format (0-based)
+   * @returns
+   */
+   static formatAPMonth(month: number) {
+      switch (month) {
+        case 0: return "Jan.";
+        case 1: return "Feb.";
+        case 2: return "March";
+        case 3: return "April";
+        case 4: return "May";
+        case 5: return "June";
+        case 6: return "July";
+        case 7: return "Aug.";
+        case 8: return "Sept.";
+        case 9: return "Oct.";
+        case 10: return "Nov.";
+        case 11: return "Dec.";
+        default: return "";
+      }
+   }
 
   /**
    * Formats the given string as English words if it's between
