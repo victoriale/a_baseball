@@ -13,6 +13,9 @@ import {NoDataBox} from '../../components/error/data-box/data-box.component';
 import {ProfileHeaderService} from '../../services/profile-header.service';
 import {LoadingComponent} from "../../components/loading/loading.component";
 import {ErrorComponent} from "../../components/error/error.component";
+import {GlobalSettings} from "../../global/global-settings";
+
+declare var moment:any;
 
 @Component({
     selector: 'transactions-page',
@@ -36,6 +39,8 @@ export class TransactionsPage implements OnInit{
   };
   teamId: number;
   isError: boolean = false;
+  titleData: Object;
+  profileName: string;
   constructor(public transactionsService:TransactionsService, public profHeadService:ProfileHeaderService, public params: RouteParams){
     this.teamId = Number(this.params.params['teamId']);
   }
@@ -69,6 +74,10 @@ export class TransactionsPage implements OnInit{
                   this.detailedDataArray = transactionsData.listData;
                 }
                 this.carouselDataArray = transactionsData.carData;
+
+                this.profileName = list.targetData.playerName != null ? list.targetData.playerName : list.targetData.teamName;  // TODO include this
+                this.setProfileHeader(this.profileName)
+
               },
               err => {
                 this.isError= true;
@@ -91,12 +100,43 @@ export class TransactionsPage implements OnInit{
   }
 
   selectedTab(event){
+    let transactionType;
+    switch( event ){
+      case "Transactions":
+        transactionType = "transactions";
+        break;
+      case "Suspensions":
+        transactionType = "suspensions";
+        break;
+      case "Injury Reports":
+        transactionType = "injuries";
+        break;
+      default:
+        console.error("Supplied transaction name was not found.");
+        transactionType = "transactions";
+        break;
+    }
+    this.getTransactionsPage(transactionType, this.teamId);
+  }
+
+  selectedTab(event){
     var firstTab = 'Current Season';
 
     if(event == firstTab){
       event = new Date().getFullYear();
     }
     this.getTransactionsPage(event, this.teamId);
+  }
+
+  setProfileHeader(profile:string){
+    this.titleData = {
+      imageURL : GlobalSettings.getImageUrl('/mlb/players/no-image.png'),
+      text1 : 'Last Updated: ' + moment().format("dddd, MMMM DD, YYYY"),
+      text2 : ' United States',
+      text3 : 'Top lists - ' + profile,
+      icon: 'fa fa-map-marker',
+      hasHover: false
+    };
   }
 
 
