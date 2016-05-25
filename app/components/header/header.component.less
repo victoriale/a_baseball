@@ -122,13 +122,9 @@
       .flexJustify(center);
       .flexAlignItems(center);
       .globalDefaultModFont(1.17em, 400, @white);
-      &:hover{
-        .globalDefaultModFont(1.17em, 800, @white);
-      }
-      &:active, .active, &:focus {
-        font-weight: 800;
+      &:hover, &:active, .active, &:focus {
         text-decoration: none;
-        color: @white;
+        .globalDefaultModFont(1.17em, 800, @white);
       }
     }
   }//header-tabs ends

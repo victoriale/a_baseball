@@ -3,13 +3,19 @@ import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {CircleButton} from "../../buttons/circle/circle.button";
 import {ModuleHeader} from "../../module-header/module-header.component";
 import {ModuleHeaderData} from "../../module-header/module-header.component";
+import {LoadingComponent} from "../../loading/loading.component";
 
 declare var jQuery:any;
 
 @Component({
     selector: 'images-media-carousel',
     templateUrl: './app/components/carousels/images-media-carousel/images-media-carousel.component.html',
-    directives: [ROUTER_DIRECTIVES, CircleButton, ModuleHeader],
+    directives: [
+        ROUTER_DIRECTIVES,
+        CircleButton,
+        ModuleHeader,
+        LoadingComponent
+    ],
     providers: [],
     inputs: ['trending', 'mediaImages', 'featureListing', 'modalButton', 'imageData', 'copyright', 'profHeader', 'isProfilePage'],
     outputs: ['leftCircle', 'rightCircle', 'expand'],
@@ -61,7 +67,6 @@ export class ImagesMedia implements OnInit {
     }
 
     right() {
-        //check to see if the end of the obj array of images has reached the end and will go on the the next obj with new set of array
         this.imageCounter = (this.imageCounter + 1) % this.imageData.length;
         this.smallObjCounter = (this.smallObjCounter + 1) % 5;
         if (this.smallObjCounter == 0) {

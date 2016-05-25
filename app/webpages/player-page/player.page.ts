@@ -15,7 +15,7 @@ import {FaqService} from '../../services/faq.service';
 import {TwitterModule, twitterModuleData} from "../../modules/twitter/twitter.module";
 import {TwitterService} from '../../services/twitter.service';
 
-import {ComparisonModule} from '../../modules/comparison/comparison.module';
+import {ComparisonModule, ComparisonModuleData} from '../../modules/comparison/comparison.module';
 import {ComparisonStatsService, ComparisonStatsData} from '../../services/comparison-stats.service';
 import {CommentModule} from '../../modules/comment/comment.module';
 
@@ -86,9 +86,14 @@ export class PlayerPage implements OnInit {
   standingsData:StandingsModuleData;
 
   profileHeaderData: ProfileHeaderData;
-
-  comparisonData: ComparisonStatsData;
-  teamList: Array<{key: string, value: string}>;
+  
+  comparisonModuleData: ComparisonModuleData = {
+      data: null,
+      teamList: [],
+      playerLists: [],
+      loadTeamList: function(){},
+      loadPlayerList: function(){}
+  }
 
   imageData:any;
   copyright:any;
@@ -119,7 +124,7 @@ export class PlayerPage implements OnInit {
       this.pageParams = {
           playerId: Number(_params.get("playerId"))
       };
-
+      
         // Scroll page to top to fix routerLink bug
         window.scrollTo(0, 0);
   }
@@ -215,7 +220,7 @@ export class PlayerPage implements OnInit {
                 console.log("Error getting news data");
             });
     }
-
+    
     private getImages(imageData) {
         this._imagesService.getImages(this.profileType, this.pageParams.playerId)
             .subscribe(data => {
@@ -243,15 +248,14 @@ export class PlayerPage implements OnInit {
         //only show 5 rows in the module;
         this._standingsService.getStandingsTabData(tab, this.pageParams, (data) => {}, 5);
     }
-
+    
     private setupComparisonData() {
-        this._comparisonService.getPlayerStats(this.pageParams).subscribe(
+        this._comparisonService.getInitialPlayerStats(this.pageParams).subscribe(
             data => {
-                this.comparisonData = data[0];
-                this.teamList = data[1];
+                this.comparisonModuleData = data;
             },
             err => {
-                console.log("Error getting comparison data for "+ this.pageParams.playerId);
+                console.log("Error getting comparison data for "+ this.pageParams.playerId + ": " + err);
             });
     }
 

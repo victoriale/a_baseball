@@ -12,9 +12,7 @@
   <!-- teamroster -->
   <team-roster-module></team-roster-module>
   <player-stats-module *ngIf="playerStatsData" [data]="playerStatsData" (tabSelected)="playerStatsTabSelected($event)"></player-stats-module>
-  <!--<div class="component-compbar-container" *ngIf="profileHeaderData && listOfListsData">-->
-    <!--<transactions *ngIf="transactionsData" [transactionsData]="transactionsData" [profHeader]="profileHeaderData" (tab)="transactionsTab($event)"></transactions>-->
-  <!--</div>-->
+  <transactions *ngIf="profileHeaderData && transactionsData" [transactionsData]="transactionsData" [profHeader]="profileHeaderData" (tab)="transactionsTab($event)"></transactions>
   <draft-history *ngIf="draftHistoryData" [draftData]="draftHistoryData" [profHeader]="profileHeaderData" (tab)="draftTab($event)"></draft-history>
   <!-- MVP -->
   <!--<comparison-module></comparison-module>-->

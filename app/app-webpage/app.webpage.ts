@@ -22,16 +22,16 @@ import {SchedulesPage} from "../webpages/schedules-page/schedules.page";
 import {DraftHistoryPage} from "../webpages/draft-history-page/draft-history.page";
 import {StandingsPage} from "../webpages/standings-page/standings.page";
 import {AsyncRoute} from "angular2/router";
-import {ArticlePage} from "../webpages/articles/articles/articles.page";
 import {ArticleDataService} from "../global/global-article-page-service";
 import {HeadlineDataService} from "../global/global-ai-headline-module-service";
-import {ArticlePages} from "../webpages/articles/article-pages/article-pages.page";
+import {ArticlePages} from "../webpages/article-pages/article-pages.page";
 import {ErrorPage} from "../webpages/error-page/error-page.page";
 import {ListOfListsPage} from "../webpages/list-of-lists-page/list-of-lists.page";
 import {FooterComponent} from "../components/footer/footer.component";
 import {HeaderComponent} from "../components/header/header.component";
 
 import {DesignPage} from "../webpages/design-page/design.page";
+import {TransactionsPage} from "../webpages/transactions-page/transactions.page";
 
 @Component({
     selector: 'my-app',
@@ -125,6 +125,11 @@ import {DesignPage} from "../webpages/design-page/design.page";
         component: DraftHistoryPage
     },
     {
+        path: '/transactions/:teamName/:teamId',
+        name: 'Transactions-page',
+        component: TransactionsPage
+    },
+    {
         path: '/team-roster/:teamName/:teamId',
         name: 'Team-roster-page',
         component: TeamRosterPage
@@ -134,17 +139,21 @@ import {DesignPage} from "../webpages/design-page/design.page";
         name: 'Player-stats-page',
         component: PlayerStatsPage
     },
-    //test AI Page
-    {
-        path: '/articles',
-        name: 'Articles-Page',
-        component: ArticlePage
-    },
     {
         path: '/articles/:eventType/:eventID',
         name: 'Article-pages',
         component: ArticlePages
 	  },
+    {
+        path: '/list-of-lists/:scope/:type/:id/:limit/:pageNum',
+        name: 'List-of-lists-page-scoped',
+        component: ListOfListsPage
+    },
+    {
+        path: '/list-of-lists/:type/:id/:limit/:pageNum',
+        name: 'List-of-lists-page',
+        component: ListOfListsPage
+    },
     {
         path: '/error',
         name: 'Error-page',
@@ -175,16 +184,6 @@ import {DesignPage} from "../webpages/design-page/design.page";
         path: '/tables-test',
         name: 'Tables-test-page',
         component: TablesTestPage,
-    },
-    {
-        path: '/list-of-lists/:scope/:type/:id/:limit/:pageNum',
-        name: 'List-of-lists-page-scoped',
-        component: ListOfListsPage
-    },
-    {
-        path: '/list-of-lists/:type/:id/:limit/:pageNum',
-        name: 'List-of-lists-page',
-        component: ListOfListsPage
     },
 ])
 

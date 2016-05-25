@@ -1,26 +1,34 @@
 import {Component, OnInit} from 'angular2/core';
-import {WidgetModule} from "../../../modules/widget/widget.module";
 import {Router,ROUTER_DIRECTIVES, RouteParams} from 'angular2/router';
-import {WebApp} from '../../../app-layout/app.layout';
-import {ArticleData} from "../../../global/global-interface";
-import {ShareLinksComponent} from "../../../components/articles/shareLinks/shareLinks.component";
-import {RecommendationsComponent} from "../../../components/articles/recommendations/recommendations.component";
-import {TrendingComponent} from "../../../components/articles/trending/trending.component";
-import {ArticleImages} from "../../../components/articles/carousel/carousel.component";
-import {ArticleContentComponent} from "../../../components/articles/article-content/article-content.component";
-import {DisqusComponent} from "../../../components/articles/disqus/disqus.component";
-import {ArticleDataService} from "../../../global/global-article-page-service";
-import {GlobalFunctions} from "../../../global/global-functions";
-import {LoadingComponent} from "../../../components/loading/loading.component";
-import {ImagesMedia} from "../../../components/carousels/images-media-carousel/images-media-carousel.component";
-import {MLBGlobalFunctions} from "../../../global/mlb-global-functions";
+import {WidgetModule} from "../../modules/widget/widget.module";
+import {ImagesMedia} from "../../components/carousels/images-media-carousel/images-media-carousel.component";
+import {ShareLinksComponent} from "../../components/articles/shareLinks/shareLinks.component";
+import {ArticleContentComponent} from "../../components/articles/article-content/article-content.component";
+import {RecommendationsComponent} from "../../components/articles/recommendations/recommendations.component";
+import {TrendingComponent} from "../../components/articles/trending/trending.component";
+import {DisqusComponent} from "../../components/articles/disqus/disqus.component";
+import {LoadingComponent} from "../../components/loading/loading.component";
+import {ArticleData} from "../../global/global-interface";
+import {ArticleDataService} from "../../global/global-article-page-service";
+import {GlobalFunctions} from "../../global/global-functions";
+import {MLBGlobalFunctions} from "../../global/mlb-global-functions";
 
 declare var jQuery:any;
 
 @Component({
     selector: 'article-pages',
-    templateUrl: './app/webpages/articles/article-pages/article-pages.page.html',
-    directives: [WidgetModule, ROUTER_DIRECTIVES, ImagesMedia, ShareLinksComponent, ArticleContentComponent, RecommendationsComponent, TrendingComponent, DisqusComponent, LoadingComponent],
+    templateUrl: './app/webpages/article-pages/article-pages.page.html',
+    directives: [
+        WidgetModule,
+        ROUTER_DIRECTIVES,
+        ImagesMedia,
+        ShareLinksComponent,
+        ArticleContentComponent,
+        RecommendationsComponent,
+        TrendingComponent,
+        DisqusComponent,
+        LoadingComponent
+    ],
     providers: [],
 })
 

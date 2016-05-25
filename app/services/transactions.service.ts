@@ -6,6 +6,8 @@ import {GlobalFunctions} from '../global/global-functions';
 import {GlobalSettings} from '../global/global-settings';
 import {CircleImageData} from '../components/images/image-data';
 
+declare var moment: any;
+
 @Injectable()
 export class TransactionsService {
   private _apiUrl: string = GlobalSettings.getApiUrl();
@@ -23,28 +25,26 @@ export class TransactionsService {
       return headers;
   }
 
-  getTransactionsService(year, teamId,type?){
+  getTransactionsService(year, teamId, type?){
   //Configure HTTP Headers
   var headers = this.setToken();
-  //for MLB season starts and ends in the same year so return current season
-  //get past 5 years for tabs
-  var tabDates = Number(year);
-  var tabArray = [];
-  var currentYear = '';
-  for(var i = 0; i <5; i++){
-    if(i == 0){
-      var currentYear = 'Current Season';
-    }else{
-      var currentYear = (tabDates - i).toString();
-    }
-    tabArray.push({
-      tabData:tabDates - i,
-      tabDisplay:currentYear,
-    });
-  }
 
-  var callURL = this._apiUrl + '/team/transactions/'+teamId+'/'+year;  // TODO
-  // console.log(callURL);
+  var tabArray = [
+    {
+      tabData     : 'transactions',
+      tabDisplay  : 'Transactions'
+    },
+    {
+      tabData     : 'suspensions',
+      tabDisplay  : 'Suspensions'
+    },
+    {
+      tabData     : 'injuries',
+      tabDisplay  : 'Injuries'
+    }
+  ];
+
+  var callURL = this._apiUrl + '/team/transactions/'+teamId+'/'+year;
 
   return this.http.get( callURL, {
       headers: headers
@@ -54,17 +54,16 @@ export class TransactionsService {
     )
     .map(
       data => {
-        var returnData = {}
         if(type == 'module'){
-          return returnData = {
-            carData:this.carDraftHistory(data.data, type),
-            listData:this.detailedData(data.data),
+          return {
+            carData:this.carTransactions(data.data, type),
+            listData:this.transactionsData(data.data, type),
             tabArray:tabArray,
           };
         }else{
-          return returnData = {
-            carData:this.carDraftHistory(data.data, type),
-            listData:this.detailedData(data.data),
+          return {
+            carData:this.carTransactions(data.data, type),
+            listData:this.transactionsData(data.data, type),
             tabArray:tabArray,
           };
         }
@@ -77,122 +76,98 @@ export class TransactionsService {
 
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
   //FOR THE PAGE
-  carDraftHistory(data, type){
+  carTransactions(data, type){
     let self = this;
     var carouselArray = [];
-    var dummyImg = "/app/public/no-image.png";
-    var dummyRoute = ['Disclaimer-page'];
-    var dummyRank = '##';
+    var dummyImg = GlobalSettings.getImageUrl("/app/public/no-image.png");
     if(data.length == 0){//if no data is being returned then show proper Error Message in carousel
       var Carousel = {
         index:'2',
         //TODO
-        imageConfig: self.imageData("image-150","border-large",dummyImg,'', 1, "image-50-sub",dummyImg,''),
+        imageConfig: self.imageData("image-150","border-large",dummyImg,null, null, null,null, null),
         description:[
-          "<p style='font-size:20px'><b>Sorry, we currently do not have any data for this year's transactions</b><p>",
+          "<p style='font-size:20px'><b>Sorry, we currently do not have any data for this transaction type.</b><p>",
         ],
       };
       carouselArray.push(Carousel);
     }else{
       //if data is coming through then run through the transforming function for the module
       data.forEach(function(val, index){
+        if(type == "module" && index >= 4){
+          // module only needs two list items
+          return false;
+        }
         var playerFullName = val.playerFirstName + " " + val.playerLastName;
         var Carousel = {
           index:index,
           //TODO
-          imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(dummyImg),null, null, "image-48-rank", "image-50-sub",GlobalSettings.getImageUrl(dummyImg)),
+          imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.playerHeadshot),MLBGlobalFunctions.formatPlayerRoute(val.playerName,val.playerName, val.playerId), null, "image-50-sub",MLBGlobalFunctions.formatTeamLogo(val.teamName),MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
           description:[
-            '<br>',
-            '<p style="font-size:24px"><b>'+val.playerName+'</b></p>',
-            '<p>Hometown: <b>'+ GlobalFunctions.toTitleCase(val.city) + ', ' + GlobalFunctions.stateToAP(val.area) +'</b></p>',
-            '<br>',
-            '<p style="font-size:24px"><b>'+' Overall</b></p>',
-            '<p>Draft Round</p>',
+            '<p class="font-12 fw-400 lh-32 titlecase"><i class="fa fa-circle" style="margin-right:6px;"></i> Transaction Report - ' + val.teamName + '</p>',
+            '<p class="font-22 fw-800 lh-32" style="padding-bottom:10px;">'+ val.playerName+'</p>',
+            '<p class="font-14 fw-400 lh-18" style="padding-bottom:6px;">'+ val.playerLastName + ', ' + val.playerFirstName + ': ' + val.contents + '<p>',
+            '<p class="font-14 fw-400 lh-18" style="padding-bottom:10px;">'+ val['repDate'] +'</p>',
+            '<p class="font-10 fw-400 lh-25">Last Updated on '+ moment(val.lastUpdate).format('dddd, MMMM DD, YYYY') +'</p>'
           ],
         };
         if(type == 'page'){
           Carousel['footerInfo'] = {
             infoDesc:'Interested in discovering more about this player?',
-            text:'View Profile',
-            url: dummyRoute,
+            text:'VIEW PROFILE',
+            url:MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val['personId']),
           }
         }
         carouselArray.push(Carousel);
       });
     }
-    // console.log('TRANSFORMED CAROUSEL', carouselArray);
     return carouselArray;
   }
 
-  detailedData(data){
+  transactionsData(data, type){
     let self = this;
     var listDataArray = [];
 
-    var dummyImg = "/app/public/no-image.png";
-    var dummyRoute = ['Disclaimer-page'];
-    var dummyRank = '#4';
-
-    var dummyProfile = "[Profile Name]";
-    var dummyProfVal = "[Data Value 1]";
-    var dummyProfUrl = ['Disclaimer-page'];
-    var dummySubData = "[Data Value]: [City], [ST]";
-    var dummySubDesc = "[Data Description]";
-    var dummySubUrl = ['Disclaimer-page'];
-
     data.forEach(function(val, index){
-      var playerFullName = val.playerFirstName + " " + val.playerLastName;
+      if(type == "module" && index >= 4){
+        // module only needs two list items
+        return false;
+      }
       var listData = {
-        dataPoints: self.detailsData(
-          val.playerName,
-          'Overall',
-          dummyRoute,
-          'Hometown: ',
-          'Draft Round ',
-           dummyRoute
-        ),
-        imageConfig: self.imageData("image-121","border-2",
-        GlobalSettings.getImageUrl(val.imageUrl),dummyRoute,(index+1),"image-38-rank","image-40-sub",dummyImg,dummyRoute),
-        hasCTA:true,
-        ctaDesc:'Want more info about this player?',
-        ctaBtn:'',
-        ctaText:'View Profile',
-        ctaUrl: dummyRoute
+        dataPoints: [{
+          style   : 'transactions-small',
+          data    : moment(val['repDate']).format('MMMM DD, YYYY'),
+          value   : val.playerLastName + ", " + val.playerFirstName + ": " + val.contents,
+          url     : null
+        }],
+        imageConfig: self.imageData("image-48","border-1",
+        GlobalSettings.getImageUrl(val.playerHeadshot),MLBGlobalFunctions.formatPlayerRoute(val.playerName, val.playerName, val.playerId),null,null,null,null)
       };
       listDataArray.push(listData);
     });
-    // console.log('TRANSFORMED List Data', listDataArray);
     return listDataArray;
   }//end of function
 
   /**
    *this function will have inputs of all required fields that are dynamic and output the full
   **/
-  imageData(imageClass, imageBorder, mainImg, mainImgRoute, rank, rankClass, subImgClass, subImg?, subRoute?){
-    if(typeof mainImg =='undefined' || mainImg == ''){
+  imageData(imageClass, imageBorder, mainImg, mainImgRoute, rank, subImgClass, subImg?, subRoute?){
+    if(mainImg == null || mainImg == ''){
       mainImg = "/app/public/no-image.png";
     }
-    if(typeof subImg =='undefined' || subImg == ''){
+    if(subImg == null || subImg == ''){
       subImg = "/app/public/no-image.png";
     }
-    if(typeof rank == 'undefined' || rank == 0){
-      rank = 0;
-    }
-    var image: CircleImageData = {//interface is found in image-data.ts
-        imageClass: imageClass,
-        mainImage: {
-            imageUrl: mainImg,
-            urlRouteArray: mainImgRoute,
-            hoverText: "<p>View</p><p>Profile</p>",
-            imageClass: imageBorder,
+    var image = { //interface is found in image-data.ts
+        imageClass        : imageClass,
+        mainImage : {
+            imageUrl      : mainImg,
+            urlRouteArray : mainImgRoute,
+            hoverText     : imageClass == "image-48" ? "<i class='fa fa-mail-forward'></i>" : "<p>View</p><p>Profile</p>",
+            imageClass    : imageBorder,
         },
-        subImages: [
-          {
-            text: "#"+rank,
-            imageClass: rankClass+ " image-round-upper-left image-round-sub-text"
-          }
-        ],
+        subImages : [],
     };
-    if(typeof subRoute != 'undefined') {
+    if(subRoute != null) {
       image.subImages = [
           {
               imageUrl: subImg,
@@ -200,45 +175,14 @@ export class TransactionsService {
               hoverText: "<i class='fa fa-mail-forward'></i>",
               imageClass: subImgClass + " image-round-lower-right"
           },
-          {
-              text: "#"+rank,
-              imageClass: rankClass+ " image-round-upper-left image-round-sub-text"
-          }
       ];
     }
+    if(rank != null){
+      image.subImages.push( {
+        text: "#"+rank,
+        imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
+      });
+    }
     return image;
-  }
-
-
-  detailsData(mainP1,mainV1,mainUrl1,subP1,subV2,subUrl2,dataP3?,dataV3?,dataUrl3?){
-    if(typeof dataP3 == 'undefined'){
-      dataP3 = '';
-    }
-    if(typeof dataV3 == 'undefined'){
-      dataV3 = '';
-    }
-
-    var details = [
-      {
-        style:'detail-small',
-        data:dataP3,
-        value:dataV3,
-        url:dataUrl3,
-      },
-      {
-        style:'detail-large',
-        data:mainP1,
-        value:mainV1,
-        url:mainUrl1,
-      },
-      {
-        style:'detail-medium',
-        data:subP1,
-        value:subV2,
-        url:subUrl2,
-        icon:'fa fa-map-marker',
-      },
-    ];
-    return details;
   }
 }

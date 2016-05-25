@@ -27,6 +27,8 @@ export class DropdownComponent implements OnDestroy, OnChanges {
   
   @Output("selectionChanged") dropdownChangedListener = new EventEmitter();
   
+  @Output("dropdownVisible") dropdownVisibleListener = new EventEmitter();
+  
   private hideDropdownListener: Function;
   
   constructor(private _renderer: Renderer) {}
@@ -34,6 +36,9 @@ export class DropdownComponent implements OnDestroy, OnChanges {
   displayDropdown() {
     var self = this;
     this.isDropdownVisible = !this.isDropdownVisible;
+    if ( this.isDropdownVisible ) {
+      this.dropdownVisibleListener.next(true);
+    }
     
     if ( !this.hideDropdownListener ) {
       //timeout is needed so that click doesn't happen for click.
