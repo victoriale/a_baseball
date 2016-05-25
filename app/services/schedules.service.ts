@@ -125,7 +125,7 @@ export class SchedulesService {
     return new MLBSchedulesTableData(tableName , table);
   }
 
-  private setupCarouselData(origData, maxRows?: number){
+  private setupCarouselData(origData, maxRows?: number){//ANY CHANGES HERE CHECK updateCarouselData in schedules.data.ts
     // console.log(origData);
     var carouselData: SchedulesCarouselInput; // set a variable to the interface
     var carData = [];
@@ -141,29 +141,29 @@ export class SchedulesService {
         var displayNext = 'Previous Game:';
       }
 
-      if(val.homeScore === null){
-        val.homeScore = '#';
+      if(val.homeTeamWins === null){
+        val.homeTeamWins = '#';
       }
-      if(val.homeOutcome === null){
-        val.homeOutcome = '#';
+      if(val.homeTeamLosses === null){
+        val.homeTeamLosses = '#';
       }
-      if(val.awayScore === null){
-        val.awayScore = '#';
+      if(val.awayTeamWins === null){
+        val.awayTeamWins = '#';
       }
-      if(val.awayOutcome === null){
-        val.awayOutcome = '#';
+      if(val.awayTeamLosses === null){
+        val.awayTeamLosses = '#';
       }
       // combine together the win and loss of a team to create their record
-      val.homeRecord = val.homeOutcome + '-' + val.homeScore;//?? is this really the win and loss
-      val.awayRecord = val.awayOutcome + '-' + val.awayScore;//?? is this really the win and loss
+      val.homeRecord = val.homeTeamWins + '-' + val.homeTeamLosses;//?? is this really the win and loss
+      val.awayRecord = val.awayTeamWins + '-' + val.awayTeamLosses;//?? is this really the win and loss
       carouselData = {//placeholder data
         index:index,
         displayNext: displayNext,
         backgroundGradient: Gradient.getGradientStyles([val.awayTeamColors.split(',')[0],val.homeTeamColors.split(',')[0]], 1),
-        displayTime:moment(val.startDateTime).format('dddd MMMM Do, YYYY | h:mm A') + " [ZONE]",
+        displayTime:moment(val.startDateTime).format('dddd MMMM Do, YYYY | h:mm A') + " ET",//hard coded TIMEZOME since it is coming back from api this way
         detail1Data:'Home Stadium:',
-        detail1Value:"[Stadium's]",
-        detail2Value:'[City], [State]',
+        detail1Value:val.homeTeamVenue,
+        detail2Value:val.homeTeamCity + ', ' + val.homeTeamState,
         imageConfig1:{//AWAY
           imageClass: "image-125",
           mainImage: {
@@ -184,8 +184,8 @@ export class SchedulesService {
         },
         teamName1: val.awayTeamName,
         teamName2: val.homeTeamName,
-        teamLocation1:'[Location]',
-        teamLocation2:'[Location]',
+        teamLocation1:val.awayTeamCity + ', ' + val.awayTeamState,
+        teamLocation2:val.homeTeamCity + ', ' + val.homeTeamState,
         teamRecord1:val.awayRecord,
         teamRecord2:val.homeRecord,
       };

@@ -81,7 +81,7 @@ export class MLBSchedulesTableData implements TableComponentData<SchedulesData> 
     this.tableData = table;
   }
 
-  updateCarouselData(item, index){
+  updateCarouselData(item, index){//ANY CHANGES HERE CHECK setupTableData in schedules.service.ts
     var displayNext = '';
     if(item.eventStatus == 'pre-event'){
       var displayNext = 'Next Game:';
@@ -92,10 +92,10 @@ export class MLBSchedulesTableData implements TableComponentData<SchedulesData> 
       index:index,
       displayNext: displayNext,
       backgroundGradient: Gradient.getGradientStyles([item.awayTeamColors.split(',')[0],item.homeTeamColors.split(',')[0]]),
-      displayTime:moment(item.startDateTime).format('dddd MMMM Do, YYYY | h:mm A') + " [ZONE]",
+      displayTime:moment(item.startDateTime).format('dddd MMMM Do, YYYY | h:mm A') + " ET", //hard coded TIMEZOME since it is coming back from api this way
       detail1Data:'Home Stadium:',
-      detail1Value:"[Stadium's]",
-      detail2Value:'[City], [State]',
+      detail1Value:item.homeTeamVenue,
+      detail2Value:item.homeTeamCity + ', ' + item.homeTeamState,
       imageConfig1:{//AWAY
         imageClass: "image-125",
         mainImage: {
@@ -116,8 +116,8 @@ export class MLBSchedulesTableData implements TableComponentData<SchedulesData> 
       },
       teamName1: item.awayTeamName,
       teamName2: item.homeTeamName,
-      teamLocation1:'[Location]',
-      teamLocation2:'[Location]',
+      teamLocation1:item.awayTeamCity + ', ' + item.awayTeamState,
+      teamLocation2:item.homeTeamCity + ', ' + item.homeTeamState,
       teamRecord1:item.awayRecord,
       teamRecord2:item.homeRecord,
     };
@@ -207,6 +207,14 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
     var homeTeamDisplay = item.homeTeamName;
     var awayTeamDisplay = item.awayTeamName;
 
+    if(typeof item.homeTeamAbbr == 'undefined'){
+      item.homeTeamAbbr = "N/A";
+    }
+    if(typeof item.awayTeamAbbr == 'undefined'){
+      item.awayTeamAbbr = "N/A";
+    }
+    var home = item.homeTeamAbbr + " " + item.homeScore;
+    var away = item.awayTeamAbbr + " " + item.awayScore;
 
     var s = "";
     switch (column.key) {
@@ -214,7 +222,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
         s = moment(item.startDateTime).format('MMM DD');
         break;
       case "t":
-        s = moment(item.startDateTime).format('h:mm a');
+        s = moment(item.startDateTime).format('h:mm') + " <sup> "+moment(item.startDateTime).format('a')+" </sup>";
         break;
 
       case "away":
@@ -227,16 +235,22 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
 
       case "gs":
         if(item.eventStatus === 'pre-event'){
-          s = "Pregame Report <i class='fa fa-angle-right'><i>";
+          s = "<a>Pregame Report <i class='fa fa-angle-right'><i></a>";
         }else if(item.eventStatus === 'post-event'){
-          s = "Postgame Report <i class='fa fa-angle-right'><i>";
+          s = "<a>Postgame Report <i class='fa fa-angle-right'><i></a>";
         }else{
           s = "N/A";
         }
         break;
 
       case "r":
-        s = item.results;
+      //whomever wins the game then their text gets bolded as winner
+      if(item.homeOutcome == 'win'){
+        home = "<span class='text-heavy'>" + home + "</span>";
+      }else if(item.awayOutcome == 'win'){
+        away = "<span class='text-heavy'>" + away + "</span>";
+      }
+        s = home + " - " + away;
         break;
     }
     return s;
