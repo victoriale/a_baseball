@@ -108,7 +108,7 @@ export class TransactionsPage implements OnInit{
       case "Suspensions":
         transactionType = "suspensions";
         break;
-      case "Injury Reports":
+      case "Injuries":
         transactionType = "injuries";
         break;
       default:

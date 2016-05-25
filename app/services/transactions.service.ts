@@ -40,7 +40,7 @@ export class TransactionsService {
     },
     {
       tabData     : 'injuries',
-      tabDisplay  : 'Injury Reports'
+      tabDisplay  : 'Injuries'
     }
   ];
 
