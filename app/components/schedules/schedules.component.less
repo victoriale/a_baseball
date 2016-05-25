@@ -41,7 +41,12 @@
   .location-column, .location-column-hdr {
     width:173px;
   }
-
+  .location-column2, .location-column2-hdr {
+    width:160px;
+  }
+  .results-column{
+    width:150px;
+  }
   .date-column, .date-column-hdr {
     width:75px;
     white-space: nowrap;
@@ -54,7 +59,19 @@
   .location-column {
     overflow: auto;
     .location-wrap {
-      width: 59%;
+      width: 55%;
+      height: 100%;
+      white-space: normal;
+      display: inline-block;
+      position: relative;
+      top: 7px;
+    }
+  }
+
+  .location-column2 {
+    overflow: auto;
+    .location-wrap {
+      width: 55%;
       height: 100%;
       white-space: normal;
       display: inline-block;

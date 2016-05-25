@@ -125,21 +125,19 @@ export class MLBSchedulesTableData implements TableComponentData<SchedulesData> 
 }
 
 export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
-  // title: string;
-  isTeamId: boolean = true;
   columns: Array<TableColumn>;
 
   rows: Array<any>;
 
   selectedKey:number = -1;
 
-  constructor(rows: Array<any>) {
+  constructor(rows: Array<any>, eventStatus) {
 
-    if(this.isTeamId){
+    if(eventStatus === 'pre-event'){
       this.columns = [{
          headerValue: "DATE",
          columnClass: "date-column",
-         sortDirection: -1, //descending
+         sortDirection: 1, //ascending
          isNumericType: true,
          key: "date"
        },{
@@ -163,23 +161,23 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
     }else{
       this.columns = [{
         headerValue: "HOME",
-        columnClass: "image-column",
+        columnClass: "image-column location-column2",
         isNumericType: false,
         key: "home"
       },{
          headerValue: "AWAY",
-         columnClass: "image-column",
+         columnClass: "image-column location-column2",
          isNumericType: false,
          key: "away"
        },{
          headerValue: "RESULTS",
-         columnClass: "data-column",
+         columnClass: "data-column results-column",
          isNumericType: false,
          key: "r"
        },{
          headerValue: "GAME SUMMARY",
-         columnClass: "data-column summary-link",
-         isNumericType: false,
+         columnClass: "summary-column",
+         ignoreSort: true,
          key: "gs"
        }];
     }
@@ -205,6 +203,11 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
 
   //what is displaying in the html
   getDisplayValueAt(item, column:TableColumn):string {
+
+    var homeTeamDisplay = item.homeTeamName;
+    var awayTeamDisplay = item.awayTeamName;
+
+
     var s = "";
     switch (column.key) {
       case "date":

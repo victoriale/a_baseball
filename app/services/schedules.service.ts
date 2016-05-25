@@ -98,7 +98,7 @@ export class SchedulesService {
   }
   callURL += '/'+eventStatus+'/'+limit+'/'+ pageNum;  //default pagination limit: 5; page: 1
 
-  console.log(callURL);
+  // console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -121,7 +121,7 @@ export class SchedulesService {
       rows = rows.slice(0, maxRows);
     }
     let tableName = this.formatGroupName(year,eventStatus);
-    var table = new MLBSchedulesTableModel(rows);
+    var table = new MLBSchedulesTableModel(rows, eventStatus);
     return new MLBSchedulesTableData(tableName , table);
   }
 
