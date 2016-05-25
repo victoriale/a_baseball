@@ -93,7 +93,6 @@ export class TransactionsService {
     }else{
       //if data is coming through then run through the transforming function for the module
       data.forEach(function(val, index){
-        console.log(val);
         if(type == "module" && index >= 4){
           // module only needs two list items
           return false;
