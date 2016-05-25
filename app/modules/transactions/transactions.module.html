@@ -4,7 +4,7 @@
   <tabs *ngIf="dataArray" (tabSelected)='selectedTab($event)'>
     <tab *ngFor="#data of dataArray; #i = index" [active]="i == 0" [tabTitle]="data.tabDisplay">
       <div class="transactions-container">
-        <div> <!-- due to tab having a default value of padding 1em for tab purposes so we just reverse it with margin -->
+        <div class="tab-inset"> <!-- due to tab having a default value of padding 1em for tab purposes so we just reverse it with margin -->
           <transactions-list-item *ngIf="transactionsDataArray" [transactionsItemData] = 'transactionsDataArray'></transactions-list-item>
         </div>
       </div>
