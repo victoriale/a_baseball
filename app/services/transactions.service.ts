@@ -106,7 +106,7 @@ export class TransactionsService {
             '<p class="font-12 fw-400 lh-12 titlecase"><i class="fa fa-circle"></i> Transactions Report for ' + val.teamName + '</p>',
             '<p class="font-22 fw-800 lh-25" style="padding-bottom:16px;">'+ val.teamName +'</p>',
             '<p class="font-14 fw-400 lh-18" style="padding-bottom:6px;">'+ val.playerLastName + ', ' + val.playerFirstName + ': ' + val.contents + '<p>',
-            '<p class="font-10 fw-400 lh-25">'+ val['repDate'] +'</p>',
+            '<p class="font-14 fw-400 lh-18">'+ val['repDate'] +'</p>',
             '<p class="font-10 fw-400 lh-25">Last Updated on '+ moment(val.lastUpdate).format('dddd, MMMM DD, YYYY') +'</p>'
           ],
         };
