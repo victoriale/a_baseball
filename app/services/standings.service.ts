@@ -160,8 +160,12 @@ export class StandingsService {
     rows.forEach((value, index) => {
       value.groupName = groupName;
       value.displayDate = GlobalFunctions.formatUpdatedDate(value.lastUpdated, false);
-      value.fullImageUrl = GlobalSettings.getImageUrl(value.imageUrl);
-      value.fullBackgroundImageUrl = GlobalSettings.getImageUrl(value.backgroundImage);
+      if ( value.imageUrl ) {
+        value.fullImageUrl = GlobalSettings.getImageUrl(value.imageUrl);
+      }
+      if ( value.backgroundImage ) {
+        value.fullBackgroundImageUrl = GlobalSettings.getImageUrl(value.backgroundImage);
+      }
 
       //Make sure numbers are numbers.
       value.totalWins = Number(value.totalWins);

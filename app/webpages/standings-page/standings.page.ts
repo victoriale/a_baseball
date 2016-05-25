@@ -58,7 +58,7 @@ export class StandingsPage implements OnInit {
       this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
         data => {
           this.pageParams = data.pageParams; 
-          this.setupTitleData(data.fullProfileImageUrl);          
+          this.setupTitleData(data.teamName, data.fullProfileImageUrl);          
           this.tabs = this._standingsService.initializeAllTabs(this.pageParams);
         },
         err => {
