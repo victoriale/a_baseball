@@ -34,6 +34,8 @@ import {NewsModule} from '../../modules/news/news.module';
 import {NewsService} from '../../services/news.service';
 
 import {SchedulesModule} from '../../modules/schedules/schedules.module';
+import {SchedulesService} from '../../services/schedules.service';
+
 import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
 import {GlobalSettings} from "../../global/global-settings";
 import {ImagesService} from "../../services/carousel.service";
@@ -63,6 +65,7 @@ import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.modul
       ListOfListsModule,
       ImagesMedia],
     providers: [
+      SchedulesService,
       StandingsService,
       ProfileHeaderService,
       ImagesService,
@@ -103,9 +106,11 @@ export class PlayerPage implements OnInit {
   dykData: Array<dykModuleData>;
   listOfListsData: Object; // paginated data to be displayed
   twitterData: Array<twitterModuleData>;
+  schedulesData:any;
 
   constructor(private _params:RouteParams,
               private _standingsService:StandingsService,
+              private _schedulesService:SchedulesService,
               private _profileService:ProfileHeaderService,
               private _imagesService:ImagesService,
               private _newsService: NewsService,
@@ -135,6 +140,7 @@ export class PlayerPage implements OnInit {
               this.profileName = data.headerData.info.playerName;
               this.teamName = data.headerData.info.teamName;
               this.profileHeaderData = this._profileService.convertToPlayerProfileHeader(data);
+              this.getSchedulesData('pre-event');//grab pre event data for upcoming games
               this.setupTeamProfileData();
               this.setupShareModule();
               this.setupComparisonData();
@@ -149,6 +155,30 @@ export class PlayerPage implements OnInit {
               console.log("Error getting player profile data for " + this.pageParams.playerId + ": " + err);
           }
       );
+  }
+
+  //grab tab to make api calls for post of pre event table
+  private scheduleTab(tab) {
+      if(tab == 'Upcoming Games'){
+          this.getSchedulesData('pre-event');
+      }else if(tab == 'Previous Games'){
+          this.getSchedulesData('post-event');
+      }else{
+          this.getSchedulesData('post-event');// fall back just in case no status event is present
+      }
+  }
+
+  //api for Schedules
+  private getSchedulesData(status){
+    this._schedulesService.getSchedulesService('team', status, 5, 1, this.pageParams.teamId)
+    .subscribe(
+      data => {
+        this.schedulesData = data;
+      },
+      err => {
+        console.log("Error getting Schedules Data");
+      }
+    )
   }
 
   private getTwitterService() {

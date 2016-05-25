@@ -30,7 +30,8 @@ export class SchedulesPage implements OnInit{
   paginationParameters:any;
   isError: boolean = false;
   schedulesData:any;
-    tabData: any;
+  tabData: any;
+
   constructor(private _schedulesService:SchedulesService, private profHeadService:ProfileHeaderService, private params: RouteParams){
       var currentYear = new Date().getFullYear();
       this.profileHeaderData =

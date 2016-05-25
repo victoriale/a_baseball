@@ -2,14 +2,24 @@
   width:680px;
   height:auto;
   &-container{
-    margin:0;
+    margin:10px 0 0 0;
+  }
+  &-section{
+    h4{
+      font-weight: 700;
+      color:@black;
+      font-size: 16px;
+      margin:0 0 5px 0;
+      padding-bottom: 5px;
+      border-bottom:1px solid @strokeGrey;
+    }
   }
 }
 .schedules-heading{
   width:100%;
-  height:58px;
+  height:48px;
   background-color: @white;
-  padding:12px;
+  padding:5px 2px;
   &-title{
     color:@black;
     font-size: 18px;
@@ -41,9 +51,19 @@
   .location-column, .location-column-hdr {
     width:173px;
   }
-
+  .location-column2, .location-column2-hdr {
+    width:160px;
+  }
+  .results-column{
+    width:150px;
+  }
   .date-column, .date-column-hdr {
     width:75px;
+    white-space: nowrap;
+    sup{
+      position: relative;
+      top:-3px;
+    }
   }
 
   td:first-child .date-column, th:first-child.date-column-hdr {
@@ -53,12 +73,22 @@
   .location-column {
     overflow: auto;
     .location-wrap {
-      width: 59%;
+      width: 55%;
       height: 100%;
       white-space: normal;
       display: inline-block;
       position: relative;
-      top: 7px;
+    }
+  }
+
+  .location-column2 {
+    overflow: auto;
+    .location-wrap {
+      width: 55%;
+      height: 100%;
+      white-space: normal;
+      display: inline-block;
+      position: relative;
     }
   }
 

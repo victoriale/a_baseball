@@ -18,7 +18,7 @@ export interface TableTabData<T> {
 
 export interface TableComponentData<T> {
   groupName: string;
-  tableData: TableModel<T>;  
+  tableData: TableModel<T>;
 }
 
 @Component({
@@ -26,20 +26,20 @@ export interface TableComponentData<T> {
   templateUrl: "./app/components/standings/standings.component.html",
   directives: [SliderCarousel, Tabs, Tab, CustomTable, LoadingComponent],
 })
-export class StandingsComponent implements DoCheck {  
+export class StandingsComponent implements DoCheck {
   public selectedIndex;
 
   public carouselData: Array<SliderCarouselInput> = [];
 
   @Input() tabs: Array<TableTabData<any>>;
-  
-  @Output("tabSelected") tabSelectedListener = new EventEmitter(); 
-  
+
+  @Output("tabSelected") tabSelectedListener = new EventEmitter();
+
   private selectedTabTitle: string;
   private tabsLoaded: {[index:number]:string};
 
   constructor() {}
-  
+
   ngDoCheck() {
     if ( this.tabs && this.tabs.length > 0 ) {
       if ( !this.tabsLoaded  ) {
@@ -55,24 +55,24 @@ export class StandingsComponent implements DoCheck {
       }
       else {
         let selectedTab = this.getSelectedTab();
-        if ( selectedTab && selectedTab.sections && selectedTab.sections.length > 0 && !this.tabsLoaded[selectedTab.title] ) {          
+        if ( selectedTab && selectedTab.sections && selectedTab.sections.length > 0 && !this.tabsLoaded[selectedTab.title] ) {
           this.updateCarousel();
           this.tabsLoaded[selectedTab.title] = "1";
         }
       }
     }
   }
-  
+
   getSelectedTab(): TableTabData<any> {
     var matchingTabs = this.tabs.filter(value => value.title === this.selectedTabTitle);
-    if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) { 
+    if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) {
       return matchingTabs[0];
     }
     else {
       return null;
-    }    
+    }
   }
-  
+
   setSelectedCarouselIndex(tab: TableTabData<any>, index: number) {
     let offset = 0;
     tab.sections.forEach((section, sectionIndex) => {
@@ -83,49 +83,49 @@ export class StandingsComponent implements DoCheck {
         section.tableData.setRowSelected(-1);
       }
       offset += section.tableData.rows.length;
-    });    
+    });
   }
-  
+
   tabSelected(newTitle) {
     this.selectedTabTitle = newTitle;
     this.tabSelectedListener.next(this.getSelectedTab());
     this.updateCarousel();
   }
-  
+
   indexNum($event) {
     let selectedIndex = Number($event);
     let matchingTabs = this.tabs.filter(value => value.title === this.selectedTabTitle);
-    if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) {  
+    if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) {
       let selectedTab = matchingTabs[0];
       this.setSelectedCarouselIndex(selectedTab, selectedIndex);
     }
   }
-  
+
   updateCarousel(sortedRows?) {
     var selectedTab = this.getSelectedTab();
     if ( selectedTab === undefined || selectedTab === null ) {
       return;
     }
-    
+
     let carouselData: Array<SliderCarouselInput> = [];
     let index = 0;
-    let selectedIndex = -1;      
+    let selectedIndex = -1;
     selectedTab.sections.forEach(section => {
       section.tableData.rows
         .map((value) => {
-          let item = selectedTab.convertToCarouselItem(value, index); 
+          let item = selectedTab.convertToCarouselItem(value, index);
           if ( section.tableData.isRowSelected(value, index) ) {
             selectedIndex = index;
           }
-          index++;            
+          index++;
           return item;
         })
         .forEach(value => {
           carouselData.push(value);
         });
     });
-    
+
     this.selectedIndex = selectedIndex < 0 ? 0 : selectedIndex;
-    this.carouselData = carouselData;    
+    this.carouselData = carouselData;
   }
 }

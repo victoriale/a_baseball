@@ -96,7 +96,7 @@ export class StandingsService {
           .subscribe(data => {
             standingsTab.isLoaded = true;
             standingsTab.sections = data;
-            onTabsLoaded(data);        
+            onTabsLoaded(data);
           },
           err => {
             console.log("Error getting standings data");
