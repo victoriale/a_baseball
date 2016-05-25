@@ -5,9 +5,11 @@
     <div class="recommendations-articles">
         <span *ngFor="#data of randomHeadlines; #i=index;">
             <a *ngIf="i<6" class="recommendations-articles-six article"
-               [routerLink]="['Article-pages', {eventType: data.eventType, eventID: data.eventID}]" title="{{data.title}}">
+               [routerLink]="['Article-pages', {eventType: data.eventType, eventID: data.eventID}]"
+               title="{{data.title}}">
                 <span class="articleBoxMedium">
-                    <img class="recommendations-articles-six-image" src="{{data.images}}"/>
+                    <img class="recommendations-articles-six-image" src="{{data.images}}"
+                         onerror="this.src='/app/public/no-image.png'"/>
                     <div>
                         <p>View Article</p>
                     </div>

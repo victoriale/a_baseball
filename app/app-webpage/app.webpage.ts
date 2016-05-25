@@ -22,10 +22,9 @@ import {SchedulesPage} from "../webpages/schedules-page/schedules.page";
 import {DraftHistoryPage} from "../webpages/draft-history-page/draft-history.page";
 import {StandingsPage} from "../webpages/standings-page/standings.page";
 import {AsyncRoute} from "angular2/router";
-import {ArticlePage} from "../webpages/articles/articles/articles.page";
 import {ArticleDataService} from "../global/global-article-page-service";
 import {HeadlineDataService} from "../global/global-ai-headline-module-service";
-import {ArticlePages} from "../webpages/articles/article-pages/article-pages.page";
+import {ArticlePages} from "../webpages/article-pages/article-pages.page";
 import {ErrorPage} from "../webpages/error-page/error-page.page";
 import {ListOfListsPage} from "../webpages/list-of-lists-page/list-of-lists.page";
 import {FooterComponent} from "../components/footer/footer.component";
@@ -139,12 +138,6 @@ import {TransactionsPage} from "../webpages/transactions-page/transactions.page"
         path: '/player-stats/:teamName/:teamId',
         name: 'Player-stats-page',
         component: PlayerStatsPage
-    },
-    //test AI Page
-    {
-        path: '/articles',
-        name: 'Articles-Page',
-        component: ArticlePage
     },
     {
         path: '/articles/:eventType/:eventID',
