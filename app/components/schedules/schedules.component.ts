@@ -36,11 +36,9 @@ export class SchedulesComponent implements OnInit{
 
   indexNum($event) {
     let selectedIndex = Number($event);
-    console.log('carousel Selected', selectedIndex);
     let matchingTabs = this.tabs.filter(value => value.title === this.tabTitle);
     if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) {
       let selectedTab = matchingTabs[0].tabData;
-      console.log('selectedTab',selectedTab);
       this.setSelectedCarouselIndex(selectedTab, selectedIndex);
     }
   }
@@ -67,40 +65,38 @@ export class SchedulesComponent implements OnInit{
       return null;
     }
   }
+
   tabSelected(event){
     this.tabTitle = event;
     this.tabSelectedListener.emit(event);
   }
+
   ngOnChanges(){
     if(this.getSelectedTab() != null){
       this.getSelectedTab()['tabData'].sections = this.data;
     }
   }
-  updateCarousel(sortedRows?) {// each time a table sort or tab has been changed then update the carousel to fit the newly sorted array
-    console.log('carousel Sort Changed');
-      var selectedTab = this.tabs.filter(value => value.title === this.tabTitle)[0];
-      if ( !selectedTab || !selectedTab.tableData ) {
-        return;
-      }
 
-      let carouselData: Array<any> = [];
-      let index = 0;
-      let selectedIndex = -1;
-      selectedTab.tableData.rows.map((value) => {
-        console.log('VALUE',value);
-        let item = selectedTab.updateCarouselData(value, index);
-        if ( selectedTab.tableData.isRowSelected(value, index) ) {
-          selectedIndex = index;
-        }
-        index++;
-        return item;
-      })
-      .forEach(value => {
-        carouselData.push(value);
-      });
-      console.log(carouselData);
-      this.selectedIndex = selectedIndex < 0 ? 0 : selectedIndex;
-      this.carouselData = carouselData;
+  updateCarousel(sortedRows?) {// each time a table sort or tab has been changed then update the carousel to fit the newly sorted array
+    // let carouselData: Array<any> = [];
+    // let index = 0;
+    // let selectedIndex = -1;
+    //   var selectedTab = this.tabs.filter(value => value.title === this.tabTitle)[0];
+    //   let currentTable = selectedTab.tabData.sections[0];
+    //
+    //   currentTable.tableData.rows.map((value) => {
+    //     let item = selectedTab.updateCarouselData(value, index);
+    //     if ( currentTable.tableData.isRowSelected(value, index) ) {
+    //       currentTable = index;
+    //     }
+    //     index++;
+    //     return item;
+    //   })
+    //   .forEach(value => {
+    //     carouselData.push(value);
+    //   });
+    //   this.selectedIndex = selectedIndex < 0 ? 0 : selectedIndex;
+    //   this.carouselData = carouselData;
   }
 
   constructor() {

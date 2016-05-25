@@ -229,15 +229,23 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
         s = moment(item.startDateTime).format('MMM DD');
         break;
       case "t":
-        s = moment(item.startDateTime).format('h:mm') + " <sup> "+moment(item.startDateTime).format('a')+" </sup>";
+        s = moment(item.startDateTime).format('h:mm') + " <sup> "+moment(item.startDateTime).format('A')+" </sup>";
         break;
 
       case "away":
-        s = "<span class='location-wrap'>"+item.awayTeamName+"</span>";
+        if(item.awayTeamLastName.length > 10){
+          s = "<span class='location-wrap'>"+item.awayTeamNickname+"</span>";
+        }else{
+          s = "<span class='location-wrap'>"+item.awayTeamLastName+"</span>";
+        }
         break;
 
       case "home":
-        s = "<span class='location-wrap'>"+item.homeTeamName+"</span>";
+      if(item.homeTeamLastName.length > 10){
+        s = "<span class='location-wrap'>"+item.homeTeamNickname+"</span>";
+      }else{
+        s = "<span class='location-wrap'>"+item.homeTeamLastName+"</span>";
+      }
         break;
 
       case "gs":

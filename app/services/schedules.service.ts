@@ -100,7 +100,6 @@ export class SchedulesService {
     .map(res => res.json())
     .map(data => {
       var tableData = this.setupTableData(eventStatus, year, data.data, limit);
-      console.log(tableData);
       var tabData = [
         {display: 'Upcoming Games', data:'pre-event', season:displayYear, tabData: new MLBScheduleTabData(this.formatGroupName(year,'pre-event'), true)},
         {display: 'Previous Games', data:'post-event', season:displayYear, tabData: new MLBScheduleTabData(this.formatGroupName(year,'post-event'), true)}
@@ -125,7 +124,6 @@ export class SchedulesService {
     if ( maxRows !== undefined ) {
       rows = rows.slice(0, maxRows);
     }
-    console.log(eventStatus);
     //TWO tables are to be made depending on what type of tabs the use is click on in the table
     if(eventStatus == 'pre-event'){
       // let tableName = this.formatGroupName(year,eventStatus);
