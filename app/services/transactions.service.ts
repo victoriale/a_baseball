@@ -86,7 +86,7 @@ export class TransactionsService {
         //TODO
         imageConfig: self.imageData("image-150","border-large",dummyImg,null, null, null,null, null),
         description:[
-          "<p style='font-size:20px'><b>Sorry, we currently do not have any data this transaction type.</b><p>",
+          "<p style='font-size:20px'><b>Sorry, we currently do not have any data for this transaction type.</b><p>",
         ],
       };
       carouselArray.push(Carousel);
