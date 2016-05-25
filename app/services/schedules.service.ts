@@ -98,7 +98,7 @@ export class SchedulesService {
   }
   callURL += '/'+eventStatus+'/'+limit+'/'+ pageNum;  //default pagination limit: 5; page: 1
 
-  // console.log(callURL);
+  console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -159,7 +159,7 @@ export class SchedulesService {
       carouselData = {//placeholder data
         index:index,
         displayNext: displayNext,
-        backgroundGradient: Gradient.getGradientStyles([val.awayTeamColors.split(',')[0],val.homeTeamColors.split(',')[0]]),
+        backgroundGradient: Gradient.getGradientStyles([val.awayTeamColors.split(',')[0],val.homeTeamColors.split(',')[0]], 1),
         displayTime:moment(val.startDateTime).format('dddd MMMM Do, YYYY | h:mm A') + " [ZONE]",
         detail1Data:'Home Stadium:',
         detail1Value:"[Stadium's]",

@@ -5,7 +5,7 @@
 
     <headline-component></headline-component>
     <box-scores></box-scores>
-    <!-- <schedules></schedules> -->
+    <schedules *ngIf="schedulesData" [profHeader]="profileHeaderData" [data]="schedulesData" (tabSelected)="scheduleTab($event)"></schedules>
     <standings-module *ngIf="standingsData" [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
     <!-- season stats -->
     <comparison-module [pageParams]="pageParams" [data]="comparisonData" [teamList]="teamList"></comparison-module>

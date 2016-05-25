@@ -88,8 +88,6 @@ export class MLBSchedulesTableData implements TableComponentData<SchedulesData> 
     }else{
       var displayNext = 'Previous Game:';
     }
-    console.log(item);
-    console.log(displayNext);
     return {//placeholder data
       index:index,
       displayNext: displayNext,

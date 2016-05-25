@@ -1,5 +1,5 @@
 <carousel *ngIf="carouselData" [carouselData]="carouselData" (carouselDataPoint)="response($event)">
-  <div class="schedules-display">
+  <div class="schedules-display" *ngIf="dataPoint" [ngStyle]="dataPoint.backgroundGradient">
     <div class="schedules-display-next"><span>{{dataPoint.displayNext}}</span> {{dataPoint.displayTime}}</div>
     <div class="schedules-display-detail"><a>{{dataPoint.detail1Data}} {{dataPoint.detail1Value}}</a> <span class="pipe-seperator">|</span> <i class="fa fa-map-marker"></i> <a>{{dataPoint.detail2Value}}</a></div>
     <div class="schedules-display-competitors">

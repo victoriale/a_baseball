@@ -48,12 +48,10 @@ export class SchedulesCarousel implements OnChanges{
 
   ngOnChanges(){
     //on initial component view set the datapoint to the first item in the array if it exists
-    if(typeof this.dataPoint == 'undefined'){
-      this.dataPoint = this.carouselData[0];
-      //if there is rank then initially set it when component is initially in view
-      if(typeof this.dataPoint['index'] != 'undefined'){
-        this.indexNum.next(this.dataPoint['index']);
-      }
+    this.dataPoint = this.carouselData[0];
+    //if there is rank then initially set it when component is initially in view
+    if(typeof this.dataPoint['index'] != 'undefined'){
+      this.indexNum.next(this.dataPoint['index']);
     }
   }
 }

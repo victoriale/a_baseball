@@ -21,6 +21,8 @@ import {MLBStandingsTabData} from '../../services/standings.data';
 import {StandingsService} from '../../services/standings.service';
 
 import {SchedulesModule} from '../../modules/schedules/schedules.module';
+import {SchedulesService} from '../../services/schedules.service';
+
 import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
 import {MVPModule} from '../../modules/mvp/mvp.module';
 
@@ -60,6 +62,7 @@ import {ImagesMedia} from "../../components/carousels/images-media-carousel/imag
         AboutUsModule,
         ImagesMedia],
     providers: [
+        SchedulesService,
         ListPageService,
         StandingsService,
         ProfileHeaderService,
@@ -94,9 +97,11 @@ export class MLBPage implements OnInit {
     faqData: Array<faqModuleData>;
     dykData: Array<dykModuleData>;
     twitterData: Array<twitterModuleData>;
+    schedulesData:any;
 
     constructor(private _standingsService:StandingsService,
                 private _profileService:ProfileHeaderService,
+                private _schedulesService:SchedulesService,
                 private _imagesService:ImagesService,
                 private _newsService: NewsService,
                 private _faqService: FaqService,
@@ -133,6 +138,7 @@ export class MLBPage implements OnInit {
                 this.profileHeaderData = this._profileService.convertToLeagueProfileHeader(data)
                 this.profileName = "MLB";
                 this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
+                this.getSchedulesData('pre-event');//grab pre event data for upcoming games
                 this.batterData = this.getMVP(this.batterParams, 'batter');
                 this.pitcherData = this.getMVP(this.pitcherParams, 'pitcher');
                 this.setupShareModule();
@@ -147,6 +153,31 @@ export class MLBPage implements OnInit {
             }
         );
     }
+
+    //grab tab to make api calls for post of pre event table
+    private scheduleTab(tab) {
+        if(tab == 'Upcoming Games'){
+            this.getSchedulesData('pre-event');
+        }else if(tab == 'Previous Games'){
+            this.getSchedulesData('post-event');
+        }else{
+            this.getSchedulesData('post-event');// fall back just in case no status event is present
+        }
+    }
+
+    //api for Schedules
+    private getSchedulesData(status){
+      this._schedulesService.getSchedulesService('league', status, 5, 1)
+      .subscribe(
+        data => {
+          this.schedulesData = data;
+        },
+        err => {
+          console.log("Error getting Schedules Data");
+        }
+      )
+    }
+
   private getTwitterService(profileType) {
           this.isProfilePage = true;
           this.profileType = 'league';
