@@ -64,7 +64,6 @@ export class SchedulesPage implements OnInit{
       this._schedulesService.getSchedulesService('team', status, 10, pageNum, teamId)
       .subscribe(
         data => {
-          console.log('SCHEDULES PAGE',data);
           this.schedulesData = data;
             if(typeof this.tabData == 'undefined'){
                 this.tabData = data.tabs;
