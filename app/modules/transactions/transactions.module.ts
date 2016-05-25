@@ -2,7 +2,7 @@ import {Component, Output, EventEmitter} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
 import {Injectable} from 'angular2/core';
 
-import {DetailedListItem, DetailListInput} from '../../components/detailed-list-item/detailed-list-item.component';
+import {TransactionsListItem, TransactionsListInput} from '../../components/transactions-list-item/transactions-list-item.component';
 import {ModuleFooter} from '../../components/module-footer/module-footer.component';
 import {ModuleHeader} from '../../components/module-header/module-header.component';
 import {SliderCarousel, SliderCarouselInput} from '../../components/carousels/slider-carousel/slider-carousel.component';
@@ -14,7 +14,7 @@ import {NoDataBox} from '../../components/error/data-box/data-box.component';
 @Component({
   selector: 'transactions',
   templateUrl: './app/modules/transactions/transactions.module.html',
-  directives: [NoDataBox, Tab, Tabs, SliderCarousel, DetailedListItem, ModuleHeader, ModuleFooter],
+  directives: [NoDataBox, Tab, Tabs, SliderCarousel, TransactionsListItem, ModuleHeader, ModuleFooter],
   providers: [],
   inputs:['transactionsData', 'profHeader']
 })
@@ -26,8 +26,8 @@ export class TransactionsModule{
   modHeadData: Object;
   profileHeaderData: any;
   errorData: any;
-  dataArray: any;//array of data for detailed list
-  detailedDataArray:any; //variable that is just a list of the detailed DataArray
+  dataArray: any;//array of data for transactions list
+  transactionsDataArray:any; //variable that is just a list of the transactions DataArray
   carouselDataArray: any;
   footerData: Object;
   footerStyle: any;
@@ -35,8 +35,8 @@ export class TransactionsModule{
   constructor( public params: RouteParams){
     this.teamId = Number(this.params.get('teamId'));
     this.footerData = {
-      infoDesc: 'Want to see everybody involved in this list?',
-      text: 'VIEW THE LIST',
+      infoDesc: 'Want to see more transactions?',
+      text: 'VIEW TRANSACTIONS',
       url: ['Transactions-page',{teamName:this.params.get('teamName'), teamId:this.teamId}]
     };
   }
@@ -60,10 +60,10 @@ export class TransactionsModule{
       this.dataArray = this.transactionsData.tabArray;
     }
     if(this.transactionsData.listData.length == 0){//makes sure it only runs once
-      this.detailedDataArray = false;
+      this.transactionsDataArray = false;
     }else{
-      this.detailedDataArray = this.transactionsData.listData;
-      if(this.detailedDataArray == false){
+      this.transactionsDataArray = this.transactionsData.listData;
+      if(this.transactionsDataArray == false){
         this.carouselDataArray = this.transactionsData.carData
         this.carouselDataArray[0]['description'][0] = '<br><b style="font-size:20px">'+this.errorData.data+'</b>';
       }
