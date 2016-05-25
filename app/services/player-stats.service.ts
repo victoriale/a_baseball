@@ -90,7 +90,9 @@ export class PlayerStatsService {
     //Set display values    
     table.rows.forEach((value, index) => {
       value.displayDate = GlobalFunctions.formatUpdatedDate(value.lastUpdate, false);
-      value.fullPlayerImageUrl = GlobalSettings.getImageUrl(value.playerHeadshot);
+      if ( value.playerHeadshot ) {
+        value.fullPlayerImageUrl = GlobalSettings.getImageUrl(value.playerHeadshot);
+      }
       value.fullTeamImageUrl = GlobalSettings.getImageUrl(value.teamLogo);
       if ( value.backgroundImage ) {
         value.fullBackgroundImageUrl = GlobalSettings.getImageUrl(value.backgroundImage);
