@@ -116,10 +116,6 @@ export class MLBComparisonModuleData implements ComparisonModuleData {
         index = index % 2;
       }
       var teamData = this.playerLists[index];
-      console.log("teamData: " + teamData);
-      if ( teamData.playerList ) {
-        console.log("  playerList: " + teamData.playerList.length);
-      }
       if ( newTeamId != teamData.teamId || !teamData.playerList || teamData.playerList.length <= 1 ) {
         teamData.teamId = newTeamId;
         teamData.playerList = [];
@@ -293,13 +289,13 @@ export class ComparisonStatsService {
         var key = fields[i];
         var dataPoint: DataPoint = seasonStatData[key];
         if ( !dataPoint ) {
-          console.log("no data point for " + key);
+          // console.log("no data point for " + key);
           break;
         }
         
         var title = this.getKeyDisplayTitle(key);
         if ( !title ) {
-          console.log("no title for " + title);
+          // console.log("no title for " + title);
           break;
         }
         
