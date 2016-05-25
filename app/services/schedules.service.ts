@@ -20,16 +20,16 @@ export class SchedulesService {
 
   }
 
-  getLinkToPage(pageParams: MLBPageParameters): Array<any> {
+  getLinkToPage(pageParams: MLBPageParameters, teamName?: string): Array<any> {
     var pageName = "Schedules-page";
     var pageValues = {};
 
-    if ( pageParams.teamId && pageParams.teamName ) {
+    if ( pageParams.teamId && teamName ) {
       pageValues["teamId"] = pageParams.teamId;
-      pageValues["teamName"] = pageParams.teamName;
+      pageValues["teamName"] = teamName;
       pageName += "-team";
     }
-    else if( typeof pageParams.teamId == 'undefined' && typeof pageParams.teamName == 'undefined' ) {
+    else if( !pageParams.teamId && !teamName ) {
       pageName += "-league";
     }
     else{
@@ -39,10 +39,10 @@ export class SchedulesService {
   }// Returns all parameters used to get to page of Schedules
 
 
-  getModuleTitle(pageParams: MLBPageParameters): string {
+  getModuleTitle(teamName?: string): string {
     let moduletitle = "Weekly Schedules";
-    if ( pageParams.teamName !== undefined && pageParams.teamName !== null ) {
-      moduletitle += " - " + pageParams.teamName;
+    if ( teamName ) {
+      moduletitle += " - " + teamName;
     } else {
       moduletitle += " - League";
     }
@@ -50,10 +50,10 @@ export class SchedulesService {
   }// Sets the title of the modules with data returned by schedules
 
 
-  getPageTitle(pageParams: MLBPageParameters): string {
+  getPageTitle(teamName?: string): string {
     let pageTitle = "MLB Schedules Breakdown";
-    if ( pageParams.teamName !== undefined && pageParams.teamName !== null ) {
-      pageTitle = "MLB Schedules - " + pageParams.teamName;
+    if ( teamName ) {
+      pageTitle = "MLB Schedules - " + teamName;
     }
     return pageTitle;
   }// Sets the title of the Page with data returne by shedules
@@ -65,33 +65,51 @@ export class SchedulesService {
       return headers;
   }
 
-  getSchedulesService(profile, id, eventStatus){
+  getSchedulesService(profile, eventStatus, limit, pageNum, id?, year?){
   //Configure HTTP Headers
   var headers = this.setToken();
-  var year = new Date().getFullYear();//DEFAULT YEAR DATA TO CURRENT YEAR
+  var jsYear = new Date().getFullYear();//DEFAULT YEAR DATA TO CURRENT YEAR
+  var displayYear;
+
+  if(typeof year == 'undefined'){
+    year = new Date().getFullYear();//once we have historic data we shall show this
+  }
+
+  if(jsYear == year){
+    displayYear = "Current Season";
+  }else{
+    displayYear = year;
+  }
   // console.log(profile,id, eventStatus)/
   /*
-  http://dev-homerunloyal-api.synapsys.us/team/schedule/2819/pre-event
-  http://dev-homerunloyal-api.synapsys.us/team/schedule/2819/post-event
+  http://dev-homerunloyal-api.synapsys.us/team/schedule/2819/pre-event/5/1
+  http://dev-homerunloyal-api.synapsys.us/team/schedule/2819/post-event/5/1
+  http://dev-homerunloyal-api.synapsys.us/league/schedule/pre-event/5/1
+  http://dev-homerunloyal-api.synapsys.us/league/schedule/post-event/5/1
   */
   var callURL = this._apiUrl+'/'+profile+'/schedule';
+
   var tabData = [
-    {display: 'Upcoming Games', data:'pre-event'},
-    {display: 'Previous games', data:'post-event'}
+    {display: 'Upcoming Games', data:'pre-event', season:displayYear},
+    {display: 'Previous Games', data:'post-event', season:displayYear}
   ]
   if(typeof id != 'undefined'){
     callURL += '/'+id;
   }
-  callURL += '/'+eventStatus+'/5/1';  //default pagination limit: 5; page: 1
+  callURL += '/'+eventStatus+'/'+limit+'/'+ pageNum;  //default pagination limit: 5; page: 1
 
   // console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
       return {
-        data:this.setupTableData(eventStatus, year, data.data, 5),
+        data:this.setupTableData(eventStatus, year, data.data, limit),
         tabs:tabData,
-        carData: this.setupCarouselData(data.data, 5),
+        carData: this.setupCarouselData(data.data, limit),
+        pageInfo:{
+          totalPages: data.data[0].totalPages,
+          totalResults: data.data[0].totalResults,
+        }
       };
     })
   }
@@ -102,7 +120,6 @@ export class SchedulesService {
     if ( maxRows !== undefined ) {
       rows = rows.slice(0, maxRows);
     }
-
     let tableName = this.formatGroupName(year,eventStatus);
     var table = new MLBSchedulesTableModel(rows);
     return new MLBSchedulesTableData(tableName , table);
@@ -117,43 +134,61 @@ export class SchedulesService {
       origData = origData.slice(0, maxRows);
     }
     origData.forEach(function(val, index){
-      let displayNext = '';
-      if(origData.eventStatus == 'pre-event'){
-        let displayNext = 'Next Game:';
+      var displayNext = '';
+      if(val.eventStatus == 'pre-event'){
+        var displayNext = 'Next Game:';
       }else{
-        let displayNext = 'Previous Game:';
+        var displayNext = 'Previous Game:';
       }
+
+      if(val.homeScore === null){
+        val.homeScore = '#';
+      }
+      if(val.homeOutcome === null){
+        val.homeOutcome = '#';
+      }
+      if(val.awayScore === null){
+        val.awayScore = '#';
+      }
+      if(val.awayOutcome === null){
+        val.awayOutcome = '#';
+      }
+
+      // combine together the win and loss of a team to create their record
+      val.homeRecord = val.homeOutcome + '-' + val.homeScore;//?? is this really the win and loss
+      val.awayRecord = val.awayOutcome + '-' + val.awayScore;//?? is this really the win and loss
+
       carouselData = {//placeholder data
         index:index,
         displayNext: displayNext,
-        displayTime:moment(origData.startDateTime).format('dddd MMMM DDDD, YYYY | h:mm A') + " [ZONE]",
+        displayTime:moment(val.startDateTime).format('dddd MMMM Do, YYYY | h:mm A') + " [ZONE]",
         detail1Data:'Home Stadium:',
         detail1Value:"[Stadium's]",
         detail2Value:'[City], [State]',
-        imageConfig1:{
+        imageConfig1:{//AWAY
           imageClass: "image-125",
           mainImage: {
-            imageUrl: "./app/public/placeholder-location.jpg",
-            urlRouteArray: ['Disclaimer-page'],
+            imageUrl: GlobalSettings.getImageUrl(val.awayTeamLogo),
+            urlRouteArray: MLBGlobalFunctions.formatTeamRoute(val.awayTeamName, val.awayTeamId),
             hoverText: "<p>View</p><p>Profile</p>",
-            imageClass: "border-large"
+            imageClass: "border-5"
           }
         },
-        imageConfig2:{
+        imageConfig2:{//HOME
           imageClass: "image-125",
           mainImage: {
-            imageUrl: "./app/public/placeholder-location.jpg",
-            urlRouteArray: ['Disclaimer-page'],
+            imageUrl: GlobalSettings.getImageUrl(val.homeTeamLogo),
+            urlRouteArray: MLBGlobalFunctions.formatTeamRoute(val.homeTeamName, val.homeTeamId),
             hoverText: "<p>View</p><p>Profile</p>",
-            imageClass: "border-large"
+            imageClass: "border-5"
           }
         },
-        teamName1: 'string',
-        teamName2: 'string',
-        teamLocation1:'string',
-        teamLocation2:'string',
-        teamRecord1:'string',
-        teamRecord2:'string',
+        teamName1: val.awayTeamName,
+        teamName2: val.homeTeamName,
+        teamLocation1:'[Location]',
+        teamLocation2:'[Location]',
+        teamRecord1:val.awayRecord,
+        teamRecord2:val.homeRecord,
       };
       carData.push(carouselData);
     });

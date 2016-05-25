@@ -1,9 +1,10 @@
 import {Component, OnInit, OnDestroy, Input, Output, EventEmitter, Renderer, OnChanges} from 'angular2/core';
+import {ScrollableContent} from '../scrollable-content/scrollable-content.component';
 
 @Component({
   selector: 'dropdown',
   templateUrl: './app/components/dropdown/dropdown.component.html',
-  providers: []
+  directives: [ScrollableContent]
 })
 
 export class DropdownComponent implements OnDestroy, OnChanges {  
@@ -14,7 +15,15 @@ export class DropdownComponent implements OnDestroy, OnChanges {
       
   @Input() selectedKey: string;
   
+  @Input() icon: string;
+  
+  dropdownVisibleIcon: string;
+  
+  dropdownHiddenIcon: string;
+  
   selectedItem: {key: string, value: string};
+  
+  highlightCaret: boolean = false;
   
   @Output("selectionChanged") dropdownChangedListener = new EventEmitter();
   
@@ -23,23 +32,41 @@ export class DropdownComponent implements OnDestroy, OnChanges {
   constructor(private _renderer: Renderer) {}
   
   displayDropdown() {
+    var self = this;
     this.isDropdownVisible = !this.isDropdownVisible;
     
-    if ( this.hideDropdownListener === undefined ) {
+    if ( !this.hideDropdownListener ) {
       //timeout is needed so that click doesn't happen for click.
       setTimeout(() => {
-        this.hideDropdownListener = this._renderer.listenGlobal('document', 'click', (event) => {
-          this.isDropdownVisible = false;
+        if ( self.hideDropdownListener ) {
+          self.hideDropdownListener();
+          self.hideDropdownListener = undefined;
+        }
+        self.hideDropdownListener = self._renderer.listenGlobal('document', 'click', (event) => {
+          self.isDropdownVisible = false;
           
-          
-          this.hideDropdownListener(); 
-          this.hideDropdownListener = undefined;
+          if ( self.hideDropdownListener ) {
+            self.hideDropdownListener(); //this removes listener
+          }
+          self.hideDropdownListener = undefined;
         });
-      }, 0);
+      }, 1);
     }
   }
   
   ngOnChanges() {
+    if ( !this.icon ) {
+      this.dropdownVisibleIcon = "fa-sort";
+      this.dropdownHiddenIcon = "fa-sort";
+    }
+    else if (this.icon == "fa-caret-down") {      
+      this.dropdownVisibleIcon = "fa-caret-up";
+      this.dropdownHiddenIcon = "fa-caret-down";
+    }
+    else {      
+      this.dropdownVisibleIcon = this.icon;
+      this.dropdownHiddenIcon = this.icon;
+    }
     this.selectedItem = { key: "", value: " " };
     if ( this.list ) {
       this.list.forEach(value => {
@@ -47,6 +74,21 @@ export class DropdownComponent implements OnDestroy, OnChanges {
           this.selectedItem = value;
         }
       });
+      if ( !this.selectedItem && this.list.length > 0 ) {
+        this.setSelected(this.list[0]);
+      }
+    }
+  }
+  
+  onMouseEnter(index) {
+    if ( index == 0 ) {
+      this.highlightCaret = true;
+    }
+  }
+  
+  onMouseLeave(index) {
+    if ( index == 0 ) {
+      this.highlightCaret = false;
     }
   }
   
@@ -58,7 +100,7 @@ export class DropdownComponent implements OnDestroy, OnChanges {
   }
   
   ngOnDestroy() {
-    if ( this.hideDropdownListener !== undefined ) {
+    if ( this.hideDropdownListener ) {
        this.hideDropdownListener(); 
        this.hideDropdownListener = undefined;
     }

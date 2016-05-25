@@ -75,33 +75,33 @@ export class PaginationFooter implements OnChanges{
         var input = this.paginationParameters;
         try{
             //Check if input is defined at all
-            if(typeof input === 'undefined'){
+            if(typeof input == 'undefined'){
                 throw 'No input parameters defined. Make sure input values are passed in correctly';
             }
             //Check if index parameter is defined
-            if(typeof input.index === 'undefined'){
+            if(typeof input.index == 'undefined'){
                 throw 'input parameter index must be defined. Check component comments for more details';
             }
             //Check if max parameter is defined
-            if(typeof input.max === 'undefined'){
+            if(typeof input.max == 'undefined'){
                 throw 'input parameter max must be defined. Check component comments for more details';
             }
             //Check if paginationType is defined
-            if(typeof input.paginationType === 'undefined'){
+            if(typeof input.paginationType == 'undefined'){
                 throw 'input parameter paginationType must be defined. Check component comments for more details';
             }
             //Do checks on required inputs if paginationType is page
-            if(input.paginationType === 'page'){
+            if(input.paginationType == 'page'){
                 //Check if navigationPage is defined
-                if(typeof input.navigationPage === 'undefined'){
+                if(typeof input.navigationPage == 'undefined'){
                     throw 'input parameter navigationPage must be defined for paginationType page. Check component comments for more details';
                 }
                 //Check if navigationParams are defined
-                if(typeof input.navigationParams === 'undefined'){
+                if(typeof input.navigationParams == 'undefined'){
                     throw 'input parameter navigationParams must be defined for paginationType page. Check component comments for more details';
                 }
                 //Check if indexKey is defined
-                if(typeof input.indexKey === 'undefined'){
+                if(typeof input.indexKey == 'undefined'){
                     throw 'input parameter indexKey must be defined for paginationType page. Check component comments for more details';
                 }
             }
@@ -127,7 +127,7 @@ export class PaginationFooter implements OnChanges{
         }
 
         //Push index value to array if it is not the minimum or maximum value
-        if(index !== 1 && index !== max){
+        if(index != 1 && index != max){
             this.paginationButtonsModule.push(index);
         }
 
@@ -139,14 +139,14 @@ export class PaginationFooter implements OnChanges{
         }
 
         //Determine if absolute first button should be shown (show ellipsis if first item in array is not 2)
-        if(this.paginationButtonsModule.length !== 0 && this.paginationButtonsModule[0] !== (1 + 1)){
+        if(this.paginationButtonsModule.length != 0 && this.paginationButtonsModule[0] != (1 + 1)){
             this.showMinSkip = true;
         }else{
             this.showMinSkip = false;
         }
 
         //Determine if absolute last button should be shown (show ellipsis if the last item in the array is not max - 1)
-        if(this.paginationButtonsModule.length !== 0 && this.paginationButtonsModule[this.paginationButtonsModule.length - 1] !== (max - 1)){
+        if(this.paginationButtonsModule.length != 0 && this.paginationButtonsModule[this.paginationButtonsModule.length - 1] != (max - 1)){
             this.showMaxSkip = true;
         }else{
             this.showMaxSkip = false;
@@ -177,7 +177,7 @@ export class PaginationFooter implements OnChanges{
                 });
             }
         }
-        if(index !== 1 && index !== max) {
+        if(index != 1 && index != max) {
             //Build routerLink params for inputted index value
             var params = this.copyDynamicParams();
             params[indexKey] = (index);
@@ -215,14 +215,14 @@ export class PaginationFooter implements OnChanges{
         this.maxButtonParameters = params;
 
         //Determine if absolute first button should be shown (show ellipsis if first item in array is not 2)
-        if(this.paginationButtonsPage.length !== 0 && this.paginationButtonsPage[0].index !== (1 + 1) && this.paginationButtonsPage[0].index !== 1){
+        if(this.paginationButtonsPage.length != 0 && this.paginationButtonsPage[0].index != (1 + 1) && this.paginationButtonsPage[0].index != 1){
             this.showMinSkip = true;
         }else{
             this.showMinSkip = false;
         }
 
         //Determine if absolute last button should be shown (show ellipsis if the last item in the array is not max - 1)
-        if(this.paginationButtonsPage.length !== 0 && this.paginationButtonsPage[this.paginationButtonsPage.length - 1].index !== (max - 1)){
+        if(this.paginationButtonsPage.length != 0 && this.paginationButtonsPage[this.paginationButtonsPage.length - 1].index != (max - 1)){
             this.showMaxSkip = true;
         }else{
             this.showMaxSkip = false;
@@ -259,7 +259,7 @@ export class PaginationFooter implements OnChanges{
 
     //Function to navigate number buttons for paginationType module
     indexClick(event){
-        var newIndex = Number(jQuery(event.target).html());
+        var newIndex = Number(event.target.html());
         //Send new index to output event emitter
         this.newIndex.next(newIndex);
 
@@ -301,9 +301,9 @@ export class PaginationFooter implements OnChanges{
         this.verifyInput();
         window.scrollTo(0, 0);
         //Call button build function based on pagination Type
-        if(this.paginationParameters.paginationType === 'module') {
+        if(this.paginationParameters.paginationType == 'module') {
             this.buildModuleButtons();
-        }else if(this.paginationParameters.paginationType === 'page'){
+        }else if(this.paginationParameters.paginationType == 'page'){
             this.buildPageButtons();
         }
     }

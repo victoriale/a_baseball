@@ -2,6 +2,8 @@ import {Component, Input, Output, OnInit, EventEmitter} from 'angular2/core';
 import {ModuleFooter} from '../../components/module-footer/module-footer.component';
 import {ModuleHeader} from '../../components/module-header/module-header.component';
 import {SchedulesComponent} from '../../components/schedules/schedules.component';
+import {RouteParams} from 'angular2/router';
+import {GlobalFunctions} from '../../global/global-functions';
 
 @Component({
     selector: 'schedules',
@@ -12,17 +14,42 @@ import {SchedulesComponent} from '../../components/schedules/schedules.component
 })
 
 export class SchedulesModule implements OnInit{
-  @Input() data;
+    @Input() data;
+    @Input() profHeader;
+    @Output("tabSelected") tabSelectedListener = new EventEmitter();
+    footerData:any;
+    tabData: any;
+    constructor(private params: RouteParams){
 
-  @Output("tabSelected") tabSelectedListener = new EventEmitter();
+    }
+    moduleTitle:string;
 
-  moduleTitle:string;
+    ngOnInit(){
+        this.moduleTitle = this.profHeader.profileName + " - Schedules";
+        if(typeof this.params.get('teamId') != 'undefined'){
+            this.footerData = {
+                infoDesc: 'Want to see everybody involved in this list?',
+                text: 'VIEW THE LIST',
+                url: ['Schedules-page-team',{teamName:GlobalFunctions.toLowerKebab(this.profHeader.profileName), teamId:this.params.get('teamId'), pageNum:1}]
+            };
+        }else{
+            this.footerData = {
+                infoDesc: 'Want to see everybody involved in this list?',
+                text: 'VIEW THE LIST',
+                url: ['Schedules-page-league', {pageNum:1}]
+            };
+        }
+    }
 
-  ngOnInit(){
-    this.moduleTitle = "[Profile] - Schedules";
-  }
+    ngOnChanges(){
+        if(typeof this.data != 'undefined'){
+            if(typeof this.tabData == 'undefined'){
+                this.tabData = this.data.tabs;
+            }
+        }
+    }
 
-  tabSelected(tab) {
-    this.tabSelectedListener.next(tab);
-  }
+    tabSelected(tab) {
+        this.tabSelectedListener.next(tab);
+    }
 }

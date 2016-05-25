@@ -56,7 +56,7 @@ export class RosterService {
   }//getRosterService ends
 
   private setupTabData(rosterTab: RosterTabData, data: Array<TeamRosterData>, maxRows: number) {
-    var table = new RosterTableModel("", data, GlobalFunctions, MLBGlobalFunctions);
+    var table = new RosterTableModel("", data);
     //Limit to maxRows, if necessary
     if ( maxRows !== undefined ) {
       table.rows = table.rows.slice(0, maxRows);

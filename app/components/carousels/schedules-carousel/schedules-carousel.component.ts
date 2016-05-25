@@ -35,7 +35,6 @@ export class SchedulesCarousel implements OnInit{
   @Input() carouselData:Array<SchedulesCarouselInput>;
   public indexNum: EventEmitter<any> = new EventEmitter();//interface for the output to return an index
   public dataPoint: SchedulesCarouselInput;
-
   response(event){
     //set the data event being emitted back from the carousel component
     this.dataPoint = event;

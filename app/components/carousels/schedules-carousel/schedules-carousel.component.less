@@ -27,6 +27,9 @@
     text-align: center;
     line-height: 22px;
     padding: 10px 0;
+    & > i {
+      margin-right: 5px;
+    }
   }
 
   &-competitors{
@@ -41,9 +44,9 @@
     height:50px;
     border-radius: 50%;
     border: 1px solid @white;
-    background-color: rgba(0,0,0,0.75);
+    background-color: rgba(0,0,0,1);
     color:@white;
-    font-size: 24px;
+    font-size: 18px;
     line-height: 50px;
     text-align: center;
     position: absolute;
@@ -55,4 +58,7 @@
   width:100%;
   height:auto;
   padding:0 10px;//push circle to center since has box shadow of 10px on all sides
+}
+.pipe-seperator{
+  margin:0 5px;
 }

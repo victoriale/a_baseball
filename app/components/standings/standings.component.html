@@ -4,9 +4,12 @@
   </div>
   <tabs (tabSelected)="tabSelected($event)">
     <tab *ngFor="#tab of tabs" [tabTitle]="tab.title" [active]="tab.isActive">
-      <div *ngFor="#section of tab.sections">
-        <h4 *ngIf="section.groupName" [innerHtml]="section.groupName"></h4>
-        <custom-table [model]="section.tableData" (sortChanged)="updateCarousel($event)"></custom-table>
+      <loading-component *ngIf="!tab.isLoaded && !tab.hasError"></loading-component>
+      <div *ngIf="tab.isLoaded">
+        <div *ngFor="#section of tab.sections" class="standings-tab-section">
+            <h4 [innerHtml]="section.groupName"></h4>
+            <custom-table [model]="section.tableData" (sortChanged)="updateCarousel($event)"></custom-table>
+        </div>
       </div>
     </tab>
   </tabs>

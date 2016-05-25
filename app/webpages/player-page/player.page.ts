@@ -12,8 +12,11 @@ import {DykService} from '../../services/dyk.service';
 import {FAQModule, faqModuleData} from "../../modules/faq/faq.module";
 import {FaqService} from '../../services/faq.service';
 
-import {TwitterModule} from "../../modules/twitter/twitter.module";
+import {TwitterModule, twitterModuleData} from "../../modules/twitter/twitter.module";
+import {TwitterService} from '../../services/twitter.service';
+
 import {ComparisonModule} from '../../modules/comparison/comparison.module';
+import {ComparisonStatsService, ComparisonStatsData} from '../../services/comparison-stats.service';
 import {CommentModule} from '../../modules/comment/comment.module';
 
 import {StandingsModule, StandingsModuleData} from '../../modules/standings/standings.module';
@@ -43,22 +46,22 @@ import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.modul
     selector: 'Player-page',
     templateUrl: './app/webpages/player-page/player.page.html',
     directives: [
-        SchedulesModule,
-        BoxScoresModule,
-        ProfileHeaderModule,
-        StandingsModule,
-        HeadlineComponent,
-        CommentModule,
-        DYKModule,
-        FAQModule,
-        LikeUs,
-        TwitterModule,
-        ComparisonModule,
-        NewsModule,
-        ShareModule,
-        AboutUsModule,
-        ListOfListsModule,
-        ImagesMedia],
+      SchedulesModule,
+      BoxScoresModule,
+      ProfileHeaderModule,
+      StandingsModule,
+      HeadlineComponent,
+      CommentModule,
+      DYKModule,
+      FAQModule,
+      LikeUs,
+      TwitterModule,
+      ComparisonModule,
+      NewsModule,
+      ShareModule,
+      AboutUsModule,
+      ListOfListsModule,
+      ImagesMedia],
     providers: [
       StandingsService,
       ProfileHeaderService,
@@ -66,87 +69,104 @@ import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.modul
       NewsService,
       FaqService,
       DykService,
-      ListOfListsService
+      ListOfListsService,
+      ComparisonStatsService,
+      TwitterService
     ],
 })
 
 export class PlayerPage implements OnInit {
-    public shareModuleInput:ShareModuleInput;
+  public shareModuleInput:ShareModuleInput;
 
-    pageParams:MLBPageParameters;
+  pageParams:MLBPageParameters;
 
-    standingsData:StandingsModuleData;
+  standingsData:StandingsModuleData;
 
-    profileHeaderData:ProfileHeaderData;
+  profileHeaderData: ProfileHeaderData;
+  
+  comparisonData: ComparisonStatsData;
+  teamList: Array<{key: string, value: string}>;
 
-    imageData:any;
-    copyright:any;
-    profileType:string;
-    isProfilePage:boolean = false;
-    profileName:string;
-    newsDataArray: Array<Object>;
-    faqData: Array<faqModuleData>;
-    dykData: Array<dykModuleData>;
-    listOfListsData: Object; // paginated data to be displayed
+  imageData:any;
+  copyright:any;
+  profileType:string = "player";
+  isProfilePage:boolean = true;
+  profileName:string;
+  teamName: string;
+  newsDataArray: Array<Object>;
+  faqData: Array<faqModuleData>;
+  dykData: Array<dykModuleData>;
+  listOfListsData: Object; // paginated data to be displayed
+  twitterData: Array<twitterModuleData>;
 
-    constructor(private _params:RouteParams,
-                private _standingsService:StandingsService,
-                private _profileService:ProfileHeaderService,
-                private _imagesService:ImagesService,
-                private _newsService: NewsService,
-                private _faqService: FaqService,
-                private _dykService: DykService,
-                private _lolService : ListOfListsService,
-                private _globalFunctions:GlobalFunctions) {
+  constructor(private _params:RouteParams,
+              private _standingsService:StandingsService,
+              private _profileService:ProfileHeaderService,
+              private _imagesService:ImagesService,
+              private _newsService: NewsService,
+              private _faqService: FaqService,
+              private _dykService: DykService,
+              private _lolService : ListOfListsService,
+              private _twitterService: TwitterService,
+              private _comparisonService: ComparisonStatsService,
+              private _globalFunctions:GlobalFunctions) {
 
-        this.pageParams = {
-            playerId: Number(_params.get("playerId")),
-            playerName: String(_params.get("fullName"))
-        };
+      this.pageParams = {
+          playerId: Number(_params.get("playerId"))
+      };
+      
+        // Scroll page to top to fix routerLink bug
+        window.scrollTo(0, 0);
+  }
+
+  ngOnInit() {
+      this.setupPlayerProfileData();
+  }
+
+  private setupPlayerProfileData() {
+      this._profileService.getPlayerProfile(this.pageParams.playerId).subscribe(
+          data => {
+              this.pageParams = data.pageParams;
+              this.profileName = data.headerData.info.playerName;
+              this.teamName = data.headerData.info.teamName;
+              this.profileHeaderData = this._profileService.convertToPlayerProfileHeader(data);
+              this.setupTeamProfileData();
+              this.setupShareModule();
+              this.setupComparisonData();
+              this.getImages(this.imageData);
+              this.getNewsService();
+              this.getFaqService();
+              this.getDykService();
+              this.setupListOfListsModule();
+              this.getTwitterService();
+          },
+          err => {
+              console.log("Error getting player profile data for " + this.pageParams.playerId + ": " + err);
+          }
+      );
+  }
+
+  private getTwitterService() {
+    this._twitterService.getTwitterService("team", this.pageParams.teamId) //getting team twitter information for now
+        .subscribe(data => {
+            this.twitterData = data;
+        },
+        err => {
+            console.log("Error getting twitter data");
+        });
     }
 
-    ngOnInit() {
-        this.setupPlayerProfileData();
-    }
-
-    private setupPlayerProfileData() {
-        this._profileService.getPlayerProfile(this.pageParams.playerId).subscribe(
-            data => {
-                this.pageParams = data.pageParams;
-                this.profileHeaderData = this._profileService.convertToPlayerProfileHeader(data);
-                this.setupTeamProfileData();
-                this.setupShareModule();
-                this.getImages(this.imageData);
-                this.getNewsService(this.pageParams.playerName);
-                this.getFaqService(this.profileType, this.pageParams.playerId);
-                this.getDykService(this.profileType, this.pageParams.teamId);
-                this.setupListOfListsModule();
-
-            },
-            err => {
-                console.log("Error getting player profile data for " + this.pageParams.playerId + ": " + err);
-            }
-        );
-    }
-    private getDykService(profileType, playerId) {
-        this.isProfilePage = true;
-        this.profileType = 'player';
-        let name = this.pageParams.playerName.replace(/-/g, " ");
-        this.profileName = this._globalFunctions.toTitleCase(name);
+    private getDykService() {
         this._dykService.getDykService(this.profileType, this.pageParams.playerId)
             .subscribe(data => {
-                    this.dykData = data;
-                },
-                err => {
-                    console.log("Error getting did you know data");
-                });
+                this.dykData = data;
+            },
+            err => {
+                console.log("Error getting did you know data");
+            });
     }
 
-    private getFaqService(profileType, playerId){
-      this.isProfilePage = true;
-      this.profileType = 'player';
-      let name = this.pageParams.playerName.replace(/-/g, " ");
-      this.profileName = this._globalFunctions.toTitleCase(name);
+    private getFaqService(){
       this._faqService.getFaqService(this.profileType, this.pageParams.playerId)
           .subscribe(data => {
             this.faqData = data;
@@ -156,33 +176,24 @@ export class PlayerPage implements OnInit {
           });
     }
 
-    private getNewsService(playerName) {
-        this.isProfilePage = true;
-        this.profileType = 'player';
-        let name = this.pageParams.playerName.replace(/-/g, " ");
-        this.profileName = this._globalFunctions.toTitleCase(name);
-        this._newsService.getNewsService(this.pageParams.playerName)
+    private getNewsService() {
+        this._newsService.getNewsService(this.profileName)
             .subscribe(data => {
-                    this.newsDataArray = data.news;
-                },
-                err => {
-                    console.log("Error getting news data");
-                });
+                this.newsDataArray = data.news;
+            },
+            err => {
+                console.log("Error getting news data");
+            });
     }
+    
     private getImages(imageData) {
-        this.isProfilePage = true;
-        this.profileType = 'player';
-        let name = this.pageParams.playerName.replace(/-/g, " ");
-        this.profileName = this._globalFunctions.toTitleCase(name);
-        var imageArray = [];
-        var copyArray = [];
         this._imagesService.getImages(this.profileType, this.pageParams.playerId)
             .subscribe(data => {
-                    return this.imageData = data.imageArray, this.copyright = data.copyArray;
-                },
-                err => {
-                    console.log("Error getting image data" + err);
-                });
+                return this.imageData = data.imageArray, this.copyright = data.copyArray;
+            },
+            err => {
+                console.log("Error getting image data" + err);
+            });
     }
 
     //This gets team-specific data such as
@@ -190,7 +201,7 @@ export class PlayerPage implements OnInit {
     private setupTeamProfileData() {
         this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
             data => {
-                this.standingsData = this._standingsService.loadAllTabsForModule(data.pageParams);
+                this.standingsData = this._standingsService.loadAllTabsForModule(data.pageParams, data.teamName);
             },
             err => {
                 console.log("Error getting player profile data for " + this.pageParams.playerId + ": " + err);
@@ -199,13 +210,19 @@ export class PlayerPage implements OnInit {
     }
 
     private standingsTabSelected(tab:MLBStandingsTabData) {
-        if (tab && (!tab.sections || tab.sections.length == 0)) {
-            this._standingsService.getTabData(tab, this.pageParams, 5)//only show 5 rows in the module
-                .subscribe(data => tab.sections = data,
-                    err => {
-                        console.log("Error getting standings data");
-                    });
-        }
+        //only show 5 rows in the module;
+        this._standingsService.getStandingsTabData(tab, this.pageParams, (data) => {}, 5);
+    }
+    
+    private setupComparisonData() {
+        this._comparisonService.getPlayerStats(this.pageParams).subscribe(
+            data => {
+                this.comparisonData = data[0];
+                this.teamList = data[1];
+            },
+            err => {
+                console.log("Error getting comparison data for "+ this.pageParams.playerId);
+            });
     }
 
     private setupShareModule() {

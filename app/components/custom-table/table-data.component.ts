@@ -1,8 +1,6 @@
 import {CircleImageData} from '../../components/images/image-data';
 
-export interface TableModel<T> {
-  // title?: string;
-  
+export interface TableModel<T> {  
   columns: Array<TableColumn>;
   
   rows: Array<T>;
@@ -73,6 +71,12 @@ export interface TableColumn {
    * Each row must contain a TableCell corresponding to this key.
    */
   key: string;
+  
+  /**
+   * Set to true if the column should not be sortable. 
+   * Otherwise (if not included) columns will sort as normal 
+   */
+  ignoreSort?: boolean;
 }
 
 export interface TableRow {

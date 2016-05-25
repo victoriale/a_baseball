@@ -12,7 +12,7 @@
     margin-left: 5px;
     margin-bottom: 10px;
 
-    &:hover {
+    &-sort:hover {
       border-color: @masterBrandColor;
       cursor: pointer;
     }
@@ -65,7 +65,11 @@
       font-weight: 800;
       color: @masterBrandColor;
       text-align: center;
-    }
+    }    
+
+    .data-column, .date-column {
+      text-align: center;
+    }   
 
     .image-column {
       font-weight: 800;
@@ -73,8 +77,6 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      width: 275px;
-
 
       .image-round {
         margin-right: 10px;
@@ -95,40 +97,6 @@
       a:focus {
         color: @masterBrandColor;
         text-decoration: none;
-      }
-    }
-
-    .location-column{
-      width:168px;
-
-      .location-wrap{
-        width: 60%;
-        height: 100%;
-        white-space: normal;
-        display: inline-block;
-        position: relative;
-        top: 7px;
-      }
-    }
-
-    .date-column {
-      width:70px;
-      text-align: center;
-      white-space: nowrap;
-    }
-
-    .data-column {
-      text-align: center;
-    }
-
-    .summary-column{
-      font-size: 16px;
-      color:@masterBrandColor;
-      font-weight: 800;
-      text-align: center;
-      i{
-          margin-left: 5px;
-          font-weight: 400;
       }
     }
 

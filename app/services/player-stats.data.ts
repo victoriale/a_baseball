@@ -12,7 +12,7 @@ export interface PlayerStatsData {
   playerName: string;
   playerId: string;
   playerHeadshot: string;
-  profileHeader: string;
+  backgroundImage: string;
   seasonId: string;
   lastUpdate: string;
   
@@ -47,13 +47,14 @@ export interface PlayerStatsData {
   fullBackgroundImageUrl?: string;
 }
 
-// export class PlayerStatsSeasonData {
-//   seasonId: string;
-//   rows: Array<PlayerStatsData>
-// }
-
 export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsData> {  
   tabTitle: string;
+  
+  tableName: string;
+  
+  isLoaded: boolean;
+  
+  hasError: boolean; 
   
   tableData: TableModel<PlayerStatsData>;
   
@@ -69,8 +70,9 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
   
   selectedSeasonId: string;
   
-  constructor(tabName: string, isPitcherTable: boolean, isActive: boolean) {
-    this.tabTitle = tabName;
+  constructor(teamName: string, tabName: string, isPitcherTable: boolean, isActive: boolean) {
+    this.tabTitle = tabName;    
+    this.tableName = "<span class='text-heavy'>" + teamName + "</span> " + tabName + " Stats";  
     this.isActive = isActive;
     this.isPitcherTable = isPitcherTable;
     if ( this.isPitcherTable ) {
@@ -110,19 +112,25 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
   convertToCarouselItem(item: PlayerStatsData, index:number): SliderCarouselInput {
     var subheader = "Current " + item.teamName + " Player Stats";
     var description = "";
+    var tense = " has";
+    var temporalInfo = "";
+    if ( this.selectedSeasonId != this.seasonIds[0].key ) {
+      tense = " had";
+      temporalInfo = " in " + this.selectedSeasonId;
+    }
     if ( this.isPitcherTable ) {
-      description = item.playerName + " has a <span class='text-heavy'>" + (item.pitchEra != null ? item.pitchEra.toFixed(2) : "N/A") + 
+      description = item.playerName + tense + " a <span class='text-heavy'>" + (item.pitchEra != null ? item.pitchEra.toFixed(2) : "N/A") + 
                     " ERA</span> with <span class='text-heavy'>" + item.pitchStrikeouts + 
                     " Strikeouts</span>, <span class='text-heavy'>" + item.pitchWins + 
                     " Wins</span> and a <span class='text-heavy'>" + item.pitchLosses + 
-                    " Saves</span>.";
+                    " Saves</span>" + temporalInfo + ".";
     }
     else {
-      description = item.playerName + " has a <span class='text-heavy'>" + (item.batAverage != null ? item.batAverage.toPrecision(3) : "N/A") + 
+      description = item.playerName + tense + " a <span class='text-heavy'>" + (item.batAverage != null ? item.batAverage.toPrecision(3) : "N/A") + 
                     " Batting Average</span> with <span class='text-heavy'>" + item.batHomeRuns + 
                     " Homeruns</span>, <span class='text-heavy'>" + item.batRbi + 
                     " RBI's</span> and a <span class='text-heavy'>" + (item.batSluggingPercentage != null ? item.batSluggingPercentage.toPrecision(3) : "N/A") + 
-                    " Slugging Percentage</span>.";
+                    " Slugging Percentage</span>" + temporalInfo + ".";
     }
     return {
       index: index,
@@ -152,9 +160,7 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
   }
 }
 
-export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
-  tableName: string;
-  
+export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {  
   columns: Array<TableColumn>;
   
   rows: Array<PlayerStatsData>;
@@ -163,8 +169,7 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
   
   isPitcher: boolean;
   
-  constructor(title:string, rows: Array<PlayerStatsData>, isPitcher: boolean) {
-    this.tableName = title;
+  constructor(rows: Array<PlayerStatsData>, isPitcher: boolean) {
     this.rows = rows;
     if ( this.rows === undefined || this.rows === null ) {
       this.rows = [];
@@ -283,31 +288,31 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
       
       //BATTING
       case "hr": 
-        s = item.batHomeRuns ? item.batHomeRuns : null;
+        s = item.batHomeRuns != null ? item.batHomeRuns : null;
         break;
       
       case "ba": 
-        s = item.batAverage ? item.batAverage.toFixed(3) : null;
+        s = item.batAverage != null  ? item.batAverage.toFixed(3) : null;
         break;
       
       case "rbi": 
-        s = item.batRbi ? item.batRbi : null;
+        s = item.batRbi != null  ? item.batRbi : null;
         break;
       
       case "h": 
-        s = item.batHits ? item.batHits : null;
+        s = item.batHits != null  ? item.batHits : null;
         break;
       
       case "bbb": 
-        s = item.batBasesOnBalls ? item.batBasesOnBalls : null;
+        s = item.batBasesOnBalls != null  ? item.batBasesOnBalls : null;
         break;
       
       case "obp": 
-        s = item.batOnBasePercentage ? item.batOnBasePercentage.toFixed(3) : null;
+        s = item.batOnBasePercentage != null ? item.batOnBasePercentage.toFixed(3) : null;
         break;
       
       case "slg": 
-        s = item.batSluggingPercentage ? item.batSluggingPercentage.toFixed(3) : null;
+        s = item.batSluggingPercentage != null ? item.batSluggingPercentage.toFixed(3) : null;
         break;
       
       //PITCHING
@@ -328,7 +333,7 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
         break;
         
       case "pbb": 
-        s = item.pitchBasesOnBalls ? item.pitchBasesOnBalls.toString() : null;
+        s = item.pitchBasesOnBalls != null  ? item.pitchBasesOnBalls.toString() : null;
         break;
       
       case "whip": 
@@ -350,31 +355,31 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
         break;
       
       case "hr": 
-        o = Number(item.batHomeRuns);
+        o = item.batHomeRuns != null ? Number(item.batHomeRuns) : null;
         break;
       
       case "ba": 
-        o = Number(item.batAverage);
+        o = item.batAverage != null ? Number(item.batAverage) : null;
         break;
       
       case "rbi": 
-        o = Number(item.batRbi);
+        o = item.batRbi != null ? Number(item.batRbi) : null;
         break;
       
       case "h": 
-        o = Number(item.batHits);
+        o = item.batHits != null ? Number(item.batHits) : null;
         break;
       
       case "bbb": 
-        o = Number(item.batBasesOnBalls);
+        o = item.batBasesOnBalls != null ? Number(item.batBasesOnBalls) : null;
         break;
       
       case "obp": 
-        o = Number(item.batOnBasePercentage);
+        o = item.batOnBasePercentage != null ? Number(item.batOnBasePercentage) : null;
         break;
       
       case "slg": 
-        o = Number(item.batSluggingPercentage);
+        o = item.batSluggingPercentage != null ? Number(item.batSluggingPercentage) : null;
         break;     
       
       //PITCHING
@@ -385,27 +390,27 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
         break;
       
       case "ip": 
-        o = Number(item.pitchInningsPitched);
+        o = item.pitchInningsPitched != null ? Number(item.pitchInningsPitched) : null;
         break;
       
       case "so": 
-        o = Number(item.pitchStrikeouts);
+        o = item.pitchStrikeouts != null ? Number(item.pitchStrikeouts) : null;
         break;
       
       case "era": 
-        o = Number(item.pitchEra);
+        o = item.pitchEra != null ? Number(item.pitchEra) : null;
         break;
         
       case "pbb": 
-        o = Number(item.pitchBasesOnBalls);
+        o = item.pitchBasesOnBalls != null ? Number(item.pitchBasesOnBalls) : null;
         break;
       
       case "whip": 
-        o = Number(item.whip);
+        o = item.whip != null ? Number(item.whip) : null;
         break;
       
       case "sv": 
-        o = Number(item.pitchSaves);
+        o = item.pitchSaves != null ? Number(item.pitchSaves) : null;
         break;
     }    
     return o;

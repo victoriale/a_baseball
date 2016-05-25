@@ -34,11 +34,11 @@
     }
   }
   
-  .data-column {
-    width: 60px;
+  .data-column-hdr, .data-column {
+    width: 65px; //since it needs to include margin for padding
   }
   
-  .image-column {
+  .image-column-hdr, .image-column {
     width: 205px;
   }
   
@@ -61,11 +61,15 @@
   &-season-dropdown {
     margin: 0px;
     float: right;
+    display: flex;
     .globalDefaultFont(12px, 400);
     
     .dropdown {
-      margin-left: 11px;
+      margin-left: 11px;      
       width: 145px;
+      &-hdr {
+        padding: 4px;
+      }
     }
   }
   
@@ -81,7 +85,7 @@
     &-box {
       background-color: @backgroundGrey;
       border-top: 1px solid @strokeGrey;
-      padding: 15px;
+      padding: 14px 16px;
       .globalDefaultFont(12px, 400);
       
       li {
