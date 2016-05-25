@@ -3,12 +3,8 @@
   
   &-banner-image {
     background-color: rgba(0, 0, 0, 0.65);
-    background-image: url("/app/public/image_placeholder.png");
-    background-repeat: no-repeat;
-    background-attachment: scroll;
-    background-position: center center;
-    background-size: cover;
-  }
+    background-image: url("/app/public/image_placeholder.png") no-repeat;
+  }  
 
   &-hdr {
     background-color: rgba(0, 0, 0, 0.6);
@@ -102,13 +98,17 @@
         content: '';
       }
       
-      &-text .scrollable-item {
+      .scrollable-item {
         height: 130px;
       }
       
-      &-text .scrollable-item-content {
+      .scrollable-item-content {
         position: relative;
         padding-left: 15px;
+      }
+      
+      &-text {
+        margin: 0;
       }
     }
   }

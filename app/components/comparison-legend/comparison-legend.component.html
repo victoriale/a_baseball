@@ -1,19 +1,11 @@
-<div class="comparison-legend">
+<div *ngIf="comparisonLegendInput" class="comparison-legend">
         <span class="comparison-legend-title">
-            <span *ngFor="#item of comparisonLegendInput.legendTitle" [ngClass]="[item.class]">{{item.text}}</span>
+            <span *ngFor="#item of comparisonLegendInput.legendTitle" class="{{item.class}}">{{item.text}}</span>
         </span>
-    <ul class="pull-right">
-        <li>
-            <div class="comparison-legend-circle" [style.backgroundColor]="comparisonLegendInput.colorHigh"></div>
-            {{!comparisonLegendInput.titleHigh ? 'Stat High' : comparisonLegendInput.titleHigh}}
-        </li>
-        <li>
-            <div class="comparison-legend-circle" [style.backgroundColor]="comparisonLegendInput.colorTwo"></div>
-            {{comparisonLegendInput.titleTwo}}
-        </li>
-        <li>
-            <div class="comparison-legend-circle" [style.backgroundColor]="comparisonLegendInput.colorOne"></div>
-            {{comparisonLegendInput.titleOne}}
+    <ul *ngIf="comparisonLegendInput.legendValues" class="pull-right">
+        <li *ngFor="#legend of comparisonLegendInput.legendValues">
+            <div class="comparison-legend-circle" [style.backgroundColor]="legend.color"></div>
+            {{legend.title}}
         </li>
     </ul>
 </div>

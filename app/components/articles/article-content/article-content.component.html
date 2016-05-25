@@ -4,16 +4,17 @@
 
 
     <profileData-component *ngIf="i==2 && articleType == 'playerComparison'" [articleType]="articleType"
-                           [articleSubType]="articleSubType" [articleData]="articleData"></profileData-component>
+                           [articleSubType]="articleSubType" [articleData]="articleData"
+                           [imageLinks]="imageLinks"></profileData-component>
     <profileData-component *ngIf="i==2 && articleType == 'teamRecord' && articleSubType == 'about'" [index]="'1'"
                            [articleSubType]="articleSubType" [articleType]="articleType"
-                           [articleData]="articleData"></profileData-component>
+                           [articleData]="articleData" [imageLinks]="imageLinks"></profileData-component>
     <profileData-component *ngIf="i==2 && articleType == 'teamRecord' && articleSubType == 'history'" [index]="'1'"
                            [articleSubType]="articleSubType" [articleType]="articleType"
-                           [articleData]="articleData"></profileData-component>
+                           [articleData]="articleData" [imageLinks]="imageLinks"></profileData-component>
     <profileData-component *ngIf="i==4 && articleType == 'teamRecord' && articleSubType == 'last'" [index]="'1'"
                            [articleSubType]="articleSubType" [articleType]="articleType"
-                           [articleData]="articleData"></profileData-component>
+                           [articleData]="articleData" [imageLinks]="imageLinks"></profileData-component>
 
     <p *ngIf="i!=0 && !content.playerComparisonModule && !content.teamRecordModule" class="content"
        [innerHTML]="content"></p>
@@ -23,13 +24,13 @@
 
     <profileData-component *ngIf="i==4 && articleType == 'teamRecord' && articleSubType == 'about'" [index]="'2'"
                            [articleSubType]="articleSubType" [articleType]="articleType"
-                           [articleData]="articleData"></profileData-component>
+                           [articleData]="articleData" [imageLinks]="imageLinks"></profileData-component>
     <profileData-component *ngIf="i==3 && articleType == 'teamRecord' && articleSubType == 'history'" [index]="'2'"
                            [articleSubType]="articleSubType" [articleType]="articleType"
-                           [articleData]="articleData"></profileData-component>
+                           [articleData]="articleData" [imageLinks]="imageLinks"></profileData-component>
     <profileData-component *ngIf="i==6 && articleType == 'teamRecord' && articleSubType == 'last'" [index]="'2'"
                            [articleSubType]="articleSubType" [articleType]="articleType"
-                           [articleData]="articleData"></profileData-component>
+                           [articleData]="articleData" [imageLinks]="imageLinks"></profileData-component>
 
     <billboard-component *ngIf="last"></billboard-component>
 

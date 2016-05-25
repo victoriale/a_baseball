@@ -20,8 +20,7 @@
       background-color: @white;
       width: 125px;
       height: 125px;
-      top: 15px;
-      left: 15px;
+      display: block;
       margin: 0 auto;
       background-position: center center;
       background-size: contain;
@@ -83,6 +82,9 @@
         left: 85px;
         background-position: center center;
         background-size: contain;
+        &:hover {
+          z-index: 1;
+        }
       }
       &-circle2 {
         border-radius: 50%;
@@ -111,6 +113,9 @@
         right: 15px;
         background-position: center center;
         background-size: contain;
+        &:hover {
+          z-index: 1;
+        }
       }
       &-vs {
         .globalDefaultFont(16px, 400);
