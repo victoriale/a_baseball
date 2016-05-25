@@ -25,6 +25,9 @@
             <div class="comparison-module-bars">
                 <comparison-bar *ngFor="#item of tab.barData; #i = index" [comparisonBarInput]="item" [index]="i"></comparison-bar>
             </div>
+            <div *ngIf="!tab.barData" class="comparison-module-no-data">
+                <no-data-box [data]="noDataMessage" [icon]="'fa fa-remove'"></no-data-box>
+            </div>
         </tab>        
     </tabs>
 </div>
