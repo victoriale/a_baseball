@@ -31,6 +31,7 @@ import {FooterComponent} from "../components/footer/footer.component";
 import {HeaderComponent} from "../components/header/header.component";
 
 import {DesignPage} from "../webpages/design-page/design.page";
+import {TransactionsPage} from "../webpages/transactions-page/transactions.page";
 
 @Component({
     selector: 'my-app',
@@ -124,6 +125,11 @@ import {DesignPage} from "../webpages/design-page/design.page";
         component: DraftHistoryPage
     },
     {
+        path: '/transactions/:teamName/:teamId',
+        name: 'Transactions-page',
+        component: TransactionsPage
+    },
+    {
         path: '/team-roster/:teamName/:teamId',
         name: 'Team-roster-page',
         component: TeamRosterPage
@@ -138,6 +144,16 @@ import {DesignPage} from "../webpages/design-page/design.page";
         name: 'Article-pages',
         component: ArticlePages
 	  },
+    {
+        path: '/list-of-lists/:scope/:type/:id/:limit/:pageNum',
+        name: 'List-of-lists-page-scoped',
+        component: ListOfListsPage
+    },
+    {
+        path: '/list-of-lists/:type/:id/:limit/:pageNum',
+        name: 'List-of-lists-page',
+        component: ListOfListsPage
+    },
     {
         path: '/error',
         name: 'Error-page',
@@ -168,16 +184,6 @@ import {DesignPage} from "../webpages/design-page/design.page";
         path: '/tables-test',
         name: 'Tables-test-page',
         component: TablesTestPage,
-    },
-    {
-        path: '/list-of-lists/:scope/:type/:id/:limit/:pageNum',
-        name: 'List-of-lists-page-scoped',
-        component: ListOfListsPage
-    },
-    {
-        path: '/list-of-lists/:type/:id/:limit/:pageNum',
-        name: 'List-of-lists-page',
-        component: ListOfListsPage
     },
 ])
 
