@@ -12,6 +12,7 @@ export interface ImageData {
 
   /**
    *  The URL location to the image to display.
+   *  NOTE: It cannot be null or undefined for the mainImage object in CircleImageData, otherwise errors occur.
    *
    *  If this is not included, the [text] field will be displayed
    *  instead.
@@ -53,7 +54,7 @@ export interface ImageData {
 
 export interface CircleImageData {
   /**
-   * The main image in the center of the component.
+   * The main image in the center of the component. 
    * Required.
    */
   mainImage: ImageData;
