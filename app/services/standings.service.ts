@@ -163,9 +163,7 @@ export class StandingsService {
     rows.forEach((value, index) => {
       value.groupName = groupName;
       value.displayDate = GlobalFunctions.formatUpdatedDate(value.lastUpdated, false);
-      if ( value.imageUrl ) {
-        value.fullImageUrl = GlobalSettings.getImageUrl(value.imageUrl);
-      }
+      value.fullImageUrl = GlobalSettings.getImageUrl(value.imageUrl);
       if ( value.backgroundImage ) {
         value.fullBackgroundImageUrl = GlobalSettings.getImageUrl(value.backgroundImage);
       }

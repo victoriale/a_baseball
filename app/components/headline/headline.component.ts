@@ -5,21 +5,21 @@ import {Component, Input, OnInit}  from "angular2/core";
 
 @Component({
     selector: 'headline-component',
-    templateUrl: './app/components/headline/headline.component.html',
-    inputs: ['data']
+    templateUrl: './app/components/headline/headline.component.html'
 })
 
-export class HeadlineComponent implements OnInit{
-  data:{
-    title:string,
-    icon:string
-  }
+export class HeadlineComponent implements OnInit {
+  @Input() title: string;
+  
+  @Input() icon: string;
+  
   ngOnInit(){
-    if(typeof this.data == 'undefined'){
-      this.data={
-        title:'HEADLINE',
-        icon:'fa fa-map-marker'
-      }
+    if ( !this.title ) {
+      this.title = "HEADLINE";      
+    }
+    
+    if ( !this.icon ) {
+      this.icon = "fa fa-map-marker";
     }
   }
 }
