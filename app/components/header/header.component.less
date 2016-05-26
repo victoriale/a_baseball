@@ -39,18 +39,18 @@
       position: absolute;
       right: -1px;
       top: 17px;
-      z-index: 1;
+      z-index: 2;
     }
     .search-large{
       box-shadow: none;
       border-radius: 0;
-      font-style: italic;
       height: 100%;
       padding-right: 0;
       width: auto;
     }
-    .search-large .search-input.main{
-      background-color: @white;
+
+    .search-large .search-input.autocomplete{
+      background: @white;
     }
     hr{
       width: 80%;
@@ -70,13 +70,19 @@
       padding: 0px 27px;
       transition: none;
       -webkit-transition: none;
+      border: none;
+      box-shadow: none;
     }
+
     .search-large .search-input-container{
       right: 63px;
     }
-    .search-large .search-input:focus{
-      border: none;
-      box-shadow: none;
+
+    .search-input.main{
+      font-style: italic;
+      &:focus{
+        font-style: normal;
+      }
     }
     .search-large .search-button{
       width: 63px;
@@ -122,7 +128,7 @@
       .flexJustify(center);
       .flexAlignItems(center);
       .globalDefaultModFont(1.17em, 400, @white);
-      &:hover, &:active, .active, &:focus {
+      &:hover, &:active, &:focus, .active {
         text-decoration: none;
         .globalDefaultModFont(1.17em, 800, @white);
       }
@@ -135,7 +141,6 @@
     span:first-child{
       height: 60px;
       width: 60px;
-      // background-image: url('/app/public/shareAltButton.png');
       background-repeat: no-repeat;
       background-size: cover;
     }
