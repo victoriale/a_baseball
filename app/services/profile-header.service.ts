@@ -267,7 +267,7 @@ export class ProfileHeaderService {
     var headerData = {
       data:{
         imageURL: data.fullProfileImageUrl, //TODO
-        text1: 'Last Updated:', //TODO
+        text1: 'Last Updated:' + moment(data.headerData.lastUpdated).format('dddd MMMM Do, YYYY'), //TODO
         text2: 'United States',
         text3: stats.teamName + " " + stats.seasonId + " - " + pageName,
         icon: 'fa fa-map-marker',
@@ -280,20 +280,20 @@ export class ProfileHeaderService {
 
 
   convertMLBHeader(data: any, pageName?:string) {
-    var currentDate = new Date().getFullYear();// no stat for date so will grab current year client is on
+    var currentDate = new Date();// no stat for date so will grab current year client is on
     var display:string;
     if(typeof pageName == 'undefined'){
       pageName = 'Page';
     }
 
-    if(currentDate == currentDate){// TODO must change once we have historic data
+    if(currentDate.getFullYear() == currentDate.getFullYear()){// TODO must change once we have historic data
       display = "Current Season"
     }
 
     var headerData = {
       data:{
         imageURL: data.logo, //TODO
-        text1: 'Last Updated:', //TODO
+        text1: 'Last Updated:' + moment(currentDate).format('dddd MMMM Do, YYYY'),//TODO
         text2: 'United States',
         text3: display + " " + pageName + " - " + data.profileName1,
         icon: 'fa fa-map-marker',

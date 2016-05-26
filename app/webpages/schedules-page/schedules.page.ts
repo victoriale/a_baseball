@@ -16,6 +16,8 @@ import {ErrorComponent} from "../../components/error/error.component";
 import {SchedulesService} from '../../services/schedules.service';
 import {SchedulesComponent} from '../../components/schedules/schedules.component';
 
+declare var moment;
+
 @Component({
     selector: 'schedules-page',
     templateUrl: './app/webpages/schedules-page/schedules.page.html',
@@ -34,17 +36,6 @@ export class SchedulesPage implements OnInit{
   tabData: any;
 
   constructor(private _schedulesService:SchedulesService, private profHeadService:ProfileHeaderService, private params: RouteParams){
-      var currentYear = new Date().getFullYear();
-      this.profileHeaderData =
-      {
-          imageURL : '/app/public/mainLogo.png',
-          text1: "Last updated tag",
-          text2: "United States",
-          text3: currentYear + " Full Season Schedule - [teamName]",
-          text4: "",
-          icon: 'fa fa-map-marker',
-          hasHover: true
-      };
   }
 
   //grab tab to make api calls for post of pre event table
@@ -69,7 +60,8 @@ export class SchedulesPage implements OnInit{
             var profHeader = {
               data:{
                 imageURL: data.fullProfileImageUrl, //TODO
-                text1: 'Last Updated:' + data.headerData.lastUpdated, //TODO
+
+                text1: 'Last Updated:' + moment(data.headerData.lastUpdated).format('dddd MMMM Do, YYYY'), //TODO
                 text2: 'United States',
                 text3: 'Current Season Schedule - '+ data.teamName,
                 icon: 'fa fa-map-marker',
