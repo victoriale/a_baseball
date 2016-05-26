@@ -13,6 +13,13 @@ export interface homePageData {
   divisionName: string;
   teamName: string;
 }
+
+export interface newsCarouselData {
+  newsTitle: string;
+  newsSubTitle: string;
+  routerInfo: Array<any>;
+}
+
 @Component({
     selector: 'home-page',
     templateUrl: './app/webpages/home-page/home-page.page.html',
