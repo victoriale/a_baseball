@@ -23,8 +23,10 @@ import {DykService} from '../../services/dyk.service';
 import {FAQModule, faqModuleData} from "../../modules/faq/faq.module";
 import {FaqService} from '../../services/faq.service';
 
-import {ComparisonModule} from '../../modules/comparison/comparison.module';
 import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
+
+import {ComparisonModule, ComparisonModuleData} from '../../modules/comparison/comparison.module';
+import {ComparisonStatsService} from '../../services/comparison-stats.service';
 
 import {StandingsModule, StandingsModuleData} from '../../modules/standings/standings.module';
 import {MLBStandingsTabData} from '../../services/standings.data';
@@ -98,6 +100,7 @@ import {TransactionsService} from "../../services/transactions.service";
       DykService,
       PlayerStatsService,
       TransactionsService,
+      ComparisonStatsService,
       TwitterService
     ]
 })
@@ -108,6 +111,8 @@ export class TeamPage implements OnInit {
     pageParams:MLBPageParameters;
 
     profileHeaderData:ProfileHeaderData;
+  
+    comparisonModuleData: ComparisonModuleData;
 
     standingsData: StandingsModuleData;
     playerStatsData: PlayerStatsModuleData;
@@ -142,6 +147,7 @@ export class TeamPage implements OnInit {
                 private _faqService: FaqService,
                 private _dykService: DykService,
                 private _twitterService: TwitterService,
+                private _comparisonService: ComparisonStatsService,
                 private _globalFunctions:GlobalFunctions) {
         this.pageParams = {
             teamId: Number(_params.get("teamId"))
@@ -163,21 +169,31 @@ export class TeamPage implements OnInit {
     private setupProfileData() {
         this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
             data => {
+                /*** About the [Team Name] ***/
                 this.pageParams = data.pageParams;
                 this.profileName = data.teamName;
                 this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data);
-                this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams, data.teamName);
+                
+                /*** Keep Up With Everything [Team Name] ***/
+                //this.getBoxScores();
                 this.getSchedulesData('pre-event');//grab pre event data for upcoming games
+                this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams, data.teamName);
                 this.playerStatsData = this._playerStatsService.loadAllTabsForModule(this.pageParams.teamId, data.teamName);
-                this.setupShareModule();
-                this.getImages(this.imageData);
-                this.getNewsService();
-                this.getFaqService();
-                this.getDykService();
-                this.getTwitterService();
+                this.transactionsModule(this.currentYear, this.pageParams.teamId);
                 this.draftHistoryModule(this.currentYear, this.pageParams.teamId);
-                this.transactionsModule(this.currentYear, this.pageParams.teamId);//neeeds profile header data will run once header data is in
+                //this.loadMVP
+                this.setupComparisonData();
+                
+                /*** Other [League Name] Content You May Love ***/
+                this.getImages(this.imageData);
+                this.getDykService();
+                this.getFaqService();
                 this.setupListOfListsModule();
+                this.getNewsService();
+                
+                /*** Interact With [League Name]’s Fans ***/
+                this.getTwitterService();
+                this.setupShareModule();
             },
             err => {
                 console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
@@ -256,6 +272,16 @@ export class TeamPage implements OnInit {
                 err => {
                     console.log("Error getting image data" + err);
                 });
+    }
+    
+    private setupComparisonData() {
+        this._comparisonService.getInitialPlayerStats(this.pageParams).subscribe(
+            data => {
+                this.comparisonModuleData = data;
+            },
+            err => {
+                console.log("Error getting comparison data for "+ this.pageParams.teamId + ": " + err);
+            });
     }
 
     private standingsTabSelected(tab:MLBStandingsTabData) {

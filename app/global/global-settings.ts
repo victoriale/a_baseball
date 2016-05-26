@@ -30,7 +30,12 @@ export class GlobalSettings {
     }
 
     static getImageUrl(relativePath):string {
-        return this._proto + "//" + "prod" + this._imageUrl + relativePath;
+        if ( relativePath ) {
+            return this._proto + "//" + "prod" + this._imageUrl + relativePath;
+        }
+        else {
+            return null;
+        }
     }
 
     static getArticleUrl():string {

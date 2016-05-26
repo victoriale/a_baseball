@@ -6,7 +6,9 @@ import {LikeUs} from "../../modules/likeus/likeus.module";
 import {TwitterModule, twitterModuleData} from "../../modules/twitter/twitter.module";
 import {TwitterService} from '../../services/twitter.service';
 
-import {ComparisonModule} from '../../modules/comparison/comparison.module';
+import {ComparisonModule, ComparisonModuleData} from '../../modules/comparison/comparison.module';
+import {ComparisonStatsService} from '../../services/comparison-stats.service';
+
 import {ShareModule, ShareModuleInput} from '../../modules/share/share.module';
 import {CommentModule} from '../../modules/comment/comment.module';
 
@@ -70,6 +72,7 @@ import {ImagesMedia} from "../../components/carousels/images-media-carousel/imag
         NewsService,
         FaqService,
         DykService,
+        ComparisonStatsService,
         TwitterService
       ]
 })
@@ -82,6 +85,8 @@ export class MLBPage implements OnInit {
     standingsData:StandingsModuleData;
 
     profileHeaderData:ProfileHeaderData;
+  
+    comparisonModuleData: ComparisonModuleData;
 
     batterParams:any;
     batterData:any;
@@ -107,6 +112,7 @@ export class MLBPage implements OnInit {
                 private _faqService: FaqService,
                 private _dykService: DykService,
                 private _twitterService: TwitterService,
+                private _comparisonService: ComparisonStatsService,
                 private listService:ListPageService) {
         this.batterParams = { //Initial load for mvp Data
             profile: 'player',
@@ -135,12 +141,20 @@ export class MLBPage implements OnInit {
     private setupProfileData() {
         this._profileService.getMLBProfile().subscribe(
             data => {
+                /*** About MLB ***/
                 this.profileHeaderData = this._profileService.convertToLeagueProfileHeader(data)
                 this.profileName = "MLB";
-                this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
+                
+                /*** Keep Up With Everything MLB ***/
+                //this.getBoxScoresData();
                 this.getSchedulesData('pre-event');//grab pre event data for upcoming games
+                this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
+                //this.getDraftHistory();
                 this.batterData = this.getMVP(this.batterParams, 'batter');
                 this.pitcherData = this.getMVP(this.pitcherParams, 'pitcher');
+                this.setupComparisonData();
+                
+                /*** Keep Up With Everything MLB ***/
                 this.setupShareModule();
                 this.getImages(this.imageData);
                 this.getNewsService();
@@ -227,6 +241,16 @@ export class MLBPage implements OnInit {
                 err => {
                     console.log("Error getting image data" + err);
                 });
+    }
+    
+    private setupComparisonData() {
+        this._comparisonService.getInitialPlayerStats(this.pageParams).subscribe(
+            data => {
+                this.comparisonModuleData = data;
+            },
+            err => {
+                console.log("Error getting comparison data for mlb: " + err);
+            });
     }
 
     private standingsTabSelected(tab:MLBStandingsTabData) {
