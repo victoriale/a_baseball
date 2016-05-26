@@ -56,14 +56,14 @@ export class AboutUsService {
           dataText: teamProfiles
         },
         {
-          iconUrl: '/app/public/division_image.png',
-          titleText: 'MLB Divisions',
-          dataText: GlobalFunctions.commaSeparateNumber(data.divisionsCount)
-        },
-        {
           iconUrl: '/app/public/player_profile_image.png',
           titleText: 'MLB Player Profiles',
           dataText: playerProfiles
+        },
+        {
+          iconUrl: '/app/public/division_image.png',
+          titleText: 'MLB Divisions',
+          dataText: GlobalFunctions.commaSeparateNumber(data.divisionsCount)
         },
         {
           link: {
