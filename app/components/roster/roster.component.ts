@@ -1,53 +1,77 @@
-import {Component, Input, OnInit, DoCheck, OnChanges} from 'angular2/core';
+import {Component, Input, OnInit, DoCheck, Output, EventEmitter} from 'angular2/core';
 
 import {SliderCarousel, SliderCarouselInput} from '../carousels/slider-carousel/slider-carousel.component';
 import {Tabs} from '../tabs/tabs.component';
 import {Tab} from '../tabs/tab.component';
 import {CustomTable} from '../custom-table/custom-table.component';
+import {LoadingComponent} from '../loading/loading.component';
 import {TableModel, TableColumn, TableRow, TableCell} from '../custom-table/table-data.component';
 
-export interface RosterTableTabData<T> {
+export interface RosterTabData<T> {
   title: string;
-  isActive: boolean;
-  sections: Array<TableComponentData<T>>;
-  convertToCarouselItem(item:T, index:number):SliderCarouselInput
-}
-
-export interface TableComponentData<T> {
-  groupName: string;
   tableData: TableModel<T>;
-}
-
-export interface RosterComponentData {
-  moduleTitle?: string;
-  pageRouterLink?: Array<any>
-  tabs: Array<RosterTableTabData<any>>
+  isLoaded: boolean;
+  hasError: boolean;
+  errorMessage: string;
+  convertToCarouselItem(item:T, index:number):SliderCarouselInput
 }
 
 @Component({
   selector: "roster-component",
   templateUrl: "./app/components/roster/roster.component.html",
-  directives: [SliderCarousel, Tabs, Tab, CustomTable],
+  directives: [SliderCarousel, Tabs, Tab, CustomTable, LoadingComponent],
 })
-export class RosterComponent implements OnChanges {
-  public selectedIndex;
+export class RosterComponent implements DoCheck {
+  private tabsLoaded: {[index:number]:string};
+  private selectedIndex: number;
+  private carDataArray: Array<SliderCarouselInput>
 
-  @Input() carDataArray: Array<any>
+  @Input() tabs: Array<RosterTabData<any>>;
 
-  @Input() tabs: Array<any>;
+  @Output("tabSelected") tabSelectedListener = new EventEmitter();
 
   private selectedTabTitle: string;
+  
+  public noDataMessage: string = "Sorry, there is no data available.";
+  
+  public footerStyle = {
+    ctaBoxClass: "list-footer",
+    ctaBtnClass:"list-footer-btn",
+    hasIcon: true
+  };
 
   constructor() {}
 
-  ngOnChanges() {
-    if ( this.tabs != undefined && this.tabs.length > 0 ) {
-      this.tabSelected(this.tabs[0].title);
-      this.updateCarousel();
+  ngDoCheck() {
+    if ( this.tabs && this.tabs.length > 0 ) {
+      if ( !this.tabsLoaded  ) {
+        this.tabsLoaded = {};
+        var selectedTitle = this.tabs[0].title;
+        this.tabs.forEach((tab, i) => {
+          this.setSelectedCarouselIndex(tab, 0);
+          if ( i == 0 ) {
+            selectedTitle = tab.title;
+          }
+        });
+        this.tabSelected(selectedTitle);
+      }
+      else {
+        let selectedTab = this.getSelectedTab();
+        if ( selectedTab && !this.tabsLoaded[selectedTab.title] ) {
+          this.updateCarousel();
+          this.tabsLoaded[selectedTab.title] = "1";
+        }
+      }
+    }
+  }
+  
+  setSelectedCarouselIndex(tab: RosterTabData<any>, index: number) {
+    if ( tab.tableData ) {
+      tab.tableData.setRowSelected(index);
     }
   }
 
-  getSelectedTab(): RosterTableTabData<any> {
+  getSelectedTab(): RosterTabData<any> {
     var matchingTabs = this.tabs.filter(value => value.title === this.selectedTabTitle);
     if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) {
       return matchingTabs[0];
@@ -58,52 +82,49 @@ export class RosterComponent implements OnChanges {
 
   tabSelected(newTitle) {
     this.selectedTabTitle = newTitle;
-    this.updateCarousel();
+    var selectedTab = this.getSelectedTab();
+    if ( selectedTab ) {
+      this.noDataMessage = selectedTab.errorMessage;
+      this.tabSelectedListener.next(selectedTab);
+      this.updateCarousel();
+    }
   }
 
   indexNum($event) {
     let selectedIndex = Number($event);
     let matchingTabs = this.tabs.filter(value => value.title === this.selectedTabTitle);
-    if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) {
+    if ( matchingTabs.length > 0 ) {
+      if ( !matchingTabs[0] || !matchingTabs[0].tableData ) {
+        return;
+      }
       let selectedTab = matchingTabs[0];
-      let offset = 0;
-      selectedTab.sections.forEach((section) => {
-        if ( selectedIndex < section.tableData.rows.length + offset ) {
-          section.tableData.setRowSelected(selectedIndex);
-        }
-        else {
-          section.tableData.setRowSelected(-1);
-          offset += section.tableData.rows.length;
-        }
-      });
+      let table = selectedTab.tableData;
+      if ( selectedIndex < table.rows.length ) {
+        table.setRowSelected(selectedIndex);
+      }
     }
   }
 
   updateCarousel(sortedRows?) {
     var selectedTab = this.getSelectedTab();
-    if ( selectedTab === undefined || selectedTab === null ) {
-      return;
-    }
-
     let carouselData: Array<SliderCarouselInput> = [];
-    let index = 0;
     let selectedIndex = -1;
-    selectedTab.sections.forEach(section => {
-      section.tableData.rows
-        .map((value) => {
-          let item = selectedTab.convertToCarouselItem(value, index);
-          if ( section.tableData.isRowSelected(value, index) ) {
-            selectedIndex = index;
-          }
-          index++;
-          return item;
-        })
-        .forEach(value => {
-          carouselData.push(value);
-        });
-    });
-
+    if ( selectedTab && selectedTab.tableData ) {
+      let table = selectedTab.tableData;
+      let index = 0;
+      table.rows.map((value) => {
+        let item = selectedTab.convertToCarouselItem(value, index);
+        if ( table.isRowSelected(value, index) ) {
+          selectedIndex = index;
+        }
+        index++;
+        return item;
+      })
+      .forEach(value => {
+        carouselData.push(value);
+      });
+    }
     this.selectedIndex = selectedIndex < 0 ? 0 : selectedIndex;
-    // this.carouselData = carouselData;
+    this.carDataArray = carouselData;
   }
 }

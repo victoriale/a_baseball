@@ -13,7 +13,6 @@ import {SliderCarousel} from '../../components/carousels/slider-carousel/slider-
 import {SchedulesComponent} from '../../components/schedules/schedules.component';
 import {SchedulesModule} from '../../modules/schedules/schedules.module';
 
-import {RosterComponentData} from '../../components/roster/roster.component';
 import {StandingsModuleData, StandingsModule} from '../../modules/standings/standings.module';
 import {MLBStandingsTabData} from '../../services/standings.data';
 import {StandingsService} from '../../services/standings.service';
@@ -58,7 +57,6 @@ import {DYKModule} from "../../modules/dyk/dyk.module";
 export class ComponentPage implements OnInit {
   pageParams: MLBPageParameters;
   standingsData: StandingsModuleData;
-  rosterData: RosterComponentData;
   playerProfileHeaderData: ProfileHeaderData;
   teamProfileHeaderData: ProfileHeaderData;
 
