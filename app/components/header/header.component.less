@@ -128,13 +128,15 @@
       .flexJustify(center);
       .flexAlignItems(center);
       .globalDefaultModFont(1.17em, 400, @white);
-      &:hover, &:active, &:focus, .active {
+      &:hover, &:active {
         text-decoration: none;
         .globalDefaultModFont(1.17em, 800, @white);
       }
     }
+    .router-link-active{
+      .globalDefaultModFont(1.17em, 800, @white);
+    }
   }//header-tabs ends
-
 }
 .st_sharethis_large{
   span:first-child{
