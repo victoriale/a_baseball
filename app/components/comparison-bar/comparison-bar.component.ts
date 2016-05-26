@@ -1,4 +1,5 @@
 import {Component, Input, OnInit, OnChanges, ViewChild, AfterViewChecked} from 'angular2/core';
+import {NaValuePipe} from '../../pipes/na.pipe';
 
 //TODO: remove jQuery
 declare var jQuery: any;
@@ -15,7 +16,8 @@ export interface ComparisonBarInput {
 
 @Component({
     selector: 'comparison-bar',
-    templateUrl: './app/components/comparison-bar/comparison-bar.component.html'
+    templateUrl: './app/components/comparison-bar/comparison-bar.component.html',
+    pipes: [NaValuePipe]
 })
 
 export class ComparisonBar implements OnChanges, AfterViewChecked {
@@ -86,7 +88,8 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
         //Determine widths of bars and add to display list
         for (var i = 0; i < barData.data.length; i++ ) {
             var dataItem = barData.data[i];
-            dataItem.width = (Math.round(dataItem.value / maxValue * (100 - scaleStart) * 10) / 10) + scaleStart;
+            var value = dataItem.value != null ? dataItem.value : 0;
+            dataItem.width = (Math.round(value / maxValue * (100 - scaleStart) * 10) / 10) + scaleStart;
             // if ( barData.maxValue > 0 ) {
             //     console.log("data item " + i);
             //     console.log("   value: " + dataItem.value);

@@ -82,7 +82,8 @@ import {TransactionsService} from "../../services/transactions.service";
         ArticlesModule,
         ImagesMedia,
         ListOfListsModule,
-        PlayerStatsModule
+        PlayerStatsModule,
+        TransactionsModule
     ],
     providers: [
       SchedulesService,
@@ -175,6 +176,7 @@ export class TeamPage implements OnInit {
                 this.getDykService();
                 this.getTwitterService();
                 this.draftHistoryModule(this.currentYear, this.pageParams.teamId);
+                this.transactionsModule(this.currentYear, this.pageParams.teamId);//neeeds profile header data will run once header data is in
                 this.setupListOfListsModule();
             },
             err => {
@@ -288,11 +290,23 @@ export class TeamPage implements OnInit {
     }
 
     private transactionsTab(event) {
-      var firstTab = 'Current Season';
-      if (event == firstTab) {
-        event = this.currentYear;
+      let transactionType;
+      switch( event ){
+        case "Transactions":
+          transactionType = "transactions";
+          break;
+        case "Suspensions":
+          transactionType = "suspensions";
+          break;
+        case "Injuries":
+          transactionType = "injuries";
+          break;
+        default:
+          console.error("Supplied transaction name was not found.");
+          transactionType = "transactions";
+          break;
       }
-      this.transactionsModule(event, this.pageParams.teamId);
+      this.transactionsModule(transactionType, this.pageParams.teamId);
     }
 
     private draftHistoryModule(year: number, teamId: number) {
@@ -326,26 +340,26 @@ export class TeamPage implements OnInit {
             );
     }
 
-  private transactionsModule(year, teamId) {
-    this._transactionsService.getTransactionsService(year, teamId, 'module')
+  private transactionsModule(transactionType, teamId) {
+    this._transactionsService.getTransactionsService(transactionType, teamId, 'module')
       .subscribe(
         transactionsData => {
-          var dataArray, detailedDataArray, carouselDataArray;
+          var dataArray, transactionsDataArray, carouselDataArray;
           if (typeof dataArray == 'undefined') {//makes sure it only runs once
             dataArray = transactionsData.tabArray;
           }
           if (transactionsData.listData.length == 0) {//makes sure it only runs once
-            detailedDataArray = false;
+            transactionsDataArray = false;
           } else {
-            detailedDataArray = transactionsData.listData;
+            transactionsDataArray = transactionsData.listData;
           }
           carouselDataArray = transactionsData.carData
-          return this.draftHistoryData = {
+          return this.transactionsData = {
             tabArray: dataArray,
-            listData: detailedDataArray,
+            listData: transactionsDataArray,
             carData: carouselDataArray,
             errorData: {
-              data: "Sorry, the " + this.profileHeaderData.profileName + " do not currently have any data for the " + year + " transactions",
+              data: "Sorry, the " + this.profileHeaderData.profileName + " do not currently have any data for "+ transactionType + ".",
               icon: "fa fa-remove"
             }
           }

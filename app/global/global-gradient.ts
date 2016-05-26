@@ -46,7 +46,7 @@ export class Gradient {
       return {
           '-ms-filter': "progid:DXImageTransform.Microsoft.gradient (0deg," + gradientStr + ")",
           'background': "linear-gradient(90deg," + gradientStr + ")"
-      }  
+      }
     }
   }
   

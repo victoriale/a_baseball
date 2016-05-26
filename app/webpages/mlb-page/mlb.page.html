@@ -8,7 +8,7 @@
 
   <box-scores></box-scores>
 
-  <!-- <schedules></schedules> -->
+  <schedules *ngIf="schedulesData" [profHeader]="profileHeaderData" [data]="schedulesData" (tabSelected)="scheduleTab($event)"></schedules>
 
   <standings-module [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
   <!-- draftHistory -->

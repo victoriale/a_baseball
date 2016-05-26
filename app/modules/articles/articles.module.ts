@@ -20,7 +20,15 @@ declare var moment:any;
 @Component({
     selector: 'articles-module',
     templateUrl: './app/modules/articles/articles.module.html',
-    directives: [ModuleHeader, ROUTER_DIRECTIVES, ArticleScheduleComponent, ArticleMainComponent, ArticleSubComponent, HeadToHeadComponent, LoadingComponent],
+    directives: [
+        ModuleHeader,
+        ROUTER_DIRECTIVES,
+        ArticleScheduleComponent,
+        ArticleMainComponent,
+        ArticleSubComponent,
+        HeadToHeadComponent,
+        LoadingComponent
+    ],
     inputs: [],
     providers: [Articles],
 })
@@ -85,7 +93,7 @@ export class ArticlesModule implements OnInit {
         var dateString = moment.tz(moment.unix(data.timestamp), 'America/New_York').format("MM/DD/YYYY");
         var isToday = moment(dateString).isSame(moment().tz('America/New_York'), 'day');
         var isPost = moment(dateString).isBefore(moment().tz('America/New_York'), 'day');
-        if (isPost){
+        if (isPost) {
             this.headerInfo.moduleTitle = "Post Gameday Matchup Against the " + (this.teamID == data.home.id ? data.away.location + ' ' + data.away.name : data.home.location + ' ' + data.home.name);
         } else {
             this.headerInfo.moduleTitle = (isToday ? "Today's" : moment.unix(data.timestamp).format("dddd") + "'s") + " Gameday Matchup Against the " + (this.teamID == data.home.id ? data.away.location + ' ' + data.away.name : data.home.location + ' ' + data.home.name);

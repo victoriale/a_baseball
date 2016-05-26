@@ -26,7 +26,7 @@ export class SchedulesModule implements OnInit{
 
     ngOnInit(){
         this.moduleTitle = this.profHeader.profileName + " - Schedules";
-        if(typeof this.params.get('teamId') != 'undefined'){
+        if(typeof this.params.get('teamId') != 'undefined' && this.params.get('teamId') !== null){
             this.footerData = {
                 infoDesc: 'Want to see everybody involved in this list?',
                 text: 'VIEW THE LIST',
