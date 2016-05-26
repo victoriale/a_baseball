@@ -1,11 +1,13 @@
 <div *ngIf="tabs" class="roster">
   <div class="roster-car">
-  <slider-carousel *ngIf="carDataArray" [carouselData]="carDataArray" [footerStyle]="footerStyle"></slider-carousel>  </div>
+    <slider-carousel *ngIf="carDataArray" (indexNum)="indexNum($event)" [carouselData]="carDataArray"  [indexInput]="selectedIndex" [footerStyle]="footerStyle"></slider-carousel>
+  </div>
   <tabs (tabSelected)="tabSelected($event)">
     <tab *ngFor="#tab of tabs" [tabTitle]="tab.title" [active]="tab.isActive">
-      <div *ngFor="#section of tab.sections">
-        <p [innerHtml]="section.groupName"></p>
-        <custom-table [model]="section.tableData" (sortChanged)="updateCarousel($event)"></custom-table>
+      <loading-component *ngIf="!tab.isLoaded && !tab.hasError"></loading-component>      
+      <custom-table [model]="tab.tableData" (sortChanged)="updateCarousel($event)"></custom-table>
+      <div class="roster-no-data">
+        <no-data-box *ngIf="!carDataCheck" [data]="errorData.data" [icon]="errorData.icon"></no-data-box>
       </div>
     </tab>
   </tabs>

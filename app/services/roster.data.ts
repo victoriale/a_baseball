@@ -1,6 +1,6 @@
 import {TableModel, TableColumn} from '../components/custom-table/table-data.component';
 import {CircleImageData} from '../components/images/image-data';
-import {RosterTableTabData, TableComponentData} from '../components/roster/roster.component';
+import {RosterTabData} from '../components/roster/roster.component';
 import {SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
 import {Conference, Division} from '../global/global-interface';
 import {GlobalFunctions} from '../global/global-functions';
@@ -42,16 +42,18 @@ export interface TeamRosterData {
   displayDate?: string
 }
 
-export class RosterTabData {
+export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
   type: string;
   title: string;
   isActive: boolean;
   tableData: RosterTableModel;
+  
   constructor(type: string, title: string, isActive: boolean) {
     this.type = type;
     this.title = title;
     this.isActive = isActive;
   }
+  
   convertToCarouselItem(val, index){
     var self = this;
     var dummyImg = "./app/public/placeholder-location.jpg";
@@ -110,6 +112,7 @@ export class RosterTabData {
     };
     return Carousel;
   }
+  
   //function that returns information from api to an acceptable interface for images
   imageData(imageClass, imageBorder, mainImg, mainImgRoute, subImgClass?, subImg?, subRoute?, rank?){
     if(typeof mainImg =='undefined' || mainImg == ''){
@@ -249,23 +252,23 @@ export class RosterTableModel {
           break;
 
         case "pos":
-          s = item.position.toString();
+          s = item.position != null ? item.position : null;
           break;
 
         case "ht":
-          s = item.heightInInches.toString();
+          s = item.heightInInches != null ? Number(item.heightInInches) : null;
           break;
 
         case "wt":
-          s = item.weight.toString();
+          s = item.weight != null ? Number(item.weight) : null;
           break;
 
         case "age":
-        s = item.age.toString();
+        s = item.age != null ? Number(item.age) : null;
           break;
 
         case "sal":
-          s = Number(item.salary);
+          s = item.salary != null ? Number(item.salary) : null;
           break;
       }
       return s;

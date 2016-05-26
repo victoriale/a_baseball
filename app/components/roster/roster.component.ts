@@ -6,23 +6,23 @@ import {Tab} from '../tabs/tab.component';
 import {CustomTable} from '../custom-table/custom-table.component';
 import {TableModel, TableColumn, TableRow, TableCell} from '../custom-table/table-data.component';
 
-export interface RosterTableTabData<T> {
+export interface RosterTabData<T> {
   title: string;
   isActive: boolean;
-  sections: Array<TableComponentData<T>>;
+  tableData: TableModel<T>;
   convertToCarouselItem(item:T, index:number):SliderCarouselInput
 }
 
-export interface TableComponentData<T> {
-  groupName: string;
-  tableData: TableModel<T>;
-}
+// export interface TableComponentData<T> {
+//   groupName: string;
+//   tableData: TableModel<T>;
+// }
 
-export interface RosterComponentData {
-  moduleTitle?: string;
-  pageRouterLink?: Array<any>
-  tabs: Array<RosterTableTabData<any>>
-}
+// export interface RosterComponentData {
+//   moduleTitle?: string;
+//   pageRouterLink?: Array<any>
+//   tabs: Array<RosterTableTabData<any>>
+// }
 
 @Component({
   selector: "roster-component",
@@ -30,11 +30,11 @@ export interface RosterComponentData {
   directives: [SliderCarousel, Tabs, Tab, CustomTable],
 })
 export class RosterComponent implements OnChanges {
-  public selectedIndex;
+  private selectedIndex: number;
+  private carDataCheck: boolean = true;
+  private carDataArray: Array<SliderCarouselInput>
 
-  @Input() carDataArray: Array<any>
-
-  @Input() tabs: Array<any>;
+  @Input() tabs: Array<RosterTabData<any>>;
 
   private selectedTabTitle: string;
 
@@ -47,7 +47,7 @@ export class RosterComponent implements OnChanges {
     }
   }
 
-  getSelectedTab(): RosterTableTabData<any> {
+  getSelectedTab(): RosterTabData<any> {
     var matchingTabs = this.tabs.filter(value => value.title === this.selectedTabTitle);
     if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) {
       return matchingTabs[0];
@@ -64,46 +64,48 @@ export class RosterComponent implements OnChanges {
   indexNum($event) {
     let selectedIndex = Number($event);
     let matchingTabs = this.tabs.filter(value => value.title === this.selectedTabTitle);
-    if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) {
+    if ( matchingTabs.length > 0 ) {
+      if ( !matchingTabs[0] || !matchingTabs[0].tableData ) {
+        return;
+      }
       let selectedTab = matchingTabs[0];
-      let offset = 0;
-      selectedTab.sections.forEach((section) => {
-        if ( selectedIndex < section.tableData.rows.length + offset ) {
-          section.tableData.setRowSelected(selectedIndex);
-        }
-        else {
-          section.tableData.setRowSelected(-1);
-          offset += section.tableData.rows.length;
-        }
-      });
+      let table = selectedTab.tableData;
+      if ( selectedIndex < table.rows.length ) {
+        table.setRowSelected(selectedIndex);
+      }
     }
   }
 
   updateCarousel(sortedRows?) {
     var selectedTab = this.getSelectedTab();
-    if ( selectedTab === undefined || selectedTab === null ) {
+    if ( !selectedTab ) {
+      this.carDataCheck = false;
       return;
     }
 
     let carouselData: Array<SliderCarouselInput> = [];
-    let index = 0;
     let selectedIndex = -1;
-    selectedTab.sections.forEach(section => {
-      section.tableData.rows
-        .map((value) => {
-          let item = selectedTab.convertToCarouselItem(value, index);
-          if ( section.tableData.isRowSelected(value, index) ) {
-            selectedIndex = index;
-          }
-          index++;
-          return item;
-        })
-        .forEach(value => {
-          carouselData.push(value);
-        });
-    });
-
+    if ( selectedTab.tableData ) {
+      let table = selectedTab.tableData;
+      let index = 0;
+      table.rows.map((value) => {
+        let item = selectedTab.convertToCarouselItem(value, index);
+        if ( table.isRowSelected(value, index) ) {
+          selectedIndex = index;
+        }
+        index++;
+        return item;
+      })
+      .forEach(value => {
+        carouselData.push(value);
+      });
+    }
     this.selectedIndex = selectedIndex < 0 ? 0 : selectedIndex;
-    // this.carouselData = carouselData;
+    this.carDataArray = carouselData;
+    if(this.carDataArray.length < 1){
+      this.carDataCheck = false;
+    } else {
+      this.carDataCheck = true;
+    }
   }
 }

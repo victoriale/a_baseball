@@ -21,7 +21,7 @@ export class RosterService {
     return Observable.forkJoin(tabs.map(tab => this.getRosterService(teamId, tab, maxRows)));
   }
 
-  private initializeAllTabs(): Array<RosterTabData> {
+  initializeAllTabs(): Array<RosterTabData> {
     let tabs: Array<RosterTabData> = [
       new RosterTabData('full', 'Full Roster', true),
       new RosterTabData('pitchers', 'Pitchers', false),
@@ -68,19 +68,18 @@ export class RosterService {
     return rosterTab;
   }
 
-  getModuleTitle(pageParams): string {
-    let moduletitle = " Team Roster";
-    if ( pageParams.teamName !== undefined && pageParams.teamName !== null ) {
-      moduletitle += pageParams.teamName + " - " + moduletitle;
+  getModuleTitle(teamName: string): string {
+    let moduletitle = "Team Roster";
+    if ( teamName ) {
+      moduletitle += " - " + teamName;
     }
     return moduletitle;
   }
 
-  getPageTitle(pageParams): string {
-    // let groupName = this.formatGroupName(pageParams.conference, pageParams.division);
+  getPageTitle(teamName: string): string {
     let pageTitle = "Team Roster";
-    if ( pageParams.teamName !== undefined && pageParams.teamName !== null ) {
-      pageTitle = "Team Roster - " + pageParams.teamName;
+    if ( teamName ) {
+      pageTitle = "Team Roster - " + teamName;
     }
     return pageTitle;
   }
