@@ -8,6 +8,7 @@
     <schedules *ngIf="schedulesData" [profHeader]="profileHeaderData" [data]="schedulesData" (tabSelected)="scheduleTab($event)"></schedules>
     <standings-module *ngIf="standingsData" [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
     <!-- season stats -->
+    <season-stats-module [pageParams]="pageParams" [data]="seasonStatsData"></season-stats-module>
     <comparison-module [modelData]="comparisonModuleData" [profileName]="profileHeaderData.profileName"></comparison-module>
 
     <headline-component [title]="'Other MLB Content You May Love'"></headline-component>
