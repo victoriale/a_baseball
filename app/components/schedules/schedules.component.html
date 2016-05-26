@@ -1,6 +1,6 @@
-<schedules-carousel *ngIf="carouselData" [carouselData]="carouselData" (indexNum)="indexNum($event)"></schedules-carousel>
+<schedules-carousel *ngIf="carouselData" [carouselData]="carouselData" (indexNum)="indexNum($event)" [indexInput]="selectedIndex"></schedules-carousel>
 <tabs (tabSelected)="tabSelected($event)">
-  <tab *ngFor="#tab of tabs; #i = index"[active]="i == 0" [tabTitle]="tab.display" >
+  <tab *ngFor="#tab of tabs; #i = index" [active]="i == 0" [tabTitle]="tab.display" >
     <div *ngIf="tab" class="schedules-container">
       <div class="schedules-heading">
         <div class="schedules-heading-title">
@@ -14,7 +14,7 @@
         <div *ngFor="#section of tab.tabData.sections" class="schedules-section">
           <h4 *ngIf="section.groupName" [innerHtml]="section.groupName"></h4>
           <loading-component *ngIf="!section.tableData"></loading-component>
-          <custom-table [model]="section.tableData" (sortChanged)="updateCarousel($event)"></custom-table>
+          <custom-table *ngIf="section.tableData" [model]="section.tableData" (sortChanged)="updateCarousel($event)"></custom-table>
         </div>
       </div>
     </div>

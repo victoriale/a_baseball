@@ -31,50 +31,47 @@ export class SchedulesComponent implements OnInit{
   @Input() data;// the data to display is inputed through this variable
   @Input() tabs;// the tab data gets inputed through here to display all tabs
   tabTitle: string;
+  private tabsLoaded: {[index:number]:string};
 
   @Output("tabSelected") tabSelectedListener = new EventEmitter();
 
   ngDoCheck() { // checks and runs everytime a dependency has changed
-    console.log('test');
-    // if ( this.tabs && this.tabs.length > 0 ) {
-    //   if ( !this.tabsLoaded  ) {
-    //     this.tabsLoaded = {};
-    //     var selectedTitle = this.tabs[0].title;
-    //     this.tabs.forEach(tab => {
-    //       this.setSelectedCarouselIndex(tab, 0);
-    //       if ( tab.isActive ) {
-    //         selectedTitle = tab.title;
-    //       }
-    //     });
-    //     this.tabSelected(selectedTitle);
-    //   }
-    //   else {
-    //     let selectedTab = this.getSelectedTab();
-    //     if ( selectedTab && selectedTab.sections && selectedTab.sections.length > 0 && !this.tabsLoaded[selectedTab.title] ) {
-    //       this.updateCarousel();
-    //       this.tabsLoaded[selectedTab.title] = "1";
-    //     }
-    //   }
-    // }
+    if ( this.tabs && this.tabs.length > 0 && this.carouselData) {
+      if ( !this.tabsLoaded) {
+        this.tabsLoaded = {};
+        var selectedTitle = this.tabs[0].display;
+        let matchingTabs = this.tabs.filter(value => value.display === this.tabTitle);
+        this.tabs.forEach(tab => {
+          this.setSelectedCarouselIndex(tab.tabData, 0);
+          if ( matchingTabs[0].display === tab.display ) {
+            selectedTitle = tab.display;
+          }
+        });
+        this.tabSelected(selectedTitle);
+      }
+      else {
+        let selectedTab = this.getSelectedTab();
+        if ( selectedTab && selectedTab.sections && selectedTab.sections.length > 0 && !this.tabsLoaded[this.tabTitle] ) {
+          this.tabsLoaded[this.tabTitle] = "1";
+          this.updateCarousel();
+        }
+      }
+    }
   }
 
-  indexNum($event) {
-    console.log($event);
-    let selectedIndex = Number($event);
+  indexNum(event) {
+    let selectedIndex = event;
     let matchingTabs = this.tabs.filter(value => value.display === this.tabTitle);
-    console.log('matching',matchingTabs);
     if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) {
       let selectedTab = matchingTabs[0].tabData;
-      console.log('selectedTab',selectedTab);
+      // console.log('selectedTab',selectedIndex,selectedTab);
       this.setSelectedCarouselIndex(selectedTab, selectedIndex);
     }
   }
 
   setSelectedCarouselIndex(tab: TableTabData<any>, index: number) {
     let offset = 0;
-    console.log('setting carousel index',index,tab);
     tab.sections.forEach((section, sectionIndex) => {
-      console.log('tab sections',index,section);
       if ( index >= offset && index < section.tableData.rows.length + offset ) {
         section.tableData.setRowSelected(index-offset);
       }
@@ -103,8 +100,6 @@ export class SchedulesComponent implements OnInit{
   ngOnChanges(){
     if(this.getSelectedTab() != null){
       this.getSelectedTab()['tabData'].sections = this.data;
-      console.log(this.data);
-      console.log(this.carouselData);
     }
   }
 
@@ -112,16 +107,12 @@ export class SchedulesComponent implements OnInit{
     let carouselData: Array<any> = [];
     let index = 0;
     let selectedIndex = -1;
-      var selectedTab = this.tabs.filter(value => value.display === this.tabTitle)[0];
-      console.log('update carousel',selectedTab);
-      let currentTable = selectedTab.tabData.sections[0];
-      console.log('update carousel2',currentTable);
-      console.log('update carousel function',currentTable.updateCarouselData);
-      currentTable.tableData.rows.map((value) => {
-        let item = currentTable.updateCarouselData(value, index);
-        console.log(item);
-        if ( currentTable.tableData.isRowSelected(value, index) ) {
-          currentTable = index;
+    var selectedTab = this.tabs.filter(value => value.display === this.tabTitle)[0];
+    selectedTab.tabData.sections.forEach((section,i) =>{//when updating carousel run through each table to new sorted style
+      section.tableData.rows.map((value) => {//then run through each tables rows
+        let item = section.updateCarouselData(value, index);
+        if ( section.tableData.isRowSelected(value, index) ) {
+          selectedIndex = index;
         }
         index++;
         return item;
@@ -129,8 +120,9 @@ export class SchedulesComponent implements OnInit{
       .forEach(value => {
         carouselData.push(value);
       });
-      this.selectedIndex = selectedIndex < 0 ? 0 : selectedIndex;
-      this.carouselData = carouselData;
+    })
+    this.selectedIndex = selectedIndex < 0 ? 0 : selectedIndex;
+    this.carouselData = carouselData;
   }
 
   constructor() {

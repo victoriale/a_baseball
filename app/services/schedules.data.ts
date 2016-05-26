@@ -12,6 +12,7 @@ declare var moment;
 
 //TODO-CJP: Ask backend to return values as numbers and not strings!
 export interface SchedulesData {
+  index:any;
   backgroundImage: string,
   eventId: string,
   stateDateTime: string,
