@@ -142,7 +142,7 @@ interface TeamProfileHeaderData {
 }
 
 interface LeagueProfileHeaderData {
-  lastUpdated: Date; //NEED
+  lastUpdated: string; //NEED
   // leagueName: string; //NEED
   city: string; //NEED
   state: string; //NEED
@@ -301,7 +301,8 @@ export class ProfileHeaderService {
     
     var formattedBirthDate = "N/A"; //[October] [3], [1991]
     if ( info.birthDate ) {
-      formattedBirthDate = moment(info.birthDate).format("MMMM D, YYYY");
+      var date = moment(info.birthDate);
+      formattedBirthDate = GlobalFunctions.formatAPMonth(date.month()) + date.format(" D, YYYY");
     }
     var formattedAge = info.age ? info.age.toString() : "N/A";
     
@@ -391,7 +392,7 @@ export class ProfileHeaderService {
       backgroundImageUrl: data.fullBackgroundImageUrl,
       profileTitleFirstPart: info.playerFirstName,
       profileTitleLastPart: info.playerLastName,
-      lastUpdatedDate: moment(info.lastUpdate),
+      lastUpdatedDate: info.lastUpdate,
       description: description,
       topDataPoints: [
         {
@@ -456,7 +457,7 @@ export class ProfileHeaderService {
       backgroundImageUrl: data.fullBackgroundImageUrl,
       profileTitleFirstPart: data.headerData.teamFirstName,
       profileTitleLastPart: data.headerData.teamLastName,
-      lastUpdatedDate: moment(data.headerData.lastUpdated),
+      lastUpdatedDate: data.headerData.lastUpdated,
       description: description,
       topDataPoints: [
         {

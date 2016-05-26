@@ -89,16 +89,20 @@ export class StandingsService {
       }
 
       standingsTab.isLoaded = false;
+      standingsTab.hasError = false;
 
       this.http.get(url)
           .map(res => res.json())
           .map(data => this.setupTabData(standingsTab, data.data, pageParams.teamId, maxRows))
           .subscribe(data => {
             standingsTab.isLoaded = true;
+            standingsTab.hasError = false;
             standingsTab.sections = data;
             onTabsLoaded(data);
           },
           err => {
+            standingsTab.isLoaded = true;
+            standingsTab.hasError = true;
             console.log("Error getting standings data");
           });
     }
@@ -110,7 +114,6 @@ export class StandingsService {
   }
 
   private setupTabData(standingsTab: MLBStandingsTabData, apiData: any, teamId: number, maxRows: number): Array<MLBStandingsTableData> {
-    //Array<TeamStandingsData>
     var sections: Array<MLBStandingsTableData> = [];
     var totalRows = 0;
 
