@@ -48,6 +48,7 @@ export class PlayerStatsService {
     }    
     
     standingsTab.isLoaded = false;
+    standingsTab.hasError = false;
     standingsTab.tableData = null;
     
     var tabName = standingsTab.isPitcherTable ? "pitchers" : "batters";
@@ -64,8 +65,9 @@ export class PlayerStatsService {
           tabDataLoaded(data);
         },
         err => {
-          console.log("Error getting player stats data");
+          standingsTab.isLoaded = true;
           standingsTab.hasError = true;
+          console.log("Error getting player stats data");
         });;    
   }
   
@@ -78,7 +80,7 @@ export class PlayerStatsService {
     return tabs;
   }
 
-  private setupTableData(standingsTab: MLBPlayerStatsTableData, pageParams: MLBPageParameters, data: Array<PlayerStatsData>, maxRows?: number): MLBPlayerStatsTableModel {
+  private setupTableData(standingsTab: MLBPlayerStatsTableData, pageParams: MLBPageParameters, data: Array<PlayerStatsData>, maxRows?: number): MLBPlayerStatsTableModel {    
     let table = new MLBPlayerStatsTableModel(data, standingsTab.isPitcherTable);    
     //Limit to maxRows, if necessary
     if ( maxRows !== undefined ) {

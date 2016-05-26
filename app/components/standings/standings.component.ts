@@ -6,6 +6,7 @@ import {Tab} from '../tabs/tab.component';
 import {CustomTable} from '../custom-table/custom-table.component';
 import {TableModel, TableColumn, TableRow, TableCell} from '../custom-table/table-data.component';
 import {LoadingComponent} from '../loading/loading.component';
+import {NoDataBox} from '../../components/error/data-box/data-box.component';
 
 export interface TableTabData<T> {
   title: string;
@@ -24,7 +25,7 @@ export interface TableComponentData<T> {
 @Component({
   selector: "standings-component",
   templateUrl: "./app/components/standings/standings.component.html",
-  directives: [SliderCarousel, Tabs, Tab, CustomTable, LoadingComponent],
+  directives: [SliderCarousel, Tabs, Tab, CustomTable, LoadingComponent, NoDataBox],
 })
 export class StandingsComponent implements DoCheck {
   public selectedIndex;
@@ -37,6 +38,7 @@ export class StandingsComponent implements DoCheck {
 
   private selectedTabTitle: string;
   private tabsLoaded: {[index:number]:string};
+  private noDataMessage = "Sorry, there is no data available.";
 
   constructor() {}
 
@@ -75,6 +77,8 @@ export class StandingsComponent implements DoCheck {
 
   setSelectedCarouselIndex(tab: TableTabData<any>, index: number) {
     let offset = 0;
+    if ( !tab.sections ) return;
+    
     tab.sections.forEach((section, sectionIndex) => {
       if ( index >= offset && index < section.tableData.rows.length + offset ) {
         section.tableData.setRowSelected(index-offset);
@@ -88,6 +92,7 @@ export class StandingsComponent implements DoCheck {
 
   tabSelected(newTitle) {
     this.selectedTabTitle = newTitle;
+    this.noDataMessage = "Sorry, there is no data available for the "+ newTitle;
     this.tabSelectedListener.next(this.getSelectedTab());
     this.updateCarousel();
   }
@@ -110,20 +115,22 @@ export class StandingsComponent implements DoCheck {
     let carouselData: Array<SliderCarouselInput> = [];
     let index = 0;
     let selectedIndex = -1;
-    selectedTab.sections.forEach(section => {
-      section.tableData.rows
-        .map((value) => {
-          let item = selectedTab.convertToCarouselItem(value, index);
-          if ( section.tableData.isRowSelected(value, index) ) {
-            selectedIndex = index;
-          }
-          index++;
-          return item;
-        })
-        .forEach(value => {
-          carouselData.push(value);
-        });
-    });
+    if ( selectedTab.sections ) {
+      selectedTab.sections.forEach(section => {
+        section.tableData.rows
+          .map((value) => {
+            let item = selectedTab.convertToCarouselItem(value, index);
+            if ( section.tableData.isRowSelected(value, index) ) {
+              selectedIndex = index;
+            }
+            index++;
+            return item;
+          })
+          .forEach(value => {
+            carouselData.push(value);
+          });
+      });
+    }
 
     this.selectedIndex = selectedIndex < 0 ? 0 : selectedIndex;
     this.carouselData = carouselData;
