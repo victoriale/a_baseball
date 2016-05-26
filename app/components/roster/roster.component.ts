@@ -1,49 +1,73 @@
-import {Component, Input, OnInit, DoCheck, OnChanges} from 'angular2/core';
+import {Component, Input, OnInit, DoCheck, Output, EventEmitter} from 'angular2/core';
 
 import {SliderCarousel, SliderCarouselInput} from '../carousels/slider-carousel/slider-carousel.component';
 import {Tabs} from '../tabs/tabs.component';
 import {Tab} from '../tabs/tab.component';
 import {CustomTable} from '../custom-table/custom-table.component';
+import {LoadingComponent} from '../loading/loading.component';
 import {TableModel, TableColumn, TableRow, TableCell} from '../custom-table/table-data.component';
 
 export interface RosterTabData<T> {
   title: string;
-  isActive: boolean;
   tableData: TableModel<T>;
+  isLoaded: boolean;
+  hasError: boolean;
+  errorMessage: string;
   convertToCarouselItem(item:T, index:number):SliderCarouselInput
 }
-
-// export interface TableComponentData<T> {
-//   groupName: string;
-//   tableData: TableModel<T>;
-// }
-
-// export interface RosterComponentData {
-//   moduleTitle?: string;
-//   pageRouterLink?: Array<any>
-//   tabs: Array<RosterTableTabData<any>>
-// }
 
 @Component({
   selector: "roster-component",
   templateUrl: "./app/components/roster/roster.component.html",
-  directives: [SliderCarousel, Tabs, Tab, CustomTable],
+  directives: [SliderCarousel, Tabs, Tab, CustomTable, LoadingComponent],
 })
-export class RosterComponent implements OnChanges {
+export class RosterComponent implements DoCheck {
+  private tabsLoaded: {[index:number]:string};
   private selectedIndex: number;
-  private carDataCheck: boolean = true;
   private carDataArray: Array<SliderCarouselInput>
 
   @Input() tabs: Array<RosterTabData<any>>;
 
+  @Output("tabSelected") tabSelectedListener = new EventEmitter();
+
   private selectedTabTitle: string;
+  
+  public noDataMessage: string = "Sorry, there is no data available.";
+  
+  public footerStyle = {
+    ctaBoxClass: "list-footer",
+    ctaBtnClass:"list-footer-btn",
+    hasIcon: true
+  };
 
   constructor() {}
 
-  ngOnChanges() {
-    if ( this.tabs != undefined && this.tabs.length > 0 ) {
-      this.tabSelected(this.tabs[0].title);
-      this.updateCarousel();
+  ngDoCheck() {
+    if ( this.tabs && this.tabs.length > 0 ) {
+      if ( !this.tabsLoaded  ) {
+        this.tabsLoaded = {};
+        var selectedTitle = this.tabs[0].title;
+        this.tabs.forEach((tab, i) => {
+          this.setSelectedCarouselIndex(tab, 0);
+          if ( i == 0 ) {
+            selectedTitle = tab.title;
+          }
+        });
+        this.tabSelected(selectedTitle);
+      }
+      else {
+        let selectedTab = this.getSelectedTab();
+        if ( selectedTab && !this.tabsLoaded[selectedTab.title] ) {
+          this.updateCarousel();
+          this.tabsLoaded[selectedTab.title] = "1";
+        }
+      }
+    }
+  }
+  
+  setSelectedCarouselIndex(tab: RosterTabData<any>, index: number) {
+    if ( tab.tableData ) {
+      tab.tableData.setRowSelected(index);
     }
   }
 
@@ -58,7 +82,12 @@ export class RosterComponent implements OnChanges {
 
   tabSelected(newTitle) {
     this.selectedTabTitle = newTitle;
-    this.updateCarousel();
+    var selectedTab = this.getSelectedTab();
+    if ( selectedTab ) {
+      this.noDataMessage = selectedTab.errorMessage;
+      this.tabSelectedListener.next(selectedTab);
+      this.updateCarousel();
+    }
   }
 
   indexNum($event) {
@@ -78,14 +107,9 @@ export class RosterComponent implements OnChanges {
 
   updateCarousel(sortedRows?) {
     var selectedTab = this.getSelectedTab();
-    if ( !selectedTab ) {
-      this.carDataCheck = false;
-      return;
-    }
-
     let carouselData: Array<SliderCarouselInput> = [];
     let selectedIndex = -1;
-    if ( selectedTab.tableData ) {
+    if ( selectedTab && selectedTab.tableData ) {
       let table = selectedTab.tableData;
       let index = 0;
       table.rows.map((value) => {
@@ -102,10 +126,5 @@ export class RosterComponent implements OnChanges {
     }
     this.selectedIndex = selectedIndex < 0 ? 0 : selectedIndex;
     this.carDataArray = carouselData;
-    if(this.carDataArray.length < 1){
-      this.carDataCheck = false;
-    } else {
-      this.carDataCheck = true;
-    }
   }
 }

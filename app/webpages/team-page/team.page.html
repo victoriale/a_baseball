@@ -8,7 +8,7 @@
   <box-scores></box-scores>
   <schedules *ngIf="schedulesData" [profHeader]="profileHeaderData" [data]="schedulesData" (tabSelected)="scheduleTab($event)"></schedules>
   <standings-module *ngIf="standingsData" [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
-  <team-roster-module></team-roster-module>
+  <team-roster-module *ngIf="rosterData" [data]="rosterData" (tabSelected)="rosterTabSelected($event)"></team-roster-module>
   <player-stats-module *ngIf="playerStatsData" [data]="playerStatsData" (tabSelected)="playerStatsTabSelected($event)"></player-stats-module>
   <transactions *ngIf="profileHeaderData && transactionsData" [transactionsData]="transactionsData" [profHeader]="profileHeaderData" (tab)="transactionsTab($event)"></transactions>    
   <draft-history *ngIf="draftHistoryData" [draftData]="draftHistoryData" [profHeader]="profileHeaderData" (tab)="draftTab($event)"></draft-history>

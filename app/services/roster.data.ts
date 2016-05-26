@@ -19,8 +19,9 @@ export interface TeamRosterData {
   active: string,
   uniformNumber: string,
   playerHeadshot: string,
+  backgroundImage: string;
   teamLogo: string,
-  position:string,
+  position:Array<string>,
   depth: string,
   weight: string,
   height: string,
@@ -45,16 +46,25 @@ export interface TeamRosterData {
 export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
   type: string;
   title: string;
-  isActive: boolean;
+  isLoaded: boolean = false;
+  hasError: boolean = false;
+  errorMessage: string;
   tableData: RosterTableModel;
   
-  constructor(type: string, title: string, isActive: boolean) {
+  constructor(type: string, title: string) {
     this.type = type;
     this.title = title;
-    this.isActive = isActive;
   }
   
-  convertToCarouselItem(val, index){
+  setErrorMessage(conference: Conference) {    
+    this.errorMessage = "Sorry, there is no roster data available.";
+    if ( this.type == "hitters" && conference == Conference.national ) {
+      this.hasError = true;
+      this.errorMessage = "This team is a National League team and has no designated hitters.";
+    }
+  }
+  
+  convertToCarouselItem(val:TeamRosterData, index:number):SliderCarouselInput {
     var self = this;
     var dummyImg = "./app/public/placeholder-location.jpg";
     var playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.teamName,val.playerName,val.playerId);
@@ -96,7 +106,7 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
     }
     var Carousel = {
         index: index,
-        //imageData(mainImg, mainImgRoute, subImg, subRoute, rank)
+        backgroundImage: val.backgroundImage != null ? GlobalSettings.getImageUrl(val.backgroundImage) : null,
         imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.playerHeadshot),playerRoute,"image-50-sub",GlobalSettings.getImageUrl(val.teamLogo),teamRoute,index+1),
         description:[
           '<p style="font-size:12px;"><i class="fa fa-circle" style="color:#bc2027; padding-right: 5px;"></i> ' + curYear + ' TEAM ROSTER</p>',
@@ -150,8 +160,6 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
 }
 
 export class RosterTableModel {
-  title: string;
-
   columns: Array<TableColumn> = [{
       headerValue: "Player",
       columnClass: "image-column",
@@ -187,16 +195,12 @@ export class RosterTableModel {
 
   rows: Array<TeamRosterData>;
 
-  selectedKey:any = -1;
+  selectedKey:string = "";
 
-  constructor(title:string, rows: Array<TeamRosterData>) {
-    this.title = title;
+  constructor(rows: Array<TeamRosterData>) {
     this.rows = rows;
     if ( this.rows === undefined || this.rows === null ) {
       this.rows = [];
-    }
-    else if ( rows.length > 0 ) {
-      this.selectedKey = Number(rows[0].playerId);
     }
   }
 
@@ -252,7 +256,7 @@ export class RosterTableModel {
           break;
 
         case "pos":
-          s = item.position != null ? item.position : null;
+          s = item.position != null ? item.position.toString() : null;
           break;
 
         case "ht":

@@ -35,8 +35,9 @@ import {StandingsService} from '../../services/standings.service';
 import {SchedulesService} from '../../services/schedules.service';
 import {SchedulesModule} from '../../modules/schedules/schedules.module';
 
-import {TeamRosterModule} from '../../modules/team-roster/team-roster.module';
+import {TeamRosterModule, RosterModuleData} from '../../modules/team-roster/team-roster.module';
 import {RosterService} from '../../services/roster.service';
+import {MLBRosterTabData} from '../../services/roster.data';
 
 import {ProfileHeaderData, ProfileHeaderModule} from '../../modules/profile-header/profile-header.module';
 import {ProfileHeaderService} from '../../services/profile-header.service';
@@ -110,12 +111,11 @@ export class TeamPage implements OnInit {
     headerData:any;
     pageParams:MLBPageParameters;
 
-    profileHeaderData:ProfileHeaderData;
-  
+    profileHeaderData:ProfileHeaderData;  
     comparisonModuleData: ComparisonModuleData;
-
     standingsData: StandingsModuleData;
     playerStatsData: PlayerStatsModuleData;
+    rosterData: RosterModuleData;
 
     imageData:any;
     copyright:any;
@@ -143,6 +143,7 @@ export class TeamPage implements OnInit {
                 private _transactionsService:TransactionsService,
                 private _imagesService:ImagesService,
                 private _playerStatsService: PlayerStatsService,
+                private _rosterService: RosterService,
                 private _newsService: NewsService,
                 private _faqService: FaqService,
                 private _dykService: DykService,
@@ -178,6 +179,7 @@ export class TeamPage implements OnInit {
                 //this.getBoxScores();
                 this.getSchedulesData('pre-event');//grab pre event data for upcoming games
                 this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams, data.teamName);
+                this.rosterData = this._rosterService.loadAllTabsForModule(this.pageParams.teamId, data.teamName);
                 this.playerStatsData = this._playerStatsService.loadAllTabsForModule(this.pageParams.teamId, data.teamName);
                 this.transactionsModule(this.currentYear, this.pageParams.teamId);
                 this.draftHistoryModule(this.currentYear, this.pageParams.teamId);
@@ -292,6 +294,11 @@ export class TeamPage implements OnInit {
     private playerStatsTabSelected(tab: MLBPlayerStatsTableData) {
          //only show 4 rows in the module
         this._playerStatsService.getStatsTabData(tab, this.pageParams, data => {}, 4);
+    }
+
+    private rosterTabSelected(tab: MLBRosterTabData) {
+         //only show 5 rows in the module
+        this._rosterService.getRosterTabData(this.pageParams.teamId.toString(), this.pageParams.conference, tab, 5);
     }
 
     private setupShareModule() {
