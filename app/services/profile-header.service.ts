@@ -142,13 +142,12 @@ interface TeamProfileHeaderData {
 }
 
 interface LeagueProfileHeaderData {
-  lastUpdated: string; //NEED
-  // leagueName: string; //NEED
-  city: string; //NEED
-  state: string; //NEED
-  foundedIn: string;  //NEED // year in [YYYY]
-  backgroundImage: string; //NEED
-  profileImage: string; //NEED
+  lastUpdated: string;
+  city: string;
+  state: string;
+  foundingDate: string;
+  backgroundImage: string; //PLACEHOLDER
+  logo: string;
   totalTeams: number;
   totalPlayers: number;
   totalDivisions: number;
@@ -505,16 +504,20 @@ export class ProfileHeaderService {
     var state = data.state != null ? data.state : "N/A";
 
     data.backgroundImage = GlobalSettings.getImageUrl(data.backgroundImage);
-    data.profileImage = GlobalSettings.getImageUrl(data.profileImage);
 
     var description = "The MLB consists of " + GlobalFunctions.formatNumber(data.totalTeams) +
                       " teams and " + GlobalFunctions.formatNumber(data.totalPlayers) + " players. " +
                       "These teams and players are divided across " + GlobalFunctions.formatNumber(data.totalLeagues) +
                       " leagues and " + GlobalFunctions.formatNumber(data.totalDivisions) + " divisions.";
+                      
+    var location = "N/A";
+    if ( data.city && data.state ) {
+      location = city + ", " + state;
+    }
 
     var header: ProfileHeaderData = {
       profileName: "MLB",
-      profileImageUrl: data.profileImage,
+      profileImageUrl: GlobalSettings.getImageUrl(data.logo),
       backgroundImageUrl: data.backgroundImage,
       profileTitleFirstPart: "",
       profileTitleLastPart: "Major League Baseball",
@@ -523,11 +526,11 @@ export class ProfileHeaderService {
       topDataPoints: [
         {
           label: "League Headquarters",
-          value: city + ", " + state
+          value: location
         },
         {
           label: "Founded In",
-          value: data.foundedIn
+          value: data.foundingDate
         }
       ],
       bottomDataPoints: [
