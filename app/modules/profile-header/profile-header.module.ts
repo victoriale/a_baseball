@@ -21,7 +21,7 @@ export interface ProfileHeaderData {
   backgroundImageUrl: string;    
   profileTitleFirstPart: string;    
   profileTitleLastPart: string;    
-  lastUpdatedDate: Date;
+  lastUpdatedDate: string;
   description: string; 
   topDataPoints: Array<DataItem>
   bottomDataPoints: Array<DataItem>;

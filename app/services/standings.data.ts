@@ -86,7 +86,6 @@ export class MLBStandingsTabData implements TableTabData<TeamStandingsData> {
     this.conference = conference;
     this.division = division;
     this.isActive = isActive;
-    this.sections = [];
   }
 
   convertToCarouselItem(item: TeamStandingsData, index:number): SliderCarouselInput {

@@ -10,9 +10,6 @@ import {PagingData, DirectoryModuleData} from './directory.data';
 import {DirectoryPagination} from './directory-pagination.component';
 import {NoDataBox} from '../../components/error/data-box/data-box.component';
 
-declare var moment: any;
-// declare var lh: any;
-
 @Component({
     selector: 'directory-module',
     templateUrl: './app/modules/directory/directory.module.html',
