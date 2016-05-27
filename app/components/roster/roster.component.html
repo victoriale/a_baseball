@@ -4,7 +4,7 @@
   </div>
   <tabs (tabSelected)="tabSelected($event)">
     <tab *ngFor="#tab of tabs; #i=index" [tabTitle]="tab.title" [active]="i == 0">
-      <loading-component *ngIf="!tab.isLoaded && !tab.hasError"></loading-component>      
+      <loading-component *ngIf="!tab.isLoaded && !tab.hasError"></loading-component>
       <custom-table [model]="tab.tableData" (sortChanged)="updateCarousel($event)"></custom-table>
       <div *ngIf="tab.hasError" class="roster-no-data">
         <no-data-box [data]="noDataMessage" [icon]="'fa fa-remove'"></no-data-box>

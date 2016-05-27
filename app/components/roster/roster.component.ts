@@ -6,6 +6,7 @@ import {Tab} from '../tabs/tab.component';
 import {CustomTable} from '../custom-table/custom-table.component';
 import {LoadingComponent} from '../loading/loading.component';
 import {TableModel, TableColumn, TableRow, TableCell} from '../custom-table/table-data.component';
+import {NoDataBox} from '../../components/error/data-box/data-box.component';
 
 export interface RosterTabData<T> {
   title: string;
@@ -19,21 +20,20 @@ export interface RosterTabData<T> {
 @Component({
   selector: "roster-component",
   templateUrl: "./app/components/roster/roster.component.html",
-  directives: [SliderCarousel, Tabs, Tab, CustomTable, LoadingComponent],
+  directives: [SliderCarousel, Tabs, Tab, CustomTable, LoadingComponent, NoDataBox],
 })
 export class RosterComponent implements DoCheck {
   private tabsLoaded: {[index:number]:string};
   private selectedIndex: number;
   private carDataArray: Array<SliderCarouselInput>
-
   @Input() tabs: Array<RosterTabData<any>>;
 
   @Output("tabSelected") tabSelectedListener = new EventEmitter();
 
   private selectedTabTitle: string;
-  
-  public noDataMessage: string = "Sorry, there is no data available.";
-  
+
+  public noDataMessage: string = "This team is a National League team and has no designated hitters.";
+
   public footerStyle = {
     ctaBoxClass: "list-footer",
     ctaBtnClass:"list-footer-btn",
@@ -64,7 +64,7 @@ export class RosterComponent implements DoCheck {
       }
     }
   }
-  
+
   setSelectedCarouselIndex(tab: RosterTabData<any>, index: number) {
     if ( tab.tableData ) {
       tab.tableData.setRowSelected(index);

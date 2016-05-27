@@ -65,11 +65,6 @@ export class HomePage implements OnInit {
     getListData(){
       this.listData = [
         {
-          newsTitle: "Teams with the Fewest Stolen Bases in the MLB Right Now",
-          newsSubTitle: "See which MLB Teams are performing at the top of their game",
-          routerInfo: ['List-page', {profile:'team', listname: 'batter-stolen-bases', sort:'desc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]
-        },
-        {
           newsTitle: "Pitchers with the Most Strikeouts Thrown",
           newsSubTitle: "See which MLB Pitchers are performing at the top of their game",
           routerInfo: ['List-page', {profile:'player', listname: 'pitcher-strikeouts', sort:'desc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]
