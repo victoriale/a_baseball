@@ -1,16 +1,11 @@
 export class ScrollerFunctions { 
   
   static initializeScroller(nativeElement: any, document: HTMLDocument) {
-    // console.log("setting up scroller");
     var scrollContainers = nativeElement.getElementsByClassName('scrollable-item');
     
     for ( var i = 0; i < scrollContainers.length; i++ ) {
       checkForScrollable(scrollContainers[i]);
     };
-    
-    // if ( scrollContainers.length == 0 ) {
-    //  console.log(" no scroll containers" );
-    // }
       
     function checkForScrollable(scrollContainer) { 
       var scrollContentWrapper = scrollContainer.getElementsByClassName('scrollable-item-wrapper');
@@ -48,7 +43,7 @@ export class ScrollerFunctions {
           // append scroller to scrollContainer div
           if ( !scrollerAlreadyOnPage ) {
             scrollerElement.style.top = scrollOffset.toString();
-            ScrollerFunctions.createScroller(scrollContentWrapper, scrollContainer, scrollerElement, scrollbarBaseHeight, scrollerHeight, scroll);
+            ScrollerFunctions.createScroller(scrollContentWrapper, scrollContainer, scrollerElement, scrollbarBaseHeight, scrollerHeight, scrollOffset);
           }
       }
     }
@@ -58,7 +53,6 @@ export class ScrollerFunctions {
     var scrollContentWrapper = wrapper;
     var scrollContainer = container;
     var scrollerElement = scroller;
-    console.log("scroller: " + scroller.className);
     var scrollbarBaseHeight = baseHeight;
     var scrollOffset = offset;
     var normalizedPosition = 0;
@@ -67,7 +61,6 @@ export class ScrollerFunctions {
                   
     // Functions          
     function startDrag(evt) {
-      console.log("starting drag");
         normalizedPosition = evt.pageY;
         contentPosition = scrollContentWrapper.scrollTop;
         scrollerBeingDragged = true;
@@ -81,11 +74,7 @@ export class ScrollerFunctions {
         if (scrollerBeingDragged === true) {
             var mouseDifferential = evt.pageY - normalizedPosition;
             var scrollEquivalent = mouseDifferential * (scrollContentWrapper.scrollHeight / scrollContainer.offsetHeight);
-          console.log("dragging scroller: " + scrollEquivalent);
             scrollContentWrapper.scrollTop = contentPosition + scrollEquivalent;
-        }
-        else {
-          console.log("scroller not being dragged");
         }
     }
     
