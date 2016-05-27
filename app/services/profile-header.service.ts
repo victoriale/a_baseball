@@ -142,13 +142,13 @@ interface TeamProfileHeaderData {
 }
 
 interface LeagueProfileHeaderData {
-  lastUpdated: string; //NEED
-  // leagueName: string; //NEED
-  city: string; //NEED
-  state: string; //NEED
+  lastUpdated: string;
+  city: string;
+  state: string;
+  foundingDate: string;
   foundedIn: string;  //NEED // year in [YYYY]
-  backgroundImage: string; //NEED
-  profileImage: string; //NEED
+  backgroundImage: string; //PLACEHOLDER
+  logo: string;
   profileName1?:string;
   profileName2?:string;
   totalTeams: number;
@@ -198,7 +198,7 @@ export class ProfileHeaderService {
         .map(res => res.json())
         .map(data => {
           var headerData: TeamProfileHeaderData = data.data;
-
+          
           //Setting up conference and division values
           var confKey = "", divKey = "";
           if ( headerData.stats ) {
@@ -209,7 +209,7 @@ export class ProfileHeaderService {
               divKey = headerData.stats.division.name.toLowerCase();
             }
           }
-
+          
           //Forcing values to be numbers
           if ( headerData.stats.batting ) {
             headerData.stats.batting.average = Number(headerData.stats.batting.average);
@@ -249,7 +249,7 @@ export class ProfileHeaderService {
           leagueData.totalLeagues = Number(leagueData.totalLeagues);
           leagueData.totalPlayers = Number(leagueData.totalPlayers);
           leagueData.totalTeams = Number(leagueData.totalTeams);
-
+          
           return leagueData;
         });
   }
@@ -323,27 +323,27 @@ export class ProfileHeaderService {
         yearPluralStr = "year";
       }
     }
-
+    
     var location = "N/A"; //[Wichita], [Kan.]
     if ( info.city && info.area ) {
       location = info.city + ", " + info.area;
     }
-
+    
     var formattedBirthDate = "N/A"; //[October] [3], [1991]
     if ( info.birthDate ) {
       var date = moment(info.birthDate);
       formattedBirthDate = GlobalFunctions.formatAPMonth(date.month()) + date.format(" D, YYYY");
     }
     var formattedAge = info.age ? info.age.toString() : "N/A";
-
+    
     var formattedHeight = "N/A"; //[6-foot-11]
     if ( info.height ) {
       var parts = info.height.split("-");
       formattedHeight = parts.join("-foot-");
     }
-
+    
     var formattedWeight = info.weight ? info.weight.toString() : "N/A";
-
+    
     var description = "<span class='text-heavy'>" + info.playerName +
                   "</span> started his MLB career in <span class='text-heavy'>" + formattedStartDate +
                   "</span> for the <span class='text-heavy'>" + info.teamName +
@@ -355,7 +355,7 @@ export class ProfileHeaderService {
                   "</span> years old, with a height of <span class='text-heavy'>" + formattedHeight +
                   "</span> and weighing in at <span class='text-heavy'>" + formattedWeight +
                   "</span> pounds.";
-
+    
     var dataPoints: Array<DataItem>;
     var isPitcher = headerData.info.position.filter(value => value === "P").length > 0;
 
@@ -541,10 +541,15 @@ export class ProfileHeaderService {
                       " teams and " + GlobalFunctions.formatNumber(data.totalPlayers) + " players. " +
                       "These teams and players are divided across " + GlobalFunctions.formatNumber(data.totalLeagues) +
                       " leagues and " + GlobalFunctions.formatNumber(data.totalDivisions) + " divisions.";
+                      
+    var location = "N/A";
+    if ( data.city && data.state ) {
+      location = city + ", " + state;
+    }
 
     var header: ProfileHeaderData = {
       profileName: "MLB",
-      profileImageUrl: data.profileImage,
+      profileImageUrl: GlobalSettings.getImageUrl(data.logo),
       backgroundImageUrl: data.backgroundImage,
       profileTitleFirstPart: "",
       profileTitleLastPart: "Major League Baseball",
@@ -553,11 +558,11 @@ export class ProfileHeaderService {
       topDataPoints: [
         {
           label: "League Headquarters",
-          value: city + ", " + state
+          value: location
         },
         {
           label: "Founded In",
-          value: data.foundedIn
+          value: data.foundingDate
         }
       ],
       bottomDataPoints: [

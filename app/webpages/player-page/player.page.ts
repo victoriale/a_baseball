@@ -16,7 +16,8 @@ import {TwitterModule, twitterModuleData} from "../../modules/twitter/twitter.mo
 import {TwitterService} from '../../services/twitter.service';
 
 import {ComparisonModule, ComparisonModuleData} from '../../modules/comparison/comparison.module';
-import {ComparisonStatsService, ComparisonStatsData} from '../../services/comparison-stats.service';
+import {ComparisonStatsService} from '../../services/comparison-stats.service';
+
 import {CommentModule} from '../../modules/comment/comment.module';
 
 import {StandingsModule, StandingsModuleData} from '../../modules/standings/standings.module';
@@ -87,13 +88,7 @@ export class PlayerPage implements OnInit {
 
   profileHeaderData: ProfileHeaderData;
   
-  comparisonModuleData: ComparisonModuleData = {
-      data: null,
-      teamList: [],
-      playerLists: [],
-      loadTeamList: function(){},
-      loadPlayerList: function(){}
-  }
+  comparisonModuleData: ComparisonModuleData;
 
   imageData:any;
   copyright:any;
@@ -136,19 +131,27 @@ export class PlayerPage implements OnInit {
   private setupPlayerProfileData() {
       this._profileService.getPlayerProfile(this.pageParams.playerId).subscribe(
           data => {
+              /*** About [Player Name] ***/
               this.pageParams = data.pageParams;
               this.profileName = data.headerData.info.playerName;
               this.teamName = data.headerData.info.teamName;
               this.profileHeaderData = this._profileService.convertToPlayerProfileHeader(data);
-              this.getSchedulesData('pre-event');//grab pre event data for upcoming games
               this.setupTeamProfileData();
-              this.setupShareModule();
+              
+              /*** Keep Up With Everything [Player Name] ***/
+              //this.getBoxScores();
+              this.getSchedulesData('pre-event');//grab pre event data for upcoming games
               this.setupComparisonData();
+              
+              /*** Other [League Name] Content You May Love ***/
               this.getImages(this.imageData);
-              this.getNewsService();
-              this.getFaqService();
               this.getDykService();
+              this.getFaqService();
               this.setupListOfListsModule();
+              this.getNewsService();
+              
+              /*** Interact With [League Name]’s Fans ***/
+              this.setupShareModule();
               this.getTwitterService();
           },
           err => {

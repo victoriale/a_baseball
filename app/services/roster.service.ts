@@ -2,9 +2,11 @@ import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Rx';
 import {Http, Headers} from 'angular2/http';
 import {GlobalFunctions} from '../global/global-functions';
-import {RosterTableModel, RosterTabData, TeamRosterData} from '../services/roster.data';
+import {RosterModuleData} from '../modules/team-roster/team-roster.module';
+import {RosterTableModel, MLBRosterTabData, TeamRosterData} from '../services/roster.data';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalSettings} from '../global/global-settings';
+import {Conference, Division} from '../global/global-interface';
 
 @Injectable()
 export class RosterService {
@@ -16,87 +18,85 @@ export class RosterService {
     return headers;
   }
 
-  loadAllTabs(teamId, maxRows?: number): Observable<Array<RosterTabData>> {
-    var tabs = this.initializeAllTabs();
-    return Observable.forkJoin(tabs.map(tab => this.getRosterService(teamId, tab, maxRows)));
-  }
-
-  private initializeAllTabs(): Array<RosterTabData> {
-    let tabs: Array<RosterTabData> = [
-      new RosterTabData('full', 'Full Roster', true),
-      new RosterTabData('pitchers', 'Pitchers', false),
-      new RosterTabData('catchers', 'Catchers', false),
-      new RosterTabData('fielders', 'Fielders', false),
-      new RosterTabData('hitters', 'Designated Hitter', false)
+  initializeAllTabs(): Array<MLBRosterTabData> {
+    return [
+      new MLBRosterTabData('full', 'Full Roster'),
+      new MLBRosterTabData('pitchers', 'Pitchers'),
+      new MLBRosterTabData('catchers', 'Catchers'),
+      new MLBRosterTabData('fielders', 'Fielders'),
+      new MLBRosterTabData('hitters', 'Designated Hitter')
     ];
-    return tabs;
   }
 
-  getRosterService(teamId, rosterTab, maxRows){
-    var type = rosterTab.type.toLowerCase();
-    var headers = this.setToken();
-    var fullUrl = this._apiUrl + "/team/roster";
-    if(typeof teamId != "undefined"){
-      fullUrl += "/" + teamId;
+  getRosterTabData(teamId: string, conference: Conference, rosterTab: MLBRosterTabData, maxRows?: number) {
+    if ( !rosterTab.tableData ) {
+      rosterTab.isLoaded = false;
+      rosterTab.hasError = false;
+      rosterTab.setErrorMessage(conference);
+      
+      var fullUrl = this._apiUrl + "/team/roster/" + teamId + "/" + rosterTab.type;
+      // console.log("Team roster url : " + fullUrl);
+      
+      this.http.get(fullUrl, {headers: this.setToken()})
+        .map(res => res.json())
+        .map(data => {
+          return this.setupTabData(rosterTab, data.data, maxRows);
+        })
+        .subscribe(table => {     
+          rosterTab.tableData = table;
+          rosterTab.isLoaded = true;
+          rosterTab.hasError = false;
+        },
+        err => {
+          rosterTab.isLoaded = true;
+          rosterTab.hasError = true;
+          console.log("Error getting roster data: " + err);
+        });
     }
-    if(typeof type != "undefined"){
-      fullUrl += "/" + type;
-    }
-    return this.http.get(fullUrl, {
-      headers: headers
-    })
-    .map(
-      res => res.json()
-    )
-    .map(
-      data => {
-        return this.setupTabData(rosterTab, data.data, maxRows);
-      }
-    )
   }//getRosterService ends
 
-  private setupTabData(rosterTab: RosterTabData, data: Array<TeamRosterData>, maxRows: number) {
-    var table = new RosterTableModel("", data);
+  loadAllTabsForModule(teamId: number, teamName: string): RosterModuleData {
+    return {
+        moduleTitle: this.getModuleTitle(teamName),
+        pageRouterLink: this.getLinkToPage(teamId, teamName),
+        tabs: this.initializeAllTabs()
+    };
+  }
+
+  private setupTabData(rosterTab: MLBRosterTabData, data: Array<TeamRosterData>, maxRows: number) {
+    var table = new RosterTableModel(data);
+    
     //Limit to maxRows, if necessary
     if ( maxRows !== undefined ) {
       table.rows = table.rows.slice(0, maxRows);
     }
 
-    //Table tabs
-    let title = ""; // only include title if there are multiple tables.
-    rosterTab.tableData = table;
-    return rosterTab;
+    return table;
   }
 
-  getModuleTitle(pageParams): string {
-    let moduletitle = " Team Roster";
-    if ( pageParams.teamName !== undefined && pageParams.teamName !== null ) {
-      moduletitle += pageParams.teamName + " - " + moduletitle;
+  private getModuleTitle(teamName: string): string {
+    let moduletitle = "Team Roster";
+    if ( teamName ) {
+      moduletitle += " - " + teamName;
     }
     return moduletitle;
   }
 
-  getPageTitle(pageParams): string {
-    // let groupName = this.formatGroupName(pageParams.conference, pageParams.division);
+  getPageTitle(teamName: string): string {
     let pageTitle = "Team Roster";
-    if ( pageParams.teamName !== undefined && pageParams.teamName !== null ) {
-      pageTitle = "Team Roster - " + pageParams.teamName;
+    if ( teamName ) {
+      pageTitle = "Team Roster - " + teamName;
     }
     return pageTitle;
   }
 
-  getLinkToPage(pageParams) {
+  getLinkToPage(teamId: number, teamName: string): Array<any> {
     var pageName = "Team-roster-page";
     var pageValues = {
-      teamName: GlobalFunctions.toLowerKebab(pageParams.teamName),
-      teamId: pageParams.teamId
+      teamName: GlobalFunctions.toLowerKebab(teamName),
+      teamId: teamId
     };
-    pageValues.teamName = GlobalFunctions.toLowerKebab(pageParams.teamName);
-    return {
-      infoDesc: "Want to see the full team roster?",
-      text: "VIEW FULL ROSTER",
-      url: [pageName, pageValues]
-    };
+    return [pageName, pageValues];
   }
 
 }
