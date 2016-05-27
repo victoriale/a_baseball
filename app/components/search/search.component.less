@@ -92,16 +92,23 @@
       border-left: 8px solid transparent;
       border-right: 8px solid transparent;
     }
-
+    &-items{
+      border-bottom: 1px solid @greyBorder;
+      &:last-child{
+        border-bottom: 0;
+        .search-dropdown-item{
+          border-bottom-left-radius: 5px;
+          border-bottom-right-radius: 5px;
+        }
+      }
+    }
     &-item{
       font-size: 16px;
       padding: 7px 17px;
       position: relative;
-      border-bottom: 1px solid @greyBorder;
       .flexDisplay;
       .flexAlignItems(center);
       .flexJustify(flex-start);
-
       &.active{
         color: @white;
         background-color: @masterBrandColor;
@@ -112,6 +119,7 @@
         .border-1 img{
           box-shadow: 0 0 0 2px @white;
         }
+
       }
 
       &-title{
