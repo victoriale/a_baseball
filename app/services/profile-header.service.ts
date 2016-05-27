@@ -535,7 +535,6 @@ export class ProfileHeaderService {
     var state = data.state != null ? data.state : "N/A";
 
     data.backgroundImage = GlobalSettings.getImageUrl(data.backgroundImage);
-    data.profileImage = GlobalSettings.getImageUrl(data.profileImage);
 
     var description = "The MLB consists of " + GlobalFunctions.formatNumber(data.totalTeams) +
                       " teams and " + GlobalFunctions.formatNumber(data.totalPlayers) + " players. " +

@@ -1,23 +1,19 @@
 <div class="module-container">
     <module-header [modHeadData]="moduleHeaderData"></module-header>
-    <div class="season-stats-summary-placeholder">
-        Summary Placeholder
-    </div>
-    <div class="tabs-placeholder">
-        Tabs Placeholder
-    </div>
-    <button (click)="dataOne()">
-        Data 1
-    </button>
-    <button (click)="dataTwo()">
-        Data 2
-    </button>
-    <button (click)="dataThree()">
-        Data 3
-    </button>
-    <comparison-legend [comparisonLegendInput]="seasonStatsLegendData"></comparison-legend>
-    <div class="season-stats-bars">
-        <comparison-bar *ngFor="#item of comparisonBarData" [comparisonBarInput]="item" [dataIndex]="dataIndex"></comparison-bar>
-    </div>
-    <module-footer [footerHeadline]="footerHeadline" [footerButton]="footerButton"></module-footer>
+
+    <slider-carousel [carouselData]="carouselDataArray"></slider-carousel>
+
+    <tabs (tabSelected)="tabSelected($event)">
+      <tab *ngFor="#tab of tabs" [tabTitle]="tab.tabTitle" [active]="tab.isActive">
+        <comparison-legend [comparisonLegendInput]="comparisonLegendData"></comparison-legend>
+        <div class="comparison-module-bars">
+          <comparison-bar *ngFor="#item of tab.barData; #i = index" [comparisonBarInput]="item" [dataIndex]="dataIndex" [index]="i"></comparison-bar>
+        </div>
+        <div *ngIf="!tab.barData" class="comparison-module-no-data">
+            <no-data-box [data]="noDataMessage" [icon]="'fa fa-remove'"></no-data-box>
+        </div>
+      </tab>
+    </tabs>
+
+    <module-footer [footerData]="footerData"></module-footer>
 </div>

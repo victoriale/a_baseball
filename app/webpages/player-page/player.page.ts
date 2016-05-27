@@ -1,5 +1,5 @@
 import {Component, OnInit} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
+import {RouteParams, RouteConfig} from 'angular2/router';
 
 import {MLBPageParameters} from '../../global/global-interface';
 
@@ -14,6 +14,9 @@ import {FaqService} from '../../services/faq.service';
 
 import {TwitterModule, twitterModuleData} from "../../modules/twitter/twitter.module";
 import {TwitterService} from '../../services/twitter.service';
+
+import {SeasonStatsService, SeasonStatsData} from '../../services/season-stats.service';
+import {SeasonStatsModule} from '../../modules/season-stats/season-stats.module';
 
 import {ComparisonModule, ComparisonModuleData} from '../../modules/comparison/comparison.module';
 import {ComparisonStatsService} from '../../services/comparison-stats.service';
@@ -59,6 +62,7 @@ import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.modul
       FAQModule,
       LikeUs,
       TwitterModule,
+      SeasonStatsModule,
       ComparisonModule,
       NewsModule,
       ShareModule,
@@ -74,6 +78,7 @@ import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.modul
       FaqService,
       DykService,
       ListOfListsService,
+      SeasonStatsService,
       ComparisonStatsService,
       TwitterService
     ],
@@ -81,15 +86,11 @@ import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.modul
 
 export class PlayerPage implements OnInit {
   public shareModuleInput:ShareModuleInput;
-
   pageParams:MLBPageParameters;
-
   standingsData:StandingsModuleData;
-
   profileHeaderData: ProfileHeaderData;
-
+  seasonStatsData: SeasonStatsData;
   comparisonModuleData: ComparisonModuleData;
-
   imageData:any;
   copyright:any;
   profileType:string = "player";
@@ -113,6 +114,7 @@ export class PlayerPage implements OnInit {
               private _dykService: DykService,
               private _lolService : ListOfListsService,
               private _twitterService: TwitterService,
+              private _seasonStatsService: SeasonStatsService,
               private _comparisonService: ComparisonStatsService,
               private _globalFunctions:GlobalFunctions) {
 
@@ -141,8 +143,8 @@ export class PlayerPage implements OnInit {
               /*** Keep Up With Everything [Player Name] ***/
               //this.getBoxScores();
               this.getSchedulesData('pre-event');//grab pre event data for upcoming games
+              this.setupSeasonstatsData();
               this.setupComparisonData();
-
               /*** Other [League Name] Content You May Love ***/
               this.getImages(this.imageData);
               this.getDykService();
@@ -170,7 +172,17 @@ export class PlayerPage implements OnInit {
           this.getSchedulesData('post-event');// fall back just in case no status event is present
       }
   }
-
+  private setupSeasonstatsData() {
+      this._seasonStatsService.getPlayerStats(this.pageParams)
+      .subscribe(
+          data => {
+              // console.log("set up season stats", data, this.pageParams);
+              this.seasonStatsData = data[0];
+          },
+          err => {
+              console.log("Error getting season stats data for "+ this.pageParams.playerId);
+          });
+  }
   //api for Schedules
   private getSchedulesData(status){
     var limit = 5;
