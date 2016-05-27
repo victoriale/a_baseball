@@ -85,7 +85,7 @@ export class MLBPage implements OnInit {
     standingsData:StandingsModuleData;
 
     profileHeaderData:ProfileHeaderData;
-  
+
     comparisonModuleData: ComparisonModuleData;
 
     batterParams:any;
@@ -144,7 +144,7 @@ export class MLBPage implements OnInit {
                 /*** About MLB ***/
                 this.profileHeaderData = this._profileService.convertToLeagueProfileHeader(data)
                 this.profileName = "MLB";
-                
+
                 /*** Keep Up With Everything MLB ***/
                 //this.getBoxScoresData();
                 this.getSchedulesData('pre-event');//grab pre event data for upcoming games
@@ -153,7 +153,7 @@ export class MLBPage implements OnInit {
                 this.batterData = this.getMVP(this.batterParams, 'batter');
                 this.pitcherData = this.getMVP(this.pitcherParams, 'pitcher');
                 this.setupComparisonData();
-                
+
                 /*** Keep Up With Everything MLB ***/
                 this.setupShareModule();
                 this.getImages(this.imageData);
@@ -181,7 +181,11 @@ export class MLBPage implements OnInit {
 
     //api for Schedules
     private getSchedulesData(status){
-      this._schedulesService.getSchedulesService('league', status, 5, 1)
+      var limit = 5;
+      if(status == 'post-event'){
+        limit = 3;
+      }
+      this._schedulesService.getSchedulesService('league', status, limit, 1)
       .subscribe(
         data => {
           this.schedulesData = data;
@@ -242,7 +246,7 @@ export class MLBPage implements OnInit {
                     console.log("Error getting image data" + err);
                 });
     }
-    
+
     private setupComparisonData() {
         this._comparisonService.getInitialPlayerStats(this.pageParams).subscribe(
             data => {

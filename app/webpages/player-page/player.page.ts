@@ -87,7 +87,7 @@ export class PlayerPage implements OnInit {
   standingsData:StandingsModuleData;
 
   profileHeaderData: ProfileHeaderData;
-  
+
   comparisonModuleData: ComparisonModuleData;
 
   imageData:any;
@@ -119,7 +119,7 @@ export class PlayerPage implements OnInit {
       this.pageParams = {
           playerId: Number(_params.get("playerId"))
       };
-      
+
         // Scroll page to top to fix routerLink bug
         window.scrollTo(0, 0);
   }
@@ -137,19 +137,19 @@ export class PlayerPage implements OnInit {
               this.teamName = data.headerData.info.teamName;
               this.profileHeaderData = this._profileService.convertToPlayerProfileHeader(data);
               this.setupTeamProfileData();
-              
+
               /*** Keep Up With Everything [Player Name] ***/
               //this.getBoxScores();
               this.getSchedulesData('pre-event');//grab pre event data for upcoming games
               this.setupComparisonData();
-              
+
               /*** Other [League Name] Content You May Love ***/
               this.getImages(this.imageData);
               this.getDykService();
               this.getFaqService();
               this.setupListOfListsModule();
               this.getNewsService();
-              
+
               /*** Interact With [League Name]’s Fans ***/
               this.setupShareModule();
               this.getTwitterService();
@@ -173,7 +173,11 @@ export class PlayerPage implements OnInit {
 
   //api for Schedules
   private getSchedulesData(status){
-    this._schedulesService.getSchedulesService('team', status, 5, 1, this.pageParams.teamId)
+    var limit = 5;
+    if(status == 'post-event'){
+      limit = 3;
+    }
+    this._schedulesService.getSchedulesService('team', status, limit, 1, this.pageParams.teamId)
     .subscribe(
       data => {
         this.schedulesData = data;
@@ -223,7 +227,7 @@ export class PlayerPage implements OnInit {
                 console.log("Error getting news data");
             });
     }
-    
+
     private getImages(imageData) {
         this._imagesService.getImages(this.profileType, this.pageParams.playerId)
             .subscribe(data => {
@@ -251,7 +255,7 @@ export class PlayerPage implements OnInit {
         //only show 5 rows in the module;
         this._standingsService.getStandingsTabData(tab, this.pageParams, (data) => {}, 5);
     }
-    
+
     private setupComparisonData() {
         this._comparisonService.getInitialPlayerStats(this.pageParams).subscribe(
             data => {

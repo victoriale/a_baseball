@@ -2,7 +2,7 @@
   width:680px;
   height:auto;
   &-container{
-    margin:10px 0 0 0;
+    // margin:10px 0 0 0;
   }
   &-section{
     h4{
@@ -10,14 +10,14 @@
       color:@black;
       font-size: 16px;
       margin:0 0 5px 0;
-      padding-bottom: 5px;
+      padding: 10px 0;
       border-bottom:1px solid @strokeGrey;
     }
   }
 }
 .schedules-heading{
   width:100%;
-  height:48px;
+  height:45px;
   background-color: @white;
   padding:5px 2px;
   &-title{
@@ -26,7 +26,7 @@
     float:left;
     margin:5px 0;
     & > p {
-      line-height:0.8em;
+      line-height:1em;
       margin:0;
     }
     &-timestamp{
@@ -57,14 +57,16 @@
   .results-column{
     width:150px;
   }
-  .date-column, .date-column-hdr {
-    width:75px;
-    font-size:14px;
+  .date-column{
     white-space: nowrap;
     sup{
       position: relative;
       top:-3px;
     }
+  }
+  .date-column, .date-column-hdr {
+    width:75px;
+    font-size:14px;
   }
 
   td:first-child .date-column, th:first-child.date-column-hdr {
