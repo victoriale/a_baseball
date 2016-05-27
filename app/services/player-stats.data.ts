@@ -78,23 +78,23 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
     if ( this.isPitcherTable ) {
       this.glossary = [
         {key: "W/L", value: "Wins/Losses"},
-        {key: "IP", value: "Innings Pitched"},
-        {key: "SO", value: "Strikeouts"},
         {key: "ERA", value: "Earned Run Average"},
-        {key: "BB", value: "Walks Pitched (Bases on Balls)"},
         {key: "WHIP", value: "Walks + Hits per Inning Pitched"},
-        {key: "SV", value: "Saves"}
+        {key: "IP", value: "Innings Pitched"},
+        {key: "BB", value: "Walks Pitched (Bases on Balls)"},
+        {key: "SV", value: "Saves"},
+        {key: "SO", value: "Strikeouts"}
       ];
     }
     else {
       this.glossary = [
         {key: "HR", value: "Homeruns"},
-        {key: "BA", value: "Batting Average"},
-        {key: "RBI", value: "Runs Batted In"},
         {key: "H", value: "Hits"},
-        {key: "BB", value: "Walks (Bases on Balls)"},
         {key: "OBP", value: "On-Base Percentage"},
-        {key: "SLG", value: "Slugging Percentage"}
+        {key: "BA", value: "Batting Average"},
+        {key: "BB", value: "Walks (Bases on Balls)"},
+        {key: "SLG", value: "Slugging Percentage"},
+        {key: "RBI", value: "Runs Batted In"}
       ];
     }
     var currYear = new Date().getFullYear();
