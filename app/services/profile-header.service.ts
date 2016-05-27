@@ -354,7 +354,7 @@ export class ProfileHeaderService {
                   "</span> and is <span class='text-heavy'>" + formattedAge +
                   "</span> years old, with a height of <span class='text-heavy'>" + formattedHeight +
                   "</span> and weighing in at <span class='text-heavy'>" + formattedWeight +
-                  "</span> pounds.";
+                  "</span> pounds. And some more text which will eventually overflow and cause a scrollbar to appear. Morgen, habe ich geplannt Minecraft zu spielen.";
     
     var dataPoints: Array<DataItem>;
     var isPitcher = headerData.info.position.filter(value => value === "P").length > 0;

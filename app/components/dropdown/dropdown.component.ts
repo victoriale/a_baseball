@@ -1,7 +1,8 @@
-import {Component, OnInit, Inject, OnDestroy, Input, Output, EventEmitter, Renderer, OnChanges, AfterViewInit} from 'angular2/core';
+import {Component, OnInit, Inject, OnDestroy, Input, Output, EventEmitter, Renderer, OnChanges, AfterViewInit, ViewChild} from 'angular2/core';
 import {BrowserDomAdapter} from 'angular2/platform/browser'
 import {ElementRef} from 'angular2/src/core/linker/element_ref';
 import {ScrollableContent} from '../scrollable-content/scrollable-content.component';
+import {ScrollerFunctions} from '../../global/scroller-functions';
 
 @Component({
   selector: 'dropdown',
@@ -11,7 +12,7 @@ import {ScrollableContent} from '../scrollable-content/scrollable-content.compon
 })
 
 export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {  
-  public isDropdownVisible: boolean = true;  
+  public isDropdownVisible: boolean = false;  
   public isDropdownEnabled: boolean = true;
   
   @Input() list: Array<{key: string, value: string}>;
@@ -28,48 +29,18 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
   
   @Output("selectionChanged") dropdownChangedListener = new EventEmitter();
   
-  @Output("dropdownVisible") dropdownVisibleListener = new EventEmitter();
-  
   private hideDropdownListener: Function;  
   
   private _elementRef: ElementRef;
-  private _afterViewInit: boolean = false;
+  private _scrollerSetup: boolean = false;
   
   constructor(@Inject(ElementRef) elementRef: ElementRef, private _dom: BrowserDomAdapter, private _renderer: Renderer) { 
     this._elementRef = elementRef;
   }
   
   ngAfterViewInit() {
-    if ( this.isDropdownVisible ) {
-      this.setupHoverCheck();
-      this._afterViewInit = true;
-    }
-  }
-  
-  displayDropdown() {
-    var self = this;
-    this.isDropdownVisible = !this.isDropdownVisible;
-    if ( this.isDropdownVisible ) {
-      this.dropdownVisibleListener.next(true);
-    }
-    
-    if ( !this.hideDropdownListener ) {
-      //timeout is needed so that click doesn't happen for click.
-      setTimeout(() => {
-        if ( self.hideDropdownListener ) {
-          self.hideDropdownListener();
-          self.hideDropdownListener = undefined;
-        }
-        self.hideDropdownListener = self._renderer.listenGlobal('document', 'click', (event) => {
-          self.isDropdownVisible = false;
-          
-          if ( self.hideDropdownListener ) {
-            self.hideDropdownListener(); //this removes listener
-          }
-          self.hideDropdownListener = undefined;
-        });
-      }, 1);
-    }
+    this.dropdownSetup();
+    this.hoverSetup();
   }
   
   ngOnChanges() {
@@ -112,36 +83,133 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
     }
   }  
   
-  setupHoverCheck() {    
-    console.log("setting up hover check");
+  /**
+   * Adds listeners that determine whether the 
+   * dropdown should be hidden or visible.
+   * 
+   * Dropdown containers should appear when the header
+   * element is clicked and disappear when the mouse is clicked
+   * elsewhere within the document, UNLESS the mousedown 
+   * event starts on the scroller element.
+   */
+  dropdownSetup() {    
     var document = this._dom.defaultDoc();
-    var scrollContainer = this._elementRef.nativeElement.getElementsByClassName('scrollable-item')[0];
-    var caretTop = this._elementRef.nativeElement.getElementsByClassName('dropdown-caret-top')[0];    
-    // var scrollContentWrapper = scrollContainer.getElementsByClassName('scrollable-item-wrapper');
-    // var scrollContent = scrollContainer.getElementsByClassName('scrollable-item-content');
-    //dropdown-caret-top-hover
+    // console.log("dropdown setup: " + document);
     
+    var self = this;
+    var keepDropdownOpen = false;
+    var nativeElement = this._elementRef.nativeElement;
+    var dropdownHeader = this._elementRef.nativeElement.getElementsByClassName('dropdown')[0];
+    var dropdownContainer = this._elementRef.nativeElement.getElementsByClassName('dropdown-wrapper')[0];
+    
+    if ( dropdownContainer && dropdownHeader ) {
+      // We don't want to close dropdown when the scroller is selected.
+      // So this checks to see if the mouse went down on the scroller.
+      dropdownHeader.addEventListener('mousedown', function(event) {
+          var element = document.elementFromPoint(event.clientX, event.clientY);
+          keepDropdownOpen = element.className.indexOf("scrollable-item-scroller") >= 0; 
+      });
+      
+      dropdownHeader.addEventListener('click', function(event) {
+          if ( keepDropdownOpen ) {
+            //ignore click if 'keepDropdownOpen' is true
+            return;
+          }
+          
+          //Toggle the dropdown visibility and show/hide the actual container
+          self.isDropdownVisible = !self.isDropdownVisible;          
+          dropdownContainer.style.display = self.isDropdownVisible ? "" : "none";
+          
+          //If this is the first time the dropdown is visible, set up the scroller
+          // as the scroller can't calculate a content's height and scroll ratio
+          // when it's hidden.
+          if ( self.isDropdownVisible ) {
+            // console.log("setting up scroller");
+            ScrollerFunctions.initializeScroller(nativeElement, document);
+            // self._scrollerSetup = true;
+          }
+                    
+          if ( !self.hideDropdownListener ) {
+            //timeout is needed so that click doesn't happen for click.
+            setTimeout(() => {
+              //remove any existing listener:
+              if ( self.hideDropdownListener ) {
+                self.hideDropdownListener();
+                self.hideDropdownListener = undefined;
+              }
+              
+              //add new listener that checks for any click on the document
+              self.hideDropdownListener = self._renderer.listenGlobal('document', 'click', (event) => {
+                if ( keepDropdownOpen ) {
+                  //ignore click if 'keepDropdownOpen' is true
+                  keepDropdownOpen = false;
+                  return;
+                }
+          
+                self.isDropdownVisible = false;
+                dropdownContainer.style.display = "none";
+                
+                if ( self.hideDropdownListener ) {
+                  //if the listener still exists, remove it as it's not needed once
+                  //the dropdown is hidden again 
+                  self.hideDropdownListener(); 
+                }
+                self.hideDropdownListener = undefined;
+              });
+            }, 1);
+          }
+      });
+    }
+  }
+  
+  hoverSetup() {    
+    var document = this._dom.defaultDoc();
+        
+    var scrollContainer = this._elementRef.nativeElement.getElementsByClassName('scrollable-item')[0];
+    var caretTop = this._elementRef.nativeElement.getElementsByClassName('dropdown-caret-top')[0];
+    if ( !scrollContainer || !caretTop ) {
+      return;
+    }
+    
+    //Adds a mouseover listener checks to see if the mouse
+    // is over the top item visible in the scroll container    
     scrollContainer.addEventListener('mouseover', function(evt) {
-      var x = evt.clientX;
-      var y = evt.clientY;
-      console.log("mouse over scroll container: " + x + ", " + y);
-      var element = document.elementFromPoint(x, y);
-      if ( element && scrollContainer && caretTop ) {
-        var elementBounds = element.getBoundingClientRect();
-        //this needs to be the <div> 'dropdown-list-option' otherwise highlight doesn't quite work
+      
+      //Get the element under the mouse point
+      var element = document.elementFromPoint(evt.clientX, evt.clientY);
+            
+      //Cycle through parents until the dropdown-list-option element is found
+      // (loopCount limit of 10 to prevent infinite loops)
+      var optionElement = null, loopCount = 0;
+      while ( !optionElement && loopCount < 10 ) {
+        loopCount++;
+        if ( element.className.indexOf("dropdown-list-option") >= 0 ) {
+          optionElement = element;
+        }
+        element = element.parentElement;
+      }
+      
+      //Check to see if the bounds of the element overlaps the top edge of the scroll container
+      var highlightCaret = false;
+      if ( optionElement && optionElement.className.indexOf("dropdown-grp-lbl") < 0 ) {
+        var elementBounds = optionElement.getBoundingClientRect();
         var scrollContainerBounds = scrollContainer.getBoundingClientRect();
-        console.log("  element under mouse: " + element.tagName);
-        console.log("  element top: " + elementBounds.top + "; height: " + elementBounds.height);
-        console.log("  container top: " + scrollContainerBounds.top);
         if ( scrollContainerBounds.top >= elementBounds.top ) {
-          caretTop.className = "dropdown-caret-top dropdown-caret-top-hover";
+          highlightCaret = true;
         }
-        else {
-          caretTop.className = "dropdown-caret-top";          
-        }
+      }
+      
+      //If so, add the dropdown-caret-top-hover class to highlight the caret
+      if ( highlightCaret ) {
+        caretTop.className = "dropdown-caret-top dropdown-caret-top-hover";
+      }
+      else {
+        caretTop.className = "dropdown-caret-top";          
       }
     });
     
+    //Removes the dropdown-caret-top-hover class when the mouse 
+    //moves off the scroll container
     scrollContainer.addEventListener('mouseout', function(evt) {
       if ( caretTop ) {
         caretTop.className = "dropdown-caret-top"; 

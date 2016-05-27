@@ -1,4 +1,4 @@
-<div class="dropdown" (click)="displayDropdown()" 
+<div class="dropdown" 
   [class.dropdown-active]="isDropdownVisible"
   [class.dropdown-disabled]="!isDropdownEnabled">
   <div class="dropdown-hdr">
@@ -10,9 +10,10 @@
     </span>
   </div>
   
-  <div *ngIf="isDropdownVisible" class="dropdown-wrapper">
+  <div class="dropdown-wrapper" style="display: none;">
     <div class="dropdown-caret-top"></div>
     <scrollable-content class="dropdown-list dropdown-list-scroll"
+      (reloadScroller)="_reloadScroller"
       [class.dropdown-list-scroll]="list.length > 5">
       <div *ngFor="#item of list; #i=index" 
         class="dropdown-list-option {{item.class}}"
