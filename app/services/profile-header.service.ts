@@ -289,10 +289,9 @@ export class ProfileHeaderService {
     if(currentDate.getFullYear() == currentDate.getFullYear()){// TODO must change once we have historic data
       display = "Current Season"
     }
-
     var headerData = {
       data:{
-        imageURL: data.logo, //TODO
+        imageURL: GlobalSettings.getImageUrl(data.logo), //TODO
         text1: 'Last Updated:' + moment(currentDate).format('dddd MMMM Do, YYYY'),//TODO
         text2: 'United States',
         text3: display + " " + pageName + " - " + data.profileName1,
