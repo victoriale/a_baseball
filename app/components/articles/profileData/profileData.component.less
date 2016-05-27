@@ -47,6 +47,77 @@
     }
   }
 
+  &-roster {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    bottom: 10px;
+    &-images {
+      width: 100%;
+      margin: 0 auto;
+      position: relative;
+    }
+    &-circles {
+      width: 100%;
+      height: 130px;
+      position: relative;
+      &-player-image {
+        border-radius: 50%;
+        border: 2px solid #ccc;
+        box-sizing: border-box;
+        background-color: #ffffff;
+        width: 125px;
+        height: 125px;
+        position: absolute;
+        top: 15px;
+        left: 33%;
+        z-index: 1;
+        background-position: center center;
+        background-size: contain;
+      }
+      &-team-logo {
+        border: 2px solid #ccc;
+        border-radius: 50%;
+        position: absolute;
+        background-color: #ffffff;
+        width: 125px;
+        height: 125px;
+        z-index: 0;
+        top: 15px;
+        left: 46%;
+        background-position: center center;
+        background-size: contain;
+        &:hover {
+          z-index: 1;
+        }
+      }
+    }
+    &-player {
+      margin-top: 5px;
+      margin-left: 0;
+      max-width: 100%;
+      .globalDefaultFont(18px, 700);
+      text-align: center;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      top: 150px;
+    }
+    &-position {
+      margin-top: 5px;
+      margin-left: 0;
+      max-width: 100%;
+      .globalDefaultFont(14px, 400);
+      text-align: center;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      top: 150px;
+    }
+  }
+
   &-double {
     width: 100%;
     height: 100%;
