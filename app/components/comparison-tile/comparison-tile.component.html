@@ -5,16 +5,14 @@
                 [list]="dropdownList1" 
                 [selectedKey]="comparisonTileInput.dropdownOneKey"
                 [icon]="'fa-caret-down'"
-                (selectionChanged)="dropdownOneSwitched($event)"
-                (dropdownVisible)="dropdownOneOpened($event)"></dropdown>
+                (selectionChanged)="dropdownOneSwitched($event)"></dropdown>
         </div>
         <div class="col-xs-6 comparison-tile-dropdown">            
             <dropdown 
                 [list]="dropdownList2" 
                 [selectedKey]="comparisonTileInput.dropdownTwoKey"
                 [icon]="'fa-caret-down'"
-                (selectionChanged)="dropdownTwoSwitched($event)"
-                (dropdownVisible)="dropdownTwoOpened($event)"></dropdown>
+                (selectionChanged)="dropdownTwoSwitched($event)"></dropdown>
         </div>
     </div>
     <div class="comparison-tile-image">

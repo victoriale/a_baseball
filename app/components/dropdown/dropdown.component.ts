@@ -1,14 +1,17 @@
-import {Component, OnInit, OnDestroy, Input, Output, EventEmitter, Renderer, OnChanges} from 'angular2/core';
+import {Component, OnInit, Inject, OnDestroy, Input, Output, EventEmitter, Renderer, OnChanges, AfterViewInit} from 'angular2/core';
+import {BrowserDomAdapter} from 'angular2/platform/browser'
+import {ElementRef} from 'angular2/src/core/linker/element_ref';
 import {ScrollableContent} from '../scrollable-content/scrollable-content.component';
 
 @Component({
   selector: 'dropdown',
   templateUrl: './app/components/dropdown/dropdown.component.html',
-  directives: [ScrollableContent]
+  directives: [ScrollableContent],
+  providers: [BrowserDomAdapter]
 })
 
-export class DropdownComponent implements OnDestroy, OnChanges {  
-  public isDropdownVisible: boolean = false;  
+export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {  
+  public isDropdownVisible: boolean = true;  
   public isDropdownEnabled: boolean = true;
   
   @Input() list: Array<{key: string, value: string}>;
@@ -23,15 +26,25 @@ export class DropdownComponent implements OnDestroy, OnChanges {
   
   selectedItem: {key: string, value: string};
   
-  highlightCaret: boolean = false;
-  
   @Output("selectionChanged") dropdownChangedListener = new EventEmitter();
   
   @Output("dropdownVisible") dropdownVisibleListener = new EventEmitter();
   
-  private hideDropdownListener: Function;
+  private hideDropdownListener: Function;  
   
-  constructor(private _renderer: Renderer) {}
+  private _elementRef: ElementRef;
+  private _afterViewInit: boolean = false;
+  
+  constructor(@Inject(ElementRef) elementRef: ElementRef, private _dom: BrowserDomAdapter, private _renderer: Renderer) { 
+    this._elementRef = elementRef;
+  }
+  
+  ngAfterViewInit() {
+    if ( this.isDropdownVisible ) {
+      this.setupHoverCheck();
+      this._afterViewInit = true;
+    }
+  }
   
   displayDropdown() {
     var self = this;
@@ -83,19 +96,7 @@ export class DropdownComponent implements OnDestroy, OnChanges {
         this.setSelected(this.list[0]);
       }
     }
-  }
-  
-  onMouseEnter(index) {
-    if ( index == 0 ) {
-      this.highlightCaret = true;
-    }
-  }
-  
-  onMouseLeave(index) {
-    if ( index == 0 ) {
-      this.highlightCaret = false;
-    }
-  }
+  }  
   
   //TODO-CJP: setup multiple sort types
   setSelected($item) {
@@ -110,4 +111,41 @@ export class DropdownComponent implements OnDestroy, OnChanges {
        this.hideDropdownListener = undefined;
     }
   }  
+  
+  setupHoverCheck() {    
+    console.log("setting up hover check");
+    var document = this._dom.defaultDoc();
+    var scrollContainer = this._elementRef.nativeElement.getElementsByClassName('scrollable-item')[0];
+    var caretTop = this._elementRef.nativeElement.getElementsByClassName('dropdown-caret-top')[0];    
+    // var scrollContentWrapper = scrollContainer.getElementsByClassName('scrollable-item-wrapper');
+    // var scrollContent = scrollContainer.getElementsByClassName('scrollable-item-content');
+    //dropdown-caret-top-hover
+    
+    scrollContainer.addEventListener('mouseover', function(evt) {
+      var x = evt.clientX;
+      var y = evt.clientY;
+      console.log("mouse over scroll container: " + x + ", " + y);
+      var element = document.elementFromPoint(x, y);
+      if ( element && scrollContainer && caretTop ) {
+        var elementBounds = element.getBoundingClientRect();
+        //this needs to be the <div> 'dropdown-list-option' otherwise highlight doesn't quite work
+        var scrollContainerBounds = scrollContainer.getBoundingClientRect();
+        console.log("  element under mouse: " + element.tagName);
+        console.log("  element top: " + elementBounds.top + "; height: " + elementBounds.height);
+        console.log("  container top: " + scrollContainerBounds.top);
+        if ( scrollContainerBounds.top >= elementBounds.top ) {
+          caretTop.className = "dropdown-caret-top dropdown-caret-top-hover";
+        }
+        else {
+          caretTop.className = "dropdown-caret-top";          
+        }
+      }
+    });
+    
+    scrollContainer.addEventListener('mouseout', function(evt) {
+      if ( caretTop ) {
+        caretTop.className = "dropdown-caret-top"; 
+      }
+    });
+  }
 }
