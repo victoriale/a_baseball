@@ -12,241 +12,72 @@ import {GlobalSettings} from '../../global/global-settings';
 import {GlobalFunctions} from '../../global/global-functions';
 import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
 import {MLBPageParameters} from '../../global/global-interface';
+import {Gradient} from '../../global/global-gradient'
 
-import {SeasonStatsData, PlayerData, SeasonStats} from '../../services/season-stats.service';
-export interface ComparisonTabData {
+import {SeasonStatsStatsData, PlayerData, SeasonStats} from '../../services/season-stats.service';
+import {ComparisonTile, ComparisonTileInput} from '../../components/comparison-tile/comparison-tile.component';
+export interface SeasonStatsTabData {
     tabTitle: string;
     seasonId: string;
     barData: Array<ComparisonBarInput>;
     isActive: boolean;
 }
 
+export interface SeasonStatsModuleData {
+    data: SeasonStatsStatsData;
+
+    teamList: Array<{key: string, value: string}>;
+
+    playerLists: Array<{
+      teamId: string,
+      playerList: Array<{key: string, value: string}>
+    }>;
+
+    loadTeamList(listLoaded: Function);
+
+    loadPlayerList(index: number, teamId: string, listLoaded: Function);
+}
+
 @Component({
-    selector: 'season-stats-module',
-    templateUrl: './app/modules/season-stats/season-stats.module.html',
-    directives: [
-                  SliderCarousel,
-                  ModuleHeader,
-                  ComparisonBar,
-                  ComparisonLegend,
-                  ModuleFooter,
-                  Tabs, Tab,
-                  NoDataBox
-                ]
+    selector: 'seaon-stats-module',
+    templateUrl: './app/modules/comparison/comparison.module.html',
+    directives:[ModuleHeader, ComparisonTile, ComparisonBar, ComparisonLegend, Tabs, Tab, NoDataBox]
 })
 
 export class SeasonStatsModule implements OnInit, OnChanges {
-    @Input() teamList: Array<{key: string, value: string}>;
-    @Input() data: SeasonStatsData;
-    noDataMessage = "Sorry, there are no values for this season.";
-    public moduleHeaderData: Object = {
+    @Input() modelData: SeasonStatsModuleData;
+
+    @Input() profileName: string;
+
+    teamOnePlayerList: Array<{key: string, value: string}>;
+
+    teamTwoPlayerList: Array<{key: string, value: string}>;
+
+    teamList: Array<{key: string, value: string}>;
+
+    gradient: any;
+
+    moduleHeaderData: Object = {
         moduleTitle: 'Season Stats - [Pitcher Name]',
         hasIcon: false,
         iconClass: ''
     };
-    public comparisonLegendData: ComparisonLegendInput = {
-        legendTitle: [
-          {
-              text: '2016 Season',
-              class: 'text-heavy'
-          },
-          {
-              text: ' Breakdown',
-          }
-        ],
-        legendValues: [
-            {
-                title: 'MLB Leader',
-                color: '#e1e1e1'
-            },
-            {
-                title: 'MLB Average',
-                color: '#555555'
-            },
-            {
-                title: '[Profile Name]',
-                color: '#bc2027'
-            }
-        ]
-    };
-    public comparisonBarData: Array<Object> = [
-        {
-            title: 'Wins',
-            data: [
-                {
-                    dataOne: 33,
-                    dataTwo: 22,
-                    dataHigh: 52
-                },
-                {
-                    dataOne: 12,
-                    dataTwo: 45,
-                    dataHigh: 90
-                },
-                {
-                    dataOne: 45,
-                    dataTwo: 75,
-                    dataHigh: 100
-                }
-            ],
-            colorOne: '#BC1624',
-            colorTwo: '#555555',
-            background: 0
-        },
-        {
-            title: 'Innings Pitched (IP)',
-            data: [
-                {
-                    dataOne: 3,
-                    dataTwo: 7,
-                    dataHigh: 8
-                },
-                {
-                    dataOne: 1,
-                    dataTwo: 0,
-                    dataHigh: 10
-                },
-                {
-                    dataOne: 4,
-                    dataTwo: 7,
-                    dataHigh: 7
-                }
-            ],
-            colorOne: '#BC1624',
-            colorTwo: '#555555',
-            background: 1
-        },
-        {
-            title: 'Strike Outs (SO)',
-            data: [
-                {
-                    dataOne: 3,
-                    dataTwo: 2,
-                    dataHigh: 5
-                },
-                {
-                    dataOne: 76,
-                    dataTwo: 44,
-                    dataHigh: 100
-                },
-                {
-                    dataOne: 3,
-                    dataTwo: 1,
-                    dataHigh: 4
-                }
-            ],
-            colorOne: '#BC1624',
-            colorTwo: '#555555',
-            background: 0
-        },
-        {
-            title: 'ERA',
-            data: [
-                {
-                    dataOne: 15,
-                    dataTwo: 95,
-                    dataHigh: 100
-                },
-                {
-                    dataOne: 6,
-                    dataTwo: 20,
-                    dataHigh: 120
-                },
-                {
-                    dataOne: 45,
-                    dataTwo: 83,
-                    dataHigh: 90
-                }
-            ],
-            colorOne: '#BC1624',
-            colorTwo: '#555555',
-            background: 1
-        },
-        {
-            title: 'Hits',
-            data: [
-                {
-                    dataOne: 15,
-                    dataTwo: 95,
-                    dataHigh: 100
-                },
-                {
-                    dataOne: 4,
-                    dataTwo: 30,
-                    dataHigh: 50
-                },
-                {
-                    dataOne: 65,
-                    dataTwo: 98,
-                    dataHigh: 120
-                }
-            ],
-            colorOne: '#BC1624',
-            colorTwo: '#555555',
-            background: 0
-        }
-    ];
-    public dataIndex: number = 0;
-    public footerData = {
-      infoDesc: 'Want to see full statistics for this player?',
-      text: 'VIEW FULL STATISTICS',
-      url: ['Disclaimer-page']
-    };
-    tabs: Array<ComparisonTabData> = [];
-    public carouselDataArray: any = {
-        index: '1',
-        imageConfig: {
-          imageClass: "image-150",
-          mainImage: {
-            imageUrl: "./app/public/no-image.png",
-            imageClass: "border-large"
-          },
-          subImages: [
-            {
-              imageUrl: "./app/public/no-image.png",
-              imageClass: "image-50-sub image-round-lower-right"
-            }
-          ],
-        },
-        description:[
-          '<p></p>',
-          '<p></p>',
-          '<p></p>',
-          '<p></p>'
-        ]
-    };
-    formatData(data: SeasonStatsData) {
-        var selectedSeason = new Date().getFullYear(); //TODO: get from selected tab.
-        for ( var i = 0; i < this.tabs.length; i++ ) {
-            this.tabs[i].barData = data.bars[this.tabs[i].seasonId];
-        }
-        this.comparisonLegendData = {
-            legendTitle: [
-                {
-                    text: selectedSeason + ' Season',
-                    class: 'text-heavy'
-                },
-                {
-                    text: ' Breakdown',
-                }
-            ],
-            legendValues: [
-                {
-                    title: "Stat High",
-                    color: "#e1e1e1"
-                },
-                {
-                    title: data.mlbInfo.playerName,
-                    color: data.mlbInfo.mainTeamColor
-                },
-                {
-                    title: data.playerInfo.playerName,
-                    color: data.playerInfo.mainTeamColor
-                }
-            ]
-        };
-    }
-    constructor(){
+
+    SeasonStatsLegendData: ComparisonLegendInput;
+
+    selectedTeamOne: string;
+
+    selectedTeamTwo: string;
+
+    comparisonTileDataOne: ComparisonTileInput;
+
+    comparisonTileDataTwo: ComparisonTileInput;
+
+    tabs: Array<SeasonStatsTabData> = [];
+
+    noDataMessage = "Sorry, there are no values for this season.";
+
+    constructor() {
         var year = new Date().getFullYear();
         this.tabs.push({
             tabTitle: "Current Season",
@@ -270,26 +101,183 @@ export class SeasonStatsModule implements OnInit, OnChanges {
             isActive: false
         });
     }
-    ngOnInit(){}
-    ngOnChanges(){
-      if ( this.data && this.tabs ) {
-          this.formatData(this.data);
-      }
+
+    ngOnInit(){
     }
-    tabSelected(tabTitle){
-      var selectedTabs = this.tabs.filter(tab => {
-         return tab.tabTitle == tabTitle;
-      });
-      if ( selectedTabs.length > 0 ) {
-          var tab = selectedTabs[0];
-          if ( tabTitle == "Career Stats" ) {
-              this.comparisonLegendData.legendTitle[0].text = tabTitle;
-              this.noDataMessage = "Sorry, there are no season stats available for this player.";
-          }
-          else {
-              this.comparisonLegendData.legendTitle[0].text = tab.seasonId + " Season";
-              this.noDataMessage = "Sorry, there are no statistics available for " + tab.seasonId + ".";
-          }
-      }
+
+    ngOnChanges() {
+        if ( this.modelData ) {
+            this.teamList = this.modelData.teamList;
+            if ( this.modelData.playerLists && this.modelData.playerLists.length >= 2 ) {
+                this.teamOnePlayerList = this.modelData.playerLists[0].playerList;
+                this.teamTwoPlayerList = this.modelData.playerLists[1].playerList;
+            }
+            if ( this.modelData.data && this.tabs ) {
+                this.formatData(this.modelData.data);
+                this.modelData.loadTeamList(teamList => {
+                    this.teamList = teamList;
+                    this.loadPlayerList(0, this.modelData.data.playerInfo.teamId);
+                    this.loadPlayerList(1, this.modelData.data.playerInfo.teamId);
+                });
+            }
+        }
+        if ( this.profileName ) {
+            this.moduleHeaderData.moduleTitle = 'Season Stats - ' + this.profileName;
+        }
+    }
+
+    //TODO-CJP: think about passing of data and creating a list of players rather than player one and player two
+    formatData(data: SeasonStatsStatsData) {
+        var selectedSeason = new Date().getFullYear(); //TODO: get from selected tab.
+        // this.selectedTeamOne = data.playerInfo.teamId;
+        // this.selectedTeamTwo = data.playerInfo.teamId;
+        this.comparisonTileDataOne = this.setupTile(data.playerInfo);
+        this.comparisonTileDataTwo = this.setupTile(data.playerInfo);
+        this.gradient = Gradient.getGradientStyles([data.playerInfo.mainTeamColor, data.playerInfo.mainTeamColor], 1);
+
+        for ( var i = 0; i < this.tabs.length; i++ ) {
+            this.tabs[i].barData = data.bars[this.tabs[i].seasonId];
+        }
+        this.SeasonStatsLegendData = {
+            legendTitle: [
+                {
+                    text: selectedSeason + ' Season',
+                    class: 'text-heavy'
+                },
+                {
+                    text: ' Breakdown',
+                }
+            ],
+            legendValues: [
+                {
+                    title: "Stat High",
+                    color: "#e1e1e1"
+                },
+                {
+                    title: data.playerInfo.playerName,
+                    color: data.playerInfo.mainTeamColor
+                },
+                {
+                    title: data.playerInfo.playerName,
+                    color: data.playerInfo.mainTeamColor
+                }
+            ]
+        };
+    }
+
+    setupTile(player: PlayerData): ComparisonTileInput {
+        return {
+            dropdownOneKey: player.teamId,
+            dropdownTwoKey: player.playerId,
+            imageConfig: {
+                imageClass: "image-180",
+                mainImage: {
+                    imageUrl: GlobalSettings.getImageUrl(player.playerHeadshot),
+                    urlRouteArray: MLBGlobalFunctions.formatPlayerRoute(player.teamName, player.playerName, player.playerId),
+                    hoverText: "<p>View</p><p>Profile</p>",
+                    imageClass: "border-large"
+                },
+                subImages: [
+                    {
+                        imageUrl: GlobalSettings.getImageUrl(player.teamLogo),
+                        urlRouteArray: MLBGlobalFunctions.formatTeamRoute(player.teamName, player.teamId),
+                        hoverText: "<i class='fa fa-mail-forward'></i>",
+                        imageClass: "image-50-sub image-round-lower-right"
+                    },
+                    {
+                        text: "#" + player.uniformNumber,
+                        imageClass: "image-48-rank image-round-upper-left image-round-sub-text"
+                    }
+                ],
+            },
+            title: player.playerName,
+            description: [
+                {
+                    text: 'Position: '
+                },
+                {
+                    text: player.position,
+                    class: 'text-heavy'
+                },
+                {
+                    text: ' |&nbsp;&nbsp;Team: ', //TODO: differently
+                    class: ''
+                },
+                {
+                    text: player.teamName,
+                    class: 'text-heavy'
+                }
+            ],
+            data: [
+                {
+                    data: player.height.split("-").join("'") + "\"",
+                    key: 'Height'
+                },
+                {
+                    data: player.weight + "<sup>lbs</sup>",
+                    key: 'Weight'
+                },
+                {
+                    data: player.age.toString(),
+                    key: 'Age'
+                },
+                {
+                    data: player.yearsExperience + "<sup>" + GlobalFunctions.Suffix(player.yearsExperience) + "</sup>",
+                    key: 'Season'
+                },
+            ]
+        }
+    }
+
+    /**
+     * @param {number} tileIndex - 0 : left tile
+     *                           - 1 : right tile
+     * @param value an object containing
+     *  - {number} dropdownIndex: 0 = left dropdown or team list, 1 right dropdown or player list
+     *  - {string} key - The key selected in the dropdown
+     */
+    tileDropdownSwitched(tileIndex:number, value) {
+        var dropdownIndex:number = value.dropdownIndex;
+        var key:string = value.key;
+        if ( dropdownIndex == 0 ) { //team dropdown
+            this.loadPlayerList(tileIndex, key);
+        }
+        else if ( dropdownIndex == 1 ) { //player dropdown
+            //load new player list and comparison stats
+        }
+    }
+
+    loadPlayerList(tileIndex:number, teamId: string) {
+        if ( tileIndex == 0 ) {
+            this.selectedTeamOne = teamId;
+        }
+        else {
+            this.selectedTeamTwo = teamId;
+        }
+        this.modelData.loadPlayerList(tileIndex, teamId, playerList => {
+            if ( tileIndex == 0 ) {
+                this.teamOnePlayerList = playerList;
+            }
+            else {
+                this.teamTwoPlayerList = playerList;
+            }
+        });
+    }
+
+    tabSelected(tabTitle) {
+        var selectedTabs = this.tabs.filter(tab => {
+           return tab.tabTitle == tabTitle;
+        });
+        if ( selectedTabs.length > 0 ) {
+            var tab = selectedTabs[0];
+            if ( tabTitle == "Career Stats" ) {
+                this.SeasonStatsLegendData.legendTitle[0].text = tabTitle;
+                this.noDataMessage = "Sorry, there are no season stats available for this player.";
+            }
+            else {
+                this.SeasonStatsLegendData.legendTitle[0].text = tab.seasonId + " Season";
+                this.noDataMessage = "Sorry, there are no statistics available for " + tab.seasonId + ".";
+            }
+        }
     }
 }
