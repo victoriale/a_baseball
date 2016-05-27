@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, OnChanges} from 'angular2/core';
+import {Component, Input, Output, EventEmitter, OnInit} from 'angular2/core';
 import {CircleButton} from '../../buttons/circle/circle.button';
 import {CircleImage} from '../../images/circle-image';
 import {CircleImageData} from '../../images/image-data';
@@ -32,8 +32,9 @@ export interface SchedulesCarouselInput{
     outputs:['indexNum'],
 })
 
-export class SchedulesCarousel implements OnChanges{
+export class SchedulesCarousel implements OnInit{
   @Input() carouselData:Array<SchedulesCarouselInput>;
+  @Input() indexInput: any;//this is an optional Input to determine where the current index is currently positioned. otherwise set the defaul indexInput to 0;
   public indexNum: EventEmitter<any> = new EventEmitter();//interface for the output to return an index
   public dataPoint: SchedulesCarouselInput;
   response(event){
@@ -46,12 +47,14 @@ export class SchedulesCarousel implements OnChanges{
     }
   }
 
-  ngOnChanges(){
+  ngOnInit(){
     //on initial component view set the datapoint to the first item in the array if it exists
-    this.dataPoint = this.carouselData[0];
-    //if there is rank then initially set it when component is initially in view
-    if(typeof this.dataPoint['index'] != 'undefined'){
-      this.indexNum.next(this.dataPoint['index']);
+    if(typeof this.carouselData != 'undefined'){
+      this.dataPoint = this.carouselData[0];
+      //if there is rank then initially set it when component is initially in view
+      if(typeof this.dataPoint['index'] != 'undefined'){
+        this.indexNum.next(this.dataPoint['index']);
+      }
     }
   }
 }

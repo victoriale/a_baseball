@@ -146,8 +146,11 @@ interface LeagueProfileHeaderData {
   city: string;
   state: string;
   foundingDate: string;
+  foundedIn: string;  //NEED // year in [YYYY]
   backgroundImage: string; //PLACEHOLDER
   logo: string;
+  profileName1?:string;
+  profileName2?:string;
   totalTeams: number;
   totalPlayers: number;
   totalDivisions: number;
@@ -209,13 +212,13 @@ export class ProfileHeaderService {
           
           //Forcing values to be numbers
           if ( headerData.stats.batting ) {
-            headerData.stats.batting.average = Number(headerData.stats.batting.average); 
-            headerData.stats.batting.runsScored = Number(headerData.stats.batting.runsScored); 
+            headerData.stats.batting.average = Number(headerData.stats.batting.average);
+            headerData.stats.batting.runsScored = Number(headerData.stats.batting.runsScored);
             headerData.stats.batting.homeRuns = Number(headerData.stats.batting.homeRuns);
-          }  
+          }
           if ( headerData.stats.pitching ) {
             headerData.stats.pitching.era = Number(headerData.stats.pitching.era);
-          } 
+          }
           var teamName = headerData.teamFirstName + " " + headerData.teamLastName;
           return {
             pageParams: {
@@ -239,7 +242,8 @@ export class ProfileHeaderService {
         .map(res => res.json())
         .map(data => {
           var leagueData: LeagueProfileHeaderData = data.data;
-          
+          leagueData.profileName1 = "MLB";
+          leagueData.profileName2 = "Major League Baseball";
           //Forcing values to be numbers
           leagueData.totalDivisions = Number(leagueData.totalDivisions);
           leagueData.totalLeagues = Number(leagueData.totalLeagues);
@@ -250,24 +254,51 @@ export class ProfileHeaderService {
         });
   }
 
-  convertTeamPageHeader(data: TeamProfileData) {
+  convertTeamPageHeader(data: TeamProfileData, pageName?:string) {
     var description = data.headerData.description;
     var stats = data.headerData.stats;
 
     if (!stats) {
       return null;
     }
-
+    if(typeof pageName == 'undefined'){
+      pageName = '';
+    }
     var headerData = {
       data:{
         imageURL: data.fullProfileImageUrl, //TODO
-        text1: 'Last Updated:', //TODO
+        text1: 'Last Updated:' + moment(data.headerData.lastUpdated).format('dddd MMMM Do, YYYY'), //TODO
         text2: 'United States',
-        text3: stats.teamName + " " + stats.seasonId + " Draft History",
+        text3: stats.teamName + " " + stats.seasonId + " - " + pageName,
         icon: 'fa fa-map-marker',
         hasHover : true,
       },
-      error: "Sorry, the " + stats.teamName + " do not currently have any data for the " + stats.seasonId + " draft history"
+      error: "Sorry, the " + stats.teamName + " do not currently have any data for the " + stats.seasonId + " " + pageName
+    }
+    return headerData;
+  }
+
+
+  convertMLBHeader(data: any, pageName?:string) {
+    var currentDate = new Date();// no stat for date so will grab current year client is on
+    var display:string;
+    if(typeof pageName == 'undefined'){
+      pageName = 'Page';
+    }
+
+    if(currentDate.getFullYear() == currentDate.getFullYear()){// TODO must change once we have historic data
+      display = "Current Season"
+    }
+    var headerData = {
+      data:{
+        imageURL: GlobalSettings.getImageUrl(data.logo), //TODO
+        text1: 'Last Updated:' + moment(currentDate).format('dddd MMMM Do, YYYY'),//TODO
+        text2: 'United States',
+        text3: display + " " + pageName + " - " + data.profileName1,
+        icon: 'fa fa-map-marker',
+        hasHover : true,
+      },
+      error: data.profileName1 + " has not record of anymore games for the current season."
     }
     return headerData;
   }
@@ -276,17 +307,17 @@ export class ProfileHeaderService {
     if (!data.headerData || !data.headerData.info) {
       return null;
     }
-    
+
     var headerData = data.headerData;
     var stats = headerData.stats;
     var info = headerData.info;
-    
+
     var formattedStartDate = info.draftYear ? info.draftYear : "N/A"; //[September 18, 2015]
     var formattedYearsInMLB = "N/A"; //[one]
     var yearPluralStr = "years";
     if ( info.draftYear ) {
       var currentYear = (new Date()).getFullYear();
-      var yearsInMLB = (currentYear - Number(info.draftYear));      
+      var yearsInMLB = (currentYear - Number(info.draftYear));
       formattedYearsInMLB = GlobalFunctions.formatNumber(yearsInMLB);
       if ( yearsInMLB == 1 ) {
         yearPluralStr = "year";
@@ -321,7 +352,7 @@ export class ProfileHeaderService {
                   "</span> was born in <span class='text-heavy'>" + location +
                   "</span> on <span class='text-heavy'>" + formattedBirthDate +
                   "</span> and is <span class='text-heavy'>" + formattedAge +
-                  "</span> years old, with a height of <span class='text-heavy'>" + formattedHeight + 
+                  "</span> years old, with a height of <span class='text-heavy'>" + formattedHeight +
                   "</span> and weighing in at <span class='text-heavy'>" + formattedWeight +
                   "</span> pounds.";
     
@@ -334,7 +365,7 @@ export class ProfileHeaderService {
         if ( stats.earnedRuns > 1 ) {
           formattedEra = stats.earnedRuns.toPrecision(3);
         }
-        else {        
+        else {
           formattedEra = stats.earnedRuns.toPrecision(2);
         }
       }
@@ -420,21 +451,21 @@ export class ProfileHeaderService {
     if (!stats) {
       return null;
     }
-    
+
     //The [Atlanta Braves] play in [Turner Field] located in [Atlanta, GA]. The [Atlanta Braves] are part of the [NL East].
     var location = "N/A";
     if ( headerData.teamCity && headerData.teamState ) {
       location = headerData.teamCity + ", " + headerData.teamState;
-    } 
-    
+    }
+
     var group = "N/A";
     if ( stats.division && stats.conference ) {
       group = MLBGlobalFunctions.formatShortNameDivison(stats.conference.name, stats.division.name);
-    } 
-    
+    }
+
     var venue = headerData.teamVenue ? headerData.teamVenue : "N/A";
     var description = "The <span class='text-heavy'>" + stats.teamName +
-                      "</span> play in <span class='text-heavy'>" + venue + 
+                      "</span> play in <span class='text-heavy'>" + venue +
                       "</span> located in <span class='text-heavy'>" + location +
                       "</span>. The <span class='text-heavy'>" + stats.teamName +
                       "</span> are part of the <span class='text-heavy'>" + group +
@@ -445,7 +476,7 @@ export class ProfileHeaderService {
       if ( stats.pitching.era > 1 ) {
         formattedEra = stats.pitching.era.toPrecision(3);
       }
-      else {        
+      else {
         formattedEra = stats.pitching.era.toPrecision(2);
       }
     }
@@ -504,6 +535,7 @@ export class ProfileHeaderService {
     var state = data.state != null ? data.state : "N/A";
 
     data.backgroundImage = GlobalSettings.getImageUrl(data.backgroundImage);
+    data.profileImage = GlobalSettings.getImageUrl(data.profileImage);
 
     var description = "The MLB consists of " + GlobalFunctions.formatNumber(data.totalTeams) +
                       " teams and " + GlobalFunctions.formatNumber(data.totalPlayers) + " players. " +

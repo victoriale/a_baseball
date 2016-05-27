@@ -23,6 +23,7 @@ import {ErrorComponent} from "../../components/error/error.component";
 })
 
 export class DraftHistoryPage implements OnInit{
+  whatProfile:string = "Draft History";
   profileHeaderData: TitleInputData;
   errorData: any;
   dataArray: any;//array of data for detailed list
@@ -44,7 +45,7 @@ export class DraftHistoryPage implements OnInit{
       this.profHeadService.getTeamProfile(teamId)
       .subscribe(
           data => {
-            var profHeader = this.profHeadService.convertTeamPageHeader(data);
+            var profHeader = this.profHeadService.convertTeamPageHeader(data, this.whatProfile);
             this.profileHeaderData = profHeader.data;
             this.errorData = {
               data: profHeader.error,
