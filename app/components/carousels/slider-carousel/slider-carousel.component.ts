@@ -53,7 +53,8 @@ export class SliderCarousel implements OnInit {
       this.backgroundImage = this.dataPoint.backgroundImage;
     }
     else {
-      this.backgroundImage = '/app/public/homePage_hero1.png';
+      var randomIndex = Math.random() > .5 ? 1 : 2;
+      this.backgroundImage = '/app/public/Image-Placeholder-' + randomIndex + '.jpg';
     }
     //sets the index of the dataPoint of its current position in the array
     // the '?' meaning if there is data to even receive
@@ -70,7 +71,7 @@ export class SliderCarousel implements OnInit {
   ngOnInit() {
     //incase there is no backgroundImage being return set the default background
     if(typeof this.backgroundImage == 'undefined'){
-      this.backgroundImage = '/app/public/homePage_hero1.png';
+      this.backgroundImage = '/app/public/Image-Placeholder-1.jpg';
     }
 
     //In case of errors display below
