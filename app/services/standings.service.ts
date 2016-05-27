@@ -89,16 +89,20 @@ export class StandingsService {
       }
 
       standingsTab.isLoaded = false;
+      standingsTab.hasError = false;
 
       this.http.get(url)
           .map(res => res.json())
           .map(data => this.setupTabData(standingsTab, data.data, pageParams.teamId, maxRows))
           .subscribe(data => {
             standingsTab.isLoaded = true;
+            standingsTab.hasError = false;
             standingsTab.sections = data;
-            onTabsLoaded(data);        
+            onTabsLoaded(data);
           },
           err => {
+            standingsTab.isLoaded = true;
+            standingsTab.hasError = true;
             console.log("Error getting standings data");
           });
     }
@@ -110,7 +114,6 @@ export class StandingsService {
   }
 
   private setupTabData(standingsTab: MLBStandingsTabData, apiData: any, teamId: number, maxRows: number): Array<MLBStandingsTableData> {
-    //Array<TeamStandingsData>
     var sections: Array<MLBStandingsTableData> = [];
     var totalRows = 0;
 
@@ -161,7 +164,9 @@ export class StandingsService {
       value.groupName = groupName;
       value.displayDate = GlobalFunctions.formatUpdatedDate(value.lastUpdated, false);
       value.fullImageUrl = GlobalSettings.getImageUrl(value.imageUrl);
-      value.fullBackgroundImageUrl = GlobalSettings.getImageUrl(value.backgroundImage);
+      if ( value.backgroundImage ) {
+        value.fullBackgroundImageUrl = GlobalSettings.getImageUrl(value.backgroundImage);
+      }
 
       //Make sure numbers are numbers.
       value.totalWins = Number(value.totalWins);

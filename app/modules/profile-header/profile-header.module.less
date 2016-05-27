@@ -1,17 +1,17 @@
 .ph {
   border-bottom: 2px solid @black;
-  
+
   &-banner-image {
     background-color: rgba(0, 0, 0, 0.65);
     background-image: url("/app/public/image_placeholder.png") no-repeat;
-  }  
+  }
 
   &-hdr {
     background-color: rgba(0, 0, 0, 0.6);
     padding: 10px 30px;
     color: @white;
     position: relative;
-    
+
     &-ptr {
       content: '';
       border-top: 15px solid rgba(0, 0, 0, 0.6);
@@ -21,74 +21,74 @@
       left: 110px;
       bottom: -15px;
     }
-    
+
     &-date {
       text-transform: uppercase;
       .globalDefaultModFont(8px, 400, @strokeGrey);
       margin-bottom: 18px;
     }
-    
+
     &-title {
       .globalDefaultFont(48px, 400);
       margin-bottom: 18px;
     }
-    
+
     &-datapts {
       .globalDefaultFont(14px, 400);
       margin-bottom: 14px;
-      
+
       &-value {
         font-weight: 800;
         padding-left: 2px;
       }
-      
+
       a, a:hover, a:focus, a:active {
         color: @masterBrandColor;
         text-decoration: none;
       }
-      
+
       &-sep {
         padding: 0 .6em;
       }
-      
+
     }
   }
-  
+
   &-content {
     .flexDisplay;
-    
+
     &-image {
       -webkit-flex: 1 0 auto; // makes the flex look nice on Safari
       margin-top: 30px;
       margin-left: 30px;
       margin-bottom: 30px;
     }
-    
+
     &-wrapper {
       margin-left: 18px;
       margin-top: 18px;
     }
-    
+
     &-title {
       .flexDisplay;
       .flexAlignItems(center);
-      .flexJustify(center);
+      .flexJustify(left);
       .globalDefaultModFont(24px, 400, @white);
       line-height: 28px;
       margin-right: 30px;
       height: 64px;
-      
+
       circle-image {
         float: left;
         margin-right: 12px;
       }
     }
-    
+
     &-desc {
       .globalDefaultModFont(16px, 400, @white);
       margin-left: 16px;
       margin-right: 20px;
-    
+
       &-border {
         position: absolute;
         top: 6px;
@@ -97,40 +97,40 @@
         border: 1px solid @strokeGrey;
         content: '';
       }
-      
+
       .scrollable-item {
         height: 130px;
       }
-      
+
       .scrollable-item-content {
         position: relative;
         padding-left: 15px;
       }
-      
+
       &-text {
         margin: 0;
       }
     }
   }
-  
+
   &-datapts {
     .flexDisplay;
-      
+
     &-pt {
       .flexGrow(1);
       padding: 18px 0;
       text-align: center;
       border-left: @strokeGrey 1px solid;
     }
-    
+
     &-pt:first-child {
       border-left-width: 0;
     }
-    
+
     &-label {
-      .globalDefaultModFont(12px, 400, @greyTabText);      
+      .globalDefaultModFont(12px, 400, @greyTabText);
     }
-    
+
     &-value {
       .globalDefaultModFont(28px, 800, @black);
       margin-top: 6px;

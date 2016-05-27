@@ -1,5 +1,5 @@
 import {Component, OnInit} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
+import {RouteParams, RouteConfig} from 'angular2/router';
 
 import {MLBPageParameters} from '../../global/global-interface';
 
@@ -15,8 +15,12 @@ import {FaqService} from '../../services/faq.service';
 import {TwitterModule, twitterModuleData} from "../../modules/twitter/twitter.module";
 import {TwitterService} from '../../services/twitter.service';
 
+import {SeasonStatsService, SeasonStatsData} from '../../services/season-stats.service';
+import {SeasonStatsModule} from '../../modules/season-stats/season-stats.module';
+
 import {ComparisonModule, ComparisonModuleData} from '../../modules/comparison/comparison.module';
-import {ComparisonStatsService, ComparisonStatsData} from '../../services/comparison-stats.service';
+import {ComparisonStatsService} from '../../services/comparison-stats.service';
+
 import {CommentModule} from '../../modules/comment/comment.module';
 
 import {StandingsModule, StandingsModuleData} from '../../modules/standings/standings.module';
@@ -34,6 +38,8 @@ import {NewsModule} from '../../modules/news/news.module';
 import {NewsService} from '../../services/news.service';
 
 import {SchedulesModule} from '../../modules/schedules/schedules.module';
+import {SchedulesService} from '../../services/schedules.service';
+
 import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
 import {GlobalSettings} from "../../global/global-settings";
 import {ImagesService} from "../../services/carousel.service";
@@ -56,6 +62,7 @@ import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.modul
       FAQModule,
       LikeUs,
       TwitterModule,
+      SeasonStatsModule,
       ComparisonModule,
       NewsModule,
       ShareModule,
@@ -63,6 +70,7 @@ import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.modul
       ListOfListsModule,
       ImagesMedia],
     providers: [
+      SchedulesService,
       StandingsService,
       ProfileHeaderService,
       ImagesService,
@@ -70,6 +78,7 @@ import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.modul
       FaqService,
       DykService,
       ListOfListsService,
+      SeasonStatsService,
       ComparisonStatsService,
       TwitterService
     ],
@@ -77,21 +86,11 @@ import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.modul
 
 export class PlayerPage implements OnInit {
   public shareModuleInput:ShareModuleInput;
-
   pageParams:MLBPageParameters;
-
   standingsData:StandingsModuleData;
-
   profileHeaderData: ProfileHeaderData;
-  
-  comparisonModuleData: ComparisonModuleData = {
-      data: null,
-      teamList: [],
-      playerLists: [],
-      loadTeamList: function(){},
-      loadPlayerList: function(){}
-  }
-
+  seasonStatsData: SeasonStatsData;
+  comparisonModuleData: ComparisonModuleData;
   imageData:any;
   copyright:any;
   profileType:string = "player";
@@ -103,9 +102,11 @@ export class PlayerPage implements OnInit {
   dykData: Array<dykModuleData>;
   listOfListsData: Object; // paginated data to be displayed
   twitterData: Array<twitterModuleData>;
+  schedulesData:any;
 
   constructor(private _params:RouteParams,
               private _standingsService:StandingsService,
+              private _schedulesService:SchedulesService,
               private _profileService:ProfileHeaderService,
               private _imagesService:ImagesService,
               private _newsService: NewsService,
@@ -113,13 +114,14 @@ export class PlayerPage implements OnInit {
               private _dykService: DykService,
               private _lolService : ListOfListsService,
               private _twitterService: TwitterService,
+              private _seasonStatsService: SeasonStatsService,
               private _comparisonService: ComparisonStatsService,
               private _globalFunctions:GlobalFunctions) {
 
       this.pageParams = {
           playerId: Number(_params.get("playerId"))
       };
-      
+
         // Scroll page to top to fix routerLink bug
         window.scrollTo(0, 0);
   }
@@ -131,24 +133,71 @@ export class PlayerPage implements OnInit {
   private setupPlayerProfileData() {
       this._profileService.getPlayerProfile(this.pageParams.playerId).subscribe(
           data => {
+              /*** About [Player Name] ***/
               this.pageParams = data.pageParams;
               this.profileName = data.headerData.info.playerName;
               this.teamName = data.headerData.info.teamName;
               this.profileHeaderData = this._profileService.convertToPlayerProfileHeader(data);
               this.setupTeamProfileData();
-              this.setupShareModule();
+
+              /*** Keep Up With Everything [Player Name] ***/
+              //this.getBoxScores();
+              this.getSchedulesData('pre-event');//grab pre event data for upcoming games
+              this.setupSeasonstatsData();
               this.setupComparisonData();
+              /*** Other [League Name] Content You May Love ***/
               this.getImages(this.imageData);
-              this.getNewsService();
-              this.getFaqService();
               this.getDykService();
+              this.getFaqService();
               this.setupListOfListsModule();
+              this.getNewsService();
+
+              /*** Interact With [League Name]’s Fans ***/
+              this.setupShareModule();
               this.getTwitterService();
           },
           err => {
               console.log("Error getting player profile data for " + this.pageParams.playerId + ": " + err);
           }
       );
+  }
+
+  //grab tab to make api calls for post of pre event table
+  private scheduleTab(tab) {
+      if(tab == 'Upcoming Games'){
+          this.getSchedulesData('pre-event');
+      }else if(tab == 'Previous Games'){
+          this.getSchedulesData('post-event');
+      }else{
+          this.getSchedulesData('post-event');// fall back just in case no status event is present
+      }
+  }
+  private setupSeasonstatsData() {
+      this._seasonStatsService.getPlayerStats(this.pageParams)
+      .subscribe(
+          data => {
+              // console.log("set up season stats", data, this.pageParams);
+              this.seasonStatsData = data[0];
+          },
+          err => {
+              console.log("Error getting season stats data for "+ this.pageParams.playerId);
+          });
+  }
+  //api for Schedules
+  private getSchedulesData(status){
+    var limit = 5;
+    if(status == 'post-event'){
+      limit = 3;
+    }
+    this._schedulesService.getSchedulesService('team', status, limit, 1, this.pageParams.teamId)
+    .subscribe(
+      data => {
+        this.schedulesData = data;
+      },
+      err => {
+        console.log("Error getting Schedules Data");
+      }
+    )
   }
 
   private getTwitterService() {
@@ -190,7 +239,7 @@ export class PlayerPage implements OnInit {
                 console.log("Error getting news data");
             });
     }
-    
+
     private getImages(imageData) {
         this._imagesService.getImages(this.profileType, this.pageParams.playerId)
             .subscribe(data => {
@@ -218,7 +267,7 @@ export class PlayerPage implements OnInit {
         //only show 5 rows in the module;
         this._standingsService.getStandingsTabData(tab, this.pageParams, (data) => {}, 5);
     }
-    
+
     private setupComparisonData() {
         this._comparisonService.getInitialPlayerStats(this.pageParams).subscribe(
             data => {

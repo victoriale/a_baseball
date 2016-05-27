@@ -1,6 +1,6 @@
 import {Component, Input, Output, OnInit, EventEmitter} from 'angular2/core';
 import {ModuleFooter} from '../../components/module-footer/module-footer.component';
-import {ModuleHeader} from '../../components/module-header/module-header.component';
+import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 import {SchedulesComponent} from '../../components/schedules/schedules.component';
 import {RouteParams} from 'angular2/router';
 import {GlobalFunctions} from '../../global/global-functions';
@@ -22,11 +22,15 @@ export class SchedulesModule implements OnInit{
     constructor(private params: RouteParams){
 
     }
-    moduleTitle:string;
+    modHeadData: ModuleHeaderData;
 
     ngOnInit(){
-        this.moduleTitle = this.profHeader.profileName + " - Schedules";
-        if(typeof this.params.get('teamId') != 'undefined'){
+        this.modHeadData = {
+          moduleTitle: this.profHeader.profileName + " - Schedules",
+          hasIcon: false,
+          iconClass: '',
+        }
+        if(typeof this.params.get('teamId') != 'undefined' && this.params.get('teamId') !== null){
             this.footerData = {
                 infoDesc: 'Want to see everybody involved in this list?',
                 text: 'VIEW THE LIST',

@@ -6,7 +6,9 @@ import {LikeUs} from "../../modules/likeus/likeus.module";
 import {TwitterModule, twitterModuleData} from "../../modules/twitter/twitter.module";
 import {TwitterService} from '../../services/twitter.service';
 
-import {ComparisonModule} from '../../modules/comparison/comparison.module';
+import {ComparisonModule, ComparisonModuleData} from '../../modules/comparison/comparison.module';
+import {ComparisonStatsService} from '../../services/comparison-stats.service';
+
 import {ShareModule, ShareModuleInput} from '../../modules/share/share.module';
 import {CommentModule} from '../../modules/comment/comment.module';
 
@@ -21,6 +23,8 @@ import {MLBStandingsTabData} from '../../services/standings.data';
 import {StandingsService} from '../../services/standings.service';
 
 import {SchedulesModule} from '../../modules/schedules/schedules.module';
+import {SchedulesService} from '../../services/schedules.service';
+
 import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
 import {MVPModule} from '../../modules/mvp/mvp.module';
 
@@ -60,6 +64,7 @@ import {ImagesMedia} from "../../components/carousels/images-media-carousel/imag
         AboutUsModule,
         ImagesMedia],
     providers: [
+        SchedulesService,
         ListPageService,
         StandingsService,
         ProfileHeaderService,
@@ -67,6 +72,7 @@ import {ImagesMedia} from "../../components/carousels/images-media-carousel/imag
         NewsService,
         FaqService,
         DykService,
+        ComparisonStatsService,
         TwitterService
       ]
 })
@@ -79,6 +85,8 @@ export class MLBPage implements OnInit {
     standingsData:StandingsModuleData;
 
     profileHeaderData:ProfileHeaderData;
+
+    comparisonModuleData: ComparisonModuleData;
 
     batterParams:any;
     batterData:any;
@@ -94,14 +102,17 @@ export class MLBPage implements OnInit {
     faqData: Array<faqModuleData>;
     dykData: Array<dykModuleData>;
     twitterData: Array<twitterModuleData>;
+    schedulesData:any;
 
     constructor(private _standingsService:StandingsService,
                 private _profileService:ProfileHeaderService,
+                private _schedulesService:SchedulesService,
                 private _imagesService:ImagesService,
                 private _newsService: NewsService,
                 private _faqService: FaqService,
                 private _dykService: DykService,
                 private _twitterService: TwitterService,
+                private _comparisonService: ComparisonStatsService,
                 private listService:ListPageService) {
         this.batterParams = { //Initial load for mvp Data
             profile: 'player',
@@ -130,11 +141,20 @@ export class MLBPage implements OnInit {
     private setupProfileData() {
         this._profileService.getMLBProfile().subscribe(
             data => {
+                /*** About MLB ***/
                 this.profileHeaderData = this._profileService.convertToLeagueProfileHeader(data)
                 this.profileName = "MLB";
+
+                /*** Keep Up With Everything MLB ***/
+                //this.getBoxScoresData();
+                this.getSchedulesData('pre-event');//grab pre event data for upcoming games
                 this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
+                //this.getDraftHistory();
                 this.batterData = this.getMVP(this.batterParams, 'batter');
                 this.pitcherData = this.getMVP(this.pitcherParams, 'pitcher');
+                this.setupComparisonData();
+
+                /*** Keep Up With Everything MLB ***/
                 this.setupShareModule();
                 this.getImages(this.imageData);
                 this.getNewsService();
@@ -147,6 +167,35 @@ export class MLBPage implements OnInit {
             }
         );
     }
+
+    //grab tab to make api calls for post of pre event table
+    private scheduleTab(tab) {
+        if(tab == 'Upcoming Games'){
+            this.getSchedulesData('pre-event');
+        }else if(tab == 'Previous Games'){
+            this.getSchedulesData('post-event');
+        }else{
+            this.getSchedulesData('post-event');// fall back just in case no status event is present
+        }
+    }
+
+    //api for Schedules
+    private getSchedulesData(status){
+      var limit = 5;
+      if(status == 'post-event'){
+        limit = 3;
+      }
+      this._schedulesService.getSchedulesService('league', status, limit, 1)
+      .subscribe(
+        data => {
+          this.schedulesData = data;
+        },
+        err => {
+          console.log("Error getting Schedules Data");
+        }
+      )
+    }
+
   private getTwitterService(profileType) {
           this.isProfilePage = true;
           this.profileType = 'league';
@@ -196,6 +245,16 @@ export class MLBPage implements OnInit {
                 err => {
                     console.log("Error getting image data" + err);
                 });
+    }
+
+    private setupComparisonData() {
+        this._comparisonService.getInitialPlayerStats(this.pageParams).subscribe(
+            data => {
+                this.comparisonModuleData = data;
+            },
+            err => {
+                console.log("Error getting comparison data for mlb: " + err);
+            });
     }
 
     private standingsTabSelected(tab:MLBStandingsTabData) {

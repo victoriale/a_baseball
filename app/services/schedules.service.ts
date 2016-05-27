@@ -6,8 +6,8 @@ import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalSettings} from '../global/global-settings';
 import {Conference, Division, MLBPageParameters} from '../global/global-interface';
 import {SchedulesCarouselInput} from '../components/carousels/schedules-carousel/schedules-carousel.component';
-import { MLBSchedulesTableModel, MLBSchedulesTableData} from './schedules.data';
-
+import { MLBSchedulesTableModel, MLBSchedulesTableData, MLBScheduleTabData} from './schedules.data';
+import {Gradient} from '../global/global-gradient';
 
 declare var moment;
 @Injectable()
@@ -81,18 +81,10 @@ export class SchedulesService {
     displayYear = year;
   }
   // console.log(profile,id, eventStatus)/
-  /*
-  http://dev-homerunloyal-api.synapsys.us/team/schedule/2819/pre-event/5/1
-  http://dev-homerunloyal-api.synapsys.us/team/schedule/2819/post-event/5/1
-  http://dev-homerunloyal-api.synapsys.us/league/schedule/pre-event/5/1
-  http://dev-homerunloyal-api.synapsys.us/league/schedule/post-event/5/1
-  */
+
   var callURL = this._apiUrl+'/'+profile+'/schedule';
 
-  var tabData = [
-    {display: 'Upcoming Games', data:'pre-event', season:displayYear},
-    {display: 'Previous Games', data:'post-event', season:displayYear}
-  ]
+
   if(typeof id != 'undefined'){
     callURL += '/'+id;
   }
@@ -102,8 +94,13 @@ export class SchedulesService {
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
+      var tableData = this.setupTableData(eventStatus, year, data.data, limit);
+      var tabData = [
+        {display: 'Upcoming Games', data:'pre-event', season:displayYear, tabData: new MLBScheduleTabData(this.formatGroupName(year,'pre-event'), true)},
+        {display: 'Previous Games', data:'post-event', season:displayYear, tabData: new MLBScheduleTabData(this.formatGroupName(year,'post-event'), true)}
+      ];
       return {
-        data:this.setupTableData(eventStatus, year, data.data, limit),
+        data:tableData,
         tabs:tabData,
         carData: this.setupCarouselData(data.data, limit),
         pageInfo:{
@@ -114,18 +111,47 @@ export class SchedulesService {
     })
   }
 
+
+
   //rows is the data coming in
   private setupTableData(eventStatus, year, rows: Array<any>, maxRows?: number) {
     //Limit to maxRows, if necessary
     if ( maxRows !== undefined ) {
       rows = rows.slice(0, maxRows);
     }
-    let tableName = this.formatGroupName(year,eventStatus);
-    var table = new MLBSchedulesTableModel(rows);
-    return new MLBSchedulesTableData(tableName , table);
+    //TWO tables are to be made depending on what type of tabs the use is click on in the table
+    if(eventStatus == 'pre-event'){
+      // let tableName = this.formatGroupName(year,eventStatus);
+      var table = new MLBSchedulesTableModel(rows, eventStatus);
+      var tableArray = new MLBSchedulesTableData('' , table);
+      return [tableArray];
+    }else{
+      var postDate = [];
+      var dateObject = {};
+      // let tableName = this.formatGroupName(year,eventStatus);
+      var table = new MLBSchedulesTableModel(rows, eventStatus);
+
+      rows.forEach(function(val,index){// seperate the dates into their own Obj tables for post game reports
+        var splitToDate = val.startDateTime.split(' ')[0];
+        if(typeof dateObject[splitToDate] == 'undefined'){
+          dateObject[splitToDate] = {};
+          dateObject[splitToDate]['tableData'] = [];
+          dateObject[splitToDate]['display'] = moment(val.startDateTime).format('dddd MMMM Do, YYYY') + " Games";
+          dateObject[splitToDate]['tableData'].push(val);
+        }else{
+          dateObject[splitToDate]['tableData'].push(val);
+        }
+      });
+      for(var date in dateObject){
+        var newPostModel = new MLBSchedulesTableModel(dateObject[date]['tableData'], eventStatus);
+        var newPostTable = new MLBSchedulesTableData( dateObject[date]['display'], newPostModel);
+        postDate.push(newPostTable);
+      }
+      return postDate;
+    }
   }
 
-  private setupCarouselData(origData, maxRows?: number){
+  private setupCarouselData(origData, maxRows?: number){//ANY CHANGES HERE CHECK updateCarouselData in schedules.data.ts
     // console.log(origData);
     var carouselData: SchedulesCarouselInput; // set a variable to the interface
     var carData = [];
@@ -141,30 +167,29 @@ export class SchedulesService {
         var displayNext = 'Previous Game:';
       }
 
-      if(val.homeScore === null){
-        val.homeScore = '#';
+      if(val.homeTeamWins === null){
+        val.homeTeamWins = '#';
       }
-      if(val.homeOutcome === null){
-        val.homeOutcome = '#';
+      if(val.homeTeamLosses === null){
+        val.homeTeamLosses = '#';
       }
-      if(val.awayScore === null){
-        val.awayScore = '#';
+      if(val.awayTeamWins === null){
+        val.awayTeamWins = '#';
       }
-      if(val.awayOutcome === null){
-        val.awayOutcome = '#';
+      if(val.awayTeamLosses === null){
+        val.awayTeamLosses = '#';
       }
-
       // combine together the win and loss of a team to create their record
-      val.homeRecord = val.homeOutcome + '-' + val.homeScore;//?? is this really the win and loss
-      val.awayRecord = val.awayOutcome + '-' + val.awayScore;//?? is this really the win and loss
-
+      val.homeRecord = val.homeTeamWins + '-' + val.homeTeamLosses;//?? is this really the win and loss
+      val.awayRecord = val.awayTeamWins + '-' + val.awayTeamLosses;//?? is this really the win and loss
       carouselData = {//placeholder data
         index:index,
         displayNext: displayNext,
-        displayTime:moment(val.startDateTime).format('dddd MMMM Do, YYYY | h:mm A') + " [ZONE]",
+        backgroundGradient: Gradient.getGradientStyles([val.awayTeamColors.split(',')[0],val.homeTeamColors.split(',')[0]], 1),
+        displayTime:moment(val.startDateTime).format('dddd MMMM Do, YYYY | h:mm A') + " ET",//hard coded TIMEZOME since it is coming back from api this way
         detail1Data:'Home Stadium:',
-        detail1Value:"[Stadium's]",
-        detail2Value:'[City], [State]',
+        detail1Value:val.homeTeamVenue,
+        detail2Value:val.homeTeamCity + ', ' + val.homeTeamState,
         imageConfig1:{//AWAY
           imageClass: "image-125",
           mainImage: {
@@ -185,8 +210,8 @@ export class SchedulesService {
         },
         teamName1: val.awayTeamName,
         teamName2: val.homeTeamName,
-        teamLocation1:'[Location]',
-        teamLocation2:'[Location]',
+        teamLocation1:val.awayTeamCity + ', ' + val.awayTeamState,
+        teamLocation2:val.homeTeamCity + ', ' + val.homeTeamState,
         teamRecord1:val.awayRecord,
         teamRecord2:val.homeRecord,
       };

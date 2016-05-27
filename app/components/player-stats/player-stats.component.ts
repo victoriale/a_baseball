@@ -7,6 +7,7 @@ import {CustomTable} from '../custom-table/custom-table.component';
 import {TableModel, TableColumn, TableRow, TableCell} from '../custom-table/table-data.component';
 import {DropdownComponent} from '../../components/dropdown/dropdown.component';
 import {LoadingComponent} from '../../components/loading/loading.component';
+import {NoDataBox} from '../../components/error/data-box/data-box.component';
 
 export interface StatsTableTabData<T> {
   tabTitle: string;
@@ -23,7 +24,7 @@ export interface StatsTableTabData<T> {
 @Component({
   selector: "player-stats-component",
   templateUrl: "./app/components/player-stats/player-stats.component.html",
-  directives: [SliderCarousel, Tabs, Tab, CustomTable, DropdownComponent, LoadingComponent],
+  directives: [SliderCarousel, Tabs, Tab, CustomTable, DropdownComponent, LoadingComponent, NoDataBox],
 })
 export class PlayerStatsComponent implements DoCheck {  
   public selectedIndex;
@@ -38,6 +39,7 @@ export class PlayerStatsComponent implements DoCheck {
   
   private selectedTabTitle: string;
   private tabsLoaded: {[key: string]: string};
+  private noDataMessage = "Sorry, there is no data available.";
 
   constructor() {}
   
@@ -86,7 +88,7 @@ export class PlayerStatsComponent implements DoCheck {
   
   tabSelected(newTitle) {
     this.selectedTabTitle = newTitle;
-    // this.getSelectedTab().isLoaded = false;
+    this.noDataMessage = "Sorry, there are no " + newTitle + " stats available.";
     this.tabSelectedListener.next(this.getSelectedTab());
     this.updateCarousel();
   }

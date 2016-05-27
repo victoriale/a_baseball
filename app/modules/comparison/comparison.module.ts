@@ -5,6 +5,7 @@ import {ComparisonBar, ComparisonBarInput} from '../../components/comparison-bar
 import {ComparisonLegend, ComparisonLegendInput} from '../../components/comparison-legend/comparison-legend.component';
 import {Tabs} from '../../components/tabs/tabs.component';
 import {Tab} from '../../components/tabs/tab.component';
+import {NoDataBox} from '../../components/error/data-box/data-box.component';
 
 import {GlobalSettings} from '../../global/global-settings';
 import {GlobalFunctions} from '../../global/global-functions';
@@ -22,56 +23,58 @@ export interface ComparisonTabData {
 
 export interface ComparisonModuleData {
     data: ComparisonStatsData;
-    
+
     teamList: Array<{key: string, value: string}>;
-    
+
     playerLists: Array<{
       teamId: string,
       playerList: Array<{key: string, value: string}>
     }>;
-    
+
     loadTeamList(listLoaded: Function);
-    
+
     loadPlayerList(index: number, teamId: string, listLoaded: Function);
 }
 
 @Component({
     selector: 'comparison-module',
     templateUrl: './app/modules/comparison/comparison.module.html',
-    directives:[ModuleHeader, ComparisonTile, ComparisonBar, ComparisonLegend, Tabs, Tab]
+    directives:[ModuleHeader, ComparisonTile, ComparisonBar, ComparisonLegend, Tabs, Tab, NoDataBox]
 })
 
 export class ComparisonModule implements OnInit, OnChanges {
     @Input() modelData: ComparisonModuleData;
-    
+
     @Input() profileName: string;
-    
+
     teamOnePlayerList: Array<{key: string, value: string}>;
-    
+
     teamTwoPlayerList: Array<{key: string, value: string}>;
-     
+
     teamList: Array<{key: string, value: string}>;
-    
+
     gradient: any;
-    
+
     moduleHeaderData: ModuleHeaderData = {
         moduleTitle: 'Comparison vs. Competition - [Batter Name]',
         hasIcon: false,
         iconClass: ''
     };
-    
+
     comparisonLegendData: ComparisonLegendInput;
-    
+
     selectedTeamOne: string;
-    
+
     selectedTeamTwo: string;
 
     comparisonTileDataOne: ComparisonTileInput;
-    
+
     comparisonTileDataTwo: ComparisonTileInput;
-    
+
     tabs: Array<ComparisonTabData> = [];
-    
+
+    noDataMessage = "Sorry, there are no values for this season.";
+
     constructor() {
         var year = new Date().getFullYear();
         this.tabs.push({
@@ -99,7 +102,7 @@ export class ComparisonModule implements OnInit, OnChanges {
 
     ngOnInit(){
     }
-    
+
     ngOnChanges() {
         if ( this.modelData ) {
             this.teamList = this.modelData.teamList;
@@ -120,7 +123,7 @@ export class ComparisonModule implements OnInit, OnChanges {
             this.moduleHeaderData.moduleTitle = 'Comparison vs. Competition - ' + this.profileName;
         }
     }
-    
+
     //TODO-CJP: think about passing of data and creating a list of players rather than player one and player two
     formatData(data: ComparisonStatsData) {
         var selectedSeason = new Date().getFullYear(); //TODO: get from selected tab.
@@ -129,7 +132,7 @@ export class ComparisonModule implements OnInit, OnChanges {
         this.comparisonTileDataOne = this.setupTile(data.playerOne);
         this.comparisonTileDataTwo = this.setupTile(data.playerTwo);
         this.gradient = Gradient.getGradientStyles([data.playerOne.mainTeamColor, data.playerTwo.mainTeamColor], 1);
-        
+
         for ( var i = 0; i < this.tabs.length; i++ ) {
             this.tabs[i].barData = data.bars[this.tabs[i].seasonId];
         }
@@ -159,7 +162,7 @@ export class ComparisonModule implements OnInit, OnChanges {
             ]
         };
     }
-    
+
     setupTile(player: PlayerData): ComparisonTileInput {
         return {
             dropdownOneKey: player.teamId,
@@ -223,7 +226,7 @@ export class ComparisonModule implements OnInit, OnChanges {
             ]
         }
     }
-    
+
     /**
      * @param {number} tileIndex - 0 : left tile
      *                           - 1 : right tile
@@ -237,11 +240,11 @@ export class ComparisonModule implements OnInit, OnChanges {
         if ( dropdownIndex == 0 ) { //team dropdown
             this.loadPlayerList(tileIndex, key);
         }
-        else if ( dropdownIndex == 1 ) { //player dropdown            
+        else if ( dropdownIndex == 1 ) { //player dropdown
             //load new player list and comparison stats
         }
     }
-    
+
     loadPlayerList(tileIndex:number, teamId: string) {
         if ( tileIndex == 0 ) {
             this.selectedTeamOne = teamId;
@@ -254,22 +257,25 @@ export class ComparisonModule implements OnInit, OnChanges {
                 this.teamOnePlayerList = playerList;
             }
             else {
-                this.teamTwoPlayerList = playerList;                   
-            } 
+                this.teamTwoPlayerList = playerList;
+            }
         });
     }
-    
+
     tabSelected(tabTitle) {
         var selectedTabs = this.tabs.filter(tab => {
-           return tab.tabTitle == tabTitle; 
+           return tab.tabTitle == tabTitle;
         });
         if ( selectedTabs.length > 0 ) {
+            var tab = selectedTabs[0];
             if ( tabTitle == "Career Stats" ) {
                 this.comparisonLegendData.legendTitle[0].text = tabTitle;
+                this.noDataMessage = "Sorry, there are no career stats available for these players.";
             }
             else {
-                this.comparisonLegendData.legendTitle[0].text = selectedTabs[0].seasonId + " Season";
-            } 
-        } 
+                this.comparisonLegendData.legendTitle[0].text = tab.seasonId + " Season";
+                this.noDataMessage = "Sorry, there are no statistics available for " + tab.seasonId + ".";
+            }
+        }
     }
 }

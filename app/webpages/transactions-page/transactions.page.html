@@ -7,8 +7,9 @@
     <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray" [footerStyle]="footerStyle"></slider-carousel>
     <tabs *ngIf="dataArray" (tabSelected)='selectedTab($event)'>
       <tab *ngFor="#data of dataArray; #i = index" [active]="i == 0" [tabTitle]="data.tabDisplay">
-        <div style="margin:-1em"> <!-- due to tab having a default value of padding 1em for tab purposes so we just reverse it with margin -->
-          <detailed-list-item *ngIf="detailedDataArray" [detailedItemData] = 'detailedDataArray'></detailed-list-item>
+        <div class="tab-inset"> <!-- due to tab having a default value of padding 1em for tab purposes so we just reverse it with margin -->
+          <transactions-list-item *ngIf="transactionsDataArray" [transactionsItemData] = 'transactionsDataArray'></transactions-list-item>
+          <!--<detailed-list-item *ngIf="detailedDataArray" [detailedItemData] = 'detailedDataArray'></detailed-list-item>-->
           <no-data-box *ngIf="!detailedDataArray" [data]="errorData.data" [icon]="errorData.icon"></no-data-box>
         </div>
       </tab>

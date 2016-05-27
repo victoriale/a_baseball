@@ -8,7 +8,9 @@
           <detailed-list-item *ngIf="detailedDataArray" [detailedItemData] = 'detailedDataArray'></detailed-list-item>
         </div>
       </div>
-      <no-data-box *ngIf="!detailedDataArray && errorData" [data]="errorData.data" [icon]="errorData.icon"></no-data-box>
+      <div class="comparison-module-no-data" *ngIf="!detailedDataArray && errorData">
+        <no-data-box [data]="errorData.data" [icon]="errorData.icon"></no-data-box>
+      </div>
     </tab>
   </tabs>
   <module-footer [footerData] = 'footerData'></module-footer>

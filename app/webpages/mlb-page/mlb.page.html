@@ -1,42 +1,35 @@
-<div class="page-container">
+<div *ngIf="profileHeaderData" class="page-container">
 
-  <headline-component></headline-component>
+  <headline-component [title]="'About the MLB'"></headline-component>
 
   <profile-header [profileHeaderData]="profileHeaderData"></profile-header>
   <!-- aiArticles -->
-  <headline-component></headline-component>
+  
+  <headline-component [title]="'Keep Up With Everything MLB'"></headline-component>
 
   <box-scores></box-scores>
-
-  <!-- <schedules></schedules> -->
-
+  <schedules *ngIf="schedulesData" [profHeader]="profileHeaderData" [data]="schedulesData" (tabSelected)="scheduleTab($event)"></schedules>
   <standings-module [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
   <!-- draftHistory -->
   <mvp-module *ngIf="batterData" [title]="'Batter'" [mvpData]="batterData" (tab)="batterTab($event)"></mvp-module>
-
   <mvp-module *ngIf="pitcherData" [title]="'Pitcher'" [mvpData]="pitcherData" (tab)="pitcherTab($event)"></mvp-module>
+  <comparison-module [modelData]="comparisonModuleData" [profileName]="profileHeaderData.profileName"></comparison-module>
 
-  <comparison-module></comparison-module>
-
-  <headline-component></headline-component>
+  <headline-component [title]="'Other MLB Content You May Love'"></headline-component>
 
   <images-media-carousel [imageData]="imageData" [copyright]="copyright" [profHeader]="profileHeaderData" [isProfilePage]="isProfilePage"></images-media-carousel>
-
   <dyk-module *ngIf="dykData" [profileName]="profileHeaderData.profileName" [dykData]="dykData"></dyk-module>
-
   <faq-module *ngIf="faqData" [profileName]="profileHeaderData.profileName" [faqData]="faqData"></faq-module>
   <!-- lists of lists -->
   <!-- Other NEWS you will love -->
   <news-module *ngIf="newsDataArray" [newsDataArray]="newsDataArray" [profileName]="profileHeaderData.profileName"></news-module>
 
-  <headline-component></headline-component>
+  <headline-component [title]="'Interact With MLB\'s Fans'"></headline-component>
 
   <twitter-module *ngIf="twitterData" [profileName]="profileHeaderData.profileName" [twitterData]="twitterData"></twitter-module>
-
   <!--Like Us On FB Module, only display if not on partner page-->
   <!-- TODO <section *ngIf="!partnerCheck"> -->
   <like-us-module></like-us-module>
-
   <share-module *ngIf="profileHeaderData && shareModuleInput" [shareModuleInput]="shareModuleInput"></share-module>
   <!-- </section> -->
   <!-- TODO<section *ngIf="!partnerCheck"> also required for comment module-->

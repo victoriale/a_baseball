@@ -1,21 +1,21 @@
 @hoverColor: @masterBrandColor;
 .circles{
-  font-size: 28px;
-  font-weight: 400;
-  color: @white;
-  cursor: pointer;
+  background-color: @masterButtonBackground;
   border: 2px solid @white;
   border-radius: 50%;
-  background-color: @masterLargeImageShadow;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  z-index: 1;
+  color: @white;
+  cursor: pointer;
+  font-size: 28px;
+  font-weight: 400;
+  height: 46px;
+  width: 46px;
   top: 50%;
   transform: translateY(-50%);
+  position: absolute;
+  z-index: 1;
+  .flexDisplay;
+  .flexAlignItems(center);
+  .flexJustify(center);
   .no-select;
 
   &-right {
@@ -26,7 +26,7 @@
     left: 15px;
   }
   &:hover{
-    color: @hoverColor;
-    border-color: @hoverColor;
+    border-color: @black;
+    background-color: @black;
   }
 }

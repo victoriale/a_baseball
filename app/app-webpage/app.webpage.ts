@@ -90,7 +90,7 @@ import {TransactionsPage} from "../webpages/transactions-page/transactions.page"
         component: SearchPage
     },
     {
-        path: '/schedules/:pageNum',
+        path: '/schedules/mlb/:pageNum',
         name: 'Schedules-page-league',
         component: SchedulesPage
     },

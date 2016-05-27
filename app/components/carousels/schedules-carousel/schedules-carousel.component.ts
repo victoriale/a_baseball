@@ -5,6 +5,7 @@ import {CircleImageData} from '../../images/image-data';
 import {Carousel} from '../carousel.component';
 
 export interface SchedulesCarouselInput{
+  backgroundGradient:string;
   index?:any;//to know the or position of the input in the array it could possibly be in
   displayNext:string;
   displayTime:string;
@@ -33,12 +34,12 @@ export interface SchedulesCarouselInput{
 
 export class SchedulesCarousel implements OnInit{
   @Input() carouselData:Array<SchedulesCarouselInput>;
+  @Input() indexInput: any;//this is an optional Input to determine where the current index is currently positioned. otherwise set the defaul indexInput to 0;
   public indexNum: EventEmitter<any> = new EventEmitter();//interface for the output to return an index
   public dataPoint: SchedulesCarouselInput;
   response(event){
     //set the data event being emitted back from the carousel component
     this.dataPoint = event;
-
     //sets the index of the dataPoint of its current position in the array
     // the '?' meaning if there is data to even receive
     if(typeof this.dataPoint['index'] != 'undefined'){
@@ -48,49 +49,12 @@ export class SchedulesCarousel implements OnInit{
 
   ngOnInit(){
     //on initial component view set the datapoint to the first item in the array if it exists
-    if(typeof this.dataPoint != 'undefined'){
+    if(typeof this.carouselData != 'undefined'){
       this.dataPoint = this.carouselData[0];
       //if there is rank then initially set it when component is initially in view
       if(typeof this.dataPoint['index'] != 'undefined'){
         this.indexNum.next(this.dataPoint['index']);
       }
-    }
-
-    //if nothing is returned and data is undefined then run placeholder data
-    if(typeof this.dataPoint == 'undefined' || typeof this.dataPoint.imageConfig1 == 'undefined' || typeof this.dataPoint.imageConfig2 == 'undefined'){
-      this.dataPoint = {//placeholder data
-        index:'1',
-        displayNext:'Next Game:',
-        displayTime:'[DOW] [Month] [dd], [yyyy] | [Time] [AM/PM] [Zone]',
-        detail1Data:'Home Stadium:',
-        detail1Value:"[Stadium's]",
-        detail2Value:'[City], [State]',
-        imageConfig1:{
-          imageClass: "image-125",
-          mainImage: {
-            imageUrl: "./app/public/placeholder-location.jpg",
-            urlRouteArray: ['Disclaimer-page'],
-            hoverText: "<p>View</p><p>Profile</p>",
-            imageClass: "border-large"
-          }
-        },
-        imageConfig2:{
-          imageClass: "image-125",
-          mainImage: {
-            imageUrl: "./app/public/placeholder-location.jpg",
-            urlRouteArray: ['Disclaimer-page'],
-            hoverText: "<p>View</p><p>Profile</p>",
-            imageClass: "border-large"
-          }
-        },
-        teamName1:'[Team Name 1]',
-        teamName2:'[Team Name 2]',
-        teamLocation1:'[City], [State]',
-        teamLocation2:'[City], [State]',
-        teamRecord1:'[Record]',
-        teamRecord2:'[Record]',
-      };
-      this.indexNum.next(this.dataPoint['index']);
     }
   }
 }

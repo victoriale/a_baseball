@@ -1,23 +1,21 @@
 <div *ngIf="profileHeaderData && pageParams" class="page-container">
-  <headline-component></headline-component>
+  <headline-component [title]="'About the ' + profileHeaderData.profileName"></headline-component>
   <profile-header [profileHeaderData]="profileHeaderData"></profile-header>
   <!-- daily update -->
   <articles-module></articles-module>
 
-
-  <headline-component></headline-component>
+  <headline-component [title]="'Keep Up With Everything ' + profileHeaderData.profileName"></headline-component>
   <box-scores></box-scores>
   <schedules *ngIf="schedulesData" [profHeader]="profileHeaderData" [data]="schedulesData" (tabSelected)="scheduleTab($event)"></schedules>
   <standings-module *ngIf="standingsData" [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
-  <!-- teamroster -->
-  <team-roster-module></team-roster-module>
+  <team-roster-module *ngIf="rosterData" [data]="rosterData" (tabSelected)="rosterTabSelected($event)"></team-roster-module>
   <player-stats-module *ngIf="playerStatsData" [data]="playerStatsData" (tabSelected)="playerStatsTabSelected($event)"></player-stats-module>
-  <transactions *ngIf="profileHeaderData && transactionsData" [transactionsData]="transactionsData" [profHeader]="profileHeaderData" (tab)="transactionsTab($event)"></transactions>
+  <transactions *ngIf="profileHeaderData && transactionsData" [transactionsData]="transactionsData" [profHeader]="profileHeaderData" (tab)="transactionsTab($event)"></transactions>    
   <draft-history *ngIf="draftHistoryData" [draftData]="draftHistoryData" [profHeader]="profileHeaderData" (tab)="draftTab($event)"></draft-history>
   <!-- MVP -->
-  <!--<comparison-module></comparison-module>-->
+  <comparison-module [modelData]="comparisonModuleData" [profileName]="profileHeaderData.profileName"></comparison-module>
 
-  <headline-component></headline-component>
+  <headline-component [title]="'Other MLB Content You May Love'"></headline-component>
   <images-media-carousel [imageData]="imageData" [copyright]="copyright" [profHeader]="profileHeaderData" [isProfilePage]="isProfilePage"></images-media-carousel>
   <dyk-module *ngIf="dykData" [profileName]="profileHeaderData.profileName" [dykData]="dykData"></dyk-module>
   <faq-module *ngIf="faqData" [profileName]="profileHeaderData.profileName" [faqData]="faqData"></faq-module>
@@ -25,7 +23,7 @@
   <!-- other news you will love -->
   <news-module *ngIf="newsDataArray" [newsDataArray]="newsDataArray" [profileName]="profileHeaderData.profileName"></news-module>
 
-  <headline-component></headline-component>
+  <headline-component [title]="'Interact With MLB\'s Fans'"></headline-component>
   <twitter-module *ngIf="twitterData" [profileName]="profileHeaderData.profileName" [twitterData]="twitterData"></twitter-module>
   <!--Like Us On FB Module, only display if not on partner page-->
   <!-- TODO <section *ngIf="!partnerCheck"> -->

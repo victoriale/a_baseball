@@ -56,6 +56,7 @@ export class DraftHistoryService {
       data => {
         var returnData = {}
         if(type == 'module'){
+          data = data.slice(0,2);// the module should only have 2 data points displaying
           return returnData = {
             carData:this.carDraftHistory(data.data, type),
             listData:this.detailedData(data.data),
@@ -99,7 +100,7 @@ export class DraftHistoryService {
         var playerFullName = val.playerFirstName + " " + val.playerLastName;
         var Carousel = {
           index:index,
-          //TODO
+          backgroundImage: GlobalSettings.getImageUrl(val.backgroundImage),
           imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.imageUrl),MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId), (index+1), "image-48-rank", "image-50-sub",GlobalSettings.getImageUrl(val.teamLogo),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
           description:[
             '<br>',
