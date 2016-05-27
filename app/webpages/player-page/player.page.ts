@@ -1,5 +1,5 @@
 import {Component, OnInit} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
+import {RouteParams, RouteConfig} from 'angular2/router';
 
 import {MLBPageParameters} from '../../global/global-interface';
 
@@ -15,8 +15,8 @@ import {FaqService} from '../../services/faq.service';
 import {TwitterModule, twitterModuleData} from "../../modules/twitter/twitter.module";
 import {TwitterService} from '../../services/twitter.service';
 
-import {SeasonStatsService} from '../../services/season-stats.service';
-import {SeasonStatsModule, SeasonStatsModuleData} from '../../modules/season-stats/season-stats.module';
+import {SeasonStatsService, SeasonStatsData} from '../../services/season-stats.service';
+import {SeasonStatsModule} from '../../modules/season-stats/season-stats.module';
 
 import {ComparisonModule, ComparisonModuleData} from '../../modules/comparison/comparison.module';
 import {ComparisonStatsService} from '../../services/comparison-stats.service';
@@ -89,7 +89,7 @@ export class PlayerPage implements OnInit {
   pageParams:MLBPageParameters;
   standingsData:StandingsModuleData;
   profileHeaderData: ProfileHeaderData;
-  seasonStatsData: SeasonStatsModuleData;
+  seasonStatsData: SeasonStatsData;
   comparisonModuleData: ComparisonModuleData;
   imageData:any;
   copyright:any;
@@ -172,7 +172,17 @@ export class PlayerPage implements OnInit {
           this.getSchedulesData('post-event');// fall back just in case no status event is present
       }
   }
-
+  private setupSeasonstatsData() {
+      this._seasonStatsService.getPlayerStats(this.pageParams)
+      .subscribe(
+          data => {
+              // console.log("set up season stats", data, this.pageParams);
+              this.seasonStatsData = data[0];
+          },
+          err => {
+              console.log("Error getting season stats data for "+ this.pageParams.playerId);
+          });
+  }
   //api for Schedules
   private getSchedulesData(status){
     this._schedulesService.getSchedulesService('team', status, 5, 1, this.pageParams.teamId)
@@ -263,17 +273,7 @@ export class PlayerPage implements OnInit {
                 console.log("Error getting comparison data for "+ this.pageParams.playerId + ": " + err);
             });
     }
-    private setupSeasonstatsData() {
-        this._seasonStatsService.getInitialPlayerStats(this.pageParams)
-        .subscribe(
-            data => {
-                // console.log("set up season stats", data, this.pageParams);
-                this.seasonStatsData = data;
-            },
-            err => {
-                console.log("Error getting season stats data for "+ this.pageParams.playerId);
-            });
-    }
+
     private setupShareModule() {
         let profileHeaderData = this.profileHeaderData;
         let imageUrl = typeof profileHeaderData.profileImageUrl === 'undefined' || profileHeaderData.profileImageUrl === null ? GlobalSettings.getImageUrl('/mlb/players/no-image.png') : profileHeaderData.profileImageUrl;
