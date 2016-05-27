@@ -236,12 +236,12 @@ export class SeasonStatsModule implements OnInit, OnChanges {
                     color: "#e1e1e1"
                 },
                 {
-                    title: "Player Two",
-                    color: "#bc2027"
+                    title: data.mlbInfo.playerName,
+                    color: data.mlbInfo.mainTeamColor
                 },
                 {
-                    title: "Player One",
-                    color: "#555555"
+                    title: data.playerInfo.playerName,
+                    color: data.playerInfo.mainTeamColor
                 }
             ]
         };

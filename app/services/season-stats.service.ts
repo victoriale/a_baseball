@@ -43,9 +43,9 @@ export interface SeasonStats {
   basesOnBalls: DataPoint;
 }
 export interface SeasonStatsData {
-  playerOne: PlayerData;
+  playerInfo: PlayerData;
 
-  playerTwo: PlayerData;
+  mlbInfo: PlayerData;
 
   data: { [year: string]: SeasonStats };
 
@@ -68,8 +68,8 @@ export class SeasonStatsService {
 
   getPlayerStats(pageParams: MLBPageParameters): Observable<SeasonStatsData> {
     var headers = this.setToken();
-    let url = this._apiUrl + "/player/seasonStats/" + pageParams.playerId + "/2016";
-    console.log("url", url);
+    let url = this._apiUrl + "/player/seasonStats/" + pageParams.playerId;
+    // console.log("url", url);
     return this.http.get(url, {
       headers: headers
     })
@@ -80,12 +80,10 @@ export class SeasonStatsService {
   }
 
   private formatData(data: SeasonStatsData): SeasonStatsData {
-    console.log("formatData", data);
     for(var seasonId in data.data){
-      console.log("season id", seasonId);
+      // console.log("season id", seasonId);
       var seasonStatData = data.data[seasonId];
       var seasonBarList = [];
-      console.log("season stats data", data.data[seasonId]);
     }
     return data;
   }
