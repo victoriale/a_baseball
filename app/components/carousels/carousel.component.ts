@@ -49,7 +49,7 @@ export class Carousel implements OnInit, OnChanges {
     var counter = this.counter;
     counter++;
     //check to see if the end of the obj array of images has reached the end and will go on the the next obj with new set of array
-    if(counter == this.max){
+    if(counter >= this.max){
       this.counter = 0;
     }else{
       this.counter = counter;
@@ -79,66 +79,56 @@ export class Carousel implements OnInit, OnChanges {
     if(typeof this.carouselData == 'undefined' || this.carouselData.length == 0){
       var sampleImage = "./app/public/no-image.jpg";
       this.carouselData =[
-        {
-          backgroundImage: '/app/public/Image-Placeholder-1.jpg',
-          imageData: {
-            imageClass: "image-150",
-            mainImage: {
-              imageUrl: sampleImage,
-              urlRouteArray: ['Disclaimer-page'],
-              hoverText: "<p>View</p> Profile",
-              imageClass: "border-large"
-            },
-            subImages: [
-              {
-                imageUrl: sampleImage,
-                urlRouteArray: ['Disclaimer-page'],
-                hoverText: "<i class='fa fa-mail-forward'></i>",
-                imageClass: "image-50-sub image-round-lower-right"
-              },
-              {
-                text: "#1",
-                imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
-              }
-            ],
-          },
-          description: [
-            "<p>Line1</p>",
-            "<p>Line2 of random lots of random stuff here</p>",
-            "<p>Zombie ipsum brains reversus ab cerebellum viral inferno, brein nam rick mend grimes malum cerveau cerebro.</p>",
-            "<p>Line4</p>",
-          ],
-        },
-        {
-          backgroundImage: '/app/public/Image-Placeholder-1.jpg',
-          imageData: {
-            imageClass: "image-150",
-            mainImage: {
-              imageUrl: sampleImage,
-              urlRouteArray: ['Disclaimer-page'],
-              hoverText: "<p>View</p> Profile",
-              imageClass: "border-large"
-            },
-            subImages: [
-              {
-                imageUrl: sampleImage,
-                urlRouteArray: ['Disclaimer-page'],
-                hoverText: "<i class='fa fa-mail-forward'></i>",
-                imageClass: "image-50-sub image-round-lower-right"
-              },
-              {
-                text: "#1",
-                imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
-              }
-            ],
-          },
-          description: [
-            "<p>Brein nam rick mend grimes malum cerveau cerebro.</p>",
-            "<p>Line523 of random lots of random stuff here</p>",
-            "<p>Line6sdfd</p>",
-            "<p>Zombie ipsum brains reversus ab cerebellum viral inferno, brein nam rick mend grimes malum cerveau cerebro.</p>",
-          ],
-        }
+        // {
+        //   backgroundImage: '/app/public/Image-Placeholder-1.jpg',
+        //   imageData: {
+        //     imageClass: "image-150",
+        //     mainImage: {
+        //       imageUrl: sampleImage,
+        //       urlRouteArray: ['Disclaimer-page'],
+        //       hoverText: "<p>View</p> Profile",
+        //       imageClass: "border-large"
+        //     },
+        //     subImages: [
+        //       {
+        //         imageUrl: sampleImage,
+        //         urlRouteArray: ['Disclaimer-page'],
+        //         hoverText: "<i class='fa fa-mail-forward'></i>",
+        //         imageClass: "image-50-sub image-round-lower-right"
+        //       },
+        //       {
+        //         text: "#1",
+        //         imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
+        //       }
+        //     ],
+        //   },
+        //   description: [],
+        // },
+        // {
+        //   backgroundImage: '/app/public/Image-Placeholder-1.jpg',
+        //   imageData: {
+        //     imageClass: "image-150",
+        //     mainImage: {
+        //       imageUrl: sampleImage,
+        //       urlRouteArray: ['Disclaimer-page'],
+        //       hoverText: "<p>View</p> Profile",
+        //       imageClass: "border-large"
+        //     },
+        //     subImages: [
+        //       {
+        //         imageUrl: sampleImage,
+        //         urlRouteArray: ['Disclaimer-page'],
+        //         hoverText: "<i class='fa fa-mail-forward'></i>",
+        //         imageClass: "image-50-sub image-round-lower-right"
+        //       },
+        //       {
+        //         text: "#1",
+        //         imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
+        //       }
+        //     ],
+        //   },
+        //   description: [],
+        // }
       ];
     }
   }
