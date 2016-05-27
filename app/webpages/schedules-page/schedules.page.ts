@@ -161,7 +161,7 @@ export class SchedulesPage implements OnInit{
   }
 
   ngOnInit(){
-    window.scrollTo(0.0);
+    window.scrollTo(0,0);
     this.getSchedulesData('pre-event');// on load load any upcoming games
   }
 
