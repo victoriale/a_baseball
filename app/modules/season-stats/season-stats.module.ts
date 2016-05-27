@@ -6,6 +6,7 @@ import {ComparisonLegend, ComparisonLegendInput} from '../../components/comparis
 import {Tabs} from '../../components/tabs/tabs.component';
 import {Tab} from '../../components/tabs/tab.component';
 import {SliderCarousel, SliderCarouselInput} from '../../components/carousels/slider-carousel/slider-carousel.component';
+import {NoDataBox} from '../../components/error/data-box/data-box.component';
 
 import {GlobalSettings} from '../../global/global-settings';
 import {GlobalFunctions} from '../../global/global-functions';
@@ -23,13 +24,21 @@ export interface ComparisonTabData {
 @Component({
     selector: 'season-stats-module',
     templateUrl: './app/modules/season-stats/season-stats.module.html',
-    directives: [SliderCarousel, ModuleHeader, ComparisonBar, ComparisonLegend, ModuleFooter, Tabs, Tab]
+    directives: [
+                  SliderCarousel,
+                  ModuleHeader,
+                  ComparisonBar,
+                  ComparisonLegend,
+                  ModuleFooter,
+                  Tabs, Tab,
+                  NoDataBox
+                ]
 })
 
 export class SeasonStatsModule implements OnInit, OnChanges {
     @Input() teamList: Array<{key: string, value: string}>;
-
     @Input() data: SeasonStatsData;
+    noDataMessage = "Sorry, there are no values for this season.";
     public moduleHeaderData: Object = {
         moduleTitle: 'Season Stats - [Pitcher Name]',
         hasIcon: false,
@@ -200,7 +209,7 @@ export class SeasonStatsModule implements OnInit, OnChanges {
           ],
         },
         description:[
-          '<p>Test</p>',
+          '<p></p>',
           '<p></p>',
           '<p></p>',
           '<p></p>'
@@ -268,16 +277,19 @@ export class SeasonStatsModule implements OnInit, OnChanges {
       }
     }
     tabSelected(tabTitle){
-        var selectedTabs = this.tabs.filter(tab => {
-           return tab.tabTitle == tabTitle;
-        });
-        if ( selectedTabs.length > 0 ) {
-            if ( tabTitle == "Career Stats" ) {
-                this.comparisonLegendData.legendTitle[0].text = tabTitle;
-            }
-            else {
-                this.comparisonLegendData.legendTitle[0].text = selectedTabs[0].seasonId + " Season";
-            }
-        }
+      var selectedTabs = this.tabs.filter(tab => {
+         return tab.tabTitle == tabTitle;
+      });
+      if ( selectedTabs.length > 0 ) {
+          var tab = selectedTabs[0];
+          if ( tabTitle == "Career Stats" ) {
+              this.comparisonLegendData.legendTitle[0].text = tabTitle;
+              this.noDataMessage = "Sorry, there are no season stats available for this player.";
+          }
+          else {
+              this.comparisonLegendData.legendTitle[0].text = tab.seasonId + " Season";
+              this.noDataMessage = "Sorry, there are no statistics available for " + tab.seasonId + ".";
+          }
+      }
     }
 }
