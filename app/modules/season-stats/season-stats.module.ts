@@ -181,7 +181,7 @@ export class SeasonStatsModule implements OnInit, OnChanges {
     public footerData = {
       infoDesc: 'Want to see full statistics for this player?',
       text: 'VIEW FULL STATISTICS',
-      url: ['Season-stats-page']
+      url: ['Disclaimer-page']
     };
     tabs: Array<ComparisonTabData> = [];
     public carouselDataArray: any = {
