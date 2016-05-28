@@ -56,7 +56,7 @@ export class DraftHistoryService {
       data => {
         var returnData = {}
         if(type == 'module'){
-          data = data.slice(0,2);// the module should only have 2 data points displaying
+          if(data.data.length >1) data.data = data.data.slice(0,2);// the module should only have 2 data points displaying
           return returnData = {
             carData:this.carDraftHistory(data.data, type),
             listData:this.detailedData(data.data),
