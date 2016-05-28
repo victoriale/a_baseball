@@ -31,8 +31,9 @@
         </div>
         <div class="ph-content-desc">
           <!--<div class="ph-content-desc-border"></div>          -->
-          <scrollable-content class="ph-content-desc-text" 
-            [content]="profileHeaderData.description"></scrollable-content>
+          <scrollable-content>
+             <p class="ph-content-desc-text" [innerHtml]="profileHeaderData.description"></p>         
+          </scrollable-content>
         </div>
       </div>
     </div>

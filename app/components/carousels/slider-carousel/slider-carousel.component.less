@@ -6,17 +6,18 @@ slider-carousel{
   width:100%;
   height:auto;
   position: relative;
-  &-slide-background{
+  &-slide-background-image{
     position: absolute;
     top:0;
     right:0;
-
+    width: 100%;
+    opacity: .65;
+    filter:alpha(opacity=65);
   }
     &-placeholder{
       width: 100%;
       height: auto;
-      background-position: center center;
-      background-color: rgba(0, 0, 0, 0.65);
+      background-color: @black;
       module-footer{
         position: relative;
         .list-footer{
@@ -36,13 +37,13 @@ slider-carousel{
       position: relative;
 
       &-mainImg{
-        width: 40%;
+        width: 38%;
         .flexDisplay;
         .flexDirection(column);
         .flexAlignItems(center);
       }//.scc-details-mainImg ends
       &-desc{
-        width:55%;
+        width:60%;
         max-height:182px;
         .flexAlignItems(flex-start);
         .globalDefaultModFont(16px, 400, @white);

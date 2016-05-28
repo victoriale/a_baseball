@@ -13,7 +13,6 @@ import {SliderCarousel} from '../../components/carousels/slider-carousel/slider-
 import {SchedulesComponent} from '../../components/schedules/schedules.component';
 import {SchedulesModule} from '../../modules/schedules/schedules.module';
 
-import {RosterComponentData} from '../../components/roster/roster.component';
 import {StandingsModuleData, StandingsModule} from '../../modules/standings/standings.module';
 import {MLBStandingsTabData} from '../../services/standings.data';
 import {StandingsService} from '../../services/standings.service';
@@ -58,7 +57,6 @@ import {DYKModule} from "../../modules/dyk/dyk.module";
 export class ComponentPage implements OnInit {
   pageParams: MLBPageParameters;
   standingsData: StandingsModuleData;
-  rosterData: RosterComponentData;
   playerProfileHeaderData: ProfileHeaderData;
   teamProfileHeaderData: ProfileHeaderData;
 
@@ -105,12 +103,7 @@ export class ComponentPage implements OnInit {
   }
 
   private standingsTabSelected(tab: MLBStandingsTabData) {
-    if ( tab && (!tab.sections || tab.sections.length == 0) ) {
-      this._standingsService.getTabData(tab, this.pageParams, 5)//only show 5 rows in the module
-        .subscribe(data => tab.sections = data,
-        err => {
-          console.log("Error getting standings data");
-        });
-    }
+    //only show 5 rows in the module
+    this._standingsService.getStandingsTabData(tab, this.pageParams, (data) => {}, 5);
   }
 }

@@ -6,8 +6,8 @@ import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalSettings} from '../global/global-settings';
 import {Conference, Division, MLBPageParameters} from '../global/global-interface';
 import {SchedulesCarouselInput} from '../components/carousels/schedules-carousel/schedules-carousel.component';
-import { MLBSchedulesTableModel, MLBSchedulesTableData} from './schedules.data';
-
+import { MLBSchedulesTableModel, MLBSchedulesTableData, MLBScheduleTabData} from './schedules.data';
+import {Gradient} from '../global/global-gradient';
 
 declare var moment;
 @Injectable()
@@ -20,16 +20,16 @@ export class SchedulesService {
 
   }
 
-  getLinkToPage(pageParams: MLBPageParameters): Array<any> {
+  getLinkToPage(pageParams: MLBPageParameters, teamName?: string): Array<any> {
     var pageName = "Schedules-page";
     var pageValues = {};
 
-    if ( pageParams.teamId && pageParams.teamName ) {
+    if ( pageParams.teamId && teamName ) {
       pageValues["teamId"] = pageParams.teamId;
-      pageValues["teamName"] = pageParams.teamName;
+      pageValues["teamName"] = teamName;
       pageName += "-team";
     }
-    else if( typeof pageParams.teamId == 'undefined' && typeof pageParams.teamName == 'undefined' ) {
+    else if( !pageParams.teamId && !teamName ) {
       pageName += "-league";
     }
     else{
@@ -39,10 +39,10 @@ export class SchedulesService {
   }// Returns all parameters used to get to page of Schedules
 
 
-  getModuleTitle(pageParams: MLBPageParameters): string {
+  getModuleTitle(teamName?: string): string {
     let moduletitle = "Weekly Schedules";
-    if ( pageParams.teamName !== undefined && pageParams.teamName !== null ) {
-      moduletitle += " - " + pageParams.teamName;
+    if ( teamName ) {
+      moduletitle += " - " + teamName;
     } else {
       moduletitle += " - League";
     }
@@ -50,10 +50,10 @@ export class SchedulesService {
   }// Sets the title of the modules with data returned by schedules
 
 
-  getPageTitle(pageParams: MLBPageParameters): string {
+  getPageTitle(teamName?: string): string {
     let pageTitle = "MLB Schedules Breakdown";
-    if ( pageParams.teamName !== undefined && pageParams.teamName !== null ) {
-      pageTitle = "MLB Schedules - " + pageParams.teamName;
+    if ( teamName ) {
+      pageTitle = "MLB Schedules - " + teamName;
     }
     return pageTitle;
   }// Sets the title of the Page with data returne by shedules
@@ -65,36 +65,53 @@ export class SchedulesService {
       return headers;
   }
 
-  getSchedulesService(profile, id, eventStatus){
+  getSchedulesService(profile, eventStatus, limit, pageNum, id?, year?){
   //Configure HTTP Headers
   var headers = this.setToken();
-  var year = new Date().getFullYear();//DEFAULT YEAR DATA TO CURRENT YEAR
+  var jsYear = new Date().getFullYear();//DEFAULT YEAR DATA TO CURRENT YEAR
+  var displayYear;
+
+  if(typeof year == 'undefined'){
+    year = new Date().getFullYear();//once we have historic data we shall show this
+  }
+
+  if(jsYear == year){
+    displayYear = "Current Season";
+  }else{
+    displayYear = year;
+  }
   // console.log(profile,id, eventStatus)/
-  /*
-  http://dev-homerunloyal-api.synapsys.us/team/schedule/2819/pre-event
-  http://dev-homerunloyal-api.synapsys.us/team/schedule/2819/post-event
-  */
+
   var callURL = this._apiUrl+'/'+profile+'/schedule';
-  var tabData = [
-    {display: 'Upcoming Games', data:'pre-event'},
-    {display: 'Previous games', data:'post-event'}
-  ]
+
+
   if(typeof id != 'undefined'){
     callURL += '/'+id;
   }
-  callURL += '/'+eventStatus+'/5/1';  //default pagination limit: 5; page: 1
+  callURL += '/'+eventStatus+'/'+limit+'/'+ pageNum;  //default pagination limit: 5; page: 1
 
   // console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
+      var tableData = this.setupTableData(eventStatus, year, data.data, limit);
+      var tabData = [
+        {display: 'Upcoming Games', data:'pre-event', season:displayYear, tabData: new MLBScheduleTabData(this.formatGroupName(year,'pre-event'), true)},
+        {display: 'Previous Games', data:'post-event', season:displayYear, tabData: new MLBScheduleTabData(this.formatGroupName(year,'post-event'), true)}
+      ];
       return {
-        data:this.setupTableData(eventStatus, year, data.data, 5),
+        data:tableData,
         tabs:tabData,
-        carData: this.setupCarouselData(data.data, 5),
+        carData: this.setupCarouselData(data.data, limit),
+        pageInfo:{
+          totalPages: data.data[0].totalPages,
+          totalResults: data.data[0].totalResults,
+        }
       };
     })
   }
+
+
 
   //rows is the data coming in
   private setupTableData(eventStatus, year, rows: Array<any>, maxRows?: number) {
@@ -102,13 +119,39 @@ export class SchedulesService {
     if ( maxRows !== undefined ) {
       rows = rows.slice(0, maxRows);
     }
+    //TWO tables are to be made depending on what type of tabs the use is click on in the table
+    if(eventStatus == 'pre-event'){
+      // let tableName = this.formatGroupName(year,eventStatus);
+      var table = new MLBSchedulesTableModel(rows, eventStatus);
+      var tableArray = new MLBSchedulesTableData('' , table);
+      return [tableArray];
+    }else{
+      var postDate = [];
+      var dateObject = {};
+      // let tableName = this.formatGroupName(year,eventStatus);
+      var table = new MLBSchedulesTableModel(rows, eventStatus);
 
-    let tableName = this.formatGroupName(year,eventStatus);
-    var table = new MLBSchedulesTableModel(rows);
-    return new MLBSchedulesTableData(tableName , table);
+      rows.forEach(function(val,index){// seperate the dates into their own Obj tables for post game reports
+        var splitToDate = val.startDateTime.split(' ')[0];
+        if(typeof dateObject[splitToDate] == 'undefined'){
+          dateObject[splitToDate] = {};
+          dateObject[splitToDate]['tableData'] = [];
+          dateObject[splitToDate]['display'] = moment(val.startDateTime).format('dddd MMMM Do, YYYY') + " Games";
+          dateObject[splitToDate]['tableData'].push(val);
+        }else{
+          dateObject[splitToDate]['tableData'].push(val);
+        }
+      });
+      for(var date in dateObject){
+        var newPostModel = new MLBSchedulesTableModel(dateObject[date]['tableData'], eventStatus);
+        var newPostTable = new MLBSchedulesTableData( dateObject[date]['display'], newPostModel);
+        postDate.push(newPostTable);
+      }
+      return postDate;
+    }
   }
 
-  private setupCarouselData(origData, maxRows?: number){
+  private setupCarouselData(origData, maxRows?: number){//ANY CHANGES HERE CHECK updateCarouselData in schedules.data.ts
     // console.log(origData);
     var carouselData: SchedulesCarouselInput; // set a variable to the interface
     var carData = [];
@@ -117,43 +160,60 @@ export class SchedulesService {
       origData = origData.slice(0, maxRows);
     }
     origData.forEach(function(val, index){
-      let displayNext = '';
-      if(origData.eventStatus == 'pre-event'){
-        let displayNext = 'Next Game:';
+      var displayNext = '';
+      if(val.eventStatus == 'pre-event'){
+        var displayNext = 'Next Game:';
       }else{
-        let displayNext = 'Previous Game:';
+        var displayNext = 'Previous Game:';
       }
+
+      if(val.homeTeamWins === null){
+        val.homeTeamWins = '#';
+      }
+      if(val.homeTeamLosses === null){
+        val.homeTeamLosses = '#';
+      }
+      if(val.awayTeamWins === null){
+        val.awayTeamWins = '#';
+      }
+      if(val.awayTeamLosses === null){
+        val.awayTeamLosses = '#';
+      }
+      // combine together the win and loss of a team to create their record
+      val.homeRecord = val.homeTeamWins + '-' + val.homeTeamLosses;//?? is this really the win and loss
+      val.awayRecord = val.awayTeamWins + '-' + val.awayTeamLosses;//?? is this really the win and loss
       carouselData = {//placeholder data
         index:index,
         displayNext: displayNext,
-        displayTime:moment(origData.startDateTime).format('dddd MMMM DDDD, YYYY | h:mm A') + " [ZONE]",
+        backgroundGradient: Gradient.getGradientStyles([val.awayTeamColors.split(',')[0],val.homeTeamColors.split(',')[0]], 1),
+        displayTime:moment(val.startDateTime).format('dddd MMMM Do, YYYY | h:mm A') + " ET",//hard coded TIMEZOME since it is coming back from api this way
         detail1Data:'Home Stadium:',
-        detail1Value:"[Stadium's]",
-        detail2Value:'[City], [State]',
-        imageConfig1:{
+        detail1Value:val.homeTeamVenue,
+        detail2Value:val.homeTeamCity + ', ' + val.homeTeamState,
+        imageConfig1:{//AWAY
           imageClass: "image-125",
           mainImage: {
-            imageUrl: "./app/public/placeholder-location.jpg",
-            urlRouteArray: ['Disclaimer-page'],
+            imageUrl: GlobalSettings.getImageUrl(val.awayTeamLogo),
+            urlRouteArray: MLBGlobalFunctions.formatTeamRoute(val.awayTeamName, val.awayTeamId),
             hoverText: "<p>View</p><p>Profile</p>",
-            imageClass: "border-large"
+            imageClass: "border-5"
           }
         },
-        imageConfig2:{
+        imageConfig2:{//HOME
           imageClass: "image-125",
           mainImage: {
-            imageUrl: "./app/public/placeholder-location.jpg",
-            urlRouteArray: ['Disclaimer-page'],
+            imageUrl: GlobalSettings.getImageUrl(val.homeTeamLogo),
+            urlRouteArray: MLBGlobalFunctions.formatTeamRoute(val.homeTeamName, val.homeTeamId),
             hoverText: "<p>View</p><p>Profile</p>",
-            imageClass: "border-large"
+            imageClass: "border-5"
           }
         },
-        teamName1: 'string',
-        teamName2: 'string',
-        teamLocation1:'string',
-        teamLocation2:'string',
-        teamRecord1:'string',
-        teamRecord2:'string',
+        teamName1: val.awayTeamName,
+        teamName2: val.homeTeamName,
+        teamLocation1:val.awayTeamCity + ', ' + val.awayTeamState,
+        teamLocation2:val.homeTeamCity + ', ' + val.homeTeamState,
+        teamRecord1:val.awayRecord,
+        teamRecord2:val.homeRecord,
       };
       carData.push(carouselData);
     });

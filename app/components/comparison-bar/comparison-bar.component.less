@@ -1,14 +1,11 @@
 .comparison-bar{
   &-container{
-    border-top: 1px solid #e1e1e1;
+    border-top: 1px solid @highlightGrey;
     font-family: Lato;
     padding: 10px 20px;
-
-    &.background-odd{
-      background-color: #f2f2f2;
-    }
-    &.background-even{
-      background-color: @white;
+    
+    &.background-even {
+      background-color: @backgroundGrey;
     }
   }
 
@@ -17,11 +14,11 @@
   }
 
   &-capsule{
-    background-color: #e1e1e1;
+    background-color: @highlightGrey;
     border: 1px solid #d7d7d7;
     border-radius: 15px;
     height: 15px;
-    margin-top: 4px;
+    margin-top: 2px;
     margin-bottom: 15px;
     position: relative;
 
@@ -42,8 +39,7 @@
     }
 
     &-label{
-      bottom: -17px;
-      top: 17px;
+      top: 16px;
       font-size: 14px;
       font-weight: 700;
       position: absolute;
@@ -54,7 +50,6 @@
 
       &.label-top{
         top: -17px;
-        bottom: 17px;
       }
     }
   }

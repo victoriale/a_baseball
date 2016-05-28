@@ -22,7 +22,6 @@ import {ErrorComponent} from "../../components/error/error.component";
 })
 
 export class ListPage implements OnInit{
-  dataParams:any;
   dataArray: any;
   detailedDataArray:any;
   carouselDataArray: any;

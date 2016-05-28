@@ -6,7 +6,7 @@
   border-radius: 5px;
   font-family: @globalFont;
   font-size: 18px;
-
+  font-style: normal;
   form{
     margin: 0px;
   }
@@ -82,34 +82,49 @@
     border-top: 3px solid @masterBrandColor;
     box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.35);
     z-index: 5;
-    padding-top: 8px;
-
+    border-radius: 5px;
     &-caret{
       content: '';
       position: absolute;
       top: -10px;
-      left: 50%;
-      border-bottom: 10px solid @masterBrandColor;
+      left: 48%;
+      border-bottom: 10px solid @white;
       border-left: 8px solid transparent;
       border-right: 8px solid transparent;
     }
-
-    &-item{
-      font-size: 18px;
-      padding: 20px;
-      position: relative;
-
-      .fa-angle-right{
-        font-size: 30px;
-        color: @white;
-        position: absolute;
-        right: 20px;
-        top: 12px;
+    &-items{
+      border-bottom: 1px solid @greyBorder;
+      &:last-child{
+        border-bottom: 0;
+        .search-dropdown-item{
+          border-bottom-left-radius: 5px;
+          border-bottom-right-radius: 5px;
+        }
       }
-
+    }
+    &-item{
+      font-size: 16px;
+      padding: 7px 17px;
+      position: relative;
+      .flexDisplay;
+      .flexAlignItems(center);
+      .flexJustify(flex-start);
       &.active{
         color: @white;
         background-color: @masterBrandColor;
+        .image-round-hover div{
+          display: flex;
+          padding-top: 2px;
+        }
+        .border-1 img{
+          box-shadow: 0 0 0 2px @white;
+        }
+
+      }
+
+      &-title{
+        padding: 0 19px;
+        font-style: normal;
       }
     }
   }

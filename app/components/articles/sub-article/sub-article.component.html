@@ -3,7 +3,8 @@
         <div *ngIf="even && i < 10" class="sub-container" style="float: left;">
             <a href="">
                 <span class="articleBoxSmall">
-                    <img class="sub-container-image" src="{{subData.images}}"/>
+                    <img class="sub-container-image" src="{{subData.images}}"
+                         onerror="this.src='/app/public/no-image.png'"/>
                     <div>
                         <p>View</p>
                     </div>
@@ -19,7 +20,8 @@
         <div *ngIf="odd && i < 10" class="sub-container" style="float: right;">
             <a [routerLink]="['Article-pages', {eventType: subData.eventType, eventID: subData.eventID}]">
                 <span class="articleBoxSmall">
-                    <img class="sub-container-image" src="{{subData.images}}"/>
+                    <img class="sub-container-image" src="{{subData.images}}"
+                         onerror="this.src='/app/public/no-image.png'"/>
                     <div>
                         <p>View</p>
                     </div>
@@ -39,7 +41,8 @@
         <div *ngIf="i < 5" class="sub-container">
             <a [routerLink]="['Article-pages', {eventType: subData.eventType, eventID: subData.eventID}]">
                 <span class="articleBoxSmall">
-                        <img class="sub-container-image" src="{{subData.images}}"/>
+                        <img class="sub-container-image" src="{{subData.images}}"
+                             onerror="this.src='/app/public/no-image.png'"/>
                     <div>
                         <p>View</p>
                     </div>

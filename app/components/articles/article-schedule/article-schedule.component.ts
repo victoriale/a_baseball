@@ -3,6 +3,7 @@ import {Articles} from "../../../global/global-service";
 import {ArticleData} from "../../../global/global-interface";
 import {CircleImage} from "../../images/circle-image";
 import {CircleImageData} from '../../images/image-data';
+import {Gradient} from '../../../global/global-gradient';
 import {ROUTER_DIRECTIVES} from "angular2/router";
 
 @Component({
@@ -33,50 +34,6 @@ export class ArticleScheduleComponent implements OnInit {
         });
     }
 
-    getGradient(homeHex, awayHex) {
-        if (homeHex != null && awayHex != null) {
-            let homeRedValue = ArticleScheduleComponent.hexToR(homeHex);
-            let homeGreenValue = ArticleScheduleComponent.hexToG(homeHex);
-            let homeBlueValue = ArticleScheduleComponent.hexToB(homeHex);
-            let leftGradientRgba = "rgba(" + homeRedValue + "," + homeGreenValue + "," + homeBlueValue + ", 0.75) 0%";
-            let awayRedValue = ArticleScheduleComponent.hexToR(awayHex);
-            let awayGreenValue = ArticleScheduleComponent.hexToG(awayHex);
-            let awayBlueValue = ArticleScheduleComponent.hexToB(awayHex);
-            let rightGradientRgba = "rgba(" + awayRedValue + "," + awayGreenValue + "," + awayBlueValue + ", 0.75) 100%";
-            this.gradient = this.fullGradient(leftGradientRgba, rightGradientRgba);
-        } else {
-            this.defaultGradient = 'default-gradient';
-        }
-    }
-
-    //converts hex to RGB
-    static hexToR(h) {
-        return parseInt((ArticleScheduleComponent.cutHex(h)).substring(0, 2), 16)
-    }
-
-    static hexToG(h) {
-        return parseInt((ArticleScheduleComponent.cutHex(h)).substring(2, 4), 16)
-    }
-
-    static hexToB(h) {
-        return parseInt((ArticleScheduleComponent.cutHex(h)).substring(4, 6), 16)
-    }
-
-    static cutHex(h) {
-        return (h.charAt(0) == "#") ? h.substring(1, 7) : h
-    }
-
-    //End conversion
-    fullGradient = function (a, b) //loads the left gradient
-    {
-        var lgc = a;
-        var rgc = b;
-        return {
-            '-ms-filter': "progid:DXImageTransform.Microsoft.gradient (0deg," + lgc + ',' + rgc + ")",
-            'background': "linear-gradient(90deg," + lgc + ',' + rgc + ")"
-        };
-    };
-
     ngOnInit() {
     }
 
@@ -84,7 +41,14 @@ export class ArticleScheduleComponent implements OnInit {
         if (typeof this.homeData != 'undefined' && typeof this.awayData != 'undefined') {
             this.awayHex = this.awayData[0].awayHex;
             this.homeHex = this.homeData[0].homeHex;
-            this.getGradient(this.homeHex, this.awayHex);
+            var fullGradient = Gradient.getGradientStyles([this.homeHex, this.awayHex], .75);
+            if (fullGradient) {
+                this.gradient = fullGradient;
+            }
+            else {
+                this.defaultGradient = 'default-gradient';
+            }
+            // this.getGradient(this.homeHex, this.awayHex);
         }
     }
 }

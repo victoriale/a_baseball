@@ -70,6 +70,10 @@ export class MLBStandingsTabData implements TableTabData<TeamStandingsData> {
   title: string;
 
   isActive: boolean;
+  
+  isLoaded: boolean;
+  
+  hasError: boolean;
 
   sections: Array<MLBStandingsTableData>;
 
@@ -82,7 +86,6 @@ export class MLBStandingsTabData implements TableTabData<TeamStandingsData> {
     this.conference = conference;
     this.division = division;
     this.isActive = isActive;
-    this.sections = [];
   }
 
   convertToCarouselItem(item: TeamStandingsData, index:number): SliderCarouselInput {
@@ -184,42 +187,45 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
   }
 
   getDisplayValueAt(item:TeamStandingsData, column:TableColumn):string {
-    var s = "";
+    var s = null;
     switch (column.key) {
       case "name":
         s = item.teamName;
         break;
 
       case "w":
-        s = item.totalWins.toString();
+        s = item.totalWins != null ? item.totalWins.toString() : null;
         break;
 
       case "l":
-        s = item.totalLosses.toString();
+        s = item.totalLosses != null ? item.totalLosses.toString() : null;
         break;
 
       case "pct":
-        s =item.winPercentage.toPrecision(3);
+        s = item.winPercentage != null ? item.winPercentage.toPrecision(3) : null;
         break;
 
       case "gb":
-        s = item.gamesBack == 0 ? "-" : item.gamesBack.toString();
+        // s = item.gamesBack != null ? (item.gamesBack == 0 ? "-" : item.gamesBack.toString()) : null;
+        s = item.gamesBack != null ? item.gamesBack.toString() : null;
         break;
 
       case "rs":
-        s = item.batRunsScored.toString();
+        s = item.batRunsScored != null ? item.batRunsScored.toString() : null;
         break;
 
       case "ra":
-        s = item.pitchRunsAllowed.toString();
+        s = item.pitchRunsAllowed != null ? item.pitchRunsAllowed.toString() : null;
         break;
 
       case "strk":
-        var str = item.streakCount.toString();
-        s = (item.streakType == "loss" ? "L-" : "W-") + item.streakCount.toString();
+        if ( item.streakCount != null && item.streakType ) {
+          var str = item.streakCount.toString();
+          s = (item.streakType == "loss" ? "L-" : "W-") + item.streakCount.toString();
+        }
         break;
     }
-    return s;
+    return s != null ? s : "N/A";
   }
 
   getSortValueAt(item:TeamStandingsData, column:TableColumn):any {
@@ -254,8 +260,10 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
         break;
 
       case "strk":
-        var str = item.streakCount.toString();
-        o = (item.streakType == "loss" ? "L-" : "W-") + ('0000' + str).substr(str.length); //pad with zeros
+        if ( item.streakCount != null && item.streakType ) {
+          var str = item.streakCount.toString();
+          o = (item.streakType == "loss" ? "L-" : "W-") + ('0000' + str).substr(str.length); //pad with zeros
+        }
         break;
     }
     return o;

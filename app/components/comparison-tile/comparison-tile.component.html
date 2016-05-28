@@ -1,18 +1,20 @@
 <div class="comparison-tile-container">
     <div class="row">
         <div class="col-xs-6 comparison-tile-dropdown">
-            <select>
-                <option *ngFor="#item of comparisonTileInput.dropdownOne">
-                    {{item}}
-                </option>
-            </select>
+            <dropdown 
+                [list]="dropdownList1" 
+                [selectedKey]="comparisonTileInput.dropdownOneKey"
+                [icon]="'fa-caret-down'"
+                (selectionChanged)="dropdownOneSwitched($event)"
+                (dropdownVisible)="dropdownOneOpened($event)"></dropdown>
         </div>
-        <div class="col-xs-6 comparison-tile-dropdown">
-            <select>
-                <option *ngFor="#item of comparisonTileInput.dropdownTwo">
-                    {{item}}
-                </option>
-            </select>
+        <div class="col-xs-6 comparison-tile-dropdown">            
+            <dropdown 
+                [list]="dropdownList2" 
+                [selectedKey]="comparisonTileInput.dropdownTwoKey"
+                [icon]="'fa-caret-down'"
+                (selectionChanged)="dropdownTwoSwitched($event)"
+                (dropdownVisible)="dropdownTwoOpened($event)"></dropdown>
         </div>
     </div>
     <div class="comparison-tile-image">
@@ -21,13 +23,13 @@
     <div class="comparison-tile-label">
         <span class="comparison-tile-label-line-one">{{comparisonTileInput.title}}</span>
         <span class="comparison-tile-label-line-two">
-            <span *ngFor="#item of comparisonTileInput.description" [ngClass]="[item.class]">{{item.text}}</span>
+            <span *ngFor="#item of comparisonTileInput.description" class="{{item.class}}" [innerHtml]="item.text"></span>
         </span>
     </div>
 
     <div class="row comparison-tile-stats">
         <div *ngFor="#item of comparisonTileInput.data" class="col-xs-3">
-           <span class="comparison-tile-stats-line-one">{{item.data}}</span>
+           <span class="comparison-tile-stats-line-one" [innerHtml]="item.data"></span>
             <span class="comparison-tile-stats-line-two">{{item.key}}</span>
         </div>
     </div>

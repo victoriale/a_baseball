@@ -1,6 +1,4 @@
 .dropdown {
-  display: inline-block;
-  box-sizing: border-box;
   position: relative;
   
   &-hdr {
@@ -8,6 +6,7 @@
     padding: 5px;
     text-align: left;
     .globalDefaultFont(12px, 400);
+    overflow: hidden;
   
     &-button {
       padding-left: 12px;
@@ -20,6 +19,10 @@
     border-color: @masterBrandColor;  
     cursor: pointer;
   }
+  
+  &-wrapper {
+    position: relative;
+  }
 
   &-list {
     background-color: @white;
@@ -28,9 +31,28 @@
     width: 100%;
     
     position: absolute;
-    top: 30px;
-    right: -1px;
+    top: 10px;
     z-index: 100;
+    
+    &-scroll .scrollable-item {
+      height: 160px;
+      
+      .dropdown-list-option {
+        padding: 10px 9px;
+        box-sizing: content-box;
+        width: 100%;
+      }
+
+      &-scroller {
+        width: 5px;
+        border-radius: 2.5px;
+        background: @textEmphasisGrey;
+      }
+      
+      &.showScroll::after {
+        display: none;
+      }
+    }
   
     &-option {
       height: auto;
@@ -47,22 +69,35 @@
         cursor: pointer;
         background-color: @masterBrandColor;
         color: @white;
-        
-        .dropdown-caret-top::after {
-          border-bottom-color: @masterBrandColor;
-        }
+  
+        &.dropdown-grp-lbl {
+          cursor: default;
+          background-color: @white;
+          color: @bulletGrey;
+        } 
       }
     }    
+  }
+  
+  .dropdown-grp {
+    &-lbl {
+      color: @bulletGrey;
+    } 
+    
+    &-item-txt {
+      padding-left: 15px;
+    }
   }
 
   &-caret-top {
     content: '';
     position: absolute;
-    top: -6px;
+    top: 5px;
     right: 10px;
     border-bottom: 6px solid @masterBrandColor;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
+    z-index: 101; //to move caret-top above dropdown
 
     &::after {
       content: '';
@@ -72,6 +107,10 @@
       border-bottom: 5px solid @white;
       border-left: 4px solid transparent;
       border-right: 4px solid transparent;
+    }
+    
+    &-hover::after {
+      border-bottom-color: @masterBrandColor;      
     }
   }
 }

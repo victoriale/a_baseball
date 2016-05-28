@@ -79,7 +79,15 @@ export class SearchService{
             searchArray.push({
                 title: teamName,
                 value: teamName,
-                imageUrl: '',
+                imageUrl: {
+                    imageClass: "image-43",
+                    mainImage: {
+                      imageUrl: GlobalSettings.getImageUrl(item.teamLogo),
+                      hoverText: "<i style='font-size:20px;' class='fa fa-mail-forward'></i>",
+                      imageClass: "border-1",
+                      urlRouteArray: MLBGlobalFunctions.formatTeamRoute(teamName, item.teamId),
+                    }
+                },
                 routerLink: MLBGlobalFunctions.formatTeamRoute(teamName, item.teamId)
             })
         }
@@ -93,13 +101,20 @@ export class SearchService{
             let item = playerResults[i];
             let playerName = item.playerName;
             searchArray.push({
-                title: '<span class="text-bold">' + playerName + '</span> - ' + item.teamName,
+                title: '<span class="text-heavy">' + playerName + '</span> - ' + item.teamName,
                 value: playerName,
-                imageUrl: '',
+                imageUrl: {
+                    imageClass: "image-43",
+                    mainImage: {
+                      imageUrl: GlobalSettings.getImageUrl(item.imageUrl),
+                      urlRouteArray: MLBGlobalFunctions.formatPlayerRoute(item.teamName, playerName, item.playerId),
+                      hoverText: "<i style='font-size:20px;' class='fa fa-mail-forward'></i>",
+                      imageClass: "border-1"
+                    }
+                },
                 routerLink: MLBGlobalFunctions.formatPlayerRoute(item.teamName, playerName, item.playerId)
             })
         }
-
         return searchArray;
     }
 

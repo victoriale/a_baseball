@@ -13,8 +13,11 @@ export interface homePageData {
   divisionName: string;
   teamName: string;
 }
-export interface newsCarouselData{
 
+export interface newsCarouselData {
+  newsTitle: string;
+  newsSubTitle: string;
+  routerInfo: Array<any>;
 }
 
 @Component({
@@ -62,20 +65,25 @@ export class HomePage implements OnInit {
     getListData(){
       this.listData = [
         {
-          newsTitle: "Teams with the Fewest Stolen Bases Right Now",
-          newsSubTitle: "See which MLB Player are performing at the top of their game",
-          routerInfo: ['List-page', {profile:'team', listname: 'batter-stolen-bases', sort:'desc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]
+          newsTitle: "Pitchers with the Most Strikeouts Thrown",
+          newsSubTitle: "See which MLB Pitchers are performing at the top of their game",
+          routerInfo: ['List-page', {profile:'player', listname: 'pitcher-strikeouts', sort:'desc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]
         },
         {
-          newsTitle: "Top Teams In The League Right Now",
-          newsSubTitle: "See which MLB teams are performing at the top of their game",
-          routerInfo: ['Disclaimer-page']//TODO
+          newsTitle: "Batters With the Most Strikeouts in the MLB",
+          newsSubTitle: "See which MLB Batters are performing at the top of their game",
+          routerInfo: ['List-page', {profile:'player', listname: 'batter-strikeouts', sort:'desc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]
         },
         {
-          newsTitle: "Players with the Most Home Runs",
-          newsSubTitle: "See which MLB Players are performing at the top of their game",
-          routerInfo: ['Disclaimer-page']//TODO
+          newsTitle: "Teams with the Most Runs Allowed in the MLB",
+          newsSubTitle: "See which MLB Teams are performing at the top of their game",
+          routerInfo: ['List-page', {profile:'team', listname: 'pitcher-runs-allowed', sort:'desc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]
         },
+        {
+          newsTitle: "Teams with the Most RBIs in the MLB",
+          newsSubTitle: "See which MLB Teams are performing at the top of their game",
+          routerInfo: ['List-page', {profile:'team', listname: 'batter-runs-batted-in', sort:'desc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]
+        }
       ];
       this.changeMain(this.counter);
     }

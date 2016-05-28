@@ -1,7 +1,3 @@
-// .st_sharethis_custom{
-//     background: url("/app/public/icons/HRL_Favicon.png") no-repeat scroll left top transparent;
-//     padding:0px 16px 0 0;
-// }
 .header{
   height: auto;
   &-top{
@@ -28,7 +24,6 @@
     height: 100%;
     width: 50%;
     .flexDisplay;
-    .flexAlignItems(center);
     .flexJustify(flex-end);
   }//header-right ends
   // modify search style begins
@@ -44,26 +39,26 @@
       position: absolute;
       right: -1px;
       top: 17px;
-      z-index: 1;
+      z-index: 2;
     }
     .search-large{
       box-shadow: none;
       border-radius: 0;
-      font-style: italic;
       height: 100%;
       padding-right: 0;
       width: auto;
     }
-    .search-large .search-input.main{
-      background: none;
+
+    .search-large .search-input.autocomplete{
+      background: @white;
     }
     hr{
       width: 80%;
       border-top: 1px solid @highlightBlue;
       position: absolute;
-      z-index: 1;
+      z-index: 2;
       top: 42%;
-      left: 6%;
+      left: 27px;
       display: block;
     }
     .search-large .search-input{
@@ -75,16 +70,22 @@
       padding: 0px 27px;
       transition: none;
       -webkit-transition: none;
-    }
-    .search-large .search-input-container{
-      right: 64px;
-    }
-    .search-large .search-input:focus{
       border: none;
       box-shadow: none;
     }
+
+    .search-large .search-input-container{
+      right: 63px;
+    }
+
+    .search-input.main{
+      font-style: italic;
+      &:focus{
+        font-style: normal;
+      }
+    }
     .search-large .search-button{
-      width: 64px;
+      width: 63px;
       background-color: @activeBlue;
       border: none;
       font-size: 30px;
@@ -119,6 +120,7 @@
   &-tabs{
     .flexDisplay;
     padding-left: 396px;
+    color: @white;
     &-tab{
       width: 120px;
       height: 100%;
@@ -126,25 +128,21 @@
       .flexJustify(center);
       .flexAlignItems(center);
       .globalDefaultModFont(1.17em, 400, @white);
-      &:hover{
+      &:hover, &:active {
+        text-decoration: none;
         .globalDefaultModFont(1.17em, 800, @white);
       }
-      &:active{
-        font-weight: 800;
-      }
-      .active{
-        font-weight: 800;
-      }
+    }
+    .router-link-active{
+      .globalDefaultModFont(1.17em, 800, @white);
     }
   }//header-tabs ends
-
 }
 .st_sharethis_large{
   span:first-child{
     span:first-child{
       height: 60px;
       width: 60px;
-      // background-image: url('/app/public/shareAltButton.png');
       background-repeat: no-repeat;
       background-size: cover;
     }

@@ -4,40 +4,16 @@
     padding-bottom: 16px;
   }
 
-  &-dropdown{
-    background-color: rgba(0, 0, 0, 0.35);
-    height: 35px;
-    overflow: hidden;
 
-    //&:first-child{
-      border-right: 1px solid rgba(153, 153, 153, 0.5);
-    //}
-
-    &::after{
-      content: "";
-      width: 0px;
-      height: 0px;
-      border-color: @white transparent transparent transparent;
-      border-style: solid;
-      border-width: 6px 5px 0px 5px;
-      position: absolute;
-      top: 16px;
-      right: 15px;
-    }
-
-    select{
-      background-color: transparent;
-      border: none;
-      color: @white;
-      height: 35px;
-      width: 120%;
-      margin-left: 15px;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      appearance: none;
-
-      &:focus{
-        outline: none;
+  &-dropdown {
+    .dropdown {
+      width: 100%;
+      
+      &-hdr {
+        padding: 10px 15px;
+        background-color: rgba(39, 39, 39, 0.35);
+        border-right: 1px solid rgba(153, 153, 153, 0.5);
+        .globalDefaultModFont(14px, 400, @white);
       }
     }
   }
@@ -47,39 +23,41 @@
     margin: 20px auto 15px auto;
   }
 
-  &-label{
+  &-label {
     color: @white;
     text-align: center;
-    margin-bottom: 6px;
+    margin-bottom: 12px;
 
-    &-line-one{
-      font-size: 24px;
-      font-weight: 800;
+    &-line-one {
+      .globalDefaultFont(24px, 800);
       display: block;
-      margin-bottom: 6px;
+      margin-bottom: 2px;
     }
-    &-line-two{
-      font-size: 12px;
-      font-weight: 400;
+    &-line-two {
+      .globalDefaultFont(12px, 400);
       display: block;
     }
   }
 
-  &-stats{
+  &-stats {
     color: @white;
     text-align: center;
     padding: 0px 20px;
 
-    &-line-one{
-      font-size: 20px;
-      font-weight: 800;
+    &-line-one {
+      .globalDefaultFont(20px, 800);
       display: block;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
-    &-line-two{
-      font-size: 12px;
-      font-weight: 400;
+    &-line-two {
+      .globalDefaultFont(12px, 400);
       display: block;
+      text-transform: uppercase;
+    }
+    
+    sup {
+      font-size: 10px;
+      top: -8px;
     }
   }
 }

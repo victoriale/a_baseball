@@ -14,7 +14,7 @@ export interface DirectoryItems {
 }
 
 export interface DirectoryProfileItem {
-  lastUpdated: Date;
+  lastUpdated: string;
   mainDescription: Array<Link>;
   subDescription: Array<string>;
 }

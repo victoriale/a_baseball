@@ -7,37 +7,53 @@ import {ElementRef} from 'angular2/src/core/linker/element_ref';
     templateUrl: './app/components/scrollable-content/scrollable-content.component.html',
     providers: [BrowserDomAdapter]
 })
-export class ScrollableContent implements AfterViewInit {
-  @Input() content: string;
+export class ScrollableContent implements AfterViewInit, OnChanges {
+  // @Input() content: string;
   
   private _elementRef: ElementRef;
   private _scrollerChecked: boolean = false;
+  private _afterViewInit: boolean = false;
   
   constructor(@Inject(ElementRef) elementRef: ElementRef, private _dom: BrowserDomAdapter) { 
     this._elementRef = elementRef;
   }
   
   ngAfterViewInit() {
-    if ( this.content && this.content.length > 0 && !this._scrollerChecked ) {
-      this.setupScroller();
+    this.setupScroller();
+    this._afterViewInit = true;
+  }
+  
+  ngOnChanges() {
+    if ( this._afterViewInit ) {
+        this.setupScroller();
+    }
+    else {      
+      // console.log("after view init not yet called");     
     }
   }
   
   setupScroller() {
+    // console.log("setting up scroller");
     var document = this._dom.defaultDoc();
     var scrollContainers = this._elementRef.nativeElement.getElementsByClassName('scrollable-item');
     
     for ( var i = 0; i < scrollContainers.length; i++ ) {
       createScrollable(scrollContainers[i]);
     };
+    
+    if ( scrollContainers.length == 0 ) {
+      // console.log(" no scroll containers" );
+    }
       
     function createScrollable(scrollContainer) { 
       var scrollContentWrapper = scrollContainer.getElementsByClassName('scrollable-item-wrapper');
       var scrollContent = scrollContainer.getElementsByClassName('scrollable-item-content');
       if ( scrollContentWrapper.length == 0 || scrollContent.length == 0 ) {
+      // console.log(" no scroll wrapper or content" );
         return;
       }
       else {
+      // console.log(" found scroll wrapper or content" );
         scrollContentWrapper = scrollContentWrapper[0];
         scrollContent = scrollContent[0];
       }
@@ -70,7 +86,17 @@ export class ScrollableContent implements AfterViewInit {
       var contentRatio = scrollContainer.offsetHeight / scrollContentWrapper.scrollHeight;
       var scrollerHeight = contentRatio * scrollbarBaseHeight;
       var scrollOffset = 5; // should be the same as offset in LESS file 
-      var scrollerElement = document.createElement("div");
+      var scrollerElement = scrollContainer.getElementsByClassName('scrollable-item-scroller');
+      var scrollerAlreadyOnPage = false;
+      
+      if ( scrollerElement && scrollerElement.length > 0 ) {
+        scrollerElement = scrollerElement[0];
+        scrollerAlreadyOnPage = true;
+      }
+      else {
+        scrollerElement = document.createElement("div");
+      }
+      
       scrollerElement.className = 'scrollable-item-scroller';
       
       // console.log("scrollWrapper: " + scrollContentWrapper.scrollHeight);
@@ -84,7 +110,9 @@ export class ScrollableContent implements AfterViewInit {
           scrollerElement.style.top = scrollOffset.toString();
 
           // append scroller to scrollContainer div
-          scrollContainer.appendChild(scrollerElement);
+          if ( !scrollerAlreadyOnPage ) {
+            scrollContainer.appendChild(scrollerElement);
+          }
 
           // show scroll path divot
           scrollContainer.className += ' showScroll';

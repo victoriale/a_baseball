@@ -1,25 +1,34 @@
 import {Component, OnInit} from 'angular2/core';
-import {WidgetModule} from "../../../modules/widget/widget.module";
 import {Router,ROUTER_DIRECTIVES, RouteParams} from 'angular2/router';
-import {WebApp} from '../../../app-layout/app.layout';
-import {ArticleData} from "../../../global/global-interface";
-import {ShareLinksComponent} from "../../../components/articles/shareLinks/shareLinks.component";
-import {RecommendationsComponent} from "../../../components/articles/recommendations/recommendations.component";
-import {TrendingComponent} from "../../../components/articles/trending/trending.component";
-import {ArticleImages} from "../../../components/articles/carousel/carousel.component";
-import {ArticleContentComponent} from "../../../components/articles/article-content/article-content.component";
-import {DisqusComponent} from "../../../components/articles/disqus/disqus.component";
-import {ArticleDataService} from "../../../global/global-article-page-service";
-import {GlobalFunctions} from "../../../global/global-functions";
-import {LoadingComponent} from "../../../components/loading/loading.component";
-import {ImagesMedia} from "../../../components/carousels/images-media-carousel/images-media-carousel.component";
+import {WidgetModule} from "../../modules/widget/widget.module";
+import {ImagesMedia} from "../../components/carousels/images-media-carousel/images-media-carousel.component";
+import {ShareLinksComponent} from "../../components/articles/shareLinks/shareLinks.component";
+import {ArticleContentComponent} from "../../components/articles/article-content/article-content.component";
+import {RecommendationsComponent} from "../../components/articles/recommendations/recommendations.component";
+import {TrendingComponent} from "../../components/articles/trending/trending.component";
+import {DisqusComponent} from "../../components/articles/disqus/disqus.component";
+import {LoadingComponent} from "../../components/loading/loading.component";
+import {ArticleData} from "../../global/global-interface";
+import {ArticleDataService} from "../../global/global-article-page-service";
+import {GlobalFunctions} from "../../global/global-functions";
+import {MLBGlobalFunctions} from "../../global/mlb-global-functions";
 
 declare var jQuery:any;
 
 @Component({
     selector: 'article-pages',
-    templateUrl: './app/webpages/articles/article-pages/article-pages.page.html',
-    directives: [WidgetModule, ROUTER_DIRECTIVES, ImagesMedia, ShareLinksComponent, ArticleContentComponent, RecommendationsComponent, TrendingComponent, DisqusComponent, LoadingComponent],
+    templateUrl: './app/webpages/article-pages/article-pages.page.html',
+    directives: [
+        WidgetModule,
+        ROUTER_DIRECTIVES,
+        ImagesMedia,
+        ShareLinksComponent,
+        ArticleContentComponent,
+        RecommendationsComponent,
+        TrendingComponent,
+        DisqusComponent,
+        LoadingComponent
+    ],
     providers: [],
 })
 
@@ -39,6 +48,7 @@ export class ArticlePages implements OnInit {
     doubleLogo:boolean = false;
     articleType:string;
     articleSubType:string;
+    imageLinks:Array<any>;
     public partnerParam:string;
     public partnerID:string;
 
@@ -59,6 +69,7 @@ export class ArticlePages implements OnInit {
                     this.title = ArticleData[pageIndex].displayHeadline;
                     this.date = ArticleData[pageIndex].dateline;
                     this.comment = ArticleData[pageIndex].commentHeader;
+                    this.imageLinks = this.getImageLinks(ArticleData[pageIndex]);
                     this.url = window.location.href;
                     this.doubleLogo = true;
                     ArticlePages.setMetaTag(this.articleData.metaHeadline);
@@ -73,6 +84,123 @@ export class ArticlePages implements OnInit {
                     this.getRandomArticles(HeadlineData, this.pageIndex, this.eventID, this.imageData);
                 }
             );
+    }
+
+    getImageLinks(data) {
+        var hoverText = "<p>View</p><p>Profile</p>";
+        var links = [];
+        if (this.articleType == "playerRoster") {
+            jQuery.map(data['article'], function (val, index) {
+                if (val['playerRosterModule']) {
+                    let playerUrl = MLBGlobalFunctions.formatPlayerRoute('New York Yankees', val['playerRosterModule'].name, val['playerRosterModule'].id);
+                    let teamUrl = MLBGlobalFunctions.formatTeamRoute('New York Yankees', val['playerRosterModule'].teamId);
+                    val['player'] = {
+                        imageClass: "image-121",
+                        mainImage: {
+                            imageUrl: val['playerRosterModule']['headshot'],
+                            urlRouteArray: playerUrl,
+                            hoverText: hoverText,
+                            imageClass: "border-logo"
+                        }
+                    };
+                    val['logo'] = {
+                        imageClass: "image-121",
+                        mainImage: {
+                            imageUrl: val['playerRosterModule'].teamLogo,
+                            urlRouteArray: teamUrl,
+                            hoverText: hoverText,
+                            imageClass: "border-logo"
+                        }
+                    };
+                    links.push(val['player'], val['logo']);
+                }
+            });
+            return links;
+        }
+        if (this.articleType == 'playerComparison') {
+            jQuery.map(data['article'][2]['playerComparisonModule'], function (val, index) {
+                if (index == 0) {
+                    let urlPlayerLeft = MLBGlobalFunctions.formatPlayerRoute('New York Yankees', val.name, val.id);
+                    let urlTeamLeft = MLBGlobalFunctions.formatTeamRoute('New York Yankees', val.teamId);
+                    val['imageLeft'] = {
+                        imageClass: "image-121",
+                        mainImage: {
+                            imageUrl: val['headshot'],
+                            urlRouteArray: urlPlayerLeft,
+                            hoverText: hoverText,
+                            imageClass: "border-logo"
+                        }
+                    };
+                    val['imageLeftSub'] = {
+                        imageClass: "image-121",
+                        mainImage: {
+                            imageUrl: val.teamLogo,
+                            urlRouteArray: urlTeamLeft,
+                            hoverText: hoverText,
+                            imageClass: "border-logo"
+                        }
+                    };
+                    links.push(val['imageLeft'], val['imageLeftSub']);
+                }
+                if (index == 1) {
+                    let urlPlayerRight = MLBGlobalFunctions.formatPlayerRoute('New York Yankees', val.name, val.id);
+                    let urlTeamRight = MLBGlobalFunctions.formatTeamRoute('New York Yankees', val.teamId);
+                    val['imageRight'] = {
+                        imageClass: "image-121",
+                        mainImage: {
+                            imageUrl: val['headshot'],
+                            urlRouteArray: urlPlayerRight,
+                            hoverText: hoverText,
+                            imageClass: "border-logo"
+                        }
+                    };
+                    val['imageRightSub'] = {
+                        imageClass: "image-121",
+                        mainImage: {
+                            imageUrl: val.teamLogo,
+                            urlRouteArray: urlTeamRight,
+                            hoverText: hoverText,
+                            imageClass: "border-logo"
+                        }
+                    };
+                    links.push(val['imageRight'], val['imageRightSub']);
+                }
+            });
+            return links;
+        }
+        if (this.articleType == 'teamRecord') {
+            var isFirstTeam = true;
+            jQuery.map(data['article'], function (val, index) {
+                if (val['teamRecordModule'] && isFirstTeam) {
+                    let urlFirstTeam = MLBGlobalFunctions.formatTeamRoute(val['teamRecordModule'].name, val['teamRecordModule'].id);
+                    val['imageTop'] = {
+                        imageClass: "image-121",
+                        mainImage: {
+                            imageUrl: val['teamRecordModule'].logo,
+                            urlRouteArray: urlFirstTeam,
+                            hoverText: hoverText,
+                            imageClass: "border-logo"
+                        }
+                    };
+                    links.push(val['imageTop']);
+                    return isFirstTeam = false;
+                }
+                if (val['teamRecordModule'] && !isFirstTeam) {
+                    let urlSecondTeam = MLBGlobalFunctions.formatTeamRoute(val['teamRecordModule'].name, val['teamRecordModule'].id);
+                    val['imageBottom'] = {
+                        imageClass: "image-121",
+                        mainImage: {
+                            imageUrl: val['teamRecordModule'].logo,
+                            urlRouteArray: urlSecondTeam,
+                            hoverText: hoverText,
+                            imageClass: "border-logo"
+                        }
+                    };
+                    links.push(val['imageBottom']);
+                }
+            });
+            return links;
+        }
     }
 
     getImages(imageList) {

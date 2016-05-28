@@ -8,8 +8,6 @@ import {GlobalSettings} from "../global/global-settings";
 import {MLBGlobalFunctions} from "../global/mlb-global-functions";
 import {AuBlockData, AboutUsModel} from "../webpages/about-us-page/about-us.page";
 
-declare var moment: any;
-
 export interface AboutUsInterface {
     teamProfilesCount: number;
     divisionsCount: number;
@@ -37,7 +35,6 @@ export class AboutUsService {
     let pageName = (partnerID === null)
             ? "Home Run Loyal" 
             : "My Home Run Loyal";
-    let lastUpdatedDate = moment(data.lastUpdated);
     let teamProfiles = GlobalFunctions.commaSeparateNumber(data.teamProfilesCount);
     let playerProfiles = GlobalFunctions.commaSeparateNumber(data.playerProfilesCount);
     let fullName = data.worldChampFirstName + " " + data.worldChampLastName;
@@ -46,7 +43,7 @@ export class AboutUsService {
       headerTitle: "What is " + pageName + "?",
       titleData: {
           imageURL : '/app/public/mainLogo.png',
-          text1: 'Last Updated: ' + GlobalFunctions.formatUpdatedDate(lastUpdatedDate),
+          text1: 'Last Updated: ' + GlobalFunctions.formatUpdatedDate(data.lastUpdated),
           text2: 'United States',
           text3: "Want to learn more about " + pageName + "?",
           text4: '',
@@ -59,14 +56,14 @@ export class AboutUsService {
           dataText: teamProfiles
         },
         {
-          iconUrl: '/app/public/division_image.png',
-          titleText: 'MLB Divisions',
-          dataText: GlobalFunctions.commaSeparateNumber(data.divisionsCount)
-        },
-        {
           iconUrl: '/app/public/player_profile_image.png',
           titleText: 'MLB Player Profiles',
           dataText: playerProfiles
+        },
+        {
+          iconUrl: '/app/public/division_image.png',
+          titleText: 'MLB Divisions',
+          dataText: GlobalFunctions.commaSeparateNumber(data.divisionsCount)
         },
         {
           link: {

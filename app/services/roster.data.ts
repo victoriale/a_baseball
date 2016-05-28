@@ -1,6 +1,6 @@
 import {TableModel, TableColumn} from '../components/custom-table/table-data.component';
 import {CircleImageData} from '../components/images/image-data';
-import {RosterTableTabData, TableComponentData} from '../components/roster/roster.component';
+import {RosterTabData} from '../components/roster/roster.component';
 import {SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
 import {Conference, Division} from '../global/global-interface';
 import {GlobalFunctions} from '../global/global-functions';
@@ -19,8 +19,9 @@ export interface TeamRosterData {
   active: string,
   uniformNumber: string,
   playerHeadshot: string,
+  backgroundImage: string;
   teamLogo: string,
-  position:string,
+  position:Array<string>,
   depth: string,
   weight: string,
   height: string,
@@ -42,17 +43,28 @@ export interface TeamRosterData {
   displayDate?: string
 }
 
-export class RosterTabData {
+export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
   type: string;
   title: string;
-  isActive: boolean;
+  isLoaded: boolean = false;
+  hasError: boolean = false;
+  errorMessage: string;
   tableData: RosterTableModel;
-  constructor(type: string, title: string, isActive: boolean) {
+  
+  constructor(type: string, title: string) {
     this.type = type;
     this.title = title;
-    this.isActive = isActive;
   }
-  convertToCarouselItem(val, index){
+  
+  setErrorMessage(conference: Conference) {    
+    this.errorMessage = "Sorry, there is no roster data available.";
+    if ( this.type == "hitters" && conference == Conference.national ) {
+      this.hasError = true;
+      this.errorMessage = "This team is a National League team and has no designated hitters.";
+    }
+  }
+  
+  convertToCarouselItem(val:TeamRosterData, index:number):SliderCarouselInput {
     var self = this;
     var dummyImg = "./app/public/placeholder-location.jpg";
     var playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.teamName,val.playerName,val.playerId);
@@ -94,7 +106,7 @@ export class RosterTabData {
     }
     var Carousel = {
         index: index,
-        //imageData(mainImg, mainImgRoute, subImg, subRoute, rank)
+        backgroundImage: val.backgroundImage != null ? GlobalSettings.getImageUrl(val.backgroundImage) : null,
         imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.playerHeadshot),playerRoute,"image-50-sub",GlobalSettings.getImageUrl(val.teamLogo),teamRoute,index+1),
         description:[
           '<p style="font-size:12px;"><i class="fa fa-circle" style="color:#bc2027; padding-right: 5px;"></i> ' + curYear + ' TEAM ROSTER</p>',
@@ -110,6 +122,7 @@ export class RosterTabData {
     };
     return Carousel;
   }
+  
   //function that returns information from api to an acceptable interface for images
   imageData(imageClass, imageBorder, mainImg, mainImgRoute, subImgClass?, subImg?, subRoute?, rank?){
     if(typeof mainImg =='undefined' || mainImg == ''){
@@ -147,8 +160,6 @@ export class RosterTabData {
 }
 
 export class RosterTableModel {
-  title: string;
-
   columns: Array<TableColumn> = [{
       headerValue: "Player",
       columnClass: "image-column",
@@ -184,16 +195,12 @@ export class RosterTableModel {
 
   rows: Array<TeamRosterData>;
 
-  selectedKey:any = -1;
+  selectedKey:string = "";
 
-  constructor(title:string, rows: Array<TeamRosterData>, private _globalFunctions:GlobalFunctions) {
-    this.title = title;
+  constructor(rows: Array<TeamRosterData>) {
     this.rows = rows;
     if ( this.rows === undefined || this.rows === null ) {
       this.rows = [];
-    }
-    else if ( rows.length > 0 ) {
-      this.selectedKey = Number(rows[0].playerId);
     }
   }
 
@@ -249,23 +256,23 @@ export class RosterTableModel {
           break;
 
         case "pos":
-          s = item.position.toString();
+          s = item.position != null ? item.position.toString() : null;
           break;
 
         case "ht":
-          s = item.heightInInches.toString();
+          s = item.heightInInches != null ? Number(item.heightInInches) : null;
           break;
 
         case "wt":
-          s = item.weight.toString();
+          s = item.weight != null ? Number(item.weight) : null;
           break;
 
         case "age":
-        s = item.age.toString();
+        s = item.age != null ? Number(item.age) : null;
           break;
 
         case "sal":
-          s = Number(item.salary);
+          s = item.salary != null ? Number(item.salary) : null;
           break;
       }
       return s;

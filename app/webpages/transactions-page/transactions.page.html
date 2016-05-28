@@ -1,0 +1,18 @@
+<loading-component *ngIf="!profileHeaderData && !isError"></loading-component>
+<error-component *ngIf="isError"></error-component>
+<section class='page-container'>
+  <backtab-component></backtab-component>
+  <title-component *ngIf="profileHeaderData" [titleData]="profileHeaderData"></title-component>
+  <div *ngIf="profileHeaderData" class="module-container list-page">
+    <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray" [footerStyle]="footerStyle"></slider-carousel>
+    <tabs *ngIf="dataArray" (tabSelected)='selectedTab($event)'>
+      <tab *ngFor="#data of dataArray; #i = index" [active]="i == 0" [tabTitle]="data.tabDisplay">
+        <div class="tab-inset"> <!-- due to tab having a default value of padding 1em for tab purposes so we just reverse it with margin -->
+          <transactions-list-item *ngIf="transactionsDataArray" [transactionsItemData] = 'transactionsDataArray'></transactions-list-item>
+          <!--<detailed-list-item *ngIf="detailedDataArray" [detailedItemData] = 'detailedDataArray'></detailed-list-item>-->
+          <no-data-box *ngIf="!detailedDataArray" [data]="errorData.data" [icon]="errorData.icon"></no-data-box>
+        </div>
+      </tab>
+    </tabs>
+  </div>
+</section>

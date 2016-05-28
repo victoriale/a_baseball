@@ -1,7 +1,7 @@
-<carousel *ngIf="carouselData" [carouselData]="carouselData" (carouselDataPoint)="response($event)">
-  <div class="schedules-display">
+<carousel *ngIf="carouselData" [carouselData]="carouselData" (carouselDataPoint)="response($event)" [indexInput]="indexInput">
+  <div class="schedules-display" *ngIf="dataPoint" [ngStyle]="dataPoint.backgroundGradient">
     <div class="schedules-display-next"><span>{{dataPoint.displayNext}}</span> {{dataPoint.displayTime}}</div>
-    <div class="schedules-display-detail"><a>{{dataPoint.detail1Data}} {{dataPoint.detail1Value}}</a> | <i class="fa fa-map-marker"></i> <a>{{dataPoint.detail2Value}}</a></div>
+    <div class="schedules-display-detail"><a>{{dataPoint.detail1Data}} {{dataPoint.detail1Value}}</a> <span class="pipe-seperator">|</span> <i class="fa fa-map-marker"></i> <a>{{dataPoint.detail2Value}}</a></div>
     <div class="schedules-display-competitors">
       <!---->
       <div class="competitors competitors-left">
@@ -9,9 +9,11 @@
           <div class="competitors-circle">
             <circle-image [data]="dataPoint.imageConfig1"></circle-image>
           </div>
+        </div>
+        <div class="competitors-info2">
           <div class="competitors-stats">
-            <span>[Profile Name 1]</span>
-            <span><i class="fa fa-map-marker"></i>[Location] <span style="margin:0 5px">|</span> [Record]</span>
+            <span>{{dataPoint.teamName1}}</span>
+            <span><i class="fa fa-map-marker"></i>{{dataPoint.teamLocation1}} <span class="pipe-seperator">|</span> {{dataPoint.teamRecord1}}</span>
           </div>
         </div>
       </div>
@@ -22,9 +24,11 @@
           <div class="competitors-circle">
             <circle-image [data]="dataPoint.imageConfig2"></circle-image>
           </div>
+        </div>
+        <div class="competitors-info2">
           <div class="competitors-stats">
-            <span>[Profile Name 2]</span>
-            <span><i class="fa fa-map-marker"></i>[Location] <span style="margin:0 5px">|</span> [Record]</span>
+            <span>{{dataPoint.teamName2}}</span>
+            <span><i class="fa fa-map-marker"></i>{{dataPoint.teamLocation2}} <span class="pipe-seperator">|</span> {{dataPoint.teamRecord2}}</span>
           </div>
         </div>
       </div>

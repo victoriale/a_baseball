@@ -6,11 +6,13 @@ import {Conference, Division} from '../global/global-interface';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
 import {GlobalSettings} from '../global/global-settings';
+import {Gradient} from '../global/global-gradient';
 
 declare var moment;
 
 //TODO-CJP: Ask backend to return values as numbers and not strings!
 export interface SchedulesData {
+  index:any;
   backgroundImage: string,
   eventId: string,
   stateDateTime: string,
@@ -55,6 +57,12 @@ export class MLBScheduleTabData implements TableTabData<SchedulesData> {
 
   title: string;
 
+  display:string;
+
+  dataType: string;
+
+  season: string;
+
   isActive: boolean;
 
   sections: Array<MLBSchedulesTableData>;
@@ -73,73 +81,111 @@ export class MLBScheduleTabData implements TableTabData<SchedulesData> {
 export class MLBSchedulesTableData implements TableComponentData<SchedulesData> {
   groupName: string;
 
-  tableData: MLBSchedulesTableModel;
+  tableData: any;
 
-  constructor(title: string, table: MLBSchedulesTableModel) {
+  constructor(title: string, table: any) {
     this.groupName = title;
     this.tableData = table;
+  }
+
+  updateCarouselData(item, index){//ANY CHANGES HERE CHECK setupTableData in schedules.service.ts
+    var displayNext = '';
+    if(item.eventStatus == 'pre-event'){
+      var displayNext = 'Next Game:';
+    }else{
+      var displayNext = 'Previous Game:';
+    }
+    return {//placeholder data
+      index:index,
+      displayNext: displayNext,
+      backgroundGradient: Gradient.getGradientStyles([item.awayTeamColors.split(',')[0],item.homeTeamColors.split(',')[0]]),
+      displayTime:moment(item.startDateTime).format('dddd MMMM Do, YYYY | h:mm A') + " ET", //hard coded TIMEZOME since it is coming back from api this way
+      detail1Data:'Home Stadium:',
+      detail1Value:item.homeTeamVenue,
+      detail2Value:item.homeTeamCity + ', ' + item.homeTeamState,
+      imageConfig1:{//AWAY
+        imageClass: "image-125",
+        mainImage: {
+          imageUrl: GlobalSettings.getImageUrl(item.awayTeamLogo),
+          urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.awayTeamName, item.awayTeamId),
+          hoverText: "<p>View</p><p>Profile</p>",
+          imageClass: "border-5"
+        }
+      },
+      imageConfig2:{//HOME
+        imageClass: "image-125",
+        mainImage: {
+          imageUrl: GlobalSettings.getImageUrl(item.homeTeamLogo),
+          urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.homeTeamName, item.homeTeamId),
+          hoverText: "<p>View</p><p>Profile</p>",
+          imageClass: "border-5"
+        }
+      },
+      teamName1: item.awayTeamName,
+      teamName2: item.homeTeamName,
+      teamLocation1:item.awayTeamCity + ', ' + item.awayTeamState,
+      teamLocation2:item.homeTeamCity + ', ' + item.homeTeamState,
+      teamRecord1:item.awayRecord,
+      teamRecord2:item.homeRecord,
+    };
   }
 }
 
 export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
-  // title: string;
-  isTeamId: boolean = true;
   columns: Array<TableColumn>;
 
   rows: Array<any>;
 
   selectedKey:number = -1;
 
-  constructor(rows: Array<any>) {
+  constructor(rows: Array<any>, eventStatus) {
 
-    if(this.isTeamId){
+    if(eventStatus === 'pre-event'){
       this.columns = [{
          headerValue: "DATE",
          columnClass: "date-column",
-         sortDirection: -1, //descending
+         sortDirection: 1, //ascending
          isNumericType: true,
          key: "date"
        },{
          headerValue: "TIME",
          columnClass: "date-column",
-         isNumericType: false,
          key: "t"
        },{
          headerValue: "AWAY",
          columnClass: "image-column location-column",
-         isNumericType: false,
          key: "away"
        },{
          headerValue: "HOME",
          columnClass: "image-column location-column",
-         isNumericType: false,
          key: "home"
        },{
          headerValue: "GAME SUMMARY",
-         columnClass: "summary-column location-column",
-         isNumericType: true,
+         columnClass: "summary-column",
+         ignoreSort: true,
          key: "gs"
        }];
     }else{
-      this.columns = [{
-        headerValue: "HOME",
-        columnClass: "image-column",
-        isNumericType: false,
-        key: "home"
-      },{
+      this.columns = [
+      {
          headerValue: "AWAY",
-         columnClass: "image-column",
+         columnClass: "image-column location-column2",
          isNumericType: false,
          key: "away"
        },{
+        headerValue: "HOME",
+        columnClass: "image-column location-column2",
+        isNumericType: false,
+        key: "home"
+      },{
          headerValue: "RESULTS",
-         columnClass: "data-column",
+         columnClass: "data-column results-column",
          isNumericType: false,
          key: "r"
        },{
          headerValue: "GAME SUMMARY",
-         columnClass: "data-column summary-link",
-         isNumericType: false,
+         columnClass: "summary-column",
+         ignoreSort: true,
          key: "gs"
        }];
     }
@@ -152,7 +198,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
 
   setRowSelected(rowIndex:number) {
     if ( rowIndex >= 0 && rowIndex < this.rows.length ) {
-      this.selectedKey = this.rows[rowIndex].teamId;
+      this.selectedKey = this.rows[rowIndex].eventId;
     }
     else {
       this.selectedKey = null;
@@ -165,35 +211,62 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
 
   //what is displaying in the html
   getDisplayValueAt(item, column:TableColumn):string {
+
+    var homeTeamDisplay = item.homeTeamName;
+    var awayTeamDisplay = item.awayTeamName;
+
+    if(typeof item.homeTeamAbbreviation == 'undefined' || item.homeTeamAbbreviation == null){
+      item.homeTeamAbbreviation = "N/A";
+    }
+    if(typeof item.awayTeamAbbreviation == 'undefined' || item.awayTeamAbbreviation == null){
+      item.awayTeamAbbreviation = "N/A";
+    }
+    var home = item.homeTeamAbbreviation + " " + item.homeScore;
+    var away = item.awayTeamAbbreviation + " " + item.awayScore;
+
     var s = "";
     switch (column.key) {
       case "date":
-        s = moment(item.startDateTime).format('MMMM DD');
+        s = moment(item.startDateTime).format('MMM DD');
         break;
       case "t":
-        s = moment(item.startDateTime).format('h:mm a');
+        s = moment(item.startDateTime).format('h:mm') + " <sup> "+moment(item.startDateTime).format('A')+" </sup>";
         break;
 
       case "away":
-        s = "<span class='location-wrap'>"+item.awayTeamName+"</span>";
+        if(item.awayTeamLastName.length > 10){
+          s = "<span class='location-wrap'>"+item.awayTeamNickname+"</span>";
+        }else{
+          s = "<span class='location-wrap'>"+item.awayTeamLastName+"</span>";
+        }
         break;
 
       case "home":
-        s = "<span class='location-wrap'>"+item.homeTeamName+"</span>";
+      if(item.homeTeamLastName.length > 10){
+        s = "<span class='location-wrap'>"+item.homeTeamNickname+"</span>";
+      }else{
+        s = "<span class='location-wrap'>"+item.homeTeamLastName+"</span>";
+      }
         break;
 
       case "gs":
         if(item.eventStatus === 'pre-event'){
-          s = "Pregame Report <i class='fa fa-angle-right'><i>";
+          s = "<a href='"+item.reportUrlMod+"'>Pregame Report <i class='fa fa-angle-right'><i></a>";
         }else if(item.eventStatus === 'post-event'){
-          s = "Postgame Report <i class='fa fa-angle-right'><i>";
+          s = "<a href='"+item.reportUrlMod+"'>Postgame Report <i class='fa fa-angle-right'><i></a>";
         }else{
           s = "N/A";
         }
         break;
 
       case "r":
-        s = item.results;
+      //whomever wins the game then their text gets bolded as winner
+      if(item.homeOutcome == 'win'){
+        home = "<span class='text-heavy'>" + home + "</span>";
+      }else if(item.awayOutcome == 'win'){
+        away = "<span class='text-heavy'>" + away + "</span>";
+      }
+        s = home + " - " + away;
         break;
     }
     return s;

@@ -1,374 +1,281 @@
-import {Component, Input, Output, OnInit, EventEmitter} from 'angular2/core';
-import {ModuleHeader} from '../../components/module-header/module-header.component';
-import {ComparisonTile} from '../../components/comparison-tile/comparison-tile.component';
-import {ComparisonBar} from '../../components/comparison-bar/comparison-bar.component'
-import {ComparisonLegend} from '../../components/comparison-legend/comparison-legend.component';
+import {Component, Input, Output, OnInit, EventEmitter, OnChanges} from 'angular2/core';
+import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
+import {ComparisonTile, ComparisonTileInput} from '../../components/comparison-tile/comparison-tile.component';
+import {ComparisonBar, ComparisonBarInput} from '../../components/comparison-bar/comparison-bar.component'
+import {ComparisonLegend, ComparisonLegendInput} from '../../components/comparison-legend/comparison-legend.component';
+import {Tabs} from '../../components/tabs/tabs.component';
+import {Tab} from '../../components/tabs/tab.component';
+import {NoDataBox} from '../../components/error/data-box/data-box.component';
+
+import {GlobalSettings} from '../../global/global-settings';
+import {GlobalFunctions} from '../../global/global-functions';
+import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
+import {MLBPageParameters} from '../../global/global-interface';
+import {ComparisonStatsData, PlayerData, SeasonStats} from '../../services/comparison-stats.service';
+import {Gradient} from '../../global/global-gradient'
+
+export interface ComparisonTabData {
+    tabTitle: string;
+    seasonId: string;
+    barData: Array<ComparisonBarInput>;
+    isActive: boolean;
+}
+
+export interface ComparisonModuleData {
+    data: ComparisonStatsData;
+
+    teamList: Array<{key: string, value: string}>;
+
+    playerLists: Array<{
+      teamId: string,
+      playerList: Array<{key: string, value: string}>
+    }>;
+
+    loadTeamList(listLoaded: Function);
+
+    loadPlayerList(index: number, teamId: string, listLoaded: Function);
+}
 
 @Component({
     selector: 'comparison-module',
     templateUrl: './app/modules/comparison/comparison.module.html',
-    directives:[ModuleHeader, ComparisonTile, ComparisonBar, ComparisonLegend],
-    providers: []
+    directives:[ModuleHeader, ComparisonTile, ComparisonBar, ComparisonLegend, Tabs, Tab, NoDataBox]
 })
 
-export class ComparisonModule implements OnInit{
-    public moduleHeaderData: Object = {
+export class ComparisonModule implements OnInit, OnChanges {
+    @Input() modelData: ComparisonModuleData;
+
+    @Input() profileName: string;
+
+    teamOnePlayerList: Array<{key: string, value: string}>;
+
+    teamTwoPlayerList: Array<{key: string, value: string}>;
+
+    teamList: Array<{key: string, value: string}>;
+
+    gradient: any;
+
+    moduleHeaderData: ModuleHeaderData = {
         moduleTitle: 'Comparison vs. Competition - [Batter Name]',
         hasIcon: false,
         iconClass: ''
     };
-    public comparisonLegendData: Object = {
-        legendTitle: [
-            {
-                text: '2016 Season',
-                class: 'text-heavy'
-            },
-            {
-                text: ' Breakdown',
-                class: ''
-            }
-        ],
-        titleOne: '[Batter Name 1]',
-        colorOne: '#3098FF',
-        titleTwo: '[Batter Name 2]',
-        colorTwo: '#FF2232'
-    };
-    public comparisonBarData: Array<Object> = [
-        {
-            title: 'Home Runs',
-            data: [
-                {
-                    dataOne: 2,
-                    dataTwo: 40,
-                    dataHigh: 100
-                },
-                {
-                    dataOne: 12,
-                    dataTwo: 25,
-                    dataHigh: 110
-                },
-                {
-                    dataOne: 50,
-                    dataTwo: 10,
-                    dataHigh: 90
-                }
-            ],
-            colorOne: '#3098FF',
-            colorTwo: '#FF2232',
-            background: 0
-        },
-        {
-            title: 'Batting Average',
-            data: [
-                {
-                    dataOne: 2,
-                    dataTwo: 2,
-                    dataHigh: 8
-                },
-                {
-                    dataOne: 1,
-                    dataTwo: 3,
-                    dataHigh: 10
-                },
-                {
-                    dataOne: 6,
-                    dataTwo: 2,
-                    dataHigh: 7
-                }
-            ],
-            colorOne: '#3098FF',
-            colorTwo: '#FF2232',
-            background: 1
-        },
-        {
-            title: 'RBIS',
-            data: [
-                {
-                    dataOne: 1,
-                    dataTwo: 2,
-                    dataHigh: 6
-                },
-                {
-                    dataOne: 1,
-                    dataTwo: 2,
-                    dataHigh: 3
-                },
-                {
-                    dataOne: 2,
-                    dataTwo: 3,
-                    dataHigh: 10
-                }
-            ],
-            colorOne: '#3098FF',
-            colorTwo: '#FF2232',
-            background: 0
-        },
-        {
-            title: 'Hits',
-            data: [
-                {
-                    dataOne: 15,
-                    dataTwo: 95,
-                    dataHigh: 100
-                },
-                {
-                    dataOne: 6,
-                    dataTwo: 20,
-                    dataHigh: 120
-                },
-                {
-                    dataOne: 45,
-                    dataTwo: 83,
-                    dataHigh: 90
-                }
-            ],
-            colorOne: '#3098FF',
-            colorTwo: '#FF2232',
-            background: 1
-        },
-        {
-            title: 'Walks',
-            data: [
-                {
-                    dataOne: 15,
-                    dataTwo: 95,
-                    dataHigh: 100
-                },
-                {
-                    dataOne: 4,
-                    dataTwo: 30,
-                    dataHigh: 50
-                },
-                {
-                    dataOne: 65,
-                    dataTwo: 98,
-                    dataHigh: 120
-                }
-            ],
-            colorOne: '#3098FF',
-            colorTwo: '#FF2232',
-            background: 0
-        },
-        {
-            title: 'On Base Percentage',
-            data: [
-                {
-                    dataOne: 499,
-                    dataTwo: 528,
-                    dataHigh: 986
-                },
-                {
-                    dataOne: 200,
-                    dataTwo: 700,
-                    dataHigh: 800
-                },
-                {
-                    dataOne: 500,
-                    dataTwo: 505,
-                    dataHigh: 660
-                }
-            ],
-            colorOne: '#3098FF',
-            colorTwo: '#FF2232',
-            background: 1
-        },
-        {
-            title: 'Doubles',
-            data: [
-                {
-                    dataOne: 1,
-                    dataTwo: 5,
-                    dataHigh: 20
-                },
-                {
-                    dataOne: 0,
-                    dataTwo: 10,
-                    dataHigh: 22
-                },
-                {
-                    dataOne: 3,
-                    dataTwo: 17,
-                    dataHigh: 20
-                }
-            ],
-            colorOne: '#3098FF',
-            colorTwo: '#FF2232',
-            background: 0
-        },
-        {
-            title: 'Triples',
-            data: [
-                {
-                    dataOne: 1,
-                    dataTwo: 5,
-                    dataHigh: 48
-                },
-                {
-                    dataOne: 0,
-                    dataTwo: 0,
-                    dataHigh: 75
-                },
-                {
-                    dataOne: 32,
-                    dataTwo: 45,
-                    dataHigh: 60
-                }
-            ],
-            colorOne: '#3098FF',
-            colorTwo: '#FF2232',
-            background: 1
+
+    comparisonLegendData: ComparisonLegendInput;
+
+    selectedTeamOne: string;
+
+    selectedTeamTwo: string;
+
+    comparisonTileDataOne: ComparisonTileInput;
+
+    comparisonTileDataTwo: ComparisonTileInput;
+
+    tabs: Array<ComparisonTabData> = [];
+
+    noDataMessage = "Sorry, there are no values for this season.";
+
+    constructor() {
+        var year = new Date().getFullYear();
+        this.tabs.push({
+            tabTitle: "Current Season",
+            seasonId: year.toString(),
+            barData: [],
+            isActive: true
+        });
+        for ( var i = 0; i < 3; i++ ) {
+            year--;
+            this.tabs.push({
+                tabTitle: year.toString(),
+                seasonId: year.toString(),
+                barData: [],
+                isActive: false
+            });
         }
-    ];
-    public dataIndex: number = 0;
-
-    public comparisonTileDataOne: Object = {
-        dropdownOne: [
-            'Team Profile',
-            'Player Profile'
-        ],
-        dropdownTwo: [
-            'Lutz',
-            'Larry'
-        ],
-        imageConfig: {
-            imageClass: "image-180",
-            mainImage: {
-                imageUrl: "./app/public/placeholder-location.jpg",
-                urlRouteArray: ['Disclaimer-page'],
-                hoverText: "<p>View</p><p>Profile</p>",
-                imageClass: "border-large"
-            },
-            subImages: [
-                {
-                    imageUrl: "./app/public/placeholder-location.jpg",
-                    urlRouteArray: ['Disclaimer-page'],
-                    hoverText: "<i class='fa fa-mail-forward'></i>",
-                    imageClass: "image-50-sub image-round-lower-right"
-                },
-                {
-                    text: "#12",
-                    imageClass: "image-48-rank image-round-upper-left image-round-sub-text"
-                }
-            ],
-        },
-        title: 'Lutz',
-        description: [
-            {
-                text: 'Position: ',
-                class: ''
-            },
-            {
-                text: 'RF',
-                class: 'text-heavy'
-            },
-            {
-                text: ' | Team: ',
-                class: ''
-            },
-            {
-                text: '[Team Name 1]',
-                class: 'text-heavy'
-            }
-        ],
-        data: [
-            {
-                data: '6\'1"',
-                key: 'Height'
-            },
-            {
-                data: '180lbs',
-                key: 'Weight'
-            },
-            {
-                data: '25',
-                key: 'Age'
-            },
-            {
-                data: '?',
-                key: 'Season'
-            },
-        ]
-    };
-    public comparisonTileDataTwo: Object = {
-        dropdownOne: [
-            'Team Profile',
-            'Player Profile'
-        ],
-        dropdownTwo: [
-            'Lutz',
-            'Larry'
-        ],
-        imageConfig: {
-            imageClass: "image-180",
-            mainImage: {
-                imageUrl: "./app/public/placeholder-location.jpg",
-                urlRouteArray: ['Disclaimer-page'],
-                hoverText: "<p>View</p><p>Profile</p>",
-                imageClass: "border-large"
-            },
-            subImages: [
-                {
-                    imageUrl: "./app/public/placeholder-location.jpg",
-                    urlRouteArray: ['Disclaimer-page'],
-                    hoverText: "<i class='fa fa-mail-forward'></i>",
-                    imageClass: "image-50-sub image-round-lower-right"
-                },
-                {
-                    text: "#32",
-                    imageClass: "image-48-rank image-round-upper-left image-round-sub-text"
-                }
-            ],
-        },
-        title: 'Larry',
-        description: [
-            {
-                text: 'Position: ',
-                class: ''
-            },
-            {
-                text: 'RF',
-                class: 'text-heavy'
-            },
-            {
-                text: ' | Team: ',
-                class: ''
-            },
-            {
-                text: '[Team Name 2]',
-                class: 'text-heavy'
-            }
-        ],
-        data: [
-            {
-                data: '4\'10"',
-                key: 'Height'
-            },
-            {
-                data: '90lbs',
-                key: 'Weight'
-            },
-            {
-                data: '12',
-                key: 'Age'
-            },
-            {
-                data: '?',
-                key: 'Season'
-            },
-        ]
-    };
-
-    dataOne(){
-        this.dataIndex = 0;
-    }
-    dataTwo(){
-        this.dataIndex = 1;
-    }
-    dataThree(){
-        this.dataIndex = 2;
+        this.tabs.push({
+            tabTitle: "Career Stats",
+            seasonId: null,
+            barData: [],
+            isActive: false
+        });
     }
 
     ngOnInit(){
+    }
 
+    ngOnChanges() {
+        if ( this.modelData ) {
+            this.teamList = this.modelData.teamList;
+            if ( this.modelData.playerLists && this.modelData.playerLists.length >= 2 ) {
+                this.teamOnePlayerList = this.modelData.playerLists[0].playerList;
+                this.teamTwoPlayerList = this.modelData.playerLists[1].playerList;
+            }
+            if ( this.modelData.data && this.tabs ) {
+                this.formatData(this.modelData.data);
+                this.modelData.loadTeamList(teamList => {
+                    this.teamList = teamList;
+                    this.loadPlayerList(0, this.modelData.data.playerOne.teamId);
+                    this.loadPlayerList(1, this.modelData.data.playerTwo.teamId);
+                });
+            }
+        }
+        if ( this.profileName ) {
+            this.moduleHeaderData.moduleTitle = 'Comparison vs. Competition - ' + this.profileName;
+        }
+    }
+
+    //TODO-CJP: think about passing of data and creating a list of players rather than player one and player two
+    formatData(data: ComparisonStatsData) {
+        var selectedSeason = new Date().getFullYear(); //TODO: get from selected tab.
+        // this.selectedTeamOne = data.playerOne.teamId;
+        // this.selectedTeamTwo = data.playerTwo.teamId;
+        this.comparisonTileDataOne = this.setupTile(data.playerOne);
+        this.comparisonTileDataTwo = this.setupTile(data.playerTwo);
+        this.gradient = Gradient.getGradientStyles([data.playerOne.mainTeamColor, data.playerTwo.mainTeamColor], 1);
+
+        for ( var i = 0; i < this.tabs.length; i++ ) {
+            this.tabs[i].barData = data.bars[this.tabs[i].seasonId];
+        }
+        this.comparisonLegendData = {
+            legendTitle: [
+                {
+                    text: selectedSeason + ' Season',
+                    class: 'text-heavy'
+                },
+                {
+                    text: ' Breakdown',
+                }
+            ],
+            legendValues: [
+                {
+                    title: "Stat High",
+                    color: "#e1e1e1"
+                },
+                {
+                    title: data.playerTwo.playerName,
+                    color: data.playerTwo.mainTeamColor
+                },
+                {
+                    title: data.playerOne.playerName,
+                    color: data.playerOne.mainTeamColor
+                }
+            ]
+        };
+    }
+
+    setupTile(player: PlayerData): ComparisonTileInput {
+        return {
+            dropdownOneKey: player.teamId,
+            dropdownTwoKey: player.playerId,
+            imageConfig: {
+                imageClass: "image-180",
+                mainImage: {
+                    imageUrl: GlobalSettings.getImageUrl(player.playerHeadshot),
+                    urlRouteArray: MLBGlobalFunctions.formatPlayerRoute(player.teamName, player.playerName, player.playerId),
+                    hoverText: "<p>View</p><p>Profile</p>",
+                    imageClass: "border-large"
+                },
+                subImages: [
+                    {
+                        imageUrl: GlobalSettings.getImageUrl(player.teamLogo),
+                        urlRouteArray: MLBGlobalFunctions.formatTeamRoute(player.teamName, player.teamId),
+                        hoverText: "<i class='fa fa-mail-forward'></i>",
+                        imageClass: "image-50-sub image-round-lower-right"
+                    },
+                    {
+                        text: "#" + player.uniformNumber,
+                        imageClass: "image-48-rank image-round-upper-left image-round-sub-text"
+                    }
+                ],
+            },
+            title: player.playerName,
+            description: [
+                {
+                    text: 'Position: '
+                },
+                {
+                    text: player.position,
+                    class: 'text-heavy'
+                },
+                {
+                    text: ' |&nbsp;&nbsp;Team: ', //TODO: differently
+                    class: ''
+                },
+                {
+                    text: player.teamName,
+                    class: 'text-heavy'
+                }
+            ],
+            data: [
+                {
+                    data: player.height.split("-").join("'") + "\"",
+                    key: 'Height'
+                },
+                {
+                    data: player.weight + "<sup>lbs</sup>",
+                    key: 'Weight'
+                },
+                {
+                    data: player.age.toString(),
+                    key: 'Age'
+                },
+                {
+                    data: player.yearsExperience + "<sup>" + GlobalFunctions.Suffix(player.yearsExperience) + "</sup>",
+                    key: 'Season'
+                },
+            ]
+        }
+    }
+
+    /**
+     * @param {number} tileIndex - 0 : left tile
+     *                           - 1 : right tile
+     * @param value an object containing
+     *  - {number} dropdownIndex: 0 = left dropdown or team list, 1 right dropdown or player list
+     *  - {string} key - The key selected in the dropdown
+     */
+    tileDropdownSwitched(tileIndex:number, value) {
+        var dropdownIndex:number = value.dropdownIndex;
+        var key:string = value.key;
+        if ( dropdownIndex == 0 ) { //team dropdown
+            this.loadPlayerList(tileIndex, key);
+        }
+        else if ( dropdownIndex == 1 ) { //player dropdown
+            //load new player list and comparison stats
+        }
+    }
+
+    loadPlayerList(tileIndex:number, teamId: string) {
+        if ( tileIndex == 0 ) {
+            this.selectedTeamOne = teamId;
+        }
+        else {
+            this.selectedTeamTwo = teamId;
+        }
+        this.modelData.loadPlayerList(tileIndex, teamId, playerList => {
+            if ( tileIndex == 0 ) {
+                this.teamOnePlayerList = playerList;
+            }
+            else {
+                this.teamTwoPlayerList = playerList;
+            }
+        });
+    }
+
+    tabSelected(tabTitle) {
+        var selectedTabs = this.tabs.filter(tab => {
+           return tab.tabTitle == tabTitle;
+        });
+        if ( selectedTabs.length > 0 ) {
+            var tab = selectedTabs[0];
+            if ( tabTitle == "Career Stats" ) {
+                this.comparisonLegendData.legendTitle[0].text = tabTitle;
+                this.noDataMessage = "Sorry, there are no career stats available for these players.";
+            }
+            else {
+                this.comparisonLegendData.legendTitle[0].text = tab.seasonId + " Season";
+                this.noDataMessage = "Sorry, there are no statistics available for " + tab.seasonId + ".";
+            }
+        }
     }
 }

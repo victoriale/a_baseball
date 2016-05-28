@@ -6,10 +6,14 @@ import {Tab} from '../tabs/tab.component';
 import {CustomTable} from '../custom-table/custom-table.component';
 import {TableModel, TableColumn, TableRow, TableCell} from '../custom-table/table-data.component';
 import {DropdownComponent} from '../../components/dropdown/dropdown.component';
+import {LoadingComponent} from '../../components/loading/loading.component';
+import {NoDataBox} from '../../components/error/data-box/data-box.component';
 
 export interface StatsTableTabData<T> {
   tabTitle: string;
   isActive: boolean;
+  isLoaded: boolean;  
+  hasError: boolean;
   tableData: TableModel<T>;
   seasonIds: Array<{key: string, value: string}>;
   glossary: Array<{key: string, value: string}>;
@@ -20,7 +24,7 @@ export interface StatsTableTabData<T> {
 @Component({
   selector: "player-stats-component",
   templateUrl: "./app/components/player-stats/player-stats.component.html",
-  directives: [SliderCarousel, Tabs, Tab, CustomTable, DropdownComponent],
+  directives: [SliderCarousel, Tabs, Tab, CustomTable, DropdownComponent, LoadingComponent, NoDataBox],
 })
 export class PlayerStatsComponent implements DoCheck {  
   public selectedIndex;
@@ -35,6 +39,7 @@ export class PlayerStatsComponent implements DoCheck {
   
   private selectedTabTitle: string;
   private tabsLoaded: {[key: string]: string};
+  private noDataMessage = "Sorry, there is no data available.";
 
   constructor() {}
   
@@ -52,7 +57,7 @@ export class PlayerStatsComponent implements DoCheck {
       }
       else {
         for ( var i = 0; i < this.tabs.length; i++ ) {
-          if ( this.tabs[i].tableData && !this.tabsLoaded[i] ) {
+          if ( this.tabs[i].isLoaded && !this.tabsLoaded[i] ) {
             this.updateCarousel();
             this.tabsLoaded[i] = "1";
           }
@@ -83,6 +88,7 @@ export class PlayerStatsComponent implements DoCheck {
   
   tabSelected(newTitle) {
     this.selectedTabTitle = newTitle;
+    this.noDataMessage = "Sorry, there are no " + newTitle + " stats available.";
     this.tabSelectedListener.next(this.getSelectedTab());
     this.updateCarousel();
   }
