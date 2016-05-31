@@ -98,9 +98,32 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
     
     var self = this;
     var keepDropdownOpen = false;
+    var isDropdownVisible = false;
     var nativeElement = this._elementRef.nativeElement;
-    var dropdownHeader = this._elementRef.nativeElement.getElementsByClassName('dropdown')[0];
-    var dropdownContainer = this._elementRef.nativeElement.getElementsByClassName('dropdown-wrapper')[0];
+    var dropdownHeader = nativeElement.getElementsByClassName('dropdown')[0];
+    var dropdownContainer = nativeElement.getElementsByClassName('dropdown-wrapper')[0];    
+    var dropdownIcon = nativeElement.getElementsByClassName('dropdown-hdr-button')[0];
+    if ( dropdownIcon ) {
+      dropdownIcon = dropdownIcon.getElementsByTagName("i")[0];
+    }
+    
+    function toggleDropdown(showIt:boolean) {
+        isDropdownVisible = showIt;
+        
+        var display = "none";
+        var icon = self.dropdownHiddenIcon;
+        var className = "dropdown";
+        if ( isDropdownVisible ) {            
+          display = "";
+          icon = self.dropdownVisibleIcon;
+          className += " dropdown-active";
+        } 
+        dropdownContainer.style.display = display;
+        dropdownHeader.className = className;
+        if ( dropdownIcon ) {
+          dropdownIcon.className = "fa " + icon;
+        }     
+    }
     
     if ( dropdownContainer && dropdownHeader ) {
       // We don't want to close dropdown when the scroller is selected.
@@ -110,6 +133,10 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
           keepDropdownOpen = element.className.indexOf("scrollable-item-scroller") >= 0; 
       });
       
+      document.addEventListener('mouseup', function(event) {
+          keepDropdownOpen = false; 
+      });
+      
       dropdownHeader.addEventListener('click', function(event) {
           if ( keepDropdownOpen ) {
             //ignore click if 'keepDropdownOpen' is true
@@ -117,19 +144,16 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
           }
           
           //Toggle the dropdown visibility and show/hide the actual container
-          self.isDropdownVisible = !self.isDropdownVisible;          
-          dropdownContainer.style.display = self.isDropdownVisible ? "" : "none";
+          toggleDropdown(!isDropdownVisible);
           
           //If this is the first time the dropdown is visible, set up the scroller
           // as the scroller can't calculate a content's height and scroll ratio
           // when it's hidden.
-          if ( self.isDropdownVisible ) {
-            // console.log("setting up scroller");
+          if ( isDropdownVisible ) {
             ScrollerFunctions.initializeScroller(nativeElement, document);
-            // self._scrollerSetup = true;
           }
-                    
-          if ( !self.hideDropdownListener ) {
+
+          if ( !self.hideDropdownListener && isDropdownVisible ) {
             //timeout is needed so that click doesn't happen for click.
             setTimeout(() => {
               //remove any existing listener:
@@ -139,6 +163,7 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
               }
               
               //add new listener that checks for any click on the document
+              // console.time(" adding document listener");
               self.hideDropdownListener = self._renderer.listenGlobal('document', 'click', (event) => {
                 if ( keepDropdownOpen ) {
                   //ignore click if 'keepDropdownOpen' is true
@@ -146,8 +171,7 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
                   return;
                 }
           
-                self.isDropdownVisible = false;
-                dropdownContainer.style.display = "none";
+                toggleDropdown(false);
                 
                 if ( self.hideDropdownListener ) {
                   //if the listener still exists, remove it as it's not needed once

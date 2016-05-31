@@ -1,12 +1,10 @@
-<div class="dropdown" 
-  [class.dropdown-active]="isDropdownVisible"
-  [class.dropdown-disabled]="!isDropdownEnabled">
+<div class="dropdown">
   <div class="dropdown-hdr">
     <span class="dropdown-hdr-value">
       {{selectedItem.value}}
     </span>
     <span class="dropdown-hdr-button">
-      <i class="fa {{isDropdownVisible ? dropdownVisibleIcon : dropdownHiddenIcon}}"></i>
+      <i class="fa {{dropdownHiddenIcon}}"></i>
     </span>
   </div>
   

@@ -1,9 +1,6 @@
 import {Component, Input, OnInit, OnChanges, ViewChild, AfterViewChecked} from 'angular2/core';
 import {NaValuePipe} from '../../pipes/na.pipe';
 
-//TODO: remove jQuery
-declare var jQuery: any;
-
 export interface ComparisonBarInput {
     title: string;
     data: Array<{
@@ -42,32 +39,24 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
         }
         
         //Get widths of DOM elements
-        var barWidth = jQuery(this.masterBar.nativeElement).width();
-        var labelOneWidth = jQuery(this.labelOne.nativeElement).width();
-        var labelTwoWidth = jQuery(this.labelTwo.nativeElement).width();
+        var barWidth = this.masterBar.nativeElement.offsetWidth;
+        var labelOneWidth = this.labelOne.nativeElement.offsetWidth;
+        var labelTwoWidth = this.labelTwo.nativeElement.offsetWidth;
         //Calculate final bar widths
         var barOneWidth = barWidth * this.displayData.data[0].width / 100;
         var barTwoWidth = barWidth * this.displayData.data[1].width / 100;
         //Set pixel buffer between labels that are close
         var pixelBuffer = 5;
 
-        if((Math.abs(barTwoWidth - barOneWidth)) <= labelTwoWidth){
+        if((Math.abs(barTwoWidth - barOneWidth)) <= (labelTwoWidth + pixelBuffer)){
             //If the difference between the bars is less than the width of the second label, shift label one over
             var newRight = Math.ceil(labelTwoWidth - (barTwoWidth - barOneWidth) + pixelBuffer);
         }else{
             //Else right align label one to the right of bar one
             var newRight = 0;
         }
-        jQuery(this.labelOne.nativeElement).css('right', newRight);
-
-        // if(this.displayData.isTwoTop && (Math.abs(barOneWidth - barTwoWidth)) <= labelOneWidth){
-        //     //If bar two is on top and the difference between the bars is less than the width of label one, shift label two over
-        //     var newRight = Math.ceil(labelOneWidth - (barOneWidth - barTwoWidth) + pixelBuffer);
-        // }else{
-        //     //Else right align label two to the right of bar two
-        //     var newRight = 0;
-        // }
-        jQuery(this.labelTwo.nativeElement).css('right', 0);
+        this.labelOne.nativeElement.style.right = newRight;
+        this.labelTwo.nativeElement.style.right = 0;
     }
 
     ngAfterViewChecked(){
