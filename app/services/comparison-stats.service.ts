@@ -124,6 +124,8 @@ export class MLBComparisonModuleData implements ComparisonModuleData {
         teamData.playerList = [];
         this._service.getPlayerList(newTeamId).subscribe(data => {
           teamData.playerList = data;
+          //TODO - widen dropdown to  
+          // teamData.playerList[1].value += "Something longer than ever";
           listLoaded(teamData.playerList);
         },
         err => {
@@ -170,6 +172,7 @@ export class ComparisonStatsService {
     var teamId = pageParams.teamId != null ? pageParams.teamId.toString() : null;
     var playerId = pageParams.playerId != null ? pageParams.playerId.toString() : null;
     return this.callPlayerComparisonAPI(teamId, playerId, data => {
+      // console.log("  comparison data", data);
       data.playerOne.statistics = this.formatPlayerData(data.playerOne.playerId, data.data);
       data.playerTwo.statistics = this.formatPlayerData(data.playerTwo.playerId, data.data);
       data.bestStatistics = this.formatPlayerData("statHigh", data.data);

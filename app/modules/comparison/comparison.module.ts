@@ -18,7 +18,6 @@ export interface ComparisonTabData {
     tabTitle: string;
     seasonId: string;
     barData: Array<ComparisonBarInput>;
-    isActive: boolean;
 }
 
 export interface ComparisonModuleData {
@@ -82,23 +81,20 @@ export class ComparisonModule implements OnInit, OnChanges {
         this.tabs.push({
             tabTitle: "Current Season",
             seasonId: year.toString(),
-            barData: [],
-            isActive: true
+            barData: []
         });
         for ( var i = 0; i < 3; i++ ) {
             year--;
             this.tabs.push({
                 tabTitle: year.toString(),
                 seasonId: year.toString(),
-                barData: [],
-                isActive: false
+                barData: []
             });
         }
         this.tabs.push({
             tabTitle: "Career Stats",
-            seasonId: null,
-            barData: [],
-            isActive: false
+            seasonId: "careerStats",
+            barData: []
         });
     }
 
