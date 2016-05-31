@@ -155,9 +155,15 @@ export class ComparisonStatsService {
   private _apiUrl: string = GlobalSettings.getApiUrl();
 
   private pitchingFields = [
-    "pitchWins", "pitchInningsPitched", "pitchStrikeouts",
-    "pitchEra", "pitchHits", "pitchEarnedRuns",
-    "pitchHomeRunsAllowed", "pitchBasesOnBalls"
+    "pitchWins", 
+    "pitchInningsPitched", 
+    "pitchStrikeouts",
+    "pitchEra", 
+    // "pitchSaves",
+    "pitchHits",
+    "pitchEarnedRuns",
+    "pitchHomeRunsAllowed",
+    "pitchBasesOnBalls"
   ];
 
   private battingFields = [
@@ -373,7 +379,7 @@ export class ComparisonStatsService {
       case "batHomeRuns": return "Home Runs";
       case "batAverage": return "Batting Average";
       case "batRbi": return "RBIs";
-      // case "batSluggingPercentage": return "";
+      case "batSluggingPercentage": return "Slugging Percentage";
       case "batHits": return "Hits";
       case "batBasesOnBalls": return "Walks";
       case "batOnBasePercentage": return "On Base Percentage";
@@ -381,13 +387,13 @@ export class ComparisonStatsService {
       case "batTriples": return "Triples";
       case "pitchEra": return "Earned Run Average";
       case "pitchWins": return "Wins";
-      // case "pitchLosses": return "";
+      case "pitchLosses": return "Losses";
       case "pitchStrikeouts": return "Strikeouts";
       case "pitchInningsPitched": return "Innings Pitched";
       case "pitchBasesOnBalls": return "Walks";
-      // case "pitchWhip": return "";
-      // case "pitchSaves": return "";
-      // case "pitchIpa": return "";
+      case "pitchWhip": return "WHIP";
+      case "pitchSaves": return "Saves";
+      case "pitchIpa": return "IPA";
       case "pitchHits": return "Hits";
       case "pitchEarnedRuns": return "Earned Runs";
       case "pitchHomeRunsAllowed": return "Home Runs";
