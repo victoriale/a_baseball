@@ -21,7 +21,7 @@
         <span *ngIf="showMaxSkip" class="pagination-button-ellipsis">
             ...
         </span>
-        <button (click)="indexClick($event)" *ngIf="paginationParameters.max != 1" class="pagination-button-circle" [ngClass]="{active: paginationParameters.index == paginationParameters.max}">
+        <button (click)="indexClick($event)" *ngIf="paginationParameters.max > 1" class="pagination-button-circle" [ngClass]="{active: paginationParameters.index == paginationParameters.max}">
             {{paginationParameters.max}}
         </button>
         <!-- Angle Right Button -->
@@ -51,7 +51,7 @@
         <span *ngIf="showMaxSkip" class="pagination-button-ellipsis">
             ...
         </span>
-        <a (click)="indexClick($event)" *ngIf="paginationParameters.max != 1" class="pagination-button-circle" [ngClass]="{active: paginationParameters.index == paginationParameters.max}" [routerLink]="[paginationParameters.navigationPage, maxButtonParameters]">
+        <a (click)="indexClick($event)" *ngIf="paginationParameters.max > 1" class="pagination-button-circle" [ngClass]="{active: paginationParameters.index == paginationParameters.max}" [routerLink]="[paginationParameters.navigationPage, maxButtonParameters]">
             {{paginationParameters.max}}
         </a>
         <!-- Angle Right Button -->

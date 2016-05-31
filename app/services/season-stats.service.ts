@@ -9,7 +9,7 @@ import {Gradient} from '../global/global-gradient';
 
 import {ComparisonBarInput} from '../components/comparison-bar/comparison-bar.component';
 
-//TODO: unify player/team data interface
+
 export interface PlayerData {
   playerName: string;
   playerId: string;
@@ -31,26 +31,34 @@ export interface DataPoint {
   [playerId: string]: number
 }
 
+export interface ComparisonBarList {
+  [year: string]: Array<ComparisonBarInput>
+}
+
 export interface SeasonStats {
-  isCurrentSeason: boolean;
-  wins: DataPoint;
-  strikeouts: DataPoint;
-  era: DataPoint;
-  hits: DataPoint;
-  homeRuns: DataPoint;
-  batAverage: DataPoint;
-  rbi: DataPoint;
-  basesOnBalls: DataPoint;
+  batHomeRuns: number;
+  batAverage: number;
+  batRbi: number;
+  batHits: number;
+  pitchBasesOnBalls: number;
+  pitchWins: number;
+  pitchInningsPitched: number;
+  pitchStrikeouts: number;
+  pitchEra: number;
+  pitchHits: number;
+
+  leader: SeasonStatsData;
+  average: SeasonStatsData;
+  player: SeasonStatsData;
 }
 export interface SeasonStatsData {
   playerInfo: PlayerData;
-
-  mlbInfo: PlayerData;
-
-  data: { [year: string]: SeasonStats };
-
-  bars: { [year: string]: Array<ComparisonBarInput> };
+  tabs: any;
+  // playerInfo: PlayerData;
+  stats: { [year: string]: SeasonStats };
+  bars: ComparisonBarList;
 }
+
 @Injectable()
 export class SeasonStatsService {
   private _apiUrl: string = GlobalSettings.getApiUrl();
@@ -66,41 +74,104 @@ export class SeasonStatsService {
     return headers;
   }
 
-  getPlayerStats(pageParams: MLBPageParameters): Observable<SeasonStatsData> {
-    var headers = this.setToken();
-    let url = this._apiUrl + "/player/seasonStats/" + pageParams.playerId;
-    // console.log("url", url);
-    return this.http.get(url, {
-      headers: headers
-    })
-    .map(res => res.json())
-    .map(data => {
-      return this.formatData(data);
-    });
+  getPlayerStats(playerId: number): Observable<ComparisonBarList> {
+    return this.callPlayerComparisonAPI(Number(playerId), data => {
+        return this.formatData(data);
+      });
   }
 
-  private formatData(data: SeasonStatsData): SeasonStatsData {
-    for(var seasonId in data.data){
-      // console.log("season id", seasonId);
-      var seasonStatData = data.data[seasonId];
-      var seasonBarList = [];
+  private callPlayerComparisonAPI(playerId: number, dataLoaded: Function) {
+    let url = this._apiUrl + "/player/seasonStats/" + playerId;
+
+    console.log("getting player stats: " + url);
+    return this.http.get(url)
+      .map(res => res.json())
+      .map(data => dataLoaded(data.data));
+  }
+
+  private formatData(data: SeasonStatsData) {
+    let playerInfo = data.playerInfo;
+    let stats = data.stats;
+    var seasonStatTab = [];
+    console.log("stats",stats);
+    var curYear = new Date().getFullYear();
+    for(var year in stats){
+      var displayTab = '';
+      if(Number(year) == curYear){
+        displayTab = 'Current Season';
+      }else if(year == 'career'){
+        displayTab = 'Career Stats';
+      }else{
+        displayTab = year;
+      }
+      if( stats[year].leader !== undefined){
+        let leader = stats[year].leader;
+        let average = stats[year].average;
+        let seasonStatsPlayer = stats[year].player;
+        var playerBarStats = [];
+        console.log("leader", leader);
+        for( var playerStat in leader){
+          var s = {
+            title: this.getKeyDisplayTitle(playerStat),
+            data: [{
+              value: Number(this.getKeyValue(playerStat, seasonStatsPlayer)).toFixed(1),
+              color: '#BC1624',
+            },
+            {
+              value: Number(this.getKeyValue(playerStat, average)).toFixed(1),
+              color: '#555555',
+            }],
+            maxValue: Number(this.getKeyValue(playerStat, leader).statValue).toFixed(1),
+            info: 'fa-info-circle',
+            image: "/app/public/no-image.png"
+          }
+          playerBarStats.push(s);
+        }
+      }
+
+      if( curYear - 4 < Number(year) || year == 'career'){
+        seasonStatTab.push({
+          tabTitle: displayTab,
+          tabData: playerBarStats
+        });
+      }
     }
-    return data;
+    console.log("season stats tab", seasonStatTab, "player info", playerInfo);
+    return {
+      playerInfo: playerInfo,
+      tabs: seasonStatTab
+    };
   }
 
   private getKeyDisplayTitle(key: string): string {
     switch (key) {
-      //PITCHERS
-      case "wins": return "Wins";
-      case "inningsPitched": return "Innings Pitched (IP)";
-      case "strikeouts": return "Strikeouts (SO)";
-      case "era": return "ERA";
-      case "hits": return "Hits";
-      //BATTERS
-      case "homeRuns": return "Home Runs (HR)";
+      case "batHomeRuns": return "Home Runs (HR)";
       case "batAverage": return "Batting Average (BA)";
-      case "rbi": return "Runs Batted In (RBI)";
-      case "basesOnBalls": return "Walks (BB)";
+      case "batRbi": return "Runs Batted In (RBI)";
+      case "batHits": return "Hits";
+      case "pitchBasesOnBalls": return "Walks (BB)";
+
+      case "pitchWins": return "Wins";
+      case "pitchInningsPitched": return "Innings Pitched (IP)";
+      case "pitchStrikeouts": return "Strikeouts (SO)";
+      case "pitchEra": return "ERA";
+      case "pitchHits": return "Hits";
+      default: return null;
+    }
+  }
+  private getKeyValue(key: string, data): string {
+    switch (key) {
+      case "batHomeRuns": return data[key];
+      case "batAverage": return data[key];
+      case "batRbi": return data[key];
+      case "batHits": return data[key];
+      case "pitchBasesOnBalls": return data[key];
+
+      case "pitchWins": return data[key];
+      case "pitchInningsPitched": return data[key];
+      case "pitchStrikeouts": return data[key];
+      case "pitchEra": return data[key];
+      case "pitchHits": return data[key];
       default: return null;
     }
   }

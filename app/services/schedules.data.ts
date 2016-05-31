@@ -12,6 +12,7 @@ declare var moment;
 
 //TODO-CJP: Ask backend to return values as numbers and not strings!
 export interface SchedulesData {
+  index:any;
   backgroundImage: string,
   eventId: string,
   stateDateTime: string,
@@ -214,14 +215,14 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
     var homeTeamDisplay = item.homeTeamName;
     var awayTeamDisplay = item.awayTeamName;
 
-    if(typeof item.homeTeamAbbr == 'undefined'){
-      item.homeTeamAbbr = "N/A";
+    if(typeof item.homeTeamAbbreviation == 'undefined' || item.homeTeamAbbreviation == null){
+      item.homeTeamAbbreviation = "N/A";
     }
-    if(typeof item.awayTeamAbbr == 'undefined'){
-      item.awayTeamAbbr = "N/A";
+    if(typeof item.awayTeamAbbreviation == 'undefined' || item.awayTeamAbbreviation == null){
+      item.awayTeamAbbreviation = "N/A";
     }
-    var home = item.homeTeamAbbr + " " + item.homeScore;
-    var away = item.awayTeamAbbr + " " + item.awayScore;
+    var home = item.homeTeamAbbreviation + " " + item.homeScore;
+    var away = item.awayTeamAbbreviation + " " + item.awayScore;
 
     var s = "";
     switch (column.key) {
@@ -250,9 +251,9 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
 
       case "gs":
         if(item.eventStatus === 'pre-event'){
-          s = "<a>Pregame Report <i class='fa fa-angle-right'><i></a>";
+          s = "<a href='"+item.reportUrlMod+"'>Pregame Report <i class='fa fa-angle-right'><i></a>";
         }else if(item.eventStatus === 'post-event'){
-          s = "<a>Postgame Report <i class='fa fa-angle-right'><i></a>";
+          s = "<a href='"+item.reportUrlMod+"'>Postgame Report <i class='fa fa-angle-right'><i></a>";
         }else{
           s = "N/A";
         }

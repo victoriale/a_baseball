@@ -89,6 +89,34 @@ export class ArticlePages implements OnInit {
     getImageLinks(data) {
         var hoverText = "<p>View</p><p>Profile</p>";
         var links = [];
+        if (this.articleType == "playerRoster") {
+            jQuery.map(data['article'], function (val, index) {
+                if (val['playerRosterModule']) {
+                    let playerUrl = MLBGlobalFunctions.formatPlayerRoute('New York Yankees', val['playerRosterModule'].name, val['playerRosterModule'].id);
+                    let teamUrl = MLBGlobalFunctions.formatTeamRoute('New York Yankees', val['playerRosterModule'].teamId);
+                    val['player'] = {
+                        imageClass: "image-121",
+                        mainImage: {
+                            imageUrl: val['playerRosterModule']['headshot'],
+                            urlRouteArray: playerUrl,
+                            hoverText: hoverText,
+                            imageClass: "border-logo"
+                        }
+                    };
+                    val['logo'] = {
+                        imageClass: "image-121",
+                        mainImage: {
+                            imageUrl: val['playerRosterModule'].teamLogo,
+                            urlRouteArray: teamUrl,
+                            hoverText: hoverText,
+                            imageClass: "border-logo"
+                        }
+                    };
+                    links.push(val['player'], val['logo']);
+                }
+            });
+            return links;
+        }
         if (this.articleType == 'playerComparison') {
             jQuery.map(data['article'][2]['playerComparisonModule'], function (val, index) {
                 if (index == 0) {

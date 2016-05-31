@@ -1,28 +1,41 @@
-<div *ngIf="displayData" 
-    class="comparison-bar-container" 
+<div *ngIf="displayData"
+    class="comparison-bar-container"
     [ngClass]="{'background-even': index % 2 === 0}">
     <label class="comparison-bar-title">
         {{displayData.title}}
     </label>
     <div #masterBar class="comparison-bar-capsule" *ngIf="displayData.data.length >=2">
         <div class="comparison-bar-capsule-stroke stroke-top"
-            [style.width]="displayData.data[0].width + '%'" 
+            [style.width]="displayData.data[0].width + '%'"
             [style.backgroundColor]="displayData.data[0].color">
-            <label #labelOne class="comparison-bar-capsule-label" 
+            <label #labelOne class="comparison-bar-capsule-label"
                 [style.color]="displayData.data[0].color">
                 {{displayData.data[0].value | naValue}}
             </label>
         </div>
-        <div class="comparison-bar-capsule-stroke" 
-            [style.width]="displayData.data[1].width + '%'" 
+        <div class="comparison-bar-capsule-stroke"
+            [style.width]="displayData.data[1].width + '%'"
             [style.backgroundColor]="displayData.data[1].color">
-            <label #labelTwo class="comparison-bar-capsule-label" 
+            <label #labelTwo class="comparison-bar-capsule-label"
                 [style.color]="displayData.data[1].color">
                 {{displayData.data[1].value | naValue}}
             </label>
         </div>
         <label class="comparison-bar-capsule-label label-top">
-            {{displayData.maxValue}}
+            <div class="infobox-values" *ngIf="displayData.info">
+              <div class="infobox-display">
+                {{displayData.maxValue}}
+                <i class="fa {{displayData.info}}"></i>
+              </div>
+              <ul class="infobox-box">
+                <li class="infobox-list">
+                  <a [routerLink]="['Disclaimer-page']" class="infobox-list-link">
+                    <div><span>[First] [Last]</span></div>
+                    <div>Team: <span>[Team Name]</span></div>
+                  </a>
+                </li>
+              </ul>
+            </div>
         </label>
     </div>
 </div>

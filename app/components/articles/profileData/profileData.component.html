@@ -122,3 +122,22 @@
         </span>
     </span>
 </div>
+
+<div *ngIf="articleType == 'playerRoster'" class="comparison">
+    <div class="comparison-hr"></div>
+    <span *ngFor="#data of articleData?.article; #i = index;">
+        <span *ngIf="data.playerRosterModule && i == index">
+            <div class="comparison-roster">
+                <div class="comparison-roster-images">
+                    <circle-image *ngIf="imageLinks[index - 1]" class="comparison-roster-circles-player-image"
+                                  [data]="imageLinks[index - 1]"></circle-image>
+                    <circle-image *ngIf="imageLinks[index]" class="comparison-roster-circles-team-logo"
+                                  [data]="imageLinks[index]"></circle-image>
+                </div>
+                <div class="comparison-roster-player">{{data.playerRosterModule.name}}</div>
+                <div class="comparison-roster-position">{{data.playerRosterModule.playerPosition}}
+                </div>
+            </div>
+        </span>
+    </span>
+</div>

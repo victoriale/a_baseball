@@ -89,7 +89,7 @@ export class PlayerPage implements OnInit {
   pageParams:MLBPageParameters;
   standingsData:StandingsModuleData;
   profileHeaderData: ProfileHeaderData;
-  seasonStatsData: SeasonStatsData;
+  seasonStatsData: any;
   comparisonModuleData: ComparisonModuleData;
   imageData:any;
   copyright:any;
@@ -173,11 +173,11 @@ export class PlayerPage implements OnInit {
       }
   }
   private setupSeasonstatsData() {
-      this._seasonStatsService.getPlayerStats(this.pageParams)
+      this._seasonStatsService.getPlayerStats(this.pageParams.playerId)
       .subscribe(
           data => {
-              // console.log("set up season stats", data, this.pageParams);
-              this.seasonStatsData = data[0];
+              console.log("set up season stats", data, this.pageParams);
+              this.seasonStatsData = data;
           },
           err => {
               console.log("Error getting season stats data for "+ this.pageParams.playerId);
@@ -185,7 +185,11 @@ export class PlayerPage implements OnInit {
   }
   //api for Schedules
   private getSchedulesData(status){
-    this._schedulesService.getSchedulesService('team', status, 5, 1, this.pageParams.teamId)
+    var limit = 5;
+    if(status == 'post-event'){
+      limit = 3;
+    }
+    this._schedulesService.getSchedulesService('team', status, limit, 1, this.pageParams.teamId)
     .subscribe(
       data => {
         this.schedulesData = data;

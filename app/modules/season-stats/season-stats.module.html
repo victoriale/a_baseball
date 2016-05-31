@@ -4,12 +4,12 @@
     <slider-carousel [carouselData]="carouselDataArray"></slider-carousel>
 
     <tabs (tabSelected)="tabSelected($event)">
-      <tab *ngFor="#tab of tabs" [tabTitle]="tab.tabTitle" [active]="tab.isActive">
+      <tab *ngFor="#tab of data.tabs; #i = index" [tabTitle]="tab.tabTitle" [active]="i == 0">
         <comparison-legend [comparisonLegendInput]="comparisonLegendData"></comparison-legend>
         <div class="comparison-module-bars">
-          <comparison-bar *ngFor="#item of tab.barData; #i = index" [comparisonBarInput]="item" [dataIndex]="dataIndex" [index]="i"></comparison-bar>
+          <comparison-bar *ngFor="#item of tab.tabData; #i = index" [comparisonBarInput]="item" [dataIndex]="dataIndex" [index]="i"></comparison-bar>
         </div>
-        <div *ngIf="!tab.barData" class="comparison-module-no-data">
+        <div *ngIf="!tab.tabData" class="comparison-module-no-data">
             <no-data-box [data]="noDataMessage" [icon]="'fa fa-remove'"></no-data-box>
         </div>
       </tab>

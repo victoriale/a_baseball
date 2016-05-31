@@ -81,12 +81,7 @@ export class SchedulesService {
     displayYear = year;
   }
   // console.log(profile,id, eventStatus)/
-  /*
-  http://dev-homerunloyal-api.synapsys.us/team/schedule/2819/pre-event/5/1
-  http://dev-homerunloyal-api.synapsys.us/team/schedule/2819/post-event/5/1
-  http://dev-homerunloyal-api.synapsys.us/league/schedule/pre-event/5/1
-  http://dev-homerunloyal-api.synapsys.us/league/schedule/post-event/5/1
-  */
+
   var callURL = this._apiUrl+'/'+profile+'/schedule';
 
 

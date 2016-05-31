@@ -111,7 +111,7 @@ export class TeamPage implements OnInit {
     headerData:any;
     pageParams:MLBPageParameters;
 
-    profileHeaderData:ProfileHeaderData;  
+    profileHeaderData:ProfileHeaderData;
     comparisonModuleData: ComparisonModuleData;
     standingsData: StandingsModuleData;
     playerStatsData: PlayerStatsModuleData;
@@ -174,7 +174,7 @@ export class TeamPage implements OnInit {
                 this.pageParams = data.pageParams;
                 this.profileName = data.teamName;
                 this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data);
-                
+
                 /*** Keep Up With Everything [Team Name] ***/
                 //this.getBoxScores();
                 this.getSchedulesData('pre-event');//grab pre event data for upcoming games
@@ -185,14 +185,14 @@ export class TeamPage implements OnInit {
                 this.draftHistoryModule(this.currentYear, this.pageParams.teamId);
                 //this.loadMVP
                 this.setupComparisonData();
-                
+
                 /*** Other [League Name] Content You May Love ***/
                 this.getImages(this.imageData);
                 this.getDykService();
                 this.getFaqService();
                 this.setupListOfListsModule();
                 this.getNewsService();
-                
+
                 /*** Interact With [League Name]’s Fans ***/
                 this.getTwitterService();
                 this.setupShareModule();
@@ -255,7 +255,11 @@ export class TeamPage implements OnInit {
 
     //api for Schedules
     private getSchedulesData(status){
-      this._schedulesService.getSchedulesService('team', status, 5, 1, this.pageParams.teamId)
+      var limit = 5;
+      if(status == 'post-event'){
+        limit = 3;
+      }
+      this._schedulesService.getSchedulesService('team', status, limit, 1, this.pageParams.teamId)
       .subscribe(
         data => {
           this.schedulesData = data;
@@ -275,7 +279,7 @@ export class TeamPage implements OnInit {
                     console.log("Error getting image data" + err);
                 });
     }
-    
+
     private setupComparisonData() {
         this._comparisonService.getInitialPlayerStats(this.pageParams).subscribe(
             data => {

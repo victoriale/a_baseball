@@ -1,5 +1,7 @@
 import {Component, Input, OnInit, OnChanges, ViewChild, AfterViewChecked} from 'angular2/core';
 import {NaValuePipe} from '../../pipes/na.pipe';
+import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
+import {CircleImage} from '../images/circle-image';
 
 //TODO: remove jQuery
 declare var jQuery: any;
@@ -12,12 +14,14 @@ export interface ComparisonBarInput {
         color: string;
     }>;
     maxValue: number;
+    info?: string;
 }
 
 @Component({
     selector: 'comparison-bar',
     templateUrl: './app/components/comparison-bar/comparison-bar.component.html',
-    pipes: [NaValuePipe]
+    pipes: [NaValuePipe],
+    directives: [CircleImage, ROUTER_DIRECTIVES],
 })
 
 export class ComparisonBar implements OnChanges, AfterViewChecked {
@@ -28,7 +32,7 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
 
     @Input() comparisonBarInput: ComparisonBarInput;
     @Input() index: number;
-    
+
     public displayData: ComparisonBarInput;
 
     ngOnChanges(event){
@@ -40,7 +44,7 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
         if ( this.displayData.data.length < 2 ) {
             return;
         }
-        
+
         //Get widths of DOM elements
         var barWidth = jQuery(this.masterBar.nativeElement).width();
         var labelOneWidth = jQuery(this.labelOne.nativeElement).width();
@@ -78,7 +82,6 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
     configureBar(){
         var barData = this.comparisonBarInput;
         var maxValue = barData.maxValue;
-        
         //Determines what percentage the scale starts at (ex. 0 starts at 2% of bars width)
         var scaleStart = 2;
 
