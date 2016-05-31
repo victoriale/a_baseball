@@ -18,7 +18,6 @@ export interface ComparisonTabData {
     tabTitle: string;
     seasonId: string;
     barData: Array<ComparisonBarInput>;
-    isActive: boolean;
 }
 
 export interface ComparisonModuleData {
@@ -34,6 +33,8 @@ export interface ComparisonModuleData {
     loadTeamList(listLoaded: Function);
 
     loadPlayerList(index: number, teamId: string, listLoaded: Function);
+
+    loadPlayer(index: number, teamId: string, playerId: string, statsLoaded: Function);
 }
 
 @Component({
@@ -80,23 +81,20 @@ export class ComparisonModule implements OnInit, OnChanges {
         this.tabs.push({
             tabTitle: "Current Season",
             seasonId: year.toString(),
-            barData: [],
-            isActive: true
+            barData: []
         });
         for ( var i = 0; i < 3; i++ ) {
             year--;
             this.tabs.push({
                 tabTitle: year.toString(),
                 seasonId: year.toString(),
-                barData: [],
-                isActive: false
+                barData: []
             });
         }
         this.tabs.push({
             tabTitle: "Career Stats",
-            seasonId: null,
-            barData: [],
-            isActive: false
+            seasonId: "careerStats",
+            barData: []
         });
     }
 
@@ -239,9 +237,11 @@ export class ComparisonModule implements OnInit, OnChanges {
         var key:string = value.key;
         if ( dropdownIndex == 0 ) { //team dropdown
             this.loadPlayerList(tileIndex, key);
+            this.loadPlayer(tileIndex, key);
         }
         else if ( dropdownIndex == 1 ) { //player dropdown
             //load new player list and comparison stats
+            this.loadPlayer(tileIndex, null, key);
         }
     }
 
@@ -259,6 +259,14 @@ export class ComparisonModule implements OnInit, OnChanges {
             else {
                 this.teamTwoPlayerList = playerList;
             }
+        });
+    }
+
+    loadPlayer(tileIndex: number, teamId: string, playerId?: string) {
+        // console.log("loading new player stats: teamId=" + teamId + "; playerId=" + playerId);
+        this.modelData.loadPlayer(tileIndex, teamId, playerId, (bars) => {
+            this.modelData.data.bars = bars;
+            this.formatData(this.modelData.data);
         });
     }
 

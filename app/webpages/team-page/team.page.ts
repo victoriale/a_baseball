@@ -4,6 +4,8 @@ import {Injectable} from 'angular2/core';
 import {GlobalFunctions} from "../../global/global-functions";
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
 import {GlobalSettings} from "../../global/global-settings";
+import {LoadingComponent} from '../../components/loading/loading.component';
+import {ErrorComponent} from '../../components/error/error.component';
 
 import {CommentModule} from '../../modules/comment/comment.module';
 import {LikeUs} from "../../modules/likeus/likeus.module";
@@ -66,6 +68,8 @@ import {TransactionsService} from "../../services/transactions.service";
     selector: 'Team-page',
     templateUrl: './app/webpages/team-page/team.page.html',
     directives: [
+        LoadingComponent,
+        ErrorComponent,
         SchedulesModule,
         BoxScoresModule,
         DraftHistoryModule,
@@ -110,6 +114,7 @@ export class TeamPage implements OnInit {
     public shareModuleInput:ShareModuleInput;
     headerData:any;
     pageParams:MLBPageParameters;
+    hasError: boolean = false;
 
     profileHeaderData:ProfileHeaderData;
     comparisonModuleData: ComparisonModuleData;
@@ -198,6 +203,7 @@ export class TeamPage implements OnInit {
                 this.setupShareModule();
             },
             err => {
+                this.hasError = true;
                 console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
             }
         );

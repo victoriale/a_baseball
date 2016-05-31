@@ -1,4 +1,6 @@
 import {Component, OnInit} from 'angular2/core';
+import {LoadingComponent} from '../../components/loading/loading.component';
+import {ErrorComponent} from '../../components/error/error.component';
 
 import {AboutUsModule} from '../../modules/about-us/about-us.module';
 import {LikeUs} from "../../modules/likeus/likeus.module";
@@ -47,6 +49,8 @@ import {ImagesMedia} from "../../components/carousels/images-media-carousel/imag
     selector: 'MLB-page',
     templateUrl: './app/webpages/mlb-page/mlb.page.html',
     directives: [
+        LoadingComponent,
+        ErrorComponent,
         MVPModule,
         SchedulesModule,
         BoxScoresModule,
@@ -81,6 +85,7 @@ export class MLBPage implements OnInit {
     public shareModuleInput:ShareModuleInput;
 
     pageParams:MLBPageParameters = {};
+    hasError: boolean = false;
 
     standingsData:StandingsModuleData;
 
@@ -163,6 +168,7 @@ export class MLBPage implements OnInit {
                 this.getTwitterService(this.profileType);
             },
             err => {
+                this.hasError = true;
                 console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
             }
         );

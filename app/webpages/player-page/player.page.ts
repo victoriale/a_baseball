@@ -2,6 +2,8 @@ import {Component, OnInit} from 'angular2/core';
 import {RouteParams, RouteConfig} from 'angular2/router';
 
 import {MLBPageParameters} from '../../global/global-interface';
+import {LoadingComponent} from '../../components/loading/loading.component';
+import {ErrorComponent} from '../../components/error/error.component';
 
 import {AboutUsModule} from '../../modules/about-us/about-us.module';
 import {LikeUs} from "../../modules/likeus/likeus.module";
@@ -52,6 +54,8 @@ import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.modul
     selector: 'Player-page',
     templateUrl: './app/webpages/player-page/player.page.html',
     directives: [
+      LoadingComponent,
+      ErrorComponent,
       SchedulesModule,
       BoxScoresModule,
       ProfileHeaderModule,
@@ -87,6 +91,7 @@ import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.modul
 export class PlayerPage implements OnInit {
   public shareModuleInput:ShareModuleInput;
   pageParams:MLBPageParameters;
+  hasError: boolean = false; 
   standingsData:StandingsModuleData;
   profileHeaderData: ProfileHeaderData;
   seasonStatsData: any;
@@ -157,6 +162,7 @@ export class PlayerPage implements OnInit {
               this.getTwitterService();
           },
           err => {
+              this.hasError = true;
               console.log("Error getting player profile data for " + this.pageParams.playerId + ": " + err);
           }
       );

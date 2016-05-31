@@ -1,9 +1,12 @@
-<div class="page-container">
-  
-  <div class="component-compmodule-container">
+<div *ngIf="teamProfileHeaderData" class="page-container">
+    <comparison-module [modelData]="comparisonModuleData" [profileName]="teamProfileHeaderData.profileName"></comparison-module>
+    
+    <player-stats-module *ngIf="playerStatsData" [data]="playerStatsData" (tabSelected)="playerStatsTabSelected($event)"></player-stats-module>
+    
+    <!--<div class="component-compmodule-container">
     <season-stats-module></season-stats-module>
   </div>
-  <!--<dyk-module></dyk-module>
+<dyk-module></dyk-module>
   <faq-module></faq-module>
   <div class="component-compbar-container">
       <schedules></schedules>

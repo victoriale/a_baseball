@@ -84,6 +84,9 @@ export class ArticlesModule implements OnInit {
                     this.getMainArticle(this.headlineData, this.imageData, this.eventID);
                     this.getLeftColumnArticles(this.leftColumnData, this.imageData, this.eventID);
                     this.getHeadToHeadArticles(this.headToHeadData, this.eventID);
+                },
+                err => {
+                    console.log("Error loading AI headline data for " + this.teamID, err);
                 }
             )
     }
