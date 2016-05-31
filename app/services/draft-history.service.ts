@@ -56,7 +56,7 @@ export class DraftHistoryService {
       data => {
         var returnData = {}
         if(type == 'module'){
-          data = data.slice(0,2);// the module should only have 2 data points displaying
+          if(data.data.length >1) data.data = data.data.slice(0,2);// the module should only have 2 data points displaying
           return returnData = {
             carData:this.carDraftHistory(data.data, type),
             listData:this.detailedData(data.data),
@@ -88,7 +88,7 @@ export class DraftHistoryService {
       var Carousel = {
         index:'2',
         //TODO
-        imageConfig: self.imageData("image-150","border-large",dummyImg,'', 1, "image-50-sub",dummyImg,''),
+        imageConfig: self.imageData("image-150","border-large",dummyImg,'', null, "image-50-sub",dummyImg,''),
         description:[
           "<p style='font-size:20px'><b>Sorry, we currently do not have any data for this year's draft history</b><p>",
         ],
@@ -176,9 +176,6 @@ export class DraftHistoryService {
     if(typeof subImg =='undefined' || subImg == ''){
       subImg = "/app/public/no-image.png";
     }
-    if(typeof rank == 'undefined' || rank == 0){
-      rank = 0;
-    }
     var image: CircleImageData = {//interface is found in image-data.ts
         imageClass: imageClass,
         mainImage: {
@@ -187,12 +184,12 @@ export class DraftHistoryService {
             hoverText: "<p>View</p><p>Profile</p>",
             imageClass: imageBorder,
         },
-        subImages: [
+        subImages: rank != null ? [
           {
             text: "#"+rank,
             imageClass: rankClass+ " image-round-upper-left image-round-sub-text"
           }
-        ],
+        ] : null,
     };
     if(typeof subRoute != 'undefined') {
       image.subImages = [
