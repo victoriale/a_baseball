@@ -103,7 +103,7 @@ export class MLBComparisonModuleData implements ComparisonModuleData {
           listLoaded(this.teamList);
         },
         err => {
-          console.log("Error loading team list for comparison module: " + err);
+          console.log("Error loading team list for comparison module", err);
         })
       }
       else {
@@ -127,7 +127,7 @@ export class MLBComparisonModuleData implements ComparisonModuleData {
           listLoaded(teamData.playerList);
         },
         err => {
-          console.log("Error loading player list for " + newTeamId + " for the comparison module: " + err);
+          console.log("Error loading player list for " + newTeamId + " for the comparison module", err);
         })
       }
       else {
@@ -141,6 +141,9 @@ export class MLBComparisonModuleData implements ComparisonModuleData {
       }
       this._service.getSinglePlayerStats(index, this.data, teamId, playerId).subscribe(bars => {
         statsLoaded(bars);
+      },
+      err => {
+        console.log("Error loading player comparison stats");
       });
     }
 }
