@@ -19,7 +19,7 @@
 
             <!-- Results -->
             <ul class="search-page-results">
-                <li *ngFor="#innerItem of outerItem.results" class="search-page-results-item">
+                <li *ngFor="#innerItem of outerItem.results[pageNumber]" class="search-page-results-item">
                     <span class="search-page-results-item-title" [innerHtml]="innerItem.title"></span>
                     <a class="search-page-results-item-link" [routerLink]="innerItem.url" [innerHtml]="innerItem.urlText"></a><br>
                     <span class="search-page-results-item-description" [innerHtml]="innerItem.description"></span>
@@ -31,8 +31,7 @@
                     <span class="text-heavy">{{searchPageInput.query}}</span>
                 </li>
             </ul>
-
-            <pagination-footer *ngIf="outerItem.paginationParameters" [paginationParameters]="outerItem.paginationParameters" (newIndex)="newIndex($event, i)"></pagination-footer>
+            <pagination-footer *ngIf="outerItem.paginationParameters" [paginationParameters]="outerItem.paginationParameters" (newIndex)="newIndex($event)"></pagination-footer>
         </tab>
     </tabs>
 
