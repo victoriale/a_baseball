@@ -94,7 +94,7 @@ export class PlayerPage implements OnInit {
   hasError: boolean = false; 
   standingsData:StandingsModuleData;
   profileHeaderData: ProfileHeaderData;
-  seasonStatsData: SeasonStatsData;
+  seasonStatsData: any;
   comparisonModuleData: ComparisonModuleData;
   imageData:any;
   copyright:any;
@@ -179,11 +179,10 @@ export class PlayerPage implements OnInit {
       }
   }
   private setupSeasonstatsData() {
-      this._seasonStatsService.getPlayerStats(this.pageParams)
+      this._seasonStatsService.getPlayerStats(this.pageParams.playerId)
       .subscribe(
           data => {
-              // console.log("set up season stats", data, this.pageParams);
-              this.seasonStatsData = data[0];
+              this.seasonStatsData = data;
           },
           err => {
               console.log("Error getting season stats data for "+ this.pageParams.playerId);
