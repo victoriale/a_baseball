@@ -85,7 +85,7 @@ export class SeasonStatsService {
   private callPlayerComparisonAPI(playerId: number, dataLoaded: Function) {
     let url = this._apiUrl + "/player/seasonStats/" + playerId;
 
-    console.log("getting player stats: " + url);
+    // console.log("getting player stats: " + url);
     return this.http.get(url)
       .map(res => res.json())
       .map(data => dataLoaded(data.data));
