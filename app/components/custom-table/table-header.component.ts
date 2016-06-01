@@ -57,7 +57,7 @@ export class TableHeader implements OnInit {
 
         default:
         case this.SORT_NONE:
-          this.headerData.sortDirection = this.SORT_ASC;
+          this.headerData.sortDirection = this.SORT_DESC;
           break;
       }
       this.setSortIcon();
