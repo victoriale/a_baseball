@@ -11,10 +11,7 @@ declare let Fuse: any;
 @Injectable()
 export class SearchService{
     public pageMax: number = 10;
-    public searchJSON: any = {
-        players: [],
-        teams: []
-    };
+    public searchJSON: any;
     public searchAPI: string = GlobalSettings.getApiUrl() + '/landingPage/search';
     constructor(private http: Http){
         //Get initial search JSON data
@@ -29,17 +26,14 @@ export class SearchService{
             })
             .map(
                 res => res.json()
-            ).subscribe(
+            ).map(
                 data => {
                     this.searchJSON = data;
                     return data;
                 },
                 err => {
                   console.log('ERROR search results');
-                    this.searchJSON = {
-                        players: [],
-                        teams: []
-                    }
+                    this.searchJSON = null
                 }
             )
     }
@@ -139,15 +133,15 @@ export class SearchService{
      * Functions for search page
      */
 
-    getSearchPageData(query: string){
-        let data = this.searchJSON;
+    getSearchPageData(query: string, data){
+        // let data = this.searchJSON;
         //Search for players and teams
         let playerResults = this.searchPlayers(query, data.players);
         let teamResults = this.searchTeams(query, data.teams);
 
         let searchResults = this.resultsToTabs(query, playerResults, teamResults);
 
-        return Observable.of(searchResults);
+        return searchResults;
     }
 
     //Convert players and teams to tabs format
@@ -222,7 +216,7 @@ export class SearchService{
             }
         });
         searchPageInput.tabData[0].results = objData1;
-        searchPageInput.tabData[0].paginationParameters.max = searchPageInput.tabData[0].results.length - 1;
+        searchPageInput.tabData[0].paginationParameters.max = searchPageInput.tabData[0].results.length;
 
         var objCounter = 0;
         var objData2 = [];
@@ -257,7 +251,7 @@ export class SearchService{
             }
         });
         searchPageInput.tabData[1].results = objData2;
-        searchPageInput.tabData[1].paginationParameters.max = searchPageInput.tabData[1].results.length - 1;
+        searchPageInput.tabData[1].paginationParameters.max = searchPageInput.tabData[1].results.length;
 
         return searchPageInput;
     }

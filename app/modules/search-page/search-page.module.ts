@@ -62,10 +62,10 @@ export class SearchPageModule implements OnChanges{
 
     newIndex(index){
         this.pageNumber = index;
-
+        window.scrollTo(0,0);
     }
 
     tabSelected(event){
-      this.pageNumber = 0;
+      this.pageNumber = 1;
     }
 }
