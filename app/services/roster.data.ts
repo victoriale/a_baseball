@@ -50,20 +50,20 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
   hasError: boolean = false;
   errorMessage: string;
   tableData: RosterTableModel;
-  
+
   constructor(type: string, title: string) {
     this.type = type;
     this.title = title;
   }
-  
-  setErrorMessage(conference: Conference) {    
+
+  setErrorMessage(conference: Conference) {
     this.errorMessage = "Sorry, there is no roster data available.";
     if ( this.type == "hitters" && conference == Conference.national ) {
       this.hasError = true;
       this.errorMessage = "This team is a National League team and has no designated hitters.";
     }
   }
-  
+
   convertToCarouselItem(val:TeamRosterData, index:number):SliderCarouselInput {
     var self = this;
     var dummyImg = "./app/public/placeholder-location.jpg";
@@ -100,9 +100,9 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
       var andCheck = " is ";
     }
     if(val.salary != null){
-      playerSalary = andCheck + "making a salary of <b>$" + GlobalFunctions.commaSeparateNumber(Number(val.salary)) + "</b>";
+      playerSalary = andCheck + "making a salary of <b>$" + GlobalFunctions.commaSeparateNumber(Number(val.salary)) + "</b>.";
     } else {
-      playerSalary = andCheck + "making a salary of <b>N/A</b>";
+      playerSalary = andCheck + "making a salary of <b>N/A</b>.";
     }
     var Carousel = {
         index: index,
@@ -122,7 +122,7 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
     };
     return Carousel;
   }
-  
+
   //function that returns information from api to an acceptable interface for images
   imageData(imageClass, imageBorder, mainImg, mainImgRoute, subImgClass?, subImg?, subRoute?, rank?){
     if(typeof mainImg =='undefined' || mainImg == ''){
