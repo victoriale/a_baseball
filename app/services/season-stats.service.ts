@@ -27,6 +27,8 @@ export interface PlayerData {
   weight: number;
   age: number;
   yearsExperience: number;
+  liveImage: string;
+  lastUpdated: string;
 }
 
 export interface DataPoint {
@@ -52,6 +54,7 @@ export interface SeasonStats {
   leader: SeasonStatsData;
   average: SeasonStatsData;
   player: SeasonStatsData;
+  worst: any;
 }
 export interface SeasonStatsData {
   playerInfo: PlayerData;
@@ -84,8 +87,6 @@ export class SeasonStatsService {
 
   private callPlayerComparisonAPI(playerId: number, dataLoaded: Function) {
     let url = this._apiUrl + "/player/seasonStats/" + playerId;
-
-    // console.log("getting player stats: " + url);
     return this.http.get(url)
       .map(res => res.json())
       .map(data => dataLoaded(data.data));
@@ -109,6 +110,7 @@ export class SeasonStatsService {
         let leader = stats[year].leader;
         let average = stats[year].average;
         let seasonStatsPlayer = stats[year].player;
+        let worst = stats[year].worst;
         var playerBarStats = [];
         for( var playerStat in leader){
           var s = {
@@ -121,22 +123,27 @@ export class SeasonStatsService {
               value: Number(this.getKeyValue(playerStat, average)).toFixed(1),
               color: '#555555',
             }],
-            maxValue: Number(this.getKeyValue(playerStat, leader).statValue).toFixed(1),
-            minValue: 0,
+            minValue: Number(this.getKeyValue(playerStat, worst)['statValue']).toFixed(1),
+            maxValue: Number(this.getKeyValue(playerStat, leader)['statValue']).toFixed(1),
             info: 'fa-info-circle',
           }
           playerBarStats.push(s);
         }
       }
-
-      if( curYear - 4 < Number(year) || year == 'career'){
+      if( curYear - 4 < Number(year) || year != 'career'){
         seasonStatTab.push({
           tabTitle: displayTab,
           tabData: playerBarStats
         });
       }
     }
-
+    seasonStatTab.sort();
+    seasonStatTab.reverse();
+    //TODO still need data for career stats
+    seasonStatTab.push({
+      tabTitle: "Career Stats",
+      tabData: playerBarStats
+    })
     return {
       playerInfo: playerInfo,
       tabs: seasonStatTab
