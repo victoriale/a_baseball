@@ -500,4 +500,25 @@ export class GlobalFunctions {
     }
     return navigationArray;
   }
+
+
+ /**
+  * Create a valid value to set to routerLink by parsing a string delimited by a | pipe
+  * -- creating an object for params when the object syntax is present in string
+  * example input string: "Location-page|{‘loc’:'Industry-CA’}"
+  */
+  static parseToRoute(stringRoute) {
+    let stringRouteArr = stringRoute.split("|");
+
+    let generatedUrl = stringRouteArr.map(function (item) {
+      try {
+        return JSON.parse(item);
+      } catch (e) {
+      }
+      return item;
+    });
+    return generatedUrl;
+  }
+
+
 }

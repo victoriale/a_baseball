@@ -1,0 +1,39 @@
+<section *ngIf="data" class="cardv">
+    <section class="cardv-plcholder clearfix">
+      <circle-button (scrollRight)="right()" (scrollLeft)="left()" [style]="cssStyle" ></circle-button>
+        <!--<a [routerLink]="['List-page', {viewType: 'list', state: stateLocation, listname: lists[carCount].listTitleOrig, city: cityLocation, page: 1}]">-->
+        <div class="cardv-image-link">
+            <div class="list-img">
+                <image-180 *ngIf="data.routePath"
+                  [hasSubImg]="true" 
+                  [hasHover]="true" 
+                  [counterIf]="hasIndex" 
+                  [counter]="data.index" 
+                  [imageURL]="data.imageUrl1" 
+                  [imageURL2]="data.imageUrl2"
+                  [urlRouteArray]="data.routePath"></image-180>
+                <image-180 *ngIf="!data.routePath && data.linkUrl1"
+                  [hasSubImg]="true"
+                  [hasHover]="true"
+                  [counterIf]="hasIndex"
+                  [counter]="data.index"
+                  [imageURL]="data.imageUrl1"
+                  [imageURL2]="data.imageUrl2"
+                  [originalUrl]="data.linkUrl1"
+                  [viewLocationText]="data.imageLocationText"></image-180>
+            </div>
+        </div>
+
+        <div class="cardv-text" *ngIf="data.textDetails; #i=index" >
+            <div *ngFor="#text of data.textDetails">
+                <span [innerHtml]="text"></span>
+            </div>
+        </div>
+
+        <div class="cardv-plcholder-details">
+          <div><span>{{data.callToAction}}</span></div>
+          <a *ngIf="data.routePath" [routerLink]='data.routePath' class='mod-page-btn cardv-button' [innerHtml]="data.buttonLabel"></a>
+          <a *ngIf="!data.routePath && data.linkUrl1" [href]='data.linkUrl1' class='mod-page-btn cardv-button' [innerHtml]="data.buttonLabel"></a>
+        </div>
+    </section>
+</section>

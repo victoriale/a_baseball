@@ -12,12 +12,14 @@ import {ProfileHeaderService} from '../../services/profile-header.service';
 import {PaginationFooter} from '../../components/pagination-footer/pagination-footer.component';
 import {LoadingComponent} from "../../components/loading/loading.component";
 import {ErrorComponent} from "../../components/error/error.component";
+import {DynamicWidgetCall} from "../../global/global-service";
+import {GlobalFunctions} from "../../global/global-functions";
 
 @Component({
     selector: 'list-page',
     templateUrl: './app/webpages/list-page/list.page.html',
     directives: [ErrorComponent, LoadingComponent,PaginationFooter, BackTabComponent, TitleComponent, SliderCarousel, DetailedListItem,  ModuleFooter],
-    providers: [ListPageService, ProfileHeaderService],
+    providers: [ListPageService, ProfileHeaderService, DynamicWidgetCall],
     inputs:[]
 })
 
@@ -35,30 +37,33 @@ export class ListPage implements OnInit{
   };
   paginationParameters:any;
   isError: boolean = false;
-  constructor(private listService:ListPageService, private profHeadService:ProfileHeaderService, private params: RouteParams){
+  tw: string;
+  sw: string;
+  input: string;
+  dynamicPageNumber: number = 1;
 
+  constructor(private listService:ListPageService, private profHeadService:ProfileHeaderService, private params: RouteParams, private dynamicWidget: DynamicWidgetCall){
+    if(params.params['query'] != null){
+      let query = params.params['query'];
+      // Setup this way in case we want to switch out null with some default values
+      let twArr = query.match(/tw-(.*?)(\+|$)/);
+      this.tw = twArr != null && twArr.length > 1 ? twArr[1] : null;
+      let swArr = query.match(/sw-(.*?)(\+|$)/);
+      this.sw = swArr != null && swArr.length > 1 ? swArr[1] : null;
+      // input always needs to be last item
+      let inputArr = query.match(/input-(.*)/);
+      this.input = inputArr != null &&  inputArr.length > 1 ? inputArr[1] : null;
+    }
   }
 
   getListPage(urlParams) {
-    this.listService.getListPageService(urlParams)
-        .subscribe(
-            list => {
-              this.profileHeaderData = list.profHeader;
-              if(list.listData.length == 0){//makes sure it only runs once
-                this.detailedDataArray = false;
-              }else{
-                this.detailedDataArray = list.listData;
-              }
-              this.setPaginationParams(list.pagination);
-              this.carouselDataArray = list.carData;
-            },
-            err => {
-              this.isError= true;
-                console.log('Error: list API: ', err);
-                // this.isError = true;
-            }
-        );
+    if(urlParams.query != null){
+      this.getDynamicList();
+    }else {
+      this.getStandardList(urlParams);
+    }
   }
+
 
   //PAGINATION
   //sets the total pages for particular lists to allow client to move from page to page without losing the sorting of the list
@@ -95,6 +100,82 @@ export class ListPage implements OnInit{
         };
       }
   }
+  setDynamicPagination(input) {
+    var navigationParams = {
+      query: this.params.params['query'],
+    };
+
+    if(this.detailedDataArray == false){
+      this.paginationParameters = {
+        index: this.dynamicPageNumber,
+        max: input.pageCount,
+        paginationType: 'page',
+        navigationPage: 'Error-page',
+        navigationParams: navigationParams,
+        indexKey: 'pageNum'
+      };
+    }else{
+      this.paginationParameters = {
+        index: this.dynamicPageNumber,
+        max: input.pageCount,
+        paginationType: 'page',
+        navigationPage: 'List-page',
+        navigationParams: navigationParams,
+        indexKey: null
+      };
+    }
+  }
+
+
+  getStandardList(urlParams){
+    this.listService.getListPageService(urlParams)
+      .subscribe(
+        list => {
+          this.profileHeaderData = list.profHeader;
+          if (list.listData.length == 0) {//makes sure it only runs once
+            this.detailedDataArray = false;
+          } else {
+            this.detailedDataArray = list.listData;
+          }
+          this.setPaginationParams(list.pagination);
+          console.log("list pagination:",list.pagination);
+          this.carouselDataArray = list.carData;
+        },
+        err => {
+          this.isError = true;
+          console.log('Error: list API: ', err);
+          // this.isError = true;
+        }
+      );
+  }
+
+  getDynamicList() {
+    if( !this.tw ){
+      // Not enough parameter : display error message
+      this.isError = true;
+      return;
+    }
+    this.dynamicWidget.getWidgetData(this.tw, this.sw, this.input)
+      .subscribe(
+        list => {
+          this.profileHeaderData = list.profHeader;
+          if (list.listData.length == 0) {//makes sure it only runs once
+            this.detailedDataArray = false;
+          } else {
+            this.detailedDataArray = list.listData;
+          }
+          this.setDynamicPagination(list.pagination);
+          this.carouselDataArray = list.carData;
+        },
+
+        err => {
+          this.isError = true;
+          console.log(err);
+        }
+      );
+  }
+
+
 
   ngOnInit(){
       this.getListPage(this.params.params);

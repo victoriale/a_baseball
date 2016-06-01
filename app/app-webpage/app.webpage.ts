@@ -32,6 +32,7 @@ import {HeaderComponent} from "../components/header/header.component";
 
 import {DesignPage} from "../webpages/design-page/design.page";
 import {TransactionsPage} from "../webpages/transactions-page/transactions.page";
+import {DynamicListPage} from "../webpages/dynamic-list-page/dynamic-list.page";
 
 @Component({
     selector: 'my-app',
@@ -113,6 +114,11 @@ import {TransactionsPage} from "../webpages/transactions-page/transactions.page"
         path: '/standings/:type/:teamName/:teamId',
         name: 'Standings-page-team',
         component: StandingsPage
+    },
+    {
+        path: '/list/:query',
+        name: 'Dynamic-list-page',
+        component: ListPage
     },
     {
         path: '/list/:profile/:listname/:sort/:conference/:division/:limit/:pageNum',

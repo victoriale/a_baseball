@@ -4,7 +4,6 @@
   <backtab-component></backtab-component>
   <title-component [titleData]="profileHeaderData"></title-component>
   <div class="list-page">
-    <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray" [footerStyle]="footerStyle"></slider-carousel>
     <detailed-list-item *ngIf="detailedDataArray" [detailedItemData] = 'detailedDataArray'></detailed-list-item>
     <pagination-footer [paginationParameters]="paginationParameters"></pagination-footer>
   </div>
