@@ -1,6 +1,6 @@
-import {Component, OnInit, Input} from 'angular2/core';
-import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
-import {ViewEncapsulation} from "angular2/core";
+import {Component, OnInit, Input} from '@angular/core';
+import {ROUTER_DIRECTIVES} from '@angular/router';
+import {ViewEncapsulation} from "@angular/core";
 
 import {PriceFormatPipe} from '../../pipes/price-format.pipe';
 

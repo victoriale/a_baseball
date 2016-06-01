@@ -1,7 +1,7 @@
-import {Component, Input} from 'angular2/core';
+import {Component, Input} from '@angular/core';
 import {ModuleHeader, ModuleHeaderData} from "../../components/module-header/module-header.component";
 import {FlipTilesComponent, TileData} from "../../components/flip-tiles/flip-tiles.component";
-import {Router,ROUTER_DIRECTIVES} from 'angular2/router';
+import {Router,ROUTER_DIRECTIVES} from '@angular/router';
 
 @Component({
     selector: 'about-us',

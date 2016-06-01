@@ -1,5 +1,5 @@
-import {Component, Input, OnChanges} from 'angular2/core';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
+import {Component, Input, OnChanges} from '@angular/core';
+import {ROUTER_DIRECTIVES} from '@angular/router';
 
 import {LoadingComponent} from '../../components/loading/loading.component';
 import {CircleImage} from '../../components/images/circle-image';

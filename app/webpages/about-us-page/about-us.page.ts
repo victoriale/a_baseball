@@ -1,8 +1,8 @@
 /**
  * Created by Victoria on 4/19/2016.
  */
-import {Component, OnInit} from 'angular2/core';
-import {Router,ROUTER_DIRECTIVES, RouteParams} from 'angular2/router';
+import {Component, OnInit} from '@angular/core';
+import {Router,ROUTER_DIRECTIVES} from '@angular/router';
 
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {TitleComponent} from '../../components/title/title.component';

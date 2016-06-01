@@ -1,6 +1,6 @@
-import {Component, Output, EventEmitter} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
-import {Injectable} from 'angular2/core';
+import {Component, Output, EventEmitter} from '@angular/core';
+import {RouteParams} from '@angular/router-deprecated';
+import {Injectable} from '@angular/core';
 
 import {TransactionsListItem, TransactionsListInput} from '../../components/transactions-list-item/transactions-list-item.component';
 import {ModuleFooter} from '../../components/module-footer/module-footer.component';
@@ -20,7 +20,7 @@ import {NoDataBox} from '../../components/error/data-box/data-box.component';
 })
 
 export class TransactionsModule{
-  @Output() tab: EventEmitter<string> = new EventEmitter();
+  @Output() tab = new EventEmitter();
   transactionsData:any;
   profHeader:any;
   modHeadData: Object;

@@ -1,6 +1,6 @@
-import {Component, OnInit, OnDestroy} from 'angular2/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {SearchPageModule} from '../../modules/search-page/search-page.module';
-import {RouteParams} from 'angular2/router';
+import {RouteParams} from '@angular/router-deprecated';
 import {SearchService} from '../../services/search.service';
 import {SearchPageInput} from '../../modules/search-page/search-page.module';
 

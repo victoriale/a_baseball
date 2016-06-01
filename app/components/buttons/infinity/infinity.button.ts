@@ -1,7 +1,7 @@
 /**
  * Created by Victoria on 2/24/2016.
  */
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 
 @Component({
     selector: 'infinity-button',

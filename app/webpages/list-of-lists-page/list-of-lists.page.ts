@@ -1,4 +1,4 @@
-import {Component, OnInit} from 'angular2/core';
+import {Component, OnInit} from '@angular/core';
 import {DetailedListItem, DetailListInput} from '../../components/detailed-list-item/detailed-list-item.component';
 import {ModuleFooter} from '../../components/module-footer/module-footer.component';
 import {SliderCarousel, SliderCarouselInput} from '../../components/carousels/slider-carousel/slider-carousel.component';
@@ -7,7 +7,7 @@ import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {NoDataBox} from '../../components/error/data-box/data-box.component';
 import {ListOfListsItem} from "../../components/list-of-lists-item/list-of-lists-item.component";
 import {ListOfListsService} from "../../services/list-of-lists.service";
-import {RouteParams} from 'angular2/router';
+import {RouteParams} from '@angular/router-deprecated';
 import {LoadingComponent} from "../../components/loading/loading.component";
 import {ErrorComponent} from "../../components/error/error.component";
 import {PaginationFooter} from "../../components/pagination-footer/pagination-footer.component";

@@ -1,5 +1,6 @@
-import {Component} from 'angular2/core';
-import {Router, RouteData, RouteConfig, ROUTER_DIRECTIVES, LocationStrategy} from 'angular2/router';
+import {Component} from '@angular/core';
+import {Router, ROUTER_DIRECTIVES} from '@angular/router';
+import {RouteData, RouteConfig} from '@angular/router-deprecated';
 
 import {WebApp} from "../app-layout/app.layout";
 import {MyWebApp} from "../app-layout/app.mylayout";

@@ -1,10 +1,8 @@
 /**
  * Created by Victoria on 3/30/2016.
  */
-import {Component, OnInit} from 'angular2/core';
-//import {HeroListComponent} from "../../components/hero/hero-list/hero-list.component";
-// import {Router,ROUTER_DIRECTIVES, RouteParams} from 'angular2/router';
-import {Injector} from 'angular2/core';
+import {Component, OnInit} from '@angular/core';
+import {Injector} from '@angular/core';
 import {WebApp} from '../../app-layout/app.layout';
 
 @Component({

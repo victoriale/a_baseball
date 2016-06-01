@@ -1,12 +1,11 @@
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 import {DetailedListItem, DetailListInput} from '../../components/detailed-list-item/detailed-list-item.component';
 import {ModuleFooter} from "../../components/module-footer/module-footer.component";
 import {ModuleHeader} from '../../components/module-header/module-header.component';
 import {ListOfListsItem} from "../../components/list-of-lists-item/list-of-lists-item.component";
 import {ModuleHeaderData} from "../../components/module-header/module-header.component";
-import {RouteParams} from "angular2/router";
-import {Router} from "angular2/router";
-import {Input} from "angular2/core";
+import {Router} from "@angular/router";
+import {Input} from "@angular/core";
 import {ProfileHeaderData} from "../profile-header/profile-header.module";
 
 export interface ListOfListsData {

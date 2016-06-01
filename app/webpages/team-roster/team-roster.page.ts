@@ -1,5 +1,5 @@
-import {Component, OnInit, Input, DoCheck, OnChanges} from 'angular2/core';
-import {RouteParams} from "angular2/router";
+import {Component, OnInit, Input, DoCheck, OnChanges} from '@angular/core';
+import {RouteParams} from "@angular/router";
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {TitleComponent, TitleInputData} from "../../components/title/title.component";
 import {RosterComponent, RosterTabData} from "../../components/roster/roster.component";

@@ -1,8 +1,8 @@
-import {Component, Input, Output, OnInit, OnDestroy, EventEmitter, ElementRef} from 'angular2/core';
-import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
+import {Component, Input, Output, OnInit, OnDestroy, EventEmitter, ElementRef} from '@angular/core';
+import {ROUTER_DIRECTIVES, Router} from '@angular/router';
 import {SearchService} from '../../services/search.service';
 import {Observable} from 'rxjs/Rx';
-import {Control} from 'angular2/common';
+import {Control} from '@angular/common';
 import {CircleImage} from '../images/circle-image';
 import {ImageData, CircleImageData} from '../images/image-data';
 /*

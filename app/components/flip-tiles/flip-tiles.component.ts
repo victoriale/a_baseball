@@ -1,5 +1,5 @@
-import {Component, Input} from 'angular2/core';
-import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
+import {Component, Input} from '@angular/core';
+import {Router, ROUTER_DIRECTIVES} from '@angular/router';
 
 export interface TileData {
   buttonText:string;

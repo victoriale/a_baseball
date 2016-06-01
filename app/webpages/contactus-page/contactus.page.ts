@@ -1,7 +1,7 @@
 /**
  * Created by Victoria on 3/1/2016.
  */
-import {Component, OnInit} from 'angular2/core';
+import {Component, OnInit} from '@angular/core';
 import {WidgetModule} from "../../modules/widget/widget.module";
 import {ContactUsModule} from '../../modules/contactus/contactus.module';
 import {Http} from 'angular2/http';

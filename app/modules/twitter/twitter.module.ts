@@ -1,4 +1,4 @@
-import {Component, OnInit, OnChanges, Input} from 'angular2/core';
+import {Component, OnInit, OnChanges, Input} from '@angular/core';
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 export interface twitterModuleData{
   twitterUrl: string;

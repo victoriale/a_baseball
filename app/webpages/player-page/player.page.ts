@@ -1,5 +1,5 @@
-import {Component, OnInit} from 'angular2/core';
-import {RouteParams, RouteConfig} from 'angular2/router';
+import {Component, OnInit} from '@angular/core';
+import {RouteParams} from '@angular/router-deprecated';
 
 import {MLBPageParameters} from '../../global/global-interface';
 import {LoadingComponent} from '../../components/loading/loading.component';

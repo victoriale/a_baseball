@@ -1,12 +1,12 @@
 /**
  * Created by Victoria on 4/19/2016.
  */
-import {Component, OnInit} from 'angular2/core';
+import {Component, OnInit} from '@angular/core';
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {TitleComponent} from '../../components/title/title.component';
 import {WidgetModule} from "../../modules/widget/widget.module";
-import {Router,ROUTER_DIRECTIVES} from 'angular2/router';
-import {Injector} from 'angular2/core';
+import {Router,ROUTER_DIRECTIVES} from '@angular/router';
+import {Injector} from '@angular/core';
 import {WebApp} from '../../app-layout/app.layout';
 import {TitleInputData} from "../../components/title/title.component";
 

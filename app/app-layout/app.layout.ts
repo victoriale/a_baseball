@@ -1,7 +1,8 @@
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 import {AppComponent} from "../app-webpage/app.webpage";
 
-import {RouteParams, Router, RouteData, RouteConfig, RouterOutlet, ROUTER_DIRECTIVES, LocationStrategy} from 'angular2/router';
+import {Router, ROUTER_DIRECTIVES} from '@angular/router';
+import {RouteParams, RouteData, RouteConfig, RouterOutlet} from '@angular/router-deprecated';
 
 @Component({
     selector: 'web-app',

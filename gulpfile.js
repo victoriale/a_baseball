@@ -26,34 +26,30 @@ gulp.task('copy:libs', ['clean'], function() {
   return gulp.src([
       'node_modules/es6-shim/es6-shim.min.js',
       'node_modules/systemjs/dist/system-polyfills.js',
-      'node_modules/angular2/bundles/angular2-polyfills.js',
+      'node_modules/@angular/**',
       'node_modules/systemjs/dist/system.src.js',
-      'node_modules/rxjs/bundles/Rx.js',
-      'node_modules/angular2/bundles/angular2.dev.js',
-      'node_modules/angular2/bundles/router.dev.js',
-      'node_modules/angular2/bundles/http.js',
+      'node_modules/rxjs/**',
       'node_modules/node-uuid/uuid.js',
       'node_modules/immutable/dist/immutable.js',
-      'node_modules/angular2/es6/dev/src/testing/shims_for_IE.js',
       'node_modules/highcharts/highcharts.js',
       'node_modules/moment/moment.js',
       'node_modules/moment-timezone/moment-timezone.js',
       'node_modules/fuse.js/src/fuse.min.js'
     ])
-    .pipe(gulp.dest('dist/lib'))
+    .pipe(gulp.dest('dist/lib'));
 });
 
 // copy static assets - i.e. non TypeScript compiled source
 gulp.task('copy:assets', ['clean'], function() {
   return gulp.src(['app/**/*', 'index.html', 'master.css', '!app/**/*.ts', '!app/**/*.less'], { base : './' })
-    .pipe(gulp.dest('dist'))
+    .pipe(gulp.dest('dist'));
 });
 
 gulp.task('less', ['clean'], function() {
     return gulp.src(['./app/**/*.less'])
         .pipe(concat('master.css'))
         .pipe(less())
-        .pipe(gulp.dest('dist/app/global/stylesheets'))
+        .pipe(gulp.dest('dist/app/global/stylesheets'));
 });
 
 // Run browsersync for development

@@ -1,29 +1,30 @@
 <html>
-  <head>
-    <base href="/">
-    <title>Home Run Loyal</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="/app/public/icons/HRL_Favicon.png" />
 
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="/app/global/stylesheets/bootstrap.min.css" rel="stylesheet">
-    <link href="/app/global/stylesheets/master.css" rel="stylesheet">
+<head>
+  <base href="/">
+  <title>Home Run Loyal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="/app/public/icons/HRL_Favicon.png" />
 
-    <!-- 1. Load libraries -->
-    <!-- IE required polyfills, in this exact order -->
-    <script src="lib/es6-shim.min.js"></script>
-    <script src="lib/system-polyfills.js"></script>
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/app/global/stylesheets/bootstrap.min.css" rel="stylesheet">
+  <link href="/app/global/stylesheets/master.css" rel="stylesheet">
 
-    <script src="lib/angular2-polyfills.js"></script>
-    <script src="lib/system.src.js"></script>
-    <script src="lib/Rx.js"></script>
-    <script src="lib/angular2.dev.js"></script>
-    <script src="lib/router.dev.js"></script>
-    <script src="lib/http.js"></script>
-    <script src="lib/shims_for_IE.js"></script>
-    <script src="lib/moment.js"></script>
-    <script src="lib/moment-timezone.js"></script>
-    <script src="lib/fuse.min.js"></script>
+  <!-- 1. Load libraries -->
+  <!-- IE required polyfills, in this exact order -->
+  <script src="lib/es6-shim.min.js"></script>
+  <script src="lib/system-polyfills.js"></script>
+
+  <script src="lib/angular2-polyfills.js"></script>
+  <script src="lib/system.src.js"></script>
+  <script src="lib/Rx.js"></script>
+  <!--<script src="lib/angular2.dev.js"></script>-->
+  <!--<script src="lib/router.dev.js"></script>-->
+  <!--<script src="lib/http.js"></script>-->
+  <script src="lib/shims_for_IE.js"></script>
+  <script src="lib/moment.js"></script>
+  <script src="lib/moment-timezone.js"></script>
+  <script src="lib/fuse.min.js"></script>
 
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <!-- social share button on home page -->
@@ -39,30 +40,45 @@
             this.page.url = window.location.href + "#!newthread";
         };
     </script>
-    <script type="text/javascript">stLight.options({publisher: "ab81b5e8-9aea-4921-9930-26ce6925e901", doNotHash: false, doNotCopy: false, hashAddressBar: false, onhover: false});</script>
-    <!-- 2. Configure SystemJS -->
-    <script>
-      System.config({
-        packages: {
-          app: {
-            format: 'register',
-            defaultExtension: 'js'
-          }
-        }
+  <!-- 2. Configure SystemJS -->
+  <script>
+    System.config({
+      packages: {
+        "app"                              : {format: "register", defaultExtension: "js"},
+        "@angular/core"                    : {defaultExtension: "js", main: "index.js"},
+        "@angular/common"                  : {defaultExtension: "js", main: "index.js"},
+        "@angular/compiler"                : {defaultExtension: "js", main: "index.js"},
+        "@angular/router"                  : {defaultExtension: "js", main: "index.js"},
+        "@angular/router-deprecated"       : {defaultExtension: "js", main: "index.js"},
+        "@angular/http"                    : {defaultExtension: "js", main: "index.js"},
+        "@angular/platform-browser"        : {defaultExtension: "js", main: "index.js"},
+        "@angular/platform-browser-dynamic": {defaultExtension: "js", main: "index.js"}
+      },
+      map: {
+        "@angular/core"                    : "lib/@angular/core",
+        "@angular/common"                  : "lib/@angular/common",
+        "@angular/compiler"                : "lib/@angular/compiler",
+        "@angular/router"                  : "lib/@angular/router",
+        "@angular/router-deprecated"       : "lib/@angular/router-deprecated",
+        "@angular/http"                    : "lib/@angular/http",
+        "@angular/platform-browser"        : "lib/@angular/platform-browser",
+        "@angular/platform-browser-dynamic": "lib/@angular/platform-browser-dynamic"
+      }
       });
       System.import('app/main')
         .then(null, console.error.bind(console));
-    </script>
+  </script>
 
-  </head>
+</head>
 
-  <!-- 3. Display the application -->
-  <body>
-    <app-domain>
-      <div class="page-loading">
-        <img src="/app/public/page_loading.gif" />
-      </div>
-    </app-domain>
-  </body>
+<!-- 3. Display the application -->
+
+<body>
+  <app-domain>
+    <div class="page-loading">
+      <img src="/app/public/page_loading.gif" />
+    </div>
+  </app-domain>
+</body>
 
 </html>

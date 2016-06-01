@@ -1,6 +1,6 @@
-import {Component, OnInit, Inject, OnDestroy, Input, Output, EventEmitter, Renderer, OnChanges, AfterViewInit, ViewChild} from 'angular2/core';
-import {BrowserDomAdapter} from 'angular2/platform/browser'
-import {ElementRef} from 'angular2/src/core/linker/element_ref';
+import {Component, OnInit, Inject, OnDestroy, Input, Output, EventEmitter, Renderer, OnChanges, AfterViewInit, ViewChild} from '@angular/core';
+import {BrowserDomAdapter} from '@angular/platform/browser'
+import {ElementRef} from '@angular/src/core/linker/element_ref';
 import {ScrollableContent} from '../scrollable-content/scrollable-content.component';
 import {ScrollerFunctions} from '../../global/scroller-functions';
 

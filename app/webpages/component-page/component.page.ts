@@ -1,4 +1,4 @@
-import {Component, OnInit} from 'angular2/core';
+import {Component, OnInit} from '@angular/core';
 import {SeasonStatsModule} from '../../modules/season-stats/season-stats.module';
 import {DraftHistoryModule} from '../../modules/draft-history/draft-history.module';
 import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
