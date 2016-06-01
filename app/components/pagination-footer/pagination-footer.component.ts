@@ -169,9 +169,7 @@ export class PaginationFooter implements OnChanges{
             if(index - p > 1){
                 //Build routerLink params for index values
                 var params = this.copyDynamicParams();
-                if(indexKey != null){
-                  params[indexKey] = index - p;
-                }
+                params[indexKey] = index - p;
                 //Push button parameters to array
                 this.paginationButtonsPage.push({
                     index: (index - p),
@@ -183,9 +181,7 @@ export class PaginationFooter implements OnChanges{
         if(index != 1 && index != max) {
             //Build routerLink params for inputted index value
             var params = this.copyDynamicParams();
-            if(indexKey != null){
-                params[indexKey] = (index);
-            }
+            params[indexKey] = (index);
             //Push button parameters to array
             this.paginationButtonsPage.push({
                 index: index,
@@ -199,9 +195,7 @@ export class PaginationFooter implements OnChanges{
             if(index + n < max){
                 //Build routerLink params for index values
                 var params = this.copyDynamicParams();
-                if(indexKey != null){
-                  params[indexKey] = index + n;
-                }
+                params[indexKey] = index + n;
                 //Push button parameters to array
                 this.paginationButtonsPage.push({
                     index: (index + n),
@@ -213,17 +207,13 @@ export class PaginationFooter implements OnChanges{
 
         //Build min button parameters
         var params = this.copyDynamicParams();
-        if(indexKey != null){
-          params[indexKey] = 1;
-        }
+        params[indexKey] = 1;
         this.minButtonParameters = params;
         console.log("min:", this.minButtonParameters);
 
         //Build max button parameters
         var params = this.copyDynamicParams();
-        if(indexKey != null){
-            params[indexKey] = max;
-        }
+        params[indexKey] = max;
         this.maxButtonParameters = params;
 
         //Determine if absolute first button should be shown (show ellipsis if first item in array is not 2)
@@ -242,23 +232,19 @@ export class PaginationFooter implements OnChanges{
 
         //Build parameters of previous angle button
         var params = this.copyDynamicParams();
-        if(indexKey != null) {
-            if (index - 1 >= 1) {
-                params[indexKey] = index - 1;
-            } else {
-                params[indexKey] = 1;
-            }
+        if (index - 1 >= 1) {
+            params[indexKey] = index - 1;
+        } else {
+            params[indexKey] = 1;
         }
         this.previousButtonParameters = params;
 
         //Build parameters of next angle button
         var params = this.copyDynamicParams();
-        if(indexKey != null) {
-            if (index + 1 <= max) {
-                params[indexKey] = index + 1;
-            } else {
-                params[indexKey] = max;
-            }
+        if (index + 1 <= max) {
+            params[indexKey] = index + 1;
+        } else {
+            params[indexKey] = max;
         }
         this.nextButtonParameters = params;
     }
