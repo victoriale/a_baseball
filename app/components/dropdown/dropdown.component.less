@@ -5,8 +5,16 @@
     background-color: @backgroundGrey;
     padding: 5px;
     text-align: left;
+    line-height: 1.2;
     .globalDefaultFont(12px, 400);
-    overflow: hidden;
+    .flexDisplay;
+    .flexJustify(space-between);
+    
+    &-value {      
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   
     &-button {
       padding-left: 12px;
@@ -86,6 +94,7 @@
     
     &-item-txt {
       padding-left: 15px;
+      display: block;
     }
   }
 

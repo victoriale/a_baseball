@@ -1,3 +1,5 @@
+<loading-component *ngIf="!profileHeaderData && !hasError"></loading-component>
+<error-component *ngIf="hasError"></error-component>
 <div *ngIf="profileHeaderData && pageParams" class="page-container">
     <headline-component [title]="'About the ' + profileHeaderData.profileName"></headline-component>
     <profile-header *ngIf="profileHeaderData" [profileHeaderData]="profileHeaderData"></profile-header>
@@ -8,7 +10,7 @@
     <schedules *ngIf="schedulesData" [profHeader]="profileHeaderData" [data]="schedulesData" (tabSelected)="scheduleTab($event)"></schedules>
     <standings-module *ngIf="standingsData" [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
     <!-- season stats -->
-    <season-stats-module [pageParams]="pageParams" [data]="seasonStatsData"></season-stats-module>
+    <season-stats-module *ngIf="seasonStatsData" [pageParams]="pageParams" [data]="seasonStatsData"></season-stats-module>
     <comparison-module [modelData]="comparisonModuleData" [profileName]="profileHeaderData.profileName"></comparison-module>
 
     <headline-component [title]="'Other MLB Content You May Love'"></headline-component>

@@ -90,7 +90,7 @@ export class MLBStandingsTabData implements TableTabData<TeamStandingsData> {
 
   convertToCarouselItem(item: TeamStandingsData, index:number): SliderCarouselInput {
     var subheader = item.seasonId + " Season " + item.groupName + " Standings";
-    var description = item.teamName + " is currently <span class='text-heavy'>ranked " + item.rank + GlobalFunctions.Suffix(item.rank) + "</span>" +
+    var description = "The " + item.teamName + " are currently <span class='text-heavy'>ranked " + item.rank + GlobalFunctions.Suffix(item.rank) + "</span>" +
                       " in the <span class='text-heavy'>" + item.groupName + "</span>, with a record of " +
                       "<span class='text-heavy'>" + item.totalWins + " - " + item.totalLosses + "</span>.";
 
@@ -261,8 +261,9 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
 
       case "strk":
         if ( item.streakCount != null && item.streakType ) {
-          var str = item.streakCount.toString();
-          o = (item.streakType == "loss" ? "L-" : "W-") + ('0000' + str).substr(str.length); //pad with zeros
+          // var str = item.streakCount.toString();
+          // o = (item.streakType == "loss" ? "L-" : "W-") + ('0000' + str).substr(str.length); //pad with zeros
+          o = (item.streakType == "loss" ? -1 : 1) * item.streakCount;
         }
         break;
     }

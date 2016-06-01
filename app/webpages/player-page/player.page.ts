@@ -2,6 +2,8 @@ import {Component, OnInit} from 'angular2/core';
 import {RouteParams, RouteConfig} from 'angular2/router';
 
 import {MLBPageParameters} from '../../global/global-interface';
+import {LoadingComponent} from '../../components/loading/loading.component';
+import {ErrorComponent} from '../../components/error/error.component';
 
 import {AboutUsModule} from '../../modules/about-us/about-us.module';
 import {LikeUs} from "../../modules/likeus/likeus.module";
@@ -52,6 +54,8 @@ import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.modul
     selector: 'Player-page',
     templateUrl: './app/webpages/player-page/player.page.html',
     directives: [
+      LoadingComponent,
+      ErrorComponent,
       SchedulesModule,
       BoxScoresModule,
       ProfileHeaderModule,
@@ -87,9 +91,10 @@ import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.modul
 export class PlayerPage implements OnInit {
   public shareModuleInput:ShareModuleInput;
   pageParams:MLBPageParameters;
+  hasError: boolean = false; 
   standingsData:StandingsModuleData;
   profileHeaderData: ProfileHeaderData;
-  seasonStatsData: SeasonStatsData;
+  seasonStatsData: any;
   comparisonModuleData: ComparisonModuleData;
   imageData:any;
   copyright:any;
@@ -157,6 +162,7 @@ export class PlayerPage implements OnInit {
               this.getTwitterService();
           },
           err => {
+              this.hasError = true;
               console.log("Error getting player profile data for " + this.pageParams.playerId + ": " + err);
           }
       );
@@ -173,11 +179,10 @@ export class PlayerPage implements OnInit {
       }
   }
   private setupSeasonstatsData() {
-      this._seasonStatsService.getPlayerStats(this.pageParams)
+      this._seasonStatsService.getPlayerStats(this.pageParams.playerId)
       .subscribe(
           data => {
-              // console.log("set up season stats", data, this.pageParams);
-              this.seasonStatsData = data[0];
+              this.seasonStatsData = data;
           },
           err => {
               console.log("Error getting season stats data for "+ this.pageParams.playerId);

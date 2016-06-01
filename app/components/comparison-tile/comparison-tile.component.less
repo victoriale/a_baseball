@@ -1,7 +1,6 @@
 .comparison-tile{
   &-container{
     font-family: Lato;
-    padding-bottom: 16px;
   }
 
 
@@ -15,12 +14,16 @@
         border-right: 1px solid rgba(153, 153, 153, 0.5);
         .globalDefaultModFont(14px, 400, @white);
       }
+      
+      &-list-option {
+        font-size: 14px;
+      }
     }
   }
 
   &-image{
     width: 180px;
-    margin: 20px auto 15px auto;
+    margin: 18px auto 15px auto;
   }
 
   &-label {
@@ -47,7 +50,6 @@
     &-line-one {
       .globalDefaultFont(20px, 800);
       display: block;
-      margin-bottom: 2px;
     }
     &-line-two {
       .globalDefaultFont(12px, 400);

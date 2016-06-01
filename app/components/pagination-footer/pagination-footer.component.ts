@@ -1,4 +1,5 @@
 import {Component, Input, Output, OnInit, OnChanges, EventEmitter} from 'angular2/core';
+import {ElementRef} from 'angular2/src/core/linker/element_ref';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 declare var jQuery: any;
 
@@ -70,6 +71,7 @@ export class PaginationFooter implements OnChanges{
     //Output event emitter
     public newIndex: EventEmitter<number> = new EventEmitter();
 
+    constructor(public myElement:ElementRef){}
     //Verifies component input. If any issues are detected console warning is thrown
     verifyInput(){
         var input = this.paginationParameters;
@@ -118,9 +120,8 @@ export class PaginationFooter implements OnChanges{
         var range = this.buttonRange;
 
         this.paginationButtonsModule = [];
-
         //Determine values before index that can be added to button array
-        for(var p = range; p > 1; p--){
+        for(var p = range; p >= 1; p--){
             if(index - p > 1){
                 this.paginationButtonsModule.push(index - p);
             }
@@ -274,12 +275,13 @@ export class PaginationFooter implements OnChanges{
 
     //Function to navigate number buttons for paginationType module
     indexClick(event){
-        var newIndex = Number(event.target.html());
-        //Send new index to output event emitter
-        this.newIndex.next(newIndex);
+      // console.log(event);
+      var newIndex = Number(event.target.innerHTML);
+      //Send new index to output event emitter
+      this.newIndex.next(newIndex);
 
-        this.paginationParameters.index = newIndex;
-        this.buildModuleButtons();
+      this.paginationParameters.index = newIndex;
+      this.buildModuleButtons();
     }
 
     //Function to navigate angle left button for paginationType module

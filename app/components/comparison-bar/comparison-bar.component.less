@@ -3,7 +3,7 @@
     border-top: 1px solid @highlightGrey;
     font-family: Lato;
     padding: 10px 20px;
-    
+
     &.background-even {
       background-color: @backgroundGrey;
     }
@@ -43,14 +43,87 @@
       font-size: 14px;
       font-weight: 700;
       position: absolute;
-      right: 0px;
+      right: 1px;
       opacity: 1;
       transition: 1s top, 1s right, 1s bottom;
       -webkit-transition: 1s top, 1s right, 1s bottom;
 
       &.label-top{
         top: -17px;
+        .flexDisplay;
+        .flexDirection(row);
+      }//.label-top ends
+    }
+  }
+}
+.infobox{
+  &-values{
+    .flexDisplay;
+    .flexDirection(column);
+    .flexAlignItems(flex-end);
+  }
+
+  &-box{
+    width: 226px;
+    min-height: 64px;
+    max-height: 194px;
+    overflow: auto;
+    background-color: @white;
+    border: 1px solid @greyBorder;
+    display: none;
+    z-index: 5;
+    .fa-angle-right{
+      font-size: 30px;
+    }
+  }
+
+  &-display{
+    .fa{
+      font-size: 10px;
+      color: @masterBrandColor;
+      padding-left: 5px;
+      &:hover{
+        color: @black;
+        .infobox-box{
+          display: block;
+        }
       }
     }
+  }
+
+  &-list{
+    height: 65px;
+    border-bottom: 1px solid @greyBorder;
+    .flexDisplay;
+    .flexAlignItems(center);
+    .flexJustify(space-around);
+    &-details{
+      .flexDisplay;
+      .flexDirection(column);
+    }
+    &-playerName{
+      .globalDefaultModFont(14px, 900, @masterBrandColor);
+      &:hover{
+        color: @black;
+      }
+    }
+    &-team{
+      font-style: italic;
+      .globalDefaultModFont(12px, 400, @black);
+    }
+    &-teamName{
+      color: @masterBrandColor;
+      font-weight: 900;
+      font-style: normal;
+      line-height: 14px;
+      &:hover{
+        color: @black;
+      }
+    }
+  }
+  &-image{
+    height: 64px;
+    width: 64px;
+    margin: 12px auto;
   }
 }
