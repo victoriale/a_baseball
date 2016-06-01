@@ -27,11 +27,20 @@
                 {{displayData.maxValue}}
                 <i class="fa {{displayData.info}}"></i>
               </div>
-              <ul class="infobox-box">
-                <li class="infobox-list">
-                  <a [routerLink]="['Disclaimer-page']" class="infobox-list-link">
-                    <div><span>[First] [Last]</span></div>
-                    <div>Team: <span>[Team Name]</span></div>
+              <!-- TODO -->
+              <ul *ngIf="infobox" class="infobox-box">
+                <li class="infobox-list" *ngFor="#infoBox of infoBox;">
+                  <a [routerLink]="infoBox.routerLinkPlayer">
+                    <div class="infobox-list-image">
+                        <circle-image [data]="infoBox.imageUrl"></circle-image>
+                    </div>
+                    <div class="infobox-list-details">
+                      <span class="infobox-list-playerName" [innerHtml]="infoBox.playerName"></span>
+                      <a class="infobox-list-team" [routerLink]="infoBox.routerLinkTeam">
+                        <span class="infobox-list-teamName" [innerHtml]="infoBox.teamName"></span>
+                      </a>
+                    </div>
+                    <div><i class="fa fa-angle-right"></i></div>
                   </a>
                 </li>
               </ul>

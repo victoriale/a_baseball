@@ -8,6 +8,8 @@ import {GlobalSettings} from '../global/global-settings';
 import {Gradient} from '../global/global-gradient';
 
 import {ComparisonBarInput} from '../components/comparison-bar/comparison-bar.component';
+import {SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
+import {CircleImageData} from '../components/images/image-data';
 
 
 export interface PlayerData {
@@ -46,7 +48,7 @@ export interface SeasonStats {
   pitchStrikeouts: number;
   pitchEra: number;
   pitchHits: number;
-
+  statValue: string;
   leader: SeasonStatsData;
   average: SeasonStatsData;
   player: SeasonStatsData;
@@ -93,7 +95,6 @@ export class SeasonStatsService {
     let playerInfo = data.playerInfo;
     let stats = data.stats;
     var seasonStatTab = [];
-    console.log("stats",stats);
     var curYear = new Date().getFullYear();
     for(var year in stats){
       var displayTab = '';
@@ -109,7 +110,6 @@ export class SeasonStatsService {
         let average = stats[year].average;
         let seasonStatsPlayer = stats[year].player;
         var playerBarStats = [];
-        console.log("leader", leader);
         for( var playerStat in leader){
           var s = {
             title: this.getKeyDisplayTitle(playerStat),
@@ -122,8 +122,8 @@ export class SeasonStatsService {
               color: '#555555',
             }],
             maxValue: Number(this.getKeyValue(playerStat, leader).statValue).toFixed(1),
+            minValue: 0,
             info: 'fa-info-circle',
-            image: "/app/public/no-image.png"
           }
           playerBarStats.push(s);
         }
@@ -136,11 +136,42 @@ export class SeasonStatsService {
         });
       }
     }
-    console.log("season stats tab", seasonStatTab, "player info", playerInfo);
+
     return {
       playerInfo: playerInfo,
       tabs: seasonStatTab
     };
+  }
+  /**
+   *this function will have inputs of all required fields that are dynamic and output the full
+  **/
+  imageData(imageClass, imageBorder, mainImg, mainImgRoute, subImgClass, subImg?, subRoute?){
+    if(typeof mainImg =='undefined' || mainImg == ''){
+      mainImg = "/app/public/no-image.png";
+    }
+    if(typeof subImg =='undefined' || subImg == ''){
+      subImg = "/app/public/no-image.png";
+    }
+    var image: CircleImageData = {//interface is found in image-data.ts
+        imageClass: imageClass,
+        mainImage: {
+            imageUrl: mainImg,
+            urlRouteArray: mainImgRoute,
+            hoverText: "<p>View</p><p>Profile</p>",
+            imageClass: imageBorder,
+        },
+    };
+    if(typeof subRoute != 'undefined') {
+      image.subImages = [
+          {
+              imageUrl: subImg,
+              urlRouteArray: subRoute,
+              hoverText: "<i class='fa fa-mail-forward'></i>",
+              imageClass: subImgClass + " image-round-lower-right"
+          },
+      ];
+    }
+    return image;
   }
 
   private getKeyDisplayTitle(key: string): string {

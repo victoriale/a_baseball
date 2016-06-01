@@ -48,33 +48,37 @@ export class SeasonStatsModule implements OnInit, OnChanges {
       url: ['Disclaimer-page']
     };
     tabs: Array<ComparisonTabData> = [];
-    public carouselDataArray: any = {
-        index: '1',
-        imageConfig: {
-          imageClass: "image-150",
-          mainImage: {
-            imageUrl: "./app/public/no-image.png",
-            imageClass: "border-large"
-          },
-          subImages: [
-            {
-              imageUrl: "./app/public/no-image.png",
-              imageClass: "image-50-sub image-round-lower-right"
-            }
-          ],
-        },
-        description:[
-          '<p></p>',
-          '<p></p>',
-          '<p></p>',
-          '<p></p>'
-        ]
-    };
+    public carouselDataArray: any;
     formatData(data: SeasonStatsData) {
         var selectedSeason = new Date().getFullYear(); //TODO: get from selected tab.
         // for ( var i = 0; i < this.tabs.length; i++ ) {
         //     this.tabs[i].tabData = this.tabs[i].tabTitle;
         // }
+        this.carouselDataArray = [{
+            backgroundImage: GlobalSettings.getImageUrl(data.playerInfo.liveImage),
+             imageConfig: {
+               imageClass: "image-150",
+               mainImage: {
+                 imageUrl: GlobalSettings.getImageUrl(data.playerInfo.playerHeadshot),
+                 imageClass: "border-large",
+               },
+               subImages: [
+                 {
+                   imageUrl:  GlobalSettings.getImageUrl(data.playerInfo.teamLogo),
+                   urlRouteArray: MLBGlobalFunctions.formatTeamRoute(data.playerInfo.teamName,data.playerInfo.teamId),
+                   hoverText: "<i class='fa fa-mail-forward'></i>",
+                   imageClass: "image-50-sub image-round-lower-right"
+                 }
+               ],
+             },
+             description:[
+               '<p style="font-size:12px;"><i class="fa fa-circle" style="color:#bc2027; padding-right: 5px;"></i> CURRENT SEASON STATS REPORT</p>',
+               '<p style="font-size: 22px; font-weight: 800; padding:9px 0;">'+data.playerInfo.playerName+'</p>',
+               '<p style="font-size: 14px; line-height: 1.4em;">Team: <b style="font-weight:800;">' + data.playerInfo.teamName + '</b></p>',
+               '<p style="font-size: 10px; padding-top:12px;">Last Updated On ' + GlobalFunctions.formatUpdatedDate(data.playerInfo.lastUpdated) + '</p>'
+             ]
+        }];
+        console.log("carousel", this.carouselDataArray);
         this.moduleHeaderData = {
             moduleTitle: 'Season Stats - ' + data.playerInfo.playerName,
             hasIcon: false,

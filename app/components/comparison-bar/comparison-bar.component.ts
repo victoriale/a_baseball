@@ -1,6 +1,7 @@
 import {Component, Input, OnInit, OnChanges, ViewChild, AfterViewChecked} from 'angular2/core';
 import {NaValuePipe} from '../../pipes/na.pipe';
 import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
+import {ImageData, CircleImageData} from '../images/image-data';
 import {CircleImage} from '../images/circle-image';
 
 export interface ComparisonBarInput {
@@ -14,12 +15,18 @@ export interface ComparisonBarInput {
     maxValue: number;
     info?: string;
 }
-
+export interface InfoBox {
+  teamName: string;
+  playerName: string;
+  imageUrl: CircleImageData;
+  routerLinkPlayer: Array<any>;
+  routerLinkTeam: Array<any>;
+}
 @Component({
     selector: 'comparison-bar',
     templateUrl: './app/components/comparison-bar/comparison-bar.component.html',
-    pipes: [NaValuePipe],
     directives: [CircleImage, ROUTER_DIRECTIVES],
+    pipes: [NaValuePipe],
 })
 
 export class ComparisonBar implements OnChanges, AfterViewChecked {
@@ -57,20 +64,20 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
         if((Math.abs(barTwoWidth - barOneWidth)) <= (labelTwoWidth + pixelBuffer)){
             //If the difference between the bars is less than the width of the second label, shift label one over
             adjustLabel = Math.ceil(labelTwoWidth - (barTwoWidth - barOneWidth) + pixelBuffer);
-        } 
-        
-        if ( labelOneWidth > barOneWidth ) {         
+        }
+
+        if ( labelOneWidth > barOneWidth ) {
             this.labelOne.nativeElement.style.left = 0;
             if ( adjustLabel > 0 ) {
                 this.labelTwo.nativeElement.style.left = adjustLabel + pixelBuffer;
-            }  
+            }
             else {
                 this.labelTwo.nativeElement.style.right = 0;
             }
         }
         else {
-            this.labelOne.nativeElement.style.right = adjustLabel;    
-            this.labelTwo.nativeElement.style.right = 0;        
+            this.labelOne.nativeElement.style.right = adjustLabel;
+            this.labelTwo.nativeElement.style.right = 0;
         }
     }
 
@@ -101,7 +108,7 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
         for (var i = 0; i < barData.data.length; i++ ) {
             var dataItem = barData.data[i];
             var value = dataItem.value != null ? dataItem.value : 0;
-            // console.log("  value: "+ value);    
+            // console.log("  value: "+ value);
             if ( switchValues ) {
                 if ( value < bestValue ) {
                     dataItem.value = null;

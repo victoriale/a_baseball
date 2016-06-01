@@ -1,7 +1,7 @@
 <div class="module-container">
     <module-header [modHeadData]="moduleHeaderData"></module-header>
 
-    <slider-carousel [carouselData]="carouselDataArray"></slider-carousel>
+    <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray"></slider-carousel>
 
     <tabs (tabSelected)="tabSelected($event)">
       <tab *ngFor="#tab of data.tabs; #i = index" [tabTitle]="tab.tabTitle" [active]="i == 0">
