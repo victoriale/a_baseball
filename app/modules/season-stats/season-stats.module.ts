@@ -78,7 +78,7 @@ export class SeasonStatsModule implements OnInit, OnChanges {
                '<p style="font-size: 10px; padding-top:12px;">Last Updated On ' + GlobalFunctions.formatUpdatedDate(data.playerInfo.lastUpdated) + '</p>'
              ]
         }];
-        console.log("carousel", this.carouselDataArray);
+        // console.log("carousel", this.carouselDataArray);
         this.moduleHeaderData = {
             moduleTitle: 'Season Stats - ' + data.playerInfo.playerName,
             hasIcon: false,
