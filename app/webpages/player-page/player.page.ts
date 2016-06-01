@@ -182,7 +182,6 @@ export class PlayerPage implements OnInit {
       this._seasonStatsService.getPlayerStats(this.pageParams.playerId)
       .subscribe(
           data => {
-              console.log("set up season stats", data, this.pageParams);
               this.seasonStatsData = data;
           },
           err => {
