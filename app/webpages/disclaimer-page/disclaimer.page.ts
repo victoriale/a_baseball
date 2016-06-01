@@ -9,6 +9,7 @@ import {Router,ROUTER_DIRECTIVES} from '@angular/router';
 import {Injector} from '@angular/core';
 import {WebApp} from '../../app-layout/app.layout';
 import {TitleInputData} from "../../components/title/title.component";
+import {GlobalSettings} from "../../global/global-settings";
 
 @Component({
     selector: 'Disclaimer-page',
@@ -29,19 +30,10 @@ export class DisclaimerPage implements OnInit {
     titleData: TitleInputData;
 
     constructor(private injector:Injector, private _router: Router) {
-        this._router.root
-            .subscribe(
-                route => {
-                  var curRoute = route;
-                  var partnerID = curRoute.split('/');
-                  if(partnerID[0] == ''){
-                    this.partnerID = null;
-                  }else{
-                    this.partnerID = partnerID[0];
-                  }
-                  this.getData();
-                }
-            )//end of route subscribe
+        GlobalSettings.getPartnerId(_router, partnerId => {
+            this.partnerID = partnerId;
+            this.getData();
+        });
 
         // Scroll page to top to fix routerLink bug
         window.scrollTo(0, 0);

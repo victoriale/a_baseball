@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Router,ROUTER_DIRECTIVES, RouteParams} from '@angular/router';
+import {Router,ROUTER_DIRECTIVES} from '@angular/router';
+import {RouteParams} from '@angular/router-deprecated';
 import {WidgetModule} from "../../modules/widget/widget.module";
 import {ImagesMedia} from "../../components/carousels/images-media-carousel/images-media-carousel.component";
 import {ShareLinksComponent} from "../../components/articles/shareLinks/shareLinks.component";

@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {ModuleHeader, ModuleHeaderData} from "../../components/module-header/module-header.component";
 import {FlipTilesComponent, TileData} from "../../components/flip-tiles/flip-tiles.component";
+import {GlobalSettings} from "../../global/global-settings";
 import {Router,ROUTER_DIRECTIVES} from '@angular/router';
 
 @Component({
@@ -22,17 +23,9 @@ export class AboutUsModule {
     public aboutUsData: Array<TileData>;
 
     constructor(private _router: Router) {
-      this._router.root
-      .subscribe(
-          route => {
-            var routeValues = route.split('/');
-            if(routeValues[0] !== '' && routeValues[0] !== undefined && routeValues[0] !== null){
-              //Has Partner
-              this.partnerID = routeValues[0];
-            } else {
-              this.partnerID = null;
-            }
-      })
+        GlobalSettings.getPartnerId(_router, partnerId => {
+            this.partnerID = partnerId;
+        });
     }
 
     ngOnInit() {

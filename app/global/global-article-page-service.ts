@@ -12,18 +12,9 @@ export class ArticleDataService {
     public partnerID:string;
 
     constructor(private _router:Router, public http:Http) {
-        this._router.root
-            .subscribe(
-                route => {
-                    var curRoute = route;
-                    var partnerID = curRoute.split('/');
-                    if (partnerID[0] == '') {
-                        this.partnerID = null;
-                    } else {
-                        this.partnerID = partnerID[0];
-                    }
-                }
-            )//end of route subscribe
+        GlobalSettings.getPartnerId(_router, partnerId => {
+            this.partnerID = partnerId;
+        });
     };
 
     getArticleData(eventID, eventType) {

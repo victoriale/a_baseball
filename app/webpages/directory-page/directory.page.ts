@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {RouteParams} from '@angular/router-deprecated';
 import {GlobalFunctions} from '../../global/global-functions';
+import {GlobalSettings} from "../../global/global-settings";
 import {NavigationData, Link} from '../../global/global-interface';
 import {DirectoryService, DirectoryType, DirectorySearchParams} from '../../services/directory.service';
 import {PagingData, DirectoryProfileItem, DirectoryItems, DirectoryModuleData} from '../../modules/directory/directory.data';
@@ -28,8 +29,6 @@ export class DirectoryPage {
   public isError: boolean = false;
   
   public pageType: DirectoryType;
-  
-  public isPartnerSite: boolean = false;
 
   constructor(private router: Router, private _params: RouteParams, private _globalFunctions: GlobalFunctions, private _directoryService: DirectoryService) {
     var page = _params.get("page");
@@ -59,14 +58,6 @@ export class DirectoryPage {
     if ( this.currentPage === 0 ) {
       this.currentPage = 1; //page index starts at one
     }
-            
-    this.router.root
-      .subscribe(
-      route => {
-        this.isPartnerSite = (route.split('/')[0] !== '');
-        this.getDirectoryData();            
-      }
-    );
 
     // Scroll page to top to fix routerLink bug
     window.scrollTo(0, 0);
