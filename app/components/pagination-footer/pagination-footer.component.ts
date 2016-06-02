@@ -231,18 +231,18 @@ export class PaginationFooter implements OnChanges{
 
         //Build parameters of previous angle button
         var params = this.copyDynamicParams();
-        if(index - 1 >= 1){
+        if (index - 1 >= 1) {
             params[indexKey] = index - 1;
-        }else{
+        } else {
             params[indexKey] = 1;
         }
         this.previousButtonParameters = params;
 
         //Build parameters of next angle button
         var params = this.copyDynamicParams();
-        if(index + 1 <= max){
+        if (index + 1 <= max) {
             params[indexKey] = index + 1;
-        }else{
+        } else {
             params[indexKey] = max;
         }
         this.nextButtonParameters = params;

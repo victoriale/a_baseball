@@ -31,10 +31,10 @@ export class SearchPage implements OnInit {
         let self = this;
         let query = self.pageParams.query;
 
-        self._searchService.getSearchPageData(query)
+        self._searchService.getSearchJSON()
             .subscribe(
                 data => {
-                    self.searchPageInput = data;
+                    self.searchPageInput = self._searchService.getSearchPageData(query, data);
                 }
             );
     }

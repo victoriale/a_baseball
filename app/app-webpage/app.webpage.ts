@@ -116,6 +116,11 @@ import {TransactionsPage} from "../webpages/transactions-page/transactions.page"
         component: StandingsPage
     },
     {
+        path: '/list/:query',
+        name: 'Dynamic-list-page',
+        component: ListPage
+    },
+    {
         path: '/list/:profile/:listname/:sort/:conference/:division/:limit/:pageNum',
         name: 'List-page',
         component: ListPage
@@ -190,7 +195,7 @@ import {TransactionsPage} from "../webpages/transactions-page/transactions.page"
         path: '/tables-test',
         name: 'Tables-test-page',
         component: TablesTestPage,
-    },
+    }
 ])
 
 export class AppComponent implements OnInit {
