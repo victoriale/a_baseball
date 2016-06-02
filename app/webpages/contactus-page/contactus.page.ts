@@ -82,7 +82,6 @@ export class ContactUsPage implements OnInit{
         //join all the options that were checked with commas and append to end of mailManUrl
         var stringOptions = options.join(',');
         this.mailManUrl += '/'+stringOptions
-        console.log(this.mailManUrl);
         //send to backend the full mail url of all options
         this.http.get(this.mailManUrl, {})
     }
