@@ -16,7 +16,7 @@ ToC
 @white: #fff;
 @black: #000;
 // Body BG
-@bodyBg: @greyBorder;
+@bodyBg: @highlightGrey;
 
 // Brand Color Palette
 @homeRunLoyalRed: #bc2027;
@@ -50,38 +50,21 @@ ToC
 @weatherYellowImageHover: rgba(255, 223, 48, @imageHoverOpacity);
 @joyfulHomeGreenHover: rgba(68, 178, 36, @imageHoverOpacity);
 @homeRunLoyalImageHover: rgba(188, 32, 39, @imageHoverOpacity);
-
+@featureBtn: rgba(54, 54, 54, 0.85);
 // Grey Color Palette; light to dark
-@lightGrey: #424242;
-@mediumGrey: #454545;
-@medDarkGrey: #2c2c2c;
-@darkGrey: #2d2d2d;
+// We should only use these 6 types of grey
+// if there is ever a variation of one of those,please round to the closest color
 @backgroundGrey: #f2f2f2;
 @highlightGrey: #e1e1e1;
 @strokeGrey: #ccc;
-@greyBorder: #ebebeb;
+@bulletGrey: #999;
 @fontIconGrey: #444;
 @textEmphasisGrey: #272727;
-@listgreyborder: #b4b4b4;
-@greyUpdate: #838383;
-@greyTextGlobal: #959595;
-@bulletGrey: #999;
-@amenitiesGrey: #cecece;
-@partnerGrey: #e6e6e6;
-@partnerLocGrey: #333333;
-@listSeparatorGrey: #818181;
-@greyTabText: #666666;
-@greyBorderBox: #cacaca;
-@greyShareButton: #d6d6d6;
-@greyHeader: #4d4d4d;
-@headerBackground: #252525;
-@greySocialBarHover: #262626;
-@greyDarkBackGrnd: #21201e;
-@greyVerLineBreak: #8c8c8c;
+
 // Box Shadow for Image Borders
 @masterButtonBackground: rgba(0, 0, 0, 0.5);
 @masterLargeImageShadow: rgba(0,0,0,0.25);
-@masterSmallImageShadow: #cccccc;
+@masterSmallImageShadow: @strokeGrey;
 // Master Vertical Brand Colors
 @masterBrandColor: @homeRunLoyalRed;
 @lightMasterBrandColor: @homeRunLoyalLightRed;
