@@ -26,6 +26,7 @@ import {FAQModule, faqModuleData} from "../../modules/faq/faq.module";
 import {FaqService} from '../../services/faq.service';
 
 import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
+import {BoxScoresService} from '../../services/box-scores.service';
 
 import {ComparisonModule, ComparisonModuleData} from '../../modules/comparison/comparison.module';
 import {ComparisonStatsService} from '../../services/comparison-stats.service';
@@ -64,6 +65,8 @@ import {ListOfListsService} from "../../services/list-of-lists.service";
 import {TransactionsModule} from "../../modules/transactions/transactions.module";
 import {TransactionsService} from "../../services/transactions.service";
 
+declare var moment;
+
 @Component({
     selector: 'Team-page',
     templateUrl: './app/webpages/team-page/team.page.html',
@@ -93,6 +96,7 @@ import {TransactionsService} from "../../services/transactions.service";
         TransactionsModule
     ],
     providers: [
+      BoxScoresService,
       SchedulesService,
       DraftHistoryService,
       StandingsService,
@@ -141,6 +145,7 @@ export class TeamPage implements OnInit {
 
     constructor(private _params:RouteParams,
                 private _standingsService:StandingsService,
+                private _boxScores:BoxScoresService,
                 private _schedulesService:SchedulesService,
                 private _profileService:ProfileHeaderService,
                 private _draftService:DraftHistoryService,
@@ -181,7 +186,7 @@ export class TeamPage implements OnInit {
                 this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data);
 
                 /*** Keep Up With Everything [Team Name] ***/
-                //this.getBoxScores();
+                this.getBoxScores();
                 this.getSchedulesData('pre-event');//grab pre event data for upcoming games
                 this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams, data.teamName);
                 this.rosterData = this._rosterService.loadAllTabsForModule(this.pageParams.teamId, data.teamName);
@@ -246,6 +251,24 @@ export class TeamPage implements OnInit {
             err => {
                 console.log("Error getting news data");
             });
+    }
+
+    //api for BOX SCORES
+    private getBoxScores(date?){
+      if(typeof date == 'undefined'){
+        var curDate = moment(new Date()).format('YYYY-MM-DD');
+        date = curDate;
+      }
+      console.log('Current Date sending to Box Scores API',date);
+      this._boxScores.getBoxScoresService('team', date, this.pageParams.teamId)
+      .subscribe(
+        data => {
+          console.log(data);
+        },
+        err => {
+          console.log("Error getting Schedules Data");
+        }
+      )
     }
 
     //grab tab to make api calls for post of pre event table
