@@ -508,6 +508,7 @@ export class GlobalFunctions {
   * example input string: "Location-page|{‘loc’:'Industry-CA’}"
   */
   static parseToRoute(stringRoute) {
+    if(stringRoute == null){ return ["Error-page"];}
     let stringRouteArr = stringRoute.split("|");
 
     let generatedUrl = stringRouteArr.map(function (item) {
