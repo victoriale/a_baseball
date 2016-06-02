@@ -54,8 +54,6 @@ export class ContactUsPage implements OnInit{
     }
 
     formSubmitted(form){
-        console.log('form submitted', form);
-
         //start the form url to mailer and prepare for all the options user has checked
         this.mailManUrl = GlobalSettings.getApiUrl() + '/mailer';
         var options = [];
