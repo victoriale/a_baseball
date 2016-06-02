@@ -11,9 +11,6 @@ import {Http, Headers} from 'angular2/http';
 import {GlobalFunctions} from './global-functions';
 import {Observable} from "rxjs/Observable";
 import {Router} from "angular2/router";
-import {GlobalSettings} from "./global-settings";
-import {MLBGlobalFunctions} from "./mlb-global-functions";
-import {TitleInputData} from "../components/title/title.component";
 
 @Injectable()
 
