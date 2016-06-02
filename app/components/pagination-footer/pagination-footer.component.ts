@@ -209,7 +209,6 @@ export class PaginationFooter implements OnChanges{
         var params = this.copyDynamicParams();
         params[indexKey] = 1;
         this.minButtonParameters = params;
-        console.log("min:", this.minButtonParameters);
 
         //Build max button parameters
         var params = this.copyDynamicParams();
