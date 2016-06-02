@@ -68,7 +68,7 @@ export class ContactUsPage implements OnInit{
             this.mailManUrl += '/'+form[items];//items should equal 'email' here but in case of any type of changes
             break;
             case 'description':
-            this.mailManUrl += '/'+form[items];//items should equal 'description' here but in case of any type of changes
+            this.mailManUrl += '/'+ encodeURI(form[items]).replace(/\//g,'%2F');//items should equal 'description' here but in case of any type of changes
             break;
             default:
               if(form[items] !== null){
@@ -77,11 +77,12 @@ export class ContactUsPage implements OnInit{
             break;
           }
         }
+
         //join all the options that were checked with commas and append to end of mailManUrl
         var stringOptions = options.join(',');
         this.mailManUrl += '/'+stringOptions
         //send to backend the full mail url of all options
-        this.http.get(this.mailManUrl, {})
+        this.http.get(this.mailManUrl,{})
     }
 
     ngOnInit(){
