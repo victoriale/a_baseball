@@ -68,7 +68,7 @@ export class ContactUsPage implements OnInit{
             this.mailManUrl += '/'+form[items];//items should equal 'email' here but in case of any type of changes
             break;
             case 'description':
-            this.mailManUrl += '/'+ encodeURI(form[items]).replace(/\//g,'%2F');//items should equal 'description' here but in case of any type of changes
+            this.mailManUrl += '/'+ encodeURIComponent(form[items]);//items should equal 'description' here but in case of any type of changes
             break;
             default:
               if(form[items] !== null){

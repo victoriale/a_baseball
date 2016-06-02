@@ -35,8 +35,43 @@ export class BoxScoresService {
     .map(res => res.json())
     .map(data => {
       console.log(data.data);
-      return data.data;
+
+      return {
+        schedule: this.formatSchedule(data.data),
+        fullData: data.data
+      };
     })
+  }
+
+  transformBoxScores(boxScores){
+    var newBoxScores = {};
+    for(var dates in boxScores){
+        var dayDate = dates.split(' ')[0];
+        if(typeof newBoxScores[dayDate] == 'undefined'){
+           newBoxScores[dayDate] = [];
+           newBoxScores[dayDate].push(boxScores[dates]);
+        }
+    }
+  }
+
+  formatSchedule(data){
+    console.log(data);
+    return data;
+  }
+
+  formatGameInfo(data){
+    console.log(data);
+    return data;
+  }
+
+  formatArticle(data){
+    console.log(data);
+    return data;
+  }
+
+  formatScoreBoard(data){
+    console.log(data);
+    return data;
   }
 
 }
