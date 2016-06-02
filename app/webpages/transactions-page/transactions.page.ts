@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {RouteParams} from '@angular/router-deprecated';
+import {RouteParams} from "@angular/router-deprecated";
 import {DetailedListItem, DetailListInput} from '../../components/detailed-list-item/detailed-list-item.component';
 import {ModuleFooter} from '../../components/module-footer/module-footer.component';
 import {SliderCarousel, SliderCarouselInput} from '../../components/carousels/slider-carousel/slider-carousel.component';
@@ -41,8 +41,8 @@ export class TransactionsPage implements OnInit{
   isError: boolean = false;
   titleData: Object;
   profileName: string;
-  constructor(public transactionsService:TransactionsService, public profHeadService:ProfileHeaderService, public params: RouteParams){
-    this.teamId = Number(this.params.params['teamId']);
+  constructor(public transactionsService:TransactionsService, public profHeadService:ProfileHeaderService, private _route: RouteParams){
+    this.teamId = Number(this._route.get['teamId']);
   }
 
   getTransactionsPage(date, teamId) {

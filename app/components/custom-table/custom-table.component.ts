@@ -1,5 +1,5 @@
 import {Component, Input, ViewChildren, OnChanges, EventEmitter, Output} from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router';
+import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 import {TableHeader} from '../../components/custom-table/table-header.component';
 import {TableModel, TableColumn} from '../../components/custom-table/table-data.component';
 import {CircleImage} from '../../components/images/circle-image';

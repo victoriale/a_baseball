@@ -30,10 +30,10 @@ export class TeamRosterPage implements OnInit {
   public tabs: Array<MLBRosterTabData>;
   private selectedTabTitle: string;
 
-  constructor(private _params: RouteParams,
+  constructor(private _route: RouteParams,
               private _profileService: ProfileHeaderService,
               private _rosterService: RosterService) {
-    let teamId = _params.get("teamId");
+    let teamId = _route.get("teamId");
     if ( teamId !== null && teamId !== undefined ) {
       this.pageParams.teamId = Number(teamId);
     }

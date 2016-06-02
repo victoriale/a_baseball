@@ -1,6 +1,6 @@
 import {Component, OnInit, Input, OnChanges} from '@angular/core';
 import {NgClass} from '@angular/common';
-import {ROUTER_DIRECTIVES} from '@angular/router';
+import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 import {Link} from '../../global/global-interface';
 import {PagingData} from './directory.data';
 

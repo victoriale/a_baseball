@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 import {ModuleHeader, ModuleHeaderData} from "../../components/module-header/module-header.component";
 import {FlipTilesComponent, TileData} from "../../components/flip-tiles/flip-tiles.component";
 import {GlobalSettings} from "../../global/global-settings";
-import {Router,ROUTER_DIRECTIVES} from '@angular/router';
+import {Router, ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 
 @Component({
     selector: 'about-us',

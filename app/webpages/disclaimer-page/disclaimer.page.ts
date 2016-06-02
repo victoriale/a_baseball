@@ -5,7 +5,7 @@ import {Component, OnInit} from '@angular/core';
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {TitleComponent} from '../../components/title/title.component';
 import {WidgetModule} from "../../modules/widget/widget.module";
-import {Router,ROUTER_DIRECTIVES} from '@angular/router';
+import {Router,ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 import {Injector} from '@angular/core';
 import {WebApp} from '../../app-layout/app.layout';
 import {TitleInputData} from "../../components/title/title.component";

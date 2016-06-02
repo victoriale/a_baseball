@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
 import {Http} from '@angular/http';
 import {Conference, Division, MLBPageParameters} from '../global/global-interface';
-import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
 import {TeamStandingsData, MLBStandingsTabData, MLBStandingsTableModel, MLBStandingsTableData} from './standings.data';
 import {TableTabData} from '../components/standings/standings.component';
@@ -10,7 +9,7 @@ import {GlobalSettings} from '../global/global-settings';
 
 @Injectable()
 export class StandingsService {
-  constructor(public http: Http, private _globalFunctions: GlobalFunctions, private _mlbFunctions: MLBGlobalFunctions){}
+  constructor(public http: Http){}
 
   private getLinkToPage(pageParams: MLBPageParameters, teamName: string): Array<any> {
     var pageName = "Standings-page";
@@ -210,9 +209,9 @@ export class StandingsService {
    */
   private formatGroupName(conference: Conference, division: Division, makeDivisionBold?: boolean): string {
     if ( conference !== undefined && conference !== null ) {
-      let leagueName = this._globalFunctions.toTitleCase(Conference[conference]) + " League";
+      let leagueName = GlobalFunctions.toTitleCase(Conference[conference]) + " League";
       if ( division !== undefined && division !== null ) {
-        var divisionName = this._globalFunctions.toTitleCase(Division[division]);
+        var divisionName = GlobalFunctions.toTitleCase(Division[division]);
         return leagueName + " " + (makeDivisionBold ? "<span class='text-heavy'>" + divisionName + "</span>" : divisionName);
       }
       else {

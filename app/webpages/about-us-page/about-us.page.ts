@@ -2,14 +2,13 @@
  * Created by Victoria on 4/19/2016.
  */
 import {Component, OnInit} from '@angular/core';
-import {Router,ROUTER_DIRECTIVES} from '@angular/router';
+import {Router,ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {TitleComponent} from '../../components/title/title.component';
 import {WidgetModule} from "../../modules/widget/widget.module";
 
 import {AboutUsService} from '../../services/about-us.service';
-import {GlobalFunctions} from '../../global/global-functions';
 import {GlobalSettings} from "../../global/global-settings";
 import {WebApp} from '../../app-layout/app.layout';
 import {TitleInputData} from "../../components/title/title.component";
@@ -60,7 +59,7 @@ export class AboutUsPage {
         icon: 'fa fa-map-marker'
     }
 
-    constructor(private _router: Router, private _service: AboutUsService, private _globalFunctions: GlobalFunctions) {
+    constructor(private _router: Router, private _service: AboutUsService) {
         GlobalSettings.getPartnerId(_router, partnerId => {
             this.partnerID = partnerId;
             this._service.getData(this.partnerID).subscribe(

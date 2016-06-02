@@ -1,6 +1,6 @@
 import {Component, Input, Output, OnInit, OnChanges, EventEmitter} from '@angular/core';
 import {ElementRef} from 'angular2/src/core/linker/element_ref';
-import {ROUTER_DIRECTIVES} from '@angular/router';
+import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 declare var jQuery: any;
 
 export interface PaginationParameters {

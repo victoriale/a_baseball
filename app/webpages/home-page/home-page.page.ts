@@ -1,10 +1,9 @@
 import {Component, OnInit, Input} from '@angular/core';
-
+import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 import {SliderButton} from "../../components/buttons/slider/slider.button";
 import {CircleImage} from '../../components/images/circle-image';
 import {ImageData,CircleImageData} from '../../components/images/image-data';
 import {Search, SearchInput} from '../../components/search/search.component';
-import {Router, ROUTER_DIRECTIVES} from '@angular/router';
 import {LandingPageService} from '../../services/landing-page';
 
 export interface homePageData {
@@ -23,8 +22,7 @@ export interface newsCarouselData {
 @Component({
     selector: 'home-page',
     templateUrl: './app/webpages/home-page/home-page.page.html',
-    directives: [CircleImage, ROUTER_DIRECTIVES, Search, SliderButton],
-    inputs: [],
+    directives: [CircleImage, Search, SliderButton, ROUTER_DIRECTIVES],
     providers: [LandingPageService],
 })
 
@@ -58,7 +56,8 @@ export class HomePage implements OnInit {
          placeholderText: "Search for a player or team...",
          hasSuggestions: true
      };
-    constructor(private _router: Router, private _landingPageService: LandingPageService) {
+    constructor(private _landingPageService: LandingPageService) {
+      console.log("setting up home page");
       this.getData();
       this.getListData();
     }

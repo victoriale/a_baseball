@@ -2,8 +2,6 @@ import {Component, OnInit, Input, OnChanges} from '@angular/core';
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 import {NewsCarousel, NewsCarouselInput} from '../../components/carousels/news-carousel/news-carousel.component';
 import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer.component';
-import {RouteParams} from "@angular/router-deprecated";
-import {GlobalFunctions} from '../../global/global-functions';
 import {CircleButton} from "../../components/buttons/circle/circle.button";
 declare var stButtons: any;
 
@@ -31,8 +29,7 @@ export class NewsModule implements OnInit, OnChanges {
       iconClass: "fa fa-heart"
     };
 
-    constructor(private _params: RouteParams,
-                private _globalFunctions: GlobalFunctions){ }
+    constructor(){ }
 
     left(){
       var counter = this.counter;

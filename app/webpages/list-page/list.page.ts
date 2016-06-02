@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
+import {RouteParams} from "@angular/router-deprecated";
 import {DetailedListItem, DetailListInput} from '../../components/detailed-list-item/detailed-list-item.component';
 import {ModuleFooter, ModuleFooterData, FooterStyle} from '../../components/module-footer/module-footer.component';
 import {SliderCarousel, SliderCarouselInput} from '../../components/carousels/slider-carousel/slider-carousel.component';
 import {TitleComponent, TitleInputData} from '../../components/title/title.component';
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {DraftHistoryService} from '../../services/draft-history.service';
-import {RouteParams} from '@angular/router-deprecated';
 import {ListPageService} from '../../services/list-page.service';
 import {NoDataBox} from '../../components/error/data-box/data-box.component';
 import {ProfileHeaderService} from '../../services/profile-header.service';
@@ -42,9 +42,9 @@ export class ListPage implements OnInit{
   input: string;
   pageNumber: any;
 
-  constructor(private listService:ListPageService, private profHeadService:ProfileHeaderService, private params: RouteParams, private dynamicWidget: DynamicWidgetCall){
-    if(params.params['query'] != null){
-      let query = params.params['query'];
+  constructor(private listService:ListPageService, private profHeadService:ProfileHeaderService, private _route: RouteParams, private dynamicWidget: DynamicWidgetCall){
+    if(_route.params['query'] != null){
+      let query = _route.params['query'];
       // Setup this way in case we want to switch out null with some default values
       let twArr = query.match(/tw-(.*?)(\+|$)/);
       this.tw = twArr != null && twArr.length > 1 ? twArr[1] : null;
@@ -70,7 +70,7 @@ export class ListPage implements OnInit{
   //sets the total pages for particular lists to allow client to move from page to page without losing the sorting of the list
   setPaginationParams(input) {
       var info = input.listInfo;
-      var params = this.params.params;
+      var params = this._route.params;
 
       var navigationParams = {
         profile: params['profile'],
@@ -183,7 +183,7 @@ export class ListPage implements OnInit{
 
 
   ngOnInit(){
-      this.getListPage(this.params.params);
+      this.getListPage(this._route.params);
   }
 
 }

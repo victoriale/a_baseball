@@ -3,7 +3,7 @@
  */
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {CarouselButton} from '../../components/buttons/carousel/carousel.button';
-import {ROUTER_DIRECTIVES} from '@angular/router';
+import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 @Component({
     selector: 'feature-component',
     templateUrl: './app/components/feature-list/feature-list.component.html',

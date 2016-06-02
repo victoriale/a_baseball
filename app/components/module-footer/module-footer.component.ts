@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router';
+import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 
 export interface ModuleFooterData {
   infoDesc: string, // text description that describes what is the footer going to display

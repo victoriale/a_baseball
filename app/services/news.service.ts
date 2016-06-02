@@ -8,7 +8,7 @@ declare var moment: any;
 @Injectable()
 export class NewsService {
   private _apiUrl: string = GlobalSettings.getNewsUrl();
-  constructor(public http: Http, private _globalFunctions: GlobalFunctions){}
+  constructor(public http: Http){}
 
   setToken(){
     var headers = new Headers();
@@ -37,9 +37,9 @@ export class NewsService {
 
   private formatGroupName(conference: Conference, division: Division, makeDivisionBold?: boolean): string {
     if ( conference !== undefined && conference !== null ) {
-      let leagueName = this._globalFunctions.toTitleCase(Conference[conference]) + " League";
+      let leagueName = GlobalFunctions.toTitleCase(Conference[conference]) + " League";
       if ( division !== undefined && division !== null ) {
-        var divisionName = this._globalFunctions.toTitleCase(Division[division]);
+        var divisionName = GlobalFunctions.toTitleCase(Division[division]);
         return leagueName + " " + (makeDivisionBold ? "<span class='text-heavy'>" + divisionName + "</span>" : divisionName);
       }
       else {

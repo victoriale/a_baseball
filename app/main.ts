@@ -1,5 +1,5 @@
 import {bootstrap} from '@angular/platform-browser-dynamic';
-import {ROUTER_PROVIDERS, ROUTER_DIRECTIVES} from '@angular/router';
+import {ROUTER_PROVIDERS, ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 import {AppDomain} from './app-domain/app.domain';
 import {GlobalFunctions} from './global/global-functions';
 import {MLBGlobalFunctions} from './global/mlb-global-functions';

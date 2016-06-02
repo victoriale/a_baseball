@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
+import {RouteParams} from "@angular/router-deprecated";
 import {DetailedListItem, DetailListInput} from '../../components/detailed-list-item/detailed-list-item.component';
 import {ModuleFooter, ModuleFooterData, FooterStyle} from '../../components/module-footer/module-footer.component';
 import {SliderCarousel, SliderCarouselInput} from '../../components/carousels/slider-carousel/slider-carousel.component';
 import {TitleComponent, TitleInputData} from '../../components/title/title.component';
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {DraftHistoryService} from '../../services/draft-history.service';
-import {RouteParams} from '@angular/router-deprecated';
 import {ListPageService} from '../../services/list-page.service';
 import {NoDataBox} from '../../components/error/data-box/data-box.component';
 import {ProfileHeaderService} from '../../services/profile-header.service';
@@ -35,7 +35,7 @@ export class SchedulesPage implements OnInit{
   schedulesData:any;
   tabData: any;
 
-  constructor(private _schedulesService:SchedulesService, private profHeadService:ProfileHeaderService, private params: RouteParams){
+  constructor(private _schedulesService:SchedulesService, private profHeadService:ProfileHeaderService, private _route: RouteParams){
   }
 
   //grab tab to make api calls for post of pre event table
@@ -50,8 +50,8 @@ export class SchedulesPage implements OnInit{
   }
 
   private getSchedulesData(status){
-    var teamId = this.params.params['teamId']; //determines to call league page or team page for schedules-table
-    var pageNum = this.params.params['pageNum'];
+    var teamId = this._route.get['teamId']; //determines to call league page or team page for schedules-table
+    var pageNum = this._route.get['pageNum'];
 
     if(typeof teamId != 'undefined'){
       this.profHeadService.getTeamProfile(Number(teamId))
@@ -130,7 +130,7 @@ export class SchedulesPage implements OnInit{
   //PAGINATION
   //sets the total pages for particular lists to allow client to move from page to page without losing the sorting of the list
   setPaginationParams(input) {
-      var params = this.params.params;
+      var params = this._route.params;
       // console.log(params)
       //'/schedules/:teamName/:teamId/:pageNum'
       var navigationParams = {

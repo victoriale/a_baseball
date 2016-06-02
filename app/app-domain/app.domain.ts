@@ -1,34 +1,24 @@
 import {Component} from '@angular/core';
-import {Router, ROUTER_DIRECTIVES} from '@angular/router';
-import {RouteData, RouteConfig} from '@angular/router-deprecated';
+import {Router, ROUTER_DIRECTIVES, RouteConfig, ROUTER_PROVIDERS} from "@angular/router-deprecated";
 
-import {WebApp} from "../app-layout/app.layout";
-import {MyWebApp} from "../app-layout/app.mylayout";
+// import {WebApp} from "../app-layout/app.layout";
+// import {MyWebApp} from "../app-layout/app.mylayout";
+import {MyAppComponent} from "../app-webpage/app.mywebpage";
+import {AppComponent} from "../app-webpage/app.webpage";
 
 @Component({
     selector: 'app-domain',
     templateUrl: './app/app-domain/app.domain.html',
-    directives: [MyWebApp, WebApp, ROUTER_DIRECTIVES],
-    providers: []
+    directives: [ROUTER_DIRECTIVES],
+    providers: [ROUTER_PROVIDERS]
 })
 
 @RouteConfig([
-    {
-        path: '/...',
-        name: 'Default-home',
-        component: WebApp,
-        useAsDefault: true
-    },
-    // {
-    //     path: '/:partner_id/...',
-    //     name: 'Partner-home',
-    //     component: MyWebApp,
-    // },
+    { path: '/...', name: "Webpage", component: AppComponent },
+    // { path: '/:partner_id/', component: MyAppComponent },
 ])
 
 export class AppDomain {
-    // cityStateLocation: string = "WICHITA_KS";
-    constructor(){
-        //console.log(window.location);
+    constructor(private router: Router){
     }
 }

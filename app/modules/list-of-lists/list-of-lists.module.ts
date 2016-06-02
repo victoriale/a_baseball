@@ -4,7 +4,7 @@ import {ModuleFooter} from "../../components/module-footer/module-footer.compone
 import {ModuleHeader} from '../../components/module-header/module-header.component';
 import {ListOfListsItem} from "../../components/list-of-lists-item/list-of-lists-item.component";
 import {ModuleHeaderData} from "../../components/module-header/module-header.component";
-import {Router} from "@angular/router";
+import {Router} from "@angular/router-deprecated";
 import {Input} from "@angular/core";
 import {ProfileHeaderData} from "../profile-header/profile-header.module";
 

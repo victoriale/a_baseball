@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {RouteParams} from '@angular/router-deprecated';
+import {RouteParams} from "@angular/router-deprecated";
 import {DetailedListItem, DetailListInput} from '../../components/detailed-list-item/detailed-list-item.component';
 import {ModuleFooter} from '../../components/module-footer/module-footer.component';
 import {SliderCarousel, SliderCarouselInput} from '../../components/carousels/slider-carousel/slider-carousel.component';
@@ -37,8 +37,8 @@ export class DraftHistoryPage implements OnInit{
   };
   teamId: number;
   isError: boolean = false;
-  constructor(public draftService:DraftHistoryService, public profHeadService:ProfileHeaderService, public params: RouteParams){
-    this.teamId = Number(this.params.params['teamId']);
+  constructor(private draftService:DraftHistoryService, private profHeadService:ProfileHeaderService, private _route: RouteParams){
+    this.teamId = Number(this._route.get['teamId']);
   }
 
   getDraftPage(date, teamId) {

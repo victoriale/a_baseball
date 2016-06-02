@@ -1,5 +1,5 @@
 import {Component, Output, EventEmitter} from '@angular/core';
-import {RouteParams} from '@angular/router-deprecated';
+import {RouteParams} from "@angular/router-deprecated";
 import {Injectable} from '@angular/core';
 
 import {TransactionsListItem, TransactionsListInput} from '../../components/transactions-list-item/transactions-list-item.component';
@@ -32,12 +32,12 @@ export class TransactionsModule{
   footerData: Object;
   footerStyle: any;
   teamId:number;
-  constructor( public params: RouteParams){
-    this.teamId = Number(this.params.get('teamId'));
+  constructor(private _route: RouteParams){
+    this.teamId = Number(this._route.get('teamId'));
     this.footerData = {
       infoDesc: 'Want to see more transactions?',
       text: 'VIEW TRANSACTIONS',
-      url: ['Transactions-page',{teamName:this.params.get('teamName'), teamId:this.teamId}]
+      url: ['Transactions-page',{teamName:this._route.get('teamName'), teamId:this.teamId}]
     };
   }
 

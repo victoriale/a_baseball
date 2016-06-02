@@ -1,7 +1,7 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {CircleImage} from '../../components/images/circle-image';
 import {CircleImageData} from '../../components/images/image-data';
-import {ROUTER_DIRECTIVES} from "@angular/router";
+import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 
 export interface IListOfListsItem {
     url:          string;  // API url for list call

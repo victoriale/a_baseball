@@ -6,10 +6,8 @@ import {ArticleSubComponent} from "../../components/articles/sub-article/sub-art
 import {HeadToHeadComponent} from "../../components/articles/head-to-head-articles/head-to-head-articles.component";
 import {ModuleHeader} from "../../components/module-header/module-header.component";
 import {HeadlineData} from "../../global/global-interface";
-import {GlobalFunctions} from '../../global/global-functions';
 import {HeadlineDataService} from "../../global/global-ai-headline-module-service";
-import {ROUTER_DIRECTIVES} from "@angular/router";
-import {RouteParams} from '@angular/router-deprecated';
+import {RouteParams, ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 import {ModuleHeaderData} from "../../components/module-header/module-header.component";
 import {LoadingComponent} from "../../components/loading/loading.component";
 import {MLBGlobalFunctions} from "../../global/mlb-global-functions";
@@ -62,9 +60,9 @@ export class ArticlesModule implements OnInit {
         iconClass: ""
     };
 
-    constructor(private _params:RouteParams, private _headlineDataService:HeadlineDataService, private _globalFunctions:GlobalFunctions) {
+    constructor(private _route:RouteParams, private _headlineDataService:HeadlineDataService) {
         window.scrollTo(0, 0);
-        this.teamID = _params.get('teamId');
+        this.teamID = _route.get('teamId');
         this.getArticles();
     }
 

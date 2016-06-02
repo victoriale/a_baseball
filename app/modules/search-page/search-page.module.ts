@@ -1,7 +1,7 @@
 import {Component, Input, Output, OnChanges, EventEmitter} from '@angular/core';
 import {NgStyle} from '@angular/common';
 import {BackTabComponent} from '../../components/backtab/backtab.component';
-import {ROUTER_DIRECTIVES, RouteParams} from '@angular/router';
+import {ROUTER_DIRECTIVES, RouteParams} from '@angular/router-deprecated';
 import {Tabs} from '../../components/tabs/tabs.component';
 import {Tab} from '../../components/tabs/tab.component';
 import {Search, SearchInput} from '../../components/search/search.component';

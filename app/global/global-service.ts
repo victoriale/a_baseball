@@ -10,7 +10,7 @@ import {ArticleData} from "./global-interface";
 import {Http, Headers} from '@angular/http';
 import {GlobalFunctions} from './global-functions';
 import {Observable} from "rxjs/Observable";
-import {Router} from "@angular/router";
+import {Router} from "@angular/router-deprecated";
 
 @Injectable()
 

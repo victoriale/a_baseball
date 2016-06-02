@@ -21,8 +21,6 @@ import {RosterService} from '../../services/roster.service';
 import {ProfileHeaderData, ProfileHeaderModule} from '../../modules/profile-header/profile-header.module';
 import {ProfileHeaderService} from '../../services/profile-header.service';
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
-import {GlobalFunctions} from '../../global/global-functions';
-import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
 
 import {FAQModule} from "../../modules/faq/faq.module";
 import {DYKModule} from "../../modules/dyk/dyk.module";
@@ -73,9 +71,7 @@ export class ComponentPage implements OnInit {
     private _standingsService: StandingsService,
     private _profileService: ProfileHeaderService,
     private _playerStatsService: PlayerStatsService,
-    private _comparisonService: ComparisonStatsService,
-    private _globalFunctions: GlobalFunctions,
-    private _mlbFunctions: MLBGlobalFunctions) {
+    private _comparisonService: ComparisonStatsService) {
     //TODO: Pull from URL
     if ( this.pageParams === undefined || this.pageParams === null ) {
       this.pageParams = {

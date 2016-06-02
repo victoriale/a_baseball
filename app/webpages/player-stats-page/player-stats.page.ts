@@ -40,10 +40,10 @@ export class PlayerStatsPage implements OnInit {
   hasError: boolean = false;
   lastUpdatedDateSet:boolean = false;
   
-  constructor(private _params: RouteParams,
+  constructor(private _route: RouteParams,
               private _profileService: ProfileHeaderService,
               private _statsService: PlayerStatsService) {    
-    var teamId = _params.get("teamId");
+    var teamId = _route.get("teamId");
     if ( teamId !== null && teamId !== undefined ) {
       this.pageParams.teamId = Number(teamId);
     }

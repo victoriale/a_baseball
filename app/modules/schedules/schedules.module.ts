@@ -2,7 +2,7 @@ import {Component, Input, Output, OnInit, EventEmitter} from '@angular/core';
 import {ModuleFooter} from '../../components/module-footer/module-footer.component';
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 import {SchedulesComponent} from '../../components/schedules/schedules.component';
-import {RouteParams} from '@angular/router-deprecated';
+import {RouteParams} from "@angular/router-deprecated";
 import {GlobalFunctions} from '../../global/global-functions';
 
 @Component({
@@ -19,7 +19,7 @@ export class SchedulesModule implements OnInit{
     @Output("tabSelected") tabSelectedListener = new EventEmitter();
     footerData:any;
     tabData: any;
-    constructor(private params: RouteParams){
+    constructor(private _route: RouteParams){
 
     }
     modHeadData: ModuleHeaderData;
@@ -30,11 +30,11 @@ export class SchedulesModule implements OnInit{
           hasIcon: false,
           iconClass: '',
         }
-        if(typeof this.params.get('teamId') != 'undefined' && this.params.get('teamId') !== null){
+        if(typeof this._route.get('teamId') != 'undefined' && this._route.get('teamId') !== null){
             this.footerData = {
                 infoDesc: 'Want to see everybody involved in this list?',
                 text: 'VIEW THE LIST',
-                url: ['Schedules-page-team',{teamName:GlobalFunctions.toLowerKebab(this.profHeader.profileName), teamId:this.params.get('teamId'), pageNum:1}]
+                url: ['Schedules-page-team',{teamName:GlobalFunctions.toLowerKebab(this.profHeader.profileName), teamId:this._route.get('teamId'), pageNum:1}]
             };
         }else{
             this.footerData = {

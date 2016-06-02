@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {RouteParams} from '@angular/router-deprecated';
-import {GlobalFunctions} from '../../global/global-functions';
+import {Router, RouteParams} from "@angular/router-deprecated";
 import {GlobalSettings} from "../../global/global-settings";
+import {GlobalFunctions} from "../../global/global-functions";
 import {NavigationData, Link} from '../../global/global-interface';
 import {DirectoryService, DirectoryType, DirectorySearchParams} from '../../services/directory.service';
 import {PagingData, DirectoryProfileItem, DirectoryItems, DirectoryModuleData} from '../../modules/directory/directory.data';
@@ -30,11 +29,11 @@ export class DirectoryPage {
   
   public pageType: DirectoryType;
 
-  constructor(private router: Router, private _params: RouteParams, private _globalFunctions: GlobalFunctions, private _directoryService: DirectoryService) {
-    var page = _params.get("page");
+  constructor(private router: Router, private _route: RouteParams, private _directoryService: DirectoryService) {
+    var page = _route.get("page");
     this.currentPage = Number(page);
     
-    var type = _params.get("type");
+    var type = _route.get("type");
     switch ( type ) {
       case "players": 
         this.pageType = DirectoryType.players;
@@ -49,7 +48,7 @@ export class DirectoryPage {
         break;
     }
     
-    let startsWith = _params.get("startsWith");
+    let startsWith = _route.get("startsWith");
     if ( startsWith !== undefined && startsWith !== null ) {
        this.newlyAdded = startsWith.toLowerCase() === "new";
        this.startsWith = !this.newlyAdded && startsWith.length > 0 ? startsWith[0] : undefined;

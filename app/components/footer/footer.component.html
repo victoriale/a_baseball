@@ -14,14 +14,14 @@
     <h1>Major League Baseball</h1>
     <ul>
         <li class="sortCategory">Team Listings </li>
-        <li *ngFor="#link of teamDirectoryListings; #isLast=last">
+        <li *ngFor="let link of teamDirectoryListings; let isLast=last">
           <a [routerLink]='link.route'>{{link.text}}</a>
           <span *ngIf="!isLast" class="separator">|</span>
         </li>
     </ul>
     <ul>
         <li class="sortCategory">Player Listings </li>
-        <li *ngFor="#link of playerDirectoryListings; #isLast=last">
+        <li *ngFor="let link of playerDirectoryListings; let isLast=last">
           <a [routerLink]='link.route'>{{link.text}}</a>
           <span *ngIf="!isLast" class="separator">|</span>
         </li>
@@ -29,7 +29,7 @@
     <hr /><!--line break-->
     <ul>
       <li>MLB Teams: </li>
-      <li *ngFor="#link of mlbTeamListings">
+      <li *ngFor="let link of mlbTeamListings">
         <a [routerLink]='link.route'>{{link.text}}</a>
         <span class="separator">|</span>
       </li>

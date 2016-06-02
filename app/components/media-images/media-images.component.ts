@@ -3,7 +3,7 @@
  */
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {CircleButton} from "../../components/buttons/circle/circle.button";
-import {ROUTER_DIRECTIVES} from '@angular/router';
+import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 import {PriceFormatPipe} from '../../pipes/price-format.pipe';
 
 declare var jQuery : any;

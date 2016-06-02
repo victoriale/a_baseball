@@ -13,7 +13,7 @@ export class ListOfListsService {
   // private _apiToken: string = 'BApA7KEfj';
   // private _headerName: string = 'X-SNT-TOKEN';
 
-  constructor(public http: Http, public globalFunc: GlobalFunctions){
+  constructor(public http: Http){
   }
 
   //Function to set custom headers

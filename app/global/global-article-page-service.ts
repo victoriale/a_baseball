@@ -1,6 +1,5 @@
 import {Injectable, Injector} from '@angular/core';
-import {Router, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from '@angular/router';
-import {RouteParams, RouteConfig} from '@angular/router-deprecated';
+import {Router, ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 import {HTTP_PROVIDERS, Http, Response, Headers} from "@angular/http";
 import {GlobalFunctions} from './global-functions';
 import {GlobalSettings} from "../global/global-settings";

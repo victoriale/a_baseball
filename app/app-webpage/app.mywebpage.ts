@@ -1,5 +1,5 @@
 import {Component, OnInit, Injector} from '@angular/core';
-import {Router, ROUTER_DIRECTIVES, } from '@angular/router';
+import {Router, ROUTER_DIRECTIVES, } from "@angular/router-deprecated";
 import {RouteParams, RouteData, RouteConfig, RouterOutlet, RouterLink} from '@angular/router-deprecated';
 // import {ListPage} from "../webpages/list-page/list.page";
 // import {ListOfListsPage} from "../webpages/list-of-lists-page/list-of-lists.page";

@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Router, ROUTER_DIRECTIVES} from '@angular/router';
+import {Router, ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 
 export interface TileData {
   buttonText:string;

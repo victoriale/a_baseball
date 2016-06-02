@@ -1,5 +1,5 @@
 import {Component, OnInit, Injector} from '@angular/core';
-import {Router, ROUTER_DIRECTIVES} from '@angular/router';
+import {Router, ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 import {RouteParams, RouteData, RouteConfig, RouterOutlet, RouterLink, AsyncRoute} from '@angular/router-deprecated';
 import {AboutUsPage} from "../webpages/about-us-page/about-us.page";
 import {DirectoryPage} from "../webpages/directory-page/directory.page";
