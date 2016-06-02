@@ -32,7 +32,6 @@ import {HeaderComponent} from "../components/header/header.component";
 
 import {DesignPage} from "../webpages/design-page/design.page";
 import {TransactionsPage} from "../webpages/transactions-page/transactions.page";
-import {DynamicListPage} from "../webpages/dynamic-list-page/dynamic-list.page";
 
 @Component({
     selector: 'my-app',
@@ -190,7 +189,7 @@ import {DynamicListPage} from "../webpages/dynamic-list-page/dynamic-list.page";
         path: '/tables-test',
         name: 'Tables-test-page',
         component: TablesTestPage,
-    },
+    }
 ])
 
 export class AppComponent implements OnInit {

@@ -12,8 +12,8 @@ import {ProfileHeaderService} from '../../services/profile-header.service';
 import {PaginationFooter} from '../../components/pagination-footer/pagination-footer.component';
 import {LoadingComponent} from "../../components/loading/loading.component";
 import {ErrorComponent} from "../../components/error/error.component";
-import {DynamicWidgetCall} from "../../global/global-service";
 import {GlobalFunctions} from "../../global/global-functions";
+import {DynamicWidgetCall} from "../../services/dynamic-list-page.service";
 
 @Component({
     selector: 'list-page',
@@ -40,7 +40,7 @@ export class ListPage implements OnInit{
   tw: string;
   sw: string;
   input: string;
-  dynamicPageNumber: number = 1;
+  pageNumber: any;
 
   constructor(private listService:ListPageService, private profHeadService:ProfileHeaderService, private params: RouteParams, private dynamicWidget: DynamicWidgetCall){
     if(params.params['query'] != null){
@@ -53,6 +53,7 @@ export class ListPage implements OnInit{
       // input always needs to be last item
       let inputArr = query.match(/input-(.*)/);
       this.input = inputArr != null &&  inputArr.length > 1 ? inputArr[1] : null;
+      this.pageNumber = 1;
     }
   }
 
@@ -100,6 +101,7 @@ export class ListPage implements OnInit{
         };
       }
   }
+
   setDynamicPagination(input) {
     var navigationParams = {
       query: this.params.params['query'],
@@ -107,8 +109,8 @@ export class ListPage implements OnInit{
 
     if(this.detailedDataArray == false){
       this.paginationParameters = {
-        index: this.dynamicPageNumber,
-        max: input.pageCount,
+        index: this.pageNumber,
+        max: input.max,
         paginationType: 'page',
         navigationPage: 'Error-page',
         navigationParams: navigationParams,
@@ -116,9 +118,9 @@ export class ListPage implements OnInit{
       };
     }else{
       this.paginationParameters = {
-        index: this.dynamicPageNumber,
-        max: input.pageCount,
-        paginationType: 'page',
+        index: this.pageNumber,
+        max: input.max,
+        paginationType: 'module',
         navigationPage: 'List-page',
         navigationParams: navigationParams,
         indexKey: null
@@ -138,7 +140,6 @@ export class ListPage implements OnInit{
             this.detailedDataArray = list.listData;
           }
           this.setPaginationParams(list.pagination);
-          console.log("list pagination:",list.pagination);
           this.carouselDataArray = list.carData;
         },
         err => {
@@ -175,6 +176,10 @@ export class ListPage implements OnInit{
       );
   }
 
+  newIndex(index){
+    this.pageNumber = index;
+    window.scrollTo(0, 0);
+  }
 
 
   ngOnInit(){
