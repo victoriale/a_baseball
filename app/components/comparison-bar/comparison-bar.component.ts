@@ -37,9 +37,8 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
 
     @Input() comparisonBarInput: ComparisonBarInput;
     @Input() index: number;
-
+    @Input() infoBox: InfoBox;
     public displayData: ComparisonBarInput;
-
     ngOnChanges(event){
         this.displayData = this.configureBar();
     }

@@ -16,9 +16,8 @@ import {MLBPageParameters} from '../../global/global-interface';
 import {SeasonStatsData, PlayerData, SeasonStats} from '../../services/season-stats.service';
 export interface ComparisonTabData {
     tabTitle: string;
-    // seasonId: string;
+    seasonId: string;
     tabData: Array<ComparisonBarInput>;
-    // isActive: boolean;
 }
 
 @Component({
@@ -110,7 +109,8 @@ export class SeasonStatsModule implements OnInit, OnChanges {
             ]
         };
     }
-    constructor(){}
+    constructor() {
+    }
     ngOnInit(){}
     ngOnChanges(){
       if ( this.data && this.tabs ) {
