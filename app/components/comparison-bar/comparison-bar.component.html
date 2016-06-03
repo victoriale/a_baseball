@@ -22,14 +22,14 @@
             </label>
         </div>
         <label class="comparison-bar-capsule-label label-top">
-            <div class="infobox-values" *ngIf="displayData.info">
+            <div class="infobox-values">
               <div class="infobox-display">
                 {{displayData.maxValue}}
-                <i class="fa {{displayData.info}}"></i>
+                <i *ngIf="displayData.info" class="fa {{displayData.info}}"></i>
               </div>
               <!-- TODO -->
               <ul *ngIf="infobox" class="infobox-box">
-                <li class="infobox-list" *ngFor="#infoBox of infoBox;">
+                <li class="infobox-list" *ngFor="let infoBox of infoBox;">
                   <a [routerLink]="infoBox.routerLinkPlayer">
                     <div class="infobox-list-image">
                         <circle-image [data]="infoBox.imageUrl"></circle-image>

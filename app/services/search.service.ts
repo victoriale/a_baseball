@@ -1,6 +1,6 @@
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
-import {Http} from 'angular2/http';
+import {Http} from '@angular/http';
 import {SearchComponentResult, SearchComponentData} from '../components/search/search.component';
 import {SearchPageInput} from '../modules/search-page/search-page.module';
 import {GlobalFunctions} from '../global/global-functions';
@@ -26,14 +26,30 @@ export class SearchService{
             })
             .map(
                 res => res.json()
-            ).map(
+            ).subscribe(
                 data => {
                     this.searchJSON = data;
-                    return data;
                 },
                 err => {
                   console.log('ERROR search results');
                     this.searchJSON = null
+                }
+            )
+    }
+    //Function get search JSON object
+    getSearch(){
+      // console.log(this.searchAPI);
+        return this.http.get(this.searchAPI, {
+
+            })
+            .map(
+                res => res.json()
+            ).map(
+                data => {
+                    return data;
+                },
+                err => {
+                  console.log('ERROR search results');
                 }
             )
     }

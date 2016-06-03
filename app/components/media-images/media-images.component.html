@@ -53,7 +53,7 @@
   </div>
   <div class="sm_images">
     <div class="sm_images-img">
-      <a *ngFor="#sm_images of smallImage">
+      <a *ngFor="let sm_images of smallImage">
         <img id="smImg-{{sm_images.id}}" [ngClass]="{'squareImage-active': sm_images.id == imageCounter}" class="squareImage" src="{{sm_images.image}}" onerror="this.src={{image_url}}" alt="small square images" (click)="changeMain(sm_images.id)"/>
       </a>
     </div>

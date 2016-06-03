@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, Input, Output, EventEmitter, Renderer} from 'angular2/core';
+import {Component, OnInit, OnDestroy, Input, Output, EventEmitter, Renderer} from '@angular/core';
 
 @Component({
   selector: 'sort-dropdown',

@@ -1,6 +1,6 @@
-import {Component, OnInit, OnDestroy} from 'angular2/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {SearchPageModule} from '../../modules/search-page/search-page.module';
-import {RouteParams} from 'angular2/router';
+import {RouteParams} from "@angular/router-deprecated";
 import {SearchService} from '../../services/search.service';
 import {SearchPageInput} from '../../modules/search-page/search-page.module';
 
@@ -20,8 +20,8 @@ export class SearchPage implements OnInit {
 
     public searchPageInput: SearchPageInput;
 
-    constructor(_params: RouteParams, private _searchService: SearchService) {
-        let query = decodeURIComponent(_params.get('query'));
+    constructor(_route: RouteParams, private _searchService: SearchService) {
+        let query = decodeURIComponent(_route.get('query'));
         this.pageParams = {
             query: query
         }
@@ -31,7 +31,7 @@ export class SearchPage implements OnInit {
         let self = this;
         let query = self.pageParams.query;
 
-        self._searchService.getSearchJSON()
+        self._searchService.getSearch()
             .subscribe(
                 data => {
                     self.searchPageInput = self._searchService.getSearchPageData(query, data);

@@ -1,16 +1,12 @@
-import {Pipe, PipeTransform} from 'angular2/core';
+import {Pipe, PipeTransform} from '@angular/core';
 import {GlobalFunctions} from '../global/global-functions';
 
 @Pipe({
-  name: 'priceFormat'
+  name: 'priceFormat',
 })
 
-export class PriceFormatPipe implements PipeTransform {
-  constructor(private globalFunctions: GlobalFunctions) {
-    
-  }
-  
+export class PriceFormatPipe implements PipeTransform {  
   transform(value) : string {
-    return this.globalFunctions.formatPriceNumber(value);
+    return GlobalFunctions.formatPriceNumber(value);
   }
 }

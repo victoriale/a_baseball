@@ -3,7 +3,7 @@
     <!-- TODO if partner then hide the logo -->
     <a href="/"><img src="/app/public/homeRunLoyalLogo_Small.png" /></a>
     <ul>
-        <a href="https://www.facebook.com/sharer/sharer.php?u=" target="_blank"><li id="share-facebook"><i class="fa fa-facebook"></i></li></a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{currentUrl}}" target="_blank"><li id="share-facebook"><i class="fa fa-facebook"></i></li></a>
         <a href="https://twitter.com/home?status={{currentUrl}}" target="_blank"><li id="share-twitter"><i class="fa fa-twitter"></i></li></a>
         <a href="https://www.linkedin.com/shareArticle?mini=true&url={{currentUrl}}" target="_blank"><li id="share-linkedin"><i class="fa fa-linkedin"></i></li></a>
         <a href="https://plus.google.com/share?url={{currentUrl}}" target="_blank"><li id="share-google"> <i class="fa fa-google-plus"></i></li></a>
@@ -14,14 +14,14 @@
     <h1>Major League Baseball</h1>
     <ul>
         <li class="sortCategory">Team Listings </li>
-        <li *ngFor="#link of teamDirectoryListings; #isLast=last">
+        <li *ngFor="let link of teamDirectoryListings; let isLast=last">
           <a [routerLink]='link.route'>{{link.text}}</a>
           <span *ngIf="!isLast" class="separator">|</span>
         </li>
     </ul>
     <ul>
         <li class="sortCategory">Player Listings </li>
-        <li *ngFor="#link of playerDirectoryListings; #isLast=last">
+        <li *ngFor="let link of playerDirectoryListings; let isLast=last">
           <a [routerLink]='link.route'>{{link.text}}</a>
           <span *ngIf="!isLast" class="separator">|</span>
         </li>
@@ -29,7 +29,7 @@
     <hr /><!--line break-->
     <ul>
       <li>MLB Teams: </li>
-      <li *ngFor="#link of mlbTeamListings">
+      <li *ngFor="let link of mlbTeamListings">
         <a [routerLink]='link.route'>{{link.text}}</a>
         <span class="separator">|</span>
       </li>

@@ -1,4 +1,4 @@
-import {Component, OnInit} from 'angular2/core';
+import {Component} from '@angular/core';
 import {ModuleHeader} from '../../components/module-header/module-header.component';
 import {CalendarCarousel} from '../../components/calendar/carousel/calendarCar.component';
 import {Competition} from '../../components/competition/competition.component';

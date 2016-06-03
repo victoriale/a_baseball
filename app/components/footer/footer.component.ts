@@ -1,5 +1,5 @@
-import {Component, OnInit, OnChanges, Input} from 'angular2/core';
-import {Router, ROUTER_DIRECTIVES} from "angular2/router";
+import {Component, OnInit, OnChanges, Input} from '@angular/core';
+import {Router, ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 import {GlobalFunctions} from '../../global/global-functions';
 import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
 import {Link, NavigationData} from '../../global/global-interface';
@@ -13,6 +13,7 @@ import {Link, NavigationData} from '../../global/global-interface';
 })
 export class FooterComponent implements OnInit {
     public pageName: string = "HomeRunLoyal";//TODO
+    public currentUrl: string = window.location.href
     teamDirectoryListings: Array<Link> = []
 
     playerDirectoryListings: Array<Link> = []

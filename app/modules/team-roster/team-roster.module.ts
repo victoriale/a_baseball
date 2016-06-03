@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, OnChanges, Output, EventEmitter} from 'angular2/core';
+import {Component, OnInit, Input, OnChanges, Output, EventEmitter} from '@angular/core';
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer.component';
 import {RosterComponent, RosterTabData} from "../../components/roster/roster.component";
