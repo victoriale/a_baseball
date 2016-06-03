@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, OnChanges, ViewChild, AfterViewChecked} from '@angular/core';
 import {NaValuePipe} from '../../pipes/na.pipe';
-import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
+import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {ImageData, CircleImageData} from '../images/image-data';
 import {CircleImage} from '../images/circle-image';
 

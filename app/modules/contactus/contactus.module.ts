@@ -1,7 +1,7 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {TitleComponent} from '../../components/title/title.component';
-import {FORM_DIRECTIVES, FormBuilder, ControlGroup, Validators, Control} from 'angular2/common';
+import {FORM_DIRECTIVES, FormBuilder, ControlGroup, Validators, Control} from '@angular/common';
 
 @Component({
     selector: 'contactus-module',

@@ -4,7 +4,7 @@
 import {Component, OnInit} from '@angular/core';
 import {WidgetModule} from "../../modules/widget/widget.module";
 import {ContactUsModule} from '../../modules/contactus/contactus.module';
-import {Http} from 'angular2/http';
+import {Http} from '@angular/http';
 import {Observable} from 'rxjs/Rx';
 import {GlobalSettings} from '../../global/global-settings';
 

@@ -104,7 +104,7 @@ export class ListPage implements OnInit{
 
   setDynamicPagination(input) {
     var navigationParams = {
-      query: this.params.params['query'],
+      query: this._route.params['query'],
     };
 
     if(this.detailedDataArray == false){

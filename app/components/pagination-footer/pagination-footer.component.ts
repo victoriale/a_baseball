@@ -1,5 +1,4 @@
-import {Component, Input, Output, OnInit, OnChanges, EventEmitter} from '@angular/core';
-import {ElementRef} from 'angular2/src/core/linker/element_ref';
+import {Component, Input, Output, OnInit, OnChanges, EventEmitter, ElementRef} from '@angular/core';
 import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 declare var jQuery: any;
 
