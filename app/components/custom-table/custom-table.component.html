@@ -17,7 +17,7 @@
       [class.custom-table-row-selected]="model.isRowSelected(row, i)"
       [class.custom-table-row-even]="isEven"
       [class.custom-table-row-odd]="!isEven">
-      <td *ngFor="let hdr of model.columns; let i = index" class="">
+      <td *ngFor="let hdr of model.columns; let i = index">
         <div class="{{hdr.columnClass}} {{bodyClass}}-cell">
           <div *ngIf="i==0" class="highlight-box"></div>
           <a *ngIf="model.hasRouterLinkAt(hdr)" [routerLink]="model.getRouterLinkAt(row, hdr)">
