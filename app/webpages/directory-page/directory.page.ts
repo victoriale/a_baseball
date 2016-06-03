@@ -49,7 +49,7 @@ export class DirectoryPage {
     }
     
     let startsWith = _route.get("startsWith");
-    if ( startsWith !== undefined && startsWith !== null ) {
+    if ( startsWith ) {
        this.newlyAdded = startsWith.toLowerCase() === "new";
        this.startsWith = !this.newlyAdded && startsWith.length > 0 ? startsWith[0] : undefined;
     }
@@ -57,6 +57,8 @@ export class DirectoryPage {
     if ( this.currentPage === 0 ) {
       this.currentPage = 1; //page index starts at one
     }
+    
+    this.getDirectoryData();
 
     // Scroll page to top to fix routerLink bug
     window.scrollTo(0, 0);
@@ -69,7 +71,6 @@ export class DirectoryPage {
       startsWith: this.startsWith,
       newlyAdded: this.newlyAdded
     }
-        
     this._directoryService.getData(this.pageType, params)
       .subscribe(
           data => this.setupData(data),

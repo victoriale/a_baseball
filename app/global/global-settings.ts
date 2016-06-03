@@ -52,17 +52,17 @@ export class GlobalSettings {
     }
     
     static getPartnerId(router: Router, setPartnerId: Function) {        
-        // router.root
-        //     .subscribe(
-        //         route => {
-        //             var routeValues = route.split('/');
-        //             if (routeValues[0] == '') {
-        //                 setPartnerId(null);
-        //             } else {
-        //                 setPartnerId(routeValues[0]);
-        //             }
-        //         }
-        //     )//end of route subscribe
+        router.root
+            .subscribe(
+                route => {
+                    var routeValues = route.split('/');
+                    if (routeValues[0] == '') {
+                        setPartnerId(null);
+                    } else {
+                        setPartnerId(routeValues[0]);
+                    }
+                }
+            )//end of route subscribe
     }
 
 }

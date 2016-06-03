@@ -50,10 +50,10 @@ export class SchedulesPage implements OnInit{
   }
 
   private getSchedulesData(status){
-    var teamId = this._route.get['teamId']; //determines to call league page or team page for schedules-table
-    var pageNum = this._route.get['pageNum'];
+    var teamId = this._route.get('teamId'); //determines to call league page or team page for schedules-table
+    var pageNum = this._route.get('pageNum');
 
-    if(typeof teamId != 'undefined'){
+    if(teamId){
       this.profHeadService.getTeamProfile(Number(teamId))
       .subscribe(
           data => {
@@ -91,7 +91,8 @@ export class SchedulesPage implements OnInit{
           this.setPaginationParams(data.pageInfo);
         },
         err => {
-          console.log("Error getting Schedules Data");
+          this.isError= true;
+          console.log("Error getting team Schedules Data", err);
         }
       )
     }else{
@@ -107,7 +108,7 @@ export class SchedulesPage implements OnInit{
           },
           err => {
             this.isError= true;
-              console.log('Error: Schedules Profile Header API: ', err);
+            console.log('Error: Schedules Profile Header API: ', err);
               // this.isError = true;
           }
       );
@@ -121,7 +122,8 @@ export class SchedulesPage implements OnInit{
           this.setPaginationParams(data.pageInfo);
         },
         err => {
-          console.log("Error getting Schedules Data");
+          this.isError= true;
+          console.log("Error getting league Schedules Data", err);
         }
       )
     }
