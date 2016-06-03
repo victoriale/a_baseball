@@ -32,7 +32,12 @@ export interface SearchPageInput {
             urlText: string;
             description: string;
         }>;
-        errorMsg:string;//read as innerHTML
+        error:{
+          message:string;
+          icon:string;
+        };
+        pageMax:any;
+        totalResults:any;
         paginationParameters: PaginationParameters;
     }>
 }
@@ -47,15 +52,18 @@ export interface SearchPageInput {
 export class SearchPageModule implements OnChanges{
     @Input() searchPageInput: SearchPageInput;
     pageNumber:any;
-    constructor(public Route:RouteParams){
-      if(typeof this.Route.params['pageNum'] != 'undefined'){
-        this.pageNumber = this.Route.params['pageNum'];
+    showResults:any;
+    currentShowing:any;
+    constructor(private _route:RouteParams){
+      if(typeof this._route.params['pageNum'] != 'undefined'){
+        this.pageNumber = this._route.params['pageNum'];
       }else{
         this.pageNumber = 1;// if nothing is in route params then default to first piece of obj array
       }
     }
     ngOnChanges(){
         this.configureSearchPageModule();
+        this.getShowResults(this.searchPageInput);
     }
 
     configureSearchPageModule(){
@@ -65,9 +73,34 @@ export class SearchPageModule implements OnChanges{
     newIndex(index){
         this.pageNumber = index;
         window.scrollTo(0,0);
+        this.getShowResults(this.searchPageInput);
+    }
+
+    getShowResults(data){
+      let self = this;
+      data.tabData.forEach(function(val,index){
+        if(val.isTabDefault){//Optimize
+          var currentTotal = (val.pageMax * (self.pageNumber - 1));
+          if(val.results.length > 0){
+            self.currentShowing = Number(currentTotal) + ' - ' + (Number(currentTotal) + Number(val.results[self.pageNumber - 1].length));
+          }else{
+            self.currentShowing = '0 - 0';
+
+          }
+          self.showResults = val.totalResults;
+        }
+      })
     }
 
     tabSelected(event){
       this.pageNumber = 1;
+      this.searchPageInput.tabData.forEach(function(val,index){
+        if(val.tabName == event){//Optimize
+          val.isTabDefault = true;
+        }else{
+          val.isTabDefault = false;
+        }
+      })
+      this.getShowResults(this.searchPageInput);
     }
 }
