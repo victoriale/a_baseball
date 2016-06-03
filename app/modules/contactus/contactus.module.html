@@ -4,7 +4,7 @@
     <div class="contactus-container">
         <div class="contactus-required"><span class="text-master">*</span> All fields are required</div>
         <!-- Contact Us Form -->
-        <form #f="ngForm" (ngSubmit)="formSubmit(f.value)">
+        <form *ngIf="active" #f="ngForm" (ngSubmit)="formSubmit(f.value)">
 
             <!-- Full Name Text Input -->
             <div class="row contactus-margin contactus-row-align">
@@ -55,7 +55,7 @@
             </div>
 
             <div class="contactus-buttons">
-                <button class="contactus-buttons-submit">
+                <button class="contactus-buttons-submit" [disabled]="!f.form.valid">
                     Submit <i class="fa fa-angle-right"></i>
                 </button>
                 <input class="contactus-buttons-reset" type="reset" value="RESET" />

@@ -20,6 +20,7 @@ import {ModulePage} from "../webpages/module-page/module.page";
 import {ListPage} from "../webpages/list-page/list.page";
 import {SchedulesPage} from "../webpages/schedules-page/schedules.page";
 import {DraftHistoryPage} from "../webpages/draft-history-page/draft-history.page";
+import {SeasonStatsPage} from "../webpages/season-stats-page/season-stats.page";
 import {StandingsPage} from "../webpages/standings-page/standings.page";
 import {AsyncRoute} from "angular2/router";
 import {ArticleDataService} from "../global/global-article-page-service";
@@ -38,7 +39,7 @@ import {TransactionsPage} from "../webpages/transactions-page/transactions.page"
     templateUrl: './app/app-webpage/app.webpage.html',
     directives: [StandingsPage, SchedulesPage, HeaderComponent, FooterComponent, TeamRosterPage, DraftHistoryPage, ListPage, HomePage, TeamPage, PlayerPage, DirectoryPage,
         AboutUsPage, ContactUsPage, DisclaimerPage, SearchPage, ComponentPage,
-        ModulePage, RouterOutlet, ROUTER_DIRECTIVES, PlayerStatsPage, MLBPage],
+        ModulePage, RouterOutlet, ROUTER_DIRECTIVES, PlayerStatsPage, MLBPage, SeasonStatsPage],
     providers: [ ROUTER_DIRECTIVES, ArticleDataService, HeadlineDataService],
 })
 
@@ -115,6 +116,11 @@ import {TransactionsPage} from "../webpages/transactions-page/transactions.page"
         component: StandingsPage
     },
     {
+        path: '/list/:query',
+        name: 'Dynamic-list-page',
+        component: ListPage
+    },
+    {
         path: '/list/:profile/:listname/:sort/:conference/:division/:limit/:pageNum',
         name: 'List-page',
         component: ListPage
@@ -133,6 +139,11 @@ import {TransactionsPage} from "../webpages/transactions-page/transactions.page"
         path: '/team-roster/:teamName/:teamId',
         name: 'Team-roster-page',
         component: TeamRosterPage
+    },
+    {
+        path: '/season-stats/:teamName/:teamId',
+        name: 'Season-stats-page',
+        component: SeasonStatsPage
     },
     {
         path: '/player-stats/:teamName/:teamId',
@@ -184,7 +195,7 @@ import {TransactionsPage} from "../webpages/transactions-page/transactions.page"
         path: '/tables-test',
         name: 'Tables-test-page',
         component: TablesTestPage,
-    },
+    }
 ])
 
 export class AppComponent implements OnInit {

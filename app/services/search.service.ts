@@ -10,10 +10,8 @@ declare let Fuse: any;
 
 @Injectable()
 export class SearchService{
-    public searchJSON: any = {
-        players: [],
-        teams: []
-    };
+    public pageMax: number = 10;
+    public searchJSON: any;
     public searchAPI: string = GlobalSettings.getApiUrl() + '/landingPage/search';
     constructor(private http: Http){
         //Get initial search JSON data
@@ -22,6 +20,7 @@ export class SearchService{
 
     //Function get search JSON object
     getSearchJSON(){
+      // console.log(this.searchAPI);
         return this.http.get(this.searchAPI, {
 
             })
@@ -32,10 +31,25 @@ export class SearchService{
                     this.searchJSON = data;
                 },
                 err => {
-                    this.searchJSON = {
-                        players: [],
-                        teams: []
-                    }
+                  console.log('ERROR search results');
+                    this.searchJSON = null
+                }
+            )
+    }
+    //Function get search JSON object
+    getSearch(){
+      // console.log(this.searchAPI);
+        return this.http.get(this.searchAPI, {
+
+            })
+            .map(
+                res => res.json()
+            ).map(
+                data => {
+                    return data;
+                },
+                err => {
+                  console.log('ERROR search results');
                 }
             )
     }
@@ -135,20 +149,21 @@ export class SearchService{
      * Functions for search page
      */
 
-    getSearchPageData(query: string){
-        let data = this.searchJSON;
-
+    getSearchPageData(query: string, data){
+        // let data = this.searchJSON;
         //Search for players and teams
         let playerResults = this.searchPlayers(query, data.players);
         let teamResults = this.searchTeams(query, data.teams);
 
         let searchResults = this.resultsToTabs(query, playerResults, teamResults);
 
-        return Observable.of(searchResults);
+        return searchResults;
     }
 
     //Convert players and teams to tabs format
     resultsToTabs(query, playerResults, teamResults){
+      // console.log('results to Tabs', playerResults, teamResults);
+      let self = this;
         let searchPageInput: SearchPageInput = {
             searchComponent : {
                 placeholderText: 'Search for a player or team...',
@@ -159,30 +174,33 @@ export class SearchService{
             headerText: 'Discover The Latest In Baseball',
             subHeaderText: 'Find the Players and Teams you love.',
             query: query,
-            paginationPageLimit: 25,
             tabData: [
                 {
                     tabName: 'Player (' + playerResults.length + ')',
-                    isTabDefault: true,
+                    isTabDefault: playerResults.length >= teamResults.length ? true : false,
                     results: [],
                     paginationParameters: {
                         index: 1,
-                        max: 2,
+                        max: 10,//default value will get changed in next function
                         paginationType: 'module'
                     }
                 },
                 {
                     tabName: 'Team (' + teamResults.length + ')',
-                    isTabDefault: false,
+                    isTabDefault: teamResults.length > playerResults.length ? true : false,
                     results: [],
                     paginationParameters: {
                         index: 1,
-                        max: 2,
+                        max: 10,//default value will get changed in next function
                         paginationType: 'module'
                     }
                 }
             ]
         };
+
+        let setTabDefault = searchPageInput.tabData
+        var objCounter = 0;
+        var objData1 = [];
 
         playerResults.forEach(function(item){
             let playerName = item.playerName;
@@ -193,13 +211,31 @@ export class SearchService{
             let regExp = new RegExp(playerName, 'g');
             let description = item.playerDescription.replace(regExp, ('<span class="text-heavy">' + playerName + '</span>'));
 
-            searchPageInput.tabData[0].results.push({
-                title: title,
-                urlText: urlText,
-                url: url,
-                description: description
-            })
+            if(typeof objData1[objCounter] == 'undefined' || objData1[objCounter] === null){//create paginated objData.  if objData array does not exist then create new obj array
+              objData1[objCounter] = [];
+              objData1[objCounter].push({
+                  title: title,
+                  urlText: urlText,
+                  url: url,
+                  description: description
+              })
+            }else{// otherwise push in data
+              objData1[objCounter].push({
+                  title: title,
+                  urlText: urlText,
+                  url: url,
+                  description: description
+              })
+              if(objData1[objCounter].length >= self.pageMax){// increment the objCounter to go to next array
+                objCounter++;
+              }
+            }
         });
+        searchPageInput.tabData[0].results = objData1;
+        searchPageInput.tabData[0].paginationParameters.max = searchPageInput.tabData[0].results.length;
+
+        var objCounter = 0;
+        var objData2 = [];
 
         teamResults.forEach(function(item){
             let teamName = item.teamName;
@@ -210,13 +246,28 @@ export class SearchService{
             let regExp = new RegExp(teamName, 'g');
             let description = item.teamDescription.replace(regExp, ('<span class="text-heavy">' + teamName + '</span>'));
 
-            searchPageInput.tabData[1].results.push({
-                title: title,
-                urlText: urlText,
-                url: url,
-                description: description
-            })
+            if(typeof objData2[objCounter] == 'undefined' || objData2[objCounter] === null){//create paginated objData.  if objData array does not exist then create new obj array
+              objData2[objCounter] = [];
+              objData2[objCounter].push({
+                  title: title,
+                  urlText: urlText,
+                  url: url,
+                  description: description
+              })
+            }else{// otherwise push in data
+              objData2[objCounter].push({
+                  title: title,
+                  urlText: urlText,
+                  url: url,
+                  description: description
+              })
+              if(objData2[objCounter].length >= self.pageMax){// increment the objCounter to go to next array
+                objCounter++;
+              }
+            }
         });
+        searchPageInput.tabData[1].results = objData2;
+        searchPageInput.tabData[1].paginationParameters.max = searchPageInput.tabData[1].results.length;
 
         return searchPageInput;
     }

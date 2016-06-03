@@ -1,4 +1,4 @@
-<section class="search-page-container">
+<section class="search-page-container" *ngIf="searchPageInput">
     <!-- Back Tab Component -->
     <backtab-component></backtab-component>
     <!-- Hero Search Component -->
@@ -16,10 +16,9 @@
     <!-- Tabs Component -->
     <tabs (tabSelected)="tabSelected($event)">
         <tab *ngFor="#outerItem of searchPageInput.tabData; #i = index" [tabTitle]="outerItem.tabName" [active]="outerItem.isTabDefault">
-
             <!-- Results -->
             <ul class="search-page-results">
-                <li *ngFor="#innerItem of outerItem.results" class="search-page-results-item">
+                <li *ngFor="#innerItem of outerItem.results[pageNumber-1]" class="search-page-results-item">
                     <span class="search-page-results-item-title" [innerHtml]="innerItem.title"></span>
                     <a class="search-page-results-item-link" [routerLink]="innerItem.url" [innerHtml]="innerItem.urlText"></a><br>
                     <span class="search-page-results-item-description" [innerHtml]="innerItem.description"></span>
@@ -31,8 +30,7 @@
                     <span class="text-heavy">{{searchPageInput.query}}</span>
                 </li>
             </ul>
-
-            <pagination-footer *ngIf="outerItem.paginationParameters" [paginationParameters]="outerItem.paginationParameters" (newIndex)="newIndex($event, i)"></pagination-footer>
+            <pagination-footer *ngIf="outerItem.paginationParameters" [paginationParameters]="outerItem.paginationParameters" (newIndex)="newIndex($event)"></pagination-footer>
         </tab>
     </tabs>
 

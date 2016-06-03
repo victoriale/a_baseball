@@ -1,7 +1,7 @@
-import {Component, Input, Output, EventEmitter} from 'angular2/core';
+import {Component, Input, Output, OnChanges, EventEmitter} from 'angular2/core';
 import {NgStyle} from 'angular2/common';
 import {BackTabComponent} from '../../components/backtab/backtab.component';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
+import {ROUTER_DIRECTIVES, RouteParams} from 'angular2/router';
 import {Tabs} from '../../components/tabs/tabs.component';
 import {Tab} from '../../components/tabs/tab.component';
 import {Search, SearchInput} from '../../components/search/search.component';
@@ -18,8 +18,6 @@ export interface SearchPageInput {
     subHeaderText: string;
     //Query string of the search
     query: string;
-    //Amount of items displayed per page
-    paginationPageLimit: number;
     //Tab data
     tabData: Array<{
         //Name of Tab
@@ -44,24 +42,30 @@ export interface SearchPageInput {
     providers: [NgStyle]
 })
 
-export class SearchPageModule{
+export class SearchPageModule implements OnChanges{
     @Input() searchPageInput: SearchPageInput;
-
-    ngOnInit(){
+    pageNumber:any;
+    constructor(public Route:RouteParams){
+      if(typeof this.Route.params['pageNum'] != 'undefined'){
+        this.pageNumber = this.Route.params['pageNum'];
+      }else{
+        this.pageNumber = 1;// if nothing is in route params then default to first piece of obj array
+      }
+    }
+    ngOnChanges(){
         this.configureSearchPageModule();
     }
 
     configureSearchPageModule(){
         let input = this.searchPageInput;
-        let paginationPageLimit = input.paginationPageLimit;
-
     }
 
-    newIndex(index, tabIndex){
-        console.log('search', index, tabIndex);
+    newIndex(index){
+        this.pageNumber = index;
+        window.scrollTo(0,0);
     }
 
     tabSelected(event){
-        console.log('Tab Selected', event);
+      this.pageNumber = 1;
     }
 }

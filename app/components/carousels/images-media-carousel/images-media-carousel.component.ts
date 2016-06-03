@@ -49,8 +49,10 @@ export class ImagesMedia implements OnInit {
     modalExpand() {
         if (this.expand == true) {
             this.expand = false;
+            jQuery("body").css({"overflow": "auto", "pointer-events": "auto"});
         } else {
             this.expand = true;
+            jQuery("body").css({"overflow": "hidden", "pointer-events": "none"});
         }
         return this.expand;
     }

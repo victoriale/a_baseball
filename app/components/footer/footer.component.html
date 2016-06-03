@@ -3,7 +3,7 @@
     <!-- TODO if partner then hide the logo -->
     <a href="/"><img src="/app/public/homeRunLoyalLogo_Small.png" /></a>
     <ul>
-        <a href="https://www.facebook.com/sharer/sharer.php?u={{currentUrl}}" target="_blank"><li id="share-facebook"><i class="fa fa-facebook"></i></li></a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=" target="_blank"><li id="share-facebook"><i class="fa fa-facebook"></i></li></a>
         <a href="https://twitter.com/home?status={{currentUrl}}" target="_blank"><li id="share-twitter"><i class="fa fa-twitter"></i></li></a>
         <a href="https://www.linkedin.com/shareArticle?mini=true&url={{currentUrl}}" target="_blank"><li id="share-linkedin"><i class="fa fa-linkedin"></i></li></a>
         <a href="https://plus.google.com/share?url={{currentUrl}}" target="_blank"><li id="share-google"> <i class="fa fa-google-plus"></i></li></a>
@@ -33,14 +33,14 @@
         <a [routerLink]='link.route'>{{link.text}}</a>
         <span class="separator">|</span>
       </li>
-      <li class="footer-text1"><a [routerLink]="['Disclaimer-page']">View All MLB Profiles</a> <i class="fa fa-caret-right"></i></li>
+      <li class="footer-text1"><a [routerLink]="['Directory-page-starts-with', { type: 'teams', startsWith: 'A', page: 1 }]">View All MLB Profiles</a> <i class="fa fa-caret-right"></i></li>
     </ul>
     <hr /><!--line break-->
     <ul class="footer-text1" id="set-width70">
       <li>You Might Like: </li>
-      <li><a [routerLink]="['List-page', {profile:'team', listname: 'batter-home-runs', sort:'desc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]"><b>Teams with the most home runs</b></a> <i class="fa fa-caret-right"></i></li>
-      <li><a [routerLink]="['List-page', {profile:'player', listname: 'batter-bases-on-balls', sort:'desc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]"><b>Batters with the most bases on balls received</b></a> <i class="fa fa-caret-right"></i></li>
-      <li><a [routerLink]="['List-page', {profile:'player', listname: 'pitcher-strikeouts', sort:'desc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]"><b>Pitchers with the most strikeouts thrown</b></a></li>
+      <li><a [routerLink]="['List-page', {profile:'team', listname: 'batter-home-runs', sort:'asc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]"><b>Teams with the most home runs</b></a> <i class="fa fa-caret-right"></i></li>
+      <li><a [routerLink]="['List-page', {profile:'player', listname: 'batter-bases-on-balls', sort:'asc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]"><b>Batters with the most bases on balls received</b></a> <i class="fa fa-caret-right"></i></li>
+      <li><a [routerLink]="['List-page', {profile:'player', listname: 'pitcher-strikeouts', sort:'asc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]"><b>Pitchers with the most strikeouts thrown</b></a></li>
     </ul>
     <hr /><!--line break-->
     <ul>

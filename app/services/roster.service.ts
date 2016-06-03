@@ -50,7 +50,7 @@ export class RosterService {
         err => {
           rosterTab.isLoaded = true;
           rosterTab.hasError = true;
-          console.log("Error getting roster data: " + err);
+          console.log("Error getting roster data", err);
         });
     }
   }//getRosterService ends

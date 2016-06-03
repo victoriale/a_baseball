@@ -14,7 +14,7 @@
             ...
         </span>
         <!-- Button Array -->
-        <button *ngFor="#item of paginationButtonsModule" (click)="indexClick($event)" class="pagination-button-circle" [ngClass]="{active: paginationParameters.index == item}">
+        <button *ngFor="#item of paginationButtonsModule" (click)="indexClick($event)" class="pagination-button-circle" [ngClass]="{active: paginationParameters.index == item && item !== 1 && item !== paginationParameters.max}">
             {{item}}
         </button>
         <!-- Maximum Button -->
