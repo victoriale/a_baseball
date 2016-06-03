@@ -57,7 +57,6 @@ export class HomePage implements OnInit {
          hasSuggestions: true
      };
     constructor(private _landingPageService: LandingPageService) {
-      console.log("setting up home page");
       this.getData();
       this.getListData();
     }
