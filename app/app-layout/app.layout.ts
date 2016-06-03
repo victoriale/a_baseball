@@ -10,19 +10,11 @@ import {RouteConfig, ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 })
 
 @RouteConfig([
-    { path: '/', component: AppComponent },
-    { path: '/...', component: AppComponent },
-    // {
-    //    path: '/...',
-    //    name: 'Webpages',
-    //    component: MyAppComponent,
-    //    useAsDefault: true
-    // }
+    { path: '/...', name: "Layout", component: AppComponent }
 ])
 
 export class WebApp {
     constructor() {
-        console.log("setting up WebApp");
-        document.title = "Home Run Loyal dd";
+        document.title = "Home Run Loyal";
     }
 }

@@ -41,8 +41,7 @@
         };
     </script>
     <!-- 2. Configure SystemJS -->
-    <script type="text/javascript">    
-      console.log("configuring system js");
+    <script type="text/javascript">
       System.config({
         packages: {
           "app"                              : {format: "register", defaultExtension: "js"},
@@ -66,7 +65,6 @@
           "rxjs"                             : "lib"
         }
       });
-      console.log("system config setup");
       </script>
     <script>
       System.import('app/main')

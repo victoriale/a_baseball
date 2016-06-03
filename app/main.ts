@@ -1,3 +1,5 @@
+///<reference path="../typings/index.d.ts"/>
+
 import {bootstrap} from '@angular/platform-browser-dynamic';
 import {ROUTER_PROVIDERS, ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 import {AppDomain} from './app-domain/app.domain';
