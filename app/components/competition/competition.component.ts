@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from 'angular2/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {CircleImage} from '../../components/images/circle-image';
 import {CircleImageData} from '../../components/images/image-data';
 

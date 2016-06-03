@@ -1,4 +1,5 @@
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
+import {Router} from "@angular/router-deprecated";
 
 @Injectable()
 
@@ -48,6 +49,20 @@ export class GlobalSettings {
     static getNewsUrl():string {
         //[https:]//[prod]-homerunloyal-api.synapsys.us
         return this._proto + "//" + this._newsUrl;
+    }
+    
+    static getPartnerId(router: Router, setPartnerId: Function) {        
+        router.root
+            .subscribe(
+                route => {
+                    var routeValues = route.split('/');
+                    if (routeValues[0] == '') {
+                        setPartnerId(null);
+                    } else {
+                        setPartnerId(routeValues[0]);
+                    }
+                }
+            )//end of route subscribe
     }
 
 }

@@ -7,7 +7,7 @@
         <div class="share-main-content">
             <div class="share-main-content-text">{{shareText}}</div>
             <div class="share-main-content-buttons">
-                <a *ngFor="#item of shareButtons" href="{{item.url}}" class="share-main-content-buttons-item {{item.class}}" target="_blank">
+                <a *ngFor="let item of shareButtons" href="{{item.url}}" class="share-main-content-buttons-item {{item.class}}" target="_blank">
                     <span><i class='fa {{item.icon}}'></i></span>
                     <span>{{item.text}}</span>
                 </a>

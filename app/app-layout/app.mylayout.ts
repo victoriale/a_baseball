@@ -1,25 +1,19 @@
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 import {MyAppComponent} from "../app-webpage/app.mywebpage";
-
-import {RouteParams, Router, RouteData, RouteConfig, RouterOutlet, ROUTER_DIRECTIVES, LocationStrategy} from 'angular2/router';
+import {AppComponent} from "../app-webpage/app.webpage";
+import {RouteConfig} from "@angular/router-deprecated";
 
 @Component({
     selector: 'web-app',
-    templateUrl: './app/app-layout/app.layout.html',
-
-    directives: [MyAppComponent,RouterOutlet, ROUTER_DIRECTIVES],
-    providers: [],
+    templateUrl: './app/app-layout/app.layout.html'
 })
 
 @RouteConfig([
-    {
-       path: '/...',
-       name: 'Webpages',
-       component: MyAppComponent,
-       useAsDefault: true
-    }
+    { path: '/...', name: "Layout", component: MyAppComponent }
 ])
 
 export class MyWebApp {
-
+    constructor(){
+        document.title = "Home Run Loyal";
+    }
 }

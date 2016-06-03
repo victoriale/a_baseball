@@ -1,5 +1,5 @@
-import {Component, OnInit, Input} from 'angular2/core';
-import {RouteParams} from "angular2/router";
+import {Component, OnInit, Input} from '@angular/core';
+import {RouteParams} from "@angular/router-deprecated";
 import {BackTabComponent} from "../../components/backtab/backtab.component";
 import {TitleComponent, TitleInputData} from "../../components/title/title.component";
 import {CircleImageData} from "../../components/images/image-data";
@@ -40,10 +40,10 @@ export class PlayerStatsPage implements OnInit {
   hasError: boolean = false;
   lastUpdatedDateSet:boolean = false;
   
-  constructor(private _params: RouteParams,
+  constructor(private _route: RouteParams,
               private _profileService: ProfileHeaderService,
               private _statsService: PlayerStatsService) {    
-    var teamId = _params.get("teamId");
+    var teamId = _route.get("teamId");
     if ( teamId !== null && teamId !== undefined ) {
       this.pageParams.teamId = Number(teamId);
     }

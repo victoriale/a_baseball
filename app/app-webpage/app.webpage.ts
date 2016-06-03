@@ -1,5 +1,6 @@
-import {Component, OnInit, Injector} from 'angular2/core';
-import {RouteParams, Router, RouteData, RouteConfig, RouterOutlet, ROUTER_DIRECTIVES, LocationStrategy, RouterLink} from 'angular2/router';
+import {Component, OnInit, Injector} from '@angular/core';
+import {Router, ROUTER_DIRECTIVES} from "@angular/router-deprecated";
+import {RouteParams, RouteData, RouteConfig, RouterOutlet, RouterLink, AsyncRoute} from '@angular/router-deprecated';
 import {AboutUsPage} from "../webpages/about-us-page/about-us.page";
 import {DirectoryPage} from "../webpages/directory-page/directory.page";
 import {ContactUsPage} from "../webpages/contactus-page/contactus.page";
@@ -22,7 +23,6 @@ import {SchedulesPage} from "../webpages/schedules-page/schedules.page";
 import {DraftHistoryPage} from "../webpages/draft-history-page/draft-history.page";
 import {SeasonStatsPage} from "../webpages/season-stats-page/season-stats.page";
 import {StandingsPage} from "../webpages/standings-page/standings.page";
-import {AsyncRoute} from "angular2/router";
 import {ArticleDataService} from "../global/global-article-page-service";
 import {HeadlineDataService} from "../global/global-ai-headline-module-service";
 import {ArticlePages} from "../webpages/article-pages/article-pages.page";
