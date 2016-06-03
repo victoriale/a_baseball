@@ -1,5 +1,4 @@
-import {Component, OnInit, Output, EventEmitter} from '@angular/core';
-import {Injectable} from '@angular/core';
+import {Component, OnInit, Output, EventEmitter, Injectable} from '@angular/core';
 
 import {DetailedListItem, DetailListInput} from '../../components/detailed-list-item/detailed-list-item.component';
 import {ModuleFooter} from '../../components/module-footer/module-footer.component';
