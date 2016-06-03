@@ -254,6 +254,29 @@ export class ProfileHeaderService {
         });
   }
 
+  convertTransactionsPageHeader(data: TeamProfileData, pageName?:string) {
+    var stats = data.headerData.stats;
+
+    if (!stats) {
+      return null;
+    }
+    if(typeof pageName == 'undefined'){
+      pageName = '';
+    }
+    var headerData = {
+      data:{
+        imageURL: data.fullProfileImageUrl, //TODO
+        text1: 'Last Updated:' + moment(data.headerData.lastUpdated).format('dddd MMMM Do, YYYY'), //TODO
+        text2: 'United States',
+        text3: " - " + stats.teamName,
+        icon: 'fa fa-map-marker',
+        hasHover : true,
+      },
+      error: "Sorry, the " + stats.teamName + " do not currently have any data for the " + stats.seasonId + " " + pageName
+    }
+    return headerData;
+  }
+
   convertTeamPageHeader(data: TeamProfileData, pageName?:string) {
     var description = data.headerData.description;
     var stats = data.headerData.stats;

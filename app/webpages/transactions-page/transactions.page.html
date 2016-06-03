@@ -8,9 +8,14 @@
     <tabs *ngIf="dataArray" (tabSelected)='selectedTab($event)'>
       <tab *ngFor="#data of dataArray; #i = index" [active]="i == 0" [tabTitle]="data.tabDisplay">
         <div class="tab-inset"> <!-- due to tab having a default value of padding 1em for tab purposes so we just reverse it with margin -->
+          <div class="stats-table-title">
+            <p class="stats-season-dropdown">
+              Sorted By: <dropdown [list]="data.sortOptions" [selectedKey]="data.selectedSort" (selectionChanged)="dropdownChanged($event)"></dropdown>
+            </p>
+          </div>
           <transactions-list-item *ngIf="transactionsDataArray" [transactionsItemData] = 'transactionsDataArray'></transactions-list-item>
-          <!--<detailed-list-item *ngIf="detailedDataArray" [detailedItemData] = 'detailedDataArray'></detailed-list-item>-->
-          <no-data-box *ngIf="!detailedDataArray" [data]="errorData.data" [icon]="errorData.icon"></no-data-box>
+          <!--<detailed-list-item *ngIf="transactionsDataArray" [detailedItemData] = 'transactionsDataArray'></detailed-list-item>-->
+          <no-data-box *ngIf="!transactionsDataArray" [data]="errorData.data" [icon]="errorData.icon"></no-data-box>
         </div>
       </tab>
     </tabs>

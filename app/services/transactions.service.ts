@@ -35,6 +35,7 @@ export class TransactionsService {
     {
       tabData     : 'transactions',
       tabDisplay  : 'Transactions'
+      sortOptions : { key: "Most Recent", value: "1"}
     },
     {
       tabData     : 'suspensions',
@@ -111,13 +112,13 @@ export class TransactionsService {
             '<p class="font-10 fw-400 lh-25">Last Updated on '+ moment(val.lastUpdate).format('dddd, MMMM DD, YYYY') +'</p>'
           ],
         };
-        if(type == 'page'){
-          Carousel['footerInfo'] = {
-            infoDesc:'Interested in discovering more about this player?',
-            text:'VIEW PROFILE',
-            url:MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val['personId']),
-          }
-        }
+        //if(type == 'page'){
+        //  Carousel['footerInfo'] = {
+        //    infoDesc:'Interested in discovering more about this player?',
+        //    text:'VIEW PROFILE',
+        //    url:MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val['personId'])
+        //  }
+        //}
         carouselArray.push(Carousel);
       });
     }
