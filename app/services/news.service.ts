@@ -4,7 +4,7 @@ import {Http, Headers} from 'angular2/http';
 import {GlobalFunctions} from '../global/global-functions';
 import {Conference, Division, MLBPageParameters} from '../global/global-interface';
 import {GlobalSettings} from '../global/global-settings';
-
+declare var moment: any;
 @Injectable()
 export class NewsService {
   private _apiUrl: string = GlobalSettings.getNewsUrl();
@@ -60,7 +60,7 @@ export class NewsService {
         description: val.description,
         newsUrl: val.link,
         author: "Author", //TODO
-        published: "Published Date",//TODO
+        published: moment.unix(val.pubDate_ut).format('dddd MMMM Do, YYYY'),//convert unix time to readable
         footerData: {
           infoDesc: 'Want to check out the full story?',
           text: 'READ THE ARTICLE',

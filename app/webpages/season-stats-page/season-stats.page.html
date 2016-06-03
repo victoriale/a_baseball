@@ -1,0 +1,7 @@
+<section class='module-container'>
+    <loading-component *ngIf="!tabs && !hasError"></loading-component>
+    <error-component *ngIf="hasError"></error-component>
+    <backtab-component></backtab-component>
+    <title-component *ngIf="titleData" [titleData]="titleData"></title-component>
+    <season-stats-component *ngIf="tabs" [tabs]="tabs" (tabSelected)="seasonStatsTabSelected($event)"></season-stats-component>
+</section>

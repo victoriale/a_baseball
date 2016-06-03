@@ -11,8 +11,7 @@ import {ScrollerFunctions} from '../../global/scroller-functions';
   providers: [BrowserDomAdapter]
 })
 
-export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {  
-  public isDropdownVisible: boolean = false;  
+export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit { 
   public isDropdownEnabled: boolean = true;
   
   @Input() list: Array<{key: string, value: string}>;

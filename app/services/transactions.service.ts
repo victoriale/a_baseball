@@ -25,9 +25,11 @@ export class TransactionsService {
       return headers;
   }
 
-  getTransactionsService(year, teamId, type?){
+  getTransactionsService(year, teamId, type?, limit?, page?){
   //Configure HTTP Headers
   var headers = this.setToken();
+  if( limit == null){ limit = 10;}
+  if( page == null){ page = 1;}
 
   var tabArray = [
     {
@@ -44,7 +46,7 @@ export class TransactionsService {
     }
   ];
 
-  var callURL = this._apiUrl + '/team/transactions/'+teamId+'/'+year;
+  var callURL = this._apiUrl + '/team/transactions/'+teamId+'/'+year+'/'+limit+'/'+page;
 
   return this.http.get( callURL, {
       headers: headers

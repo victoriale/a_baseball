@@ -1,13 +1,13 @@
 import {TableModel, TableColumn} from '../components/custom-table/table-data.component';
 import {CircleImageData} from '../components/images/image-data';
-import {TableTabData, TableComponentData} from '../components/standings/standings.component';
+import {TableTabData, TableComponentData} from '../components/season-stats/season-stats.component';
 import {SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
 import {Conference, Division} from '../global/global-interface';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
 
 //TODO-CJP: Ask backend to return values as numbers and not strings!
-export interface TeamStandingsData {
+export interface TeamSeasonStatsData {
   teamName: string,
   imageUrl: string,
   backgroundImage: string,
@@ -25,7 +25,7 @@ export interface TeamStandingsData {
   pitchRunsAllowed: number,
   gamesBack: number,
   seasonId: string,
-
+  year: number,
   /**
    * - Formatted from league and division values that generated the associated table
    */
@@ -35,28 +35,28 @@ export interface TeamStandingsData {
    * - Formatted from the lastUpdatedDate
    */
   displayDate?: string;
-  
+
   /**
    * Formatted full path to image
    */
   fullImageUrl?: string;
-  
+
   /**
    * Formatted full path to image
    */
   fullBackgroundImageUrl?: string;
 }
 
-export class MLBStandingsTableData implements TableComponentData<TeamStandingsData> {
+export class MLBSeasonStatsTableData implements TableComponentData<TeamSeasonStatsData> {
   groupName: string;
 
-  tableData: MLBStandingsTableModel;
+  tableData: MLBSeasonStatsTableModel;
 
   conference: Conference;
 
   division: Division;
 
-  constructor(title: string, conference: Conference, division: Division, table: MLBStandingsTableModel) {
+  constructor(title: string, conference: Conference, division: Division, table: MLBSeasonStatsTableModel) {
     this.groupName = title;
     this.conference = conference;
     this.division = division;
@@ -65,17 +65,17 @@ export class MLBStandingsTableData implements TableComponentData<TeamStandingsDa
 
 }
 
-export class MLBStandingsTabData implements TableTabData<TeamStandingsData> {
+export class MLBSeasonStatsTabData implements TableTabData<TeamSeasonStatsData> {
 
   title: string;
 
   isActive: boolean;
-  
+
   isLoaded: boolean;
-  
+
   hasError: boolean;
 
-  sections: Array<MLBStandingsTableData>;
+  sections: Array<MLBSeasonStatsTableData>;
 
   conference: Conference;
 
@@ -88,20 +88,17 @@ export class MLBStandingsTabData implements TableTabData<TeamStandingsData> {
     this.isActive = isActive;
   }
 
-  convertToCarouselItem(item: TeamStandingsData, index:number): SliderCarouselInput {
-    var subheader = item.seasonId + " Season " + item.groupName + " Standings";
-    var description = "The " + item.teamName + " are currently <span class='text-heavy'>ranked " + item.rank + GlobalFunctions.Suffix(item.rank) + "</span>" +
-                      " in the <span class='text-heavy'>" + item.groupName + "</span>, with a record of " +
-                      "<span class='text-heavy'>" + item.totalWins + " - " + item.totalLosses + "</span>.";
-
+  convertToCarouselItem(item: TeamSeasonStatsData, index:number): SliderCarouselInput {
+    var subheader = item.seasonId + " Season Stats Report";
+    var description = "Team: <span class='text-heavy'>" + item.teamName + "</span>";
     return {
       index: index,
       backgroundImage: item.fullBackgroundImageUrl, //optional
       description: [
-        "<div class='standings-car-subhdr'><i class='fa fa-circle'></i>" + subheader + "</div>",
-        "<div class='standings-car-hdr'>" + item.teamName + "</div>",
-        "<div class='standings-car-desc'>" + description + "</div>",
-        "<div class='standings-car-date'>Last Updated On " + item.displayDate + "</div>"
+        "<div class='season-stats-car-subhdr'><i class='fa fa-circle'></i>" + subheader + "</div>",
+        "<div class='season-stats-car-hdr'>" + item.teamName + "</div>",
+        "<div class='season-stats-car-desc'>" + description + "</div>",
+        "<div class='season-stats-car-date'>Last Updated On " + item.displayDate + "</div>"
       ],
       imageConfig: {
         imageClass: "image-150",
@@ -111,62 +108,81 @@ export class MLBStandingsTabData implements TableTabData<TeamStandingsData> {
           imageUrl: item.fullImageUrl,
           hoverText: "<p>View</p><p>Profile</p>"
         },
-        subImages: []
+        subImages: [
+          {
+              imageUrl: item.fullImageUrl,
+              urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId.toString()),
+              hoverText: "<i class='fa fa-mail-forward'></i>",
+              imageClass: "image-50-sub image-round-lower-right"
+          },
+        ]
       }
     };
   }
 }
 
-export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
+export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData> {
   // title: string;
 
-  columns: Array<TableColumn> = [{
-      headerValue: "Team Name",
-      columnClass: "image-column",
-      key: "name"
-    },{
-      headerValue: "W",
+  columns: Array<TableColumn> = [
+    {
+      headerValue: "Year",
       columnClass: "data-column",
       isNumericType: true,
-      key: "w"
+      key: "year"
     },{
-      headerValue: "L",
+      headerValue: "Team",
+      columnClass: "location-column",
+      isNumericType: false,
+      key: "team"
+    },{
+      headerValue: "R",
       columnClass: "data-column",
       isNumericType: true,
-      key: "l"
+      key: "r"
     },{
-      headerValue: "PCT",
+      headerValue: "H",
+      columnClass: "data-column",
+      isNumericType: true,
+      key: "h"
+    },{
+      headerValue: "HR",
       columnClass: "data-column",
       isNumericType: true,
       sortDirection: -1, //descending
-      key: "pct"
+      key: "hr"
     },{
-      headerValue: "GB",
+      headerValue: "RBI",
       columnClass: "data-column",
       isNumericType: true,
-      key: "gb"
+      key: "rbi"
     },{
-      headerValue: "RS",
+      headerValue: "BB",
       columnClass: "data-column",
       isNumericType: true,
-      key: "rs"
+      key: "bb"
     },{
-      headerValue: "RA",
+      headerValue: "AVG",
       columnClass: "data-column",
       isNumericType: true,
-      key: "ra"
+      key: "avg"
     },{
-      headerValue: "STRK",
+      headerValue: "OBP",
       columnClass: "data-column",
       isNumericType: true,
-      key: "strk"
+      key: "obp"
+    },{
+      headerValue: "SLG",
+      columnClass: "data-column",
+      isNumericType: true,
+      key: "slg"
     }];
 
-  rows: Array<TeamStandingsData>;
+  rows: Array<TeamSeasonStatsData>;
 
   selectedKey:number = -1;
 
-  constructor(rows: Array<TeamStandingsData>) {
+  constructor(rows: Array<TeamSeasonStatsData>) {
     this.rows = rows;
     if ( this.rows === undefined || this.rows === null ) {
       this.rows = [];
@@ -182,119 +198,113 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
     }
   }
 
-  isRowSelected(item:TeamStandingsData, rowIndex:number): boolean {
+  isRowSelected(item:TeamSeasonStatsData, rowIndex:number): boolean {
     return this.selectedKey == item.teamId;
   }
-
-  getDisplayValueAt(item:TeamStandingsData, column:TableColumn):string {
+  //TODO using standing api
+  getDisplayValueAt(item:TeamSeasonStatsData, column:TableColumn):string {
     var s = null;
     switch (column.key) {
-      case "name":
+      case "year":
+        s = "2016"; //TODO
+        break;
+
+      case "team":
         s = item.teamName;
         break;
 
-      case "w":
+      case "r":
         s = item.totalWins != null ? item.totalWins.toString() : null;
         break;
 
-      case "l":
+      case "h":
         s = item.totalLosses != null ? item.totalLosses.toString() : null;
         break;
 
-      case "pct":
+      case "hr":
         s = item.winPercentage != null ? item.winPercentage.toPrecision(3) : null;
         break;
 
-      case "gb":
+      case "rbi":
         // s = item.gamesBack != null ? (item.gamesBack == 0 ? "-" : item.gamesBack.toString()) : null;
         s = item.gamesBack != null ? item.gamesBack.toString() : null;
         break;
 
-      case "rs":
+      case "bb":
         s = item.batRunsScored != null ? item.batRunsScored.toString() : null;
         break;
 
-      case "ra":
+      case "avg":
         s = item.pitchRunsAllowed != null ? item.pitchRunsAllowed.toString() : null;
         break;
 
-      case "strk":
-        if ( item.streakCount != null && item.streakType ) {
-          var str = item.streakCount.toString();
-          s = (item.streakType == "loss" ? "L-" : "W-") + item.streakCount.toString();
-        }
+      case "obp":
+        s = item.pitchRunsAllowed != null ? item.pitchRunsAllowed.toString() : null;
+        break;
+
+      case "slg":
+        s = item.pitchRunsAllowed != null ? item.pitchRunsAllowed.toString() : null;
         break;
     }
     return s != null ? s : "N/A";
   }
 
-  getSortValueAt(item:TeamStandingsData, column:TableColumn):any {
+  getSortValueAt(item:TeamSeasonStatsData, column:TableColumn):any {
     var o = null;
     switch (column.key) {
-      case "name":
+      case "year":
+        o = "2016";//TODO
+        break;
+
+      case "team":
         o = item.teamName;
         break;
 
-      case "w":
+      case "r":
         o = item.totalWins;
         break;
 
-      case "l":
+      case "h":
         o = item.totalLosses;
         break;
 
-      case "pct":
+      case "hr":
         o = item.winPercentage;
         break;
 
-      case "gb":
+      case "rbi":
         o = item.gamesBack;
         break;
 
-      case "rs":
+      case "bb":
         o = item.batRunsScored;
         break;
 
-      case "ra":
+      case "avg":
         o = item.pitchRunsAllowed;
         break;
 
-      case "strk":
-        if ( item.streakCount != null && item.streakType ) {
-          // var str = item.streakCount.toString();
-          // o = (item.streakType == "loss" ? "L-" : "W-") + ('0000' + str).substr(str.length); //pad with zeros
-          o = (item.streakType == "loss" ? -1 : 1) * item.streakCount;
-        }
+      case "obp":
+        o = item.pitchRunsAllowed;
+        break;
+
+      case "slg":
+        o = item.pitchRunsAllowed;
         break;
     }
     return o;
   }
 
-  getImageConfigAt(item:TeamStandingsData, column:TableColumn):CircleImageData {
-    if ( column.key === "name" ) {
-      //TODO-CJP: store after creation? or create each time?
-      return {
-          imageClass: "image-48",
-          mainImage: {
-            imageUrl: item.fullImageUrl,
-            imageClass: "border-1",
-            urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId.toString()),
-            hoverText: "<i class='fa fa-mail-forward'></i>",
-          },
-          subImages: []
-        };
-    }
-    else {
+  getImageConfigAt(item:TeamSeasonStatsData, column:TableColumn):CircleImageData {
       return undefined;
-    }
   }
 
   hasImageConfigAt(column:TableColumn):boolean {
-    return column.key === "name";
+    return undefined;
   }
 
-  getRouterLinkAt(item:TeamStandingsData, column:TableColumn):Array<any> {
-    if ( column.key === "name" ) {
+  getRouterLinkAt(item:TeamSeasonStatsData, column:TableColumn):Array<any> {
+    if ( column.key === "team" ) {
       return MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId.toString());
     }
     else {
@@ -303,6 +313,6 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
   }
 
   hasRouterLinkAt(column:TableColumn):boolean {
-    return column.key === "name";
+    return column.key === "team";
   }
 }
