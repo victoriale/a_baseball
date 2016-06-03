@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable} from 'angular2/core';
 import {Link} from './global-interface';
 
 declare var moment: any;
@@ -48,7 +48,16 @@ export class GlobalFunctions {
      * @param {string} str - The string value to convert to title case
      * @returns {string}
      */
-     static toTitleCase(str:string): string {
+     toTitleCase(str:string): string {
+       if ( str === undefined || str === null ) {
+         return str;
+       }
+       return str.replace(/\w\S*/g, function(txt) {
+         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+       });
+     };
+
+     static toTitleCase(str:string): string { // the above can be removed once conversion is swapped to static
        if ( str === undefined || str === null ) {
          return str;
        }
@@ -153,7 +162,7 @@ export class GlobalFunctions {
      * @param {string} def - (Optional) The default string value to use if the number is 0 or undefined. If it's not included, then "N/A" is used as the def string.
      * @returns {string}
      */
-    static formatPriceNumber(value:number, def?:string): string {
+    formatPriceNumber(value:number, def?:string): string {
       if ( def === null || def === undefined ) {
         def = "N\A";
       }
@@ -348,7 +357,7 @@ export class GlobalFunctions {
           return str;
         }
         str = str.replace(/-/g, ' ');
-        str = GlobalFunctions.toTitleCase(str);
+        str = this.toTitleCase(str);
         str = str.replace(/ /g, '');
         str = str[0].toLowerCase() + str.slice(1);
         return str;

@@ -1,7 +1,7 @@
 /**
  * Created by Victoria on 5/2/2016.
  */
-import {Component, OnInit, Input, OnChanges} from '@angular/core';
+import {Component, OnInit, Input, OnChanges} from 'angular2/core';
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 import {MLBPageParameters} from '../../global/global-interface';
 

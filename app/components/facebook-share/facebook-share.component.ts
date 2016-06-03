@@ -2,7 +2,7 @@
  * Created by Christopher Lynch on 2/23/2016.
  */
 
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit} from 'angular2/core';
 
 @Component({
     selector: 'share-component',

@@ -1,6 +1,6 @@
-import {Component, OnInit, Input, OnChanges} from '@angular/core';
-import {NgClass} from '@angular/common';
-import {ROUTER_DIRECTIVES, Router} from "@angular/router-deprecated";
+import {Component, OnInit, Input, OnChanges} from 'angular2/core';
+import {NgClass} from 'angular2/common';
+import {RouteParams, ROUTER_DIRECTIVES, RouteConfig, Router} from 'angular2/router';
 import {GlobalFunctions} from '../../global/global-functions';
 import {LoadingComponent} from '../../components/loading/loading.component';
 import {ErrorComponent} from '../../components/error/error.component';

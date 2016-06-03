@@ -1,5 +1,5 @@
-import {Component, OnInit, Input} from '@angular/core';
-import {RouteParams} from "@angular/router-deprecated";
+import {Component, OnInit, Input} from 'angular2/core';
+import {RouteParams} from "angular2/router";
 import {BackTabComponent} from "../../components/backtab/backtab.component";
 import {TitleComponent, TitleInputData} from "../../components/title/title.component";
 import {CircleImageData} from "../../components/images/image-data";

@@ -2,7 +2,7 @@
   <module-header [modHeadData]="modHeadData"></module-header>
   <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray"></slider-carousel>
   <tabs *ngIf="dataArray" (tabSelected)='selectedTab($event)'>
-    <tab *ngFor="let data of dataArray; let i = index" [active]="i == 0" [tabTitle]="data.tabDisplay">
+    <tab *ngFor="#data of dataArray; #i = index" [active]="i == 0" [tabTitle]="data.tabDisplay">
       <div class="transactions-container">
         <div class="tab-inset"> <!-- due to tab having a default value of padding 1em for tab purposes so we just reverse it with margin -->
           <transactions-list-item *ngIf="transactionsDataArray" [transactionsItemData] = 'transactionsDataArray'></transactions-list-item>

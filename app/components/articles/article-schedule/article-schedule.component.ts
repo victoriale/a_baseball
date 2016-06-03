@@ -1,10 +1,10 @@
-import {Component, Input, OnInit } from "@angular/core";
+import {Component, Input, OnInit } from "angular2/core";
 import {Articles} from "../../../global/global-service";
 import {ArticleData} from "../../../global/global-interface";
 import {CircleImage} from "../../images/circle-image";
 import {CircleImageData} from '../../images/image-data';
 import {Gradient} from '../../../global/global-gradient';
-import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
+import {ROUTER_DIRECTIVES} from "angular2/router";
 
 @Component({
     selector: 'article-schedule-component',

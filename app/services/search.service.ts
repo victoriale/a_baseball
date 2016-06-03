@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
+import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Rx';
-import {Http} from '@angular/http';
+import {Http} from 'angular2/http';
 import {SearchComponentResult, SearchComponentData} from '../components/search/search.component';
 import {SearchPageInput} from '../modules/search-page/search-page.module';
 import {GlobalFunctions} from '../global/global-functions';

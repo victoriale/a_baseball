@@ -1,6 +1,6 @@
 <div *ngIf="articleType == 'playerComparison'" class="comparison">
     <div class="comparison-hr"></div>
-    <span *ngFor="let data of articleData?.article; let i=index;">
+    <span *ngFor="#data of articleData?.article; #i=index;">
         <span *ngIf="data.playerComparisonModule && i == 2">
             <div class="comparison-double">
                 <div class="comparison-double-circles">
@@ -47,7 +47,7 @@
 
 <div *ngIf="articleType == 'teamRecord' && articleSubType == 'about'" class="comparison">
     <div class="comparison-hr"></div>
-    <span *ngFor="let data of articleData?.article; let i = index;">
+    <span *ngFor="#data of articleData?.article; #i = index;">
         <span *ngIf="data.teamRecordModule && index == 1 && i == 1">
             <div class="comparison-single">
                 <circle-image *ngIf="imageLinks[0]" class="comparison-single-logo"
@@ -73,7 +73,7 @@
 
 <div *ngIf="articleType == 'teamRecord' && articleSubType == 'history'" class="comparison">
     <div class="comparison-hr"></div>
-    <span *ngFor="let data of articleData?.article; let i = index;">
+    <span *ngFor="#data of articleData?.article; #i = index;">
         <span *ngIf="data.teamRecordModule && index == 1 && i == 1">
             <div class="comparison-single">
                 <circle-image *ngIf="imageLinks[0]" class="comparison-single-logo"
@@ -99,7 +99,7 @@
 
 <div *ngIf="articleType == 'teamRecord' && articleSubType == 'last'" class="comparison">
     <div class="comparison-hr"></div>
-    <span *ngFor="let data of articleData?.article; let i = index;">
+    <span *ngFor="#data of articleData?.article; #i = index;">
         <span *ngIf="data.teamRecordModule && index == 1 && i == 3">
             <div class="comparison-single">
                 <circle-image *ngIf="imageLinks[0]" class="comparison-single-logo"
@@ -125,7 +125,7 @@
 
 <div *ngIf="articleType == 'playerRoster'" class="comparison">
     <div class="comparison-hr"></div>
-    <span *ngFor="let data of articleData?.article; let i = index;">
+    <span *ngFor="#data of articleData?.article; #i = index;">
         <span *ngIf="data.playerRosterModule && i == index">
             <div class="comparison-roster">
                 <div class="comparison-roster-images">

@@ -19,7 +19,7 @@ System.config({
     }
 });
 
-System.import('@angular/src/platform/browser/browser_adapter')
+System.import('angular2/src/platform/browser/browser_adapter')
     .then(function(browser_adapter) { browser_adapter.BrowserDomAdapter.makeCurrent(); })
     .then(function() { return Promise.all(resolveTestFiles()); })
     .then(function() { __karma__.start(); }, function(error) { __karma__.error(error.stack || error); });

@@ -1,7 +1,7 @@
-import {Component, Input, Output, OnChanges, EventEmitter} from '@angular/core';
-import {NgStyle} from '@angular/common';
+import {Component, Input, Output, OnChanges, EventEmitter} from 'angular2/core';
+import {NgStyle} from 'angular2/common';
 import {BackTabComponent} from '../../components/backtab/backtab.component';
-import {ROUTER_DIRECTIVES, RouteParams} from '@angular/router-deprecated';
+import {ROUTER_DIRECTIVES, RouteParams} from 'angular2/router';
 import {Tabs} from '../../components/tabs/tabs.component';
 import {Tab} from '../../components/tabs/tab.component';
 import {Search, SearchInput} from '../../components/search/search.component';
@@ -47,9 +47,9 @@ export interface SearchPageInput {
 export class SearchPageModule implements OnChanges{
     @Input() searchPageInput: SearchPageInput;
     pageNumber:any;
-    constructor(private _route:RouteParams){
-      if(typeof this._route.params['pageNum'] != 'undefined'){
-        this.pageNumber = this._route.params['pageNum'];
+    constructor(public Route:RouteParams){
+      if(typeof this.Route.params['pageNum'] != 'undefined'){
+        this.pageNumber = this.Route.params['pageNum'];
       }else{
         this.pageNumber = 1;// if nothing is in route params then default to first piece of obj array
       }
