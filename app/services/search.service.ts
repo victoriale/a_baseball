@@ -50,7 +50,6 @@ export class SearchService{
                 },
                 err => {
                   console.log('ERROR search results');
-                    this.searchJSON = null
                 }
             )
     }
