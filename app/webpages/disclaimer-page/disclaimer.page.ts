@@ -6,7 +6,6 @@ import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {TitleComponent} from '../../components/title/title.component';
 import {WidgetModule} from "../../modules/widget/widget.module";
 import {Router,ROUTER_DIRECTIVES} from "@angular/router-deprecated";
-import {Injector} from '@angular/core';
 import {WebApp} from '../../app-layout/app.layout';
 import {TitleInputData} from "../../components/title/title.component";
 import {GlobalSettings} from "../../global/global-settings";
@@ -29,7 +28,7 @@ export class DisclaimerPage implements OnInit {
     public disHeaderTitle = "<span style='font-weight: 700;'>Disclaimer</span>";
     titleData: TitleInputData;
 
-    constructor(private injector:Injector, private _router: Router) {
+    constructor(private _router: Router) {
         GlobalSettings.getPartnerId(_router, partnerId => {
             this.partnerID = partnerId;
             this.getData();
