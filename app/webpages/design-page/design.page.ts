@@ -1,7 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {RouteParams} from "@angular/router-deprecated";
+import {Component, OnInit} from 'angular2/core';
+import {RouteParams} from 'angular2/router';
 
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
+import {GlobalFunctions} from '../../global/global-functions';
+import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
 
 import {DraftHistoryModule} from '../../modules/draft-history/draft-history.module';
 
@@ -47,17 +49,19 @@ export class DesignPage implements OnInit {
   };
 
   constructor(
-    private _route: RouteParams,
+    private _params: RouteParams,
     private _standingsService: StandingsService,
     private _profileService: ProfileHeaderService,
-    private _lolService: ListOfListsService) {
+    private _lolService: ListOfListsService,
+    private _globalFunctions: GlobalFunctions,
+    private _mlbFunctions: MLBGlobalFunctions) {
 
     if ( this.pageParams === undefined || this.pageParams === null ) {
       this.pageParams = {
         division: Division.east,
         conference: Conference.american,
         playerId: 95041,
-        teamId: Number(_route.get("teamId"))
+        teamId: Number(_params.get("teamId"))
       };
     }
   }

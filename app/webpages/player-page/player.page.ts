@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {RouteParams} from "@angular/router-deprecated";
+import {Component, OnInit} from 'angular2/core';
+import {RouteParams, RouteConfig} from 'angular2/router';
 
 import {MLBPageParameters} from '../../global/global-interface';
 import {LoadingComponent} from '../../components/loading/loading.component';
@@ -46,6 +46,7 @@ import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
 import {GlobalSettings} from "../../global/global-settings";
 import {ImagesService} from "../../services/carousel.service";
 import {ImagesMedia} from "../../components/carousels/images-media-carousel/images-media-carousel.component";
+import {GlobalFunctions} from "../../global/global-functions";
 import {ListOfListsService} from "../../services/list-of-lists.service";
 import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.module";
 
@@ -108,7 +109,7 @@ export class PlayerPage implements OnInit {
   twitterData: Array<twitterModuleData>;
   schedulesData:any;
 
-  constructor(private _route:RouteParams,
+  constructor(private _params:RouteParams,
               private _standingsService:StandingsService,
               private _schedulesService:SchedulesService,
               private _profileService:ProfileHeaderService,
@@ -119,10 +120,11 @@ export class PlayerPage implements OnInit {
               private _lolService : ListOfListsService,
               private _twitterService: TwitterService,
               private _seasonStatsService: SeasonStatsService,
-              private _comparisonService: ComparisonStatsService) {
+              private _comparisonService: ComparisonStatsService,
+              private _globalFunctions:GlobalFunctions) {
 
       this.pageParams = {
-          playerId: Number(_route.get("playerId"))
+          playerId: Number(_params.get("playerId"))
       };
 
         // Scroll page to top to fix routerLink bug

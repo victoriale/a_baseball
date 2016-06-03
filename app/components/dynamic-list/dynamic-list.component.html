@@ -1,4 +1,4 @@
-<div *ngFor="let list of listData; let i = odd" class="dynamic-list detailed-list" [ngClass]="{'odd': i == true}">
+<div *ngFor="#list of listData; #i = odd" class="dynamic-list detailed-list" [ngClass]="{'odd': i == true}">
     <div class='detailed-imagebox'>
         <a href="{{list.url}}">
             <img src='{{list.img}}' onerror="this.src='/app/public/placeholder-location.jpg';" alt='' />

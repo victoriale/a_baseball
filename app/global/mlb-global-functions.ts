@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable} from 'angular2/core';
 import {GlobalFunctions} from './global-functions';
 import {Division, Conference} from './global-interface';
 import {GlobalSettings} from "./global-settings";

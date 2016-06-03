@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, Input, Output, EventEmitter, Renderer, ViewChild} from '@angular/core';
+import {Component, OnInit, OnDestroy, Input, Output, EventEmitter, Renderer, ViewChild} from 'angular2/core';
 import {TableColumn} from '../../components/custom-table/table-data.component';
 
 @Component({

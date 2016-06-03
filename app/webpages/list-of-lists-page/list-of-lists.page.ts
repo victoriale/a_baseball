@@ -1,5 +1,4 @@
-import {Component, OnInit} from '@angular/core';
-import {RouteParams} from "@angular/router-deprecated";
+import {Component, OnInit} from 'angular2/core';
 import {DetailedListItem, DetailListInput} from '../../components/detailed-list-item/detailed-list-item.component';
 import {ModuleFooter} from '../../components/module-footer/module-footer.component';
 import {SliderCarousel, SliderCarouselInput} from '../../components/carousels/slider-carousel/slider-carousel.component';
@@ -8,6 +7,7 @@ import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {NoDataBox} from '../../components/error/data-box/data-box.component';
 import {ListOfListsItem} from "../../components/list-of-lists-item/list-of-lists-item.component";
 import {ListOfListsService} from "../../services/list-of-lists.service";
+import {RouteParams} from 'angular2/router';
 import {LoadingComponent} from "../../components/loading/loading.component";
 import {ErrorComponent} from "../../components/error/error.component";
 import {PaginationFooter} from "../../components/pagination-footer/pagination-footer.component";
@@ -48,7 +48,7 @@ export class ListOfListsPage implements OnInit{
     titleData             : Object;
     profileHeaderData: TitleInputData;
 
-    constructor(private listService:ListOfListsService, private _route: RouteParams){
+    constructor(private listService:ListOfListsService, private params: RouteParams){
     }
 
     //getListOfListsService(version, type, id, scope?, count?, page?){
@@ -79,7 +79,7 @@ export class ListOfListsPage implements OnInit{
     //PAGINATION
     //sets the total pages for particular lists to allow client to move from page to page without losing the sorting of the list
     setPaginationParams(input) {
-        var params = this._route.params;
+        var params = this.params.params;
 
         var navigationParams = {
             type       : params['type'],
@@ -113,7 +113,7 @@ export class ListOfListsPage implements OnInit{
     }
 
     ngOnInit(){
-        this.getListOfListsPage(this._route.params, this.version);
+        this.getListOfListsPage(this.params.params, this.version);
     }
 
     setProfileHeader(profile:string){

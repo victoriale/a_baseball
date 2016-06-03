@@ -1,11 +1,12 @@
-import {Component, Input, Output, OnChanges, EventEmitter} from '@angular/core';
-import {NgStyle} from '@angular/common';
+import {Component, Input, Output, OnChanges, EventEmitter} from 'angular2/core';
+import {NgStyle} from 'angular2/common';
 import {BackTabComponent} from '../../components/backtab/backtab.component';
-import {ROUTER_DIRECTIVES, RouteParams} from '@angular/router-deprecated';
+import {ROUTER_DIRECTIVES, RouteParams} from 'angular2/router';
 import {Tabs} from '../../components/tabs/tabs.component';
 import {Tab} from '../../components/tabs/tab.component';
 import {Search, SearchInput} from '../../components/search/search.component';
 import {PaginationFooter, PaginationParameters} from '../../components/pagination-footer/pagination-footer.component';
+import {NoDataBox} from '../../components/error/data-box/data-box.component';
 
 export interface SearchPageInput {
     //Data for the search bar component
@@ -31,6 +32,12 @@ export interface SearchPageInput {
             urlText: string;
             description: string;
         }>;
+        error:{
+          message:string;
+          icon:string;
+        };
+        pageMax:any;
+        totalResults:any;
         paginationParameters: PaginationParameters;
     }>
 }
@@ -38,13 +45,15 @@ export interface SearchPageInput {
 @Component({
     selector: 'search-page-module',
     templateUrl: './app/modules/search-page/search-page.module.html',
-    directives:[ROUTER_DIRECTIVES, BackTabComponent, Tabs, Tab, Search, PaginationFooter],
+    directives:[ROUTER_DIRECTIVES, NoDataBox, BackTabComponent, Tabs, Tab, Search, PaginationFooter],
     providers: [NgStyle]
 })
 
 export class SearchPageModule implements OnChanges{
     @Input() searchPageInput: SearchPageInput;
     pageNumber:any;
+    showResults:any;
+    currentShowing:any;
     constructor(private _route:RouteParams){
       if(typeof this._route.params['pageNum'] != 'undefined'){
         this.pageNumber = this._route.params['pageNum'];
@@ -54,6 +63,7 @@ export class SearchPageModule implements OnChanges{
     }
     ngOnChanges(){
         this.configureSearchPageModule();
+        this.getShowResults(this.searchPageInput);
     }
 
     configureSearchPageModule(){
@@ -63,9 +73,34 @@ export class SearchPageModule implements OnChanges{
     newIndex(index){
         this.pageNumber = index;
         window.scrollTo(0,0);
+        this.getShowResults(this.searchPageInput);
+    }
+
+    getShowResults(data){
+      let self = this;
+      data.tabData.forEach(function(val,index){
+        if(val.isTabDefault){//Optimize
+          var currentTotal = (val.pageMax * (self.pageNumber - 1));
+          if(val.results.length > 0){
+            self.currentShowing = Number(currentTotal) + ' - ' + (Number(currentTotal) + Number(val.results[self.pageNumber - 1].length));
+          }else{
+            self.currentShowing = '0 - 0';
+
+          }
+          self.showResults = val.totalResults;
+        }
+      })
     }
 
     tabSelected(event){
       this.pageNumber = 1;
+      this.searchPageInput.tabData.forEach(function(val,index){
+        if(val.tabName == event){//Optimize
+          val.isTabDefault = true;
+        }else{
+          val.isTabDefault = false;
+        }
+      })
+      this.getShowResults(this.searchPageInput);
     }
 }

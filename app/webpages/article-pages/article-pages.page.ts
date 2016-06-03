@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {Router,ROUTER_DIRECTIVES,RouteParams} from "@angular/router-deprecated";
+import {Component, OnInit} from 'angular2/core';
+import {Router,ROUTER_DIRECTIVES, RouteParams} from 'angular2/router';
 import {WidgetModule} from "../../modules/widget/widget.module";
 import {ImagesMedia} from "../../components/carousels/images-media-carousel/images-media-carousel.component";
 import {ShareLinksComponent} from "../../components/articles/shareLinks/shareLinks.component";
@@ -10,6 +10,7 @@ import {DisqusComponent} from "../../components/articles/disqus/disqus.component
 import {LoadingComponent} from "../../components/loading/loading.component";
 import {ArticleData} from "../../global/global-interface";
 import {ArticleDataService} from "../../global/global-article-page-service";
+import {GlobalFunctions} from "../../global/global-functions";
 import {MLBGlobalFunctions} from "../../global/mlb-global-functions";
 
 declare var jQuery:any;
@@ -51,10 +52,10 @@ export class ArticlePages implements OnInit {
     public partnerParam:string;
     public partnerID:string;
 
-    constructor(private _route:RouteParams, private _articleDataService:ArticleDataService) {
+    constructor(private _params:RouteParams, private _articleDataService:ArticleDataService, private _globalFunctions:GlobalFunctions) {
         window.scrollTo(0, 0);
-        this.eventID = _route.get('eventID');
-        this.eventType = _route.get('eventType');
+        this.eventID = _params.get('eventID');
+        this.eventType = _params.get('eventType');
         this.getArticles();
     }
 

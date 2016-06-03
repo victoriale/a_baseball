@@ -1,6 +1,6 @@
-import {Component, Input, OnInit, OnChanges, ViewChild, AfterViewChecked} from '@angular/core';
+import {Component, Input, OnInit, OnChanges, ViewChild, AfterViewChecked} from 'angular2/core';
 import {NaValuePipe} from '../../pipes/na.pipe';
-import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
 import {ImageData, CircleImageData} from '../images/image-data';
 import {CircleImage} from '../images/circle-image';
 
@@ -119,6 +119,9 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
                 // console.log("  adjusted: " + value);
             }
             dataItem.width = (Math.round(value / adjustedMax * (100 - scaleStart) * 10) / 10) + scaleStart;
+            if ( dataItem.width < scaleStart || !dataItem.value ) {
+                dataItem.width = scaleStart;
+            }
             // if ( barData.maxValue > 0 ) {
             //     console.log("data item " + i);
             //     console.log("   value: " + dataItem.value);

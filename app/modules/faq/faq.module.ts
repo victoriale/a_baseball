@@ -1,4 +1,4 @@
-import {Component, OnChanges, Input, Output, EventEmitter} from '@angular/core';
+import {Component, OnChanges, Input, Output, EventEmitter} from 'angular2/core';
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 
 export interface faqModuleData{
@@ -15,7 +15,7 @@ export interface faqModuleData{
 export class FAQModule implements OnChanges {
   @Input() profileName: string;
   @Input() faqData: Array<faqModuleData>;
-  @Output() faqSelected = new EventEmitter();
+  @Output() faqSelected: EventEmitter<string> = new EventEmitter();
 
   public headerInfo: ModuleHeaderData = {
     moduleTitle: "FAQ - [Profile Name]",

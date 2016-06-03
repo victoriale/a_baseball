@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
+import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Rx';
-import {Http, Headers} from '@angular/http';
+import {Http, Headers} from 'angular2/http';
 import {GlobalSettings} from '../global/global-settings';
 
 @Injectable()
