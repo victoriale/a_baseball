@@ -334,11 +334,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
 
       case "rec":
         //shows the record of the current teams game at that time
-        if(this.curTeam == item.homeTeamId){
-          s = "[#] - [#]";
-        }else{
-          s = "[#] - [#]";
-        }
+          s = item.targetTeamWinsCurrent + " - " + item.targetTeamLossesCurrent;
         break;
     }
     return s;
