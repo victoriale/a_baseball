@@ -62,7 +62,7 @@ export class DisclaimerPage implements OnInit {
       }
       //disclaimer data
       this.titleData = {
-          imageURL : '/app/public/mainLogo.png',
+          imageURL : GlobalSettings.getSiteLogoUrl(),
           text1: 'Last Updated: Monday, March 21, 2016.',
           text2 : ' United States',
           text3 : this.pageName + "'s Disclaimer",

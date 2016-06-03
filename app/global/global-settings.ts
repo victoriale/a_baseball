@@ -50,4 +50,8 @@ export class GlobalSettings {
         return this._proto + "//" + this._newsUrl;
     }
 
+    static getSiteLogoUrl():string {
+        return "/app/public/mainLogo.png";
+    }
+
 }

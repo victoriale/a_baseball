@@ -1,6 +1,6 @@
 import {Component, OnInit, Input} from 'angular2/core';
 import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
-import {ViewEncapsulation} from "angular2/core";
+import {GlobalSettings} from '../../global/global-settings';
 
 import {PriceFormatPipe} from '../../pipes/price-format.pipe';
 
@@ -24,7 +24,7 @@ export class DynamicListComponent implements OnInit{
       if(typeof this.listData == 'undefined'){
           this.listData =
           {
-              imageURL : '/app/public/mainLogo.png',
+              imageURL : GlobalSettings.getSiteLogoUrl(),
               location : 'Wichita, KS',
               postal : ' 67260',
               livingarea : 'livingarea',

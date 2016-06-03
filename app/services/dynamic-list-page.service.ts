@@ -81,7 +81,7 @@ export class DynamicWidgetCall {
 
     this.profHeader= {
       // Old placeholder image:  http://www.myinvestkit.com/StateImages/Location_National.jpg
-      imageURL : '/app/public/mainLogo.png',
+      imageURL : GlobalSettings.getSiteLogoUrl(),
       text1 : 'Last Updated: ' + moment(data.date).format('dddd, MMMM Do, YYYY'),
       text2 : ' United States',
       text3 : data.title,
