@@ -1,6 +1,5 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, ViewEncapsulation} from '@angular/core';
 import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
-import {ViewEncapsulation} from "@angular/core";
 
 import {PriceFormatPipe} from '../../pipes/price-format.pipe';
 
