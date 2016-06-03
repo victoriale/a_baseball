@@ -1,12 +1,14 @@
-import {Component, OnInit, Inject, OnDestroy, Input, Output, EventEmitter, Renderer, OnChanges, AfterViewInit, ViewChild, ElementRef} from '@angular/core';
-// import {BrowserDomAdapter} from '@angular/platform/browser'
+import {Component, OnInit, Inject, OnDestroy, Input, Output, EventEmitter, Renderer, OnChanges, AfterViewInit, ViewChild} from 'angular2/core';
+import {BrowserDomAdapter} from 'angular2/platform/browser'
+import {ElementRef} from 'angular2/src/core/linker/element_ref';
 import {ScrollableContent} from '../scrollable-content/scrollable-content.component';
 import {ScrollerFunctions} from '../../global/scroller-functions';
 
 @Component({
   selector: 'dropdown',
   templateUrl: './app/components/dropdown/dropdown.component.html',
-  directives: [ScrollableContent]
+  directives: [ScrollableContent],
+  providers: [BrowserDomAdapter]
 })
 
 export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit { 
@@ -31,7 +33,7 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
   private _elementRef: ElementRef;
   private _scrollerSetup: boolean = false;
   
-  constructor(@Inject(ElementRef) elementRef: ElementRef, private _renderer: Renderer) { 
+  constructor(@Inject(ElementRef) elementRef: ElementRef, private _dom: BrowserDomAdapter, private _renderer: Renderer) { 
     this._elementRef = elementRef;
   }
   
@@ -90,7 +92,7 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
    * event starts on the scroller element.
    */
   dropdownSetup() {    
-    // var document = this._dom.defaultDoc();
+    var document = this._dom.defaultDoc();
     // console.log("dropdown setup: " + document);
     
     var self = this;
@@ -184,7 +186,7 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
   }
   
   hoverSetup() {    
-    // var document = this._dom.defaultDoc();
+    var document = this._dom.defaultDoc();
         
     var scrollContainer = this._elementRef.nativeElement.getElementsByClassName('scrollable-item')[0];
     var caretTop = this._elementRef.nativeElement.getElementsByClassName('dropdown-caret-top')[0];

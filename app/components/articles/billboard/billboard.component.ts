@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from 'angular2/core';
 import {Articles} from "../../../global/global-service";
 import {ArticleData} from "../../../global/global-interface";
 

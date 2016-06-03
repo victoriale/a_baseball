@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit} from 'angular2/core';
 import {CircleImage} from "../../images/circle-image";
 
 @Component({

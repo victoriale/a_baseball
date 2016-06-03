@@ -1,7 +1,7 @@
 /**
  * Created by Victoria on 4/19/2016.
  */
-import {Component, OnInit, Input, Output, EventEmitter, OnChanges} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, OnChanges} from 'angular2/core';
 import {CircleButton} from "../buttons/circle/circle.button";
 
 @Component({
@@ -16,9 +16,9 @@ export class Carousel implements OnInit, OnChanges {
   @Input() carouselData: Array<any>;
   @Input() indexInput: any;//this is an optional Input to determine where the current index is currently positioned. otherwise set the defaul indexInput to 0;
 
-  public carouselDataPoint = new EventEmitter();
-  public scrollRight = new EventEmitter();
-  public scrollLeft = new EventEmitter();
+  public carouselDataPoint: EventEmitter<any> = new EventEmitter();
+  public scrollRight: EventEmitter<boolean> = new EventEmitter();
+  public scrollLeft: EventEmitter<boolean> = new EventEmitter();
   
   public schedule:boolean;
   public counter: number = 0;

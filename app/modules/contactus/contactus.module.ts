@@ -1,7 +1,7 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {TitleComponent} from '../../components/title/title.component';
-import {FORM_DIRECTIVES, FormBuilder, ControlGroup, Validators, Control} from '@angular/common';
+import {FORM_DIRECTIVES, FormBuilder, ControlGroup, Validators, Control} from 'angular2/common';
 
 @Component({
     selector: 'contactus-module',
@@ -12,7 +12,7 @@ import {FORM_DIRECTIVES, FormBuilder, ControlGroup, Validators, Control} from '@
 
 export class ContactUsModule{
     @Input() contactusInput: Object;
-    @Output() contactusOutput = new EventEmitter();
+    @Output() contactusOutput: EventEmitter<Object> = new EventEmitter();
     private active:boolean = true;// by default set the form to a pristine state on load
     formSubmit(data){
         //Validate form inputs

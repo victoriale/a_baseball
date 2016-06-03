@@ -1,6 +1,6 @@
-import {Component, Output, EventEmitter} from '@angular/core';
-import {RouteParams} from "@angular/router-deprecated";
-import {Injectable} from '@angular/core';
+import {Component, Output, EventEmitter} from 'angular2/core';
+import {RouteParams} from 'angular2/router';
+import {Injectable} from 'angular2/core';
 
 import {TransactionsListItem, TransactionsListInput} from '../../components/transactions-list-item/transactions-list-item.component';
 import {ModuleFooter} from '../../components/module-footer/module-footer.component';
@@ -20,7 +20,7 @@ import {NoDataBox} from '../../components/error/data-box/data-box.component';
 })
 
 export class TransactionsModule{
-  @Output() tab = new EventEmitter();
+  @Output() tab: EventEmitter<string> = new EventEmitter();
   transactionsData:any;
   profHeader:any;
   modHeadData: Object;
@@ -32,12 +32,12 @@ export class TransactionsModule{
   footerData: Object;
   footerStyle: any;
   teamId:number;
-  constructor(private _route: RouteParams){
-    this.teamId = Number(this._route.get('teamId'));
+  constructor( public params: RouteParams){
+    this.teamId = Number(this.params.get('teamId'));
     this.footerData = {
       infoDesc: 'Want to see more transactions?',
       text: 'VIEW TRANSACTIONS',
-      url: ['Transactions-page',{teamName:this._route.get('teamName'), teamId:this.teamId}]
+      url: ['Transactions-page',{teamName:this.params.get('teamName'), teamId:this.teamId}]
     };
   }
 

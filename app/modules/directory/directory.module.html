@@ -8,7 +8,7 @@
       <header class="dir-hdr">
           <div class="dir-hdr-loc">
               <i class="fa fa-map-marker"></i>
-              <span *ngFor="let link of data.breadcrumbList; let isList = last">
+              <span *ngFor="#link of data.breadcrumbList; #isList = last">
                 <a *ngIf="link.route" [routerLink]="[link.page, link.pageParams]">{{link.text}}</a>
                 <span *ngIf="!link.route">{{link.text}}</span>
                 <i *ngIf="isLast" class="fa fa-angle-right"></i>                
@@ -25,7 +25,7 @@
               {{data.navigationData.title}}
           </div>
           <div class="dir-nav-links">
-              <span *ngFor="let item of data.navigationData.links; let isLast = last">
+              <span *ngFor="#item of data.navigationData.links; #isLast = last">
                 <span class="dir-nav-separator">|</span>
                 <a [routerLink]="item.route" >
                     {{item.text}}
@@ -44,12 +44,12 @@
       
       <!-- Directory List Data -->
       <ul *ngIf="data.hasListings && data.listingItems" class="dir-list">
-          <li *ngFor="let item of data.listingItems.items" class="dir-list-item">
+          <li *ngFor="#item of data.listingItems.items" class="dir-list-item">
               <p *ngIf="item.lastUpdated" class="dir-list-item-small">
                   Last updated: {{item.lastUpdated | dateTimeStamp}}
               </p>
               <p class="dir-list-item-line">
-                <span *ngFor="let link of item.mainDescription; let isLast = last">
+                <span *ngFor="#link of item.mainDescription; #isLast = last">
                   <a *ngIf="link.route" [routerLink]="link.route" [innerHtml]="link.text">
                   </a>
                   <span *ngIf="!link.route" [innerHtml]="link.text"></span>
@@ -57,7 +57,7 @@
                 </span>
               </p>
               <p class="dir-list-item-line">
-                <span *ngFor="let text of item.subDescription; let isLast = last">
+                <span *ngFor="#text of item.subDescription; #isLast = last">
                   <span [innerHtml]="text"></span>
                   <i *ngIf="!isLast" class="fa fa-angle-right dir-list-item-separator"></i>
                 </span>

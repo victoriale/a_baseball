@@ -1,9 +1,9 @@
 /**
  * Created by Victoria on 2/25/2016.
  */
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter} from 'angular2/core';
 import {CarouselButton} from '../../components/buttons/carousel/carousel.button';
-import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
+import {ROUTER_DIRECTIVES} from 'angular2/router';
 @Component({
     selector: 'feature-component',
     templateUrl: './app/components/feature-list/feature-list.component.html',
@@ -17,8 +17,8 @@ import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 export class FeatureComponent implements OnInit{
     list_data: Object;
     counter:number = 1;
-    public scrollRight = new EventEmitter();
-    public scrollLeft = new EventEmitter();
+    public scrollRight: EventEmitter<boolean> = new EventEmitter();
+    public scrollLeft: EventEmitter<boolean> = new EventEmitter();
     settings: any;
     left(){
         this.scrollLeft.next(true);

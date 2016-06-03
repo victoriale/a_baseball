@@ -5,14 +5,14 @@
         <div class="au-heading" [innerHtml]="auHeaderTitle"></div>
         <div class="au-content">
             <div class="au-desc">
-                <p *ngFor="let paragraph of auContent" [innerHtml]="paragraph">
+                <p *ngFor="#paragraph of auContent" [innerHtml]="paragraph">
                     
                 </p>
             </div>
         </div>
         <!--Blocks Start-->
         <div class="au-blocks">
-            <div *ngFor="let auBlock of auBlocks" class="au-blocks-block">
+            <div *ngFor="#auBlock of auBlocks" class="au-blocks-block">
                 <a *ngIf="auBlock.link" [routerLink]="auBlock.link.route">
                     <div class="au-blocks-block-content">
                         <div class="au-blocks-block-image">

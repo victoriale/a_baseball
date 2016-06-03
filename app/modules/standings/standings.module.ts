@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, OnChanges, Output, EventEmitter} from '@angular/core';
+import {Component, Input, OnInit, OnChanges, Output, EventEmitter} from 'angular2/core';
 
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer.component';

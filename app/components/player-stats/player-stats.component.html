@@ -3,7 +3,7 @@
     <slider-carousel *ngIf="carouselData" [carouselData]="carouselData" (indexNum)="indexNum($event)" [indexInput]="selectedIndex"></slider-carousel>
   </div>
   <tabs (tabSelected)="tabSelected($event)">
-    <tab *ngFor="let tab of tabs" [tabTitle]="tab.tabTitle" [active]="tab.isActive">
+    <tab *ngFor="#tab of tabs" [tabTitle]="tab.tabTitle" [active]="tab.isActive">
       
       <div>
         <div class="stats-table-title">
@@ -27,7 +27,7 @@
         <h4 class="stats-glossary-title">Glossary</h4>
         <div class="stats-glossary-box row">
           <ul>
-            <li *ngFor="let term of tab.glossary" class="col-xs-4">
+            <li *ngFor="#term of tab.glossary" class="col-xs-4">
               <span class="text-heavy">{{term.key}}:</span> {{term.value}}
             </li>
           </ul>

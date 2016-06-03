@@ -1,8 +1,8 @@
-import {Component, Input, Output, OnInit, OnDestroy, EventEmitter, ElementRef} from '@angular/core';
-import {ROUTER_DIRECTIVES, Router} from "@angular/router-deprecated";
+import {Component, Input, Output, OnInit, OnDestroy, EventEmitter, ElementRef} from 'angular2/core';
+import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
 import {SearchService} from '../../services/search.service';
 import {Observable} from 'rxjs/Rx';
-import {Control} from '@angular/common';
+import {Control} from 'angular2/common';
 import {CircleImage} from '../images/circle-image';
 import {ImageData, CircleImageData} from '../images/image-data';
 /*
@@ -60,7 +60,7 @@ export interface SearchInput {
     },
     templateUrl: './app/components/search/search.component.html',
     directives: [CircleImage, ROUTER_DIRECTIVES],
-    providers: [SearchService]
+    providers: []
 })
 
 export class Search{
