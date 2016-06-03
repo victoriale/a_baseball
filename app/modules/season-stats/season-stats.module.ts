@@ -1,4 +1,4 @@
-import {Component, Input, Output, OnInit, EventEmitter, OnChanges} from '@angular/core';
+import {Component, Input, Output, OnInit, EventEmitter, OnChanges} from 'angular2/core';
 import {ModuleHeader} from '../../components/module-header/module-header.component';
 import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer.component';
 import {ComparisonBar, ComparisonBarInput} from '../../components/comparison-bar/comparison-bar.component';

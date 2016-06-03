@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input} from 'angular2/core';
 import {ProfileDataComponent} from "../profileData/profileData.component";
 import {BillboardComponent} from "../billboard/billboard.component";
 

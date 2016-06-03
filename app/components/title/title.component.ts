@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges} from '@angular/core';
+import {Component, Input, OnChanges} from 'angular2/core';
 import {CircleImage} from '../../components/images/circle-image';
 import {CircleImageData} from '../../components/images/image-data';
 

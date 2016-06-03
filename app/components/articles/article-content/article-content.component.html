@@ -1,4 +1,4 @@
-<div class="content-container" *ngFor="let content of articleData?.article; let i=index; let last=last; let odd=odd;">
+<div class="content-container" *ngFor="#content of articleData?.article; #i=index; #last=last; #odd=odd;">
     <p *ngIf="i==0" class="content-first" [innerHTML]="content"></p>
     <profileData-component *ngIf="odd && articleType == 'playerRoster'" [articleType]="articleType"
                            [articleData]="articleData" [index]="i" [imageLinks]="imageLinks"></profileData-component>

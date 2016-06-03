@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit} from 'angular2/core';
 import {ArticlesModule} from "../../modules/articles/articles.module";
 
 @Component({

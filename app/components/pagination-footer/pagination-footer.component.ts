@@ -1,5 +1,6 @@
-import {Component, Input, Output, OnInit, OnChanges, EventEmitter, ElementRef} from '@angular/core';
-import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
+import {Component, Input, Output, OnInit, OnChanges, EventEmitter} from 'angular2/core';
+import {ElementRef} from 'angular2/src/core/linker/element_ref';
+import {ROUTER_DIRECTIVES} from 'angular2/router';
 declare var jQuery: any;
 
 export interface PaginationParameters {
@@ -68,7 +69,7 @@ export class PaginationFooter implements OnChanges{
         params: Object;
     }>;
     //Output event emitter
-    public newIndex = new EventEmitter();
+    public newIndex: EventEmitter<number> = new EventEmitter();
 
     constructor(public myElement:ElementRef){}
     //Verifies component input. If any issues are detected console warning is thrown

@@ -1,11 +1,12 @@
-import {Injectable} from '@angular/core';
+import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Rx';
-import {Http, Headers} from '@angular/http';
+import {Http, Headers} from 'angular2/http';
+import {GlobalFunctions} from '../global/global-functions';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalSettings} from '../global/global-settings';
 import {Conference, Division, MLBPageParameters} from '../global/global-interface';
 import {SchedulesCarouselInput} from '../components/carousels/schedules-carousel/schedules-carousel.component';
-import {MLBSchedulesTableModel, MLBSchedulesTableData, MLBScheduleTabData} from './schedules.data';
+import { MLBSchedulesTableModel, MLBSchedulesTableData, MLBScheduleTabData} from './schedules.data';
 import {Gradient} from '../global/global-gradient';
 
 declare var moment;
@@ -15,7 +16,7 @@ export class SchedulesService {
   // private _apiToken: string = 'BApA7KEfj';
   // private _headerName: string = 'X-SNT-TOKEN';
 
-  constructor(public http: Http){
+  constructor(public http: Http, private _globalFunc: GlobalFunctions){
 
   }
 
@@ -83,6 +84,7 @@ export class SchedulesService {
 
   var callURL = this._apiUrl+'/'+profile+'/schedule';
 
+
   if(typeof id != 'undefined'){
     callURL += '/'+id;
   }
@@ -92,7 +94,7 @@ export class SchedulesService {
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
-      var tableData = this.setupTableData(eventStatus, year, data.data, id, limit);
+      var tableData = this.setupTableData(eventStatus, year, data.data, limit);
       var tabData = [
         {display: 'Upcoming Games', data:'pre-event', season:displayYear, tabData: new MLBScheduleTabData(this.formatGroupName(year,'pre-event'), true)},
         {display: 'Previous Games', data:'post-event', season:displayYear, tabData: new MLBScheduleTabData(this.formatGroupName(year,'post-event'), true)}
@@ -112,7 +114,7 @@ export class SchedulesService {
 
 
   //rows is the data coming in
-  private setupTableData(eventStatus, year, rows: Array<any>, teamId?, maxRows?: number) {
+  private setupTableData(eventStatus, year, rows: Array<any>, maxRows?: number) {
     //Limit to maxRows, if necessary
     if ( maxRows !== undefined ) {
       rows = rows.slice(0, maxRows);
@@ -126,32 +128,26 @@ export class SchedulesService {
     }else{
       var postDate = [];
       var dateObject = {};
-
       // let tableName = this.formatGroupName(year,eventStatus);
-      if(typeof teamId == 'undefined'){
-        var table = new MLBSchedulesTableModel(rows, eventStatus, teamId);// there are two types of tables for Post game (team/league) tables
-        rows.forEach(function(val,index){// seperate the dates into their own Obj tables for post game reports
-          var splitToDate = val.startDateTime.split(' ')[0];
-          if(typeof dateObject[splitToDate] == 'undefined'){
-            dateObject[splitToDate] = {};
-            dateObject[splitToDate]['tableData'] = [];
-            dateObject[splitToDate]['display'] = moment(val.startDateTime).format('dddd MMMM Do, YYYY') + " Games";
-            dateObject[splitToDate]['tableData'].push(val);
-          }else{
-            dateObject[splitToDate]['tableData'].push(val);
-          }
-        });
-        for(var date in dateObject){
-          var newPostModel = new MLBSchedulesTableModel(dateObject[date]['tableData'], eventStatus);
-          var newPostTable = new MLBSchedulesTableData( dateObject[date]['display'], newPostModel);
-          postDate.push(newPostTable);
+      var table = new MLBSchedulesTableModel(rows, eventStatus);
+
+      rows.forEach(function(val,index){// seperate the dates into their own Obj tables for post game reports
+        var splitToDate = val.startDateTime.split(' ')[0];
+        if(typeof dateObject[splitToDate] == 'undefined'){
+          dateObject[splitToDate] = {};
+          dateObject[splitToDate]['tableData'] = [];
+          dateObject[splitToDate]['display'] = moment(val.startDateTime).format('dddd MMMM Do, YYYY') + " Games";
+          dateObject[splitToDate]['tableData'].push(val);
+        }else{
+          dateObject[splitToDate]['tableData'].push(val);
         }
-        return postDate;
-      }else{//if there is a teamID
-        var table = new MLBSchedulesTableModel(rows, eventStatus, teamId);// there are two types of tables for Post game (team/league) tables
-        var tableArray = new MLBSchedulesTableData('' , table);
-        return [tableArray];
+      });
+      for(var date in dateObject){
+        var newPostModel = new MLBSchedulesTableModel(dateObject[date]['tableData'], eventStatus);
+        var newPostTable = new MLBSchedulesTableData( dateObject[date]['display'], newPostModel);
+        postDate.push(newPostTable);
       }
+      return postDate;
     }
   }
 

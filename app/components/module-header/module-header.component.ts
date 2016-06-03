@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from 'angular2/core';
 
 export interface ModuleHeaderData {
   moduleTitle:string,

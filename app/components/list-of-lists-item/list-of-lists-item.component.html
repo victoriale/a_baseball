@@ -6,7 +6,7 @@
     <!--put in right box styles-->
     <div class="dataBox">
       <h2 class="loli-title">{{item.name}}</h2>
-      <div *ngFor="let imageConfig of item.dataPoints; let i=index" class="loli-sub-item">
+      <div *ngFor="#imageConfig of item.dataPoints; #i=index" class="loli-sub-item">
         <circle-image *ngIf="i>0" [data]="imageConfig"></circle-image>
       </div>
     </div>

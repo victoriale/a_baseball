@@ -1,5 +1,7 @@
-import {Component, Output, EventEmitter, Injectable} from '@angular/core';
-import {RouteParams} from "@angular/router-deprecated";
+import {Component, Output, EventEmitter} from 'angular2/core';
+import {RouteParams} from 'angular2/router';
+import {Injectable} from 'angular2/core';
+
 import {DetailedListItem, DetailListInput} from '../../components/detailed-list-item/detailed-list-item.component';
 import {ModuleFooter} from '../../components/module-footer/module-footer.component';
 import {ModuleHeader} from '../../components/module-header/module-header.component';
@@ -18,7 +20,7 @@ import {NoDataBox} from '../../components/error/data-box/data-box.component';
 })
 
 export class DraftHistoryModule{
-  @Output() tab = new EventEmitter();
+  @Output() tab: EventEmitter<string> = new EventEmitter();
   draftData:any;
   profHeader:any;
   modHeadData: Object;
@@ -30,12 +32,12 @@ export class DraftHistoryModule{
   footerData: Object;
   footerStyle: any;
   teamId:number;
-  constructor(private _route: RouteParams){
-    this.teamId = Number(this._route.get('teamId'));
+  constructor( public params: RouteParams){
+    this.teamId = Number(this.params.get('teamId'));
     this.footerData = {
       infoDesc: 'Want to see everybody involved in this list?',
       text: 'VIEW THE LIST',
-      url: ['Draft-history-page',{teamName:this._route.get('teamName'), teamId:this.teamId}]
+      url: ['Draft-history-page',{teamName:this.params.get('teamName'), teamId:this.teamId}]
     };
   }
 

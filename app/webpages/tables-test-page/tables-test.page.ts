@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component} from 'angular2/core';
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {TitleComponent} from '../../components/title/title.component';
 import {CustomTable} from '../../components/custom-table/custom-table.component';

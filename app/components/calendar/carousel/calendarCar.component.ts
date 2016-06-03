@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input} from 'angular2/core';
 
 export interface CalendarCarouselInput {
 

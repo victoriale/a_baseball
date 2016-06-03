@@ -1,4 +1,4 @@
-import {it, describe, expect, beforeEach, inject} from '@angular/testing';
+import {it, describe, expect, beforeEach, inject} from 'angular2/testing';
 import {Gradient} from './global-gradient';
 
   describe('', () => {    
