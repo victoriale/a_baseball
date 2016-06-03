@@ -3,7 +3,7 @@
     <!-- Buttons for module pagination type -->
     <div *ngIf="paginationParameters.paginationType == 'module'" class="pagination-row">
         <!-- Angle Left Button -->
-        <button id="pf-angle-left" *ngIf="paginationParameters.max != 1" (click)="indexLeft($event)" class="pagination-button-angle">
+        <button id="pf-angle-left" *ngIf="paginationParameters.max > 1" (click)="indexLeft($event)" class="pagination-button-angle">
             <i class="fa fa-angle-left"></i>
         </button>
         <!-- Minimum Button -->
@@ -14,7 +14,7 @@
             ...
         </span>
         <!-- Button Array -->
-        <button *ngFor="#item of paginationButtonsModule" (click)="indexClick($event)" class="pagination-button-circle" [ngClass]="{active: paginationParameters.index == item}">
+        <button *ngFor="#item of paginationButtonsModule" (click)="indexClick($event)" class="pagination-button-circle" [ngClass]="{active: paginationParameters.index == item && item !== 1 && item !== paginationParameters.max}">
             {{item}}
         </button>
         <!-- Maximum Button -->
@@ -25,7 +25,7 @@
             {{paginationParameters.max}}
         </button>
         <!-- Angle Right Button -->
-        <button id="pf-angle-right" *ngIf="paginationParameters.max != 1" (click)="indexRight($event)" class="pagination-button-angle">
+        <button id="pf-angle-right" *ngIf="paginationParameters.max > 1" (click)="indexRight($event)" class="pagination-button-angle">
             <i class="fa fa-angle-right"></i>
         </button>
     </div>
@@ -33,7 +33,7 @@
     <!-- Anchor tags for page pagination type -->
     <div *ngIf="paginationParameters.paginationType == 'page'" class="pagination-row">
         <!-- Angle Left Button -->
-        <a class="pagination-button-angle" *ngIf="paginationParameters.max != 1" [routerLink]="[paginationParameters.navigationPage, previousButtonParameters]">
+        <a class="pagination-button-angle" *ngIf="paginationParameters.max > 1" [routerLink]="[paginationParameters.navigationPage, previousButtonParameters]">
             <i class="fa fa-angle-left"></i>
         </a>
         <!-- Minimum Button -->
@@ -55,7 +55,7 @@
             {{paginationParameters.max}}
         </a>
         <!-- Angle Right Button -->
-        <a class="pagination-button-angle" *ngIf="paginationParameters.max != 1" [routerLink]="[paginationParameters.navigationPage, nextButtonParameters]">
+        <a class="pagination-button-angle" *ngIf="paginationParameters.max > 1" [routerLink]="[paginationParameters.navigationPage, nextButtonParameters]">
             <i class="fa fa-angle-right"></i>
         </a>
     </div>

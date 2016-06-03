@@ -4,8 +4,8 @@
   <backtab-component></backtab-component>
   <title-component [titleData]="profileHeaderData"></title-component>
   <div class="list-page">
-    <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray" [footerStyle]="footerStyle"></slider-carousel>
-    <detailed-list-item *ngIf="detailedDataArray" [detailedItemData] = 'detailedDataArray'></detailed-list-item>
-    <pagination-footer [paginationParameters]="paginationParameters"></pagination-footer>
+    <slider-carousel *ngIf="carouselDataArray" [carouselData]="pageNumber != null ? carouselDataArray[pageNumber-1] : carouselDataArray" [footerStyle]="footerStyle"></slider-carousel>
+    <detailed-list-item *ngIf="detailedDataArray" [detailedItemData] = 'pageNumber != null ? detailedDataArray[pageNumber-1] : detailedDataArray'></detailed-list-item>
+    <pagination-footer [paginationParameters]="paginationParameters" (newIndex)="newIndex($event)"></pagination-footer>
   </div>
 </section>

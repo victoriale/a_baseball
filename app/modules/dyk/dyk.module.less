@@ -1,7 +1,7 @@
 .dyk{
   &-details{
-    border-left: solid 5px @greyBorder;
-    border-bottom: solid 1px @greyBorder;
+    border-left: solid 5px @highlightGrey;
+    border-bottom: solid 1px @highlightGrey;
     .flexDisplay;
     // .flexAlignItems(baseline);
     .globalDefaultModFont(16px, 400, @black);
@@ -23,11 +23,8 @@
       .globalDefaultModFont(25px, 400, @masterBrandColor);
       .flexDisplay;
       .flexAlignItems(center);
-      a{
-        color: @masterBrandColor;
-        &:hover{
-          color: @black;
-        }
+      &:hover{
+        color: @black;
       }
     }
     &:hover{

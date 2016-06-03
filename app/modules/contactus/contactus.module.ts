@@ -1,18 +1,19 @@
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {TitleComponent} from '../../components/title/title.component';
+import {FORM_DIRECTIVES, FormBuilder, ControlGroup, Validators, Control} from 'angular2/common';
 
 @Component({
     selector: 'contactus-module',
     templateUrl: './app/modules/contactus/contactus.module.html',
-    directives:[BackTabComponent, TitleComponent],
+    directives:[FORM_DIRECTIVES, BackTabComponent, TitleComponent],
     providers: []
 })
 
 export class ContactUsModule{
     @Input() contactusInput: Object;
     @Output() contactusOutput: EventEmitter<Object> = new EventEmitter();
-
+    private active:boolean = true;// by default set the form to a pristine state on load
     formSubmit(data){
         //Validate form inputs
         try{
@@ -31,6 +32,10 @@ export class ContactUsModule{
         }
         //Pass form data to parent component
         this.contactusOutput.next(data);
+        alert('Form has been submitted check email:\n '+ data.email +'\n For your ticket');
+        // reset the  form by removing it and re-adding the form to a new pristine state
+        this.active = false;
+        setTimeout(()=> this.active=true, 0);
     }
 
 }

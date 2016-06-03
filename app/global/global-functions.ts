@@ -500,4 +500,57 @@ export class GlobalFunctions {
     }
     return navigationArray;
   }
+
+
+ /**
+  * Create a valid value to set to routerLink by parsing a string delimited by a | pipe
+  * -- creating an object for params when the object syntax is present in string
+  * example input string: "Location-page|{‘loc’:'Industry-CA’}"
+  */
+  static parseToRoute(stringRoute) {
+    if(stringRoute == null){ return ["Error-page"];}
+    let stringRouteArr = stringRoute.split("|");
+
+    let generatedUrl = stringRouteArr.map(function (item) {
+      try {
+        return JSON.parse(item);
+      } catch (e) {
+      }
+      return item;
+    });
+    return generatedUrl;
+  }
+/**
+ * Format value to Billion/Million/Thousand
+ */
+  static nFormatter(num) {
+  	if (num >= 1000000000) {
+  		return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + ' B';
+  	}
+  	if (num >= 1000000) {
+  		return (num / 1000000).toFixed(1).replace(/\.0$/, '') + ' M';
+  	}
+  	if (num >= 1000) {
+  		return (num / 1000).toFixed(1).replace(/\.0$/, '') + ' K';
+  	}
+  	return num;
+  }
+  static nFormatter2(num) {
+    if (num >= 1000000000000) {
+  		return (num / 1000000000000).toFixed(1).replace(/\.0$/, '') + ' Tril';
+  	}
+  	if (num >= 1000000000) {
+  		return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + ' Bil';
+  	}
+  	if (num >= 1000000) {
+  		return (num / 1000000).toFixed(1).replace(/\.0$/, '') + ' Mil';
+  	}
+  	if (num >= 1000) {
+  		return (num / 1000).toFixed(1).replace(/\.0$/, '') + ' K';
+  	}
+    if (num >= 100) {
+      return (num/1).toFixed(1).replace(/\.0$/, '') + ' ';
+    }
+  	return num;
+  }
 }

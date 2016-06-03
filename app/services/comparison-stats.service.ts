@@ -26,6 +26,7 @@ export interface PlayerData {
   weight: number;
   age: number;
   yearsExperience: number;
+  statistics: { [seasonId: string]: SeasonStats };
 }
 
 export interface TeamPlayers {
@@ -43,35 +44,37 @@ export interface ComparisonBarList {
   [year: string]: Array<ComparisonBarInput>
 }
 
-export interface SeasonStats {
+export class SeasonStats {
   isCurrentSeason: boolean;
-  batHomeRuns: DataPoint;
-  batAverage: DataPoint;
-  batRbi: DataPoint;
-  batSluggingPercentage: DataPoint;
-  batHits: DataPoint;
-  batBasesOnBalls: DataPoint;
-  batOnBasePercentage: DataPoint;
-  batDoubles: DataPoint;
-  batTriples: DataPoint;
-  pitchEra: DataPoint;
-  pitchWins: DataPoint;
-  pitchLosses: DataPoint;
-  pitchStrikeouts: DataPoint;
-  pitchInningsPitched: DataPoint;
-  pitchBasesOnBalls: DataPoint;
-  pitchWhip: DataPoint;
-  pitchSaves: DataPoint;
-  pitchIpa: DataPoint;
-  pitchHits: DataPoint;
-  pitchEarnedRuns: DataPoint;
-  pitchHomeRunsAllowed: DataPoint;
+  batHomeRuns: number;
+  batAverage: number;
+  batRbi: number;
+  batSluggingPercentage: number;
+  batHits: number;
+  batBasesOnBalls: number;
+  batOnBasePercentage: number;
+  batDoubles: number;
+  batTriples: number;
+  pitchEra: number;
+  pitchWins: number;
+  pitchLosses: number;
+  pitchStrikeouts: number;
+  pitchInningsPitched: number;
+  pitchBasesOnBalls: number;
+  pitchWhip: number;
+  pitchSaves: number;
+  pitchIpa: number;
+  pitchHits: number;
+  pitchEarnedRuns: number;
+  pitchHomeRunsAllowed: number;
 }
 
 export interface ComparisonStatsData {
   playerOne: PlayerData;
   playerTwo: PlayerData;
-  data: { [year: string]: SeasonStats };
+  bestStatistics: { [seasonId: string]: SeasonStats };
+  worstStatistics: { [seasonId: string]: SeasonStats };
+  data: { [year: string]: any };
   bars: ComparisonBarList;
 }
 
@@ -100,7 +103,7 @@ export class MLBComparisonModuleData implements ComparisonModuleData {
           listLoaded(this.teamList);
         },
         err => {
-          console.log("Error loading team list for comparison module: " + err);
+          console.log("Error loading team list for comparison module", err);
         })
       }
       else {
@@ -121,15 +124,29 @@ export class MLBComparisonModuleData implements ComparisonModuleData {
         teamData.playerList = [];
         this._service.getPlayerList(newTeamId).subscribe(data => {
           teamData.playerList = data;
+          //TODO - widen dropdown to  
+          // teamData.playerList[1].value += "Something longer than ever";
           listLoaded(teamData.playerList);
         },
         err => {
-          console.log("Error loading player list for " + newTeamId + " for the comparison module: " + err);
+          console.log("Error loading player list for " + newTeamId + " for the comparison module", err);
         })
       }
       else {
         listLoaded(teamData.playerList);
       }
+    }
+
+    loadPlayer(index: number, teamId: string, playerId: string, statsLoaded: Function) {
+      if ( index > 2 ) { // only two items should be in player lists
+        index = index % 2;
+      }
+      this._service.getSinglePlayerStats(index, this.data, teamId, playerId).subscribe(bars => {
+        statsLoaded(bars);
+      },
+      err => {
+        console.log("Error loading player comparison stats");
+      });
     }
 }
 
@@ -138,9 +155,15 @@ export class ComparisonStatsService {
   private _apiUrl: string = GlobalSettings.getApiUrl();
 
   private pitchingFields = [
-    "pitchWins", "pitchInningsPitched", "pitchStrikeouts",
-    "pitchEra", "pitchHits", "pitchEarnedRuns",
-    "pitchHomeRunsAllowed", "pitchBasesOnBalls"
+    "pitchWins", 
+    "pitchInningsPitched", 
+    "pitchStrikeouts",
+    "pitchEra", 
+    // "pitchSaves",
+    "pitchHits",
+    "pitchEarnedRuns",
+    "pitchHomeRunsAllowed",
+    "pitchBasesOnBalls"
   ];
 
   private battingFields = [
@@ -152,9 +175,15 @@ export class ComparisonStatsService {
   constructor(public http: Http) { }
 
   getInitialPlayerStats(pageParams: MLBPageParameters): Observable<ComparisonModuleData> {
-    return this.callPlayerComparisonAPI(pageParams.teamId, pageParams.playerId, data => {
-      // var data = apiData.data;
-      data.bars = this.formatData(data);
+    var teamId = pageParams.teamId != null ? pageParams.teamId.toString() : null;
+    var playerId = pageParams.playerId != null ? pageParams.playerId.toString() : null;
+    return this.callPlayerComparisonAPI(teamId, playerId, data => {
+      // console.log("  comparison data", data);
+      data.playerOne.statistics = this.formatPlayerData(data.playerOne.playerId, data.data);
+      data.playerTwo.statistics = this.formatPlayerData(data.playerTwo.playerId, data.data);
+      data.bestStatistics = this.formatPlayerData("statHigh", data.data);
+      data.worstStatistics = this.formatPlayerData("statLow", data.data);
+      data.bars = this.createComparisonBars(data);
 
       var team1Data = {
         teamId: data.playerOne.teamId,
@@ -180,10 +209,17 @@ export class ComparisonStatsService {
     });
   }
 
-  getPlayerStats(playerId: string): Observable<ComparisonBarList> {
-    return this.callPlayerComparisonAPI(null, Number(playerId), data => {
-        return this.formatData(data.data);
-      });
+  getSinglePlayerStats(index:number, existingData: ComparisonStatsData, teamId: string, playerId: string): Observable<ComparisonBarList> {
+    return this.callPlayerComparisonAPI(teamId, playerId, apiData => {
+      apiData.playerOne.statistics = this.formatPlayerData(apiData.playerOne.playerId, apiData.data);
+      if ( index == 0 ) {
+        existingData.playerOne = apiData.playerOne;        
+      }
+      else {
+        existingData.playerTwo = apiData.playerOne;
+      }
+      return this.createComparisonBars(existingData);
+    });
   }
 
   getPlayerList(teamId: string): Observable<Array<{key: string, value: string}>> {
@@ -205,9 +241,8 @@ export class ComparisonStatsService {
     });
   }
 
-  private callPlayerComparisonAPI(teamId: number, playerId: number, dataLoaded: Function) {
+  callPlayerComparisonAPI(teamId: string, playerId: string, dataLoaded: Function) {
     let url = this._apiUrl + "/player/comparison/";
-    let teamsUrl = this._apiUrl + "/team/comparisonTeamList";
 
     if ( playerId ) {
       //http://dev-homerunloyal-api.synapsys.us/player/comparison/player/95622
@@ -265,12 +300,38 @@ export class ComparisonStatsService {
     return dropdownList;
   }
 
-  private formatData(data: ComparisonStatsData): ComparisonBarList {
-    //TODO-CJP: figure out if pitcher or not - should users be allowed to compare pitchers vs batters?
-    var fields = data.playerOne.position[0] == "Pitcher" ? this.pitchingFields : this.battingFields;
-
-    var bars: { [year: string]: Array<ComparisonBarInput> } = {};
-
+  private formatPlayerData(playerId: string, data: { [seasonId: string]: any }):{ [seasonId: string]: SeasonStats } {
+    var stats: { [seasonId: string]: SeasonStats } = {};
+    for ( var seasonId in data ) {
+      var seasonData = data[seasonId];
+      var seasonStats = new SeasonStats();
+      var isValidStats = false;
+      
+      for ( var key in seasonData ) {
+        var value = seasonData[key];
+        if ( key == "isCurrentSeason" ) {
+          seasonStats.isCurrentSeason = value;
+        }
+        else if ( value != null ) {
+          if ( value["statHigh"] != null ) {
+            isValidStats = true;
+          }
+          seasonStats[key] = value[playerId] != null ? Number(value[playerId]) : null;
+        }
+        else {
+          seasonStats[key] = null;
+        }
+      }
+      if ( isValidStats ) {
+        stats[seasonId] = seasonStats;
+      }
+    }
+    return stats;
+  }
+  
+  private createComparisonBars(data: ComparisonStatsData): ComparisonBarList {
+    var fields = data.playerOne.position[0].charAt(0) == "P" ? this.pitchingFields : this.battingFields;
+    
     data.playerOne.mainTeamColor = data.playerOne.teamColors[0];
     data.playerTwo.mainTeamColor = data.playerTwo.teamColors[0];
     if ( Gradient.areColorsClose(data.playerOne.teamColors[0], data.playerTwo.teamColors[0]) ) {
@@ -280,42 +341,36 @@ export class ComparisonStatsService {
         data.playerOne.mainTeamColor = data.playerOne.teamColors[1];
       }
     }
-
-    for ( var seasonId in data.data ) {
-      var seasonStatData = data.data[seasonId];
+     
+    var bars: ComparisonBarList = {};
+    for ( var seasonId in data.bestStatistics ) {
+      var bestStats = data.bestStatistics[seasonId];
+      var worstStats = data.worstStatistics[seasonId];
+      var playerOneStats = data.playerOne.statistics[seasonId];
+      var playerTwoStats = data.playerTwo.statistics[seasonId];
       var seasonBarList = [];
 
       for ( var i = 0; i < fields.length; i++ ) {
         var key = fields[i];
-        var dataPoint: DataPoint = seasonStatData[key];
-        if ( !dataPoint ) {
-          // console.log("no data point for " + key);
-          break;
-        }
-
         var title = this.getKeyDisplayTitle(key);
-        if ( !title ) {
-          // console.log("no title for " + title);
-          break;
-        }
 
         seasonBarList.push({
           title: title,
           data: [{
-            value: dataPoint[data.playerOne.playerId],
+            value: playerOneStats != null ? playerOneStats[key] : null,
             color: data.playerOne.mainTeamColor
           },
           {
-            value: dataPoint[data.playerTwo.playerId],
+            value: playerTwoStats != null ? playerTwoStats[key] : null,
             color: data.playerTwo.mainTeamColor
           }],
-          maxValue: dataPoint['statHigh']
+          minValue: worstStats != null ? worstStats[key] : null,
+          maxValue: bestStats != null ? bestStats[key] : null
         });
       }
 
       bars[seasonId] = seasonBarList;
     }
-
     return bars;
   }
 
@@ -324,7 +379,7 @@ export class ComparisonStatsService {
       case "batHomeRuns": return "Home Runs";
       case "batAverage": return "Batting Average";
       case "batRbi": return "RBIs";
-      // case "batSluggingPercentage": return "";
+      case "batSluggingPercentage": return "Slugging Percentage";
       case "batHits": return "Hits";
       case "batBasesOnBalls": return "Walks";
       case "batOnBasePercentage": return "On Base Percentage";
@@ -332,13 +387,13 @@ export class ComparisonStatsService {
       case "batTriples": return "Triples";
       case "pitchEra": return "Earned Run Average";
       case "pitchWins": return "Wins";
-      // case "pitchLosses": return "";
+      case "pitchLosses": return "Losses";
       case "pitchStrikeouts": return "Strikeouts";
       case "pitchInningsPitched": return "Innings Pitched";
       case "pitchBasesOnBalls": return "Walks";
-      // case "pitchWhip": return "";
-      // case "pitchSaves": return "";
-      // case "pitchIpa": return "";
+      case "pitchWhip": return "WHIP";
+      case "pitchSaves": return "Saves";
+      case "pitchIpa": return "IPA";
       case "pitchHits": return "Hits";
       case "pitchEarnedRuns": return "Earned Runs";
       case "pitchHomeRunsAllowed": return "Home Runs";
