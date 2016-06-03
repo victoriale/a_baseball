@@ -12,17 +12,18 @@
     <!-- 1. Load libraries -->
     <!-- IE required polyfills, in this exact order -->
     <script src="lib/es6-shim.min.js"></script>
-    <script src="lib/system-polyfills.js"></script>
-
-    <script src="lib/angular2-polyfills.js"></script>
+    <!--<script src="lib/system-polyfills.js"></script>-->
+    <!--<script src="lib/angular2-polyfills.js"></script>-->
+    <script src="lib/Reflect.js"></script>
     <script src="lib/system.src.js"></script>
-    <script src="lib/Rx.js"></script>
-    <script src="lib/angular2.dev.js"></script>
-    <script src="lib/router.dev.js"></script>
-    <script src="lib/http.js"></script>
-    <script src="lib/shims_for_IE.js"></script>
+    <!--<script src="lib/Rx.js"></script>-->
+    <!--<script src="lib/angular2.dev.js"></script>-->
+    <!--<script src="lib/router.dev.js"></script>-->
+    <!--<script src="lib/http.js"></script>-->
+    <!--<script src="lib/shims_for_IE.js"></script>-->
     <script src="lib/moment.js"></script>
     <script src="lib/moment-timezone.js"></script>
+    <script src="lib/zone.js"></script>
     <script src="lib/fuse.min.js"></script>
 
     <script src="https://apis.google.com/js/platform.js" async defer></script>
@@ -39,17 +40,33 @@
             this.page.url = window.location.href + "#!newthread";
         };
     </script>
-    <script type="text/javascript">stLight.options({publisher: "ab81b5e8-9aea-4921-9930-26ce6925e901", doNotHash: false, doNotCopy: false, hashAddressBar: false, onhover: false});</script>
     <!-- 2. Configure SystemJS -->
-    <script>
+    <script type="text/javascript">
       System.config({
         packages: {
-          app: {
-            format: 'register',
-            defaultExtension: 'js'
-          }
+          "app"                              : {format: "register", defaultExtension: "js"},
+          "@angular/core"                    : {defaultExtension: "js", main: "index.js"},
+          "@angular/common"                  : {defaultExtension: "js", main: "index.js"},
+          "@angular/compiler"                : {defaultExtension: "js", main: "index.js"},
+          "@angular/router-deprecated"       : {defaultExtension: "js", main: "index.js"},
+          "@angular/http"                    : {defaultExtension: "js", main: "index.js"},
+          "@angular/platform-browser"        : {defaultExtension: "js", main: "index.js"},
+          "@angular/platform-browser-dynamic": {defaultExtension: "js", main: "index.js"},
+          "rxjs"                             : {defaultExtension: "js"}
+        },
+        map: {
+          "@angular/core"                    : "lib/core",
+          "@angular/common"                  : "lib/common",
+          "@angular/compiler"                : "lib/compiler",
+          "@angular/router-deprecated"       : "lib/router-deprecated",
+          "@angular/http"                    : "lib/http",
+          "@angular/platform-browser"        : "lib/platform-browser",
+          "@angular/platform-browser-dynamic": "lib/platform-browser-dynamic",
+          "rxjs"                             : "lib"
         }
       });
+      </script>
+    <script>
       System.import('app/main')
         .then(null, console.error.bind(console));
     </script>

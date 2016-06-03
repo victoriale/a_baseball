@@ -20,7 +20,7 @@
         <!-- round main image ends -->
         <!-- carousel description -->
         <div class="scc-details-desc">
-          <span *ngFor="#description of dataPoint.description" [innerHTML]="description"></span>
+          <span *ngFor="let description of dataPoint.description" [innerHTML]="description"></span>
         </div>
         <!-- desc ends -->
       </div>

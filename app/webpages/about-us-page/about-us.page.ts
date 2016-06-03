@@ -1,15 +1,15 @@
 /**
  * Created by Victoria on 4/19/2016.
  */
-import {Component, OnInit} from 'angular2/core';
-import {Router,ROUTER_DIRECTIVES, RouteParams} from 'angular2/router';
+import {Component, OnInit} from '@angular/core';
+import {Router,ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {TitleComponent} from '../../components/title/title.component';
 import {WidgetModule} from "../../modules/widget/widget.module";
 
 import {AboutUsService} from '../../services/about-us.service';
-import {GlobalFunctions} from '../../global/global-functions';
+import {GlobalSettings} from "../../global/global-settings";
 import {WebApp} from '../../app-layout/app.layout';
 import {TitleInputData} from "../../components/title/title.component";
 import {CircleImage} from "../../components/images/circle-image";
@@ -59,23 +59,16 @@ export class AboutUsPage {
         icon: 'fa fa-map-marker'
     }
 
-    constructor(private _router: Router, private _service: AboutUsService, private _globalFunctions: GlobalFunctions) {
-      this._router.root.subscribe(
-          route => {
-            var routeValues = route.split('/');
-            if(routeValues[0] !== '' && routeValues[0] !== undefined && routeValues[0] !== null){
-              //Has Partner
-              this.partnerID = routeValues[0];
-            } else {
-              this.partnerID = null;
-            }
-          this._service.getData(this.partnerID).subscribe(
-            data => this.setupAboutUsData(data),
-            err => { 
-              console.log("Error getting About Us data: " + err);
-            }
-          );
-       })
+    constructor(private _router: Router, private _service: AboutUsService) {
+        GlobalSettings.getPartnerId(_router, partnerId => {
+            this.partnerID = partnerId;
+            this._service.getData(this.partnerID).subscribe(
+              data => this.setupAboutUsData(data),
+              err => { 
+                console.log("Error getting About Us data: " + err);
+              }
+            );
+        });
       
         // Scroll page to top to fix routerLink bug
         window.scrollTo(0, 0);

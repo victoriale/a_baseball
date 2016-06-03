@@ -1,9 +1,9 @@
 /**
  * Created by Victoria on 3/4/2016.
  */
-import {Component, OnInit, Input, Output, EventEmitter} from 'angular2/core';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {CircleButton} from "../../components/buttons/circle/circle.button";
-import {ROUTER_DIRECTIVES} from 'angular2/router';
+import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 import {PriceFormatPipe} from '../../pipes/price-format.pipe';
 
 declare var jQuery : any;
@@ -21,9 +21,9 @@ declare var jQuery : any;
 export class MediaImages implements OnInit {
   featureListing: any;
   public trending: boolean;
-  leftCircle: EventEmitter<boolean> = new EventEmitter();
-  rightCircle: EventEmitter<boolean> = new EventEmitter();
-  expand: EventEmitter<boolean> = new EventEmitter();
+  leftCircle = new EventEmitter();
+  rightCircle = new EventEmitter();
+  expand = new EventEmitter();
   subImageSize: number = 5;
   modalButton: boolean = false;
   expandText: string = 'Expand';

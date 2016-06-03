@@ -2,7 +2,7 @@
     <div class="schedule-next">
         <div class="schedule-next {{defaultGradient}}" [ngStyle]="gradient">
         </div>
-        <span *ngFor="#home of homeData">
+        <span *ngFor="let home of homeData">
             <div class="schedule-next-team schedule-next-team-left">
                 <div class="schedule-next-team-left-url">
                     <span class="schedule-next-team-name">{{home.homeLocation}}<span
@@ -18,7 +18,7 @@
         <div class="schedule-next-vs">
             vs.
         </div>
-        <span *ngFor="#away of awayData">
+        <span *ngFor="let away of awayData">
             <circle-image *ngIf="away.awayLogo" class="schedule-next-circle schedule-next-circle-right"
                           [data]="away.awayLogo"></circle-image>
             <div class="schedule-next-team schedule-next-team-right">

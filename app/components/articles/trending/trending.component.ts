@@ -1,4 +1,4 @@
-import {Component, OnInit} from 'angular2/core';
+import {Component, OnInit} from '@angular/core';
 import {Articles} from "../../../global/global-service";
 import {ArticleData} from "../../../global/global-interface";
 import {ShareLinksComponent} from "../shareLinks/shareLinks.component";

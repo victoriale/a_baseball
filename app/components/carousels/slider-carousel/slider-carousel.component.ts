@@ -1,7 +1,7 @@
 /**
  * Created by Victoria on 4/19/2016.
  */
-import {Component, OnInit, Output, Input, EventEmitter} from 'angular2/core';
+import {Component, OnInit, Output, Input, EventEmitter} from '@angular/core';
 import {CircleImage} from '../../images/circle-image';
 import {ImageData, CircleImageData} from '../../images/image-data';
 import {Carousel} from '../carousel.component';
@@ -40,7 +40,7 @@ export class SliderCarousel implements OnInit {
   @Input() indexInput: any;//this is an optional Input to determine where the current index is currently positioned. otherwise set the defaul indexInput to 0;
   @Input() footerStyle: any;
 
-  public indexNum: EventEmitter<any> = new EventEmitter();//interface for the output to return an index
+  public indexNum = new EventEmitter();//interface for the output to return an index
   public dataPoint: SliderCarouselInput;
 
   constructor() {
