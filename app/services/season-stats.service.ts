@@ -5,12 +5,10 @@ import {MLBPageParameters} from '../global/global-interface';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
 import {GlobalSettings} from '../global/global-settings';
-import {Gradient} from '../global/global-gradient';
 
 import {ComparisonBarInput} from '../components/comparison-bar/comparison-bar.component';
 import {SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
 import {CircleImageData} from '../components/images/image-data';
-
 
 export interface PlayerData {
   playerName: string;
@@ -27,6 +25,8 @@ export interface PlayerData {
   weight: number;
   age: number;
   yearsExperience: number;
+  liveImage: string;
+  lastUpdated: string;
 }
 
 export interface DataPoint {
@@ -52,6 +52,7 @@ export interface SeasonStats {
   leader: SeasonStatsData;
   average: SeasonStatsData;
   player: SeasonStatsData;
+  worst: any;
 }
 export interface SeasonStatsData {
   playerInfo: PlayerData;
@@ -84,8 +85,6 @@ export class SeasonStatsService {
 
   private callPlayerComparisonAPI(playerId: number, dataLoaded: Function) {
     let url = this._apiUrl + "/player/seasonStats/" + playerId;
-
-    // console.log("getting player stats: " + url);
     return this.http.get(url)
       .map(res => res.json())
       .map(data => dataLoaded(data.data));
@@ -109,6 +108,7 @@ export class SeasonStatsService {
         let leader = stats[year].leader;
         let average = stats[year].average;
         let seasonStatsPlayer = stats[year].player;
+        let worst = stats[year].worst;
         var playerBarStats = [];
         for( var playerStat in leader){
           var s = {
@@ -121,57 +121,31 @@ export class SeasonStatsService {
               value: Number(this.getKeyValue(playerStat, average)).toFixed(1),
               color: '#555555',
             }],
-            maxValue: Number(this.getKeyValue(playerStat, leader).statValue).toFixed(1),
-            minValue: 0,
+            minValue: Number(this.getKeyValue(playerStat, worst)['statValue']).toFixed(1),
+            maxValue: Number(this.getKeyValue(playerStat, leader)['statValue']).toFixed(1),
             info: 'fa-info-circle',
           }
           playerBarStats.push(s);
         }
       }
-
-      if( curYear - 4 < Number(year) || year == 'career'){
+      if( curYear - 4 < Number(year) || year != 'career'){
         seasonStatTab.push({
           tabTitle: displayTab,
           tabData: playerBarStats
         });
       }
     }
-
+    seasonStatTab.sort();
+    seasonStatTab.reverse();
+    //TODO still need data for career stats
+    // seasonStatTab.push({
+    //   tabTitle: "Career Stats",
+    //   tabData: playerBarStats
+    // })
     return {
       playerInfo: playerInfo,
       tabs: seasonStatTab
     };
-  }
-  /**
-   *this function will have inputs of all required fields that are dynamic and output the full
-  **/
-  imageData(imageClass, imageBorder, mainImg, mainImgRoute, subImgClass, subImg?, subRoute?){
-    if(typeof mainImg =='undefined' || mainImg == ''){
-      mainImg = "/app/public/no-image.png";
-    }
-    if(typeof subImg =='undefined' || subImg == ''){
-      subImg = "/app/public/no-image.png";
-    }
-    var image: CircleImageData = {//interface is found in image-data.ts
-        imageClass: imageClass,
-        mainImage: {
-            imageUrl: mainImg,
-            urlRouteArray: mainImgRoute,
-            hoverText: "<p>View</p><p>Profile</p>",
-            imageClass: imageBorder,
-        },
-    };
-    if(typeof subRoute != 'undefined') {
-      image.subImages = [
-          {
-              imageUrl: subImg,
-              urlRouteArray: subRoute,
-              hoverText: "<i class='fa fa-mail-forward'></i>",
-              imageClass: subImgClass + " image-round-lower-right"
-          },
-      ];
-    }
-    return image;
   }
 
   private getKeyDisplayTitle(key: string): string {
