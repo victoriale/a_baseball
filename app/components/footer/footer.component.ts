@@ -13,6 +13,7 @@ import {Link, NavigationData} from '../../global/global-interface';
 })
 export class FooterComponent implements OnInit {
     public pageName: string = "HomeRunLoyal";//TODO
+    public currentUrl: string = window.location.href
     teamDirectoryListings: Array<Link> = []
 
     playerDirectoryListings: Array<Link> = []
