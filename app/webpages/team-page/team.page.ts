@@ -131,6 +131,7 @@ export class TeamPage implements OnInit {
     profileType:string = "team";
     isProfilePage:boolean = true;
     draftHistoryData:any;
+    boxScoresData:any;
     transactionsData:any;
     currentYear: number;
 
@@ -264,6 +265,7 @@ export class TeamPage implements OnInit {
       .subscribe(
         data => {
           console.log(data);
+          this.boxScoresData = data;
         },
         err => {
           console.log("Error getting Schedules Data");
