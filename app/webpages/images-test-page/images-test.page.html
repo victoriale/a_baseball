@@ -18,7 +18,7 @@
                             <circle-image [data]="testImages[0].imageData"></circle-image>
                         </div>
                         
-                        <div *ngFor="#dataItem of testImages; #isOdd=odd">
+                        <div *ngFor="let dataItem of testImages; let isOdd=odd">
                           <h4>{{dataItem.description}}</h4>
                           <div class="image-row" [ngStyle]="isOdd ? gradientStyles[0] : gradientStyles[1]">
                             <circle-image [data]="dataItem.imageData"></circle-image>

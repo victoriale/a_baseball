@@ -1,14 +1,14 @@
 /**
  * Created by Victoria on 4/19/2016.
  */
-import {Component, OnInit} from 'angular2/core';
+import {Component, OnInit} from '@angular/core';
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {TitleComponent} from '../../components/title/title.component';
 import {WidgetModule} from "../../modules/widget/widget.module";
-import {Router,ROUTER_DIRECTIVES} from 'angular2/router';
-import {Injector} from 'angular2/core';
+import {Router,ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 import {WebApp} from '../../app-layout/app.layout';
 import {TitleInputData} from "../../components/title/title.component";
+import {GlobalSettings} from "../../global/global-settings";
 
 @Component({
     selector: 'Disclaimer-page',
@@ -28,20 +28,11 @@ export class DisclaimerPage implements OnInit {
     public disHeaderTitle = "<span style='font-weight: 700;'>Disclaimer</span>";
     titleData: TitleInputData;
 
-    constructor(private injector:Injector, private _router: Router) {
-        this._router.root
-            .subscribe(
-                route => {
-                  var curRoute = route;
-                  var partnerID = curRoute.split('/');
-                  if(partnerID[0] == ''){
-                    this.partnerID = null;
-                  }else{
-                    this.partnerID = partnerID[0];
-                  }
-                  this.getData();
-                }
-            )//end of route subscribe
+    constructor(private _router: Router) {
+        GlobalSettings.getPartnerId(_router, partnerId => {
+            this.partnerID = partnerId;
+            this.getData();
+        });
 
         // Scroll page to top to fix routerLink bug
         window.scrollTo(0, 0);

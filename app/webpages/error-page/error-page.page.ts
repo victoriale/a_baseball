@@ -1,11 +1,8 @@
 /**
  * Created by Victoria on 3/30/2016.
  */
-import {Component, OnInit} from 'angular2/core';
-//import {HeroListComponent} from "../../components/hero/hero-list/hero-list.component";
-// import {Router,ROUTER_DIRECTIVES, RouteParams} from 'angular2/router';
-import {Injector} from 'angular2/core';
-import {WebApp} from '../../app-layout/app.layout';
+import {Component, OnInit} from '@angular/core';
+import {Router} from "@angular/router-deprecated";
 
 @Component({
     selector: 'Error-page',
@@ -20,10 +17,12 @@ export class ErrorPage implements OnInit{
   public partnerParam: string;
   public partnerID: string;
 
-  constructor(private injector:Injector) {
+  constructor(private _router:Router) {
+    GlobalSettings.getPartnerId(_router, partnerId => {
+        this.partnerID = partnerId;
+    });
+        
       // Scroll page to top to fix routerLink bug
-      let partnerParam = this.injector.get(WebApp);
-      this.partnerID = partnerParam.partnerID;
       window.scrollTo(0, 0);
   }
   ngOnInit(){

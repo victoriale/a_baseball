@@ -100,7 +100,7 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
       var andCheck = " is ";
     }
     if(val.salary != null){
-      playerSalary = andCheck + "making a salary of <b>$" + GlobalFunctions.commaSeparateNumber(Number(val.salary)) + "</b>.";
+      playerSalary = andCheck + "making a salary of <b>$" + GlobalFunctions.nFormatter2(Number(val.salary)) + "</b>.";
     } else {
       playerSalary = andCheck + "making a salary of <b>N/A</b>.";
     }
@@ -242,7 +242,7 @@ export class RosterTableModel {
         break;
 
       case "sal":
-        s = item.salary == null ? "N/A" : "$" + GlobalFunctions.commaSeparateNumber(Number(item.salary));
+        s = item.salary == null ? "N/A" : "$" + GlobalFunctions.nFormatter(Number(item.salary));
         break;
     }
     return s;

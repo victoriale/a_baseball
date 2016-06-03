@@ -1,4 +1,4 @@
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 import {Link} from './global-interface';
 
 declare var moment: any;
@@ -48,16 +48,7 @@ export class GlobalFunctions {
      * @param {string} str - The string value to convert to title case
      * @returns {string}
      */
-     toTitleCase(str:string): string {
-       if ( str === undefined || str === null ) {
-         return str;
-       }
-       return str.replace(/\w\S*/g, function(txt) {
-         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-       });
-     };
-
-     static toTitleCase(str:string): string { // the above can be removed once conversion is swapped to static
+     static toTitleCase(str:string): string {
        if ( str === undefined || str === null ) {
          return str;
        }
@@ -162,7 +153,7 @@ export class GlobalFunctions {
      * @param {string} def - (Optional) The default string value to use if the number is 0 or undefined. If it's not included, then "N/A" is used as the def string.
      * @returns {string}
      */
-    formatPriceNumber(value:number, def?:string): string {
+    static formatPriceNumber(value:number, def?:string): string {
       if ( def === null || def === undefined ) {
         def = "N\A";
       }
@@ -357,7 +348,7 @@ export class GlobalFunctions {
           return str;
         }
         str = str.replace(/-/g, ' ');
-        str = this.toTitleCase(str);
+        str = GlobalFunctions.toTitleCase(str);
         str = str.replace(/ /g, '');
         str = str[0].toLowerCase() + str.slice(1);
         return str;
@@ -520,6 +511,37 @@ export class GlobalFunctions {
     });
     return generatedUrl;
   }
-
-
+/**
+ * Format value to Billion/Million/Thousand
+ */
+  static nFormatter(num) {
+  	if (num >= 1000000000) {
+  		return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + ' B';
+  	}
+  	if (num >= 1000000) {
+  		return (num / 1000000).toFixed(1).replace(/\.0$/, '') + ' M';
+  	}
+  	if (num >= 1000) {
+  		return (num / 1000).toFixed(1).replace(/\.0$/, '') + ' K';
+  	}
+  	return num;
+  }
+  static nFormatter2(num) {
+    if (num >= 1000000000000) {
+  		return (num / 1000000000000).toFixed(1).replace(/\.0$/, '') + ' Tril';
+  	}
+  	if (num >= 1000000000) {
+  		return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + ' Bil';
+  	}
+  	if (num >= 1000000) {
+  		return (num / 1000000).toFixed(1).replace(/\.0$/, '') + ' Mil';
+  	}
+  	if (num >= 1000) {
+  		return (num / 1000).toFixed(1).replace(/\.0$/, '') + ' K';
+  	}
+    if (num >= 100) {
+      return (num/1).toFixed(1).replace(/\.0$/, '') + ' ';
+    }
+  	return num;
+  }
 }

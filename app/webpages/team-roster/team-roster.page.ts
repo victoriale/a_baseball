@@ -1,5 +1,5 @@
-import {Component, OnInit, Input, DoCheck, OnChanges} from 'angular2/core';
-import {RouteParams} from "angular2/router";
+import {Component, OnInit, Input, DoCheck, OnChanges} from '@angular/core';
+import {RouteParams} from "@angular/router-deprecated";
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {TitleComponent, TitleInputData} from "../../components/title/title.component";
 import {RosterComponent, RosterTabData} from "../../components/roster/roster.component";
@@ -30,10 +30,10 @@ export class TeamRosterPage implements OnInit {
   public tabs: Array<MLBRosterTabData>;
   private selectedTabTitle: string;
 
-  constructor(private _params: RouteParams,
+  constructor(private _route: RouteParams,
               private _profileService: ProfileHeaderService,
               private _rosterService: RosterService) {
-    let teamId = _params.get("teamId");
+    let teamId = _route.get("teamId");
     if ( teamId !== null && teamId !== undefined ) {
       this.pageParams.teamId = Number(teamId);
     }
