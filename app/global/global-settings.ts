@@ -13,6 +13,9 @@ export class GlobalSettings {
     private static _articleUrl:string = '-homerunloyal-ai.synapsys.us/';
     private static _recommendUrl:string = '-homerunloyal-ai.synapsys.us/headlines/event/';
     private static _headlineUrl:string = '-homerunloyal-ai.synapsys.us/headlines/team/';
+    
+    private static _homepageUrl:string = '.homerunloyal.com';
+    private static _partnerHomepageUrl:string = '.homerunloyal.com/';
 
     static getEnv(env:string):string {
         if (env == "localhost") {
@@ -50,6 +53,15 @@ export class GlobalSettings {
         return this._proto + "//" + this._newsUrl;
     }
 
+    }
+    
+    static getHomePage(partnerId: string) {
+        if ( partnerId ) {            
+            return this._proto + "//" + this.getEnv(this._env) + this._partnerHomepageUrl + partnerId;
+        }
+        else {
+            return this._proto + "//" + this.getEnv(this._env) + this._homepageUrl;
+        }
     static getSiteLogoUrl():string {
         return "/app/public/mainLogo.png";
     }

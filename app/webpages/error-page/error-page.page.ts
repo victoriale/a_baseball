@@ -1,6 +1,3 @@
-/**
- * Created by Victoria on 3/30/2016.
- */
 import {Component, OnInit} from 'angular2/core';
 //import {HeroListComponent} from "../../components/hero/hero-list/hero-list.component";
 // import {Router,ROUTER_DIRECTIVES, RouteParams} from 'angular2/router';
@@ -26,12 +23,9 @@ export class ErrorPage implements OnInit{
       this.partnerID = partnerParam.partnerID;
       window.scrollTo(0, 0);
   }
-  ngOnInit(){
-    if(this.partnerID === null ){
-      this.pageLink = "http://www.joyfulhome.com";
-    } else {
-      this.pageLink = "http://www.myhousekit.com/" + this.partnerID;
-    }
+  
+  ngOnInit() {
+    this.pageLink = GlobalSettings.getHomePage(this.partnerID);
     this.errorMessage = "Oops! That page doesn't exist! Try Refreshing or go to <a class='text-master' href='/'"+ this.pageLink +"'> our home page</a>!";
   }
 }
