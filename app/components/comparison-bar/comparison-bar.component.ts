@@ -119,6 +119,9 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
                 // console.log("  adjusted: " + value);
             }
             dataItem.width = (Math.round(value / adjustedMax * (100 - scaleStart) * 10) / 10) + scaleStart;
+            if ( dataItem.width < scaleStart || !dataItem.value ) {
+                dataItem.width = scaleStart;
+            }
             // if ( barData.maxValue > 0 ) {
             //     console.log("data item " + i);
             //     console.log("   value: " + dataItem.value);
