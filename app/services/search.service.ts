@@ -26,9 +26,26 @@ export class SearchService{
             })
             .map(
                 res => res.json()
-            ).map(
+            ).subscribe(
                 data => {
                     this.searchJSON = data;
+                },
+                err => {
+                  console.log('ERROR search results');
+                    this.searchJSON = null
+                }
+            )
+    }
+    //Function get search JSON object
+    getSearch(){
+      // console.log(this.searchAPI);
+        return this.http.get(this.searchAPI, {
+
+            })
+            .map(
+                res => res.json()
+            ).map(
+                data => {
                     return data;
                 },
                 err => {
