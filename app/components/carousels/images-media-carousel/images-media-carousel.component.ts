@@ -1,5 +1,5 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
+import {Component, OnInit, Input, Output, EventEmitter} from 'angular2/core';
+import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {CircleButton} from "../../buttons/circle/circle.button";
 import {ModuleHeader} from "../../module-header/module-header.component";
 import {ModuleHeaderData} from "../../module-header/module-header.component";
@@ -25,8 +25,8 @@ export class ImagesMedia implements OnInit {
     @Input() imageData:any;
     @Input() copyright:any;
     @Input() isProfilePage:boolean;
-    leftCircle = new EventEmitter();
-    rightCircle = new EventEmitter();
+    leftCircle:EventEmitter<boolean> = new EventEmitter();
+    rightCircle:EventEmitter<boolean> = new EventEmitter();
     expand:any = new EventEmitter();
     expandText:string = 'Expand';
     expandIcon:string = 'fa-expand';

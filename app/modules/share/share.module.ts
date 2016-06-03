@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input} from 'angular2/core';
 import {ModuleHeader} from '../../components/module-header/module-header.component';
 import {CircleImage} from '../../components/images/circle-image';
 //Import needed interfaces

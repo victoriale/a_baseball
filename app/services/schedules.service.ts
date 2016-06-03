@@ -1,11 +1,12 @@
-import {Injectable} from '@angular/core';
+import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Rx';
-import {Http, Headers} from '@angular/http';
+import {Http, Headers} from 'angular2/http';
+import {GlobalFunctions} from '../global/global-functions';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalSettings} from '../global/global-settings';
 import {Conference, Division, MLBPageParameters} from '../global/global-interface';
 import {SchedulesCarouselInput} from '../components/carousels/schedules-carousel/schedules-carousel.component';
-import {MLBSchedulesTableModel, MLBSchedulesTableData, MLBScheduleTabData} from './schedules.data';
+import { MLBSchedulesTableModel, MLBSchedulesTableData, MLBScheduleTabData} from './schedules.data';
 import {Gradient} from '../global/global-gradient';
 
 declare var moment;
@@ -15,7 +16,7 @@ export class SchedulesService {
   // private _apiToken: string = 'BApA7KEfj';
   // private _headerName: string = 'X-SNT-TOKEN';
 
-  constructor(public http: Http){
+  constructor(public http: Http, private _globalFunc: GlobalFunctions){
 
   }
 

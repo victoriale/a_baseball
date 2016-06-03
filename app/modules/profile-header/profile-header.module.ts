@@ -1,5 +1,5 @@
-import {Component, Input, OnChanges} from '@angular/core';
-import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
+import {Component, Input, OnChanges} from 'angular2/core';
+import {ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {LoadingComponent} from '../../components/loading/loading.component';
 import {CircleImage} from '../../components/images/circle-image';
@@ -58,7 +58,7 @@ export class ProfileHeaderModule implements OnChanges {
       }
     }; 
 
-    constructor() {}
+    constructor(private _globalFunctions: GlobalFunctions) {}
     
     ngOnChanges() {
       var data = this.profileHeaderData;

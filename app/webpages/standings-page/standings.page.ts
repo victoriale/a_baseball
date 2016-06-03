@@ -1,5 +1,5 @@
-import {Component, OnInit, Input} from '@angular/core';
-import {RouteParams} from "@angular/router-deprecated";
+import {Component, OnInit, Input} from 'angular2/core';
+import {RouteParams} from "angular2/router";
 import {BackTabComponent} from "../../components/backtab/backtab.component";
 import {TitleComponent, TitleInputData} from "../../components/title/title.component";
 import {CircleImageData} from "../../components/images/image-data";
@@ -10,8 +10,10 @@ import {ErrorComponent} from '../../components/error/error.component';
 import {ProfileHeaderService} from '../../services/profile-header.service';
 import {StandingsService} from '../../services/standings.service';
 import {MLBStandingsTabData,MLBStandingsTableData} from '../../services/standings.data';
+
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
 import {GlobalFunctions} from '../../global/global-functions';
+import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
 
 @Component({
     selector: 'Standings-page',
@@ -30,17 +32,19 @@ export class StandingsPage implements OnInit {
   
   public titleData: TitleInputData;
   
-  constructor(private _route: RouteParams,
+  constructor(private _params: RouteParams,
               private _profileService: ProfileHeaderService,
-              private _standingsService: StandingsService) {
+              private _standingsService: StandingsService, 
+              private _globalFunctions: GlobalFunctions, 
+              private _mlbFunctions: MLBGlobalFunctions) {
     
-    var type = _route.get("type");
+    var type = _params.get("type");
     if ( type !== null && type !== undefined ) {
       type = type.toLowerCase();
       this.pageParams.conference = Conference[type];
     }
     
-    var teamId = _route.get("teamId");
+    var teamId = _params.get("teamId");
     if ( type == "team" && teamId !== null && teamId !== undefined ) {
       this.pageParams.teamId = Number(teamId);
     }   

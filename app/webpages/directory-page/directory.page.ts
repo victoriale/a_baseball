@@ -1,7 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {Router, RouteParams} from "@angular/router-deprecated";
-import {GlobalSettings} from "../../global/global-settings";
-import {GlobalFunctions} from "../../global/global-functions";
+import {Component, OnInit} from 'angular2/core';
+import {RouteParams, Router} from 'angular2/router';
+import {GlobalFunctions} from '../../global/global-functions';
 import {NavigationData, Link} from '../../global/global-interface';
 import {DirectoryService, DirectoryType, DirectorySearchParams} from '../../services/directory.service';
 import {PagingData, DirectoryProfileItem, DirectoryItems, DirectoryModuleData} from '../../modules/directory/directory.data';
@@ -28,12 +27,14 @@ export class DirectoryPage {
   public isError: boolean = false;
   
   public pageType: DirectoryType;
+  
+  public isPartnerSite: boolean = false;
 
-  constructor(private router: Router, private _route: RouteParams, private _directoryService: DirectoryService) {
-    var page = _route.get("page");
+  constructor(private router: Router, private _params: RouteParams, private _globalFunctions: GlobalFunctions, private _directoryService: DirectoryService) {
+    var page = _params.get("page");
     this.currentPage = Number(page);
     
-    var type = _route.get("type");
+    var type = _params.get("type");
     switch ( type ) {
       case "players": 
         this.pageType = DirectoryType.players;
@@ -48,8 +49,8 @@ export class DirectoryPage {
         break;
     }
     
-    let startsWith = _route.get("startsWith");
-    if ( startsWith ) {
+    let startsWith = _params.get("startsWith");
+    if ( startsWith !== undefined && startsWith !== null ) {
        this.newlyAdded = startsWith.toLowerCase() === "new";
        this.startsWith = !this.newlyAdded && startsWith.length > 0 ? startsWith[0] : undefined;
     }
@@ -57,8 +58,14 @@ export class DirectoryPage {
     if ( this.currentPage === 0 ) {
       this.currentPage = 1; //page index starts at one
     }
-    
-    this.getDirectoryData();
+            
+    this.router.root
+      .subscribe(
+      route => {
+        this.isPartnerSite = (route.split('/')[0] !== '');
+        this.getDirectoryData();            
+      }
+    );
 
     // Scroll page to top to fix routerLink bug
     window.scrollTo(0, 0);
@@ -71,6 +78,7 @@ export class DirectoryPage {
       startsWith: this.startsWith,
       newlyAdded: this.newlyAdded
     }
+        
     this._directoryService.getData(this.pageType, params)
       .subscribe(
           data => this.setupData(data),

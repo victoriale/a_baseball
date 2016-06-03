@@ -29,7 +29,7 @@
               </div>
               <!-- TODO -->
               <ul *ngIf="infobox" class="infobox-box">
-                <li class="infobox-list" *ngFor="let infoBox of infoBox;">
+                <li class="infobox-list" *ngFor="#infoBox of infoBox;">
                   <a [routerLink]="infoBox.routerLinkPlayer">
                     <div class="infobox-list-image">
                         <circle-image [data]="infoBox.imageUrl"></circle-image>

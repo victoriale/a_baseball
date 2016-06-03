@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {Router, ROUTER_DIRECTIVES} from "@angular/router-deprecated";
+import {Component, OnInit} from 'angular2/core';
+import {Router, RouteParams, ROUTER_DIRECTIVES} from 'angular2/router';
 
 @Component({
     selector: 'Housekit-home-page',

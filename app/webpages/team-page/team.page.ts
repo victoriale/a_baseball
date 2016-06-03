@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {RouteParams} from "@angular/router-deprecated";
-import {Injectable} from '@angular/core';
+import {Component, OnInit} from 'angular2/core';
+import {RouteParams} from 'angular2/router';
+import {Injectable} from 'angular2/core';
+import {GlobalFunctions} from "../../global/global-functions";
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
 import {GlobalSettings} from "../../global/global-settings";
 import {LoadingComponent} from '../../components/loading/loading.component';
@@ -138,7 +139,7 @@ export class TeamPage implements OnInit {
     dykData: Array<dykModuleData>;
     twitterData: Array<twitterModuleData>;
 
-    constructor(private _route:RouteParams,
+    constructor(private _params:RouteParams,
                 private _standingsService:StandingsService,
                 private _schedulesService:SchedulesService,
                 private _profileService:ProfileHeaderService,
@@ -152,9 +153,10 @@ export class TeamPage implements OnInit {
                 private _faqService: FaqService,
                 private _dykService: DykService,
                 private _twitterService: TwitterService,
-                private _comparisonService: ComparisonStatsService) {
+                private _comparisonService: ComparisonStatsService,
+                private _globalFunctions:GlobalFunctions) {
         this.pageParams = {
-            teamId: Number(_route.get("teamId"))
+            teamId: Number(_params.get("teamId"))
         };
         this.currentYear = new Date().getFullYear();
     }

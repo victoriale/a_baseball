@@ -1,6 +1,6 @@
-import {Injectable, Injector} from '@angular/core';
-import {Router, ROUTER_DIRECTIVES} from "@angular/router-deprecated";
-import {HTTP_PROVIDERS, Http, Response, Headers} from "@angular/http";
+import {Injectable, Injector} from 'angular2/core';
+import {Router, ROUTER_DIRECTIVES, ROUTER_PROVIDERS, RouteConfig, RouteParams } from 'angular2/router';
+import {HTTP_PROVIDERS, Http, Response, Headers} from "angular2/http";
 import {GlobalSettings} from "../global/global-settings";
 import {Observable} from "rxjs/Observable";
 
@@ -10,9 +10,18 @@ export class HeadlineDataService {
     public partnerID:string;
 
     constructor(private _router:Router, public http:Http) {
-        GlobalSettings.getPartnerId(_router, partnerId => {
-            this.partnerID = partnerId;
-        });
+        this._router.root
+            .subscribe(
+                route => {
+                    var curRoute = route;
+                    var partnerID = curRoute.split('/');
+                    if (partnerID[0] == '') {
+                        this.partnerID = null;
+                    } else {
+                        this.partnerID = partnerID[0];
+                    }
+                }
+            )//end of route subscribe
     };
 
     getAiHeadlineData(teamID) {
