@@ -6,6 +6,7 @@ import {Tabs} from '../../components/tabs/tabs.component';
 import {Tab} from '../../components/tabs/tab.component';
 import {Search, SearchInput} from '../../components/search/search.component';
 import {PaginationFooter, PaginationParameters} from '../../components/pagination-footer/pagination-footer.component';
+import {NoDataBox} from '../../components/error/data-box/data-box.component';
 
 export interface SearchPageInput {
     //Data for the search bar component
@@ -31,6 +32,7 @@ export interface SearchPageInput {
             urlText: string;
             description: string;
         }>;
+        errorMsg:string;//read as innerHTML
         paginationParameters: PaginationParameters;
     }>
 }
@@ -38,7 +40,7 @@ export interface SearchPageInput {
 @Component({
     selector: 'search-page-module',
     templateUrl: './app/modules/search-page/search-page.module.html',
-    directives:[ROUTER_DIRECTIVES, BackTabComponent, Tabs, Tab, Search, PaginationFooter],
+    directives:[ROUTER_DIRECTIVES, NoDataBox, BackTabComponent, Tabs, Tab, Search, PaginationFooter],
     providers: [NgStyle]
 })
 
