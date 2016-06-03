@@ -34,16 +34,27 @@ export class TransactionsService {
   var tabArray = [
     {
       tabData     : 'transactions',
-      tabDisplay  : 'Transactions'
-      sortOptions : { key: "Most Recent", value: "1"}
+      tabDisplay  : 'Transactions',
+      sortOptions : [
+        { key: "recent", value: "Most Recent"},
+        { key: "oldest", value: "Oldest First"}
+        ]
     },
     {
       tabData     : 'suspensions',
-      tabDisplay  : 'Suspensions'
+      tabDisplay  : 'Suspensions',
+      sortOptions : [
+        { key: "recent", value: "Most Recent"},
+        { key: "oldest", value: "Oldest First"}
+      ]
     },
     {
       tabData     : 'injuries',
-      tabDisplay  : 'Injuries'
+      tabDisplay  : 'Injuries',
+      sortOptions : [
+        { key: "recent", value: "Most Recent"},
+        { key: "oldest", value: "Oldest First"}
+      ]
     }
   ];
 
@@ -109,7 +120,7 @@ export class TransactionsService {
             '<p class="font-12 fw-400 lh-32 titlecase"><i class="fa fa-circle" style="margin-right:6px;"></i> Transaction Report - ' + val.teamName + '</p>',
             '<p class="font-22 fw-800 lh-32" style="padding-bottom:10px;">'+ val.playerName+'</p>',
             '<p class="font-14 fw-400 lh-18" style="padding-bottom:6px;">Transaction date - ' + val['repDate'] + ': ' + val.contents + '<p>',
-            '<p class="font-10 fw-400 lh-25">Last Updated on '+ moment(val.lastUpdate).format('dddd, MMMM DD, YYYY') +'</p>'
+            '<p class="font-10 fw-400 lh-25">Last Updated on '+ moment(new Date(val.lastUpdate)).format('dddd, MMMM DD, YYYY') +'</p>'
           ],
         };
         //if(type == 'page'){
@@ -137,7 +148,7 @@ export class TransactionsService {
       var listData = {
         dataPoints: [{
           style   : 'transactions-small',
-          data    : moment(val['repDate']).format('MMMM DD, YYYY'),
+          data    : moment(new Date(val['repDate'])).format('MMMM DD, YYYY'),
           value   : val.playerLastName + ", " + val.playerFirstName + ": " + val.contents,
           url     : null
         }],
