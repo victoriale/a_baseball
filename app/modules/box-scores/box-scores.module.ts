@@ -20,9 +20,11 @@ interface BoxScores{
 
 export class BoxScoresModule implements OnInit{
   boxScores:any;
+  boxScheduleData:any;
   constructor(){}
 
   ngOnInit(){
     console.log(this.boxScores);
+    this.boxScheduleData = this.boxScores.schedule;
   }
 }
