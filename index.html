@@ -29,6 +29,16 @@
     <!-- social share button on home page -->
     <script type="text/javascript">var switchTo5x=true;</script>
     <script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="lib/highcharts.js"></script>
+    <script>
+        // setup DisQus config for initial load
+        var disqus_config = function () {
+            this.page.identifier = (window.location.pathname + " ").replace("/"," ");
+            this.page.url = window.location.href + "#!newthread";
+        };
+    </script>
     <script type="text/javascript">stLight.options({publisher: "ab81b5e8-9aea-4921-9930-26ce6925e901", doNotHash: false, doNotCopy: false, hashAddressBar: false, onhover: false});</script>
     <!-- 2. Configure SystemJS -->
     <script>
@@ -41,17 +51,7 @@
         }
       });
       System.import('app/main')
-            .then(null, console.error.bind(console));
-    </script>
-    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
-    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-    <script src="lib/highcharts.js"></script>
-    <script>
-        // setup DisQus config for initial load
-        var disqus_config = function () {
-            this.page.identifier = (window.location.pathname + " ").replace("/"," ");
-            this.page.url = window.location.href + "#!newthread";
-        };
+        .then(null, console.error.bind(console));
     </script>
 
   </head>
