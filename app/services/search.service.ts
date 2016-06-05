@@ -26,14 +26,30 @@ export class SearchService{
             })
             .map(
                 res => res.json()
-            ).map(
+            ).subscribe(
                 data => {
                     this.searchJSON = data;
-                    return data;
                 },
                 err => {
                   console.log('ERROR search results');
                     this.searchJSON = null
+                }
+            )
+    }
+    //Function get search JSON object
+    getSearch(){
+      // console.log(this.searchAPI);
+        return this.http.get(this.searchAPI, {
+
+            })
+            .map(
+                res => res.json()
+            ).map(
+                data => {
+                    return data;
+                },
+                err => {
+                  console.log('ERROR search results');
                 }
             )
     }
@@ -163,6 +179,12 @@ export class SearchService{
                     tabName: 'Player (' + playerResults.length + ')',
                     isTabDefault: playerResults.length >= teamResults.length ? true : false,
                     results: [],
+                    error:{
+                      message:"Sorry we can't find a <span class='text-heavy'>Player Profile</span> matching your search term(s) ''<span class='query-blue'>"+query+"</span>'', please try your search again.",
+                      icon:'fa fa-binoculars'
+                    },
+                    pageMax:this.pageMax,
+                    totalResults:playerResults.length,
                     paginationParameters: {
                         index: 1,
                         max: 10,//default value will get changed in next function
@@ -173,6 +195,12 @@ export class SearchService{
                     tabName: 'Team (' + teamResults.length + ')',
                     isTabDefault: teamResults.length > playerResults.length ? true : false,
                     results: [],
+                    error:{
+                      message:"Sorry we can't find a <span class='text-heavy'>Team Profile</span> matching your search term(s) '<span class='query-blue'>"+query+"</span>', please try your search again.",
+                      icon:'fa fa-binoculars'
+                    },
+                    pageMax:this.pageMax,
+                    totalResults:teamResults.length,
                     paginationParameters: {
                         index: 1,
                         max: 10,//default value will get changed in next function
@@ -250,9 +278,9 @@ export class SearchService{
               }
             }
         });
+
         searchPageInput.tabData[1].results = objData2;
         searchPageInput.tabData[1].paginationParameters.max = searchPageInput.tabData[1].results.length;
-
         return searchPageInput;
     }
 

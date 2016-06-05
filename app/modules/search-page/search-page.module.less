@@ -1,5 +1,7 @@
 .search-page{
+
   &-container{
+    box-shadow: @modBoxShadow;
     background-color: @white;
   }
 
@@ -27,12 +29,19 @@
       margin: 0 auto;
     }
   }
-
+  &-total{
+    display:inline-block;
+    width:100%;
+    margin:10px 0;
+  }
   &-results{
+    min-height:500px;
     padding: 0px 30px;
+    & > li + li{
+      border-top: 1px solid @masterSmallImageShadow;
+    }
 
     &-item{
-      border-top: 1px solid @masterSmallImageShadow;
       line-height: 25px;
       padding: 18px 0px 15px 0px;
 
@@ -64,7 +73,6 @@
       &.no-results{
         line-height: 24px;
         font-size: 20px;
-        border-bottom: 1px solid @masterSmallImageShadow;
       }
     }
   }

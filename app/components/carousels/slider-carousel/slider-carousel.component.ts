@@ -53,8 +53,8 @@ export class SliderCarousel implements OnInit {
       this.backgroundImage = this.dataPoint.backgroundImage;
     }
     else {
-      var randomIndex = Math.random() > .5 ? 1 : 2;
-      this.backgroundImage = '/app/public/Image-Placeholder-' + randomIndex + '.jpg';
+      //var randomIndex = Math.random() > .5 ? 1 : 2;
+      this.backgroundImage = '/app/public/Image-Placeholder-2.jpg';
     }
     //sets the index of the dataPoint of its current position in the array
     // the '?' meaning if there is data to even receive

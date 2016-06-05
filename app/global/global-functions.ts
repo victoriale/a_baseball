@@ -520,6 +520,37 @@ export class GlobalFunctions {
     });
     return generatedUrl;
   }
-
-
+/**
+ * Format value to Billion/Million/Thousand
+ */
+  static nFormatter(num) {
+  	if (num >= 1000000000) {
+  		return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + ' B';
+  	}
+  	if (num >= 1000000) {
+  		return (num / 1000000).toFixed(1).replace(/\.0$/, '') + ' M';
+  	}
+  	if (num >= 1000) {
+  		return (num / 1000).toFixed(1).replace(/\.0$/, '') + ' K';
+  	}
+  	return num;
+  }
+  static nFormatter2(num) {
+    if (num >= 1000000000000) {
+  		return (num / 1000000000000).toFixed(1).replace(/\.0$/, '') + ' Tril';
+  	}
+  	if (num >= 1000000000) {
+  		return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + ' Bil';
+  	}
+  	if (num >= 1000000) {
+  		return (num / 1000000).toFixed(1).replace(/\.0$/, '') + ' Mil';
+  	}
+  	if (num >= 1000) {
+  		return (num / 1000).toFixed(1).replace(/\.0$/, '') + ' K';
+  	}
+    if (num >= 100) {
+      return (num/1).toFixed(1).replace(/\.0$/, '') + ' ';
+    }
+  	return num;
+  }
 }

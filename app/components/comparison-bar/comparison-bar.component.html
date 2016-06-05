@@ -22,10 +22,10 @@
             </label>
         </div>
         <label class="comparison-bar-capsule-label label-top">
-            <div class="infobox-values" *ngIf="displayData.info">
+            <div class="infobox-values">
               <div class="infobox-display">
                 {{displayData.maxValue}}
-                <i class="fa {{displayData.info}}"></i>
+                <i *ngIf="displayData.info" class="fa {{displayData.info}}"></i>
               </div>
               <!-- TODO -->
               <ul *ngIf="infobox" class="infobox-box">

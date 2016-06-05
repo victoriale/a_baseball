@@ -5,12 +5,10 @@ import {MLBPageParameters} from '../global/global-interface';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
 import {GlobalSettings} from '../global/global-settings';
-import {Gradient} from '../global/global-gradient';
 
 import {ComparisonBarInput} from '../components/comparison-bar/comparison-bar.component';
 import {SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
 import {CircleImageData} from '../components/images/image-data';
-
 
 export interface PlayerData {
   playerName: string;
@@ -140,45 +138,14 @@ export class SeasonStatsService {
     seasonStatTab.sort();
     seasonStatTab.reverse();
     //TODO still need data for career stats
-    seasonStatTab.push({
-      tabTitle: "Career Stats",
-      tabData: playerBarStats
-    })
+    // seasonStatTab.push({
+    //   tabTitle: "Career Stats",
+    //   tabData: playerBarStats
+    // })
     return {
       playerInfo: playerInfo,
       tabs: seasonStatTab
     };
-  }
-  /**
-   *this function will have inputs of all required fields that are dynamic and output the full
-  **/
-  imageData(imageClass, imageBorder, mainImg, mainImgRoute, subImgClass, subImg?, subRoute?){
-    if(typeof mainImg =='undefined' || mainImg == ''){
-      mainImg = "/app/public/no-image.png";
-    }
-    if(typeof subImg =='undefined' || subImg == ''){
-      subImg = "/app/public/no-image.png";
-    }
-    var image: CircleImageData = {//interface is found in image-data.ts
-        imageClass: imageClass,
-        mainImage: {
-            imageUrl: mainImg,
-            urlRouteArray: mainImgRoute,
-            hoverText: "<p>View</p><p>Profile</p>",
-            imageClass: imageBorder,
-        },
-    };
-    if(typeof subRoute != 'undefined') {
-      image.subImages = [
-          {
-              imageUrl: subImg,
-              urlRouteArray: subRoute,
-              hoverText: "<i class='fa fa-mail-forward'></i>",
-              imageClass: subImgClass + " image-round-lower-right"
-          },
-      ];
-    }
-    return image;
   }
 
   private getKeyDisplayTitle(key: string): string {

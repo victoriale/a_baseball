@@ -1,7 +1,8 @@
 .page-title {
-  @defaultPageHdrHeight: 130px;
+  @defaultPageHdrHeight: 135px;
   width: 680px;
   height: auto;
+  min-height: @defaultPageHdrHeight;
   line-height: @defaultPageHdrHeight;
   background: @white;
   .flexDisplay;
@@ -14,11 +15,11 @@
     margin: 15px 15px 15px 0;
     height:auto;
     .smallTxt1 {
-      .globalDefaultModFont(10px, 400, @greyUpdate);
-      margin-bottom: 12px;
+      .globalDefaultModFont(.83em, 400, @bulletGrey);
+      margin-bottom: 15px;
     }
     .smallTxt2 {
-      .globalDefaultModFont(12px, 400, @black);
+      .globalDefaultModFont(1em, 400, @black);
       height: 14px;
 
       i{
@@ -27,11 +28,11 @@
       }
     }
     .mainTitle {
-      .globalDefaultModFont(28px, 800, @black);
+      .globalDefaultModFont(2.33em, 800, @black);
       line-height: 28px;
     }
     .subTitle {
-      .globalDefaultModFont(26px, 400, @black);
+      .globalDefaultModFont(2.17em, 400, @black);
       line-height: 26px;
     }
   }
@@ -42,5 +43,5 @@
   top: 20px;
   right: 20px;
   color: @black !important;
-  font-size: 12px;
+  font-size: 1em;
 }
