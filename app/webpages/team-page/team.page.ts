@@ -262,9 +262,6 @@ export class TeamPage implements OnInit {
     //api for Schedules
     private getSchedulesData(status){
       var limit = 5;
-      if(status == 'post-event'){
-        limit = 3;
-      }
       this._schedulesService.getSchedulesService('team', status, limit, 1, this.pageParams.teamId)
       .subscribe(
         data => {

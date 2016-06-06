@@ -215,7 +215,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
          },{
            headerValue: "RECORD",
            columnClass: "data-column record-column",
-           isNumericType: false,
+           isNumericType: true,
            key: "rec"
          },{
            headerValue: "GAME SUMMARY",
@@ -380,7 +380,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
         break;
 
       case "rec":
-        o = item.results;
+        o = item.homeScore;
         break;
     }
     return o;
