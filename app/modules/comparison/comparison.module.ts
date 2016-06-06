@@ -150,17 +150,17 @@ export class ComparisonModule implements OnInit, OnChanges {
             ],
             legendValues: [
                 {
-                    title: "Stat High",
-                    color: "#e1e1e1"
+                    title: data.playerOne.playerName,
+                    color: data.playerOne.mainTeamColor
                 },
                 {
                     title: data.playerTwo.playerName,
                     color: data.playerTwo.mainTeamColor
                 },
                 {
-                    title: data.playerOne.playerName,
-                    color: data.playerOne.mainTeamColor
-                }
+                    title: "Stat High",
+                    color: "#e1e1e1"
+                },
             ]
         };
     }
