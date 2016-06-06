@@ -68,8 +68,6 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
   
   isPitcherTable: boolean;
   
-  selectedSeasonId: string;
-  
   constructor(teamName: string, tabName: string, isPitcherTable: boolean, isActive: boolean) {
     this.tabTitle = tabName;    
     this.tableName = "<span class='text-heavy'>" + teamName + "</span> " + tabName + " Stats";  
@@ -99,7 +97,6 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
     }
     var currYear = new Date().getFullYear();
     var year = currYear;
-    this.selectedSeasonId = currYear.toString();
     for ( var i = 0; i < 5; i++ ) {
       this.seasonIds.push({
         key: year.toString(), 
@@ -113,11 +110,11 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
     var description = "";
     var tense = " has";
     var temporalInfo = "";
-    var subHeaderYear = "Current ";
-    if ( this.selectedSeasonId != this.seasonIds[0].key ) {
-      subHeaderYear = this.selectedSeasonId + " ";
+    var subHeaderYear = "Current ";    
+    if ( item.seasonId != this.seasonIds[0].key ) {
+      subHeaderYear = item.seasonId + " ";
       tense = " had";
-      temporalInfo = " in " + this.selectedSeasonId;
+      temporalInfo = " in " + item.seasonId;
     }
     var subheader = subHeaderYear + item.teamName + " Player Stats";
     if ( this.isPitcherTable ) {

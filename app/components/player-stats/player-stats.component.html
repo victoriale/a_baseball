@@ -8,7 +8,7 @@
       <div>
         <div class="stats-table-title">
           <p class="stats-season-dropdown">
-            Now Viewing:<dropdown [list]="tab.seasonIds" [selectedKey]="tab.selectedSeasonId" (selectionChanged)="dropdownChanged($event)"></dropdown>
+            Now Viewing:<dropdown [list]="tab.seasonIds" [selectedKey]="selectedSeasonId" (selectionChanged)="dropdownChanged($event)"></dropdown>
           </p>
           <h4 [innerHtml]="tab.tableName"></h4>
         </div>
