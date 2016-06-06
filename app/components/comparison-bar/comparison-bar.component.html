@@ -28,11 +28,11 @@
                 <i *ngIf="displayData.info" class="fa {{displayData.info}}"></i>
               </div>
               <!-- TODO -->
-              <ul *ngIf="infobox" class="infobox-box">
+              <ul class="infobox-box">
                 <li class="infobox-list" *ngFor="#infoBox of infoBox;">
-                  <a [routerLink]="infoBox.routerLinkPlayer">
+                  <a class="infobox-list-item" [routerLink]="infoBox.routerLinkPlayer">
                     <div class="infobox-list-image">
-                        <circle-image [data]="infoBox.imageUrl"></circle-image>
+                        <circle-image [data]="infoBoxImage"></circle-image>
                     </div>
                     <div class="infobox-list-details">
                       <span class="infobox-list-playerName" [innerHtml]="infoBox.playerName"></span>

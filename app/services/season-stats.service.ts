@@ -95,6 +95,7 @@ export class SeasonStatsService {
     let stats = data.stats;
     var seasonStatTab = [];
     var curYear = new Date().getFullYear();
+    try{
     for(var year in stats){
       var displayTab = '';
       if(Number(year) == curYear){
@@ -121,8 +122,8 @@ export class SeasonStatsService {
               value: Number(this.getKeyValue(playerStat, average)).toFixed(1),
               color: '#555555',
             }],
-            minValue: Number(this.getKeyValue(playerStat, worst)['statValue']).toFixed(1),
-            maxValue: Number(this.getKeyValue(playerStat, leader)['statValue']).toFixed(1),
+            minValue: worst != null ? Number(this.getKeyValue(playerStat, worst)['statValue']).toFixed(1) : null,
+            maxValue: leader != null ? Number(this.getKeyValue(playerStat, leader)['statValue']).toFixed(1) : null,
             info: 'fa-info-circle',
           }
           playerBarStats.push(s);
@@ -134,14 +135,17 @@ export class SeasonStatsService {
           tabData: playerBarStats
         });
       }
-    }
+    }// forloop ends
+  } catch ( error ){
+    console.log("season stat error message: ", error);
+  }
     seasonStatTab.sort();
     seasonStatTab.reverse();
     //TODO still need data for career stats
-    // seasonStatTab.push({
-    //   tabTitle: "Career Stats",
-    //   tabData: playerBarStats
-    // })
+    seasonStatTab.push({
+      tabTitle: "Career Stats",
+      tabData: playerBarStats
+    })
     return {
       playerInfo: playerInfo,
       tabs: seasonStatTab

@@ -18,9 +18,9 @@ export interface ComparisonBarInput {
 export interface InfoBox {
   teamName: string;
   playerName: string;
-  imageUrl: CircleImageData;
-  routerLinkPlayer: Array<any>;
-  routerLinkTeam: Array<any>;
+  imageURL: string;
+  routerLinkPlayer: any;
+  routerLinkTeam: any;
 }
 @Component({
     selector: 'comparison-bar',
@@ -37,11 +37,31 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
 
     @Input() comparisonBarInput: ComparisonBarInput;
     @Input() index: number;
-    @Input() infoBox: InfoBox;
+    @Input() infoBox: Array<InfoBox>;
     public displayData: ComparisonBarInput;
+    public infoBoxImage: CircleImageData;
     ngOnChanges(event){
         this.displayData = this.configureBar();
-    }
+        if(!this.infoBox){
+          this.infoBox = [{
+            teamName: 'Team Name',
+            playerName: 'Player Name',
+            imageURL : '/app/public/mainLogo.png',
+            routerLinkPlayer: ['Disclaimer-page'],
+            routerLinkTeam: ['Disclaimer-page'],
+          }];
+        }
+        this.infoBoxImage = {
+        imageClass: "image-50",
+        mainImage: {
+            imageUrl: ( this.infoBox.imageURL ? this.infoBox.imageURL : '/app/public/mainLogo.png'),
+            imageClass: "border-2",
+            urlRouteArray: ['Disclaimer-page'],
+            hoverText: "<i style='font-size:24px;' class='fa fa-mail-forward'></i>",
+          },
+
+        };
+      }//ngOnChanges ends
 
     //Function to reposition labels if needed
     calculateLabelPositions(){
