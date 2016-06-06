@@ -70,7 +70,12 @@
     overflow: auto;
     background-color: @white;
     border: 1px solid @highlightGrey;
-    display: none;//TODO
+    display: block;//TODO
+    z-index: 5;
+    .fa-sort-up{
+      color: @white;
+      display: block;
+    }
     .fa-angle-right{
       font-size: 30px;
     }
@@ -85,8 +90,6 @@
         color: @black;
         .infobox-box{
           display: block;
-          z-index: 5;
-
         }
       }
     }

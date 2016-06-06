@@ -28,16 +28,17 @@
                 <i *ngIf="displayData.info" class="fa {{displayData.info}}"></i>
               </div>
               <!-- TODO -->
+              <div><i class="fa fa-sort-up"></i></div>
               <ul class="infobox-box">
-                <li class="infobox-list" *ngFor="#infoBox of infoBox;">
-                  <a class="infobox-list-item" [routerLink]="infoBox.routerLinkPlayer">
+                <li class="infobox-list" *ngFor="#displayData of displayData.infoBoxDetails">
+                  <a class="infobox-list-item" [routerLink]="displayData.routerLinkPlayer">
                     <div class="infobox-list-image">
-                        <circle-image [data]="infoBoxImage"></circle-image>
+                        <circle-image [data]="displayData.infoBoxImage"></circle-image>
                     </div>
                     <div class="infobox-list-details">
-                      <span class="infobox-list-playerName" [innerHtml]="infoBox.playerName"></span>
-                      <a class="infobox-list-team" [routerLink]="infoBox.routerLinkTeam">
-                        <span class="infobox-list-teamName" [innerHtml]="infoBox.teamName"></span>
+                      <span class="infobox-list-playerName" [innerHtml]="displayData.playerName"></span>
+                      <a class="infobox-list-team" [routerLink]="displayData.routerLinkTeam">
+                        <span class="infobox-list-teamName" [innerHtml]="displayData.teamName"></span>
                       </a>
                     </div>
                     <div><i class="fa fa-angle-right"></i></div>

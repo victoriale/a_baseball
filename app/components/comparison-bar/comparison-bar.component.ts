@@ -14,14 +14,22 @@ export interface ComparisonBarInput {
     minValue: number;
     maxValue: number;
     info?: string;
+    infoBoxDetails?: Array<{
+      teamName: string;
+      playerName: string;
+      infoBoxImage: CircleImageData;
+      routerLinkPlayer: any;
+      routerLinkTeam: any;
+    }>;
 }
-export interface InfoBox {
-  teamName: string;
-  playerName: string;
-  imageURL: string;
-  routerLinkPlayer: any;
-  routerLinkTeam: any;
-}
+// export interface InfoBox {
+//   teamName: string;
+//   playerName: string;
+//   infoBoxImage: CircleImageData;
+//   routerLinkPlayer: any;
+//   routerLinkTeam: any;
+// }
+
 @Component({
     selector: 'comparison-bar',
     templateUrl: './app/components/comparison-bar/comparison-bar.component.html',
@@ -37,30 +45,11 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
 
     @Input() comparisonBarInput: ComparisonBarInput;
     @Input() index: number;
-    @Input() infoBox: Array<InfoBox>;
+    // @Input() infoBox: Array<InfoBox>;
     public displayData: ComparisonBarInput;
-    public infoBoxImage: CircleImageData;
+    // public infoBoxImage: CircleImageData;
     ngOnChanges(event){
         this.displayData = this.configureBar();
-        if(!this.infoBox){
-          this.infoBox = [{
-            teamName: 'Team Name',
-            playerName: 'Player Name',
-            imageURL : '/app/public/mainLogo.png',
-            routerLinkPlayer: ['Disclaimer-page'],
-            routerLinkTeam: ['Disclaimer-page'],
-          }];
-        }
-        this.infoBoxImage = {
-        imageClass: "image-50",
-        mainImage: {
-            imageUrl: ( this.infoBox.imageURL ? this.infoBox.imageURL : '/app/public/mainLogo.png'),
-            imageClass: "border-2",
-            urlRouteArray: ['Disclaimer-page'],
-            hoverText: "<i style='font-size:24px;' class='fa fa-mail-forward'></i>",
-          },
-
-        };
       }//ngOnChanges ends
 
     //Function to reposition labels if needed
