@@ -55,7 +55,6 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
       this.dropdownVisibleIcon = this.icon;
       this.dropdownHiddenIcon = this.icon;
     }
-    this.selectedItem = { key: "", value: " " };
     if ( this.list ) {
       this.list.forEach(value => {
         if ( value.key == this.selectedKey ) {
@@ -66,7 +65,10 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
         this.setSelected(this.list[0]);
       }
     }
-  }  
+    if ( !this.selectedItem ) {
+      this.selectedItem = {key: "", value: " "};
+    }
+  }
   
   //TODO-CJP: setup multiple sort types
   setSelected($item) {
