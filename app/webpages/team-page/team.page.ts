@@ -298,9 +298,9 @@ export class TeamPage implements OnInit {
         this._standingsService.getStandingsTabData(tab, this.pageParams, (data) => {}, 5);
     }
 
-    private playerStatsTabSelected(tab: MLBPlayerStatsTableData) {
+    private playerStatsTabSelected(tabData: Array<any>) {
          //only show 4 rows in the module
-        this._playerStatsService.getStatsTabData(tab, this.pageParams, data => {}, 4);
+        this._playerStatsService.getStatsTabData(tabData, this.pageParams, data => {}, 4);
     }
 
     private rosterTabSelected(tab: MLBRosterTabData) {

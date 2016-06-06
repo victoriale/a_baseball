@@ -142,6 +142,10 @@ export class ComparisonModule implements OnInit, OnChanges {
                 },
                 {
                     text: ' Breakdown',
+                },
+                {
+                    text: '*Qualified players only',
+                    class: 'comparison-legend-title-sub'
                 }
             ],
             legendValues: [
