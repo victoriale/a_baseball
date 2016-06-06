@@ -52,8 +52,6 @@ export class GlobalSettings {
         //[https:]//[prod]-homerunloyal-api.synapsys.us
         return this._proto + "//" + this._newsUrl;
     }
-
-    }
     
     static getHomePage(partnerId: string) {
         if ( partnerId ) {            
@@ -62,6 +60,8 @@ export class GlobalSettings {
         else {
             return this._proto + "//" + this.getEnv(this._env) + this._homepageUrl;
         }
+    }
+    
     static getSiteLogoUrl():string {
         return "/app/public/mainLogo.png";
     }

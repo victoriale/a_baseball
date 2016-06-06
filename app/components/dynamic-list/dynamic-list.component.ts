@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from 'angular2/core';
+import {Component, OnInit, Input, ViewEncapsulation} from 'angular2/core';
 import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
 import {GlobalSettings} from '../../global/global-settings';
 

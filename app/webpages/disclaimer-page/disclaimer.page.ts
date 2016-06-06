@@ -9,6 +9,7 @@ import {Router,ROUTER_DIRECTIVES} from 'angular2/router';
 import {Injector} from 'angular2/core';
 import {WebApp} from '../../app-layout/app.layout';
 import {TitleInputData} from "../../components/title/title.component";
+import {GlobalSettings} from '../../global/global-settings';
 
 @Component({
     selector: 'Disclaimer-page',

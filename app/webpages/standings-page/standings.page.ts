@@ -33,6 +33,8 @@ export class StandingsPage implements OnInit {
   
   public titleData: TitleInputData;
   
+  public titleImageData: ImageData
+  
   constructor(private _params: RouteParams,
               private _profileService: ProfileHeaderService,
               private _standingsService: StandingsService, 

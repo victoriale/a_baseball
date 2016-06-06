@@ -3,6 +3,7 @@ import {Component, OnInit} from 'angular2/core';
 // import {Router,ROUTER_DIRECTIVES, RouteParams} from 'angular2/router';
 import {Injector} from 'angular2/core';
 import {WebApp} from '../../app-layout/app.layout';
+import {GlobalSettings} from '../../global/global-settings';
 
 @Component({
     selector: 'Error-page',
