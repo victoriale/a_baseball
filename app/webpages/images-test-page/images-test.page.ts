@@ -10,6 +10,7 @@ import {CircleImage} from '../../components/images/circle-image';
 import {ImageData,CircleImageData} from '../../components/images/image-data';
 import {TitleInputData} from "../../components/title/title.component";
 import {Gradient} from "../../global/global-gradient";
+import {GlobalSettings} from '../../global/global-settings';
 
 export interface TestImage {
   imageData: CircleImageData;
@@ -36,7 +37,7 @@ export class ImagesTestPage {
     getData(){
       //About us title
       this.titleData = {
-          imageURL : '/app/public/mainLogo.png',
+          imageURL : GlobalSettings.getSiteLogoUrl(),
           text1: 'Last Updated: Monday, February 26, 2016',
           text2: ' United States of America',
           text3: 'Test Page',

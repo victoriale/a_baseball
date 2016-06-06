@@ -418,6 +418,23 @@ export class GlobalFunctions {
       return str;
     }
 
+    /**
+     * - Formats the date as 'dddd, MMMM D, YYYY'
+     * - Appends the timestamp as 'hh:mm A' if {includeTimestamp} is true.
+     *
+     * @param {any} jsDate - the date to format; can be a string or a JavaScript Date
+     * @param {string} beforeMonthFormat - the date format to use before the AP month
+     * @param {string} afterMonthFormat - the date format to use after the AP month
+     * @returns {string} - formatted string
+     */
+    static formatDateWithAPMonth(jsDate:any, beforeMonthFormat: string, afterMonthFormat: string): string {
+      var date = moment(jsDate);
+      var str = (beforeMonthFormat ? date.format(beforeMonthFormat) : "") + 
+                GlobalFunctions.formatAPMonth(date.month()) + 
+                (afterMonthFormat ? date.format(afterMonthFormat) : "");
+      return str;
+    }
+
 
   /**
    * Parses the date string with moment and returns it as a long-date formatted string

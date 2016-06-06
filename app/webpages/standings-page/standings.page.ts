@@ -2,7 +2,7 @@ import {Component, OnInit, Input} from 'angular2/core';
 import {RouteParams} from "angular2/router";
 import {BackTabComponent} from "../../components/backtab/backtab.component";
 import {TitleComponent, TitleInputData} from "../../components/title/title.component";
-import {CircleImageData} from "../../components/images/image-data";
+import {CircleImageData, ImageData} from "../../components/images/image-data";
 import {StandingsComponent} from "../../components/standings/standings.component";
 import {LoadingComponent} from '../../components/loading/loading.component';
 import {ErrorComponent} from '../../components/error/error.component';
@@ -12,6 +12,7 @@ import {StandingsService} from '../../services/standings.service';
 import {MLBStandingsTabData,MLBStandingsTableData} from '../../services/standings.data';
 
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
+import {GlobalSettings} from '../../global/global-settings';
 import {GlobalFunctions} from '../../global/global-functions';
 import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
 
@@ -31,6 +32,8 @@ export class StandingsPage implements OnInit {
   public hasError: boolean = false;
   
   public titleData: TitleInputData;
+  
+  public titleImageData: ImageData
   
   constructor(private _params: RouteParams,
               private _profileService: ProfileHeaderService,
@@ -58,7 +61,7 @@ export class StandingsPage implements OnInit {
       this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
         data => {
           this.pageParams = data.pageParams; 
-          this.setupTitleData(data.teamName, data.fullProfileImageUrl);          
+          this.setupTitleData(data.fullProfileImageUrl, data.pageParams.teamId.toString(), data.teamName);          
           this.tabs = this._standingsService.initializeAllTabs(this.pageParams);
         },
         err => {
@@ -67,12 +70,16 @@ export class StandingsPage implements OnInit {
       );
     }
     else {
-      this.setupTitleData();
+      this.setupTitleData(GlobalSettings.getSiteLogoUrl());
       this.tabs = this._standingsService.initializeAllTabs(this.pageParams);
     }
   }
   
-  private setupTitleData(teamName?: string, imageUrl?: string) {    
+  private setupTitleData(imageUrl: string, teamId?: string, teamName?: string) {
+    var profileLink = ["MLB-page"];
+    if ( teamId ) {
+      profileLink = MLBGlobalFunctions.formatTeamRoute(teamName, teamId);
+    }
     var title = this._standingsService.getPageTitle(this.pageParams, teamName);
     this.titleData = {
       imageURL: imageUrl,
@@ -81,6 +88,12 @@ export class StandingsPage implements OnInit {
       text3: title,
       icon: "fa fa-map-marker"
     };
+    this.titleImageData = {
+      imageUrl: imageUrl,
+      urlRouteArray: profileLink,
+      hoverText: "<p>View</p><p>Profile</p>",
+      imageClass: "border-2"
+    }
   }
   
   private standingsTabSelected(tab: MLBStandingsTabData) {    

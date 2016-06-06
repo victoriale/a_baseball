@@ -9,6 +9,7 @@ import {TitleComponent} from '../../components/title/title.component';
 import {WidgetModule} from "../../modules/widget/widget.module";
 
 import {AboutUsService} from '../../services/about-us.service';
+import {GlobalSettings} from '../../global/global-settings';
 import {GlobalFunctions} from '../../global/global-functions';
 import {WebApp} from '../../app-layout/app.layout';
 import {TitleInputData} from "../../components/title/title.component";
@@ -51,7 +52,7 @@ export class AboutUsPage {
     public content: string;
     
     public titleData: TitleInputData = {
-        imageURL : '/app/public/mainLogo.png',
+        imageURL : GlobalSettings.getSiteLogoUrl(),
         text1: 'Last Updated: [date]',
         text2: 'United States',
         text3: 'Want to learn more?',
