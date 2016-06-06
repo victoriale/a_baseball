@@ -46,6 +46,7 @@ export class TransactionsPage implements OnInit{
   limit: number;
   pageNum: number;
   pageName: string;
+  listSort: string = "recent";
 
   constructor(public transactionsService:TransactionsService, public profHeadService:ProfileHeaderService, public params: RouteParams){
     this.teamId = Number(this.params.params['teamId']);
@@ -143,5 +144,14 @@ export class TransactionsPage implements OnInit{
     };
   }
 
+  // TODO-JVW Add an arg to the transactions API call for asc/desc to sort the list appropriately
+  dropdownChanged(event) {
+    if( this.listSort != event){
+      this.listSort = event;
+      this.transactionsDataArray.reverse();
+      this.carouselDataArray.reverse();
+      // console.log(this.carouselDataArray);
+    }
+  }
 
 }
