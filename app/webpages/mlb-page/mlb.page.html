@@ -18,8 +18,9 @@
   <comparison-module [modelData]="comparisonModuleData" [profileName]="profileHeaderData.profileName"></comparison-module>
 
   <headline-component [title]="'Other MLB Content You May Love'"></headline-component>
-
-  <images-media-carousel [imageData]="imageData" [copyright]="copyright" [profHeader]="profileHeaderData" [isProfilePage]="isProfilePage"></images-media-carousel>
+  <div style="height: 510px; margin-bottom: 20px;">
+    <images-media-carousel [imageData]="imageData" [copyright]="copyright" [profHeader]="profileHeaderData" [isProfilePage]="isProfilePage"></images-media-carousel>
+  </div>
   <dyk-module *ngIf="dykData" [profileName]="profileHeaderData.profileName" [dykData]="dykData"></dyk-module>
   <faq-module *ngIf="faqData" [profileName]="profileHeaderData.profileName" [faqData]="faqData"></faq-module>
   <!-- lists of lists -->
