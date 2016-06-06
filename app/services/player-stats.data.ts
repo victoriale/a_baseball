@@ -110,14 +110,16 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
   }  
 
   convertToCarouselItem(item: PlayerStatsData, index:number): SliderCarouselInput {
-    var subheader = "Current " + item.teamName + " Player Stats";
     var description = "";
     var tense = " has";
     var temporalInfo = "";
+    var subHeaderYear = "Current ";
     if ( this.selectedSeasonId != this.seasonIds[0].key ) {
+      subHeaderYear = this.selectedSeasonId + " ";
       tense = " had";
       temporalInfo = " in " + this.selectedSeasonId;
     }
+    var subheader = subHeaderYear + item.teamName + " Player Stats";
     if ( this.isPitcherTable ) {
       description = item.playerName + tense + " a <span class='text-heavy'>" + (item.pitchEra != null ? item.pitchEra.toFixed(2) : "N/A") + 
                     " ERA</span> with <span class='text-heavy'>" + item.pitchStrikeouts + 

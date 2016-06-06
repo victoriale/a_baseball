@@ -39,6 +39,7 @@ export class PlayerStatsComponent implements DoCheck {
   
   private selectedTabTitle: string;
   private tabsLoaded: {[key: string]: string};
+  private selectedSeasonId: string;
   private noDataMessage = "Sorry, there is no data available.";
 
   constructor() {}
@@ -67,6 +68,7 @@ export class PlayerStatsComponent implements DoCheck {
   }
   
   dropdownChanged($event) {
+    this.selectedSeasonId = $event;
     let matchingTabs = this.tabs.filter(value => value.tabTitle === this.selectedTabTitle);
     if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) {
       let selectedTab = matchingTabs[0];
@@ -89,7 +91,11 @@ export class PlayerStatsComponent implements DoCheck {
   tabSelected(newTitle) {
     this.selectedTabTitle = newTitle;
     this.noDataMessage = "Sorry, there are no " + newTitle + " stats available.";
-    this.tabSelectedListener.next(this.getSelectedTab());
+    var newTab = this.getSelectedTab();
+    if ( newTab ) {
+      newTab.selectedSeasonId = this.selectedSeasonId;
+    }
+    this.tabSelectedListener.next(newTab);
     this.updateCarousel();
   }
   
