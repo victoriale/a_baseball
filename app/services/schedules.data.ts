@@ -8,30 +8,49 @@ import {GlobalFunctions} from '../global/global-functions';
 import {GlobalSettings} from '../global/global-settings';
 import {Gradient} from '../global/global-gradient';
 
-declare var moment;
+declare var moment: any;
 
 //TODO-CJP: Ask backend to return values as numbers and not strings!
 export interface SchedulesData {
   index:any;
   backgroundImage: string,
+  startDateTime: string,
   eventId: string,
-  stateDateTime: string,
   eventStatus: string,
-  homeTeamId: number,
-  awayTeamId: number,
-  siteId: number,
-  homeScore: number,
+  homeTeamId: string,
+  awayTeamId: string,
+  siteId: string,
+  homeScore: string,
   awayScore: string,
   homeOutcome: number,
   awayOutcome: number,
   seasonId: string,
   homeTeamLogo: string,
+  homeTeamColors: string,
+  homeTeamCity: string,
+  homeTeamState: string,
+  homeTeamVenue: string,
+  homeTeamFirstName: string,
+  homeTeamLastName: string,
+  homeTeamName: string,
+  homeTeamNickname: string,
+  homeTeamAbbreviation: string,
+  homeTeamWins: string,
+  homeTeamLosses: string,
   awayTeamLogo: string,
-  homeTeamName: number,
-  awayTeamName: number,
-  reportUrlMod: number,
+  awayTeamColors: string,
+  awayTeamCity: string,
+  awayTeamState: string,
+  awayTeamVenue: string,
+  awayTeamFirstName: string,
+  awayTeamLastName: string,
+  awayTeamName: string,
+  awayTeamNickname: string,
+  awayTeamAbbreviation: string,
+  awayTeamWins: string,
+  awayTeamLosses: string,
+  reportUrlMod: string,
   results:string,
-  teamId: number;
   /**
    * - Formatted from league and division values that generated the associated table
    */
@@ -51,6 +70,16 @@ export interface SchedulesData {
    * Formatted full path to image
    */
   fullBackgroundImageUrl?: string;
+  
+  /**
+   * Formatted home record 
+   */
+  homeRecord?: string;
+  
+  /**
+   * Formatted away record 
+   */
+  awayRecord?: string;
 }
 
 export class MLBScheduleTabData implements TableTabData<SchedulesData> {
@@ -72,10 +101,6 @@ export class MLBScheduleTabData implements TableTabData<SchedulesData> {
     this.isActive = isActive;
     this.sections = [];
   }
-
-  convertToCarouselItem(item: SchedulesData, index:number) {
-    return null;
-  }
 }
 
 export class MLBSchedulesTableData implements TableComponentData<SchedulesData> {
@@ -88,18 +113,21 @@ export class MLBSchedulesTableData implements TableComponentData<SchedulesData> 
     this.tableData = table;
   }
 
-  updateCarouselData(item, index){//ANY CHANGES HERE CHECK setupTableData in schedules.service.ts
+  updateCarouselData(item: SchedulesData, index:number){//ANY CHANGES HERE CHECK setupTableData in schedules.service.ts
     var displayNext = '';
     if(item.eventStatus == 'pre-event'){
       var displayNext = 'Next Game:';
     }else{
       var displayNext = 'Previous Game:';
     }
+    
+    var colors = Gradient.getColorPair(item.awayTeamColors.split(','), item.homeTeamColors.split(','));
+    
     return {//placeholder data
       index:index,
       displayNext: displayNext,
-      backgroundGradient: Gradient.getGradientStyles([item.awayTeamColors.split(',')[0],item.homeTeamColors.split(',')[0]]),
-      displayTime:moment(item.startDateTime).format('dddd MMMM Do, YYYY | h:mm A') + " ET", //hard coded TIMEZOME since it is coming back from api this way
+      backgroundGradient: Gradient.getGradientStyles(colors),
+      displayTime: moment(item.startDateTime).format('dddd MMMM Do, YYYY | h:mm A') + " ET", //hard coded TIMEZOME since it is coming back from api this way
       detail1Data:'Home Stadium:',
       detail1Value:item.homeTeamVenue,
       detail2Value:item.homeTeamCity + ', ' + item.homeTeamState,
@@ -264,7 +292,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
     var s = "";
     switch (column.key) {
       case "date":
-        s = moment(item.startDateTime).format('MMM DD');
+        s = GlobalFunctions.formatDateWithAPMonth(item.startDateTime, "", "DD");
         break;
       case "t":
         s = moment(item.startDateTime).format('h:mm') + " <sup> "+moment(item.startDateTime).format('A')+" </sup>";
