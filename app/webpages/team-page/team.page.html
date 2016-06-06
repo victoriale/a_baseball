@@ -3,6 +3,7 @@
 <div *ngIf="profileHeaderData && pageParams" class="page-container">
   <headline-component [title]="'About the ' + profileHeaderData.profileName"></headline-component>
   <profile-header [profileHeaderData]="profileHeaderData"></profile-header>
+  <daily-update-module [profileName]="profileHeaderData.profileName"></daily-update-module>
   <!-- daily update -->
   <articles-module></articles-module>
 
