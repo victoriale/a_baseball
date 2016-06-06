@@ -4,4 +4,23 @@
 
     <season-stats-module [pageParams]="pageParams" [data]="seasonStatsData"></season-stats-module>
 
+    <headline-component [title]="'Other MLB Content You May Love'"></headline-component>
+    <div style="height: 510px; margin-bottom: 20px;">
+        <images-media-carousel [imageData]="imageData" [copyright]="copyright" [profHeader]="profileHeaderData" [isProfilePage]="isProfilePage"></images-media-carousel>
+    </div>
+    <dyk-module *ngIf="dykData" [profileName]="profileHeaderData.profileName" [dykData]="dykData"></dyk-module>
+    <faq-module *ngIf="faqData" [profileName]="profileHeaderData.profileName" [faqData]="faqData"></faq-module>
+    <list-of-lists *ngIf="profileHeaderData && listOfListsData" [profileHeaderData]="profileHeaderData" [listOfListsData]="listOfListsData"></list-of-lists>
+    <!-- other news -->
+    <news-module *ngIf="newsDataArray" [newsDataArray]="newsDataArray" [profileName]="profileHeaderData.profileName"></news-module>
+
+    <headline-component [title]="'Interact With MLB\'s Fans'"></headline-component>
+    <comment-module [profileTitle]="pageParams.playerName"></comment-module>
+    <twitter-module *ngIf="twitterData" [profileName]="profileHeaderData.profileName" [twitterData]="twitterData"></twitter-module>
+    <!--Like Us On FB Module, only display if not on partner page-->
+    <!-- <section *ngIf="!partnerCheck"> -->
+    <share-module *ngIf="shareModuleInput" [shareModuleInput]="shareModuleInput"></share-module>
+    <like-us-module></like-us-module>
+    <!-- </section> -->
+    <about-us></about-us>
 </div>

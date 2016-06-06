@@ -81,7 +81,7 @@ export class DynamicWidgetCall {
 
     this.profHeader= {
       // Old placeholder image:  http://www.myinvestkit.com/StateImages/Location_National.jpg
-      imageURL : '/app/public/mainLogo.png',
+      imageURL : GlobalSettings.getSiteLogoUrl(),
       text1 : 'Last Updated: ' + moment(data.date).format('dddd, MMMM Do, YYYY'),
       text2 : ' United States',
       text3 : data.title,
@@ -99,7 +99,7 @@ export class DynamicWidgetCall {
       var listItem = {
         img :         val.img,
         list_sub :    val.list_sub,
-        title :       "<i class='fa fa-map-marker'></i> " + val.title,
+        title :       val.title,
         subtype :     val.tag,
         numBed :      '',
         numBath:      '',
@@ -118,7 +118,7 @@ export class DynamicWidgetCall {
 
       var carItem = {
         textDetails:    [
-          "<i class='fa fa-map-marker'></i> " + val.title,
+          val.title,
           "<small>" + val.list_sub+"</small>",
           "&nbsp;",
           val.value,
@@ -179,7 +179,7 @@ export class DynamicWidgetCall {
             description:[
               '<br>',
               '<p style="font-size:22px"><span class="text-heavy">'+val.title+'</span></p>',
-              '<p><i class="fa fa-map-marker text-master"></i> '+ val.list_sub +'</p>',
+              '<p>' + val.list_sub +'</p>',
               '<br>',
               '<p style="font-size:22px"><b>'+val.value+'</b></p>',
               '<p style="font-size:16px"> '+val.tag+'</p>'
@@ -274,9 +274,9 @@ export class DynamicWidgetCall {
             "<a>"+val.title+"</a>",
             val.value,
             GlobalFunctions.parseToRoute(val['primary_url']),
-            "<a class='text-master text-heavy'>"+val.list_sub+'</a>',
+            "<span class='text-master text-heavy'>"+val.list_sub+'</span>',
             val.tag,
-            '','fa fa-map-marker'),
+            '',''),
           imageConfig: self.imageData("image-121","border-2",
             self.protocol + val.img,
             GlobalFunctions.parseToRoute(val['parimary_url']),

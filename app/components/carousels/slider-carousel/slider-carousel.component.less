@@ -11,8 +11,8 @@ slider-carousel{
     top:0;
     right:0;
     width: 100%;
-    opacity: .65;
-    filter:alpha(opacity=65);
+    opacity: .5;
+    filter:alpha(opacity=50);
   }
     &-placeholder{
       width: 100%;
@@ -23,6 +23,14 @@ slider-carousel{
         .list-footer{
           float:left;
           position: relative;
+          .list-footer-btn{
+            background: @masterBrandColor;
+            color: @white;
+            &:hover {
+              background: @textEmphasisGrey;
+              color: @white;
+            }
+          }
         }
       }
     }//.scc-placeholder ends

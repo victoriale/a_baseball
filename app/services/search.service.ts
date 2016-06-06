@@ -179,6 +179,12 @@ export class SearchService{
                     tabName: 'Player (' + playerResults.length + ')',
                     isTabDefault: playerResults.length >= teamResults.length ? true : false,
                     results: [],
+                    error:{
+                      message:"Sorry we can't find a <span class='text-heavy'>Player Profile</span> matching your search term(s) ''<span class='query-blue'>"+query+"</span>'', please try your search again.",
+                      icon:'noSearch'
+                    },
+                    pageMax:this.pageMax,
+                    totalResults:playerResults.length,
                     paginationParameters: {
                         index: 1,
                         max: 10,//default value will get changed in next function
@@ -189,6 +195,12 @@ export class SearchService{
                     tabName: 'Team (' + teamResults.length + ')',
                     isTabDefault: teamResults.length > playerResults.length ? true : false,
                     results: [],
+                    error:{
+                      message:"Sorry we can't find a <span class='text-heavy'>Team Profile</span> matching your search term(s) '<span class='query-blue'>"+query+"</span>', please try your search again.",
+                      icon:'noSearch'
+                    },
+                    pageMax:this.pageMax,
+                    totalResults:teamResults.length,
                     paginationParameters: {
                         index: 1,
                         max: 10,//default value will get changed in next function
@@ -266,9 +278,9 @@ export class SearchService{
               }
             }
         });
+
         searchPageInput.tabData[1].results = objData2;
         searchPageInput.tabData[1].paginationParameters.max = searchPageInput.tabData[1].results.length;
-
         return searchPageInput;
     }
 

@@ -9,6 +9,7 @@ import {Router,ROUTER_DIRECTIVES} from 'angular2/router';
 import {Injector} from 'angular2/core';
 import {WebApp} from '../../app-layout/app.layout';
 import {TitleInputData} from "../../components/title/title.component";
+import {GlobalSettings} from '../../global/global-settings';
 
 @Component({
     selector: 'Disclaimer-page',
@@ -62,7 +63,7 @@ export class DisclaimerPage implements OnInit {
       }
       //disclaimer data
       this.titleData = {
-          imageURL : '/app/public/mainLogo.png',
+          imageURL : GlobalSettings.getSiteLogoUrl(),
           text1: 'Last Updated: Monday, March 21, 2016.',
           text2 : ' United States',
           text3 : this.pageName + "'s Disclaimer",

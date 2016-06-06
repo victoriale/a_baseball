@@ -2,6 +2,6 @@
     <loading-component *ngIf="!tabs && !hasError"></loading-component>
     <error-component *ngIf="hasError"></error-component>
     <backtab-component></backtab-component>
-    <title-component *ngIf="titleData" [titleData]="titleData"></title-component>
+    <title-component *ngIf="titleData" [titleData]="titleData" [imageData]="titleImageData"></title-component>
     <standings-component *ngIf="tabs" [tabs]="tabs" (tabSelected)="standingsTabSelected($event)"></standings-component>
 </section>

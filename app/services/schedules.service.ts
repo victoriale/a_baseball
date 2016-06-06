@@ -6,10 +6,11 @@ import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalSettings} from '../global/global-settings';
 import {Conference, Division, MLBPageParameters} from '../global/global-interface';
 import {SchedulesCarouselInput} from '../components/carousels/schedules-carousel/schedules-carousel.component';
-import { MLBSchedulesTableModel, MLBSchedulesTableData, MLBScheduleTabData} from './schedules.data';
+import {SchedulesData, MLBSchedulesTableModel, MLBSchedulesTableData, MLBScheduleTabData} from './schedules.data';
 import {Gradient} from '../global/global-gradient';
 
-declare var moment;
+declare var moment: any;
+
 @Injectable()
 export class SchedulesService {
   private _apiUrl: string = GlobalSettings.getApiUrl();
@@ -84,7 +85,6 @@ export class SchedulesService {
 
   var callURL = this._apiUrl+'/'+profile+'/schedule';
 
-
   if(typeof id != 'undefined'){
     callURL += '/'+id;
   }
@@ -94,7 +94,7 @@ export class SchedulesService {
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
-      var tableData = this.setupTableData(eventStatus, year, data.data, limit);
+      var tableData = this.setupTableData(eventStatus, year, data.data, id, limit);
       var tabData = [
         {display: 'Upcoming Games', data:'pre-event', season:displayYear, tabData: new MLBScheduleTabData(this.formatGroupName(year,'pre-event'), true)},
         {display: 'Previous Games', data:'post-event', season:displayYear, tabData: new MLBScheduleTabData(this.formatGroupName(year,'post-event'), true)}
@@ -102,7 +102,7 @@ export class SchedulesService {
       return {
         data:tableData,
         tabs:tabData,
-        carData: this.setupCarouselData(data.data, limit),
+        carData: this.setupCarouselData(data.data, tableData[0], limit),
         pageInfo:{
           totalPages: data.data[0].totalPages,
           totalResults: data.data[0].totalResults,
@@ -110,15 +110,14 @@ export class SchedulesService {
       };
     })
   }
-
-
-
+  
   //rows is the data coming in
-  private setupTableData(eventStatus, year, rows: Array<any>, maxRows?: number) {
+  private setupTableData(eventStatus, year, rows: Array<any>, teamId?, maxRows?: number): Array<MLBSchedulesTableData> {
     //Limit to maxRows, if necessary
     if ( maxRows !== undefined ) {
       rows = rows.slice(0, maxRows);
     }
+    
     //TWO tables are to be made depending on what type of tabs the use is click on in the table
     if(eventStatus == 'pre-event'){
       // let tableName = this.formatGroupName(year,eventStatus);
@@ -128,38 +127,43 @@ export class SchedulesService {
     }else{
       var postDate = [];
       var dateObject = {};
+
       // let tableName = this.formatGroupName(year,eventStatus);
-      var table = new MLBSchedulesTableModel(rows, eventStatus);
-
-      rows.forEach(function(val,index){// seperate the dates into their own Obj tables for post game reports
-        var splitToDate = val.startDateTime.split(' ')[0];
-        if(typeof dateObject[splitToDate] == 'undefined'){
-          dateObject[splitToDate] = {};
-          dateObject[splitToDate]['tableData'] = [];
-          dateObject[splitToDate]['display'] = moment(val.startDateTime).format('dddd MMMM Do, YYYY') + " Games";
-          dateObject[splitToDate]['tableData'].push(val);
-        }else{
-          dateObject[splitToDate]['tableData'].push(val);
+      if(typeof teamId == 'undefined'){
+        var table = new MLBSchedulesTableModel(rows, eventStatus, teamId);// there are two types of tables for Post game (team/league) tables
+        rows.forEach(function(val,index){// seperate the dates into their own Obj tables for post game reports
+          var splitToDate = val.startDateTime.split(' ')[0];
+          if(typeof dateObject[splitToDate] == 'undefined'){
+            dateObject[splitToDate] = {};
+            dateObject[splitToDate]['tableData'] = [];
+            dateObject[splitToDate]['display'] = moment(val.startDateTime).format('dddd MMMM Do, YYYY') + " Games";
+            dateObject[splitToDate]['tableData'].push(val);
+          }else{
+            dateObject[splitToDate]['tableData'].push(val);
+          }
+        });
+        for(var date in dateObject){
+          var newPostModel = new MLBSchedulesTableModel(dateObject[date]['tableData'], eventStatus);
+          var newPostTable = new MLBSchedulesTableData( dateObject[date]['display'], newPostModel);
+          postDate.push(newPostTable);
         }
-      });
-      for(var date in dateObject){
-        var newPostModel = new MLBSchedulesTableModel(dateObject[date]['tableData'], eventStatus);
-        var newPostTable = new MLBSchedulesTableData( dateObject[date]['display'], newPostModel);
-        postDate.push(newPostTable);
+        return postDate;
+      }else{//if there is a teamID
+        var table = new MLBSchedulesTableModel(rows, eventStatus, teamId);// there are two types of tables for Post game (team/league) tables
+        var tableArray = new MLBSchedulesTableData('' , table);
+        return [tableArray];
       }
-      return postDate;
     }
-  }
+  }  
 
-  private setupCarouselData(origData, maxRows?: number){//ANY CHANGES HERE CHECK updateCarouselData in schedules.data.ts
+  private setupCarouselData(origData: Array<SchedulesData>, tableData: MLBSchedulesTableData, maxRows?: number){
     // console.log(origData);
-    var carouselData: SchedulesCarouselInput; // set a variable to the interface
-    var carData = [];
+    
     //Limit to maxRows, if necessary
     if ( maxRows !== undefined ) {
       origData = origData.slice(0, maxRows);
     }
-    origData.forEach(function(val, index){
+    var carData = origData.map(function(val, index){
       var displayNext = '';
       if(val.eventStatus == 'pre-event'){
         var displayNext = 'Next Game:';
@@ -182,40 +186,8 @@ export class SchedulesService {
       // combine together the win and loss of a team to create their record
       val.homeRecord = val.homeTeamWins + '-' + val.homeTeamLosses;//?? is this really the win and loss
       val.awayRecord = val.awayTeamWins + '-' + val.awayTeamLosses;//?? is this really the win and loss
-      carouselData = {//placeholder data
-        index:index,
-        displayNext: displayNext,
-        backgroundGradient: Gradient.getGradientStyles([val.awayTeamColors.split(',')[0],val.homeTeamColors.split(',')[0]], 1),
-        displayTime:moment(val.startDateTime).format('dddd MMMM Do, YYYY | h:mm A') + " ET",//hard coded TIMEZOME since it is coming back from api this way
-        detail1Data:'Home Stadium:',
-        detail1Value:val.homeTeamVenue,
-        detail2Value:val.homeTeamCity + ', ' + val.homeTeamState,
-        imageConfig1:{//AWAY
-          imageClass: "image-125",
-          mainImage: {
-            imageUrl: GlobalSettings.getImageUrl(val.awayTeamLogo),
-            urlRouteArray: MLBGlobalFunctions.formatTeamRoute(val.awayTeamName, val.awayTeamId),
-            hoverText: "<p>View</p><p>Profile</p>",
-            imageClass: "border-5"
-          }
-        },
-        imageConfig2:{//HOME
-          imageClass: "image-125",
-          mainImage: {
-            imageUrl: GlobalSettings.getImageUrl(val.homeTeamLogo),
-            urlRouteArray: MLBGlobalFunctions.formatTeamRoute(val.homeTeamName, val.homeTeamId),
-            hoverText: "<p>View</p><p>Profile</p>",
-            imageClass: "border-5"
-          }
-        },
-        teamName1: val.awayTeamName,
-        teamName2: val.homeTeamName,
-        teamLocation1:val.awayTeamCity + ', ' + val.awayTeamState,
-        teamLocation2:val.homeTeamCity + ', ' + val.homeTeamState,
-        teamRecord1:val.awayRecord,
-        teamRecord2:val.homeRecord,
-      };
-      carData.push(carouselData);
+      
+      return tableData.updateCarouselData(val, index); //Use existing conversion function
     });
     // console.log('returned Data',carData);
 

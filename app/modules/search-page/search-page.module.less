@@ -1,5 +1,7 @@
 .search-page{
+
   &-container{
+    box-shadow: @modBoxShadow;
     background-color: @white;
   }
 
@@ -20,19 +22,30 @@
       display: block;
       text-align: center;
       margin: 20px 0px;
+      font-weight: 400;
     }
 
     &-input{
       width: 600px;
       margin: 0 auto;
+      & .fa-caret-left{
+        display:none;
+      }
     }
   }
-
+  &-total{
+    display:inline-block;
+    width:100%;
+    margin:10px 0;
+  }
   &-results{
+    min-height:500px;
     padding: 0px 30px;
+    & > li + li{
+      border-top: 1px solid @masterSmallImageShadow;
+    }
 
     &-item{
-      border-top: 1px solid @masterSmallImageShadow;
       line-height: 25px;
       padding: 18px 0px 15px 0px;
 
@@ -64,8 +77,17 @@
       &.no-results{
         line-height: 24px;
         font-size: 20px;
-        border-bottom: 1px solid @masterSmallImageShadow;
       }
     }
   }
+}
+
+.noSearch{
+  width:34px;
+  height:29px;
+  background-image: url('/app/public/icons/No_Search.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  display: block;
+  margin:0 -5px;
 }
