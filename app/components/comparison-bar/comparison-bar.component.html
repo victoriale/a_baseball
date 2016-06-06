@@ -25,10 +25,12 @@
             <div class="infobox-values">
               <div class="infobox-display">
                 {{displayData.maxValue}}
-                <i *ngIf="displayData.info" class="fa {{displayData.info}}"></i>
+                <div class="infobox-icons">
+                  <i *ngIf="displayData.info" class="fa {{displayData.info}}"></i>
+                  <i class="fa fa-sort-up"></i>
+                </div>
               </div>
               <!-- TODO -->
-              <div><i class="fa fa-sort-up"></i></div>
               <ul class="infobox-box">
                 <li class="infobox-list" *ngFor="#displayData of displayData.infoBoxDetails">
                   <a class="infobox-list-item" [routerLink]="displayData.routerLinkPlayer">

@@ -62,7 +62,27 @@
     .flexDirection(column);
     .flexAlignItems(flex-end);
   }
-
+  &-icons{
+    height: 21px;
+    .flexDisplay;
+    .flexDirection(column);
+    .fa-info-circle{
+      font-size: 10px;
+      color: @masterBrandColor;
+      padding: 0 10px;
+      &:hover{
+        color: @black;
+      }
+    }
+    .fa-sort-up{
+      color: @white;
+      display: none;//TODO
+      font-size: 16px;
+      padding: 5px 0;
+      text-align: center;
+      z-index: 6;
+    }
+  }
   &-box{
     width: 226px;
     min-height: 64px;
@@ -70,29 +90,17 @@
     overflow: auto;
     background-color: @white;
     border: 1px solid @highlightGrey;
-    display: block;//TODO
+    display: none;//TODO
     z-index: 5;
-    .fa-sort-up{
-      color: @white;
-      display: block;
-    }
     .fa-angle-right{
       font-size: 30px;
     }
   }
 
   &-display{
-    .fa{
-      font-size: 10px;
-      color: @masterBrandColor;
-      padding-left: 5px;
-      &:hover{
-        color: @black;
-        .infobox-box{
-          display: block;
-        }
-      }
-    }
+    .flexDisplay;
+    .flexJustify(stretch);
+
   }
 
   &-list{

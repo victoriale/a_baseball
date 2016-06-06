@@ -1,7 +1,7 @@
 import {Component, Input, Output, OnInit, EventEmitter, OnChanges} from 'angular2/core';
 import {ModuleHeader} from '../../components/module-header/module-header.component';
 import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer.component';
-import {ComparisonBar, ComparisonBarInput, InfoBox} from '../../components/comparison-bar/comparison-bar.component';
+import {ComparisonBar, ComparisonBarInput} from '../../components/comparison-bar/comparison-bar.component';
 import {ComparisonLegend, ComparisonLegendInput} from '../../components/comparison-legend/comparison-legend.component';
 import {Tabs} from '../../components/tabs/tabs.component';
 import {Tab} from '../../components/tabs/tab.component';
@@ -41,10 +41,10 @@ export class SeasonStatsModule implements OnInit, OnChanges {
     public moduleHeaderData: Object;
     public comparisonLegendData: ComparisonLegendInput;
     public dataIndex: number = 0;
-    public footerData = {
+    public footerData: ModuleFooterData = {
       infoDesc: 'Want to see full statistics for this player?',
       text: 'VIEW FULL STATISTICS',
-      url: ['Disclaimer-page']
+      url: ['Season-stats-page', {fullName: 'kevin-gausman', playerId: 95097}]//TODO
     };
     tabs: Array<ComparisonTabData> = [];
     public carouselDataArray: any;
