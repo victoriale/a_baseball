@@ -331,16 +331,9 @@ export class ComparisonStatsService {
   
   private createComparisonBars(data: ComparisonStatsData): ComparisonBarList {
     var fields = data.playerOne.position[0].charAt(0) == "P" ? this.pitchingFields : this.battingFields;
-    
-    data.playerOne.mainTeamColor = data.playerOne.teamColors[0];
-    data.playerTwo.mainTeamColor = data.playerTwo.teamColors[0];
-    if ( Gradient.areColorsClose(data.playerOne.teamColors[0], data.playerTwo.teamColors[0]) ) {
-      if ( data.playerTwo.teamColors.length >= 2) {
-        data.playerTwo.mainTeamColor = data.playerTwo.teamColors[1];
-      } else if ( data.playerOne.teamColors.length >=2 ) {
-        data.playerOne.mainTeamColor = data.playerOne.teamColors[1];
-      }
-    }
+    var colors = Gradient.getColorPair(data.playerOne.teamColors, data.playerTwo.teamColors);
+    data.playerOne.mainTeamColor = colors[0];
+    data.playerTwo.mainTeamColor = colors[1];
      
     var bars: ComparisonBarList = {};
     for ( var seasonId in data.bestStatistics ) {
