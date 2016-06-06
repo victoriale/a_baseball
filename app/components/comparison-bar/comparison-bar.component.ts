@@ -59,23 +59,25 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
         //Set pixel buffer between labels that are close
         var pixelBuffer = 5;
 
-        var adjustLabel = 0;
+        var adjustLabelLeft = 0;
+        var adjustLabelRight = 0;
         if((Math.abs(barTwoWidth - barOneWidth)) <= (labelTwoWidth + pixelBuffer)){
             //If the difference between the bars is less than the width of the second label, shift label one over
-            adjustLabel = Math.ceil(labelTwoWidth - (barTwoWidth - barOneWidth) + pixelBuffer);
+            adjustLabelLeft = Math.ceil(labelTwoWidth - (barTwoWidth - barOneWidth) + pixelBuffer);
+            adjustLabelRight = Math.ceil(labelOneWidth - (barTwoWidth - barOneWidth) + pixelBuffer);
         }
 
         if ( labelOneWidth > barOneWidth ) {
             this.labelOne.nativeElement.style.left = 0;
-            if ( adjustLabel > 0 ) {
-                this.labelTwo.nativeElement.style.left = adjustLabel + pixelBuffer;
+            if ( adjustLabelRight > 0 ) {
+                this.labelTwo.nativeElement.style.left = adjustLabelRight + pixelBuffer;
             }
             else {
                 this.labelTwo.nativeElement.style.right = 0;
             }
         }
         else {
-            this.labelOne.nativeElement.style.right = adjustLabel;
+            this.labelOne.nativeElement.style.right = adjustLabelLeft;
             this.labelTwo.nativeElement.style.right = 0;
         }
     }
@@ -92,12 +94,16 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
         var adjustedMax = bestValue;
         var switchValues = false;
 
-        // console.log(barData.title);
-        // console.log("  worst value is " + worstValue);
-        // console.log("  best value is " + bestValue);
+        // var logData = barData.title == "Earned Run Average";
+        // if (logData) {
+        //     console.log(barData.title);
+        //     console.log("  bar data: ", barData);
+        //     console.log("  worst value is " + worstValue);
+        //     console.log("  best value is " + bestValue);
+        // }
         if ( bestValue < worstValue ) {
             adjustedMax = worstValue - bestValue;
-            // console.log("  adjusted max value is " + adjustedMax);
+            // if (logData) console.log("  adjusted max value is " + adjustedMax);
             switchValues = true;
         }
 
@@ -107,7 +113,10 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
         for (var i = 0; i < barData.data.length; i++ ) {
             var dataItem = barData.data[i];
             var value = dataItem.value != null ? dataItem.value : 0;
-            // console.log("  value: "+ value);
+            // if (logData) {
+            //     console.log("data item " + i);
+            //     console.log("  value: "+ value);
+            // }
             if ( switchValues ) {
                 if ( value < bestValue ) {
                     dataItem.value = null;
@@ -116,28 +125,35 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
                 else {
                     value = worstValue - value;
                 }
-                // console.log("  adjusted: " + value);
+                // if (logData) console.log("  adjusted: " + value);
             }
             dataItem.width = (Math.round(value / adjustedMax * (100 - scaleStart) * 10) / 10) + scaleStart;
             if ( dataItem.width < scaleStart || !dataItem.value ) {
                 dataItem.width = scaleStart;
             }
-            // if ( barData.maxValue > 0 ) {
-            //     console.log("data item " + i);
+            // if ( logData ) {
             //     console.log("   value: " + dataItem.value);
             //     console.log("   width: " + dataItem.width);
             //     console.log("   color: " + dataItem.color);
             // }
         }
+        
         barData.data.sort((a,b) => {
             var diff = a.width - b.width;
             if ( Math.abs(diff) <= 0.5 ) {
-                if ( diff >= 0 ) {
+                if ( b.value == null ) {
+                    a.width += 1;
+                }
+                else if ( a.value == null ) {
+                    b.width += 1;
+                }
+                else if ( diff >= 0 ) {
                     b.width += 1;
                 }
                 else {
                     a.width += 1;
                 }
+                diff = a.width - b.width;
             }
             return diff;
         });
