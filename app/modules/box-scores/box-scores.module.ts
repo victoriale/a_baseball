@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, OnInit} from 'angular2/core';
 import {ModuleHeader} from '../../components/module-header/module-header.component';
 import {CalendarCarousel} from '../../components/calendar/carousel/calendarCar.component';
 import {Competition} from '../../components/competition/competition.component';
@@ -24,7 +24,7 @@ export class BoxScoresModule implements OnInit{
   constructor(){}
 
   ngOnInit(){
-    console.log(this.boxScores);
+    console.log('MODULE: BoxScores',this.boxScores);
     this.boxScheduleData = this.boxScores.schedule;
   }
 }

@@ -35,10 +35,11 @@ export class BoxScoresService {
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
-      console.log(data.data);
+      // console.log("ORIGINAL DATA",data.data);
+      var dateData = this.transformBoxScores(data.data);
 
       return {
-        schedule: this.formatSchedule(data.data),
+        schedule: this.formatSchedule(dateData['2016-05-23'][0]),
         fullData: data.data
       };
     })
@@ -53,34 +54,44 @@ export class BoxScoresService {
            newBoxScores[dayDate].push(boxScores[dates]);
         }
     }
-    console.log(newBoxScores);
-    
+    // console.log('NEW BOX SCORES',newBoxScores);
+    return newBoxScores;
   }
 
   formatSchedule(data){
-    console.log(data);
+    console.log('FORMAT SCHEDULE SERVICE DATA', data);
+    let awayData = data.awayTeamInfo;
+    let homeData = data.homeTeamInfo;
+
+    console.log('AWAY',awayData);
+    console.log('HOME',homeData);
+
+    var testImg = "https://prod-sports-images.synapsys.us/mlb/logos/team/MLB_Kansas_City_Royals_Logo.jpg";
+    var testBorder = "border-logo";
+    var testClass = "image-62";
+    var testRoute = MLBGlobalFunctions.formatTeamRoute("kansas-city-royals", '2806');
     var home = {
-      homeHex:"#FD5A1E",
-      homeID:2819,
-      homeLocation:"San Francisco",
-      homeLogo:"https://prod-sports-images.synapsys.us/mlb/logos/team/MLB_San_Francisco_Giants_Logo.jpg",
-      homeLosses:19,
+      homeHex:homeData.colors.split(', ')[0], //parse out comma + space to grab only hex colors
+      homeID:homeData.id,
+      homeLocation:homeData.firstName, // first name of team usually represents the location
+      homeLogo:GlobalSettings.getImageUrl(homeData.logo),
+      homeLosses:14,
       homeName:"Giants",
-      homeWins:30
+      homeWins:34
     };
     var away = {
       awayHex:"#C41E3A",
       awayID:2805,
       awayLocation:"St. Louis",
-      awayLogo:"https://prod-sports-images.synapsys.us/mlb/logos/team/MLB_San_Francisco_Giants_Logo.jpg",
+      awayLogo: this.imageData(testClass, testBorder, testImg, testRoute, null, null, []),
       awayLosses:19,
       awayName:"Giants",
       awayWins:30
     };
-
+    away['url'] = testRoute;
     return {
-      home:home,
-      away:away
+      home:[home],
+      away:[away]
     };
   }
 
@@ -114,7 +125,7 @@ export class BoxScoresService {
         mainImage: {
             imageUrl: mainImg,
             urlRouteArray: mainImgRoute,
-            hoverText: "<p>View</p><p>Profile</p>",
+            hoverText: "<i class='fa fa-mail-forward'></i>",
             imageClass: imageBorder,
         },
         subImages: rank != null ? [
@@ -138,6 +149,7 @@ export class BoxScoresService {
           }
       ];
     }
+    console.log(image);
     return image;
   }
 }
