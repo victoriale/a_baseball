@@ -8,12 +8,14 @@ import {TableModel, TableColumn, TableRow, TableCell} from '../custom-table/tabl
 import {LoadingComponent} from '../loading/loading.component';
 import {NoDataBox} from '../../components/error/data-box/data-box.component';
 
-export interface TableTabData<T> {
+export interface StandingsTableTabData<T> {
   title: string;
   isActive: boolean;
   isLoaded: boolean;
   hasError: boolean;
   sections: Array<TableComponentData<T>>;
+  getSelectedKey(): string;
+  setSelectedKey(key:string);
   convertToCarouselItem(item:T, index:number):SliderCarouselInput
 }
 
@@ -32,7 +34,7 @@ export class StandingsComponent implements DoCheck {
 
   public carouselData: Array<SliderCarouselInput> = [];
 
-  @Input() tabs: Array<TableTabData<any>>;
+  @Input() tabs: Array<StandingsTableTabData<any>>;
 
   @Output("tabSelected") tabSelectedListener = new EventEmitter();
 
@@ -65,7 +67,7 @@ export class StandingsComponent implements DoCheck {
     }
   }
 
-  getSelectedTab(): TableTabData<any> {
+  getSelectedTab(): StandingsTableTabData<any> {
     var matchingTabs = this.tabs.filter(value => value.title === this.selectedTabTitle);
     if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) {
       return matchingTabs[0];
@@ -75,7 +77,7 @@ export class StandingsComponent implements DoCheck {
     }
   }
 
-  setSelectedCarouselIndex(tab: TableTabData<any>, index: number) {
+  setSelectedCarouselIndex(tab: StandingsTableTabData<any>, index: number) {
     let offset = 0;
     if ( !tab.sections ) return;
     
@@ -91,9 +93,18 @@ export class StandingsComponent implements DoCheck {
   }
 
   tabSelected(newTitle) {
-    this.selectedTabTitle = newTitle;
     this.noDataMessage = "Sorry, there is no data available for the "+ newTitle;
-    this.tabSelectedListener.next(this.getSelectedTab());
+    
+    var priorTab = this.getSelectedTab();
+    this.selectedTabTitle = newTitle;    
+    var newTab = this.getSelectedTab();
+    if ( priorTab && newTab ) {
+      var key = priorTab.getSelectedKey();
+      if ( key ) {
+        newTab.setSelectedKey(key);
+      }
+    }
+    this.tabSelectedListener.next(newTab);
     this.updateCarousel();
   }
 
