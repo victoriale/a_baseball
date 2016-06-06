@@ -6,6 +6,7 @@ import {CircleImage} from '../../components/images/circle-image';
 import {CircleImageData} from '../../components/images/image-data';
 import {ScrollableContent} from '../../components/scrollable-content/scrollable-content.component';
 import {GlobalFunctions} from '../../global/global-functions';
+import {GlobalSettings} from '../../global/global-settings';
 import {NaValuePipe} from '../../pipes/na.pipe';
 
 export interface DataItem {
@@ -53,8 +54,8 @@ export class ProfileHeaderModule implements OnChanges {
       imageClass: "image-40",
       mainImage: {
         imageClass: "",
-        imageUrl: "/app/public/mainLogo.png",
-        placeholderImageUrl: "/app/public/mainLogo.png"
+        imageUrl: GlobalSettings.getSiteLogoUrl(),
+        placeholderImageUrl: GlobalSettings.getSiteLogoUrl()
       }
     }; 
 
