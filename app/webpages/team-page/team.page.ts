@@ -289,13 +289,13 @@ export class TeamPage implements OnInit {
                 this.comparisonModuleData = data;
             },
             err => {
-                console.log("Error getting comparison data for "+ this.pageParams.teamId + ": " + err);
+                console.log("Error getting comparison data for "+ this.pageParams.teamId, err);
             });
     }
 
-    private standingsTabSelected(tab:MLBStandingsTabData) {
+    private standingsTabSelected(tabData: Array<any>) {
         //only show 5 rows in the module
-        this._standingsService.getStandingsTabData(tab, this.pageParams, (data) => {}, 5);
+        this._standingsService.getStandingsTabData(tabData, this.pageParams, (data) => {}, 5);
     }
 
     private playerStatsTabSelected(tabData: Array<any>) {
