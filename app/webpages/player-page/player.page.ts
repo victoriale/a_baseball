@@ -268,9 +268,9 @@ export class PlayerPage implements OnInit {
         );
     }
 
-    private standingsTabSelected(tab:MLBStandingsTabData) {
+    private standingsTabSelected(tabData: Array<any>) {
         //only show 5 rows in the module;
-        this._standingsService.getStandingsTabData(tab, this.pageParams, (data) => {}, 5);
+        this._standingsService.getStandingsTabData(tabData, this.pageParams, (data) => {}, 5);
     }
 
     private setupComparisonData() {
@@ -279,7 +279,7 @@ export class PlayerPage implements OnInit {
                 this.comparisonModuleData = data;
             },
             err => {
-                console.log("Error getting comparison data for "+ this.pageParams.playerId + ": " + err);
+                console.log("Error getting comparison data for "+ this.pageParams.playerId, err);
             });
     }
 

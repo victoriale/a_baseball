@@ -39,6 +39,7 @@ export class StandingsComponent implements DoCheck {
   @Output("tabSelected") tabSelectedListener = new EventEmitter();
 
   private selectedTabTitle: string;
+  private selectedKey: string;
   private tabsLoaded: {[index:number]:string};
   private noDataMessage = "Sorry, there is no data available.";
 
@@ -50,8 +51,8 @@ export class StandingsComponent implements DoCheck {
         this.tabsLoaded = {};
         var selectedTitle = this.tabs[0].title;
         this.tabs.forEach(tab => {
-          this.setSelectedCarouselIndex(tab, 0);
           if ( tab.isActive ) {
+            this.setSelectedCarouselIndex(tab, 0);
             selectedTitle = tab.title;
           }
         });
@@ -60,7 +61,7 @@ export class StandingsComponent implements DoCheck {
       else {
         let selectedTab = this.getSelectedTab();
         if ( selectedTab && selectedTab.sections && selectedTab.sections.length > 0 && !this.tabsLoaded[selectedTab.title] ) {
-          this.updateCarousel();
+          // this.updateCarousel(); // wait until rows are sorted
           this.tabsLoaded[selectedTab.title] = "1";
         }
       }
@@ -96,15 +97,16 @@ export class StandingsComponent implements DoCheck {
     this.noDataMessage = "Sorry, there is no data available for the "+ newTitle;
     
     var priorTab = this.getSelectedTab();
+    if ( priorTab ) {
+      this.selectedKey = priorTab.getSelectedKey();
+    }
+    
     this.selectedTabTitle = newTitle;    
     var newTab = this.getSelectedTab();
-    if ( priorTab && newTab ) {
-      var key = priorTab.getSelectedKey();
-      if ( key ) {
-        newTab.setSelectedKey(key);
-      }
+    if ( newTab ) {
+      newTab.setSelectedKey(this.selectedKey);
     }
-    this.tabSelectedListener.next(newTab);
+    this.tabSelectedListener.next([newTab, this.selectedKey]);
     this.updateCarousel();
   }
 
@@ -142,7 +144,6 @@ export class StandingsComponent implements DoCheck {
           });
       });
     }
-
     this.selectedIndex = selectedIndex < 0 ? 0 : selectedIndex;
     this.carouselData = carouselData;
   }
