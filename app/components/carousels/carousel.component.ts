@@ -66,7 +66,7 @@ export class Carousel implements OnInit, OnChanges {
   }
 
   ngOnChanges(){ 
-    if(typeof this.indexInput == 'undefined'){
+    if(typeof this.indexInput == 'undefined' || this.indexInput < 0){
       this.counter = 0;
     }else{
       this.counter = this.indexInput;

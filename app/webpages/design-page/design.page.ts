@@ -101,9 +101,9 @@ export class DesignPage implements OnInit {
     );
   }
   
-  private standingsTabSelected(tab: MLBStandingsTabData) {
+  private standingsTabSelected(tabData: Array<any>) {
     //only show 5 rows in the module
-    this._standingsService.getStandingsTabData(tab, this.pageParams, (data) => {}, 5)
+    this._standingsService.getStandingsTabData(tabData, this.pageParams, (data) => {}, 5)
   }
 
   private setupLolData() {
