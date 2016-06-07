@@ -131,7 +131,7 @@ import {TransactionsPage} from "../webpages/transactions-page/transactions.page"
         component: DraftHistoryPage
     },
     {
-        path: '/transactions/:teamName/:teamId',
+        path: '/transactions/:teamName/:teamId/:limit/:pageNum',
         name: 'Transactions-page',
         component: TransactionsPage
     },

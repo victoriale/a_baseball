@@ -10,6 +10,7 @@ import {DraftHistoryModule} from '../../modules/draft-history/draft-history.modu
 import {StandingsModuleData, StandingsModule} from '../../modules/standings/standings.module';
 import {MLBStandingsTabData} from '../../services/standings.data';
 import {StandingsService} from '../../services/standings.service';
+import {GlobalSettings} from '../../global/global-settings';
 
 import {ProfileHeaderData, ProfileHeaderModule} from '../../modules/profile-header/profile-header.module';
 import {ProfileHeaderService} from '../../services/profile-header.service';
@@ -45,7 +46,7 @@ export class DesignPage implements OnInit {
   lolCarouselDataArray : any;
 
   public shareModuleInput: ShareModuleInput = {
-      imageUrl: './app/public/mainLogo.png'
+      imageUrl: GlobalSettings.getSiteLogoUrl()
   };
 
   constructor(

@@ -25,28 +25,41 @@ export class TransactionsService {
       return headers;
   }
 
-  getTransactionsService(year, teamId, type?, limit?, page?){
+  getTransactionsService(year, teamId, type?, sort?, limit?, page?){
   //Configure HTTP Headers
   var headers = this.setToken();
+  if( sort == null){ sort = "asc";}
   if( limit == null){ limit = 10;}
   if( page == null){ page = 1;}
 
   var tabArray = [
     {
       tabData     : 'transactions',
-      tabDisplay  : 'Transactions'
+      tabDisplay  : 'Transactions',
+      sortOptions : [
+        { key: "recent", value: "Most Recent"},
+        { key: "oldest", value: "Oldest First"}
+        ]
     },
     {
       tabData     : 'suspensions',
-      tabDisplay  : 'Suspensions'
+      tabDisplay  : 'Suspensions',
+      sortOptions : [
+        { key: "recent", value: "Most Recent"},
+        { key: "oldest", value: "Oldest First"}
+      ]
     },
     {
       tabData     : 'injuries',
-      tabDisplay  : 'Injuries'
+      tabDisplay  : 'Injuries',
+      sortOptions : [
+        { key: "recent", value: "Most Recent"},
+        { key: "oldest", value: "Oldest First"}
+      ]
     }
   ];
 
-  var callURL = this._apiUrl + '/team/transactions/'+teamId+'/'+year+'/'+limit+'/'+page;
+  var callURL = this._apiUrl + '/team/transactions/'+teamId+'/'+year+'/'+sort+'/'+limit+'/'+page;
 
   return this.http.get( callURL, {
       headers: headers
@@ -103,21 +116,22 @@ export class TransactionsService {
         var Carousel = {
           index:index,
           //TODO
+          backgroundImage: GlobalSettings.getImageUrl(val.backgroundImage),
           imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.playerHeadshot),MLBGlobalFunctions.formatPlayerRoute(val.playerName,val.playerName, val.playerId), null, "image-50-sub",MLBGlobalFunctions.formatTeamLogo(val.teamName),MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
           description:[
             '<p class="font-12 fw-400 lh-32 titlecase"><i class="fa fa-circle" style="margin-right:6px;"></i> Transaction Report - ' + val.teamName + '</p>',
             '<p class="font-22 fw-800 lh-32" style="padding-bottom:10px;">'+ val.playerName+'</p>',
             '<p class="font-14 fw-400 lh-18" style="padding-bottom:6px;">Transaction date - ' + val['repDate'] + ': ' + val.contents + '<p>',
-            '<p class="font-10 fw-400 lh-25">Last Updated on '+ moment(val.lastUpdate).format('dddd, MMMM DD, YYYY') +'</p>'
+            '<p class="font-10 fw-400 lh-25">Last Updated on '+ moment(new Date(val.lastUpdate)).format('dddd, MMMM DD, YYYY') +'</p>'
           ],
         };
-        if(type == 'page'){
-          Carousel['footerInfo'] = {
-            infoDesc:'Interested in discovering more about this player?',
-            text:'VIEW PROFILE',
-            url:MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val['personId']),
-          }
-        }
+        //if(type == 'page'){
+        //  Carousel['footerInfo'] = {
+        //    infoDesc:'Interested in discovering more about this player?',
+        //    text:'VIEW PROFILE',
+        //    url:MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val['personId'])
+        //  }
+        //}
         carouselArray.push(Carousel);
       });
     }
@@ -136,7 +150,7 @@ export class TransactionsService {
       var listData = {
         dataPoints: [{
           style   : 'transactions-small',
-          data    : moment(val['repDate']).format('MMMM DD, YYYY'),
+          data    : moment(new Date(val['repDate'])).format('MMMM DD, YYYY'),
           value   : val.playerLastName + ", " + val.playerFirstName + ": " + val.contents,
           url     : null
         }],

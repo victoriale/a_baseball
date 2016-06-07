@@ -1,6 +1,6 @@
 import {TableModel, TableColumn} from '../components/custom-table/table-data.component';
 import {CircleImageData} from '../components/images/image-data';
-import {TableTabData, TableComponentData} from '../components/standings/standings.component';
+import {StandingsTableTabData, TableComponentData} from '../components/standings/standings.component';
 import {SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
 import {Conference, Division} from '../global/global-interface';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
@@ -65,7 +65,7 @@ export class MLBStandingsTableData implements TableComponentData<TeamStandingsDa
 
 }
 
-export class MLBStandingsTabData implements TableTabData<TeamStandingsData> {
+export class MLBStandingsTabData implements StandingsTableTabData<TeamStandingsData> {
 
   title: string;
 
@@ -80,12 +80,43 @@ export class MLBStandingsTabData implements TableTabData<TeamStandingsData> {
   conference: Conference;
 
   division: Division;
+  
+  selectedKey: string;
 
   constructor(title: string, conference: Conference, division: Division, isActive: boolean) {
     this.title = title;
     this.conference = conference;
     this.division = division;
     this.isActive = isActive;
+  }
+  
+  getSelectedKey(): string {
+    if ( !this.sections ) return "-1";
+    
+    var numericKey = -1;
+    this.sections.forEach(section => {
+      var table = section.tableData;
+      if ( table.selectedKey != null && table.selectedKey >= 0 ) {
+        numericKey = table.selectedKey;
+      }
+    });
+    return numericKey.toString();
+  }
+  
+  setSelectedKey(key:string) {
+    this.selectedKey = key;
+    if ( !this.sections ) return;
+    
+    var numericKey = Number(key);
+    this.sections.forEach(section => {
+      var table = section.tableData;
+      if ( table.rows.filter(row => row.teamId == numericKey).length > 0 ) {
+        table.selectedKey = numericKey;
+      }
+      else {
+        table.selectedKey = -1;
+      }
+    });
   }
 
   convertToCarouselItem(item: TeamStandingsData, index:number): SliderCarouselInput {

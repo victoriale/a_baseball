@@ -53,7 +53,7 @@ export class PlayerStatsModule implements OnChanges {
     }    
   }
   
-  tabSelected(tab) {
-    this.tabSelectedListener.next(tab);
+  tabSelected(tabData) {
+    this.tabSelectedListener.next(tabData);
   }
 }

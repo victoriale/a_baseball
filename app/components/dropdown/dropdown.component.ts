@@ -11,9 +11,7 @@ import {ScrollerFunctions} from '../../global/scroller-functions';
   providers: [BrowserDomAdapter]
 })
 
-export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit { 
-  public isDropdownEnabled: boolean = true;
-  
+export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {  
   @Input() list: Array<{key: string, value: string}>;
       
   @Input() selectedKey: string;
@@ -29,6 +27,7 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
   @Output("selectionChanged") dropdownChangedListener = new EventEmitter();
   
   private hideDropdownListener: Function;  
+  private keepOpenUntilMouseUp: Function;  
   
   private _elementRef: ElementRef;
   private _scrollerSetup: boolean = false;
@@ -55,7 +54,6 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
       this.dropdownVisibleIcon = this.icon;
       this.dropdownHiddenIcon = this.icon;
     }
-    this.selectedItem = { key: "", value: " " };
     if ( this.list ) {
       this.list.forEach(value => {
         if ( value.key == this.selectedKey ) {
@@ -66,7 +64,10 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
         this.setSelected(this.list[0]);
       }
     }
-  }  
+    if ( !this.selectedItem ) {
+      this.selectedItem = {key: "", value: " "};
+    }
+  }
   
   //TODO-CJP: setup multiple sort types
   setSelected($item) {
@@ -79,6 +80,10 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
     if ( this.hideDropdownListener ) {
        this.hideDropdownListener(); 
        this.hideDropdownListener = undefined;
+    }
+    if ( this.keepOpenUntilMouseUp ) {
+      this.keepOpenUntilMouseUp();
+      this.keepOpenUntilMouseUp = undefined;
     }
   }  
   
@@ -96,7 +101,7 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
     // console.log("dropdown setup: " + document);
     
     var self = this;
-    var keepDropdownOpen = false;
+    var mouseDownOnScrollBar = false;
     var isDropdownVisible = false;
     var nativeElement = this._elementRef.nativeElement;
     var dropdownHeader = nativeElement.getElementsByClassName('dropdown')[0];
@@ -124,20 +129,55 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
         }     
     }
     
+    function closeDropdownOnClick() {
+        //remove any existing listener:
+        if ( self.hideDropdownListener ) {
+          self.hideDropdownListener();
+          self.hideDropdownListener = undefined;
+        }
+        
+        //add new listener that checks for any click on the document
+        self.hideDropdownListener = self._renderer.listenGlobal('document', 'click', (event) => {
+          if ( mouseDownOnScrollBar ) {
+            //ignore click if 'keepDropdownOpen' is true
+            mouseDownOnScrollBar = false;
+            return;
+          }
+
+          toggleDropdown(false);
+          
+          if ( self.hideDropdownListener ) {
+            //if the listener still exists, remove it as it's not needed once
+            //the dropdown is hidden again 
+            self.hideDropdownListener(); 
+          }
+          self.hideDropdownListener = undefined;
+        });
+    }
+    
     if ( dropdownContainer && dropdownHeader ) {
+      //needed to disable selection in IE11
+      dropdownContainer.onselectstart = function() { return false; }
+      
       // We don't want to close dropdown when the scroller is selected.
       // So this checks to see if the mouse went down on the scroller.
       dropdownHeader.addEventListener('mousedown', function(event) {
           var element = document.elementFromPoint(event.clientX, event.clientY);
-          keepDropdownOpen = element.className.indexOf("scrollable-item-scroller") >= 0; 
-      });
-      
-      document.addEventListener('mouseup', function(event) {
-          keepDropdownOpen = false; 
+          mouseDownOnScrollBar = element.className.indexOf("scrollable-item-scroller") >= 0;
+          if ( mouseDownOnScrollBar ) {
+            if ( self.keepOpenUntilMouseUp ) {
+              self.keepOpenUntilMouseUp(); //remove listenr
+            }
+            setTimeout(() => {
+              self.keepOpenUntilMouseUp = self._renderer.listenGlobal('document', 'mousedown', (event) => {
+                mouseDownOnScrollBar = false;
+              });
+            },1);
+          }
       });
       
       dropdownHeader.addEventListener('click', function(event) {
-          if ( keepDropdownOpen ) {
+          if ( mouseDownOnScrollBar ) {
             //ignore click if 'keepDropdownOpen' is true
             return;
           }
@@ -154,32 +194,7 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
 
           if ( !self.hideDropdownListener && isDropdownVisible ) {
             //timeout is needed so that click doesn't happen for click.
-            setTimeout(() => {
-              //remove any existing listener:
-              if ( self.hideDropdownListener ) {
-                self.hideDropdownListener();
-                self.hideDropdownListener = undefined;
-              }
-              
-              //add new listener that checks for any click on the document
-              // console.time(" adding document listener");
-              self.hideDropdownListener = self._renderer.listenGlobal('document', 'click', (event) => {
-                if ( keepDropdownOpen ) {
-                  //ignore click if 'keepDropdownOpen' is true
-                  keepDropdownOpen = false;
-                  return;
-                }
-          
-                toggleDropdown(false);
-                
-                if ( self.hideDropdownListener ) {
-                  //if the listener still exists, remove it as it's not needed once
-                  //the dropdown is hidden again 
-                  self.hideDropdownListener(); 
-                }
-                self.hideDropdownListener = undefined;
-              });
-            }, 1);
+            setTimeout(closeDropdownOnClick, 1);
           }
       });
     }
