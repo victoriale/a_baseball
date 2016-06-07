@@ -119,6 +119,97 @@
     }
   }
 
+  &-upcoming{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    bottom: 10px;
+    &-images {
+      width: 100%;
+      margin: 0 auto;
+      position: relative;
+    }
+    &-circles {
+      width: 100%;
+      height: 130px;
+      position: relative;
+      &-home-logo {
+        border-radius: 50%;
+        border: 2px solid #ccc;
+        box-sizing: border-box;
+        background-color: #ffffff;
+        width: 125px;
+        height: 125px;
+        position: absolute;
+        top: 15px;
+        left: 10%;
+        z-index: 1;
+        background-position: center center;
+        background-size: contain;
+      }
+      &-date {
+        .globalDefaultFont(14px, 600);
+        text-align: center;
+        position: relative;
+        top: 25px;
+      }
+      &-away-logo {
+        border: 2px solid #ccc;
+        border-radius: 50%;
+        position: absolute;
+        background-color: #ffffff;
+        width: 125px;
+        height: 125px;
+        z-index: 0;
+        top: 15px;
+        right: 10%;
+        background-position: center center;
+        background-size: contain;
+        &:hover {
+          z-index: 1;
+        }
+      }
+    }
+    &-home-info {
+      width: 42%;
+      float: left;
+      &-team {
+        .globalDefaultFont(18px, 800);
+        margin: 0 auto;
+        text-align: center;
+        position: relative;
+        top: 90px;
+      }
+      &-record {
+        .globalDefaultFont(14px, 400);
+        margin: 0 auto;
+        text-align: center;
+        padding-top: 5px;
+        position: relative;
+        top: 90px;
+      }
+    }
+    &-away-info {
+      width: 42%;
+      float: right;
+      &-team {
+        .globalDefaultFont(18px, 800);
+        margin: 0 auto;
+        text-align: center;
+        position: relative;
+        top: 90px;
+      }
+      &-record {
+        .globalDefaultFont(14px, 400);
+        margin: 0 auto;
+        text-align: center;
+        padding-top: 5px;
+        position: relative;
+        top: 90px;
+      }
+    }
+  }
+
   &-double {
     width: 100%;
     height: 100%;
