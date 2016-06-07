@@ -80,7 +80,15 @@ export class StandingsService {
     return tabs;
   }
 
-  getStandingsTabData(standingsTab: MLBStandingsTabData, pageParams: MLBPageParameters, onTabsLoaded: Function, maxRows?: number) {
+  getStandingsTabData(tabData: Array<any>, pageParams: MLBPageParameters, onTabsLoaded: Function, maxRows?: number) {
+    if ( !tabData || tabData.length < 2 ) {
+      throw new Error("Invalid tabData for standings")
+    }
+    var standingsTab: MLBStandingsTabData = tabData[0];
+    var selectedKey = tabData[1];
+    if ( selectedKey == null ) {
+      selectedKey = pageParams.teamId;
+    }
     if ( standingsTab && (!standingsTab.sections || standingsTab.sections.length == 0) ) {
       let url = GlobalSettings.getApiUrl() + "/standings";
 
@@ -93,12 +101,14 @@ export class StandingsService {
 
       this.http.get(url)
           .map(res => res.json())
-          .map(data => this.setupTabData(standingsTab, data.data, pageParams.teamId, maxRows))
+          .map(data => this.setupTabData(standingsTab, data.data, maxRows))
           .subscribe(data => {
             standingsTab.isLoaded = true;
             standingsTab.hasError = false;
             standingsTab.sections = data;
-            standingsTab.setSelectedKey(standingsTab.selectedKey);
+            if ( selectedKey ) {
+              standingsTab.setSelectedKey(selectedKey);
+            }
             onTabsLoaded(data);
           },
           err => {
@@ -114,7 +124,7 @@ export class StandingsService {
     return new MLBStandingsTabData(title, conference, division, selectTab);
   }
 
-  private setupTabData(standingsTab: MLBStandingsTabData, apiData: any, teamId: number, maxRows: number): Array<MLBStandingsTableData> {
+  private setupTabData(standingsTab: MLBStandingsTabData, apiData: any, maxRows: number): Array<MLBStandingsTableData> {
     var sections: Array<MLBStandingsTableData> = [];
     var totalRows = 0;
 
@@ -144,11 +154,6 @@ export class StandingsService {
       }
     }
 
-    if ( teamId ) {
-      sections.forEach(section => {
-        section.tableData.selectedKey = teamId;
-      });
-    }
     return sections;
   }
 

@@ -96,8 +96,8 @@ export class StandingsPage implements OnInit {
     }
   }
   
-  private standingsTabSelected(tab: MLBStandingsTabData) {    
-    this._standingsService.getStandingsTabData(tab, this.pageParams, data => {
+  private standingsTabSelected(tabData: Array<any>) {    
+    this._standingsService.getStandingsTabData(tabData, this.pageParams, data => {
       this.getLastUpdatedDateForPage(data);
     });
   }
