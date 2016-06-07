@@ -25,9 +25,10 @@ export class TransactionsService {
       return headers;
   }
 
-  getTransactionsService(year, teamId, type?, limit?, page?){
+  getTransactionsService(year, teamId, type?, sort?, limit?, page?){
   //Configure HTTP Headers
   var headers = this.setToken();
+  if( sort == null){ sort = "asc";}
   if( limit == null){ limit = 10;}
   if( page == null){ page = 1;}
 
@@ -58,7 +59,7 @@ export class TransactionsService {
     }
   ];
 
-  var callURL = this._apiUrl + '/team/transactions/'+teamId+'/'+year+'/'+limit+'/'+page;
+  var callURL = this._apiUrl + '/team/transactions/'+teamId+'/'+year+'/'+sort+'/'+limit+'/'+page;
 
   return this.http.get( callURL, {
       headers: headers
