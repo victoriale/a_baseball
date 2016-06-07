@@ -142,21 +142,25 @@ export class ComparisonModule implements OnInit, OnChanges {
                 },
                 {
                     text: ' Breakdown',
+                },
+                {
+                    text: '*Qualified players only',
+                    class: 'comparison-legend-title-sub'
                 }
             ],
             legendValues: [
                 {
-                    title: "Stat High",
-                    color: "#e1e1e1"
+                    title: data.playerOne.playerName,
+                    color: data.playerOne.mainTeamColor
                 },
                 {
                     title: data.playerTwo.playerName,
                     color: data.playerTwo.mainTeamColor
                 },
                 {
-                    title: data.playerOne.playerName,
-                    color: data.playerOne.mainTeamColor
-                }
+                    title: "Stat High",
+                    color: "#e1e1e1"
+                },
             ]
         };
     }

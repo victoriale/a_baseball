@@ -39,10 +39,12 @@ export class TransactionsPage implements OnInit{
     ctaBtnClass:"list-footer-btn",
     hasIcon: true,
   };
+  year: number;
   teamId: number;
   isError: boolean = false;
   titleData: Object;
   profileName: string;
+  sort: string = "asc";
   limit: number;
   pageNum: number;
   pageName: string;
@@ -54,7 +56,9 @@ export class TransactionsPage implements OnInit{
     this.pageNum = Number(this.params.params['pageNum']);
   }
 
-  getTransactionsPage(date, teamId) {
+  getTransactionsPage(year, teamId) {
+      if( this.year != null) this.year = year;
+      if( this.teamId != null) this.teamId = teamId;
       this.profHeadService.getTeamProfile(teamId)
       .subscribe(
           data => {
@@ -73,7 +77,7 @@ export class TransactionsPage implements OnInit{
               // this.isError = true;
           }
       );
-      this.transactionsService.getTransactionsService(date, teamId, 'page', this.limit, this.pageNum)
+      this.transactionsService.getTransactionsService(year, teamId, 'page', this.sort, this.limit, this.pageNum)
           .subscribe(
               transactionsData => {
                 if(typeof this.dataArray == 'undefined'){//makes sure it only runs once
@@ -148,10 +152,11 @@ export class TransactionsPage implements OnInit{
   dropdownChanged(event) {
     if( this.listSort != event){
       this.listSort = event;
-      this.transactionsDataArray.reverse();
-      this.carouselDataArray.reverse();
+      // this.transactionsDataArray.reverse();
+      // this.carouselDataArray.reverse();
+      this.sort = this.sort == "asc" ? "desc" : "asc";
+      this.getTransactionsPage(this.year, this.teamId);
       // console.log(this.carouselDataArray);
     }
   }
-
 }

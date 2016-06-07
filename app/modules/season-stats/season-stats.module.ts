@@ -95,16 +95,16 @@ export class SeasonStatsModule implements OnInit, OnChanges {
             ],
             legendValues: [
                 {
-                    title: "MLB Leader",
-                    color: "#E1E1E1"
+                    title: data.playerInfo.playerName,
+                    color: '#BC2027'
                 },
                 {
                     title: 'MLB Average',
                     color: '#555555'
                 },
                 {
-                    title: data.playerInfo.playerName,
-                    color: '#BC2027'
+                    title: "MLB Leader",
+                    color: "#E1E1E1"
                 }
             ]
         };

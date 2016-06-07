@@ -36,11 +36,21 @@ export class PlayerStatsService {
     };
   }
 
-  getStatsTabData(standingsTab: MLBPlayerStatsTableData, pageParams: MLBPageParameters, tabDataLoaded: Function, maxRows?: number) {    
+  getStatsTabData(tabData: Array<any>, pageParams: MLBPageParameters, tabDataLoaded: Function, maxRows?: number) {
+    if ( !tabData || tabData.length <= 1 ) {
+      console.log("Error getting stats data - invalid tabData object");
+      return;
+    }
+    
+    var standingsTab: MLBPlayerStatsTableData = tabData[0];
+    var seasonId: string = tabData[1];
+    if ( !seasonId && standingsTab.seasonIds.length > 0 ) {
+      seasonId = standingsTab.seasonIds[0].key;
+    }
     var hasData = false;
     if ( standingsTab ) {
-      var table = standingsTab.seasonTableData[standingsTab.selectedSeasonId];
-      if ( table ) {     
+      var table = standingsTab.seasonTableData[seasonId];
+      if ( table ) {
         standingsTab.isLoaded = true;
         standingsTab.tableData = table;
         return;
@@ -52,15 +62,15 @@ export class PlayerStatsService {
     standingsTab.tableData = null;
     
     var tabName = standingsTab.isPitcherTable ? "pitchers" : "batters";
-    let url = this._apiUrl + "/team/seasonStats/" + pageParams.teamId + "/" + tabName + "/" + standingsTab.selectedSeasonId;    
-
+    let url = this._apiUrl + "/team/seasonStats/" + pageParams.teamId + "/" + tabName + "/" + seasonId;    
+    // console.log("url: " + url);
     this.http.get(url)
         .map(res => res.json())
         .map(data => this.setupTableData(standingsTab, pageParams, data.data, maxRows))
         .subscribe(data => { 
           standingsTab.isLoaded = true;
           standingsTab.hasError = false;
-          standingsTab.seasonTableData[standingsTab.selectedSeasonId] = data;
+          standingsTab.seasonTableData[seasonId] = data;
           standingsTab.tableData = data;
           tabDataLoaded(data);
         },

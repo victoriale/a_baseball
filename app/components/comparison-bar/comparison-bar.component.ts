@@ -57,6 +57,12 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
         if ( this.displayData.data.length < 2 ) {
             return;
         }
+        
+        //Reset labels
+        this.labelOne.nativeElement.style.left = "auto";
+        this.labelOne.nativeElement.style.right = "auto";
+        this.labelTwo.nativeElement.style.left = "auto";
+        this.labelTwo.nativeElement.style.right = "auto";
 
         //Get widths of DOM elements
         var barWidth = this.masterBar.nativeElement.offsetWidth;
@@ -67,26 +73,35 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
         var barTwoWidth = barWidth * this.displayData.data[1].width / 100;
         //Set pixel buffer between labels that are close
         var pixelBuffer = 5;
-
-        var adjustLabelLeft = 0;
-        var adjustLabelRight = 0;
-        if((Math.abs(barTwoWidth - barOneWidth)) <= (labelTwoWidth + pixelBuffer)){
-            //If the difference between the bars is less than the width of the second label, shift label one over
-            adjustLabelLeft = Math.ceil(labelTwoWidth - (barTwoWidth - barOneWidth) + pixelBuffer);
-            adjustLabelRight = Math.ceil(labelOneWidth - (barTwoWidth - barOneWidth) + pixelBuffer);
+        var adjustLabelOne = true;
+        
+        if ( (labelOneWidth+pixelBuffer) > barOneWidth ) {
+            // if the label is wider than the bar, do calculation from label width
+            // and adjust label two, as label one can't move left any more
+            barOneWidth = labelOneWidth; 
+            adjustLabelOne = false;
         }
 
-        if ( labelOneWidth > barOneWidth ) {
-            this.labelOne.nativeElement.style.left = 0;
-            if ( adjustLabelRight > 0 ) {
-                this.labelTwo.nativeElement.style.left = adjustLabelRight + pixelBuffer;
+        if((barTwoWidth - barOneWidth) <= (labelTwoWidth + pixelBuffer)) {
+            //If the difference between the bars is less than the width of the second label, shift label one over
+            if ( adjustLabelOne ) {
+                var adjustLabel = Math.ceil(labelTwoWidth - (barTwoWidth - barOneWidth) + pixelBuffer);
+                this.labelOne.nativeElement.style.right = adjustLabel;
+                this.labelTwo.nativeElement.style.right = 0;
             }
             else {
-                this.labelTwo.nativeElement.style.right = 0;
+                var adjustLabel = Math.ceil((barTwoWidth - barOneWidth) - (labelTwoWidth + pixelBuffer));
+                this.labelOne.nativeElement.style.left = 0;
+                this.labelTwo.nativeElement.style.right = adjustLabel;
             }
         }
         else {
-            this.labelOne.nativeElement.style.right = adjustLabelLeft;
+            if ( adjustLabelOne ) {                
+                this.labelOne.nativeElement.style.right = 0;
+            }
+            else {                
+                this.labelOne.nativeElement.style.left = 0;
+            }
             this.labelTwo.nativeElement.style.right = 0;
         }
     }
