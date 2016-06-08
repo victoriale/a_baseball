@@ -56,6 +56,9 @@ export class ArticlePages implements OnInit {
         window.scrollTo(0, 0);
         this.eventID = _params.get('eventID');
         this.eventType = _params.get('eventType');
+        if (this.eventType == "upcoming-game"){
+            this.eventType = "upcoming";
+        }
         this.getArticles();
     }
 
