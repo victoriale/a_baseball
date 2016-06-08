@@ -141,3 +141,56 @@
         </span>
     </span>
 </div>
+
+<div *ngIf="articleType == 'gameModule'" class="comparison">
+    <div class="comparison-hr"></div>
+    <span *ngFor="#data of articleData?.article; #i = index;">
+        <span *ngIf="data.gameModule && i == index">
+            <div class="comparison-upcoming">
+                <div class="comparison-upcoming-images">
+                    <span *ngIf="index == 1">
+                        <circle-image *ngIf="imageLinks[0]" class="comparison-upcoming-circles-home-logo"
+                                      [data]="imageLinks[0]"></circle-image>
+                        <div class="comparison-upcoming-circles-date">
+                            {{data.gameModule.eventDate}}<br>
+                            {{data.gameModule.eventTime}}<br>
+                            {{data.gameModule.eventVenue}}<br>
+                            {{data.gameModule.eventLocation}}
+                        </div>
+                        <circle-image *ngIf="imageLinks[1]" class="comparison-upcoming-circles-away-logo"
+                                      [data]="imageLinks[1]"></circle-image>
+                    </span>
+                    <span *ngIf="index == 5">
+                        <circle-image *ngIf="imageLinks[2]" class="comparison-upcoming-circles-home-logo"
+                                      [data]="imageLinks[2]"></circle-image>
+                        <div class="comparison-upcoming-circles-date">
+                            {{data.gameModule.eventDate}}<br>
+                            {{data.gameModule.eventTime}}<br>
+                            {{data.gameModule.eventVenue}}<br>
+                            {{data.gameModule.eventLocation}}
+                        </div>
+                        <circle-image *ngIf="imageLinks[3]" class="comparison-upcoming-circles-away-logo"
+                                      [data]="imageLinks[3]"></circle-image>
+                    </span>
+                </div>
+                <div class="comparison-upcoming-home-info">
+                    <div class="comparison-upcoming-home-info-team">
+                        {{data.gameModule.homeTeamName}}
+                    </div>
+                    <div class="comparison-upcoming-home-info-record">
+                        Record:
+                    </div>
+                </div>
+                <div class="comparison-upcoming-away-info">
+                    <div class="comparison-upcoming-away-info-team">
+                        {{data.gameModule.awayTeamName}}
+                    </div>
+                    <div class="comparison-upcoming-away-info-record">
+                        Record:
+                    </div>
+                </div>
+            </div>
+        </span>
+    </span>
+
+</div>
