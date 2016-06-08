@@ -17,7 +17,7 @@ export interface PlayerData {
   teamLogo: string;
   teamName: string;
   teamId: string;
-  teamColors: Array<string>
+  teamColors: Array<string>;
   mainTeamColor: string;
   uniformNumber: number;
   position: string;
@@ -30,11 +30,11 @@ export interface PlayerData {
 }
 
 export interface DataPoint {
-  [playerId: string]: number
+  [playerId: string]: number;
 }
 
 export interface ComparisonBarList {
-  [year: string]: Array<ComparisonBarInput>
+  [year: string]: Array<ComparisonBarInput>;
 }
 
 export interface SeasonStats {
@@ -95,53 +95,79 @@ export class SeasonStatsService {
     let stats = data.stats;
     var seasonStatTab = [];
     var curYear = new Date().getFullYear();
-    for(var year in stats){
-      var displayTab = '';
-      if(Number(year) == curYear){
-        displayTab = 'Current Season';
-      }else if(year == 'career'){
-        displayTab = 'Career Stats';
-      }else{
-        displayTab = year;
-      }
-      if( stats[year].leader !== undefined){
-        let leader = stats[year].leader;
-        let average = stats[year].average;
-        let seasonStatsPlayer = stats[year].player;
-        let worst = stats[year].worst;
-        var playerBarStats = [];
-        for( var playerStat in leader){
-          var s = {
-            title: this.getKeyDisplayTitle(playerStat),
-            data: [{
-              value: Number(this.getKeyValue(playerStat, seasonStatsPlayer)).toFixed(1),
-              color: '#BC1624',
-            },
-            {
-              value: Number(this.getKeyValue(playerStat, average)).toFixed(1),
-              color: '#555555',
-            }],
-            minValue: Number(this.getKeyValue(playerStat, worst)['statValue']).toFixed(1),
-            maxValue: Number(this.getKeyValue(playerStat, leader)['statValue']).toFixed(1),
-            info: 'fa-info-circle',
-          }
-          playerBarStats.push(s);
+    try{
+      for(var year in stats){
+        var displayTab = '';
+        if(Number(year) == curYear){
+          displayTab = 'Current Season';
+        }else if(year == 'career'){
+          displayTab = 'Career Stats';
+        }else{
+          displayTab = year;
         }
+        if( stats[year].leader !== undefined){
+          let leader = stats[year].leader;
+          let average = stats[year].average;
+          let seasonStatsPlayer = stats[year].player;
+          let worst = stats[year].worst;
+          var playerBarStats = [];
+          var leaderLists = [];
+          for( var playerStat in leader ){
+            var avgValue = this.getKeyValue(playerStat, average);
+            var worstValue = this.getKeyValue(playerStat, worst);
+            var leaderValue = this.getKeyValue(playerStat, leader);
+            var s = {
+              title: this.getKeyDisplayTitle(playerStat),
+              data: [{
+                value: Number(this.getKeyValue(playerStat, seasonStatsPlayer)).toFixed(1),
+                color: '#BC1624',
+              },
+              {
+                value: average != null ? Number(avgValue).toFixed(1) : null,
+                color: '#555555',
+              }],
+              minValue: worst !== undefined ? Number(worstValue['statValue']).toFixed(1) : null,
+              maxValue: leader != null ? Number(leaderValue['statValue']).toFixed(1) : null,
+              info: 'fa-info-circle',
+              infoBoxDetails: [{
+                teamName: leaderValue['players'][0].teamName,
+                playerName: leaderValue['players'][0].firstName + ' ' + leaderValue['players'][0].playerLastName,
+                infoBoxImage : {
+                  imageClass: "image-40",
+                  mainImage: {
+                    imageUrl: GlobalSettings.getImageUrl(leaderValue['players'][0].playerHeadshot),
+                    imageClass: "border-1",
+                    urlRouteArray:  MLBGlobalFunctions.formatPlayerRoute(leaderValue['players'][0].teamName,leaderValue['players'][0].firstName + ' ' + leaderValue['players'][0].playerLastName, leaderValue['players'][0].playerId),
+                    hoverText: "<i style='font-size: 18px;' class='fa fa-mail-forward'></i>",
+                  },
+                },
+                routerLinkPlayer: MLBGlobalFunctions.formatPlayerRoute(leaderValue['players'][0].teamName,leaderValue['players'][0].firstName + ' ' + leaderValue['players'][0].playerLastName, leaderValue['players'][0].playerId),
+                routerLinkTeam: MLBGlobalFunctions.formatTeamRoute(leaderValue['players'][0].teamName, leaderValue['players'][0].teamId),
+              }],
+            }
+            playerBarStats.push(s);
+          }
+          // console.log("player bar", playerBarStats);
       }
-      if( curYear - 4 < Number(year) || year != 'career'){
+      if( curYear - 4 < Number(year) || year == 'career' ){
         seasonStatTab.push({
           tabTitle: displayTab,
           tabData: playerBarStats
         });
-      }
+      }//TODO
+     }// forloop ends
+    } catch ( error ){
+        console.log("season stat error message: ", error);
     }
     seasonStatTab.sort();
     seasonStatTab.reverse();
-    //TODO still need data for career stats
-    // seasonStatTab.push({
-    //   tabTitle: "Career Stats",
-    //   tabData: playerBarStats
-    // })
+    if(year == 'career'){
+      seasonStatTab.push({
+        tabTitle: "Career Stats",
+        tabData: playerBarStats
+      })
+    }//TODO
+
     return {
       playerInfo: playerInfo,
       tabs: seasonStatTab
