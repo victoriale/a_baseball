@@ -42,7 +42,7 @@ export class AboutUsService {
     let model: AboutUsModel = {
       headerTitle: "What is " + pageName + "?",
       titleData: {
-          imageURL : '/app/public/mainLogo.png',
+          imageURL : GlobalSettings.getSiteLogoUrl(),
           text1: 'Last Updated: ' + GlobalFunctions.formatUpdatedDate(data.lastUpdated),
           text2: 'United States',
           text3: "Want to learn more about " + pageName + "?",

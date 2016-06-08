@@ -68,8 +68,6 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
   
   isPitcherTable: boolean;
   
-  selectedSeasonId: string;
-  
   constructor(teamName: string, tabName: string, isPitcherTable: boolean, isActive: boolean) {
     this.tabTitle = tabName;    
     this.tableName = "<span class='text-heavy'>" + teamName + "</span> " + tabName + " Stats";  
@@ -99,7 +97,6 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
     }
     var currYear = new Date().getFullYear();
     var year = currYear;
-    this.selectedSeasonId = currYear.toString();
     for ( var i = 0; i < 5; i++ ) {
       this.seasonIds.push({
         key: year.toString(), 
@@ -110,14 +107,16 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
   }  
 
   convertToCarouselItem(item: PlayerStatsData, index:number): SliderCarouselInput {
-    var subheader = "Current " + item.teamName + " Player Stats";
     var description = "";
     var tense = " has";
     var temporalInfo = "";
-    if ( this.selectedSeasonId != this.seasonIds[0].key ) {
+    var subHeaderYear = "Current ";    
+    if ( item.seasonId != this.seasonIds[0].key ) {
+      subHeaderYear = item.seasonId + " ";
       tense = " had";
-      temporalInfo = " in " + this.selectedSeasonId;
+      temporalInfo = " in " + item.seasonId;
     }
+    var subheader = subHeaderYear + item.teamName + " Player Stats";
     if ( this.isPitcherTable ) {
       description = item.playerName + tense + " a <span class='text-heavy'>" + (item.pitchEra != null ? item.pitchEra.toFixed(2) : "N/A") + 
                     " ERA</span> with <span class='text-heavy'>" + item.pitchStrikeouts + 
@@ -129,7 +128,7 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
       description = item.playerName + tense + " a <span class='text-heavy'>" + (item.batAverage != null ? item.batAverage.toPrecision(3) : "N/A") + 
                     " Batting Average</span> with <span class='text-heavy'>" + item.batHomeRuns + 
                     " Homeruns</span>, <span class='text-heavy'>" + item.batRbi + 
-                    " RBI's</span> and a <span class='text-heavy'>" + (item.batSluggingPercentage != null ? item.batSluggingPercentage.toPrecision(3) : "N/A") + 
+                    " RBIs</span> and a <span class='text-heavy'>" + (item.batSluggingPercentage != null ? item.batSluggingPercentage.toPrecision(3) : "N/A") + 
                     " Slugging Percentage</span>" + temporalInfo + ".";
     }
     return {

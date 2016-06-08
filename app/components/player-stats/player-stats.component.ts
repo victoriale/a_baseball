@@ -17,7 +17,6 @@ export interface StatsTableTabData<T> {
   tableData: TableModel<T>;
   seasonIds: Array<{key: string, value: string}>;
   glossary: Array<{key: string, value: string}>;
-  selectedSeasonId: string;
   convertToCarouselItem(item:T, index:number):SliderCarouselInput
 }
 
@@ -39,6 +38,7 @@ export class PlayerStatsComponent implements DoCheck {
   
   private selectedTabTitle: string;
   private tabsLoaded: {[key: string]: string};
+  private selectedSeasonId: string;
   private noDataMessage = "Sorry, there is no data available.";
 
   constructor() {}
@@ -67,11 +67,11 @@ export class PlayerStatsComponent implements DoCheck {
   }
   
   dropdownChanged($event) {
+    this.selectedSeasonId = $event;
     let matchingTabs = this.tabs.filter(value => value.tabTitle === this.selectedTabTitle);
     if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) {
       let selectedTab = matchingTabs[0];
-      selectedTab.selectedSeasonId = $event;
-      this.tabSelectedListener.next(selectedTab);
+      this.tabSelectedListener.next([selectedTab, $event]);
       this.updateCarousel();        
     }
   }
@@ -89,7 +89,7 @@ export class PlayerStatsComponent implements DoCheck {
   tabSelected(newTitle) {
     this.selectedTabTitle = newTitle;
     this.noDataMessage = "Sorry, there are no " + newTitle + " stats available.";
-    this.tabSelectedListener.next(this.getSelectedTab());
+    this.tabSelectedListener.next([this.getSelectedTab(), this.selectedSeasonId]);
     this.updateCarousel();
   }
   

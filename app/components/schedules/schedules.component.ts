@@ -11,7 +11,6 @@ export interface TableTabData<T> {
   title: string;
   isActive: boolean;
   sections: Array<TableComponentData<T>>;
-  convertToCarouselItem(item:T, index:number):SchedulesCarouselInput
 }
 
 export interface TableComponentData<T> {

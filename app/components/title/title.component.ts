@@ -1,6 +1,7 @@
 import {Component, Input, OnChanges} from 'angular2/core';
 import {CircleImage} from '../../components/images/circle-image';
-import {CircleImageData} from '../../components/images/image-data';
+import {ImageData, CircleImageData} from '../../components/images/image-data';
+import {GlobalSettings} from '../../global/global-settings';
 
 export interface TitleInputData {
     imageURL  : string;
@@ -20,13 +21,15 @@ export interface TitleInputData {
 export class TitleComponent implements OnChanges {
     @Input() titleData: TitleInputData;
     
+    @Input() imageData: any; //should be ImageData;
+    
     public titleImage: CircleImageData;    
     
     ngOnChanges() {
         if(!this.titleData){
             this.titleData =
             {
-                imageURL : '/app/public/mainLogo.png',
+                imageURL : GlobalSettings.getSiteLogoUrl(),
                 text1: "lorem ipsum delor",
                 text2: "ipsum delor lorem",
                 text3: "lorem ipsum delor",
@@ -39,10 +42,14 @@ export class TitleComponent implements OnChanges {
         this.titleImage = {
             imageClass: "page-title-titleImage",
             mainImage: {
-                imageUrl: ( this.titleData.imageURL ? this.titleData.imageURL : '/app/public/mainLogo.png'),
+                imageUrl: ( this.titleData.imageURL ? this.titleData.imageURL : GlobalSettings.getSiteLogoUrl() ),
                 imageClass: "border-2"
             }
         };
+        
+        if ( this.imageData ) {
+            this.titleImage.mainImage = this.imageData;
+        }
     }
 
 }
