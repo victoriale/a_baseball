@@ -3,7 +3,7 @@ import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/mod
 import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer.component';
 import {RosterComponent, RosterTabData} from "../../components/roster/roster.component";
 
-export interface RosterModuleData {
+export interface RosterModuleData<T> {
   moduleTitle: string;
 
   /**
@@ -12,9 +12,9 @@ export interface RosterModuleData {
   pageRouterLink: Array<any>;
 
   /**
-   * Sent to Standings component
+   * Sent to Roster component
    */
-  tabs: Array<RosterTabData<any>>;
+  tabs: Array<RosterTabData<T>>;
 }
 
 @Component({
@@ -26,9 +26,7 @@ export interface RosterModuleData {
 })
 
 export class TeamRosterModule implements OnChanges {
-  @Input() data: RosterModuleData;
-
-  @Output("tabSelected") tabSelectedListener = new EventEmitter();
+  @Input() data: RosterModuleData<any>;
 
   public headerInfo: ModuleHeaderData = {
     moduleTitle: "Team Roster",
@@ -50,9 +48,5 @@ export class TeamRosterModule implements OnChanges {
       this.headerInfo.moduleTitle = this.data.moduleTitle;
       this.footerInfo.url = this.data.pageRouterLink;
     }
-  }
-
-  tabSelected(tab) {
-    this.tabSelectedListener.next(tab);
   }
 }

@@ -56,6 +56,9 @@ export class ArticlePages implements OnInit {
         window.scrollTo(0, 0);
         this.eventID = _params.get('eventID');
         this.eventType = _params.get('eventType');
+        if (this.eventType == "upcoming-game"){
+            this.eventType = "upcoming";
+        }
         this.getArticles();
     }
 
@@ -90,7 +93,7 @@ export class ArticlePages implements OnInit {
         var hoverText = "<p>View</p><p>Profile</p>";
         var links = [];
         if (this.articleType == "playerRoster") {
-            jQuery.map(data['article'], function (val, index) {
+            data['article'].map(function (val, index) {
                 if (val['playerRosterModule']) {
                     let playerUrl = MLBGlobalFunctions.formatPlayerRoute('New York Yankees', val['playerRosterModule'].name, val['playerRosterModule'].id);
                     let teamUrl = MLBGlobalFunctions.formatTeamRoute('New York Yankees', val['playerRosterModule'].teamId);
@@ -118,7 +121,7 @@ export class ArticlePages implements OnInit {
             return links;
         }
         if (this.articleType == 'playerComparison') {
-            jQuery.map(data['article'][2]['playerComparisonModule'], function (val, index) {
+            data['article'][2]['playerComparisonModule'].map(function (val, index) {
                 if (index == 0) {
                     let urlPlayerLeft = MLBGlobalFunctions.formatPlayerRoute('New York Yankees', val.name, val.id);
                     let urlTeamLeft = MLBGlobalFunctions.formatTeamRoute('New York Yankees', val.teamId);
@@ -168,9 +171,60 @@ export class ArticlePages implements OnInit {
             });
             return links;
         }
+        if (this.articleType == 'gameModule') {
+            data['article'].map(function (val, index) {
+                if (index == 1 && val['gameModule']) {
+                    let urlTeamLeftTop = MLBGlobalFunctions.formatTeamRoute(val['gameModule'].homeTeamName, val['gameModule'].homeTeamId);
+                    let urlTeamRightTop = MLBGlobalFunctions.formatTeamRoute(val['gameModule'].awayTeamName, val['gameModule'].awayTeamId);
+                    val['teamLeft'] = {
+                        imageClass: "image-121",
+                        mainImage: {
+                            imageUrl: val['gameModule'].homeTeamLogo,
+                            urlRouteArray: urlTeamLeftTop,
+                            hoverText: hoverText,
+                            imageClass: "border-logo"
+                        }
+                    };
+                    val['teamRight'] = {
+                        imageClass: "image-121",
+                        mainImage: {
+                            imageUrl: val['gameModule'].awayTeamLogo,
+                            urlRouteArray: urlTeamRightTop,
+                            hoverText: hoverText,
+                            imageClass: "border-logo"
+                        }
+                    };
+                    links.push(val['teamLeft'], val['teamRight']);
+                }
+                if (index==5 && val['gameModule']) {
+                    let urlTeamLeftBottom = MLBGlobalFunctions.formatTeamRoute(val['gameModule'].homeTeamName, val['gameModule'].homeTeamId);
+                    let urlTeamRightBottom = MLBGlobalFunctions.formatTeamRoute(val['gameModule'].awayTeamName, val['gameModule'].awayTeamId);
+                    val['teamLeft'] = {
+                        imageClass: "image-121",
+                        mainImage: {
+                            imageUrl: val['gameModule'].homeTeamLogo,
+                            urlRouteArray: urlTeamLeftBottom,
+                            hoverText: hoverText,
+                            imageClass: "border-logo"
+                        }
+                    };
+                    val['teamRight'] = {
+                        imageClass: "image-121",
+                        mainImage: {
+                            imageUrl: val['gameModule'].awayTeamLogo,
+                            urlRouteArray: urlTeamRightBottom,
+                            hoverText: hoverText,
+                            imageClass: "border-logo"
+                        }
+                    };
+                    links.push(val['teamLeft'], val['teamRight']);
+                }
+            });
+            return links;
+        }
         if (this.articleType == 'teamRecord') {
             var isFirstTeam = true;
-            jQuery.map(data['article'], function (val, index) {
+            data['article'].map(function (val, index) {
                 if (val['teamRecordModule'] && isFirstTeam) {
                     let urlFirstTeam = MLBGlobalFunctions.formatTeamRoute(val['teamRecordModule'].name, val['teamRecordModule'].id);
                     val['imageTop'] = {
@@ -320,6 +374,9 @@ export class ArticlePages implements OnInit {
             case'Seventh-inning-stretch-report':
             case'postgame-report':
                 this.articleType = 'gameReport';
+                break;
+            case'upcoming':
+                this.articleType = 'gameModule';
                 break;
         }
         return this.articleType;
