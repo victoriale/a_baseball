@@ -148,7 +148,7 @@ export class ListPageService {
   profileHeader(data){
     var profile = data.listInfo;
     var profileData = {
-      imageURL: '/app/public/mainLogo.png', //TODO
+      imageURL: GlobalSettings.getSiteLogoUrl(), //TODO
       text1: 'Last Updated: '+ moment(data.listData[0].lastUpdate).format('dddd, MMMM Do, YYYY') + ' at ' + moment(data.listData[0].lastUpdate).format('hh:mm A') + ' ET', //TODO
       text2: 'United States',
       text3: profile.name,

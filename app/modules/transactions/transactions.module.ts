@@ -37,7 +37,7 @@ export class TransactionsModule{
     this.footerData = {
       infoDesc: 'Want to see more transactions?',
       text: 'VIEW TRANSACTIONS',
-      url: ['Transactions-page',{teamName:this.params.get('teamName'), teamId:this.teamId}]
+      url: ['Transactions-page',{teamName:this.params.get('teamName'), teamId:this.teamId, limit:1000, pageNum: 1}]
     };
   }
 

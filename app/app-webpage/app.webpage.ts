@@ -131,7 +131,7 @@ import {TransactionsPage} from "../webpages/transactions-page/transactions.page"
         component: DraftHistoryPage
     },
     {
-        path: '/transactions/:teamName/:teamId',
+        path: '/transactions/:teamName/:teamId/:limit/:pageNum',
         name: 'Transactions-page',
         component: TransactionsPage
     },
@@ -141,7 +141,7 @@ import {TransactionsPage} from "../webpages/transactions-page/transactions.page"
         component: TeamRosterPage
     },
     {
-        path: '/season-stats/:teamName/:teamId',
+        path: '/season-stats/player/:fullName/:playerId',
         name: 'Season-stats-page',
         component: SeasonStatsPage
     },

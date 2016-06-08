@@ -41,10 +41,10 @@ export class SeasonStatsModule implements OnInit, OnChanges {
     public moduleHeaderData: Object;
     public comparisonLegendData: ComparisonLegendInput;
     public dataIndex: number = 0;
-    public footerData = {
+    public footerData: ModuleFooterData = {
       infoDesc: 'Want to see full statistics for this player?',
       text: 'VIEW FULL STATISTICS',
-      url: ['Disclaimer-page']
+      url: ['Season-stats-page', {fullName: 'kevin-gausman', playerId: 95097}]//TODO
     };
     tabs: Array<ComparisonTabData> = [];
     public carouselDataArray: any;
@@ -95,16 +95,16 @@ export class SeasonStatsModule implements OnInit, OnChanges {
             ],
             legendValues: [
                 {
-                    title: "MLB Leader",
-                    color: "#E1E1E1"
+                    title: data.playerInfo.playerName,
+                    color: '#BC2027'
                 },
                 {
                     title: 'MLB Average',
                     color: '#555555'
                 },
                 {
-                    title: data.playerInfo.playerName,
-                    color: '#BC2027'
+                    title: "MLB Leader",
+                    color: "#E1E1E1"
                 }
             ]
         };

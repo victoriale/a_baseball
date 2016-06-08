@@ -81,9 +81,8 @@ export class PlayerStatsPage implements OnInit {
     };
   }
   
-  private playerStatsTabSelected(tab: MLBPlayerStatsTableData) {
-    tab.isLoaded = false;
-    this._statsService.getStatsTabData(tab, this.pageParams, data => {
+  private playerStatsTabSelected(tabData: Array<any>) {
+    this._statsService.getStatsTabData(tabData, this.pageParams, data => {
         this.getLastUpdatedDateForPage(data);        
       });
   }

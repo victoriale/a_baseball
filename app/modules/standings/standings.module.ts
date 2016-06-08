@@ -2,7 +2,7 @@ import {Component, Input, OnInit, OnChanges, Output, EventEmitter} from 'angular
 
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer.component';
-import {StandingsComponent, TableTabData} from '../../components/standings/standings.component';
+import {StandingsComponent, StandingsTableTabData} from '../../components/standings/standings.component';
 
 export interface StandingsModuleData {
   moduleTitle: string;
@@ -15,7 +15,7 @@ export interface StandingsModuleData {
   /**
    * Sent to Standings component
    */
-  tabs: Array<TableTabData<any>>;
+  tabs: Array<StandingsTableTabData<any>>;
 }
 
 @Component({
@@ -50,7 +50,7 @@ export class StandingsModule implements OnChanges {
     }
   }
 
-  tabSelected(tab) {
-    this.tabSelectedListener.next(tab);
+  tabSelected(tabData) {
+    this.tabSelectedListener.next(tabData);
   }
 }
