@@ -1,0 +1,58 @@
+/* Mixin */
+.vertical-align{
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.daily-update{
+  &-hero{
+    display:block;
+    width: 100%;
+    min-height: 198px;
+    position: relative;
+    &:before{
+      content: "";
+      display: block;
+      height: 100%;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      left: 0;
+      right: 0;
+      top: 0;
+      position: absolute;
+    }
+
+    &-title{
+      display: block;
+      width: 100%;
+      min-height: 78px;
+      margin: auto;
+      font-weight: 400;
+      text-align: center;
+
+      .vertical-align;
+      background: @masterBrandColor;
+      color: @white;
+      font-size: 30px;
+      line-height:78px;
+    }
+
+  }
+  .stat-wrapper{
+    border-bottom: 1px solid @strokeGrey;
+    .clearfix;
+    &-table{
+      display: block;
+      width: 280px;
+      float: left;
+    }
+    &-charts{
+      display: block;
+      float: left;
+      border-left: 1px solid @strokeGrey;
+    }
+  }
+}
