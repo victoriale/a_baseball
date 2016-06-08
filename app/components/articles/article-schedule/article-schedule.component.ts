@@ -28,7 +28,6 @@ export class ArticleScheduleComponent implements OnInit {
     }
 
     ngOnInit() {
-      console.log(this.homeData, this.awayData);
     }
 
     ngOnChanges() {

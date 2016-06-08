@@ -11,8 +11,13 @@ export interface ScoreBoardInput{
     inputs:[]
 })
 
-export class ScoreBoard{
+export class ScoreBoard implements OnInit{
+  @Input() scoreBoard:any;
   constructor(){
 
+  }
+
+  ngOnInit(){
+    console.log(this.scoreBoard);
   }
 }

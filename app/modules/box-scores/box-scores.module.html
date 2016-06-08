@@ -1,17 +1,17 @@
-<div class="module-container box-scores">
+<div class="module-container box-scores" *ngIf="boxScores">
   <module-header ></module-header>
   <!--for calendar-->
   <calendar-carousel></calendar-carousel>
   <!--for calendar-->
 
   <!--for team profile-->
-  <article-schedule-component *ngIf="boxScheduleData" [homeData]="boxScheduleData.home" [awayData]="boxScheduleData.away"></article-schedule-component>
+  <article-schedule-component [homeData]="boxScheduleData.home" [awayData]="boxScheduleData.away"></article-schedule-component>
   <!--box-scores info-->
   <div class="box-scores-info">
-    <game-info></game-info>
+    <game-info [gameInfo]="boxScores.gameInfo"></game-info>
     <div class="game-article"></div>
   </div>
-  <score-board></score-board>
+  <score-board [scoreBoard]="boxScores.scoreBoard"></score-board>
   <!--box-scores info END-->
 
   <!--end team profile-->

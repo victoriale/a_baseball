@@ -1,35 +1,39 @@
 <!--GAME info-->
-<div class="game">
+<div class="game" *ngIf="gameInfo">
   <div class="game-title">
-    <span>[Top of 3rd Inning]</span>
+    <span>{{gameInfo.inning}}</span>
     <span>Runs</span><span>Hits</span><span>Errors</span>
   </div>
   <div class="game-box">
     <div class="game-box-main">
-      <div class="game-box-main-image"></div>
+      <div class="game-box-main-image">
+        <circle-image [data]="homeInfo.homeImageConfig"></circle-image>
+      </div>
       <div class="game-box-main-details">
-        <span>[Home Team]</span>
-        <span>Home [Record]</span>
+        <span>{{homeInfo.homeTeamName}}</span>
+        <span>Home {{homeInfo.homeRecord}}</span>
       </div>
     </div>
     <div class="game-box-values">
-      <span>2</span>
-      <span>-</span>
-      <span>-</span>
+      <span>{{homeInfo.runs}}</span>
+      <span>{{homeInfo.hits}}</span>
+      <span>{{homeInfo.errors}}</span>
     </div>
   </div>
   <div class="game-box">
     <div class="game-box-main">
-      <div class="game-box-main-image"></div>
+      <div class="game-box-main-image">
+        <circle-image [data]="awayInfo.awayImageConfig"></circle-image>
+      </div>
       <div class="game-box-main-details">
-        <span>[Home Team]</span>
-        <span>Home [Record]</span>
+        <span>{{awayInfo.awayTeamName}}</span>
+        <span>Away {{awayInfo.awayRecord}}</span>
       </div>
     </div>
     <div class="game-box-values">
-      <span>2</span>
-      <span>-</span>
-      <span>-</span>
+      <span>{{awayInfo.runs}}</span>
+      <span>{{awayInfo.hits}}</span>
+      <span>{{awayInfo.errors}}</span>
     </div>
   </div>
 </div>
