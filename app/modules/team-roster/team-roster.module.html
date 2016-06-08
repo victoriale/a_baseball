@@ -1,5 +1,5 @@
 <div *ngIf="data" class="module-container tr">
   <module-header [modHeadData]="headerInfo"></module-header>
-  <roster-component [tabs]="data.tabs" (tabSelected)="tabSelected($event)"></roster-component>
+  <roster-component [tabs]="data.tabs"></roster-component>
   <module-footer [footerData]="footerInfo"></module-footer>
 </div>

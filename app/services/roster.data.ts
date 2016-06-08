@@ -6,6 +6,7 @@ import {Conference, Division} from '../global/global-interface';
 import {GlobalFunctions} from '../global/global-functions';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalSettings} from '../global/global-settings';
+import {RosterService} from './roster.service';
 
 export interface TeamRosterData {
   imageUrl: string,
@@ -45,22 +46,51 @@ export interface TeamRosterData {
 
 export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
   type: string;
+  teamId: string;
+  maxRows: number;
   title: string;
   isLoaded: boolean = false;
   hasError: boolean = false;
   errorMessage: string;
   tableData: RosterTableModel;
 
-  constructor(type: string, title: string) {
+  constructor(private _service: RosterService, teamId: string, type: string, conference: Conference, maxRows: number) {
     this.type = type;
-    this.title = title;
-  }
-
-  setErrorMessage(conference: Conference) {
+    this.teamId = teamId;
+    this.maxRows = maxRows;
     this.errorMessage = "Sorry, there is no roster data available.";
+    
     if ( this.type == "hitters" && conference == Conference.national ) {
       this.hasError = true;
       this.errorMessage = "This team is a National League team and has no designated hitters.";
+    }
+    
+    switch ( type ) {
+      case "full":      this.title = "Full Roster"; break;
+      case "pitchers":  this.title = "Pitchers";    break;
+      case "catchers":  this.title = "Catchers";    break;
+      case "fielders":  this.title = "Fielders";    break;
+      case "hitters":   this.title = "Hitters";     break;
+    }
+  }
+  
+  loadData() {
+    if ( !this.tableData ) {
+        this._service.getRosterTabData(this).subscribe(rows => {          
+          //Limit to maxRows, if necessary
+          if ( this.maxRows !== undefined ) {
+            rows = rows.slice(0, this.maxRows);
+          }
+          
+          this.tableData = new RosterTableModel(rows);
+          this.isLoaded = true;
+          this.hasError = false;
+        },
+        err => {
+          this.isLoaded = true;
+          this.hasError = true;
+          console.log("Error getting roster data", err);
+        });
     }
   }
 
