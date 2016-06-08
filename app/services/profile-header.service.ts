@@ -370,11 +370,7 @@ export class ProfileHeaderService {
     }
     var formattedAge = info.age ? info.age.toString() : "N/A";
     
-    var formattedHeight = "N/A"; //[6-foot-11]
-    if ( info.height ) {
-      var parts = info.height.split("-");
-      formattedHeight = parts.join("-foot-");
-    }
+    var formattedHeight = MLBGlobalFunctions.formatHeightWithFoot(info.height); //[6-foot-11]
     
     var formattedWeight = info.weight ? info.weight.toString() : "N/A";
     
