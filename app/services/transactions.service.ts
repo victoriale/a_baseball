@@ -60,7 +60,6 @@ export class TransactionsService {
   ];
 
   var callURL = this._apiUrl + '/team/transactions/'+teamId+'/'+year+'/'+sort+'/'+limit+'/'+page;
-    console.log("call",callURL);
 
   return this.http.get( callURL, {
       headers: headers
