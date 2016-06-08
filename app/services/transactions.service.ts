@@ -94,7 +94,7 @@ export class TransactionsService {
   carTransactions(data, type){
     let self = this;
     var carouselArray = [];
-    var dummyImg = GlobalSettings.getImageUrl("/app/public/no-image.png");
+    var dummyImg = "/app/public/Image-Placeholder-2.jpg";
     if(data.length == 0){//if no data is being returned then show proper Error Message in carousel
       var Carousel = {
         index:'2',
@@ -112,11 +112,10 @@ export class TransactionsService {
           // module only needs two list items
           return false;
         }
-        var playerFullName = val.playerFirstName + " " + val.playerLastName;
         var Carousel = {
           index:index,
           //TODO
-          backgroundImage: GlobalSettings.getImageUrl(val.backgroundImage),
+          backgroundImage: val.backgroundImage != null ? GlobalSettings.getImageUrl(val.backgroundImage) : dummyImg,
           imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.playerHeadshot),MLBGlobalFunctions.formatPlayerRoute(val.playerName,val.playerName, val.playerId), null, "image-50-sub",MLBGlobalFunctions.formatTeamLogo(val.teamName),MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
           description:[
             '<p class="font-12 fw-400 lh-32 titlecase"><i class="fa fa-circle" style="margin-right:6px;"></i> Transaction Report - ' + val.teamName + '</p>',
@@ -125,13 +124,6 @@ export class TransactionsService {
             '<p class="font-10 fw-400 lh-25">Last Updated on '+ moment(new Date(val.lastUpdate)).format('dddd, MMMM DD, YYYY') +'</p>'
           ],
         };
-        //if(type == 'page'){
-        //  Carousel['footerInfo'] = {
-        //    infoDesc:'Interested in discovering more about this player?',
-        //    text:'VIEW PROFILE',
-        //    url:MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val['personId'])
-        //  }
-        //}
         carouselArray.push(Carousel);
       });
     }
