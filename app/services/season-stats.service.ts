@@ -147,7 +147,7 @@ export class SeasonStatsService {
             }
             playerBarStats.push(s);
           }
-          console.log("player bar", playerBarStats);
+          // console.log("player bar", playerBarStats);
       }
       if( curYear - 4 < Number(year) || year == 'career' ){
         seasonStatTab.push({
