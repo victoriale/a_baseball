@@ -67,22 +67,22 @@ export class HomePage implements OnInit {
         {
           newsTitle: "Pitchers with the Most Strikeouts Thrown",
           newsSubTitle: "See which MLB Pitchers are performing at the top of their game",
-          routerInfo: ['List-page', {profile:'player', listname: 'pitcher-strikeouts', sort:'desc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]
+          routerInfo: ['List-page', {profile:'player', listname: 'pitcher-strikeouts', sort:'asc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]
         },
         {
           newsTitle: "Batters With the Most Strikeouts in the MLB",
           newsSubTitle: "See which MLB Batters are performing at the top of their game",
-          routerInfo: ['List-page', {profile:'player', listname: 'batter-strikeouts', sort:'desc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]
+          routerInfo: ['List-page', {profile:'player', listname: 'batter-strikeouts', sort:'asc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]
         },
         {
           newsTitle: "Teams with the Most Runs Allowed in the MLB",
           newsSubTitle: "See which MLB Teams are performing at the top of their game",
-          routerInfo: ['List-page', {profile:'team', listname: 'pitcher-runs-allowed', sort:'desc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]
+          routerInfo: ['List-page', {profile:'team', listname: 'pitcher-runs-allowed', sort:'asc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]
         },
         {
           newsTitle: "Teams with the Most RBIs in the MLB",
           newsSubTitle: "See which MLB Teams are performing at the top of their game",
-          routerInfo: ['List-page', {profile:'team', listname: 'batter-runs-batted-in', sort:'desc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]
+          routerInfo: ['List-page', {profile:'team', listname: 'batter-runs-batted-in', sort:'asc', conference: 'all', division: 'all', limit: '20', pageNum:'1'} ]
         }
       ];
       this.changeMain(this.counter);

@@ -91,7 +91,7 @@ import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.modul
 export class PlayerPage implements OnInit {
   public shareModuleInput:ShareModuleInput;
   pageParams:MLBPageParameters;
-  hasError: boolean = false; 
+  hasError: boolean = false;
   standingsData:StandingsModuleData;
   profileHeaderData: ProfileHeaderData;
   seasonStatsData: any;

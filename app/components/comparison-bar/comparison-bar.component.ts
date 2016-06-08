@@ -14,14 +14,22 @@ export interface ComparisonBarInput {
     minValue: number;
     maxValue: number;
     info?: string;
+    infoBoxDetails?: Array<{
+      teamName: string;
+      playerName: string;
+      infoBoxImage: CircleImageData;
+      routerLinkPlayer: any;
+      routerLinkTeam: any;
+    }>;
 }
-export interface InfoBox {
-  teamName: string;
-  playerName: string;
-  imageUrl: CircleImageData;
-  routerLinkPlayer: Array<any>;
-  routerLinkTeam: Array<any>;
-}
+// export interface InfoBox {
+//   teamName: string;
+//   playerName: string;
+//   infoBoxImage: CircleImageData;
+//   routerLinkPlayer: any;
+//   routerLinkTeam: any;
+// }
+
 @Component({
     selector: 'comparison-bar',
     templateUrl: './app/components/comparison-bar/comparison-bar.component.html',
@@ -37,11 +45,12 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
 
     @Input() comparisonBarInput: ComparisonBarInput;
     @Input() index: number;
-    @Input() infoBox: InfoBox;
+    // @Input() infoBox: Array<InfoBox>;
     public displayData: ComparisonBarInput;
+    // public infoBoxImage: CircleImageData;
     ngOnChanges(event){
         this.displayData = this.configureBar();
-    }
+      }//ngOnChanges ends
 
     //Function to reposition labels if needed
     calculateLabelPositions(){

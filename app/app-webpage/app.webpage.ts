@@ -141,7 +141,7 @@ import {TransactionsPage} from "../webpages/transactions-page/transactions.page"
         component: TeamRosterPage
     },
     {
-        path: '/season-stats/:teamName/:teamId',
+        path: '/season-stats/player/:fullName/:playerId',
         name: 'Season-stats-page',
         component: SeasonStatsPage
     },
