@@ -337,14 +337,25 @@ export class ProfileHeaderService {
 
     var formattedStartDate = info.draftYear ? info.draftYear : "N/A"; //[September 18, 2015]
     var formattedYearsInMLB = "N/A"; //[one]
+    var firstSentence = "";
     var yearPluralStr = "years";
-    if ( info.draftYear ) {
+    if ( info.draftYear && info.draftTeam ) {
       var currentYear = (new Date()).getFullYear();
       var yearsInMLB = (currentYear - Number(info.draftYear));
       formattedYearsInMLB = GlobalFunctions.formatNumber(yearsInMLB);
       if ( yearsInMLB == 1 ) {
         yearPluralStr = "year";
       }
+      firstSentence = "<span class='text-heavy'>" + info.playerName +
+                  "</span> started his MLB career in <span class='text-heavy'>" + formattedStartDate +
+                  "</span> for the <span class='text-heavy'>" + info.draftTeam +
+                  "</span>, accumulating <span class='text-heavy'>" + formattedYearsInMLB +
+                  "</span> " + yearPluralStr + " in the MLB. "
+    }
+    else { // no draft year or team
+      firstSentence = "<span class='text-heavy'>" + info.playerName +
+                  "</span> currently plays for the <span class='text-heavy'>" + info.teamName +
+                  "</span>. ";
     }
     
     var location = "N/A"; //[Wichita], [Kan.]
@@ -367,16 +378,12 @@ export class ProfileHeaderService {
     
     var formattedWeight = info.weight ? info.weight.toString() : "N/A";
     
-    var description = "<span class='text-heavy'>" + info.playerName +
-                  "</span> started his MLB career in <span class='text-heavy'>" + formattedStartDate +
-                  "</span> for the <span class='text-heavy'>" + info.teamName +
-                  "</span>, accumulating <span class='text-heavy'>" + formattedYearsInMLB +
-                  "</span> " + yearPluralStr + " in the MLB. <span class='text-heavy'>" + info.playerName +
+    var description = firstSentence + "<span class='text-heavy'>" + info.playerName +
                   "</span> was born in <span class='text-heavy'>" + location +
                   "</span> on <span class='text-heavy'>" + formattedBirthDate +
                   "</span> and is <span class='text-heavy'>" + formattedAge +
-                  "</span> years old, with a height of <span class='text-heavy'>" + formattedHeight +
-                  "</span> and weighing in at <span class='text-heavy'>" + formattedWeight +
+                  "</span> years old. He stands at <span class='text-heavy'>" + formattedHeight +
+                  "</span>, <span class='text-heavy'>" + formattedWeight +
                   "</span> pounds.";
     
     var dataPoints: Array<DataItem>;
