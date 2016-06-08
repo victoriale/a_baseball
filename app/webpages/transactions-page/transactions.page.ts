@@ -39,13 +39,16 @@ export class TransactionsPage implements OnInit{
     ctaBtnClass:"list-footer-btn",
     hasIcon: true,
   };
+  transactionType: string;
   teamId: number;
   isError: boolean = false;
   titleData: Object;
   profileName: string;
+  sort: string = "desc";
   limit: number;
   pageNum: number;
   pageName: string;
+  listSort: string = "recent";
 
   constructor(public transactionsService:TransactionsService, public profHeadService:ProfileHeaderService, public params: RouteParams){
     this.teamId = Number(this.params.params['teamId']);
@@ -53,7 +56,9 @@ export class TransactionsPage implements OnInit{
     this.pageNum = Number(this.params.params['pageNum']);
   }
 
-  getTransactionsPage(date, teamId) {
+  getTransactionsPage(transactionType, teamId) {
+      if( this.transactionType != null) this.transactionType = transactionType;
+      if( this.teamId != null) this.teamId = teamId;
       this.profHeadService.getTeamProfile(teamId)
       .subscribe(
           data => {
@@ -72,7 +77,7 @@ export class TransactionsPage implements OnInit{
               // this.isError = true;
           }
       );
-      this.transactionsService.getTransactionsService(date, teamId, 'page', this.limit, this.pageNum)
+      this.transactionsService.getTransactionsService(transactionType, teamId, 'page', this.sort, this.limit, this.pageNum)
           .subscribe(
               transactionsData => {
                 if(typeof this.dataArray == 'undefined'){//makes sure it only runs once
@@ -100,8 +105,7 @@ export class TransactionsPage implements OnInit{
   }
 
   ngOnInit(){
-    //MLB starts and ends in same year so can use current year logic to grab all current season and back 4 years for tabs
-    var currentTab = new Date().getFullYear();
+    var currentTab = "transactions";
     this.getTransactionsPage(currentTab, this.teamId);
   }
 
@@ -112,23 +116,22 @@ export class TransactionsPage implements OnInit{
   }
 
   selectedTab(event){
-    let transactionType;
     switch( event ){
       case "Transactions":
-        transactionType = "transactions";
+        this.transactionType = "transactions";
         break;
       case "Suspensions":
-        transactionType = "suspensions";
+        this.transactionType = "suspensions";
         break;
       case "Injuries":
-        transactionType = "injuries";
+        this.transactionType = "injuries";
         break;
       default:
         console.error("Supplied transaction name was not found.");
-        transactionType = "transactions";
+        this.transactionType = "transactions";
         break;
     }
-    this.getTransactionsPage(transactionType, this.teamId);
+    this.getTransactionsPage(this.transactionType, this.teamId);
     this.pageName = event;
   }
 
@@ -143,5 +146,15 @@ export class TransactionsPage implements OnInit{
     };
   }
 
-
+  // TODO-JVW Add an arg to the transactions API call for asc/desc to sort the list appropriately
+  dropdownChanged(event) {
+    if( this.listSort != event){
+      this.listSort = event;
+      // this.transactionsDataArray.reverse();
+      // this.carouselDataArray.reverse();
+      this.sort = this.sort == "asc" ? "desc" : "asc";
+      this.getTransactionsPage(this.transactionType, this.teamId);
+      // console.log(this.carouselDataArray);
+    }
+  }
 }

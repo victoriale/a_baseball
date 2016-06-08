@@ -25,9 +25,10 @@ export class TransactionsService {
       return headers;
   }
 
-  getTransactionsService(year, teamId, type?, limit?, page?){
+  getTransactionsService(year, teamId, type?, sort?, limit?, page?){
   //Configure HTTP Headers
   var headers = this.setToken();
+  if( sort == null){ sort = "asc";}
   if( limit == null){ limit = 10;}
   if( page == null){ page = 1;}
 
@@ -58,7 +59,8 @@ export class TransactionsService {
     }
   ];
 
-  var callURL = this._apiUrl + '/team/transactions/'+teamId+'/'+year+'/'+limit+'/'+page;
+  var callURL = this._apiUrl + '/team/transactions/'+teamId+'/'+year+'/'+sort+'/'+limit+'/'+page;
+    console.log("call",callURL);
 
   return this.http.get( callURL, {
       headers: headers
@@ -115,6 +117,7 @@ export class TransactionsService {
         var Carousel = {
           index:index,
           //TODO
+          backgroundImage: GlobalSettings.getImageUrl(val.backgroundImage),
           imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.playerHeadshot),MLBGlobalFunctions.formatPlayerRoute(val.playerName,val.playerName, val.playerId), null, "image-50-sub",MLBGlobalFunctions.formatTeamLogo(val.teamName),MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
           description:[
             '<p class="font-12 fw-400 lh-32 titlecase"><i class="fa fa-circle" style="margin-right:6px;"></i> Transaction Report - ' + val.teamName + '</p>',
