@@ -1,4 +1,4 @@
-import {TableModel, TableColumn} from '../components/custom-table/table-data.component';
+import {TableModel, TableColumn, CellData} from '../components/custom-table/table-data.component';
 import {CircleImageData} from '../components/images/image-data';
 import {TableTabData, TableComponentData} from '../components/season-stats/season-stats.component';
 import {SliderCarousel, SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
@@ -293,6 +293,13 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
     return null;
   }
 
+  getCellData(item:TeamSeasonStatsData, column:TableColumn): CellData {
+    var display = this.getDisplayValueAt(item, column);
+    var sort = this.getSortValueAt(item, column);
+    var link: Array<any> = this.getRouterLinkAt(item, column);
+    return new CellData(display, sort, link);
+  }
+  
   getDisplayValueAt(item:TeamSeasonStatsData, column:TableColumn):string {
     var s = "";
     switch (column.key) {
