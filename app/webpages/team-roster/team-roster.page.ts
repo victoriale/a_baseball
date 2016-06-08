@@ -72,11 +72,6 @@ export class TeamRosterPage implements OnInit {
   }
 
   private setupRosterData() {
-    this.tabs = this._rosterService.initializeAllTabs();
-  }
-  
-  private rosterTabSelected(tab: MLBRosterTabData) {
-    //"This team is a National League team and has no designated hitters."
-    this._rosterService.getRosterTabData(this.pageParams.teamId.toString(), this.pageParams.conference, tab)
+    this.tabs = this._rosterService.initializeAllTabs(this.pageParams.teamId.toString(), this.pageParams.conference);
   }
 }
