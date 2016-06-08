@@ -26,12 +26,12 @@
               <div class="infobox-display">
                 {{displayData.maxValue}}
                 <div class="infobox-icons">
-                  <i *ngIf="displayData.info" class="fa {{displayData.info}}"></i>
-                  <i class="fa fa-sort-up"></i>
+                  <i *ngIf="displayData.info" class="fa {{displayData.info}}"  (mouseover)="isSelected(displayData)"></i>
+                  <i [class.active]="displayData.active" class="fa fa-sort-up"></i>
                 </div>
               </div>
               <!-- TODO -->
-              <ul class="infobox-box">
+              <ul class="infobox-box" [class.active]="displayData.active" >
                 <li class="infobox-list" *ngFor="#displayData of displayData.infoBoxDetails">
                   <a class="infobox-list-item" [routerLink]="displayData.routerLinkPlayer">
                     <div class="infobox-list-image">

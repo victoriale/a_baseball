@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, OnChanges, ViewChild, AfterViewChecked} from 'angular2/core';
+import {Component, Input, Output, OnInit, OnChanges, ViewChild, AfterViewChecked} from 'angular2/core';
 import {NaValuePipe} from '../../pipes/na.pipe';
 import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
 import {ImageData, CircleImageData} from '../images/image-data';
@@ -22,13 +22,13 @@ export interface ComparisonBarInput {
       routerLinkTeam: any;
     }>;
 }
-// export interface InfoBox {
-//   teamName: string;
-//   playerName: string;
-//   infoBoxImage: CircleImageData;
-//   routerLinkPlayer: any;
-//   routerLinkTeam: any;
-// }
+export interface InfoBox {
+  teamName: string;
+  playerName: string;
+  infoBoxImage: CircleImageData;
+  routerLinkPlayer: any;
+  routerLinkTeam: any;
+}
 
 @Component({
     selector: 'comparison-bar',
@@ -45,9 +45,16 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
 
     @Input() comparisonBarInput: ComparisonBarInput;
     @Input() index: number;
-    // @Input() infoBox: Array<InfoBox>;
-    public displayData: ComparisonBarInput;
-    // public infoBoxImage: CircleImageData;
+    displayData: ComparisonBarInput;
+
+    isSelected(displayData){
+      if(displayData.active === true){
+        return false;
+      }
+      this.displayData.infoBoxDetails.forEach(comparisonBarInput => displayData.active = false);
+      displayData.active = true;
+    }
+
     ngOnChanges(event){
         this.displayData = this.configureBar();
       }//ngOnChanges ends
@@ -57,7 +64,7 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
         if ( this.displayData.data.length < 2 ) {
             return;
         }
-        
+
         //Reset labels
         this.labelOne.nativeElement.style.left = "auto";
         this.labelOne.nativeElement.style.right = "auto";
@@ -74,11 +81,11 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
         //Set pixel buffer between labels that are close
         var pixelBuffer = 5;
         var adjustLabelOne = true;
-        
+
         if ( (labelOneWidth+pixelBuffer) > barOneWidth ) {
             // if the label is wider than the bar, do calculation from label width
             // and adjust label two, as label one can't move left any more
-            barOneWidth = labelOneWidth; 
+            barOneWidth = labelOneWidth;
             adjustLabelOne = false;
         }
 
@@ -96,10 +103,10 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
             }
         }
         else {
-            if ( adjustLabelOne ) {                
+            if ( adjustLabelOne ) {
                 this.labelOne.nativeElement.style.right = 0;
             }
-            else {                
+            else {
                 this.labelOne.nativeElement.style.left = 0;
             }
             this.labelTwo.nativeElement.style.right = 0;
@@ -117,17 +124,8 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
         var bestValue = Number(barData.maxValue);
         var adjustedMax = bestValue;
         var switchValues = false;
-
-        // var logData = barData.title == "Earned Run Average";
-        // if (logData) {
-        //     console.log(barData.title);
-        //     console.log("  bar data: ", barData);
-        //     console.log("  worst value is " + worstValue);
-        //     console.log("  best value is " + bestValue);
-        // }
         if ( bestValue < worstValue ) {
             adjustedMax = worstValue - bestValue;
-            // if (logData) console.log("  adjusted max value is " + adjustedMax);
             switchValues = true;
         }
 
@@ -137,10 +135,7 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
         for (var i = 0; i < barData.data.length; i++ ) {
             var dataItem = barData.data[i];
             var value = dataItem.value != null ? dataItem.value : 0;
-            // if (logData) {
-            //     console.log("data item " + i);
-            //     console.log("  value: "+ value);
-            // }
+
             if ( switchValues ) {
                 if ( value < bestValue ) {
                     dataItem.value = null;
@@ -149,19 +144,13 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
                 else {
                     value = worstValue - value;
                 }
-                // if (logData) console.log("  adjusted: " + value);
             }
             dataItem.width = (Math.round(value / adjustedMax * (100 - scaleStart) * 10) / 10) + scaleStart;
             if ( dataItem.width < scaleStart || !dataItem.value ) {
                 dataItem.width = scaleStart;
             }
-            // if ( logData ) {
-            //     console.log("   value: " + dataItem.value);
-            //     console.log("   width: " + dataItem.width);
-            //     console.log("   color: " + dataItem.color);
-            // }
         }
-        
+
         barData.data.sort((a,b) => {
             var diff = a.width - b.width;
             if ( Math.abs(diff) <= 0.5 ) {
