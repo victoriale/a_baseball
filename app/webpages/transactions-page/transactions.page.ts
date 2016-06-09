@@ -16,6 +16,7 @@ import {ErrorComponent} from "../../components/error/error.component";
 import {GlobalSettings} from "../../global/global-settings";
 import {TransactionsListItem} from "../../components/transactions-list-item/transactions-list-item.component";
 import {DropdownComponent} from "../../components/dropdown/dropdown.component";
+import {GlobalFunctions} from "../../global/global-functions";
 
 declare var moment:any;
 
@@ -138,8 +139,8 @@ export class TransactionsPage implements OnInit{
   setProfileHeader(profile:string){
     this.titleData = {
       imageURL : GlobalSettings.getImageUrl('/mlb/players/no-image.png'),
-      text1 : 'Last Updated: ' + moment().format("dddd, MMMM DD, YYYY"),
-      text2 : ' United States',
+      text1 : 'Last Updated: ' + GlobalFunctions.formatUpdatedDate(new Date()),
+      text2 : ' United States!',
       text3 : 'Top lists - ' + profile,
       icon: 'fa fa-map-marker',
       hasHover: false

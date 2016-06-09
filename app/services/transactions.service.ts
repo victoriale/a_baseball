@@ -99,7 +99,7 @@ export class TransactionsService {
       var Carousel = {
         index:'2',
         //TODO
-        imageConfig: self.imageData("image-150","border-large",dummyImg,null, null, null,null, null),
+        imageConfig: self.imageData("image-150","border-large",null,null, null, null,null, null),
         description:[
           "<p style='font-size:20px'><b>Sorry, we currently do not have any data for this transaction type.</b><p>",
         ],
@@ -142,7 +142,7 @@ export class TransactionsService {
       var listData = {
         dataPoints: [{
           style   : 'transactions-small',
-          data    : moment(new Date(val['repDate'])).format('MMMM DD, YYYY'),
+          data    : GlobalFunctions.formatDateWithAPMonth(new Date(val['repDate']), "", " DD, YYYY"),
           value   : val.playerLastName + ", " + val.playerFirstName + ": " + val.contents,
           url     : null
         }],
