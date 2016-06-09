@@ -71,7 +71,7 @@ export class SeasonStatsModule implements OnInit, OnChanges {
                ],
              },
              description:[
-               '<p style="font-size:12px;"><i class="fa fa-circle" style="color:#bc2027; padding-right: 5px;"></i> CURRENT SEASON STATS REPORT</p>',
+               '<p style="font-size: 12px;"><i class="fa fa-circle" style="color:#bc2027; padding-right: 5px;"></i> CURRENT SEASON STATS REPORT</p>',
                '<p style="font-size: 22px; font-weight: 800; padding:9px 0;">'+data.playerInfo.playerName+'</p>',
                '<p style="font-size: 14px; line-height: 1.4em;">Team: <b style="font-weight:800;">' + data.playerInfo.teamName + '</b></p>',
                '<p style="font-size: 10px; padding-top:12px;">Last Updated On ' + GlobalFunctions.formatUpdatedDate(data.playerInfo.lastUpdated) + '</p>'
@@ -100,7 +100,7 @@ export class SeasonStatsModule implements OnInit, OnChanges {
                 },
                 {
                     title: 'MLB Average',
-                    color: '#555555'
+                    color: '#444444'
                 },
                 {
                     title: "MLB Leader",
@@ -109,8 +109,7 @@ export class SeasonStatsModule implements OnInit, OnChanges {
             ]
         };
     }
-    constructor() {
-    }
+    constructor(){}
     ngOnInit(){}
     ngOnChanges(){
       if ( this.data && this.tabs ) {

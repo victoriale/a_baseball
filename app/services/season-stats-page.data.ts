@@ -2,16 +2,17 @@ import {TableModel, TableColumn} from '../components/custom-table/table-data.com
 import {CircleImageData} from '../components/images/image-data';
 import {TableTabData, TableComponentData} from '../components/season-stats/season-stats.component';
 import {SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
-import {Conference, Division} from '../global/global-interface';
+import {Season} from '../global/global-interface';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
 
-//TODO-CJP: Ask backend to return values as numbers and not strings!
 export interface TeamSeasonStatsData {
-  teamName: string,
+  playerName: string,
+  playerId: number;
+  teamName: string;
+  teamId: number;
   imageUrl: string,
   backgroundImage: string,
-  teamId: number;
   conferenceName: string,
   divisionName: string,
   lastUpdated: string,
@@ -27,7 +28,7 @@ export interface TeamSeasonStatsData {
   seasonId: string,
   year: number,
   /**
-   * - Formatted from league and division values that generated the associated table
+   * - Formatted from league and year values that generated the associated table
    */
   groupName?: string;
 
@@ -52,20 +53,22 @@ export class MLBSeasonStatsTableData implements TableComponentData<TeamSeasonSta
 
   tableData: MLBSeasonStatsTableModel;
 
-  conference: Conference;
+  season: Season;
 
-  division: Division;
+  year: number;
 
-  constructor(title: string, conference: Conference, division: Division, table: MLBSeasonStatsTableModel) {
+  constructor(title: string, season: Season, year: number, table: MLBSeasonStatsTableModel) {
     this.groupName = title;
-    this.conference = conference;
-    this.division = division;
+    this.season = season;
+    this.year = year;
     this.tableData = table;
   }
 
 }
 
 export class MLBSeasonStatsTabData implements TableTabData<TeamSeasonStatsData> {
+
+  playerId: string;
 
   title: string;
 
@@ -77,18 +80,19 @@ export class MLBSeasonStatsTabData implements TableTabData<TeamSeasonStatsData> 
 
   sections: Array<MLBSeasonStatsTableData>;
 
-  conference: Conference;
+  season: Season;
 
-  division: Division;
+  year: number;
 
-  constructor(title: string, conference: Conference, division: Division, isActive: boolean) {
+  constructor(title: string, season: Season, year: number, isActive: boolean) {
     this.title = title;
-    this.conference = conference;
-    this.division = division;
+    this.season = season;
+    this.year = year;
     this.isActive = isActive;
   }
 
   convertToCarouselItem(item: TeamSeasonStatsData, index:number): SliderCarouselInput {
+    console.log("item", item);
     var subheader = item.seasonId + " Season Stats Report";
     var description = "Team: <span class='text-heavy'>" + item.teamName + "</span>";
     return {
@@ -104,14 +108,14 @@ export class MLBSeasonStatsTabData implements TableTabData<TeamSeasonStatsData> 
         imageClass: "image-150",
         mainImage: {
           imageClass: "border-10",
-          urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId.toString()),
+          urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.playerId.toString()),
           imageUrl: item.fullImageUrl,
           hoverText: "<p>View</p><p>Profile</p>"
         },
         subImages: [
           {
               imageUrl: item.fullImageUrl,
-              urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId.toString()),
+              urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.playerId.toString()),
               hoverText: "<i class='fa fa-mail-forward'></i>",
               imageClass: "image-50-sub image-round-lower-right"
           },
@@ -191,7 +195,7 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
 
   setRowSelected(rowIndex:number) {
     if ( rowIndex >= 0 && rowIndex < this.rows.length ) {
-      this.selectedKey = this.rows[rowIndex].teamId;
+      this.selectedKey = this.rows[rowIndex].playerId;
     }
     else {
       this.selectedKey = null;
@@ -199,10 +203,11 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
   }
 
   isRowSelected(item:TeamSeasonStatsData, rowIndex:number): boolean {
-    return this.selectedKey == item.teamId;
+    return this.selectedKey == item.playerId;
   }
   //TODO using standing api
   getDisplayValueAt(item:TeamSeasonStatsData, column:TableColumn):string {
+    console.log(item);
     var s = null;
     switch (column.key) {
       case "year":
@@ -305,7 +310,7 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
 
   getRouterLinkAt(item:TeamSeasonStatsData, column:TableColumn):Array<any> {
     if ( column.key === "team" ) {
-      return MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId.toString());
+      return MLBGlobalFunctions.formatTeamRoute(item.teamName,item.playerId.toString());
     }
     else {
       return undefined;

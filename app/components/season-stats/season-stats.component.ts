@@ -92,7 +92,7 @@ export class SeasonStatsComponent implements DoCheck {
 
   tabSelected(newTitle) {
     this.selectedTabTitle = newTitle;
-    this.noDataMessage = "Sorry, there is no data available for the "+ newTitle;
+    this.noDataMessage = "Sorry, there is no data available";
     this.tabSelectedListener.next(this.getSelectedTab());
     this.updateCarousel();
   }
