@@ -110,6 +110,7 @@ export class BoxScoresService {
       var link1 = this.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo), MLBGlobalFunctions.formatTeamRoute(homeData.name, homeData.id))
       var link2 = this.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo))
     }
+
     info = {
       inning:gameInfo.inningsPlayed + " Inning",
       homeData:{
@@ -118,16 +119,16 @@ export class BoxScoresService {
         homeImageConfig:link1,
         homeRecord:'[#]-[#]',
         runs:homeData.score,
-        hits:'-',
-        errors:'-'
+        hits:homeData.hits,
+        errors:homeData.errors
       },
       awayData:{
         awayTeamName:awayData.lastName,
         awayImageConfig:link2,
         awayRecord:'[#]-[#]',
         runs:awayData.score,
-        hits:'-',
-        errors:'-'
+        hits:awayData.hits,
+        errors:awayData.errors
       }
     };
     // console.log('GAME INFO',info);
@@ -187,15 +188,15 @@ export class BoxScoresService {
     arrayScores.push({
       inning:14,//replace the letter 'p' in each inning
       scores:{
-        home:1,
-        away:0,
+        home:null,
+        away:null,
       }
     })
     arrayScores.push({
       inning:15,//replace the letter 'p' in each inning
       scores:{
-        home:1,
-        away:0,
+        home:null,
+        away:null,
       }
     })
 

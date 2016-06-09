@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from 'angular2/core';
 import {CircleImage} from '../images/circle-image';
 import {CircleImageData} from '../images/image-data';
+import {StatHyphenValuePipe} from '../../pipes/stat-hyphen.pipe';
 
 export interface GameInfoInput{
   inning:string;
@@ -26,7 +27,7 @@ export interface GameInfoInput{
     selector: 'game-info',
     templateUrl: './app/components/game-info/game-info.component.html',
     directives: [CircleImage],
-    providers: [],
+    pipes: [StatHyphenValuePipe],
 })
 
 export class GameInfo implements OnInit{

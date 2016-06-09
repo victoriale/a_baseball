@@ -15,9 +15,9 @@
       </div>
     </div>
     <div class="game-box-values">
-      <span>{{homeInfo.runs}}</span>
-      <span>{{homeInfo.hits}}</span>
-      <span>{{homeInfo.errors}}</span>
+      <span>{{homeInfo.runs | statHyphenValue}}</span>
+      <span>{{homeInfo.hits | statHyphenValue}}</span>
+      <span>{{homeInfo.errors | statHyphenValue}}</span>
     </div>
   </div>
   <div class="game-box">
@@ -31,9 +31,9 @@
       </div>
     </div>
     <div class="game-box-values">
-      <span>{{awayInfo.runs}}</span>
-      <span>{{awayInfo.hits}}</span>
-      <span>{{awayInfo.errors}}</span>
+      <span>{{awayInfo.runs | statHyphenValue}}</span>
+      <span>{{awayInfo.hits | statHyphenValue}}</span>
+      <span>{{awayInfo.errors | statHyphenValue}}</span>
     </div>
   </div>
 </div>

@@ -15,8 +15,8 @@
           <div class="box-table-container" *ngFor="#score of scoreBoard.scoreArray">
             <!-- inning number -->
             <span>{{score.inning}}</span>
-            <span>{{score.scores.home}}</span> <!-- home score number -->
-            <span>{{score.scores.away}}</span> <!-- away score number -->
+            <span>{{score.scores.home | statHyphenValue}}</span> <!-- home score number -->
+            <span>{{score.scores.away | statHyphenValue}}</span> <!-- away score number -->
           </div>
         </div>
       </div>
