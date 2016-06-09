@@ -149,14 +149,57 @@ export class BoxScoresService {
 
     for(var score in data){
       if(score != 'aiContent' && score != 'awayTeamInfo' && score != 'homeTeamInfo' && score != 'gameInfo'){
-        arrayScores.push({inning:score,scores:data[score]});
+        arrayScores.push({
+          inning:score.replace('p',''),//replace the letter 'p' in each inning
+          scores:data[score]
+        });
       }
     }
 
+    arrayScores.push({
+      inning:10,//replace the letter 'p' in each inning
+      scores:{
+        home:1,
+        away:4,
+      }
+    })
+    arrayScores.push({
+      inning:11,//replace the letter 'p' in each inning
+      scores:{
+        home:3,
+        away:1,
+      }
+    })
+    arrayScores.push({
+      inning:12,//replace the letter 'p' in each inning
+      scores:{
+        home:1,
+        away:0,
+      }
+    })
+    arrayScores.push({
+      inning:13,//replace the letter 'p' in each inning
+      scores:{
+        home:1,
+        away:0,
+      }
+    })
+    arrayScores.push({
+      inning:14,//replace the letter 'p' in each inning
+      scores:{
+        home:1,
+        away:0,
+      }
+    })
+    arrayScores.push({
+      inning:15,//replace the letter 'p' in each inning
+      scores:{
+        home:1,
+        away:0,
+      }
+    })
+
     console.log("SCORES",arrayScores);
-    // arrayScores.forEach(function(val,i){
-    //
-    // })
     var scoreBoard={
       homeScore:homeData.score,
       awayScore:awayData.score,

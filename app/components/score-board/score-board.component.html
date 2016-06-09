@@ -1,68 +1,26 @@
 <div class="score-board">
-  <div class="score-board-total">0</div>
+<div class="score-board-total">{{scoreBoard.homeScore}}</div>
   <div class="score-board-data">
     <div class="score-board-title">FINAL SCORE</div>
     <div class="box-table">
-      <div class="box-table-arrows box-table-arrows-left"><i class="fa fa-angle-left"></i></div>
-      <div class="box-table-arrows box-table-arrows-right"><i class="fa fa-angle-right"></i></div>
+      <div class="box-table-arrows box-table-arrows-left" (click)="left()"><i class="fa fa-angle-left"></i></div>
+      <div class="box-table-arrows box-table-arrows-right" (click)="right()"><i class="fa fa-angle-right"></i></div>
       <div class="box-table-labels">
         <span></span>
         <span>Home Team</span>
         <span>Away Team</span>
       </div>
-      <div class="box-table-max">
-        <div class="box-table-container">
-          <span>1</span>
-          <span>2</span>
-          <span>3</span>
-        </div>
-        <div class="box-table-container">
-          <span>2</span>
-          <span>2</span>
-          <span>3</span>
-        </div>
-        <div class="box-table-container">
-          <span>3</span>
-          <span>2</span>
-          <span>3</span>
-        </div>
-        <div class="box-table-container">
-          <span>4</span>
-          <span>2</span>
-          <span>3</span>
-        </div>
-        <div class="box-table-container">
-          <span>5</span>
-          <span>2</span>
-          <span>3</span>
-        </div>
-        <div class="box-table-container">
-          <span>6</span>
-          <span>2</span>
-          <span>3</span>
-        </div>
-        <div class="box-table-container">
-          <span>7</span>
-          <span>2</span>
-          <span>3</span>
-        </div>
-        <div class="box-table-container">
-          <span>8</span>
-          <span>2</span>
-          <span>3</span>
-        </div>
-        <div class="box-table-container">
-          <span>9</span>
-          <span>2</span>
-          <span>3</span>
-        </div>
-        <div class="box-table-container">
-          <span>9</span>
-          <span>2</span>
-          <span>3</span>
+      <div class="box-table-display">
+        <div class="box-table-max" style="{{scrollScore}}">
+          <div class="box-table-container" *ngFor="#score of scoreBoard.scoreArray">
+            <!-- inning number -->
+            <span>{{score.inning}}</span>
+            <span>{{score.scores.home}}</span> <!-- home score number -->
+            <span>{{score.scores.away}}</span> <!-- away score number -->
+          </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="score-board-total">0</div>
+  <div class="score-board-total">{{scoreBoard.awayScore}}</div>
 </div>
