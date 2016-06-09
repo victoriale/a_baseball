@@ -267,7 +267,7 @@ export class ProfileHeaderService {
     var headerData = {
       data:{
         imageURL: data.fullProfileImageUrl,
-        text1: 'Last Updated: ' + GlobalFunctions.formatUpdatedDate(moment(data.headerData['lastUpdatedDateTime'])),
+        text1: 'Last Updated: ' + GlobalFunctions.formatUpdatedDate(data.headerData['lastUpdatedDateTime']),
         text2: 'United States',
         text3: " - " + stats.teamName,
         icon: 'fa fa-map-marker',
