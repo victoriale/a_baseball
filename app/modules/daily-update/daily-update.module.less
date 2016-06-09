@@ -1,3 +1,7 @@
+.fs-18{
+  font-size:18px;
+}
+
 /* Mixin */
 .vertical-align{
   position: absolute;
@@ -48,6 +52,33 @@
       display: block;
       width: 280px;
       float: left;
+      padding: 0 22px 0 15px;
+      &-title{
+        margin: 15px 0 0 0;
+        .globalDefaultFont(20px, 400);
+        b{
+          font-weight: 800;
+        }
+      }
+      &-subtitle{
+        margin: 0;
+        .globalDefaultModFont(10px, 700, @bulletGrey);
+        line-height: 16px;
+        padding-bottom:9px;
+        border-bottom: 1px solid @strokeGrey;
+      }
+      .datapoints{
+        &-item{
+          .clearfix;
+          padding: 0 10px;
+          font-size: 12px;
+          line-height: 25px;
+          margin: 0;
+          .fa{
+            margin-right: 12px;
+          }
+        }
+      }
     }
     &-charts{
       display: block;

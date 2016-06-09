@@ -6,15 +6,14 @@
   <div class="container-fluid">
     <div class="row stat-wrapper">
       <div class="stat-wrapper-table">
-        <h3>[Batter Name]'s<br />
+        <h3 class="stat-wrapper-table-title"><span class="fs-18">[Batter Name]'s</span><br />
         <b>Current Season</b> Stats</h3>
-        <p><small>Last Updated: [Day of the week], [Month] [DD], [YYYY]</small></p>
-        <hr>
-        <div>
-          <p><span class="pull-left"><i class="fa fa-home"></i>Home Runs</span><span class="pull-right">[##]</span></p>
-          <p><span class="pull-left"><i class="fa fa-home"></i>Batting Average</span><span class="pull-right">[##%]</span></p>
-          <p><span class="pull-left"><i class="fa fa-home"></i>Runs Batted In</span><span class="pull-right">[##]</span></p>
-          <p><span class="pull-left"><i class="fa fa-home"></i>On Base Percentage</span><span class="pull-right">[##%]</span></p>
+        <p class="stat-wrapper-table-subtitle">Last Updated: [Day of the week], [Month] [DD], [YYYY]</p>
+        <div class="datapoints">
+          <p class="datapoints-item"><span class="pull-left"><i class="fa fa-home"></i>Home Runs</span><span class="pull-right">[##]</span></p>
+          <p class="datapoints-item"><span class="pull-left"><i class="fa fa-home"></i>Batting Average</span><span class="pull-right">[##%]</span></p>
+          <p class="datapoints-item"><span class="pull-left"><i class="fa fa-home"></i>Runs Batted In</span><span class="pull-right">[##]</span></p>
+          <p class="datapoints-item"><span class="pull-left"><i class="fa fa-home"></i>On Base Percentage</span><span class="pull-right">[##%]</span></p>
         </div>
       </div>
       <div class="stat-wrapper-charts">
@@ -28,7 +27,7 @@
     </div>
   </div>
   <div class="article-teaser">
-    <image-circle></image-circle>
+    <circle-image *ngIf="imageConfig" [data]="imageConfig"></circle-image>
     <h4>[Batter Names]'s Most Recent Game</h4>
     <p><i class="fa fa-home"></i> [DOW] [Month] [DD], [YYYY][AM/PM] ET</p>
     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo...</p>
