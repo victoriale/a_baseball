@@ -1,0 +1,37 @@
+<section class="module-container daily-update">
+  <module-header [modHeadData]="headerInfo"></module-header>
+  <div class="daily-update-hero" style="background: url('{{backgroundImage}}') top center no-repeat;">
+    <h3 class="daily-update-hero-title">[Profile Name]'s Daily Update</h3>
+  </div>
+  <div class="container-fluid">
+    <div class="row stat-wrapper">
+      <div class="stat-wrapper-table">
+        <h3>[Batter Name]'s<br />
+        <b>Current Season</b> Stats</h3>
+        <p><small>Last Updated: [Day of the week], [Month] [DD], [YYYY]</small></p>
+        <hr>
+        <div>
+          <p><span class="pull-left"><i class="fa fa-home"></i>Home Runs</span><span class="pull-right">[##]</span></p>
+          <p><span class="pull-left"><i class="fa fa-home"></i>Batting Average</span><span class="pull-right">[##%]</span></p>
+          <p><span class="pull-left"><i class="fa fa-home"></i>Runs Batted In</span><span class="pull-right">[##]</span></p>
+          <p><span class="pull-left"><i class="fa fa-home"></i>On Base Percentage</span><span class="pull-right">[##%]</span></p>
+        </div>
+      </div>
+      <div class="stat-wrapper-charts">
+        <div class="key">
+          <h4 class="pull-left">Player's Previous 4 Games:</h4>
+          <span class="key-primary pull-left">Runs</span>
+          <span class="key-secondary pull-left">Hits</span>
+        </div>
+        <div class="daily-update-chart-wrapper"></div>
+      </div>
+    </div>
+  </div>
+  <div class="article-teaser">
+    <image-circle></image-circle>
+    <h4>[Batter Names]'s Most Recent Game</h4>
+    <p><i class="fa fa-home"></i> [DOW] [Month] [DD], [YYYY][AM/PM] ET</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo...</p>
+    <p>Continue Reading <i class="fa fa-home"></i></p>
+  </div>
+</section>

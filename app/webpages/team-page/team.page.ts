@@ -63,6 +63,7 @@ import {ListOfListsService} from "../../services/list-of-lists.service";
 
 import {TransactionsModule} from "../../modules/transactions/transactions.module";
 import {TransactionsService} from "../../services/transactions.service";
+import {DailyUpdateModule} from "../../modules/daily-update/daily-update.module";
 
 @Component({
     selector: 'Team-page',
@@ -70,6 +71,7 @@ import {TransactionsService} from "../../services/transactions.service";
     directives: [
         LoadingComponent,
         ErrorComponent,
+        DailyUpdateModule,
         SchedulesModule,
         BoxScoresModule,
         DraftHistoryModule,
