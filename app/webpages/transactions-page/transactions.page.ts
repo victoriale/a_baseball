@@ -139,7 +139,7 @@ export class TransactionsPage implements OnInit{
     this.titleData = {
       imageURL : GlobalSettings.getImageUrl('/mlb/players/no-image.png'),
       text1 : 'Last Updated: ' + moment().format("dddd, MMMM DD, YYYY"),
-      text2 : ' United States',
+      text2 : ' United States!',
       text3 : 'Top lists - ' + profile,
       icon: 'fa fa-map-marker',
       hasHover: false

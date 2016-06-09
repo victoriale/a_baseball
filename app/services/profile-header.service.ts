@@ -255,6 +255,7 @@ export class ProfileHeaderService {
   }
 
   convertTransactionsPageHeader(data: TeamProfileData, pageName?:string) {
+    console.log("data",data);
     var stats = data.headerData.stats;
 
     if (!stats) {
@@ -266,7 +267,7 @@ export class ProfileHeaderService {
     var headerData = {
       data:{
         imageURL: data.fullProfileImageUrl, //TODO
-        text1: 'Last Updated:' + moment(data.headerData.lastUpdated).format('dddd MMMM Do, YYYY'), //TODO
+        text1: 'Last Updated: ' + moment(data.headerData['lastUpdatedDateTime']).format('dddd, MMMM D, YYYY'), //TODO
         text2: 'United States',
         text3: " - " + stats.teamName,
         icon: 'fa fa-map-marker',
