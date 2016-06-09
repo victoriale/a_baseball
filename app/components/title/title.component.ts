@@ -50,6 +50,9 @@ export class TitleComponent implements OnChanges {
         if ( this.imageData ) {
             this.titleImage.mainImage = this.imageData;
         }
+        if ( this.imageData ) {
+            this.titleImage.mainImage = this.imageData;
+        }
     }
 
 }

@@ -272,6 +272,8 @@ export class ProfileHeaderService {
         text3: " - " + stats.teamName,
         icon: 'fa fa-map-marker',
         hasHover : true,
+        routerLink : "['Error-page']",
+        urlRouteArray: "['Error-page']"
       },
       error: "Sorry, the " + stats.teamName + " do not currently have any data for the " + stats.seasonId + " " + pageName
     }
