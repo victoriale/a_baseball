@@ -255,7 +255,7 @@ export class ProfileHeaderService {
   }
 
   convertTransactionsPageHeader(data: TeamProfileData, pageName?:string) {
-    console.log("data",data);
+    //console.log("data",data);
     var stats = data.headerData.stats;
 
     if (!stats) {
