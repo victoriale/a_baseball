@@ -52,10 +52,13 @@
       display: block;
       width: 280px;
       float: left;
-      padding: 0 22px 0 15px;
+      padding: 0 22px 5px 15px;
+      border-right: 1px solid @strokeGrey;
+      margin-right: -1px;
       &-title{
         margin: 15px 0 0 0;
         .globalDefaultFont(20px, 400);
+        line-height: 24px;
         b{
           font-weight: 800;
         }
@@ -77,13 +80,62 @@
           .fa{
             margin-right: 12px;
           }
+          b{
+            font-weight: 800;
+          }
         }
       }
     }
     &-charts{
       display: block;
+      width: 400px;
       float: left;
       border-left: 1px solid @strokeGrey;
+      &-key{
+        line-height:14px;
+        .clearfix;
+        padding: 10px 20px 10px 10px;
+        h4{
+          margin: 0;
+          .globalDefaultModFont(14px, 400, @textEmphasisGrey);
+        }
+        &-item{
+          .globalDefaultModFont(10px, 800, @textEmphasisGrey);
+          &:before {
+            content: "";
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            margin-right: 6px;
+            border-radius: 2px;
+            vertical-align: middle;
+          }
+        }
+        &-primary{
+          &:before{
+            background-color: @textEmphasisGrey;
+          }
+        }
+        &-secondary{
+          &:before{
+            margin-left: 20px;
+            background-color: @masterBrandColor;
+          }
+        }
+
+      }
+    }
+  }
+  .article-teaser{
+    .clearfix;
+
+    circle-image{
+      padding: 22px;
+    }
+    &-text{
+      display: block;
+      width: 495px;
+      padding-right: 20px;
     }
   }
 }
