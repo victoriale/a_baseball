@@ -149,7 +149,10 @@ export class PlayerPage implements OnInit {
               //this.getBoxScores();
               this.getSchedulesData('pre-event');//grab pre event data for upcoming games
               this.setupSeasonstatsData();
-              this.setupComparisonData();
+              if ( data.headerData.info.qualified ) {
+                //only get the comparison data if the player is considered qualified
+                this.setupComparisonData();
+              }
               /*** Other [League Name] Content You May Love ***/
               this.getImages(this.imageData);
               this.getDykService();
