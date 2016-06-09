@@ -142,7 +142,7 @@ export class TransactionsService {
       var listData = {
         dataPoints: [{
           style   : 'transactions-small',
-          data    : GlobalFunctions.formatAPMonth((new Date(val['repDate'])).getMonth()) + moment(new Date(val['repDate'])).format(' DD, YYYY'),
+          data    : GlobalFunctions.formatDateWithAPMonth(new Date(val['repDate']), "", " DD, YYYY"),
           value   : val.playerLastName + ", " + val.playerFirstName + ": " + val.contents,
           url     : null
         }],
