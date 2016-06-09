@@ -34,7 +34,7 @@ export class RosterService {
     rosterTab.hasError = false;
     
     var fullUrl = this._apiUrl + "/team/roster/" + teamId;
-    console.log("loading full team roster: "+ fullUrl);
+    //console.log("loading full team roster: "+ fullUrl);
     return this.http.get(fullUrl, {headers: this.setToken()})
       .map(res => res.json())
       .map(data => {
