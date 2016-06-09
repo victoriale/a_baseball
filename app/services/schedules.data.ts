@@ -338,11 +338,15 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
         var away = item.awayTeamAbbreviation + " " + item.awayScore;
         if(item.homeOutcome == 'win'){
           home = "<span class='text-heavy'>" + home + "</span>";
+          sort = Number(item.homeScore);
         } else if(item.awayOutcome == 'win'){
           away = "<span class='text-heavy'>" + away + "</span>";
+          sort = Number(item.awayScore);
+        }
+        else {
+          sort = Number(item.awayScore);
         }
         display = home + " - " + away;
-        sort = item.results;
         break;
 
       case "wl":
