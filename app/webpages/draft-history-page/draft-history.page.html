@@ -1,17 +1,18 @@
-<loading-component *ngIf="!profileHeaderData && !isError"></loading-component>
-<error-component *ngIf="isError"></error-component>
-<section *ngIf="profileHeaderData" class='page-container'>
+<section class="page page-module-container draft">
   <backtab-component></backtab-component>
-  <title-component [titleData]="profileHeaderData"></title-component>
-  <div  class="module-container list-page">
-    <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray" [footerStyle]="footerStyle"></slider-carousel>
-    <tabs *ngIf="dataArray" (tabSelected)='selectedTab($event)'>
-      <tab *ngFor="#data of dataArray; #i = index" [active]="i == 0" [tabTitle]="data.tabDisplay">
-        <div style="margin:-1em"> <!-- due to tab having a default value of padding 1em for tab purposes so we just reverse it with margin -->
-          <detailed-list-item *ngIf="detailedDataArray" [detailedItemData] = 'detailedDataArray'></detailed-list-item>
-          <no-data-box *ngIf="!detailedDataArray" [data]="errorData.data" [icon]="errorData.icon"></no-data-box>
-        </div>
-      </tab>
-    </tabs>
-  </div>
+  <title-component *ngIf="profileHeaderData" [titleData]="profileHeaderData"></title-component>
+  <loading-component *ngIf="!carouselDataArray && !isError"></loading-component>
+  <error-component *ngIf="isError"></error-component>
+
+  <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray" [footerStyle]="footerStyle"></slider-carousel>
+  <tabs *ngIf="dataArray" (tabSelected)='selectedTab($event)'>
+    <tab *ngFor="#data of dataArray; #i = index" [active]="i == 0" [tabTitle]="data.tabDisplay">
+      <div *ngIf="detailedDataArray" style="margin:-1em"> <!-- due to tab having a default value of padding 1em for tab purposes so we just reverse it with margin -->
+        <detailed-list-item [detailedItemData]="detailedDataArray"></detailed-list-item>
+      </div>
+      <div *ngIf="!detailedDataArray && errorData" class="draft-no-data">
+        <no-data-box [data]="errorData.data" [icon]="errorData.icon"></no-data-box>
+      </div>
+    </tab>
+  </tabs>
 </section>

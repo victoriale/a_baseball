@@ -5,12 +5,12 @@ import {SliderCarousel, SliderCarouselInput} from '../../components/carousels/sl
 import {TitleComponent, TitleInputData} from '../../components/title/title.component';
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {NoDataBox} from '../../components/error/data-box/data-box.component';
-import {ListOfListsItem} from "../../components/list-of-lists-item/list-of-lists-item.component";
+import {ListOfListsItem, IListOfListsItem} from "../../components/list-of-lists-item/list-of-lists-item.component";
 import {ListOfListsService} from "../../services/list-of-lists.service";
 import {RouteParams} from 'angular2/router';
 import {LoadingComponent} from "../../components/loading/loading.component";
 import {ErrorComponent} from "../../components/error/error.component";
-import {PaginationFooter} from "../../components/pagination-footer/pagination-footer.component";
+import {PaginationFooter, PaginationParameters} from "../../components/pagination-footer/pagination-footer.component";
 import {GlobalSettings} from "../../global/global-settings";
 
 declare var moment:any;
@@ -24,10 +24,9 @@ declare var moment:any;
 })
 
 export class ListOfListsPage implements OnInit{
-    errorData             : any;
-    detailedDataArray     : any; //variable that is just a list of the detailed DataArray
-    displayData           : any; // paginated data to be displayed
-    carouselDataArray     : any;
+    errorData             : string;
+    detailedDataArray     : Array<IListOfListsItem>; //variable that is just a list of the detailed DataArray
+    carouselDataArray     : Array<SliderCarouselInput>;
     profileName           : string;
     isError               : boolean = false;
     version               : string = "page"; // [page,module]
@@ -38,27 +37,18 @@ export class ListOfListsPage implements OnInit{
 
     paginationSize        : number = 10;
     index                 : number = 0;
-    paginationParameters  : any;
-    footerData            : Object;
-    footerStyle : any = {
-        ctaBoxClass       : "list-footer",
-        ctaBtnClass       : "list-footer-btn",
-        hasIcon           : true
-    };
-    titleData             : Object;
-    profileHeaderData: TitleInputData;
+    paginationParameters  : PaginationParameters;
+    titleData             : TitleInputData;
 
-    constructor(private listService:ListOfListsService, private params: RouteParams){
-    }
+    constructor(private listService:ListOfListsService, private params: RouteParams) {}
 
     //getListOfListsService(version, type, id, scope?, count?, page?){
     getListOfListsPage(urlParams, version) {
         this.listService.getListOfListsService(urlParams, version)
           .subscribe(
             list => {
-                //this.profileHeaderData = list.profHeader;
                 if(list.listData.length == 0){//makes sure it only runs once
-                    this.detailedDataArray = false;
+                    this.detailedDataArray = null;
                 }else{
                     this.detailedDataArray = list.listData;
                 }
@@ -87,29 +77,27 @@ export class ListOfListsPage implements OnInit{
             limit      : params['limit'],
             pageNum    : params['pageNum'],
         };
+
         if(params['scope'] != null) {
            navigationParams['scope'] = params['scope'];
         }
 
-        if(this.detailedDataArray == false){
-            this.paginationParameters = {
-                index: params['pageNum'],
-                max: input.pageCount,
-                paginationType: 'page',
-                navigationPage: 'Error-page',
-                navigationParams: navigationParams,
-                indexKey: 'pageNum'
-            };
-        }else{
-            this.paginationParameters = {
-                index: params['pageNum'],
-                max: input.pageCount,
-                paginationType: 'page',
-                navigationPage: navigationParams['scope'] != null ? 'List-of-lists-page-scoped' : 'List-of-lists-page',
-                navigationParams: navigationParams,
-                indexKey: 'pageNum'
-            };
+        var navigationPage: string;
+        if ( !this.detailedDataArray ) {
+            navigationPage = "Error-page";
         }
+        else {
+            navigationPage = navigationParams['scope'] != null ? 'List-of-lists-page-scoped' : 'List-of-lists-page';
+        }
+        
+        this.paginationParameters = {
+            index: params['pageNum'] != null ? Number(params['pageNum']) : null,
+            max: Number(input.pageCount),
+            paginationType: 'page',
+            navigationPage: 'Error-page',
+            navigationParams: navigationParams,
+            indexKey: 'pageNum'
+        };
     }
 
     ngOnInit(){

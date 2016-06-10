@@ -1,4 +1,4 @@
-<div *ngIf="modelData" class="module-container">
+<section *ngIf="modelData" class="module-container">
     <module-header [modHeadData]="moduleHeaderData"></module-header>
     <div class="row comparison-module-tiles" [ngStyle]="gradient" [class.default-gradient]="!gradient">
         <div class="col-xs-6">
@@ -30,4 +30,4 @@
             </div>
         </tab>        
     </tabs>
-</div>
+</section>
