@@ -1,6 +1,5 @@
-import {Component, Output, EventEmitter} from 'angular2/core';
+import {Component, Output, EventEmitter, Injectable} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
-import {Injectable} from 'angular2/core';
 
 import {DetailedListItem, DetailListInput} from '../../components/detailed-list-item/detailed-list-item.component';
 import {ModuleFooter} from '../../components/module-footer/module-footer.component';
