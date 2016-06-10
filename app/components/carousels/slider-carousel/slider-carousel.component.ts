@@ -6,7 +6,7 @@ import {CircleImage} from '../../images/circle-image';
 import {ImageData, CircleImageData} from '../../images/image-data';
 import {Carousel} from '../carousel.component';
 import {ModuleFooter, ModuleFooterData} from '../../module-footer/module-footer.component'
-import {ROUTER_DIRECTIVES, RouterLink} from 'angular2/router';
+import {ROUTER_DIRECTIVES} from 'angular2/router';
 
 /*
   index?: //(optional) parameter in case it is needed to know the position of the object in its current array
