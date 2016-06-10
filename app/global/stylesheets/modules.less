@@ -6,29 +6,18 @@
   font-family: @globalFont;
 }
 
-//Module pages, about-the-site pages, and individual modules 
+//Module pages, about-the-site pages, and individual modules
 .page-container,
-.page-module-container, 
+.page-module-container,
 .module-container {
   box-shadow: @modBoxShadow;
   background-color: @white;
 }
 
-.page-container {  
+.page-container {
   min-height: 900px;
   margin-top: 20px;
   // margin-bottom: 0px;
-}
-
-//Profile and module pages
-.page-module-container{
-  margin-top: 20px;
-  // margin-bottom: 0px;
-}
-
-.profile-container {
-  margin-top: 20px;
-  margin-bottom: 20px;
 }
 
 //Individual modules
@@ -36,4 +25,18 @@
   margin-bottom: 20px;
   position: relative;
   overflow: hidden;
+}
+
+//Profile and module pages
+.page-module-container{
+  margin-top: 20px;
+  // margin-bottom: 0px;
+  .module-container{
+    margin-bottom: 0px;
+  }
+}
+
+.profile-container {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
