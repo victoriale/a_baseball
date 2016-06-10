@@ -120,7 +120,6 @@ export class SeasonStatsModule implements OnInit, OnChanges {
          return tab.tabTitle == tabTitle;
       });
       if ( selectedTabs.length > 0 ) {
-          console.log(selectedTabs.length);
           var tab = selectedTabs[0];
           if ( tabTitle == "Career Stats" ) {
               this.leadText = "Stats High";
