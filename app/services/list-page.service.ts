@@ -149,7 +149,7 @@ export class ListPageService {
     var profile = data.listInfo;
     var profileData = {
       imageURL: GlobalSettings.getSiteLogoUrl(), //TODO
-      text1: 'Last Updated: '+ moment(data.listData[0].lastUpdate).format('dddd, MMMM Do, YYYY') + ' at ' + moment(data.listData[0].lastUpdate).format('hh:mm A') + ' ET', //TODO
+      text1: 'Last Updated: '+ GlobalFunctions.formatUpdatedDate(data.listData[0].lastUpdate),
       text2: 'United States',
       text3: profile.name,
       icon: 'fa fa-map-marker',

@@ -37,6 +37,7 @@ export class PlayerStatsPage implements OnInit {
     icon: "fa fa-map-marker"
   }
   
+  profileLoaded: boolean = false;
   hasError: boolean = false;
   lastUpdatedDateSet:boolean = false;
   
@@ -56,11 +57,13 @@ export class PlayerStatsPage implements OnInit {
     if ( this.pageParams.teamId ) {      
       this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
         data => {
+          this.profileLoaded = true;
           this.pageParams = data.pageParams; 
           this.setupTitleData(data.teamName, data.fullProfileImageUrl);
           this.tabs = this._statsService.initializeAllTabs(data.teamName);
         },
         err => {
+          this.hasError = true;
           console.log("Error getting player stats data for " + this.pageParams.teamId + ": " + err);
         }
       );
@@ -74,7 +77,7 @@ export class PlayerStatsPage implements OnInit {
     var title = this._statsService.getPageTitle(teamName);
     this.titleData = {
       imageURL: imageUrl,
-      text1: "Last Updated: [date]",
+      text1: "",
       text2: "United States",
       text3: title,
       icon: "fa fa-map-marker"
