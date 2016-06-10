@@ -44,6 +44,7 @@ export class TransactionsPage implements OnInit{
   teamId: number;
   isError: boolean = false;
   titleData: Object;
+  imageData: Object;
   profileName: string;
   sort: string = "desc";
   limit: number;
@@ -55,6 +56,7 @@ export class TransactionsPage implements OnInit{
     this.teamId = Number(this.params.params['teamId']);
     this.limit = Number(this.params.params['limit']);
     this.pageNum = Number(this.params.params['pageNum']);
+
   }
 
   getTransactionsPage(transactionType, teamId) {
@@ -145,6 +147,12 @@ export class TransactionsPage implements OnInit{
       icon: 'fa fa-map-marker',
       hasHover: false
     };
+    this.imageData = {
+      imageUrl: imageUrl,
+      urlRouteArray: profileLink,
+      hoverText: "<p>View</p><p>Profile</p>",
+      imageClass: "border-2"
+    }
   }
 
   // TODO-JVW Add an arg to the transactions API call for asc/desc to sort the list appropriately
