@@ -81,7 +81,7 @@ export class ComponentPage implements OnInit {
       this.pageParams = {
         division: Division.east,
         conference: Conference.american,
-        playerId: 95041,
+        playerId: 96889,
         teamId: 2796
       };
     }
@@ -119,7 +119,7 @@ export class ComponentPage implements OnInit {
               this.comparisonModuleData = data;
           },
           err => {
-              console.log("Error getting comparison data for "+ this.pageParams.teamId + ": " + err);
+              console.log("Error getting comparison data for "+ this.pageParams.teamId, err);
           });
   }
 

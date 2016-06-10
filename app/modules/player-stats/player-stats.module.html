@@ -1,5 +1,5 @@
-<div *ngIf="data" class="module-container">
+<section *ngIf="data" class="module-container">
   <module-header [modHeadData]="headerInfo"></module-header>
   <player-stats-component *ngIf="tabs" [tabs]="tabs" (tabSelected)="tabSelected($event)"></player-stats-component>
   <module-footer [footerData]="footerInfo"></module-footer>
-</div>
+</section>

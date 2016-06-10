@@ -16,6 +16,7 @@ import {ErrorComponent} from "../../components/error/error.component";
 import {GlobalSettings} from "../../global/global-settings";
 import {TransactionsListItem} from "../../components/transactions-list-item/transactions-list-item.component";
 import {DropdownComponent} from "../../components/dropdown/dropdown.component";
+import {GlobalFunctions} from "../../global/global-functions";
 
 declare var moment:any;
 
@@ -43,6 +44,7 @@ export class TransactionsPage implements OnInit{
   teamId: number;
   isError: boolean = false;
   titleData: Object;
+  imageData: Object;
   profileName: string;
   sort: string = "desc";
   limit: number;
@@ -54,6 +56,7 @@ export class TransactionsPage implements OnInit{
     this.teamId = Number(this.params.params['teamId']);
     this.limit = Number(this.params.params['limit']);
     this.pageNum = Number(this.params.params['pageNum']);
+
   }
 
   getTransactionsPage(transactionType, teamId) {
@@ -138,12 +141,18 @@ export class TransactionsPage implements OnInit{
   setProfileHeader(profile:string){
     this.titleData = {
       imageURL : GlobalSettings.getImageUrl('/mlb/players/no-image.png'),
-      text1 : 'Last Updated: ' + moment().format("dddd, MMMM DD, YYYY"),
-      text2 : ' United States',
+      text1 : 'Last Updated: ' + GlobalFunctions.formatUpdatedDate(new Date()),
+      text2 : ' United States!',
       text3 : 'Top lists - ' + profile,
       icon: 'fa fa-map-marker',
       hasHover: false
     };
+    this.imageData = {
+      imageUrl: imageUrl,
+      urlRouteArray: profileLink,
+      hoverText: "<p>View</p><p>Profile</p>",
+      imageClass: "border-2"
+    }
   }
 
   // TODO-JVW Add an arg to the transactions API call for asc/desc to sort the list appropriately

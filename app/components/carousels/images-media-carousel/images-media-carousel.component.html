@@ -1,5 +1,5 @@
-<section *ngIf="isProfilePage" class="module-container">
-    <div class="profile-carousel">
+<section *ngIf="isProfilePage" class="module-container images-media-module">
+    <div class="article-carousel">
         <module-header [modHeadData]="modHeadData"></module-header>
         <loading-component *ngIf="!imageData"></loading-component>
         <div *ngIf="imageData" class="plcholder">
