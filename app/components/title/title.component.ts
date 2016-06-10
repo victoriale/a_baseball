@@ -46,7 +46,7 @@ export class TitleComponent implements OnChanges {
                 imageClass: "border-2"
             }
         };
-        
+
         if ( this.imageData ) {
             this.titleImage.mainImage = this.imageData;
         }
