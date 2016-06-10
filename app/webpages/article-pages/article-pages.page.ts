@@ -50,7 +50,7 @@ export class ArticlePages implements OnInit {
     articleSubType:string;
     imageLinks:Array<any>;
     recommendedImageData:any;
-    copyright:string;
+    copyright:any;
     public partnerParam:string;
     public partnerID:string;
 
