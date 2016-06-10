@@ -16,6 +16,8 @@ import {ErrorComponent} from "../../components/error/error.component";
 import {GlobalSettings} from "../../global/global-settings";
 import {TransactionsListItem} from "../../components/transactions-list-item/transactions-list-item.component";
 import {DropdownComponent} from "../../components/dropdown/dropdown.component";
+import {GlobalFunctions} from "../../global/global-functions";
+import {MLBGlobalFunctions} from "../../global/mlb-global-functions";
 
 declare var moment:any;
 
@@ -40,9 +42,11 @@ export class TransactionsPage implements OnInit{
     hasIcon: true,
   };
   transactionType: string;
-  teamId: number;
+  teamId: any;
+  teamName: string;
   isError: boolean = false;
   titleData: Object;
+  imageData: Object;
   profileName: string;
   sort: string = "desc";
   limit: number;
@@ -54,6 +58,7 @@ export class TransactionsPage implements OnInit{
     this.teamId = Number(this.params.params['teamId']);
     this.limit = Number(this.params.params['limit']);
     this.pageNum = Number(this.params.params['pageNum']);
+
   }
 
   getTransactionsPage(transactionType, teamId) {
@@ -64,6 +69,8 @@ export class TransactionsPage implements OnInit{
           data => {
             var profHeader = this.profHeadService.convertTransactionsPageHeader(data, "Transactions");
             this.profileHeaderData = profHeader.data;
+            this.teamName = data.headerData.stats.teamName;
+            this.setProfileHeader(this.profileName)
             if(this.pageName != null){this.profileHeaderData['text3'] = this.pageName + this.profileHeaderData['text3'];}
 
             this.errorData = {
@@ -73,7 +80,7 @@ export class TransactionsPage implements OnInit{
           },
           err => {
             this.isError= true;
-              console.log('Error: transactionsData Profile Header API: ', err);
+              console.error('Error: transactionsData Profile Header API: ', err);
               // this.isError = true;
           }
       );
@@ -83,6 +90,7 @@ export class TransactionsPage implements OnInit{
                 if(typeof this.dataArray == 'undefined'){//makes sure it only runs once
                   this.dataArray = transactionsData.tabArray;
                   this.pageName = this.dataArray[0].tabDisplay;
+                  // have to call this again to update the title component text based on the selected transaciton
                   this.profileHeaderData['text3'] = this.pageName + this.profileHeaderData['text3'];
                 }
                 if(transactionsData.listData.length == 0){//makes sure it only runs once
@@ -91,14 +99,12 @@ export class TransactionsPage implements OnInit{
                   this.transactionsDataArray = transactionsData.listData;
                 }
                 this.carouselDataArray = transactionsData.carData;
-
                 //this.profileName = transactionsData.targetData.playerName != null ? transactionsData.targetData.playerName : transactionsData.targetData.teamName;  // TODO include this
-                this.setProfileHeader(this.profileName)
 
               },
               err => {
                 this.isError= true;
-                  console.log('Error: transactionsData API: ', err);
+                  console.error('Error: transactionsData API: ', err);
                   // this.isError = true;
               }
           );
@@ -138,12 +144,19 @@ export class TransactionsPage implements OnInit{
   setProfileHeader(profile:string){
     this.titleData = {
       imageURL : GlobalSettings.getImageUrl('/mlb/players/no-image.png'),
-      text1 : 'Last Updated: ' + moment().format("dddd, MMMM DD, YYYY"),
-      text2 : ' United States',
+      text1 : 'Last Updated: ' + GlobalFunctions.formatUpdatedDate(new Date()),
+      text2 : ' United States!',
       text3 : 'Top lists - ' + profile,
       icon: 'fa fa-map-marker',
       hasHover: false
     };
+
+    this.imageData = {
+      imageUrl: MLBGlobalFunctions.formatTeamLogo(this.teamName),
+      urlRouteArray: MLBGlobalFunctions.formatTeamRoute(this.teamName, this.teamId),
+      hoverText: "<p>View</p><p>Profile</p>",
+      imageClass: "border-2"
+    }
   }
 
   // TODO-JVW Add an arg to the transactions API call for asc/desc to sort the list appropriately
@@ -154,7 +167,6 @@ export class TransactionsPage implements OnInit{
       // this.carouselDataArray.reverse();
       this.sort = this.sort == "asc" ? "desc" : "asc";
       this.getTransactionsPage(this.transactionType, this.teamId);
-      // console.log(this.carouselDataArray);
     }
   }
 }

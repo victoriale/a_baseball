@@ -94,12 +94,12 @@ export class TransactionsService {
   carTransactions(data, type){
     let self = this;
     var carouselArray = [];
-    var dummyImg = GlobalSettings.getImageUrl("/app/public/no-image.png");
+    var dummyImg = "/app/public/Image-Placeholder-2.jpg";
     if(data.length == 0){//if no data is being returned then show proper Error Message in carousel
       var Carousel = {
         index:'2',
         //TODO
-        imageConfig: self.imageData("image-150","border-large",dummyImg,null, null, null,null, null),
+        imageConfig: self.imageData("image-150","border-large",null,null, null, null,null, null),
         description:[
           "<p style='font-size:20px'><b>Sorry, we currently do not have any data for this transaction type.</b><p>",
         ],
@@ -112,26 +112,18 @@ export class TransactionsService {
           // module only needs two list items
           return false;
         }
-        var playerFullName = val.playerFirstName + " " + val.playerLastName;
         var Carousel = {
           index:index,
           //TODO
-          backgroundImage: GlobalSettings.getImageUrl(val.backgroundImage),
+          backgroundImage: val.backgroundImage != null ? GlobalSettings.getImageUrl(val.backgroundImage) : dummyImg,
           imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.playerHeadshot),MLBGlobalFunctions.formatPlayerRoute(val.playerName,val.playerName, val.playerId), null, "image-50-sub",MLBGlobalFunctions.formatTeamLogo(val.teamName),MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
           description:[
             '<p class="font-12 fw-400 lh-32 titlecase"><i class="fa fa-circle" style="margin-right:6px;"></i> Transaction Report - ' + val.teamName + '</p>',
             '<p class="font-22 fw-800 lh-32" style="padding-bottom:10px;">'+ val.playerName+'</p>',
             '<p class="font-14 fw-400 lh-18" style="padding-bottom:6px;">Transaction date - ' + val['repDate'] + ': ' + val.contents + '<p>',
-            '<p class="font-10 fw-400 lh-25">Last Updated on '+ moment(new Date(val.lastUpdate)).format('dddd, MMMM DD, YYYY') +'</p>'
+            '<p class="font-10 fw-400 lh-25">Last Updated on '+ moment(new Date(val['transactionTimestamp'])).format('dddd, MMMM DD, YYYY') +'</p>'
           ],
         };
-        //if(type == 'page'){
-        //  Carousel['footerInfo'] = {
-        //    infoDesc:'Interested in discovering more about this player?',
-        //    text:'VIEW PROFILE',
-        //    url:MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val['personId'])
-        //  }
-        //}
         carouselArray.push(Carousel);
       });
     }
@@ -150,7 +142,7 @@ export class TransactionsService {
       var listData = {
         dataPoints: [{
           style   : 'transactions-small',
-          data    : moment(new Date(val['repDate'])).format('MMMM DD, YYYY'),
+          data    : GlobalFunctions.formatDateWithAPMonth(new Date(val['repDate']), "", " DD, YYYY"),
           value   : val.playerLastName + ", " + val.playerFirstName + ": " + val.contents,
           url     : null
         }],

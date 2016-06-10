@@ -8,11 +8,11 @@ import {ErrorComponent} from '../../components/error/error.component';
 import {MLBSeasonStatsTabData, MLBSeasonStatsTableData} from '../../services/season-stats-page.data';
 import {GlobalFunctions} from '../../global/global-functions';
 import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
-import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
+import {Season, MLBPageParameters} from '../../global/global-interface';
 
 import {SeasonStatsComponent} from "../../components/season-stats/season-stats.component";
 import {ProfileHeaderService} from '../../services/profile-header.service';
-import {SeasonStatsPageService} from '../../services/season-stats-page.service';
+import {SeasonStatsPageService} from '../../services/season-stats.service';
 
 @Component({
     selector: 'Season-stats-page',
@@ -25,6 +25,8 @@ export class SeasonStatsPage implements OnInit {
   public tabs: Array<MLBSeasonStatsTabData>;
 
   public pageParams: MLBPageParameters = {}
+
+  public profileLoaded: boolean = false;
 
   public hasError: boolean = false;
 
@@ -39,7 +41,7 @@ export class SeasonStatsPage implements OnInit {
     var type = _params.get("type");
     if ( type !== null && type !== undefined ) {
       type = type.toLowerCase();
-      this.pageParams.conference = Conference[type];
+      this.pageParams.season = Season[type];
     }
 
     var teamId = _params.get("teamId");
@@ -55,11 +57,13 @@ export class SeasonStatsPage implements OnInit {
     if ( this.pageParams.teamId ) {
       this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
         data => {
+          this.profileLoaded = true;
           this.pageParams = data.pageParams;
           this.setupTitleData(data.teamName, data.fullProfileImageUrl);
           this.tabs = this._seasonStatsPageService.initializeAllTabs(this.pageParams);
         },
         err => {
+          this.hasError = true;
           console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
         }
       );
@@ -74,7 +78,7 @@ export class SeasonStatsPage implements OnInit {
     var title = this._seasonStatsPageService.getPageTitle(this.pageParams, teamName);
     this.titleData = {
       imageURL: imageUrl,
-      text1: "Last Updated: [date]",
+      text1: "",
       text2: "United States",
       text3: title,
       icon: "fa fa-map-marker"
@@ -88,7 +92,6 @@ export class SeasonStatsPage implements OnInit {
   }
 
   private getLastUpdatedDateForPage(data: MLBSeasonStatsTableData[]) {
-      //Getting the first 'lastUpdatedDate' listed in the StandingsData
       if ( data && data.length > 0 &&
         data[0].tableData && data[0].tableData.rows &&
         data[0].tableData.rows.length > 0 ) {

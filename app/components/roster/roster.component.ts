@@ -14,6 +14,7 @@ export interface RosterTabData<T> {
   isLoaded: boolean;
   hasError: boolean;
   errorMessage: string;
+  loadData();
   convertToCarouselItem(item:T, index:number):SliderCarouselInput
 }
 
@@ -27,8 +28,6 @@ export class RosterComponent implements DoCheck {
   private selectedIndex: number;
   private carDataArray: Array<SliderCarouselInput>
   @Input() tabs: Array<RosterTabData<any>>;
-
-  @Output("tabSelected") tabSelectedListener = new EventEmitter();
 
   private selectedTabTitle: string;
 
@@ -85,7 +84,7 @@ export class RosterComponent implements DoCheck {
     var selectedTab = this.getSelectedTab();
     if ( selectedTab ) {
       this.noDataMessage = selectedTab.errorMessage;
-      this.tabSelectedListener.next(selectedTab);
+      selectedTab.loadData();
       this.updateCarousel();
     }
   }

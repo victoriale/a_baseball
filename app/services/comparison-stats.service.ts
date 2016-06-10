@@ -287,13 +287,14 @@ export class ComparisonStatsService {
     return list;
   }
 
-  private formatPlayerPositionList(description:string, playerList: Array<PlayerData>) {
+  private formatPlayerPositionList(description:string, playerList: Array<any>) {
     var dropdownList = [];
 
     if ( playerList && playerList.length > 0 ) {
       dropdownList.push({ key: "", value: description, class: "dropdown-grp-lbl" });
       Array.prototype.push.apply(dropdownList, playerList.map(player => {
-        return {key: player.playerId, value: player.playerName, class: "dropdown-grp-item"};
+        if ( player.playerId ) return {key: player.playerId, value: player.playerName, class: "dropdown-grp-item"};
+        else return {key: player.player_id, value: player.player_name, class: "dropdown-grp-item"};
       }));
     }
 
@@ -350,15 +351,15 @@ export class ComparisonStatsService {
         seasonBarList.push({
           title: title,
           data: [{
-            value: playerOneStats != null ? playerOneStats[key] : null,
+            value: playerOneStats != null ? this.getNumericValue(key, playerOneStats[key]) : null,
             color: data.playerOne.mainTeamColor
           },
           {
-            value: playerTwoStats != null ? playerTwoStats[key] : null,
+            value: playerTwoStats != null ? this.getNumericValue(key, playerTwoStats[key]) : null,
             color: data.playerTwo.mainTeamColor
           }],
-          minValue: worstStats != null ? worstStats[key] : null,
-          maxValue: bestStats != null ? bestStats[key] : null
+          minValue: worstStats != null ? this.getNumericValue(key, worstStats[key]) : null,
+          maxValue: bestStats != null ? this.getNumericValue(key, bestStats[key]) : null
         });
       }
 
@@ -391,6 +392,16 @@ export class ComparisonStatsService {
       case "pitchEarnedRuns": return "Earned Runs";
       case "pitchHomeRunsAllowed": return "Home Runs";
       default: return null;
+    }
+  }
+
+  private getNumericValue(key: string, value: number): number {
+    value = Number(value);
+    switch (key) {
+      case "batAverage": return Number(value.toFixed(3));
+      case "batOnBasePercentage": return Number(value.toFixed(3));      
+      case "pitchEra": return Number(value.toFixed(2));
+      default: return value;
     }
   }
 }
