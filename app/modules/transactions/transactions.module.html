@@ -1,4 +1,4 @@
-<div class="module-container transactions">
+<section class="module-container transactions">
   <module-header [modHeadData]="modHeadData"></module-header>
   <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray"></slider-carousel>
   <tabs *ngIf="dataArray" (tabSelected)='selectedTab($event)'>
@@ -12,4 +12,4 @@
     </tab>
   </tabs>
   <module-footer [footerData] = 'footerData'></module-footer>
-</div>
+</section>

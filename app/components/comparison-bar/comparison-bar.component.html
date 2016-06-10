@@ -4,7 +4,7 @@
     <label class="comparison-bar-title">
         {{displayData.title}}
     </label>
-    <div #masterBar class="comparison-bar-capsule" *ngIf="displayData.data.length >=2">
+    <div #masterBar class="comparison-bar-capsule" *ngIf="displayData.data.length >= 1">
         <div class="comparison-bar-capsule-stroke stroke-top"
             [style.width]="displayData.data[0].width + '%'"
             [style.backgroundColor]="displayData.data[0].color">
@@ -13,7 +13,7 @@
                 {{displayData.data[0].value | naValue}}
             </label>
         </div>
-        <div class="comparison-bar-capsule-stroke"
+        <div *ngIf="displayData.data.length >= 2" class="comparison-bar-capsule-stroke"
             [style.width]="displayData.data[1].width + '%'"
             [style.backgroundColor]="displayData.data[1].color">
             <label #labelTwo class="comparison-bar-capsule-label"
@@ -25,13 +25,13 @@
             <div class="infobox-values">
               <div class="infobox-display">
                 {{displayData.maxValue}}
-                <div class="infobox-icons">
+                <div class="infobox-icons" (mouseover)="isSelected(displayData)" (mouseout)='mouseOff(displayData)'>
                   <i *ngIf="displayData.info" class="fa {{displayData.info}}"></i>
-                  <i class="fa fa-sort-up"></i>
+                  <i [class.active]="displayData.active" class="fa fa-sort-up"></i>
                 </div>
               </div>
               <!-- TODO -->
-              <ul class="infobox-box">
+              <ul class="infobox-box" [class.active]="displayData.active" (mouseover)="isSelected(displayData)" (mouseout)='mouseOff(displayData)'>
                 <li class="infobox-list" *ngFor="#displayData of displayData.infoBoxDetails">
                   <a class="infobox-list-item" [routerLink]="displayData.routerLinkPlayer">
                     <div class="infobox-list-image">

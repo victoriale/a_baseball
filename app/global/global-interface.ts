@@ -1,10 +1,12 @@
 export enum Conference { american, national } //to get string value: Conference[myValue], where myValues is a Conference value
-
-export enum Division { east, west, central }  //to get string value: Division[myValue], where myValues is a Division value
+export enum Division { east, west, central }  //to get string value: Year[myValue], where myValues is a Year value
+export enum Season { regularSeason, postSeason }//TODO - regularSeason, postSeason
 
 export interface MLBPageParameters {
   conference?: Conference;
-  division?: Division; 
+  division?: Division;
+  year?: number;
+  season?: Season;
   teamId?: number;
   playerId? :number;
   type?: string;

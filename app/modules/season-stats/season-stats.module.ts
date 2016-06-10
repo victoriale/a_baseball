@@ -41,18 +41,17 @@ export class SeasonStatsModule implements OnInit, OnChanges {
     public moduleHeaderData: Object;
     public comparisonLegendData: ComparisonLegendInput;
     public dataIndex: number = 0;
+    public selectedTabTitle: string;
     public footerData: ModuleFooterData = {
       infoDesc: 'Want to see full statistics for this player?',
       text: 'VIEW FULL STATISTICS',
       url: ['Season-stats-page', {fullName: 'kevin-gausman', playerId: 95097}]//TODO
     };
+    public leadText = "MLB Leader";
     tabs: Array<ComparisonTabData> = [];
     public carouselDataArray: any;
     formatData(data: SeasonStatsData) {
-        var selectedSeason = new Date().getFullYear(); //TODO: get from selected tab.
-        // for ( var i = 0; i < this.tabs.length; i++ ) {
-        //     this.tabs[i].tabData = this.tabs[i].tabTitle;
-        // }
+        // var selectedSeason = new Date().getFullYear(); //TODO: get from selected tab.
         this.carouselDataArray = [{
             backgroundImage: GlobalSettings.getImageUrl(data.playerInfo.liveImage),
              imageConfig: {
@@ -71,66 +70,88 @@ export class SeasonStatsModule implements OnInit, OnChanges {
                ],
              },
              description:[
-               '<p style="font-size:12px;"><i class="fa fa-circle" style="color:#bc2027; padding-right: 5px;"></i> CURRENT SEASON STATS REPORT</p>',
+               '<p style="font-size: 12px;"><i class="fa fa-circle" style="color:#bc2027; padding-right: 5px;"></i> CURRENT SEASON STATS REPORT</p>',
                '<p style="font-size: 22px; font-weight: 800; padding:9px 0;">'+data.playerInfo.playerName+'</p>',
                '<p style="font-size: 14px; line-height: 1.4em;">Team: <b style="font-weight:800;">' + data.playerInfo.teamName + '</b></p>',
                '<p style="font-size: 10px; padding-top:12px;">Last Updated On ' + GlobalFunctions.formatUpdatedDate(data.playerInfo.lastUpdated) + '</p>'
              ]
         }];
-        // console.log("carousel", this.carouselDataArray);
+
         this.moduleHeaderData = {
             moduleTitle: 'Season Stats - ' + data.playerInfo.playerName,
             hasIcon: false,
             iconClass: ''
         };
-        this.comparisonLegendData = {
+        if(this.selectedTabTitle != 'Career Stats'){
+          this.comparisonLegendData = {
             legendTitle: [
-                {
-                    text: selectedSeason + ' Season',
-                    class: 'text-heavy'
-                },
-                {
-                    text: ' Breakdown',
-                }
+              {
+                text: this.selectedTabTitle + ' Season',
+                class: 'text-heavy'
+              },
+              {
+                text: ' Breakdown',
+              }
             ],
             legendValues: [
-                {
-                    title: data.playerInfo.playerName,
-                    color: '#BC2027'
-                },
-                {
-                    title: 'MLB Average',
-                    color: '#555555'
-                },
-                {
-                    title: "MLB Leader",
-                    color: "#E1E1E1"
-                }
+              {
+                title: data.playerInfo.playerName,
+                color: '#BC2027'
+              },
+              {
+                title: 'MLB Average',
+                color: '#444444'
+              },
+              {
+                title: this.leadText,
+                color: "#E1E1E1"
+              }
             ]
-        };
+          };
+        } else {
+          this.comparisonLegendData = {
+            legendTitle: [
+              {
+                text: 'Career Stats',
+                class: 'text-heavy'
+              },
+              {
+                text: ' Breakdown',
+              }
+            ],
+            legendValues: [
+              {
+                title: data.playerInfo.playerName,
+                color: '#BC2027'
+              },
+              {
+                title: 'Stats High',
+                color: "#E1E1E1"
+              }
+            ]
+          };
+      }
     }
-    constructor() {
+    constructor(){}
+    ngOnInit(){
     }
-    ngOnInit(){}
     ngOnChanges(){
       if ( this.data && this.tabs ) {
           this.formatData(this.data);
       }
     }
     tabSelected(tabTitle){
-      var selectedTabs = this.tabs.filter(tab => {
-         return tab.tabTitle == tabTitle;
-      });
-      if ( selectedTabs.length > 0 ) {
-          var tab = selectedTabs[0];
-          if ( tabTitle == "Career Stats" ) {
-              this.comparisonLegendData.legendTitle[0].text = tabTitle;
-              this.noDataMessage = "Sorry, there are no season stats available for this player.";
-          }
-          else {
-              this.comparisonLegendData.legendTitle[0].text = tab.tabTitle + " Season";
-              this.noDataMessage = "Sorry, there are no statistics available for " + tab.tabTitle + ".";
-          }
+      if(tabTitle != 'Current Season'){
+        this.selectedTabTitle = tabTitle;
+      } else {
+        this.selectedTabTitle = 'Current';
+      }
+      this.formatData(this.data);
+      if ( tabTitle == "Career Stats" ) {
+          this.noDataMessage = "Sorry, there are no season stats available for this player.";
+      }
+      else {
+          this.noDataMessage = "Sorry, there are no statistics available for " + tabTitle + ".";
       }
     }
 }

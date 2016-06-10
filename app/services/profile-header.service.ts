@@ -52,6 +52,7 @@ interface PlayerProfileHeaderData {
     backgroundImage: string;
     draftTeam: string;
     draftYear: string;
+    qualified: boolean;
   };
   stats: {
     //Pitcher stats
