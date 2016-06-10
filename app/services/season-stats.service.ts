@@ -118,26 +118,28 @@ export class SeasonStatsService {
             var infoIcon = year != 'career' ? 'fa-info-circle' : null;
             var worstValue = this.getKeyValue(playerStat, worst);
             var leaderValue = this.getKeyValue(playerStat, leader);
+            var playerValue = Number(this.getKeyValue(playerStat, seasonStatsPlayer)).toFixed(0);
             if( year != 'career' ){
               var career = [{
-                value: Number(this.getKeyValue(playerStat, seasonStatsPlayer)).toFixed(1),
+                value: playerValue,
                 color: '#BC1624',
+                fontWeight: '800'
               },
               {
-                value: average != null ? Number(avgValue).toFixed(1) : null,
+                value: average != null ? Number(avgValue).toFixed(0) : null,
                 color: '#444444',
               }]
             } else {
               career = [{
-                value: Number(this.getKeyValue(playerStat, seasonStatsPlayer)).toFixed(1),
+                value: playerValue,
                 color: '#BC1624',
               }]
             }
             var s = {
               title: this.getKeyDisplayTitle(playerStat),
               data: career,
-              minValue: worst !== undefined ? Number(worstValue['statValue']).toFixed(1) : null,
-              maxValue: leader != null ? Number(leaderValue['statValue']).toFixed(1) : null,
+              minValue: worst !== undefined ? Number(worstValue['statValue']).toFixed(0) : null,
+              maxValue: leader != null ? Number(leaderValue['statValue']).toFixed(0) : null,
               info: infoIcon != null ? infoIcon : null,
               infoBoxDetails: [{
                 teamName: leaderValue['players'][0].teamName,

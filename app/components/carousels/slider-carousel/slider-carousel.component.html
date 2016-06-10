@@ -20,7 +20,10 @@
         <!-- round main image ends -->
         <!-- carousel description -->
         <div class="scc-details-desc">
-          <span *ngFor="#description of dataPoint.description" [innerHTML]="description"></span>
+          <span *ngFor="#description of dataPoint.description">
+            <span *ngIf="!description.linkObj" [innerHTML]="description"></span>
+            <span *ngIf="description.linkObj" [ngStyle]="description.wrapperStyle">{{description.beforeLink}}<a class="text-heavy-link" [routerLink]="description.linkObj">{{description.linkText}}</a>{{description.afterLink}}</span>
+          </span>
         </div>
         <!-- desc ends -->
       </div>

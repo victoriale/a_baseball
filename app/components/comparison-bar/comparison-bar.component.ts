@@ -10,6 +10,7 @@ export interface ComparisonBarInput {
         width?: number;
         value: number;
         color: string;
+        fontWeight?: number;
     }>;
     minValue: number;
     maxValue: number;
@@ -65,15 +66,15 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
         if ( this.displayData.data.length == 1 ) {
             this.labelOne.nativeElement.style.left = "auto";
             this.labelOne.nativeElement.style.right = "auto"
-            
+
             if ( (labelOneWidth) > barOneWidth ) {
                 this.labelOne.nativeElement.style.left = 0;
             }
             else {
                 this.labelOne.nativeElement.style.right = 0;
-            }            
+            }
         }
-        else {        
+        else {
             //Reset labels
             this.labelOne.nativeElement.style.left = "auto";
             this.labelOne.nativeElement.style.right = "auto";
@@ -90,11 +91,11 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
             //Set pixel buffer between labels that are close
             var pixelBuffer = 5;
             var adjustLabelOne = true;
-            
+
             if ( (labelOneWidth+pixelBuffer) > barOneWidth ) {
                 // if the label is wider than the bar, do calculation from label width
                 // and adjust label two, as label one can't move left any more
-                barOneWidth = labelOneWidth; 
+                barOneWidth = labelOneWidth;
                 adjustLabelOne = false;
             }
 
@@ -112,10 +113,10 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
                 }
             }
             else {
-                if ( adjustLabelOne ) {                
+                if ( adjustLabelOne ) {
                     this.labelOne.nativeElement.style.right = 0;
                 }
-                else {                
+                else {
                     this.labelOne.nativeElement.style.left = 0;
                 }
                 this.labelTwo.nativeElement.style.right = 0;
