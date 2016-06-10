@@ -92,7 +92,6 @@ export class MLBSeasonStatsTabData implements TableTabData<TeamSeasonStatsData> 
   }
 
   convertToCarouselItem(item: TeamSeasonStatsData, index:number): SliderCarouselInput {
-    console.log("item", item);
     var subheader = item.seasonId + " Season Stats Report";
     var description = "Team: <span class='text-heavy'>" + item.teamName + "</span>";
     return {
@@ -207,7 +206,6 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
   }
   //TODO using standing api
   getDisplayValueAt(item:TeamSeasonStatsData, column:TableColumn):string {
-    console.log(item);
     var s = null;
     switch (column.key) {
       case "year":

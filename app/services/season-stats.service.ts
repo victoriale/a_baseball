@@ -106,7 +106,7 @@ export class SeasonStatsService {
         }else{
           displayTab = year;
         }
-        if( stats[year].leader !== undefined){
+        if( stats[year].leader !== undefined ){
           let leader = stats[year].leader;
           let average = stats[year].average;
           let seasonStatsPlayer = stats[year].player;
@@ -114,7 +114,8 @@ export class SeasonStatsService {
           var playerBarStats = [];
           var leaderLists = [];
           for( var playerStat in leader ){
-            var avgValue = this.getKeyValue(playerStat, average);
+            var avgValue = year != 'career' ? this.getKeyValue(playerStat, average) : null;
+            var infoIcon = year != 'career' ? 'fa-info-circle' : null;
             var worstValue = this.getKeyValue(playerStat, worst);
             var leaderValue = this.getKeyValue(playerStat, leader);
             var s = {
@@ -125,11 +126,11 @@ export class SeasonStatsService {
               },
               {
                 value: average != null ? Number(avgValue).toFixed(1) : null,
-                color: '#555555',
+                color: '#444444',
               }],
               minValue: worst !== undefined ? Number(worstValue['statValue']).toFixed(1) : null,
               maxValue: leader != null ? Number(leaderValue['statValue']).toFixed(1) : null,
-              info: 'fa-info-circle',
+              info: infoIcon != null ? infoIcon : null,
               infoBoxDetails: [{
                 teamName: leaderValue['players'][0].teamName,
                 playerName: leaderValue['players'][0].firstName + ' ' + leaderValue['players'][0].playerLastName,
@@ -148,9 +149,8 @@ export class SeasonStatsService {
             }
             playerBarStats.push(s);
           }
-          // console.log("player bar", playerBarStats);
       }
-      if( curYear - 4 < Number(year) || year == 'career' ){
+      if( curYear - 4 < Number(year) || year != 'career' ){
         seasonStatTab.push({
           tabTitle: displayTab,
           tabData: playerBarStats
@@ -192,6 +192,10 @@ export class SeasonStatsService {
     }
   }
   private getKeyValue(key: string, data): string {
+    // console.log(key, data);
+    if(data[key] == null){
+      data[key] = {};
+    }
     switch (key) {
       case "batHomeRuns": return data[key];
       case "batAverage": return data[key];
@@ -204,7 +208,7 @@ export class SeasonStatsService {
       case "pitchStrikeouts": return data[key];
       case "pitchEra": return data[key];
       case "pitchHits": return data[key];
-      default: return null;
+      default: return '0';
     }
   }
 }
@@ -222,11 +226,6 @@ export class SeasonStatsPageService {
     return pageTitle;
   }
 
-  loadAllTabsForModule(pageParams: MLBPageParameters, teamName?: string) {
-    return {
-        tabs: this.initializeAllTabs(pageParams)
-    };
-  }
   //TODO using standing's until season stats page api is avaiable
   initializeAllTabs(pageParams: MLBPageParameters): Array<MLBSeasonStatsTabData> {
     let tabs: Array<MLBSeasonStatsTabData> = [];

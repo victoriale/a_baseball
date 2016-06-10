@@ -22,13 +22,6 @@ export interface ComparisonBarInput {
       routerLinkTeam: any;
     }>;
 }
-export interface InfoBox {
-  teamName: string;
-  playerName: string;
-  infoBoxImage: CircleImageData;
-  routerLinkPlayer: any;
-  routerLinkTeam: any;
-}
 
 @Component({
     selector: 'comparison-bar',
@@ -53,6 +46,10 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
       }
       this.displayData.infoBoxDetails.forEach(comparisonBarInput => displayData.active = false);
       displayData.active = true;
+    }
+
+    mouseOff(element){
+      element.active = false;
     }
 
     ngOnChanges(event){
