@@ -4,7 +4,7 @@
     <label class="comparison-bar-title">
         {{displayData.title}}
     </label>
-    <div #masterBar class="comparison-bar-capsule" *ngIf="displayData.data.length >=2">
+    <div #masterBar class="comparison-bar-capsule" *ngIf="displayData.data.length >= 1">
         <div class="comparison-bar-capsule-stroke stroke-top"
             [style.width]="displayData.data[0].width + '%'"
             [style.backgroundColor]="displayData.data[0].color">
@@ -13,7 +13,7 @@
                 {{displayData.data[0].value | naValue}}
             </label>
         </div>
-        <div class="comparison-bar-capsule-stroke"
+        <div *ngIf="displayData.data.length >= 2" class="comparison-bar-capsule-stroke"
             [style.width]="displayData.data[1].width + '%'"
             [style.backgroundColor]="displayData.data[1].color">
             <label #labelTwo class="comparison-bar-capsule-label"
