@@ -46,13 +46,11 @@ export class SeasonStatsModule implements OnInit, OnChanges {
       text: 'VIEW FULL STATISTICS',
       url: ['Season-stats-page', {fullName: 'kevin-gausman', playerId: 95097}]//TODO
     };
+    public leadText = "MLB Leader";
     tabs: Array<ComparisonTabData> = [];
     public carouselDataArray: any;
     formatData(data: SeasonStatsData) {
-        var selectedSeason = new Date().getFullYear(); //TODO: get from selected tab.
-        // for ( var i = 0; i < this.tabs.length; i++ ) {
-        //     this.tabs[i].tabData = this.tabs[i].tabTitle;
-        // }
+        // var selectedSeason = new Date().getFullYear(); //TODO: get from selected tab.
         this.carouselDataArray = [{
             backgroundImage: GlobalSettings.getImageUrl(data.playerInfo.liveImage),
              imageConfig: {
@@ -71,13 +69,13 @@ export class SeasonStatsModule implements OnInit, OnChanges {
                ],
              },
              description:[
-               '<p style="font-size:12px;"><i class="fa fa-circle" style="color:#bc2027; padding-right: 5px;"></i> CURRENT SEASON STATS REPORT</p>',
+               '<p style="font-size: 12px;"><i class="fa fa-circle" style="color:#bc2027; padding-right: 5px;"></i> CURRENT SEASON STATS REPORT</p>',
                '<p style="font-size: 22px; font-weight: 800; padding:9px 0;">'+data.playerInfo.playerName+'</p>',
                '<p style="font-size: 14px; line-height: 1.4em;">Team: <b style="font-weight:800;">' + data.playerInfo.teamName + '</b></p>',
                '<p style="font-size: 10px; padding-top:12px;">Last Updated On ' + GlobalFunctions.formatUpdatedDate(data.playerInfo.lastUpdated) + '</p>'
              ]
         }];
-        // console.log("carousel", this.carouselDataArray);
+
         this.moduleHeaderData = {
             moduleTitle: 'Season Stats - ' + data.playerInfo.playerName,
             hasIcon: false,
@@ -86,7 +84,7 @@ export class SeasonStatsModule implements OnInit, OnChanges {
         this.comparisonLegendData = {
             legendTitle: [
                 {
-                    text: selectedSeason + ' Season',
+                    text: 'Season',
                     class: 'text-heavy'
                 },
                 {
@@ -100,18 +98,18 @@ export class SeasonStatsModule implements OnInit, OnChanges {
                 },
                 {
                     title: 'MLB Average',
-                    color: '#555555'
+                    color: '#444444'
                 },
                 {
-                    title: "MLB Leader",
+                    title: this.leadText,
                     color: "#E1E1E1"
                 }
             ]
         };
     }
-    constructor() {
+    constructor(){}
+    ngOnInit(){
     }
-    ngOnInit(){}
     ngOnChanges(){
       if ( this.data && this.tabs ) {
           this.formatData(this.data);
@@ -124,6 +122,7 @@ export class SeasonStatsModule implements OnInit, OnChanges {
       if ( selectedTabs.length > 0 ) {
           var tab = selectedTabs[0];
           if ( tabTitle == "Career Stats" ) {
+              this.leadText = "Stats High";
               this.comparisonLegendData.legendTitle[0].text = tabTitle;
               this.noDataMessage = "Sorry, there are no season stats available for this player.";
           }

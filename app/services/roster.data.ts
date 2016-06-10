@@ -59,12 +59,12 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
     this.teamId = teamId;
     this.maxRows = maxRows;
     this.errorMessage = "Sorry, there is no roster data available.";
-    
+
     if ( this.type == "hitters" && conference == Conference.national ) {
       this.hasError = true;
       this.errorMessage = "This team is a National League team and has no designated hitters.";
     }
-    
+
     switch ( type ) {
       case "full":      this.title = "Full Roster"; break;
       case "pitchers":  this.title = "Pitchers";    break;
@@ -73,17 +73,17 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
       case "hitters":   this.title = "Hitters";     break;
     }
   }
-  
+
   loadData() {
     if ( !this.tableData ) {
       if ( !this._service.fullRoster ) {
-        this._service.getRosterTabData(this).subscribe(data => {          
+        this._service.getRosterTabData(this).subscribe(data => {
           //Limit to maxRows, if necessary
-          var rows = this.filterRows(data); 
+          var rows = this.filterRows(data);
           if ( this.maxRows !== undefined ) {
             rows = rows.slice(0, this.maxRows);
           }
-          
+
           this.tableData = new RosterTableModel(rows);
           this.isLoaded = true;
           this.hasError = false;
@@ -95,7 +95,7 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
         });
       }
       else {
-        var rows = this.filterRows(this._service.fullRoster);        
+        var rows = this.filterRows(this._service.fullRoster);
         this.tableData = new RosterTableModel(rows);
         this.isLoaded = true;
         this.hasError = false;
@@ -118,29 +118,28 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
 
   convertToCarouselItem(val:TeamRosterData, index:number):SliderCarouselInput {
     var playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.teamName,val.playerName,val.playerId);
-    var teamRoute = MLBGlobalFunctions.formatTeamRoute(val.teamName,val.teamId);    
-    var curYear = new Date().getFullYear();    
-    
+    var teamRoute = MLBGlobalFunctions.formatTeamRoute(val.teamName,val.teamId);
+    var curYear = new Date().getFullYear();
+
     var formattedHeight = MLBGlobalFunctions.formatHeightWithFoot(val.height);
     var formattedSalary = "N/A";
     if ( val.salary != null ) {
       formattedSalary = "$" + GlobalFunctions.nFormatter(Number(val.salary));
     }
     // var formattedroleStatus = val.roleStatus != null ? val.roleStatus : "N/A";
-        
-    var playerNum = val.uniformNumber != null ? " is <span class='text-heavy'>#" + val.uniformNumber + "</span> and" : "";
-    var playerHeight = val.height != null ? " stands at <span class='text-heavy'>" + formattedHeight + "</span> tall" : "";
-    var playerWeight = val.weight != null ? ", weighing <span class='text-heavy'>" + val.weight + "</span> lbs" : "";
-    var playerSalary = "making a salary of <span class='text-heavy'>" + formattedSalary + "</span>.";
-    
-    var coordinator = (val.uniformNumber != null || val.height != null || val.weight != null) ? " and " : " is ";
-    
+
+    var playerNum = val.uniformNumber != null ? ", <span class='text-heavy'>#" + val.uniformNumber + "</span>," : "";
+    var playerHeight = val.height != null ? "<span class='text-heavy'>" + formattedHeight + "</span>, " : "";
+    var playerWeight = val.weight != null ? "<span class='text-heavy'>" + val.weight + "</span> lbs " : "";
+    var playerSalary = " makes <span class='text-heavy'>" + formattedSalary + "</span> per season.";
+
+    // var coordinator = (val.uniformNumber != null || val.height != null || val.weight != null) ? " and " : " is ";
+
     var subheader =  curYear + ' TEAM ROSTER';
-    var description = '<span class="text-heavy">' + val.playerName + 
-                      '</span>, <span class="text-heavy">'+ val.position.join(', ') +
-                      '</span> for the <span class="text-heavy">' + val.teamName +
-                      '</span>,' + playerNum + playerHeight + playerWeight + coordinator + playerSalary;
-    
+    var description = '<span class="text-heavy">' + val.playerName +
+                      '</span> <span class="text-heavy">'+ playerNum +
+                      '</span> plays for the <span class="text-heavy">' + val.teamName +
+                      '</span>. The ' + playerHeight + playerWeight + "<span class='text-heavy'>" + val.position.join(', ') + "</span>" + playerSalary;
     return {
         index: index,
         backgroundImage: val.backgroundImage != null ? GlobalSettings.getImageUrl(val.backgroundImage) : null,

@@ -8,11 +8,11 @@ import {ErrorComponent} from '../../components/error/error.component';
 import {MLBSeasonStatsTabData, MLBSeasonStatsTableData} from '../../services/season-stats-page.data';
 import {GlobalFunctions} from '../../global/global-functions';
 import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
-import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
+import {Season, MLBPageParameters} from '../../global/global-interface';
 
 import {SeasonStatsComponent} from "../../components/season-stats/season-stats.component";
 import {ProfileHeaderService} from '../../services/profile-header.service';
-import {SeasonStatsPageService} from '../../services/season-stats-page.service';
+import {SeasonStatsPageService} from '../../services/season-stats.service';
 
 @Component({
     selector: 'Season-stats-page',
@@ -39,7 +39,7 @@ export class SeasonStatsPage implements OnInit {
     var type = _params.get("type");
     if ( type !== null && type !== undefined ) {
       type = type.toLowerCase();
-      this.pageParams.conference = Conference[type];
+      this.pageParams.season = Season[type];
     }
 
     var teamId = _params.get("teamId");
@@ -88,7 +88,6 @@ export class SeasonStatsPage implements OnInit {
   }
 
   private getLastUpdatedDateForPage(data: MLBSeasonStatsTableData[]) {
-      //Getting the first 'lastUpdatedDate' listed in the StandingsData
       if ( data && data.length > 0 &&
         data[0].tableData && data[0].tableData.rows &&
         data[0].tableData.rows.length > 0 ) {
