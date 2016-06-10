@@ -76,8 +76,10 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
   
   loadData() {
     if ( !this.tableData ) {
-        this._service.getRosterTabData(this).subscribe(rows => {          
+      if ( !this._service.fullRoster ) {
+        this._service.getRosterTabData(this).subscribe(data => {          
           //Limit to maxRows, if necessary
+          var rows = this.filterRows(data); 
           if ( this.maxRows !== undefined ) {
             rows = rows.slice(0, this.maxRows);
           }
@@ -91,6 +93,26 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
           this.hasError = true;
           console.log("Error getting roster data", err);
         });
+      }
+      else {
+        var rows = this.filterRows(this._service.fullRoster);        
+        this.tableData = new RosterTableModel(rows);
+        this.isLoaded = true;
+        this.hasError = false;
+      }
+    }
+  }
+
+  filterRows(data: any): Array<TeamRosterData> {
+    if ( this.type != "full" ) {
+      return data[this.type];
+    }
+    else {
+      var rows = [];
+      for ( var type in data ) {
+        Array.prototype.push.apply(rows, data[type]);
+      }
+      return rows;
     }
   }
 

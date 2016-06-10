@@ -12,6 +12,9 @@ import {Conference, Division} from '../global/global-interface';
 export class RosterService {
   private _apiUrl: string = GlobalSettings.getApiUrl();
   private _tabTypes = ['full', 'pitchers', 'catchers', 'fielders', 'hitters'];
+
+  public fullRoster: { [type:string]:Array<TeamRosterData> };
+
   constructor(public http: Http){}
 
   setToken(){
@@ -30,11 +33,14 @@ export class RosterService {
     rosterTab.isLoaded = false;
     rosterTab.hasError = false;
     
-    var fullUrl = this._apiUrl + "/team/roster/" + teamId + "/" + type;
-    
+    var fullUrl = this._apiUrl + "/team/roster/" + teamId;
+    //console.log("loading full team roster: "+ fullUrl);
     return this.http.get(fullUrl, {headers: this.setToken()})
       .map(res => res.json())
-      .map(data => data.data);
+      .map(data => {
+        this.fullRoster = data.data;
+        return data.data;
+      });
   }//getRosterService ends
 
   loadAllTabsForModule(teamId: number, teamName: string, conference: Conference): RosterModuleData<TeamRosterData> {

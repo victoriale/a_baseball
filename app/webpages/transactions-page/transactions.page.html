@@ -2,7 +2,7 @@
 <error-component *ngIf="isError"></error-component>
 <section class='page-container transactions-page'>
   <backtab-component></backtab-component>
-  <title-component *ngIf="profileHeaderData" [titleData]="profileHeaderData"></title-component>
+  <title-component *ngIf="profileHeaderData" [titleData]="profileHeaderData" [imageData]="imageData"></title-component>
   <div *ngIf="profileHeaderData" class="module-container list-page">
     <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray" [footerStyle]="footerStyle"></slider-carousel>
     <tabs *ngIf="dataArray" (tabSelected)='selectedTab($event)'>

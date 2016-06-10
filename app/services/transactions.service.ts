@@ -121,7 +121,7 @@ export class TransactionsService {
             '<p class="font-12 fw-400 lh-32 titlecase"><i class="fa fa-circle" style="margin-right:6px;"></i> Transaction Report - ' + val.teamName + '</p>',
             '<p class="font-22 fw-800 lh-32" style="padding-bottom:10px;">'+ val.playerName+'</p>',
             '<p class="font-14 fw-400 lh-18" style="padding-bottom:6px;">Transaction date - ' + val['repDate'] + ': ' + val.contents + '<p>',
-            '<p class="font-10 fw-400 lh-25">Last Updated on '+ moment(new Date(val.lastUpdate)).format('dddd, MMMM DD, YYYY') +'</p>'
+            '<p class="font-10 fw-400 lh-25">Last Updated on '+ moment(new Date(val['transactionTimestamp'])).format('dddd, MMMM DD, YYYY') +'</p>'
           ],
         };
         carouselArray.push(Carousel);
