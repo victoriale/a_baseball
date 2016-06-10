@@ -1,4 +1,4 @@
-import {Component, Input, Output, OnInit, OnChanges, ViewChild, AfterViewChecked} from 'angular2/core';
+import {Component, Input, OnInit, OnChanges, ViewChild, AfterViewChecked} from 'angular2/core';
 import {NaValuePipe} from '../../pipes/na.pipe';
 import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
 import {ImageData, CircleImageData} from '../images/image-data';
