@@ -123,6 +123,7 @@ export class SeasonStatsService {
               var career = [{
                 value: playerValue,
                 color: '#BC1624',
+                fontWeight: '800'
               },
               {
                 value: average != null ? Number(avgValue).toFixed(0) : null,
