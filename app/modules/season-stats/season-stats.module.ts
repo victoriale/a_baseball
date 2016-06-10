@@ -41,6 +41,7 @@ export class SeasonStatsModule implements OnInit, OnChanges {
     public moduleHeaderData: Object;
     public comparisonLegendData: ComparisonLegendInput;
     public dataIndex: number = 0;
+    public selectedTabTitle: string;
     public footerData: ModuleFooterData = {
       infoDesc: 'Want to see full statistics for this player?',
       text: 'VIEW FULL STATISTICS',
@@ -81,31 +82,55 @@ export class SeasonStatsModule implements OnInit, OnChanges {
             hasIcon: false,
             iconClass: ''
         };
-        this.comparisonLegendData = {
+        if(this.selectedTabTitle != 'Career Stats'){
+          this.comparisonLegendData = {
             legendTitle: [
-                {
-                    text: 'Season',
-                    class: 'text-heavy'
-                },
-                {
-                    text: ' Breakdown',
-                }
+              {
+                text: this.selectedTabTitle + ' Season',
+                class: 'text-heavy'
+              },
+              {
+                text: ' Breakdown',
+              }
             ],
             legendValues: [
-                {
-                    title: data.playerInfo.playerName,
-                    color: '#BC2027'
-                },
-                {
-                    title: 'MLB Average',
-                    color: '#444444'
-                },
-                {
-                    title: this.leadText,
-                    color: "#E1E1E1"
-                }
+              {
+                title: data.playerInfo.playerName,
+                color: '#BC2027'
+              },
+              {
+                title: 'MLB Average',
+                color: '#444444'
+              },
+              {
+                title: this.leadText,
+                color: "#E1E1E1"
+              }
             ]
-        };
+          };
+        } else {
+          this.comparisonLegendData = {
+            legendTitle: [
+              {
+                text: 'Career Stats',
+                class: 'text-heavy'
+              },
+              {
+                text: ' Breakdown',
+              }
+            ],
+            legendValues: [
+              {
+                title: data.playerInfo.playerName,
+                color: '#BC2027'
+              },
+              {
+                title: 'Stats High',
+                color: "#E1E1E1"
+              }
+            ]
+          };
+      }
     }
     constructor(){}
     ngOnInit(){
@@ -116,20 +141,17 @@ export class SeasonStatsModule implements OnInit, OnChanges {
       }
     }
     tabSelected(tabTitle){
-      var selectedTabs = this.tabs.filter(tab => {
-         return tab.tabTitle == tabTitle;
-      });
-      if ( selectedTabs.length > 0 ) {
-          var tab = selectedTabs[0];
-          if ( tabTitle == "Career Stats" ) {
-              this.leadText = "Stats High";
-              this.comparisonLegendData.legendTitle[0].text = tabTitle;
-              this.noDataMessage = "Sorry, there are no season stats available for this player.";
-          }
-          else {
-              this.comparisonLegendData.legendTitle[0].text = tab.tabTitle + " Season";
-              this.noDataMessage = "Sorry, there are no statistics available for " + tab.tabTitle + ".";
-          }
+      if(tabTitle != 'Current Season'){
+        this.selectedTabTitle = tabTitle;
+      } else {
+        this.selectedTabTitle = 'Current';
+      }
+      this.formatData(this.data);
+      if ( tabTitle == "Career Stats" ) {
+          this.noDataMessage = "Sorry, there are no season stats available for this player.";
+      }
+      else {
+          this.noDataMessage = "Sorry, there are no statistics available for " + tabTitle + ".";
       }
     }
 }
