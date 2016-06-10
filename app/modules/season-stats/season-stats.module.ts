@@ -128,7 +128,7 @@ export class SeasonStatsModule implements OnInit, OnChanges {
             legendValues: [
               {
                 title: data.playerInfo.playerName,
-                color: '#BC2027',
+                color: '#BC2027'
               },
               {
                 title: 'Stats High',
