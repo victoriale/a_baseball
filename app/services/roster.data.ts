@@ -139,7 +139,7 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
     var description = '<span class="text-heavy">' + val.playerName +
                       '</span> <span class="text-heavy">'+ playerNum +
                       '</span> plays for the <span class="text-heavy">' + val.teamName +
-                      '</span>. The ' + playerHeight + playerWeight + val.position.join(', ') + playerSalary;
+                      '</span>. The ' + playerHeight + playerWeight + "<span class='text-heavy'>" + val.position.join(', ') + "</span>" + playerSalary;
     return {
         index: index,
         backgroundImage: val.backgroundImage != null ? GlobalSettings.getImageUrl(val.backgroundImage) : null,
