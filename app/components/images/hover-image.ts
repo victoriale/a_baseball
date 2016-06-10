@@ -12,8 +12,4 @@ export class HoverImage {
     @Input() textOnly: boolean;
     
     public noImageUrl: string = "/app/public/no-image.png";
-
-    ngOnChanges(){
-        //console.log("imageD",this.imageData);
-    }
 }
