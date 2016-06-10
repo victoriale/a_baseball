@@ -41,7 +41,7 @@ export class SeasonStatsModule implements OnInit, OnChanges {
     public moduleHeaderData: Object;
     public comparisonLegendData: ComparisonLegendInput;
     public dataIndex: number = 0;
-    public selectedTabTitle: string;
+    public selectedTabTitle: string = 'Current';
     public footerData: ModuleFooterData = {
       infoDesc: 'Want to see full statistics for this player?',
       text: 'VIEW FULL STATISTICS',
@@ -50,19 +50,7 @@ export class SeasonStatsModule implements OnInit, OnChanges {
     public leadText = "MLB Leader";
     tabs: Array<ComparisonTabData> = [];
     public carouselDataArray: any;
-    tabSelected(tabTitle){
-      this.selectedTabTitle = tabTitle;
-      if(tabTitle == 'Current Season'){
-        this.selectedTabTitle = 'Current';
-      }
-      this.formatData(this.data);
-      if ( tabTitle == "Career Stats" ) {
-          this.noDataMessage = "Sorry, there are no season stats available for this player.";
-      }
-      else {
-          this.noDataMessage = "Sorry, there are no statistics available for " + tabTitle + ".";
-      }
-    }
+
     formatData(data: SeasonStatsData) {
         this.carouselDataArray = [{
             backgroundImage: GlobalSettings.getImageUrl(data.playerInfo.liveImage),
@@ -140,7 +128,7 @@ export class SeasonStatsModule implements OnInit, OnChanges {
             legendValues: [
               {
                 title: data.playerInfo.playerName,
-                color: '#BC2027'
+                color: '#BC2027',
               },
               {
                 title: 'Stats High',
@@ -155,6 +143,20 @@ export class SeasonStatsModule implements OnInit, OnChanges {
     ngOnChanges(){
       if ( this.data && this.tabs ) {
           this.formatData(this.data);
+      }
+    }
+    tabSelected(tabTitle){
+      if(tabTitle != 'Current Season'){
+        this.selectedTabTitle = tabTitle;
+      } else {
+        this.selectedTabTitle = 'Current';
+      }
+      this.formatData(this.data);
+      if ( tabTitle == "Career Stats" ) {
+          this.noDataMessage = "Sorry, there are no season stats available for this player.";
+      }
+      else {
+          this.noDataMessage = "Sorry, there are no statistics available for " + tabTitle + ".";
       }
     }
 }
