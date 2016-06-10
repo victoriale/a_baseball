@@ -279,7 +279,7 @@ export class DynamicWidgetCall {
             '',''),
           imageConfig: self.imageData("image-121","border-2",
             self.protocol + val.img,
-            GlobalFunctions.parseToRoute(val['parimary_url']),
+            GlobalFunctions.parseToRoute(val['primary_url']),
             val.rank,
             'image-38-rank',
             'image-40-sub'),
