@@ -58,55 +58,68 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
 
     //Function to reposition labels if needed
     calculateLabelPositions(){
-        if ( this.displayData.data.length < 2 ) {
+        if ( this.displayData.data.length < 1 ) {
             return;
         }
 
-        //Reset labels
-        this.labelOne.nativeElement.style.left = "auto";
-        this.labelOne.nativeElement.style.right = "auto";
-        this.labelTwo.nativeElement.style.left = "auto";
-        this.labelTwo.nativeElement.style.right = "auto";
-
-        //Get widths of DOM elements
-        var barWidth = this.masterBar.nativeElement.offsetWidth;
-        var labelOneWidth = this.labelOne.nativeElement.offsetWidth;
-        var labelTwoWidth = this.labelTwo.nativeElement.offsetWidth;
-        //Calculate final bar widths
-        var barOneWidth = barWidth * this.displayData.data[0].width / 100;
-        var barTwoWidth = barWidth * this.displayData.data[1].width / 100;
-        //Set pixel buffer between labels that are close
-        var pixelBuffer = 5;
-        var adjustLabelOne = true;
-
-        if ( (labelOneWidth+pixelBuffer) > barOneWidth ) {
-            // if the label is wider than the bar, do calculation from label width
-            // and adjust label two, as label one can't move left any more
-            barOneWidth = labelOneWidth;
-            adjustLabelOne = false;
+        if ( this.displayData.data.length == 1 ) {
+            this.labelOne.nativeElement.style.left = "auto";
+            this.labelOne.nativeElement.style.right = "auto"
+            
+            if ( (labelOneWidth) > barOneWidth ) {
+                this.labelOne.nativeElement.style.left = 0;
+            }
+            else {
+                this.labelOne.nativeElement.style.right = 0;
+            }            
         }
+        else {        
+            //Reset labels
+            this.labelOne.nativeElement.style.left = "auto";
+            this.labelOne.nativeElement.style.right = "auto";
+            this.labelTwo.nativeElement.style.left = "auto";
+            this.labelTwo.nativeElement.style.right = "auto";
 
-        if((barTwoWidth - barOneWidth) <= (labelTwoWidth + pixelBuffer)) {
-            //If the difference between the bars is less than the width of the second label, shift label one over
-            if ( adjustLabelOne ) {
-                var adjustLabel = Math.ceil(labelTwoWidth - (barTwoWidth - barOneWidth) + pixelBuffer);
-                this.labelOne.nativeElement.style.right = adjustLabel;
+            //Get widths of DOM elements
+            var barWidth = this.masterBar.nativeElement.offsetWidth;
+            var labelOneWidth = this.labelOne.nativeElement.offsetWidth;
+            var labelTwoWidth = this.labelTwo.nativeElement.offsetWidth;
+            //Calculate final bar widths
+            var barOneWidth = barWidth * this.displayData.data[0].width / 100;
+            var barTwoWidth = barWidth * this.displayData.data[1].width / 100;
+            //Set pixel buffer between labels that are close
+            var pixelBuffer = 5;
+            var adjustLabelOne = true;
+            
+            if ( (labelOneWidth+pixelBuffer) > barOneWidth ) {
+                // if the label is wider than the bar, do calculation from label width
+                // and adjust label two, as label one can't move left any more
+                barOneWidth = labelOneWidth; 
+                adjustLabelOne = false;
+            }
+
+            if((barTwoWidth - barOneWidth) <= (labelTwoWidth + pixelBuffer)) {
+                //If the difference between the bars is less than the width of the second label, shift label one over
+                if ( adjustLabelOne ) {
+                    var adjustLabel = Math.ceil(labelTwoWidth - (barTwoWidth - barOneWidth) + pixelBuffer);
+                    this.labelOne.nativeElement.style.right = adjustLabel;
+                    this.labelTwo.nativeElement.style.right = 0;
+                }
+                else {
+                    var adjustLabel = Math.ceil((barTwoWidth - barOneWidth) - (labelTwoWidth + pixelBuffer));
+                    this.labelOne.nativeElement.style.left = 0;
+                    this.labelTwo.nativeElement.style.right = adjustLabel;
+                }
+            }
+            else {
+                if ( adjustLabelOne ) {                
+                    this.labelOne.nativeElement.style.right = 0;
+                }
+                else {                
+                    this.labelOne.nativeElement.style.left = 0;
+                }
                 this.labelTwo.nativeElement.style.right = 0;
             }
-            else {
-                var adjustLabel = Math.ceil((barTwoWidth - barOneWidth) - (labelTwoWidth + pixelBuffer));
-                this.labelOne.nativeElement.style.left = 0;
-                this.labelTwo.nativeElement.style.right = adjustLabel;
-            }
-        }
-        else {
-            if ( adjustLabelOne ) {
-                this.labelOne.nativeElement.style.right = 0;
-            }
-            else {
-                this.labelOne.nativeElement.style.left = 0;
-            }
-            this.labelTwo.nativeElement.style.right = 0;
         }
     }
 
