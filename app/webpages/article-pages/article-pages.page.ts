@@ -42,7 +42,6 @@ export class ArticlePages implements OnInit {
     title:string;
     date:string;
     content:string;
-    url:string;
     comment:string;
     pageIndex:string;
     doubleLogo:boolean = false;
@@ -76,7 +75,6 @@ export class ArticlePages implements OnInit {
                     this.date = ArticleData[pageIndex].dateline;
                     this.comment = ArticleData[pageIndex].commentHeader;
                     this.imageLinks = this.getImageLinks(ArticleData[pageIndex]);
-                    this.url = window.location.href;
                     this.doubleLogo = true;
                     ArticlePages.setMetaTag(this.articleData.metaHeadline);
                 }
