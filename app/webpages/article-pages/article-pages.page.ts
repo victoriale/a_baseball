@@ -73,7 +73,7 @@ export class ArticlePages implements OnInit {
                     this.articleData = ArticleData[pageIndex];
                     this.title = ArticleData[pageIndex].displayHeadline;
                     this.date = ArticleData[pageIndex].dateline;
-                    this.comment = ArticleData[pageIndex].commentHeader;
+                    this.comment = ArticleData[pageIndex].displayHeadline;
                     this.imageLinks = this.getImageLinks(ArticleData[pageIndex]);
                     this.doubleLogo = true;
                     ArticlePages.setMetaTag(this.articleData.metaHeadline);

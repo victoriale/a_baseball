@@ -29,5 +29,7 @@
     <profileData-component *ngIf="i==6 && articleType == 'teamRecord' && articleSubType == 'last'" [index]="'2'"
                            [articleSubType]="articleSubType" [articleType]="articleType"
                            [articleData]="articleData" [imageLinks]="imageLinks"></profileData-component>
+    <div *ngIf="last && (articleType == 'playerRoster' || articleType == 'teamRecord' || articleType == 'gameModule' || articleType == 'playerComparison')"
+         class="comparison-hr"></div>
     <billboard-component *ngIf="last"></billboard-component>
 </div>
