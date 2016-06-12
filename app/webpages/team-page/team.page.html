@@ -1,6 +1,5 @@
 <loading-component *ngIf="!profileHeaderData && !hasError"></loading-component>
 <error-component *ngIf="hasError"></error-component>
 <div *ngIf="profileHeaderData && pageParams" class="page-container">
-  <box-scores *ngIf="boxScoresData" [boxScores]="boxScoresData"></box-scores>
-
+  <box-scores *ngIf="boxScoresData && dateParam" [boxScores]="boxScoresData" [calendarParams]="dateParam"></box-scores>
 </div>

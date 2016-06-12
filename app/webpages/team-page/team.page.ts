@@ -131,7 +131,10 @@ export class TeamPage implements OnInit {
     profileType:string = "team";
     isProfilePage:boolean = true;
     draftHistoryData:any;
+
     boxScoresData:any;
+    dateParam:any;
+
     transactionsData:any;
     currentYear: number;
 
@@ -168,7 +171,17 @@ export class TeamPage implements OnInit {
     }
 
     ngOnInit() {
-        this.setupProfileData();
+      var currentUnixDate = new Date().getTime();
+      console.log('currentUnixDate', currentUnixDate);
+      //convert currentDate(users local time) to Unix and push it into boxScoresAPI as YYYY-MM-DD in EST using moment timezone (America/New_York)
+      this.dateParam ={
+        profile:'team',//current profile page
+        teamId:this.pageParams.teamId, // teamId if it exists
+        date: moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD')
+      }
+      console.log('dateParam',this.dateParam);
+
+      this.setupProfileData();
     }
 
     /**
@@ -187,7 +200,7 @@ export class TeamPage implements OnInit {
                 this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data);
 
                 /*** Keep Up With Everything [Team Name] ***/
-                this.getBoxScores();
+                this.getBoxScores(this.dateParam.date);
                 this.getSchedulesData('pre-event');//grab pre event data for upcoming games
                 this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams, data.teamName);
                 this.rosterData = this._rosterService.loadAllTabsForModule(this.pageParams.teamId, data.teamName);
@@ -257,14 +270,15 @@ export class TeamPage implements OnInit {
     //api for BOX SCORES
     private getBoxScores(date?){
       if(typeof date == 'undefined'){
-        var curDate = moment(new Date()).format('YYYY-MM-DD');
-        date = curDate;
+        var currentUnixDate = new Date().getTime();
+        //convert currentDate(users local time) to Unix and push it into boxScoresAPI as YYYY-MM-DD in EST using moment timezone (America/New_York)
+        this.dateParam.date = moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD');
+        date = this.dateParam.date;
       }
       console.log('Current Date sending to Box Scores API',date);
       this._boxScores.getBoxScoresService('team', date, this.pageParams.teamId)
       .subscribe(
         data => {
-          console.log(data);
           this.boxScoresData = data;
         },
         err => {

@@ -14,7 +14,7 @@ export interface ScoreBoardInput{
 
 export class ScoreBoard implements OnInit{
   @Input() scoreBoard:any;
-  public pixel:number = 27;
+  public pixel:number = 27;// amount of pixels the display will shift when clicking on carousel buttons
   public scrollScore:string;
   public offset:number;
 

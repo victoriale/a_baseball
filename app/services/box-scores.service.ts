@@ -26,24 +26,93 @@ export class BoxScoresService {
       return headers;
   }
 
-  getBoxScoresService(profile, date, teamId?){
+  getBoxScoresService(profile, date, teamId?){//DATE
   //Configure HTTP Headers
   var headers = this.setToken();
 
-  var callURL = this._apiUrl+'/'+profile+'/boxScores/2799/2016-05-27';
+  if(teamId != null){
+    teamId = '/' + teamId;
+  }
+  var callURL = this._apiUrl+'/'+profile+'/boxScores'+teamId+'/'+ date;//localToEST needs tobe the date coming in AS UNIX
 
   console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
       console.log("ORIGINAL DATA",data.data);
-      var dateData = this.transformBoxScores(data.data);
+      var transformedDate = this.transformBoxScores(data.data);// transform the data to YYYY-MM-DD objects instead of unix
+      console.log("Transformed DATA",transformedDate);
+      var validateDate = this.validateDate(date, transformedDate);
+      return {
+        schedule: this.formatSchedule(transformedDate['2016-06-09'][0]),
+        gameInfo: this.formatGameInfo(transformedDate['2016-06-09'][0], teamId),
+        scoreBoard: this.formatScoreBoard(transformedDate['2016-06-09'][0]),
+        fullData: data.data
+      };
+    })
+  }
+
+  validateDate(selectedDate, dateArray){// get unix time stamp and grab the earlier played game
+    selectedDate = '2016-07-01';
+    console.log('Selected Date and Array',selectedDate,dateArray);
+    var validatedDate = 0;// will be the closest game to the curdate being sent in
+    var curUnix = moment(selectedDate,"YYYY-MM-DD").unix();//converts chosen date to unix for comparison
+    console.log('curUnix',curUnix);
+    for(var date in dateArray){
+      var dateUnix = moment(date,"YYYY-MM-DD").unix();//converts chosen date to unix for comparison
+      console.log('dates to Unix',dateUnix);
+      if( (curUnix == dateUnix) && (validatedDate <= dateUnix) ){// makes sure to  that the validatedDate does not choose anything higher than selected date
+        validatedDate = dateUnix;
+        console.log('FOUND CURRENT DATE',validatedDate);
+      }else{
+        if( validatedDate < dateUnix ){//will keep choosing the highest number in the current array
+          console.log('Date now:', dateUnix);
+          validatedDate = dateUnix;
+        }
+      }
+    }
+
+    //change validatedDate back into format for dateArray;
+    console.log('FINAL validatedDate UNIX', validatedDate);
+    validatedDate = moment.unix(validatedDate).format('YYYY-MM-DD');
+    console.log('FINAL validatedDate',validatedDate);
+    return validatedDate;//SENDS BACK AS YYYY-MM-DD to use in transformed converted date array
+  }
+
+  /**
+  *
+  */
+  weekCarousel(profile, date, teamId?){
+  //Configure HTTP Headers
+  var headers = this.setToken();
+
+  if(teamId != null){
+    teamId = '/' + teamId;
+  }
+  var callURL = this._apiUrl+'/'+profile+'/gameDatesWeekly'+teamId+'/'+ date;//localToEST needs tobe the date coming in AS UNIX
+
+  console.log(callURL);
+  return this.http.get(callURL, {headers: headers})
+    .map(res => res.json())
+    .map(data => {
+      console.log("DATA!!!!!", data);
+      return data;
+    })
+  }
+
+  validateMonth(profile, date, teamId?){
+  //Configure HTTP Headers
+  var headers = this.setToken();
+
+  var callURL = this._apiUrl+'/'+profile+'/boxScores/'+teamId+'/'+ date;//localToEST needs tobe the date coming in AS UNIX
+
+  console.log(callURL);
+  return this.http.get(callURL, {headers: headers})
+    .map(res => res.json())
+    .map(data => {
 
       return {
-        schedule: this.formatSchedule(dateData['05-27-2016'][0]),
-        gameInfo: this.formatGameInfo(dateData['05-27-2016'][0], teamId),
-        scoreBoard: this.formatScoreBoard(dateData['05-27-2016'][0]),
-        fullData: data.data
+
       };
     })
   }
@@ -51,7 +120,8 @@ export class BoxScoresService {
   transformBoxScores(boxScores){
     var newBoxScores = {};
     for(var dates in boxScores){
-        var dayDate = moment.unix(dates).format('MM-DD-YYYY');
+      var dayUnix = moment.unix(dates)/1000;//convert to Unix and convert to seconds
+        var dayDate = moment(dayUnix).format('YYYY-MM-DD');
         if(typeof newBoxScores[dayDate] == 'undefined'){
            newBoxScores[dayDate] = [];
            newBoxScores[dayDate].push(boxScores[dates]);
@@ -102,6 +172,7 @@ export class BoxScoresService {
     // console.log('FORMAT SCHEDULE SERVICE DATA', data);
     // console.log('AWAY',awayData);
     // console.log('HOME',homeData);
+
     if(homeData.id == teamId){
       //imageData(imageClass, imageBorder, mainImg, mainImgRoute?, rank?, rankClass?, subImgClass?, subImg?, subRoute?)
       var link1 = this.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo))
@@ -148,6 +219,9 @@ export class BoxScoresService {
 
     var arrayScores = [];
 
+    //for live games show the total scored added up for each inning
+    var homeLiveScore = 0;
+    var awayLiveScore = 0;
     for(var score in data){
       if(score != 'aiContent' && score != 'awayTeamInfo' && score != 'homeTeamInfo' && score != 'gameInfo'){
         arrayScores.push({

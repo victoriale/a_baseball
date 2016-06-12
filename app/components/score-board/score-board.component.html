@@ -1,5 +1,5 @@
 <div class="score-board">
-<div class="score-board-total">{{scoreBoard.homeScore}}</div>
+<div class="score-board-total">{{scoreBoard.homeScore | statHyphenValue}}</div>
   <div class="score-board-data">
     <div class="score-board-title">FINAL SCORE</div>
     <div class="box-table">
@@ -22,5 +22,5 @@
       </div>
     </div>
   </div>
-  <div class="score-board-total">{{scoreBoard.awayScore}}</div>
+  <div class="score-board-total">{{scoreBoard.awayScore | statHyphenValue}}</div>
 </div>
