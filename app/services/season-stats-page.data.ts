@@ -107,14 +107,16 @@ export class MLBSeasonStatsTabData implements TableTabData<TeamSeasonStatsData> 
         imageClass: "image-150",
         mainImage: {
           imageClass: "border-10",
-          urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.playerId.toString()),
+          //TODO
+          // urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.playerId),
           imageUrl: item.fullImageUrl,
           hoverText: "<p>View</p><p>Profile</p>"
         },
         subImages: [
           {
               imageUrl: item.fullImageUrl,
-              urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.playerId.toString()),
+              //TODO
+              // urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.playerId.toString()),
               hoverText: "<i class='fa fa-mail-forward'></i>",
               imageClass: "image-50-sub image-round-lower-right"
           },
@@ -204,49 +206,66 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
   isRowSelected(item:TeamSeasonStatsData, rowIndex:number): boolean {
     return this.selectedKey == item.playerId;
   }
-  //TODO using standing api
   getDisplayValueAt(item:TeamSeasonStatsData, column:TableColumn):string {
+    console.log(item, column);
     var s = null;
+    //TODO
+    //TODO
+    //TODO
+    //TODO
+    //TODO
+    //TODO
+    //TODO
+    //TODO
     switch (column.key) {
       case "year":
         s = "2016"; //TODO
         break;
 
       case "team":
-        s = item.teamName;
+        // s = item.teamName;
+        s = 'HERRO';
         break;
 
       case "r":
-        s = item.totalWins != null ? item.totalWins.toString() : null;
+        // s = item.pitch_wins != null ? item.pitch_wins : null;
+        s = '1';
         break;
 
       case "h":
-        s = item.totalLosses != null ? item.totalLosses.toString() : null;
+        // s = item.totalLosses != null ? item.totalLosses : null;
+        s = '1';
         break;
 
       case "hr":
-        s = item.winPercentage != null ? item.winPercentage.toPrecision(3) : null;
+        // s = item.winPercentage != null ? item.winPercentage : null;
+        s = '0';
         break;
 
       case "rbi":
         // s = item.gamesBack != null ? (item.gamesBack == 0 ? "-" : item.gamesBack.toString()) : null;
-        s = item.gamesBack != null ? item.gamesBack.toString() : null;
+        // s = item.gamesBack != null ? item.gamesBack : null;
+        s = '0';
         break;
 
       case "bb":
-        s = item.batRunsScored != null ? item.batRunsScored.toString() : null;
+        // s = item.batRunsScored != null ? item.batRunsScored : null;
+        s = '2';
         break;
 
       case "avg":
-        s = item.pitchRunsAllowed != null ? item.pitchRunsAllowed.toString() : null;
+        // s = item.pitchRunsAllowed != null ? item.pitchRunsAllowed : null;
+        s = '4';
         break;
 
       case "obp":
-        s = item.pitchRunsAllowed != null ? item.pitchRunsAllowed.toString() : null;
+        // s = item.pitchRunsAllowed != null ? item.pitchRunsAllowed : null;
+        s = '3';
         break;
 
       case "slg":
-        s = item.pitchRunsAllowed != null ? item.pitchRunsAllowed.toString() : null;
+        // s = item.pitchRunsAllowed != null ? item.pitchRunsAllowed : null;
+        s = '2';
         break;
     }
     return s != null ? s : "N/A";
@@ -255,44 +274,52 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
   getSortValueAt(item:TeamSeasonStatsData, column:TableColumn):any {
     var o = null;
     switch (column.key) {
+      //TODO
+      //TODO
+      //TODO
+      //TODO
+      //TODO
+      //TODO
+      //TODO
+      //TODO
       case "year":
         o = "2016";//TODO
         break;
 
       case "team":
-        o = item.teamName;
+        o = "item.teamName";
         break;
 
       case "r":
-        o = item.totalWins;
+        o = "item.totalWins";
         break;
 
       case "h":
-        o = item.totalLosses;
+        o = "item.totalLosses";
         break;
 
       case "hr":
-        o = item.winPercentage;
+        o = "item.winPercentage";
         break;
 
       case "rbi":
-        o = item.gamesBack;
+        o = "item.gamesBack";
         break;
 
       case "bb":
-        o = item.batRunsScored;
+        o = "item.batRunsScored";
         break;
 
       case "avg":
-        o = item.pitchRunsAllowed;
+        o = "item.pitchRunsAllowed";
         break;
 
       case "obp":
-        o = item.pitchRunsAllowed;
+        o = "item.pitchRunsAllowed";
         break;
 
       case "slg":
-        o = item.pitchRunsAllowed;
+        o = "item.pitchRunsAllowed";
         break;
     }
     return o;
@@ -307,8 +334,9 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
   }
 
   getRouterLinkAt(item:TeamSeasonStatsData, column:TableColumn):Array<any> {
+    //TODO player ID is static also need to change to [formatPlayerRoute]!!!
     if ( column.key === "team" ) {
-      return MLBGlobalFunctions.formatTeamRoute(item.teamName,item.playerId.toString());
+      return MLBGlobalFunctions.formatTeamRoute('teamNameHere','95097');
     }
     else {
       return undefined;

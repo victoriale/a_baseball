@@ -110,19 +110,20 @@ export class SchedulesService {
       };
     })
   }
-  
+
   //rows is the data coming in
   private setupTableData(eventStatus, year, rows: Array<any>, teamId?, maxRows?: number): Array<MLBSchedulesTableData> {
     //Limit to maxRows, if necessary
     if ( maxRows !== undefined ) {
       rows = rows.slice(0, maxRows);
     }
-    
+
     //TWO tables are to be made depending on what type of tabs the use is click on in the table
     if(eventStatus == 'pre-event'){
       // let tableName = this.formatGroupName(year,eventStatus);
       var table = new MLBSchedulesTableModel(rows, eventStatus);
       var tableArray = new MLBSchedulesTableData('' , table);
+      console.log(tableArray);
       return [tableArray];
     }else{
       var postDate = [];
@@ -154,11 +155,11 @@ export class SchedulesService {
         return [tableArray];
       }
     }
-  }  
+  }
 
   private setupCarouselData(origData: Array<SchedulesData>, tableData: MLBSchedulesTableData, maxRows?: number){
     // console.log(origData);
-    
+
     //Limit to maxRows, if necessary
     if ( maxRows !== undefined ) {
       origData = origData.slice(0, maxRows);
@@ -186,7 +187,7 @@ export class SchedulesService {
       // combine together the win and loss of a team to create their record
       val.homeRecord = val.homeTeamWins + '-' + val.homeTeamLosses;//?? is this really the win and loss
       val.awayRecord = val.awayTeamWins + '-' + val.awayTeamLosses;//?? is this really the win and loss
-      
+
       return tableData.updateCarouselData(val, index); //Use existing conversion function
     });
     // console.log('returned Data',carData);
