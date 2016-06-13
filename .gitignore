@@ -6,3 +6,4 @@ dist
 **/.idea/tasks.xml
 coverage/
 .vscode/settings.json
+.DS_Store

@@ -1,17 +1,29 @@
 .comparison-legend{
     padding: 10px 15px 20px 15px;
+    .flexDisplay;
+    .flexJustify(space-between);
 
     li{
       display: inline-block;
-      float: right;
       margin-left: 20px;
     }
 
     &-title{
       font-size: 18px;
+      
+      &-sub {
+        .globalDefaultModFont(10px, 400, @bulletGrey);
+        font-style: italic;
+        display: block;
+      }
+    }
+    
+    &-key {
+      .flexDisplay;
+      .flexAlignItems(center);
     }
 
-    &-circle{
+    &-circle {
       width: 14px;
       height: 14px;
       border-radius: 50%;

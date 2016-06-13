@@ -44,11 +44,13 @@ import {GlobalSettings} from "../../global/global-settings";
 import {ListPageService} from '../../services/list-page.service';
 import {ImagesService} from "../../services/carousel.service";
 import {ImagesMedia} from "../../components/carousels/images-media-carousel/images-media-carousel.component";
+import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
 @Component({
     selector: 'MLB-page',
     templateUrl: './app/webpages/mlb-page/mlb.page.html',
     directives: [
+        SidekickWrapper, 
         LoadingComponent,
         ErrorComponent,
         MVPModule,
@@ -259,13 +261,13 @@ export class MLBPage implements OnInit {
                 this.comparisonModuleData = data;
             },
             err => {
-                console.log("Error getting comparison data for mlb: " + err);
+                console.log("Error getting comparison data for mlb", err);
             });
     }
 
-    private standingsTabSelected(tab:MLBStandingsTabData) {
+    private standingsTabSelected(tabData: Array<any>) {
         //only show 5 rows in the module
-        this._standingsService.getStandingsTabData(tab, this.pageParams, (data) => {}, 5);
+        this._standingsService.getStandingsTabData(tabData, this.pageParams, (data) => {}, 5);
     }
 
     private setupShareModule() {

@@ -8,19 +8,19 @@ import {MLBPageParameters} from '../../global/global-interface';
 import {GlobalFunctions} from '../../global/global-functions';
 import {RosterService} from '../../services/roster.service';
 import {ProfileHeaderService} from '../../services/profile-header.service';
+import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
 @Component({
     selector: 'Team-roster-page',
     templateUrl: './app/webpages/team-roster/team-roster.page.html',
-    directives: [BackTabComponent,
-                TitleComponent,
-                RosterComponent],
+    directives: [SidekickWrapper, BackTabComponent, TitleComponent, RosterComponent],
     providers: [RosterService, ProfileHeaderService],
 })
 
 export class TeamRosterPage implements OnInit {
   public pageParams: MLBPageParameters = {}
   public titleData: TitleInputData;
+  public profileLoaded: boolean = false;
   public hasError: boolean = false;
   public footerData = {
       infoDesc: 'Interested in discovering more about this player?',
@@ -47,11 +47,13 @@ export class TeamRosterPage implements OnInit {
     if ( this.pageParams.teamId ) {
       this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
         data => {
+          this.profileLoaded = true;
           this.pageParams = data.pageParams;
           this.setupTitleData(data.teamName, data.fullProfileImageUrl, data.headerData.lastUpdated)
           this.setupRosterData();
         },
         err => {
+          this.hasError = true;
           console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
         }
       );
@@ -72,11 +74,6 @@ export class TeamRosterPage implements OnInit {
   }
 
   private setupRosterData() {
-    this.tabs = this._rosterService.initializeAllTabs();
-  }
-  
-  private rosterTabSelected(tab: MLBRosterTabData) {
-    //"This team is a National League team and has no designated hitters."
-    this._rosterService.getRosterTabData(this.pageParams.teamId.toString(), this.pageParams.conference, tab)
+    this.tabs = this._rosterService.initializeAllTabs(this.pageParams.teamId.toString(), this.pageParams.conference);
   }
 }

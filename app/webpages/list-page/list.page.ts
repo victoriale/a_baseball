@@ -9,38 +9,37 @@ import {RouteParams} from 'angular2/router';
 import {ListPageService} from '../../services/list-page.service';
 import {NoDataBox} from '../../components/error/data-box/data-box.component';
 import {ProfileHeaderService} from '../../services/profile-header.service';
-import {PaginationFooter} from '../../components/pagination-footer/pagination-footer.component';
+import {PaginationFooter, PaginationParameters} from '../../components/pagination-footer/pagination-footer.component';
 import {LoadingComponent} from "../../components/loading/loading.component";
 import {ErrorComponent} from "../../components/error/error.component";
 import {GlobalFunctions} from "../../global/global-functions";
 import {DynamicWidgetCall} from "../../services/dynamic-list-page.service";
+import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
 @Component({
     selector: 'list-page',
     templateUrl: './app/webpages/list-page/list.page.html',
-    directives: [ErrorComponent, LoadingComponent,PaginationFooter, BackTabComponent, TitleComponent, SliderCarousel, DetailedListItem,  ModuleFooter],
+    directives: [SidekickWrapper, ErrorComponent, LoadingComponent,PaginationFooter, BackTabComponent, TitleComponent, SliderCarousel, DetailedListItem,  ModuleFooter],
     providers: [ListPageService, ProfileHeaderService, DynamicWidgetCall],
     inputs:[]
 })
 
-export class ListPage implements OnInit{
-  dataArray: any;
-  detailedDataArray:any;
-  carouselDataArray: any;
-  footerData: Object;
+export class ListPage implements OnInit {
+  detailedDataArray: Array<DetailListInput>;
+  carouselDataArray: Array<SliderCarouselInput>;
+  footerData: ModuleFooterData;
   profileHeaderData: TitleInputData;
-  errorData: any;
-  footerStyle: any = {
+  footerStyle: FooterStyle = {
     ctaBoxClass: "list-footer",
     ctaBtnClass:"list-footer-btn",
     hasIcon: true,
   };
-  paginationParameters:any;
+  paginationParameters:PaginationParameters;
   isError: boolean = false;
   tw: string;
   sw: string;
   input: string;
-  pageNumber: any;
+  pageNumber: number;
 
   constructor(private listService:ListPageService, private profHeadService:ProfileHeaderService, private params: RouteParams, private dynamicWidget: DynamicWidgetCall){
     if(params.params['query'] != null){
@@ -71,7 +70,6 @@ export class ListPage implements OnInit{
   setPaginationParams(input) {
       var info = input.listInfo;
       var params = this.params.params;
-
       var navigationParams = {
         profile: params['profile'],
         listname: params['listname'],
@@ -80,26 +78,16 @@ export class ListPage implements OnInit{
         division: params['division'],
         limit: params['limit'],
       };
-
-      if(this.detailedDataArray == false){
-        this.paginationParameters = {
-          index: params['pageNum'],
-          max: input.pageCount,
-          paginationType: 'page',
-          navigationPage: 'Error-page',
-          navigationParams: navigationParams,
-          indexKey: 'pageNum'
-        };
-      }else{
-        this.paginationParameters = {
-          index: params['pageNum'],
-          max: input.pageCount,
-          paginationType: 'page',
-          navigationPage: 'List-page',
-          navigationParams: navigationParams,
-          indexKey: 'pageNum'
-        };
-      }
+      var navigationPage = this.detailedDataArray ? "List-page" : "Error-page";
+      
+      this.paginationParameters = {
+        index: params['pageNum'] != null ? Number(params['pageNum']) : null,
+        max: Number(input.pageCount),
+        paginationType: 'page',
+        navigationPage: navigationPage,
+        navigationParams: navigationParams,
+        indexKey: 'pageNum'
+      };
   }
 
   setDynamicPagination(input) {
@@ -107,25 +95,17 @@ export class ListPage implements OnInit{
       query: this.params.params['query'],
     };
 
-    if(this.detailedDataArray == false){
-      this.paginationParameters = {
-        index: this.pageNumber,
-        max: input.max,
-        paginationType: 'page',
-        navigationPage: 'Error-page',
-        navigationParams: navigationParams,
-        indexKey: 'pageNum'
-      };
-    }else{
-      this.paginationParameters = {
-        index: this.pageNumber,
-        max: input.max,
-        paginationType: 'module',
-        navigationPage: 'List-page',
-        navigationParams: navigationParams,
-        indexKey: null
-      };
-    }
+    var navigationType = this.detailedDataArray ? "module" : "page";
+    var navigationPage = this.detailedDataArray ? "List-page" : "Error-page";
+    
+    this.paginationParameters = {
+      index: this.pageNumber,
+      max: Number(input.pageCount),
+      paginationType: 'page',
+      navigationPage: navigationPage,
+      navigationParams: navigationParams,
+      indexKey: 'pageNum'
+    };
   }
 
 
@@ -135,7 +115,7 @@ export class ListPage implements OnInit{
         list => {
           this.profileHeaderData = list.profHeader;
           if (list.listData.length == 0) {//makes sure it only runs once
-            this.detailedDataArray = false;
+            this.detailedDataArray = null;
           } else {
             this.detailedDataArray = list.listData;
           }
@@ -161,7 +141,7 @@ export class ListPage implements OnInit{
         list => {
           this.profileHeaderData = list.profHeader;
           if (list.listData.length == 0) {//makes sure it only runs once
-            this.detailedDataArray = false;
+            this.detailedDataArray = null;
           } else {
             this.detailedDataArray = list.listData;
           }

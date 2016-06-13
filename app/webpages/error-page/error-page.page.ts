@@ -4,12 +4,13 @@ import {Component, OnInit} from 'angular2/core';
 import {Injector} from 'angular2/core';
 import {WebApp} from '../../app-layout/app.layout';
 import {GlobalSettings} from '../../global/global-settings';
+import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
 @Component({
     selector: 'Error-page',
     templateUrl: './app/webpages/error-page/error-page.page.html',
 
-    directives: [],
+    directives: [SidekickWrapper],
     providers: [],
 })
 export class ErrorPage implements OnInit{

@@ -1,15 +1,17 @@
-<loading-component *ngIf="!profileHeaderData && !isError"></loading-component>
-<error-component *ngIf="isError"></error-component>
-<section class='page-container transactions-page'>
+<sidekick-wrapper>
+<section class="page page-module-container">
   <backtab-component></backtab-component>
-  <title-component *ngIf="profileHeaderData" [titleData]="profileHeaderData"></title-component>
-  <div *ngIf="profileHeaderData" class="module-container list-page">
+  <title-component *ngIf="profileHeaderData" [titleData]="profileHeaderData" [imageData]="imageData"></title-component>
+  <loading-component *ngIf="!carouselDataArray && !isError"></loading-component>
+  <error-component *ngIf="isError"></error-component>
+
+  <div *ngIf="profileHeaderData" class="module-container transactions-page">
     <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray" [footerStyle]="footerStyle"></slider-carousel>
     <tabs *ngIf="dataArray" (tabSelected)='selectedTab($event)'>
       <tab *ngFor="#data of dataArray; #i = index" [active]="i == 0" [tabTitle]="data.tabDisplay">
         <div class="tab-inset"> <!-- due to tab having a default value of padding 1em for tab purposes so we just reverse it with margin -->
-          <div *ngIf="transactionsDataArray" class="stats-table-title">
-            <p class="stats-season-dropdown">
+          <div *ngIf="transactionsDataArray" class="transactions-page-title">
+            <p class="transactions-page-dropdown">
               Sorted By: <dropdown [list]="data.sortOptions" [selectedKey]="data.selectedSort" (selectionChanged)="dropdownChanged($event)"></dropdown>
             </p>
             <h4><b>{{pageName}}</b> Report</h4>
@@ -22,3 +24,4 @@
     </tabs>
   </div>
 </section>
+</sidekick-wrapper>

@@ -1,21 +1,21 @@
-.profile {
-  &-carousel {
-    width: 100%;
-    height: 100%;
-    position: relative;
+// height should only be specified for the module when it's on a profile page
+.profile-container {
+  .images-media-module {
+    height: 510px;
+  }
+
+  .article-carousel {
+    height: 465px; 
   }
 }
 
-.article {
-  &-carousel {
-    width: 100%;
-    height: 100%;
-    position: relative;
-  }
+.article-carousel {
+  width: 100%;
+  position: relative;
 }
 
 .plcholder {
-  height: 73%;
+  height: 82.5%;
   width: 100%;
   position: relative;
   &-img {
@@ -30,7 +30,7 @@
       align-items: center;
       justify-content: flex-end;
       position: relative;
-      top: 40%;
+      top: 48%;
     }
   }
   &-details {
@@ -88,7 +88,7 @@
 
 .sm-images {
   background-color: @backgroundGrey;
-  height: 18%;
+  height: 17.5%;
   width: 100%;
   border-bottom: 1px solid @strokeGrey;
   overflow: hidden;

@@ -15,12 +15,13 @@ import {Division, Conference, MLBPageParameters} from '../../global/global-inter
 import {GlobalSettings} from '../../global/global-settings';
 import {GlobalFunctions} from '../../global/global-functions';
 import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
+import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
 @Component({
     selector: 'Standings-page',
     templateUrl: './app/webpages/standings-page/standings.page.html',
 
-    directives: [BackTabComponent, TitleComponent, StandingsComponent, LoadingComponent, ErrorComponent],
+    directives: [SidekickWrapper, BackTabComponent, TitleComponent, StandingsComponent, LoadingComponent, ErrorComponent],
     providers: [StandingsService, ProfileHeaderService],
 })
 
@@ -29,11 +30,12 @@ export class StandingsPage implements OnInit {
     
   public pageParams: MLBPageParameters = {}
   
-  public hasError: boolean = false;
-  
   public titleData: TitleInputData;
   
   public titleImageData: ImageData
+
+  public profileLoaded: boolean = false;
+  public hasError: boolean = false;
   
   constructor(private _params: RouteParams,
               private _profileService: ProfileHeaderService,
@@ -60,11 +62,13 @@ export class StandingsPage implements OnInit {
     if ( this.pageParams.teamId ) {      
       this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
         data => {
+          this.profileLoaded = true;
           this.pageParams = data.pageParams; 
           this.setupTitleData(data.fullProfileImageUrl, data.pageParams.teamId.toString(), data.teamName);          
           this.tabs = this._standingsService.initializeAllTabs(this.pageParams);
         },
         err => {
+          this.hasError = true;
           console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
         }
       );
@@ -83,7 +87,7 @@ export class StandingsPage implements OnInit {
     var title = this._standingsService.getPageTitle(this.pageParams, teamName);
     this.titleData = {
       imageURL: imageUrl,
-      text1: "Last Updated: [date]",
+      text1: "",
       text2: "United States",
       text3: title,
       icon: "fa fa-map-marker"
@@ -96,8 +100,8 @@ export class StandingsPage implements OnInit {
     }
   }
   
-  private standingsTabSelected(tab: MLBStandingsTabData) {    
-    this._standingsService.getStandingsTabData(tab, this.pageParams, data => {
+  private standingsTabSelected(tabData: Array<any>) {    
+    this._standingsService.getStandingsTabData(tabData, this.pageParams, data => {
       this.getLastUpdatedDateForPage(data);
     });
   }

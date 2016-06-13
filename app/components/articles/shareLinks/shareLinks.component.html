@@ -1,10 +1,4 @@
 <div class="art-hdr">
-    <div class="art-hdr-links">
-            <span *ngFor="#share of share">
-                <a href="{{share.link}}{{url}}">
-                    <i class="fa fa-{{share.fontAwesome}}"
-                       [ngStyle]="{'color': share.color, 'margin-right': share.right}"></i>
-                </a>
-            </span>
-    </div>
+        <!-- using third party sharethis -->
+        <div class='st_sharethis_large' (mouseover)="locateShareThis()" data-toggle="tooltip title="><i class='fa fa-share-alt'></i></div>
 </div>

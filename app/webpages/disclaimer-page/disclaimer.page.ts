@@ -10,12 +10,13 @@ import {Injector} from 'angular2/core';
 import {WebApp} from '../../app-layout/app.layout';
 import {TitleInputData} from "../../components/title/title.component";
 import {GlobalSettings} from '../../global/global-settings';
+import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
 @Component({
     selector: 'Disclaimer-page',
     templateUrl: './app/webpages/disclaimer-page/disclaimer.page.html',
 
-    directives: [BackTabComponent, TitleComponent, WidgetModule, ROUTER_DIRECTIVES],
+    directives: [SidekickWrapper, BackTabComponent, TitleComponent, WidgetModule, ROUTER_DIRECTIVES],
     providers: [],
 })
 

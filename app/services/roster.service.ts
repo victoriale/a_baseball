@@ -11,6 +11,10 @@ import {Conference, Division} from '../global/global-interface';
 @Injectable()
 export class RosterService {
   private _apiUrl: string = GlobalSettings.getApiUrl();
+  private _tabTypes = ['full', 'pitchers', 'catchers', 'fielders', 'hitters'];
+
+  public fullRoster: { [type:string]:Array<TeamRosterData> };
+
   constructor(public http: Http){}
 
   setToken(){
@@ -18,60 +22,33 @@ export class RosterService {
     return headers;
   }
 
-  initializeAllTabs(): Array<MLBRosterTabData> {
-    return [
-      new MLBRosterTabData('full', 'Full Roster'),
-      new MLBRosterTabData('pitchers', 'Pitchers'),
-      new MLBRosterTabData('catchers', 'Catchers'),
-      new MLBRosterTabData('fielders', 'Fielders'),
-      new MLBRosterTabData('hitters', 'Designated Hitter')
-    ];
+  initializeAllTabs(teamId: string, conference: Conference, maxRows?: number): Array<MLBRosterTabData> {
+    return this._tabTypes.map(type => new MLBRosterTabData(this, teamId, type, conference, maxRows));
   }
 
-  getRosterTabData(teamId: string, conference: Conference, rosterTab: MLBRosterTabData, maxRows?: number) {
-    if ( !rosterTab.tableData ) {
-      rosterTab.isLoaded = false;
-      rosterTab.hasError = false;
-      rosterTab.setErrorMessage(conference);
-      
-      var fullUrl = this._apiUrl + "/team/roster/" + teamId + "/" + rosterTab.type;
-      // console.log("Team roster url : " + fullUrl);
-      
-      this.http.get(fullUrl, {headers: this.setToken()})
-        .map(res => res.json())
-        .map(data => {
-          return this.setupTabData(rosterTab, data.data, maxRows);
-        })
-        .subscribe(table => {     
-          rosterTab.tableData = table;
-          rosterTab.isLoaded = true;
-          rosterTab.hasError = false;
-        },
-        err => {
-          rosterTab.isLoaded = true;
-          rosterTab.hasError = true;
-          console.log("Error getting roster data", err);
-        });
-    }
+  getRosterTabData(rosterTab: MLBRosterTabData): Observable<Array<TeamRosterData>> {
+    var teamId = rosterTab.teamId;
+    var type = rosterTab.type;
+    
+    rosterTab.isLoaded = false;
+    rosterTab.hasError = false;
+    
+    var fullUrl = this._apiUrl + "/team/roster/" + teamId;
+    //console.log("loading full team roster: "+ fullUrl);
+    return this.http.get(fullUrl, {headers: this.setToken()})
+      .map(res => res.json())
+      .map(data => {
+        this.fullRoster = data.data;
+        return data.data;
+      });
   }//getRosterService ends
 
-  loadAllTabsForModule(teamId: number, teamName: string): RosterModuleData {
+  loadAllTabsForModule(teamId: number, teamName: string, conference: Conference): RosterModuleData<TeamRosterData> {
     return {
         moduleTitle: this.getModuleTitle(teamName),
         pageRouterLink: this.getLinkToPage(teamId, teamName),
-        tabs: this.initializeAllTabs()
+        tabs: this.initializeAllTabs(teamId.toString(), conference, 5)
     };
-  }
-
-  private setupTabData(rosterTab: MLBRosterTabData, data: Array<TeamRosterData>, maxRows: number) {
-    var table = new RosterTableModel(data);
-    
-    //Limit to maxRows, if necessary
-    if ( maxRows !== undefined ) {
-      table.rows = table.rows.slice(0, maxRows);
-    }
-
-    return table;
   }
 
   private getModuleTitle(teamName: string): string {

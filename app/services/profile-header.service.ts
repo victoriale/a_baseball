@@ -52,6 +52,7 @@ interface PlayerProfileHeaderData {
     backgroundImage: string;
     draftTeam: string;
     draftYear: string;
+    qualified: boolean;
   };
   stats: {
     //Pitcher stats
@@ -255,6 +256,7 @@ export class ProfileHeaderService {
   }
 
   convertTransactionsPageHeader(data: TeamProfileData, pageName?:string) {
+    //console.log("data",data);
     var stats = data.headerData.stats;
 
     if (!stats) {
@@ -265,12 +267,14 @@ export class ProfileHeaderService {
     }
     var headerData = {
       data:{
-        imageURL: data.fullProfileImageUrl, //TODO
-        text1: 'Last Updated:' + moment(data.headerData.lastUpdated).format('dddd MMMM Do, YYYY'), //TODO
+        imageURL: data.fullProfileImageUrl,
+        text1: 'Last Updated: ' + GlobalFunctions.formatUpdatedDate(data.headerData['lastUpdatedDateTime']),
         text2: 'United States',
         text3: " - " + stats.teamName,
         icon: 'fa fa-map-marker',
         hasHover : true,
+        routerLink : "['Error-page']",
+        urlRouteArray: "['Error-page']"
       },
       error: "Sorry, the " + stats.teamName + " do not currently have any data for the " + stats.seasonId + " " + pageName
     }
@@ -337,14 +341,25 @@ export class ProfileHeaderService {
 
     var formattedStartDate = info.draftYear ? info.draftYear : "N/A"; //[September 18, 2015]
     var formattedYearsInMLB = "N/A"; //[one]
+    var firstSentence = "";
     var yearPluralStr = "years";
-    if ( info.draftYear ) {
+    if ( info.draftYear && info.draftTeam ) {
       var currentYear = (new Date()).getFullYear();
       var yearsInMLB = (currentYear - Number(info.draftYear));
       formattedYearsInMLB = GlobalFunctions.formatNumber(yearsInMLB);
       if ( yearsInMLB == 1 ) {
         yearPluralStr = "year";
       }
+      firstSentence = "<span class='text-heavy'>" + info.playerName +
+                  "</span> started his MLB career in <span class='text-heavy'>" + formattedStartDate +
+                  "</span> for the <span class='text-heavy'>" + info.draftTeam +
+                  "</span>, accumulating <span class='text-heavy'>" + formattedYearsInMLB +
+                  "</span> " + yearPluralStr + " in the MLB. "
+    }
+    else { // no draft year or team
+      firstSentence = "<span class='text-heavy'>" + info.playerName +
+                  "</span> currently plays for the <span class='text-heavy'>" + info.teamName +
+                  "</span>. ";
     }
     
     var location = "N/A"; //[Wichita], [Kan.]
@@ -359,24 +374,16 @@ export class ProfileHeaderService {
     }
     var formattedAge = info.age ? info.age.toString() : "N/A";
     
-    var formattedHeight = "N/A"; //[6-foot-11]
-    if ( info.height ) {
-      var parts = info.height.split("-");
-      formattedHeight = parts.join("-foot-");
-    }
+    var formattedHeight = MLBGlobalFunctions.formatHeightWithFoot(info.height); //[6-foot-11]
     
     var formattedWeight = info.weight ? info.weight.toString() : "N/A";
     
-    var description = "<span class='text-heavy'>" + info.playerName +
-                  "</span> started his MLB career in <span class='text-heavy'>" + formattedStartDate +
-                  "</span> for the <span class='text-heavy'>" + info.teamName +
-                  "</span>, accumulating <span class='text-heavy'>" + formattedYearsInMLB +
-                  "</span> " + yearPluralStr + " in the MLB. <span class='text-heavy'>" + info.playerName +
+    var description = firstSentence + "<span class='text-heavy'>" + info.playerName +
                   "</span> was born in <span class='text-heavy'>" + location +
                   "</span> on <span class='text-heavy'>" + formattedBirthDate +
                   "</span> and is <span class='text-heavy'>" + formattedAge +
-                  "</span> years old, with a height of <span class='text-heavy'>" + formattedHeight +
-                  "</span> and weighing in at <span class='text-heavy'>" + formattedWeight +
+                  "</span> years old. He stands at <span class='text-heavy'>" + formattedHeight +
+                  "</span>, <span class='text-heavy'>" + formattedWeight +
                   "</span> pounds.";
     
     var dataPoints: Array<DataItem>;
