@@ -106,6 +106,7 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
       rows = data[this.type];
     }
     else {
+      rows = [];
       for ( var type in data ) {
         Array.prototype.push.apply(rows, data[type]);
       }
