@@ -51,12 +51,16 @@ export interface SearchPageInput {
 
 export class SearchPageModule implements OnChanges{
     @Input() searchPageInput: SearchPageInput;
-    pageNumber:any;
-    showResults:any;
-    currentShowing:any;
+
+    pageNumber: number;
+    
+    totalResults: number;
+    
+    currentShowing: string;
+
     constructor(private _route:RouteParams){
       if(typeof this._route.params['pageNum'] != 'undefined'){
-        this.pageNumber = this._route.params['pageNum'];
+        this.pageNumber = Number(this._route.params['pageNum']);
       }else{
         this.pageNumber = 1;// if nothing is in route params then default to first piece of obj array
       }
@@ -78,16 +82,20 @@ export class SearchPageModule implements OnChanges{
 
     getShowResults(data){
       let self = this;
-      data.tabData.forEach(function(val,index){
+      data.tabData.forEach(function(val, index){
         if(val.isTabDefault){//Optimize
-          var currentTotal = (val.pageMax * (self.pageNumber - 1));
+          var pageMax = Number(val.pageMax);
+          var currPage = Number(self.pageNumber);
+          var totalItemsOnPage = val.results[self.pageNumber - 1].length;
+          var rangeStart = (currPage - 1) * pageMax + 1;
+          var rangeEnd = rangeStart + totalItemsOnPage - 1;
           if(val.results.length > 0){
-            self.currentShowing = Number(currentTotal) + ' - ' + (Number(currentTotal) + Number(val.results[self.pageNumber - 1].length));
+            self.currentShowing = rangeStart + ' - ' + rangeEnd;
           }else{
             self.currentShowing = '0 - 0';
 
           }
-          self.showResults = val.totalResults;
+          self.totalResults = Number(val.totalResults);
         }
       })
     }
