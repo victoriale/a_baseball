@@ -64,11 +64,13 @@ import {ListOfListsService} from "../../services/list-of-lists.service";
 import {TransactionsModule} from "../../modules/transactions/transactions.module";
 import {TransactionsService} from "../../services/transactions.service";
 import {DailyUpdateModule} from "../../modules/daily-update/daily-update.module";
+import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
 @Component({
     selector: 'Team-page',
     templateUrl: './app/webpages/team-page/team.page.html',
     directives: [
+        SidekickWrapper, 
         LoadingComponent,
         ErrorComponent,
         DailyUpdateModule,

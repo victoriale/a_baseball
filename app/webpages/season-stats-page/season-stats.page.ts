@@ -13,11 +13,12 @@ import {Season, MLBPageParameters} from '../../global/global-interface';
 import {SeasonStatsComponent} from "../../components/season-stats/season-stats.component";
 import {ProfileHeaderService} from '../../services/profile-header.service';
 import {SeasonStatsPageService} from '../../services/season-stats.service';
+import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
 @Component({
     selector: 'Season-stats-page',
     templateUrl: './app/webpages/season-stats-page/season-stats.page.html',
-    directives: [BackTabComponent, TitleComponent, SeasonStatsComponent, LoadingComponent, ErrorComponent],
+    directives: [SidekickWrapper, BackTabComponent, TitleComponent, SeasonStatsComponent, LoadingComponent, ErrorComponent],
     providers: [SeasonStatsPageService, ProfileHeaderService],
 })
 

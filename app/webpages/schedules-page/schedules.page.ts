@@ -15,13 +15,14 @@ import {ErrorComponent} from "../../components/error/error.component";
 
 import {SchedulesService} from '../../services/schedules.service';
 import {SchedulesComponent} from '../../components/schedules/schedules.component';
+import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
 declare var moment;
 
 @Component({
     selector: 'schedules-page',
     templateUrl: './app/webpages/schedules-page/schedules.page.html',
-    directives: [SchedulesComponent, ErrorComponent, LoadingComponent,PaginationFooter, BackTabComponent, TitleComponent, SliderCarousel, DetailedListItem,  ModuleFooter],
+    directives: [SidekickWrapper, SchedulesComponent, ErrorComponent, LoadingComponent,PaginationFooter, BackTabComponent, TitleComponent, SliderCarousel, DetailedListItem,  ModuleFooter],
     providers: [SchedulesService, ProfileHeaderService],
     inputs:[]
 })

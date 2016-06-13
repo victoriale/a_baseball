@@ -18,13 +18,14 @@ import {TransactionsListItem} from "../../components/transactions-list-item/tran
 import {DropdownComponent} from "../../components/dropdown/dropdown.component";
 import {GlobalFunctions} from "../../global/global-functions";
 import {MLBGlobalFunctions} from "../../global/mlb-global-functions";
+import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
 declare var moment:any;
 
 @Component({
     selector: 'transactions-page',
     templateUrl: './app/webpages/transactions-page/transactions.page.html',
-    directives: [ErrorComponent, LoadingComponent, NoDataBox, BackTabComponent, TitleComponent, Tab, Tabs, SliderCarousel, DetailedListItem, ModuleFooter, TransactionsListItem, DropdownComponent],
+    directives: [SidekickWrapper, ErrorComponent, LoadingComponent, NoDataBox, BackTabComponent, TitleComponent, Tab, Tabs, SliderCarousel, DetailedListItem, ModuleFooter, TransactionsListItem, DropdownComponent],
     providers: [TransactionsService, ProfileHeaderService],
     inputs:[]
 })

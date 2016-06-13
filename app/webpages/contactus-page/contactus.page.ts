@@ -7,12 +7,13 @@ import {ContactUsModule} from '../../modules/contactus/contactus.module';
 import {Http} from 'angular2/http';
 import {Observable} from 'rxjs/Rx';
 import {GlobalSettings} from '../../global/global-settings';
+import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
 declare var moment;
 @Component({
     selector: 'contactus-page',
     templateUrl: './app/webpages/contactus-page/contactus.page.html',
-    directives: [ContactUsModule, WidgetModule],
+    directives: [SidekickWrapper, ContactUsModule, WidgetModule],
     providers: [],
 })
 export class ContactUsPage implements OnInit{

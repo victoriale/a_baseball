@@ -15,12 +15,13 @@ import {MLBPlayerStatsTableData, MLBPlayerStatsTableModel} from '../../services/
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
 import {GlobalFunctions} from '../../global/global-functions';
 import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
+import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
 @Component({
     selector: 'Player-stats-page',
     templateUrl: './app/webpages/player-stats-page/player-stats.page.html',
 
-    directives: [BackTabComponent, TitleComponent, PlayerStatsComponent, LoadingComponent, ErrorComponent, DropdownComponent],
+    directives: [SidekickWrapper, BackTabComponent, TitleComponent, PlayerStatsComponent, LoadingComponent, ErrorComponent, DropdownComponent],
     providers: [ProfileHeaderService, PlayerStatsService],
 })
 
