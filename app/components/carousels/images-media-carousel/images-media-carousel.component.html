@@ -1,7 +1,6 @@
 <section 
     [class.module-container]="isProfilePage"
-    [class.images-media-module]="isProfilePage"
-    style="height: auto;">
+    [class.images-media-module]="isProfilePage">
         <module-header *ngIf="isProfilePage" [modHeadData]="modHeadData"></module-header>
     <div class="article-carousel">
         <loading-component *ngIf="!imageData"></loading-component>
@@ -12,12 +11,8 @@
                 <i class='fa {{expandIcon}}'></i>
             </a>
             <div class='feature-btn images'>
-                <!--<span>-->
-                    <i class='fa fa-file-image-o'></i>
-                <!--</span>
-                <span>-->
-                    {{imagesTitle}} ({{displayCounter}}/{{totalImageCount}})
-                <!--</span>-->
+                <i class='fa fa-file-image-o'></i>
+                {{imagesTitle}} ({{displayCounter}}/{{totalImageCount}})
             </div>
             <span [ngStyle]="{'background-image': 'url(' + largeImage + ')'}"
                   class="plcholder-img">
