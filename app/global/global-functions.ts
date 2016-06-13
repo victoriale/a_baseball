@@ -418,6 +418,23 @@ export class GlobalFunctions {
       return str;
     }
 
+    /**
+     * - Formats the date as 'dddd, MMMM D, YYYY'
+     * - Appends the timestamp as 'hh:mm A' if {includeTimestamp} is true.
+     *
+     * @param {any} jsDate - the date to format; can be a string or a JavaScript Date
+     * @param {string} beforeMonthFormat - the date format to use before the AP month
+     * @param {string} afterMonthFormat - the date format to use after the AP month
+     * @returns {string} - formatted string
+     */
+    static formatDateWithAPMonth(jsDate:any, beforeMonthFormat: string, afterMonthFormat: string): string {
+      var date = moment(jsDate);
+      var str = (beforeMonthFormat ? date.format(beforeMonthFormat) : "") + 
+                GlobalFunctions.formatAPMonth(date.month()) + 
+                (afterMonthFormat ? date.format(afterMonthFormat) : "");
+      return str;
+    }
+
 
   /**
    * Parses the date string with moment and returns it as a long-date formatted string
@@ -523,7 +540,7 @@ export class GlobalFunctions {
 /**
  * Format value to Billion/Million/Thousand
  */
-  static nFormatter(num) {
+  static nFormatter(num: number): string {
   	if (num >= 1000000000) {
   		return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + ' B';
   	}
@@ -533,24 +550,6 @@ export class GlobalFunctions {
   	if (num >= 1000) {
   		return (num / 1000).toFixed(1).replace(/\.0$/, '') + ' K';
   	}
-  	return num;
-  }
-  static nFormatter2(num) {
-    if (num >= 1000000000000) {
-  		return (num / 1000000000000).toFixed(1).replace(/\.0$/, '') + ' Tril';
-  	}
-  	if (num >= 1000000000) {
-  		return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + ' Bil';
-  	}
-  	if (num >= 1000000) {
-  		return (num / 1000000).toFixed(1).replace(/\.0$/, '') + ' Mil';
-  	}
-  	if (num >= 1000) {
-  		return (num / 1000).toFixed(1).replace(/\.0$/, '') + ' K';
-  	}
-    if (num >= 100) {
-      return (num/1).toFixed(1).replace(/\.0$/, '') + ' ';
-    }
-  	return num;
+  	return num.toString();
   }
 }

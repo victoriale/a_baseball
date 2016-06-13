@@ -50,6 +50,7 @@
 
       &.label-top{
         top: -17px;
+        right: -10px;
         .flexDisplay;
         .flexDirection(row);
       }//.label-top ends
@@ -60,9 +61,35 @@
   &-values{
     .flexDisplay;
     .flexDirection(column);
-    .flexAlignItems(flex-end);
   }
-
+  &-value1{
+    padding-right: 5px;
+  }
+  &-icons{
+    height: 21px;
+    .flexDisplay;
+    .flexDirection(column);
+    .fa-info-circle{
+      font-size: 10px;
+      cursor: pointer;
+      color: @masterBrandColor;
+      padding: 0;
+      &:hover{
+        color: @black;
+      }
+    }
+    .fa-sort-up{
+      color: @white;
+      display: none;
+      font-size: 16px;
+      padding: 5px 0;
+      text-align: center;
+      z-index: 6;
+      &.active{
+        display: block;
+      }
+    }
+  }
   &-box{
     width: 226px;
     min-height: 64px;
@@ -75,55 +102,66 @@
     .fa-angle-right{
       font-size: 30px;
     }
+    &.active{
+      display: block;
+    }
   }
 
   &-display{
-    .fa{
-      font-size: 10px;
-      color: @masterBrandColor;
-      padding-left: 5px;
-      &:hover{
-        color: @black;
-        .infobox-box{
-          display: block;
-        }
-      }
-    }
+    .flexDisplay;
+    .flexJustify(flex-end);
+    margin-right: 10px;
   }
 
   &-list{
     height: 65px;
     border-bottom: 1px solid @highlightGrey;
-    .flexDisplay;
-    .flexAlignItems(center);
-    .flexJustify(space-around);
+    &-item{
+      .flexDisplay;
+      .flexAlignItems(center);
+      .flexJustify(flex-start);
+      height: 100%;
+      &:hover{
+        .fa-angle-right{
+          color: @masterBrandColor;
+        }
+        .border-3 img{
+          box-shadow: 0 0 0 2px @white;
+        }
+        .infobox-list-playerName{
+          color: @black;
+        }
+        .image-round-hover div{
+          display: flex;
+        }
+      }
+    }
     &-details{
       .flexDisplay;
       .flexDirection(column);
+      text-overflow: ellipsis;
+      overflow: hidden;
+      width: 130px;
+      padding-right: 5px;
     }
     &-playerName{
-      .globalDefaultModFont(14px, 900, @masterBrandColor);
-      &:hover{
-        color: @black;
-      }
+      .globalDefaultModFont(14px, 800, @masterBrandColor);
+
     }
     &-team{
       font-style: italic;
-      .globalDefaultModFont(12px, 400, @black);
-    }
-    &-teamName{
-      color: @masterBrandColor;
-      font-weight: 900;
-      font-style: normal;
-      line-height: 14px;
+      .globalDefaultModFont(12px, 400, @masterBrandColor);
       &:hover{
         color: @black;
       }
     }
-  }
-  &-image{
-    height: 64px;
-    width: 64px;
-    margin: 12px auto;
+    &-teamName{
+      font-weight: 800;
+      font-style: normal;
+      line-height: 14px;
+    }
+    &-image{
+      margin: 0 12px;
+    }
   }
 }

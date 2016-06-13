@@ -1,0 +1,50 @@
+<section class="module-container daily-update">
+  <module-header [modHeadData]="headerInfo"></module-header>
+  <div class="daily-update-hero" style="background: url('{{backgroundImage}}') top center no-repeat;">
+    <h3 class="daily-update-hero-title">[Profile Name]'s Daily Update</h3>
+  </div>
+  <div class="container-fluid">
+    <div class="row stat-wrapper">
+      <div class="stat-wrapper-table">
+        <h3 class="stat-wrapper-table-title"><span class="fs-18">[Batter Name]'s</span><br />
+        <b>Current Season</b> Stats</h3>
+        <p class="stat-wrapper-table-subtitle">Last Updated: [Day of the week], [Month] [DD], [YYYY]</p>
+        <div class="datapoints">
+          <p class="datapoints-item">
+            <span class="pull-left"><i class="fa fa-home"></i>Home Runs</span>
+            <span class="pull-right"><b>[##]</b></span>
+          </p>
+          <p class="datapoints-item">
+            <span class="pull-left"><i class="fa fa-home"></i>Batting Average</span>
+            <span class="pull-right"><b>[##]</b></span>
+          </p>
+          <p class="datapoints-item">
+            <span class="pull-left"><i class="fa fa-home"></i>On Base Percentage</span>
+            <span class="pull-right"><b>[##]</b></span>
+          </p>
+          <p class="datapoints-item">
+            <span class="pull-left"><i class="fa fa-home"></i>Runs Batted In</span>
+            <span class="pull-right"><b>[##]</b></span>
+          </p>
+        </div>
+      </div>
+      <div class="stat-wrapper-charts">
+        <div class="stat-wrapper-charts-key">
+          <h4 class="pull-left">[Type]'s Previous [<=4] Games:</h4>
+          <span class="stat-wrapper-charts-key-item stat-wrapper-charts-key-secondary pull-right">[Data Point 2]</span>
+          <span class="stat-wrapper-charts-key-item stat-wrapper-charts-key-primary pull-right">[Data Point 1]</span>
+        </div>
+        <div class="daily-update-chart-wrapper"></div>
+      </div>
+    </div>
+  </div>
+  <div class="article-teaser container-fluid">
+    <circle-image class="pull-left" *ngIf="imageConfig" [data]="imageConfig"></circle-image>
+    <div class="article-teaser-text pull-right">
+      <h4 class="article-teaser-text-title">[Batter Names]'s Most Recent Game</h4>
+      <p class="article-teaser-text-subtitle"><i class="fa fa-calendar-o"></i> [DOW] [Month] [DD], [YYYY][AM/PM] ET</p>
+      <p class="article-teaser-text-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo...</p>
+      <p class="article-teaser-text-cta">Continue Reading <i class="fa fa-angle-right"></i></p>
+    </div>
+  </div>
+</section>

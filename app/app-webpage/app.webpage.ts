@@ -12,7 +12,6 @@ import {HomePage} from "../webpages/home-page/home-page.page";
 import {ComponentPage} from "../webpages/component-page/component.page";
 import {TeamRosterPage} from "../webpages/team-roster/team-roster.page";
 import {ImagesTestPage} from "../webpages/images-test-page/images-test.page";
-import {TablesTestPage} from "../webpages/tables-test-page/tables-test.page";
 import {WebApp} from "../app-layout/app.layout";
 import {GlobalFunctions} from "../global/global-functions";
 import {SearchPage} from '../webpages/search-page/search.page';
@@ -141,7 +140,7 @@ import {TransactionsPage} from "../webpages/transactions-page/transactions.page"
         component: TeamRosterPage
     },
     {
-        path: '/season-stats/:teamName/:teamId',
+        path: '/season-stats/player/:fullName/:playerId',
         name: 'Season-stats-page',
         component: SeasonStatsPage
     },
@@ -190,11 +189,6 @@ import {TransactionsPage} from "../webpages/transactions-page/transactions.page"
         path: '/images-test',
         name: 'Images-test-page',
         component: ImagesTestPage,
-    },
-    {
-        path: '/tables-test',
-        name: 'Tables-test-page',
-        component: TablesTestPage,
     }
 ])
 

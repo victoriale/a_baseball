@@ -2,6 +2,8 @@
     <p *ngIf="i==0" class="content-first" [innerHTML]="content"></p>
     <profileData-component *ngIf="odd && articleType == 'playerRoster'" [articleType]="articleType"
                            [articleData]="articleData" [index]="i" [imageLinks]="imageLinks"></profileData-component>
+    <profileData-component *ngIf="i==1 && articleType == 'gameModule'" [articleType]="articleType"
+                           [articleData]="articleData" [index]="i" [imageLinks]="imageLinks"></profileData-component>
     <profileData-component *ngIf="i==2 && articleType == 'playerComparison'" [articleType]="articleType"
                            [articleSubType]="articleSubType" [articleData]="articleData"
                            [imageLinks]="imageLinks"></profileData-component>
@@ -14,7 +16,7 @@
     <profileData-component *ngIf="i==4 && articleType == 'teamRecord' && articleSubType == 'last'" [index]="'1'"
                            [articleSubType]="articleSubType" [articleType]="articleType"
                            [articleData]="articleData" [imageLinks]="imageLinks"></profileData-component>
-    <p *ngIf="i!=0 && !content.playerComparisonModule && !content.teamRecordModule && !content.playerRosterModule"
+    <p *ngIf="i!=0 && !content.playerComparisonModule && !content.teamRecordModule && !content.playerRosterModule && !content.gameModule"
        class="content" [innerHTML]="content"></p>
     <profileData-component *ngIf="i==4 && articleType == 'teamRecord' && articleSubType == 'about'" [index]="'2'"
                            [articleSubType]="articleSubType" [articleType]="articleType"
@@ -22,8 +24,12 @@
     <profileData-component *ngIf="i==3 && articleType == 'teamRecord' && articleSubType == 'history'" [index]="'2'"
                            [articleSubType]="articleSubType" [articleType]="articleType"
                            [articleData]="articleData" [imageLinks]="imageLinks"></profileData-component>
+    <profileData-component *ngIf="i==5 && articleType == 'gameModule' && content.gameModule" [articleType]="articleType"
+                           [articleData]="articleData" [index]="i" [imageLinks]="imageLinks"></profileData-component>
     <profileData-component *ngIf="i==6 && articleType == 'teamRecord' && articleSubType == 'last'" [index]="'2'"
                            [articleSubType]="articleSubType" [articleType]="articleType"
                            [articleData]="articleData" [imageLinks]="imageLinks"></profileData-component>
+    <div *ngIf="last && (articleType == 'playerRoster' || articleType == 'teamRecord' || articleType == 'gameModule' || articleType == 'playerComparison')"
+         class="comparison-hr"></div>
     <billboard-component *ngIf="last"></billboard-component>
 </div>

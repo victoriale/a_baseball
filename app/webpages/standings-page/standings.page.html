@@ -1,7 +1,8 @@
-<section class='module-container'>
-    <loading-component *ngIf="!tabs && !hasError"></loading-component>
-    <error-component *ngIf="hasError"></error-component>
+<section class="page page-module-container">
     <backtab-component></backtab-component>
     <title-component *ngIf="titleData" [titleData]="titleData" [imageData]="titleImageData"></title-component>
+    <loading-component *ngIf="!profileLoaded && !hasError && !tabs"></loading-component>
+    <error-component *ngIf="hasError"></error-component>
+    
     <standings-component *ngIf="tabs" [tabs]="tabs" (tabSelected)="standingsTabSelected($event)"></standings-component>
 </section>

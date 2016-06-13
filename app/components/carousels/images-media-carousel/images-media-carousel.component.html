@@ -1,6 +1,6 @@
-<section *ngIf="isProfilePage" class="module-container">
-    <div class="profile-carousel">
-        <module-header [modHeadData]="modHeadData"></module-header>
+<section *ngIf="isProfilePage" class="module-container images-media-module">
+    <module-header [modHeadData]="modHeadData"></module-header>
+    <div class="article-carousel">
         <loading-component *ngIf="!imageData"></loading-component>
         <div *ngIf="imageData" class="plcholder">
             <a class='feature-btn expand' (click)="modalExpand()">
@@ -43,7 +43,7 @@
     </div>
 </section>
 
-<section *ngIf="!isProfilePage" class="article-carousel">
+<section *ngIf="!isProfilePage" class="article-carousel" style="height: auto;">
     <loading-component *ngIf="!imageData"></loading-component>
     <div *ngIf="imageData" class="plcholder">
         <a class='feature-btn expand' (click)="modalExpand()">
@@ -63,7 +63,7 @@
                 <circle-button class="plcholder-img-navigation" (scrollLeft)="left()"
                                (scrollRight)="right()"></circle-button>
             </span>
-        <div class="grey-bar">Photo by<span class="grey-bar-credit"></span></div>
+        <div class="grey-bar">Photo by<span class="grey-bar-credit">{{imageCredit}}</span></div>
     </div>
     <div *ngIf="imageData" class="sm-images">
             <span *ngFor="#smImages of smallImage; #i=index;">
@@ -104,7 +104,7 @@
                 <circle-button class="modal-plcholder-img-navigation" (scrollLeft)="left()"
                                (scrollRight)="right()"></circle-button>
             </span>
-            <div class="modal-grey-bar">Photo by<span class="modal-grey-bar-credit"></span></div>
+            <div class="modal-grey-bar">Photo by<span class="modal-grey-bar-credit">{{imageCredit}}</span></div>
         </div>
     </section>
 </div>

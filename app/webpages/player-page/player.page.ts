@@ -91,7 +91,7 @@ import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.modul
 export class PlayerPage implements OnInit {
   public shareModuleInput:ShareModuleInput;
   pageParams:MLBPageParameters;
-  hasError: boolean = false; 
+  hasError: boolean = false;
   standingsData:StandingsModuleData;
   profileHeaderData: ProfileHeaderData;
   seasonStatsData: any;
@@ -149,7 +149,10 @@ export class PlayerPage implements OnInit {
               //this.getBoxScores();
               this.getSchedulesData('pre-event');//grab pre event data for upcoming games
               this.setupSeasonstatsData();
-              this.setupComparisonData();
+              if ( data.headerData.info.qualified ) {
+                //only get the comparison data if the player is considered qualified
+                this.setupComparisonData();
+              }
               /*** Other [League Name] Content You May Love ***/
               this.getImages(this.imageData);
               this.getDykService();
@@ -268,9 +271,9 @@ export class PlayerPage implements OnInit {
         );
     }
 
-    private standingsTabSelected(tab:MLBStandingsTabData) {
+    private standingsTabSelected(tabData: Array<any>) {
         //only show 5 rows in the module;
-        this._standingsService.getStandingsTabData(tab, this.pageParams, (data) => {}, 5);
+        this._standingsService.getStandingsTabData(tabData, this.pageParams, (data) => {}, 5);
     }
 
     private setupComparisonData() {
@@ -279,7 +282,7 @@ export class PlayerPage implements OnInit {
                 this.comparisonModuleData = data;
             },
             err => {
-                console.log("Error getting comparison data for "+ this.pageParams.playerId + ": " + err);
+                console.log("Error getting comparison data for "+ this.pageParams.playerId, err);
             });
     }
 

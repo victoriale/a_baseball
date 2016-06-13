@@ -8,12 +8,14 @@ import {TableModel, TableColumn, TableRow, TableCell} from '../custom-table/tabl
 import {LoadingComponent} from '../loading/loading.component';
 import {NoDataBox} from '../../components/error/data-box/data-box.component';
 
-export interface TableTabData<T> {
+export interface StandingsTableTabData<T> {
   title: string;
   isActive: boolean;
   isLoaded: boolean;
   hasError: boolean;
   sections: Array<TableComponentData<T>>;
+  getSelectedKey(): string;
+  setSelectedKey(key:string);
   convertToCarouselItem(item:T, index:number):SliderCarouselInput
 }
 
@@ -32,11 +34,12 @@ export class StandingsComponent implements DoCheck {
 
   public carouselData: Array<SliderCarouselInput> = [];
 
-  @Input() tabs: Array<TableTabData<any>>;
+  @Input() tabs: Array<StandingsTableTabData<any>>;
 
   @Output("tabSelected") tabSelectedListener = new EventEmitter();
 
   private selectedTabTitle: string;
+  private selectedKey: string;
   private tabsLoaded: {[index:number]:string};
   private noDataMessage = "Sorry, there is no data available.";
 
@@ -48,8 +51,8 @@ export class StandingsComponent implements DoCheck {
         this.tabsLoaded = {};
         var selectedTitle = this.tabs[0].title;
         this.tabs.forEach(tab => {
-          this.setSelectedCarouselIndex(tab, 0);
           if ( tab.isActive ) {
+            this.setSelectedCarouselIndex(tab, 0);
             selectedTitle = tab.title;
           }
         });
@@ -58,14 +61,14 @@ export class StandingsComponent implements DoCheck {
       else {
         let selectedTab = this.getSelectedTab();
         if ( selectedTab && selectedTab.sections && selectedTab.sections.length > 0 && !this.tabsLoaded[selectedTab.title] ) {
-          this.updateCarousel();
+          // this.updateCarousel(); // wait until rows are sorted
           this.tabsLoaded[selectedTab.title] = "1";
         }
       }
     }
   }
 
-  getSelectedTab(): TableTabData<any> {
+  getSelectedTab(): StandingsTableTabData<any> {
     var matchingTabs = this.tabs.filter(value => value.title === this.selectedTabTitle);
     if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) {
       return matchingTabs[0];
@@ -75,7 +78,7 @@ export class StandingsComponent implements DoCheck {
     }
   }
 
-  setSelectedCarouselIndex(tab: TableTabData<any>, index: number) {
+  setSelectedCarouselIndex(tab: StandingsTableTabData<any>, index: number) {
     let offset = 0;
     if ( !tab.sections ) return;
     
@@ -91,9 +94,19 @@ export class StandingsComponent implements DoCheck {
   }
 
   tabSelected(newTitle) {
-    this.selectedTabTitle = newTitle;
     this.noDataMessage = "Sorry, there is no data available for the "+ newTitle;
-    this.tabSelectedListener.next(this.getSelectedTab());
+    
+    var priorTab = this.getSelectedTab();
+    if ( priorTab ) {
+      this.selectedKey = priorTab.getSelectedKey();
+    }
+    
+    this.selectedTabTitle = newTitle;    
+    var newTab = this.getSelectedTab();
+    if ( newTab ) {
+      newTab.setSelectedKey(this.selectedKey);
+    }
+    this.tabSelectedListener.next([newTab, this.selectedKey]);
     this.updateCarousel();
   }
 
@@ -131,7 +144,6 @@ export class StandingsComponent implements DoCheck {
           });
       });
     }
-
     this.selectedIndex = selectedIndex < 0 ? 0 : selectedIndex;
     this.carouselData = carouselData;
   }

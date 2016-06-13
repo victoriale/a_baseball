@@ -124,7 +124,7 @@ export class MLBComparisonModuleData implements ComparisonModuleData {
         teamData.playerList = [];
         this._service.getPlayerList(newTeamId).subscribe(data => {
           teamData.playerList = data;
-          //TODO - widen dropdown to  
+          //TODO - widen dropdown to
           // teamData.playerList[1].value += "Something longer than ever";
           listLoaded(teamData.playerList);
         },
@@ -155,10 +155,10 @@ export class ComparisonStatsService {
   private _apiUrl: string = GlobalSettings.getApiUrl();
 
   private pitchingFields = [
-    "pitchWins", 
-    "pitchInningsPitched", 
+    "pitchWins",
+    "pitchInningsPitched",
     "pitchStrikeouts",
-    "pitchEra", 
+    "pitchEra",
     // "pitchSaves",
     "pitchHits",
     "pitchEarnedRuns",
@@ -213,7 +213,7 @@ export class ComparisonStatsService {
     return this.callPlayerComparisonAPI(teamId, playerId, apiData => {
       apiData.playerOne.statistics = this.formatPlayerData(apiData.playerOne.playerId, apiData.data);
       if ( index == 0 ) {
-        existingData.playerOne = apiData.playerOne;        
+        existingData.playerOne = apiData.playerOne;
       }
       else {
         existingData.playerTwo = apiData.playerOne;
@@ -287,13 +287,14 @@ export class ComparisonStatsService {
     return list;
   }
 
-  private formatPlayerPositionList(description:string, playerList: Array<PlayerData>) {
+  private formatPlayerPositionList(description:string, playerList: Array<any>) {
     var dropdownList = [];
 
     if ( playerList && playerList.length > 0 ) {
       dropdownList.push({ key: "", value: description, class: "dropdown-grp-lbl" });
       Array.prototype.push.apply(dropdownList, playerList.map(player => {
-        return {key: player.playerId, value: player.playerName, class: "dropdown-grp-item"};
+        if ( player.playerId ) return {key: player.playerId, value: player.playerName, class: "dropdown-grp-item"};
+        else return {key: player.player_id, value: player.player_name, class: "dropdown-grp-item"};
       }));
     }
 
@@ -306,7 +307,7 @@ export class ComparisonStatsService {
       var seasonData = data[seasonId];
       var seasonStats = new SeasonStats();
       var isValidStats = false;
-      
+
       for ( var key in seasonData ) {
         var value = seasonData[key];
         if ( key == "isCurrentSeason" ) {
@@ -328,20 +329,13 @@ export class ComparisonStatsService {
     }
     return stats;
   }
-  
+
   private createComparisonBars(data: ComparisonStatsData): ComparisonBarList {
     var fields = data.playerOne.position[0].charAt(0) == "P" ? this.pitchingFields : this.battingFields;
-    
-    data.playerOne.mainTeamColor = data.playerOne.teamColors[0];
-    data.playerTwo.mainTeamColor = data.playerTwo.teamColors[0];
-    if ( Gradient.areColorsClose(data.playerOne.teamColors[0], data.playerTwo.teamColors[0]) ) {
-      if ( data.playerTwo.teamColors.length >= 2) {
-        data.playerTwo.mainTeamColor = data.playerTwo.teamColors[1];
-      } else if ( data.playerOne.teamColors.length >=2 ) {
-        data.playerOne.mainTeamColor = data.playerOne.teamColors[1];
-      }
-    }
-     
+    var colors = Gradient.getColorPair(data.playerOne.teamColors, data.playerTwo.teamColors);
+    data.playerOne.mainTeamColor = colors[0];
+    data.playerTwo.mainTeamColor = colors[1];
+
     var bars: ComparisonBarList = {};
     for ( var seasonId in data.bestStatistics ) {
       var bestStats = data.bestStatistics[seasonId];
@@ -357,15 +351,16 @@ export class ComparisonStatsService {
         seasonBarList.push({
           title: title,
           data: [{
-            value: playerOneStats != null ? playerOneStats[key] : null,
+            value: playerOneStats != null ? this.getNumericValue(key, playerOneStats[key]) : null,
             color: data.playerOne.mainTeamColor
           },
           {
-            value: playerTwoStats != null ? playerTwoStats[key] : null,
-            color: data.playerTwo.mainTeamColor
+            value: playerTwoStats != null ? this.getNumericValue(key, playerTwoStats[key]) : null,
+            color: data.playerTwo.mainTeamColor,
+            fontWeight: '700'
           }],
-          minValue: worstStats != null ? worstStats[key] : null,
-          maxValue: bestStats != null ? bestStats[key] : null
+          minValue: worstStats != null ? this.getNumericValue(key, worstStats[key]) : null,
+          maxValue: bestStats != null ? this.getNumericValue(key, bestStats[key]) : null
         });
       }
 
@@ -398,6 +393,16 @@ export class ComparisonStatsService {
       case "pitchEarnedRuns": return "Earned Runs";
       case "pitchHomeRunsAllowed": return "Home Runs";
       default: return null;
+    }
+  }
+
+  private getNumericValue(key: string, value: number): number {
+    value = Number(value);
+    switch (key) {
+      case "batAverage": return Number(value.toFixed(3));
+      case "batOnBasePercentage": return Number(value.toFixed(3));
+      case "pitchEra": return Number(value.toFixed(2));
+      default: return value;
     }
   }
 }

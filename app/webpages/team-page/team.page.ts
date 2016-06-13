@@ -40,7 +40,7 @@ import {SchedulesModule} from '../../modules/schedules/schedules.module';
 
 import {TeamRosterModule, RosterModuleData} from '../../modules/team-roster/team-roster.module';
 import {RosterService} from '../../services/roster.service';
-import {MLBRosterTabData} from '../../services/roster.data';
+import {TeamRosterData} from '../../services/roster.data';
 
 import {ProfileHeaderData, ProfileHeaderModule} from '../../modules/profile-header/profile-header.module';
 import {ProfileHeaderService} from '../../services/profile-header.service';
@@ -64,6 +64,7 @@ import {ListOfListsService} from "../../services/list-of-lists.service";
 
 import {TransactionsModule} from "../../modules/transactions/transactions.module";
 import {TransactionsService} from "../../services/transactions.service";
+import {DailyUpdateModule} from "../../modules/daily-update/daily-update.module";
 
 declare var moment;
 
@@ -73,6 +74,7 @@ declare var moment;
     directives: [
         LoadingComponent,
         ErrorComponent,
+        DailyUpdateModule,
         SchedulesModule,
         BoxScoresModule,
         DraftHistoryModule,
@@ -124,7 +126,7 @@ export class TeamPage implements OnInit {
     comparisonModuleData: ComparisonModuleData;
     standingsData: StandingsModuleData;
     playerStatsData: PlayerStatsModuleData;
-    rosterData: RosterModuleData;
+    rosterData: RosterModuleData<TeamRosterData>;
 
     imageData:any;
     copyright:any;
@@ -203,7 +205,7 @@ export class TeamPage implements OnInit {
                 this.getBoxScores(this.dateParam.date);
                 this.getSchedulesData('pre-event');//grab pre event data for upcoming games
                 this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams, data.teamName);
-                this.rosterData = this._rosterService.loadAllTabsForModule(this.pageParams.teamId, data.teamName);
+                this.rosterData = this._rosterService.loadAllTabsForModule(this.pageParams.teamId, data.teamName, this.pageParams.conference);
                 this.playerStatsData = this._playerStatsService.loadAllTabsForModule(this.pageParams.teamId, data.teamName);
                 this.transactionsModule(this.currentYear, this.pageParams.teamId);
                 this.draftHistoryModule(this.currentYear, this.pageParams.teamId);
@@ -301,9 +303,6 @@ export class TeamPage implements OnInit {
     //api for Schedules
     private getSchedulesData(status){
       var limit = 5;
-      if(status == 'post-event'){
-        limit = 3;
-      }
       this._schedulesService.getSchedulesService('team', status, limit, 1, this.pageParams.teamId)
       .subscribe(
         data => {
@@ -331,23 +330,18 @@ export class TeamPage implements OnInit {
                 this.comparisonModuleData = data;
             },
             err => {
-                console.log("Error getting comparison data for "+ this.pageParams.teamId + ": " + err);
+                console.log("Error getting comparison data for "+ this.pageParams.teamId, err);
             });
     }
 
-    private standingsTabSelected(tab:MLBStandingsTabData) {
+    private standingsTabSelected(tabData: Array<any>) {
         //only show 5 rows in the module
-        this._standingsService.getStandingsTabData(tab, this.pageParams, (data) => {}, 5);
+        this._standingsService.getStandingsTabData(tabData, this.pageParams, (data) => {}, 5);
     }
 
-    private playerStatsTabSelected(tab: MLBPlayerStatsTableData) {
+    private playerStatsTabSelected(tabData: Array<any>) {
          //only show 4 rows in the module
-        this._playerStatsService.getStatsTabData(tab, this.pageParams, data => {}, 4);
-    }
-
-    private rosterTabSelected(tab: MLBRosterTabData) {
-         //only show 5 rows in the module
-        this._rosterService.getRosterTabData(this.pageParams.teamId.toString(), this.pageParams.conference, tab, 5);
+        this._playerStatsService.getStatsTabData(tabData, this.pageParams, data => {}, 4);
     }
 
     private setupShareModule() {
