@@ -49,11 +49,13 @@ import {ImagesMedia} from "../../components/carousels/images-media-carousel/imag
 import {GlobalFunctions} from "../../global/global-functions";
 import {ListOfListsService} from "../../services/list-of-lists.service";
 import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.module";
+import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
 @Component({
     selector: 'Player-page',
     templateUrl: './app/webpages/player-page/player.page.html',
     directives: [
+      SidekickWrapper, 
       LoadingComponent,
       ErrorComponent,
       SchedulesModule,

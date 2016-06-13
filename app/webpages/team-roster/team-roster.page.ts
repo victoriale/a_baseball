@@ -8,13 +8,12 @@ import {MLBPageParameters} from '../../global/global-interface';
 import {GlobalFunctions} from '../../global/global-functions';
 import {RosterService} from '../../services/roster.service';
 import {ProfileHeaderService} from '../../services/profile-header.service';
+import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
 @Component({
     selector: 'Team-roster-page',
     templateUrl: './app/webpages/team-roster/team-roster.page.html',
-    directives: [BackTabComponent,
-                TitleComponent,
-                RosterComponent],
+    directives: [SidekickWrapper, BackTabComponent, TitleComponent, RosterComponent],
     providers: [RosterService, ProfileHeaderService],
 })
 

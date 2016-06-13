@@ -1,3 +1,4 @@
+<sidekick-wrapper>
 <section class="page page-module-container">
   <div>{{ detaileDataArray | json}}</div>
   <backtab-component></backtab-component>
@@ -11,3 +12,4 @@
   <pagination-footer *ngIf="paginationParameters" [paginationParameters]="paginationParameters"></pagination-footer>
   <no-data-box *ngIf="!detailedDataArray && errorData" [data]="errorData"></no-data-box>
 </section>
+</sidekick-wrapper>

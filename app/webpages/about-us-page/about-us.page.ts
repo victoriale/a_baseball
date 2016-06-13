@@ -15,6 +15,7 @@ import {WebApp} from '../../app-layout/app.layout';
 import {TitleInputData} from "../../components/title/title.component";
 import {CircleImage} from "../../components/images/circle-image";
 import {CircleImageData} from "../../components/images/image-data";
+import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
 export interface AuBlockData {
   iconUrl?:string;
@@ -36,7 +37,7 @@ export interface AboutUsModel {
 @Component({
     selector: 'About-us-page',
     templateUrl: './app/webpages/about-us-page/about-us.page.html',
-    directives: [CircleImage, BackTabComponent, TitleComponent, WidgetModule, ROUTER_DIRECTIVES],
+    directives: [SidekickWrapper, CircleImage, BackTabComponent, TitleComponent, WidgetModule, ROUTER_DIRECTIVES],
     providers: [AboutUsService],
 })
 
