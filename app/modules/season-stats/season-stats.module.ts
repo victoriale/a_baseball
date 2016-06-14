@@ -47,17 +47,11 @@ export class SeasonStatsModule implements OnChanges {
 
     public moduleHeaderData: ModuleHeaderData;
 
-    // public comparisonLegendData: ComparisonLegendInput;
-
-    // public selectedTabTitle: string = 'Current';
-
     public footerData: ModuleFooterData = {
       infoDesc: 'Want to see full statistics for this player?',
       text: 'VIEW FULL STATISTICS',
       url: ['Season-stats-page', {fullName: 'kevin-gausman', playerId: 95097}]//TODO
     };
-
-    // public leadText = "MLB Leader";
 
     public carouselDataArray: Array<SliderCarouselInput>;
 
@@ -69,58 +63,6 @@ export class SeasonStatsModule implements OnChanges {
           hasIcon: false,
           iconClass: ''
       };
-
-
-
-        // if(this.selectedTabTitle != 'Career Stats'){
-        //   this.comparisonLegendData = {
-        //     legendTitle: [
-        //       {
-        //         text: this.selectedTabTitle + ' Season',
-        //         class: 'text-heavy'
-        //       },
-        //       {
-        //         text: ' Breakdown',
-        //       }
-        //     ],
-        //     legendValues: [
-        //       {
-        //         title: data.playerInfo.playerName,
-        //         color: '#BC2027'
-        //       },
-        //       {
-        //         title: 'MLB Average',
-        //         color: '#444444'
-        //       },
-        //       {
-        //         title: this.leadText,
-        //         color: "#E1E1E1"
-        //       }
-        //     ]
-        //   };
-        // } else {
-        //   this.comparisonLegendData = {
-        //     legendTitle: [
-        //       {
-        //         text: 'Career Stats',
-        //         class: 'text-heavy'
-        //       },
-        //       {
-        //         text: ' Breakdown',
-        //       }
-        //     ],
-        //     legendValues: [
-        //       {
-        //         title: data.playerInfo.playerName,
-        //         color: '#BC2027'
-        //       },
-        //       {
-        //         title: 'Stats High',
-        //         color: "#E1E1E1"
-        //       }
-        //     ]
-        //   };
-      // }
     }
 
   constructor(){}
@@ -132,11 +74,6 @@ export class SeasonStatsModule implements OnChanges {
   }
 
   tabSelected(tabTitle){
-    // if(tabTitle != 'Current Season'){
-    //   this.selectedTabTitle = tabTitle;
-    // } else {
-    //   this.selectedTabTitle = 'Current';
-    // }
     if ( tabTitle == "Career Stats" ) {
         this.noDataMessage = "Sorry, there are no season stats available for this player.";
     }

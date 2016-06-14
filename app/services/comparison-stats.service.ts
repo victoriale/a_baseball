@@ -254,7 +254,7 @@ export class ComparisonStatsService {
       url += "league";
     }
 
-    console.log("getting player stats: " + url);
+    // console.log("getting player stats: " + url);
     return this.http.get(url)
       .map(res => res.json())
       .map(data => dataLoaded(data.data));

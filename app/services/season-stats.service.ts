@@ -79,7 +79,7 @@ export class SeasonStatsService {
 
   getPlayerStats(playerId: number): Observable<SeasonStatsModuleData> {
     let url = this._apiUrl + "/player/seasonStats/" + playerId;
-    console.log("player season stats " + url);
+    // console.log("player season stats " + url);
     return this.http.get(url)
       .map(res => res.json())
       .map(data => this.formatData(data.data));
@@ -147,8 +147,6 @@ export class SeasonStatsService {
           color: '#444444',
         }];
 
-        console.log("average value for "  + fieldName + " is "  + avgValue + "; formatted version: " + this.formatValue(fieldName, avgValue));
-
         //Set up info box only for non-career tabs
         if ( leaderValue == null ) {
           console.log("Error - leader value is null for " + fieldName);
@@ -191,7 +189,6 @@ export class SeasonStatsService {
     var legendValues;
     var subTitle;
     var tabTitle;
-    console.log("Creating bars for " + year);
     var bars: Array<ComparisonBarInput> = this.getBarData(data.stats[year], year == "career", isPitcher); 
 
     if ( year == "career" ) {
@@ -459,7 +456,6 @@ export class SeasonStatsPageService {
   }
 
   private getKeyValue(key: string, data): string {
-    // console.log(key, data);
     if(data[key] == null){
       data[key] = {};
     }
