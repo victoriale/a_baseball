@@ -99,8 +99,6 @@ export class SchedulesService {
         {display: 'Upcoming Games', data:'pre-event', season:displayYear, tabData: new MLBScheduleTabData(this.formatGroupName(year,'pre-event'), true)},
         {display: 'Previous Games', data:'post-event', season:displayYear, tabData: new MLBScheduleTabData(this.formatGroupName(year,'post-event'), true)}
       ];
-      console.log("Schedule TABS",tabData);
-      console.log("SCHEDULES table",tableData);
       return {
         data:tableData,
         tabs:tabData,

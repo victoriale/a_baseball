@@ -5,6 +5,7 @@ import {SliderCarouselInput} from '../components/carousels/slider-carousel/slide
 import {Season} from '../global/global-interface';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
+import {GlobalSettings} from '../global/global-settings';
 
 export interface TeamSeasonStatsData {
   playerName: string,
@@ -112,31 +113,36 @@ export class MLBSeasonStatsTabData implements TableTabData<TeamSeasonStatsData> 
   }
 
   convertToCarouselItem(item: TeamSeasonStatsData, index:number): SliderCarouselInput {
+    console.log(item);
+    var playerData = item['playerInfo'];
     var subheader = item.seasonId + " Season Stats Report";
-    var description = "Team: <span class='text-heavy'>" + item.teamName + "</span>";
     return {
-      index: index,
-      backgroundImage: item.fullBackgroundImageUrl, //optional
+      backgroundImage: playerData.profileHeader != null ? GlobalSettings.getImageUrl(playerData.profileHeader) : null,
       description: [
         "<div class='season-stats-car-subhdr'><i class='fa fa-circle'></i>" + subheader + "</div>",
-        "<div class='season-stats-car-hdr'>" + item.teamName + "</div>",
-        "<div class='season-stats-car-desc'>" + description + "</div>",
-        "<div class='season-stats-car-date'>Last Updated On " + item.displayDate + "</div>"
+        "<div class='season-stats-car-hdr'>" + playerData.playerName + "</div>",
+        "<div class='season-stats-car-hdr'>Team: " + playerData.teamName + "</div>",
+        // {
+        //    wrapperStyle: {'font-size': '14px', 'line-height': '1.4em'},
+        //    beforeLink: "Team: ",
+        //    linkObj: MLBGlobalFunctions.formatTeamRoute(playerData.teamName, playerData.teamId),
+        //    linkText: playerData.teamName,
+        //    afterLink: ""
+        // },
+        "<div class='season-stats-car-date'>Last Updated On " + GlobalFunctions.formatUpdatedDate(playerData.lastUpdate) + "</div>"
       ],
       imageConfig: {
         imageClass: "image-150",
         mainImage: {
           imageClass: "border-10",
-          //TODO
-          // urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.playerId),
-          imageUrl: item.fullImageUrl,
+          urlRouteArray: MLBGlobalFunctions.formatPlayerRoute(playerData.teamName,playerData.playerName,playerData.playerId.toString()),
+          imageUrl: GlobalSettings.getImageUrl(playerData.playerHeadshot),
           hoverText: "<p>View</p><p>Profile</p>"
         },
         subImages: [
           {
-              imageUrl: item.fullImageUrl,
-              //TODO
-              // urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.playerId.toString()),
+              imageUrl: GlobalSettings.getImageUrl(playerData.teamLogo),
+              urlRouteArray: MLBGlobalFunctions.formatTeamRoute(playerData.teamName,playerData.playerId),
               hoverText: "<i class='fa fa-mail-forward'></i>",
               imageClass: "image-50-sub image-round-lower-right"
           },
@@ -288,7 +294,7 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
         break;
 
       case "team":
-        s = '<span class="text-master"><a>' + item['teamInfo'].teamName != null ? item['teamInfo'].teamName : 'N/A' + "</a></span>";
+        s = item['teamInfo'].teamName != null ? item['teamInfo'].teamName : 'N/A';
         break;
 
       case "wl":

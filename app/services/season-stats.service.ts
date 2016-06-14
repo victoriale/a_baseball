@@ -117,7 +117,6 @@ export class SeasonStatsService {
           var leaderLists = [];
           for( var i = 0; i < fields.length; i++ ){
             var key = fields[i];
-            console.log("key", key);
             var title = this.getKeyDisplayTitle(key);
             var avgValue = year != 'career' ? this.getKeyValue(key, average) : 0;
             var infoIcon = year != 'career' ? 'fa-info-circle' : null;
@@ -289,7 +288,6 @@ export class SeasonStatsPageService {
     var seasonKey = seasonStatsTab.year;
     //TODO need to put these objects into a working enviroment for regular season and years
     var tableData = {};
-    console.log(apiData);
     //run through each object in the api and set the title of only the needed season for the table regular and post season
     for(var season in apiData){
       switch(season){
@@ -325,6 +323,7 @@ export class SeasonStatsPageService {
             if(sectionTitle != null){
               let sectionData = [];
               for(var year in sectionTable){//grab all season data and push them into a single array for career stats tab
+                sectionData['playerInfo'] = apiData.playerInfo;
                 sectionTable[year][statType]['teamInfo'] = sectionTable[year].teamInfo != null ? sectionTable[year].teamInfo : {};
                 if(year != 'career'){
                   sectionData.push(sectionTable[year][statType]);
@@ -356,6 +355,7 @@ export class SeasonStatsPageService {
               //run through each object in the api and set the title of only the needed section for the table averages and stats 'total'
               if(sectionTitle != null){
                 let sectionData = sectionYear[statType];
+                sectionData['playerInfo'] = apiData.playerInfo;
                 sectionData['teamInfo'] = sectionYear.teamInfo != null ? sectionYear.teamInfo : {};
                 sections.push(this.setupTableData(sectionTitle, seasonKey, sectionData, maxRows));
               }//END OF SECTION TITLE IF STATEMENT
@@ -365,8 +365,6 @@ export class SeasonStatsPageService {
       }//END OF SEASON TITLE IF STATEMENT
     }//END OF SEASON FOR LOOP
     // this.convertAPIData(apiData.regularSeason, tableData);
-
-    console.log(sections);
     return sections;
   }
 
@@ -382,7 +380,6 @@ export class SeasonStatsPageService {
     }
     tableName = season;
     var table = new MLBSeasonStatsTableModel(rowArray, true);// set if pitcher to true
-    console.log('NEW TABLE',tableName,table);
 
     return new MLBSeasonStatsTableData(tableName, season, year, table);
   }
