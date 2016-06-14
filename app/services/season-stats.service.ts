@@ -395,7 +395,7 @@ export class SeasonStatsPageService {
               let sectionData = [];
               for(var year in sectionTable){//grab all season data and push them into a single array for career stats tab
                 sectionData['playerInfo'] = apiData.playerInfo;
-                sectionTable[year][statType]['teamInfo'] = sectionTable[year].teamInfo != null ? sectionTable[year].teamInfo : {};
+                sectionTable[year][statType].teamInfo = sectionTable[year].teamInfo != null ? sectionTable[year].teamInfo : {};
                 if(year != 'career'){
                   sectionData.push(sectionTable[year][statType]);
                 }
@@ -426,8 +426,8 @@ export class SeasonStatsPageService {
               //run through each object in the api and set the title of only the needed section for the table averages and stats 'total'
               if(sectionTitle != null){
                 let sectionData = sectionYear[statType];
-                sectionData['playerInfo'] = apiData.playerInfo;
-                sectionData['teamInfo'] = sectionYear.teamInfo != null ? sectionYear.teamInfo : {};
+                sectionData.playerInfo = apiData.playerInfo;
+                sectionData.teamInfo = sectionYear.teamInfo != null ? sectionYear.teamInfo : {};
                 sections.push(this.setupTableData(sectionTitle, seasonKey, sectionData, maxRows));
               }//END OF SECTION TITLE IF STATEMENT
             }//END OF SEASON YEAR FOR LOOP
@@ -439,7 +439,7 @@ export class SeasonStatsPageService {
     return sections;
   }
 
-  private setupTableData(season, year, rows: Array<any>, maxRows: number): Array<MLBSeasonStatsTableData> {
+  private setupTableData(season, year, rows: Array<any>, maxRows: number): MLBSeasonStatsTableData {
     var tableName;
     let self = this;
     //convert object coming in into array

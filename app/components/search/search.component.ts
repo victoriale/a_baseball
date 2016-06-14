@@ -228,7 +228,10 @@ export class Search{
         let searchRoute: Array<any>;
         searchRoute = this._searchService.getSearchRoute(term);
         this._router.navigate(searchRoute);
+
+        //Clear out autocomplete text and close dropdown when search occurs
         this.dropdownIsFocused = false;
+        this.autoCompleteText = '';
     }
 
     ngOnInit(){
