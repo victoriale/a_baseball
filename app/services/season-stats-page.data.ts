@@ -7,11 +7,15 @@ import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
 import {GlobalSettings} from '../global/global-settings';
 
+export interface TeamInfo {
+  teamName: string;
+  teamId: string;
+}
+
 export interface TeamSeasonStatsData {
   playerName: string,
   playerId: string;
-  teamName: string;
-  teamId: string;
+  teamInfo: TeamInfo;
   imageUrl: string,
   backgroundImage: string,
   conferenceName: string,
@@ -19,6 +23,7 @@ export interface TeamSeasonStatsData {
   lastUpdated: string,
   rank: number,
   year: string,
+
   pitchWins: string,
   pitchLosses: string,
   pitchInningsPitched: string,
@@ -59,19 +64,18 @@ export interface TeamSeasonStatsData {
    */
   fullBackgroundImageUrl?: string;
 }
+
 export interface seasonStatsData {
   regularSeasonAverage: Array<TeamSeasonStatsData>;
   postSeasonAverage: Array<TeamSeasonStatsData>;
   regularSeasonTotal: Array<TeamSeasonStatsData>;
   postSeasonTotal: Array<TeamSeasonStatsData>;
 }
+
 export class MLBSeasonStatsTableData implements TableComponentData<TeamSeasonStatsData> {
   groupName: string;
 
-  // tableData: MLBSeasonStatsTableModel;
-  tableData: TableModel<any>;
-
-  // seasonTableData: { [key: string]: TableModel<TeamSeasonStatsData> } = {};
+  tableData: MLBSeasonStatsTableModel;
 
   season: any;
 
@@ -293,7 +297,7 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
         break;
 
       case "team":
-        s = item['teamInfo'].teamName != null ? item['teamInfo'].teamName : 'N/A';
+        s = item.teamInfo.teamName != null ? item.teamInfo.teamName : 'N/A';
         break;
 
       case "wl":
@@ -372,7 +376,7 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
         break;
 
       case "team":
-        o = item.teamName;
+        o = item.teamInfo.teamName;
         break;
 
       case "wl":
