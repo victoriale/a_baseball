@@ -17,7 +17,7 @@ import {FaqService} from '../../services/faq.service';
 import {TwitterModule, twitterModuleData} from "../../modules/twitter/twitter.module";
 import {TwitterService} from '../../services/twitter.service';
 
-import {SeasonStatsService, SeasonStatsData} from '../../services/season-stats.service';
+import {SeasonStatsService} from '../../services/season-stats.service';
 import {SeasonStatsModule} from '../../modules/season-stats/season-stats.module';
 
 import {ComparisonModule, ComparisonModuleData} from '../../modules/comparison/comparison.module';
@@ -182,15 +182,16 @@ export class PlayerPage implements OnInit {
       );
   }
 
-    private dailyUpdateModule(playerId: number) {
-        this._dailyUpdateService.getPlayerDailyUpdate(playerId)
-            .subscribe(data => {
-                this.dailyUpdateData = data;
-            },
-            err => {
-                console.log("Error getting daily update data", err);
-            });
-    }
+private dailyUpdateModule(playerId: number) {
+    this._dailyUpdateService.getPlayerDailyUpdate(playerId)
+        .subscribe(data => {
+            this.dailyUpdateData = data;
+        },
+        err => {
+            this.dailyUpdateData = this._dailyUpdateService.getErrorData();
+            console.log("Error getting daily update data", err);
+        });
+}
 
   //grab tab to make api calls for post of pre event table
   private scheduleTab(tab) {
@@ -209,7 +210,7 @@ export class PlayerPage implements OnInit {
               this.seasonStatsData = data;
           },
           err => {
-              console.log("Error getting season stats data for "+ this.pageParams.playerId);
+              console.log("Error getting season stats data for "+ this.pageParams.playerId, err);
           });
   }
   //api for Schedules

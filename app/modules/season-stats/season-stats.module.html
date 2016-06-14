@@ -5,9 +5,9 @@
 
     <tabs *ngIf="data" (tabSelected)="tabSelected($event)">
       <tab *ngFor="#tab of data.tabs; #i = index" [tabTitle]="tab.tabTitle" [active]="i == 0">
-        <comparison-legend [comparisonLegendInput]="comparisonLegendData"></comparison-legend>
+        <comparison-legend [comparisonLegendInput]="tab.comparisonLegendData"></comparison-legend>
         <div class="comparison-module-bars">
-          <comparison-bar *ngFor="#item of tab.tabData; #i = index" [comparisonBarInput]="item" [dataIndex]="dataIndex" [index]="i"></comparison-bar>
+          <comparison-bar *ngFor="#item of tab.tabData; #i = index" [comparisonBarInput]="item" [index]="i"></comparison-bar>
         </div>
         <div *ngIf="!tab.tabData" class="comparison-module-no-data">
             <no-data-box [data]="noDataMessage" [icon]="'fa fa-remove'"></no-data-box>

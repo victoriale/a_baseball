@@ -169,6 +169,15 @@ import {TransactionsPage} from "../webpages/transactions-page/transactions.page"
         name: 'Error-page',
         component: ErrorPage
     },
+    {
+        path: '/not-found',
+        name: 'NotFound-page',
+        component: ErrorPage
+    },
+    {
+        path: '/*path',
+        redirectTo: ['NotFound-page']
+    },
     // TODO remove after testing
     {
         path: '/modules/:teamID',

@@ -3,6 +3,8 @@ import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/mod
 import {CircleImageData} from "../../components/images/image-data";
 import {CircleImage} from "../../components/images/circle-image";
 import {GlobalSettings} from "../../global/global-settings";
+import {NoDataBox} from '../../components/error/data-box/data-box.component';
+import {BarChartComponent} from '../../components/bar-chart/bar-chart.component';
 import {DailyUpdateData, DailyUpdateChart} from "../../services/daily-update.service";
 
 declare var jQuery:any;
@@ -10,27 +12,30 @@ declare var jQuery:any;
 @Component({
     selector: 'daily-update-module',
     templateUrl: './app/modules/daily-update/daily-update.module.html',
-    directives: [ModuleHeader, CircleImage],
+    directives: [ModuleHeader, CircleImage, NoDataBox, BarChartComponent],
     providers: []
 })
 
 export class DailyUpdateModule {
-    @Input() profileName: string = "[Profile Name]";
+  @Input() profileName: string = "[Profile Name]";
 
-    @Input() data: DailyUpdateData;
-    
-    public backgroundImage: string;
+  @Input() data: DailyUpdateData;
 
-    public headerInfo: ModuleHeaderData = {
-      moduleTitle: "Daily Update - [Profile Name]",
-      hasIcon: true,
-      iconClass: null
-    };
+  public chartOptions: any;
+  
+  public backgroundImage: string;
 
-    public comparisonCount: number;
+  public noDataMessage: string = 'Sorry, there is no daily update available for [Profile Name]';
 
-    public imageConfig: CircleImageData;
+  public headerInfo: ModuleHeaderData = {
+    moduleTitle: "Daily Update - [Profile Name]",
+    hasIcon: true,
+    iconClass: null
+  };
 
+  public comparisonCount: number;
+
+  public imageConfig: CircleImageData;
 
   constructor(){
     this.imageConfig = {
@@ -44,10 +49,11 @@ export class DailyUpdateModule {
   }
 
   ngOnChanges() {
-    this.drawChart();
     this.headerInfo.moduleTitle = "Daily Update - " + this.profileName;
+    this.noDataMessage = "Sorry, there is no daily update available for " + this.profileName;
 
     if ( this.data ) {
+      this.drawChart();
       this.backgroundImage = this.data.fullBackgroundImageUrl;
     }
 
@@ -63,11 +69,9 @@ export class DailyUpdateModule {
   drawChart(){
     var yAxisMin = 0;
     var categories = [];
-    var dataSeriesOne = { name: "", values: [] };
-    var dataSeriesTwo = { name: "", values: [] };
+    var series = [];
 
-var series = [];
-    if ( this.data.chart ) {
+    if ( this.data && this.data.chart ) {
       var chart = this.data.chart;
       categories = chart.categories;
       if ( chart.dataSeries ) {
@@ -81,7 +85,7 @@ var series = [];
       }
     }
 
-    var options = {
+    this.chartOptions = {
       chart: {
         type: 'column',
         height: 144,
@@ -138,11 +142,6 @@ var series = [];
         enabled: false
       }
     };
-    jQuery('.daily-update-chart-wrapper').highcharts(options);
   };
-
-  ngAfterViewInit(){
-    this.drawChart();
-  }
 }
 

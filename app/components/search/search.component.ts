@@ -228,6 +228,7 @@ export class Search{
         let searchRoute: Array<any>;
         searchRoute = this._searchService.getSearchRoute(term);
         this._router.navigate(searchRoute);
+        this.dropdownIsFocused = false;
     }
 
     ngOnInit(){

@@ -6,6 +6,7 @@ import {GlobalFunctions} from "../global/global-functions";
 import {GlobalSettings} from "../global/global-settings";
 
 export interface DailyUpdateData {
+  hasError: boolean;
   type: string;
   lastUpdateDate: string;
   chart: DailyUpdateChart;
@@ -24,7 +25,7 @@ interface DataSeries {
 }
 
 interface APIDailyUpdateData {
-  lastUpdatedDate: string;
+  lastUpdated: string;
   backgroundImage: string,
   pitcher: boolean;
   seasonStats: Array<any>,
@@ -47,6 +48,17 @@ interface APIGameData {
 @Injectable()
 export class DailyUpdateService {  
   constructor(public http: Http){}
+
+  getErrorData(): DailyUpdateData {
+    return {
+      hasError: true,
+      type: "",
+      lastUpdateDate: "",
+      chart: null,
+      fullBackgroundImageUrl: "",
+      seasonStats: []
+    };
+  }
 
   getTeamDailyUpdate(teamId: number): Observable<DailyUpdateData> {
     //http://dev-homerunloyal-api.synapsys.us/team/dailyUpdate/2800
@@ -105,13 +117,19 @@ export class DailyUpdateService {
     };
     var chart:DailyUpdateChart = this.getChart(data, seriesOne, seriesTwo);
 
-    return {
-      lastUpdateDate: data.lastUpdatedDate ? GlobalFunctions.formatUpdatedDate(data.lastUpdatedDate) : "",
-      fullBackgroundImageUrl: GlobalSettings.getImageUrl(data.backgroundImage),
-      type: "Team",
-      seasonStats: stats,
-      chart: chart
-    };
+    if ( chart ) {
+        return {
+          hasError: false,
+          lastUpdateDate: data.lastUpdated ? GlobalFunctions.formatUpdatedDate(data.lastUpdated) : "",
+          fullBackgroundImageUrl: GlobalSettings.getImageUrl(data.backgroundImage),
+          type: "Team",
+          seasonStats: stats,
+          chart: chart
+        };
+    }
+    else {
+      return null;
+    }
   }
   
 
@@ -160,13 +178,19 @@ export class DailyUpdateService {
     }
     var chart:DailyUpdateChart = this.getChart(data, seriesOne, seriesTwo);
 
-    return {
-      lastUpdateDate: data.lastUpdatedDate ? GlobalFunctions.formatUpdatedDate(data.lastUpdatedDate) : "",
-      fullBackgroundImageUrl: GlobalSettings.getImageUrl(data.backgroundImage),
-      type: "Player",
-      seasonStats: stats,
-      chart: chart
-    };
+    if ( chart ) {
+      return {
+        hasError: false,
+        lastUpdateDate: data.lastUpdated ? GlobalFunctions.formatUpdatedDate(data.lastUpdated) : "",
+        fullBackgroundImageUrl: GlobalSettings.getImageUrl(data.backgroundImage),
+        type: "Player",
+        seasonStats: stats,
+        chart: chart
+      };
+    }
+    else {
+      return null;
+    }
   }
 
   private getPitcherStats(apiSeasonStats) {    
@@ -237,32 +261,29 @@ export class DailyUpdateService {
   }
 
   private getChart(data: APIDailyUpdateData, seriesOne: DataSeries, seriesTwo: DataSeries) {
-    var chart:DailyUpdateChart = {
-        categories: [],
-        dataSeries: [{
-          name: seriesOne.name,
-          values: []
-        },
-        {
-          name: seriesTwo.name,
-          values: []
-        }]
-    };
-    if ( data.recentGames ) {
+    if ( data.recentGames && data.recentGames.length > 0 ) { //there should be at least one game in order to show the module
+      var chart:DailyUpdateChart = {
+          categories: [],
+          dataSeries: [{
+            name: seriesOne.name,
+            values: []
+          },
+          {
+            name: seriesTwo.name,
+            values: []
+          }]
+      };
+
       data.recentGames.forEach((item, index) => {
         chart.categories.push("vs " + item.opponentTeamName); //TODO: Should this link to the team?
 
-        //TODO: What to do about null values?
         chart.dataSeries[0].values.push(item[seriesOne.key] != null ? Number(item[seriesOne.key]) : null);
         chart.dataSeries[1].values.push(item[seriesTwo.key] != null ? Number(item[seriesTwo.key]) : null);
       });
-
-      for ( var i = chart.dataSeries[0].values.length; i < 4; i++ ) {
-        chart.categories.push("N/A");
-        chart.dataSeries[0].values.push(null);
-        chart.dataSeries[1].values.push(null);
-      }
+      return chart;
     } 
-    return chart;
+    else {
+      return null;
+    }
   }
 }

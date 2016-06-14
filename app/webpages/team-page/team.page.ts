@@ -226,6 +226,7 @@ export class TeamPage implements OnInit {
                 this.dailyUpdateData = data;
             },
             err => {
+                this.dailyUpdateData = this._dailyUpdateService.getErrorData();
                 console.log("Error getting daily update data", err);
             });
     }
