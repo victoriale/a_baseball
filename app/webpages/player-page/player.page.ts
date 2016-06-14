@@ -182,15 +182,16 @@ export class PlayerPage implements OnInit {
       );
   }
 
-    private dailyUpdateModule(playerId: number) {
-        this._dailyUpdateService.getPlayerDailyUpdate(playerId)
-            .subscribe(data => {
-                this.dailyUpdateData = data;
-            },
-            err => {
-                console.log("Error getting daily update data", err);
-            });
-    }
+private dailyUpdateModule(playerId: number) {
+    this._dailyUpdateService.getPlayerDailyUpdate(playerId)
+        .subscribe(data => {
+            this.dailyUpdateData = data;
+        },
+        err => {
+            this.dailyUpdateData = this._dailyUpdateService.getErrorData();
+            console.log("Error getting daily update data", err);
+        });
+}
 
   //grab tab to make api calls for post of pre event table
   private scheduleTab(tab) {
