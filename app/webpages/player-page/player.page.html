@@ -5,6 +5,7 @@
     <div *ngIf="profileHeaderData && pageParams">
         <headline-component [title]="'About the ' + profileHeaderData.profileName"></headline-component>
         <profile-header *ngIf="profileHeaderData" [profileHeaderData]="profileHeaderData"></profile-header>
+        <daily-update-module *ngIf="dailyUpdateData" [profileName]="profileHeaderData.profileName" [data]="dailyUpdateData"></daily-update-module>
         <!-- daily update -->
 
         <headline-component [title]="'Keep Up With Everything ' + profileHeaderData.profileName"></headline-component>

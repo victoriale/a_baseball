@@ -64,6 +64,8 @@ import {ListOfListsService} from "../../services/list-of-lists.service";
 import {TransactionsModule} from "../../modules/transactions/transactions.module";
 import {TransactionsService} from "../../services/transactions.service";
 import {DailyUpdateModule} from "../../modules/daily-update/daily-update.module";
+import {DailyUpdateService, DailyUpdateData} from "../../services/daily-update.service";
+
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
 @Component({
@@ -110,6 +112,7 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
       PlayerStatsService,
       TransactionsService,
       ComparisonStatsService,
+      DailyUpdateService,
       TwitterService
     ]
 })
@@ -125,6 +128,7 @@ export class TeamPage implements OnInit {
     standingsData: StandingsModuleData;
     playerStatsData: PlayerStatsModuleData;
     rosterData: RosterModuleData<TeamRosterData>;
+    dailyUpdateData: DailyUpdateData;
 
     imageData:any;
     copyright:any;
@@ -158,6 +162,7 @@ export class TeamPage implements OnInit {
                 private _dykService: DykService,
                 private _twitterService: TwitterService,
                 private _comparisonService: ComparisonStatsService,
+                private _dailyUpdateService: DailyUpdateService,
                 private _globalFunctions:GlobalFunctions) {
         this.pageParams = {
             teamId: Number(_params.get("teamId"))
@@ -183,6 +188,8 @@ export class TeamPage implements OnInit {
                 this.pageParams = data.pageParams;
                 this.profileName = data.teamName;
                 this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data);
+
+                this.dailyUpdateModule(this.pageParams.teamId);
 
                 /*** Keep Up With Everything [Team Name] ***/
                 //this.getBoxScores();
@@ -212,6 +219,17 @@ export class TeamPage implements OnInit {
             }
         );
     }
+
+    private dailyUpdateModule(teamId: number) {
+        this._dailyUpdateService.getTeamDailyUpdate(teamId)
+            .subscribe(data => {
+                this.dailyUpdateData = data;
+            },
+            err => {
+                console.log("Error getting daily update data", err);
+            });
+    }
+
     private getTwitterService() {
         this._twitterService.getTwitterService(this.profileType, this.pageParams.teamId)
             .subscribe(data => {

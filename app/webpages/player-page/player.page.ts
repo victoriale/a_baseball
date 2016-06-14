@@ -49,6 +49,10 @@ import {ImagesMedia} from "../../components/carousels/images-media-carousel/imag
 import {GlobalFunctions} from "../../global/global-functions";
 import {ListOfListsService} from "../../services/list-of-lists.service";
 import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.module";
+
+import {DailyUpdateModule} from "../../modules/daily-update/daily-update.module";
+import {DailyUpdateService, DailyUpdateData} from "../../services/daily-update.service";
+
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
 @Component({
@@ -74,6 +78,7 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
       ShareModule,
       AboutUsModule,
       ListOfListsModule,
+      DailyUpdateModule,
       ImagesMedia],
     providers: [
       SchedulesService,
@@ -86,6 +91,7 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
       ListOfListsService,
       SeasonStatsService,
       ComparisonStatsService,
+      DailyUpdateService,
       TwitterService
     ],
 })
@@ -96,6 +102,7 @@ export class PlayerPage implements OnInit {
   hasError: boolean = false;
   standingsData:StandingsModuleData;
   profileHeaderData: ProfileHeaderData;
+  dailyUpdateData: DailyUpdateData;
   seasonStatsData: any;
   comparisonModuleData: ComparisonModuleData;
   imageData:any;
@@ -123,6 +130,7 @@ export class PlayerPage implements OnInit {
               private _twitterService: TwitterService,
               private _seasonStatsService: SeasonStatsService,
               private _comparisonService: ComparisonStatsService,
+              private _dailyUpdateService: DailyUpdateService,
               private _globalFunctions:GlobalFunctions) {
 
       this.pageParams = {
@@ -146,6 +154,7 @@ export class PlayerPage implements OnInit {
               this.teamName = data.headerData.info.teamName;
               this.profileHeaderData = this._profileService.convertToPlayerProfileHeader(data);
               this.setupTeamProfileData();
+              this.dailyUpdateModule(this.pageParams.playerId);
 
               /*** Keep Up With Everything [Player Name] ***/
               //this.getBoxScores();
@@ -172,6 +181,16 @@ export class PlayerPage implements OnInit {
           }
       );
   }
+
+    private dailyUpdateModule(playerId: number) {
+        this._dailyUpdateService.getPlayerDailyUpdate(playerId)
+            .subscribe(data => {
+                this.dailyUpdateData = data;
+            },
+            err => {
+                console.log("Error getting daily update data", err);
+            });
+    }
 
   //grab tab to make api calls for post of pre event table
   private scheduleTab(tab) {
