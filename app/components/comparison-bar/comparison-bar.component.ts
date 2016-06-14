@@ -67,7 +67,7 @@ export class ComparisonBar implements OnChanges, AfterViewChecked {
             this.labelOne.nativeElement.style.left = "auto";
             this.labelOne.nativeElement.style.right = "auto"
 
-            if ( (labelOneWidth) > barOneWidth ) {
+            if ( labelOneWidth > barOneWidth ) {
                 this.labelOne.nativeElement.style.left = 0;
             }
             else {

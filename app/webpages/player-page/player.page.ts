@@ -17,7 +17,7 @@ import {FaqService} from '../../services/faq.service';
 import {TwitterModule, twitterModuleData} from "../../modules/twitter/twitter.module";
 import {TwitterService} from '../../services/twitter.service';
 
-import {SeasonStatsService, SeasonStatsData} from '../../services/season-stats.service';
+import {SeasonStatsService} from '../../services/season-stats.service';
 import {SeasonStatsModule} from '../../modules/season-stats/season-stats.module';
 
 import {ComparisonModule, ComparisonModuleData} from '../../modules/comparison/comparison.module';
@@ -210,7 +210,7 @@ private dailyUpdateModule(playerId: number) {
               this.seasonStatsData = data;
           },
           err => {
-              console.log("Error getting season stats data for "+ this.pageParams.playerId);
+              console.log("Error getting season stats data for "+ this.pageParams.playerId, err);
           });
   }
   //api for Schedules
