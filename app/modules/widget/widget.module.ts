@@ -11,7 +11,8 @@ declare var jQuery: any;
 })
 
 export class WidgetModule {
-    widgetEmbed:string = "http://w1.synapsys.us/widgets/realestate/standard2.html";
+    //widgetEmbed:string = "http://w1.synapsys.us/widgets/realestate/standard2.html";
+    widgetEmbed: string = "about:blank";
 
     // Page is being scrolled
     onScroll(event) {        
