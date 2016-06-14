@@ -99,6 +99,8 @@ export class SchedulesService {
         {display: 'Upcoming Games', data:'pre-event', season:displayYear, tabData: new MLBScheduleTabData(this.formatGroupName(year,'pre-event'), true)},
         {display: 'Previous Games', data:'post-event', season:displayYear, tabData: new MLBScheduleTabData(this.formatGroupName(year,'post-event'), true)}
       ];
+      console.log("Schedule TABS",tabData);
+      console.log("SCHEDULES table",tableData);
       return {
         data:tableData,
         tabs:tabData,
@@ -123,7 +125,6 @@ export class SchedulesService {
       // let tableName = this.formatGroupName(year,eventStatus);
       var table = new MLBSchedulesTableModel(rows, eventStatus);
       var tableArray = new MLBSchedulesTableData('' , table);
-      console.log(tableArray);
       return [tableArray];
     }else{
       var postDate = [];
