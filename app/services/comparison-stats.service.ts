@@ -9,6 +9,7 @@ import {Gradient} from '../global/global-gradient';
 
 import {ComparisonModuleData} from '../modules/comparison/comparison.module';
 import {ComparisonBarInput} from '../components/comparison-bar/comparison-bar.component';
+import {ComparisonBarList} from './common-interfaces';
 
 //TODO: unify player/team data interface
 export interface PlayerData {
@@ -38,10 +39,6 @@ export interface TeamPlayers {
 
 export interface DataPoint {
   [playerId: string]: number
-}
-
-export interface ComparisonBarList {
-  [year: string]: Array<ComparisonBarInput>
 }
 
 export class SeasonStats {
@@ -145,7 +142,7 @@ export class MLBComparisonModuleData implements ComparisonModuleData {
         statsLoaded(bars);
       },
       err => {
-        console.log("Error loading player comparison stats");
+        console.log("Error loading player comparison stats", err);
       });
     }
 }
@@ -257,7 +254,7 @@ export class ComparisonStatsService {
       url += "league";
     }
 
-    // console.log("getting player stats: " + url);
+    console.log("getting player stats: " + url);
     return this.http.get(url)
       .map(res => res.json())
       .map(data => dataLoaded(data.data));
