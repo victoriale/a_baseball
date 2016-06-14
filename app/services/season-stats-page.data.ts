@@ -18,7 +18,6 @@ export interface TeamSeasonStatsData {
   divisionName: string,
   lastUpdated: string,
   rank: number,
-
   year: string,
   pitchWins: string,
   pitchLosses: string,
@@ -113,15 +112,14 @@ export class MLBSeasonStatsTabData implements TableTabData<TeamSeasonStatsData> 
   }
 
   convertToCarouselItem(item: TeamSeasonStatsData, index:number): SliderCarouselInput {
-    console.log(item);
-    var playerData = item['playerInfo'];
+    var playerData = item['playerInfo'] != null ? item['playerInfo'] : null;
     var subheader = item.seasonId + " Season Stats Report";
     return {
       backgroundImage: playerData.profileHeader != null ? GlobalSettings.getImageUrl(playerData.profileHeader) : null,
       description: [
         "<div class='season-stats-car-subhdr'><i class='fa fa-circle'></i>" + subheader + "</div>",
         "<div class='season-stats-car-hdr'>" + playerData.playerName + "</div>",
-        "<div class='season-stats-car-hdr'>Team: " + playerData.teamName + "</div>",
+        "<div class='season-stats-car-desc'>Team: " + playerData.teamName + "</div>",
         // {
         //    wrapperStyle: {'font-size': '14px', 'line-height': '1.4em'},
         //    beforeLink: "Team: ",
@@ -165,6 +163,7 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
     else if ( rows.length > 0 ) {
       // this.selectedKey = rows[0].playerId;
     }
+    isPitcher = this.rows[0]['playerInfo'].position[0].charAt(0) == "P" ? true : false;
     this.isPitcher = isPitcher;
     if(this.isPitcher){
       this.columns = [{

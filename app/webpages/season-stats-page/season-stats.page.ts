@@ -9,6 +9,7 @@ import {MLBSeasonStatsTabData, MLBSeasonStatsTableData} from '../../services/sea
 import {GlobalFunctions} from '../../global/global-functions';
 import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
 import {Season, MLBPageParameters} from '../../global/global-interface';
+import {GlobalSettings} from '../../global/global-settings';
 
 import {SeasonStatsComponent} from "../../components/season-stats/season-stats.component";
 import {ProfileHeaderService} from '../../services/profile-header.service';
@@ -32,50 +33,24 @@ export class SeasonStatsPage implements OnInit {
 
   public titleData: TitleInputData;
 
+  public titleImageData: ImageData
+
   constructor(private _params: RouteParams,
               private _profileService: ProfileHeaderService,
               private _seasonStatsPageService: SeasonStatsPageService,
               private _globalFunctions: GlobalFunctions,
               private _mlbFunctions: MLBGlobalFunctions) {
-
-    var type = _params.get("type");
-    if ( type !== null && type !== undefined ) {
-      type = type.toLowerCase();
-      this.pageParams.season = Season[type];
-    }
-
-    var teamId = _params.get("teamId");
-    if ( type == "team" && teamId !== null && teamId !== undefined ) {
-      this.pageParams.teamId = Number(teamId);
-    }
-
+    var playerId = _params.get("playerId");
+    this.pageParams.playerId = Number(playerId);
     // Scroll page to top to fix routerLink bug
     window.scrollTo(0, 0);
   }
-
-  ngOnInit() {
-    if ( this.pageParams.teamId ) {
-      this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
-        data => {
-          this.profileLoaded = true;
-          this.pageParams = data.pageParams;
-          this.setupTitleData(data.teamName, data.fullProfileImageUrl);
-          this.tabs = this._seasonStatsPageService.initializeAllTabs(this.pageParams);
-        },
-        err => {
-          this.hasError = true;
-          console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
-        }
-      );
+  private setupTitleData(imageUrl: string, playerId?: string, playerName?: string) {
+    var profileLink = ["MLB-page"];
+    if ( playerId ) {
+      profileLink = MLBGlobalFunctions.formatTeamRoute(playerName, playerId);
     }
-    else {
-      this.setupTitleData();
-      this.tabs = this._seasonStatsPageService.initializeAllTabs(this.pageParams);
-    }
-  }
-
-  private setupTitleData(teamName?: string, imageUrl?: string) {
-    var title = this._seasonStatsPageService.getPageTitle(this.pageParams, teamName);
+    var title = this._seasonStatsPageService.getPageTitle(this.pageParams, playerName);
     this.titleData = {
       imageURL: imageUrl,
       text1: "",
@@ -83,6 +58,33 @@ export class SeasonStatsPage implements OnInit {
       text3: title,
       icon: "fa fa-map-marker"
     };
+    this.titleImageData = {
+      imageUrl: imageUrl,
+      urlRouteArray: profileLink,
+      hoverText: "<p>View</p><p>Profile</p>",
+      imageClass: "border-2"
+    }
+  }
+  ngOnInit() {
+    if ( this.pageParams.playerId ) {
+      this._profileService.getPlayerProfile(this.pageParams.playerId).subscribe(
+        data => {
+          this.profileLoaded = true;
+          this.pageParams = data.pageParams;
+          this.setupTitleData(data.fullProfileImageUrl, data.pageParams.playerId.toString(), data.pageParams['playerName']);
+          this.tabs = this._seasonStatsPageService.initializeAllTabs(this.pageParams);
+        },
+        err => {
+          this.hasError = true;
+
+          console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
+        }
+      );
+    }
+    else {
+      this.setupTitleData(GlobalSettings.getSiteLogoUrl());
+      this.tabs = this._seasonStatsPageService.initializeAllTabs(this.pageParams);
+    }
   }
 
   private seasonStatsTabSelected(tab: MLBSeasonStatsTabData) {

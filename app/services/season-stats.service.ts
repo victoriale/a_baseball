@@ -234,7 +234,7 @@ export class SeasonStatsService {
 export class SeasonStatsPageService {
   constructor(public http: Http, private _globalFunctions: GlobalFunctions, private _mlbFunctions: MLBGlobalFunctions){}
 
-  getPageTitle( playerName?: string): string {
+  getPageTitle( pageParams: MLBPageParameters, playerName: string): string {
     let pageTitle = "Season Stats";
     if ( playerName ) {
       pageTitle = "Season Stats - " + playerName;
@@ -253,12 +253,11 @@ export class SeasonStatsPageService {
     }
     //also push in last the career stats tab
     tabs.push(new MLBSeasonStatsTabData('Career Stats', null, 'career', false));
-    console.log('TAB CREATION',tabs);
     return tabs;
   }
 
   getSeasonStatsTabData(seasonStatsTab: MLBSeasonStatsTabData, pageParams: MLBPageParameters, onTabsLoaded: Function, maxRows?: number){
-      var playerId = "96652";
+      var playerId = pageParams.playerId;
       //example url: http://dev-homerunloyal-api.synapsys.us/player/statsDetail/96652
       let url = GlobalSettings.getApiUrl() + "/player/statsDetail/" + playerId;
       seasonStatsTab.isLoaded = false;
