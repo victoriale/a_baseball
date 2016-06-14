@@ -7,6 +7,12 @@ import {LoadingComponent} from "../../loading/loading.component";
 
 declare var jQuery:any;
 
+export interface MediaImageItem {
+    id: number;
+    image: string;
+    copyData: string;
+}
+
 @Component({
     selector: 'images-media-carousel',
     templateUrl: './app/components/carousels/images-media-carousel/images-media-carousel.component.html',
@@ -25,14 +31,18 @@ export class ImagesMedia implements OnInit {
     @Input() imageData:any;
     @Input() copyright:any;
     @Input() isProfilePage:boolean;
+
     leftCircle:EventEmitter<boolean> = new EventEmitter();
     rightCircle:EventEmitter<boolean> = new EventEmitter();
     expand:any = new EventEmitter();
+
     expandText:string = 'Expand';
     expandIcon:string = 'fa-expand';
     modalButton:boolean = false;
-    mediaImages:any;//need to create interface
-    smallImage:any;
+
+    mediaImages: Array<MediaImageItem>;
+    // smallImage: MediaImageItem;
+
     smallObjCounter:number = 0;
     largeImage:string;
     totalImageCount:number = 0;
@@ -41,10 +51,9 @@ export class ImagesMedia implements OnInit {
     image_url = './app/public/no_photo_images/onError.png';
     images:any;
     displayCounter:number;
-    imageCredit:any;
+    imageCredit:string;
     profHeader:any;
-    modHeadData: Object;
-    profileHeaderData: any;
+    modHeadData: ModuleHeaderData;
 
     modalExpand() {
         if (this.expand == true) {
@@ -81,7 +90,7 @@ export class ImagesMedia implements OnInit {
     //this is where the angular2 decides what is the main image
     changeMain(num) {
         this.displayCounter = this.imageCounter + 1;
-        this.smallImage = this.mediaImages;
+        // this.smallImage = this.mediaImages;
         if ( this.mediaImages && this.smallObjCounter < this.mediaImages.length ) {
             this.largeImage = this.mediaImages[this.smallObjCounter].image;
             this.imageCredit = this.mediaImages[this.smallObjCounter].copyData;
@@ -94,7 +103,7 @@ export class ImagesMedia implements OnInit {
         this.changeMain(this.imageCounter);
     }
 
-    modifyMedia(images, copyright, forward = true) {
+    modifyMedia(images, copyright, forward = true): Array<MediaImageItem> {
         if (this.modalButton) {//just so the carousel knows that the expand button is
             this.expandText = 'Collapse';
             this.expandIcon = 'fa-compress';

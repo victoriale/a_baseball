@@ -3,6 +3,7 @@ import {SearchPageModule} from '../../modules/search-page/search-page.module';
 import {RouteParams} from 'angular2/router';
 import {SearchService} from '../../services/search.service';
 import {SearchPageInput} from '../../modules/search-page/search-page.module';
+import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
 interface SearchPageParams {
     query: string;
@@ -11,7 +12,7 @@ interface SearchPageParams {
 @Component({
     selector: 'search-page',
     templateUrl: './app/webpages/search-page/search.page.html',
-    directives: [SearchPageModule],
+    directives: [SidekickWrapper, SearchPageModule],
     providers: []
 })
 

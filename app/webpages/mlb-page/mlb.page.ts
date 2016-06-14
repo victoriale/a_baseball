@@ -44,11 +44,13 @@ import {GlobalSettings} from "../../global/global-settings";
 import {ListPageService} from '../../services/list-page.service';
 import {ImagesService} from "../../services/carousel.service";
 import {ImagesMedia} from "../../components/carousels/images-media-carousel/images-media-carousel.component";
+import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
 @Component({
     selector: 'MLB-page',
     templateUrl: './app/webpages/mlb-page/mlb.page.html',
     directives: [
+        SidekickWrapper, 
         LoadingComponent,
         ErrorComponent,
         MVPModule,
