@@ -19,14 +19,14 @@ export interface SeasonStatsPlayerData {
   teamId: string;
   teamName: string;
   teamFirstName: string;
-  teamLastName: string;  
+  teamLastName: string;
   playerId: string;
   playerName: string;
   playerFirstName: string;
   playerLastName: string;
   roleStatus: string;
   active: string;
-  position: Array<string>;  
+  position: Array<string>;
   playerHeadshot: string;
   teamLogo: string;
   lastUpdate: string;
@@ -34,7 +34,7 @@ export interface SeasonStatsPlayerData {
   lastUpdateTimestamp: string;
 }
 
-// Interfaces to help convert API data into a ComparisonBarList that can be 
+// Interfaces to help convert API data into a ComparisonBarList that can be
 // used to build the comparison bars in the module.
 interface APISeasonStatsData {
   playerInfo: SeasonStatsPlayerData
@@ -50,7 +50,7 @@ interface SeasonStats {
 
 interface DataPoint {
   statValue: string;
-  players: Array<SimplePlayerData>;  
+  players: Array<SimplePlayerData>;
 }
 
 interface SimplePlayerData {
@@ -77,6 +77,13 @@ export class SeasonStatsService {
     return headers;
   }
 
+  private getLinkToPage(playerId: number, playerName: string): Array<any> {
+    return ["Season-stats-page", {
+      playerId: playerId,
+      playerName: GlobalFunctions.toLowerKebab(playerName)
+    }];
+  }
+
   getPlayerStats(playerId: number): Observable<SeasonStatsModuleData> {
     let url = this._apiUrl + "/player/seasonStats/" + playerId;
     // console.log("player season stats " + url);
@@ -89,7 +96,7 @@ export class SeasonStatsService {
     if ( !data || !data.playerInfo ) {
       return null;
     }
-    
+
     var fields = data.playerInfo.position[0].charAt(0) == "P" ? this.pitchingFields : this.battingFields;
     let playerInfo = data.playerInfo;
     let stats = data.stats;
@@ -118,7 +125,7 @@ export class SeasonStatsService {
   private getBarData(stats: SeasonStats, isCareer: boolean, isPitcher: boolean): Array<ComparisonBarInput> {
     let statsToInclude = isPitcher ? this.pitchingFields : this.battingFields;
     let bars: Array<ComparisonBarInput> = [];
-    
+
     for ( var index in statsToInclude ) {
       var fieldName = statsToInclude[index];
       var avgValue = isCareer ? null : stats.average[fieldName];
@@ -169,9 +176,9 @@ export class SeasonStatsService {
               },
               routerLinkPlayer: linkToPlayer,
               routerLinkTeam: MLBGlobalFunctions.formatTeamRoute(firstPlayer.teamName, firstPlayer.teamId),
-            }];            
+            }];
         }
-      } 
+      }
 
       bars.push({
         title: this.getKeyDisplayTitle(fieldName),
@@ -180,7 +187,7 @@ export class SeasonStatsService {
         maxValue: leaderValue != null ? Number(this.formatValue(fieldName, leaderValue.statValue)) : null,
         info: infoIcon != null ? infoIcon : null,
         infoBoxDetails: infoBox
-      });          
+      });
     }
     return bars;
   }
@@ -189,7 +196,7 @@ export class SeasonStatsService {
     var legendValues;
     var subTitle;
     var tabTitle;
-    var bars: Array<ComparisonBarInput> = this.getBarData(data.stats[year], year == "career", isPitcher); 
+    var bars: Array<ComparisonBarInput> = this.getBarData(data.stats[year], year == "career", isPitcher);
 
     if ( year == "career" ) {
       tabTitle = "Career Stats";
@@ -205,8 +212,8 @@ export class SeasonStatsService {
         subTitle = "Current Season";
       }
       else if ( year != "career" ) {
-        tabTitle = year; 
-        subTitle = year + " Season";      
+        tabTitle = year;
+        subTitle = year + " Season";
       }
       legendValues = [
           { title: playerName,    color: '#BC2027' },
@@ -287,15 +294,15 @@ export class SeasonStatsService {
       return null;
     }
     switch (fieldName) {
-      case "batAverage":           return Number(value).toFixed(3); 
-      case "pitchInningsPitched":  return Number(value).toFixed(1); 
+      case "batAverage":           return Number(value).toFixed(3);
+      case "pitchInningsPitched":  return Number(value).toFixed(1);
       case "pitchEra":             return Number(value).toFixed(2);
 
-      case "batHomeRuns": 
-      case "batRbi": 
+      case "batHomeRuns":
+      case "batRbi":
       case "batHits":
       case "batBasesOnBalls":
-      case "pitchWins": 
+      case "pitchWins":
       case "pitchStrikeouts":
       case "pitchHits":
       default: return Number(value).toFixed(0);
