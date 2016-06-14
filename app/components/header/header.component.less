@@ -78,8 +78,10 @@
       right: 63px;
     }
 
-    .search-input.main{
-      font-style: italic;
+    .search-input.main {
+      &.search-empty {
+        font-style: italic;
+      }
       &:focus{
         font-style: normal;
       }

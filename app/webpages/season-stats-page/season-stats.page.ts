@@ -2,7 +2,7 @@ import {Component, OnInit, Input} from 'angular2/core';
 import {RouteParams} from "angular2/router";
 import {BackTabComponent} from "../../components/backtab/backtab.component";
 import {TitleComponent, TitleInputData} from "../../components/title/title.component";
-import {CircleImageData} from "../../components/images/image-data";
+import {CircleImageData, ImageData} from "../../components/images/image-data";
 import {LoadingComponent} from '../../components/loading/loading.component';
 import {ErrorComponent} from '../../components/error/error.component';
 import {MLBSeasonStatsTabData, MLBSeasonStatsTableData} from '../../services/season-stats-page.data';
