@@ -174,7 +174,7 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
           key: "year"
         },{
           headerValue: "Team",
-          columnClass: "location-column",
+          columnClass: "image-column",
           isNumericType: false,
           key: "team"
         },{
@@ -226,7 +226,7 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
         key: "year"
       },{
         headerValue: "Team",
-        columnClass: "location-column",
+        columnClass: "image-column",
         isNumericType: false,
         key: "team"
       },{

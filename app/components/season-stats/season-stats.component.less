@@ -43,11 +43,24 @@
     width: 64px; //since it needs to include space for padding
   }
 
-  .location-column-hdr, .location-column {
+  .image-column-hdr, .image-column {
     width: 130px;
     text-align: center;
   }
-
+  .image-column {
+    font-weight: 800;
+    color: @masterBrandColor;
+    white-space: normal;
+    a:hover {
+      color: @black;
+      text-decoration: none;
+      .image-round-hover {
+        div {
+          .flexDisplay;
+        }
+      }
+    }
+  }
   .pane {
     h4 {
       margin-top: 18px;
