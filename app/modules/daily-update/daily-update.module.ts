@@ -3,7 +3,6 @@ import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/mod
 import {CircleImageData} from "../../components/images/image-data";
 import {CircleImage} from "../../components/images/circle-image";
 import {GlobalSettings} from "../../global/global-settings";
-import {LoadingComponent} from '../../components/loading/loading.component';
 import {NoDataBox} from '../../components/error/data-box/data-box.component';
 import {BarChartComponent} from '../../components/bar-chart/bar-chart.component';
 import {DailyUpdateData, DailyUpdateChart} from "../../services/daily-update.service";
@@ -13,7 +12,7 @@ declare var jQuery:any;
 @Component({
     selector: 'daily-update-module',
     templateUrl: './app/modules/daily-update/daily-update.module.html',
-    directives: [ModuleHeader, CircleImage, LoadingComponent, NoDataBox, BarChartComponent],
+    directives: [ModuleHeader, CircleImage, NoDataBox, BarChartComponent],
     providers: []
 })
 

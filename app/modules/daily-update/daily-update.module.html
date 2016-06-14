@@ -1,10 +1,9 @@
-<section class="module-container daily-update">
+<section *ngIf="data" class="module-container daily-update">
   <module-header [modHeadData]="headerInfo"></module-header>
-  <loading-component *ngIf="!data"></loading-component>
-  <div *ngIf="data && data.hasError" class="daily-update-no-data">
+  <div *ngIf="data.hasError" class="daily-update-no-data">
     <no-data-box [data]="noDataMessage" [icon]="'fa fa-remove'"></no-data-box>
   </div>
-  <div *ngIf="data && !data.hasError">
+  <div *ngIf="!data.hasError">
     <div class="daily-update-hero" style="background: url('{{backgroundImage}}') top center no-repeat;">
       <h3 class="daily-update-hero-title">{{profileName}}'s Daily Update</h3>
     </div>
