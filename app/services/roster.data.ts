@@ -80,9 +80,6 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
         this._service.getRosterTabData(this).subscribe(data => {
           //Limit to maxRows, if necessary
           var rows = this.filterRows(data);
-          if ( this.maxRows !== undefined ) {
-            rows = rows.slice(0, this.maxRows);
-          }
 
           this.tableData = new RosterTableModel(rows);
           this.isLoaded = true;
@@ -104,16 +101,23 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
   }
 
   filterRows(data: any): Array<TeamRosterData> {
+    var rows: Array<TeamRosterData>;
     if ( this.type != "full" ) {
-      return data[this.type];
+      rows = data[this.type];
     }
     else {
-      var rows = [];
+      rows = [];
       for ( var type in data ) {
         Array.prototype.push.apply(rows, data[type]);
       }
-      return rows;
     }
+    rows = rows.sort((a, b) => {
+      return Number(b.salary) - Number(a.salary);
+    });
+    if ( this.maxRows !== undefined ) {
+      rows = rows.slice(0, this.maxRows);
+    }
+    return rows;
   }
 
   convertToCarouselItem(val:TeamRosterData, index:number):SliderCarouselInput {

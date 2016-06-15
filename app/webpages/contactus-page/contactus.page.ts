@@ -1,19 +1,19 @@
-/**
- * Created by Victoria on 3/1/2016.
- */
 import {Component, OnInit} from 'angular2/core';
-import {WidgetModule} from "../../modules/widget/widget.module";
-import {ContactUsModule} from '../../modules/contactus/contactus.module';
 import {Http} from 'angular2/http';
 import {Observable} from 'rxjs/Rx';
+import {Title} from 'angular2/platform/browser';
+
+import {WidgetModule} from "../../modules/widget/widget.module";
+import {ContactUsModule} from '../../modules/contactus/contactus.module';
 import {GlobalSettings} from '../../global/global-settings';
+import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
 declare var moment;
 @Component({
     selector: 'contactus-page',
     templateUrl: './app/webpages/contactus-page/contactus.page.html',
-    directives: [ContactUsModule, WidgetModule],
-    providers: [],
+    directives: [SidekickWrapper, ContactUsModule, WidgetModule],
+    providers: [Title],
 })
 export class ContactUsPage implements OnInit{
     //Object that builds contact us module
@@ -48,9 +48,8 @@ export class ContactUsPage implements OnInit{
         }
     };
 
-    constructor(private http:Http) {
-        // Scroll page to top to fix routerLink bug
-        window.scrollTo(0, 0);
+    constructor(private http:Http, private _title: Title) {
+        _title.setTitle(GlobalSettings.getPageTitle("Contact Us"));
     }
 
     formSubmitted(form){

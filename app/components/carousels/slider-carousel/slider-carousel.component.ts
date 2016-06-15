@@ -23,7 +23,7 @@ export interface SliderCarouselInput {
   index?:any;
   backgroundImage?: string;
   imageConfig: CircleImageData;
-  description?: Array<string>;
+  description?: Array<any>;
   footerInfo?: ModuleFooterData;
 }
 

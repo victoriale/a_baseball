@@ -1,10 +1,11 @@
+<sidekick-wrapper>
 <section class="page profile-container">
   <loading-component *ngIf="!profileHeaderData && !hasError"></loading-component>
   <error-component *ngIf="hasError"></error-component>
   <div *ngIf="profileHeaderData && pageParams">
     <headline-component [title]="'About the ' + profileHeaderData.profileName"></headline-component>
     <profile-header [profileHeaderData]="profileHeaderData"></profile-header>
-    <daily-update-module [profileName]="profileHeaderData.profileName"></daily-update-module>
+    <daily-update-module [profileName]="profileHeaderData.profileName" [data]="dailyUpdateData"></daily-update-module>
     <!-- daily update -->
     <articles-module></articles-module>
 
@@ -36,6 +37,7 @@
     <!-- </section> -->
     <!-- TODO<section *ngIf="!partnerCheck"> also required for comment module-->
     <comment-module [profileName]="profileHeaderData.profileName"></comment-module>
-    <about-us></about-us>
+    <about-us [partnerID]="partnerID"></about-us>
   </div>
 </section>
+</sidekick-wrapper>

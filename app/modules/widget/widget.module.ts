@@ -5,54 +5,43 @@ declare var jQuery: any;
 @Component({
     selector: 'widget-module',
     templateUrl: './app/modules/widget/widget.module.html',
-    
+
     directives: [],
     providers: [],
 })
 
 export class WidgetModule {
+    //widgetEmbed:string = "http://w1.synapsys.us/widgets/realestate/standard2.html";
+    widgetEmbed: string  = '/app/ads/widget1.html';
 
-    isScrollingPage: boolean;
-    widgetEmbedd:string;
-    constructor(){
-    }
-
-    ngOnInit(){
-      // var widgetEmbedd = "http://content.synapsys.us/embeds/realestate/standard2/realestate.js";
-      var widgetEmbedd = "http://w1.synapsys.us/widgets/realestate/standard2.html";
-      this.widgetEmbedd = widgetEmbedd;
-
-      // console.log(widgetScript);
-
-      // var newScript = document.createElement("script");
-      // newScript.src =  widgetEmbedd;
-      // jQuery('#widget').html('');
-      // jQuery('#widget')[0].appendChild(newScript);
-    }
     // Page is being scrolled
     onScroll(event) {
+        var y_buffer = 40;
+        var $widget = jQuery("#widget");
+        var $pageWrapper = jQuery(".widget-page-wrapper");
+        if ( $widget.length > 0 && $pageWrapper.length > 0 ) {
+            var scrollTop = jQuery(window).scrollTop();
+            var widgetHeight = $widget.height();
+            var pageWrapperTop = $pageWrapper.offset().top;
+            var pageWrapperBottom = pageWrapperTop+$pageWrapper.height();
 
-        //var scrollTop = jQuery(window).scrollTop();
-        //
-        //if (55 > scrollTop) {
-        //    this.isScrollingPage = false;
-        //}else{
-        //    this.isScrollingPage = true;
-        //}
-
-        var y_buffer = 65;
-        var y_top = jQuery('.header-bottom-bar-wrapper').offset().top + jQuery('.header-bottom-bar-wrapper').height();
-        if ( jQuery(window).scrollTop() < jQuery('.container').offset().top + y_buffer ) {
-            jQuery('.widget').attr('style','');
-        } else if ( jQuery(window).scrollTop() + jQuery('.widget').height() + (y_buffer * 2) > jQuery('.footer-top-bar-wrapper').offset().top ) {
-            jQuery('.widget').attr('style','');
-            jQuery('.widget').css({position: 'fixed', bottom: 674 + 'px'});
-        } else {
-            jQuery('.widget').attr('style','');
-            jQuery('.widget').css({position: 'fixed', top: y_buffer + 'px'});
+            if ( (scrollTop + widgetHeight + y_buffer) > pageWrapperBottom ) {
+                $widget.removeClass("widget-fixed");
+                $widget.addClass("widget-bottom");
+                var diff = $pageWrapper.height() - (widgetHeight + y_buffer);
+                $widget.get(0).style.top = diff + "px";
+            }
+            else if ( scrollTop < pageWrapperTop ) {
+                $widget.removeClass("widget-fixed");
+                $widget.removeClass("widget-bottom");
+                $widget.get(0).style.top = "";
+            }
+            else {
+                $widget.addClass("widget-fixed");
+                $widget.removeClass("widget-bottom");
+                $widget.get(0).style.top = "";
+            }
         }
-
-        //console.log('scroll event', event, scrollTop, scrollBottom, this.isScrollingPage);
     }
 
 }

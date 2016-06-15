@@ -4,72 +4,71 @@ import {Http, Headers} from 'angular2/http';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
 import {GlobalSettings} from '../global/global-settings';
+// import {ComparisonBarList} from './common-interfaces';
 
-import {ComparisonBarInput} from '../components/comparison-bar/comparison-bar.component';
 import {SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
 import {CircleImageData} from '../components/images/image-data';
+import {ComparisonBarInput} from '../components/comparison-bar/comparison-bar.component';
+import {SeasonStatsModuleData, SeasonStatsTabData} from '../modules/season-stats/season-stats.module';
 
 import {Season, MLBPageParameters} from '../global/global-interface';
 import {TeamSeasonStatsData, MLBSeasonStatsTabData, MLBSeasonStatsTableModel, MLBSeasonStatsTableData} from './season-stats-page.data';
 import {TableTabData} from '../components/season-stats/season-stats.component';
-export interface PlayerData {
-  playerName: string;
+
+export interface SeasonStatsPlayerData {
+  teamId: string;
+  teamName: string;
+  teamFirstName: string;
+  teamLastName: string;
   playerId: string;
+  playerName: string;
+  playerFirstName: string;
+  playerLastName: string;
+  roleStatus: string;
+  active: string;
+  position: Array<string>;
   playerHeadshot: string;
   teamLogo: string;
-  teamName: string;
-  teamId: string;
-  teamColors: Array<string>;
-  mainTeamColor: string;
-  uniformNumber: number;
-  position: string;
-  height: string;
-  weight: number;
-  age: number;
-  yearsExperience: number;
+  lastUpdate: string;
   liveImage: string;
-  lastUpdated: string;
+  lastUpdateTimestamp: string;
 }
 
-export interface DataPoint {
-  [playerId: string]: number;
-}
-
-export interface ComparisonBarList {
-  [year: string]: Array<ComparisonBarInput>;
-}
-
-export interface SeasonStats {
-  batHomeRuns: number;
-  batAverage: number;
-  batRbi: number;
-  batHits: number;
-  pitchBasesOnBalls: number;
-  pitchWins: number;
-  pitchInningsPitched: number;
-  pitchStrikeouts: number;
-  pitchEra: number;
-  pitchHits: number;
-  statValue: string;
-  leader: SeasonStatsData;
-  average: SeasonStatsData;
-  player: SeasonStatsData;
-  worst: any;
-}
-export interface SeasonStatsData {
-  playerInfo: PlayerData;
-  tabs: any;
-  // playerInfo: PlayerData;
+// Interfaces to help convert API data into a ComparisonBarList that can be
+// used to build the comparison bars in the module.
+interface APISeasonStatsData {
+  playerInfo: SeasonStatsPlayerData
   stats: { [year: string]: SeasonStats };
-  bars: ComparisonBarList;
 }
+
+interface SeasonStats {
+  leader: {[field:string]:DataPoint};
+  average: {[field:string]:string};
+  player: {[field:string]:string};
+  worst: {[field:string]:DataPoint};
+}
+
+interface DataPoint {
+  statValue: string;
+  players: Array<SimplePlayerData>;
+}
+
+interface SimplePlayerData {
+  firstName: string;
+  playerLastName: string;
+  playerId: string;
+  teamId: string;
+  teamName: string;
+  playerHeadshot: string;
+}
+
 @Injectable()
 export class SeasonStatsService {
   private _apiUrl: string = GlobalSettings.getApiUrl();
 
-  private pitchingFields = ["wins", "inningsPitched", "strikeouts", "era", "hits"];
+  private pitchingFields = ["pitchWins", "pitchInningsPitched", "pitchStrikeouts", "pitchEra", "pitchHits"];
 
-  private battingFields = ["homeRuns", "batAverage", "rbi", "hits", "basesOnBalls"];
+  private battingFields = ["batHomeRuns", "batAverage", "batRbi", "batHits", "batBasesOnBalls"];
 
   constructor(public http: Http) { }
 
@@ -78,111 +77,199 @@ export class SeasonStatsService {
     return headers;
   }
 
-  getPlayerStats(playerId: number): Observable<ComparisonBarList> {
-    return this.callPlayerComparisonAPI(Number(playerId), data => {
-        return this.formatData(data);
-      });
+  private getLinkToPage(playerId: number, playerName: string): Array<any> {
+    return ["Season-stats-page", {
+      playerId: playerId,
+      playerName: GlobalFunctions.toLowerKebab(playerName)
+    }];
   }
 
-  private callPlayerComparisonAPI(playerId: number, dataLoaded: Function) {
+  getPlayerStats(playerId: number): Observable<SeasonStatsModuleData> {
     let url = this._apiUrl + "/player/seasonStats/" + playerId;
+    // console.log("player season stats " + url);
     return this.http.get(url)
       .map(res => res.json())
-      .map(data => dataLoaded(data.data));
+      .map(data => this.formatData(data.data));
   }
 
-  private formatData(data: SeasonStatsData) {
+  private formatData(data: APISeasonStatsData): SeasonStatsModuleData {
+    if ( !data || !data.playerInfo ) {
+      return null;
+    }
+
+    var fields = data.playerInfo.position[0].charAt(0) == "P" ? this.pitchingFields : this.battingFields;
     let playerInfo = data.playerInfo;
     let stats = data.stats;
-    var seasonStatTab = [];
+
+    //Check to see if the position list contains pitcher abbreviation
+    //in order to select the appropriate fields
+    let isPitcher = playerInfo.position.filter(item => item == "P").length > 0;
+    var seasonStatTabs = [];
     var curYear = new Date().getFullYear();
-    try{
-      for(var year in stats){
-        var displayTab = '';
-        if(Number(year) == curYear){
-          displayTab = 'Current Season';
-        }else if(year == 'career'){
-          displayTab = 'Career Stats';
-        }else{
-          displayTab = year;
-        }
-        if( stats[year].leader !== undefined ){
-          let leader = stats[year].leader;
-          let average = stats[year].average;
-          let seasonStatsPlayer = stats[year].player;
-          let worst = stats[year].worst;
-          var playerBarStats = [];
-          var leaderLists = [];
-          for( var playerStat in leader ){
-            var avgValue = year != 'career' ? this.getKeyValue(playerStat, average) : null;
-            var infoIcon = year != 'career' ? 'fa-info-circle' : null;
-            var worstValue = this.getKeyValue(playerStat, worst);
-            var leaderValue = this.getKeyValue(playerStat, leader);
-            var playerValue = Number(this.getKeyValue(playerStat, seasonStatsPlayer)).toFixed(0);
-            if( year != 'career' ){
-              var career = [{
-                value: playerValue,
-                color: '#BC1624',
-                fontWeight: '800'
-              },
-              {
-                value: average != null ? Number(avgValue).toFixed(0) : null,
-                color: '#444444',
-              }]
-            } else {
-              career = [{
-                value: playerValue,
-                color: '#BC1624',
-              }]
-            }
-            var s = {
-              title: this.getKeyDisplayTitle(playerStat),
-              data: career,
-              minValue: worst !== undefined ? Number(worstValue['statValue']).toFixed(0) : null,
-              maxValue: leader != null ? Number(leaderValue['statValue']).toFixed(0) : null,
-              info: infoIcon != null ? infoIcon : null,
-              infoBoxDetails: [{
-                teamName: leaderValue['players'][0].teamName,
-                playerName: leaderValue['players'][0].firstName + ' ' + leaderValue['players'][0].playerLastName,
-                infoBoxImage : {
-                  imageClass: "image-40",
-                  mainImage: {
-                    imageUrl: GlobalSettings.getImageUrl(leaderValue['players'][0].playerHeadshot),
-                    imageClass: "border-1",
-                    urlRouteArray:  MLBGlobalFunctions.formatPlayerRoute(leaderValue['players'][0].teamName,leaderValue['players'][0].firstName + ' ' + leaderValue['players'][0].playerLastName, leaderValue['players'][0].playerId),
-                    hoverText: "<i style='font-size: 18px;' class='fa fa-mail-forward'></i>",
-                  },
-                },
-                routerLinkPlayer: MLBGlobalFunctions.formatPlayerRoute(leaderValue['players'][0].teamName,leaderValue['players'][0].firstName + ' ' + leaderValue['players'][0].playerLastName, leaderValue['players'][0].playerId),
-                routerLinkTeam: MLBGlobalFunctions.formatTeamRoute(leaderValue['players'][0].teamName, leaderValue['players'][0].teamId),
-              }],
-            }
-            playerBarStats.push(s);
-          }
-      }
-      if( curYear - 4 < Number(year) || year != 'career' ){
-        seasonStatTab.push({
-          tabTitle: displayTab,
-          tabData: playerBarStats
-        });
-      }//TODO
-     }// forloop ends
-    } catch ( error ){
-        console.log("season stat error message: ", error);
+
+    //Load 4 years worth of data, starting from current year
+    for ( var year = curYear; year > curYear-4; year-- ) {
+      seasonStatTabs.push(this.getTabData(data, year.toString(), playerInfo.playerName, isPitcher, year == curYear));
     }
-    seasonStatTab.sort();
-    seasonStatTab.reverse();
-    if(year == 'career'){
-      seasonStatTab.push({
-        tabTitle: "Career Stats",
-        tabData: playerBarStats
-      })
-    }//TODO
+
+    //Load "Career Stats" data
+    seasonStatTabs.push(this.getTabData(data, "career", playerInfo.playerName, isPitcher));
 
     return {
-      playerInfo: playerInfo,
-      tabs: seasonStatTab
+      profileName: playerInfo.playerName,
+      carouselDataItem: this.getCarouselData(data),
+      tabs: seasonStatTabs
     };
+  }
+
+  private getBarData(stats: SeasonStats, isCareer: boolean, isPitcher: boolean): Array<ComparisonBarInput> {
+    let statsToInclude = isPitcher ? this.pitchingFields : this.battingFields;
+    let bars: Array<ComparisonBarInput> = [];
+
+    for ( var index in statsToInclude ) {
+      var fieldName = statsToInclude[index];
+      var avgValue = isCareer ? null : stats.average[fieldName];
+      var infoIcon = isCareer ? null : 'fa-info-circle';
+      var infoBox = null;
+      var worstValue = stats.worst[fieldName];
+      var leaderValue = stats.leader[fieldName];
+      var playerValue = stats.player[fieldName];
+      var dataPoints = [];
+
+      //Set up data points
+      if ( isCareer ) {
+        dataPoints = [{
+          value: this.formatValue(fieldName, playerValue),
+          color: '#BC1624'
+        }];
+      }
+      else {
+        dataPoints = [{
+          value: this.formatValue(fieldName, playerValue),
+          color: '#BC1624',
+          fontWeight: '800'
+        },
+        {
+          value: this.formatValue(fieldName, avgValue),
+          color: '#444444',
+        }];
+
+        //Set up info box only for non-career tabs
+        if ( leaderValue == null ) {
+          console.log("Error - leader value is null for " + fieldName);
+        }
+        else if ( leaderValue.players && leaderValue.players.length > 0 ) {
+          var firstPlayer = leaderValue.players[0];
+          var playerName = firstPlayer.firstName + ' ' + firstPlayer.playerLastName;
+          var linkToPlayer = MLBGlobalFunctions.formatPlayerRoute(firstPlayer.teamName, playerName, firstPlayer.playerId);
+          infoBox = [{
+              teamName: firstPlayer.teamName,
+              playerName: playerName,
+              infoBoxImage : {
+                imageClass: "image-40",
+                mainImage: {
+                  imageUrl: GlobalSettings.getImageUrl(firstPlayer.playerHeadshot),
+                  imageClass: "border-1",
+                  urlRouteArray:  linkToPlayer,
+                  hoverText: "<i style='font-size: 18px;' class='fa fa-mail-forward'></i>",
+                },
+              },
+              routerLinkPlayer: linkToPlayer,
+              routerLinkTeam: MLBGlobalFunctions.formatTeamRoute(firstPlayer.teamName, firstPlayer.teamId),
+            }];
+        }
+      }
+
+      bars.push({
+        title: this.getKeyDisplayTitle(fieldName),
+        data: dataPoints,
+        minValue: worstValue != null ? Number(this.formatValue(fieldName, worstValue.statValue)) : null,
+        maxValue: leaderValue != null ? Number(this.formatValue(fieldName, leaderValue.statValue)) : null,
+        info: infoIcon != null ? infoIcon : null,
+        infoBoxDetails: infoBox
+      });
+    }
+    return bars;
+  }
+
+  private getTabData(data: APISeasonStatsData, year: string, playerName: string, isPitcher: boolean, isCurrYear?: boolean): SeasonStatsTabData {
+    var legendValues;
+    var subTitle;
+    var tabTitle;
+    var bars: Array<ComparisonBarInput> = this.getBarData(data.stats[year], year == "career", isPitcher);
+
+    if ( year == "career" ) {
+      tabTitle = "Career Stats";
+      subTitle = "Career Stats";
+      legendValues = [
+          { title: playerName,    color: '#BC2027' },
+          { title: "Stat High",  color: "#E1E1E1" }
+      ];
+    }
+    else {
+      if ( isCurrYear ) {
+        tabTitle = "Current Season";
+        subTitle = "Current Season";
+      }
+      else if ( year != "career" ) {
+        tabTitle = year;
+        subTitle = year + " Season";
+      }
+      legendValues = [
+          { title: playerName,    color: '#BC2027' },
+          { title: 'MLB Average', color: '#444444' },
+          { title: "MLB Leader",  color: "#E1E1E1" }
+      ];
+    }
+
+    return {
+      tabTitle: tabTitle,
+      comparisonLegendData: {
+        legendTitle: [
+          { text: subTitle, class: 'text-heavy' },
+          { text: ' Breakdown' }
+        ],
+        legendValues: legendValues
+      },
+      tabData: bars
+    };
+  }
+
+  private getCarouselData(data: APISeasonStatsData): SliderCarouselInput {
+    if ( !data || !data.playerInfo ) {
+      return null;
+    }
+
+    return {
+          backgroundImage: GlobalSettings.getImageUrl(data.playerInfo.liveImage),
+          imageConfig: {
+            imageClass: "image-150",
+            mainImage: {
+              imageUrl: GlobalSettings.getImageUrl(data.playerInfo.playerHeadshot),
+              imageClass: "border-large",
+            },
+            subImages: [
+              {
+                imageUrl:  GlobalSettings.getImageUrl(data.playerInfo.teamLogo),
+                urlRouteArray: MLBGlobalFunctions.formatTeamRoute(data.playerInfo.teamName,data.playerInfo.teamId),
+                hoverText: "<i class='fa fa-mail-forward'></i>",
+                imageClass: "image-50-sub image-round-lower-right"
+              }
+            ],
+          },
+          description:[
+            '<p style="font-size: 12px;"><i class="fa fa-circle" style="color:#bc2027; padding-right: 5px;"></i> CURRENT SEASON STATS REPORT</p>',
+            '<p style="font-size: 22px; font-weight: 800; padding:9px 0;">' + data.playerInfo.playerName + '</p>',
+            {
+              wrapperStyle: {'font-size': '14px', 'line-height': '1.4em'},
+              beforeLink: "Team: ",
+              linkObj: MLBGlobalFunctions.formatTeamRoute(data.playerInfo.teamName, data.playerInfo.teamId),
+              linkText: data.playerInfo.teamName,
+              afterLink: ""
+            },
+            '<p style="font-size: 10px; padding-top:12px;">Last Updated On ' + GlobalFunctions.formatUpdatedDate(data.playerInfo.lastUpdate) + '</p>'
+          ]
+      };
   }
 
   private getKeyDisplayTitle(key: string): string {
@@ -191,44 +278,42 @@ export class SeasonStatsService {
       case "batAverage": return "Batting Average (BA)";
       case "batRbi": return "Runs Batted In (RBI)";
       case "batHits": return "Hits";
-      case "pitchBasesOnBalls": return "Walks (BB)";
+      case "batBasesOnBalls": return "Walks (BB)";
 
       case "pitchWins": return "Wins";
       case "pitchInningsPitched": return "Innings Pitched (IP)";
-      case "pitchStrikeouts": return "Strikeouts (SO)";
+      case "pitchStrikeouts": return "Strike Outs (SO)";
       case "pitchEra": return "ERA";
       case "pitchHits": return "Hits";
       default: return null;
     }
   }
-  private getKeyValue(key: string, data): string {
-    // console.log(key, data);
-    if(data[key] == null){
-      data[key] = {};
-    }
-    switch (key) {
-      case "batHomeRuns": return data[key];
-      case "batAverage": return data[key];
-      case "batRbi": return data[key];
-      case "batHits": return data[key];
-      case "pitchBasesOnBalls": return data[key];
 
-      case "pitchWins": return data[key];
-      case "pitchInningsPitched": return data[key];
-      case "pitchStrikeouts": return data[key];
-      case "pitchEra": return data[key];
-      case "pitchHits": return data[key];
-      default: return '0';
+  private formatValue(fieldName: string, value: string): string {
+    if ( value == null ) {
+      return null;
+    }
+    switch (fieldName) {
+      case "batAverage":           return Number(value).toFixed(3);
+      case "pitchInningsPitched":  return Number(value).toFixed(1);
+      case "pitchEra":             return Number(value).toFixed(2);
+
+      case "batHomeRuns":
+      case "batRbi":
+      case "batHits":
+      case "batBasesOnBalls":
+      case "pitchWins":
+      case "pitchStrikeouts":
+      case "pitchHits":
+      default: return Number(value).toFixed(0);
     }
   }
 }
-
 @Injectable()
 export class SeasonStatsPageService {
   constructor(public http: Http, private _globalFunctions: GlobalFunctions, private _mlbFunctions: MLBGlobalFunctions){}
 
-  getPageTitle(pageParams: MLBPageParameters, playerName: string): string {
-    let groupName = this.formatGroupName(pageParams.season, pageParams.year);
+  getPageTitle( pageParams: MLBPageParameters, playerName: string): string {
     let pageTitle = "Season Stats";
     if ( playerName ) {
       pageTitle = "Season Stats - " + playerName;
@@ -236,18 +321,22 @@ export class SeasonStatsPageService {
     return pageTitle;
   }
 
-  //TODO using standing's until season stats page api is avaiable
   initializeAllTabs(pageParams: MLBPageParameters): Array<MLBSeasonStatsTabData> {
     let tabs: Array<MLBSeasonStatsTabData> = [];
-      tabs.push(this.createTab(true, pageParams.season, pageParams.year));
-      tabs.push(this.createTab(false, pageParams.season));
-      tabs.push(this.createTab(false));
+    var curYear = new Date().getFullYear();
+    var year = curYear;
+    //create tabs for season stats from current year of MLB and back 3 years
+    for ( var i = 0; i < 4; i++ ){
+      tabs.push(new MLBSeasonStatsTabData(year.toString(), null, year.toString(), i==0));
+      year--;
+    }
+    //also push in last the career stats tab
+    tabs.push(new MLBSeasonStatsTabData('Career Stats', null, 'career', false));
     return tabs;
   }
-  //TODO using standing api until season stats api is available
+
   getSeasonStatsTabData(seasonStatsTab: MLBSeasonStatsTabData, pageParams: MLBPageParameters, onTabsLoaded: Function, maxRows?: number){
-      var playerId = "96652";
-      // console.log("seasonStatsTab",seasonStatsTab, pageParams);
+      var playerId = pageParams.playerId;
       //example url: http://dev-homerunloyal-api.synapsys.us/player/statsDetail/96652
       let url = GlobalSettings.getApiUrl() + "/player/statsDetail/" + playerId;
       seasonStatsTab.isLoaded = false;
@@ -265,68 +354,142 @@ export class SeasonStatsPageService {
           err => {
             seasonStatsTab.isLoaded = true;
             seasonStatsTab.hasError = true;
-            console.log("Error getting season stats data");
+            console.log("Error getting season stats data", err);
           });
   }
-  //TODO
-  private createTab(selectTab: boolean, season?: Season, year?: number) {
-    let title = this.formatGroupName(season, year, true);
-    return new MLBSeasonStatsTabData(title, season, year, selectTab);
-  }
-  //TODO
-  private setupTabData(seasonStatsTab: MLBSeasonStatsTabData, apiData: any, playerId: number, maxRows?: number): any{
+
+  private setupTabData(seasonStatsTab: MLBSeasonStatsTabData, apiData: any, playerId: number, maxRows: number): any{
+    let seasonTitle;
+    let sectionTable;
     var sections : Array<MLBSeasonStatsTableData> = [];
     var totalRows = 0;
-    var conferenceKey = Season[seasonStatsTab.season];
-    var divisionKey = seasonStatsTab.year;
-    var divData = conferenceKey && divisionKey ? apiData[conferenceKey][divisionKey] : [];
-    sections.push(this.setupTableData(seasonStatsTab.season, seasonStatsTab.year, divData, maxRows, false));
+    var seasonKey = seasonStatsTab.year;
+    //TODO need to put these objects into a working enviroment for regular season and years
+    var tableData = {};
+    //run through each object in the api and set the title of only the needed season for the table regular and post season
+    for(var season in apiData){
+      switch(season){
+        case 'regularSeason':
+          seasonTitle = "Regular Season";
+          break;
+        case 'postSeason':
+          seasonTitle = "Post Season";
+          break;
+        default:
+          break;
+      }
+      // we only care about the tables that meet the switch cases being regular and post season
+      if(seasonTitle != null){
+        //set the section table to season
+        sectionTable = apiData[season];
+        //section Table now need to be set to sectionYear which are each of the different stats for each season of that [YEAR] being 'total' and 'average' NOTE: 'total' is being sent back as 'stat'
+        if(seasonKey == 'career'){
+          let sectionTitle;
+          //look for the career total and grab all the stats for the players career
+          for(var statType in sectionTable[seasonKey]){
+            switch(statType){
+              case 'averages':
+              sectionTitle = seasonTitle + " " + "Average";
+              break;
+              case 'stats':
+              sectionTitle = seasonTitle + " " + "Total";
+              break;
+              default:
+              break;
+            }
+            //run through each object in the api and set the title of only the needed section for the table averages and stats 'total'
+            if(sectionTitle != null){
+              let sectionData = [];
+              for(var year in sectionTable){//grab all season data and push them into a single array for career stats tab
+                sectionData['playerInfo'] = apiData.playerInfo;
+                sectionTable[year][statType].teamInfo = sectionTable[year].teamInfo != null ? sectionTable[year].teamInfo : {};
+                if(year != 'career'){
+                  sectionData.push(sectionTable[year][statType]);
+                }
+              }
+              sectionTable['career'][statType]['seasonId'] = 'Career';
+              sectionData.push(sectionTable['career'][statType]);
 
-    if ( playerId ) {
-      sections.forEach(section => {
-        section.tableData.selectedKey = playerId;
-      });
-    }
+              //sort by season id and put career at the end
+              sections.push(this.setupTableData(sectionTitle, seasonKey, sectionData, maxRows));
+            }//END OF SECTION TITLE IF STATEMENT
+          }//END OF SEASON YEAR FOR LOOP
+
+        }else{
+          var sectionYear = sectionTable[seasonKey];
+          if(sectionYear != null){// check if there are even stats for the season existing
+            let sectionTitle;
+            for(var statType in sectionYear){
+              switch(statType){
+                case 'averages':
+                sectionTitle = seasonTitle + " " + "Average";
+                break;
+                case 'stats':
+                sectionTitle = seasonTitle + " " + "Total";
+                break;
+                default:
+                break;
+              }
+              //run through each object in the api and set the title of only the needed section for the table averages and stats 'total'
+              if(sectionTitle != null){
+                let sectionData = sectionYear[statType];
+                sectionData.playerInfo = apiData.playerInfo;
+                sectionData.teamInfo = sectionYear.teamInfo != null ? sectionYear.teamInfo : {};
+                sections.push(this.setupTableData(sectionTitle, seasonKey, sectionData, maxRows));
+              }//END OF SECTION TITLE IF STATEMENT
+            }//END OF SEASON YEAR FOR LOOP
+          }//end of season year if check
+        }//end of season key check
+      }//END OF SEASON TITLE IF STATEMENT
+    }//END OF SEASON FOR LOOP
+    // this.convertAPIData(apiData.regularSeason, tableData);
     return sections;
   }
 
-  private setupTableData(season:Season, year:number, rows: Array<TeamSeasonStatsData>, maxRows: number, includeTableName: boolean): MLBSeasonStatsTableData {
-    let groupName = this.formatGroupName(season, year, true);
-
-    //Limit to maxRows, if necessary
-    if ( maxRows !== undefined ) {
-      rows = rows.slice(0, maxRows);
+  private setupTableData(season, year, rows: Array<any>, maxRows: number): MLBSeasonStatsTableData {
+    var tableName;
+    let self = this;
+    //convert object coming in into array
+    if(year == 'career'){
+      var rowArray = rows;
+    }else{
+      var rowArray = [];
+      rowArray.push(rows);
     }
+    tableName = season;
+    var table = new MLBSeasonStatsTableModel(rowArray, true);// set if pitcher to true
 
-    //Set display values
-    rows.forEach((value, index) => {
-      value.groupName = groupName;
-      value.displayDate = GlobalFunctions.formatUpdatedDate(value.lastUpdated, false);
-      value.fullImageUrl = GlobalSettings.getImageUrl(value.imageUrl);
-      if ( value.backgroundImage ) {
-        value.fullBackgroundImageUrl = GlobalSettings.getImageUrl(value.backgroundImage);
-      }
+    return new MLBSeasonStatsTableData(tableName, season, year, table);
+  }
 
-      //Make sure numbers are numbers.
-      value.totalWins = Number(value.totalWins);
-      value.totalLosses = Number(value.totalLosses);
-      value.winPercentage = Number(value.winPercentage);
-      value.gamesBack = Number(value.gamesBack);
-      value.streakCount = Number(value.streakCount);
-      value.batRunsScored = Number(value.batRunsScored);
-      value.pitchRunsAllowed = Number(value.pitchRunsAllowed);
+  private getKeyValue(key: string, data): string {
+    if(data[key] == null){
+      data[key] = {};
+    }
+    switch (key) {
+      case "batHomeRuns": return data[key];
+      case "batAverage": return data[key];
+      case "batRbi": return data[key];
+      case "batHits": return data[key];
+      case "batBasesOnBalls": return data[key];
+      case "batOnBasePercentage": return data[key];
+      case "batRunsScored": return data[key];
+      case "batSluggingPercentage": return data[key];
 
-      if ( value.teamId === undefined || value.teamId === null ) {
-        value.teamId = index;
-      }
-    });
-
-    let tableName = this.formatGroupName(season, year, true);
-    var table = new MLBSeasonStatsTableModel(rows);
-    return new MLBSeasonStatsTableData(includeTableName ? tableName : "", season, year, table);
+      case "pitchWins": return data[key];
+      case "pitchInningsPitched": return data[key];
+      case "pitchStrikeouts": return data[key];
+      case "pitchEra": return data[key];
+      case "pitchHits": return data[key];
+      case "pitchLosses": return data[key];
+      case "pitchEarnedRuns": return data[key];
+      case "pitchBasesOnBalls": return data[key];
+      case "pitchWhip": return data[key];
+      default: return '0';
+    }
   }
   // TODO groupname sample: Regular Season Total
-  private formatGroupName(season: Season, year: number, makeDivisionBold?: boolean): string {
-    return "YYYY";
-  }
+  // private formatGroupName(season: Season, year: number, makeDivisionBold?: boolean): string {
+  //   return "YYYY";
+  // }
 }

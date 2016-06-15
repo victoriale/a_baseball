@@ -7,49 +7,17 @@ import {Observable} from "rxjs/Observable";
 @Injectable()
 
 export class ImagesService {
-    public partnerID:string;
-
-    constructor(private _router:Router, public http:Http) {
-        this._router.root
-            .subscribe(
-                route => {
-                    var curRoute = route;
-                    var partnerID = curRoute.split('/');
-                    if (partnerID[0] == '') {
-                        this.partnerID = null;
-                    } else {
-                        this.partnerID = partnerID[0];
-                    }
-                }
-            )//end of route subscribe
-    };
+    constructor(public http:Http) {};
 
     getImages(profileType, profileId?) {
         var fullUrl = GlobalSettings.getApiUrl() + "/" + profileType.toLowerCase() + "/imagesAndMedia";
         if (profileId !== undefined) {
             fullUrl += "/" + profileId;
         }
-        if (this.partnerID == null) {
-            return this.http.get(fullUrl)
-                .map(
-                    res => res.json()
-                )
-                .map(
-                    data => {
-                        return this.getImageArray(data.data);
-                    }
-                )
-        } else {
-            return this.http.get(fullUrl)
-                .map(
-                    res => res.json()
-                )
-                .map(
-                    data => {
-                        return this.getImageArray(data.data);
-                    }
-                )
-        }
+        
+        return this.http.get(fullUrl)
+            .map(res => res.json())
+            .map(data => this.getImageArray(data.data));
     }
 
     getImageArray(imageData) {

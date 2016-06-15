@@ -3,32 +3,39 @@ import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/mod
 import {CircleImageData} from "../../components/images/image-data";
 import {CircleImage} from "../../components/images/circle-image";
 import {GlobalSettings} from "../../global/global-settings";
+import {NoDataBox} from '../../components/error/data-box/data-box.component';
+import {BarChartComponent} from '../../components/bar-chart/bar-chart.component';
+import {DailyUpdateData, DailyUpdateChart} from "../../services/daily-update.service";
 
 declare var jQuery:any;
 
 @Component({
     selector: 'daily-update-module',
     templateUrl: './app/modules/daily-update/daily-update.module.html',
-    directives: [ModuleHeader, CircleImage],
+    directives: [ModuleHeader, CircleImage, NoDataBox, BarChartComponent],
     providers: []
 })
 
-export class DailyUpdateModule{
-    public displayData: Object;
-    public backgroundImage: string;
-    
-    @Input() dailyUpdateDataArray: Array<Object>;
-    @Input() profileName: string;
-    public headerInfo: ModuleHeaderData = {
-      moduleTitle: "Daily Update - [Profile Name]",
-      hasIcon: true,
-      iconClass: null
-    };
+export class DailyUpdateModule {
+  @Input() profileName: string = "[Profile Name]";
 
-    sampleImage = "./app/public/no-image.png";
+  @Input() data: DailyUpdateData;
+
+  public chartOptions: any;
+  
+  public backgroundImage: string;
+
+  public noDataMessage: string = 'Sorry, there is no daily update available for [Profile Name]';
+
+  public headerInfo: ModuleHeaderData = {
+    moduleTitle: "Daily Update - [Profile Name]",
+    hasIcon: true,
+    iconClass: null
+  };
+
+  public comparisonCount: number;
 
   public imageConfig: CircleImageData;
-
 
   constructor(){
     this.imageConfig = {
@@ -41,91 +48,100 @@ export class DailyUpdateModule{
     };
   }
 
-  drawChart(){
-      var yAxisMin = 0;
-      //var yAxisMax = 140;
+  ngOnChanges() {
+    this.headerInfo.moduleTitle = "Daily Update - " + this.profileName;
+    this.noDataMessage = "Sorry, there is no daily update available for " + this.profileName;
 
-      var options = {
-        chart: {
-          type: 'column',
-          height: 144,
-          marginTop: 10,
-          spacingTop: 0,
-          spacingBottom: 0,
-          style: {
-            fontFamily: '\'Lato\', sans-serif'
-          }
-        },
-        title: {
-          text: ''
-        },
-        legend: {
-          enabled: false
-        },
-        xAxis: {
-          categories: ["vs [Profile 2]", "vs [Profile 3]", "vs [Profile 4]", "vs [Profile 5]"],
-          tickWidth: 0
-        },
-        yAxis: {
-          min: yAxisMin,
-          max: null,
-          tickInterval: 2,
-          opposite: true,
-          title: {
-            text: null
-          }
-        },
-        plotOptions: {
-          column: {
-            pointPadding: 0,
-            borderWidth: 0,
-            groupPadding: 0.16,
-            dataLabels: {
-              enabled: true,
-              inside: false,
-              allowOverlap: true,
-              crop: false,
-              overflow: 'none',
-              backgroundColor: undefined,
-              y: 0
-            },
-            enableMouseTracking: false
-          },
-          series: {
-            //pointWidth: 30
-          }
-        },
-        colors: [
-          '#272727',
-          '#bc2027'
-        ],
-        series: [{
-          pointWidth: 30,
-          name: 'Pts. Scored',
-          data: [4, 8, 9, 12]
-        }, {
-          pointWidth: 30,
-          name: 'Pts. Against',
-          data: [2, 10, 7, 10]
-        }],
-        credits: {
-          enabled: false
-        }
-      };
-      jQuery('.daily-update-chart-wrapper').highcharts(options);
-    };
-
-    ngOnInit(){
-      //this.drawChart();
-    }
-
-    ngOnChanges(event){
-      //console.log("event",event);
+    if ( this.data ) {
       this.drawChart();
+      this.backgroundImage = this.data.fullBackgroundImageUrl;
     }
 
-  ngAfterViewInit(){
-    //console.log("event",event);
-    this.drawChart();
+    if ( this.data && this.data.chart && this.data.chart.dataSeries && this.data.chart.dataSeries.length > 0) {
+      var series = this.data.chart.dataSeries[0];
+      this.comparisonCount = series.values ? series.values.length : 0;
+    }
+    else {
+      this.comparisonCount = 0;
+    }
   }
+
+  drawChart(){
+    var yAxisMin = 0;
+    var categories = [];
+    var series = [];
+
+    if ( this.data && this.data.chart ) {
+      var chart = this.data.chart;
+      categories = chart.categories;
+      if ( chart.dataSeries ) {
+        series = chart.dataSeries.map(item => {
+          return {
+            pointWidth: 30,
+            name: item.name,
+            data: item.values
+          };
+        });
+      }
+    }
+
+    this.chartOptions = {
+      chart: {
+        type: 'column',
+        height: 144,
+        marginTop: 10,
+        spacingTop: 0,
+        spacingBottom: 0,
+        style: {
+          fontFamily: '\'Lato\', sans-serif'
+        }
+      },
+      title: {
+        text: ''
+      },
+      legend: {
+        enabled: false
+      },
+      xAxis: {
+        categories: categories,
+        tickWidth: 0
+      },
+      yAxis: {
+        min: yAxisMin,
+        max: null,
+        tickInterval: 2,
+        opposite: true,
+        title: {
+          text: null
+        }
+      },
+      plotOptions: {
+        column: {
+          pointPadding: 0,
+          borderWidth: 0,
+          groupPadding: 0.16,
+          minPointLength: 3,
+          dataLabels: {
+            enabled: true,
+            inside: false,
+            allowOverlap: true,
+            crop: false,
+            overflow: 'none',
+            backgroundColor: undefined,
+            y: 0
+          },
+          enableMouseTracking: false
+        }
+      },
+      colors: [
+        '#272727',
+        '#bc2027'
+      ],
+      series: series,
+      credits: {
+        enabled: false
+      }
+    };
+  };
 }
+

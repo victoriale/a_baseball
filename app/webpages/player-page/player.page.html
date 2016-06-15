@@ -1,9 +1,11 @@
+<sidekick-wrapper>
 <section class="page profile-container">
     <loading-component *ngIf="!profileHeaderData && !hasError"></loading-component>
     <error-component *ngIf="hasError"></error-component>
     <div *ngIf="profileHeaderData && pageParams">
         <headline-component [title]="'About the ' + profileHeaderData.profileName"></headline-component>
         <profile-header *ngIf="profileHeaderData" [profileHeaderData]="profileHeaderData"></profile-header>
+        <daily-update-module [profileName]="profileHeaderData.profileName" [data]="dailyUpdateData"></daily-update-module>
         <!-- daily update -->
 
         <headline-component [title]="'Keep Up With Everything ' + profileHeaderData.profileName"></headline-component>
@@ -30,6 +32,7 @@
         <share-module *ngIf="shareModuleInput" [shareModuleInput]="shareModuleInput"></share-module>
         <like-us-module></like-us-module>
         <!-- </section> -->
-        <about-us></about-us>
+        <about-us [partnerID]="partnerID"></about-us>
     </div>
 </section>
+</sidekick-wrapper>

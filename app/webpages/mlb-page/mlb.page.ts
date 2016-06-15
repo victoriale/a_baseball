@@ -1,4 +1,7 @@
 import {Component, OnInit} from 'angular2/core';
+import {Router} from 'angular2/router';
+import {Title} from 'angular2/platform/browser';
+
 import {LoadingComponent} from '../../components/loading/loading.component';
 import {ErrorComponent} from '../../components/error/error.component';
 
@@ -44,11 +47,13 @@ import {GlobalSettings} from "../../global/global-settings";
 import {ListPageService} from '../../services/list-page.service';
 import {ImagesService} from "../../services/carousel.service";
 import {ImagesMedia} from "../../components/carousels/images-media-carousel/images-media-carousel.component";
+import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
 @Component({
     selector: 'MLB-page',
     templateUrl: './app/webpages/mlb-page/mlb.page.html',
     directives: [
+        SidekickWrapper, 
         LoadingComponent,
         ErrorComponent,
         MVPModule,
@@ -77,7 +82,8 @@ import {ImagesMedia} from "../../components/carousels/images-media-carousel/imag
         FaqService,
         DykService,
         ComparisonStatsService,
-        TwitterService
+        TwitterService,
+        Title
       ]
 })
 
@@ -85,6 +91,7 @@ export class MLBPage implements OnInit {
     public shareModuleInput:ShareModuleInput;
 
     pageParams:MLBPageParameters = {};
+    partnerID:string = null;
     hasError: boolean = false;
 
     standingsData:StandingsModuleData;
@@ -109,7 +116,9 @@ export class MLBPage implements OnInit {
     twitterData: Array<twitterModuleData>;
     schedulesData:any;
 
-    constructor(private _standingsService:StandingsService,
+    constructor(private _router:Router, 
+                private _title: Title,
+                private _standingsService:StandingsService,
                 private _profileService:ProfileHeaderService,
                 private _schedulesService:SchedulesService,
                 private _imagesService:ImagesService,
@@ -119,6 +128,7 @@ export class MLBPage implements OnInit {
                 private _twitterService: TwitterService,
                 private _comparisonService: ComparisonStatsService,
                 private listService:ListPageService) {
+        _title.setTitle(GlobalSettings.getPageTitle("MLB"));
         this.batterParams = { //Initial load for mvp Data
             profile: 'player',
             listname: 'batter-home-runs',
@@ -137,6 +147,10 @@ export class MLBPage implements OnInit {
             limit: this.listMax,
             pageNum: 1
         };
+        
+        GlobalSettings.getPartnerID(_router, partnerID => {
+            this.partnerID = partnerID;
+        });
     }
 
     ngOnInit() {

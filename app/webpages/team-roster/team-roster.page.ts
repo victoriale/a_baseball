@@ -1,21 +1,23 @@
 import {Component, OnInit, Input, DoCheck, OnChanges} from 'angular2/core';
 import {RouteParams} from "angular2/router";
+import {Title} from 'angular2/platform/browser';
+
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {TitleComponent, TitleInputData} from "../../components/title/title.component";
 import {RosterComponent, RosterTabData} from "../../components/roster/roster.component";
 import {MLBRosterTabData} from '../../services/roster.data';
 import {MLBPageParameters} from '../../global/global-interface';
 import {GlobalFunctions} from '../../global/global-functions';
+import {GlobalSettings} from "../../global/global-settings";
 import {RosterService} from '../../services/roster.service';
 import {ProfileHeaderService} from '../../services/profile-header.service';
+import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
 @Component({
     selector: 'Team-roster-page',
     templateUrl: './app/webpages/team-roster/team-roster.page.html',
-    directives: [BackTabComponent,
-                TitleComponent,
-                RosterComponent],
-    providers: [RosterService, ProfileHeaderService],
+    directives: [SidekickWrapper, BackTabComponent, TitleComponent, RosterComponent],
+    providers: [RosterService, ProfileHeaderService, Title],
 })
 
 export class TeamRosterPage implements OnInit {
@@ -32,8 +34,10 @@ export class TeamRosterPage implements OnInit {
   private selectedTabTitle: string;
 
   constructor(private _params: RouteParams,
+              private _title: Title,
               private _profileService: ProfileHeaderService,
               private _rosterService: RosterService) {
+    _title.setTitle(GlobalSettings.getPageTitle("Team Roster"));
     let teamId = _params.get("teamId");
     if ( teamId !== null && teamId !== undefined ) {
       this.pageParams.teamId = Number(teamId);
@@ -50,6 +54,7 @@ export class TeamRosterPage implements OnInit {
         data => {
           this.profileLoaded = true;
           this.pageParams = data.pageParams;
+          this._title.setTitle(GlobalSettings.getPageTitle("Team Roster", data.teamName));
           this.setupTitleData(data.teamName, data.fullProfileImageUrl, data.headerData.lastUpdated)
           this.setupRosterData();
         },

@@ -1,4 +1,5 @@
 import {Injectable} from 'angular2/core';
+import {Router} from 'angular2/router';
 
 @Injectable()
 
@@ -16,6 +17,8 @@ export class GlobalSettings {
     
     private static _homepageUrl:string = '.homerunloyal.com';
     private static _partnerHomepageUrl:string = '.homerunloyal.com/';
+
+    private static _baseTitle: string = "Home Run Loyal";
 
     static getEnv(env:string):string {
         if (env == "localhost") {
@@ -64,6 +67,31 @@ export class GlobalSettings {
     
     static getSiteLogoUrl():string {
         return "/app/public/mainLogo.png";
+    }
+
+    /**
+     * This should be called by classes in their constructor function, so that the
+     * 'subscribe' function actually gets called and the partnerID can be located from the route 
+     * 
+     * @param{Router} router
+     * @param {Function} subscribeListener - takes a single parameter that represents the partnerID: (partnerID) => {}
+     */
+    static getPartnerID(router: Router, subscribeListener: Function) {
+        if ( !subscribeListener ) return;
+
+        router.root.subscribe (
+            route => {
+                var routeItems = route.split('/');
+                var partnerID = routeItems[0] == '' ? null : routeItems[0];
+                subscribeListener(partnerID);
+            }
+        )
+    }
+
+    static getPageTitle(subtitle?: string, profileName?: string) {
+        return this._baseTitle +
+            (profileName && profileName.length > 0 ? " - " + profileName : "") + 
+            (subtitle && subtitle.length > 0 ? " - " + subtitle : "");
     }
 
 }
