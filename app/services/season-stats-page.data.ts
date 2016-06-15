@@ -179,9 +179,7 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
     else if ( rows.length > 0 ) {
       // this.selectedKey = rows[0].playerId;
     }
-    if(this.rows[0]['playerInfo']){
-      isPitcher = this.rows[0]['playerInfo'].position[0].charAt(0) == "P" ? true : false;
-    }
+    isPitcher = this.rows[0]['playerInfo'].position[0].charAt(0) == "P" ? true : false;
     this.isPitcher = isPitcher;
     if(this.isPitcher){
       this.columns = [{
@@ -305,13 +303,14 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
 
   getDisplayValueAt(item:TeamSeasonStatsData, column:TableColumn):string {
     var s = "";
+    var avgTotal = item['sectionStat'] != null && item['sectionStat'] == "Average" ? "Total Average" : "Total";
     switch (column.key) {
       case "year":
-        s = item.seasonId; //TODO
+        s = item.seasonId;
         break;
 
       case "team":
-        s = item.teamInfo.teamName != null ? item.teamInfo.teamName : 'N/A';
+        s = item['sectionStat'] == null ? item.teamInfo.teamName : avgTotal.toUpperCase() + ":";
         break;
 
       case "wl":
@@ -383,7 +382,6 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
 
   getSortValueAt(item:TeamSeasonStatsData, column:TableColumn):any {
     var o = null;
-
     switch (column.key) {
       case "year":
         o = item.seasonId;
@@ -473,7 +471,7 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
   }
 
   getRouterLinkAt(item:TeamSeasonStatsData, column:TableColumn):Array<any> {
-    if ( column.key === "team" ) {
+    if ( column.key === "team") {
       return MLBGlobalFunctions.formatTeamRoute(item.teamInfo.teamName,item.teamInfo.teamId);
     }
     else {

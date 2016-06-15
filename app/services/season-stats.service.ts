@@ -86,7 +86,6 @@ export class SeasonStatsService {
 
   getPlayerStats(playerId: number): Observable<SeasonStatsModuleData> {
     let url = this._apiUrl + "/player/seasonStats/" + playerId;
-    // console.log("player season stats " + url);
     return this.http.get(url)
       .map(res => res.json())
       .map(data => this.formatData(data.data));
@@ -385,14 +384,17 @@ export class SeasonStatsPageService {
         //section Table now need to be set to sectionYear which are each of the different stats for each season of that [YEAR] being 'total' and 'average' NOTE: 'total' is being sent back as 'stat'
         if(seasonKey == 'career'){
           let sectionTitle;
+          var sectionStat;
           //look for the career total and grab all the stats for the players career
           for(var statType in sectionTable[seasonKey]){
             switch(statType){
               case 'averages':
-              sectionTitle = seasonTitle + " " + "Average";
+              sectionStat = "Average";
+              sectionTitle = seasonTitle + " " + sectionStat;
               break;
               case 'stats':
-              sectionTitle = seasonTitle + " " + "Total";
+              sectionStat = "Total";
+              sectionTitle = seasonTitle + " " + sectionStat;
               break;
               default:
               break;
@@ -408,6 +410,7 @@ export class SeasonStatsPageService {
                 }
               }
               sectionTable['career'][statType]['seasonId'] = 'Career';
+              sectionTable['career'][statType]['sectionStat'] = sectionStat;
               sectionData.push(sectionTable['career'][statType]);
 
               //sort by season id and put career at the end
@@ -488,8 +491,4 @@ export class SeasonStatsPageService {
       default: return '0';
     }
   }
-  // TODO groupname sample: Regular Season Total
-  // private formatGroupName(season: Season, year: number, makeDivisionBold?: boolean): string {
-  //   return "YYYY";
-  // }
 }
