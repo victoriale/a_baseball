@@ -65,7 +65,6 @@ export class DailyUpdateModule {
     else {
       this.comparisonCount = 0;
     }
-    console.log('event:', event);
     if(event.data['currentValue'] != null && event.data['currentValue'].postGameArticle != null && event.data['currentValue'].postGameArticle.img != null){
       this.imageConfig.mainImage.imageUrl = event.data['currentValue'].postGameArticle.img.split(" ")[0];
     }

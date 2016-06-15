@@ -230,7 +230,6 @@ export class TeamPage implements OnInit {
         this._dailyUpdateService.getTeamDailyUpdate(teamId)
             .subscribe(data => {
                 this.dailyUpdateData = data;
-                console.log("duD",this.dailyUpdateData);
             },
             err => {
                 this.dailyUpdateData = this._dailyUpdateService.getErrorData();

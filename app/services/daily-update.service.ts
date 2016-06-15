@@ -290,7 +290,6 @@ export class DailyUpdateService {
     articleData['pubDate'] = data['postgame-report'].dateline != null ? data['postgame-report'].dateline : null;
     articleData['headline'] = data['postgame-report'].displayHeadline != null ? data['postgame-report'].displayHeadline : null;
     articleData['text'] = data['postgame-report'].article != null && data['postgame-report'].article.length > 0 ? data['postgame-report'].article : null;
-    console.log("dete",data);
     articleData['img'] = data['postgame-report'].images != null && data['postgame-report'].images[articleData['teamId']] != null && data['postgame-report'].images[articleData['teamId']].length > 0 ? data['postgame-report'].images[articleData['teamId']][0]: null;
 
     this.postGameArticleData = <PostGameArticleData>articleData;

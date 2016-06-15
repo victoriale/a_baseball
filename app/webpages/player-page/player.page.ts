@@ -188,7 +188,6 @@ private dailyUpdateModule(playerId: number) {
     this._dailyUpdateService.getPlayerDailyUpdate(playerId)
         .subscribe(data => {
             this.dailyUpdateData = data;
-          console.log("pDuD",data);
         },
         err => {
             this.dailyUpdateData = this._dailyUpdateService.getErrorData();
