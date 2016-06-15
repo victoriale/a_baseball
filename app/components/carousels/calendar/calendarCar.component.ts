@@ -40,6 +40,7 @@ export class CalendarCarousel implements OnInit{
   ngOnInit(){
     var params = this.chosenParam;
     this.curDateView = {profile: params.profile, teamId: params.teamId, date: params.date};
+    console.log('ONLOAD VIEW',this.curDateView);
     this.callWeeklyApi(this.chosenParam)
     .subscribe( data => {
       this.validateDate(this.chosenParam.date, this.weeklyDates);
@@ -57,18 +58,24 @@ export class CalendarCarousel implements OnInit{
 
   left(){
     //take parameters and convert using moment to subtract a week from it and recall the week api
+    console.log('BEFORE VIEW',this.curDateView);
     var curParams = this.curDateView;
     curParams.date = moment(curParams.date).subtract(7, 'days').format('YYYY-MM-DD');
+    console.log('SUBTRACT 7',curParams.date);
     this.callWeeklyApi(curParams).subscribe(data=>{this.validateDate(this.chosenParam.date, this.weeklyDates)});
-    this.curDateView = curParams;
+    this.curDateView.date = curParams.date;
+    console.log('CURRENT VIEW',this.curDateView);
   }
 
   right(){
     //take parameters and convert using moment to add a week from it and recall the week api
+    console.log('BEFORE VIEW',this.curDateView.date);
     var curParams = this.curDateView;
     curParams.date = moment(curParams.date).add(7, 'days').format('YYYY-MM-DD');
+    console.log('ADD 7',curParams.date);
     this.callWeeklyApi(curParams).subscribe(data=>{this.validateDate(this.chosenParam.date, this.weeklyDates)});
-    this.curDateView = curParams;
+    this.curDateView.date = curParams.date;
+    console.log('CURRENT VIEW',this.curDateView.date);
   }
 
   //whatever is clicked on gets emitted and highlight on the carousel
@@ -153,6 +160,5 @@ export class CalendarCarousel implements OnInit{
 
     //change validatedDate back into format for dateArray;
     validatedDate = moment(validatedDate).tz('America/New_York').format('YYYY-MM-DD');
-    this.curDateView.date = validatedDate;//SENDS BACK AS YYYY-MM-DD to use to send back to the box-scores module and set the data
   }
 }

@@ -318,7 +318,7 @@ export class TeamPage implements OnInit {
             this.currentBoxScores = {
               moduleTitle: this._boxScores.moduleHeader(this.dateParam.date, this.profileName),
               schedule: this._boxScores.formatSchedule(this.boxScoresData.transformedDate[this.dateParam.date][0], this.pageParams.teamId),
-              gameInfo: this._boxScores.formatGameInfo(this.boxScoresData.transformedDate[this.dateParam.date][0], this.pageParams.teamId),
+              gameInfo: this._boxScores.formatGameInfo(this.boxScoresData.transformedDate[this.dateParam.date], this.pageParams.teamId),
               scoreBoard: this._boxScores.formatScoreBoard(this.boxScoresData.transformedDate[this.dateParam.date][0]),
             };
           },
@@ -331,7 +331,7 @@ export class TeamPage implements OnInit {
         this.currentBoxScores = {
           moduleTitle: this._boxScores.moduleHeader(this.dateParam.date, this.profileName),
           schedule: this._boxScores.formatSchedule(this.boxScoresData.transformedDate[this.dateParam.date][0], this.pageParams.teamId),
-          gameInfo: this._boxScores.formatGameInfo(this.boxScoresData.transformedDate[this.dateParam.date][0], this.pageParams.teamId),
+          gameInfo: this._boxScores.formatGameInfo(this.boxScoresData.transformedDate[this.dateParam.date], this.pageParams.teamId),
           scoreBoard: this._boxScores.formatScoreBoard(this.boxScoresData.transformedDate[this.dateParam.date][0]),
         };
       }

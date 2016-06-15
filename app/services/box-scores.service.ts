@@ -32,15 +32,18 @@ export class BoxScoresService {
 
   if(teamId != null){
     teamId = '/' + teamId;
+  }else{
+    teamId = '';
   }
   //date needs to be the date coming in AS EST and come back as UTC
   var callURL = this._apiUrl+'/'+profile+'/boxScores'+teamId+'/'+ date;
-  // console.log(callURL);
+  console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
       // transform the data to YYYY-MM-DD objects from unix
       var transformedDate = this.transformBoxScores(data.data);
+      console.log("TRANSFORMED DATA", transformedDate);
       return {
         transformedDate:transformedDate
       };
@@ -92,20 +95,24 @@ export class BoxScoresService {
   }
 
   transformBoxScores(boxScores){
+    console.log("DATA", boxScores);
+    var newBoxScoreArray = [];
     var newBoxScores = {};
     for(var dates in boxScores){
         var dayDate = moment(Number(dates)).tz('America/New_York').format('YYYY-MM-DD');
         if(typeof newBoxScores[dayDate] == 'undefined'){
            newBoxScores[dayDate] = [];
            newBoxScores[dayDate].push(boxScores[dates]);
+        }else{
+          newBoxScores[dayDate].push(boxScores[dates]);
         }
     }
-    // console.log('NEW BOX SCORES',newBoxScores);
+    console.log('NEW BOX SCORES',newBoxScores);
     return newBoxScores;
   }
 
     //TO MATCH HTML the profile client is on will be detected by teamID and a left and right format will be made with the home and away team data
-  formatSchedule(data, teamId){
+  formatSchedule(data, teamId?){
     let awayData = data.awayTeamInfo;
     let homeData = data.homeTeamInfo;
     var left, right;
@@ -158,46 +165,54 @@ export class BoxScoresService {
     };
   }
 
-  formatGameInfo(data, teamId){
-    var info:GameInfoInput;
-    let awayData = data.awayTeamInfo;
-    let homeData = data.homeTeamInfo;
-    let gameInfo = data.gameInfo;
-
-    if(homeData.id == teamId){
-      //imageData(imageClass, imageBorder, mainImg, mainImgRoute?, rank?, rankClass?, subImgClass?, subImg?, subRoute?)
-      var link1 = this.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo))
-      var link2 = this.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo), MLBGlobalFunctions.formatTeamRoute(awayData.name, awayData.id))
-    }else{
-      var link1 = this.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo), MLBGlobalFunctions.formatTeamRoute(homeData.name, homeData.id))
-      var link2 = this.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo))
-    }
-
-    let gameDate = data.gameInfo;
-    info = {
-      gameHappened:gameInfo.inningsPlayed != null ?  true : false,
-      //inning will display the Inning the game is on otherwise if returning null then display the date Time the game is going to be played
-      inning:gameInfo.inningsPlayed != null ?  "Top of " + gameInfo.inningsPlayed +  GlobalFunctions.Suffix(gameInfo.inningsPlayed) + " Inning" : "Game Time: " + moment(gameDate.startDateTimestamp).tz('America/New_York').format('h:mm A z'),
-      homeData:{
-        homeTeamName: homeData.lastName,
-        //imageData(imageClass, imageBorder, mainImg, mainImgRoute?, rank?, rankClass?, subImgClass?, subImg?, subRoute?)
-        homeImageConfig:link1,
-        homeRecord:homeData.winRecord+'-'+homeData.lossRecord,
-        runs:homeData.score,
-        hits:homeData.hits,
-        errors:homeData.errors
-      },
-      awayData:{
-        awayTeamName:awayData.lastName,
-        awayImageConfig:link2,
-        awayRecord:awayData.winRecord+'-'+awayData.lossRecord,
-        runs:awayData.score,
-        hits:awayData.hits,
-        errors:awayData.errors
+  formatGameInfo(game, teamId?){
+    var gameArray:Array<GameInfoInput> = [];
+    let self = this;
+    game.forEach(function(data,i){
+      var info:GameInfoInput;
+      let awayData = data.awayTeamInfo;
+      let homeData = data.homeTeamInfo;
+      let gameInfo = data.gameInfo;
+      if(teamId != null){//if league then both items will link
+        if(homeData.id == teamId){//if not league then check current team they are one
+          //imageData(imageClass, imageBorder, mainImg, mainImgRoute?, rank?, rankClass?, subImgClass?, subImg?, subRoute?)
+          var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo))
+          var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo), MLBGlobalFunctions.formatTeamRoute(awayData.name, awayData.id))
+        }else{
+          var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo), MLBGlobalFunctions.formatTeamRoute(homeData.name, homeData.id))
+          var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo))
+        }
+      }else{
+        var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo), MLBGlobalFunctions.formatTeamRoute(homeData.name, homeData.id))
+        var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo), MLBGlobalFunctions.formatTeamRoute(awayData.name, awayData.id))
       }
-    };
-    // console.log('GAME INFO',info);
-    return info;
+
+      let gameDate = data.gameInfo;
+      info = {
+        gameHappened:gameInfo.inningsPlayed != null ?  true : false,
+        //inning will display the Inning the game is on otherwise if returning null then display the date Time the game is going to be played
+        inning:gameInfo.inningsPlayed != null ?  "Top of " + gameInfo.inningsPlayed +  GlobalFunctions.Suffix(gameInfo.inningsPlayed) + " Inning" : "Game Time: " + moment(gameDate.startDateTimestamp).tz('America/New_York').format('h:mm A z'),
+        homeData:{
+          homeTeamName: homeData.lastName,
+          //imageData(imageClass, imageBorder, mainImg, mainImgRoute?, rank?, rankClass?, subImgClass?, subImg?, subRoute?)
+          homeImageConfig:link1,
+          homeRecord:homeData.winRecord+'-'+homeData.lossRecord,
+          runs:homeData.score,
+          hits:homeData.hits,
+          errors:homeData.errors
+        },
+        awayData:{
+          awayTeamName:awayData.lastName,
+          awayImageConfig:link2,
+          awayRecord:awayData.winRecord+'-'+awayData.lossRecord,
+          runs:awayData.score,
+          hits:awayData.hits,
+          errors:awayData.errors
+        }
+      };
+      gameArray.push(info);
+    })
+    return gameArray;
   }
 
   formatArticle(data){

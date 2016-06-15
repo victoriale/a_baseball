@@ -319,8 +319,8 @@ private dailyUpdateModule(playerId: number) {
             //currentBoxScores is used to hold all the data that are being modified by the _boxScores Functions
             this.currentBoxScores = {
               moduleTitle: this._boxScores.moduleHeader(this.dateParam.date, this.teamName),
-              schedule: this._boxScores.formatSchedule(this.boxScoresData.transformedDate[this.dateParam.date][0], this.pageParams.teamId),
-              gameInfo: this._boxScores.formatGameInfo(this.boxScoresData.transformedDate[this.dateParam.date][0], this.pageParams.teamId),
+              schedule: this._boxScores.formatSchedule(this.boxScoresData.transformedDate[this.dateParam.date][0], this.teamId),
+              gameInfo: this._boxScores.formatGameInfo(this.boxScoresData.transformedDate[this.dateParam.date], this.teamId),
               scoreBoard: this._boxScores.formatScoreBoard(this.boxScoresData.transformedDate[this.dateParam.date][0]),
             };
           },
@@ -332,8 +332,8 @@ private dailyUpdateModule(playerId: number) {
       }else{
         this.currentBoxScores = {
           moduleTitle: this._boxScores.moduleHeader(this.dateParam.date, this.profileName),
-          schedule: this._boxScores.formatSchedule(this.boxScoresData.transformedDate[this.dateParam.date][0], this.pageParams.teamId),
-          gameInfo: this._boxScores.formatGameInfo(this.boxScoresData.transformedDate[this.dateParam.date][0], this.pageParams.teamId),
+          schedule: this._boxScores.formatSchedule(this.boxScoresData.transformedDate[this.dateParam.date][0], this.teamId),
+          gameInfo: this._boxScores.formatGameInfo(this.boxScoresData.transformedDate[this.dateParam.date], this.teamId),
           scoreBoard: this._boxScores.formatScoreBoard(this.boxScoresData.transformedDate[this.dateParam.date][0]),
         };
       }

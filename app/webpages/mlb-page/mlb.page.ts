@@ -23,6 +23,9 @@ import {DykService} from '../../services/dyk.service';
 import {FAQModule, faqModuleData} from "../../modules/faq/faq.module";
 import {FaqService} from '../../services/faq.service';
 
+import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
+import {BoxScoresService} from '../../services/box-scores.service';
+
 import {StandingsModule, StandingsModuleData} from '../../modules/standings/standings.module';
 import {MLBStandingsTabData} from '../../services/standings.data';
 import {StandingsService} from '../../services/standings.service';
@@ -30,7 +33,6 @@ import {StandingsService} from '../../services/standings.service';
 import {SchedulesModule} from '../../modules/schedules/schedules.module';
 import {SchedulesService} from '../../services/schedules.service';
 
-import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
 import {MVPModule} from '../../modules/mvp/mvp.module';
 
 import {ProfileHeaderData, ProfileHeaderModule} from '../../modules/profile-header/profile-header.module';
@@ -49,11 +51,13 @@ import {ImagesService} from "../../services/carousel.service";
 import {ImagesMedia} from "../../components/carousels/images-media-carousel/images-media-carousel.component";
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
+declare var moment;
+
 @Component({
     selector: 'MLB-page',
     templateUrl: './app/webpages/mlb-page/mlb.page.html',
     directives: [
-        SidekickWrapper, 
+        SidekickWrapper,
         LoadingComponent,
         ErrorComponent,
         MVPModule,
@@ -73,6 +77,7 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
         AboutUsModule,
         ImagesMedia],
     providers: [
+        BoxScoresService,
         SchedulesService,
         ListPageService,
         StandingsService,
@@ -100,6 +105,10 @@ export class MLBPage implements OnInit {
 
     comparisonModuleData: ComparisonModuleData;
 
+    boxScoresData:any;
+    currentBoxScores:any;
+    dateParam:any;
+
     batterParams:any;
     batterData:any;
     pitcherParams:any;
@@ -116,9 +125,10 @@ export class MLBPage implements OnInit {
     twitterData: Array<twitterModuleData>;
     schedulesData:any;
 
-    constructor(private _router:Router, 
+    constructor(private _router:Router,
                 private _title: Title,
                 private _standingsService:StandingsService,
+                private _boxScores:BoxScoresService,
                 private _profileService:ProfileHeaderService,
                 private _schedulesService:SchedulesService,
                 private _imagesService:ImagesService,
@@ -147,7 +157,15 @@ export class MLBPage implements OnInit {
             limit: this.listMax,
             pageNum: 1
         };
-        
+
+        //for boxscores
+        var currentUnixDate = new Date().getTime();
+        //convert currentDate(users local time) to Unix and push it into boxScoresAPI as YYYY-MM-DD in EST using moment timezone (America/New_York)
+        this.dateParam ={
+          profile:'league',//current profile page
+          date: moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD')
+        }
+
         GlobalSettings.getPartnerID(_router, partnerID => {
             this.partnerID = partnerID;
         });
@@ -165,7 +183,7 @@ export class MLBPage implements OnInit {
                 this.profileName = "MLB";
 
                 /*** Keep Up With Everything MLB ***/
-                //this.getBoxScoresData();
+                this.getBoxScores(this.dateParam);
                 this.getSchedulesData('pre-event');//grab pre event data for upcoming games
                 this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
                 //this.getDraftHistory();
@@ -255,6 +273,40 @@ export class MLBPage implements OnInit {
             err => {
                 console.log("Error getting news data");
             });
+    }
+
+    //api for BOX SCORES
+    private getBoxScores(dateParams?){
+      if(dateParams != null){
+        this.dateParam = dateParams;
+      }
+
+      if(this.boxScoresData == null){
+        this.boxScoresData = {};
+        this.boxScoresData['transformedDate']={};
+      }
+      if(this.boxScoresData.transformedDate[this.dateParam.date] == null){// if there is already data then no need to make another call
+        this._boxScores.getBoxScoresService(this.dateParam.profile, this.dateParam.date)
+        .subscribe(
+          data => {
+            this.boxScoresData = data;
+            //currentBoxScores is used to hold all the data that are being modified by the _boxScores Functions
+            this.currentBoxScores = {
+              moduleTitle: this._boxScores.moduleHeader(this.dateParam.date, this.profileName),
+              gameInfo: this._boxScores.formatGameInfo(this.boxScoresData.transformedDate[this.dateParam.date]),
+            };
+          },
+          err => {
+            console.log(err);
+            console.log("Error getting BOX SCORES Data");
+          }
+        )
+      }else{
+        this.currentBoxScores = {
+          moduleTitle: this._boxScores.moduleHeader(this.dateParam.date, this.profileName),
+          gameInfo: this._boxScores.formatGameInfo(this.boxScoresData.transformedDate[this.dateParam.date][0]),
+        };
+      }
     }
 
     private getImages(imageData) {
