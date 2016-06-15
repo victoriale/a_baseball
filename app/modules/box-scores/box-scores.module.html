@@ -1,17 +1,17 @@
 <div class="module-container box-scores" *ngIf="boxScores">
-  <module-header [modHeadData]="boxScores.moduleTitle"></module-header>
+  <module-header *ngIf=" calendarParams.profile != 'league' " [modHeadData]="boxScores.moduleTitle"></module-header>
   <!--for calendar-->
-  <calendar-carousel [chosenParam]="calendarParams" (dateEmit)="dateTransfer($event)"></calendar-carousel>
+  <calendar-carousel *ngIf=" calendarParams.profile != 'league' " [chosenParam]="calendarParams" (dateEmit)="dateTransfer($event)"></calendar-carousel>
   <!--for calendar-->
 
   <!--for team profile-->
-  <article-schedule-component [homeData]="boxScheduleData.home" [awayData]="boxScheduleData.away"></article-schedule-component>
+  <article-schedule-component *ngIf=" calendarParams.profile != 'league' " [homeData]="boxScheduleData.home" [awayData]="boxScheduleData.away"></article-schedule-component>
   <!--box-scores info-->
   <div class="box-scores-info">
     <game-info [gameInfo]="boxScores.gameInfo"></game-info>
     <div class="game-article"></div>
   </div>
-  <score-board [scoreBoard]="boxScores.scoreBoard"></score-board>
+  <score-board *ngIf=" calendarParams.profile != 'league' " [scoreBoard]="boxScores.scoreBoard"></score-board>
   <!--box-scores info END-->
 
   <!--end team profile-->
