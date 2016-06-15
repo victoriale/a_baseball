@@ -1,47 +1,22 @@
 <!--for calendar-->
-<div class="calendar">
+<div class="calendar" *ngIf="curDateView && weeklyApi">
   <div class="calendar-carousel">
-    <div class="calendar-circles"><i class="fa fa-angle-left"></i></div>
+    <div class="calendar-circles" (click)="left()"><i class="fa fa-angle-left"></i></div>
     <div class="calendar-dates">
-
-      <div class="calendar-dates-select">
-        <span>Mar.</span>
-        <span class="calendar-dates-select-day">27<sup>th</sup></span>
-        <span>Sun.</span>
-      </div>
-      <div class="calendar-dates-select">
-        <span>Mar.</span>
-        <span class="calendar-dates-select-day">28<sup>th</sup></span>
-        <span>Mon.</span>
-      </div>
-      <div class="calendar-dates-select">
-        <span>Mar.</span>
-        <span class="calendar-dates-select-day">29<sup>th</sup></span>
-        <span>Tues.</span>
-      </div>
-      <div class="calendar-dates-select">
-        <span>Mar.</span>
-        <span class="calendar-dates-select-day">30<sup>th</sup></span>
-        <span>Wed.</span>
-      </div>
-      <div class="calendar-dates-select">
-        <span>Apr.</span>
-        <span class="calendar-dates-select-day">1<sup>st</sup></span>
-        <span>Thur.</span>
-      </div>
-      <div class="calendar-dates-select">
-        <span>Apr.</span>
-        <span class="calendar-dates-select-day">2<sup>nd</sup></span>
-        <span>Fri.</span>
-      </div>
-      <div class="calendar-dates-select">
-        <span>Apr.</span>
-        <span class="calendar-dates-select-day">3<sup>rd</sup></span>
-        <span>Sat.</span>
-      </div>
-
+      <span *ngFor="#dates of weeklyDates">
+        <div class="calendar-dates-select" *ngIf="dates.clickable" [class.active]="dates.active == true" [class.hover]="dates.clickable == true && dates.active == false" (click)="setActive(dates)">
+          <span>{{dates.month}}.</span>
+          <span class="calendar-dates-select-day">{{dates.day}}<sup>{{dates.ordinal}}</sup></span>
+          <span>{{dates.weekDay}}.</span>
+        </div>
+        <div class="calendar-dates-select" *ngIf="!dates.clickable" [class.nonactive]="dates.clickable == false">
+          <span>{{dates.month}}.</span>
+          <span class="calendar-dates-select-day">{{dates.day}}<sup>{{dates.ordinal}}</sup></span>
+          <span>{{dates.weekDay}}.</span>
+        </div>
+      </span>
     </div>
-    <div class="calendar-circles"><i class="fa fa-angle-right"></i></div>
+    <div class="calendar-circles" (click)="right()"><i class="fa fa-angle-right"></i></div>
   </div>
   <div class="calendar-selection"><i class="fa fa-calendar"></i></div>
 </div>

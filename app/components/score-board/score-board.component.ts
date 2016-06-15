@@ -45,6 +45,5 @@ export class ScoreBoard implements OnInit{
 
   ngOnInit(){
     this.offset = 0;//sets the offset to 0
-    console.log(this.scoreBoard);
   }
 }

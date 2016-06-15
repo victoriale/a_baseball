@@ -33,50 +33,20 @@ export class BoxScoresService {
   if(teamId != null){
     teamId = '/' + teamId;
   }
-  var callURL = this._apiUrl+'/'+profile+'/boxScores'+teamId+'/'+ date;//localToEST needs tobe the date coming in AS UNIX
-
+  //date needs to be the date coming in AS EST and come back as UTC
+  var callURL = this._apiUrl+'/'+profile+'/boxScores'+teamId+'/'+ date;
   console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
-      console.log("ORIGINAL DATA",data.data);
-      var transformedDate = this.transformBoxScores(data.data);// transform the data to YYYY-MM-DD objects instead of unix
-      console.log("Transformed DATA",transformedDate);
-      var validateDate = this.validateDate(date, transformedDate);
+      // transform the data to YYYY-MM-DD objects from unix
+      var transformedDate = this.transformBoxScores(data.data);
+      console.log('LOOKING AT =>',date, transformedDate);
+      console.log('SENDING FROM API',transformedDate[date]);
       return {
-        schedule: this.formatSchedule(transformedDate['2016-06-09'][0]),
-        gameInfo: this.formatGameInfo(transformedDate['2016-06-09'][0], teamId),
-        scoreBoard: this.formatScoreBoard(transformedDate['2016-06-09'][0]),
-        fullData: data.data
+        transformedDate:transformedDate
       };
     })
-  }
-
-  validateDate(selectedDate, dateArray){// get unix time stamp and grab the earlier played game
-    selectedDate = '2016-07-01';
-    console.log('Selected Date and Array',selectedDate,dateArray);
-    var validatedDate = 0;// will be the closest game to the curdate being sent in
-    var curUnix = moment(selectedDate,"YYYY-MM-DD").unix();//converts chosen date to unix for comparison
-    console.log('curUnix',curUnix);
-    for(var date in dateArray){
-      var dateUnix = moment(date,"YYYY-MM-DD").unix();//converts chosen date to unix for comparison
-      console.log('dates to Unix',dateUnix);
-      if( (curUnix == dateUnix) && (validatedDate <= dateUnix) ){// makes sure to  that the validatedDate does not choose anything higher than selected date
-        validatedDate = dateUnix;
-        console.log('FOUND CURRENT DATE',validatedDate);
-      }else{
-        if( validatedDate < dateUnix ){//will keep choosing the highest number in the current array
-          console.log('Date now:', dateUnix);
-          validatedDate = dateUnix;
-        }
-      }
-    }
-
-    //change validatedDate back into format for dateArray;
-    console.log('FINAL validatedDate UNIX', validatedDate);
-    validatedDate = moment.unix(validatedDate).format('YYYY-MM-DD');
-    console.log('FINAL validatedDate',validatedDate);
-    return validatedDate;//SENDS BACK AS YYYY-MM-DD to use in transformed converted date array
   }
 
   /**
@@ -91,11 +61,9 @@ export class BoxScoresService {
   }
   var callURL = this._apiUrl+'/'+profile+'/gameDatesWeekly'+teamId+'/'+ date;//localToEST needs tobe the date coming in AS UNIX
 
-  console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
-      console.log("DATA!!!!!", data);
       return data;
     })
   }
@@ -110,10 +78,7 @@ export class BoxScoresService {
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
-
-      return {
-
-      };
+      return data;
     })
   }
 
@@ -121,7 +86,7 @@ export class BoxScoresService {
     var newBoxScores = {};
     for(var dates in boxScores){
       var dayUnix = moment.unix(dates)/1000;//convert to Unix and convert to seconds
-        var dayDate = moment(dayUnix).format('YYYY-MM-DD');
+        var dayDate = moment.tz( dayUnix , 'America/New_York' ).format('YYYY-MM-DD');
         if(typeof newBoxScores[dayDate] == 'undefined'){
            newBoxScores[dayDate] = [];
            newBoxScores[dayDate].push(boxScores[dates]);
@@ -131,36 +96,57 @@ export class BoxScoresService {
     return newBoxScores;
   }
 
-  formatSchedule(data){
+    //TO MATCH HTML the profile client is on will be detected by teamID and a left and right format will be made with the home and away team data
+  formatSchedule(data, teamId){
     let awayData = data.awayTeamInfo;
     let homeData = data.homeTeamInfo;
-    // console.log('FORMAT SCHEDULE SERVICE DATA', data);
-    // console.log('AWAY',awayData);
-    // console.log('HOME',homeData);
-
-    var awayRoute = MLBGlobalFunctions.formatTeamRoute(awayData.name, awayData.id);
-    var home = {
-      homeHex:homeData.colors.split(', ')[0], //parse out comma + space to grab only hex colors
-      homeID:homeData.id,
-      homeLocation:homeData.firstName, // first name of team usually represents the location
-      homeLogo:GlobalSettings.getImageUrl(homeData.logo),
-      homeLosses:15,//TODO
-      homeName:homeData.lastName,
-      homeWins:34//TODO
-    };
-    var away = {
-      awayHex:awayData.colors.split(', ')[0],
-      awayID:awayData.id,
-      awayLocation:awayData.firstName,
-      awayLogo: this.imageData("image-62", "border-logo", GlobalSettings.getImageUrl(awayData.logo), awayRoute),
-      awayLosses:19,//TODO
-      awayName:awayData.lastName,
-      awayWins:30//TODO
-    };
-    away['url'] = awayRoute;
+    var left, right;
+    if(homeData.id == teamId){//detection to know which profile needs to no have links
+      var rightRoute = MLBGlobalFunctions.formatTeamRoute(awayData.name, awayData.id);
+      left = {
+        homeHex:homeData.colors.split(', ')[0], //parse out comma + space to grab only hex colors
+        homeID:homeData.id,
+        homeLocation:homeData.firstName, // first name of team usually represents the location
+        homeLogo:GlobalSettings.getImageUrl(homeData.logo),
+        homeLosses:homeData.lossRecord,
+        homeName:homeData.lastName,
+        homeWins:homeData.winRecord
+      };
+      right = {
+        awayHex:awayData.colors.split(', ')[0],
+        awayID:awayData.id,
+        awayLocation:awayData.firstName,
+        awayLogo: this.imageData("image-62", "border-logo", GlobalSettings.getImageUrl(awayData.logo), rightRoute),
+        awayLosses:awayData.lossRecord,
+        awayName:awayData.lastName,
+        awayWins:awayData.winRecord
+      };
+    }else{
+      var rightRoute = MLBGlobalFunctions.formatTeamRoute(homeData.name, homeData.id);
+      left = {
+        homeHex:awayData.colors.split(', ')[0],
+        homeID:awayData.id,
+        homeLocation:awayData.firstName,
+        homeLogo: GlobalSettings.getImageUrl(awayData.logo),
+        homeLosses:awayData.lossRecord,
+        homeName:awayData.lastName,
+        homeWins:awayData.winRecord
+      };
+      right = {
+        awayHex:homeData.colors.split(', ')[0], //parse out comma + space to grab only hex colors
+        awayID:homeData.id,
+        awayLocation:homeData.firstName, // first name of team usually represents the location
+        awayLogo:this.imageData("image-62", "border-logo", GlobalSettings.getImageUrl(homeData.logo), rightRoute),
+        awayLosses:homeData.lossRecord,
+        awayName:homeData.lastName,
+        awayWins:homeData.winRecord
+      };
+    }
+    // convert data given into format needed for the schedule banner on module
+    right['url'] = rightRoute;
     return {
-      home:[home],
-      away:[away]
+      home:[left],
+      away:[right]
     };
   }
 
@@ -169,9 +155,6 @@ export class BoxScoresService {
     let awayData = data.awayTeamInfo;
     let homeData = data.homeTeamInfo;
     let gameInfo = data.gameInfo;
-    // console.log('FORMAT SCHEDULE SERVICE DATA', data);
-    // console.log('AWAY',awayData);
-    // console.log('HOME',homeData);
 
     if(homeData.id == teamId){
       //imageData(imageClass, imageBorder, mainImg, mainImgRoute?, rank?, rankClass?, subImgClass?, subImg?, subRoute?)
@@ -182,13 +165,18 @@ export class BoxScoresService {
       var link2 = this.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo))
     }
 
+    let gameDate = data.gameInfo;
+    console.log(gameDate);
+    console.log('TEST TIME',moment.unix(gameDate.startDateTimestamp).tz('America/New_York').format('h:mm a z'));
     info = {
-      inning:gameInfo.inningsPlayed + " Inning",
+      gameHappened:gameInfo.inningsPlayed != null ?  true : false,
+      //inning will display the Inning the game is on otherwise if returning null then display the date Time the game is going to be played
+      inning:gameInfo.inningsPlayed != null ?  "Top of " + gameInfo.inningsPlayed +  GlobalFunctions.Suffix(gameInfo.inningsPlayed) + " Inning" : "Game Time: " + moment.unix(gameDate.startDateTimestamp/1000).tz('America/New_York').format('h:mm A z'),
       homeData:{
         homeTeamName: homeData.lastName,
         //imageData(imageClass, imageBorder, mainImg, mainImgRoute?, rank?, rankClass?, subImgClass?, subImg?, subRoute?)
         homeImageConfig:link1,
-        homeRecord:'[#]-[#]',
+        homeRecord:homeData.winRecord+'-'+homeData.lossRecord,
         runs:homeData.score,
         hits:homeData.hits,
         errors:homeData.errors
@@ -196,7 +184,7 @@ export class BoxScoresService {
       awayData:{
         awayTeamName:awayData.lastName,
         awayImageConfig:link2,
-        awayRecord:'[#]-[#]',
+        awayRecord:awayData.winRecord+'-'+awayData.lossRecord,
         runs:awayData.score,
         hits:awayData.hits,
         errors:awayData.errors
@@ -212,7 +200,6 @@ export class BoxScoresService {
   }
 
   formatScoreBoard(data){
-    console.log('SCORE BOARD',data);
     let awayData = data.awayTeamInfo;
     let homeData = data.homeTeamInfo;
     let gameInfo = data.gameInfo;
@@ -231,50 +218,14 @@ export class BoxScoresService {
       }
     }
 
-    arrayScores.push({
-      inning:10,//replace the letter 'p' in each inning
-      scores:{
-        home:1,
-        away:4,
-      }
-    })
-    arrayScores.push({
-      inning:11,//replace the letter 'p' in each inning
-      scores:{
-        home:3,
-        away:1,
-      }
-    })
-    arrayScores.push({
-      inning:12,//replace the letter 'p' in each inning
-      scores:{
-        home:1,
-        away:0,
-      }
-    })
-    arrayScores.push({
-      inning:13,//replace the letter 'p' in each inning
-      scores:{
-        home:1,
-        away:0,
-      }
-    })
-    arrayScores.push({
-      inning:14,//replace the letter 'p' in each inning
-      scores:{
-        home:null,
-        away:null,
-      }
-    })
-    arrayScores.push({
-      inning:15,//replace the letter 'p' in each inning
-      scores:{
-        home:null,
-        away:null,
-      }
-    })
+    // arrayScores.push({
+    //   inning:10,//replace the letter 'p' in each inning
+    //   scores:{
+    //     home:1,
+    //     away:4,
+    //   }
+    // })
 
-    console.log("SCORES",arrayScores);
     var scoreBoard={
       homeScore:homeData.score,
       awayScore:awayData.score,
@@ -299,7 +250,6 @@ export class BoxScoresService {
             imageClass: imageBorder,
         },
     };
-    console.log(image);
     return image;
   }
 }

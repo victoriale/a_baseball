@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, EventEmitter} from 'angular2/core';
+import {Component, OnInit, Output, Input, EventEmitter} from 'angular2/core';
 import {ModuleHeader} from '../../components/module-header/module-header.component';
 import {CalendarCarousel} from '../../components/carousels/calendar/calendarCar.component';
 import {Competition} from '../../components/competition/competition.component';
@@ -15,17 +15,27 @@ interface BoxScores{
     templateUrl: './app/modules/box-scores/box-scores.module.html',
     directives: [ScoreBoard, GameInfo, ArticleScheduleComponent, CalendarCarousel,  ModuleHeader],
     providers: [],
+    outputs: ['dateEmit'],
 })
 
 export class BoxScoresModule implements OnInit{
   @Input() calendarParams:any;
   @Input() boxScores:any;
+  public dateEmit: EventEmitter<any> = new EventEmitter();
   boxScheduleData:any;
   constructor(){}
 
+  dateTransfer(event){
+    this.dateEmit.next(event);
+  }
   ngOnInit(){
-    console.log('MODULE: BoxScores',this.boxScores);
-    console.log('OnLoad Date',this.calendarParams);
     this.boxScheduleData = this.boxScores.schedule;
+  }
+  ngOnChanges(){
+    this.boxScheduleData = this.boxScores.schedule;
+    console.log('MODULE: BoxScores',this.boxScores);
+    console.log('CHANGES: GAMEINFO',this.boxScores.gameInfo);
+    console.log('CHANGES: SCOREBOARD',this.boxScores.scoreBoard);
+    console.log('CHANGES: SCHEDULE',this.boxScheduleData);
   }
 }

@@ -6,10 +6,10 @@
 
     <profile-header [profileHeaderData]="profileHeaderData"></profile-header>
     <!-- aiArticles -->
-    
+
     <headline-component [title]="'Keep Up With Everything MLB'"></headline-component>
 
-    <box-scores></box-scores>
+    <!-- <box-scores></box-scores> -->
     <schedules *ngIf="schedulesData" [profHeader]="profileHeaderData" [data]="schedulesData" (tabSelected)="scheduleTab($event)"></schedules>
     <standings-module [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
     <!-- draftHistory -->

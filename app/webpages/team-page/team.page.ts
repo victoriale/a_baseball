@@ -135,6 +135,7 @@ export class TeamPage implements OnInit {
     draftHistoryData:any;
 
     boxScoresData:any;
+    currentBoxScores:any;
     dateParam:any;
 
     transactionsData:any;
@@ -174,14 +175,12 @@ export class TeamPage implements OnInit {
 
     ngOnInit() {
       var currentUnixDate = new Date().getTime();
-      console.log('currentUnixDate', currentUnixDate);
       //convert currentDate(users local time) to Unix and push it into boxScoresAPI as YYYY-MM-DD in EST using moment timezone (America/New_York)
       this.dateParam ={
         profile:'team',//current profile page
         teamId:this.pageParams.teamId, // teamId if it exists
         date: moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD')
       }
-      console.log('dateParam',this.dateParam);
 
       this.setupProfileData();
     }
@@ -202,7 +201,7 @@ export class TeamPage implements OnInit {
                 this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data);
 
                 /*** Keep Up With Everything [Team Name] ***/
-                this.getBoxScores(this.dateParam.date);
+                this.getBoxScores(this.dateParam);
                 this.getSchedulesData('pre-event');//grab pre event data for upcoming games
                 this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams, data.teamName);
                 this.rosterData = this._rosterService.loadAllTabsForModule(this.pageParams.teamId, data.teamName, this.pageParams.conference);
@@ -270,23 +269,45 @@ export class TeamPage implements OnInit {
     }
 
     //api for BOX SCORES
-    private getBoxScores(date?){
-      if(typeof date == 'undefined'){
-        var currentUnixDate = new Date().getTime();
-        //convert currentDate(users local time) to Unix and push it into boxScoresAPI as YYYY-MM-DD in EST using moment timezone (America/New_York)
-        this.dateParam.date = moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD');
-        date = this.dateParam.date;
+    private getBoxScores(dateParams?){
+      console.log('GETTING BOX SCORES =>',dateParams);
+      if(dateParams != null){
+        this.dateParam = dateParams;
       }
-      console.log('Current Date sending to Box Scores API',date);
-      this._boxScores.getBoxScoresService('team', date, this.pageParams.teamId)
-      .subscribe(
-        data => {
-          this.boxScoresData = data;
-        },
-        err => {
-          console.log("Error getting Schedules Data");
-        }
-      )
+
+      console.log('Current Date sending to Box Scores API',this.dateParam.date);
+      if(this.boxScoresData == null){
+        this.boxScoresData = {};
+        this.boxScoresData['transformedDate']={};
+      }
+      console.log(this.boxScoresData.transformedDate[this.dateParam.date]);
+      console.log(this.boxScoresData.transformedDate[this.dateParam.date] == null);
+      if(this.boxScoresData.transformedDate[this.dateParam.date] == null){// if there is already data then no need to make another call
+        this._boxScores.getBoxScoresService(this.dateParam.profile, this.dateParam.date, this.pageParams.teamId)
+        .subscribe(
+          data => {
+            console.log('API RETURN',data);
+            this.boxScoresData = data;
+            console.log(this.dateParam, this.boxScoresData.transformedDate);
+            this.currentBoxScores = {
+              schedule: this._boxScores.formatSchedule(this.boxScoresData.transformedDate[this.dateParam.date][0], this.pageParams.teamId),
+              gameInfo: this._boxScores.formatGameInfo(this.boxScoresData.transformedDate[this.dateParam.date][0], this.pageParams.teamId),
+              scoreBoard: this._boxScores.formatScoreBoard(this.boxScoresData.transformedDate[this.dateParam.date][0]),
+            };
+            console.log(this.currentBoxScores)
+          },
+          err => {
+            console.log(err);
+            console.log("Error getting BOX SCORES Data");
+          }
+        )
+      }else{
+        this.currentBoxScores = {
+          schedule: this._boxScores.formatSchedule(this.boxScoresData.transformedDate[this.dateParam.date][0], this.pageParams.teamId),
+          gameInfo: this._boxScores.formatGameInfo(this.boxScoresData.transformedDate[this.dateParam.date][0], this.pageParams.teamId),
+          scoreBoard: this._boxScores.formatScoreBoard(this.boxScoresData.transformedDate[this.dateParam.date][0]),
+        };
+      }
     }
 
     //grab tab to make api calls for post of pre event table

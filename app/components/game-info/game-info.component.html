@@ -1,8 +1,10 @@
 <!--GAME info-->
 <div class="game" *ngIf="gameInfo">
   <div class="game-title">
-    <span>{{gameInfo.inning}}</span>
-    <span>Runs</span><span>Hits</span><span>Errors</span>
+    <span [class.gameAfter]="gameInfo.gameHappened" [class.gameBefore]="!gameInfo.gameHappened">{{gameInfo.inning}}</span>
+    <span class="game-title-category">Runs</span>
+    <span class="game-title-category">Hits</span>
+    <span class="game-title-category">Errors</span>
   </div>
   <div class="game-box">
     <div class="game-box-main">
