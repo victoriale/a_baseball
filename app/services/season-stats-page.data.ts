@@ -11,11 +11,21 @@ export interface TeamInfo {
   teamName: string;
   teamId: string;
 }
-
-export interface TeamSeasonStatsData {
+export interface PlayerInfo {
   playerName: string,
   playerId: string;
+  lastUpdate: string;
+  teamName: string;
+  teamId: string;
+  profileHeader: string;
+  playerHeadshot: string;
+  teamLogo: string;
+  position: string;
+}
+
+export interface TeamSeasonStatsData {
   teamInfo: TeamInfo;
+  playerInfo: PlayerInfo;
   imageUrl: string,
   backgroundImage: string,
   conferenceName: string,
@@ -116,10 +126,12 @@ export class MLBSeasonStatsTabData implements TableTabData<TeamSeasonStatsData> 
   }
 
   convertToCarouselItem(item: TeamSeasonStatsData, index:number): SliderCarouselInput {
-    var playerData = item['playerInfo'] != null ? item['playerInfo'] : null;
+    var playerData = item.playerInfo != null ? item.playerInfo : null;
     var subheader = item.seasonId + " Season Stats Report";
+    var dummyImg = "/app/public/no-image.png";
     var carouselData = {
-      backgroundImage: playerData.profileHeader != null ? GlobalSettings.getImageUrl(playerData.profileHeader) : null,
+      index: index,
+      backgroundImage: playerData.profileHeader != null ? GlobalSettings.getImageUrl(playerData.profileHeader) : dummyImg,
       description: [
         "<div class='season-stats-car-subhdr'><i class='fa fa-circle'></i>" + subheader + "</div>",
         "<div class='season-stats-car-hdr'>" + playerData.playerName + "</div>",
@@ -167,7 +179,9 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
     else if ( rows.length > 0 ) {
       // this.selectedKey = rows[0].playerId;
     }
-    isPitcher = this.rows[0]['playerInfo'].position[0].charAt(0) == "P" ? true : false;
+    if(this.rows[0]['playerInfo']){
+      isPitcher = this.rows[0]['playerInfo'].position[0].charAt(0) == "P" ? true : false;
+    }
     this.isPitcher = isPitcher;
     if(this.isPitcher){
       this.columns = [{
@@ -278,7 +292,7 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
   }
   setRowSelected(rowIndex:number) {
     if ( rowIndex >= 0 && rowIndex < this.rows.length ) {
-      this.selectedKey = this.rows[rowIndex].playerId;
+      this.selectedKey = this.rows[rowIndex].playerInfo.playerId;
     }
     else {
       this.selectedKey = null;
@@ -459,7 +473,6 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
   }
 
   getRouterLinkAt(item:TeamSeasonStatsData, column:TableColumn):Array<any> {
-    //TODO
     if ( column.key === "team" ) {
       return MLBGlobalFunctions.formatTeamRoute(item.teamInfo.teamName,item.teamInfo.teamId);
     }

@@ -401,7 +401,7 @@ export class SeasonStatsPageService {
             if(sectionTitle != null){
               let sectionData = [];
               for(var year in sectionTable){//grab all season data and push them into a single array for career stats tab
-                sectionData['playerInfo'] = apiData.playerInfo;
+                sectionTable[year][statType].playerInfo = apiData.playerInfo;
                 sectionTable[year][statType].teamInfo = sectionTable[year].teamInfo != null ? sectionTable[year].teamInfo : {};
                 if(year != 'career'){
                   sectionData.push(sectionTable[year][statType]);
