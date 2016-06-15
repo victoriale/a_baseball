@@ -1,5 +1,5 @@
 import {Component} from 'angular2/core';
-import {Router,ROUTER_DIRECTIVES} from 'angular2/router';
+import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
 import {Injector} from 'angular2/core';
 import {Title} from 'angular2/platform/browser';
 
@@ -20,13 +20,10 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
 })
 
 export class DisclaimerPage {
-    pageName = "";
-    pageLink = "";
-    pageLinkName = "";
-    disclaimer = "";
-    public partnerParam: string;
-    public disHeaderTitle = "<span style='font-weight: 700;'>Disclaimer</span>";
-    titleData: TitleInputData;
+    public pageName: string;
+    public pageLinkName: string;
+    public contactUsLinkName: string;
+    public titleData: TitleInputData;
 
     constructor(private _router:Router, private _title: Title) {
       _title.setTitle(GlobalSettings.getPageTitle("Disclaimer"));
@@ -34,18 +31,9 @@ export class DisclaimerPage {
     }
 
     loadData(partnerID:string) {
-      this.pageLink = GlobalSettings.getHomePage(partnerID);
-      var contactRouteName = "";
-      if(partnerID == null ){
-        this.pageName = "Home Run Loyal";
-        this.pageLinkName = "www.homerunloyal.com";
-        contactRouteName = "contactus";
-      } else {
-        this.pageName = "My HomeRun";
-        this.pageLinkName = "www.myhomerun.com/" + partnerID;
-        contactRouteName = "Contact";
-      }
-      //disclaimer data
+      this.pageLinkName = GlobalSettings.getHomePage(partnerID).replace(/https?:\/\//, "");
+
+      this.pageName = partnerID ? "My HomeRun" : "Home Run Loyal";
       this.titleData = {
           imageURL : GlobalSettings.getSiteLogoUrl(),
           text1: 'Last Updated: Monday, March 21, 2016.',
@@ -56,9 +44,7 @@ export class DisclaimerPage {
           hasHover: false
       };
 
-      let contactUsLink = this.pageLink + "/" + contactRouteName;
-      let contactUsLinkName = this.pageLinkName + "/" + contactRouteName;
-
-      this.disclaimer = "<p></p><p>All of the information on this website is published in good faith and is for general information purposes only. " + this.pageName + " does not make any warranties about the completeness, reliability and accuracy of this information. Any action you take upon the information you find on this website (<a style='color: #3098ff; font-weight: 700; text-decoration: inherit;' href='"+this.pageLink+"'>"+this.pageLinkName+"</a>) is strictly at your own risk. " + this.pageName + " will not be liable for any losses and/or damages in connection with the use of our website.</p><p>From our website, you can visit other websites by following hyperlinks to external sites. While we strive to provide only quality links to useful and ethical websites, we have no control over the content and nature of these sites. Any links to other websites do not imply a recommendation for all the content found on these sites. Site owners and content may change without notice and may occur before we have the opportunity to remove a bad link.</p><p>Be aware that when you leave " + this.pageName + ", other sites may have different privacy policies and terms, which are beyond our control. Please be sure to check the Privacy Policies of these sites as well as their Terms of Service before engaging in any business or uploading any information.</p><br/><div class='disc-page-desc-headline'><b>Consent</b></div><p>By using <a style='color: #3098ff; font-weight: 700; text-decoration: inherit;' href='"+this.pageLink+"'>"+this.pageLinkName+"</a>, you hereby consent to our disclaimer and agree to its terms.</p><br/><div class='disc-page-desc-headline'><b>Update</b></div><p>This site disclaimer was last updated on Monday, March 21, 2016. </p><p><span style='font-style: italic; font-size: 12px;'>Should we update, amend or make any changes to this document, those changes will be prominently posted here.</span></p><br/><div class='disc-page-desc-headline'><b>Contact Us</b></div><p>If you need more information, or if you have any questions about our site's disclaimer, please feel free to contact us at <a style='color: #3098ff; font-weight: 700; text-decoration: inherit;' href='"+contactUsLink+"'>"+contactUsLinkName+"</a>.</p><br/>";
+      var subpath = this._router.generate(["Contact-us-page"]).toRootUrl();
+      this.contactUsLinkName = this.pageLinkName + (subpath.charAt(0) == "/" ? "" : "/") + subpath;
     }
 }
