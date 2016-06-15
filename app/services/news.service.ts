@@ -54,12 +54,13 @@ export class NewsService {
     var self = this;
     var newsArray = [];
     var dummyImg = "/app/public/no-image.png";
+    var _getHostName = GlobalFunctions.getHostName;
     data.forEach(function(val, index){
       var News = {
         title: val.title,
         description: val.description,
         newsUrl: val.link,
-        author: "Author", //TODO
+        author: _getHostName(val.link) != null ? _getHostName(val.link) : 'Anonymous',
         published: moment.unix(val.pubDate_ut).format('dddd MMMM Do, YYYY'),//convert unix time to readable
         footerData: {
           infoDesc: 'Want to check out the full story?',
