@@ -1,5 +1,6 @@
 import {Component} from 'angular2/core';
 import {Router, RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
+import {Title} from 'angular2/platform/browser';
 import {Observable} from 'rxjs/Rx';
 import {AppComponent} from "../app-webpage/app.webpage";
 import {MyAppComponent} from "../app-webpage/app.mywebpage";
@@ -7,7 +8,8 @@ import {MyAppComponent} from "../app-webpage/app.mywebpage";
 @Component({
     selector: 'app-domain',
     templateUrl: './app/app-domain/app.domain.html',
-    directives: [ROUTER_DIRECTIVES]
+    directives: [ROUTER_DIRECTIVES],
+    providers: [Title]
 })
 
 @RouteConfig([
@@ -27,8 +29,8 @@ import {MyAppComponent} from "../app-webpage/app.mywebpage";
 export class AppDomain {
     constructor(private _router: Router) {
         this._router.root.subscribe (
-            route => {
-                var routeItems = route.split('/');                
+            url => {
+                var routeItems = url.split('/');                
                 //Only scroll to top if the page isn't the directory.
                 if ( routeItems[1] != "directory" ) {
                     window.scrollTo(0, 0);

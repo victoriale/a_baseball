@@ -1,5 +1,7 @@
 import {Component, OnInit} from 'angular2/core';
 import {Router,ROUTER_DIRECTIVES, RouteParams} from 'angular2/router';
+import {Title} from 'angular2/platform/browser';
+
 import {WidgetModule} from "../../modules/widget/widget.module";
 import {ImagesMedia} from "../../components/carousels/images-media-carousel/images-media-carousel.component";
 import {ShareLinksComponent} from "../../components/articles/shareLinks/shareLinks.component";
@@ -11,6 +13,7 @@ import {LoadingComponent} from "../../components/loading/loading.component";
 import {ArticleData} from "../../global/global-interface";
 import {ArticleDataService} from "../../global/global-article-page-service";
 import {MLBGlobalFunctions} from "../../global/mlb-global-functions";
+import {GlobalSettings} from "../../global/global-settings";
 
 declare var jQuery:any;
 
@@ -28,7 +31,7 @@ declare var jQuery:any;
         DisqusComponent,
         LoadingComponent
     ],
-    providers: [],
+    providers: [Title],
 })
 
 export class ArticlePages implements OnInit {
@@ -50,7 +53,8 @@ export class ArticlePages implements OnInit {
     recommendedImageData:any;
     copyright:any;
 
-    constructor(private _params:RouteParams, private _articleDataService:ArticleDataService) {
+    constructor(private _params:RouteParams, private _articleDataService:ArticleDataService, private _title: Title) {
+        _title.setTitle(GlobalSettings.getPageTitle("Articles"));
         this.eventID = _params.get('eventID');
         this.eventType = _params.get('eventType');
         if (this.eventType == "upcoming-game") {
@@ -72,6 +76,7 @@ export class ArticlePages implements OnInit {
                     this.comment = ArticleData[pageIndex].displayHeadline;
                     this.imageLinks = this.getImageLinks(ArticleData[pageIndex]);
                     this.doubleLogo = true;
+                    this._title.setTitle(GlobalSettings.getPageTitle(this.title, "Articles"));
                     ArticlePages.setMetaTag(this.articleData.metaHeadline);
                 }
             );

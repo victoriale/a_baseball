@@ -1,6 +1,9 @@
 import {Component, OnInit} from 'angular2/core';
 import {RouteParams, Router} from 'angular2/router';
+import {Title} from 'angular2/platform/browser';
+
 import {GlobalFunctions} from '../../global/global-functions';
+import {GlobalSettings} from "../../global/global-settings";
 import {NavigationData, Link} from '../../global/global-interface';
 import {DirectoryService, DirectoryType, DirectorySearchParams} from '../../services/directory.service';
 import {PagingData, DirectoryProfileItem, DirectoryItems, DirectoryModuleData} from '../../modules/directory/directory.data';
@@ -10,7 +13,7 @@ import {DirectoryModule} from '../../modules/directory/directory.module';
     selector: 'Directory-page',
     templateUrl: './app/webpages/directory-page/directory.page.html',
     directives: [DirectoryModule],
-    providers: [DirectoryService]
+    providers: [DirectoryService, Title]
 })
 
 export class DirectoryPage {
@@ -28,7 +31,8 @@ export class DirectoryPage {
   
   public pageType: DirectoryType;
 
-  constructor(private _params: RouteParams, private _directoryService: DirectoryService) {
+  constructor(private _params: RouteParams, private _directoryService: DirectoryService, private _title: Title) {
+    _title.setTitle(GlobalSettings.getPageTitle("Directory"));
     var page = _params.get("page");
     this.currentPage = Number(page);
     

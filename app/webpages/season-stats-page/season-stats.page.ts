@@ -1,5 +1,7 @@
 import {Component, OnInit, Input} from 'angular2/core';
 import {RouteParams} from "angular2/router";
+import {Title} from 'angular2/platform/browser';
+
 import {BackTabComponent} from "../../components/backtab/backtab.component";
 import {TitleComponent, TitleInputData} from "../../components/title/title.component";
 import {CircleImageData, ImageData} from "../../components/images/image-data";
@@ -20,7 +22,7 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
     selector: 'Season-stats-page',
     templateUrl: './app/webpages/season-stats-page/season-stats.page.html',
     directives: [SidekickWrapper, BackTabComponent, TitleComponent, SeasonStatsComponent, LoadingComponent, ErrorComponent],
-    providers: [SeasonStatsPageService, ProfileHeaderService],
+    providers: [SeasonStatsPageService, ProfileHeaderService, Title],
 })
 
 export class SeasonStatsPage implements OnInit {
@@ -40,7 +42,9 @@ export class SeasonStatsPage implements OnInit {
               private _profileService: ProfileHeaderService,
               private _seasonStatsPageService: SeasonStatsPageService,
               private _globalFunctions: GlobalFunctions,
-              private _mlbFunctions: MLBGlobalFunctions) {
+              private _mlbFunctions: MLBGlobalFunctions,
+              private _title: Title) {
+    _title.setTitle(GlobalSettings.getPageTitle("Season Stats"));
     var playerId = _params.get("playerId");
     this.pageParams.playerId = Number(playerId);
   }
@@ -70,6 +74,7 @@ export class SeasonStatsPage implements OnInit {
         data => {
           this.profileLoaded = true;
           this.pageParams = data.pageParams;
+          this._title.setTitle(GlobalSettings.getPageTitle("Season Stats", data.headerData.info.playerName));
           this.setupTitleData(data.fullProfileImageUrl, data.pageParams.playerId.toString(), data.pageParams['playerName']);
           this.tabs = this._seasonStatsPageService.initializeAllTabs(this.pageParams);
         },
@@ -81,6 +86,7 @@ export class SeasonStatsPage implements OnInit {
       );
     }
     else {
+      this._title.setTitle(GlobalSettings.getPageTitle("Season Stats", "MLB"));
       this.setupTitleData(GlobalSettings.getSiteLogoUrl());
       this.tabs = this._seasonStatsPageService.initializeAllTabs(this.pageParams);
     }

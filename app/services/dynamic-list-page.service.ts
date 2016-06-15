@@ -13,6 +13,7 @@ declare var moment;
 
 export class DynamicWidgetCall {
   public apiUrl: string = "http://108.170.11.234:190/list_creator_api.php";
+  listDisplayName: string;
   profHeader: TitleInputData;
   listData: Object;
   carData: Object;
@@ -55,7 +56,8 @@ export class DynamicWidgetCall {
             profHeader: this.profHeader,
             carData: this.transformCarData(data, this.profile),
             listData: this.detailedData(data, this.profile),
-            pagination: this.paginationParams
+            pagination: this.paginationParams,
+            listDisplayTitle: this.listDisplayName
           }
         },
         err =>{
@@ -78,6 +80,8 @@ export class DynamicWidgetCall {
     var originalData = data.data;
     var listData = [];
     var carouselData = [];
+
+    this.listDisplayName = data ? data.title : "";
 
     this.profHeader= {
       // Old placeholder image:  http://www.myinvestkit.com/StateImages/Location_National.jpg

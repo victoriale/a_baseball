@@ -1,6 +1,7 @@
-import {Component, OnInit} from 'angular2/core';
+import {Component, OnInit, Injectable} from 'angular2/core';
 import {Router, RouteParams} from 'angular2/router';
-import {Injectable} from 'angular2/core';
+import {Title} from 'angular2/platform/browser';
+
 import {GlobalFunctions} from "../../global/global-functions";
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
 import {GlobalSettings} from "../../global/global-settings";
@@ -113,7 +114,8 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
       TransactionsService,
       ComparisonStatsService,
       DailyUpdateService,
-      TwitterService
+      TwitterService,
+      Title
     ]
 })
 
@@ -149,7 +151,8 @@ export class TeamPage implements OnInit {
     twitterData: Array<twitterModuleData>;
 
     constructor(private _params:RouteParams,
-                private _router:Router,
+                private _router:Router, 
+                private _title: Title,
                 private _standingsService:StandingsService,
                 private _schedulesService:SchedulesService,
                 private _profileService:ProfileHeaderService,
@@ -193,6 +196,7 @@ export class TeamPage implements OnInit {
                 /*** About the [Team Name] ***/
                 this.pageParams = data.pageParams;
                 this.profileName = data.teamName;
+                this._title.setTitle(GlobalSettings.getPageTitle(this.profileName));
                 this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data);
 
                 this.dailyUpdateModule(this.pageParams.teamId);

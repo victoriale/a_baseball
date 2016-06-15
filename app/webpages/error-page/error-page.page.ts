@@ -1,20 +1,22 @@
 import {Component, Injector} from 'angular2/core';
 import {Router,ROUTER_DIRECTIVES} from 'angular2/router';
+import {Title} from 'angular2/platform/browser';
+
 import {GlobalSettings} from '../../global/global-settings';
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
 @Component({
     selector: 'Error-page',
     templateUrl: './app/webpages/error-page/error-page.page.html',
-
     directives: [SidekickWrapper],
-    providers: [],
+    providers: [Title],
 })
 export class ErrorPage {
   public errorMessage: string;
   public pageLink: string;
 
-  constructor(private _router:Router) {
+  constructor(private _router:Router, private _title: Title) {
+      _title.setTitle(GlobalSettings.getPageTitle("Page Not Found"));
       GlobalSettings.getPartnerID(_router, partnerID => this.loadData(partnerID));
   }
   

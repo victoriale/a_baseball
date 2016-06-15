@@ -57,7 +57,8 @@ export class ListPageService {
           profHeader: this.profileHeader(data.data),
           carData: this.carDataPage(data.data, 'page'),
           listData: this.detailedData(data.data),
-          pagination: data.data.listInfo
+          pagination: data.data.listInfo,
+          listDisplayName: data.data.listInfo.name
         }
       },
       err => {
@@ -136,7 +137,8 @@ export class ListPageService {
           profHeader: this.profileHeader(data.data),
           carData: this.carDataPage(data.data,'module'),
           listData: this.detailedData(data.data),
-          pagination: data.data.listInfo
+          pagination: data.data.listInfo,
+          listDisplayName: data.data.listInfo.name
         }
       },
       err => {

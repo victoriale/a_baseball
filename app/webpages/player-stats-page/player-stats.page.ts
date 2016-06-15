@@ -1,5 +1,7 @@
 import {Component, OnInit, Input} from 'angular2/core';
 import {RouteParams} from "angular2/router";
+import {Title} from 'angular2/platform/browser';
+
 import {BackTabComponent} from "../../components/backtab/backtab.component";
 import {TitleComponent, TitleInputData} from "../../components/title/title.component";
 import {CircleImageData} from "../../components/images/image-data";
@@ -14,6 +16,7 @@ import {MLBPlayerStatsTableData, MLBPlayerStatsTableModel} from '../../services/
 
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
 import {GlobalFunctions} from '../../global/global-functions';
+import {GlobalSettings} from "../../global/global-settings";
 import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
@@ -43,8 +46,10 @@ export class PlayerStatsPage implements OnInit {
   lastUpdatedDateSet:boolean = false;
   
   constructor(private _params: RouteParams,
+              private _title: Title,
               private _profileService: ProfileHeaderService,
               private _statsService: PlayerStatsService) {    
+    this._title.setTitle(GlobalSettings.getPageTitle("Player Stats"));              
     var teamId = _params.get("teamId");
     if ( teamId !== null && teamId !== undefined ) {
       this.pageParams.teamId = Number(teamId);
@@ -57,6 +62,7 @@ export class PlayerStatsPage implements OnInit {
         data => {
           this.profileLoaded = true;
           this.pageParams = data.pageParams; 
+          this._title.setTitle(GlobalSettings.getPageTitle("Player Stats", data.teamName));
           this.setupTitleData(data.teamName, data.fullProfileImageUrl);
           this.tabs = this._statsService.initializeAllTabs(data.teamName);
         },
@@ -67,6 +73,7 @@ export class PlayerStatsPage implements OnInit {
       );
     }
     else {
+    this._title.setTitle(GlobalSettings.getPageTitle("Player Stats", "MLB"));
       this.setupTitleData();
     }
   }
