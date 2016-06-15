@@ -33,10 +33,10 @@
     <div class="article-teaser container-fluid">
       <circle-image class="pull-left" *ngIf="imageConfig" [data]="imageConfig"></circle-image>
       <div class="article-teaser-text pull-right">
-        <h4 class="article-teaser-text-title"><a [routerLink]="data.postGameArticle.url">{{data.postGameArticle.text[0]}}</a></h4>
+        <h4 class="article-teaser-text-title"><a *ngIf="data.type != 'Player'" [routerLink]="data.postGameArticle.url">{{data.postGameArticle.headline}}</a><span *ngIf="data.type == 'Player'">{{data.postGameArticle.headline}}</span></h4>
         <p class="article-teaser-text-subtitle"><i class="fa fa-calendar-o"></i> {{data.postGameArticle.pubDate}}</p>
-        <p class="article-teaser-text-body">{{data.postGameArticle.headline}}</p>
-        <div><a class="article-teaser-text-cta" [routerLink]="data.postGameArticle.url">Continue Reading <i class="fa fa-angle-right"></i></a></div>
+        <p class="article-teaser-text-body">{{data.postGameArticle.text[0]}}</p>
+        <p *ngIf="data.type != 'Player'" class="article-teaser-text-cta"><a class="article-teaser-text-cta-link" [routerLink]="data.postGameArticle.url">Continue Reading <i class="fa fa-angle-right"></i></a></p>
       </div>
     </div>
   </div>

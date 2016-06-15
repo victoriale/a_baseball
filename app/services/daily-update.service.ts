@@ -103,17 +103,17 @@ export class DailyUpdateService {
         { 
           name: "Hits", 
           value: apiSeasonStats.batHits != null ? apiSeasonStats.batHits : "N/A", //TODO: get hits from API
-          icon: "fa-home" //TODO: use 'baseball and bat' icon 
+          icon: "fa-batt-and-ball" //TODO: use 'baseball and bat' icon
         },
         { 
           name: "Earned Runs Average", 
           value: apiSeasonStats.pitchEra != null ? Number(apiSeasonStats.pitchEra).toFixed(2) + "%" : "N/A",
-          icon: "fa-home" //TODO: use 'batter swinging' icon 
+          icon: "fa-batter" //TODO: use 'batter swinging' icon
         },
         { 
           name: "Runs Batted In", 
           value: apiSeasonStats.batRbi != null ? Number(apiSeasonStats.batRbi) : "N/A",
-          icon: "fa-home" //TODO: get 'batter standing' icon 
+          icon: "fa-batter-alt" //TODO: get 'batter standing' icon
         }
       ]
     }
@@ -193,6 +193,11 @@ export class DailyUpdateService {
     var chart:DailyUpdateChart = this.getChart(data, seriesOne, seriesTwo);
     this.getPostGameArticle(data);
 
+    if(this.postGameArticleData['text'].length>0){
+      let tempText = this.postGameArticleData['text'].join(" ");
+      this.postGameArticleData['text'] = [tempText];
+    }
+
     if ( chart ) {
       return {
         hasError: false,
@@ -224,17 +229,17 @@ export class DailyUpdateService {
         { 
           name: "Innings Pitched", 
           value: apiSeasonStats.pitchInningsPitched != null ? apiSeasonStats.pitchInningsPitched : "N/A",
-          icon: "fa-home" //TODO: get 'baseball field' icon
+          icon: "fa-baseball-diamond" //TODO: get 'baseball field' icon
         },
         { 
           name: "Strike Outs", 
           value: apiSeasonStats.pitchStrikeouts != null ? apiSeasonStats.pitchStrikeouts : "N/A",
-          icon: "fa-home" //TODO: get '2 baseball bats' icon
+          icon: "fa-baseball-crest" //TODO: get '2 baseball bats' icon
         },
         { 
           name: "Earned Runs Average", 
           value: apiSeasonStats.pitchEra != null ? Number(apiSeasonStats.pitchEra).toFixed(2) : "N/A",
-          icon: "fa-home" //TODO: use 'batter swinging' icon 
+          icon: "fa-batter" //TODO: use 'batter swinging' icon
         }
       ]
   }
@@ -256,22 +261,22 @@ export class DailyUpdateService {
         { 
           name: "Home Runs", 
           value: apiSeasonStats.batHomeRuns != null ? apiSeasonStats.batHomeRuns : "N/A",
-          icon: "fa-home" //TODO: get 'homeplate' icon 
+          icon: "fa-base-lg" //TODO: get 'homeplate' icon
         },
         { 
           name: "Batting Average", 
           value: batAverage,
-          icon: "fa-home" //TODO: get 'baseball and bat' icon 
+          icon: "fa-batt-and-ball" //TODO: get 'baseball and bat' icon
         },
         { 
           name: "Runs Batted In", 
           value: apiSeasonStats.batRbi != null ? apiSeasonStats.batRbi : "N/A",
-          icon: "fa-home" //TODO: get 'batter standing' icon 
+          icon: "fa-batter-alt" //TODO: get 'batter standing' icon
         },
         { 
           name: "On Base Percentage", 
           value: batOnBasePercentage,
-          icon: "fa-percent" 
+          icon: "fa-percentage-alt"
         }
       ]
   }

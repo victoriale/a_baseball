@@ -84,7 +84,12 @@ export class DailyUpdateModule {
           return {
             pointWidth: 30,
             name: item.name,
-            data: item.values
+            data: item.values,
+            dataLabels: {
+              style: {
+                color: '#272727'
+              }
+            }
           };
         });
       }
@@ -93,7 +98,7 @@ export class DailyUpdateModule {
     this.chartOptions = {
       chart: {
         type: 'column',
-        height: 144,
+        height: 154,
         marginTop: 10,
         spacingTop: 0,
         spacingBottom: 0,
@@ -109,7 +114,12 @@ export class DailyUpdateModule {
       },
       xAxis: {
         categories: categories,
-        tickWidth: 0
+        tickWidth: 0,
+        labels: {
+          style: {
+            color: "#999999"
+          }
+        },
       },
       yAxis: {
         min: yAxisMin,
@@ -118,7 +128,13 @@ export class DailyUpdateModule {
         opposite: true,
         title: {
           text: null
-        }
+        },
+        labels: {
+          style: {
+            color: "#999999"
+          }
+        },
+        gridLineColor: "rgba(225, 225, 225, 0.5)"
       },
       plotOptions: {
         column: {
