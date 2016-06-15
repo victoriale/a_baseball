@@ -1,7 +1,8 @@
-import {Component, Input} from 'angular2/core';
+import {Component, Input, Injector, OnChanges} from 'angular2/core';
 import {ModuleHeader, ModuleHeaderData} from "../../components/module-header/module-header.component";
 import {FlipTilesComponent, TileData} from "../../components/flip-tiles/flip-tiles.component";
-import {Router,ROUTER_DIRECTIVES} from 'angular2/router';
+import {GlobalSettings} from '../../global/global-settings';
+import {ROUTER_DIRECTIVES} from 'angular2/router';
 
 @Component({
     selector: 'about-us',
@@ -9,9 +10,8 @@ import {Router,ROUTER_DIRECTIVES} from 'angular2/router';
     directives: [ModuleHeader, FlipTilesComponent, ROUTER_DIRECTIVES],
     providers: []
 })
-export class AboutUsModule {
-
-    @Input() partnerID: string = null;
+export class AboutUsModule implements OnChanges {
+    @Input() partnerID: string;
 
     public homePageLinkName: string = "homerunloyal";
     public pageName: string;
@@ -19,28 +19,20 @@ export class AboutUsModule {
     public headerText: string = "Disclaimer";
     public logoUrl = '/app/public/Logo_Home-Run-Loyal-B.png';
     public buttonText = 'See The Full Disclaimer';
-    public aboutUsData: Array<TileData>;
+    public aboutUsData: Array<TileData>;    
 
-    constructor(private _router: Router) {
-      this._router.root
-      .subscribe(
-          route => {
-            var routeValues = route.split('/');
-            if(routeValues[0] !== '' && routeValues[0] !== undefined && routeValues[0] !== null){
-              //Has Partner
-              this.partnerID = routeValues[0];
-            } else {
-              this.partnerID = null;
-            }
-      })
+    constructor() {}
+
+    ngOnChanges() {
+      this.loadData(this.partnerID);
     }
 
-    ngOnInit() {
-      if(this.partnerID === null) {
+    loadData(partnerID: string) {
+      if(partnerID === null) {
           this.homePageLinkName = "www.homerunloyal.com"
           this.pageName = "Home Run Loyal";
      } else {
-          this.homePageLinkName = "www.myhomerun.com/" + this.partnerID;
+          this.homePageLinkName = "www.myhomerun.com/" + partnerID;
           this.pageName = "My HomeRun";
       }
 
