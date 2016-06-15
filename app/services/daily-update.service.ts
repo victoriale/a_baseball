@@ -11,7 +11,8 @@ export interface DailyUpdateData {
   lastUpdateDate: string;
   chart: DailyUpdateChart;
   fullBackgroundImageUrl: string;
-  seasonStats: Array<{name: string, value: string, icon: string}>
+  seasonStats: Array<{name: string, value: string, icon: string}>;
+  postGameArticle?: PostGameArticleData;
 }
 
 export interface DailyUpdateChart {
@@ -57,7 +58,7 @@ interface PostGameArticleData {
 
 @Injectable()
 export class DailyUpdateService {
-  postGameArticleData: Object;
+  postGameArticleData: PostGameArticleData;
 
   constructor(public http: Http){}
 
@@ -292,7 +293,7 @@ export class DailyUpdateService {
     console.log("dete",data);
     articleData['img'] = data['postgame-report'].images != null && data['postgame-report'].images[articleData['teamId']] != null && data['postgame-report'].images[articleData['teamId']].length > 0 ? data['postgame-report'].images[articleData['teamId']][0]: null;
 
-    this.postGameArticleData = articleData;
+    this.postGameArticleData = <PostGameArticleData>articleData;
   }
 
   private getChart(data: APIDailyUpdateData, seriesOne: DataSeries, seriesTwo: DataSeries) {
