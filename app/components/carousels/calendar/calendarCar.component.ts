@@ -59,8 +59,7 @@ export class CalendarCarousel implements OnInit{
     //take parameters and convert using moment to subtract a week from it and recall the week api
     var curParams = this.curDateView;
     curParams.date = moment(curParams.date).subtract(7, 'days').format('YYYY-MM-DD');
-    console.log(curParams);
-    this.callWeeklyApi(curParams).subscribe(this.validateDate(this.chosenParam.date, this.weeklyDates));
+    this.callWeeklyApi(curParams).subscribe(data=>{this.validateDate(this.chosenParam.date, this.weeklyDates)});
     this.curDateView = curParams;
   }
 
@@ -68,8 +67,7 @@ export class CalendarCarousel implements OnInit{
     //take parameters and convert using moment to add a week from it and recall the week api
     var curParams = this.curDateView;
     curParams.date = moment(curParams.date).add(7, 'days').format('YYYY-MM-DD');
-    console.log(curParams);
-    this.callWeeklyApi(curParams).subscribe(this.validateDate(this.chosenParam.date, this.weeklyDates));
+    this.callWeeklyApi(curParams).subscribe(data=>{this.validateDate(this.chosenParam.date, this.weeklyDates)});
     this.curDateView = curParams;
   }
 
@@ -81,7 +79,7 @@ export class CalendarCarousel implements OnInit{
         val.active = false;
       })
       event.active = true;
-      this.chosenParam.date = moment.unix(Number(event.unixDate)/1000).tz('America/New_York').format('YYYY-MM-DD');
+      this.chosenParam.date = moment(Number(event.unixDate)).tz('America/New_York').format('YYYY-MM-DD');
       this.dateEmit.next(this.chosenParam);
     }
   }
@@ -99,14 +97,12 @@ export class CalendarCarousel implements OnInit{
     var formattedArray = [];
     //run through each of the Unix (UTC) dates and convert them to readable EST dates
     for(var date in weekData){
-      //convert from UTC TO EST
-      let unixSeconds = (Number(date)/1000); //return seconds for moment
 
       //set each of the dates the EST from UTC and change format to respective format
-      let year =  moment.unix(unixSeconds).tz('America/New_York').format('YYYY');
-      let month = moment.unix(unixSeconds).tz('America/New_York').format('MMM');
-      let day = moment.unix(unixSeconds).tz('America/New_York').format('D');
-      let weekDay = moment.unix(unixSeconds).tz('America/New_York').format('ddd');
+      let year =  moment(Number(date)).tz('America/New_York').format('YYYY');
+      let month = moment(Number(date)).tz('America/New_York').format('MMM');
+      let day = moment(Number(date)).tz('America/New_York').format('D');
+      let weekDay = moment(Number(date)).tz('America/New_York').format('ddd');
       let ordinal = GlobalFunctions.Suffix(Number(day));
       var dateObj:weekDate = {
         unixDate:date,
@@ -128,14 +124,13 @@ export class CalendarCarousel implements OnInit{
 
   //validate if the selected date sent in is usable otherwise select nearest previous date
   validateDate(selectedDate, dateArray){// get unix time stamp and grab the earlier played game
-    var curUnix = moment(selectedDate,"YYYY-MM-DD").unix();//converts chosen date to unix for comparison
+    var curUnix = moment(selectedDate,"YYYY-MM-DD").unix()*1000;//converts chosen date to unix for comparison
     var validatedDate = curUnix;// will be the closest game to the curdate being sent in default is 0
     var minDateUnix =  Number(dateArray[0].unixDate);
     var maxDateUnix = Number(dateArray[dateArray.length - 1].unixDate);
     var activeIndex;
-
     dateArray.forEach(function(date, i){
-      var dateUnix = Number(date.unixDate)/1000;//converts chosen date to unix (in seconds) for comparison
+      var dateUnix = Number(date.unixDate);//converts chosen date to unix (in seconds) for comparison
       //grab highest and lowest number in the array to know the beginning and end of the week
       if((minDateUnix > dateUnix)){//get lowest number in dateArray
         minDateUnix = dateUnix;
@@ -157,7 +152,7 @@ export class CalendarCarousel implements OnInit{
     }
 
     //change validatedDate back into format for dateArray;
-    validatedDate = moment.unix(validatedDate).tz('America/New_York').format('YYYY-MM-DD');
-    return this.curDateView.date = validatedDate;;//SENDS BACK AS YYYY-MM-DD to use to send back to the box-scores module and set the data
+    validatedDate = moment(validatedDate).tz('America/New_York').format('YYYY-MM-DD');
+    this.curDateView.date = validatedDate;//SENDS BACK AS YYYY-MM-DD to use to send back to the box-scores module and set the data
   }
 }

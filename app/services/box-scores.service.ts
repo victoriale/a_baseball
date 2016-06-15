@@ -94,8 +94,7 @@ export class BoxScoresService {
   transformBoxScores(boxScores){
     var newBoxScores = {};
     for(var dates in boxScores){
-      var dayUnix = moment.unix(dates)/1000;//convert to Unix and convert to seconds
-        var dayDate = moment.tz( dayUnix , 'America/New_York' ).format('YYYY-MM-DD');
+        var dayDate = moment(Number(dates)).tz('America/New_York').format('YYYY-MM-DD');
         if(typeof newBoxScores[dayDate] == 'undefined'){
            newBoxScores[dayDate] = [];
            newBoxScores[dayDate].push(boxScores[dates]);
@@ -178,7 +177,7 @@ export class BoxScoresService {
     info = {
       gameHappened:gameInfo.inningsPlayed != null ?  true : false,
       //inning will display the Inning the game is on otherwise if returning null then display the date Time the game is going to be played
-      inning:gameInfo.inningsPlayed != null ?  "Top of " + gameInfo.inningsPlayed +  GlobalFunctions.Suffix(gameInfo.inningsPlayed) + " Inning" : "Game Time: " + moment.unix(gameDate.startDateTimestamp/1000).tz('America/New_York').format('h:mm A z'),
+      inning:gameInfo.inningsPlayed != null ?  "Top of " + gameInfo.inningsPlayed +  GlobalFunctions.Suffix(gameInfo.inningsPlayed) + " Inning" : "Game Time: " + moment(gameDate.startDateTimestamp).tz('America/New_York').format('h:mm A z'),
       homeData:{
         homeTeamName: homeData.lastName,
         //imageData(imageClass, imageBorder, mainImg, mainImgRoute?, rank?, rankClass?, subImgClass?, subImg?, subRoute?)
