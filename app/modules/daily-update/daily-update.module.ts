@@ -6,13 +6,14 @@ import {GlobalSettings} from "../../global/global-settings";
 import {NoDataBox} from '../../components/error/data-box/data-box.component';
 import {BarChartComponent} from '../../components/bar-chart/bar-chart.component';
 import {DailyUpdateData, DailyUpdateChart} from "../../services/daily-update.service";
+import {ROUTER_DIRECTIVES} from "angular2/router";
 
 declare var jQuery:any;
 
 @Component({
     selector: 'daily-update-module',
     templateUrl: './app/modules/daily-update/daily-update.module.html',
-    directives: [ModuleHeader, CircleImage, NoDataBox, BarChartComponent],
+    directives: [ModuleHeader, CircleImage, NoDataBox, BarChartComponent, ROUTER_DIRECTIVES],
     providers: []
 })
 
@@ -48,7 +49,7 @@ export class DailyUpdateModule {
     };
   }
 
-  ngOnChanges() {
+  ngOnChanges(event) {
     this.headerInfo.moduleTitle = "Daily Update - " + this.profileName;
     this.noDataMessage = "Sorry, there is no daily update available for " + this.profileName;
 
@@ -63,6 +64,9 @@ export class DailyUpdateModule {
     }
     else {
       this.comparisonCount = 0;
+    }
+    if(event.data['currentValue'] != null && event.data['currentValue'].postGameArticle != null && event.data['currentValue'].postGameArticle.img != null){
+      this.imageConfig.mainImage.imageUrl = event.data['currentValue'].postGameArticle.img.split(" ")[0];
     }
   }
 
@@ -79,7 +83,12 @@ export class DailyUpdateModule {
           return {
             pointWidth: 30,
             name: item.name,
-            data: item.values
+            data: item.values,
+            dataLabels: {
+              style: {
+                color: '#272727'
+              }
+            }
           };
         });
       }
@@ -88,7 +97,7 @@ export class DailyUpdateModule {
     this.chartOptions = {
       chart: {
         type: 'column',
-        height: 144,
+        height: 154,
         marginTop: 10,
         spacingTop: 0,
         spacingBottom: 0,
@@ -104,7 +113,12 @@ export class DailyUpdateModule {
       },
       xAxis: {
         categories: categories,
-        tickWidth: 0
+        tickWidth: 0,
+        labels: {
+          style: {
+            color: "#999999"
+          }
+        },
       },
       yAxis: {
         min: yAxisMin,
@@ -113,7 +127,13 @@ export class DailyUpdateModule {
         opposite: true,
         title: {
           text: null
-        }
+        },
+        labels: {
+          style: {
+            color: "#999999"
+          }
+        },
+        gridLineColor: "rgba(225, 225, 225, 0.5)"
       },
       plotOptions: {
         column: {

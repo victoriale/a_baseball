@@ -85,6 +85,8 @@
           margin: 0;
           .fa{
             margin-right: 12px;
+            font-size: 15px;
+            vertical-align: middle;
           }
           b{
             font-weight: 800;
@@ -158,10 +160,15 @@
         .globalDefaultFont(14px, 400);
         line-height: 16px;
       }
-      &-cta{
-        .globalDefaultModFont(12px, 800, @masterBrandColor);
-        line-height: 20px;
+      &-cta {
         margin: 12px 0 0 0;
+        &-link {
+          .globalDefaultModFont(12px, 800, @masterBrandColor);
+          line-height: 20px;
+          .fa {
+            vertical-align: middle;
+          }
+        }
       }
     }
   }
