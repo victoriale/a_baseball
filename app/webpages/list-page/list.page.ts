@@ -1,11 +1,13 @@
 import {Component, OnInit} from 'angular2/core';
+import {RouteParams} from 'angular2/router';
+import {Title} from 'angular2/platform/browser';
+
 import {DetailedListItem, DetailListInput} from '../../components/detailed-list-item/detailed-list-item.component';
 import {ModuleFooter, ModuleFooterData, FooterStyle} from '../../components/module-footer/module-footer.component';
 import {SliderCarousel, SliderCarouselInput} from '../../components/carousels/slider-carousel/slider-carousel.component';
 import {TitleComponent, TitleInputData} from '../../components/title/title.component';
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {DraftHistoryService} from '../../services/draft-history.service';
-import {RouteParams} from 'angular2/router';
 import {ListPageService} from '../../services/list-page.service';
 import {NoDataBox} from '../../components/error/data-box/data-box.component';
 import {ProfileHeaderService} from '../../services/profile-header.service';
@@ -13,6 +15,7 @@ import {PaginationFooter, PaginationParameters} from '../../components/paginatio
 import {LoadingComponent} from "../../components/loading/loading.component";
 import {ErrorComponent} from "../../components/error/error.component";
 import {GlobalFunctions} from "../../global/global-functions";
+import {GlobalSettings} from "../../global/global-settings";
 import {DynamicWidgetCall} from "../../services/dynamic-list-page.service";
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
@@ -20,7 +23,7 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
     selector: 'list-page',
     templateUrl: './app/webpages/list-page/list.page.html',
     directives: [SidekickWrapper, ErrorComponent, LoadingComponent,PaginationFooter, BackTabComponent, TitleComponent, SliderCarousel, DetailedListItem,  ModuleFooter],
-    providers: [ListPageService, ProfileHeaderService, DynamicWidgetCall],
+    providers: [ListPageService, ProfileHeaderService, DynamicWidgetCall, Title],
     inputs:[]
 })
 
@@ -41,7 +44,11 @@ export class ListPage implements OnInit {
   input: string;
   pageNumber: number;
 
-  constructor(private listService:ListPageService, private profHeadService:ProfileHeaderService, private params: RouteParams, private dynamicWidget: DynamicWidgetCall){
+  constructor(private listService:ListPageService, 
+              private params: RouteParams, 
+              private dynamicWidget: DynamicWidgetCall, 
+              private _title: Title) {
+    _title.setTitle(GlobalSettings.getPageTitle("Lists"));
     if(params.params['query'] != null){
       let query = params.params['query'];
       // Setup this way in case we want to switch out null with some default values
@@ -63,7 +70,6 @@ export class ListPage implements OnInit {
       this.getStandardList(urlParams);
     }
   }
-
 
   //PAGINATION
   //sets the total pages for particular lists to allow client to move from page to page without losing the sorting of the list
@@ -110,9 +116,11 @@ export class ListPage implements OnInit {
 
 
   getStandardList(urlParams){
+    console.log("getting standard list");
     this.listService.getListPageService(urlParams)
       .subscribe(
         list => {
+          this._title.setTitle(GlobalSettings.getPageTitle(list.listDisplayName, "Lists"));
           this.profileHeaderData = list.profHeader;
           if (list.listData.length == 0) {//makes sure it only runs once
             this.detailedDataArray = null;
@@ -131,6 +139,7 @@ export class ListPage implements OnInit {
   }
 
   getDynamicList() {
+    console.log("getting dynamic list");
     if( !this.tw ){
       // Not enough parameter : display error message
       this.isError = true;
@@ -139,6 +148,7 @@ export class ListPage implements OnInit {
     this.dynamicWidget.getWidgetData(this.tw, this.sw, this.input)
       .subscribe(
         list => {
+          this._title.setTitle(GlobalSettings.getPageTitle(list.listDisplayTitle, "Lists"));
           this.profileHeaderData = list.profHeader;
           if (list.listData.length == 0) {//makes sure it only runs once
             this.detailedDataArray = null;

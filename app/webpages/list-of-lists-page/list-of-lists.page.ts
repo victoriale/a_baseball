@@ -1,4 +1,7 @@
 import {Component, OnInit} from 'angular2/core';
+import {RouteParams} from 'angular2/router';
+import {Title} from 'angular2/platform/browser';
+
 import {DetailedListItem, DetailListInput} from '../../components/detailed-list-item/detailed-list-item.component';
 import {ModuleFooter} from '../../components/module-footer/module-footer.component';
 import {SliderCarousel, SliderCarouselInput} from '../../components/carousels/slider-carousel/slider-carousel.component';
@@ -7,7 +10,6 @@ import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {NoDataBox} from '../../components/error/data-box/data-box.component';
 import {ListOfListsItem, IListOfListsItem} from "../../components/list-of-lists-item/list-of-lists-item.component";
 import {ListOfListsService} from "../../services/list-of-lists.service";
-import {RouteParams} from 'angular2/router';
 import {LoadingComponent} from "../../components/loading/loading.component";
 import {ErrorComponent} from "../../components/error/error.component";
 import {PaginationFooter, PaginationParameters} from "../../components/pagination-footer/pagination-footer.component";
@@ -20,7 +22,7 @@ declare var moment:any;
     selector: 'list-of-lists-page',
     templateUrl: './app/webpages/list-of-lists-page/list-of-lists.page.html',
     directives: [SidekickWrapper, NoDataBox, BackTabComponent, TitleComponent, SliderCarousel, ListOfListsItem, ModuleFooter, LoadingComponent, ErrorComponent, PaginationFooter],
-    providers: [ListOfListsService],
+    providers: [ListOfListsService, Title],
     inputs:[]
 })
 
@@ -41,7 +43,9 @@ export class ListOfListsPage implements OnInit{
     paginationParameters  : PaginationParameters;
     titleData             : TitleInputData;
 
-    constructor(private listService:ListOfListsService, private params: RouteParams) {}
+    constructor(private listService:ListOfListsService, private params: RouteParams, private _title: Title) {
+        _title.setTitle(GlobalSettings.getPageTitle("List of Lists"));
+    }
 
     //getListOfListsService(version, type, id, scope?, count?, page?){
     getListOfListsPage(urlParams, version) {
@@ -57,6 +61,7 @@ export class ListOfListsPage implements OnInit{
                 this.carouselDataArray = list.carData;
 
                 this.profileName = list.targetData.playerName != null ? list.targetData.playerName : list.targetData.teamName;  // TODO include this
+                this._title.setTitle(GlobalSettings.getPageTitle("List of Lists", this.profileName));
                 this.setProfileHeader(this.profileName)
 
             },

@@ -1,9 +1,11 @@
 import {Component} from 'angular2/core';
+import {Router,ROUTER_DIRECTIVES} from 'angular2/router';
+import {Injector} from 'angular2/core';
+import {Title} from 'angular2/platform/browser';
+
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {TitleComponent} from '../../components/title/title.component';
 import {WidgetModule} from "../../modules/widget/widget.module";
-import {Router,ROUTER_DIRECTIVES} from 'angular2/router';
-import {Injector} from 'angular2/core';
 import {TitleInputData} from "../../components/title/title.component";
 import {GlobalSettings} from '../../global/global-settings';
 import {GlobalFunctions} from '../../global/global-functions';
@@ -14,7 +16,7 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
     templateUrl: './app/webpages/disclaimer-page/disclaimer.page.html',
 
     directives: [SidekickWrapper, BackTabComponent, TitleComponent, WidgetModule, ROUTER_DIRECTIVES],
-    providers: [],
+    providers: [Title],
 })
 
 export class DisclaimerPage {
@@ -26,7 +28,8 @@ export class DisclaimerPage {
     public disHeaderTitle = "<span style='font-weight: 700;'>Disclaimer</span>";
     titleData: TitleInputData;
 
-    constructor(private _router:Router) {
+    constructor(private _router:Router, private _title: Title) {
+      _title.setTitle(GlobalSettings.getPageTitle("Disclaimer"));
       GlobalSettings.getPartnerID(_router, partnerID => this.loadData(partnerID));
     }
 
