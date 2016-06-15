@@ -5,23 +5,23 @@ declare var jQuery: any;
 @Component({
     selector: 'widget-module',
     templateUrl: './app/modules/widget/widget.module.html',
-    
+
     directives: [],
     providers: [],
 })
 
 export class WidgetModule {
     //widgetEmbed:string = "http://w1.synapsys.us/widgets/realestate/standard2.html";
-    widgetEmbed: string = "about:blank";
+    widgetEmbed: string  = '/app/ads/widget1.html';
 
     // Page is being scrolled
-    onScroll(event) {        
+    onScroll(event) {
         var y_buffer = 40;
         var $widget = jQuery("#widget");
         var $pageWrapper = jQuery(".widget-page-wrapper");
         if ( $widget.length > 0 && $pageWrapper.length > 0 ) {
             var scrollTop = jQuery(window).scrollTop();
-            var widgetHeight = $widget.height(); 
+            var widgetHeight = $widget.height();
             var pageWrapperTop = $pageWrapper.offset().top;
             var pageWrapperBottom = pageWrapperTop+$pageWrapper.height();
 

@@ -429,8 +429,8 @@ export class GlobalFunctions {
      */
     static formatDateWithAPMonth(jsDate:any, beforeMonthFormat: string, afterMonthFormat: string): string {
       var date = moment(jsDate);
-      var str = (beforeMonthFormat ? date.format(beforeMonthFormat) : "") + 
-                GlobalFunctions.formatAPMonth(date.month()) + 
+      var str = (beforeMonthFormat ? date.format(beforeMonthFormat) : "") +
+                GlobalFunctions.formatAPMonth(date.month()) +
                 (afterMonthFormat ? date.format(afterMonthFormat) : "");
       return str;
     }
@@ -551,5 +551,17 @@ export class GlobalFunctions {
   		return (num / 1000).toFixed(1).replace(/\.0$/, '') + ' K';
   	}
   	return num.toString();
+  }
+  /**
+  * Get website host name
+  */
+  static getHostName(url: string): string {
+      var match = url.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i);
+      if (match != null && match.length > 2 && typeof match[2] === 'string' && match[2].length > 0) {
+      return match[2];
+      }
+      else {
+          return null;
+      }
   }
 }
