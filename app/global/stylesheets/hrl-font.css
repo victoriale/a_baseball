@@ -195,8 +195,6 @@
 .fa-inverse {
   color: #fff
 }
-
-
 .fa-base-sm:before {
   content: "\e000";
 }
@@ -296,7 +294,7 @@
 .fa-sort-down:before {
   content: "\e020";
 }
-.fa-share:before {
+.fa-mail-forward:before {
   content: "\e021";
 }
 .fa-arrows-alt:before {
@@ -356,5 +354,6 @@
 .fa-search:before {
   content: "\e034";
 }
-
-
+.fa-reply:before {
+  content: "\e035";
+}
