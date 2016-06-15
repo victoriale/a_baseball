@@ -45,8 +45,20 @@ interface APIGameData {
   startDateTimestamp: number;
 }
 
+interface PostGameArticleData {
+  eventId: string,
+  teamId: string,
+  url?: Object,
+  pubDate: string,
+  headline: string,
+  text: Array<any>,
+  img: string
+}
+
 @Injectable()
-export class DailyUpdateService {  
+export class DailyUpdateService {
+  postGameArticleData: Object;
+
   constructor(public http: Http){}
 
   getErrorData(): DailyUpdateData {
@@ -116,6 +128,7 @@ export class DailyUpdateService {
         key: "opponentRuns"
     };
     var chart:DailyUpdateChart = this.getChart(data, seriesOne, seriesTwo);
+    this.getPostGameArticle(data);
 
     if ( chart ) {
         return {
@@ -124,7 +137,8 @@ export class DailyUpdateService {
           fullBackgroundImageUrl: GlobalSettings.getImageUrl(data.backgroundImage),
           type: "Team",
           seasonStats: stats,
-          chart: chart
+          chart: chart,
+          postGameArticle: this.postGameArticleData
         };
     }
     else {
@@ -177,6 +191,7 @@ export class DailyUpdateService {
       };
     }
     var chart:DailyUpdateChart = this.getChart(data, seriesOne, seriesTwo);
+    this.getPostGameArticle(data);
 
     if ( chart ) {
       return {
@@ -185,7 +200,8 @@ export class DailyUpdateService {
         fullBackgroundImageUrl: GlobalSettings.getImageUrl(data.backgroundImage),
         type: "Player",
         seasonStats: stats,
-        chart: chart
+        chart: chart,
+        postGameArticle: this.postGameArticleData
       };
     }
     else {
@@ -258,6 +274,20 @@ export class DailyUpdateService {
           icon: "fa-percent" 
         }
       ]
+  }
+  private getPostGameArticle(data: APIDailyUpdateData) {
+    let articleData = {};
+
+    articleData['eventId'] = data.recentGames[0].eventId != null ? data.recentGames[0].eventId : null;
+    articleData['teamId'] = data.recentGames[0].teamId != null ? data.recentGames[0].teamId : null;
+    articleData['url'] = articleData['eventId'] != null ? ['Article-pages', {eventType: 'postgame-report', eventID: articleData['eventId']}] : ['Error-page'];
+    articleData['pubDate'] = data['postgame-report'].dateline != null ? data['postgame-report'].dateline : null;
+    articleData['headline'] = data['postgame-report'].displayHeadline != null ? data['postgame-report'].displayHeadline : null;
+    articleData['text'] = data['postgame-report'].article != null && data['postgame-report'].article.length > 0 ? data['postgame-report'].article : null;
+    console.log("dete",data);
+    articleData['img'] = data['postgame-report'].images != null && data['postgame-report'].images[articleData['teamId']] != null && data['postgame-report'].images[articleData['teamId']].length > 0 ? data['postgame-report'].images[articleData['teamId']][0]: null;
+
+    this.postGameArticleData = articleData;
   }
 
   private getChart(data: APIDailyUpdateData, seriesOne: DataSeries, seriesTwo: DataSeries) {

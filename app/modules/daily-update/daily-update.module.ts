@@ -6,13 +6,14 @@ import {GlobalSettings} from "../../global/global-settings";
 import {NoDataBox} from '../../components/error/data-box/data-box.component';
 import {BarChartComponent} from '../../components/bar-chart/bar-chart.component';
 import {DailyUpdateData, DailyUpdateChart} from "../../services/daily-update.service";
+import {ROUTER_DIRECTIVES} from "angular2/router";
 
 declare var jQuery:any;
 
 @Component({
     selector: 'daily-update-module',
     templateUrl: './app/modules/daily-update/daily-update.module.html',
-    directives: [ModuleHeader, CircleImage, NoDataBox, BarChartComponent],
+    directives: [ModuleHeader, CircleImage, NoDataBox, BarChartComponent, ROUTER_DIRECTIVES],
     providers: []
 })
 
@@ -48,7 +49,7 @@ export class DailyUpdateModule {
     };
   }
 
-  ngOnChanges() {
+  ngOnChanges(event) {
     this.headerInfo.moduleTitle = "Daily Update - " + this.profileName;
     this.noDataMessage = "Sorry, there is no daily update available for " + this.profileName;
 
@@ -63,6 +64,10 @@ export class DailyUpdateModule {
     }
     else {
       this.comparisonCount = 0;
+    }
+    console.log('event:', event);
+    if(event.data['currentValue'] != null && event.data['currentValue'].postGameArticle != null && event.data['currentValue'].postGameArticle.img != null){
+      this.imageConfig.mainImage.imageUrl = event.data['currentValue'].postGameArticle.img.split(" ")[0];
     }
   }
 
