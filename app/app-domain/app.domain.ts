@@ -28,7 +28,6 @@ export class AppDomain {
     constructor(private _router: Router) {
         this._router.root.subscribe (
             route => {
-                console.log("app domain root subscribe");
                 var routeItems = route.split('/');                
                 //Only scroll to top if the page isn't the directory.
                 if ( routeItems[1] != "directory" ) {
