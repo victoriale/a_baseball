@@ -303,13 +303,13 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
 
   getDisplayValueAt(item:TeamSeasonStatsData, column:TableColumn):string {
     var s = "";
-    var avgTotal = item['sectionStat'] != null && item['sectionStat'] == "Average" ? "Total Average" : "Total";
     switch (column.key) {
       case "year":
         s = item.seasonId;
         break;
 
       case "team":
+        let avgTotal = item['sectionStat'] != null && item['sectionStat'] == "Average" ? "Total Average" : "Total";
         s = item['sectionStat'] == null ? item.teamInfo.teamName : avgTotal.toUpperCase() + ":";
         break;
 
