@@ -116,7 +116,6 @@ export class ListPage implements OnInit {
 
 
   getStandardList(urlParams){
-    console.log("getting standard list");
     this.listService.getListPageService(urlParams)
       .subscribe(
         list => {
@@ -139,7 +138,6 @@ export class ListPage implements OnInit {
   }
 
   getDynamicList() {
-    console.log("getting dynamic list");
     if( !this.tw ){
       // Not enough parameter : display error message
       this.isError = true;
