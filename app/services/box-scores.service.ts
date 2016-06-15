@@ -15,7 +15,7 @@ export class BoxScoresService {
   // private _apiToken: string = 'BApA7KEfj';
   // private _headerName: string = 'X-SNT-TOKEN';
 
-  constructor(public http: Http, private _globalFunc: GlobalFunctions){
+  constructor(public http: Http){
 
   }
 

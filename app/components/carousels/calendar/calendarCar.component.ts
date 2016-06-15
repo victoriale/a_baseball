@@ -59,14 +59,18 @@ export class CalendarCarousel implements OnInit{
     //take parameters and convert using moment to subtract a week from it and recall the week api
     var curParams = this.curDateView;
     curParams.date = moment(curParams.date).subtract(7, 'days').format('YYYY-MM-DD');
-    this.callWeeklyApi(curParams).subscribe();
+    console.log(curParams);
+    this.callWeeklyApi(curParams).subscribe(this.validateDate(this.chosenParam.date, this.weeklyDates));
+    this.curDateView = curParams;
   }
 
   right(){
     //take parameters and convert using moment to add a week from it and recall the week api
     var curParams = this.curDateView;
     curParams.date = moment(curParams.date).add(7, 'days').format('YYYY-MM-DD');
-    this.callWeeklyApi(curParams).subscribe();
+    console.log(curParams);
+    this.callWeeklyApi(curParams).subscribe(this.validateDate(this.chosenParam.date, this.weeklyDates));
+    this.curDateView = curParams;
   }
 
   //whatever is clicked on gets emitted and highlight on the carousel
@@ -132,7 +136,6 @@ export class CalendarCarousel implements OnInit{
 
     dateArray.forEach(function(date, i){
       var dateUnix = Number(date.unixDate)/1000;//converts chosen date to unix (in seconds) for comparison
-
       //grab highest and lowest number in the array to know the beginning and end of the week
       if((minDateUnix > dateUnix)){//get lowest number in dateArray
         minDateUnix = dateUnix;
@@ -142,7 +145,7 @@ export class CalendarCarousel implements OnInit{
       }
 
       //run through the array and set the valid date that has a game as the active key in the dateArray (attached to weeklyDates)
-      if( (minDateUnix <= curUnix) && (curUnix <= maxDateUnix) && (validatedDate <= curUnix) && date.clickable){// makes sure to  that the validatedDate does not choose anything higher than selected date
+      if( (minDateUnix <= curUnix) && (curUnix <= maxDateUnix) && (dateUnix <= curUnix) && (validatedDate <= curUnix) && date.clickable){// makes sure to  that the validatedDate does not choose anything higher than selected date
         validatedDate = dateUnix;
         activeIndex = i;//SETS POSITION IN ARRAY THAT CURRENT DATE IS SET TO
       }
@@ -154,7 +157,7 @@ export class CalendarCarousel implements OnInit{
     }
 
     //change validatedDate back into format for dateArray;
-    validatedDate = moment.unix(validatedDate).format('YYYY-MM-DD');
+    validatedDate = moment.unix(validatedDate).tz('America/New_York').format('YYYY-MM-DD');
     return this.curDateView.date = validatedDate;;//SENDS BACK AS YYYY-MM-DD to use to send back to the box-scores module and set the data
   }
 }
