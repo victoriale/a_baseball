@@ -33,9 +33,5 @@ export class BoxScoresModule implements OnInit{
   }
   ngOnChanges(){
     this.boxScheduleData = this.boxScores.schedule;
-    console.log('MODULE: BoxScores',this.boxScores);
-    console.log('CHANGES: GAMEINFO',this.boxScores.gameInfo);
-    console.log('CHANGES: SCOREBOARD',this.boxScores.scoreBoard);
-    console.log('CHANGES: SCHEDULE',this.boxScheduleData);
   }
 }

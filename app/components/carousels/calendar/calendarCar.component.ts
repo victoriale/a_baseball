@@ -58,7 +58,6 @@ export class CalendarCarousel implements OnInit{
   left(){
     //take parameters and convert using moment to subtract a week from it and recall the week api
     var curParams = this.curDateView;
-    console.log("LEFT", this.curDateView);
     curParams.date = moment(curParams.date).subtract(7, 'days').format('YYYY-MM-DD');
     this.callWeeklyApi(curParams).subscribe();
   }
@@ -66,7 +65,6 @@ export class CalendarCarousel implements OnInit{
   right(){
     //take parameters and convert using moment to add a week from it and recall the week api
     var curParams = this.curDateView;
-    console.log("RIGHT", this.curDateView);
     curParams.date = moment(curParams.date).add(7, 'days').format('YYYY-MM-DD');
     this.callWeeklyApi(curParams).subscribe();
   }
@@ -74,14 +72,13 @@ export class CalendarCarousel implements OnInit{
   //whatever is clicked on gets emitted and highlight on the carousel
   setActive(event){
     if(!event.active){//only work if the active && clickable date is not already active
-      console.log(event);
       var resetState = this.weeklyDates;
       resetState.forEach(function(val,i){
         val.active = false;
       })
       event.active = true;
       this.chosenParam.date = moment.unix(Number(event.unixDate)/1000).tz('America/New_York').format('YYYY-MM-DD');
-      this.dateEmit.next(this.curDateView);
+      this.dateEmit.next(this.chosenParam);
     }
   }
 
@@ -90,13 +87,11 @@ export class CalendarCarousel implements OnInit{
     .map(data=>{
       this.weeklyApi = data.data;
       this.weeklyDates = this.weekFormat(params.date, this.weeklyApi);
-      this.validateDate(this.chosenParam.date, this.weeklyDates);
     });
   }
 
   //week format to grab week call from api and format the data to what is needed for the HTML
   weekFormat(dateChosen, weekData){
-    console.log('WEEKLY UNFORMATTED',weekData);
     var formattedArray = [];
     //run through each of the Unix (UTC) dates and convert them to readable EST dates
     for(var date in weekData){
@@ -106,7 +101,7 @@ export class CalendarCarousel implements OnInit{
       //set each of the dates the EST from UTC and change format to respective format
       let year =  moment.unix(unixSeconds).tz('America/New_York').format('YYYY');
       let month = moment.unix(unixSeconds).tz('America/New_York').format('MMM');
-      let day = moment.unix(unixSeconds).tz('America/New_York').format('DD');
+      let day = moment.unix(unixSeconds).tz('America/New_York').format('D');
       let weekDay = moment.unix(unixSeconds).tz('America/New_York').format('ddd');
       let ordinal = GlobalFunctions.Suffix(Number(day));
       var dateObj:weekDate = {
@@ -123,14 +118,12 @@ export class CalendarCarousel implements OnInit{
       //push all dateObj into array
       formattedArray.push(dateObj);
     }
-    console.log('WEEKLY FORMATED',formattedArray);
 
     return formattedArray;
   }
 
   //validate if the selected date sent in is usable otherwise select nearest previous date
   validateDate(selectedDate, dateArray){// get unix time stamp and grab the earlier played game
-    console.log(selectedDate);
     var curUnix = moment(selectedDate,"YYYY-MM-DD").unix();//converts chosen date to unix for comparison
     var validatedDate = curUnix;// will be the closest game to the curdate being sent in default is 0
     var minDateUnix =  Number(dateArray[0].unixDate);

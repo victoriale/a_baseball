@@ -35,20 +35,29 @@ export class BoxScoresService {
   }
   //date needs to be the date coming in AS EST and come back as UTC
   var callURL = this._apiUrl+'/'+profile+'/boxScores'+teamId+'/'+ date;
-  console.log(callURL);
+  // console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
       // transform the data to YYYY-MM-DD objects from unix
       var transformedDate = this.transformBoxScores(data.data);
-      console.log('LOOKING AT =>',date, transformedDate);
-      console.log('SENDING FROM API',transformedDate[date]);
       return {
         transformedDate:transformedDate
       };
     })
   }
 
+  moduleHeader(date, team?){
+    var moduleTitle;
+    var convertedDate = moment(date,"YYYY-MM-DD").format("MMMM Do, YYYY");
+
+    moduleTitle = "Box Scores - " + team + ' : ' +convertedDate;
+    return {
+      moduleTitle: moduleTitle,
+      hasIcon: false,
+      iconClass: '',
+    };
+  }
   /**
   *
   */
@@ -74,7 +83,7 @@ export class BoxScoresService {
 
   var callURL = this._apiUrl+'/'+profile+'/boxScores/'+teamId+'/'+ date;//localToEST needs tobe the date coming in AS UNIX
 
-  console.log(callURL);
+  // console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -166,8 +175,6 @@ export class BoxScoresService {
     }
 
     let gameDate = data.gameInfo;
-    console.log(gameDate);
-    console.log('TEST TIME',moment.unix(gameDate.startDateTimestamp).tz('America/New_York').format('h:mm a z'));
     info = {
       gameHappened:gameInfo.inningsPlayed != null ?  true : false,
       //inning will display the Inning the game is on otherwise if returning null then display the date Time the game is going to be played
@@ -195,7 +202,7 @@ export class BoxScoresService {
   }
 
   formatArticle(data){
-    console.log(data);
+    // console.log(data);
     return data;
   }
 

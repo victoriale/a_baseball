@@ -1,5 +1,5 @@
 <div class="module-container box-scores" *ngIf="boxScores">
-  <module-header ></module-header>
+  <module-header [modHeadData]="boxScores.moduleTitle"></module-header>
   <!--for calendar-->
   <calendar-carousel [chosenParam]="calendarParams" (dateEmit)="dateTransfer($event)"></calendar-carousel>
   <!--for calendar-->

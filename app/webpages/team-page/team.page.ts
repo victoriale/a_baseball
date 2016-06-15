@@ -76,7 +76,7 @@ declare var moment;
     selector: 'Team-page',
     templateUrl: './app/webpages/team-page/team.page.html',
     directives: [
-        SidekickWrapper, 
+        SidekickWrapper,
         LoadingComponent,
         ErrorComponent,
         DailyUpdateModule,
@@ -160,7 +160,7 @@ export class TeamPage implements OnInit {
     twitterData: Array<twitterModuleData>;
 
     constructor(private _params:RouteParams,
-                private _router:Router, 
+                private _router:Router,
                 private _title: Title,
                 private _standingsService:StandingsService,
                 private _boxScores:BoxScoresService,
@@ -183,7 +183,7 @@ export class TeamPage implements OnInit {
             teamId: Number(_params.get("teamId"))
         };
         this.currentYear = new Date().getFullYear();
-        
+
         GlobalSettings.getPartnerID(_router, partnerID => {
             this.partnerID = partnerID;
         });
@@ -301,31 +301,26 @@ export class TeamPage implements OnInit {
 
     //api for BOX SCORES
     private getBoxScores(dateParams?){
-      console.log('GETTING BOX SCORES =>',dateParams);
       if(dateParams != null){
         this.dateParam = dateParams;
       }
 
-      console.log('Current Date sending to Box Scores API',this.dateParam.date);
       if(this.boxScoresData == null){
         this.boxScoresData = {};
         this.boxScoresData['transformedDate']={};
       }
-      console.log(this.boxScoresData.transformedDate[this.dateParam.date]);
-      console.log(this.boxScoresData.transformedDate[this.dateParam.date] == null);
       if(this.boxScoresData.transformedDate[this.dateParam.date] == null){// if there is already data then no need to make another call
         this._boxScores.getBoxScoresService(this.dateParam.profile, this.dateParam.date, this.pageParams.teamId)
         .subscribe(
           data => {
-            console.log('API RETURN',data);
             this.boxScoresData = data;
-            console.log(this.dateParam, this.boxScoresData.transformedDate);
+            //currentBoxScores is used to hold all the data that are being modified by the _boxScores Functions
             this.currentBoxScores = {
+              moduleTitle: this._boxScores.moduleHeader(this.dateParam.date, this.profileName),
               schedule: this._boxScores.formatSchedule(this.boxScoresData.transformedDate[this.dateParam.date][0], this.pageParams.teamId),
               gameInfo: this._boxScores.formatGameInfo(this.boxScoresData.transformedDate[this.dateParam.date][0], this.pageParams.teamId),
               scoreBoard: this._boxScores.formatScoreBoard(this.boxScoresData.transformedDate[this.dateParam.date][0]),
             };
-            console.log(this.currentBoxScores)
           },
           err => {
             console.log(err);
@@ -334,6 +329,7 @@ export class TeamPage implements OnInit {
         )
       }else{
         this.currentBoxScores = {
+          moduleTitle: this._boxScores.moduleHeader(this.dateParam.date, this.profileName),
           schedule: this._boxScores.formatSchedule(this.boxScoresData.transformedDate[this.dateParam.date][0], this.pageParams.teamId),
           gameInfo: this._boxScores.formatGameInfo(this.boxScoresData.transformedDate[this.dateParam.date][0], this.pageParams.teamId),
           scoreBoard: this._boxScores.formatScoreBoard(this.boxScoresData.transformedDate[this.dateParam.date][0]),
