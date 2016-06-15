@@ -1,4 +1,5 @@
 import {Component, OnInit} from 'angular2/core';
+import {Router} from 'angular2/router';
 import {LoadingComponent} from '../../components/loading/loading.component';
 import {ErrorComponent} from '../../components/error/error.component';
 
@@ -87,6 +88,7 @@ export class MLBPage implements OnInit {
     public shareModuleInput:ShareModuleInput;
 
     pageParams:MLBPageParameters = {};
+    partnerID:string = null;
     hasError: boolean = false;
 
     standingsData:StandingsModuleData;
@@ -111,7 +113,8 @@ export class MLBPage implements OnInit {
     twitterData: Array<twitterModuleData>;
     schedulesData:any;
 
-    constructor(private _standingsService:StandingsService,
+    constructor(private _router:Router,
+                private _standingsService:StandingsService,
                 private _profileService:ProfileHeaderService,
                 private _schedulesService:SchedulesService,
                 private _imagesService:ImagesService,
@@ -139,6 +142,10 @@ export class MLBPage implements OnInit {
             limit: this.listMax,
             pageNum: 1
         };
+        
+        GlobalSettings.getPartnerID(_router, partnerID => {
+            this.partnerID = partnerID;
+        });
     }
 
     ngOnInit() {

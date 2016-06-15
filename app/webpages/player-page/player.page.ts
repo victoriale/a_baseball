@@ -1,5 +1,5 @@
 import {Component, OnInit} from 'angular2/core';
-import {RouteParams, RouteConfig} from 'angular2/router';
+import {Router, RouteParams, RouteConfig} from 'angular2/router';
 
 import {MLBPageParameters} from '../../global/global-interface';
 import {LoadingComponent} from '../../components/loading/loading.component';
@@ -99,6 +99,7 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
 export class PlayerPage implements OnInit {
   public shareModuleInput:ShareModuleInput;
   pageParams:MLBPageParameters;
+  partnerID:string = null;
   hasError: boolean = false;
   standingsData:StandingsModuleData;
   profileHeaderData: ProfileHeaderData;
@@ -119,6 +120,7 @@ export class PlayerPage implements OnInit {
   schedulesData:any;
 
   constructor(private _params:RouteParams,
+              private _router:Router,
               private _standingsService:StandingsService,
               private _schedulesService:SchedulesService,
               private _profileService:ProfileHeaderService,
@@ -132,13 +134,13 @@ export class PlayerPage implements OnInit {
               private _comparisonService: ComparisonStatsService,
               private _dailyUpdateService: DailyUpdateService,
               private _globalFunctions:GlobalFunctions) {
-
       this.pageParams = {
           playerId: Number(_params.get("playerId"))
       };
-
-        // Scroll page to top to fix routerLink bug
-        window.scrollTo(0, 0);
+        
+    GlobalSettings.getPartnerID(_router, partnerID => {
+        this.partnerID = partnerID;
+    });
   }
 
   ngOnInit() {

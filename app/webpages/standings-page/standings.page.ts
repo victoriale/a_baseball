@@ -52,10 +52,7 @@ export class StandingsPage implements OnInit {
     var teamId = _params.get("teamId");
     if ( type == "team" && teamId !== null && teamId !== undefined ) {
       this.pageParams.teamId = Number(teamId);
-    }   
-      
-    // Scroll page to top to fix routerLink bug
-    window.scrollTo(0, 0);
+    } 
   }
   
   ngOnInit() {    
