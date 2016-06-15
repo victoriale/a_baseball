@@ -43,8 +43,6 @@ export class SeasonStatsPage implements OnInit {
               private _mlbFunctions: MLBGlobalFunctions) {
     var playerId = _params.get("playerId");
     this.pageParams.playerId = Number(playerId);
-    // Scroll page to top to fix routerLink bug
-    window.scrollTo(0, 0);
   }
   private setupTitleData(imageUrl: string, playerId?: string, playerName?: string) {
     var profileLink = ["MLB-page"];

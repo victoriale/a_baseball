@@ -132,13 +132,9 @@ export class PlayerPage implements OnInit {
               private _comparisonService: ComparisonStatsService,
               private _dailyUpdateService: DailyUpdateService,
               private _globalFunctions:GlobalFunctions) {
-
       this.pageParams = {
           playerId: Number(_params.get("playerId"))
       };
-
-        // Scroll page to top to fix routerLink bug
-        window.scrollTo(0, 0);
   }
 
   ngOnInit() {

@@ -1,33 +1,40 @@
 import {Component} from 'angular2/core';
-import {Router, RouteData, RouteConfig, ROUTER_DIRECTIVES, LocationStrategy} from 'angular2/router';
-
-import {WebApp} from "../app-layout/app.layout";
-import {MyWebApp} from "../app-layout/app.mylayout";
+import {Router, RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
+import {Observable} from 'rxjs/Rx';
+import {AppComponent} from "../app-webpage/app.webpage";
+import {MyAppComponent} from "../app-webpage/app.mywebpage";
 
 @Component({
     selector: 'app-domain',
     templateUrl: './app/app-domain/app.domain.html',
-    directives: [MyWebApp, WebApp, ROUTER_DIRECTIVES],
-    providers: []
+    directives: [ROUTER_DIRECTIVES]
 })
 
 @RouteConfig([
     {
         path: '/...',
         name: 'Default-home',
-        component: WebApp,
+        component: AppComponent,
         useAsDefault: true
     },
-    // {
-    //     path: '/:partner_id/...',
-    //     name: 'Partner-home',
-    //     component: MyWebApp,
-    // },
+    {
+        path: '/:partner_id/...',
+        name: 'Partner-home',
+        component: MyAppComponent,
+    },
 ])
 
 export class AppDomain {
-    // cityStateLocation: string = "WICHITA_KS";
-    constructor(){
-        //console.log(window.location);
+    constructor(private _router: Router) {
+        this._router.root.subscribe (
+            route => {
+                console.log("app domain root subscribe");
+                var routeItems = route.split('/');                
+                //Only scroll to top if the page isn't the directory.
+                if ( routeItems[1] != "directory" ) {
+                    window.scrollTo(0, 0);
+                }
+            }
+        )
     }
 }

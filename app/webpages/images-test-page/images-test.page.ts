@@ -5,7 +5,6 @@ import {Component} from 'angular2/core';
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {TitleComponent} from '../../components/title/title.component';
 import {WidgetModule} from "../../modules/widget/widget.module";
-import {WebApp} from '../../app-layout/app.layout';
 import {CircleImage} from '../../components/images/circle-image';
 import {ImageData,CircleImageData} from '../../components/images/image-data';
 import {TitleInputData} from "../../components/title/title.component";

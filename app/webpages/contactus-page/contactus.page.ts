@@ -49,10 +49,7 @@ export class ContactUsPage implements OnInit{
         }
     };
 
-    constructor(private http:Http) {
-        // Scroll page to top to fix routerLink bug
-        window.scrollTo(0, 0);
-    }
+    constructor(private http:Http) {}
 
     formSubmitted(form){
         //start the form url to mailer and prepare for all the options user has checked
