@@ -11,11 +11,21 @@ export interface TeamInfo {
   teamName: string;
   teamId: string;
 }
-
-export interface TeamSeasonStatsData {
+export interface PlayerInfo {
   playerName: string,
   playerId: string;
+  lastUpdate: string;
+  teamName: string;
+  teamId: string;
+  profileHeader: string;
+  playerHeadshot: string;
+  teamLogo: string;
+  position: string;
+}
+
+export interface TeamSeasonStatsData {
   teamInfo: TeamInfo;
+  playerInfo: PlayerInfo;
   imageUrl: string,
   backgroundImage: string,
   conferenceName: string,
@@ -116,10 +126,12 @@ export class MLBSeasonStatsTabData implements TableTabData<TeamSeasonStatsData> 
   }
 
   convertToCarouselItem(item: TeamSeasonStatsData, index:number): SliderCarouselInput {
-    var playerData = item['playerInfo'] != null ? item['playerInfo'] : null;
+    var playerData = item.playerInfo != null ? item.playerInfo : null;
     var subheader = item.seasonId + " Season Stats Report";
+    var dummyImg = "/app/public/no-image.png";
     var carouselData = {
-      backgroundImage: playerData.profileHeader != null ? GlobalSettings.getImageUrl(playerData.profileHeader) : null,
+      index: index,
+      backgroundImage: playerData.profileHeader != null ? GlobalSettings.getImageUrl(playerData.profileHeader) : dummyImg,
       description: [
         "<div class='season-stats-car-subhdr'><i class='fa fa-circle'></i>" + subheader + "</div>",
         "<div class='season-stats-car-hdr'>" + playerData.playerName + "</div>",
@@ -278,7 +290,7 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
   }
   setRowSelected(rowIndex:number) {
     if ( rowIndex >= 0 && rowIndex < this.rows.length ) {
-      this.selectedKey = this.rows[rowIndex].playerId;
+      this.selectedKey = this.rows[rowIndex].playerInfo.playerId;
     }
     else {
       this.selectedKey = null;
@@ -293,11 +305,12 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
     var s = "";
     switch (column.key) {
       case "year":
-        s = item.seasonId; //TODO
+        s = item.seasonId;
         break;
 
       case "team":
-        s = item.teamInfo.teamName != null ? item.teamInfo.teamName : 'N/A';
+        let avgTotal = item['sectionStat'] != null && item['sectionStat'] == "Average" ? "Total Average" : "Total";
+        s = item['sectionStat'] == null ? item.teamInfo.teamName : avgTotal.toUpperCase() + ":";
         break;
 
       case "wl":
@@ -369,7 +382,6 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
 
   getSortValueAt(item:TeamSeasonStatsData, column:TableColumn):any {
     var o = null;
-
     switch (column.key) {
       case "year":
         o = item.seasonId;
@@ -459,8 +471,7 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
   }
 
   getRouterLinkAt(item:TeamSeasonStatsData, column:TableColumn):Array<any> {
-    //TODO
-    if ( column.key === "team" ) {
+    if ( column.key === "team") {
       return MLBGlobalFunctions.formatTeamRoute(item.teamInfo.teamName,item.teamInfo.teamId);
     }
     else {
