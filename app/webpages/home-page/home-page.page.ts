@@ -1,5 +1,7 @@
 import {Component, OnInit, Input} from 'angular2/core';
+import {Title} from 'angular2/platform/browser';
 
+import {GlobalSettings} from "../../global/global-settings";
 import {SliderButton} from "../../components/buttons/slider/slider.button";
 import {CircleImage} from '../../components/images/circle-image';
 import {ImageData,CircleImageData} from '../../components/images/image-data';
@@ -24,8 +26,7 @@ export interface newsCarouselData {
     selector: 'home-page',
     templateUrl: './app/webpages/home-page/home-page.page.html',
     directives: [CircleImage, ROUTER_DIRECTIVES, Search, SliderButton],
-    inputs: [],
-    providers: [LandingPageService],
+    providers: [LandingPageService, Title],
 })
 
 export class HomePage implements OnInit {
@@ -58,7 +59,10 @@ export class HomePage implements OnInit {
          placeholderText: "Search for a player or team...",
          hasSuggestions: true
      };
-    constructor(private _router: Router, private _landingPageService: LandingPageService) {
+    constructor(private _router: Router, 
+                private _landingPageService: LandingPageService, 
+                private _title: Title) {
+      _title.setTitle(GlobalSettings.getPageTitle(""));
       this.getData();
       this.getListData();
     }

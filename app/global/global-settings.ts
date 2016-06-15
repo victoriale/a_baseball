@@ -18,6 +18,8 @@ export class GlobalSettings {
     private static _homepageUrl:string = '.homerunloyal.com';
     private static _partnerHomepageUrl:string = '.homerunloyal.com/';
 
+    private static _baseTitle: string = "Home Run Loyal";
+
     static getEnv(env:string):string {
         if (env == "localhost") {
             env = "dev";
@@ -84,6 +86,12 @@ export class GlobalSettings {
                 subscribeListener(partnerID);
             }
         )
+    }
+
+    static getPageTitle(subtitle?: string, profileName?: string) {
+        return this._baseTitle +
+            (profileName && profileName.length > 0 ? " - " + profileName : "") + 
+            (subtitle && subtitle.length > 0 ? " - " + subtitle : "");
     }
 
 }

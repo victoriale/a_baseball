@@ -1,5 +1,6 @@
 import {Component, OnInit} from 'angular2/core';
 import {Router, RouteParams, RouteConfig} from 'angular2/router';
+import {Title} from 'angular2/platform/browser';
 
 import {MLBPageParameters} from '../../global/global-interface';
 import {LoadingComponent} from '../../components/loading/loading.component';
@@ -92,7 +93,8 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
       SeasonStatsService,
       ComparisonStatsService,
       DailyUpdateService,
-      TwitterService
+      TwitterService,
+      Title
     ],
 })
 
@@ -120,7 +122,8 @@ export class PlayerPage implements OnInit {
   schedulesData:any;
 
   constructor(private _params:RouteParams,
-              private _router:Router,
+              private _router:Router, 
+              private _title: Title,
               private _standingsService:StandingsService,
               private _schedulesService:SchedulesService,
               private _profileService:ProfileHeaderService,
@@ -154,6 +157,9 @@ export class PlayerPage implements OnInit {
               this.pageParams = data.pageParams;
               this.profileName = data.headerData.info.playerName;
               this.teamName = data.headerData.info.teamName;
+              
+              this._title.setTitle(GlobalSettings.getPageTitle(this.profileName));
+              
               this.profileHeaderData = this._profileService.convertToPlayerProfileHeader(data);
               this.setupTeamProfileData();
               this.dailyUpdateModule(this.pageParams.playerId);

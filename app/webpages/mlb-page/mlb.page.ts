@@ -1,5 +1,7 @@
 import {Component, OnInit} from 'angular2/core';
 import {Router} from 'angular2/router';
+import {Title} from 'angular2/platform/browser';
+
 import {LoadingComponent} from '../../components/loading/loading.component';
 import {ErrorComponent} from '../../components/error/error.component';
 
@@ -80,7 +82,8 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
         FaqService,
         DykService,
         ComparisonStatsService,
-        TwitterService
+        TwitterService,
+        Title
       ]
 })
 
@@ -113,7 +116,8 @@ export class MLBPage implements OnInit {
     twitterData: Array<twitterModuleData>;
     schedulesData:any;
 
-    constructor(private _router:Router,
+    constructor(private _router:Router, 
+                private _title: Title,
                 private _standingsService:StandingsService,
                 private _profileService:ProfileHeaderService,
                 private _schedulesService:SchedulesService,
@@ -124,6 +128,7 @@ export class MLBPage implements OnInit {
                 private _twitterService: TwitterService,
                 private _comparisonService: ComparisonStatsService,
                 private listService:ListPageService) {
+        _title.setTitle(GlobalSettings.getPageTitle("MLB"));
         this.batterParams = { //Initial load for mvp Data
             profile: 'player',
             listname: 'batter-home-runs',

@@ -1,8 +1,6 @@
-/**
- * Created by Victoria on 4/19/2016.
- */
 import {Component, Injector} from 'angular2/core';
 import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
+import {Title} from 'angular2/platform/browser';
 
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {TitleComponent} from '../../components/title/title.component';
@@ -37,7 +35,7 @@ export interface AboutUsModel {
     selector: 'About-us-page',
     templateUrl: './app/webpages/about-us-page/about-us.page.html',
     directives: [SidekickWrapper, CircleImage, BackTabComponent, TitleComponent, WidgetModule, ROUTER_DIRECTIVES],
-    providers: [AboutUsService],
+    providers: [AboutUsService, Title],
 })
 
 export class AboutUsPage {    
@@ -58,8 +56,9 @@ export class AboutUsPage {
         icon: 'fa fa-map-marker'
     }
 
-    constructor(private _router:Router, private _service: AboutUsService) {
-      GlobalSettings.getPartnerID(_router, partnerID => this.loadData(partnerID));
+    constructor(private _router:Router, private _service: AboutUsService, private _title: Title) {
+        _title.setTitle(GlobalSettings.getPageTitle("About Us"));
+        GlobalSettings.getPartnerID(_router, partnerID => this.loadData(partnerID));
     }
 
     loadData(partnerID:string) {      
