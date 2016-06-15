@@ -1,5 +1,5 @@
-import {Component, OnInit, Injector} from 'angular2/core';
-import {RouteParams, Router, RouteData, RouteConfig, RouterOutlet, ROUTER_DIRECTIVES, LocationStrategy, RouterLink} from 'angular2/router';
+import {Component} from 'angular2/core';
+import {RouteConfig, RouterOutlet, ROUTER_DIRECTIVES} from 'angular2/router';
 import {AboutUsPage} from "../webpages/about-us-page/about-us.page";
 import {DirectoryPage} from "../webpages/directory-page/directory.page";
 import {ContactUsPage} from "../webpages/contactus-page/contactus.page";
@@ -12,7 +12,6 @@ import {HomePage} from "../webpages/home-page/home-page.page";
 import {ComponentPage} from "../webpages/component-page/component.page";
 import {TeamRosterPage} from "../webpages/team-roster/team-roster.page";
 import {ImagesTestPage} from "../webpages/images-test-page/images-test.page";
-import {WebApp} from "../app-layout/app.layout";
 import {GlobalFunctions} from "../global/global-functions";
 import {SearchPage} from '../webpages/search-page/search.page';
 import {ModulePage} from "../webpages/module-page/module.page";
@@ -21,7 +20,6 @@ import {SchedulesPage} from "../webpages/schedules-page/schedules.page";
 import {DraftHistoryPage} from "../webpages/draft-history-page/draft-history.page";
 import {SeasonStatsPage} from "../webpages/season-stats-page/season-stats.page";
 import {StandingsPage} from "../webpages/standings-page/standings.page";
-import {AsyncRoute} from "angular2/router";
 import {ArticleDataService} from "../global/global-article-page-service";
 import {HeadlineDataService} from "../global/global-ai-headline-module-service";
 import {ArticlePages} from "../webpages/article-pages/article-pages.page";
@@ -36,19 +34,27 @@ import {TransactionsPage} from "../webpages/transactions-page/transactions.page"
 @Component({
     selector: 'my-app',
     templateUrl: './app/app-webpage/app.webpage.html',
-    directives: [StandingsPage, SchedulesPage, HeaderComponent, FooterComponent, TeamRosterPage, DraftHistoryPage, ListPage, HomePage, TeamPage, PlayerPage, DirectoryPage,
-        AboutUsPage, ContactUsPage, DisclaimerPage, SearchPage, ComponentPage,
-        ModulePage, RouterOutlet, ROUTER_DIRECTIVES, PlayerStatsPage, MLBPage, SeasonStatsPage],
+    directives: [
+        //Components for Main Layout
+        HeaderComponent, 
+        FooterComponent,
+
+        //Routing Directives
+        RouterOutlet, 
+        ROUTER_DIRECTIVES
+    ],
     providers: [ ROUTER_DIRECTIVES, ArticleDataService, HeadlineDataService],
 })
 
 @RouteConfig([
+    //Home Page
     {
         path: '/',
         name: 'Home-page',
         component: HomePage,
         useAsDefault: true
     },
+    //Profile Pages
     {
         path: '/mlb',
         name: 'MLB-page',
@@ -64,6 +70,7 @@ import {TransactionsPage} from "../webpages/transactions-page/transactions.page"
         name: 'Player-page',
         component: PlayerPage,
     },
+    //Misc. Pages
     {
         path: '/directory/:type/:startsWith/page/:page',
         name: 'Directory-page-starts-with',
@@ -89,6 +96,7 @@ import {TransactionsPage} from "../webpages/transactions-page/transactions.page"
         name: 'Search-page',
         component: SearchPage
     },
+    //Module Pages
     {
         path: '/schedules/mlb/:pageNum',
         name: 'Schedules-page-league',
@@ -164,6 +172,7 @@ import {TransactionsPage} from "../webpages/transactions-page/transactions.page"
         name: 'List-of-lists-page',
         component: ListOfListsPage
     },
+    //Error pages and error handling
     {
         path: '/error',
         name: 'Error-page',
@@ -178,7 +187,7 @@ import {TransactionsPage} from "../webpages/transactions-page/transactions.page"
         path: '/*path',
         redirectTo: ['NotFound-page']
     },
-    // TODO remove after testing
+    // Test Pages - TODO: remove after testing
     {
         path: '/modules/:teamID',
         name: 'Module-page',
@@ -201,11 +210,4 @@ import {TransactionsPage} from "../webpages/transactions-page/transactions.page"
     }
 ])
 
-export class AppComponent implements OnInit {
-
-    constructor(private _injector:Injector, private _params:RouteParams, private route:Router, private routeData:RouteData, private routerLink:RouterLink, private _globalFunctions:GlobalFunctions) {
-    }
-
-    ngOnInit() {
-    }
-}
+export class AppComponent {}

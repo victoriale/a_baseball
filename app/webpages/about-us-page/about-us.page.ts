@@ -1,8 +1,8 @@
 /**
  * Created by Victoria on 4/19/2016.
  */
-import {Component, OnInit} from 'angular2/core';
-import {Router,ROUTER_DIRECTIVES, RouteParams} from 'angular2/router';
+import {Component, Injector} from 'angular2/core';
+import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {TitleComponent} from '../../components/title/title.component';
@@ -11,7 +11,6 @@ import {WidgetModule} from "../../modules/widget/widget.module";
 import {AboutUsService} from '../../services/about-us.service';
 import {GlobalSettings} from '../../global/global-settings';
 import {GlobalFunctions} from '../../global/global-functions';
-import {WebApp} from '../../app-layout/app.layout';
 import {TitleInputData} from "../../components/title/title.component";
 import {CircleImage} from "../../components/images/circle-image";
 import {CircleImageData} from "../../components/images/image-data";
@@ -41,9 +40,7 @@ export interface AboutUsModel {
     providers: [AboutUsService],
 })
 
-export class AboutUsPage {
-    public partnerID: string;
-    
+export class AboutUsPage {    
     public auHeaderTitle: string = "What is the site about?";
     
     public auBlocks: Array<AuBlockData> = [];
@@ -61,26 +58,17 @@ export class AboutUsPage {
         icon: 'fa fa-map-marker'
     }
 
-    constructor(private _router: Router, private _service: AboutUsService, private _globalFunctions: GlobalFunctions) {
-      this._router.root.subscribe(
-          route => {
-            var routeValues = route.split('/');
-            if(routeValues[0] !== '' && routeValues[0] !== undefined && routeValues[0] !== null){
-              //Has Partner
-              this.partnerID = routeValues[0];
-            } else {
-              this.partnerID = null;
-            }
-          this._service.getData(this.partnerID).subscribe(
-            data => this.setupAboutUsData(data),
-            err => { 
-              console.log("Error getting About Us data: " + err);
-            }
-          );
-       })
-      
-        // Scroll page to top to fix routerLink bug
-        window.scrollTo(0, 0);
+    constructor(private _router:Router, private _service: AboutUsService) {
+      GlobalSettings.getPartnerID(_router, partnerID => this.loadData(partnerID));
+    }
+
+    loadData(partnerID:string) {      
+        this._service.getData(partnerID).subscribe(
+          data => this.setupAboutUsData(data),
+          err => { 
+            console.log("Error getting About Us data: " + err);
+          }
+        );
     }
 
     setupAboutUsData(data:AboutUsModel) {

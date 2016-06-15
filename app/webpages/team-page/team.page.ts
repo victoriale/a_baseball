@@ -1,5 +1,5 @@
 import {Component, OnInit} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
+import {Router, RouteParams} from 'angular2/router';
 import {Injectable} from 'angular2/core';
 import {GlobalFunctions} from "../../global/global-functions";
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
@@ -121,6 +121,7 @@ export class TeamPage implements OnInit {
     public shareModuleInput:ShareModuleInput;
     headerData:any;
     pageParams:MLBPageParameters;
+    partnerID:string = null;
     hasError: boolean = false;
 
     profileHeaderData:ProfileHeaderData;
@@ -148,6 +149,7 @@ export class TeamPage implements OnInit {
     twitterData: Array<twitterModuleData>;
 
     constructor(private _params:RouteParams,
+                private _router:Router,
                 private _standingsService:StandingsService,
                 private _schedulesService:SchedulesService,
                 private _profileService:ProfileHeaderService,
@@ -168,6 +170,10 @@ export class TeamPage implements OnInit {
             teamId: Number(_params.get("teamId"))
         };
         this.currentYear = new Date().getFullYear();
+        
+        GlobalSettings.getPartnerID(_router, partnerID => {
+            this.partnerID = partnerID;
+        });
     }
 
     ngOnInit() {

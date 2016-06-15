@@ -27,10 +27,8 @@ export class DirectoryPage {
   public isError: boolean = false;
   
   public pageType: DirectoryType;
-  
-  public isPartnerSite: boolean = false;
 
-  constructor(private router: Router, private _params: RouteParams, private _globalFunctions: GlobalFunctions, private _directoryService: DirectoryService) {
+  constructor(private _params: RouteParams, private _directoryService: DirectoryService) {
     var page = _params.get("page");
     this.currentPage = Number(page);
     
@@ -58,20 +56,15 @@ export class DirectoryPage {
     if ( this.currentPage === 0 ) {
       this.currentPage = 1; //page index starts at one
     }
-            
-    this.router.root
-      .subscribe(
-      route => {
-        this.isPartnerSite = (route.split('/')[0] !== '');
-        this.getDirectoryData();            
-      }
-    );
+  }
 
-    // Scroll page to top to fix routerLink bug
-    window.scrollTo(0, 0);
+  ngOnInit() {
+      this.getDirectoryData();
   }
   
   getDirectoryData() {    
+    window.scrollTo(0, 0);
+
     let params: DirectorySearchParams = {
       page: this.currentPage,
       listingsLimit: this.listingsLimit,
