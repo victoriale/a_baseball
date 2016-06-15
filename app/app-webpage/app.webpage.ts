@@ -1,35 +1,40 @@
 import {Component} from 'angular2/core';
 import {RouteConfig, RouterOutlet, ROUTER_DIRECTIVES} from 'angular2/router';
+
+import {GlobalFunctions} from "../global/global-functions";
+import {FooterComponent} from "../components/footer/footer.component";
+import {HeaderComponent} from "../components/header/header.component";
+
+import {HomePage} from "../webpages/home-page/home-page.page";
 import {AboutUsPage} from "../webpages/about-us-page/about-us.page";
 import {DirectoryPage} from "../webpages/directory-page/directory.page";
 import {ContactUsPage} from "../webpages/contactus-page/contactus.page";
 import {DisclaimerPage} from "../webpages/disclaimer-page/disclaimer.page";
-import {TeamPage} from "../webpages/team-page/team.page";
-import {MLBPage} from "../webpages/mlb-page/mlb.page";
-import {PlayerPage} from "../webpages/player-page/player.page";
-import {PlayerStatsPage} from "../webpages/player-stats-page/player-stats.page";
-import {HomePage} from "../webpages/home-page/home-page.page";
-import {ComponentPage} from "../webpages/component-page/component.page";
-import {TeamRosterPage} from "../webpages/team-roster/team-roster.page";
-import {ImagesTestPage} from "../webpages/images-test-page/images-test.page";
-import {GlobalFunctions} from "../global/global-functions";
+import {ErrorPage} from "../webpages/error-page/error-page.page";
 import {SearchPage} from '../webpages/search-page/search.page';
-import {ModulePage} from "../webpages/module-page/module.page";
+
+import {MLBPage} from "../webpages/mlb-page/mlb.page";
+import {TeamPage} from "../webpages/team-page/team.page";
+import {PlayerPage} from "../webpages/player-page/player.page";
+
+import {PlayerStatsPage} from "../webpages/player-stats-page/player-stats.page";
+import {TeamRosterPage} from "../webpages/team-roster/team-roster.page";
 import {ListPage} from "../webpages/list-page/list.page";
 import {SchedulesPage} from "../webpages/schedules-page/schedules.page";
 import {DraftHistoryPage} from "../webpages/draft-history-page/draft-history.page";
 import {SeasonStatsPage} from "../webpages/season-stats-page/season-stats.page";
 import {StandingsPage} from "../webpages/standings-page/standings.page";
+import {ArticlePages} from "../webpages/article-pages/article-pages.page";
+import {ListOfListsPage} from "../webpages/list-of-lists-page/list-of-lists.page";
+import {TransactionsPage} from "../webpages/transactions-page/transactions.page";
+
 import {ArticleDataService} from "../global/global-article-page-service";
 import {HeadlineDataService} from "../global/global-ai-headline-module-service";
-import {ArticlePages} from "../webpages/article-pages/article-pages.page";
-import {ErrorPage} from "../webpages/error-page/error-page.page";
-import {ListOfListsPage} from "../webpages/list-of-lists-page/list-of-lists.page";
-import {FooterComponent} from "../components/footer/footer.component";
-import {HeaderComponent} from "../components/header/header.component";
 
+import {ModulePage} from "../webpages/module-page/module.page";
+import {ImagesTestPage} from "../webpages/images-test-page/images-test.page";
 import {DesignPage} from "../webpages/design-page/design.page";
-import {TransactionsPage} from "../webpages/transactions-page/transactions.page";
+import {ComponentPage} from "../webpages/component-page/component.page";
 
 @Component({
     selector: 'my-app',
