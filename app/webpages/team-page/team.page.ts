@@ -27,6 +27,7 @@ import {FAQModule, faqModuleData} from "../../modules/faq/faq.module";
 import {FaqService} from '../../services/faq.service';
 
 import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
+import {BoxScoresService} from '../../services/box-scores.service';
 
 import {ComparisonModule, ComparisonModuleData} from '../../modules/comparison/comparison.module';
 import {ComparisonStatsService} from '../../services/comparison-stats.service';
@@ -69,11 +70,13 @@ import {DailyUpdateService, DailyUpdateData} from "../../services/daily-update.s
 
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
+declare var moment;
+
 @Component({
     selector: 'Team-page',
     templateUrl: './app/webpages/team-page/team.page.html',
     directives: [
-        SidekickWrapper, 
+        SidekickWrapper,
         LoadingComponent,
         ErrorComponent,
         DailyUpdateModule,
@@ -100,6 +103,7 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
         TransactionsModule
     ],
     providers: [
+      BoxScoresService,
       SchedulesService,
       DraftHistoryService,
       StandingsService,
@@ -138,6 +142,11 @@ export class TeamPage implements OnInit {
     profileType:string = "team";
     isProfilePage:boolean = true;
     draftHistoryData:any;
+
+    boxScoresData:any;
+    currentBoxScores:any;
+    dateParam:any;
+
     transactionsData:any;
     currentYear: number;
 
@@ -151,9 +160,10 @@ export class TeamPage implements OnInit {
     twitterData: Array<twitterModuleData>;
 
     constructor(private _params:RouteParams,
-                private _router:Router, 
+                private _router:Router,
                 private _title: Title,
                 private _standingsService:StandingsService,
+                private _boxScores:BoxScoresService,
                 private _schedulesService:SchedulesService,
                 private _profileService:ProfileHeaderService,
                 private _draftService:DraftHistoryService,
@@ -173,14 +183,22 @@ export class TeamPage implements OnInit {
             teamId: Number(_params.get("teamId"))
         };
         this.currentYear = new Date().getFullYear();
-        
+
         GlobalSettings.getPartnerID(_router, partnerID => {
             this.partnerID = partnerID;
         });
     }
 
     ngOnInit() {
-        this.setupProfileData();
+      var currentUnixDate = new Date().getTime();
+      //convert currentDate(users local time) to Unix and push it into boxScoresAPI as YYYY-MM-DD in EST using moment timezone (America/New_York)
+      this.dateParam ={
+        profile:'team',//current profile page
+        teamId:this.pageParams.teamId, // teamId if it exists
+        date: moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD')
+      }
+
+      this.setupProfileData();
     }
 
     /**
@@ -202,7 +220,7 @@ export class TeamPage implements OnInit {
                 this.dailyUpdateModule(this.pageParams.teamId);
 
                 /*** Keep Up With Everything [Team Name] ***/
-                //this.getBoxScores();
+                this.getBoxScores(this.dateParam);
                 this.getSchedulesData('pre-event');//grab pre event data for upcoming games
                 this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams, data.teamName);
                 this.rosterData = this._rosterService.loadAllTabsForModule(this.pageParams.teamId, data.teamName, this.pageParams.conference);
@@ -279,6 +297,44 @@ export class TeamPage implements OnInit {
             err => {
                 console.log("Error getting news data");
             });
+    }
+
+    //api for BOX SCORES
+    private getBoxScores(dateParams?){
+      if(dateParams != null){
+        this.dateParam = dateParams;
+      }
+
+      if(this.boxScoresData == null){
+        this.boxScoresData = {};
+        this.boxScoresData['transformedDate']={};
+      }
+      if(this.boxScoresData.transformedDate[this.dateParam.date] == null){// if there is already data then no need to make another call
+        this._boxScores.getBoxScoresService(this.dateParam.profile, this.dateParam.date, this.pageParams.teamId)
+        .subscribe(
+          data => {
+            this.boxScoresData = data;
+            //currentBoxScores is used to hold all the data that are being modified by the _boxScores Functions
+            this.currentBoxScores = {
+              moduleTitle: this._boxScores.moduleHeader(this.dateParam.date, this.profileName),
+              schedule: this._boxScores.formatSchedule(this.boxScoresData.transformedDate[this.dateParam.date][0], this.pageParams.teamId),
+              gameInfo: this._boxScores.formatGameInfo(this.boxScoresData.transformedDate[this.dateParam.date][0], this.pageParams.teamId),
+              scoreBoard: this._boxScores.formatScoreBoard(this.boxScoresData.transformedDate[this.dateParam.date][0]),
+            };
+          },
+          err => {
+            console.log(err);
+            console.log("Error getting BOX SCORES Data");
+          }
+        )
+      }else{
+        this.currentBoxScores = {
+          moduleTitle: this._boxScores.moduleHeader(this.dateParam.date, this.profileName),
+          schedule: this._boxScores.formatSchedule(this.boxScoresData.transformedDate[this.dateParam.date][0], this.pageParams.teamId),
+          gameInfo: this._boxScores.formatGameInfo(this.boxScoresData.transformedDate[this.dateParam.date][0], this.pageParams.teamId),
+          scoreBoard: this._boxScores.formatScoreBoard(this.boxScoresData.transformedDate[this.dateParam.date][0]),
+        };
+      }
     }
 
     //grab tab to make api calls for post of pre event table

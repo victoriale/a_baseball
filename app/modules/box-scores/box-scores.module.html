@@ -1,18 +1,18 @@
-<section class="module-container box-scores">
-  <module-header ></module-header>
+<div class="module-container box-scores" *ngIf="boxScores">
+  <module-header [modHeadData]="boxScores.moduleTitle"></module-header>
   <!--for calendar-->
-  <calendar-carousel></calendar-carousel>
+  <calendar-carousel [chosenParam]="calendarParams" (dateEmit)="dateTransfer($event)"></calendar-carousel>
   <!--for calendar-->
 
   <!--for team profile-->
-  <competition></competition>
+  <article-schedule-component [homeData]="boxScheduleData.home" [awayData]="boxScheduleData.away"></article-schedule-component>
   <!--box-scores info-->
   <div class="box-scores-info">
-    <game-info></game-info>
+    <game-info [gameInfo]="boxScores.gameInfo"></game-info>
     <div class="game-article"></div>
   </div>
-  <score-board></score-board>
+  <score-board [scoreBoard]="boxScores.scoreBoard"></score-board>
   <!--box-scores info END-->
 
   <!--end team profile-->
-</section>
+</div>
