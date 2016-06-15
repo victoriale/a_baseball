@@ -118,19 +118,18 @@ export class MLBSeasonStatsTabData implements TableTabData<TeamSeasonStatsData> 
   convertToCarouselItem(item: TeamSeasonStatsData, index:number): SliderCarouselInput {
     var playerData = item['playerInfo'] != null ? item['playerInfo'] : null;
     var subheader = item.seasonId + " Season Stats Report";
-    return {
+    var carouselData = {
       backgroundImage: playerData.profileHeader != null ? GlobalSettings.getImageUrl(playerData.profileHeader) : null,
       description: [
         "<div class='season-stats-car-subhdr'><i class='fa fa-circle'></i>" + subheader + "</div>",
         "<div class='season-stats-car-hdr'>" + playerData.playerName + "</div>",
-        "<div class='season-stats-car-desc'>Team: " + playerData.teamName + "</div>",
-        // {
-        //    wrapperStyle: {'font-size': '14px', 'line-height': '1.4em'},
-        //    beforeLink: "Team: ",
-        //    linkObj: MLBGlobalFunctions.formatTeamRoute(playerData.teamName, playerData.teamId),
-        //    linkText: playerData.teamName,
-        //    afterLink: ""
-        // },
+        {
+           wrapperStyle: {'font-size': '14px', 'line-height': '1.4em'},
+           beforeLink: "Team: ",
+           linkObj: MLBGlobalFunctions.formatTeamRoute(playerData.teamName, playerData.teamId),
+           linkText: playerData.teamName,
+           afterLink: ""
+        },
         "<div class='season-stats-car-date'>Last Updated On " + GlobalFunctions.formatUpdatedDate(playerData.lastUpdate) + "</div>"
       ],
       imageConfig: {
@@ -143,14 +142,15 @@ export class MLBSeasonStatsTabData implements TableTabData<TeamSeasonStatsData> 
         },
         subImages: [
           {
-              imageUrl: GlobalSettings.getImageUrl(playerData.teamLogo),
-              urlRouteArray: MLBGlobalFunctions.formatTeamRoute(playerData.teamName,playerData.playerId),
-              hoverText: "<i class='fa fa-mail-forward'></i>",
-              imageClass: "image-50-sub image-round-lower-right"
+            imageUrl: GlobalSettings.getImageUrl(playerData.teamLogo),
+            urlRouteArray: MLBGlobalFunctions.formatTeamRoute(playerData.teamName,playerData.playerId),
+            hoverText: "<i class='fa fa-mail-forward'></i>",
+            imageClass: "image-50-sub image-round-lower-right"
           },
         ]
       }
-    };
+    }
+    return carouselData;
   }
 }
 
