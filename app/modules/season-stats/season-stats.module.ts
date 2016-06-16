@@ -17,6 +17,7 @@ export interface SeasonStatsModuleData {
   tabs: Array<SeasonStatsTabData>;
   profileName: string;
   carouselDataItem: SliderCarouselInput;
+  pageRouterLink: Array<any>;
 }
 
 export interface SeasonStatsTabData {
@@ -47,17 +48,17 @@ export class SeasonStatsModule implements OnChanges {
 
     public moduleHeaderData: ModuleHeaderData;
 
-    public footerData: ModuleFooterData = {
-      infoDesc: 'Want to see full statistics for this player?',
-      text: 'VIEW FULL STATISTICS',
-      url: ['Season-stats-page', {fullName: 'kevin-gausman', playerId: 95097}]//TODO
-    };
+    public footerData: ModuleFooterData;
 
     public carouselDataArray: Array<SliderCarouselInput>;
 
     formatData(data: SeasonStatsModuleData) {
       this.carouselDataArray = [data.carouselDataItem];
-
+      this.footerData  = {
+        infoDesc: 'Want to see full statistics for this player?',
+        text: 'VIEW FULL STATISTICS',
+        url: data.pageRouterLink
+      };
       this.moduleHeaderData = {
           moduleTitle: 'Season Stats - ' + data.profileName,
           hasIcon: false,
