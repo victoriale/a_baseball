@@ -41,11 +41,11 @@ import {ComponentPage} from "../webpages/component-page/component.page";
     templateUrl: './app/app-webpage/app.webpage.html',
     directives: [
         //Components for Main Layout
-        HeaderComponent, 
+        HeaderComponent,
         FooterComponent,
 
         //Routing Directives
-        RouterOutlet, 
+        RouterOutlet,
         ROUTER_DIRECTIVES
     ],
     providers: [ ROUTER_DIRECTIVES, ArticleDataService, HeadlineDataService],
@@ -153,7 +153,7 @@ import {ComponentPage} from "../webpages/component-page/component.page";
         component: TeamRosterPage
     },
     {
-        path: '/season-stats/player/:fullName/:playerId',
+        path: '/season-stats/:fullName/:playerId',
         name: 'Season-stats-page',
         component: SeasonStatsPage
     },
