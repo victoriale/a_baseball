@@ -326,7 +326,11 @@ export class SeasonStatsPageService {
     var year = curYear;
     //create tabs for season stats from current year of MLB and back 3 years
     for ( var i = 0; i < 4; i++ ){
-      tabs.push(new MLBSeasonStatsTabData(year.toString(), null, year.toString(), i==0));
+      if( year == curYear){
+        tabs.push(new MLBSeasonStatsTabData('Current Season', null, year.toString(), i==0));
+      } else {
+        tabs.push(new MLBSeasonStatsTabData(year.toString(), null, year.toString(), i==0));
+      }
       year--;
     }
     //also push in last the career stats tab
