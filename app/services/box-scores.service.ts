@@ -293,8 +293,6 @@ export class BoxScoresService {
     let homeData = data.homeTeamInfo;
     let gameInfo = data.gameInfo;
 
-    console.log(awayData);
-    console.log(homeData);
     var arrayScores = [];
 
     //for live games show the total scored added up for each inning
