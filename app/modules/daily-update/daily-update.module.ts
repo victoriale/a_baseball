@@ -97,7 +97,7 @@ export class DailyUpdateModule {
     this.chartOptions = {
       chart: {
         type: 'column',
-        height: 154,
+        height: 144,
         marginTop: 10,
         spacingTop: 0,
         spacingBottom: 0,
@@ -116,7 +116,8 @@ export class DailyUpdateModule {
         tickWidth: 0,
         labels: {
           style: {
-            color: "#999999"
+            color: "#999999",
+            fontSize: "12px"
           }
         },
       },
@@ -139,7 +140,7 @@ export class DailyUpdateModule {
         column: {
           pointPadding: 0,
           borderWidth: 0,
-          groupPadding: 0.16,
+          groupPadding: 0.14,
           minPointLength: 3,
           dataLabels: {
             enabled: true,
