@@ -1,0 +1,23 @@
+<!--for calendar-->
+<div class="calendar" *ngIf="curDateView && weeklyApi">
+  <div class="calendar-carousel">
+    <div class="calendar-circles" (click)="left()"><i class="fa fa-angle-left"></i></div>
+    <div class="calendar-dates">
+      <span *ngFor="#dates of weeklyDates">
+        <div class="calendar-dates-select" *ngIf="dates.clickable" [class.active]="dates.active == true" [class.hover]="dates.clickable == true && dates.active == false" (click)="setActive(dates)">
+          <span>{{dates.month}}.</span>
+          <span class="calendar-dates-select-day">{{dates.day}}<sup>{{dates.ordinal}}</sup></span>
+          <span>{{dates.weekDay}}.</span>
+        </div>
+        <div class="calendar-dates-select" *ngIf="!dates.clickable" [class.nonactive]="dates.clickable == false">
+          <span>{{dates.month}}.</span>
+          <span class="calendar-dates-select-day">{{dates.day}}<sup>{{dates.ordinal}}</sup></span>
+          <span>{{dates.weekDay}}.</span>
+        </div>
+      </span>
+    </div>
+    <div class="calendar-circles" (click)="right()"><i class="fa fa-angle-right"></i></div>
+  </div>
+  <div class="calendar-selection"><i class="fa fa-calendar"></i></div>
+</div>
+<!--for calendar-->

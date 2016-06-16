@@ -9,7 +9,7 @@
         <!-- daily update -->
 
         <headline-component [title]="'Keep Up With Everything ' + profileHeaderData.profileName"></headline-component>
-        <box-scores></box-scores>
+        <!-- <box-scores></box-scores> -->
         <schedules *ngIf="schedulesData" [profHeader]="profileHeaderData" [data]="schedulesData" (tabSelected)="scheduleTab($event)"></schedules>
         <standings-module *ngIf="standingsData" [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
         <!-- season stats -->

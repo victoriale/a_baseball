@@ -20,12 +20,25 @@
     .flexDirection(row);
     .flexJustify(space-between);
     &-select{
+      .no-select;
       width:60px;
       height:40px;
-      border-radius: 5px;
-      background-color: @white;
       text-align: center;
       font-size: 10px;
+      border-radius: 5px;
+      &.active{
+        color:@white;
+        background-color: @masterBrandColor;
+      }
+      &.nonactive{
+        color:@bulletGrey;
+      }
+      &.hover{
+        cursor: pointer;
+        &:hover{
+          background-color: @white;
+        }
+      }
       & > span{
         line-height: 12px;
         display:block;
@@ -79,7 +92,8 @@
     .no-select;
 
     &:hover{
-      color: @hoverColor;
+      color: @white;
+      background-color: @hoverColor;
       border-color: @hoverColor;
     }
   }
