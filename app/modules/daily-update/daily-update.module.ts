@@ -76,6 +76,7 @@ export class DailyUpdateModule {
     var series = [];
 
     if ( this.data && this.data.chart ) {
+      console.log('DATA',this.data);
       var chart = this.data.chart;
       categories = chart.categories;
       if ( chart.dataSeries ) {
@@ -97,7 +98,7 @@ export class DailyUpdateModule {
     this.chartOptions = {
       chart: {
         type: 'column',
-        height: 154,
+        height: 144,
         marginTop: 10,
         spacingTop: 0,
         spacingBottom: 0,
@@ -116,7 +117,8 @@ export class DailyUpdateModule {
         tickWidth: 0,
         labels: {
           style: {
-            color: "#999999"
+            color: "#999999",
+            fontSize: "12px"
           }
         },
       },
