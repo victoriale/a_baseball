@@ -302,41 +302,15 @@ private dailyUpdateModule(playerId: number) {
     }
 
     //api for BOX SCORES
-    private getBoxScores(dateParams?){
-      if(dateParams != null){
-        this.dateParam = dateParams;
-      }
-
-      if(this.boxScoresData == null){
-        this.boxScoresData = {};
-        this.boxScoresData['transformedDate']={};
-      }
-      if(this.boxScoresData.transformedDate[this.dateParam.date] == null){// if there is already data then no need to make another call
-        this._boxScores.getBoxScoresService(this.dateParam.profile, this.dateParam.date, this.teamId)
-        .subscribe(
-          data => {
-            this.boxScoresData = data;
-            //currentBoxScores is used to hold all the data that are being modified by the _boxScores Functions
-            this.currentBoxScores = {
-              moduleTitle: this._boxScores.moduleHeader(this.dateParam.date, this.teamName),
-              schedule: this._boxScores.formatSchedule(this.boxScoresData.transformedDate[this.dateParam.date][0], this.teamId),
-              gameInfo: this._boxScores.formatGameInfo(this.boxScoresData.transformedDate[this.dateParam.date], this.teamId),
-              scoreBoard: this._boxScores.formatScoreBoard(this.boxScoresData.transformedDate[this.dateParam.date][0]),
-            };
-          },
-          err => {
-            console.log(err);
-            console.log("Error getting BOX SCORES Data");
-          }
-        )
-      }else{
-        this.currentBoxScores = {
-          moduleTitle: this._boxScores.moduleHeader(this.dateParam.date, this.profileName),
-          schedule: this._boxScores.formatSchedule(this.boxScoresData.transformedDate[this.dateParam.date][0], this.teamId),
-          gameInfo: this._boxScores.formatGameInfo(this.boxScoresData.transformedDate[this.dateParam.date], this.teamId),
-          scoreBoard: this._boxScores.formatScoreBoard(this.boxScoresData.transformedDate[this.dateParam.date][0]),
-        };
-      }
+    //function for MLB/Team Profiles
+    private getBoxScores(dateParams?) {
+        if ( dateParams != null ) {
+            this.dateParam = dateParams;
+        }
+        this._boxScores.getBoxScores(this.boxScoresData, this.profileName, this.dateParam, (boxScoresData, currentBoxScores) => {
+            this.boxScoresData = boxScoresData;
+            this.currentBoxScores = currentBoxScores;
+        })
     }
 
     private getImages(imageData) {

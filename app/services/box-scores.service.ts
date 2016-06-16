@@ -49,6 +49,37 @@ export class BoxScoresService {
     })
   }
 
+  //function  for BoxScoresService to use on profile pages
+  getBoxScores(boxScoresData, profileName: string, dateParam, callback: Function) {
+    if(boxScoresData == null){
+      boxScoresData = {};
+      boxScoresData['transformedDate']={};
+    }
+    if ( boxScoresData == null || boxScoresData.transformedDate[dateParam.date] == null ) {
+      this.getBoxScoresService(dateParam.profile, dateParam.date, dateParam.teamId)
+        .subscribe(data => {
+            let currentBoxScores = {
+              scoreBoard: dateParam.profile != 'league' ? this.formatScoreBoard(data.transformedDate[dateParam.date][0]) : null,
+              moduleTitle: this.moduleHeader(dateParam.date, profileName),
+              gameInfo: this.formatGameInfo(data.transformedDate[dateParam.date]),
+              schedule: dateParam.profile != 'league' ? this.formatSchedule(data.transformedDate[dateParam.date][0], dateParam.teamId) : null,
+              aiContent: dateParam.profile != 'league' ? this.formatArticle(data.transformedDate[dateParam.date][0]) : null,
+            };
+            callback(data, currentBoxScores);
+        })
+    }
+    else {
+      let currentBoxScores = {
+        scoreBoard: dateParam.profile != 'league' ? this.formatScoreBoard(boxScoresData.transformedDate[dateParam.date][0]) : null,
+        moduleTitle: this.moduleHeader(dateParam.date, profileName),
+        gameInfo: this.formatGameInfo(boxScoresData.transformedDate[dateParam.date]),
+        schedule: dateParam.profile != 'league' ? this.formatSchedule(boxScoresData.transformedDate[dateParam.date][0], dateParam.teamId) : null,
+        aiContent: dateParam.profile != 'league' ? this.formatArticle(boxScoresData.transformedDate[dateParam.date][0]) : null,
+      };
+      callback(boxScoresData, currentBoxScores);
+    }
+  }
+
   moduleHeader(date, team?){
     var moduleTitle;
     var convertedDate = moment(date,"YYYY-MM-DD").format("MMMM Do, YYYY");
@@ -93,7 +124,6 @@ export class BoxScoresService {
 
   var callURL = this._apiUrl+'/'+profile+'/boxScores/'+teamId+'/'+ date;//localToEST needs tobe the date coming in AS UNIX
 
-  // console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -192,6 +222,12 @@ export class BoxScoresService {
       }
 
       let gameDate = data.gameInfo;
+
+      let homeWin = homeData.winRecord != null ? homeData.winRecord : '#';
+      let homeLoss = homeData.lossRecord != null ? homeData.lossRecord : '#';
+
+      let awayWin = awayData.winRecord != null ? awayData.winRecord : '#';
+      let awayLoss = awayData.lossRecord != null ? awayData.lossRecord : '#';
       info = {
         gameHappened:gameInfo.inningsPlayed != null ?  true : false,
         //inning will display the Inning the game is on otherwise if returning null then display the date Time the game is going to be played
@@ -200,7 +236,7 @@ export class BoxScoresService {
           homeTeamName: homeData.lastName,
           //imageData(imageClass, imageBorder, mainImg, mainImgRoute?, rank?, rankClass?, subImgClass?, subImg?, subRoute?)
           homeImageConfig:link1,
-          homeRecord:homeData.winRecord+'-'+homeData.lossRecord,
+          homeRecord: homeWin +'-'+ homeLoss,
           runs:homeData.score,
           hits:homeData.hits,
           errors:homeData.errors
@@ -208,7 +244,7 @@ export class BoxScoresService {
         awayData:{
           awayTeamName:awayData.lastName,
           awayImageConfig:link2,
-          awayRecord:awayData.winRecord+'-'+awayData.lossRecord,
+          awayRecord: awayWin +'-'+ awayLoss,
           runs:awayData.score,
           hits:awayData.hits,
           errors:awayData.errors
@@ -271,15 +307,9 @@ export class BoxScoresService {
       }
     }
 
-    // arrayScores.push({
-    //   inning:10,//replace the letter 'p' in each inning
-    //   scores:{
-    //     home:1,
-    //     away:4,
-    //   }
-    // })
-
     var scoreBoard={
+      homeLastName: homeData.lastName,
+      awayLastName: awayData.lastName,
       homeScore:homeData.score,
       awayScore:awayData.score,
       scoreArray:arrayScores,

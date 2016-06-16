@@ -300,43 +300,14 @@ export class TeamPage implements OnInit {
     }
 
     //api for BOX SCORES
-    private getBoxScores(dateParams?){
-      if(dateParams != null){
-        this.dateParam = dateParams;
-      }
-
-      if(this.boxScoresData == null){
-        this.boxScoresData = {};
-        this.boxScoresData['transformedDate']={};
-      }
-      if(this.boxScoresData.transformedDate[this.dateParam.date] == null){// if there is already data then no need to make another call
-        this._boxScores.getBoxScoresService(this.dateParam.profile, this.dateParam.date, this.pageParams.teamId)
-        .subscribe(
-          data => {
-            this.boxScoresData = data;
-            //currentBoxScores is used to hold all the data that are being modified by the _boxScores Functions
-            this.currentBoxScores = {
-              moduleTitle: this._boxScores.moduleHeader(this.dateParam.date, this.profileName),
-              schedule: this._boxScores.formatSchedule(this.boxScoresData.transformedDate[this.dateParam.date][0], this.pageParams.teamId),
-              gameInfo: this._boxScores.formatGameInfo(this.boxScoresData.transformedDate[this.dateParam.date], this.pageParams.teamId),
-              scoreBoard: this._boxScores.formatScoreBoard(this.boxScoresData.transformedDate[this.dateParam.date][0]),
-              aiContent: this._boxScores.formatArticle(this.boxScoresData.transformedDate[this.dateParam.date][0]),
-            };
-          },
-          err => {
-            console.log(err);
-            console.log("Error getting BOX SCORES Data");
-          }
-        )
-      }else{
-        this.currentBoxScores = {
-          moduleTitle: this._boxScores.moduleHeader(this.dateParam.date, this.profileName),
-          schedule: this._boxScores.formatSchedule(this.boxScoresData.transformedDate[this.dateParam.date][0], this.pageParams.teamId),
-          gameInfo: this._boxScores.formatGameInfo(this.boxScoresData.transformedDate[this.dateParam.date], this.pageParams.teamId),
-          scoreBoard: this._boxScores.formatScoreBoard(this.boxScoresData.transformedDate[this.dateParam.date][0]),
-          aiContent: this._boxScores.formatArticle(this.boxScoresData.transformedDate[this.dateParam.date][0]),
-        };
-      }
+    private getBoxScores(dateParams?) {
+        if ( dateParams != null ) {
+            this.dateParam = dateParams;
+        }
+        this._boxScores.getBoxScores(this.boxScoresData, this.profileName, this.dateParam, (boxScoresData, currentBoxScores) => {
+            this.boxScoresData = boxScoresData;
+            this.currentBoxScores = currentBoxScores;
+        })
     }
 
     //grab tab to make api calls for post of pre event table
