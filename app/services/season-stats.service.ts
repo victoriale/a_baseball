@@ -363,7 +363,6 @@ export class SeasonStatsPageService {
     var sections : Array<MLBSeasonStatsTableData> = [];
     var totalRows = 0;
     var seasonKey = seasonStatsTab.year;
-    //TODO need to put these objects into a working enviroment for regular season and years
     var tableData = {};
     //run through each object in the api and set the title of only the needed season for the table regular and post season
     for(var season in apiData){

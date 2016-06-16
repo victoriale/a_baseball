@@ -155,7 +155,7 @@ export class MLBSeasonStatsTabData implements TableTabData<TeamSeasonStatsData> 
         subImages: [
           {
             imageUrl: GlobalSettings.getImageUrl(playerData.teamLogo),
-            urlRouteArray: MLBGlobalFunctions.formatTeamRoute(playerData.teamName,playerData.playerId),
+            urlRouteArray: MLBGlobalFunctions.formatTeamRoute(playerData.teamName,playerData.teamId),
             hoverText: "<i class='fa fa-mail-forward'></i>",
             imageClass: "image-50-sub image-round-lower-right"
           },
