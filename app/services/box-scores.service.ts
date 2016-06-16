@@ -37,7 +37,7 @@ export class BoxScoresService {
   }
   //date needs to be the date coming in AS EST and come back as UTC
   var callURL = this._apiUrl+'/'+profile+'/boxScores'+teamId+'/'+ date;
-  console.log(callURL);
+  // console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -73,7 +73,7 @@ export class BoxScoresService {
     teamId = '';
   }
   var callURL = this._apiUrl+'/'+profile+'/gameDatesWeekly'+teamId+'/'+ date;
-  console.log(callURL);
+  // console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -102,7 +102,6 @@ export class BoxScoresService {
   }
 
   transformBoxScores(boxScores){
-    var newBoxScoreArray = [];
     var newBoxScores = {};
     for(var dates in boxScores){
         var dayDate = moment(Number(dates)).tz('America/New_York').format('YYYY-MM-DD');
