@@ -221,25 +221,25 @@ export class TeamPage implements OnInit {
 
                 /*** Keep Up With Everything [Team Name] ***/
                 this.getBoxScores(this.dateParam);
-                // this.getSchedulesData('pre-event');//grab pre event data for upcoming games
-                // this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams, data.teamName);
-                // this.rosterData = this._rosterService.loadAllTabsForModule(this.pageParams.teamId, data.teamName, this.pageParams.conference);
-                // this.playerStatsData = this._playerStatsService.loadAllTabsForModule(this.pageParams.teamId, data.teamName);
-                // this.transactionsModule(this.currentYear, this.pageParams.teamId);
-                // this.draftHistoryModule(this.currentYear, this.pageParams.teamId);
-                // //this.loadMVP
-                // this.setupComparisonData();
-                //
-                // /*** Other [League Name] Content You May Love ***/
-                // this.getImages(this.imageData);
-                // this.getDykService();
-                // this.getFaqService();
-                // this.setupListOfListsModule();
-                // this.getNewsService();
-                //
-                // /*** Interact With [League Name]’s Fans ***/
-                // this.getTwitterService();
-                // this.setupShareModule();
+                this.getSchedulesData('pre-event');//grab pre event data for upcoming games
+                this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams, data.teamName);
+                this.rosterData = this._rosterService.loadAllTabsForModule(this.pageParams.teamId, data.teamName, this.pageParams.conference);
+                this.playerStatsData = this._playerStatsService.loadAllTabsForModule(this.pageParams.teamId, data.teamName);
+                this.transactionsModule(this.currentYear, this.pageParams.teamId);
+                this.draftHistoryModule(this.currentYear, this.pageParams.teamId);
+                //this.loadMVP
+                this.setupComparisonData();
+
+                /*** Other [League Name] Content You May Love ***/
+                this.getImages(this.imageData);
+                this.getDykService();
+                this.getFaqService();
+                this.setupListOfListsModule();
+                this.getNewsService();
+
+                /*** Interact With [League Name]’s Fans ***/
+                this.getTwitterService();
+                this.setupShareModule();
             },
             err => {
                 this.hasError = true;
