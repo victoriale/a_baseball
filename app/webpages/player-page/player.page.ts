@@ -15,6 +15,9 @@ import {DykService} from '../../services/dyk.service';
 import {FAQModule, faqModuleData} from "../../modules/faq/faq.module";
 import {FaqService} from '../../services/faq.service';
 
+import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
+import {BoxScoresService} from '../../services/box-scores.service';
+
 import {TwitterModule, twitterModuleData} from "../../modules/twitter/twitter.module";
 import {TwitterService} from '../../services/twitter.service';
 
@@ -43,7 +46,6 @@ import {NewsService} from '../../services/news.service';
 import {SchedulesModule} from '../../modules/schedules/schedules.module';
 import {SchedulesService} from '../../services/schedules.service';
 
-import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
 import {GlobalSettings} from "../../global/global-settings";
 import {ImagesService} from "../../services/carousel.service";
 import {ImagesMedia} from "../../components/carousels/images-media-carousel/images-media-carousel.component";
@@ -56,11 +58,13 @@ import {DailyUpdateService, DailyUpdateData} from "../../services/daily-update.s
 
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
+declare var moment;
+
 @Component({
     selector: 'Player-page',
     templateUrl: './app/webpages/player-page/player.page.html',
     directives: [
-      SidekickWrapper, 
+      SidekickWrapper,
       LoadingComponent,
       ErrorComponent,
       SchedulesModule,
@@ -82,6 +86,7 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
       DailyUpdateModule,
       ImagesMedia],
     providers: [
+      BoxScoresService,
       SchedulesService,
       StandingsService,
       ProfileHeaderService,
@@ -103,17 +108,24 @@ export class PlayerPage implements OnInit {
   pageParams:MLBPageParameters;
   partnerID:string = null;
   hasError: boolean = false;
-  standingsData:StandingsModuleData;
+
   profileHeaderData: ProfileHeaderData;
+  standingsData:StandingsModuleData;
   dailyUpdateData: DailyUpdateData;
   seasonStatsData: any;
   comparisonModuleData: ComparisonModuleData;
+
+  boxScoresData:any;
+  currentBoxScores:any;
+  dateParam:any;
+
   imageData:any;
   copyright:any;
   profileType:string = "player";
   isProfilePage:boolean = true;
   profileName:string;
   teamName: string;
+  teamId:number;
   newsDataArray: Array<Object>;
   faqData: Array<faqModuleData>;
   dykData: Array<dykModuleData>;
@@ -122,9 +134,10 @@ export class PlayerPage implements OnInit {
   schedulesData:any;
 
   constructor(private _params:RouteParams,
-              private _router:Router, 
+              private _router:Router,
               private _title: Title,
               private _standingsService:StandingsService,
+              private _boxScores:BoxScoresService,
               private _schedulesService:SchedulesService,
               private _profileService:ProfileHeaderService,
               private _imagesService:ImagesService,
@@ -140,7 +153,7 @@ export class PlayerPage implements OnInit {
       this.pageParams = {
           playerId: Number(_params.get("playerId"))
       };
-        
+
     GlobalSettings.getPartnerID(_router, partnerID => {
         this.partnerID = partnerID;
     });
@@ -157,9 +170,19 @@ export class PlayerPage implements OnInit {
               this.pageParams = data.pageParams;
               this.profileName = data.headerData.info.playerName;
               this.teamName = data.headerData.info.teamName;
-              
+              this.teamId = data.headerData.info.teamId;
+
+              //get current date for box-scores
+              var currentUnixDate = new Date().getTime();
+              this.dateParam ={
+                profile:'team',//team for this player
+                teamId:this.teamId, // teamId if it exists
+                date: moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD')
+              }
+              this.getBoxScores(this.dateParam);
+
               this._title.setTitle(GlobalSettings.getPageTitle(this.profileName));
-              
+
               this.profileHeaderData = this._profileService.convertToPlayerProfileHeader(data);
               this.setupTeamProfileData();
               this.dailyUpdateModule(this.pageParams.playerId);
@@ -276,6 +299,44 @@ private dailyUpdateModule(playerId: number) {
             err => {
                 console.log("Error getting news data");
             });
+    }
+
+    //api for BOX SCORES
+    private getBoxScores(dateParams?){
+      if(dateParams != null){
+        this.dateParam = dateParams;
+      }
+
+      if(this.boxScoresData == null){
+        this.boxScoresData = {};
+        this.boxScoresData['transformedDate']={};
+      }
+      if(this.boxScoresData.transformedDate[this.dateParam.date] == null){// if there is already data then no need to make another call
+        this._boxScores.getBoxScoresService(this.dateParam.profile, this.dateParam.date, this.teamId)
+        .subscribe(
+          data => {
+            this.boxScoresData = data;
+            //currentBoxScores is used to hold all the data that are being modified by the _boxScores Functions
+            this.currentBoxScores = {
+              moduleTitle: this._boxScores.moduleHeader(this.dateParam.date, this.teamName),
+              schedule: this._boxScores.formatSchedule(this.boxScoresData.transformedDate[this.dateParam.date][0], this.teamId),
+              gameInfo: this._boxScores.formatGameInfo(this.boxScoresData.transformedDate[this.dateParam.date], this.teamId),
+              scoreBoard: this._boxScores.formatScoreBoard(this.boxScoresData.transformedDate[this.dateParam.date][0]),
+            };
+          },
+          err => {
+            console.log(err);
+            console.log("Error getting BOX SCORES Data");
+          }
+        )
+      }else{
+        this.currentBoxScores = {
+          moduleTitle: this._boxScores.moduleHeader(this.dateParam.date, this.profileName),
+          schedule: this._boxScores.formatSchedule(this.boxScoresData.transformedDate[this.dateParam.date][0], this.teamId),
+          gameInfo: this._boxScores.formatGameInfo(this.boxScoresData.transformedDate[this.dateParam.date], this.teamId),
+          scoreBoard: this._boxScores.formatScoreBoard(this.boxScoresData.transformedDate[this.dateParam.date][0]),
+        };
+      }
     }
 
     private getImages(imageData) {

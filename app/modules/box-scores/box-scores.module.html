@@ -5,13 +5,13 @@
   <!--for calendar-->
 
   <!--for team profile-->
-  <article-schedule-component [homeData]="boxScheduleData.home" [awayData]="boxScheduleData.away"></article-schedule-component>
+  <article-schedule-component *ngIf=" calendarParams.profile != 'league' " [homeData]="boxScheduleData.home" [awayData]="boxScheduleData.away"></article-schedule-component>
   <!--box-scores info-->
   <div class="box-scores-info">
-    <game-info [gameInfo]="boxScores.gameInfo"></game-info>
-    <div class="game-article"></div>
+    <game-info *ngFor="#game of boxScores.gameInfo" [gameInfo]="game"></game-info>
+    <game-article [gameArticle]="boxScores.aiContent"></game-article>
   </div>
-  <score-board [scoreBoard]="boxScores.scoreBoard"></score-board>
+  <score-board *ngIf=" calendarParams.profile != 'league' " [scoreBoard]="boxScores.scoreBoard"></score-board>
   <!--box-scores info END-->
 
   <!--end team profile-->
