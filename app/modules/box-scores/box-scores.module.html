@@ -8,8 +8,8 @@
   <article-schedule-component *ngIf=" calendarParams.profile != 'league' " [homeData]="boxScheduleData.home" [awayData]="boxScheduleData.away"></article-schedule-component>
   <!--box-scores info-->
   <div class="box-scores-info">
-    <game-info *ngFor="#game of boxScores.gameInfo"[gameInfo]="game"></game-info>
-    <div *ngIf=" calendarParams.profile != 'league' " class="game-article"></div>
+    <game-info *ngFor="#game of boxScores.gameInfo" [gameInfo]="game"></game-info>
+    <game-article [gameArticle]="boxScores.aiContent"></game-article>
   </div>
   <score-board *ngIf=" calendarParams.profile != 'league' " [scoreBoard]="boxScores.scoreBoard"></score-board>
   <!--box-scores info END-->

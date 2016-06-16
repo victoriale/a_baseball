@@ -43,7 +43,6 @@ export class BoxScoresService {
     .map(data => {
       // transform the data to YYYY-MM-DD objects from unix
       var transformedDate = this.transformBoxScores(data.data);
-      console.log("TRANSFORMED DATA", transformedDate);
       return {
         transformedDate:transformedDate
       };
@@ -70,9 +69,11 @@ export class BoxScoresService {
 
   if(teamId != null){
     teamId = '/' + teamId;
+  }else{
+    teamId = '';
   }
-  var callURL = this._apiUrl+'/'+profile+'/gameDatesWeekly'+teamId+'/'+ date;//localToEST needs tobe the date coming in AS UNIX
-
+  var callURL = this._apiUrl+'/'+profile+'/gameDatesWeekly'+teamId+'/'+ date;
+  console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -83,6 +84,12 @@ export class BoxScoresService {
   validateMonth(profile, date, teamId?){
   //Configure HTTP Headers
   var headers = this.setToken();
+
+  if(teamId != null){
+    teamId = '/' + teamId;
+  }else{
+    teamId = '';
+  }
 
   var callURL = this._apiUrl+'/'+profile+'/boxScores/'+teamId+'/'+ date;//localToEST needs tobe the date coming in AS UNIX
 
@@ -95,7 +102,6 @@ export class BoxScoresService {
   }
 
   transformBoxScores(boxScores){
-    console.log("DATA", boxScores);
     var newBoxScoreArray = [];
     var newBoxScores = {};
     for(var dates in boxScores){
@@ -107,7 +113,6 @@ export class BoxScoresService {
           newBoxScores[dayDate].push(boxScores[dates]);
         }
     }
-    console.log('NEW BOX SCORES',newBoxScores);
     return newBoxScores;
   }
 
@@ -216,8 +221,36 @@ export class BoxScoresService {
   }
 
   formatArticle(data){
-    // console.log(data);
-    return data;
+    let gameInfo = data.gameInfo;
+    let aiContent = data.aiContent;
+    var gameArticle = {};
+    for(var report in aiContent.featuredReport){
+      switch(report){
+        case 'postgame-report':
+        gameArticle['report'] = "Post Game Report";
+        break;
+        case 'pregame-report':
+        gameArticle['report'] = "Pre Game Report";
+        break;
+        default:
+        gameArticle['report'] = "Mid Game Report";
+        break;
+      }
+      gameArticle['headline'] = aiContent.featuredReport[report].displayHeadline;
+      gameArticle['articleLink'] = ['Article-pages',{eventType:report,eventID:aiContent.event}];
+      var i = aiContent['home']['images'];
+      var random1 = Math.floor(Math.random() * i.length);
+      var random2 = Math.floor(Math.random() * i.length);
+      gameArticle['images'] = [];
+
+      if(random1 == random2){
+        gameArticle['images'].push(i[random1]);
+      }else{
+        gameArticle['images'].push(i[random1]);
+        gameArticle['images'].push(i[random2]);
+      }
+    }
+    return gameArticle;
   }
 
   formatScoreBoard(data){

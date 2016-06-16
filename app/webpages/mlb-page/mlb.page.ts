@@ -291,6 +291,7 @@ export class MLBPage implements OnInit {
           data => {
             this.boxScoresData = data;
             //currentBoxScores is used to hold all the data that are being modified by the _boxScores Functions
+            console.log(data);
             this.currentBoxScores = {
               moduleTitle: this._boxScores.moduleHeader(this.dateParam.date, this.profileName),
               gameInfo: this._boxScores.formatGameInfo(this.boxScoresData.transformedDate[this.dateParam.date]),
@@ -304,7 +305,7 @@ export class MLBPage implements OnInit {
       }else{
         this.currentBoxScores = {
           moduleTitle: this._boxScores.moduleHeader(this.dateParam.date, this.profileName),
-          gameInfo: this._boxScores.formatGameInfo(this.boxScoresData.transformedDate[this.dateParam.date][0]),
+          gameInfo: this._boxScores.formatGameInfo(this.boxScoresData.transformedDate[this.dateParam.date]),
         };
       }
     }
