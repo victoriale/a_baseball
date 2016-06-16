@@ -76,7 +76,6 @@ export class DailyUpdateModule {
     var series = [];
 
     if ( this.data && this.data.chart ) {
-      console.log('DATA',this.data);
       var chart = this.data.chart;
       categories = chart.categories;
       if ( chart.dataSeries ) {
