@@ -11,7 +11,6 @@
   url("/app/public/fonts/hrl.svg#hrl") format("svg");
   font-weight: normal;
   font-style: normal;
-
 }
 
 .fa {
@@ -196,7 +195,6 @@
   color: #fff
 }
 
-
 .fa-base-sm:before {
   content: "\e000";
 }
@@ -260,7 +258,7 @@
 .fa-circle:before {
   content: "\e014";
 }
-.fa-eye:before {
+.fa-view:before {
   content: "\e015";
 }
 .fa-caret-down:before {
@@ -296,7 +294,7 @@
 .fa-sort-down:before {
   content: "\e020";
 }
-.fa-share:before {
+.fa-mail-forward:before {
   content: "\e021";
 }
 .fa-arrows-alt:before {
@@ -355,6 +353,51 @@
 }
 .fa-search:before {
   content: "\e034";
+}
+.fa-reply:before {
+  content: "\e035";
+}
+.fa-calendar:before {
+  content: "\e036";
+}
+.fa-heart:before {
+  content: "\e037";
+}
+.fa-file:before {
+  content: "\e038";
+}
+.fa-file-image-o:before {
+  content: "\e039";
+}
+.fa-arrow-right:before {
+  content: "\e03a";
+}
+.fa-arrow-left:before {
+  content: "\e03b";
+}
+.fa-arrow-down:before {
+  content: "\e03c";
+}
+.fa-arrow-up:before {
+  content: "\e03d";
+}
+.fa-newspaper-o:before {
+  content: "\e03e";
+}
+.fa-comments-o:before {
+  content: "\e040";
+}
+.fa-heartbeat:before {
+  content: "\e03f";
+}
+.fa-clock-o:before {
+  content: "\e041";
+}
+.fa-bell-o:before {
+  content: "\e042";
+}
+.fa-refresh:before {
+  content: "\e043";
 }
 
 

@@ -42,9 +42,8 @@
       margin: auto;
       font-weight: 400;
       text-align: center;
-
       .vertical-align;
-      background: @masterBrandColor;
+      background: rgba(188, 32, 39, 0.95);
       color: @white;
       font-size: 30px;
       line-height:78px;
@@ -58,7 +57,7 @@
       display: block;
       width: 280px;
       float: left;
-      padding: 0 22px 5px 15px;
+      padding: 0 15px 5px 15px;
       border-right: 1px solid @strokeGrey;
       margin-right: -1px;
       &-title{
@@ -73,7 +72,7 @@
         margin: 0;
         .globalDefaultModFont(10px, 700, @bulletGrey);
         line-height: 16px;
-        padding-bottom:9px;
+        padding-bottom:8px;
         border-bottom: 1px solid @strokeGrey;
       }
       .datapoints{
@@ -99,10 +98,16 @@
       width: 400px;
       float: left;
       border-left: 1px solid @strokeGrey;
+      bar-chart{
+        display: block;
+        width: 100%;
+        padding: 4px 10px 10px 10px;
+      }
       &-key{
         line-height:14px;
         .clearfix;
         padding: 10px 20px 10px 10px;
+        border-bottom: 1px solid @strokeGrey;
         h4{
           margin: 0;
           .globalDefaultModFont(14px, 400, @textEmphasisGrey);

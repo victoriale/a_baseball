@@ -159,7 +159,7 @@ export class ListOfListsService {
     let dummyListCount    = 1;
     let dummyPageCount    = 1;
     let dummyListRank     = 1;
-    let dummyIcon         = "fa fa-share";
+    let dummyIcon         = "fa fa-mail-forward";
 
     data.forEach(function(item, index){
       let itemListData = item.listData;

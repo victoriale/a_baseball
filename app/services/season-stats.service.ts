@@ -326,7 +326,11 @@ export class SeasonStatsPageService {
     var year = curYear;
     //create tabs for season stats from current year of MLB and back 3 years
     for ( var i = 0; i < 4; i++ ){
-      tabs.push(new MLBSeasonStatsTabData(year.toString(), null, year.toString(), i==0));
+      if( year == curYear){
+        tabs.push(new MLBSeasonStatsTabData('Current Season', null, year.toString(), i==0));
+      } else {
+        tabs.push(new MLBSeasonStatsTabData(year.toString(), null, year.toString(), i==0));
+      }
       year--;
     }
     //also push in last the career stats tab
@@ -363,7 +367,6 @@ export class SeasonStatsPageService {
     var sections : Array<MLBSeasonStatsTableData> = [];
     var totalRows = 0;
     var seasonKey = seasonStatsTab.year;
-    //TODO need to put these objects into a working enviroment for regular season and years
     var tableData = {};
     //run through each object in the api and set the title of only the needed season for the table regular and post season
     for(var season in apiData){
