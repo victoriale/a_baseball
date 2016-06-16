@@ -9,7 +9,7 @@
   <!--box-scores info-->
   <div class="box-scores-info">
     <game-info *ngFor="#game of boxScores.gameInfo" [gameInfo]="game"></game-info>
-    <game-article [gameArticle]="boxScores.aiContent"></game-article>
+    <game-article *ngIf=" calendarParams.profile != 'league' " [gameArticle]="boxScores.aiContent"></game-article>
   </div>
   <score-board *ngIf=" calendarParams.profile != 'league' " [scoreBoard]="boxScores.scoreBoard"></score-board>
   <!--box-scores info END-->

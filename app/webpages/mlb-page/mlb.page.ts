@@ -163,6 +163,7 @@ export class MLBPage implements OnInit {
         //convert currentDate(users local time) to Unix and push it into boxScoresAPI as YYYY-MM-DD in EST using moment timezone (America/New_York)
         this.dateParam ={
           profile:'league',//current profile page
+          teamId:null,
           date: moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD')
         }
 
@@ -276,38 +277,14 @@ export class MLBPage implements OnInit {
     }
 
     //api for BOX SCORES
-    private getBoxScores(dateParams?){
-      if(dateParams != null){
-        this.dateParam = dateParams;
-      }
-
-      if(this.boxScoresData == null){
-        this.boxScoresData = {};
-        this.boxScoresData['transformedDate']={};
-      }
-      if(this.boxScoresData.transformedDate[this.dateParam.date] == null){// if there is already data then no need to make another call
-        this._boxScores.getBoxScoresService(this.dateParam.profile, this.dateParam.date)
-        .subscribe(
-          data => {
-            this.boxScoresData = data;
-            //currentBoxScores is used to hold all the data that are being modified by the _boxScores Functions
-            //console.log(data);
-            this.currentBoxScores = {
-              moduleTitle: this._boxScores.moduleHeader(this.dateParam.date, this.profileName),
-              gameInfo: this._boxScores.formatGameInfo(this.boxScoresData.transformedDate[this.dateParam.date]),
-            };
-          },
-          err => {
-            console.log(err);
-            console.log("Error getting BOX SCORES Data");
-          }
-        )
-      }else{
-        this.currentBoxScores = {
-          moduleTitle: this._boxScores.moduleHeader(this.dateParam.date, this.profileName),
-          gameInfo: this._boxScores.formatGameInfo(this.boxScoresData.transformedDate[this.dateParam.date]),
-        };
-      }
+    private getBoxScores(dateParams?) {
+        if ( dateParams != null ) {
+            this.dateParam = dateParams;
+        }
+        this._boxScores.getBoxScores(this.boxScoresData, this.profileName, this.dateParam, (boxScoresData, currentBoxScores) => {
+            this.boxScoresData = boxScoresData;
+            this.currentBoxScores = currentBoxScores;
+        })
     }
 
     private getImages(imageData) {
