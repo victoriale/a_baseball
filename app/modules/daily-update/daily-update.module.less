@@ -154,6 +154,9 @@
       &-title{
         .globalDefaultFont(18px, 800);
         margin: 0 0 6px 0;
+        a:hover{
+          color: @masterBrandColor;
+        }
       }
       &-subtitle{
         .globalDefaultModFont(12px, 400, @bulletGrey);
@@ -170,6 +173,9 @@
         &-link {
           .globalDefaultModFont(12px, 800, @masterBrandColor);
           line-height: 20px;
+          &:hover{
+            text-decoration: underline;
+          }
           .fa {
             vertical-align: middle;
           }

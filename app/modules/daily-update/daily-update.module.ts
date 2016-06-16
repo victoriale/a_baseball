@@ -139,7 +139,7 @@ export class DailyUpdateModule {
         column: {
           pointPadding: 0,
           borderWidth: 0,
-          groupPadding: 0.16,
+          groupPadding: 0.14,
           minPointLength: 3,
           dataLabels: {
             enabled: true,
