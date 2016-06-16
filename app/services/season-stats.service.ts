@@ -126,8 +126,6 @@ export class SeasonStatsService {
 
     for ( var index in statsToInclude ) {
       var fieldName = statsToInclude[index];
-      var avgValue = isCareer ? null : stats.average[fieldName];
-      var infoIcon = isCareer ? null : 'fa-info-circle';
       var infoBox = null;
       var worstValue = stats.worst[fieldName];
       var leaderValue = stats.leader[fieldName];
@@ -142,6 +140,8 @@ export class SeasonStatsService {
         }];
       }
       else {
+        var avgValue = stats.average[fieldName] != null ? stats.average[fieldName] : 'N/A';
+        var infoIcon = 'fa-info-circle';
         dataPoints = [{
           value: this.formatValue(fieldName, playerValue),
           color: '#BC1624',
