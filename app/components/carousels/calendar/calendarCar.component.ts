@@ -60,7 +60,7 @@ export class CalendarCarousel implements OnInit{
     var curParams = this.curDateView;
     curParams.date = moment(curParams.date).subtract(7, 'days').format('YYYY-MM-DD');
     this.callWeeklyApi(curParams).subscribe(data=>{this.validateDate(this.chosenParam.date, this.weeklyDates)});
-    this.curDateView = curParams;
+    this.curDateView.date = curParams.date;
   }
 
   right(){
@@ -68,7 +68,7 @@ export class CalendarCarousel implements OnInit{
     var curParams = this.curDateView;
     curParams.date = moment(curParams.date).add(7, 'days').format('YYYY-MM-DD');
     this.callWeeklyApi(curParams).subscribe(data=>{this.validateDate(this.chosenParam.date, this.weeklyDates)});
-    this.curDateView = curParams;
+    this.curDateView.date = curParams.date;
   }
 
   //whatever is clicked on gets emitted and highlight on the carousel
@@ -153,6 +153,5 @@ export class CalendarCarousel implements OnInit{
 
     //change validatedDate back into format for dateArray;
     validatedDate = moment(validatedDate).tz('America/New_York').format('YYYY-MM-DD');
-    this.curDateView.date = validatedDate;//SENDS BACK AS YYYY-MM-DD to use to send back to the box-scores module and set the data
   }
 }

@@ -5,6 +5,7 @@ import {Competition} from '../../components/competition/competition.component';
 import {ArticleScheduleComponent} from '../../components/articles/article-schedule/article-schedule.component';
 import {GameInfo} from '../../components/game-info/game-info.component';
 import {ScoreBoard} from '../../components/score-board/score-board.component';
+import {GameArticle} from '../../components/game-article/game-article.component';
 
 interface BoxScores{
 
@@ -13,7 +14,7 @@ interface BoxScores{
 @Component({
     selector: 'box-scores',
     templateUrl: './app/modules/box-scores/box-scores.module.html',
-    directives: [ScoreBoard, GameInfo, ArticleScheduleComponent, CalendarCarousel,  ModuleHeader],
+    directives: [GameArticle, ScoreBoard, GameInfo, ArticleScheduleComponent, CalendarCarousel,  ModuleHeader],
     providers: [],
     outputs: ['dateEmit'],
 })
