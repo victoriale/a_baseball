@@ -188,7 +188,6 @@ export class PlayerPage implements OnInit {
               this.dailyUpdateModule(this.pageParams.playerId);
 
               /*** Keep Up With Everything [Player Name] ***/
-              //this.getBoxScores();
               this.getSchedulesData('pre-event');//grab pre event data for upcoming games
               this.setupSeasonstatsData();
               if ( data.headerData.info.qualified ) {

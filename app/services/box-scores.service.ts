@@ -59,12 +59,13 @@ export class BoxScoresService {
       this.getBoxScoresService(dateParam.profile, dateParam.date, dateParam.teamId)
         .subscribe(data => {
             let currentBoxScores = {
-              scoreBoard: dateParam.profile != 'league' ? this.formatScoreBoard(data.transformedDate[dateParam.date][0]) : null,
+              scoreBoard: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null ? this.formatScoreBoard(data.transformedDate[dateParam.date][0]) : null,
               moduleTitle: this.moduleHeader(dateParam.date, profileName),
-              gameInfo: this.formatGameInfo(data.transformedDate[dateParam.date]),
-              schedule: dateParam.profile != 'league' ? this.formatSchedule(data.transformedDate[dateParam.date][0], dateParam.teamId) : null,
-              aiContent: dateParam.profile != 'league' ? this.formatArticle(data.transformedDate[dateParam.date][0]) : null,
+              gameInfo: data.transformedDate[dateParam.date] != null ? this.formatGameInfo(data.transformedDate[dateParam.date]): null,
+              schedule: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null? this.formatSchedule(data.transformedDate[dateParam.date][0], dateParam.teamId) : null,
+              aiContent: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null? this.formatArticle(data.transformedDate[dateParam.date][0]) : null,
             };
+            currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
             callback(data, currentBoxScores);
         })
     }
@@ -76,6 +77,7 @@ export class BoxScoresService {
         schedule: dateParam.profile != 'league' ? this.formatSchedule(boxScoresData.transformedDate[dateParam.date][0], dateParam.teamId) : null,
         aiContent: dateParam.profile != 'league' ? this.formatArticle(boxScoresData.transformedDate[dateParam.date][0]) : null,
       };
+      currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
       callback(boxScoresData, currentBoxScores);
     }
   }

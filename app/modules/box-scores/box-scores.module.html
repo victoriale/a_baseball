@@ -1,17 +1,17 @@
-<div class="module-container box-scores" *ngIf="boxScores">
-  <module-header [modHeadData]="boxScores.moduleTitle"></module-header>
+<div class="module-container box-scores">
+  <module-header *ngIf="boxScores" [modHeadData]="boxScores.moduleTitle"></module-header>
   <!--for calendar-->
   <calendar-carousel [chosenParam]="calendarParams" (dateEmit)="dateTransfer($event)"></calendar-carousel>
   <!--for calendar-->
 
   <!--for team profile-->
-  <article-schedule-component *ngIf=" calendarParams.profile != 'league' " [homeData]="boxScheduleData.home" [awayData]="boxScheduleData.away"></article-schedule-component>
+  <article-schedule-component *ngIf=" calendarParams.profile != 'league' && boxScores" [homeData]="boxScores.schedule.home" [awayData]="boxScores.schedule.away"></article-schedule-component>
   <!--box-scores info-->
-  <div class="box-scores-info">
+  <div *ngIf="boxScores" class="box-scores-info">
     <game-info *ngFor="#game of boxScores.gameInfo" [gameInfo]="game"></game-info>
     <game-article *ngIf=" calendarParams.profile != 'league' " [gameArticle]="boxScores.aiContent"></game-article>
   </div>
-  <score-board *ngIf=" calendarParams.profile != 'league' " [scoreBoard]="boxScores.scoreBoard"></score-board>
+  <score-board *ngIf=" calendarParams.profile != 'league' && boxScores" [scoreBoard]="boxScores.scoreBoard"></score-board>
   <!--box-scores info END-->
 
   <!--end team profile-->
