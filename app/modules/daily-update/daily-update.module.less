@@ -57,11 +57,11 @@
       display: block;
       width: 280px;
       float: left;
-      padding: 0 15px 5px 15px;
+      padding: 0 15px 2px 15px;
       border-right: 1px solid @strokeGrey;
       margin-right: -1px;
       &-title{
-        margin: 15px 0 0 0;
+        margin: 7px 0 0 0;
         .globalDefaultFont(20px, 400);
         line-height: 24px;
         b{
@@ -70,7 +70,7 @@
       }
       &-subtitle{
         margin: 0;
-        .globalDefaultModFont(10px, 700, @bulletGrey);
+        .globalDefaultModFont(10px, 400, @bulletGrey);
         line-height: 16px;
         padding-bottom:8px;
         border-bottom: 1px solid @strokeGrey;
@@ -78,12 +78,12 @@
       .datapoints{
         &-item{
           .clearfix;
-          padding: 0 10px;
+          padding: 0 10px 0 8px;
           font-size: 12px;
-          line-height: 25px;
+          line-height: 27px;
           margin: 0;
           .fa{
-            margin-right: 12px;
+            margin-right: 8px;
             font-size: 15px;
             vertical-align: middle;
           }
@@ -101,7 +101,7 @@
       bar-chart{
         display: block;
         width: 100%;
-        padding: 4px 10px 10px 10px;
+        padding: 4px 9px 7px 9px;
       }
       &-key{
         line-height:14px;
@@ -154,6 +154,9 @@
       &-title{
         .globalDefaultFont(18px, 800);
         margin: 0 0 6px 0;
+        a:hover{
+          color: @masterBrandColor;
+        }
       }
       &-subtitle{
         .globalDefaultModFont(12px, 400, @bulletGrey);
@@ -170,6 +173,9 @@
         &-link {
           .globalDefaultModFont(12px, 800, @masterBrandColor);
           line-height: 20px;
+          &:hover{
+            text-decoration: underline;
+          }
           .fa {
             vertical-align: middle;
           }
