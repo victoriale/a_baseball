@@ -15,7 +15,7 @@
 
   &-capsule{
     background-color: @highlightGrey;
-    border: 1px solid #d7d7d7;
+    border: 1px solid @backgroundGrey;
     border-radius: 15px;
     height: 15px;
     margin-top: 2px;
@@ -31,7 +31,7 @@
       position: absolute;
       transition: 1s width;
       -webkit-transition: 1s width;
-      border-right: 1px solid #d7d7d7;
+      border-right: 1px solid @backgroundGrey;
 
       &.stroke-top{
         z-index: 5;
@@ -80,13 +80,13 @@
     }
     .fa-sort-up{
       color: @white;
-      display: none;
+      visibility: hidden;
       font-size: 16px;
       padding: 5px 0;
       text-align: center;
       z-index: 6;
       &.active{
-        display: block;
+        visibility: visible;
       }
     }
   }
@@ -118,8 +118,8 @@
     border-bottom: 1px solid @highlightGrey;
     &-item{
       .flexDisplay;
-      .flexAlignItems(center);
       .flexJustify(flex-start);
+      position: relative;
       height: 100%;
       &:hover{
         .fa-angle-right{
@@ -137,19 +137,27 @@
       }
     }
     &-details{
-      .flexDisplay;
-      .flexDirection(column);
       text-overflow: ellipsis;
       overflow: hidden;
       width: 130px;
       padding-right: 5px;
+      margin-top: 20px;
+    }
+    &-view{
+      margin-top: 15px;
     }
     &-playerName{
       .globalDefaultModFont(14px, 800, @masterBrandColor);
 
     }
     &-team{
+      position: absolute;
       font-style: italic;
+      top: 54px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 130px;
+      left: 66px;
       .globalDefaultModFont(12px, 400, @masterBrandColor);
       &:hover{
         color: @black;
@@ -161,7 +169,7 @@
       line-height: 14px;
     }
     &-image{
-      margin: 0 12px;
+      margin: 12px;
     }
   }
 }

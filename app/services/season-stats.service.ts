@@ -161,7 +161,7 @@ export class SeasonStatsService {
           var playerName = firstPlayer.firstName + ' ' + firstPlayer.playerLastName;
           var linkToPlayer = MLBGlobalFunctions.formatPlayerRoute(firstPlayer.teamName, playerName, firstPlayer.playerId);
           infoBox = [{
-              teamName: firstPlayer.teamName,
+              teamName: "<span style='color: #000; font-style: italic'>Team: </span>" + firstPlayer.teamName,
               playerName: playerName,
               infoBoxImage : {
                 imageClass: "image-40",
