@@ -124,8 +124,8 @@ export class BoxScoresService {
     teamId = '';
   }
 
-  var callURL = this._apiUrl+'/'+profile+'/boxScores/'+teamId+'/'+ date;//localToEST needs tobe the date coming in AS UNIX
-
+  var callURL = this._apiUrl+'/'+profile+'/gameDates/'+teamId+'/'+ date;//localToEST needs tobe the date coming in AS UNIX
+  // console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -233,7 +233,7 @@ export class BoxScoresService {
       info = {
         gameHappened:gameInfo.inningsPlayed != null ?  true : false,
         //inning will display the Inning the game is on otherwise if returning null then display the date Time the game is going to be played
-        inning:gameInfo.inningsPlayed != null ?  "Top of " + gameInfo.inningsPlayed +  GlobalFunctions.Suffix(gameInfo.inningsPlayed) + " Inning" : "Game Time: " + moment(gameDate.startDateTimestamp).tz('America/New_York').format('h:mm A z'),
+        inning:gameInfo.inningsPlayed != null ?  "Top of " + gameInfo.inningsPlayed +  GlobalFunctions.Suffix(gameInfo.inningsPlayed) + " Inning" : moment(gameDate.startDateTimestamp).tz('America/New_York').format('h:mm A z'),
         homeData:{
           homeTeamName: homeData.lastName,
           //imageData(imageClass, imageBorder, mainImg, mainImgRoute?, rank?, rankClass?, subImgClass?, subImg?, subRoute?)
