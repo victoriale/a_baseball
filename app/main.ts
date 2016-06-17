@@ -1,5 +1,6 @@
 ///<reference path="../node_modules/angular2/typings/browser.d.ts"/>
 ///<reference path="../node_modules/angular2/typings/es6-promise/es6-promise.d.ts"/>
+///<reference path="../node_modules/angular2/ts/typings/jasmine/jasmine.d.ts"/>
 
 import {bootstrap} from 'angular2/platform/browser';
 import {ROUTER_PROVIDERS, ROUTER_DIRECTIVES} from 'angular2/router';

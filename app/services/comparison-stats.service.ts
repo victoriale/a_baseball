@@ -219,7 +219,7 @@ export class ComparisonStatsService {
     });
   }
 
-  getPlayerList(teamId: string): Observable<Array<{key: string, value: string}>> {
+  getPlayerList(teamId: string): Observable<Array<{key: string, value: string, class: string}>> {
     //http://dev-homerunloyal-api.synapsys.us/team/comparisonRoster/2800
     let playersUrl = this._apiUrl + "/team/comparisonRoster/" + teamId;
     return this.http.get(playersUrl)
@@ -231,10 +231,11 @@ export class ComparisonStatsService {
 
   getTeamList(): Observable<Array<{key: string, value: string}>> {
     let teamsUrl = this._apiUrl + "/team/comparisonTeamList";
+    // console.log("teams url: " + teamsUrl);
     return this.http.get(teamsUrl)
       .map(res => res.json())
       .map(data => {
-        return this.formatTeamList(data.data);;
+        return this.formatTeamList(data.data);
     });
   }
 
