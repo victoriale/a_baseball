@@ -33,6 +33,7 @@ export class CalendarCarousel implements OnInit{
   public dateEmit: EventEmitter<any> = new EventEmitter();
   public weeklyApi:any;
   public weeklyDates: Array<any>;
+  public failSafe: number = 0;
 
   constructor(private _boxScores:BoxScoresService){
   }
@@ -42,7 +43,7 @@ export class CalendarCarousel implements OnInit{
     this.curDateView = {profile: params.profile, teamId: params.teamId, date: params.date};
     this.callWeeklyApi(this.chosenParam)
     .subscribe( data => {
-      this.validateDate(this.chosenParam.date, this.weeklyDates);
+      this.validateDate(this.chosenParam.date, this.weeklyDates, true);
     })
   }
 
@@ -123,35 +124,61 @@ export class CalendarCarousel implements OnInit{
   }
 
   //validate if the selected date sent in is usable otherwise select nearest previous date
-  validateDate(selectedDate, dateArray){// get unix time stamp and grab the earlier played game
+  validateDate(selectedDate, dateArray, firstRun?){// get unix time stamp and grab the earlier played game
     var curUnix = moment(selectedDate,"YYYY-MM-DD").unix()*1000;//converts chosen date to unix for comparison
-    var validatedDate = curUnix;// will be the closest game to the curdate being sent in default is 0
+    var validatedDate = 0;// will be the closest game to the curdate being sent in default is 0
     var minDateUnix =  Number(dateArray[0].unixDate);
     var maxDateUnix = Number(dateArray[dateArray.length - 1].unixDate);
     var activeIndex;
+    var checkHighest;
     dateArray.forEach(function(date, i){
       var dateUnix = Number(date.unixDate);//converts chosen date to unix (in seconds) for comparison
       //grab highest and lowest number in the array to know the beginning and end of the week
       if((minDateUnix > dateUnix)){//get lowest number in dateArray
         minDateUnix = dateUnix;
-      }
-      if(dateUnix > maxDateUnix){//get highest number in dateArray
+      }else if(dateUnix > maxDateUnix){//get highest number in dateArray
         maxDateUnix = dateUnix;
       }
-
+      if((firstRun != null) && date.clickable || ((checkHighest < date.unixDate) && date.clickable)){
+        checkHighest = date.unixDate;
+        activeIndex = i;//SETS POSITION IN ARRAY THAT CURRENT DATE IS SET TO if the curUnix date exists within the current dateArray
+      }
       //run through the array and set the valid date that has a game as the active key in the dateArray (attached to weeklyDates)
-      if( (minDateUnix <= curUnix) && (curUnix <= maxDateUnix) && (dateUnix <= curUnix) && (validatedDate <= curUnix) && date.clickable){// makes sure to  that the validatedDate does not choose anything higher than selected date
+      // makes sure to  that the validatedDate does not choose anything higher than selected date
+      if( (minDateUnix <= curUnix) && (curUnix <= maxDateUnix) && (dateUnix <= curUnix) && (validatedDate <= curUnix) && date.clickable){
         validatedDate = dateUnix;
-        activeIndex = i;//SETS POSITION IN ARRAY THAT CURRENT DATE IS SET TO
+        activeIndex = i;//SETS POSITION IN ARRAY THAT CURRENT DATE IS SET TO if the curUnix date exists within the current dateArray
       }
     });
-
     //if a valid active index occurs then set the active date
-    if((minDateUnix < curUnix) && (curUnix < maxDateUnix)){
+    if((minDateUnix < curUnix) && (curUnix < maxDateUnix) && (activeIndex != null)){
       dateArray[activeIndex].active = true;
     }
+    if(firstRun != null){
+      if(checkHighest == null && this.failSafe < 12){// run a loop 4 times to try to grab the nearest previous game
+        this.failSafe++;
+        var curDate = moment(minDateUnix).subtract(1, 'days').tz('America/New_York').format('YYYY-MM-DD');
+        this.chosenParam.date = curDate;
 
+        var params = this.chosenParam;
+        this.curDateView = {profile: params.profile, teamId: params.teamId, date: params.date};
+
+        this.callWeeklyApi(this.chosenParam)
+        .subscribe( data => {
+          this.validateDate(this.chosenParam.date, this.weeklyDates, true);
+        })
+      }else{//reset failsafe, activate the index that has been validated, reset properties of curDateView to be similar to chosenParam at this time
+        this.failSafe = 0;
+        validatedDate = moment(Number(checkHighest)).tz('America/New_York').format('YYYY-MM-DD');
+
+        dateArray[activeIndex].active = true;
+
+        this.chosenParam.date = validatedDate;
+        let params = this.chosenParam;
+        this.curDateView = {profile: params.profile, teamId: params.teamId, date: params.date};
+        this.dateEmit.next(this.chosenParam);//emit variable that has been validated
+      }
+    }
     //change validatedDate back into format for dateArray;
-    validatedDate = moment(validatedDate).tz('America/New_York').format('YYYY-MM-DD');
   }
 }

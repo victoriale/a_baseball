@@ -23,16 +23,11 @@ export class BoxScoresModule implements OnInit{
   @Input() calendarParams:any;
   @Input() boxScores:any;
   public dateEmit: EventEmitter<any> = new EventEmitter();
-  boxScheduleData:any;
   constructor(){}
 
   dateTransfer(event){
     this.dateEmit.next(event);
   }
   ngOnInit(){
-    this.boxScheduleData = this.boxScores.schedule;
-  }
-  ngOnChanges(){
-    this.boxScheduleData = this.boxScores.schedule;
   }
 }
