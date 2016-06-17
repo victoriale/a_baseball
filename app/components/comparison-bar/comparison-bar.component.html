@@ -21,7 +21,7 @@
                 {{displayData.data[1].value | naValue}}
             </label>
         </div>
-        <label class="comparison-bar-capsule-label label-top" (mouseover)="isSelected(displayData)" (mouseout)='mouseOff(displayData)'>
+        <label class="comparison-bar-capsule-label label-top" (mouseover)="isSelected(displayData)" (mouseout)='mouseOff(displayData)' [class.active]="displayData.active">
             <div class="infobox-values">
               <div class="infobox-display">
                 <span class="infobox-value1">{{displayData.maxValue}}</span>
