@@ -40,11 +40,11 @@
                     </div>
                     <div class="infobox-list-details">
                       <span class="infobox-list-playerName" [innerHtml]="displayData.playerName"></span>
-                      <a class="infobox-list-team" [routerLink]="displayData.routerLinkTeam">
-                        <span class="infobox-list-teamName" [innerHtml]="displayData.teamName"></span>
-                      </a>
                     </div>
-                    <div><i class="fa fa-angle-right"></i></div>
+                    <div class="infobox-list-view"><i class="fa fa-angle-right"></i></div>
+                  </a>
+                  <a class="infobox-list-team" [routerLink]="displayData.routerLinkTeam">
+                    <span class="infobox-list-teamName" [innerHtml]="displayData.teamName"></span>
                   </a>
                 </li>
               </ul>

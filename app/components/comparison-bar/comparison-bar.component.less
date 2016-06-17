@@ -103,7 +103,7 @@
       font-size: 30px;
     }
     &.active{
-      display: inline-block;
+      display: block;
     }
   }
 
@@ -118,8 +118,8 @@
     border-bottom: 1px solid @highlightGrey;
     &-item{
       .flexDisplay;
-      .flexAlignItems(center);
       .flexJustify(flex-start);
+      position: relative;
       height: 100%;
       &:hover{
         .fa-angle-right{
@@ -137,19 +137,27 @@
       }
     }
     &-details{
-      .flexDisplay;
-      .flexDirection(column);
       text-overflow: ellipsis;
       overflow: hidden;
       width: 130px;
       padding-right: 5px;
+      margin-top: 20px;
+    }
+    &-view{
+      margin-top: 15px;
     }
     &-playerName{
       .globalDefaultModFont(14px, 800, @masterBrandColor);
 
     }
     &-team{
+      position: absolute;
       font-style: italic;
+      top: 54px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 130px;
+      left: 66px;
       .globalDefaultModFont(12px, 400, @masterBrandColor);
       &:hover{
         color: @black;
@@ -161,7 +169,7 @@
       line-height: 14px;
     }
     &-image{
-      margin: 0 12px;
+      margin: 12px;
     }
   }
 }
