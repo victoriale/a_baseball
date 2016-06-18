@@ -53,6 +53,11 @@
         right: -10px;
         .flexDisplay;
         .flexDirection(row);
+        &.active{
+          .fa-info-circle{
+            color: @black;
+          }
+        }
       }//.label-top ends
     }
   }
@@ -69,14 +74,11 @@
     height: 21px;
     .flexDisplay;
     .flexDirection(column);
-    .fa-info-circle{
+    .fa{
       font-size: 10px;
       cursor: pointer;
       color: @masterBrandColor;
       padding: 0;
-      &:hover{
-        color: @black;
-      }
     }
     .fa-sort-up{
       color: @white;
@@ -114,13 +116,13 @@
   }
 
   &-list{
-    height: 65px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     border-bottom: 1px solid @highlightGrey;
     &-item{
       .flexDisplay;
       .flexJustify(flex-start);
       position: relative;
-      height: 100%;
       &:hover{
         .fa-angle-right{
           color: @masterBrandColor;
@@ -141,10 +143,10 @@
       overflow: hidden;
       width: 130px;
       padding-right: 5px;
-      margin-top: 20px;
+      margin-top: 10px;
     }
     &-view{
-      margin-top: 15px;
+      margin-top: 5px;
     }
     &-playerName{
       .globalDefaultModFont(14px, 800, @masterBrandColor);
@@ -169,7 +171,7 @@
       line-height: 14px;
     }
     &-image{
-      margin: 12px;
+      margin: 2px 12px;
     }
   }
 }
