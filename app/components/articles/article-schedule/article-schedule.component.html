@@ -2,22 +2,7 @@
     <div class="schedule-next">
         <div class="schedule-next {{defaultGradient}}" [ngStyle]="gradient">
         </div>
-        <span *ngFor="#home of homeData">
-            <div class="schedule-next-team schedule-next-team-left">
-                <div class="schedule-next-team-left-url">
-                    <span class="schedule-next-team-name">{{home.homeLocation}}<span
-                            class="schedule-next-team-name-bold"> {{home.homeName}}</span></span>
-                </div>
-                <div class="schedule-next-team-record">Record: <span class="schedule-next-team-record-bold">{{home.homeWins}} - {{home.homeLosses}}</span>
-                </div>
-            </div>
-            <img class="schedule-next-circle schedule-next-circle-left"
-                 src="{{home.homeLogo}}" onerror="this.src='/app/public/no-image.png'"
-                 alt="home team logo"/>
-        </span>
-        <div class="schedule-next-vs">
-            vs.
-        </div>
+
         <span *ngFor="#away of awayData">
             <circle-image *ngIf="away.awayLogo" class="schedule-next-circle schedule-next-circle-right"
                           [data]="away.awayLogo"></circle-image>
@@ -31,6 +16,22 @@
                 <div class="schedule-next-team-record">Record: <span class="schedule-next-team-record-bold">{{away.awayWins}} - {{away.awayLosses}}</span>
                 </div>
             </div>
+        </span>
+        <div class="schedule-next-vs">
+            vs.
+        </div>
+        <span *ngFor="#home of homeData">
+            <div class="schedule-next-team schedule-next-team-left">
+                <div class="schedule-next-team-left-url">
+                    <span class="schedule-next-team-name">{{home.homeLocation}}<span
+                            class="schedule-next-team-name-bold"> {{home.homeName}}</span></span>
+                </div>
+                <div class="schedule-next-team-record">Record: <span class="schedule-next-team-record-bold">{{home.homeWins}} - {{home.homeLosses}}</span>
+                </div>
+            </div>
+            <img class="schedule-next-circle schedule-next-circle-left"
+                 src="{{home.homeLogo}}" onerror="this.src='/app/public/no-image.png'"
+                 alt="home team logo"/>
         </span>
     </div>
 </div>
