@@ -323,17 +323,24 @@ export class SeasonStatsPageService {
     let tabs: Array<MLBSeasonStatsTabData> = [];
     var curYear = new Date().getFullYear();
     var year = curYear;
+    var playerName = pageParams['playerName'];
     //create tabs for season stats from current year of MLB and back 3 years
     for ( var i = 0; i < 4; i++ ){
       if( year == curYear){
-        tabs.push(new MLBSeasonStatsTabData('Current Season', null, year.toString(), i==0));
+        let title = 'Current Season';
+        let tabName = playerName + "'s " + title + " Stats";
+        tabs.push(new MLBSeasonStatsTabData(title, tabName, null, year.toString(), i==0));
       } else {
-        tabs.push(new MLBSeasonStatsTabData(year.toString(), null, year.toString(), i==0));
+        let title = year.toString();
+        let tabName = playerName + "'s " + title + " Stats";
+        tabs.push(new MLBSeasonStatsTabData(title, tabName, null, year.toString(), i==0));
       }
       year--;
     }
     //also push in last the career stats tab
-    tabs.push(new MLBSeasonStatsTabData('Career Stats', null, 'career', false));
+    let title = 'Career Stats';
+    let tabName = playerName + "'s Career Stats";
+    tabs.push(new MLBSeasonStatsTabData(title, tabName, null, 'career', false));
     return tabs;
   }
 
