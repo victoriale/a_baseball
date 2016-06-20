@@ -10,6 +10,7 @@ import {NoDataBox} from '../../components/error/data-box/data-box.component';
 
 export interface TableTabData<T> {
   title: string;
+  tabName: string;
   isActive: boolean;
   isLoaded: boolean;
   hasError: boolean;

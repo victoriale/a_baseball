@@ -104,6 +104,8 @@ export class MLBSeasonStatsTabData implements TableTabData<TeamSeasonStatsData> 
 
   playerId: string;
 
+  tabName: string;
+
   title: string;
 
   isActive: boolean;
@@ -118,13 +120,13 @@ export class MLBSeasonStatsTabData implements TableTabData<TeamSeasonStatsData> 
 
   year: string;
 
-  constructor(title: string, season: Season, year: string, isActive: boolean) {
+  constructor(title: string, tabName: string, season: Season, year: string, isActive: boolean) {
     this.title = title;
+    this.tabName = tabName;
     this.season = season;
     this.year = year;
     this.isActive = isActive;
   }
-
   convertToCarouselItem(item: TeamSeasonStatsData, index:number): SliderCarouselInput {
     var playerData = item.playerInfo != null ? item.playerInfo : null;
     var subheader = item.seasonId + " Season Stats Report";
