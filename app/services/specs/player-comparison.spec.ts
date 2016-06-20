@@ -70,6 +70,24 @@ describe('player comparison api tests', () => {
           });
     });
   }));
+
+  it('loading player comparison for players', 
+  injectAsync([ComparisonStatsService], (service: ComparisonStatsService) => {
+    return new Promise((pass, fail) => {
+      var validPlayerIds = [96546, 96554, 95097];
+      validPlayerIds.forEach((id) => {
+        service.getInitialPlayerStats({playerId: id})
+          .subscribe(
+            data => { 
+              expect(data.data.playerOne.playerId).toBe(id.toString());
+              pass();
+            },
+            err => { 
+              fail("Unable to load api"); 
+            });
+      });
+    });
+  }));
 });
 
 function logObject(data: any, level?:number) {
