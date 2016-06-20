@@ -230,11 +230,25 @@ export class BoxScoresService {
 
       let awayWin = awayData.winRecord != null ? awayData.winRecord : '#';
       let awayLoss = awayData.lossRecord != null ? awayData.lossRecord : '#';
-      let inningHalf = gameInfo.inningHalf != null ? GlobalFunctions.toTitleCase(gameInfo.inningHalf) : 'Top';
+
+      //determine if a game is live or not and display correct game time
+      var currentTime = new Date().getTime();
+      var inningTitle = '';
+      if(gameInfo.live){
+        let inningHalf = gameInfo.inningHalf != null ? GlobalFunctions.toTitleCase(gameInfo.inningHalf) : 'Top';
+        inningTitle = gameInfo.inningsPlayed != null ?  inningHalf + " of " + gameInfo.inningsPlayed +  GlobalFunctions.Suffix(gameInfo.inningsPlayed) + " Inning" : '';
+
+      }else{
+        if((currentTime < gameInfo.startDateTimestamp) && !gameInfo.live){
+          inningTitle = moment(gameDate.startDateTimestamp).tz('America/New_York').format('h:mm A z');
+        }else{
+          inningTitle = 'Final';
+        }
+      }
       info = {
         gameHappened:gameInfo.inningsPlayed != null ?  true : false,
         //inning will display the Inning the game is on otherwise if returning null then display the date Time the game is going to be played
-        inning:gameInfo.inningsPlayed != null ?  inningHalf + " of " + gameInfo.inningsPlayed +  GlobalFunctions.Suffix(gameInfo.inningsPlayed) + " Inning" : moment(gameDate.startDateTimestamp).tz('America/New_York').format('h:mm A z'),
+        inning:inningTitle,
         homeData:{
           homeTeamName: homeData.lastName,
           //imageData(imageClass, imageBorder, mainImg, mainImgRoute?, rank?, rankClass?, subImgClass?, subImg?, subRoute?)
