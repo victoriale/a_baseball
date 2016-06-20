@@ -90,7 +90,7 @@ export class SchedulesService {
   }
   callURL += '/'+eventStatus+'/'+limit+'/'+ pageNum;  //default pagination limit: 5; page: 1
 
-  // console.log(callURL);
+  console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -132,11 +132,12 @@ export class SchedulesService {
       if(typeof teamId == 'undefined'){
         var table = new MLBSchedulesTableModel(rows, eventStatus, teamId);// there are two types of tables for Post game (team/league) tables
         rows.forEach(function(val,index){// seperate the dates into their own Obj tables for post game reports
-          var splitToDate = val.startDateTime.split(' ')[0];
+          var splitToDate = moment(val.startDateTimestamp).tz('America/New_York').format('YYYY-MM-DD');
+          console.log('TESTTESTTEST',splitToDate);
           if(typeof dateObject[splitToDate] == 'undefined'){
             dateObject[splitToDate] = {};
             dateObject[splitToDate]['tableData'] = [];
-            dateObject[splitToDate]['display'] = moment(val.startDateTime).tz('America/New_York').format('dddd MMMM Do, YYYY') + " Games";
+            dateObject[splitToDate]['display'] = moment(val.startDateTimestamp).tz('America/New_York').format('dddd MMMM Do, YYYY') + " Games";
             dateObject[splitToDate]['tableData'].push(val);
           }else{
             dateObject[splitToDate]['tableData'].push(val);

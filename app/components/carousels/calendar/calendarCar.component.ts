@@ -4,10 +4,15 @@ import {GlobalFunctions} from '../../../global/global-functions';
 import {MLBGlobalFunctions} from '../../../global/mlb-global-functions';
 import {GlobalSettings} from '../../../global/global-settings';
 
-declare var moment;
-export interface CalendarCarouselInput {
+import {FORM_DIRECTIVES} from 'angular2/common';
+import {DatePicker} from 'ng2-datepicker';
 
+declare var moment;
+
+class Test {
+  date: string;
 }
+
 export interface weekDate {
   unixDate:any;
   fullDate:string;
@@ -23,7 +28,7 @@ export interface weekDate {
 @Component({
     selector: 'calendar-carousel',
     templateUrl: './app/components/carousels/calendar/calendarCar.component.html',
-    directives: [],
+    directives: [FORM_DIRECTIVES,DatePicker],
     providers: [BoxScoresService],
     outputs:['dateEmit'],
 })
@@ -36,7 +41,13 @@ export class CalendarCarousel implements OnInit{
   public weeklyDates: Array<any>;
   public failSafe: number = 0;
 
+
+  test: Test;
+  test1: Test;
+
   constructor(private _boxScores:BoxScoresService){
+    this.test = moment();
+    this.test1 = moment();
   }
 
   ngOnInit(){
@@ -130,7 +141,6 @@ export class CalendarCarousel implements OnInit{
       //push all dateObj into array
       formattedArray.push(dateObj);
     }
-
     return formattedArray;
   }
 
