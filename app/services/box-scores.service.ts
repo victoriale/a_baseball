@@ -239,7 +239,7 @@ export class BoxScoresService {
         inningTitle = gameInfo.inningsPlayed != null ?  inningHalf + " of " + gameInfo.inningsPlayed +  GlobalFunctions.Suffix(gameInfo.inningsPlayed) + " Inning" : '';
 
       }else{
-        if((currentTime < gameInfo.startDateTimestamp) && gameInfo.live){
+        if((currentTime < gameInfo.startDateTimestamp) && !gameInfo.live){
           inningTitle = moment(gameDate.startDateTimestamp).tz('America/New_York').format('h:mm A z');
         }else{
           inningTitle = 'Final';
