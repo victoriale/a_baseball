@@ -171,8 +171,8 @@ export class CalendarCarousel implements OnInit{
           validatedDate = dateUnix;
           activeIndex = i;//SETS POSITION IN ARRAY THAT CURRENT DATE IS SET TO if the curUnix date exists within the current dateArray
         }else{
-          //sets most recent game date and index if they havent been found, while the validatedDate and clickability still hasn't been found
-          if( ((mostRecent < date.unixDate) && activeIndex == null) || (date.clickable && validatedDate == 0)){
+          //sets most recent game before the curUnix date and index if they havent been found, while the validatedDate and clickability still hasn't been found
+          if( ((mostRecent < date.unixDate && date.unixDate <= curUnix) && activeIndex == null) || (date.unixDate <= curUnix && date.clickable && validatedDate == 0)){
             mostRecent = date.unixDate;
             activeIndex = i;
           }

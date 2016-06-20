@@ -70,14 +70,14 @@ export interface SchedulesData {
    * Formatted full path to image
    */
   fullBackgroundImageUrl?: string;
-  
+
   /**
-   * Formatted home record 
+   * Formatted home record
    */
   homeRecord?: string;
-  
+
   /**
-   * Formatted away record 
+   * Formatted away record
    */
   awayRecord?: string;
 }
@@ -120,9 +120,9 @@ export class MLBSchedulesTableData implements TableComponentData<SchedulesData> 
     }else{
       var displayNext = 'Previous Game:';
     }
-    
+
     var colors = Gradient.getColorPair(item.awayTeamColors.split(','), item.homeTeamColors.split(','));
-    
+
     return {//placeholder data
       index:index,
       displayNext: displayNext,
@@ -295,7 +295,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
         s = GlobalFunctions.formatDateWithAPMonth(item.startDateTime, "", "DD");
         break;
       case "t":
-        s = moment(item.startDateTime).format('h:mm') + " <sup> "+moment(item.startDateTime).format('A')+" </sup>";
+        s = moment(item.startDateTime).tz('America/New_York').format('h:mm') + " <sup> "+moment(item.startDateTime).tz('America/New_York').format('A')+" </sup>";
         break;
 
       case "away":
