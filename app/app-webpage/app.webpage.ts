@@ -27,6 +27,7 @@ import {StandingsPage} from "../webpages/standings-page/standings.page";
 import {ArticlePages} from "../webpages/article-pages/article-pages.page";
 import {ListOfListsPage} from "../webpages/list-of-lists-page/list-of-lists.page";
 import {TransactionsPage} from "../webpages/transactions-page/transactions.page";
+import {MVPListPage} from "../webpages/mvp-list-page/mvp-list.page";
 
 import {ArticleDataService} from "../global/global-article-page-service";
 import {HeadlineDataService} from "../global/global-ai-headline-module-service";
@@ -106,6 +107,16 @@ import {ComponentPage} from "../webpages/component-page/component.page";
         path: '/schedules/mlb/:pageNum',
         name: 'Schedules-page-league',
         component: SchedulesPage
+    },
+    {
+        path: '/mvp-list/:type/:pageNum',
+        name: 'MVP-list-page',
+        component: MVPListPage
+    },
+    {
+        path: '/mvp-list/:type/:tab/:pageNum',
+        name: 'MVP-list-tab-page',
+        component: MVPListPage
     },
     {
         path: '/schedules/:teamName/:teamId/:pageNum',
