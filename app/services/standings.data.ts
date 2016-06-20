@@ -35,12 +35,12 @@ export interface TeamStandingsData {
    * - Formatted from the lastUpdatedDate
    */
   displayDate?: string;
-  
+
   /**
    * Formatted full path to image
    */
   fullImageUrl?: string;
-  
+
   /**
    * Formatted full path to image
    */
@@ -70,9 +70,9 @@ export class MLBStandingsTabData implements StandingsTableTabData<TeamStandingsD
   title: string;
 
   isActive: boolean;
-  
+
   isLoaded: boolean;
-  
+
   hasError: boolean;
 
   sections: Array<MLBStandingsTableData>;
@@ -80,7 +80,7 @@ export class MLBStandingsTabData implements StandingsTableTabData<TeamStandingsD
   conference: Conference;
 
   division: Division;
-  
+
   selectedKey: string;
 
   constructor(title: string, conference: Conference, division: Division, isActive: boolean) {
@@ -89,10 +89,10 @@ export class MLBStandingsTabData implements StandingsTableTabData<TeamStandingsD
     this.division = division;
     this.isActive = isActive;
   }
-  
+
   getSelectedKey(): string {
     if ( !this.sections ) return "-1";
-    
+
     var numericKey = -1;
     this.sections.forEach(section => {
       var table = section.tableData;
@@ -102,11 +102,11 @@ export class MLBStandingsTabData implements StandingsTableTabData<TeamStandingsD
     });
     return numericKey.toString();
   }
-  
+
   setSelectedKey(key:string) {
     this.selectedKey = key;
     if ( !this.sections ) return;
-    
+
     var numericKey = Number(key);
     this.sections.forEach(section => {
       var table = section.tableData;
@@ -121,17 +121,28 @@ export class MLBStandingsTabData implements StandingsTableTabData<TeamStandingsD
 
   convertToCarouselItem(item: TeamStandingsData, index:number): SliderCarouselInput {
     var subheader = item.seasonId + " Season " + item.groupName + " Standings";
-    var description = "The " + item.teamName + " are currently <span class='text-heavy'>ranked " + item.rank + GlobalFunctions.Suffix(item.rank) + "</span>" +
-                      " in the <span class='text-heavy'>" + item.groupName + "</span>, with a record of " +
-                      "<span class='text-heavy'>" + item.totalWins + " - " + item.totalLosses + "</span>.";
-
+    var teamNameLink = {
+                 wrapperStyle: {},
+                 beforeLink: "",
+                 linkObj: MLBGlobalFunctions.formatTeamRoute(item.teamName, item.teamId.toString()),
+                 linkText: "<span class='standings-car-hdr'>" + item.teamName + "</span>",
+                 afterLink: ""
+              };
+    var description = {
+       wrapperStyle: {},
+       beforeLink: "The ",
+       linkObj: MLBGlobalFunctions.formatTeamRoute(item.teamName, item.teamId.toString()),
+       linkText: "<span class='standings-car-desc'>" + item.teamName + "</span>",
+       afterLink: " are currently <span class='text-heavy'>ranked " + item.rank + GlobalFunctions.Suffix(item.rank) + "</span>" + " in the <span class='text-heavy'>" + item.groupName + "</span>, with a record of " + "<span class='text-heavy'>" + item.totalWins + " - " + item.totalLosses + "</span>."
+    }
     return {
       index: index,
       backgroundImage: item.fullBackgroundImageUrl, //optional
       description: [
         "<div class='standings-car-subhdr'><i class='fa fa-circle'></i>" + subheader + "</div>",
-        "<div class='standings-car-hdr'>" + item.teamName + "</div>",
-        "<div class='standings-car-desc'>" + description + "</div>",
+        teamNameLink,
+        "<br/>",
+        description,
         "<div class='standings-car-date'>Last Updated On " + item.displayDate + "</div>"
       ],
       imageConfig: {
