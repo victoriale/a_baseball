@@ -135,14 +135,6 @@ export class ListPageService {
           tab.isLoaded = true;
           tab.listData = ListPageService.detailedData(data.data);
           return tab;
-          // return {
-          //   tabArray:tabArray,
-          //   profHeader: this.profileHeader(data.data),
-          //   carData: this.carDataPage(data.data,'module'),
-          //   listData: this.detailedData(data.data),
-          //   pagination: data.data.listInfo,
-          //   listDisplayName: data.data.listInfo.name
-          // }
         }
       );
   }
