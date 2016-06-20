@@ -166,7 +166,7 @@ export class BoxScoresService {
         awayHex:awayData.colors.split(', ')[0],
         awayID:awayData.id,
         awayLocation:awayData.firstName,
-        awayLogo: this.imageData("image-62", "border-logo", GlobalSettings.getImageUrl(awayData.logo), rightRoute),
+        awayLogo: this.imageData("image-60", "border-logo", GlobalSettings.getImageUrl(awayData.logo), rightRoute),
         awayLosses:awayData.lossRecord,
         awayName:awayData.lastName,
         awayWins:awayData.winRecord
@@ -186,7 +186,7 @@ export class BoxScoresService {
         awayHex:homeData.colors.split(', ')[0], //parse out comma + space to grab only hex colors
         awayID:homeData.id,
         awayLocation:homeData.firstName, // first name of team usually represents the location
-        awayLogo:this.imageData("image-62", "border-logo", GlobalSettings.getImageUrl(homeData.logo), rightRoute),
+        awayLogo:this.imageData("image-60", "border-logo", GlobalSettings.getImageUrl(homeData.logo), rightRoute),
         awayLosses:homeData.lossRecord,
         awayName:homeData.lastName,
         awayWins:homeData.winRecord
