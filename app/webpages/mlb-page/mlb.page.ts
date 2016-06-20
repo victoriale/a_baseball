@@ -34,6 +34,7 @@ import {SchedulesModule} from '../../modules/schedules/schedules.module';
 import {SchedulesService} from '../../services/schedules.service';
 
 import {MVPModule} from '../../modules/mvp/mvp.module';
+import {ListPageService, BaseballMVPTabData} from '../../services/list-page.service';
 
 import {ProfileHeaderData, ProfileHeaderModule} from '../../modules/profile-header/profile-header.module';
 import {ProfileHeaderService} from '../../services/profile-header.service';
@@ -46,7 +47,6 @@ import {NewsModule} from '../../modules/news/news.module';
 import {NewsService} from '../../services/news.service';
 
 import {GlobalSettings} from "../../global/global-settings";
-import {ListPageService} from '../../services/list-page.service';
 import {ImagesService} from "../../services/carousel.service";
 import {ImagesMedia} from "../../components/carousels/images-media-carousel/images-media-carousel.component";
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
@@ -110,9 +110,10 @@ export class MLBPage implements OnInit {
     dateParam:any;
 
     batterParams:any;
-    batterData:any;
+    batterData:Array<BaseballMVPTabData>;
     pitcherParams:any;
-    pitcherData:any;
+    pitcherData:Array<BaseballMVPTabData>;
+
     imageData:any;
     copyright:any;
     isProfilePage:boolean = true;
@@ -188,8 +189,14 @@ export class MLBPage implements OnInit {
                 this.getSchedulesData('pre-event');//grab pre event data for upcoming games
                 this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
                 //this.getDraftHistory();
-                this.batterData = this.getMVP(this.batterParams, 'batter');
-                this.pitcherData = this.getMVP(this.pitcherParams, 'pitcher');
+                this.batterData = this.listService.getMVPTabs('batter', 'module');
+                if ( this.batterData && this.batterData.length > 0 ) {
+                    this.batterTab(this.batterData[0]);
+                }
+                this.pitcherData = this.listService.getMVPTabs('pitcher', 'module');
+                if ( this.pitcherData && this.pitcherData.length > 0 ) {
+                    this.pitcherTab(this.pitcherData[0]);
+                }
                 this.setupComparisonData();
 
                 /*** Keep Up With Everything MLB ***/
@@ -323,77 +330,87 @@ export class MLBPage implements OnInit {
         };
     }
 
-
     //each time a tab is selected the carousel needs to change accordingly to the correct list being shown
-    private batterTab(event) {
+    private batterTab(tab: BaseballMVPTabData) {
         this.batterParams = { //Initial load for mvp Data
             profile: 'player',
-            listname: event,
+            listname: tab.tabDataKey,
             sort: 'asc',
             conference: 'all',
             division: 'all',
             limit: this.listMax,
             pageNum: 1
         };
-        this.getMVP(this.batterParams, 'batter');
+        this.listService.getListModuleService(tab, this.batterParams)
+            .subscribe(updatedTab => {
+                //do nothing?
+            }, err => { 
+                tab.isLoaded = true;
+                console.log('Error: Loading MVP Batters: ', err);
+            })
     }
 
     //each time a tab is selected the carousel needs to change accordingly to the correct list being shown
-    private pitcherTab(event) {
+    private pitcherTab(tab: BaseballMVPTabData) {
         this.pitcherParams = { //Initial load for mvp Data
             profile: 'player',
-            listname: event,
+            listname: tab.tabDataKey,
             sort: 'asc',
             conference: 'all',
             division: 'all',
             limit: this.listMax,
             pageNum: 1
         };
-        this.getMVP(this.pitcherParams, 'pitcher');
+        this.listService.getListModuleService(tab, this.pitcherParams)
+            .subscribe(updatedTab => {
+                //do nothing?
+            }, err => { 
+                tab.isLoaded = true;
+                console.log('Error: Loading MVP Pitchers: ', err);
+            })
     }
 
-    private getMVP(urlParams, moduleType) {
+    // private getMVP(urlParams, moduleType) {
+    //     this.listService.getListModuleService(urlParams, moduleType)
+    //         .subscribe(
+    //             list => {
+    //                 var dataArray, detailedDataArray, carouselDataArray;
+    //                 if (list.listData.length == 0) {//makes sure it only runs once
+    //                     detailedDataArray = false;
+    //                 } else {
+    //                     detailedDataArray = list.listData;
+    //                 }
+    //                 dataArray = list.tabArray;
+    //                 carouselDataArray = list.carData;
+    //                 if (moduleType == 'batter') {
+    //                     this.batterData = {
+    //                         query: this.batterParams,
+    //                         tabArray: dataArray,
+    //                         listData: detailedDataArray,
+    //                         carData: carouselDataArray,
+    //                         errorData: {
+    //                             data: "Sorry, we do not currently have any data for this mvp list",
+    //                             icon: "fa fa-remove"
+    //                         }
+    //                     }
+    //                 } else {
+    //                     this.pitcherData = {
+    //                         query: this.pitcherParams,
+    //                         tabArray: dataArray,
+    //                         listData: detailedDataArray,
+    //                         carData: carouselDataArray,
+    //                         errorData: {
+    //                             data: "Sorry, we do not currently have any data for this mvp list",
+    //                             icon: "fa fa-remove"
+    //                         }
+    //                     }
+    //                 }
 
-        this.listService.getListModuleService(urlParams, moduleType)
-            .subscribe(
-                list => {
-                    var dataArray, detailedDataArray, carouselDataArray;
-                    if (list.listData.length == 0) {//makes sure it only runs once
-                        detailedDataArray = false;
-                    } else {
-                        detailedDataArray = list.listData;
-                    }
-                    dataArray = list.tabArray;
-                    carouselDataArray = list.carData;
-                    if (moduleType == 'batter') {
-                        return this.batterData = {
-                            query: this.batterParams,
-                            tabArray: dataArray,
-                            listData: detailedDataArray,
-                            carData: carouselDataArray,
-                            errorData: {
-                                data: "Sorry, we do not currently have any data for this mvp list",
-                                icon: "fa fa-remove"
-                            }
-                        }
-                    } else {
-                        return this.pitcherData = {
-                            query: this.pitcherParams,
-                            tabArray: dataArray,
-                            listData: detailedDataArray,
-                            carData: carouselDataArray,
-                            errorData: {
-                                data: "Sorry, we do not currently have any data for this mvp list",
-                                icon: "fa fa-remove"
-                            }
-                        }
-                    }
-
-                },
-                err => {
-                    console.log('Error: list API: ', err);
-                    // this.isError = true;
-                }
-            );
-    }
+    //             },
+    //             err => {
+    //                 console.log('Error: list API: ', err);
+    //                 // this.isError = true;
+    //             }
+    //         );
+    // }
 }

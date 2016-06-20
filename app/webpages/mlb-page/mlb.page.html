@@ -14,8 +14,8 @@
     <schedules *ngIf="schedulesData" [profHeader]="profileHeaderData" [data]="schedulesData" (tabSelected)="scheduleTab($event)"></schedules>
     <standings-module [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
     <!-- draftHistory -->
-    <mvp-module *ngIf="batterData" [title]="'Batter'" [mvpData]="batterData" (tab)="batterTab($event)"></mvp-module>
-    <mvp-module *ngIf="pitcherData" [title]="'Pitcher'" [mvpData]="pitcherData" (tab)="pitcherTab($event)"></mvp-module>
+    <mvp-module *ngIf="batterData" [title]="'Batter'" [mvpData]="batterData" [query]="batterParams" (tabSelected)="batterTab($event)"></mvp-module>
+    <mvp-module *ngIf="pitcherData" [title]="'Pitcher'" [mvpData]="pitcherData" [query]="pitcherParams" (tabSelected)="pitcherTab($event)"></mvp-module>
     <comparison-module [modelData]="comparisonModuleData" [profileName]="profileHeaderData.profileName"></comparison-module>
 
     <headline-component [title]="'Other MLB Content You May Love'"></headline-component>
