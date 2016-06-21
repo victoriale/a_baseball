@@ -4,8 +4,8 @@ import {GlobalFunctions} from '../../../global/global-functions';
 import {MLBGlobalFunctions} from '../../../global/mlb-global-functions';
 import {GlobalSettings} from '../../../global/global-settings';
 
-import {FORM_DIRECTIVES} from 'angular2/common';
-import {DatePicker} from 'ng2-datepicker';
+// import {FORM_DIRECTIVES} from 'angular2/common';
+// import {DatePicker} from 'ng2-datepicker';
 
 declare var moment;
 
@@ -28,7 +28,7 @@ export interface weekDate {
 @Component({
     selector: 'calendar-carousel',
     templateUrl: './app/components/carousels/calendar/calendarCar.component.html',
-    directives: [FORM_DIRECTIVES,DatePicker],
+    directives: [],
     providers: [BoxScoresService],
     outputs:['dateEmit'],
 })
