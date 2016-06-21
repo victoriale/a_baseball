@@ -140,25 +140,7 @@ export class MLBPage implements OnInit {
                 private _comparisonService: ComparisonStatsService,
                 private listService:ListPageService) {
         _title.setTitle(GlobalSettings.getPageTitle("MLB"));
-        this.batterParams = { //Initial load for mvp Data
-            profile: 'player',
-            listname: 'batter-home-runs',
-            sort: 'asc',
-            conference: 'all',
-            division: 'all',
-            limit: this.listMax,
-            pageNum: 1
-        };
-        this.pitcherParams = { //Initial load for mvp Data
-            profile: 'player',
-            listname: 'pitcher-innings-pitched',
-            sort: 'asc',
-            conference: 'all',
-            division: 'all',
-            limit: this.listMax,
-            pageNum: 1
-        };
-
+        
         //for boxscores
         var currentUnixDate = new Date().getTime();
         //convert currentDate(users local time) to Unix and push it into boxScoresAPI as YYYY-MM-DD in EST using moment timezone (America/New_York)

@@ -8,8 +8,12 @@
       <div class="dataBox">
         <div class="dataBox-info" *ngFor="#data of details.dataPoints" [ngClass]="data.style">
           <i class="{{data.icon}}"></i>
-          <span class="databox-info-text"><a *ngIf="data.url" [routerLink]="data.url" [ngClass]="{'data-hover': data.url != ''}" [innerHTML]="data.data"></a><a *ngIf="!data.url" [ngClass]="{'data-hover': data.url != ''}" [innerHTML]="data.data"></a></span>
-          <span class="databox-info-text-right" [innerHTML]="data.value"></span>
+          <span class="databox-info-text">
+            <complex-inner-html [textItems]="data.leftText"></complex-inner-html>
+          </span>
+          <span class="databox-info-text-right">            
+            <complex-inner-html [textItems]="data.rightText"></complex-inner-html>
+          </span>
         </div>
       </div>
       <!--cta container-->
