@@ -15,6 +15,7 @@ export class DykService {
   getDykService(profile, id?){
     var headers = this.setToken();
     var fullUrl = this._apiUrl;
+    //example URL: http://dev-homerunloyal-api.synapsys.us/player/didYouKnow/96703 
     fullUrl += "/"+profile+"/didYouKnow";
     if(id !== undefined){
       fullUrl += "/" + id;
