@@ -75,16 +75,23 @@
     .image-column {
       font-weight: 800;
       text-align: left;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-
+      // white-space: nowrap;
+      // overflow: hidden;
+      // text-overflow: ellipsis;
       .image-round {
         margin-right: 10px;
         margin-left: 5px;
         display: inline-block;
       }
-
+      a{
+        .flexDisplay;
+        .flexAlignItems(center);
+        span {
+          max-height: 2em;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
       a:hover {
         color: @masterBrandColor;
         text-decoration: none;
