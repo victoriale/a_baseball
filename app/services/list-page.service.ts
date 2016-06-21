@@ -232,6 +232,7 @@ export class ListPageService {
             description:[
               '<br>',
               playerNameLink,
+              '<br>',
               teamNameLink,
               '<span class="separator">|</span> Jersey: #'+val.uniformNumber+' <span class="separator">|</span> '+position+'</p>',
               '<br>',
