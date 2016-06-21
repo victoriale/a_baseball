@@ -136,7 +136,7 @@ export class SchedulesService {
           if(typeof dateObject[splitToDate] == 'undefined'){
             dateObject[splitToDate] = {};
             dateObject[splitToDate]['tableData'] = [];
-            dateObject[splitToDate]['display'] = moment(val.startDateTime).format('dddd MMMM Do, YYYY') + " Games";
+            dateObject[splitToDate]['display'] = moment(val.startDateTime).tz('America/New_York').format('dddd MMMM Do, YYYY') + " Games";
             dateObject[splitToDate]['tableData'].push(val);
           }else{
             dateObject[splitToDate]['tableData'].push(val);
