@@ -15,6 +15,7 @@ export interface MLBPageParameters {
 export interface Link {
   route?: Array<any>;
   text: string;
+  class?: string;
 }
 
 export interface NavigationData {

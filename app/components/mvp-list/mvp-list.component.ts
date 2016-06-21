@@ -8,6 +8,7 @@ import {Tabs} from '../../components/tabs/tabs.component';
 import {Tab} from '../../components/tabs/tab.component';
 import {NoDataBox} from '../../components/error/data-box/data-box.component';
 import {LoadingComponent} from '../../components/loading/loading.component';
+import {FooterStyle} from '../../components/module-footer/module-footer.component';
 
 export interface MVPTabData {
   tabDisplayTitle: string;
@@ -29,6 +30,8 @@ export class MVPListComponent implements DoCheck  {
 
   @Input() tabs: Array<MVPTabData>;
 
+  @Input() carouselFooter: FooterStyle;
+
   detailedDataArray: DetailListInput[]; //variable that is just a list of the detailed DataArray
 
   carouselDataArray: Array<SliderCarouselInput>;
@@ -36,13 +39,6 @@ export class MVPListComponent implements DoCheck  {
   @Input() selectedTabTitle: string;
 
   tabsLoaded: {[index:number]:string};
-
-  // ngDoCheck() {
-  //   var selectedTab = this.getSelectedTab(this.selectedTabTitle);
-  //   if ( selectedTab ) {
-  //     this.updateCarousel(selectedTab);
-  //   }
-  // }
 
   ngDoCheck() {
     if ( this.tabs && this.tabs.length > 0 ) {

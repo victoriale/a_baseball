@@ -1,6 +1,8 @@
 import {Component, OnInit, Input} from 'angular2/core';
 import {CircleImage} from '../../components/images/circle-image';
 import {CircleImageData} from '../../components/images/image-data';
+import {ComplexInnerHtml} from '../../components/complex-inner-html/complex-inner-html.component';
+import {Link} from '../../global/global-interface';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 
 export interface DetailListInput {
@@ -11,16 +13,17 @@ export interface DetailListInput {
 
   //within dataPoints the objects are float left => data  and float right => value
   /*
-    data-----------value
-    data-----------value
-    data-----------value
+    leftText-----------rightText
+    leftText-----------rightText
+    leftText-----------rightText
   */
   //as it would appear on the module itself
   dataPoints: Array<{
       style?:string;
-      data: string;
-      value: string;
-      url?:[any];
+      // data: string;
+      leftText: Array<Link>;
+      rightText: Array<Link>;
+      // url?:[any];
       icon?:string;
   }>;
   imageConfig: CircleImageData;
@@ -34,7 +37,7 @@ export interface DetailListInput {
 @Component({
     selector: 'detailed-list-item',
     templateUrl: './app/components/detailed-list-item/detailed-list-item.component.html',
-    directives: [ROUTER_DIRECTIVES, CircleImage],
+    directives: [ROUTER_DIRECTIVES, CircleImage, ComplexInnerHtml],
     providers: [],
 })
 
