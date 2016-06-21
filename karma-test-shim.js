@@ -40,8 +40,7 @@ function onlyAppFiles(filePath) {
 }
 
 function onlySpecFiles(path) {
-    // return /tests\/\.spec\.js$/.test(path);
-    return /player-comparison.spec.js$/.test(path);
+    return /\.spec\.js$/.test(path);
 }
 
 function resolveTestFiles() {
