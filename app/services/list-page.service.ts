@@ -130,12 +130,44 @@ export class ListPageService {
       .map(
         data => {
           data.data['query'] = query;//used in some functions below
+          this.formatData(data.data.listInfo.stat, data.data.listData);
           tab.data = data.data;
           tab.isLoaded = true;
           tab.listData = ListPageService.detailedData(data.data);
           return tab;
         }
       );
+  }
+
+  formatData(key: string, data: Array<any>) {    
+      data.forEach(item => {
+        switch (key) {
+          case 'pitcher-strikeouts':
+          case "pitcher-innings-pitched":
+          case 'pitcher-hits-allowed':
+          case 'batter-home-runs':
+              // format as integer
+              var temp = Number(item.stat);
+              item.stat = temp.toFixed(0); 
+            break;
+
+          case 'pitcher-earned-run-average':
+              var temp = Number(item.stat);
+              item.stat = temp.toFixed(2); // format as integer
+              break;
+
+          case 'batter-runs-batted-in':
+          case 'batter-hits':
+          case 'batter-batting-average':
+          case 'batter-bases-on-balls':
+              var temp = Number(item.stat);
+              item.stat = temp.toFixed(3); // format as integer
+              break;
+
+          default: 
+            //do nothing          
+        }
+      });
   }
 
   static profileHeader(data){
@@ -184,14 +216,6 @@ export class ListPageService {
                      afterLink: ""
                   };
 
-        var playerNameLink = {
-                     wrapperStyle: {'font-size': mainFontSize + 'px', 'font-weight': '800', 'line-height': '1.4em'},
-                     beforeLink: "",
-                     linkObj: MLBGlobalFunctions.formatPlayerRoute(val.teamName,val.playerName,val.playerId.toString()),
-                     linkText: val.playerName,
-                     afterLink: ""
-                  };
-
         if(data.query.profile == 'team'){
           teamNameLink.wrapperStyle = {'font-size': mainFontSize + 'px', 'font-weight': '800', 'line-height': '1.4em'};
           carouselItem = {
@@ -219,6 +243,14 @@ export class ListPageService {
         }else if(data.query.profile == 'player'){
           var position = '';
           position = val.position.join(", ");
+
+          var playerNameLink = {
+                      wrapperStyle: {'font-size': mainFontSize + 'px', 'font-weight': '800', 'line-height': '1.4em'},
+                      beforeLink: "",
+                      linkObj: MLBGlobalFunctions.formatPlayerRoute(val.teamName,val.playerName,val.playerId.toString()),
+                      linkText: val.playerName,
+                      afterLink: ""
+                    };
 
           var playerFullName = val.playerFirstName + " " + val.playerLastName;
           carouselItem = {
