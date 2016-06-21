@@ -79,80 +79,92 @@ export class DynamicWidgetCall {
       )
   }
 
-  transformCarData(data, profile){
+  transformCarData(data, profile: string) {
     let self = this;
     var carouselArray = [];
-    var dummyImg = "/app/public/no-image.png";
-    var dummyRoute = ['Error-page'];
     var currentYear = new Date().getFullYear();//TODO FOR POSSIBLE past season stats but for now we have lists for current year season
     var carData = data.data;
 
-    if(carData.length == 0){
-      var Carousel = {// dummy data if empty array is sent back
+    if(carData.length == 0 || profile != 'team' && profile != 'player' ){
+      // dummy data if empty array is sent back
+      var dummyImg = "/app/public/no-image.png";
+      var dummyRoute = ['Error-page'];
+      carouselArray.push({
         index:'2',
         imageConfig: self.imageData("image-150","border-large",dummyImg,dummyRoute, 1, 'image-38-rank',"image-50-sub"),
         description:[
           '<p style="font-size:20px"><span class="text-heavy">Sorry, we currently do not have any data for this particular list</span><p>',
         ],
-      };
-      carouselArray.push(Carousel);
+      });
     }else{
       //if data is coming through then run through the transforming function for the module
-      carData.forEach(function(val, index){
+      carouselArray = carData.map((val, index) => {
+        var carouselItem;
+
+        var primaryRoute = GlobalFunctions.parseToRoute(val['primary_url']);        
+        var primaryRouteText = {
+                    wrapperStyle: {'font-size': '22px', 'font-weight': '800'},
+                    beforeLink: "",
+                    linkObj: primaryRoute,
+                    linkText: val.title,
+                    afterLink: ""
+                  };
         if(profile == 'team'){
-          var Carousel = {
+          carouselItem = {
             index:index,
-            imageConfig: self.imageData(
-              "image-150",
-              "border-large",
+            imageConfig: ListPageService.imageData("carousel",
               self.protocol + val.img,
-              GlobalFunctions.parseToRoute(val['primary_url']),
-              val.rank,
-              'image-48-rank',
-              'image-50-sub'),
+              primaryRoute,
+              val.rank),
             description:[
               '<br>',
-              '<p style="font-size:22px"><span class="text-heavy">'+val.title+'</span></p>',
+              primaryRouteText,
               '<p>' + val.list_sub +'</p>',
               '<br>',
               '<p style="font-size:22px"><b>'+val.value+'</b></p>',
               '<p style="font-size:16px"> '+val.tag+'</p>'
             ],
+            footerInfo: {
+              infoDesc:'Interested in discovering more about this team?',
+              text:'View Profile',
+              url:primaryRoute
+            }
           };
-          Carousel['footerInfo'] = {
-            infoDesc:'Interested in discovering more about this team?',
-            text:'View Profile',
-            url:GlobalFunctions.parseToRoute(val['primary_url'])
-          }
-        }else if(profile == 'player'){
-          var Carousel = {
+        } else {// if(profile == 'player'){
+          var subRoute = GlobalFunctions.parseToRoute(val['sub_img'].primary_url);
+          var subRouteText = {
+                      wrapperStyle: {},
+                      beforeLink: "<p>",
+                      linkObj: subRoute,
+                      linkText: val.list_sub,
+                      afterLink: "</p>"
+                    };
+
+          carouselItem = {
             index:index,
-            imageConfig: self.imageData(
-              "image-150",
-              "border-large",
+            imageConfig: ListPageService.imageData("carousel",
               self.protocol + val.img,
-              GlobalFunctions.parseToRoute(val['primary_url']),
+              primaryRoute,
               val.rank,
-              'image-48-rank',
-              'image-50-sub',
               self.protocol + val['sub_img'].img,
-              GlobalFunctions.parseToRoute(val['sub_img'].primary_url)),
+              subRoute),
             description:[
               '<br>',
-              '<p style="font-size:22px"><span class="text-heavy">'+val.title+'</span></p>',
-              '<p>'+val.list_sub+'</p>',
+              primaryRouteText,
+              '<br>',
+              subRouteText,
               '<br>',
               '<p style="font-size:22px"><span class="text-heavy">'+val.value+'</span></p>',
               '<p style="font-size:16px"> '+val.tag+'</p>'
-            ]
+            ],
+            footerInfo: {
+              infoDesc:'Interested in discovering more about this player?',
+              text:'View Profile',
+              url: GlobalFunctions.parseToRoute(val['primary_url']),
+            }
           };
-          Carousel['footerInfo'] = {
-            infoDesc:'Interested in discovering more about this player?',
-            text:'View Profile',
-            url: GlobalFunctions.parseToRoute(val['primary_url']),
-          }
         }
-        carouselArray.push(Carousel);
+        return carouselItem;
       });
     }
     //console.log('TRANSFORMED CAROUSEL', carouselArray);
