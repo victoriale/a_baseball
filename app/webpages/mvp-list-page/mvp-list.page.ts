@@ -138,6 +138,8 @@ export class MVPListPage implements OnInit {
     if ( this.selectedTabName != tab.tabDisplayTitle ) {
       this.queryParams.pageNum = 1;
     }
-    this.getStandardList(tab);
+    if (!tab.listData) { //let the page handle the service call if there's no data
+      this.getStandardList(tab);
+    }
   }
 }

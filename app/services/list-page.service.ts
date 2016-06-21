@@ -96,7 +96,7 @@ export class ListPageService {
     var tabArray: Array<BaseballMVPTabData> = [];
     //generate a static list of tab array based on the moduleType to emit the tabData and have a tabDisplay for the DOM
     if(moduleType == 'pitcher'){
-      // tabArray.push(new BaseballMVPTabData('W/L', 'pitcher-wins-losses', profileType));
+      tabArray.push(new BaseballMVPTabData('W/L', 'pitcher-win-record', profileType));
       tabArray.push(new BaseballMVPTabData('Innings Pitched', 'pitcher-innings-pitched', profileType));
       tabArray.push(new BaseballMVPTabData('Strikeouts', 'pitcher-strikeouts', profileType));
       tabArray.push(new BaseballMVPTabData('ERA', 'pitcher-earned-run-average', profileType));

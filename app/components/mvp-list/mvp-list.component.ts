@@ -78,6 +78,7 @@ export class MVPListComponent implements DoCheck  {
         this.tabSelectedListener.next(selectedTab);
       }
       else {
+        this.tabSelectedListener.next(selectedTab);
         this.updateCarousel(selectedTab);
       }
     }
