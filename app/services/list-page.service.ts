@@ -168,11 +168,10 @@ export class ListPageService {
     var dummyImg = "/app/public/no-image.png";
     var dummyRoute = ['Error-page'];
     var dummyRank = '##';
-
     var currentYear = new Date().getFullYear();//TODO FOR POSSIBLE past season stats but for now we have lists for current year season
-
     var carData = data.listData;
     var carInfo = data.listInfo;
+
     if(carData.length == 0){
       var Carousel = {// dummy data if empty array is sent back
         index:'2',
@@ -188,7 +187,22 @@ export class ListPageService {
         var rank = ((Number(data.query.pageNum) - 1) * Number(data.query.limit)) + (index+1);
         val['listRank'] = rank;
 
+        var teamNameLink = {
+                      wrapperStyle: {},
+                      beforeLink: "",
+                      linkObj: MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
+                      linkText: val.teamName,
+                      afterLink: ""
+                  };
+        var playerNameLink = {
+                     wrapperStyle: {'font-size': '22px', 'font-weight': '800', 'line-height': '1.4em'},
+                     beforeLink: "",
+                     linkObj: MLBGlobalFunctions.formatPlayerRoute(val.teamName,val.playerName,val.playerId.toString()),
+                     linkText: val.playerName,
+                     afterLink: ""
+                  };
         if(data.query.profile == 'team'){
+
           var Carousel = {
             index:index,
             imageConfig: ListPageService.imageData(
@@ -201,10 +215,10 @@ export class ListPageService {
               'image-50-sub'),
             description:[
               '<br>',
-              '<p style="font-size:22px"><span class="text-heavy">'+val.teamName+'</span></p>',
-              '<p><i class="fa fa-map-marker text-master"></i> '+val.teamCity +', '+val.teamState+'</p>',
+              teamNameLink,
+              '<span><i class="fa fa-map-marker text-master"></i> '+val.teamCity +', '+val.teamState+'</span>',
               '<br>',
-              '<p style="font-size:22px"><b>'+val.stat+'</b></p>',
+              '<p style="font-size:22px; padding-top: 15px;"><b>'+val.stat+'</b></p>',
               '<p style="font-size:16px"> '+ MLBGlobalFunctions.formatStatName(carInfo.stat)+' for '+ currentYear +'</p>',
             ],
           };
@@ -234,18 +248,20 @@ export class ListPageService {
               MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
             description:[
               '<br>',
-              '<p style="font-size:22px"><span class="text-heavy">'+playerFullName+'</span></p>',
-              '<p>'+val.teamName+' | Jersey: #'+val.uniformNumber+' | '+position+'</p>',
+              playerNameLink,
               '<br>',
-              '<p style="font-size:22px"><span class="text-heavy">'+val.stat+'</span></p>',
-              '<p style="font-size:16px"> '+ MLBGlobalFunctions.formatStatName(carInfo.stat) +' for '+ currentYear+'</p>',
+              teamNameLink,
+              '<span> | Jersey: #' + val.uniformNumber + ' | ' + position + '</span>',
+              '<br>',
+              '<p style="font-size:22px; padding-top: 15px;"><span class="text-heavy">' + val.stat + '</span></p>',
+              '<p style="font-size:16px"> '+ MLBGlobalFunctions.formatStatName(carInfo.stat) +' for ' + currentYear + '</p>',
             ],
           };
           if(profileType == 'page'){
             Carousel['footerInfo'] = {
-              infoDesc:'Interested in discovering more about this player?',
-              text:'View Profile',
-              url:MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId),
+              infoDesc: 'Interested in discovering more about this player?',
+              text: 'View Profile',
+              url: MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId),
             }
           }
         }

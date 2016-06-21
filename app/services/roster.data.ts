@@ -138,20 +138,30 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
     var playerSalary = " makes <span class='text-heavy'>" + formattedSalary + "</span> per season.";
 
     // var coordinator = (val.uniformNumber != null || val.height != null || val.weight != null) ? " and " : " is ";
-
     var subheader =  curYear + ' TEAM ROSTER';
-    var description = '<span class="text-heavy">' + val.playerName +
-                      '</span> <span class="text-heavy">'+ playerNum +
-                      '</span> plays for the <span class="text-heavy">' + val.teamName +
-                      '</span>. The ' + playerHeight + playerWeight + "<span class='text-heavy'>" + val.position.join(', ') + "</span>" + playerSalary;
+    var playerNameLink = {
+                 wrapperStyle: {},
+                 beforeLink: "",
+                 linkObj: MLBGlobalFunctions.formatPlayerRoute(val.teamName,val.playerName,val.playerId.toString()),
+                 linkText: "<span class='roster-car-hdr'>" + val.playerName + "</span>",
+                 afterLink: ""
+              };
+    var teamNameLink = {
+                 wrapperStyle: {'font-size': '14px', 'line-height': '1.4em'},
+                 beforeLink: '<span class="text-heavy">' + val.playerName + '</span> <span class="text-heavy">'+ playerNum + '</span> plays for the ',
+                 linkObj: MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
+                 linkText: val.teamName,
+                 afterLink: '. The ' + playerHeight + playerWeight + "<span class='text-heavy'>" + val.position.join(', ') + "</span>" + playerSalary
+              };
     return {
         index: index,
         backgroundImage: val.backgroundImage != null ? GlobalSettings.getImageUrl(val.backgroundImage) : null,
         imageConfig: this.carouselImage(GlobalSettings.getImageUrl(val.playerHeadshot), playerRoute, GlobalSettings.getImageUrl(val.teamLogo), teamRoute, val.uniformNumber),
         description: [
           "<div class='roster-car-subhdr'><i class='fa fa-circle'></i> " + subheader + "</div>",
-          "<div class='roster-car-hdr'>" + val.playerName + "</div>",
-          "<div class='roster-car-desc'>" + description + "</div>",
+          playerNameLink,
+          "<br/>",
+          teamNameLink,
           "<div class='roster-car-date'>Last Updated On " + GlobalFunctions.formatUpdatedDate(val.lastUpdate) + "</div>"
         ],
         footerInfo: {
