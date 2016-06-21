@@ -8,6 +8,7 @@ import {GlobalSettings} from "../global/global-settings";
 export interface DailyUpdateData {
   hasError: boolean;
   type: string;
+  wrapperStyle: any;
   lastUpdateDate: string;
   chart: DailyUpdateChart;
   fullBackgroundImageUrl: string;
@@ -16,7 +17,7 @@ export interface DailyUpdateData {
 }
 
 export interface DailyUpdateChart {
-  categories: Array<string>;  
+  categories: Array<string>;
   dataSeries: Array<{name: string, values: Array<any>}>;
 }
 
@@ -66,6 +67,7 @@ export class DailyUpdateService {
     return {
       hasError: true,
       type: "",
+      wrapperStyle: {},
       lastUpdateDate: "",
       chart: null,
       fullBackgroundImageUrl: "",
@@ -81,7 +83,7 @@ export class DailyUpdateService {
         .map(res => res.json())
         .map(data => this.formatTeamData(data.data, teamId));
   }
-  
+
   private formatTeamData(data: APIDailyUpdateData, teamId: number): DailyUpdateData {
     if ( !data ) {
       throw new Error("Error! Data is null from Team Daily Update API");
@@ -96,23 +98,23 @@ export class DailyUpdateService {
         record = apiSeasonStats.totalWins + "-" + apiSeasonStats.totalLosses;
       }
       stats = [
-        { 
-          name: "Win Loss Record", 
+        {
+          name: "Win Loss Record",
           value: record,
-          icon: "fa-trophy" 
+          icon: "fa-trophy"
         },
-        { 
-          name: "Hits", 
+        {
+          name: "Hits",
           value: apiSeasonStats.batHits != null ? apiSeasonStats.batHits : "N/A", //TODO: get hits from API
           icon: "fa-batt-and-ball" //TODO: use 'baseball and bat' icon
         },
-        { 
-          name: "Earned Runs Average", 
+        {
+          name: "Earned Runs Average",
           value: apiSeasonStats.pitchEra != null ? Number(apiSeasonStats.pitchEra).toFixed(2) + "%" : "N/A",
           icon: "fa-batter" //TODO: use 'batter swinging' icon
         },
-        { 
-          name: "Runs Batted In", 
+        {
+          name: "Runs Batted In",
           value: apiSeasonStats.batRbi != null ? Number(apiSeasonStats.batRbi) : "N/A",
           icon: "fa-batter-alt" //TODO: get 'batter standing' icon
         }
@@ -137,6 +139,7 @@ export class DailyUpdateService {
           lastUpdateDate: data.lastUpdated ? GlobalFunctions.formatUpdatedDate(data.lastUpdated) : "",
           fullBackgroundImageUrl: GlobalSettings.getImageUrl(data.backgroundImage),
           type: "Team",
+          wrapperStyle: {},
           seasonStats: stats,
           chart: chart,
           postGameArticle: this.postGameArticleData
@@ -146,7 +149,7 @@ export class DailyUpdateService {
       return null;
     }
   }
-  
+
 
   getPlayerDailyUpdate(playerId: number): Observable<DailyUpdateData> {
     //http://dev-homerunloyal-api.synapsys.us/player/dailyUpdate/2800
@@ -156,7 +159,7 @@ export class DailyUpdateService {
         .map(res => res.json())
         .map(data => this.formatPlayerData(data.data, playerId));
   }
-  
+
   private formatPlayerData(data: APIDailyUpdateData, playerId: number): DailyUpdateData {
     if ( !data ) {
       throw new Error("Error! Data is null from Player Daily Update API");
@@ -205,6 +208,7 @@ export class DailyUpdateService {
         lastUpdateDate: data.lastUpdated ? GlobalFunctions.formatUpdatedDate(data.lastUpdated) : "",
         fullBackgroundImageUrl: GlobalSettings.getImageUrl(data.backgroundImage),
         type: "Player",
+        wrapperStyle: {'padding-bottom': '10px'},
         seasonStats: stats,
         chart: chart,
         postGameArticle: this.postGameArticleData
@@ -215,30 +219,30 @@ export class DailyUpdateService {
     }
   }
 
-  private getPitcherStats(apiSeasonStats) {    
+  private getPitcherStats(apiSeasonStats) {
     var record = "N/A";
     if ( apiSeasonStats.pitchWins != null && apiSeasonStats.pitchLosses != null ) {
       record = apiSeasonStats.pitchWins + "-" + apiSeasonStats.pitchLosses;
     }
 
     return [
-        { 
-          name: "Win Loss Record", 
+        {
+          name: "Win Loss Record",
           value: record,
           icon: "fa-trophy"
         },
-        { 
-          name: "Innings Pitched", 
+        {
+          name: "Innings Pitched",
           value: apiSeasonStats.pitchInningsPitched != null ? apiSeasonStats.pitchInningsPitched : "N/A",
           icon: "fa-baseball-diamond" //TODO: get 'baseball field' icon
         },
-        { 
-          name: "Strike Outs", 
+        {
+          name: "Strike Outs",
           value: apiSeasonStats.pitchStrikeouts != null ? apiSeasonStats.pitchStrikeouts : "N/A",
           icon: "fa-baseball-crest" //TODO: get '2 baseball bats' icon
         },
-        { 
-          name: "Earned Runs Average", 
+        {
+          name: "Earned Runs Average",
           value: apiSeasonStats.pitchEra != null ? Number(apiSeasonStats.pitchEra).toFixed(2) : "N/A",
           icon: "fa-batter" //TODO: use 'batter swinging' icon
         }
@@ -248,34 +252,34 @@ export class DailyUpdateService {
   private getBatterStats(apiSeasonStats) {
     var batOnBasePercentage = "N/A";
     if ( apiSeasonStats.batOnBasePercentage != null ) {
-      var value = Number(apiSeasonStats.batOnBasePercentage) * 100; 
+      var value = Number(apiSeasonStats.batOnBasePercentage) * 100;
       batOnBasePercentage = value.toFixed(0) + "%";
     }
-    
+
     var batAverage = "N/A";
     if ( apiSeasonStats.batOnBasePercentage != null ) {
-      var value = Number(apiSeasonStats.batAverage) * 100; 
+      var value = Number(apiSeasonStats.batAverage) * 100;
       batAverage = value.toFixed(0) + "%";
     }
 
     return [
-        { 
-          name: "Home Runs", 
+        {
+          name: "Home Runs",
           value: apiSeasonStats.batHomeRuns != null ? apiSeasonStats.batHomeRuns : "N/A",
           icon: "fa-base-lg" //TODO: get 'homeplate' icon
         },
-        { 
-          name: "Batting Average", 
+        {
+          name: "Batting Average",
           value: batAverage,
           icon: "fa-batt-and-ball" //TODO: get 'baseball and bat' icon
         },
-        { 
-          name: "Runs Batted In", 
+        {
+          name: "Runs Batted In",
           value: apiSeasonStats.batRbi != null ? apiSeasonStats.batRbi : "N/A",
           icon: "fa-batter-alt" //TODO: get 'batter standing' icon
         },
-        { 
-          name: "On Base Percentage", 
+        {
+          name: "On Base Percentage",
           value: batOnBasePercentage,
           icon: "fa-percentage-alt"
         }
@@ -316,7 +320,7 @@ export class DailyUpdateService {
         chart.dataSeries[1].values.push(item[seriesTwo.key] != null ? Number(item[seriesTwo.key]) : null);
       });
       return chart;
-    } 
+    }
     else {
       return null;
     }
