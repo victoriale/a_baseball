@@ -5,21 +5,17 @@ import {GlobalFunctions} from '../global/global-functions';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalSettings} from '../global/global-settings';
 import {TitleInputData} from "../components/title/title.component";
+import {Link} from "../global/global-interface";
+import {DetailListInput} from "../components/detailed-list-item/detailed-list-item.component";
+import {ListPageService} from './list-page.service'
 
 declare var moment;
-
 
 @Injectable()
 
 export class DynamicWidgetCall {
   public apiUrl: string = "http://108.170.11.234:190/list_creator_api.php";
-  listDisplayName: string;
-  profHeader: TitleInputData;
-  listData: Object;
-  carData: Object;
-  profile: string;
   pageLimit: number = 10;
-  paginationParams: Object;
 
   public protocol: string = location.protocol;
 
@@ -44,20 +40,37 @@ export class DynamicWidgetCall {
       )
       .map(
         data => {
+          var profile;
           if(data.data[0].partner_url.match(/^Player/)){
-            this.profile = "player";
+            profile = "player";
           }else if(data.data[0].partner_url.match(/^Team/)){
-            this.profile = "team";
+            profile = "team";
           }
 
-          this.transformData(data);
-          this.setupPagination();
+          var listData = this.detailedData(data, profile);
+
+          var listDisplayName = data ? data.title : "";
+          var paginationParams = {
+            index: 1,
+            max: listData.length - 1,
+            paginationType: 'module'
+          }
+          var profHeader= {
+            // Old placeholder image:  http://www.myinvestkit.com/StateImages/Location_National.jpg
+            imageURL : GlobalSettings.getSiteLogoUrl(),
+            text1 : 'Last Updated: ' + moment(data.date).format('dddd, MMMM Do, YYYY'),
+            text2 : ' United States',
+            text3 : data.title,
+            text4 : '',
+            icon: 'fa fa-map-marker',
+            hasHover: false
+          };
           return {
-            profHeader: this.profHeader,
-            carData: this.transformCarData(data, this.profile),
-            listData: this.detailedData(data, this.profile),
-            pagination: this.paginationParams,
-            listDisplayTitle: this.listDisplayName
+            profHeader: profHeader,
+            carData: this.transformCarData(data, profile),
+            listData: listData,
+            pagination: paginationParams,
+            listDisplayTitle: listDisplayName
           }
         },
         err =>{
@@ -66,88 +79,6 @@ export class DynamicWidgetCall {
       )
   }
 
-  setupPagination(){
-    this.paginationParams = {
-      index: 1,
-      max: 10,//default value will get changed in next function
-      paginationType: 'module'
-    }
-  }
-
-  transformData(data){// TRANSFORM DATA TO PLUG INTO COMPONENTS
-    if(!data) return false;
-
-    var originalData = data.data;
-    var listData = [];
-    var carouselData = [];
-
-    this.listDisplayName = data ? data.title : "";
-
-    this.profHeader= {
-      // Old placeholder image:  http://www.myinvestkit.com/StateImages/Location_National.jpg
-      imageURL : GlobalSettings.getSiteLogoUrl(),
-      text1 : 'Last Updated: ' + moment(data.date).format('dddd, MMMM Do, YYYY'),
-      text2 : ' United States',
-      text3 : data.title,
-      text4 : '',
-      icon: 'fa fa-map-marker',
-      hasHover: false
-    };
-
-    //grab data for the list
-    originalData.forEach(function(val, i){
-      //var test = 'Location-page|{"loc":"kansas-city-ks"}'.split("|");
-      //let generatedUrl = globalFunc.parseToRoute(test);
-      let generatedUrl = GlobalFunctions.parseToRoute(val['primary_url']);
-
-      var listItem = {
-        img :         val.img,
-        list_sub :    val.list_sub,
-        title :       val.title,
-        subtype :     val.tag,
-        numBed :      '',
-        numBath:      '',
-        date:         'Date',
-        value:        val.value,
-        tag:          val.tag,
-        buttonName:   'View Profile',
-        icon:         '',
-        location:     '',
-        market:       '',
-        rank:         val.rank,
-        desc:         val.desc,
-        url:          "#",
-        routePath:    generatedUrl
-      };
-
-      var carItem = {
-        textDetails:    [
-          val.title,
-          "<small>" + val.list_sub+"</small>",
-          "&nbsp;",
-          val.value,
-          "<small>"+val.tag+"</small>"
-        ],
-        callToAction:   "Want more detailed information?",
-        buttonLabel:    "<span class='transparent'></span> <span>View Profile</span> <i class='fa fa-angle-right'></i>",
-        index:          val.rank,
-        imageUrl1:      val.img,
-        linkUrl1:       "#",
-        routePath:      generatedUrl
-      }
-
-      carouselData.push(carItem);
-      listData.push(listItem);
-    })//END of forEach
-
-    //set to listData
-    this.listData = listData;
-    this.carData = carouselData;
-
-  }//END OF TRANSFORM FUNCTION
-
-
-
   transformCarData(data, profile){
     let self = this;
     var carouselArray = [];
@@ -155,7 +86,6 @@ export class DynamicWidgetCall {
     var dummyRoute = ['Error-page'];
     var currentYear = new Date().getFullYear();//TODO FOR POSSIBLE past season stats but for now we have lists for current year season
     var carData = data.data;
-    //var carInfo = data.listInfo;
 
     if(carData.length == 0){
       var Carousel = {// dummy data if empty array is sent back
@@ -229,97 +159,51 @@ export class DynamicWidgetCall {
     return this.modulePagination(carouselArray);
   }
 
-  //TODO replace data points for list page
-  detailsData(mainP1,mainV1,mainUrl1,subP1,subV2,subUrl2, icon?, dataP3?,dataV3?,dataUrl3?){
-    if(typeof dataP3 == 'undefined'){
-      dataP3 = '';
+  detailedData(data, profile:string): Array<DetailListInput>{
+    if ( profile != 'team' && profile != 'player' ) {
+      return []; //invalid profile type, so returning empty list;
     }
-    if(typeof dataV3 == 'undefined'){
-      dataV3 = '';
-    }
+    var self = this;
 
-    var details = [
-      {
-        style:'detail-small',
-        data:dataP3,
-        value:dataV3,
-        url:dataUrl3,
-      },
-      {
-        style:'detail-large',
-        data:mainP1,
-        value:mainV1,
-        url:mainUrl1,
-      },
-      {
-        style:'detail-medium',
-        data:subP1,
-        value:subV2,
-        url:subUrl2,
-        icon:icon,
-      },
-    ];
-    return details;
-  }
-
-
-  detailedData(data,profile){//TODO replace data points for list page
-    let self = this;
-    var listDataArray = [];
+    var listDataArray: DetailListInput[] = [];
 
     var currentYear = new Date().getFullYear();//TODO FOR POSSIBLE past season stats but for now we have lists for current year season
 
     var detailData = data.data;
     //var detailInfo = data.listInfo;
-    detailData.forEach(function(val, index){
-      if(profile == 'team'){
-        var listData = {
-          dataPoints: self.detailsData(
-            "<a>"+val.title+"</a>",
-            val.value,
-            GlobalFunctions.parseToRoute(val['primary_url']),
-            "<span class='text-master text-heavy'>"+val.list_sub+'</span>',
-            val.tag,
-            '',''),
-          imageConfig: self.imageData("image-121","border-2",
-            self.protocol + val.img,
-            GlobalFunctions.parseToRoute(val['primary_url']),
-            val.rank,
-            'image-38-rank',
-            'image-40-sub'),
-          hasCTA:true,
-          ctaDesc:'Want more info about this team?',
-          ctaBtn:'',
-          ctaText:'View Profile',
-          ctaUrl: GlobalFunctions.parseToRoute(val['primary_url'])
-        };
-      }else if(profile == 'player'){
-        var listData = {
-          dataPoints: self.detailsData(
-            "<a>"+val.title+"<a>",
-            val.value,
-            GlobalFunctions.parseToRoute(val['primary_url']),
-            "<a class='text-master text-heavy'>"+val.list_sub+'</a>',
-            val.tag,
-            GlobalFunctions.parseToRoute(val['sub_img']['primary_url'])),
-          imageConfig: self.imageData(
-            "image-121",
-            "border-2",
-            self.protocol + val.img,
-            GlobalFunctions.parseToRoute(val['primary_url']),
-            val.rank,
-            'image-38-rank',
-            'image-40-sub',
-            self.protocol + val['sub_img'].img,
-            GlobalFunctions.parseToRoute(val['sub_img']['primary_url'])),
-          hasCTA:true,
-          ctaDesc: 'Want more info about this player?',
-          ctaBtn: '',
-          ctaText: 'View Profile',
-          ctaUrl: GlobalFunctions.parseToRoute(val['primary_url'])
-        };
+    listDataArray = detailData.map(function(val, index){
+      var primaryRoute = GlobalFunctions.parseToRoute(val['primary_url']);
+
+      var subRoute;
+      var subImage;
+      var imageConfig;
+      var ctaDesc;
+      if(profile == 'team') {
+        ctaDesc = "Want more info about this team?";
       }
-      listDataArray.push(listData);
+      else if ( profile == "player" ) {
+        subRoute = GlobalFunctions.parseToRoute(val['sub_img']['primary_url']);
+        subImage = self.protocol + val['sub_img'].img;
+        ctaDesc = "Want more info about this player?";
+      }
+      
+      return {
+        dataPoints: ListPageService.detailsData(
+            [ //main left text
+              { route: primaryRoute, text: val.title }
+            ],       
+            val.value,   
+            [ //sub left text
+              { text: val.list_sub, class: 'text-master text-heavy', route: subRoute }
+            ],
+            val.tag),
+        imageConfig: ListPageService.imageData("list", self.protocol + val.img, primaryRoute, val.rank, subImage, subRoute),
+        hasCTA:true,
+        ctaDesc:ctaDesc,
+        ctaBtn:'',
+        ctaText:'View Profile',
+        ctaUrl: primaryRoute
+      };
     });
     // console.log('TRANSFORMED List Data', listDataArray);
     return this.modulePagination(listDataArray);
@@ -342,7 +226,6 @@ export class DynamicWidgetCall {
         }
       }
     });
-    this.paginationParams['max'] = objData1.length - 1;
     return objData1;
   }
 
