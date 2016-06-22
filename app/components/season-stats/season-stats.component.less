@@ -28,38 +28,13 @@
     }
   }
   &-car {
-    &-subhdr {
-      .globalDefaultModFont(12px, 400, @white);
-      margin-bottom: 10px;
-      text-transform: uppercase;
-      line-height: 1.2em;
-
-      .fa {
-        color: @masterBrandColor;
-        padding-right: 8px;
-      }
-    }
-
-    &-hdr {
-      .globalDefaultModFont(22px, 800, @white);
-      margin-bottom: 10px;
-      line-height: 1.2em;
-      &:hover{
-        color: @masterBrandColor;
-      }
-    }
-
-    &-date {
-      .globalDefaultModFont(10px, 400, @white);
-      line-height: 1.2em;
-      margin-top: 12px;
-    }
-
     .scc-details-desc {
       height: 170px;
     }
   }
-
+  .custom-table-header {
+    margin-bottom: 5px;
+  }
   .data-column-hdr, .data-column {
     width: 57px; //since it needs to include space for padding
     white-space: nowrap;
@@ -77,6 +52,9 @@
   .image-column {
     color: @masterBrandColor;
     white-space: normal;
+    a{
+      .flexJustify(center);
+    }
     a:hover {
       color: @black;
       text-decoration: none;
@@ -88,13 +66,17 @@
     }
   }
   .pane {
+    padding: 0 10px;
+    h3{
+      .globalDefaultFont(18px, 800);
+    }
     h4 {
-      margin-top: 10px;
+      margin-top: 1px;
       margin-bottom: 5px;
+      padding-top: 10px;
       padding-bottom: 10px;
       border-bottom: 1px solid @highlightGrey;
       .globalDefaultFont(16px, 800);
-
     }
   }
 }
