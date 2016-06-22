@@ -18,6 +18,12 @@ export interface Link {
   class?: string;
 }
 
+export interface ParagraphItem {
+    class?: string;
+    style?: any;
+    textData: Array<Link | string>;
+}
+
 export interface NavigationData {
   title: string;
   links: Array<Link>;

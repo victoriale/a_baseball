@@ -10,8 +10,5 @@ import {Link} from '../../global/global-interface';
 })
 
 export class ComplexInnerHtml {
-  /**
-   * To prevent a link, set the 'route' field of the Link to null or undefined.
-   */
-  @Input() textItems: Array<Link>;
+  @Input() textItems: Array<Link | string>;
 }

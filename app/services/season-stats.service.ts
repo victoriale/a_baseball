@@ -6,7 +6,7 @@ import {GlobalFunctions} from '../global/global-functions';
 import {GlobalSettings} from '../global/global-settings';
 // import {ComparisonBarList} from './common-interfaces';
 
-import {SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
+import {SliderCarousel, SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
 import {CircleImageData} from '../components/images/image-data';
 import {ComparisonBarInput} from '../components/comparison-bar/comparison-bar.component';
 import {SeasonStatsModuleData, SeasonStatsTabData} from '../modules/season-stats/season-stats.module';
@@ -115,7 +115,7 @@ export class SeasonStatsService {
     return {
       tabs: seasonStatTabs,
       profileName: playerInfo.playerName,
-      carouselDataItem: this.getCarouselData(data),
+      carouselDataItem: this.getCarouselData(1, data), //there's only one item in the carousel
       pageRouterLink: this.getLinkToPage(Number(playerInfo.playerId), playerInfo.playerName)
     };
   }
@@ -233,41 +233,29 @@ export class SeasonStatsService {
     };
   }
 
-  private getCarouselData(data: APISeasonStatsData): SliderCarouselInput {
+  private getCarouselData(index: number, data: APISeasonStatsData): SliderCarouselInput {
     if ( !data || !data.playerInfo ) {
       return null;
     }
-
-    return {
-          backgroundImage: GlobalSettings.getImageUrl(data.playerInfo.liveImage),
-          imageConfig: {
-            imageClass: "image-150",
-            mainImage: {
-              imageUrl: GlobalSettings.getImageUrl(data.playerInfo.playerHeadshot),
-              imageClass: "border-large",
-            },
-            subImages: [
-              {
-                imageUrl:  GlobalSettings.getImageUrl(data.playerInfo.teamLogo),
-                urlRouteArray: MLBGlobalFunctions.formatTeamRoute(data.playerInfo.teamName,data.playerInfo.teamId),
-                hoverText: "<i class='fa fa-mail-forward'></i>",
-                imageClass: "image-50-sub image-round-lower-right"
-              }
-            ],
-          },
-          description:[
-            '<p style="font-size: 12px;"><i class="fa fa-circle" style="color:#bc2027; padding-right: 5px;"></i> CURRENT SEASON STATS REPORT</p>',
-            '<p style="font-size: 22px; font-weight: 800; padding:9px 0;">' + data.playerInfo.playerName + '</p>',
-            {
-              wrapperStyle: {'font-size': '14px', 'line-height': '1.4em'},
-              beforeLink: "Team: ",
-              linkObj: MLBGlobalFunctions.formatTeamRoute(data.playerInfo.teamName, data.playerInfo.teamId),
-              linkText: data.playerInfo.teamName,
-              afterLink: ""
-            },
-            '<p style="font-size: 10px; padding-top:12px;">Last Updated On ' + GlobalFunctions.formatUpdatedDate(data.playerInfo.lastUpdate) + '</p>'
-          ]
-      };
+    var teamRoute = MLBGlobalFunctions.formatTeamRoute(data.playerInfo.teamName,data.playerInfo.teamId);
+    var teamRouteText = {
+      route: teamRoute,
+      text: data.playerInfo.teamName
+    };
+    var playerRouteText = {
+      text: data.playerInfo.playerName
+    };
+    return SliderCarousel.convertToSliderCarouselDescription(index, {
+      backgroundImage: GlobalSettings.getImageUrl(data.playerInfo.liveImage),
+      subheader: ["CURRENT SEASON STATS REPORT"],
+      profileNameLink: playerRouteText,
+      description: ["Team: ", teamRouteText],
+      lastUpdatedDate: GlobalFunctions.formatUpdatedDate(data.playerInfo.lastUpdate),
+      circleImageUrl: GlobalSettings.getImageUrl(data.playerInfo.playerHeadshot),
+      circleImageRoute: null, //? the single item on the player profile page, so no link is needed 
+      subImageUrl: GlobalSettings.getImageUrl(data.playerInfo.teamLogo),
+      subImageRoute: teamRoute
+    });
   }
 
   private getKeyDisplayTitle(key: string): string {
