@@ -108,7 +108,6 @@ export class ArticlesModule implements OnInit {
     };
 
     getSchedule(homeData, awayData) {
-        console.log(this.teamID);
         var homeArr = [];
         var awayArr = [];
         var val = [];
@@ -123,10 +122,9 @@ export class ArticlesModule implements OnInit {
                 imageClass: "image-62",
                 mainImage: {
                     imageUrl: homeData.logo,
-                    urlRouteArray: null,
-                    hoverText: null,
                     imageClass: "border-logo"
-                }
+                },
+                subImages: []
             };
             val['homeWins'] = homeData.wins;
             val['homeLosses'] = homeData.losses;
@@ -145,7 +143,8 @@ export class ArticlesModule implements OnInit {
                     urlRouteArray: teamLink,
                     hoverText: "<i class='fa fa-mail-forward'></i>",
                     imageClass: "border-logo"
-                }
+                },
+                subImages: []
             };
             val['awayWins'] = awayData.wins;
             val['awayLosses'] = awayData.losses;
@@ -158,10 +157,9 @@ export class ArticlesModule implements OnInit {
                 imageClass: "image-62",
                 mainImage: {
                     imageUrl: awayData.logo,
-                    urlRouteArray: null,
-                    hoverText: null,
                     imageClass: "border-logo"
-                }
+                },
+                subImages: []
             };
             val['homeWins'] = awayData.wins;
             val['homeLosses'] = awayData.losses;
@@ -180,15 +178,17 @@ export class ArticlesModule implements OnInit {
                     urlRouteArray: teamLink,
                     hoverText: "<i class='fa fa-mail-forward'></i>",
                     imageClass: "border-logo"
-                }
+                },
+                subImages: []
             };
             val['awayWins'] = homeData.wins;
             val['awayLosses'] = homeData.losses;
         }
-        console.log(this.awayData);
         awayArr.push(val);
         this.homeData = homeArr;
         this.awayData = awayArr;
+        console.log(this.homeData);
+        console.log(this.awayData);
     }
 
     getImages(imageList, articleType) {
