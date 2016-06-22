@@ -52,22 +52,24 @@
       text-overflow: ellipsis;
       overflow: hidden;
       color: #ffffff;
+      text-transform: uppercase;
       &-left {
         left: 0;
         text-align: right;
         z-index: 1;
-        position: absolute;
         top: 25px;
         &-url {
           color: @white;
           display: inline-block;
+          &:hover {
+            color: @masterBrandColor;
+          }
         }
       }
       &-right {
         right: 0;
         text-align: left;
         z-index: 1;
-        position: absolute;
         top: 25px;
         &-url {
           color: @white;
@@ -87,7 +89,7 @@
           font-weight: 800;
         }
       }
-      &-record{
+      &-record {
         font-weight: 400;
         &-bold {
           font-weight: 800;
@@ -99,7 +101,7 @@
       font-size: 18px;
       position: absolute;
       top: 40px;
-      width: 100%;
+      left: 48.5%;
       text-align: center;
       line-height: 10px;
     }

@@ -108,6 +108,7 @@ export class ArticlesModule implements OnInit {
     };
 
     getSchedule(homeData, awayData) {
+        console.log(this.teamID);
         var homeArr = [];
         var awayArr = [];
         var val = [];
@@ -118,7 +119,15 @@ export class ArticlesModule implements OnInit {
             val['homeLocation'] = homeData.location;
             val['homeName'] = homeData.name;
             val['homeHex'] = homeData.hex;
-            val['homeLogo'] = homeData.logo;
+            val['homeLogo'] = {
+                imageClass: "image-62",
+                mainImage: {
+                    imageUrl: homeData.logo,
+                    urlRouteArray: null,
+                    hoverText: null,
+                    imageClass: "border-logo"
+                }
+            };
             val['homeWins'] = homeData.wins;
             val['homeLosses'] = homeData.losses;
             homeArr.push(val);
@@ -129,7 +138,7 @@ export class ArticlesModule implements OnInit {
             val['awayHex'] = awayData.hex;
             let teamLink = MLBGlobalFunctions.formatTeamRoute(awayName, awayData.id);
             val['url'] = teamLink;
-            val['awayLogo'] = {//interface is found in image-data.ts
+            val['awayLogo'] = {
                 imageClass: "image-62",
                 mainImage: {
                     imageUrl: awayData.logo,
@@ -145,7 +154,15 @@ export class ArticlesModule implements OnInit {
             val['homeLocation'] = awayData.location;
             val['homeName'] = awayData.name;
             val['homeHex'] = awayData.hex;
-            val['homeLogo'] = awayData.logo;
+            val['homeLogo'] = {
+                imageClass: "image-62",
+                mainImage: {
+                    imageUrl: awayData.logo,
+                    urlRouteArray: null,
+                    hoverText: null,
+                    imageClass: "border-logo"
+                }
+            };
             val['homeWins'] = awayData.wins;
             val['homeLosses'] = awayData.losses;
             homeArr.push(val);
@@ -168,6 +185,7 @@ export class ArticlesModule implements OnInit {
             val['awayWins'] = homeData.wins;
             val['awayLosses'] = homeData.losses;
         }
+        console.log(this.awayData);
         awayArr.push(val);
         this.homeData = homeArr;
         this.awayData = awayArr;
