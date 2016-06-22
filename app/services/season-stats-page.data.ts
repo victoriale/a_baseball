@@ -17,7 +17,7 @@ export interface PlayerInfo {
   lastUpdate: string;
   teamName: string;
   teamId: string;
-  profileHeader: string;
+  liveImage: string;
   playerHeadshot: string;
   teamLogo: string;
   position: string;
@@ -133,7 +133,7 @@ export class MLBSeasonStatsTabData implements TableTabData<TeamSeasonStatsData> 
     var dummyImg = "/app/public/no-image.png";
     var carouselData = {
       index: index,
-      backgroundImage: playerData.profileHeader != null ? GlobalSettings.getImageUrl(playerData.profileHeader) : dummyImg,
+      backgroundImage: playerData.liveImage != null ? GlobalSettings.getImageUrl(playerData.liveImage) : dummyImg,
       description: [
         "<div class='season-stats-car-subhdr'><i class='fa fa-circle'></i>" + subheader + "</div>",
         {
