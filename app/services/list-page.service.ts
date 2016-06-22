@@ -6,7 +6,7 @@ import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalSettings} from '../global/global-settings';
 import {DetailListInput} from '../components/detailed-list-item/detailed-list-item.component';
 import {MVPTabData} from '../components/mvp-list/mvp-list.component';
-import {SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
+import {SliderCarousel, SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
 import {CircleImageData, ImageData} from '../components/images/image-data';
 import {Link} from '../global/global-interface';
 
@@ -205,81 +205,68 @@ export class ListPageService {
       carouselArray = carData.map(function(val, index){
         var carouselItem;
         var rank = ((Number(data.query.pageNum) - 1) * Number(data.query.limit)) + (index+1);
-        var mainFontSize = (profileType == 'page' ? 24 : 22);
         val.listRank = rank;
+
+        var teamRoute = MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId);
+        var teamLinkText = {
+          route: teamRoute,
+          text: val.teamName
+        };
+
+        var ctaDesc: string;
+        var primaryRoute: Array<any>;
+        var primaryImage: string;
+        var profileLinkText: Link;
+        var description: Array<Link | string>;
+
+
+        if(data.query.profile == 'team') {
+          ctaDesc = 'Interested in discovering more about this team?';
+          primaryRoute = teamRoute;
+          primaryImage = GlobalSettings.getImageUrl(val.teamLogo);
+
+          profileLinkText = teamLinkText;
+
+          description = ['<i class="fa fa-map-marker text-master"></i>', val.teamCity + ', ' + val.teamState];                    
+        } else { //if profile == 'player'
+          ctaDesc = 'Interested in discovering more about this player?';
+          primaryRoute = MLBGlobalFunctions.formatPlayerRoute(val.teamName,val.playerName,val.playerId.toString());
+          primaryImage = GlobalSettings.getImageUrl(val.imageUrl);
+
+          profileLinkText = {
+            route: primaryRoute,
+            text: val.playerName
+          };
+          
+          var position = val.position.join(", ");
+          description = [
+            teamLinkText,
+            '<span class="separator">|</span> ',
+            'Jersey: #'+val.uniformNumber,
+            ' <span class="separator">|</span> ',
+            position
+          ];
+        }        
+
+        carouselItem = SliderCarousel.convertListItemToSliderCarouselItem(index, {
+          isPageCarousel: profileType == 'page',
+          profileNameLink: profileLinkText,
+          description: description,
+          dataValue: val.stat,
+          dataLabel: MLBGlobalFunctions.formatStatName(carInfo.stat)+' for '+ currentYear,
+          circleImageUrl: primaryImage,
+          circleImageRoute: primaryRoute,
+          rank: rank
+        });
         
-        var teamNameLink = {
-                     wrapperStyle: {},
-                     beforeLink: "",
-                     linkObj: MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
-                     linkText: val.teamName,
-                     afterLink: ""
-                  };
-
-        if(data.query.profile == 'team'){
-          teamNameLink.wrapperStyle = {'font-size': mainFontSize + 'px', 'font-weight': '800', 'line-height': '1.4em'};
-          carouselItem = {
-            index:index,
-            imageConfig: ListPageService.imageData("carousel",
-              GlobalSettings.getImageUrl(val.teamLogo),
-              MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
-              val.listRank),
-            description:[
-              '<br>',
-              teamNameLink,
-              '<p><i class="fa fa-map-marker text-master"></i> '+val.teamCity +', '+val.teamState+'</p>',
-              '<br>',
-              '<p style="font-size:24px; line-height:26px"><b>'+val.stat+'</b></p>',
-              '<p style="font-size:16px"> '+ MLBGlobalFunctions.formatStatName(carInfo.stat)+' for '+ currentYear +'</p>',
-            ],
-          };
-          if(profileType == 'page'){
-            carouselItem['footerInfo'] = {
-              infoDesc:'Interested in discovering more about this team?',
-              text:'View Profile',
-              url:MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
-            }
-          }
-        }else if(data.query.profile == 'player'){
-          var position = '';
-          position = val.position.join(", ");
-
-          var playerNameLink = {
-                      wrapperStyle: {'font-size': mainFontSize + 'px', 'font-weight': '800', 'line-height': '1.4em'},
-                      beforeLink: "",
-                      linkObj: MLBGlobalFunctions.formatPlayerRoute(val.teamName,val.playerName,val.playerId.toString()),
-                      linkText: val.playerName,
-                      afterLink: ""
-                    };
-
-          var playerFullName = val.playerFirstName + " " + val.playerLastName;
-          carouselItem = {
-            index:index,
-            imageConfig: ListPageService.imageData("carousel",
-              GlobalSettings.getImageUrl(val.imageUrl),
-              MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId),
-              val.listRank,
-              GlobalSettings.getImageUrl(val.teamLogo),
-              MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
-            description:[
-              '<br>',
-              playerNameLink,
-              '<br>',
-              teamNameLink,
-              '<span class="separator">|</span> Jersey: #'+val.uniformNumber+' <span class="separator">|</span> '+position+'</p>',
-              '<br>',
-              '<p style="font-size:24px; line-height:26px"><span class="text-heavy">'+val.stat+'</span></p>',
-              '<p style="font-size:16px"> '+ MLBGlobalFunctions.formatStatName(carInfo.stat) +' for '+ currentYear+'</p>',
-            ],
-          };
-          if(profileType == 'page'){
-            carouselItem['footerInfo'] = {
-              infoDesc:'Interested in discovering more about this player?',
-              text:'View Profile',
-              url:MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId),
-            }
+        if(profileType == 'page'){
+          carouselItem.footerInfo = {
+            infoDesc: ctaDesc,
+            text: 'View Profile',
+            url: primaryRoute
           }
         }
+
         return carouselItem;
       });
     }
@@ -424,15 +411,16 @@ export class ListPageService {
     if(!dataLeftText) {
       dataLeftText = [];
     }
-    if(dataRightValue == null){
-      dataRightValue = '';
+    var dataRightText = []
+    if(dataRightValue != null){
+      dataRightText.push(dataRightValue);
     }
 
     var details = [
       {
         style:'detail-small',
         leftText: dataLeftText,
-        rightText:[{text: dataRightValue}]
+        rightText: dataRightText
       },
       {
         style:'detail-large',

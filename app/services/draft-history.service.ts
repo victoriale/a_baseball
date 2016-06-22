@@ -4,7 +4,9 @@ import {Http, Headers} from 'angular2/http';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
 import {GlobalSettings} from '../global/global-settings';
+import {SliderCarousel, SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
 import {CircleImageData} from '../components/images/image-data';
+import {ListPageService} from './list-page.service';
 
 @Injectable()
 export class DraftHistoryService {
@@ -84,7 +86,7 @@ export class DraftHistoryService {
       var Carousel = {
         index:'2',
         //TODO
-        imageConfig: self.imageData("image-150","border-large",dummyImg,'', null, "image-50-sub",dummyImg,''),
+        imageConfig: ListPageService.imageData("carousel", dummyImg, null, 1),
         description:[
           "<p style='font-size:20px'><b>Sorry, we currently do not have any data for this year's draft history</b><p>",
         ],
@@ -94,27 +96,34 @@ export class DraftHistoryService {
       //if data is coming through then run through the transforming function for the module
       data.forEach(function(val, index){
         var playerFullName = val.playerFirstName + " " + val.playerLastName;
-        var Carousel = {
-          index:index,
-          backgroundImage: GlobalSettings.getImageUrl(val.backgroundImage),
-          imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.imageUrl),MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId), (index+1), "image-48-rank", "image-50-sub",GlobalSettings.getImageUrl(val.teamLogo),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
-          description:[
-            '<br>',
-            '<p style="font-size:22px"><b>'+val.playerName+'</b></p>',
-            '<p>Hometown: <b>'+ GlobalFunctions.toTitleCase(val.city) + ', ' + GlobalFunctions.stateToAP(val.area) +'</b></p>',
-            '<br>',
-            '<p style="font-size:24px"><b>'+val.selectionOverall+' Overall</b></p>',
-            '<p>Draft Round '+val.selectionLevel+'</p>',
-          ],
+
+        var playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId);
+        var playerLinkText = {
+          route: playerRoute,
+          text: playerFullName
         };
+
+        var rank = (index+1).toString();
+        var location = GlobalFunctions.toTitleCase(val.city) + ', ' + GlobalFunctions.stateToAP(val.area);
+        var carouselItem = SliderCarousel.convertListItemToSliderCarouselItem(index, {
+          isPageCarousel: false, 
+          backgroundImage: GlobalSettings.getImageUrl(val.backgroundImage),
+          profileNameLink: playerLinkText,
+          description: ['Hometown: ', location],
+          dataValue: val.selectionOverall + " Overall",
+          dataLabel: "Draft Round " + val.selectionLevel,
+          circleImageUrl: GlobalSettings.getImageUrl(val.imageUrl),
+          circleImageRoute: playerRoute,
+          rank: rank
+        });
         if(type == 'page'){
-          Carousel['footerInfo'] = {
+          carouselItem.footerInfo = {
             infoDesc:'Interested in discovering more about this player?',
             text:'View Profile',
-            url:MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId),
+            url:playerRoute,
           }
         }
-        carouselArray.push(Carousel);
+        carouselArray.push(carouselItem);
       });
     }
     // console.log('TRANSFORMED CAROUSEL', carouselArray);
@@ -122,118 +131,35 @@ export class DraftHistoryService {
   }
 
   detailedData(data){
-    let self = this;
-    var listDataArray = [];
-
-    var dummyImg = "/app/public/no-image.png";
-    var dummyRoute = ['Disclaimer-page'];
-    var dummyRank = '#4';
-
-    var dummyProfile = "[Profile Name]";
-    var dummyProfVal = "[Data Value 1]";
-    var dummyProfUrl = ['Disclaimer-page'];
-    var dummySubData = "[Data Value]: [City], [ST]";
-    var dummySubDesc = "[Data Description]";
-    var dummySubUrl = ['Disclaimer-page'];
-
-    data.forEach(function(val, index){
+    var listDataArray = data.map(function(val, index){
       var playerFullName = val.playerFirstName + " " + val.playerLastName;
+      var location = GlobalFunctions.toTitleCase(val.city) + ', ' + GlobalFunctions.stateToAP(val.area);
+      var rank = (index+1);
+
+      var playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId);
+      var teamRoute = MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam);   
+
       var listData = {
-        dataPoints: self.detailsData(
-          val.playerName,
+        dataPoints: ListPageService.detailsData(
+          [//main left text
+            { route: playerRoute, text: playerFullName, class: "dataBox-mainLink" }
+          ],
           val.selectionOverall+' Overall',
-          MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName,
-          playerFullName, val.personId),
-          'Hometown: '+ GlobalFunctions.toTitleCase(val.city) + ', ' + GlobalFunctions.stateToAP(val.area),
+          [//sub left text
+            {text: "Hometown: " + location}
+          ],
           'Draft Round '+val.selectionLevel,
-          MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)
-        ),
-        imageConfig: self.imageData("image-121","border-2",
-        GlobalSettings.getImageUrl(val.imageUrl),MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId),(index+1),"image-38-rank","image-40-sub",GlobalSettings.getImageUrl(val.teamLogo),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
+          'fa fa-map-marker'),
+        imageConfig: ListPageService.imageData("list", GlobalSettings.getImageUrl(val.imageUrl), playerRoute, rank),
         hasCTA:true,
         ctaDesc:'Want more info about this player?',
         ctaBtn:'',
         ctaText:'View Profile',
-        ctaUrl:MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId)
+        ctaUrl: playerRoute
       };
-      listDataArray.push(listData);
+      return listData;
     });
     // console.log('TRANSFORMED List Data', listDataArray);
     return listDataArray;
   }//end of function
-
-  /**
-   *this function will have inputs of all required fields that are dynamic and output the full
-  **/
-  imageData(imageClass, imageBorder, mainImg, mainImgRoute, rank, rankClass, subImgClass, subImg?, subRoute?){
-    if(typeof mainImg =='undefined' || mainImg == ''){
-      mainImg = "/app/public/no-image.png";
-    }
-    if(typeof subImg =='undefined' || subImg == ''){
-      subImg = "/app/public/no-image.png";
-    }
-    var image: CircleImageData = {//interface is found in image-data.ts
-        imageClass: imageClass,
-        mainImage: {
-            imageUrl: mainImg,
-            urlRouteArray: mainImgRoute,
-            hoverText: "<p>View</p><p>Profile</p>",
-            imageClass: imageBorder,
-        },
-        subImages: rank != null ? [
-          {
-            text: "#"+rank,
-            imageClass: rankClass+ " image-round-upper-left image-round-sub-text"
-          }
-        ] : null,
-    };
-    if(typeof subRoute != 'undefined') {
-      image.subImages = [
-          {
-              imageUrl: subImg,
-              urlRouteArray: subRoute,
-              hoverText: "<i class='fa fa-mail-forward'></i>",
-              imageClass: subImgClass + " image-round-lower-right"
-          },
-          {
-              text: "#"+rank,
-              imageClass: rankClass+ " image-round-upper-left image-round-sub-text"
-          }
-      ];
-    }
-    return image;
-  }
-
-
-  detailsData(mainP1,mainV1,mainUrl1,subP1,subV2,subUrl2,dataP3?,dataV3?,dataUrl3?){
-    if(typeof dataP3 == 'undefined'){
-      dataP3 = '';
-    }
-    if(typeof dataV3 == 'undefined'){
-      dataV3 = '';
-    }
-
-    var details = [
-      {
-        style:'detail-small',
-        data:dataP3,
-        value:dataV3,
-        url:dataUrl3,
-      },
-      {
-        style:'detail-large',
-        data:mainP1,
-        value:mainV1,
-        url:mainUrl1,
-      },
-      {
-        style:'detail-medium',
-        data:subP1,
-        value:subV2,
-        url:subUrl2,
-        icon:'fa fa-map-marker',
-      },
-    ];
-    return details;
-  }
 }

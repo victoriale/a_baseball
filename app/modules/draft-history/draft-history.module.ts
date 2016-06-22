@@ -29,7 +29,6 @@ export class DraftHistoryModule{
   detailedDataArray:any; //variable that is just a list of the detailed DataArray
   carouselDataArray: any;
   footerData: Object;
-  footerStyle: any;
   teamId:number;
   constructor( public params: RouteParams){
     this.teamId = Number(this.params.get('teamId'));

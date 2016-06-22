@@ -58,6 +58,35 @@ export interface Type1CarouselItem {
   rank?: string;
 }
 
+export interface ListTypeCarouselItem {
+  /**
+   * This flag only determines the size of text to use
+   * for the profile name, as spec has a larger size on 
+   * the page versions of the module
+   */
+  isPageCarousel: boolean;
+
+  profileNameLink: Link;
+
+  description: Array<Link | string>;
+
+  dataValue: string;
+
+  dataLabel: string;
+
+  backgroundImage?: string;
+
+  circleImageUrl: string;
+
+  circleImageRoute: Array<any>;
+
+  subImageUrl?: string;
+
+  subImageRoute?: Array<any>;
+
+  rank?: string;
+}
+
 @Component({
   selector: 'slider-carousel',
   templateUrl: './app/components/carousels/slider-carousel/slider-carousel.component.html',
@@ -159,20 +188,71 @@ export class SliderCarousel implements OnInit {
         backgroundImage: item.backgroundImage, //optional
         description: [
           {//Carousel title line
-            class: 'scc-details-desc-subhdr',
+            class: 'scc-details-type1-subhdr',
             textData: subheaderText
           },
           {//Item title line
-            class: 'scc-details-desc-hdr',
+            class: 'scc-details-type1-hdr',
             textData: [item.profileNameLink]
           },
           {//Description line
-            class: 'scc-details-desc-desc',
+            class: 'scc-details-type1-desc',
             textData: item.description
           },
           {//Last Updated line
-            class: 'scc-details-desc-date',
+            class: 'scc-details-type1-date',
             textData: ["Last Updated On " + item.lastUpdatedDate]
+          }
+        ],
+      imageConfig: {
+        imageClass: "image-150",
+        mainImage: {
+          imageClass: "border-10",
+          urlRouteArray: item.circleImageRoute,
+          imageUrl: item.circleImageUrl,
+          hoverText: "<p>View</p><p>Profile</p>"
+        },
+        subImages: subImages
+      }
+    };
+  }
+
+  static convertListItemToSliderCarouselItem(index: number, item: ListTypeCarouselItem): SliderCarouselInput {
+    var subImages = [];
+    
+    if ( item.subImageRoute ) {
+      subImages.push({
+          imageUrl: item.subImageUrl,
+          urlRouteArray: item.subImageRoute,
+          hoverText: "<i class='fa fa-mail-forward'></i>",
+          imageClass: "image-50-sub image-round-lower-right"
+      });
+    }
+    if ( item.rank != null ) {
+      subImages.push({
+          text: "#" + item.rank,
+          imageClass: "image-48-rank image-round-upper-left image-round-sub-text"
+      });
+    }
+    return { 
+        index: index,
+        backgroundImage: item.backgroundImage, //optional
+        description: [
+          {//[Profile Name 1]
+            class: item.isPageCarousel ? 'scc-details-type2-page-hdr' : 'scc-details-type2-hdr',
+            textData: [item.profileNameLink]
+          },
+          {//data value list
+            class: 'scc-details-type2-desc',
+            textData: item.description
+          },
+          {//[Data Value 1]
+            class: 'scc-details-type2-value',
+            textData: [item.dataValue]
+          },
+          {//[Data Point 1]
+            class: 'scc-details-type2-lbl',
+            textData: [item.dataLabel]
           }
         ],
       imageConfig: {
