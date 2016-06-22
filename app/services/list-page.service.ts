@@ -145,7 +145,10 @@ export class ListPageService {
           case 'pitcher-strikeouts':
           case "pitcher-innings-pitched":
           case 'pitcher-hits-allowed':
+          case 'batter-bases-on-balls':
           case 'batter-home-runs':
+          case 'batter-runs-batted-in':
+          case 'batter-hits':
               // format as integer
               var temp = Number(item.stat);
               item.stat = temp.toFixed(0);
@@ -156,10 +159,7 @@ export class ListPageService {
               item.stat = temp.toFixed(2); // format as integer
               break;
 
-          case 'batter-runs-batted-in':
-          case 'batter-hits':
           case 'batter-batting-average':
-          case 'batter-bases-on-balls':
               var temp = Number(item.stat);
               item.stat = temp.toFixed(3); // format as integer
               break;
@@ -328,7 +328,7 @@ export class ListPageService {
             ],
             statDescription,
             null),
-            imageConfig: ListPageService.imageData("list",GlobalSettings.getImageUrl(val.imageUrl),playerRoute, val.listRank, '',null),
+            imageConfig: ListPageService.imageData("list",GlobalSettings.getImageUrl(val.imageUrl),playerRoute, val.listRank, '', null),
           hasCTA:true,
           ctaDesc:'Want more info about this player?',
           ctaBtn:'',
