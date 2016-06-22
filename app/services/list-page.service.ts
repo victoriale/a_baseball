@@ -9,6 +9,7 @@ import {MVPTabData} from '../components/mvp-list/mvp-list.component';
 import {SliderCarousel, SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
 import {CircleImageData, ImageData} from '../components/images/image-data';
 import {Link} from '../global/global-interface';
+import {TitleInputData} from '../components/title/title.component';
 
 declare var moment;
 
@@ -170,17 +171,16 @@ export class ListPageService {
       });
   }
 
-  static profileHeader(data){
+  static profileHeader(data): TitleInputData {
     var profile = data.listInfo;
-    var profileData = {
+    return {
       imageURL: GlobalSettings.getSiteLogoUrl(), //TODO
+      imageRoute: ["MLB-page"], //TODO: change if image changes
       text1: 'Last Updated: '+ GlobalFunctions.formatUpdatedDate(data.listData[0].lastUpdate),
       text2: 'United States',
       text3: profile.name,
-      icon: 'fa fa-map-marker',
-      hasHover : true,
+      icon: 'fa fa-map-marker'
     };
-    return profileData;
   }
 
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components

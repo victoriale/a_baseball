@@ -54,10 +54,11 @@ export class DraftHistoryPage implements OnInit{
       .subscribe(
           data => {
             this._title.setTitle(GlobalSettings.getPageTitle("Draft History", data.teamName));
-            var profHeader = this.profHeadService.convertTeamPageHeader(data, this.whatProfile);
-            this.profileHeaderData = profHeader.data;
+            var stats = data.headerData.stats;
+            var pageNameForTitle = stats.teamName + " " + stats.seasonId + " - " + this.whatProfile;
+            this.profileHeaderData = this.profHeadService.convertTeamPageHeader(data, pageNameForTitle);
             this.errorData = {
-              data: profHeader.error,
+              data: "Sorry, the " + stats.teamName + " do not currently have any data for the " + stats.seasonId + " " + this.whatProfile,
               icon: "fa fa-remove"
             }
           },
@@ -73,10 +74,9 @@ export class DraftHistoryPage implements OnInit{
       .subscribe(
           data => {
             this._title.setTitle(GlobalSettings.getPageTitle("Draft History", data.profileName1));
-            var profHeader = this.profHeadService.convertMLBHeader(data, this.whatProfile);
-            this.profileHeaderData = profHeader.data;
+            this.profileHeaderData = this.profHeadService.convertMLBHeader(data, this.whatProfile);
             this.errorData = {
-              data: profHeader.error,
+              data: "Sorry, MLB does not currently have any data for " + this.whatProfile,
               icon: "fa fa-remove"
             }
           },

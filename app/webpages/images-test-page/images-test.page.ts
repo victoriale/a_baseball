@@ -41,8 +41,7 @@ export class ImagesTestPage {
           text2: ' United States of America',
           text3: 'Test Page',
           text4: 'A test page for designing and viewing CSS styles',
-          icon: 'fa fa-map-marker',
-          hasHover: false
+          icon: 'fa fa-map-marker'
       };
       
       this.gradientStyles.push(Gradient.getGradientStyles(["#A71930","#000000","#E3D4AD"], .75));

@@ -255,33 +255,7 @@ export class ProfileHeaderService {
         });
   }
 
-  convertTransactionsPageHeader(data: TeamProfileData, pageName?:string) {
-    //console.log("data",data);
-    var stats = data.headerData.stats;
-
-    if (!stats) {
-      return null;
-    }
-    if(typeof pageName == 'undefined'){
-      pageName = '';
-    }
-    var headerData = {
-      data:{
-        imageURL: data.fullProfileImageUrl,
-        text1: 'Last Updated: ' + GlobalFunctions.formatUpdatedDate(data.headerData['lastUpdatedDateTime']),
-        text2: 'United States',
-        text3: " - " + stats.teamName,
-        icon: 'fa fa-map-marker',
-        hasHover : true,
-        routerLink : "['Error-page']",
-        urlRouteArray: "['Error-page']"
-      },
-      error: "Sorry, the " + stats.teamName + " do not currently have any data for the " + stats.seasonId + " " + pageName
-    }
-    return headerData;
-  }
-
-  convertTeamPageHeader(data: TeamProfileData, pageName?:string) {
+  convertTeamPageHeader(data: TeamProfileData, pageName:string): TitleInputData {
     var description = data.headerData.description;
     var stats = data.headerData.stats;
 
@@ -291,43 +265,26 @@ export class ProfileHeaderService {
     if(typeof pageName == 'undefined'){
       pageName = '';
     }
-    var headerData = {
-      data:{
-        imageURL: data.fullProfileImageUrl, //TODO
-        text1: 'Last Updated:' + moment(data.headerData.lastUpdated).format('dddd MMMM Do, YYYY'), //TODO
-        text2: 'United States',
-        text3: stats.teamName + " " + stats.seasonId + " - " + pageName,
-        icon: 'fa fa-map-marker',
-        hasHover : true,
-      },
-      error: "Sorry, the " + stats.teamName + " do not currently have any data for the " + stats.seasonId + " " + pageName
-    }
-    return headerData;
+    var teamId = data.pageParams.teamId ? data.pageParams.teamId.toString() : null;
+    return {
+      imageURL: data.fullProfileImageUrl, //TODO
+      imageRoute: MLBGlobalFunctions.formatTeamRoute(data.teamName, teamId),
+      text1: 'Last Updated:' + GlobalFunctions.formatUpdatedDate(data.headerData.lastUpdated),
+      text2: 'United States',
+      text3: pageName,
+      icon: 'fa fa-map-marker'
+    };
   }
 
-
-  convertMLBHeader(data: any, pageName?:string) {
-    var currentDate = new Date();// no stat for date so will grab current year client is on
-    var display:string;
-    if(typeof pageName == 'undefined'){
-      pageName = 'Page';
-    }
-
-    if(currentDate.getFullYear() == currentDate.getFullYear()){// TODO must change once we have historic data
-      display = "Current Season"
-    }
-    var headerData = {
-      data:{
-        imageURL: GlobalSettings.getImageUrl(data.logo), //TODO
-        text1: 'Last Updated:' + moment(currentDate).format('dddd MMMM Do, YYYY'),//TODO
-        text2: 'United States',
-        text3: display + " " + pageName + " - " + data.profileName1,
-        icon: 'fa fa-map-marker',
-        hasHover : true,
-      },
-      error: data.profileName1 + " has not record of anymore games for the current season."
-    }
-    return headerData;
+  convertMLBHeader(data: LeagueProfileHeaderData, pageName:string): TitleInputData {
+    return {
+      imageURL: GlobalSettings.getImageUrl(data.logo), //TODO
+      imageRoute: ["MLB-page"],
+      text1: 'Last Updated:' + GlobalFunctions.formatUpdatedDate(data.lastUpdated),
+      text2: 'United States',
+      text3: pageName,
+      icon: 'fa fa-map-marker'
+    };
   }
 
   convertToPlayerProfileHeader(data: PlayerProfileData): ProfileHeaderData {
