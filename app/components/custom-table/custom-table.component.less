@@ -9,7 +9,7 @@
     .globalDefaultFont(12px, 400);
     border: @strokeGrey 1px solid;
 
-    margin-left: 5px;
+    // margin-left: 5px;
     margin-bottom: 10px;
 
     &-sort:hover {
@@ -27,8 +27,8 @@
     right: 4px;
   }
 
-  th:first-of-type &-header {
-    margin-left: 0px;
+  th+th &-header {
+    margin-left: 5px;
   }
 
   /** regular body and cell definitions **/
@@ -44,6 +44,7 @@
     &-cell {
       .globalDefaultFont(16px, 400);
       padding: 6px;
+      line-height: 18px;
     }
   }
 
@@ -56,7 +57,13 @@
     &-cell {
       .globalDefaultFont(12px, 400);
       padding: 10px 6px;
+      line-height: 14px;
     }
+  }
+
+  td+td .custom-table-body-cell,
+  td+td .custom-table-compact-cell {
+    margin-left: 5px;
   }
 
   /** row definitions **/
