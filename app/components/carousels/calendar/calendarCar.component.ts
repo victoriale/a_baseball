@@ -4,8 +4,8 @@ import {GlobalFunctions} from '../../../global/global-functions';
 import {MLBGlobalFunctions} from '../../../global/mlb-global-functions';
 import {GlobalSettings} from '../../../global/global-settings';
 
-// import {FORM_DIRECTIVES} from 'angular2/common';
-// import {DatePicker} from 'ng2-datepicker';
+import {DatePicker} from '../../date-picker/date-picker.component';
+import {FORM_DIRECTIVES} from 'angular2/common';
 
 declare var moment;
 
@@ -28,7 +28,7 @@ export interface weekDate {
 @Component({
     selector: 'calendar-carousel',
     templateUrl: './app/components/carousels/calendar/calendarCar.component.html',
-    directives: [],
+    directives: [DatePicker, FORM_DIRECTIVES],
     providers: [BoxScoresService],
     outputs:['dateEmit'],
 })
@@ -41,20 +41,21 @@ export class CalendarCarousel implements OnInit{
   public weeklyDates: Array<any>;
   public failSafe: number = 0;
 
-
-  test: Test;
-  test1: Test;
-
   constructor(private _boxScores:BoxScoresService){
-    this.test = moment();
-    this.test1 = moment();
   }
-
+  //datepicker that chooses the monthly calendar and update all the necessary functions for the rest of the components
+  datePicker(event){
+    this.chosenParam.date = moment(event).tz('America/New_York').format('YYYY-MM-DD');
+    this.callWeeklyApi(this.chosenParam)
+    .subscribe( data => {
+      this.validateDate(this.chosenParam.date, this.weeklyDates);
+    })
+    this.dateEmit.next(this.chosenParam);//sends through output so date can be used outside of component
+  }
   ngOnInit(){
     //on load grab the input chosenParam and set new variable for currently viewing dates that is used for any changes without changing initial input while it goes through validation
     var params = this.chosenParam;
     this.curDateView = {profile: params.profile, teamId: params.teamId, date: params.date};
-
     //make call to week api to grab to see if any games are available (true/false)
     this.callWeeklyApi(this.chosenParam)
     .subscribe( data => {
@@ -217,7 +218,6 @@ export class CalendarCarousel implements OnInit{
       }else{
         //reset failsafe
         this.failSafe = 0;
-
         //make sure to only set new params if new number has been validatedDated
         //otherwise set the new chosenParam to the mostRecent date that has been found
         if(validatedDate != 0){
