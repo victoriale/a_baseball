@@ -151,6 +151,8 @@ export class MLBSeasonStatsTabData implements TableTabData<TeamSeasonStatsData> 
       lastUpdatedDate: GlobalFunctions.formatUpdatedDate(playerData.lastUpdate),
       circleImageUrl: GlobalSettings.getImageUrl(playerData.playerHeadshot),
       circleImageRoute: playerRoute
+      // subImageUrl: GlobalSettings.getImageUrl(playerData.teamLogo),
+      // subImageRoute: teamRoute
     });
   }
 }

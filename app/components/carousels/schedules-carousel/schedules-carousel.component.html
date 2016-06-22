@@ -12,7 +12,9 @@
         </div>
         <div class="competitors-info2">
           <div class="competitors-stats">
-            <span>{{dataPoint.teamName1}}</span>
+            <span><a [routerLink]="dataPoint.teamUrl1">
+              {{dataPoint.teamName1}}</a>
+            </span>
             <span><i class="fa fa-map-marker"></i>{{dataPoint.teamLocation1}} <span class="pipe-seperator">|</span> {{dataPoint.teamRecord1}}</span>
           </div>
         </div>
@@ -27,7 +29,8 @@
         </div>
         <div class="competitors-info2">
           <div class="competitors-stats">
-            <span>{{dataPoint.teamName2}}</span>
+            <span><a [routerLink]="dataPoint.teamUrl2">
+              {{dataPoint.teamName2}}</a></span>
             <span><i class="fa fa-map-marker"></i>{{dataPoint.teamLocation2}} <span class="pipe-seperator">|</span> {{dataPoint.teamRecord2}}</span>
           </div>
         </div>

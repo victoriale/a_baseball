@@ -155,13 +155,15 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
       description: [
           '<span class="text-heavy">',
           playerLinkText,
-          '</span> <span class="text-heavy">'+ playerNum + '</span> plays for the ', 
+          '</span> <span class="text-heavy">'+ playerNum + '</span> plays for the ',
           teamLinkText,
           '. The ' + playerHeight + playerWeight + "<span class='text-heavy'>" + val.position.join(', ') + "</span>" + playerSalary
       ],
       lastUpdatedDate: GlobalFunctions.formatUpdatedDate(val.lastUpdate),
       circleImageUrl: GlobalSettings.getImageUrl(val.playerHeadshot),
       circleImageRoute: playerRoute,
+      // subImageUrl: GlobalSettings.getImageUrl(val.teamLogo),
+      // subImageRoute: teamRoute,
       rank: val.uniformNumber
     });
   }
