@@ -124,7 +124,7 @@ export class BoxScoresService {
   }
 
   var callURL = this._apiUrl+'/'+profile+'/gameDates'+teamId+'/'+ date;//localToEST needs tobe the date coming in AS UNIX
-  console.log(callURL);
+  // console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
