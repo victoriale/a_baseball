@@ -43,6 +43,9 @@ import {Division, Conference, MLBPageParameters} from '../../global/global-inter
 
 import {HeadlineComponent} from '../../components/headline/headline.component';
 
+import {DraftHistoryModule} from '../../modules/draft-history/draft-history.module';
+import {DraftHistoryService} from '../../services/draft-history.service';
+
 import {NewsModule} from '../../modules/news/news.module';
 import {NewsService} from '../../services/news.service';
 
@@ -68,6 +71,7 @@ declare var moment;
         StandingsModule,
         CommentModule,
         DYKModule,
+        DraftHistoryModule,
         FAQModule,
         LikeUs,
         TwitterModule,
@@ -82,6 +86,7 @@ declare var moment;
         ListPageService,
         StandingsService,
         ProfileHeaderService,
+        DraftHistoryService,
         ImagesService,
         NewsService,
         FaqService,
@@ -96,6 +101,7 @@ export class MLBPage implements OnInit {
     public shareModuleInput:ShareModuleInput;
 
     pageParams:MLBPageParameters = {};
+    currentYear: number;
     partnerID:string = null;
     hasError: boolean = false;
 
@@ -108,6 +114,7 @@ export class MLBPage implements OnInit {
     boxScoresData:any;
     currentBoxScores:any;
     dateParam:any;
+    draftHistoryData:any;
 
     batterParams:any;
     batterData:Array<BaseballMVPTabData>;
@@ -134,12 +141,15 @@ export class MLBPage implements OnInit {
                 private _schedulesService:SchedulesService,
                 private _imagesService:ImagesService,
                 private _newsService: NewsService,
+                private _draftService:DraftHistoryService,
                 private _faqService: FaqService,
                 private _dykService: DykService,
                 private _twitterService: TwitterService,
                 private _comparisonService: ComparisonStatsService,
                 private listService:ListPageService) {
         _title.setTitle(GlobalSettings.getPageTitle("MLB"));
+
+        this.currentYear = new Date().getFullYear();
         
         //for boxscores
         var currentUnixDate = new Date().getTime();
@@ -169,8 +179,8 @@ export class MLBPage implements OnInit {
                 /*** Keep Up With Everything MLB ***/
                 this.getBoxScores(this.dateParam);
                 this.getSchedulesData('pre-event');//grab pre event data for upcoming games
-                this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
-                //this.getDraftHistory();
+                this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);                
+                this.draftHistoryModule(this.currentYear);
                 this.batterData = this.listService.getMVPTabs('batter', 'module');
                 if ( this.batterData && this.batterData.length > 0 ) {
                     this.batterTab(this.batterData[0]);
@@ -310,6 +320,47 @@ export class MLBPage implements OnInit {
             imageUrl: imageUrl,
             shareText: shareText
         };
+    }
+
+    //each time a tab is selected the carousel needs to change accordingly to the correct list being shown
+    private draftTab(event) {
+        var firstTab = 'Current Season';
+        if (event == firstTab) {
+            event = this.currentYear;
+        }
+        this.draftHistoryModule(event);
+        // this.draftData = this.teamPage.draftHistoryModule(event, this.teamId);
+    }
+
+    private draftHistoryModule(year: number) {
+      this._draftService.getDraftHistoryService(year, null, 'module')
+        .subscribe(
+            draftData => {
+                var dataArray, detailedDataArray, carouselDataArray;
+                if (typeof dataArray == 'undefined') {//makes sure it only runs once
+                    dataArray = draftData.tabArray;
+                }
+                if (draftData.listData.length == 0) {//makes sure it only runs once
+                    detailedDataArray = false;
+                } else {
+                    detailedDataArray = draftData.listData;
+                }
+                carouselDataArray = draftData.carData
+                return this.draftHistoryData = {
+                    tabArray: dataArray,
+                    listData: detailedDataArray,
+                    carData: carouselDataArray,
+                    errorData: {
+                        data: "Sorry, " + this.profileHeaderData.profileName + " does not currently have any data for the " + year + " draft history",
+                        icon: "fa fa-remove"
+                    }
+                }
+            },
+            err => {
+                console.log('Error: draftData API: ', err);
+                // this.isError = true;
+            }
+        );
     }
 
     //each time a tab is selected the carousel needs to change accordingly to the correct list being shown

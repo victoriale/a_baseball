@@ -108,8 +108,12 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
     else {
       rows = [];
       for ( var type in data ) {
-        Array.prototype.push.apply(rows, data[type]);
-      }
+        data[type].forEach(player => {
+          if ( rows.filter(row => row.playerId == player.playerId).length == 0 ) {
+            rows.push(player);
+          }
+        });
+      }      
     }
     rows = rows.sort((a, b) => {
       return Number(b.salary) - Number(a.salary);
@@ -144,22 +148,23 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
       route: teamRoute,
       text: val.teamName
     }
-    return SliderCarousel.convertToSliderCarouselDescription(index, {
+    return SliderCarousel.convertToSliderCarouselItem(index, {
       backgroundImage: val.backgroundImage != null ? GlobalSettings.getImageUrl(val.backgroundImage) : null,
+      copyrightInfo: GlobalSettings.getCopyrightInfo(),
       subheader: [curYear + ' TEAM ROSTER'],
       profileNameLink: playerLinkText,
       description: [
           '<span class="text-heavy">',
           playerLinkText,
-          '</span> <span class="text-heavy">'+ playerNum + '</span> plays for the ', 
+          '</span> <span class="text-heavy">'+ playerNum + '</span> plays for the ',
           teamLinkText,
           '. The ' + playerHeight + playerWeight + "<span class='text-heavy'>" + val.position.join(', ') + "</span>" + playerSalary
       ],
       lastUpdatedDate: GlobalFunctions.formatUpdatedDate(val.lastUpdate),
       circleImageUrl: GlobalSettings.getImageUrl(val.playerHeadshot),
       circleImageRoute: playerRoute,
-      subImageUrl: GlobalSettings.getImageUrl(val.teamLogo),
-      subImageRoute: teamRoute,
+      // subImageUrl: GlobalSettings.getImageUrl(val.teamLogo),
+      // subImageRoute: teamRoute,
       rank: val.uniformNumber
     });
   }

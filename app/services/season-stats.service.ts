@@ -59,6 +59,7 @@ interface SimplePlayerData {
   playerId: string;
   teamId: string;
   teamName: string;
+  teamLastName: string;
   playerHeadshot: string;
 }
 
@@ -161,7 +162,7 @@ export class SeasonStatsService {
           var playerName = firstPlayer.firstName + ' ' + firstPlayer.playerLastName;
           var linkToPlayer = MLBGlobalFunctions.formatPlayerRoute(firstPlayer.teamName, playerName, firstPlayer.playerId);
           infoBox = [{
-              teamName: "<span style='color: #000; font-style: italic'>Team: </span>" + firstPlayer.teamName,
+              teamName: "<span style='color: #000; font-style: italic'>Team: </span>" + firstPlayer.teamLastName,
               playerName: playerName,
               infoBoxImage : {
                 imageClass: "image-40",
@@ -245,16 +246,17 @@ export class SeasonStatsService {
     var playerRouteText = {
       text: data.playerInfo.playerName
     };
-    return SliderCarousel.convertToSliderCarouselDescription(index, {
+    return SliderCarousel.convertToSliderCarouselItem(index, {
       backgroundImage: GlobalSettings.getImageUrl(data.playerInfo.liveImage),
+      copyrightInfo: GlobalSettings.getCopyrightInfo(),
       subheader: ["CURRENT SEASON STATS REPORT"],
       profileNameLink: playerRouteText,
       description: ["Team: ", teamRouteText],
       lastUpdatedDate: GlobalFunctions.formatUpdatedDate(data.playerInfo.lastUpdate),
       circleImageUrl: GlobalSettings.getImageUrl(data.playerInfo.playerHeadshot),
-      circleImageRoute: null, //? the single item on the player profile page, so no link is needed 
-      subImageUrl: GlobalSettings.getImageUrl(data.playerInfo.teamLogo),
-      subImageRoute: teamRoute
+      circleImageRoute: null, //? the single item on the player profile page, so no link is needed
+      // subImageUrl: GlobalSettings.getImageUrl(data.playerInfo.teamLogo),
+      // subImageRoute: teamRoute
     });
   }
 
