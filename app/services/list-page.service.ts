@@ -139,7 +139,7 @@ export class ListPageService {
       );
   }
 
-  formatData(key: string, data: Array<any>) {    
+  formatData(key: string, data: Array<any>) {
       data.forEach(item => {
         switch (key) {
           case 'pitcher-strikeouts':
@@ -148,7 +148,7 @@ export class ListPageService {
           case 'batter-home-runs':
               // format as integer
               var temp = Number(item.stat);
-              item.stat = temp.toFixed(0); 
+              item.stat = temp.toFixed(0);
             break;
 
           case 'pitcher-earned-run-average':
@@ -164,8 +164,8 @@ export class ListPageService {
               item.stat = temp.toFixed(3); // format as integer
               break;
 
-          default: 
-            //do nothing          
+          default:
+            //do nothing
         }
       });
   }
@@ -192,7 +192,6 @@ export class ListPageService {
     if(carData.length == 0){
       var dummyImg = "/app/public/no-image.png";
       var dummyRoute = ['Error-page'];
-      var dummyRank = '##';
       carouselArray = [{// dummy data if empty array is sent back
         index:'2',
         imageConfig: ListPageService.imageData("carousel", dummyImg, dummyRoute, 1),
@@ -227,7 +226,7 @@ export class ListPageService {
 
           profileLinkText = teamLinkText;
 
-          description = ['<i class="fa fa-map-marker text-master"></i>', val.teamCity + ', ' + val.teamState];                    
+          description = ['<i class="fa fa-map-marker text-master"></i>', val.teamCity + ', ' + val.teamState];
         } else { //if profile == 'player'
           ctaDesc = 'Interested in discovering more about this player?';
           primaryRoute = MLBGlobalFunctions.formatPlayerRoute(val.teamName,val.playerName,val.playerId.toString());
@@ -237,7 +236,7 @@ export class ListPageService {
             route: primaryRoute,
             text: val.playerName
           };
-          
+
           var position = val.position.join(", ");
           description = [
             teamLinkText,
@@ -246,7 +245,7 @@ export class ListPageService {
             ' <span class="separator">|</span> ',
             position
           ];
-        }        
+        }
 
         carouselItem = SliderCarousel.convertListItemToSliderCarouselItem(index, {
           isPageCarousel: profileType == 'page',
@@ -260,7 +259,7 @@ export class ListPageService {
           circleImageRoute: primaryRoute,
           rank: rank
         });
-        
+
         if(profileType == 'page'){
           carouselItem.footerInfo = {
             infoDesc: ctaDesc,
@@ -278,18 +277,6 @@ export class ListPageService {
 
   static detailedData(data): DetailListInput[]{//TODO replace data points for list page
     let self = this;
-
-    var dummyImg = "/app/public/no-image.png";
-    var dummyRoute = ['Disclaimer-page'];
-    var dummyRank = '#4';
-
-    var dummyProfile = "[Profile Name]";
-    var dummyProfVal = "[Data Value 1]";
-    var dummyProfUrl = ['Disclaimer-page'];
-    var dummySubData = "[Data Value]: [City], [ST]";
-    var dummySubDesc = "[Data Description]";
-    var dummySubUrl = ['Disclaimer-page'];
-
     var currentYear = new Date().getFullYear();//TODO FOR POSSIBLE past season stats but for now we have lists for current year season
 
     var detailData = data.listData;
@@ -340,9 +327,8 @@ export class ListPageService {
               {text: position},
             ],
             statDescription,
-            null),           
-            imageConfig: ListPageService.imageData("list",GlobalSettings.getImageUrl(val.imageUrl),playerRoute, val.listRank,
-                                                    GlobalSettings.getImageUrl(val.teamLogo),teamRoute),
+            null),
+            imageConfig: ListPageService.imageData("list",GlobalSettings.getImageUrl(val.imageUrl),playerRoute, val.listRank, '',null),
           hasCTA:true,
           ctaDesc:'Want more info about this player?',
           ctaBtn:'',
@@ -406,8 +392,8 @@ export class ListPageService {
     };
   }
 
-  static detailsData(mainLeftText: Link[], mainRightValue: string, 
-                     subLeftText: Link[], subRightValue: string, subIcon?: string, 
+  static detailsData(mainLeftText: Link[], mainRightValue: string,
+                     subLeftText: Link[], subRightValue: string, subIcon?: string,
                      dataLeftText?: Link[], dataRightValue?: string) {
 
     if(!dataLeftText) {
