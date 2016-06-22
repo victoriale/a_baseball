@@ -125,6 +125,7 @@ export class TransactionsService {
         };
         return SliderCarousel.convertToSliderCarouselItem(index, {
           backgroundImage: val.backgroundImage != null ? GlobalSettings.getImageUrl(val.backgroundImage) : dummyImg,
+          copyrightInfo: GlobalSettings.getCopyrightInfo(),
           subheader: [' Transaction Report - ', teamLinkText],
           profileNameLink: playerLinkText,
           description: [

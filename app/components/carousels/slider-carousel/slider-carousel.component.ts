@@ -24,6 +24,7 @@ import {ROUTER_DIRECTIVES} from 'angular2/router';
 export interface SliderCarouselInput {
   index?:any;
   backgroundImage?: string;
+  copyrightInfo?: string;
   imageConfig: CircleImageData;
 
   /**
@@ -43,9 +44,11 @@ export interface Type1CarouselItem {
 
   description: Array<Link | string>;
 
+  copyrightInfo: string;
+
   lastUpdatedDate: string;
 
-  backgroundImage?: string;
+  backgroundImage: string;
 
   circleImageUrl: string;
 
@@ -74,7 +77,9 @@ export interface ListTypeCarouselItem {
 
   dataLabel: string;
 
-  backgroundImage?: string;
+  backgroundImage: string;
+
+  copyrightInfo: string;
 
   circleImageUrl: string;
 
@@ -186,6 +191,7 @@ export class SliderCarousel implements OnInit {
     return { 
         index: index,
         backgroundImage: item.backgroundImage, //optional
+        copyrightInfo: item.copyrightInfo,
         description: [
           {//Carousel title line
             class: 'scc-details-type1-subhdr',
@@ -237,6 +243,7 @@ export class SliderCarousel implements OnInit {
     return { 
         index: index,
         backgroundImage: item.backgroundImage, //optional
+        copyrightInfo: item.copyrightInfo,
         description: [
           {//[Profile Name 1]
             class: item.isPageCarousel ? 'scc-details-type2-page-hdr' : 'scc-details-type2-hdr',

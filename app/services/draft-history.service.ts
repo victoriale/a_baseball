@@ -115,6 +115,7 @@ export class DraftHistoryService {
         var carouselItem = SliderCarousel.convertListItemToSliderCarouselItem(index, {
           isPageCarousel: false, 
           backgroundImage: GlobalSettings.getImageUrl(val.backgroundImage),
+          copyrightInfo: GlobalSettings.getCopyrightInfo(),
           profileNameLink: playerLinkText,
           description: ['Hometown: ', location],
           dataValue: val.selectionOverall + " Overall",

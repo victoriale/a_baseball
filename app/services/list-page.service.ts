@@ -250,6 +250,8 @@ export class ListPageService {
 
         carouselItem = SliderCarousel.convertListItemToSliderCarouselItem(index, {
           isPageCarousel: profileType == 'page',
+          backgroundImage: null,
+          copyrightInfo: null,
           profileNameLink: profileLinkText,
           description: description,
           dataValue: val.stat,
