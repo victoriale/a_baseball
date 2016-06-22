@@ -123,7 +123,7 @@ export class TransactionsService {
           route: playerRoute,
           text: val.playerName
         };
-        return SliderCarousel.convertToSliderCarouselDescription(index, {
+        return SliderCarousel.convertToSliderCarouselItem(index, {
           backgroundImage: val.backgroundImage != null ? GlobalSettings.getImageUrl(val.backgroundImage) : dummyImg,
           subheader: [' Transaction Report - ', teamLinkText],
           profileNameLink: playerLinkText,
@@ -132,9 +132,7 @@ export class TransactionsService {
           ],
           lastUpdatedDate: GlobalFunctions.formatUpdatedDate(val.transactionTimestamp),
           circleImageUrl: GlobalSettings.getImageUrl(val.playerHeadshot),
-          circleImageRoute: playerRoute,
-          subImageUrl: GlobalSettings.getImageUrl(val.teamLogo),
-          subImageRoute: teamRoute
+          circleImageRoute: playerRoute
         });
       });
     }

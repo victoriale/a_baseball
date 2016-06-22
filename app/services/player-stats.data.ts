@@ -145,16 +145,14 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
                     "</span> and a <span class='text-heavy'>" + (item.batSluggingPercentage != null ? item.batSluggingPercentage.toPrecision(3) : "N/A") + 
                     " Slugging Percentage</span>" + temporalInfo + "."];
     }
-    return SliderCarousel.convertToSliderCarouselDescription(index, {
+    return SliderCarousel.convertToSliderCarouselItem(index, {
       backgroundImage: item.fullBackgroundImageUrl,
       subheader: [subHeaderYear, teamLinkText, " Player Stats"],
       profileNameLink: playerLinkText,
       description: description,
       lastUpdatedDate: item.displayDate,
       circleImageUrl: item.fullPlayerImageUrl,
-      circleImageRoute: playerRoute,
-      subImageUrl: item.fullTeamImageUrl,
-      subImageRoute: teamRoute
+      circleImageRoute: playerRoute
     });
   }
 }

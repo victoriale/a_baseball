@@ -9,12 +9,8 @@ import {CircleImageData} from '../components/images/image-data';
 @Injectable()
 export class DraftHistoryService {
   private _apiUrl: string = GlobalSettings.getApiUrl();
-  // private _apiToken: string = 'BApA7KEfj';
-  // private _headerName: string = 'X-SNT-TOKEN';
 
-  constructor(public http: Http){
-
-  }
+  constructor(public http: Http){}
 
   //Function to set custom headers
   setToken(){
@@ -23,7 +19,7 @@ export class DraftHistoryService {
       return headers;
   }
 
-  getDraftHistoryService(year, teamId,type?){
+  getDraftHistoryService(year, teamId, type?){
   //Configure HTTP Headers
   var headers = this.setToken();
   //for MLB season starts and ends in the same year so return current season

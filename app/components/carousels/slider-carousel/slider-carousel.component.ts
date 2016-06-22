@@ -135,7 +135,7 @@ export class SliderCarousel implements OnInit {
     }
   }
 
-  static convertToSliderCarouselDescription(index: number, item: Type1CarouselItem): SliderCarouselInput {
+  static convertToSliderCarouselItem(index: number, item: Type1CarouselItem): SliderCarouselInput {
     var subImages = [];
     
     if ( item.subImageRoute ) {
