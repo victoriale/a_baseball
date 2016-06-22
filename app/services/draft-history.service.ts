@@ -82,13 +82,11 @@ export class DraftHistoryService {
     let self = this;
     var carouselArray = [];
     var dummyImg = "/app/public/no-image.png";
-    var dummyRoute = ['Disclaimer-page'];
-    var dummyRank = '##';
     if(data.length == 0){//if no data is being returned then show proper Error Message in carousel
       var Carousel = {
         index:'2',
-        //TODO
-        imageConfig: self.imageData("image-150","border-large",dummyImg,'', null, "image-50-sub",dummyImg,''),
+        //TODO imageConfig: self.imageData("image-150","border-large",dummyImg,'', null, "image-50-sub",dummyImg,''),
+        imageConfig: self.imageData("image-150","border-large",dummyImg,'', null, "image-50-sub", null, ''),
         description:[
           "<p style='font-size:20px'><b>Sorry, we currently do not have any data for this year's draft history</b><p>",
         ],
@@ -101,7 +99,8 @@ export class DraftHistoryService {
         var Carousel = {
           index:index,
           backgroundImage: GlobalSettings.getImageUrl(val.backgroundImage),
-          imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.imageUrl),MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId), (index+1), "image-48-rank", "image-50-sub",GlobalSettings.getImageUrl(val.teamLogo),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
+          //imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.imageUrl),MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId), (index+1), "image-48-rank", "image-50-sub",GlobalSettings.getImageUrl(val.teamLogo),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
+          imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.imageUrl),MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId), (index+1), "image-48-rank", "image-50-sub", null, ''),
           description:[
             '<br>',
             '<p style="font-size:22px"><b>'+val.playerName+'</b></p>',
@@ -128,11 +127,7 @@ export class DraftHistoryService {
   detailedData(data){
     let self = this;
     var listDataArray = [];
-
     var dummyImg = "/app/public/no-image.png";
-    var dummyRoute = ['Disclaimer-page'];
-    var dummyRank = '#4';
-
     var dummyProfile = "[Profile Name]";
     var dummyProfVal = "[Data Value 1]";
     var dummyProfUrl = ['Disclaimer-page'];
@@ -153,7 +148,8 @@ export class DraftHistoryService {
           MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)
         ),
         imageConfig: self.imageData("image-121","border-2",
-        GlobalSettings.getImageUrl(val.imageUrl),MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId),(index+1),"image-38-rank","image-40-sub",GlobalSettings.getImageUrl(val.teamLogo),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
+        // GlobalSettings.getImageUrl(val.imageUrl),MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId),(index+1),"image-38-rank","image-40-sub",GlobalSettings.getImageUrl(val.teamLogo),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
+        GlobalSettings.getImageUrl(val.imageUrl),MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId),(index+1),"image-38-rank","image-40-sub", null, ''),
         hasCTA:true,
         ctaDesc:'Want more info about this player?',
         ctaBtn:'',
