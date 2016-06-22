@@ -1,8 +1,8 @@
 import {TableModel, TableColumn} from '../components/custom-table/table-data.component';
 import {CircleImageData} from '../components/images/image-data';
 import {StatsTableTabData} from '../components/player-stats/player-stats.component';
-import {SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
-// import {GlobalSettings} from '../global/global-settings';
+import {SliderCarousel, SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
+import {Link} from '../global/global-interface';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 
 export interface PlayerStatsData {
@@ -107,7 +107,7 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
   }  
 
   convertToCarouselItem(item: PlayerStatsData, index:number): SliderCarouselInput {
-    var description = "";
+    var description: Array<Link | string> = [];
     var tense = " has";
     var temporalInfo = "";
     var subHeaderYear = "Current ";    
@@ -116,51 +116,46 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
       tense = " had";
       temporalInfo = " in " + item.seasonId;
     }
-    var subheader = subHeaderYear + item.teamName + " Player Stats";
+    var playerRoute = MLBGlobalFunctions.formatPlayerRoute(item.teamName, item.playerName, item.playerId.toString());
+    var playerLinkText = {
+      route: playerRoute,
+      text: item.playerName
+    }
+    var teamRoute = MLBGlobalFunctions.formatTeamRoute(item.teamName, item.teamId.toString());
+    var teamLinkText = {
+      route: teamRoute,
+      text: item.teamName
+    }
     if ( this.isPitcherTable ) {
       var strikeoutsText = item.pitchStrikeouts == "1" ? "Strikeout" : "Strikeouts";
       var winsText = item.pitchWins == "1" ? "Win" : "Wins";
       var savesText = item.pitchSaves == "1" ? "Save" : "Saves"; 
-      description = item.playerName + tense + " a <span class='text-heavy'>" + (item.pitchEra != null ? item.pitchEra.toFixed(2) : "N/A") + 
+      description = [playerLinkText, tense + " a <span class='text-heavy'>" + (item.pitchEra != null ? item.pitchEra.toFixed(2) : "N/A") + 
                     " ERA</span> with <span class='text-heavy'>" + item.pitchStrikeouts + " " + strikeoutsText + 
-                    "</span>, <span class='text-heavy'>" + item.pitchWins + " " + winsText + 
+                    "</span>, <span class='text-heavy'>" + item.pitchWins + " " + teamLinkText + 
                     "</span> and <span class='text-heavy'>" + item.pitchSaves + " " + savesText + 
-                    "</span>" + temporalInfo + ".";
+                    "</span>" + temporalInfo + "."];
     }
     else {
       var homeRunsText = item.batHomeRuns == "1" ? "Home Run" : "Home Runs";
       var rbiText = item.batRbi == "1" ? "RBI" : "RBIs"; 
-      description = item.playerName + tense + " a <span class='text-heavy'>" + (item.batAverage != null ? item.batAverage.toPrecision(3) : "N/A") + 
+      description = [playerLinkText, tense + " a <span class='text-heavy'>" + (item.batAverage != null ? item.batAverage.toPrecision(3) : "N/A") + 
                     " Batting Average</span> with <span class='text-heavy'>" + item.batHomeRuns + " " + homeRunsText + 
                     "</span>, <span class='text-heavy'>" + item.batRbi + " " + rbiText +
                     "</span> and a <span class='text-heavy'>" + (item.batSluggingPercentage != null ? item.batSluggingPercentage.toPrecision(3) : "N/A") + 
-                    " Slugging Percentage</span>" + temporalInfo + ".";
+                    " Slugging Percentage</span>" + temporalInfo + "."];
     }
-    return {
-      index: index,
-      backgroundImage: item.fullBackgroundImageUrl, //optional
-      description: [
-        "<div class='stats-car-subhdr'><i class='fa fa-circle'></i> " + subheader + "</div>",
-        "<div class='stats-car-hdr'>" + item.playerName + "</div>",
-        "<div class='stats-car-desc'>" + description + "</div>",
-        "<div class='stats-car-date'>Last Updated On " + item.displayDate + "</div>"
-      ],
-      imageConfig: {
-        imageClass: "image-150",
-        mainImage: {
-          imageClass: "border-10",
-          urlRouteArray: MLBGlobalFunctions.formatPlayerRoute(item.teamName, item.playerName, item.playerId.toString()),
-          imageUrl: item.fullPlayerImageUrl,
-          hoverText: "<p>View</p><p>Profile</p>"
-        },
-        subImages: [{
-          imageClass: "image-50-sub image-round-lower-right",
-          urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName, item.teamId.toString()),
-          imageUrl: item.fullTeamImageUrl,
-          hoverText: "<i class='fa fa-mail-forward'></i>"
-        }]
-      }
-    };
+    return SliderCarousel.convertToSliderCarouselDescription(index, {
+      backgroundImage: item.fullBackgroundImageUrl,
+      subheader: [subHeaderYear, teamLinkText, " Player Stats"],
+      profileNameLink: playerLinkText,
+      description: description,
+      lastUpdatedDate: item.displayDate,
+      circleImageUrl: item.fullPlayerImageUrl,
+      circleImageRoute: playerRoute,
+      subImageUrl: item.fullTeamImageUrl,
+      subImageRoute: teamRoute
+    });
   }
 }
 
