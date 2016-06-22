@@ -108,8 +108,12 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
     else {
       rows = [];
       for ( var type in data ) {
-        Array.prototype.push.apply(rows, data[type]);
-      }
+        data[type].forEach(player => {
+          if ( rows.filter(row => row.playerId == player.playerId).length == 0 ) {
+            rows.push(player);
+          }
+        });
+      }      
     }
     rows = rows.sort((a, b) => {
       return Number(b.salary) - Number(a.salary);
@@ -144,8 +148,9 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
       route: teamRoute,
       text: val.teamName
     }
-    return SliderCarousel.convertToSliderCarouselDescription(index, {
+    return SliderCarousel.convertToSliderCarouselItem(index, {
       backgroundImage: val.backgroundImage != null ? GlobalSettings.getImageUrl(val.backgroundImage) : null,
+      copyrightInfo: GlobalSettings.getCopyrightInfo(),
       subheader: [curYear + ' TEAM ROSTER'],
       profileNameLink: playerLinkText,
       description: [

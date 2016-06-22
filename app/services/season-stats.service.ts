@@ -246,8 +246,9 @@ export class SeasonStatsService {
     var playerRouteText = {
       text: data.playerInfo.playerName
     };
-    return SliderCarousel.convertToSliderCarouselDescription(index, {
+    return SliderCarousel.convertToSliderCarouselItem(index, {
       backgroundImage: GlobalSettings.getImageUrl(data.playerInfo.liveImage),
+      copyrightInfo: GlobalSettings.getCopyrightInfo(),
       subheader: ["CURRENT SEASON STATS REPORT"],
       profileNameLink: playerRouteText,
       description: ["Team: ", teamRouteText],

@@ -5,6 +5,7 @@ import {SliderCarousel, SliderCarouselInput} from '../components/carousels/slide
 import {Conference, Division} from '../global/global-interface';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
+import {GlobalSettings} from '../global/global-settings';
 
 //TODO-CJP: Ask backend to return values as numbers and not strings!
 export interface TeamStandingsData {
@@ -125,8 +126,9 @@ export class MLBStandingsTabData implements StandingsTableTabData<TeamStandingsD
         route: teamRoute,
         text: item.teamName
     };
-    return SliderCarousel.convertToSliderCarouselDescription(index, {
+    return SliderCarousel.convertToSliderCarouselItem(index, {
       backgroundImage: item.fullBackgroundImageUrl,
+      copyrightInfo: GlobalSettings.getCopyrightInfo(),
       subheader: [item.seasonId + " Season " + item.groupName + " Standings"],
       profileNameLink: teamNameLink,
       description:[

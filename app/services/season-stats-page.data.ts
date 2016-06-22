@@ -143,14 +143,15 @@ export class MLBSeasonStatsTabData implements TableTabData<TeamSeasonStatsData> 
       text: playerData.teamName
     }
 
-    return SliderCarousel.convertToSliderCarouselDescription(index, {
+    return SliderCarousel.convertToSliderCarouselItem(index, {
       backgroundImage: playerData.liveImage != null ? GlobalSettings.getImageUrl(playerData.liveImage) : dummyImg,
+      copyrightInfo: GlobalSettings.getCopyrightInfo(),
       subheader: [item.seasonId + " Season Stats Report"],
       profileNameLink: playerRouteText,
       description: ["Team: ", teamRouteText],
       lastUpdatedDate: GlobalFunctions.formatUpdatedDate(playerData.lastUpdate),
       circleImageUrl: GlobalSettings.getImageUrl(playerData.playerHeadshot),
-      circleImageRoute: playerRoute,
+      circleImageRoute: playerRoute
       // subImageUrl: GlobalSettings.getImageUrl(playerData.teamLogo),
       // subImageRoute: teamRoute
     });
