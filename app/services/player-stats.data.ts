@@ -4,6 +4,7 @@ import {StatsTableTabData} from '../components/player-stats/player-stats.compone
 import {SliderCarousel, SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
 import {Link} from '../global/global-interface';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
+import {GlobalSettings} from '../global/global-settings';
 
 export interface PlayerStatsData {
   teamName: string,
@@ -145,14 +146,15 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
                     "</span> and a <span class='text-heavy'>" + (item.batSluggingPercentage != null ? item.batSluggingPercentage.toPrecision(3) : "N/A") +
                     " Slugging Percentage</span>" + temporalInfo + "."];
     }
-    return SliderCarousel.convertToSliderCarouselDescription(index, {
+    return SliderCarousel.convertToSliderCarouselItem(index, {
       backgroundImage: item.fullBackgroundImageUrl,
+      copyrightInfo: GlobalSettings.getCopyrightInfo(),
       subheader: [subHeaderYear, teamLinkText, " Player Stats"],
       profileNameLink: playerLinkText,
       description: description,
       lastUpdatedDate: item.displayDate,
       circleImageUrl: item.fullPlayerImageUrl,
-      circleImageRoute: playerRoute,
+      circleImageRoute: playerRoute
       // subImageUrl: item.fullTeamImageUrl,
       // subImageRoute: teamRoute
     });

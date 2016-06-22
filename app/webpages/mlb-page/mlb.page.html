@@ -13,7 +13,7 @@
     <box-scores *ngIf="currentBoxScores && dateParam" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)"></box-scores>
     <schedules *ngIf="schedulesData" [profHeader]="profileHeaderData" [data]="schedulesData" (tabSelected)="scheduleTab($event)"></schedules>
     <standings-module [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
-    <!-- draftHistory -->
+    <draft-history *ngIf="draftHistoryData" [draftData]="draftHistoryData" [profHeader]="profileHeaderData" (tab)="draftTab($event)"></draft-history>
     <mvp-module *ngIf="batterData" [title]="'Batter'" [mvpData]="batterData" [query]="batterParams" (tabSelected)="batterTab($event)"></mvp-module>
     <mvp-module *ngIf="pitcherData" [title]="'Pitcher'" [mvpData]="pitcherData" [query]="pitcherParams" (tabSelected)="pitcherTab($event)"></mvp-module>
     <comparison-module [modelData]="comparisonModuleData" [profileName]="profileHeaderData.profileName"></comparison-module>
