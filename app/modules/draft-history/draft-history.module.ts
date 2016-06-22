@@ -32,6 +32,7 @@ export class DraftHistoryModule{
   teamId:number;
 
   constructor( public params: RouteParams){
+    //TODO: Don't pull from params in module
     if ( this.params.get('teamId') ) {
       this.teamId = Number(this.params.get('teamId'));
     }
