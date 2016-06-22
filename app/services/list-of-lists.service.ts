@@ -4,6 +4,7 @@ import {Http, Headers} from 'angular2/http';
 import {GlobalFunctions} from '../global/global-functions';
 import {MLBGlobalFunctions}  from '../global/mlb-global-functions';
 import {GlobalSettings}  from '../global/global-settings';
+import {SliderCarousel, SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
 
 declare var moment: any;
 @Injectable()
@@ -80,7 +81,7 @@ export class ListOfListsService {
   }
 
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
-  carDataPage(data, version, type){
+  carDataPage(data, version, type): Array<SliderCarouselInput>{
     let self = this;
     var carouselArray = [];
     var dummyImg = GlobalSettings.getImageUrl("/mlb/players/no-image.png");
@@ -123,7 +124,12 @@ export class ListOfListsService {
         ctaUrlArray.splice(0,2);
         ctaUrlArray.push.apply(ctaUrlArray,["10","1"]);
 
-        var Carousel = {
+        var profileLinkText = {
+          route: ctaUrlArray,
+          text: itemInfo.name
+        };
+
+        var carouselItem = {
           index:'2',
           // imageData(imageClass, imageBorder, mainImg, mainImgRoute, subImgClass?, subImg?, subRoute?, rank?, hasHover?){
           imageConfig: self.imageData("image-150", "border-large", itemImgUrl , itemRoute,"image-50-sub", itemSubImg, itemSubRoute, itemTargetData.rank, itemHasHover),
@@ -140,7 +146,12 @@ export class ListOfListsService {
             //url:['Team-page',{teamName:'team-name-here', teamId: '2796'}],//NEED TO CHANGE
           }
         };
-        carouselArray.push(Carousel);
+        carouselItem.footerInfo = {
+          infoDesc  :'Interested in discovering more about this ' + type +'?',
+          text      :'View This List',
+          url       : MLBGlobalFunctions.formatListRoute(ctaUrlArray)
+        };
+        carouselArray.push(carouselItem);
       });
     }
     // console.log('TRANSFORMED CAROUSEL', carouselArray);
@@ -159,7 +170,7 @@ export class ListOfListsService {
     let dummyListCount    = 1;
     let dummyPageCount    = 1;
     let dummyListRank     = 1;
-    let dummyIcon         = "fa fa-share";
+    let dummyIcon         = "fa fa-mail-forward";
 
     data.forEach(function(item, index){
       let itemListData = item.listData;

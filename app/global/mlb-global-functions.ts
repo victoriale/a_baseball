@@ -79,7 +79,7 @@ export class MLBGlobalFunctions {
    * @returns the height with ticks for feet and inches (#'#")
    */
   static formatHeight(heightStr: string) {
-    return heightStr ? heightStr.replace(/(\d+)-(\d)/, "$1'$2\"") : "N/A";
+    return heightStr ? heightStr.replace(/(\d+)-(\d+)/, "$1'$2\"") : "N/A";
   }
 
   /**
@@ -215,9 +215,11 @@ export class MLBGlobalFunctions {
 
 
   static formatStatName(stat: string) {
-    //coming from backend as a stat in the list info 
+    //coming from backend as a stat in the list info
    switch (stat) {
      //pitcher
+     case 'pitcher-wins-losses':
+      return "W/L";
      case 'pitcher-innings-pitched':
       return "Innings pitched";
      case 'pitcher-strikeouts':

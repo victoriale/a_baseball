@@ -50,14 +50,77 @@ slider-carousel{
         .flexDirection(column);
         .flexAlignItems(center);
       }//.scc-details-mainImg ends
+
+      &-type1 { //for most modules
+        &-subhdr {
+          .globalDefaultModFont(12px, 400, @white);
+          text-transform: uppercase;
+          line-height: 1.2em;
+
+          .fa {
+            color: @masterBrandColor;
+            padding-right: 6px;
+            top: 2px;
+            position: relative;
+          }
+        }
+
+        &-hdr {
+          .globalDefaultModFont(22px, 800, @white);
+          margin-top: 10px;
+        }
+
+        &-desc {
+          .globalDefaultModFont(14px, 400, @white);
+          line-height: 1.2em;
+          margin-top: 10px;
+        }
+
+        &-date {
+          .globalDefaultModFont(10px, 400, @white);
+          margin-top: 12px;
+        }
+      }
+
+      &-type2 { //for most list modules
+        &-hdr {
+          .globalDefaultModFont(22px, 800, @white);
+        }
+
+        &-page-hdr {
+          .globalDefaultModFont(24px, 800, @white);
+        }
+
+        &-desc {
+          .globalDefaultModFont(16px, 400, @white);
+          margin-top: 4px;
+        }
+
+        &-value {
+          .globalDefaultModFont(22px, 800, @white);
+          margin-top: 18px;
+        }
+
+        &-lbl {
+          .globalDefaultModFont(16px, 400, @white);
+          margin-top: 4px;
+        }
+      }
+
+
       &-desc{
         width:60%;
         max-height:182px;
         .flexAlignItems(flex-start);
-        .globalDefaultModFont(16px, 400, @white);
+        .globalDefaultModFont(16px, 400, @white);        
         overflow-y: auto;
-        & p {
-          line-height: 1.2em;
+
+        a:hover {
+          color: @masterBrandColor;
+        }
+
+        & p { //TODO: remove when not used by list-of-lists
+          line-height: 16px;
           margin:0;
           i.fa{
             padding-top:2px;
@@ -115,4 +178,14 @@ slider-carousel{
         }
       }//.scc-details-desc ends
     }//.scc-details ends
+
+    &-copyright {
+      .globalDefaultModFont(10px, 400, @white);
+      padding: 4px 20px;
+      text-align: right;
+      background-color: rgba(0, 0, 0, .65);
+      width: 100%; 
+      position: absolute;
+      bottom: 0;
+    }
 }//.scc ends

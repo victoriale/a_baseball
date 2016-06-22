@@ -1,11 +1,11 @@
 .box-scores{// BOX-SCORES CONTAINER
   width:680px;
   height:auto;
-
+  overflow: visible;
   &-info{
     width:100%;
     height:auto;
-    padding:10px 10px 5px 0;
+    padding:10px 10px 5px 10px;
     .flexDisplay;
     .flexDirection(row);
     .flexJustify(space-between);
@@ -18,11 +18,13 @@
       background-color: @white;
     }
   }
-}//end of box-scores container
 
-.game-article{
-  width:320px;
-  height:134px;
-  margin:5px 0;
-  background-color: @sntMediaBlue;
-}
+  .schedule-next-circle{
+    border: 2px solid @strokeGrey;
+    height:66px;
+    width:66px;
+  }
+  .schedule-next-vs{
+    font-weight: 800;
+  }
+}//end of box-scores container

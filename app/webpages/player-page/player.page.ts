@@ -1,5 +1,6 @@
 import {Component, OnInit} from 'angular2/core';
-import {RouteParams, RouteConfig} from 'angular2/router';
+import {Router, RouteParams, RouteConfig} from 'angular2/router';
+import {Title} from 'angular2/platform/browser';
 
 import {MLBPageParameters} from '../../global/global-interface';
 import {LoadingComponent} from '../../components/loading/loading.component';
@@ -14,10 +15,13 @@ import {DykService} from '../../services/dyk.service';
 import {FAQModule, faqModuleData} from "../../modules/faq/faq.module";
 import {FaqService} from '../../services/faq.service';
 
+import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
+import {BoxScoresService} from '../../services/box-scores.service';
+
 import {TwitterModule, twitterModuleData} from "../../modules/twitter/twitter.module";
 import {TwitterService} from '../../services/twitter.service';
 
-import {SeasonStatsService, SeasonStatsData} from '../../services/season-stats.service';
+import {SeasonStatsService} from '../../services/season-stats.service';
 import {SeasonStatsModule} from '../../modules/season-stats/season-stats.module';
 
 import {ComparisonModule, ComparisonModuleData} from '../../modules/comparison/comparison.module';
@@ -42,20 +46,25 @@ import {NewsService} from '../../services/news.service';
 import {SchedulesModule} from '../../modules/schedules/schedules.module';
 import {SchedulesService} from '../../services/schedules.service';
 
-import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
 import {GlobalSettings} from "../../global/global-settings";
 import {ImagesService} from "../../services/carousel.service";
 import {ImagesMedia} from "../../components/carousels/images-media-carousel/images-media-carousel.component";
 import {GlobalFunctions} from "../../global/global-functions";
 import {ListOfListsService} from "../../services/list-of-lists.service";
 import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.module";
+
+import {DailyUpdateModule} from "../../modules/daily-update/daily-update.module";
+import {DailyUpdateService, DailyUpdateData} from "../../services/daily-update.service";
+
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
+
+declare var moment;
 
 @Component({
     selector: 'Player-page',
     templateUrl: './app/webpages/player-page/player.page.html',
     directives: [
-      SidekickWrapper, 
+      SidekickWrapper,
       LoadingComponent,
       ErrorComponent,
       SchedulesModule,
@@ -74,8 +83,10 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
       ShareModule,
       AboutUsModule,
       ListOfListsModule,
+      DailyUpdateModule,
       ImagesMedia],
     providers: [
+      BoxScoresService,
       SchedulesService,
       StandingsService,
       ProfileHeaderService,
@@ -86,24 +97,35 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
       ListOfListsService,
       SeasonStatsService,
       ComparisonStatsService,
-      TwitterService
+      DailyUpdateService,
+      TwitterService,
+      Title
     ],
 })
 
 export class PlayerPage implements OnInit {
   public shareModuleInput:ShareModuleInput;
   pageParams:MLBPageParameters;
+  partnerID:string = null;
   hasError: boolean = false;
-  standingsData:StandingsModuleData;
+
   profileHeaderData: ProfileHeaderData;
+  standingsData:StandingsModuleData;
+  dailyUpdateData: DailyUpdateData;
   seasonStatsData: any;
   comparisonModuleData: ComparisonModuleData;
+
+  boxScoresData:any;
+  currentBoxScores:any;
+  dateParam:any;
+
   imageData:any;
   copyright:any;
   profileType:string = "player";
   isProfilePage:boolean = true;
   profileName:string;
   teamName: string;
+  teamId:number;
   newsDataArray: Array<Object>;
   faqData: Array<faqModuleData>;
   dykData: Array<dykModuleData>;
@@ -112,7 +134,10 @@ export class PlayerPage implements OnInit {
   schedulesData:any;
 
   constructor(private _params:RouteParams,
+              private _router:Router,
+              private _title: Title,
               private _standingsService:StandingsService,
+              private _boxScores:BoxScoresService,
               private _schedulesService:SchedulesService,
               private _profileService:ProfileHeaderService,
               private _imagesService:ImagesService,
@@ -123,14 +148,15 @@ export class PlayerPage implements OnInit {
               private _twitterService: TwitterService,
               private _seasonStatsService: SeasonStatsService,
               private _comparisonService: ComparisonStatsService,
+              private _dailyUpdateService: DailyUpdateService,
               private _globalFunctions:GlobalFunctions) {
-
       this.pageParams = {
           playerId: Number(_params.get("playerId"))
       };
 
-        // Scroll page to top to fix routerLink bug
-        window.scrollTo(0, 0);
+    GlobalSettings.getPartnerID(_router, partnerID => {
+        this.partnerID = partnerID;
+    });
   }
 
   ngOnInit() {
@@ -144,11 +170,24 @@ export class PlayerPage implements OnInit {
               this.pageParams = data.pageParams;
               this.profileName = data.headerData.info.playerName;
               this.teamName = data.headerData.info.teamName;
+              this.teamId = data.headerData.info.teamId;
+
+              //get current date for box-scores
+              var currentUnixDate = new Date().getTime();
+              this.dateParam ={
+                profile:'team',//team for this player
+                teamId:this.teamId, // teamId if it exists
+                date: moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD')
+              }
+              this.getBoxScores(this.dateParam);
+
+              this._title.setTitle(GlobalSettings.getPageTitle(this.profileName));
+
               this.profileHeaderData = this._profileService.convertToPlayerProfileHeader(data);
               this.setupTeamProfileData();
+              this.dailyUpdateModule(this.pageParams.playerId);
 
               /*** Keep Up With Everything [Player Name] ***/
-              //this.getBoxScores();
               this.getSchedulesData('pre-event');//grab pre event data for upcoming games
               this.setupSeasonstatsData();
               if ( data.headerData.info.qualified ) {
@@ -173,6 +212,17 @@ export class PlayerPage implements OnInit {
       );
   }
 
+private dailyUpdateModule(playerId: number) {
+    this._dailyUpdateService.getPlayerDailyUpdate(playerId)
+        .subscribe(data => {
+            this.dailyUpdateData = data;
+        },
+        err => {
+            this.dailyUpdateData = this._dailyUpdateService.getErrorData();
+            console.log("Error getting daily update data", err);
+        });
+}
+
   //grab tab to make api calls for post of pre event table
   private scheduleTab(tab) {
       if(tab == 'Upcoming Games'){
@@ -190,7 +240,7 @@ export class PlayerPage implements OnInit {
               this.seasonStatsData = data;
           },
           err => {
-              console.log("Error getting season stats data for "+ this.pageParams.playerId);
+              console.log("Error getting season stats data for "+ this.pageParams.playerId, err);
           });
   }
   //api for Schedules
@@ -248,6 +298,18 @@ export class PlayerPage implements OnInit {
             err => {
                 console.log("Error getting news data");
             });
+    }
+
+    //api for BOX SCORES
+    //function for MLB/Team Profiles
+    private getBoxScores(dateParams?) {
+        if ( dateParams != null ) {
+            this.dateParam = dateParams;
+        }
+        this._boxScores.getBoxScores(this.boxScoresData, this.profileName, this.dateParam, (boxScoresData, currentBoxScores) => {
+            this.boxScoresData = boxScoresData;
+            this.currentBoxScores = currentBoxScores;
+        })
     }
 
     private getImages(imageData) {

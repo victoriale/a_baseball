@@ -1,5 +1,7 @@
 import {Component, OnInit} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
+import {Title} from 'angular2/platform/browser';
+
 import {DetailedListItem, DetailListInput} from '../../components/detailed-list-item/detailed-list-item.component';
 import {ModuleFooter} from '../../components/module-footer/module-footer.component';
 import {SliderCarousel, SliderCarouselInput} from '../../components/carousels/slider-carousel/slider-carousel.component';
@@ -26,7 +28,7 @@ declare var moment:any;
     selector: 'transactions-page',
     templateUrl: './app/webpages/transactions-page/transactions.page.html',
     directives: [SidekickWrapper, ErrorComponent, LoadingComponent, NoDataBox, BackTabComponent, TitleComponent, Tab, Tabs, SliderCarousel, DetailedListItem, ModuleFooter, TransactionsListItem, DropdownComponent],
-    providers: [TransactionsService, ProfileHeaderService],
+    providers: [TransactionsService, ProfileHeaderService, Title],
     inputs:[]
 })
 
@@ -55,24 +57,29 @@ export class TransactionsPage implements OnInit{
   pageName: string;
   listSort: string = "recent";
 
-  constructor(public transactionsService:TransactionsService, public profHeadService:ProfileHeaderService, public params: RouteParams){
+  constructor(private transactionsService:TransactionsService, 
+              private profHeadService:ProfileHeaderService, 
+              private params: RouteParams, 
+              private _title: Title) {
+    _title.setTitle(GlobalSettings.getPageTitle("Transactions"));
     this.teamId = Number(this.params.params['teamId']);
     this.limit = Number(this.params.params['limit']);
     this.pageNum = Number(this.params.params['pageNum']);
 
   }
 
-  getTransactionsPage(transactionType, teamId) {
-      if( this.transactionType != null) this.transactionType = transactionType;
-      if( this.teamId != null) this.teamId = teamId;
-      this.profHeadService.getTeamProfile(teamId)
+  getProfileInfo() {
+      this.profHeadService.getTeamProfile(this.teamId)
       .subscribe(
           data => {
             var profHeader = this.profHeadService.convertTransactionsPageHeader(data, "Transactions");
             this.profileHeaderData = profHeader.data;
             this.teamName = data.headerData.stats.teamName;
+            this._title.setTitle(GlobalSettings.getPageTitle("Transactions", this.teamName));
             this.setProfileHeader(this.profileName)
-            if(this.pageName != null){this.profileHeaderData['text3'] = this.pageName + this.profileHeaderData['text3'];}
+            if(this.pageName != null) {
+              this.profileHeaderData['text3'] = this.pageName + this.profileHeaderData['text3'];
+            }
 
             this.errorData = {
               data: profHeader.error,
@@ -85,7 +92,11 @@ export class TransactionsPage implements OnInit{
               // this.isError = true;
           }
       );
-      this.transactionsService.getTransactionsService(transactionType, teamId, 'page', this.sort, this.limit, this.pageNum)
+  }
+
+  getTransactionsPage(transactionType) {
+      if( this.transactionType != null) this.transactionType = transactionType;
+      this.transactionsService.getTransactionsService(transactionType, this.teamId, 'page', this.sort, this.limit, this.pageNum)
           .subscribe(
               transactionsData => {
                 if(typeof this.dataArray == 'undefined'){//makes sure it only runs once
@@ -112,8 +123,10 @@ export class TransactionsPage implements OnInit{
   }
 
   ngOnInit(){
+    this.getProfileInfo();
+
     var currentTab = "transactions";
-    this.getTransactionsPage(currentTab, this.teamId);
+    this.getTransactionsPage(currentTab);
   }
 
   ngOnChanges(){
@@ -138,7 +151,7 @@ export class TransactionsPage implements OnInit{
         this.transactionType = "transactions";
         break;
     }
-    this.getTransactionsPage(this.transactionType, this.teamId);
+    this.getTransactionsPage(this.transactionType);
     this.pageName = event;
   }
 
@@ -167,7 +180,7 @@ export class TransactionsPage implements OnInit{
       // this.transactionsDataArray.reverse();
       // this.carouselDataArray.reverse();
       this.sort = this.sort == "asc" ? "desc" : "asc";
-      this.getTransactionsPage(this.transactionType, this.teamId);
+      this.getTransactionsPage(this.transactionType);
     }
   }
 }

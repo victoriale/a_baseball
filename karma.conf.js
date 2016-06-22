@@ -12,6 +12,7 @@ module.exports = function(config) {
             {pattern: 'node_modules/systemjs/dist/system.src.js', included: true, watched: true},
             {pattern: 'node_modules/rxjs/bundles/Rx.js', included: true, watched: true},
             {pattern: 'node_modules/angular2/bundles/angular2.dev.js', included: true, watched: true},
+            {pattern: 'node_modules/angular2/bundles/http.js', included: true, watched: true},
             {pattern: 'node_modules/angular2/bundles/testing.dev.js', included: true, watched: true},
             {pattern: 'karma-test-shim.js', included: true, watched: true},
 
@@ -20,6 +21,7 @@ module.exports = function(config) {
 
             // paths to support debugging with source maps in dev tools
             {pattern: 'app/**/*.ts', included: false, watched: false},
+            {pattern: 'app/**/*.spec.ts', included: false, watched: false},
             {pattern: 'dist/**/*.js.map', included: false, watched: false}
         ],
 
@@ -42,25 +44,30 @@ module.exports = function(config) {
         // Karma plugins loaded
         plugins: [
             'karma-jasmine',
-            'karma-coverage',
-            'karma-chrome-launcher'
+            'karma-chrome-launcher',
+            'karma-spec-reporter'
         ],
 
-        // Coverage reporter generates the coverage
-        reporters: ['progress', 'dots', 'coverage'],
+        client: {
+            captureConsole: true,
+            clearContext: false
+        },
+
+        // 'coverage' reporter generates the coverage
+        reporters: ['spec'],
 
         // Source files that you want to generate coverage for.
         // Do not include tests or libraries (these files will be instrumented by Istanbul)
-        preprocessors: {
-            'dist/**/!(*spec).js': ['coverage']
-        },
+        // preprocessors: {
+        //     'dist/**/!(*spec).js': ['coverage']
+        // },
 
-        coverageReporter: {
-            reporters:[
-                {type: 'json', subdir: '.', file: 'coverage-final.json'}
-            ]
-        },
+        // coverageReporter: {
+        //     reporters:[
+        //         {type: 'json', subdir: '.', file: 'coverage-final.json'}
+        //     ]
+        // },
 
         singleRun: true 
-    })
+    });
 };

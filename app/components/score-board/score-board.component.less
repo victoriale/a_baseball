@@ -52,10 +52,10 @@
         cursor: pointer;
       }
       &-left{
-        left:-15px;
+        left:-30px;
       }
       &-right{
-        right:-15px;
+        right:-30px;
       }
     }
     &-labels{
@@ -66,7 +66,7 @@
       & > span{
         width:100%;
         height:22px;
-        display:inline-block;
+        display:block;
         line-height: 2em;
         font-weight: 800;
         text-align: center;
@@ -77,15 +77,22 @@
       }
     }//end of box-table-labels
 
-    &-max{
+    &-display{
       height:100%;
       width:350px;
       overflow: hidden;
+    }
+    &-max{
+      height:100%;
+      width:350px;
+      position:relative;
+      left:0;
       .inlineFlexDisplay;
     }//end of box-table-max
 
     &-container{
-      min-width: 27px;
+      //need width of the containers to stay at 27px width
+      width: 27px;
       height:100%;
       font-size: 14px;
       border-top: 1px solid @strokeGrey;

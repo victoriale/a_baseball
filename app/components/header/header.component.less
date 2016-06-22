@@ -37,7 +37,7 @@
       color: @activeBlue;
       font-size: 30px;
       position: absolute;
-      right: -1px;
+      right: -11px;
       top: 17px;
       z-index: 2;
     }
@@ -72,14 +72,20 @@
       -webkit-transition: none;
       border: none;
       box-shadow: none;
+      &:focus{
+        box-shadow: 0 3px 7px 0 transparent;
+        border: 1px solid transparent;
+      }
     }
 
     .search-large .search-input-container{
       right: 63px;
     }
 
-    .search-input.main{
-      font-style: italic;
+    .search-input.main {
+      &.search-empty {
+        font-style: italic;
+      }
       &:focus{
         font-style: normal;
       }

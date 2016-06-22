@@ -4,12 +4,12 @@
 
   &-header {
     position: relative;
-    padding: 8px;
+    padding: 8px 12px 8px 2px;
     text-align: center;
     .globalDefaultFont(12px, 400);
     border: @strokeGrey 1px solid;
 
-    margin-left: 5px;
+    // margin-left: 5px;
     margin-bottom: 10px;
 
     &-sort:hover {
@@ -23,11 +23,12 @@
   }
 
   &-sort {
-    float: right;
+    position: absolute;
+    right: 4px;
   }
 
-  th:first-of-type &-header {
-    margin-left: 0px;
+  th+th &-header {
+    margin-left: 5px;
   }
 
   /** regular body and cell definitions **/
@@ -43,6 +44,7 @@
     &-cell {
       .globalDefaultFont(16px, 400);
       padding: 6px;
+      line-height: 18px;
     }
   }
 
@@ -55,7 +57,13 @@
     &-cell {
       .globalDefaultFont(12px, 400);
       padding: 10px 6px;
+      line-height: 14px;
     }
+  }
+
+  td+td .custom-table-body-cell,
+  td+td .custom-table-compact-cell {
+    margin-left: 5px;
   }
 
   /** row definitions **/
@@ -74,16 +82,24 @@
     .image-column {
       font-weight: 800;
       text-align: left;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-
+      // white-space: nowrap;
+      // overflow: hidden;
+      // text-overflow: ellipsis;
       .image-round {
         margin-right: 10px;
         margin-left: 5px;
         display: inline-block;
       }
-
+      a{
+        .flexDisplay;
+        .flexAlignItems(center);
+        span {
+          min-height: 1em;
+          max-height: 2.25em; //approx 2x line-height
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
       a:hover {
         color: @masterBrandColor;
         text-decoration: none;

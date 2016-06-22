@@ -9,6 +9,7 @@ import {Gradient} from '../global/global-gradient';
 
 import {ComparisonModuleData} from '../modules/comparison/comparison.module';
 import {ComparisonBarInput} from '../components/comparison-bar/comparison-bar.component';
+import {ComparisonBarList} from './common-interfaces';
 
 //TODO: unify player/team data interface
 export interface PlayerData {
@@ -38,10 +39,6 @@ export interface TeamPlayers {
 
 export interface DataPoint {
   [playerId: string]: number
-}
-
-export interface ComparisonBarList {
-  [year: string]: Array<ComparisonBarInput>
 }
 
 export class SeasonStats {
@@ -145,7 +142,7 @@ export class MLBComparisonModuleData implements ComparisonModuleData {
         statsLoaded(bars);
       },
       err => {
-        console.log("Error loading player comparison stats");
+        console.log("Error loading player comparison stats", err);
       });
     }
 }
@@ -222,7 +219,7 @@ export class ComparisonStatsService {
     });
   }
 
-  getPlayerList(teamId: string): Observable<Array<{key: string, value: string}>> {
+  getPlayerList(teamId: string): Observable<Array<{key: string, value: string, class: string}>> {
     //http://dev-homerunloyal-api.synapsys.us/team/comparisonRoster/2800
     let playersUrl = this._apiUrl + "/team/comparisonRoster/" + teamId;
     return this.http.get(playersUrl)
@@ -234,10 +231,11 @@ export class ComparisonStatsService {
 
   getTeamList(): Observable<Array<{key: string, value: string}>> {
     let teamsUrl = this._apiUrl + "/team/comparisonTeamList";
+    // console.log("teams url: " + teamsUrl);
     return this.http.get(teamsUrl)
       .map(res => res.json())
       .map(data => {
-        return this.formatTeamList(data.data);;
+        return this.formatTeamList(data.data);
     });
   }
 

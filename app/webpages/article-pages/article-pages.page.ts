@@ -1,6 +1,5 @@
 import {Component, OnInit} from 'angular2/core';
 import {Router,ROUTER_DIRECTIVES, RouteParams} from 'angular2/router';
-import {WidgetModule} from "../../modules/widget/widget.module";
 import {ImagesMedia} from "../../components/carousels/images-media-carousel/images-media-carousel.component";
 import {ShareLinksComponent} from "../../components/articles/shareLinks/shareLinks.component";
 import {ArticleContentComponent} from "../../components/articles/article-content/article-content.component";
@@ -12,6 +11,7 @@ import {ArticleData} from "../../global/global-interface";
 import {ArticleDataService} from "../../global/global-article-page-service";
 import {GlobalFunctions} from "../../global/global-functions";
 import {MLBGlobalFunctions} from "../../global/mlb-global-functions";
+import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
 declare var jQuery:any;
 
@@ -19,7 +19,7 @@ declare var jQuery:any;
     selector: 'article-pages',
     templateUrl: './app/webpages/article-pages/article-pages.page.html',
     directives: [
-        WidgetModule,
+        SidekickWrapper,
         ROUTER_DIRECTIVES,
         ImagesMedia,
         ShareLinksComponent,
@@ -44,12 +44,12 @@ export class ArticlePages implements OnInit {
     content:string;
     comment:string;
     pageIndex:string;
-    doubleLogo:boolean = false;
     articleType:string;
     articleSubType:string;
     imageLinks:Array<any>;
     recommendedImageData:any;
     copyright:any;
+    teamId:number;
     public partnerParam:string;
     public partnerID:string;
 
@@ -73,9 +73,9 @@ export class ArticlePages implements OnInit {
                     this.articleData = ArticleData[pageIndex];
                     this.title = ArticleData[pageIndex].displayHeadline;
                     this.date = ArticleData[pageIndex].dateline;
-                    this.comment = ArticleData[pageIndex].displayHeadline;
+                    this.comment = ArticleData[pageIndex].commentHeader;
                     this.imageLinks = this.getImageLinks(ArticleData[pageIndex]);
-                    this.doubleLogo = true;
+                    this.teamId = ArticleData[pageIndex].teamId;
                     ArticlePages.setMetaTag(this.articleData.metaHeadline);
                 }
             );

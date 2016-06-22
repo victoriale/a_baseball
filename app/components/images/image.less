@@ -2,12 +2,12 @@
   width: @diameter;
   height: @diameter;
 }
+
 .roundImageSub(@diameter) {
-  img {
-    width: @diameter;
-    height: @diameter;
-  }
+  width: @diameter;
+  height: @diameter;
 }
+
 .roundText(@widthHeight, @shadowSize, @shadowColor@bgColor, @fontSize) {
   box-shadow: 0 0 0 @shadowSize @shadowColor;
   width: @widthHeight;
@@ -30,8 +30,16 @@
   position: relative;
   border-radius: 50%;
   &-main img {
-    width: 100%;
+    background-color: @white;
     height: 100%;
+    width: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+    object-position: 50% 0%;
+    -o-object-position: 50% 0%;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
     .borderRadiusPrefix(50%);
     .backgroundClipPBoxPrefixes;
   }
@@ -41,8 +49,15 @@
     border-radius: 50%;
     img {
       background-color: @white;
-      .borderRadiusPrefix(50%);
-      .backgroundClipPBoxPrefixes;
+      height: 100%;
+      width: 100%;
+      -o-object-fit: cover;
+      object-fit: cover;
+      object-position: 50% 0%;
+      -o-object-position: 50% 0%;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
     }
     &-text {
       .flexDisplay;
@@ -57,6 +72,8 @@
   &-hover {
     position: relative;
     display: block;
+    height: 100%;
+    width: 100%;
     &:hover {
       div {
         .flexDisplay;
@@ -131,6 +148,9 @@
 .image-43 {
   .roundImageMain(43px);
 }
+.image-45 {
+  .roundImageMain(45px);
+}
 .image-46 {
   .roundImageMain(46px);
 }
@@ -139,6 +159,10 @@
 }
 .image-50 {
   .roundImageMain(50px);
+}
+
+.image-60 {
+  .roundImageMain(60px);
 }
 
 .image-62 {
@@ -172,6 +196,9 @@
 }
 .border-2 {
   .imageShadow(2px, @masterSmallImageShadow);
+}
+.border-2-grey {
+  .imageShadow(2px, @strokeGrey);
 }
 
 .border-3 {

@@ -1,56 +1,82 @@
 .season-stats {
-  &-car {
-    &-subhdr {
-      .globalDefaultModFont(12px, 400, @white);
-      margin-bottom: 10px;
-      text-transform: uppercase;
-      line-height: 1.2em;
-
-      .fa {
-        color: @masterBrandColor;
-        padding-right: 8px;
+  .circles{
+    display: none;
+  }
+  padding-bottom: 5px;
+  .custom-table-compact{
+    tr:last-child{
+      .image-column, .custom-table-compact-cell{
+        font-weight: 800;
+      }
+      .image-column{
+        color: @black;
+        a:hover{
+          color: @masterBrandColor;
+        }
       }
     }
-
-    &-hdr {
-      .globalDefaultModFont(22px, 800, @white);
-      margin-bottom: 10px;
-      line-height: 1.2em;
+    tr:first-child{
+      .image-column, .custom-table-compact-cell{
+        font-weight: 400;
+      }
+      .image-column{
+        color: @masterBrandColor;
+        a:hover{
+          color: @black;
+        }
+      }
     }
-
-    &-desc {
-      .globalDefaultModFont(14px, 400, @white);
-      line-height: 1.2em;
-      margin-bottom: 14px;
-    }
-
-    &-date {
-      .globalDefaultModFont(10px, 400, @white);
-      line-height: 1.2em;
-    }
-
+  }
+  &-car {
     .scc-details-desc {
       height: 170px;
     }
   }
-
+  .custom-table-header {
+    margin-bottom: 5px;
+  }
   .data-column-hdr, .data-column {
-    width: 65px; //since it needs to include space for padding
+    width: 52px; //since it needs to include space for padding
+    white-space: nowrap;
+  }
+
+  .date-column-hdr, .date-column {
+    width: 59px; //since it needs to include space for padding
   }
 
   .image-column-hdr, .image-column {
-    width: 205px;
+    width: 135px;
+    text-align: center;
+    font-weight: 800 !important;
   }
-
-  .pane {
-    h4 {
-      margin-top: 18px;
-      margin-bottom: 10px;
-      .globalDefaultFont(18px, 400);
+  .image-column {
+    color: @masterBrandColor;
+    white-space: normal;
+    a{
+      .flexJustify(center);
     }
-
-    .standings-tab-section:first-child h4 {
-      margin-top: 0px;
+    a:hover {
+      color: @black;
+      text-decoration: none;
+      .image-round-hover {
+        div {
+          .flexDisplay;
+        }
+      }
+    }
+  }
+  .pane {
+    padding: 0 10px;
+    h3{
+      .globalDefaultFont(18px, 800);
+    }
+    h4 {
+      margin-top: 1px;
+      margin-bottom: 5px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid @highlightGrey;
+      .globalDefaultFont(16px, 800);
     }
   }
 }

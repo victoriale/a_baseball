@@ -37,23 +37,24 @@ gulp.task('copy:libs', ['clean'], function() {
       'node_modules/angular2/es6/dev/src/testing/shims_for_IE.js',
       'node_modules/highcharts/highcharts.js',
       'node_modules/moment/moment.js',
-      'node_modules/moment-timezone/moment-timezone.js',
+      // 'node_modules/moment-timezone/moment-timezone.js',//load only one moment timezone otherwise problems will occur
+      'node_modules/moment-timezone/builds/moment-timezone-with-data-2010-2020.js',
       'node_modules/fuse.js/src/fuse.min.js'
     ])
-    .pipe(gulp.dest('dist/lib'))
+    .pipe(gulp.dest('dist/lib'));
 });
 
 // copy static assets - i.e. non TypeScript compiled source
 gulp.task('copy:assets', ['clean'], function() {
   return gulp.src(['app/**/*', 'index.html', 'master.css', '!app/**/*.ts', '!app/**/*.less'], { base : './' })
-    .pipe(gulp.dest('dist'))
+    .pipe(gulp.dest('dist'));
 });
 
 gulp.task('less', ['clean'], function() {
     return gulp.src(['./app/**/*.less'])
         .pipe(concat('master.css'))
         .pipe(less())
-        .pipe(gulp.dest('dist/app/global/stylesheets'))
+        .pipe(gulp.dest('dist/app/global/stylesheets'));
 });
 
 // Run browsersync for development
@@ -71,3 +72,14 @@ gulp.task('serve', ['build'], function() {
 gulp.task('build', ['compile', 'less', 'copy:libs', 'copy:assets']);
 gulp.task('buildAndReload', ['build'], reload);
 gulp.task('default', ['build']);
+
+//GULP TASKS for TESTING
+gulp.task('compile-tests', ['clean'], function () {
+  return gulp
+    .src(['app/main.ts', 'app/**/*.spec.ts'])
+    .pipe(typescript(tscConfig.compilerOptions))
+    .pipe(gulp.dest('dist'));
+});
+
+gulp.task('build-tests', ['compile-tests', 'build']);
+gulp.task('test', ['build-tests']);

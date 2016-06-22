@@ -1,9 +1,11 @@
-import {Component} from 'angular2/core';
+import {Component, OnInit, Output, Input, EventEmitter} from 'angular2/core';
 import {ModuleHeader} from '../../components/module-header/module-header.component';
-import {CalendarCarousel} from '../../components/calendar/carousel/calendarCar.component';
+import {CalendarCarousel} from '../../components/carousels/calendar/calendarCar.component';
 import {Competition} from '../../components/competition/competition.component';
+import {ArticleScheduleComponent} from '../../components/articles/article-schedule/article-schedule.component';
 import {GameInfo} from '../../components/game-info/game-info.component';
 import {ScoreBoard} from '../../components/score-board/score-board.component';
+import {GameArticle} from '../../components/game-article/game-article.component';
 
 interface BoxScores{
 
@@ -12,13 +14,20 @@ interface BoxScores{
 @Component({
     selector: 'box-scores',
     templateUrl: './app/modules/box-scores/box-scores.module.html',
-    directives: [ScoreBoard, GameInfo, Competition, CalendarCarousel,  ModuleHeader],
+    directives: [GameArticle, ScoreBoard, GameInfo, ArticleScheduleComponent, CalendarCarousel,  ModuleHeader],
     providers: [],
-    inputs:[]
+    outputs: ['dateEmit'],
 })
 
-export class BoxScoresModule{
-  constructor(){
+export class BoxScoresModule implements OnInit{
+  @Input() calendarParams:any;
+  @Input() boxScores:any;
+  public dateEmit: EventEmitter<any> = new EventEmitter();
+  constructor(){}
 
+  dateTransfer(event){
+    this.dateEmit.next(event);
+  }
+  ngOnInit(){
   }
 }

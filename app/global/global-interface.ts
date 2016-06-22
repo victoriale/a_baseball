@@ -15,6 +15,13 @@ export interface MLBPageParameters {
 export interface Link {
   route?: Array<any>;
   text: string;
+  class?: string;
+}
+
+export interface ParagraphItem {
+    class?: string;
+    style?: any;
+    textData: Array<Link | string>;
 }
 
 export interface NavigationData {

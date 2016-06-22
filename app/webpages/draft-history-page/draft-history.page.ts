@@ -1,5 +1,8 @@
 import {Component, OnInit} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
+import {Title} from 'angular2/platform/browser';
+
+import {GlobalSettings} from "../../global/global-settings";
 import {DetailedListItem, DetailListInput} from '../../components/detailed-list-item/detailed-list-item.component';
 import {SliderCarousel, SliderCarouselInput} from '../../components/carousels/slider-carousel/slider-carousel.component';
 import {Tabs} from '../../components/tabs/tabs.component';
@@ -18,8 +21,7 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
     selector: 'draft-history-page',
     templateUrl: './app/webpages/draft-history-page/draft-history.page.html',
     directives: [SidekickWrapper, ErrorComponent, LoadingComponent, NoDataBox, BackTabComponent, TitleComponent, Tab, Tabs, SliderCarousel, DetailedListItem],
-    providers: [DraftHistoryService, ProfileHeaderService],
-    inputs:[]
+    providers: [DraftHistoryService, ProfileHeaderService, Title]
 })
 
 export class DraftHistoryPage implements OnInit{
@@ -29,22 +31,29 @@ export class DraftHistoryPage implements OnInit{
   dataArray: any;//array of data for detailed list
   detailedDataArray: Array<DetailListInput>; //variable that is just a list of the detailed DataArray
   carouselDataArray: Array<SliderCarouselInput>;
-  // footerData: Object;
-  // footerStyle: any = {
-  //   ctaBoxClass: "list-footer",
-  //   ctaBtnClass:"list-footer-btn",
-  //   hasIcon: true,
-  // };
+  carouselFooter: any = {
+    ctaBoxClass: "list-footer",
+    ctaBtnClass:"list-footer-btn",
+    hasIcon: true,
+  };
   teamId: number;
   isError: boolean = false;
-  constructor(public draftService:DraftHistoryService, public profHeadService:ProfileHeaderService, public params: RouteParams){
-    this.teamId = Number(this.params.params['teamId']);
+  constructor(private draftService:DraftHistoryService, 
+              private profHeadService:ProfileHeaderService, 
+              private params: RouteParams, 
+              private _title: Title) {
+    _title.setTitle(GlobalSettings.getPageTitle("Draft History"));
+    if ( this.params.params['teamId'] ) {
+      this.teamId = Number(this.params.params['teamId']);
+    }
   }
 
-  getDraftPage(date, teamId) {
-      this.profHeadService.getTeamProfile(teamId)
+  getProfileInfo() {
+    if ( this.teamId ) {
+      this.profHeadService.getTeamProfile(this.teamId)
       .subscribe(
           data => {
+            this._title.setTitle(GlobalSettings.getPageTitle("Draft History", data.teamName));
             var profHeader = this.profHeadService.convertTeamPageHeader(data, this.whatProfile);
             this.profileHeaderData = profHeader.data;
             this.errorData = {
@@ -58,7 +67,29 @@ export class DraftHistoryPage implements OnInit{
               // this.isError = true;
           }
       );
-      this.draftService.getDraftHistoryService(date, teamId, 'page')
+    }
+    else {
+      this.profHeadService.getMLBProfile()
+      .subscribe(
+          data => {
+            this._title.setTitle(GlobalSettings.getPageTitle("Draft History", data.profileName1));
+            var profHeader = this.profHeadService.convertMLBHeader(data, this.whatProfile);
+            this.profileHeaderData = profHeader.data;
+            this.errorData = {
+              data: profHeader.error,
+              icon: "fa fa-remove"
+            }
+          },
+          err => {
+            this.isError= true;
+              console.log('Error: draftData Profile Header API: ', err);
+          }
+      );
+    }
+  }
+
+  getDraftPage(date) {
+      this.draftService.getDraftHistoryService(date, this.teamId, 'page')
           .subscribe(
               draftData => {
                 if(typeof this.dataArray == 'undefined'){//makes sure it only runs once
@@ -80,9 +111,11 @@ export class DraftHistoryPage implements OnInit{
   }
 
   ngOnInit(){
+    this.getProfileInfo();
+
     //MLB starts and ends in same year so can use current year logic to grab all current season and back 4 years for tabs
     var currentTab = new Date().getFullYear();
-    this.getDraftPage(currentTab, this.teamId);
+    this.getDraftPage(currentTab);
   }
 
   ngOnChanges(){
@@ -97,7 +130,7 @@ export class DraftHistoryPage implements OnInit{
     if(event == firstTab){
       event = new Date().getFullYear();
     }
-    this.getDraftPage(event, this.teamId);
+    this.getDraftPage(event);
   }
 
 

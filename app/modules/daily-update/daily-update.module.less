@@ -12,11 +12,17 @@
 }
 
 .daily-update{
+  
+  .loading-container {
+    min-height: 600px;
+  }
+
   &-hero{
     display:block;
     width: 100%;
     min-height: 198px;
     position: relative;
+
     &:before{
       content: "";
       display: block;
@@ -36,9 +42,8 @@
       margin: auto;
       font-weight: 400;
       text-align: center;
-
       .vertical-align;
-      background: @masterBrandColor;
+      background: rgba(188, 32, 39, 0.95);
       color: @white;
       font-size: 30px;
       line-height:78px;
@@ -52,11 +57,11 @@
       display: block;
       width: 280px;
       float: left;
-      padding: 0 22px 5px 15px;
+      padding: 0 15px 2px 15px;
       border-right: 1px solid @strokeGrey;
       margin-right: -1px;
       &-title{
-        margin: 15px 0 0 0;
+        margin: 7px 0 0 0;
         .globalDefaultFont(20px, 400);
         line-height: 24px;
         b{
@@ -65,20 +70,22 @@
       }
       &-subtitle{
         margin: 0;
-        .globalDefaultModFont(10px, 700, @bulletGrey);
+        .globalDefaultModFont(10px, 400, @bulletGrey);
         line-height: 16px;
-        padding-bottom:9px;
+        padding-bottom:8px;
         border-bottom: 1px solid @strokeGrey;
       }
       .datapoints{
         &-item{
           .clearfix;
-          padding: 0 10px;
+          padding: 0 10px 0 8px;
           font-size: 12px;
-          line-height: 25px;
+          line-height: 27px;
           margin: 0;
           .fa{
-            margin-right: 12px;
+            margin-right: 8px;
+            font-size: 15px;
+            vertical-align: middle;
           }
           b{
             font-weight: 800;
@@ -91,10 +98,16 @@
       width: 400px;
       float: left;
       border-left: 1px solid @strokeGrey;
+      bar-chart{
+        display: block;
+        width: 100%;
+        padding: 4px 9px 7px 9px;
+      }
       &-key{
         line-height:14px;
         .clearfix;
         padding: 10px 20px 10px 10px;
+        border-bottom: 1px solid @strokeGrey;
         h4{
           margin: 0;
           .globalDefaultModFont(14px, 400, @textEmphasisGrey);
@@ -141,6 +154,9 @@
       &-title{
         .globalDefaultFont(18px, 800);
         margin: 0 0 6px 0;
+        a:hover{
+          color: @masterBrandColor;
+        }
       }
       &-subtitle{
         .globalDefaultModFont(12px, 400, @bulletGrey);
@@ -152,10 +168,18 @@
         .globalDefaultFont(14px, 400);
         line-height: 16px;
       }
-      &-cta{
-        .globalDefaultModFont(12px, 800, @masterBrandColor);
-        line-height: 20px;
+      &-cta {
         margin: 12px 0 0 0;
+        &-link {
+          .globalDefaultModFont(12px, 800, @masterBrandColor);
+          line-height: 20px;
+          &:hover{
+            text-decoration: underline;
+          }
+          .fa {
+            vertical-align: middle;
+          }
+        }
       }
     }
   }

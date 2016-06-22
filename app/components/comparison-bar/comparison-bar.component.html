@@ -21,16 +21,18 @@
                 {{displayData.data[1].value | naValue}}
             </label>
         </div>
-        <label class="comparison-bar-capsule-label label-top">
+        <label class="comparison-bar-capsule-label label-top" (mouseover)="isSelected(displayData)" (mouseout)='mouseOff(displayData)' [class.active]="displayData.active">
             <div class="infobox-values">
               <div class="infobox-display">
                 <span class="infobox-value1">{{displayData.maxValue}}</span>
-                <div class="infobox-icons" (mouseover)="isSelected(displayData)" (mouseout)='mouseOff(displayData)'>
+                <!-- When Hover Over, it will display an information drop box, the icon is optional -->
+                <div class="infobox-icons">
                   <i *ngIf="displayData.info" class="fa {{displayData.info}}"></i>
                   <i [class.active]="displayData.active" class="fa fa-sort-up"></i>
                 </div>
               </div>
-              <ul class="infobox-box" [class.active]="displayData.active" (mouseover)="isSelected(displayData)" (mouseout)='mouseOff(displayData)'>
+              <!-- Information Drop Box Next to Lead Stats if there's display data info when hovered over icon-->
+              <ul class="infobox-box" [class.active]="displayData.active">
                 <li class="infobox-list" *ngFor="#displayData of displayData.infoBoxDetails">
                   <a class="infobox-list-item" [routerLink]="displayData.routerLinkPlayer">
                     <div class="infobox-list-image">
@@ -38,11 +40,11 @@
                     </div>
                     <div class="infobox-list-details">
                       <span class="infobox-list-playerName" [innerHtml]="displayData.playerName"></span>
-                      <a class="infobox-list-team" [routerLink]="displayData.routerLinkTeam">
-                        <span class="infobox-list-teamName" [innerHtml]="displayData.teamName"></span>
-                      </a>
                     </div>
-                    <div><i class="fa fa-angle-right"></i></div>
+                    <div class="infobox-list-view"><i class="fa fa-angle-right"></i></div>
+                  </a>
+                  <a class="infobox-list-team" [routerLink]="displayData.routerLinkTeam">
+                    <span class="infobox-list-teamName" [innerHtml]="displayData.teamName"></span>
                   </a>
                 </li>
               </ul>

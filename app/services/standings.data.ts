@@ -1,10 +1,11 @@
 import {TableModel, TableColumn} from '../components/custom-table/table-data.component';
 import {CircleImageData} from '../components/images/image-data';
 import {StandingsTableTabData, TableComponentData} from '../components/standings/standings.component';
-import {SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
+import {SliderCarousel, SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
 import {Conference, Division} from '../global/global-interface';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
+import {GlobalSettings} from '../global/global-settings';
 
 //TODO-CJP: Ask backend to return values as numbers and not strings!
 export interface TeamStandingsData {
@@ -35,12 +36,12 @@ export interface TeamStandingsData {
    * - Formatted from the lastUpdatedDate
    */
   displayDate?: string;
-  
+
   /**
    * Formatted full path to image
    */
   fullImageUrl?: string;
-  
+
   /**
    * Formatted full path to image
    */
@@ -70,9 +71,9 @@ export class MLBStandingsTabData implements StandingsTableTabData<TeamStandingsD
   title: string;
 
   isActive: boolean;
-  
+
   isLoaded: boolean;
-  
+
   hasError: boolean;
 
   sections: Array<MLBStandingsTableData>;
@@ -80,7 +81,7 @@ export class MLBStandingsTabData implements StandingsTableTabData<TeamStandingsD
   conference: Conference;
 
   division: Division;
-  
+
   selectedKey: string;
 
   constructor(title: string, conference: Conference, division: Division, isActive: boolean) {
@@ -89,10 +90,10 @@ export class MLBStandingsTabData implements StandingsTableTabData<TeamStandingsD
     this.division = division;
     this.isActive = isActive;
   }
-  
+
   getSelectedKey(): string {
     if ( !this.sections ) return "-1";
-    
+
     var numericKey = -1;
     this.sections.forEach(section => {
       var table = section.tableData;
@@ -102,11 +103,11 @@ export class MLBStandingsTabData implements StandingsTableTabData<TeamStandingsD
     });
     return numericKey.toString();
   }
-  
+
   setSelectedKey(key:string) {
     this.selectedKey = key;
     if ( !this.sections ) return;
-    
+
     var numericKey = Number(key);
     this.sections.forEach(section => {
       var table = section.tableData;
@@ -120,31 +121,27 @@ export class MLBStandingsTabData implements StandingsTableTabData<TeamStandingsD
   }
 
   convertToCarouselItem(item: TeamStandingsData, index:number): SliderCarouselInput {
-    var subheader = item.seasonId + " Season " + item.groupName + " Standings";
-    var description = "The " + item.teamName + " are currently <span class='text-heavy'>ranked " + item.rank + GlobalFunctions.Suffix(item.rank) + "</span>" +
-                      " in the <span class='text-heavy'>" + item.groupName + "</span>, with a record of " +
-                      "<span class='text-heavy'>" + item.totalWins + " - " + item.totalLosses + "</span>.";
-
-    return {
-      index: index,
-      backgroundImage: item.fullBackgroundImageUrl, //optional
-      description: [
-        "<div class='standings-car-subhdr'><i class='fa fa-circle'></i>" + subheader + "</div>",
-        "<div class='standings-car-hdr'>" + item.teamName + "</div>",
-        "<div class='standings-car-desc'>" + description + "</div>",
-        "<div class='standings-car-date'>Last Updated On " + item.displayDate + "</div>"
-      ],
-      imageConfig: {
-        imageClass: "image-150",
-        mainImage: {
-          imageClass: "border-10",
-          urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId.toString()),
-          imageUrl: item.fullImageUrl,
-          hoverText: "<p>View</p><p>Profile</p>"
-        },
-        subImages: []
-      }
+    var teamRoute = MLBGlobalFunctions.formatTeamRoute(item.teamName, item.teamId.toString());
+    var teamNameLink = {
+        route: teamRoute,
+        text: item.teamName
     };
+    return SliderCarousel.convertToSliderCarouselItem(index, {
+      backgroundImage: item.fullBackgroundImageUrl,
+      copyrightInfo: GlobalSettings.getCopyrightInfo(),
+      subheader: [item.seasonId + " Season " + item.groupName + " Standings"],
+      profileNameLink: teamNameLink,
+      description:[
+          "The ", teamNameLink,
+          " are currently <span class='text-heavy'>ranked " + item.rank + GlobalFunctions.Suffix(item.rank) + 
+          "</span>" + " in the <span class='text-heavy'>" + item.groupName + 
+          "</span>, with a record of " + "<span class='text-heavy'>" + item.totalWins + " - " + item.totalLosses + 
+          "</span>."
+      ],
+      lastUpdatedDate: item.displayDate,
+      circleImageUrl: item.fullImageUrl,
+      circleImageRoute: teamRoute
+    });
   }
 }
 

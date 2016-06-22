@@ -1,5 +1,7 @@
 import {Component, OnInit, Input} from 'angular2/core';
 import {RouteParams} from "angular2/router";
+import {Title} from 'angular2/platform/browser';
+
 import {BackTabComponent} from "../../components/backtab/backtab.component";
 import {TitleComponent, TitleInputData} from "../../components/title/title.component";
 import {CircleImageData, ImageData} from "../../components/images/image-data";
@@ -22,7 +24,7 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
     templateUrl: './app/webpages/standings-page/standings.page.html',
 
     directives: [SidekickWrapper, BackTabComponent, TitleComponent, StandingsComponent, LoadingComponent, ErrorComponent],
-    providers: [StandingsService, ProfileHeaderService],
+    providers: [StandingsService, ProfileHeaderService, Title],
 })
 
 export class StandingsPage implements OnInit {
@@ -38,10 +40,12 @@ export class StandingsPage implements OnInit {
   public hasError: boolean = false;
   
   constructor(private _params: RouteParams,
+              private _title: Title,
               private _profileService: ProfileHeaderService,
               private _standingsService: StandingsService, 
               private _globalFunctions: GlobalFunctions, 
               private _mlbFunctions: MLBGlobalFunctions) {
+    _title.setTitle(GlobalSettings.getPageTitle("Standings"));
     
     var type = _params.get("type");
     if ( type !== null && type !== undefined ) {
@@ -52,10 +56,7 @@ export class StandingsPage implements OnInit {
     var teamId = _params.get("teamId");
     if ( type == "team" && teamId !== null && teamId !== undefined ) {
       this.pageParams.teamId = Number(teamId);
-    }   
-      
-    // Scroll page to top to fix routerLink bug
-    window.scrollTo(0, 0);
+    } 
   }
   
   ngOnInit() {    
@@ -64,6 +65,7 @@ export class StandingsPage implements OnInit {
         data => {
           this.profileLoaded = true;
           this.pageParams = data.pageParams; 
+          this._title.setTitle(GlobalSettings.getPageTitle("Standings", data.teamName));
           this.setupTitleData(data.fullProfileImageUrl, data.pageParams.teamId.toString(), data.teamName);          
           this.tabs = this._standingsService.initializeAllTabs(this.pageParams);
         },
@@ -74,6 +76,7 @@ export class StandingsPage implements OnInit {
       );
     }
     else {
+      this._title.setTitle(GlobalSettings.getPageTitle("Standings", "MLB"));
       this.setupTitleData(GlobalSettings.getSiteLogoUrl());
       this.tabs = this._standingsService.initializeAllTabs(this.pageParams);
     }

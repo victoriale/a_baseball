@@ -1,6 +1,7 @@
-import {Component, OnInit} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
-import {Injectable} from 'angular2/core';
+import {Component, OnInit, Injectable} from 'angular2/core';
+import {Router, RouteParams} from 'angular2/router';
+import {Title} from 'angular2/platform/browser';
+
 import {GlobalFunctions} from "../../global/global-functions";
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
 import {GlobalSettings} from "../../global/global-settings";
@@ -26,6 +27,7 @@ import {FAQModule, faqModuleData} from "../../modules/faq/faq.module";
 import {FaqService} from '../../services/faq.service';
 
 import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
+import {BoxScoresService} from '../../services/box-scores.service';
 
 import {ComparisonModule, ComparisonModuleData} from '../../modules/comparison/comparison.module';
 import {ComparisonStatsService} from '../../services/comparison-stats.service';
@@ -64,13 +66,17 @@ import {ListOfListsService} from "../../services/list-of-lists.service";
 import {TransactionsModule} from "../../modules/transactions/transactions.module";
 import {TransactionsService} from "../../services/transactions.service";
 import {DailyUpdateModule} from "../../modules/daily-update/daily-update.module";
+import {DailyUpdateService, DailyUpdateData} from "../../services/daily-update.service";
+
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
+
+declare var moment;
 
 @Component({
     selector: 'Team-page',
     templateUrl: './app/webpages/team-page/team.page.html',
     directives: [
-        SidekickWrapper, 
+        SidekickWrapper,
         LoadingComponent,
         ErrorComponent,
         DailyUpdateModule,
@@ -97,6 +103,7 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
         TransactionsModule
     ],
     providers: [
+      BoxScoresService,
       SchedulesService,
       DraftHistoryService,
       StandingsService,
@@ -110,7 +117,9 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
       PlayerStatsService,
       TransactionsService,
       ComparisonStatsService,
-      TwitterService
+      DailyUpdateService,
+      TwitterService,
+      Title
     ]
 })
 
@@ -118,6 +127,7 @@ export class TeamPage implements OnInit {
     public shareModuleInput:ShareModuleInput;
     headerData:any;
     pageParams:MLBPageParameters;
+    partnerID:string = null;
     hasError: boolean = false;
 
     profileHeaderData:ProfileHeaderData;
@@ -125,12 +135,18 @@ export class TeamPage implements OnInit {
     standingsData: StandingsModuleData;
     playerStatsData: PlayerStatsModuleData;
     rosterData: RosterModuleData<TeamRosterData>;
+    dailyUpdateData: DailyUpdateData;
 
     imageData:any;
     copyright:any;
     profileType:string = "team";
     isProfilePage:boolean = true;
     draftHistoryData:any;
+
+    boxScoresData:any;
+    currentBoxScores:any;
+    dateParam:any;
+
     transactionsData:any;
     currentYear: number;
 
@@ -144,7 +160,10 @@ export class TeamPage implements OnInit {
     twitterData: Array<twitterModuleData>;
 
     constructor(private _params:RouteParams,
+                private _router:Router,
+                private _title: Title,
                 private _standingsService:StandingsService,
+                private _boxScores:BoxScoresService,
                 private _schedulesService:SchedulesService,
                 private _profileService:ProfileHeaderService,
                 private _draftService:DraftHistoryService,
@@ -158,15 +177,28 @@ export class TeamPage implements OnInit {
                 private _dykService: DykService,
                 private _twitterService: TwitterService,
                 private _comparisonService: ComparisonStatsService,
+                private _dailyUpdateService: DailyUpdateService,
                 private _globalFunctions:GlobalFunctions) {
         this.pageParams = {
             teamId: Number(_params.get("teamId"))
         };
         this.currentYear = new Date().getFullYear();
+
+        GlobalSettings.getPartnerID(_router, partnerID => {
+            this.partnerID = partnerID;
+        });
     }
 
     ngOnInit() {
-        this.setupProfileData();
+      var currentUnixDate = new Date().getTime();
+      //convert currentDate(users local time) to Unix and push it into boxScoresAPI as YYYY-MM-DD in EST using moment timezone (America/New_York)
+      this.dateParam ={
+        profile:'team',//current profile page
+        teamId:this.pageParams.teamId, // teamId if it exists
+        date: moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD')
+      }
+
+      this.setupProfileData();
     }
 
     /**
@@ -182,10 +214,13 @@ export class TeamPage implements OnInit {
                 /*** About the [Team Name] ***/
                 this.pageParams = data.pageParams;
                 this.profileName = data.teamName;
+                this._title.setTitle(GlobalSettings.getPageTitle(this.profileName));
                 this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data);
 
+                this.dailyUpdateModule(this.pageParams.teamId);
+
                 /*** Keep Up With Everything [Team Name] ***/
-                //this.getBoxScores();
+                this.getBoxScores(this.dateParam);
                 this.getSchedulesData('pre-event');//grab pre event data for upcoming games
                 this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams, data.teamName);
                 this.rosterData = this._rosterService.loadAllTabsForModule(this.pageParams.teamId, data.teamName, this.pageParams.conference);
@@ -212,6 +247,18 @@ export class TeamPage implements OnInit {
             }
         );
     }
+
+    private dailyUpdateModule(teamId: number) {
+        this._dailyUpdateService.getTeamDailyUpdate(teamId)
+            .subscribe(data => {
+                this.dailyUpdateData = data;
+            },
+            err => {
+                this.dailyUpdateData = this._dailyUpdateService.getErrorData();
+                console.log("Error getting daily update data", err);
+            });
+    }
+
     private getTwitterService() {
         this._twitterService.getTwitterService(this.profileType, this.pageParams.teamId)
             .subscribe(data => {
@@ -250,6 +297,17 @@ export class TeamPage implements OnInit {
             err => {
                 console.log("Error getting news data");
             });
+    }
+
+    //api for BOX SCORES
+    private getBoxScores(dateParams?) {
+        if ( dateParams != null ) {
+            this.dateParam = dateParams;
+        }
+        this._boxScores.getBoxScores(this.boxScoresData, this.profileName, this.dateParam, (boxScoresData, currentBoxScores) => {
+            this.boxScoresData = boxScoresData;
+            this.currentBoxScores = currentBoxScores;
+        })
     }
 
     //grab tab to make api calls for post of pre event table

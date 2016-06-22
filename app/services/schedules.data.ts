@@ -14,7 +14,7 @@ declare var moment: any;
 export interface SchedulesData {
   index:any;
   backgroundImage: string,
-  startDateTime: string,
+  startDateTimestamp: string,
   eventId: string,
   eventStatus: string,
   homeTeamId: string,
@@ -70,14 +70,14 @@ export interface SchedulesData {
    * Formatted full path to image
    */
   fullBackgroundImageUrl?: string;
-  
+
   /**
-   * Formatted home record 
+   * Formatted home record
    */
   homeRecord?: string;
-  
+
   /**
-   * Formatted away record 
+   * Formatted away record
    */
   awayRecord?: string;
 }
@@ -120,14 +120,16 @@ export class MLBSchedulesTableData implements TableComponentData<SchedulesData> 
     }else{
       var displayNext = 'Previous Game:';
     }
-    
+    var teamRouteAway = MLBGlobalFunctions.formatTeamRoute(item.awayTeamName, item.awayTeamId);
+    var teamRouteHome = MLBGlobalFunctions.formatTeamRoute(item.homeTeamName, item.homeTeamId);
+
     var colors = Gradient.getColorPair(item.awayTeamColors.split(','), item.homeTeamColors.split(','));
-    
+
     return {//placeholder data
       index:index,
       displayNext: displayNext,
       backgroundGradient: Gradient.getGradientStyles(colors),
-      displayTime: moment(item.startDateTime).format('dddd MMMM Do, YYYY | h:mm A') + " ET", //hard coded TIMEZOME since it is coming back from api this way
+      displayTime: moment(item.startDateTimestamp).tz('America/New_York').format('dddd MMMM Do, YYYY | h:mm A') + " ET", //hard coded TIMEZOME since it is coming back from api this way
       detail1Data:'Home Stadium:',
       detail1Value:item.homeTeamVenue,
       detail2Value:item.homeTeamCity + ', ' + item.homeTeamState,
@@ -135,7 +137,7 @@ export class MLBSchedulesTableData implements TableComponentData<SchedulesData> 
         imageClass: "image-125",
         mainImage: {
           imageUrl: GlobalSettings.getImageUrl(item.awayTeamLogo),
-          urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.awayTeamName, item.awayTeamId),
+          urlRouteArray: teamRouteAway,
           hoverText: "<p>View</p><p>Profile</p>",
           imageClass: "border-5"
         }
@@ -144,11 +146,13 @@ export class MLBSchedulesTableData implements TableComponentData<SchedulesData> 
         imageClass: "image-125",
         mainImage: {
           imageUrl: GlobalSettings.getImageUrl(item.homeTeamLogo),
-          urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.homeTeamName, item.homeTeamId),
+          urlRouteArray: teamRouteHome,
           hoverText: "<p>View</p><p>Profile</p>",
           imageClass: "border-5"
         }
       },
+      teamUrl1: teamRouteAway,
+      teamUrl2: teamRouteHome,
       teamName1: item.awayTeamName,
       teamName2: item.homeTeamName,
       teamLocation1:item.awayTeamCity + ', ' + item.awayTeamState,
@@ -292,10 +296,10 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
     var s = "";
     switch (column.key) {
       case "date":
-        s = GlobalFunctions.formatDateWithAPMonth(item.startDateTime, "", "DD");
+        s = GlobalFunctions.formatDateWithAPMonth(item.startDateTimestamp, "", "DD");
         break;
       case "t":
-        s = moment(item.startDateTime).format('h:mm') + " <sup> "+moment(item.startDateTime).format('A')+" </sup>";
+        s = moment(item.startDateTimestamp).tz('America/New_York').format('h:mm') + " <sup> "+moment(item.startDateTimestamp).tz('America/New_York').format('A')+" </sup>";
         break;
 
       case "away":
@@ -372,11 +376,11 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
     var o = null;
     switch (column.key) {
       case "date":
-        o = item.startDateTime;
+        o = item.startDateTimestamp;
         break;
 
       case "t":
-        o = item.startDateTime;
+        o = item.startDateTimestamp;
         break;
 
       case "away":

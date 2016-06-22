@@ -41,7 +41,7 @@ export class ArticleScheduleComponent implements OnInit {
         if (typeof this.homeData != 'undefined' && typeof this.awayData != 'undefined') {
             this.awayHex = this.awayData[0].awayHex;
             this.homeHex = this.homeData[0].homeHex;
-            var fullGradient = Gradient.getGradientStyles([this.homeHex, this.awayHex], .75);
+            var fullGradient = Gradient.getGradientStyles([this.awayHex, this.homeHex], .75);
             if (fullGradient) {
                 this.gradient = fullGradient;
             }

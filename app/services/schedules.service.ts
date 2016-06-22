@@ -81,7 +81,6 @@ export class SchedulesService {
   }else{
     displayYear = year;
   }
-  // console.log(profile,id, eventStatus)/
 
   var callURL = this._apiUrl+'/'+profile+'/schedule';
 
@@ -90,7 +89,6 @@ export class SchedulesService {
   }
   callURL += '/'+eventStatus+'/'+limit+'/'+ pageNum;  //default pagination limit: 5; page: 1
 
-  // console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -110,14 +108,14 @@ export class SchedulesService {
       };
     })
   }
-  
+
   //rows is the data coming in
   private setupTableData(eventStatus, year, rows: Array<any>, teamId?, maxRows?: number): Array<MLBSchedulesTableData> {
     //Limit to maxRows, if necessary
     if ( maxRows !== undefined ) {
       rows = rows.slice(0, maxRows);
     }
-    
+
     //TWO tables are to be made depending on what type of tabs the use is click on in the table
     if(eventStatus == 'pre-event'){
       // let tableName = this.formatGroupName(year,eventStatus);
@@ -132,11 +130,11 @@ export class SchedulesService {
       if(typeof teamId == 'undefined'){
         var table = new MLBSchedulesTableModel(rows, eventStatus, teamId);// there are two types of tables for Post game (team/league) tables
         rows.forEach(function(val,index){// seperate the dates into their own Obj tables for post game reports
-          var splitToDate = val.startDateTime.split(' ')[0];
+          var splitToDate = moment(val.startDateTimestamp).tz('America/New_York').format('YYYY-MM-DD');
           if(typeof dateObject[splitToDate] == 'undefined'){
             dateObject[splitToDate] = {};
             dateObject[splitToDate]['tableData'] = [];
-            dateObject[splitToDate]['display'] = moment(val.startDateTime).format('dddd MMMM Do, YYYY') + " Games";
+            dateObject[splitToDate]['display'] = moment(val.startDateTimestamp).tz('America/New_York').format('dddd MMMM Do, YYYY') + " Games";
             dateObject[splitToDate]['tableData'].push(val);
           }else{
             dateObject[splitToDate]['tableData'].push(val);
@@ -154,11 +152,9 @@ export class SchedulesService {
         return [tableArray];
       }
     }
-  }  
+  }
 
   private setupCarouselData(origData: Array<SchedulesData>, tableData: MLBSchedulesTableData, maxRows?: number){
-    // console.log(origData);
-    
     //Limit to maxRows, if necessary
     if ( maxRows !== undefined ) {
       origData = origData.slice(0, maxRows);
@@ -186,11 +182,9 @@ export class SchedulesService {
       // combine together the win and loss of a team to create their record
       val.homeRecord = val.homeTeamWins + '-' + val.homeTeamLosses;//?? is this really the win and loss
       val.awayRecord = val.awayTeamWins + '-' + val.awayTeamLosses;//?? is this really the win and loss
-      
+
       return tableData.updateCarouselData(val, index); //Use existing conversion function
     });
-    // console.log('returned Data',carData);
-
     return carData;
   }
 

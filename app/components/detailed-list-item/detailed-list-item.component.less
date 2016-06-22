@@ -37,15 +37,24 @@
       .inlineFlexDisplay;
       .flexDirection(column);
       .flexJustify(space-between);
-      .data-hover{//hover states
-        text-decoration: none;
+
+      &-mainLink {
         color: @black;
-        a{
-          &:hover{
-            text-decoration: none;
-            color:@masterBrandColor;
-            cursor: pointer;
-          }
+        text-decoration: none;
+        font-weight: 800;
+
+        &:hover {
+          color: @masterBrandColor
+        }
+      }
+
+      &-subLink {
+        color: @black;
+        text-decoration: none;
+        font-weight: 800;
+
+        &:hover {
+          color: @masterBrandColor;
         }
       }
       &-info{
