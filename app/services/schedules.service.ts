@@ -81,7 +81,6 @@ export class SchedulesService {
   }else{
     displayYear = year;
   }
-  // console.log(profile,id, eventStatus)/
 
   var callURL = this._apiUrl+'/'+profile+'/schedule';
 
@@ -90,7 +89,6 @@ export class SchedulesService {
   }
   callURL += '/'+eventStatus+'/'+limit+'/'+ pageNum;  //default pagination limit: 5; page: 1
 
-  // console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -133,7 +131,6 @@ export class SchedulesService {
         var table = new MLBSchedulesTableModel(rows, eventStatus, teamId);// there are two types of tables for Post game (team/league) tables
         rows.forEach(function(val,index){// seperate the dates into their own Obj tables for post game reports
           var splitToDate = moment(val.startDateTimestamp).tz('America/New_York').format('YYYY-MM-DD');
-          console.log('TESTTESTTEST',splitToDate);
           if(typeof dateObject[splitToDate] == 'undefined'){
             dateObject[splitToDate] = {};
             dateObject[splitToDate]['tableData'] = [];
@@ -158,8 +155,6 @@ export class SchedulesService {
   }
 
   private setupCarouselData(origData: Array<SchedulesData>, tableData: MLBSchedulesTableData, maxRows?: number){
-    // console.log(origData);
-
     //Limit to maxRows, if necessary
     if ( maxRows !== undefined ) {
       origData = origData.slice(0, maxRows);
@@ -190,8 +185,6 @@ export class SchedulesService {
 
       return tableData.updateCarouselData(val, index); //Use existing conversion function
     });
-    // console.log('returned Data',carData);
-
     return carData;
   }
 

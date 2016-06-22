@@ -87,8 +87,6 @@ export class DraftHistoryService {
     let self = this;
     var carouselArray = [];
     var dummyImg = "/app/public/no-image.png";
-    var dummyRoute = ['Disclaimer-page'];
-    var dummyRank = '##';
     if(data.length == 0){//if no data is being returned then show proper Error Message in carousel
       var Carousel = {
         index:'2',
