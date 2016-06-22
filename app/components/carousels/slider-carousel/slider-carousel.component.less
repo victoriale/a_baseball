@@ -54,8 +54,42 @@ slider-carousel{
         width:60%;
         max-height:182px;
         .flexAlignItems(flex-start);
-        .globalDefaultModFont(16px, 400, @white);
+        .globalDefaultModFont(16px, 400, @white);        
         overflow-y: auto;
+        
+        &-subhdr {
+          .globalDefaultModFont(12px, 400, @white);
+          text-transform: uppercase;
+          line-height: 1.2em;
+
+          .fa {
+            color: @masterBrandColor;
+            padding-right: 6px;
+            top: 2px;
+            position: relative;
+          }
+        }
+
+        &-hdr {
+          .globalDefaultModFont(22px, 800, @white);
+          margin-top: 10px;
+        }
+
+        &-desc {
+          .globalDefaultModFont(14px, 400, @white);
+          line-height: 1.2em;
+          margin-top: 10px;
+        }
+
+        &-date {
+          .globalDefaultModFont(10px, 400, @white);
+          margin-top: 12px;
+        }
+
+        a:hover {
+          color: @masterBrandColor;
+        }
+
         & p {
           line-height: 16px;
           margin:0;

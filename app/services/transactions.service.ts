@@ -5,6 +5,7 @@ import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
 import {GlobalSettings} from '../global/global-settings';
 import {CircleImageData} from '../components/images/image-data';
+import {SliderCarousel} from '../components/carousels/slider-carousel/slider-carousel.component';
 
 declare var moment: any;
 
@@ -91,7 +92,7 @@ export class TransactionsService {
 
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
   //FOR THE PAGE
-  carTransactions(data, type){
+  carTransactions(data: Array<any>, type) {
     let self = this;
     var carouselArray = [];
     var dummyImg = "/app/public/Image-Placeholder-2.jpg";
@@ -106,25 +107,35 @@ export class TransactionsService {
       };
       carouselArray.push(Carousel);
     }else{
+      if ( type == "module" ) {
+          // module only needs four list items
+        data = data.slice(4);
+      }
       //if data is coming through then run through the transforming function for the module
-      data.forEach(function(val, index){
-        if(type == "module" && index >= 4){
-          // module only needs two list items
-          return false;
-        }
-        var Carousel = {
-          index:index,
-          //TODO
-          backgroundImage: val.backgroundImage != null ? GlobalSettings.getImageUrl(val.backgroundImage) : dummyImg,
-          imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.playerHeadshot),MLBGlobalFunctions.formatPlayerRoute(val.playerName,val.playerName, val.playerId), null, "image-50-sub",MLBGlobalFunctions.formatTeamLogo(val.teamName),MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
-          description:[
-            '<p class="font-12 fw-400 lh-32 titlecase"><i class="fa fa-circle" style="margin-right:6px;"></i> Transaction Report - ' + val.teamName + '</p>',
-            '<p class="font-22 fw-800 lh-32" style="padding-bottom:10px;">'+ val.playerName+'</p>',
-            '<p class="font-14 fw-400 lh-18" style="padding-bottom:6px;">Transaction date - ' + val['repDate'] + ': ' + val.contents + '<p>',
-            '<p class="font-10 fw-400 lh-25">Last Updated on '+ moment(new Date(val['transactionTimestamp'])).format('dddd, MMMM DD, YYYY') +'</p>'
-          ],
+      carouselArray = data.map((val, index) => {
+        var teamRoute = MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId);
+        var playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.teamName, val.playerName, val.playerId);
+        var teamLinkText = {
+          route: teamRoute,
+          text: val.teamName
         };
-        carouselArray.push(Carousel);
+        var playerLinkText = {
+          route: playerRoute,
+          text: val.playerName
+        };
+        return SliderCarousel.convertToSliderCarouselDescription(index, {
+          backgroundImage: val.backgroundImage != null ? GlobalSettings.getImageUrl(val.backgroundImage) : dummyImg,
+          subheader: [' Transaction Report - ', teamLinkText],
+          profileNameLink: playerLinkText,
+          description: [
+              'Transaction date - ' + val.repDate + ': ' + val.contents
+          ],
+          lastUpdatedDate: GlobalFunctions.formatUpdatedDate(val.transactionTimestamp),
+          circleImageUrl: GlobalSettings.getImageUrl(val.playerHeadshot),
+          circleImageRoute: playerRoute,
+          subImageUrl: GlobalSettings.getImageUrl(val.teamLogo),
+          subImageRoute: teamRoute
+        });
       });
     }
     return carouselArray;
