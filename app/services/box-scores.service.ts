@@ -151,52 +151,37 @@ export class BoxScoresService {
     let awayData = data.awayTeamInfo;
     let homeData = data.homeTeamInfo;
     var left, right;
-    if(homeData.id == teamId){//detection to know which profile needs to no have links
-      var rightRoute = MLBGlobalFunctions.formatTeamRoute(awayData.name, awayData.id);
-      left = {
+    var homeRoute = MLBGlobalFunctions.formatTeamRoute(homeData.name, homeData.id);
+    var awayRoute = MLBGlobalFunctions.formatTeamRoute(awayData.name, awayData.id);
+      if(teamId == homeData.teamId){
+        var homeLogo = this.imageData("image-62", "border-logo", GlobalSettings.getImageUrl(homeData.logo), null);
+        var awayLogo = this.imageData("image-62", "border-logo", GlobalSettings.getImageUrl(awayData.logo), awayRoute);
+      }else{
+        var homeLogo = this.imageData("image-62", "border-logo", GlobalSettings.getImageUrl(homeData.logo), homeRoute);
+        var awayLogo = this.imageData("image-62", "border-logo", GlobalSettings.getImageUrl(awayData.logo), null);
+      }
+      right = {
         homeHex:homeData.colors.split(', ')[0], //parse out comma + space to grab only hex colors
         homeID:homeData.id,
         homeLocation:homeData.firstName, // first name of team usually represents the location
-        homeLogo:GlobalSettings.getImageUrl(homeData.logo),
+        homeLogo:homeLogo,
         homeLosses:homeData.lossRecord,
         homeName:homeData.lastName,
         homeWins:homeData.winRecord
       };
-      right = {
+      left = {
         awayHex:awayData.colors.split(', ')[0],
         awayID:awayData.id,
         awayLocation:awayData.firstName,
-        awayLogo: this.imageData("image-62", "border-logo", GlobalSettings.getImageUrl(awayData.logo), rightRoute),
+        awayLogo: awayLogo,
         awayLosses:awayData.lossRecord,
         awayName:awayData.lastName,
         awayWins:awayData.winRecord
       };
-    }else{
-      var rightRoute = MLBGlobalFunctions.formatTeamRoute(homeData.name, homeData.id);
-      left = {
-        homeHex:awayData.colors.split(', ')[0],
-        homeID:awayData.id,
-        homeLocation:awayData.firstName,
-        homeLogo: GlobalSettings.getImageUrl(awayData.logo),
-        homeLosses:awayData.lossRecord,
-        homeName:awayData.lastName,
-        homeWins:awayData.winRecord
-      };
-      right = {
-        awayHex:homeData.colors.split(', ')[0], //parse out comma + space to grab only hex colors
-        awayID:homeData.id,
-        awayLocation:homeData.firstName, // first name of team usually represents the location
-        awayLogo:this.imageData("image-62", "border-logo", GlobalSettings.getImageUrl(homeData.logo), rightRoute),
-        awayLosses:homeData.lossRecord,
-        awayName:homeData.lastName,
-        awayWins:homeData.winRecord
-      };
-    }
     // convert data given into format needed for the schedule banner on module
-    right['url'] = rightRoute;
     return {
-      home:[left],
-      away:[right]
+      home:[right],
+      away:[left]
     };
   }
 
