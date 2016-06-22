@@ -23,6 +23,16 @@
   margin: 0;
   padding: 0;
   right:0;
+
+  .dp-ptr{
+    content: '';
+    border-bottom: 8px solid @masterBrandColor;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    position: absolute;
+    right: 20px;
+    top: -9px;
+  }
 }
 
 .ng-datepicker > .controls {
@@ -158,7 +168,7 @@
   background-color: @masterBrandColor;
   cursor: default;
   pointer-events: none;
-  color: @white;
+  color: @white !important;
 }
 
 .ng-datepicker > .calendar > span > span.day.today {
