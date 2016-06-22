@@ -160,14 +160,14 @@ export class MLBSeasonStatsTabData implements TableTabData<TeamSeasonStatsData> 
           imageUrl: GlobalSettings.getImageUrl(playerData.playerHeadshot),
           hoverText: "<p>View</p><p>Profile</p>"
         },
-        subImages: [
-          {
-            imageUrl: GlobalSettings.getImageUrl(playerData.teamLogo),
-            urlRouteArray: MLBGlobalFunctions.formatTeamRoute(playerData.teamName,playerData.teamId),
-            hoverText: "<i class='fa fa-mail-forward'></i>",
-            imageClass: "image-50-sub image-round-lower-right"
-          },
-        ]
+        // subImages: [
+        //   {
+        //     imageUrl: GlobalSettings.getImageUrl(playerData.teamLogo),
+        //     urlRouteArray: MLBGlobalFunctions.formatTeamRoute(playerData.teamName,playerData.teamId),
+        //     hoverText: "<i class='fa fa-mail-forward'></i>",
+        //     imageClass: "image-50-sub image-round-lower-right"
+        //   },
+        // ]
       }
     }
     return carouselData;

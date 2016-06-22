@@ -246,14 +246,14 @@ export class SeasonStatsService {
               imageUrl: GlobalSettings.getImageUrl(data.playerInfo.playerHeadshot),
               imageClass: "border-large",
             },
-            subImages: [
-              {
-                imageUrl:  GlobalSettings.getImageUrl(data.playerInfo.teamLogo),
-                urlRouteArray: MLBGlobalFunctions.formatTeamRoute(data.playerInfo.teamName,data.playerInfo.teamId),
-                hoverText: "<i class='fa fa-mail-forward'></i>",
-                imageClass: "image-50-sub image-round-lower-right"
-              }
-            ],
+            // subImages: [
+            //   {
+            //     imageUrl:  GlobalSettings.getImageUrl(data.playerInfo.teamLogo),
+            //     urlRouteArray: MLBGlobalFunctions.formatTeamRoute(data.playerInfo.teamName,data.playerInfo.teamId),
+            //     hoverText: "<i class='fa fa-mail-forward'></i>",
+            //     imageClass: "image-50-sub image-round-lower-right"
+            //   }
+            // ],
           },
           description:[
             '<p style="font-size: 12px;"><i class="fa fa-circle" style="color:#bc2027; padding-right: 5px;"></i> CURRENT SEASON STATS REPORT</p>',

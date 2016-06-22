@@ -164,11 +164,11 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
           teamNameLink,
           "<div class='roster-car-date'>Last Updated On " + GlobalFunctions.formatUpdatedDate(val.lastUpdate) + "</div>"
         ],
-        footerInfo: {
-          infoDesc: 'Interested in discovering more about this player?',
-          text: 'View Profile',
-          url: MLBGlobalFunctions.formatPlayerRoute(val.teamName,val.playerName,val.playerId.toString()),
-        }
+        // footerInfo: {
+        //   infoDesc: 'Interested in discovering more about this player?',
+        //   text: 'View Profile',
+        //   url: MLBGlobalFunctions.formatPlayerRoute(val.teamName,val.playerName,val.playerId.toString()),
+        // }
     };
   }
 
@@ -191,18 +191,18 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
             hoverText: "<p>View</p><p>Profile</p>",
             imageClass: "border-large"
         },
-        subImages: [
-            {
-                imageUrl: subImg,
-                urlRouteArray: subRoute,
-                hoverText: "<i class='fa fa-mail-forward'></i>",
-                imageClass: "image-50-sub image-round-lower-right"
-            },
-            {
-                text: "#" + carouselNum,
-                imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
-            }
-        ],
+        // subImages: [
+        //     {
+        //         imageUrl: subImg,
+        //         urlRouteArray: subRoute,
+        //         hoverText: "<i class='fa fa-mail-forward'></i>",
+        //         imageClass: "image-50-sub image-round-lower-right"
+        //     },
+        //     {
+        //         text: "#" + carouselNum,
+        //         imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
+        //     }
+        // ],
     };
     return image;
   }
