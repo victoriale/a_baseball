@@ -133,8 +133,8 @@ export class TransactionsService {
           lastUpdatedDate: GlobalFunctions.formatUpdatedDate(val.transactionTimestamp),
           circleImageUrl: GlobalSettings.getImageUrl(val.playerHeadshot),
           circleImageRoute: playerRoute,
-          subImageUrl: GlobalSettings.getImageUrl(val.teamLogo),
-          subImageRoute: teamRoute
+          // subImageUrl: GlobalSettings.getImageUrl(val.teamLogo),
+          // subImageRoute: teamRoute
         });
       });
     }

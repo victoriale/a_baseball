@@ -3,6 +3,7 @@ import {CircleButton} from '../../buttons/circle/circle.button';
 import {CircleImage} from '../../images/circle-image';
 import {CircleImageData} from '../../images/image-data';
 import {Carousel} from '../carousel.component';
+import {ROUTER_DIRECTIVES} from 'angular2/router';
 
 export interface SchedulesCarouselInput{
   backgroundGradient:string;
@@ -16,6 +17,8 @@ export interface SchedulesCarouselInput{
   detail2Route?: Array<any>;
   imageConfig1:CircleImageData;
   imageConfig2:CircleImageData;
+  teamUrl1: Array<any>;
+  teamUrl2: Array<any>;
   teamName1: string;
   teamName2: string;
   teamLocation1:string;
@@ -27,7 +30,7 @@ export interface SchedulesCarouselInput{
 @Component({
     selector: 'schedules-carousel',
     templateUrl: './app/components/carousels/schedules-carousel/schedules-carousel.component.html',
-    directives: [Carousel, CircleImage,CircleButton],
+    directives: [Carousel, CircleImage,CircleButton, ROUTER_DIRECTIVES],
     providers: [],
     outputs:['indexNum'],
 })
