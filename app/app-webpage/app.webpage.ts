@@ -149,6 +149,11 @@ import {ComponentPage} from "../webpages/component-page/component.page";
         component: ListPage
     },
     {
+        path: '/draft-history',
+        name: 'Draft-history-mlb-page',
+        component: DraftHistoryPage
+    },
+    {
         path: '/draft-history/:teamName/:teamId',
         name: 'Draft-history-page',
         component: DraftHistoryPage
