@@ -195,7 +195,7 @@ export class DatePicker implements ControlValueAccessor, AfterViewInit {
     this.dayNames = [];
     let date = this.firstWeekDaySunday === true ? moment('2015-06-07') : moment('2015-06-01');
     for (let i = 0; i < 7; i += 1) {
-      this.dayNames.push(date.format('ddd'));
+      this.dayNames.push(date.format('dd'));
       date.add('1', 'd');
     }
   }
