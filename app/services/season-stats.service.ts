@@ -59,6 +59,7 @@ interface SimplePlayerData {
   playerId: string;
   teamId: string;
   teamName: string;
+  teamLastName: string;
   playerHeadshot: string;
 }
 
@@ -161,7 +162,7 @@ export class SeasonStatsService {
           var playerName = firstPlayer.firstName + ' ' + firstPlayer.playerLastName;
           var linkToPlayer = MLBGlobalFunctions.formatPlayerRoute(firstPlayer.teamName, playerName, firstPlayer.playerId);
           infoBox = [{
-              teamName: "<span style='color: #000; font-style: italic'>Team: </span>" + firstPlayer.teamName,
+              teamName: "<span style='color: #000; font-style: italic'>Team: </span>" + firstPlayer.teamLastName,
               playerName: playerName,
               infoBoxImage : {
                 imageClass: "image-40",
