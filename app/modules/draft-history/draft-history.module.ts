@@ -30,12 +30,16 @@ export class DraftHistoryModule{
   carouselDataArray: any;
   footerData: Object;
   teamId:number;
+
   constructor( public params: RouteParams){
-    this.teamId = Number(this.params.get('teamId'));
+    if ( this.params.get('teamId') ) {
+      this.teamId = Number(this.params.get('teamId'));
+    }
+    var pageRoute = this.teamId ? ['Draft-history-page',{teamName:this.params.get('teamName'), teamId:this.teamId}] : ["Draft-history-mlb-page"];
     this.footerData = {
       infoDesc: 'Want to see everybody involved in this list?',
       text: 'VIEW THE LIST',
-      url: ['Draft-history-page',{teamName:this.params.get('teamName'), teamId:this.teamId}]
+      url: pageRoute
     };
   }
 
