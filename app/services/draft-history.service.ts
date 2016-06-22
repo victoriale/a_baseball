@@ -41,7 +41,14 @@ export class DraftHistoryService {
     });
   }
 
-  var callURL = this._apiUrl + '/team/draftHistory/'+teamId+'/'+year;
+  var callURL;
+  if ( teamId ) {
+    callURL = this._apiUrl + '/team/draftHistory/'+teamId+'/'+year;
+  }
+  else {
+    //http://dev-homerunloyal-api.synapsys.us/league/draftHistory/2016
+    callURL = this._apiUrl + '/league/draftHistory/'+ year;
+  }
   // console.log(callURL);
 
   return this.http.get( callURL, {
