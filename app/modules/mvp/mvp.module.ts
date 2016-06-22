@@ -64,6 +64,11 @@ export class MVPModule {
 
   tabSelected(tab) {
     this.tabKey = tab.tabDataKey;
-    this.tabSelectedListener.next(tab);
+    if (!tab.listData) { //let the page handle the service call if there's no data
+      this.tabSelectedListener.next(tab);
+    }
+    else {
+      this.displayData();
+    }
   }
 }

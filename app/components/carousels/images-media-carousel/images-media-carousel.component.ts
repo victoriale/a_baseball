@@ -3,7 +3,6 @@ import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {CircleButton} from "../../buttons/circle/circle.button";
 import {ModuleHeader} from "../../module-header/module-header.component";
 import {ModuleHeaderData} from "../../module-header/module-header.component";
-import {LoadingComponent} from "../../loading/loading.component";
 
 declare var jQuery:any;
 
@@ -19,8 +18,7 @@ export interface MediaImageItem {
     directives: [
         ROUTER_DIRECTIVES,
         CircleButton,
-        ModuleHeader,
-        LoadingComponent
+        ModuleHeader
     ],
     providers: [],
     inputs: ['trending', 'mediaImages', 'featureListing', 'modalButton', 'imageData', 'copyright', 'profHeader', 'isProfilePage'],

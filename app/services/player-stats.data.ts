@@ -118,17 +118,22 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
     }
     var subheader = subHeaderYear + item.teamName + " Player Stats";
     if ( this.isPitcherTable ) {
+      var strikeoutsText = item.pitchStrikeouts == "1" ? "Strikeout" : "Strikeouts";
+      var winsText = item.pitchWins == "1" ? "Win" : "Wins";
+      var savesText = item.pitchSaves == "1" ? "Save" : "Saves"; 
       description = item.playerName + tense + " a <span class='text-heavy'>" + (item.pitchEra != null ? item.pitchEra.toFixed(2) : "N/A") + 
-                    " ERA</span> with <span class='text-heavy'>" + item.pitchStrikeouts + 
-                    " Strikeouts</span>, <span class='text-heavy'>" + item.pitchWins + 
-                    " Wins</span> and a <span class='text-heavy'>" + item.pitchLosses + 
-                    " Saves</span>" + temporalInfo + ".";
+                    " ERA</span> with <span class='text-heavy'>" + item.pitchStrikeouts + " " + strikeoutsText + 
+                    "</span>, <span class='text-heavy'>" + item.pitchWins + " " + winsText + 
+                    "</span> and <span class='text-heavy'>" + item.pitchSaves + " " + savesText + 
+                    "</span>" + temporalInfo + ".";
     }
     else {
+      var homeRunsText = item.batHomeRuns == "1" ? "Home Run" : "Home Runs";
+      var rbiText = item.batRbi == "1" ? "RBI" : "RBIs"; 
       description = item.playerName + tense + " a <span class='text-heavy'>" + (item.batAverage != null ? item.batAverage.toPrecision(3) : "N/A") + 
-                    " Batting Average</span> with <span class='text-heavy'>" + item.batHomeRuns + 
-                    " Homeruns</span>, <span class='text-heavy'>" + item.batRbi + 
-                    " RBIs</span> and a <span class='text-heavy'>" + (item.batSluggingPercentage != null ? item.batSluggingPercentage.toPrecision(3) : "N/A") + 
+                    " Batting Average</span> with <span class='text-heavy'>" + item.batHomeRuns + " " + homeRunsText + 
+                    "</span>, <span class='text-heavy'>" + item.batRbi + " " + rbiText +
+                    "</span> and a <span class='text-heavy'>" + (item.batSluggingPercentage != null ? item.batSluggingPercentage.toPrecision(3) : "N/A") + 
                     " Slugging Percentage</span>" + temporalInfo + ".";
     }
     return {

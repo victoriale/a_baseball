@@ -1,9 +1,5 @@
-<section *ngIf="data" class="module-container daily-update">
+<section *ngIf="data && !data.hasError" class="module-container daily-update">
   <module-header [modHeadData]="headerInfo"></module-header>
-  <div *ngIf="data.hasError" class="daily-update-no-data">
-    <no-data-box [data]="noDataMessage" [icon]="'fa fa-remove'"></no-data-box>
-  </div>
-  <div *ngIf="!data.hasError">
     <div class="daily-update-hero" style="background: url('{{backgroundImage}}') top center no-repeat;">
       <h3 class="daily-update-hero-title">{{profileName}}'s Daily Update</h3>
     </div>
@@ -20,7 +16,7 @@
             </p>
           </div>
         </div>
-        <div *ngIf="data.chart" class="stat-wrapper-charts">
+        <div *ngIf="data.chart" class="stat-wrapper-charts" [ngStyle]="data.wrapperStyle">
           <div class="stat-wrapper-charts-key">
             <h4 class="pull-left">{{data.type}}'s Previous {{comparisonCount}} {{comparisonCount == 1 ? 'Game' : 'Games'}}:</h4>
             <span class="stat-wrapper-charts-key-item stat-wrapper-charts-key-secondary pull-right">{{data.chart.dataSeries[1].name}}</span>
@@ -39,5 +35,4 @@
         <p class="article-teaser-text-cta"><a *ngIf="data.postGameArticle.url" class="article-teaser-text-cta-link" [routerLink]="data.postGameArticle.url">Continue Reading <i class="fa fa-angle-right"></i></a></p>
       </div>
     </div>
-  </div>
 </section>

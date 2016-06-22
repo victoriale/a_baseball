@@ -104,7 +104,7 @@ export class DraftHistoryService {
           imageConfig: self.imageData("image-150","border-large",GlobalSettings.getImageUrl(val.imageUrl),MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId), (index+1), "image-48-rank", "image-50-sub",GlobalSettings.getImageUrl(val.teamLogo),MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam)),
           description:[
             '<br>',
-            '<p style="font-size:24px"><b>'+val.playerName+'</b></p>',
+            '<p style="font-size:22px"><b>'+val.playerName+'</b></p>',
             '<p>Hometown: <b>'+ GlobalFunctions.toTitleCase(val.city) + ', ' + GlobalFunctions.stateToAP(val.area) +'</b></p>',
             '<br>',
             '<p style="font-size:24px"><b>'+val.selectionOverall+' Overall</b></p>',

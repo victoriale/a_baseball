@@ -136,7 +136,13 @@ export class MLBSeasonStatsTabData implements TableTabData<TeamSeasonStatsData> 
       backgroundImage: playerData.profileHeader != null ? GlobalSettings.getImageUrl(playerData.profileHeader) : dummyImg,
       description: [
         "<div class='season-stats-car-subhdr'><i class='fa fa-circle'></i>" + subheader + "</div>",
-        "<div class='season-stats-car-hdr'>" + playerData.playerName + "</div>",
+        {
+           wrapperStyle: {},
+           beforeLink: "",
+           linkObj: MLBGlobalFunctions.formatPlayerRoute(playerData.teamName,playerData.playerName,playerData.playerId.toString()),
+           linkText: "<div class='season-stats-car-hdr'>" + playerData.teamName + "</div>",
+           afterLink: ""
+        },
         {
            wrapperStyle: {'font-size': '14px', 'line-height': '1.4em'},
            beforeLink: "Team: ",

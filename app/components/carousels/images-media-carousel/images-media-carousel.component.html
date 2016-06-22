@@ -1,10 +1,7 @@
-<section 
-    [class.module-container]="isProfilePage"
-    [class.images-media-module]="isProfilePage">
-        <module-header *ngIf="isProfilePage" [modHeadData]="modHeadData"></module-header>
+<section *ngIf="totalImageCount > 1" [class.module-container]="isProfilePage" [class.images-media-module]="isProfilePage">
+    <module-header *ngIf="isProfilePage" [modHeadData]="modHeadData"></module-header>
     <div class="article-carousel">
         <loading-component *ngIf="!imageData"></loading-component>
-
         <div *ngIf="imageData" class="plcholder">
             <a class='feature-btn expand' (click)="modalExpand()">
                 {{expandText}}

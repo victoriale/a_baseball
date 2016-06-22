@@ -7,6 +7,8 @@ import {GlobalSettings} from '../global/global-settings';
 import {DetailListInput} from '../components/detailed-list-item/detailed-list-item.component';
 import {MVPTabData} from '../components/mvp-list/mvp-list.component';
 import {SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
+import {CircleImageData, ImageData} from '../components/images/image-data';
+import {Link} from '../global/global-interface';
 
 declare var moment;
 
@@ -23,29 +25,25 @@ export class BaseballMVPTabData implements MVPTabData {
   data: any;
 
   constructor(title: string, key: string, profileType: string) {
+    this.profileType = profileType; //'page' carousel is slightly different from 'module' version
     this.tabDataKey = key;
     this.tabDisplayTitle = title;
   }
 
   getCarouselData(): Array<SliderCarouselInput> {
-    return ListPageService.carDataPage(this.data, "module");
+    return ListPageService.carDataPage(this.data, this.profileType);
   }
 }
 
 @Injectable()
 export class ListPageService {
   private _apiUrl: string = GlobalSettings.getApiUrl();
-  // private _apiToken: string = 'BApA7KEfj';
-  // private _headerName: string = 'X-SNT-TOKEN';
 
-  constructor(public http: Http, public globalFunc: GlobalFunctions){
-
-  }
+  constructor(public http: Http) {}
 
   //Function to set custom headers
   setToken(){
       var headers = new Headers();
-      //headers.append(this.headerName, this.apiToken);
       return headers;
   }
 
@@ -98,6 +96,7 @@ export class ListPageService {
     var tabArray: Array<BaseballMVPTabData> = [];
     //generate a static list of tab array based on the moduleType to emit the tabData and have a tabDisplay for the DOM
     if(moduleType == 'pitcher'){
+      tabArray.push(new BaseballMVPTabData('W/L', 'pitcher-win-record', profileType));
       tabArray.push(new BaseballMVPTabData('Innings Pitched', 'pitcher-innings-pitched', profileType));
       tabArray.push(new BaseballMVPTabData('Strikeouts', 'pitcher-strikeouts', profileType));
       tabArray.push(new BaseballMVPTabData('ERA', 'pitcher-earned-run-average', profileType));
@@ -123,7 +122,7 @@ export class ListPageService {
     for(var q in query){
       callURL += "/" + query[q];
     }
-    // console.log(callURL);
+    // console.log("list module url: " + callURL);
     return this.http.get(callURL, {
         headers: headers
       })
@@ -131,20 +130,44 @@ export class ListPageService {
       .map(
         data => {
           data.data['query'] = query;//used in some functions below
+          this.formatData(data.data.listInfo.stat, data.data.listData);
           tab.data = data.data;
           tab.isLoaded = true;
           tab.listData = ListPageService.detailedData(data.data);
           return tab;
-          // return {
-          //   tabArray:tabArray,
-          //   profHeader: this.profileHeader(data.data),
-          //   carData: this.carDataPage(data.data,'module'),
-          //   listData: this.detailedData(data.data),
-          //   pagination: data.data.listInfo,
-          //   listDisplayName: data.data.listInfo.name
-          // }
         }
       );
+  }
+
+  formatData(key: string, data: Array<any>) {    
+      data.forEach(item => {
+        switch (key) {
+          case 'pitcher-strikeouts':
+          case "pitcher-innings-pitched":
+          case 'pitcher-hits-allowed':
+          case 'batter-home-runs':
+              // format as integer
+              var temp = Number(item.stat);
+              item.stat = temp.toFixed(0); 
+            break;
+
+          case 'pitcher-earned-run-average':
+              var temp = Number(item.stat);
+              item.stat = temp.toFixed(2); // format as integer
+              break;
+
+          case 'batter-runs-batted-in':
+          case 'batter-hits':
+          case 'batter-batting-average':
+          case 'batter-bases-on-balls':
+              var temp = Number(item.stat);
+              item.stat = temp.toFixed(3); // format as integer
+              break;
+
+          default: 
+            //do nothing          
+        }
+      });
   }
 
   static profileHeader(data){
@@ -161,69 +184,57 @@ export class ListPageService {
   }
 
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
-  static carDataPage(data, profileType){
-    // console.log('original carousel data', data);
-    let self = this;
+  static carDataPage(data, profileType: string){
     var carouselArray = [];
-    var dummyImg = "/app/public/no-image.png";
-    var dummyRoute = ['Error-page'];
-    var dummyRank = '##';
     var currentYear = new Date().getFullYear();//TODO FOR POSSIBLE past season stats but for now we have lists for current year season
     var carData = data.listData;
     var carInfo = data.listInfo;
-
     if(carData.length == 0){
-      var Carousel = {// dummy data if empty array is sent back
+      var dummyImg = "/app/public/no-image.png";
+      var dummyRoute = ['Error-page'];
+      var dummyRank = '##';
+      carouselArray = [{// dummy data if empty array is sent back
         index:'2',
-        imageConfig: ListPageService.imageData("image-150","border-large",dummyImg,dummyRoute, 1, 'image-38-rank',"image-50-sub"),
+        imageConfig: ListPageService.imageData("carousel", dummyImg, dummyRoute, 1),
         description:[
           '<p style="font-size:20px"><span class="text-heavy">Sorry, we currently do not have any data for this particular list</span><p>',
         ],
-      };
-      carouselArray.push(Carousel);
-    }else{
+      }];
+    } else{
       //if data is coming through then run through the transforming function for the module
-      carData.forEach(function(val, index){
+      carouselArray = carData.map(function(val, index){
+        var carouselItem;
         var rank = ((Number(data.query.pageNum) - 1) * Number(data.query.limit)) + (index+1);
-        val['listRank'] = rank;
-
+        var mainFontSize = (profileType == 'page' ? 24 : 22);
+        val.listRank = rank;
+        
         var teamNameLink = {
-                      wrapperStyle: {},
-                      beforeLink: "",
-                      linkObj: MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
-                      linkText: val.teamName,
-                      afterLink: ""
-                  };
-        var playerNameLink = {
-                     wrapperStyle: {'font-size': '22px', 'font-weight': '800', 'line-height': '1.4em'},
+                     wrapperStyle: {},
                      beforeLink: "",
-                     linkObj: MLBGlobalFunctions.formatPlayerRoute(val.teamName,val.playerName,val.playerId.toString()),
-                     linkText: val.playerName,
+                     linkObj: MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
+                     linkText: val.teamName,
                      afterLink: ""
                   };
-        if(data.query.profile == 'team'){
 
-          var Carousel = {
+        if(data.query.profile == 'team'){
+          teamNameLink.wrapperStyle = {'font-size': mainFontSize + 'px', 'font-weight': '800', 'line-height': '1.4em'};
+          carouselItem = {
             index:index,
-            imageConfig: ListPageService.imageData(
-              "image-150",
-              "border-large",
+            imageConfig: ListPageService.imageData("carousel",
               GlobalSettings.getImageUrl(val.teamLogo),
               MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
-              val.listRank,
-              'image-48-rank',
-              'image-50-sub'),
+              val.listRank),
             description:[
               '<br>',
               teamNameLink,
-              '<span><i class="fa fa-map-marker text-master"></i> '+val.teamCity +', '+val.teamState+'</span>',
+              '<p><i class="fa fa-map-marker text-master"></i> '+val.teamCity +', '+val.teamState+'</p>',
               '<br>',
-              '<p style="font-size:22px; padding-top: 15px;"><b>'+val.stat+'</b></p>',
+              '<p style="font-size:24px; line-height:26px"><b>'+val.stat+'</b></p>',
               '<p style="font-size:16px"> '+ MLBGlobalFunctions.formatStatName(carInfo.stat)+' for '+ currentYear +'</p>',
             ],
           };
           if(profileType == 'page'){
-            Carousel['footerInfo'] = {
+            carouselItem['footerInfo'] = {
               infoDesc:'Interested in discovering more about this team?',
               text:'View Profile',
               url:MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
@@ -233,17 +244,21 @@ export class ListPageService {
           var position = '';
           position = val.position.join(", ");
 
+          var playerNameLink = {
+                      wrapperStyle: {'font-size': mainFontSize + 'px', 'font-weight': '800', 'line-height': '1.4em'},
+                      beforeLink: "",
+                      linkObj: MLBGlobalFunctions.formatPlayerRoute(val.teamName,val.playerName,val.playerId.toString()),
+                      linkText: val.playerName,
+                      afterLink: ""
+                    };
+
           var playerFullName = val.playerFirstName + " " + val.playerLastName;
-          var Carousel = {
+          carouselItem = {
             index:index,
-            imageConfig: ListPageService.imageData(
-              "image-150",
-              "border-large",
+            imageConfig: ListPageService.imageData("carousel",
               GlobalSettings.getImageUrl(val.imageUrl),
               MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId),
               val.listRank,
-              'image-48-rank',
-              'image-50-sub',
               GlobalSettings.getImageUrl(val.teamLogo),
               MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
             description:[
@@ -251,28 +266,28 @@ export class ListPageService {
               playerNameLink,
               '<br>',
               teamNameLink,
-              '<span> | Jersey: #' + val.uniformNumber + ' | ' + position + '</span>',
+              '<span class="separator">|</span> Jersey: #'+val.uniformNumber+' <span class="separator">|</span> '+position+'</p>',
               '<br>',
-              '<p style="font-size:22px; padding-top: 15px;"><span class="text-heavy">' + val.stat + '</span></p>',
-              '<p style="font-size:16px"> '+ MLBGlobalFunctions.formatStatName(carInfo.stat) +' for ' + currentYear + '</p>',
+              '<p style="font-size:24px; line-height:26px"><span class="text-heavy">'+val.stat+'</span></p>',
+              '<p style="font-size:16px"> '+ MLBGlobalFunctions.formatStatName(carInfo.stat) +' for '+ currentYear+'</p>',
             ],
           };
           if(profileType == 'page'){
-            Carousel['footerInfo'] = {
-              infoDesc: 'Interested in discovering more about this player?',
-              text: 'View Profile',
-              url: MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId),
+            carouselItem['footerInfo'] = {
+              infoDesc:'Interested in discovering more about this player?',
+              text:'View Profile',
+              url:MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId),
             }
           }
         }
-        carouselArray.push(Carousel);
+        return carouselItem;
       });
     }
     // console.log('TRANSFORMED CAROUSEL', carouselArray);
     return carouselArray;
   }
 
-  static detailedData(data){//TODO replace data points for list page
+  static detailedData(data): DetailListInput[]{//TODO replace data points for list page
     let self = this;
 
     var dummyImg = "/app/public/no-image.png";
@@ -291,57 +306,59 @@ export class ListPageService {
     var detailData = data.listData;
     var detailInfo = data.listInfo;
     return detailData.map(function(val, index){
+      var teamRoute = MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId);
+      var teamLocation = val.teamCity + ", " + val.teamState;
+      var statDescription = MLBGlobalFunctions.formatStatName(detailInfo.stat) + ' for ' + currentYear;
       var rank = ((Number(data.query.pageNum) - 1) * Number(data.query.limit)) + (index+1);
-      val['listRank'] = rank;
+      val.listRank = rank;
       if(data.query.profile == 'team'){
+        var divisionName = MLBGlobalFunctions.formatShortNameDivison(val.conferenceName) + val.divisionName.charAt(0).toUpperCase();
         return {
           dataPoints: ListPageService.detailsData(
-            "<a>"+val.teamName+"</a>",
-            (val.stat),
-            MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
-            "<a>"+val.teamCity +', '+val.teamState + '</a> | Division: <span class="">'+ MLBGlobalFunctions.formatShortNameDivison(val.conferenceName) + val['divisionName'].charAt(0).toUpperCase() + "</span>",
-            MLBGlobalFunctions.formatStatName(detailInfo.stat) + ' for ' + currentYear,
-            '','fa fa-map-marker'),
-            imageConfig: ListPageService.imageData("image-121","border-2",
-            GlobalSettings.getImageUrl(
-            val.teamLogo),
-            MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
-            val.listRank,
-            'image-38-rank',
-            'image-40-sub'),
+            [ //main left text
+              {route: teamRoute, text: val.teamName, class: "dataBox-mainLink"}
+            ],
+            val.stat,
+            [ //sub left text
+              {text: teamLocation},
+              {text: "|", class: "separator"},
+              {text: "Division: " + divisionName},
+            ],
+            statDescription,
+            'fa fa-map-marker'),
+          imageConfig: ListPageService.imageData("list", GlobalSettings.getImageUrl(val.teamLogo), teamRoute, val.listRank),
           hasCTA:true,
           ctaDesc:'Want more info about this team?',
           ctaBtn:'',
           ctaText:'View Profile',
-          ctaUrl:MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)
+          ctaUrl:teamRoute
         };
       }else if(data.query.profile == 'player'){
         var playerFullName = val.playerFirstName + " " + val.playerLastName;
-        var position = '';
-        position = val.position.join(", ");
+        var playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId);
+        var position = val.position.join(", ");
         return {
           dataPoints: ListPageService.detailsData(
-            "<a>"+playerFullName+"<a>",
-            (val.stat),
-            MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId),
-            "<a class='text-master text-heavy'>"+val.teamName +'</a> | <span>Jersey: #'+val.uniformNumber+' | '+position+'</span>',
-            MLBGlobalFunctions.formatStatName(detailInfo.stat) + ' for ' + currentYear,
-            MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
-            imageConfig: ListPageService.imageData(
-            "image-121",
-            "border-2",
-            GlobalSettings.getImageUrl(val.imageUrl),
-            MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId),
-            val.listRank,
-            'image-38-rank',
-            'image-40-sub',
-            GlobalSettings.getImageUrl(val.teamLogo),
-            MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId)),
+            [ //main left text
+              {route: playerRoute, text: playerFullName, class: "dataBox-mainLink"}
+            ],
+            val.stat,
+            [ //sub left text
+              {route: teamRoute, text: val.teamName, class: "dataBox-subLink"},
+              {text: "|", class: "separator"},
+              {text: "Jersey: #" + val.uniformNumber},
+              {text: "|", class: "separator"},
+              {text: position},
+            ],
+            statDescription,
+            null),           
+            imageConfig: ListPageService.imageData("list",GlobalSettings.getImageUrl(val.imageUrl),playerRoute, val.listRank,
+                                                    GlobalSettings.getImageUrl(val.teamLogo),teamRoute),
           hasCTA:true,
           ctaDesc:'Want more info about this player?',
           ctaBtn:'',
           ctaText:'View Profile',
-          ctaUrl: MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId)
+          ctaUrl: playerRoute
         };
       }
     });
@@ -350,88 +367,86 @@ export class ListPageService {
   /**
    *this function will have inputs of all required fields that are dynamic and output the full
   **/
-  //TODO replace data points for list page
-  static imageData(imageClass, imageBorder, mainImg, mainImgRoute, rank, rankClass, subImgClass, subImg?, subRoute?){
-    if(typeof mainImg =='undefined' || mainImg == ''){
-      mainImg = "/app/public/no-image.png";
+  static imageData(imageType: string, mainImgUrl: string, mainImgRoute: Array<any>, rank: number, subImgUrl?: string, subImgRoute?: Array<any>): CircleImageData {
+    var borderClass, mainImageClass, subImageClass, rankClass;
+    if ( imageType == "carousel" ) {
+      mainImageClass = "image-150";
+      borderClass = "border-large";
+      rankClass = "image-48-rank";
+      subImageClass = "image-50-sub";
     }
-    if(typeof subImg =='undefined' || subImg == ''){
-      subImg = "/app/public/no-image.png";
+    else {
+      mainImageClass = "image-121";
+      borderClass = "border-2";
+      rankClass = "image-38-rank";
+      subImageClass = "image-40-sub";
     }
-    if(typeof rank == 'undefined' || rank == 0){
+    if(!mainImgUrl || mainImgUrl == ''){
+      mainImgUrl = "/app/public/no-image.png";
+    }
+    if(!rank){
       rank = 0;
     }
-    var image = {//interface is found in image-data.ts
-        imageClass: imageClass,
+    //Add rank image
+    var subImages: ImageData[] = [{
+      text: "#" + rank,
+      imageClass: rankClass + " image-round-upper-left image-round-sub-text"
+    }];
+    if ( subImgRoute ) {
+      //Add sub image if route exists.
+      if(!subImgUrl || subImgUrl == ''){
+        subImgUrl = "/app/public/no-image.png";
+      }
+      subImages.push({
+          imageUrl: subImgUrl,
+          urlRouteArray: subImgRoute,
+          hoverText: "<i class='fa fa-mail-forward'></i>",
+          imageClass: subImageClass + ' image-round-lower-right'
+      });
+    }
+
+    return {
+        imageClass: mainImageClass,
         mainImage: {
-            imageUrl: mainImg,
+            imageUrl: mainImgUrl,
             urlRouteArray: mainImgRoute,
             hoverText: "<p>View</p><p>Profile</p>",
-            imageClass: imageBorder,
+            imageClass: borderClass,
         },
-        subImages: [
-          {
-              imageUrl: '',
-              urlRouteArray: '',
-              hoverText: '',
-              imageClass: ''
-          },
-          {
-            text: "#"+rank,
-            imageClass: rankClass+" image-round-upper-left image-round-sub-text"
-          }
-        ],
+        subImages: subImages,
     };
-    if(typeof subRoute != 'undefined'){
-      image['subImages'] = [];
-      image['subImages'] = [
-          {
-              imageUrl: subImg,
-              urlRouteArray: subRoute,
-              hoverText: "<i class='fa fa-mail-forward'></i>",
-              imageClass: subImgClass + " image-round-lower-right"
-          },
-          {
-              text: "#"+rank,
-              imageClass: rankClass+" image-round-upper-left image-round-sub-text"
-          }
-      ];
-    }
-    return image;
   }
 
-  //TODO replace data points for list page
-  static detailsData(mainP1,mainV1,mainUrl1,subP1,subV2,subUrl2, icon?, dataP3?,dataV3?,dataUrl3?){
-    if(typeof dataP3 == 'undefined'){
-      dataP3 = '';
+  static detailsData(mainLeftText: Link[], mainRightValue: string, 
+                     subLeftText: Link[], subRightValue: string, subIcon?: string, 
+                     dataLeftText?: Link[], dataRightValue?: string) {
+
+    if(!dataLeftText) {
+      dataLeftText = [];
     }
-    if(typeof dataV3 == 'undefined'){
-      dataV3 = '';
+    if(dataRightValue == null){
+      dataRightValue = '';
     }
 
     var details = [
       {
         style:'detail-small',
-        data:dataP3,
-        value:dataV3,
-        url:dataUrl3,
+        leftText: dataLeftText,
+        rightText:[{text: dataRightValue}]
       },
       {
         style:'detail-large',
-        data:mainP1,
-        value:mainV1,
-        url:mainUrl1,
+        leftText: mainLeftText,
+        rightText:[{text: mainRightValue}]
       },
       {
         style:'detail-medium',
-        data:subP1,
-        value:subV2,
-        url:subUrl2,
-        icon:icon,
+        leftText: subLeftText,
+        rightText:[{text: subRightValue}],
+        icon:subIcon,
       },
     ];
     return details;
   }
-
 
 }

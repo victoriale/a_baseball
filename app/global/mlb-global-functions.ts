@@ -218,6 +218,8 @@ export class MLBGlobalFunctions {
     //coming from backend as a stat in the list info
    switch (stat) {
      //pitcher
+     case 'pitcher-wins-losses':
+      return "W/L";
      case 'pitcher-innings-pitched':
       return "Innings pitched";
      case 'pitcher-strikeouts':

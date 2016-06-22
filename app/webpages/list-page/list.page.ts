@@ -98,11 +98,10 @@ export class ListPage implements OnInit {
 
   setDynamicPagination(input) {
     var navigationParams = {
-      query: this.params.params['query'],
+      query: this.params.params['query']
     };
 
-    var navigationType = this.detailedDataArray ? "module" : "page";
-    var navigationPage = this.detailedDataArray ? "List-page" : "Error-page";
+    var navigationPage = this.detailedDataArray ? "Dynamic-list-page" : "Error-page";
     
     this.paginationParameters = {
       index: this.pageNumber,

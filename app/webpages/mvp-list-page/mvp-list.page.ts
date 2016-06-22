@@ -6,6 +6,7 @@ import {TitleComponent, TitleInputData} from '../../components/title/title.compo
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {DraftHistoryService} from '../../services/draft-history.service';
 import {ListPageService, BaseballMVPTabData} from '../../services/list-page.service';
+import {FooterStyle} from '../../components/module-footer/module-footer.component';
 import {ProfileHeaderService} from '../../services/profile-header.service';
 import {PaginationFooter, PaginationParameters} from '../../components/pagination-footer/pagination-footer.component';
 import {LoadingComponent} from "../../components/loading/loading.component";
@@ -33,6 +34,12 @@ export class MVPListPage implements OnInit {
   queryParams: any;
   isError: boolean = false;
   selectedTabName: string;
+
+  footerStyle: FooterStyle = {
+    ctaBoxClass: " mvp-page-car-footer",
+    ctaBtnClass:"",
+    hasIcon: true,
+  };
 
   constructor(private _service:ListPageService, 
               private _params: RouteParams,
@@ -131,6 +138,8 @@ export class MVPListPage implements OnInit {
     if ( this.selectedTabName != tab.tabDisplayTitle ) {
       this.queryParams.pageNum = 1;
     }
-    this.getStandardList(tab);
+    if (!tab.listData) { //let the page handle the service call if there's no data
+      this.getStandardList(tab);
+    }
   }
 }
