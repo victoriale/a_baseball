@@ -113,11 +113,11 @@ export class ArticlesModule implements OnInit {
         var val = [];
         var homeName = homeData.location + ' ' + homeData.name;
         var awayName = awayData.location + ' ' + awayData.name;
+        val['homeID'] = homeData.id;
+        val['homeLocation'] = homeData.location;
+        val['homeName'] = homeData.name;
+        val['homeHex'] = homeData.hex;
         if (this.teamID == homeData.id) {
-            val['homeID'] = homeData.id;
-            val['homeLocation'] = homeData.location;
-            val['homeName'] = homeData.name;
-            val['homeHex'] = homeData.hex;
             val['homeLogo'] = {
                 imageClass: "image-62",
                 mainImage: {
@@ -126,69 +126,56 @@ export class ArticlesModule implements OnInit {
                 },
                 subImages: []
             };
-            val['homeWins'] = homeData.wins;
-            val['homeLosses'] = homeData.losses;
-            homeArr.push(val);
-            val = [];
-            val['awayID'] = awayData.id;
-            val['awayLocation'] = awayData.location;
-            val['awayName'] = awayData.name;
-            val['awayHex'] = awayData.hex;
-            let teamLink = MLBGlobalFunctions.formatTeamRoute(awayName, awayData.id);
-            val['url'] = teamLink;
+        } else {
+            let homeLink = MLBGlobalFunctions.formatTeamRoute(homeName, homeData.id);
+            val['url'] = homeLink;
+            val['homeLogo'] = {
+                imageClass: "image-62",
+                mainImage: {
+                    imageUrl: homeData.logo,
+                    urlRouteArray: homeLink,
+                    hoverText: "<i class='fa fa-mail-forward'></i>",
+                    imageClass: "border-logo"
+                },
+                subImages: []
+            };
+        }
+        val['homeWins'] = homeData.wins;
+        val['homeLosses'] = homeData.losses;
+        homeArr.push(val);
+        val = [];
+        val['awayID'] = awayData.id;
+        val['awayLocation'] = awayData.location;
+        val['awayName'] = awayData.name;
+        val['awayHex'] = awayData.hex;
+        if (this.teamID == awayData.id) {
             val['awayLogo'] = {
                 imageClass: "image-62",
                 mainImage: {
                     imageUrl: awayData.logo,
-                    urlRouteArray: teamLink,
-                    hoverText: "<i class='fa fa-mail-forward'></i>",
                     imageClass: "border-logo"
                 },
                 subImages: []
             };
-            val['awayWins'] = awayData.wins;
-            val['awayLosses'] = awayData.losses;
         } else {
-            val['homeID'] = awayData.id;
-            val['homeLocation'] = awayData.location;
-            val['homeName'] = awayData.name;
-            val['homeHex'] = awayData.hex;
-            val['homeLogo'] = {
+            let awayLink = MLBGlobalFunctions.formatTeamRoute(awayName, awayData.id);
+            val['url'] = awayLink;
+            val['awayLogo'] = {
                 imageClass: "image-62",
                 mainImage: {
                     imageUrl: awayData.logo,
-                    imageClass: "border-logo"
-                },
-                subImages: []
-            };
-            val['homeWins'] = awayData.wins;
-            val['homeLosses'] = awayData.losses;
-            homeArr.push(val);
-            val = [];
-            val['awayID'] = homeData.id;
-            val['awayLocation'] = homeData.location;
-            val['awayName'] = homeData.name;
-            val['awayHex'] = homeData.hex;
-            let teamLink = MLBGlobalFunctions.formatTeamRoute(homeName, homeData.id);
-            val['url'] = teamLink;
-            val['awayLogo'] = {//interface is found in image-data.ts
-                imageClass: "image-62",
-                mainImage: {
-                    imageUrl: homeData.logo,
-                    urlRouteArray: teamLink,
+                    urlRouteArray: awayLink,
                     hoverText: "<i class='fa fa-mail-forward'></i>",
                     imageClass: "border-logo"
                 },
                 subImages: []
             };
-            val['awayWins'] = homeData.wins;
-            val['awayLosses'] = homeData.losses;
         }
+        val['awayWins'] = awayData.wins;
+        val['awayLosses'] = awayData.losses;
         awayArr.push(val);
         this.homeData = homeArr;
         this.awayData = awayArr;
-        console.log(this.homeData);
-        console.log(this.awayData);
     }
 
     getImages(imageList, articleType) {
