@@ -43,8 +43,7 @@ export class ContactUsPage implements OnInit{
             text2: ' United States',
             text3: 'Have a question about Home Run Loyal? Write us a message.',
             text4: '',
-            icon: 'fa fa-map-marker',
-            hasHover: false
+            icon: 'fa fa-map-marker'
         }
     };
 
