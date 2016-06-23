@@ -31,12 +31,11 @@ export class DraftHistoryPage implements OnInit{
   dataArray: any;//array of data for detailed list
   detailedDataArray: Array<DetailListInput>; //variable that is just a list of the detailed DataArray
   carouselDataArray: Array<SliderCarouselInput>;
-  // footerData: Object;
-  // footerStyle: any = {
-  //   ctaBoxClass: "list-footer",
-  //   ctaBtnClass:"list-footer-btn",
-  //   hasIcon: true,
-  // };
+  carouselFooter: any = {
+    ctaBoxClass: "list-footer",
+    ctaBtnClass:"list-footer-btn",
+    hasIcon: true,
+  };
   teamId: number;
   isError: boolean = false;
   constructor(private draftService:DraftHistoryService, 
@@ -44,10 +43,13 @@ export class DraftHistoryPage implements OnInit{
               private params: RouteParams, 
               private _title: Title) {
     _title.setTitle(GlobalSettings.getPageTitle("Draft History"));
-    this.teamId = Number(this.params.params['teamId']);
+    if ( this.params.params['teamId'] ) {
+      this.teamId = Number(this.params.params['teamId']);
+    }
   }
 
-  getProfileInfo() {    
+  getProfileInfo() {
+    if ( this.teamId ) {
       this.profHeadService.getTeamProfile(this.teamId)
       .subscribe(
           data => {
@@ -65,6 +67,25 @@ export class DraftHistoryPage implements OnInit{
               // this.isError = true;
           }
       );
+    }
+    else {
+      this.profHeadService.getMLBProfile()
+      .subscribe(
+          data => {
+            this._title.setTitle(GlobalSettings.getPageTitle("Draft History", data.profileName1));
+            var profHeader = this.profHeadService.convertMLBHeader(data, this.whatProfile);
+            this.profileHeaderData = profHeader.data;
+            this.errorData = {
+              data: profHeader.error,
+              icon: "fa fa-remove"
+            }
+          },
+          err => {
+            this.isError= true;
+              console.log('Error: draftData Profile Header API: ', err);
+          }
+      );
+    }
   }
 
   getDraftPage(date) {

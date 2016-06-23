@@ -2,23 +2,20 @@
     <div class="comparison-hr"></div>
     <span *ngFor="#data of articleData?.article; #i=index;">
         <span *ngIf="data.playerComparisonModule && i == 2">
-            <div class="comparison-double">
-                <div class="comparison-double-circles">
-                    <div class="comparison-double-circles-vs">VS</div>
-                    <circle-image *ngIf="imageLinks[0]" class="comparison-double-circles-circle1"
+            <div class="comparison-player">
+                <div class="comparison-player-circles">
+                    <div class="comparison-player-circles-vs">VS</div>
+                    <circle-image *ngIf="imageLinks[0]" class="comparison-player-circles-circle1"
                                   [data]="imageLinks[0]"></circle-image>
-                    <circle-image *ngIf="imageLinks[1]" class="comparison-double-circles-sub-circle1"
-                                  [data]="imageLinks[1]"></circle-image>
-                    <circle-image *ngIf="imageLinks[2]" class="comparison-double-circles-circle2"
+                    <circle-image *ngIf="imageLinks[2]" class="comparison-player-circles-circle2"
                                   [data]="imageLinks[2]"></circle-image>
-                    <circle-image *ngIf="imageLinks[3]" class="comparison-double-circles-sub-circle2"
-                                  [data]="imageLinks[3]"></circle-image>
                 </div>
-                <div class="comparison-double-profile-info-left">
-                    <div class="comparison-double-profile-info-left-profile-name1">
+
+                <div class="comparison-player-profile-info-left">
+                    <div class="comparison-player-profile-info-left-profile-name1">
                         {{data.playerComparisonModule[0].name}}
                     </div>
-                    <div class="comparison-double-profile-info-left-profile-data1">
+                    <div class="comparison-player-profile-info-left-profile-data1">
                         <span *ngIf="articleSubType != 'pitcher'">
                             {{data.playerComparisonModule[0].season}} Average {{data.playerComparisonModule[0].value}}
                         </span>
@@ -27,11 +24,11 @@
                         </span>
                     </div>
                 </div>
-                <div class="comparison-double-profile-info-right">
-                    <div class="comparison-double-profile-info-right-profile-name2">
+                <div class="comparison-player-profile-info-right">
+                    <div class="comparison-player-profile-info-right-profile-name2">
                         {{data.playerComparisonModule[1].name}}
                     </div>
-                    <div class="comparison-double-profile-info-right-profile-data2">
+                    <div class="comparison-player-profile-info-right-profile-data2">
                         <span *ngIf="articleSubType != 'pitcher'">
                             {{data.playerComparisonModule[1].season}} Average {{data.playerComparisonModule[1].value}}
                         </span>
@@ -122,17 +119,14 @@
         </span>
     </span>
 </div>
-
 <div *ngIf="articleType == 'playerRoster'" class="comparison">
     <div class="comparison-hr"></div>
     <span *ngFor="#data of articleData?.article; #i = index;">
         <span *ngIf="data.playerRosterModule && i == index">
             <div class="comparison-roster">
                 <div class="comparison-roster-images">
-                    <circle-image *ngIf="imageLinks[index - 1]" class="comparison-roster-circles-player-image"
-                                  [data]="imageLinks[index - 1]"></circle-image>
-                    <circle-image *ngIf="imageLinks[index]" class="comparison-roster-circles-team-logo"
-                                  [data]="imageLinks[index]"></circle-image>
+                    <circle-image *ngIf="imageLinks[index-1]" class="comparison-roster-circles-player-image"
+                                  [data]="imageLinks[index-1]"></circle-image>
                 </div>
                 <div class="comparison-roster-player">{{data.playerRosterModule.name}}</div>
                 <div class="comparison-roster-position">{{data.playerRosterModule.playerPosition}}

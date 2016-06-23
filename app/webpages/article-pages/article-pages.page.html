@@ -9,23 +9,23 @@
                 <images-media-carousel [imageData]="imageData" [copyright]="copyright"></images-media-carousel>
             </div>
         </span>
-        <div class="arpt">
-            <!--<div class="arpt-author">-->
-            <!--<div class="arpt-author-image"></div>-->
-            <!--<div class="arpt-author-text">-->
-            <!--By <span class="arpt-author-text-name">Hoopsloyal Columnist</span>-->
-            <!--</div>-->
-            <!--</div>-->
-            <div class="arpt-date">{{date}}</div>
-        </div>
-        <article-content-component [articleType]="articleType" [articleSubType]="articleSubType"
-                                   [articleData]="articleData" [imageLinks]="imageLinks"></article-content-component>
-        <disqus-component [comment]="comment"></disqus-component>
-        <recommendations-component [randomHeadlines]="randomHeadlines" [images]="images"></recommendations-component>
-        <trending-component></trending-component>
-        <!--<div class="four-col">-->
-        <!--&lt;!&ndash;<widget-module></widget-module>&ndash;&gt;-->
-        <!--</div>-->
+            <div class="arpt">
+                <!--<div class="arpt-author">-->
+                <!--<div class="arpt-author-image"></div>-->
+                <!--<div class="arpt-author-text">-->
+                <!--By <span class="arpt-author-text-name">Hoopsloyal Columnist</span>-->
+                <!--</div>-->
+                <!--</div>-->
+                <div class="arpt-date">{{date}}</div>
+            </div>
+            <article-content-component [articleType]="articleType" [articleSubType]="articleSubType"
+                                       [articleData]="articleData"
+                                       [teamId]="teamId"
+                                       [imageLinks]="imageLinks"></article-content-component>
+            <disqus-component [comment]="comment"></disqus-component>
+            <recommendations-component [randomHeadlines]="randomHeadlines"
+                                       [images]="images"></recommendations-component>
+            <trending-component></trending-component>
     </span>
     </div>
 </div>

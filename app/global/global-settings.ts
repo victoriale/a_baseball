@@ -20,6 +20,8 @@ export class GlobalSettings {
 
     private static _baseTitle: string = "Home Run Loyal";
 
+    private static _copyrightInfo: string = "USA Today Sports Images";
+
     static getEnv(env:string):string {
         if (env == "localhost") {
             env = "dev";
@@ -92,6 +94,10 @@ export class GlobalSettings {
         return this._baseTitle +
             (profileName && profileName.length > 0 ? " - " + profileName : "") + 
             (subtitle && subtitle.length > 0 ? " - " + subtitle : "");
+    }
+
+    static getCopyrightInfo() {
+        return this._copyrightInfo;
     }
 
 }

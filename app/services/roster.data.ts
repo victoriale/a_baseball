@@ -1,7 +1,7 @@
 import {TableModel, TableColumn} from '../components/custom-table/table-data.component';
 import {CircleImageData} from '../components/images/image-data';
 import {RosterTabData} from '../components/roster/roster.component';
-import {SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
+import {SliderCarousel,SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
 import {Conference, Division} from '../global/global-interface';
 import {GlobalFunctions} from '../global/global-functions';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
@@ -108,8 +108,12 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
     else {
       rows = [];
       for ( var type in data ) {
-        Array.prototype.push.apply(rows, data[type]);
-      }
+        data[type].forEach(player => {
+          if ( rows.filter(row => row.playerId == player.playerId).length == 0 ) {
+            rows.push(player);
+          }
+        });
+      }      
     }
     rows = rows.sort((a, b) => {
       return Number(b.salary) - Number(a.salary);
@@ -130,81 +134,39 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
     if ( val.salary != null ) {
       formattedSalary = "$" + GlobalFunctions.nFormatter(Number(val.salary));
     }
-    // var formattedroleStatus = val.roleStatus != null ? val.roleStatus : "N/A";
 
     var playerNum = val.uniformNumber != null ? ", <span class='text-heavy'>#" + val.uniformNumber + "</span>," : "";
     var playerHeight = val.height != null ? "<span class='text-heavy'>" + formattedHeight + "</span>, " : "";
     var playerWeight = val.weight != null ? "<span class='text-heavy'>" + val.weight + "</span> lbs " : "";
     var playerSalary = " makes <span class='text-heavy'>" + formattedSalary + "</span> per season.";
 
-    // var coordinator = (val.uniformNumber != null || val.height != null || val.weight != null) ? " and " : " is ";
-    var subheader =  curYear + ' TEAM ROSTER';
-    var playerNameLink = {
-                 wrapperStyle: {},
-                 beforeLink: "",
-                 linkObj: MLBGlobalFunctions.formatPlayerRoute(val.teamName,val.playerName,val.playerId.toString()),
-                 linkText: "<span class='roster-car-hdr'>" + val.playerName + "</span>",
-                 afterLink: ""
-              };
-    var teamNameLink = {
-                 wrapperStyle: {'font-size': '14px', 'line-height': '1.4em'},
-                 beforeLink: '<span class="text-heavy">' + val.playerName + '</span> <span class="text-heavy">'+ playerNum + '</span> plays for the ',
-                 linkObj: MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId),
-                 linkText: val.teamName,
-                 afterLink: '. The ' + playerHeight + playerWeight + "<span class='text-heavy'>" + val.position.join(', ') + "</span>" + playerSalary
-              };
-    return {
-        index: index,
-        backgroundImage: val.backgroundImage != null ? GlobalSettings.getImageUrl(val.backgroundImage) : null,
-        imageConfig: this.carouselImage(GlobalSettings.getImageUrl(val.playerHeadshot), playerRoute, GlobalSettings.getImageUrl(val.teamLogo), teamRoute, val.uniformNumber),
-        description: [
-          "<div class='roster-car-subhdr'><i class='fa fa-circle'></i> " + subheader + "</div>",
-          playerNameLink,
-          "<br/>",
-          teamNameLink,
-          "<div class='roster-car-date'>Last Updated On " + GlobalFunctions.formatUpdatedDate(val.lastUpdate) + "</div>"
-        ],
-        footerInfo: {
-          infoDesc: 'Interested in discovering more about this player?',
-          text: 'View Profile',
-          url: MLBGlobalFunctions.formatPlayerRoute(val.teamName,val.playerName,val.playerId.toString()),
-        }
-    };
-  }
-
-  //function that returns information from api to an acceptable interface for images
-  carouselImage(mainImg: string, mainImgRoute: Array<any>, subImg: string, subRoute: Array<any>, carouselNum:string){
-    if(!mainImg || mainImg == ''){
-      mainImg = "./app/public/placeholder-location.jpg";
+    var playerLinkText = {
+      route: playerRoute,
+      text: val.playerName
     }
-    if(!subImg || subImg == ''){
-      subImg = "./app/public/placeholder-location.jpg";
+    var teamLinkText = {
+      route: teamRoute,
+      text: val.teamName
     }
-    if(carouselNum == null){
-      carouselNum = "0";
-    }
-    var image = {//interface is found in image-data.ts
-        imageClass: "image-150",
-        mainImage: {
-            imageUrl: mainImg,
-            urlRouteArray: mainImgRoute,
-            hoverText: "<p>View</p><p>Profile</p>",
-            imageClass: "border-large"
-        },
-        subImages: [
-            {
-                imageUrl: subImg,
-                urlRouteArray: subRoute,
-                hoverText: "<i class='fa fa-mail-forward'></i>",
-                imageClass: "image-50-sub image-round-lower-right"
-            },
-            {
-                text: "#" + carouselNum,
-                imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
-            }
-        ],
-    };
-    return image;
+    return SliderCarousel.convertToSliderCarouselItem(index, {
+      backgroundImage: val.backgroundImage != null ? GlobalSettings.getImageUrl(val.backgroundImage) : null,
+      copyrightInfo: GlobalSettings.getCopyrightInfo(),
+      subheader: [curYear + ' TEAM ROSTER'],
+      profileNameLink: playerLinkText,
+      description: [
+          '<span class="text-heavy">',
+          playerLinkText,
+          '</span> <span class="text-heavy">'+ playerNum + '</span> plays for the ',
+          teamLinkText,
+          '. The ' + playerHeight + playerWeight + "<span class='text-heavy'>" + val.position.join(', ') + "</span>" + playerSalary
+      ],
+      lastUpdatedDate: GlobalFunctions.formatUpdatedDate(val.lastUpdate),
+      circleImageUrl: GlobalSettings.getImageUrl(val.playerHeadshot),
+      circleImageRoute: playerRoute,
+      // subImageUrl: GlobalSettings.getImageUrl(val.teamLogo),
+      // subImageRoute: teamRoute,
+      rank: val.uniformNumber
+    });
   }
 }
 

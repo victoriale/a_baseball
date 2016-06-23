@@ -120,6 +120,8 @@ export class MLBSchedulesTableData implements TableComponentData<SchedulesData> 
     }else{
       var displayNext = 'Previous Game:';
     }
+    var teamRouteAway = MLBGlobalFunctions.formatTeamRoute(item.awayTeamName, item.awayTeamId);
+    var teamRouteHome = MLBGlobalFunctions.formatTeamRoute(item.homeTeamName, item.homeTeamId);
 
     var colors = Gradient.getColorPair(item.awayTeamColors.split(','), item.homeTeamColors.split(','));
 
@@ -135,7 +137,7 @@ export class MLBSchedulesTableData implements TableComponentData<SchedulesData> 
         imageClass: "image-125",
         mainImage: {
           imageUrl: GlobalSettings.getImageUrl(item.awayTeamLogo),
-          urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.awayTeamName, item.awayTeamId),
+          urlRouteArray: teamRouteAway,
           hoverText: "<p>View</p><p>Profile</p>",
           imageClass: "border-5"
         }
@@ -144,11 +146,13 @@ export class MLBSchedulesTableData implements TableComponentData<SchedulesData> 
         imageClass: "image-125",
         mainImage: {
           imageUrl: GlobalSettings.getImageUrl(item.homeTeamLogo),
-          urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.homeTeamName, item.homeTeamId),
+          urlRouteArray: teamRouteHome,
           hoverText: "<p>View</p><p>Profile</p>",
           imageClass: "border-5"
         }
       },
+      teamUrl1: teamRouteAway,
+      teamUrl2: teamRouteHome,
       teamName1: item.awayTeamName,
       teamName2: item.homeTeamName,
       teamLocation1:item.awayTeamCity + ', ' + item.awayTeamState,

@@ -178,12 +178,12 @@ export class ComparisonModule implements OnInit, OnChanges {
                     imageClass: "border-large"
                 },
                 subImages: [
-                    {
-                        imageUrl: GlobalSettings.getImageUrl(player.teamLogo),
-                        urlRouteArray: MLBGlobalFunctions.formatTeamRoute(player.teamName, player.teamId),
-                        hoverText: "<i class='fa fa-mail-forward'></i>",
-                        imageClass: "image-50-sub image-round-lower-right"
-                    },
+                    // {
+                        // imageUrl: GlobalSettings.getImageUrl(player.teamLogo),
+                        // urlRouteArray: MLBGlobalFunctions.formatTeamRoute(player.teamName, player.teamId),
+                        // hoverText: "<i class='fa fa-mail-forward'></i>",
+                        // imageClass: "image-50-sub image-round-lower-right"
+                    // },
                     {
                         text: "#" + player.uniformNumber,
                         imageClass: "image-48-rank image-round-upper-left image-round-sub-text"

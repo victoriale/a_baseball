@@ -1,10 +1,11 @@
 import {TableModel, TableColumn} from '../components/custom-table/table-data.component';
 import {CircleImageData} from '../components/images/image-data';
 import {StandingsTableTabData, TableComponentData} from '../components/standings/standings.component';
-import {SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
+import {SliderCarousel, SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
 import {Conference, Division} from '../global/global-interface';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
+import {GlobalSettings} from '../global/global-settings';
 
 //TODO-CJP: Ask backend to return values as numbers and not strings!
 export interface TeamStandingsData {
@@ -120,42 +121,27 @@ export class MLBStandingsTabData implements StandingsTableTabData<TeamStandingsD
   }
 
   convertToCarouselItem(item: TeamStandingsData, index:number): SliderCarouselInput {
-    var subheader = item.seasonId + " Season " + item.groupName + " Standings";
+    var teamRoute = MLBGlobalFunctions.formatTeamRoute(item.teamName, item.teamId.toString());
     var teamNameLink = {
-                 wrapperStyle: {},
-                 beforeLink: "",
-                 linkObj: MLBGlobalFunctions.formatTeamRoute(item.teamName, item.teamId.toString()),
-                 linkText: "<span class='standings-car-hdr'>" + item.teamName + "</span>",
-                 afterLink: ""
-              };
-    var description = {
-       wrapperStyle: {},
-       beforeLink: "The ",
-       linkObj: MLBGlobalFunctions.formatTeamRoute(item.teamName, item.teamId.toString()),
-       linkText: "<span class='standings-car-desc'>" + item.teamName + "</span>",
-       afterLink: " are currently <span class='text-heavy'>ranked " + item.rank + GlobalFunctions.Suffix(item.rank) + "</span>" + " in the <span class='text-heavy'>" + item.groupName + "</span>, with a record of " + "<span class='text-heavy'>" + item.totalWins + " - " + item.totalLosses + "</span>."
-    }
-    return {
-      index: index,
-      backgroundImage: item.fullBackgroundImageUrl, //optional
-      description: [
-        "<div class='standings-car-subhdr'><i class='fa fa-circle'></i>" + subheader + "</div>",
-        teamNameLink,
-        "<br/>",
-        description,
-        "<div class='standings-car-date'>Last Updated On " + item.displayDate + "</div>"
-      ],
-      imageConfig: {
-        imageClass: "image-150",
-        mainImage: {
-          imageClass: "border-10",
-          urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId.toString()),
-          imageUrl: item.fullImageUrl,
-          hoverText: "<p>View</p><p>Profile</p>"
-        },
-        subImages: []
-      }
+        route: teamRoute,
+        text: item.teamName
     };
+    return SliderCarousel.convertToSliderCarouselItem(index, {
+      backgroundImage: item.fullBackgroundImageUrl,
+      copyrightInfo: GlobalSettings.getCopyrightInfo(),
+      subheader: [item.seasonId + " Season " + item.groupName + " Standings"],
+      profileNameLink: teamNameLink,
+      description:[
+          "The ", teamNameLink,
+          " are currently <span class='text-heavy'>ranked " + item.rank + GlobalFunctions.Suffix(item.rank) + 
+          "</span>" + " in the <span class='text-heavy'>" + item.groupName + 
+          "</span>, with a record of " + "<span class='text-heavy'>" + item.totalWins + " - " + item.totalLosses + 
+          "</span>."
+      ],
+      lastUpdatedDate: item.displayDate,
+      circleImageUrl: item.fullImageUrl,
+      circleImageRoute: teamRoute
+    });
   }
 }
 

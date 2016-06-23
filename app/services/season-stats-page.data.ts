@@ -1,7 +1,7 @@
 import {TableModel, TableColumn} from '../components/custom-table/table-data.component';
 import {CircleImageData} from '../components/images/image-data';
 import {TableTabData, TableComponentData} from '../components/season-stats/season-stats.component';
-import {SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
+import {SliderCarousel, SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
 import {Season} from '../global/global-interface';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
@@ -17,7 +17,7 @@ export interface PlayerInfo {
   lastUpdate: string;
   teamName: string;
   teamId: string;
-  profileHeader: string;
+  liveImage: string;
   playerHeadshot: string;
   teamLogo: string;
   position: string;
@@ -127,50 +127,34 @@ export class MLBSeasonStatsTabData implements TableTabData<TeamSeasonStatsData> 
     this.year = year;
     this.isActive = isActive;
   }
+
   convertToCarouselItem(item: TeamSeasonStatsData, index:number): SliderCarouselInput {
     var playerData = item.playerInfo != null ? item.playerInfo : null;
-    var subheader = item.seasonId + " Season Stats Report";
     var dummyImg = "/app/public/no-image.png";
-    var carouselData = {
-      index: index,
-      backgroundImage: playerData.profileHeader != null ? GlobalSettings.getImageUrl(playerData.profileHeader) : dummyImg,
-      description: [
-        "<div class='season-stats-car-subhdr'><i class='fa fa-circle'></i>" + subheader + "</div>",
-        {
-           wrapperStyle: {},
-           beforeLink: "",
-           linkObj: MLBGlobalFunctions.formatPlayerRoute(playerData.teamName,playerData.playerName,playerData.playerId.toString()),
-           linkText: "<div class='season-stats-car-hdr'>" + playerData.teamName + "</div>",
-           afterLink: ""
-        },
-        {
-           wrapperStyle: {'font-size': '14px', 'line-height': '1.4em'},
-           beforeLink: "Team: ",
-           linkObj: MLBGlobalFunctions.formatTeamRoute(playerData.teamName, playerData.teamId),
-           linkText: playerData.teamName,
-           afterLink: ""
-        },
-        "<div class='season-stats-car-date'>Last Updated On " + GlobalFunctions.formatUpdatedDate(playerData.lastUpdate) + "</div>"
-      ],
-      imageConfig: {
-        imageClass: "image-150",
-        mainImage: {
-          imageClass: "border-10",
-          urlRouteArray: MLBGlobalFunctions.formatPlayerRoute(playerData.teamName,playerData.playerName,playerData.playerId.toString()),
-          imageUrl: GlobalSettings.getImageUrl(playerData.playerHeadshot),
-          hoverText: "<p>View</p><p>Profile</p>"
-        },
-        subImages: [
-          {
-            imageUrl: GlobalSettings.getImageUrl(playerData.teamLogo),
-            urlRouteArray: MLBGlobalFunctions.formatTeamRoute(playerData.teamName,playerData.teamId),
-            hoverText: "<i class='fa fa-mail-forward'></i>",
-            imageClass: "image-50-sub image-round-lower-right"
-          },
-        ]
-      }
+
+    var playerRoute = MLBGlobalFunctions.formatPlayerRoute(playerData.teamName,playerData.playerName,playerData.playerId.toString());
+    var playerRouteText = {
+      route: playerRoute,
+      text: playerData.playerName
     }
-    return carouselData;
+    var teamRoute = MLBGlobalFunctions.formatTeamRoute(playerData.teamName, playerData.teamId);
+    var teamRouteText = {
+      route: teamRoute,
+      text: playerData.teamName
+    }
+
+    return SliderCarousel.convertToSliderCarouselItem(index, {
+      backgroundImage: playerData.liveImage != null ? GlobalSettings.getImageUrl(playerData.liveImage) : dummyImg,
+      copyrightInfo: GlobalSettings.getCopyrightInfo(),
+      subheader: [item.seasonId + " Season Stats Report"],
+      profileNameLink: playerRouteText,
+      description: ["Team: ", teamRouteText],
+      lastUpdatedDate: GlobalFunctions.formatUpdatedDate(playerData.lastUpdate),
+      circleImageUrl: GlobalSettings.getImageUrl(playerData.playerHeadshot),
+      circleImageRoute: playerRoute
+      // subImageUrl: GlobalSettings.getImageUrl(playerData.teamLogo),
+      // subImageRoute: teamRoute
+    });
   }
 }
 
