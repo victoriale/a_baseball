@@ -28,10 +28,11 @@ export class TwitterModule implements OnInit, OnChanges, AfterContentChecked {
   };
 
   ngAfterContentChecked() {
-    var twttr = window['twttr'];
-    if ( twttr && !this.twitterLoaded ) {
+    if ( window['twttr'] && !this.twitterLoaded ) {
       if ( document.getElementById("twitter-href") ) {
-        twttr.widgets.load();
+        var a = document.getElementById("twitter-href");
+        console.log("loading " + a.getAttribute("data-widget-id") + " and " + a.getAttribute("href"));
+        window['twttr'].widgets.load();
         this.twitterLoaded = true;
       }
     }
