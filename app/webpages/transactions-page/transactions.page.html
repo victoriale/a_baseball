@@ -5,7 +5,7 @@
   <loading-component *ngIf="!profileHeaderData && !isError"></loading-component>
   <error-component *ngIf="isError"></error-component>
   <div *ngIf="profileHeaderData" class="module-container transactions-page">
-    <transactions *ngIf="tabs" [tabs]="tabs" (tabSwitched)="tabSwitched($event)"></transactions>
+    <transactions *ngIf="tabs" [tabs]="tabs" (tabSwitched)="tabSwitched($event)" (dropdownSwitched)="dropdownChanged($event)"></transactions>
   </div>
 </section>
 </sidekick-wrapper>

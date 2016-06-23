@@ -18,7 +18,7 @@ export interface TransactionTabData {
   selectedSort?: string;
   includeDropdown?: boolean;
   errorMessage?: string;
-  dataArray?: any;//array of data for transactions list
+  dataArray?: Array<TransactionsListInput>;//array of data for transactions list
   carData?: Array<SliderCarouselInput>;
 }
 
@@ -31,6 +31,7 @@ export interface TransactionTabData {
 
 export class TransactionsComponent {
   @Output() tabSwitched: EventEmitter<string> = new EventEmitter();
+  @Output() dropdownSwitched: EventEmitter<string> = new EventEmitter();
 
   @Input() tabs: Array<TransactionTabData>;
   
@@ -76,5 +77,9 @@ export class TransactionsComponent {
     var selectedTab = this.getSelectedTab();
     this.tabSwitched.next(selectedTab);
     this.updateCarousel();
+  }
+
+  dropdownChanged(event) {
+    this.dropdownSwitched.next(event);
   }
 }

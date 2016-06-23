@@ -8,6 +8,7 @@ import {CircleImageData} from '../components/images/image-data';
 import {SliderCarousel, SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
 import {TransactionModuleData} from '../modules/transactions/transactions.module';
 import {TransactionTabData} from '../components/transactions/transactions.component';
+import {TransactionsListInput} from '../components/transactions-list-item/transactions-list-item.component';
 
 declare var moment: any;
 
@@ -159,7 +160,7 @@ export class TransactionsService {
       .map(
         data => {
           tab.carData = this.carTransactions(data.data, type, tab);
-          tab.dataArray = this.transactionsData(data.data, type);
+          tab.dataArray = this.listTransactions(data.data, type);
           if ( tab.dataArray != null && tab.dataArray.length == 0 ) {
             tab.dataArray = null;
           }
@@ -172,14 +173,17 @@ export class TransactionsService {
       );
   }
 
-  getEmptyCarousel(tab: TransactionTabData): Array<SliderCarouselInput> {
-    let self = this;
-    var carouselArray = [];
-    return [{
-      index:'2',
-      imageConfig: self.imageData("image-150","border-large",null,null, null, null,null, null),
-      description:[tab.errorMessage],
-    }];
+  getEmptyCarousel(tab: TransactionTabData): Array<SliderCarouselInput> {    
+    return [SliderCarousel.convertToSliderCarouselItem(2, {
+      backgroundImage: null,
+      copyrightInfo: GlobalSettings.getCopyrightInfo(),
+      subheader: [tab.tabDisplay + ' Report'],
+      profileNameLink: null,
+      description: [tab.isLoaded ? tab.errorMessage : ""],
+      lastUpdatedDate: null,
+      circleImageUrl: "/app/public/no-image.png",
+      circleImageRoute: null
+    })];
   }
 
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
@@ -187,7 +191,6 @@ export class TransactionsService {
   carTransactions(data: Array<TransactionInfo>, type: string, tab: TransactionTabData): Array<SliderCarouselInput> {
     let self = this;
     var carouselArray = [];
-    var dummyImg = "/app/public/Image-Placeholder-2.jpg";
     if(data.length == 0){//if no data is being returned then show proper Error Message in carousel
       carouselArray = this.getEmptyCarousel(tab);
     }else{
@@ -209,7 +212,7 @@ export class TransactionsService {
           text: val.playerName
         };
         return SliderCarousel.convertToSliderCarouselItem(index, {
-          backgroundImage: val.backgroundImage != null ? GlobalSettings.getImageUrl(val.backgroundImage) : dummyImg,
+          backgroundImage: val.backgroundImage != null ? GlobalSettings.getImageUrl(val.backgroundImage) : null,
           copyrightInfo: GlobalSettings.getCopyrightInfo(),
           subheader: [tab.tabDisplay + ' Report - ', teamLinkText],
           profileNameLink: playerLinkText,
@@ -227,7 +230,7 @@ export class TransactionsService {
     return carouselArray;
   }
 
-  transactionsData(data: Array<TransactionInfo>, type: string){
+  listTransactions(data: Array<TransactionInfo>, type: string): Array<TransactionsListInput>{
     let self = this;
     var listDataArray = [];
 
@@ -236,56 +239,37 @@ export class TransactionsService {
     }
 
     listDataArray = data.map(function(val, index){
+      var playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.playerName, val.playerName, val.playerId);
+      var playerTextLink = {
+        route: playerRoute,
+        text: val.playerLastName + ", " + val.playerFirstName
+      }
       return {
         dataPoints: [{
           style   : 'transactions-small',
           data    : GlobalFunctions.formatDateWithAPMonth(new Date(val['repDate']), "", " DD, YYYY"),
-          value   : val.playerLastName + ", " + val.playerFirstName + ": " + val.contents,
+          value   : [playerTextLink, ": " + val.contents],
           url     : null
         }],
-        imageConfig: self.imageData("image-48","border-1",
-        GlobalSettings.getImageUrl(val.playerHeadshot),MLBGlobalFunctions.formatPlayerRoute(val.playerName, val.playerName, val.playerId),null,null,null,null)
+        imageConfig: TransactionsService.getListImageData(GlobalSettings.getImageUrl(val.playerHeadshot), playerRoute)
       };
     });
     return listDataArray;
   }//end of function
 
-  /**
-   *this function will have inputs of all required fields that are dynamic and output the full
-  **/
-  imageData(imageClass, imageBorder, mainImg, mainImgRoute, rank, subImgClass, subImg?, subRoute?){
+  static getListImageData(mainImg: string, mainImgRoute: Array<any>){
     if(mainImg == null || mainImg == ''){
       mainImg = "/app/public/no-image.png";
     }
-    if(subImg == null || subImg == ''){
-      subImg = "/app/public/no-image.png";
-    }
-    var image = { //interface is found in image-data.ts
-        imageClass        : imageClass,
+    return { //interface is found in image-data.ts
+        imageClass        : "image-48",
         mainImage : {
             imageUrl      : mainImg,
             urlRouteArray : mainImgRoute,
-            hoverText     : imageClass == "image-48" ? "<i class='fa fa-mail-forward'></i>" : "<p>View</p><p>Profile</p>",
-            imageClass    : imageBorder,
+            hoverText     : "<i class='fa fa-mail-forward'></i>",
+            imageClass    : "border-1",
         },
         subImages : [],
     };
-    if(subRoute != null) {
-      image.subImages = [
-          {
-              imageUrl: subImg,
-              urlRouteArray: subRoute,
-              hoverText: "<i class='fa fa-mail-forward'></i>",
-              imageClass: subImgClass + " image-round-lower-right"
-          },
-      ];
-    }
-    if(rank != null){
-      image.subImages.push( {
-        text: "#"+rank,
-        imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
-      });
-    }
-    return image;
   }
 }
