@@ -76,6 +76,7 @@ export class ListOfListsPage implements OnInit{
     //PAGINATION
     //sets the total pages for particular lists to allow client to move from page to page without losing the sorting of the list
     setPaginationParams(input) {
+        console.log("pagination params", input);
         var params = this.params.params;
 
         var navigationParams = {
@@ -101,7 +102,7 @@ export class ListOfListsPage implements OnInit{
             index: params['pageNum'] != null ? Number(params['pageNum']) : null,
             max: Number(input.pageCount),
             paginationType: 'page',
-            navigationPage: 'Error-page',
+            navigationPage: navigationPage,
             navigationParams: navigationParams,
             indexKey: 'pageNum'
         };
