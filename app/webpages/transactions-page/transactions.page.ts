@@ -48,8 +48,7 @@ export class TransactionsPage implements OnInit{
   teamId: any;
   teamName: string;
   isError: boolean = false;
-  titleData: Object;
-  imageData: Object;
+  titleData: TitleInputData;
   profileName: string;
   sort: string = "desc";
   limit: number;
@@ -72,19 +71,23 @@ export class TransactionsPage implements OnInit{
       this.profHeadService.getTeamProfile(this.teamId)
       .subscribe(
           data => {
-            var profHeader = this.profHeadService.convertTransactionsPageHeader(data, "Transactions");
-            this.profileHeaderData = profHeader.data;
+            var stats = data.headerData.stats;
+            //var profHeader = this.profHeadService.convertTransactionsPageHeader(data, "Transactions");
+            this.profileHeaderData = this.profHeadService.convertTeamPageHeader(data, "");
             this.teamName = data.headerData.stats.teamName;
             this._title.setTitle(GlobalSettings.getPageTitle("Transactions", this.teamName));
             this.setProfileHeader(this.profileName)
             if(this.pageName != null) {
-              this.profileHeaderData['text3'] = this.pageName + this.profileHeaderData['text3'];
+              this.profileHeaderData['text3'] = this.pageName + " - " + stats.teamName;
             }
 
             this.errorData = {
-              data: profHeader.error,
+              data: "Sorry, the " + stats.teamName + " do not currently have any data for the " + stats.seasonId + " Transactions",
               icon: "fa fa-area-chart"
             }
+            
+            var currentTab = "transactions";
+            this.getTransactionsPage(currentTab);
           },
           err => {
             this.isError= true;
@@ -103,7 +106,7 @@ export class TransactionsPage implements OnInit{
                   this.dataArray = transactionsData.tabArray;
                   this.pageName = this.dataArray[0].tabDisplay;
                   // have to call this again to update the title component text based on the selected transaciton
-                  this.profileHeaderData['text3'] = this.pageName + this.profileHeaderData['text3'];
+                  this.profileHeaderData.text3 = this.pageName + " - " + this.teamName;
                 }
                 if(transactionsData.listData.length == 0){//makes sure it only runs once
                   this.transactionsDataArray = false;
@@ -124,9 +127,6 @@ export class TransactionsPage implements OnInit{
 
   ngOnInit(){
     this.getProfileInfo();
-
-    var currentTab = "transactions";
-    this.getTransactionsPage(currentTab);
   }
 
   ngOnChanges(){
@@ -158,19 +158,12 @@ export class TransactionsPage implements OnInit{
   setProfileHeader(profile:string){
     this.titleData = {
       imageURL : GlobalSettings.getImageUrl('/mlb/players/no-image.png'),
+      imageRoute: null,
       text1 : 'Last Updated: ' + GlobalFunctions.formatUpdatedDate(new Date()),
       text2 : ' United States!',
       text3 : 'Top lists - ' + profile,
-      icon: 'fa fa-map-marker',
-      hasHover: false
+      icon: 'fa fa-map-marker'
     };
-
-    this.imageData = {
-      imageUrl: MLBGlobalFunctions.formatTeamLogo(this.teamName),
-      urlRouteArray: MLBGlobalFunctions.formatTeamRoute(this.teamName, this.teamId),
-      hoverText: "<p>View</p><p>Profile</p>",
-      imageClass: "border-2"
-    }
   }
 
   // TODO-JVW Add an arg to the transactions API call for asc/desc to sort the list appropriately

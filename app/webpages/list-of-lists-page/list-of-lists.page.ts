@@ -14,6 +14,7 @@ import {LoadingComponent} from "../../components/loading/loading.component";
 import {ErrorComponent} from "../../components/error/error.component";
 import {PaginationFooter, PaginationParameters} from "../../components/pagination-footer/pagination-footer.component";
 import {GlobalSettings} from "../../global/global-settings";
+import {GlobalFunctions} from "../../global/global-functions";
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
 declare var moment:any;
@@ -62,7 +63,7 @@ export class ListOfListsPage implements OnInit{
 
                 this.profileName = list.targetData.playerName != null ? list.targetData.playerName : list.targetData.teamName;  // TODO include this
                 this._title.setTitle(GlobalSettings.getPageTitle("List of Lists", this.profileName));
-                this.setProfileHeader(this.profileName)
+                this.setProfileHeader(this.profileName, list.lastUpdated)
 
             },
             err => {
@@ -110,14 +111,14 @@ export class ListOfListsPage implements OnInit{
         this.getListOfListsPage(this.params.params, this.version);
     }
 
-    setProfileHeader(profile:string){
+    setProfileHeader(profile:string, lastUpdated){
         this.titleData = {
-            imageURL : GlobalSettings.getImageUrl('/mlb/players/no-image.png'),
-            text1 : 'Last Updated: ' + moment().format("dddd, MMMM DD, YYYY"),
+            imageURL : GlobalSettings.getSiteLogoUrl(),
+            imageRoute: ["MLB-page"],
+            text1 : 'Last Updated: ' + GlobalFunctions.formatUpdatedDate(lastUpdated),
             text2 : ' United States',
             text3 : 'Top lists - ' + profile,
-            icon: 'fa fa-map-marker',
-            hasHover: false
+            icon: 'fa fa-map-marker'
         };
     }
 }

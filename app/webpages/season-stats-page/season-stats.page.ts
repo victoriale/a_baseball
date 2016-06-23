@@ -36,8 +36,6 @@ export class SeasonStatsPage implements OnInit {
 
   public titleData: TitleInputData;
 
-  public titleImageData: ImageData
-
   constructor(private _params: RouteParams,
               private _profileService: ProfileHeaderService,
               private _seasonStatsPageService: SeasonStatsPageService,
@@ -56,17 +54,12 @@ export class SeasonStatsPage implements OnInit {
     var title = this._seasonStatsPageService.getPageTitle(this.pageParams, playerName);
     this.titleData = {
       imageURL: imageUrl,
+      imageRoute: profileLink,
       text1: "",
       text2: "United States",
       text3: title,
       icon: "fa fa-map-marker"
     };
-    this.titleImageData = {
-      imageUrl: imageUrl,
-      urlRouteArray: profileLink,
-      hoverText: "<p>View</p><p>Profile</p>",
-      imageClass: "border-2"
-    }
   }
   ngOnInit() {
     if ( this.pageParams.playerId ) {
