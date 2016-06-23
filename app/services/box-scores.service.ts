@@ -60,9 +60,9 @@ export class BoxScoresService {
             let currentBoxScores = {
               scoreBoard: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null ? this.formatScoreBoard(data.transformedDate[dateParam.date][0]) : null,
               moduleTitle: this.moduleHeader(dateParam.date, profileName),
-              gameInfo: data.transformedDate[dateParam.date] != null ? this.formatGameInfo(data.transformedDate[dateParam.date]): null,
+              gameInfo: data.transformedDate[dateParam.date] != null ? this.formatGameInfo(data.transformedDate[dateParam.date],dateParam.teamId): null,
               schedule: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null? this.formatSchedule(data.transformedDate[dateParam.date][0], dateParam.teamId) : null,
-              aiContent: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null? this.formatArticle(data.transformedDate[dateParam.date][0]) : null,
+              // aiContent: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null? this.formatArticle(data.transformedDate[dateParam.date][0]) : null,
             };
             currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
             callback(data, currentBoxScores);
@@ -72,9 +72,9 @@ export class BoxScoresService {
       let currentBoxScores = {
         scoreBoard: dateParam.profile != 'league' ? this.formatScoreBoard(boxScoresData.transformedDate[dateParam.date][0]) : null,
         moduleTitle: this.moduleHeader(dateParam.date, profileName),
-        gameInfo: this.formatGameInfo(boxScoresData.transformedDate[dateParam.date]),
+        gameInfo: this.formatGameInfo(boxScoresData.transformedDate[dateParam.date], dateParam.teamId),
         schedule: dateParam.profile != 'league' ? this.formatSchedule(boxScoresData.transformedDate[dateParam.date][0], dateParam.teamId) : null,
-        aiContent: dateParam.profile != 'league' ? this.formatArticle(boxScoresData.transformedDate[dateParam.date][0]) : null,
+        // aiContent: dateParam.profile != 'league' ? this.formatArticle(boxScoresData.transformedDate[dateParam.date][0]) : null,
       };
       currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
       callback(boxScoresData, currentBoxScores);
@@ -186,14 +186,16 @@ export class BoxScoresService {
   }
 
   formatGameInfo(game, teamId?){
-    var gameArray:Array<GameInfoInput> = [];
+    var gameArray:Array<any> = [];
     let self = this;
+    var twoBoxes = [];// used to put two games into boxes
     game.forEach(function(data,i){
       var info:GameInfoInput;
       let awayData = data.awayTeamInfo;
       let homeData = data.homeTeamInfo;
       let gameInfo = data.gameInfo;
       if(teamId != null){//if league then both items will link
+        var aiContent = self.formatArticle(data);
         if(homeData.id == teamId){//if not league then check current team they are one
           //imageData(imageClass, imageBorder, mainImg, mainImgRoute?, rank?, rankClass?, subImgClass?, subImg?, subRoute?)
           var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo))
@@ -253,7 +255,19 @@ export class BoxScoresService {
           errors:awayData.errors
         }
       };
-      gameArray.push(info);
+      if(teamId != null){
+        twoBoxes.push({game:info,aiContent:aiContent});
+      }else{
+        twoBoxes.push({game:info});
+        if(twoBoxes.length > 1){// will push into main array once 2 pieces of info has been put into twoBoxes variable
+          gameArray.push(twoBoxes);
+          twoBoxes = [];
+        }
+      }
+      //incase it runs through entire loops and only 2 or less returns then push whatever is left
+      if(game.length == (i+1)  && gameArray.length == 0){
+        gameArray.push(twoBoxes);
+      }
     })
     return gameArray;
   }
