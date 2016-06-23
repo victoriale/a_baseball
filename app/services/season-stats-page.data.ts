@@ -163,6 +163,7 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
   rows: Array<TeamSeasonStatsData>;
   selectedKey: string = "";
   isPitcher: boolean;
+  
   constructor(rows: Array<TeamSeasonStatsData>, isPitcher: boolean){
     this.rows = rows;
     if ( this.rows === undefined || this.rows === null ) {
@@ -293,192 +294,217 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
     return null;
   }
 
-  getCellData(item:TeamSeasonStatsData, column:TableColumn): CellData {
-    var display = this.getDisplayValueAt(item, column);
-    var sort = this.getSortValueAt(item, column);
-    var link: Array<any> = this.getRouterLinkAt(item, column);
-    return new CellData(display, sort, link);
-  }
+  // getCellData(item:TeamSeasonStatsData, column:TableColumn): CellData {
+  //   var display = this.getDisplayValueAt(item, column);
+  //   var sort = this.getSortValueAt(item, column);
+  //   var link: Array<any> = this.getRouterLinkAt(item, column);
+  //   return new CellData(display, sort, link);
+  // }
   
-  getDisplayValueAt(item:TeamSeasonStatsData, column:TableColumn):string {
-    var s = "";
+  getCellData(item:TeamSeasonStatsData, column:TableColumn):CellData {
+    var display = "";
+    var sort = null;
+    var link = undefined;
+
     switch (column.key) {
       case "year":
-        s = item.seasonId;
+        display = item.seasonId;
+        sort = item.seasonId;
         break;
 
       case "team":
         let avgTotal = item['sectionStat'] != null && item['sectionStat'] == "Average" ? "Total Average" : "Total";
-        s = item['sectionStat'] == null ? item.teamInfo.teamName : avgTotal.toUpperCase() + ":";
+        display = item['sectionStat'] == null ? item.teamInfo.teamName : avgTotal.toUpperCase() + ":";
+        sort = item.teamInfo.teamName;
+        link = MLBGlobalFunctions.formatTeamRoute(item.teamInfo.teamName,item.teamInfo.teamId);
         break;
 
       case "wl":
-        s = Number(item.pitchWins) != null && Number(item.pitchLosses) != null ? Number(item.pitchWins).toFixed(0) + "/" + Number(item.pitchLosses).toFixed(0) : null;
-        break;
-
-      case "ip":
-        s = Number(item.pitchInningsPitched) != null ? Number(item.pitchInningsPitched).toFixed(1) : null;
-        break;
-
-      case "so":
-        s = Number(item.pitchStrikeouts) != null ? Number(item.pitchStrikeouts).toFixed(0) : null;
-        break;
-
-      case "era":
-        s = Number(item.pitchEra) != null ? Number(item.pitchEra).toFixed(2) : null;
-        break;
-
-      case "ph":
-        s = Number(item.pitchHits) != null ? Number(item.pitchHits).toFixed(0) : null;
-        break;
-
-      case "er":
-        s = Number(item.pitchEarnedRuns) != null ? Number(item.pitchEarnedRuns).toFixed(0) : null;
-        break;
-
-      case "pbb":
-        s = Number(item.pitchBasesOnBalls) != null ? Number(item.pitchBasesOnBalls).toFixed(0) : null;
-        break;
-
-      case "whip":
-        s = Number(item.pitchWhip) != null ? Number(item.pitchWhip).toFixed(2) : null;
-        break;
-
-      case "r":
-      s = Number(item.batHomeRuns) != null ? Number(item.batHomeRuns).toFixed(2) : null;
-      break;
-
-      case "h":
-        s = Number(item.batHits) != null ? Number(item.batHits).toFixed(2) : null;
-        break;
-
-      case "hr":
-        s = Number(item.batHomeRuns) != null ? Number(item.batHomeRuns).toFixed(2) : null;
-        break;
-
-      case "rbi":
-        s = Number(item.batRbi) != null ? Number(item.batRbi).toFixed(2) : null;
-        break;
-
-      case "bb":
-        s = Number(item.batBasesOnBalls) != null ? Number(item.batBasesOnBalls).toFixed(0) : null;
-        break;
-
-      case "avg":
-        s = Number(item.batAverage) != null ? Number(item.batAverage).toFixed(2) : null;
-        break;
-
-      case "obp":
-        s = Number(item.batOnBasePercentage) != null ? Number(item.batOnBasePercentage).toFixed(2) : null;
-        break;
-
-      case "slg":
-        s = Number(item.batSluggingPercentage) != null ? Number(item.batSluggingPercentage).toFixed(2) : null;
-        break;
-    }
-    return s != null ? s : "N/A";
-  }
-
-  getSortValueAt(item:TeamSeasonStatsData, column:TableColumn):any {
-    var o = null;
-    switch (column.key) {
-      case "year":
-        o = item.seasonId;
-        break;
-
-      case "team":
-        o = item.teamInfo.teamName;
-        break;
-
-      case "wl":
+        display = item.pitchWins != null && Number(item.pitchLosses) != null ? Number(item.pitchWins).toFixed(0) + "/" + Number(item.pitchLosses).toFixed(0) : null;
         var wins = item.pitchWins + "";
         var losses = item.pitchLosses + "";
-        o = ('00000' + wins).substr(wins.length) + "/" + ('00000' + losses).substr(losses.length); //pad with zeros
+        sort = ('00000' + wins).substr(wins.length) + "/" + ('00000' + losses).substr(losses.length); //pad with zeros
         break;
 
       case "ip":
-        o = item.pitchInningsPitched;
+        display = item.pitchInningsPitched != null ? Number(item.pitchInningsPitched).toFixed(1) : null;
+        sort = item.pitchInningsPitched;
         break;
 
       case "so":
-        o = item.pitchStrikeouts;
+        display = item.pitchStrikeouts != null ? Number(item.pitchStrikeouts).toFixed(0) : null;
+        sort = item.pitchStrikeouts;
         break;
 
       case "era":
-        o = item.pitchEra;
+        display = item.pitchEra != null ? Number(item.pitchEra).toFixed(2) : null;
+        sort = item.pitchEra;
         break;
 
       case "ph":
-        o = item.pitchHits;
+        display = item.pitchHits != null ? Number(item.pitchHits).toFixed(0) : null;
+        sort = item.pitchHits;
         break;
 
       case "er":
-        o = item.pitchEarnedRuns;
+        display = item.pitchEarnedRuns != null ? Number(item.pitchEarnedRuns).toFixed(0) : null;
+        sort = item.pitchEarnedRuns;
         break;
 
       case "pbb":
-        o = item.pitchBasesOnBalls;
+        display = item.pitchBasesOnBalls != null ? Number(item.pitchBasesOnBalls).toFixed(0) : null;
+        sort = item.pitchBasesOnBalls;
         break;
 
       case "whip":
-        o = item.pitchWhip;
+        display = item.pitchWhip != null ? Number(item.pitchWhip).toFixed(2) : null;
+        sort = item.pitchWhip;
         break;
 
       case "r":
-        o = item.batHomeRuns;
+        display = item.batHomeRuns != null ? Number(item.batHomeRuns).toFixed(2) : null;
+        sort = item.batHomeRuns;
       break;
 
       case "h":
-        o = item.batHits;
+        display = item.batHits != null ? Number(item.batHits).toFixed(2) : null;
+        sort = item.batHits;
         break;
 
       case "hr":
-        o = item.batHomeRuns;
+        display = item.batHomeRuns != null ? Number(item.batHomeRuns).toFixed(2) : null;
+        sort = item.batHomeRuns;
         break;
 
       case "rbi":
-        o = item.batRbi;
+        display = item.batRbi != null ? Number(item.batRbi).toFixed(2) : null;
+        sort = item.batRbi;
         break;
 
       case "bb":
-        o = item.batBasesOnBalls;
+        display = item.batBasesOnBalls != null ? Number(item.batBasesOnBalls).toFixed(0) : null;
+        sort = item.batBasesOnBalls;
         break;
 
       case "avg":
-        o = item.batAverage;
+        display = item.batAverage != null ? Number(item.batAverage).toFixed(2) : null;
+        sort = item.batAverage;
         break;
 
       case "obp":
-        o = item.batOnBasePercentage;
-
+        display = item.batOnBasePercentage != null ? Number(item.batOnBasePercentage).toFixed(2) : null;
+        sort = item.batOnBasePercentage;
         break;
 
       case "slg":
-        o = item.batSluggingPercentage;
-
+        display = item.batSluggingPercentage != null ? Number(item.batSluggingPercentage).toFixed(2) : null;
+        sort = item.batSluggingPercentage;
         break;
     }
-    return o;
+    display = display != null ? display : "N/A";
+    return new CellData(display, sort, link);
   }
 
-  getImageConfigAt(item:TeamSeasonStatsData, column:TableColumn):CircleImageData {
-      return undefined;
-  }
+  // getSortValueAt(item:TeamSeasonStatsData, column:TableColumn):any {
+  //   var sort = null;
+  //   switch (column.key) {
+  //     case "year":
+  //       sort = item.seasonId;
+  //       break;
 
-  hasImageConfigAt(column:TableColumn):boolean {
-    return undefined;
-  }
+  //     case "team":
+  //       sort = item.teamInfo.teamName;
+  //       break;
 
-  getRouterLinkAt(item:TeamSeasonStatsData, column:TableColumn):Array<any> {
-    if ( column.key === "team") {
-      return MLBGlobalFunctions.formatTeamRoute(item.teamInfo.teamName,item.teamInfo.teamId);
-    }
-    else {
-      return undefined;
-    }
-  }
+  //     case "wl":
+  //       var wins = item.pitchWins + "";
+  //       var losses = item.pitchLosses + "";
+  //       sort = ('00000' + wins).substr(wins.length) + "/" + ('00000' + losses).substr(losses.length); //pad with zeros
+  //       break;
 
-  hasRouterLinkAt(column:TableColumn):boolean {
-    return column.key === "team";
-  }
+  //     case "ip":
+  //       sort = item.pitchInningsPitched;
+  //       break;
+
+  //     case "so":
+  //       sort = item.pitchStrikeouts;
+  //       break;
+
+  //     case "era":
+  //       sort = item.pitchEra;
+  //       break;
+
+  //     case "ph":
+  //       sort = item.pitchHits;
+  //       break;
+
+  //     case "er":
+  //       sort = item.pitchEarnedRuns;
+  //       break;
+
+  //     case "pbb":
+  //       sort = item.pitchBasesOnBalls;
+  //       break;
+
+  //     case "whip":
+  //       sort = item.pitchWhip;
+  //       break;
+
+  //     case "r":
+  //       sort = item.batHomeRuns;
+  //     break;
+
+  //     case "h":
+  //       sort = item.batHits;
+  //       break;
+
+  //     case "hr":
+  //       sort = item.batHomeRuns;
+  //       break;
+
+  //     case "rbi":
+  //       sort = item.batRbi;
+  //       break;
+
+  //     case "bb":
+  //       sort = item.batBasesOnBalls;
+  //       break;
+
+  //     case "avg":
+  //       sort = item.batAverage;
+  //       break;
+
+  //     case "obp":
+  //       sort = item.batOnBasePercentage;
+
+  //       break;
+
+  //     case "slg":
+  //       sort = item.batSluggingPercentage;
+
+  //       break;
+  //   }
+  //   return sort;
+  // }
+
+  // getImageConfigAt(item:TeamSeasonStatsData, column:TableColumn):CircleImageData {
+  //     return undefined;
+  // }
+
+  // hasImageConfigAt(column:TableColumn):boolean {
+  //   return undefined;
+  // }
+
+  // getRouterLinkAt(item:TeamSeasonStatsData, column:TableColumn):Array<any> {
+  //   if ( column.key === "team") {
+  //     return MLBGlobalFunctions.formatTeamRoute(item.teamInfo.teamName,item.teamInfo.teamId);
+  //   }
+  //   else {
+  //     return undefined;
+  //   }
+  // }
+
+  // hasRouterLinkAt(column:TableColumn):boolean {
+  //   return column.key === "team";
+  // }
 }
