@@ -12,6 +12,7 @@ import {GlobalSettings} from "../../global/global-settings";
 import {RosterService} from '../../services/roster.service';
 import {ProfileHeaderService} from '../../services/profile-header.service';
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
+import {MLBGlobalFunctions} from "../../global/mlb-global-functions";
 
 @Component({
     selector: 'Team-roster-page',
@@ -55,7 +56,7 @@ export class TeamRosterPage implements OnInit {
           this.profileLoaded = true;
           this.pageParams = data.pageParams;
           this._title.setTitle(GlobalSettings.getPageTitle("Team Roster", data.teamName));
-          this.setupTitleData(data.teamName, data.fullProfileImageUrl, data.headerData.lastUpdated)
+          this.titleData = this._profileService.convertTeamPageHeader(data, this._rosterService.getPageTitle(data.teamName));
           this.setupRosterData();
         },
         err => {
@@ -67,17 +68,7 @@ export class TeamRosterPage implements OnInit {
     else {
       //TODO - Load error page since a team is required to show a roster?
     }
-  }
-  
-  private setupTitleData(teamName: string, imageUrl: string, lastUpdated: string) {
-    this.titleData = {
-      imageURL: imageUrl,
-      text1: "Last Updated - " + GlobalFunctions.formatUpdatedDate(lastUpdated),
-      text2: "United States",
-      text3: this._rosterService.getPageTitle(teamName),
-      icon: "fa fa-map-marker"
-    };
-  }
+  }  
 
   private setupRosterData() {
     this.tabs = this._rosterService.initializeAllTabs(this.pageParams.teamId.toString(), this.pageParams.conference);

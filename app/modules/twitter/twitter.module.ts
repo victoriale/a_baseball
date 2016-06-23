@@ -1,5 +1,8 @@
-import {Component, OnInit, OnChanges, Input} from 'angular2/core';
+import {Component, OnInit, OnChanges, Input, AfterContentChecked} from 'angular2/core';
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
+
+// declare var twttr: any;
+
 export interface twitterModuleData{
   twitterUrl: string;
   twitterApi: string;
@@ -12,15 +15,28 @@ export interface twitterModuleData{
     directives: [ModuleHeader],
 })
 
-export class TwitterModule implements OnInit, OnChanges {
+export class TwitterModule implements OnInit, OnChanges, AfterContentChecked {
   @Input() profileName: string;
   @Input() twitterData: twitterModuleData;
+
+  twitterLoaded: boolean = false;
 
   public headerInfo: ModuleHeaderData = {
     moduleTitle: "Twitter Feed - [Profile Name]",
     hasIcon: false,
     iconClass: ""
   };
+
+  ngAfterContentChecked() {
+    if ( window['twttr'] && !this.twitterLoaded ) {
+      if ( document.getElementById("twitter-href") ) {
+        var a = document.getElementById("twitter-href");
+        console.log("loading " + a.getAttribute("data-widget-id") + " and " + a.getAttribute("href"));
+        window['twttr'].widgets.load();
+        this.twitterLoaded = true;
+      }
+    }
+  }
 
   ngOnChanges() {
     let profileName = this.profileName ? this.profileName : "[Profile Name]";

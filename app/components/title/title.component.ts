@@ -5,12 +5,12 @@ import {GlobalSettings} from '../../global/global-settings';
 
 export interface TitleInputData {
     imageURL  : string;
+    imageRoute?: Array<any>;
     text1     : string;
     text2     : string;
     text3     : string;
     text4?     : string;
     icon      : string;
-    hasHover? : boolean;
 }
 
 @Component({
@@ -21,8 +21,6 @@ export interface TitleInputData {
 export class TitleComponent implements OnChanges {
     @Input() titleData: TitleInputData;
     
-    @Input() imageData: any; //should be ImageData;
-    
     public titleImage: CircleImageData;    
     
     ngOnChanges() {
@@ -30,26 +28,29 @@ export class TitleComponent implements OnChanges {
             this.titleData =
             {
                 imageURL : GlobalSettings.getSiteLogoUrl(),
+                imageRoute: null,
                 text1: "lorem ipsum delor",
                 text2: "ipsum delor lorem",
                 text3: "lorem ipsum delor",
                 text4: "lorem ipsum delor",
-                icon: 'fa fa-map-marker',
-                hasHover: true
+                icon: 'fa fa-map-marker'
             };
         }
                
+        var hoverText = this.titleData.imageRoute ? "<p>View</p><p>Profile</p>" : "";
         this.titleImage = {
             imageClass: "page-title-titleImage",
             mainImage: {
                 imageUrl: ( this.titleData.imageURL ? this.titleData.imageURL : GlobalSettings.getSiteLogoUrl() ),
+                urlRouteArray: this.titleData.imageRoute,
+                hoverText: hoverText,
                 imageClass: "border-2"
             }
         };
 
-        if ( this.imageData ) {
-            this.titleImage.mainImage = this.imageData;
-        }
+        // if ( this.imageData ) {
+        //     this.titleImage.mainImage = this.imageData;
+        // }
     }
 
 }

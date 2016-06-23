@@ -35,6 +35,7 @@ export class PlayerStatsPage implements OnInit {
   
   public titleData: TitleInputData = {
     imageURL: "/app/public/profile_placeholder.png",
+    imageRoute: null,
     text1: "Last Updated: [date]",
     text2: "United States",
     text3: "Player Stats",
@@ -63,7 +64,8 @@ export class PlayerStatsPage implements OnInit {
           this.profileLoaded = true;
           this.pageParams = data.pageParams; 
           this._title.setTitle(GlobalSettings.getPageTitle("Player Stats", data.teamName));
-          this.setupTitleData(data.teamName, data.fullProfileImageUrl);
+          var teamRoute = MLBGlobalFunctions.formatTeamRoute(data.teamName, data.pageParams.teamId ? data.pageParams.teamId.toString() : null);
+          this.setupTitleData(teamRoute, data.teamName, data.fullProfileImageUrl);
           this.tabs = this._statsService.initializeAllTabs(data.teamName);
         },
         err => {
@@ -73,15 +75,16 @@ export class PlayerStatsPage implements OnInit {
       );
     }
     else {
-    this._title.setTitle(GlobalSettings.getPageTitle("Player Stats", "MLB"));
-      this.setupTitleData();
+      this._title.setTitle(GlobalSettings.getPageTitle("Player Stats", "MLB"));
+      this.setupTitleData(["MLB-page"]);
     }
   }
   
-  private setupTitleData(teamName?: string, imageUrl?: string) {    
+  private setupTitleData(route: Array<any>, teamName?: string, imageUrl?: string) {    
     var title = this._statsService.getPageTitle(teamName);
     this.titleData = {
       imageURL: imageUrl,
+      imageRoute: route,
       text1: "",
       text2: "United States",
       text3: title,

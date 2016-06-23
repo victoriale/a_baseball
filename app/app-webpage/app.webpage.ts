@@ -164,6 +164,11 @@ import {ComponentPage} from "../webpages/component-page/component.page";
         component: TransactionsPage
     },
     {
+        path: '/transactions/league/:limit/:pageNum',
+        name: 'Transactions-mlb-page',
+        component: TransactionsPage
+    },
+    {
         path: '/team-roster/:teamName/:teamId',
         name: 'Team-roster-page',
         component: TeamRosterPage
