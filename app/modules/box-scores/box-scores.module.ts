@@ -15,7 +15,7 @@ import {GameArticle} from '../../components/game-article/game-article.component'
     outputs: ['dateEmit'],
 })
 
-export class BoxScoresModule implements OnChanges{
+export class BoxScoresModule{
   @Input() calendarParams:any;
   @Input() boxScores:any;
   public dateEmit: EventEmitter<any> = new EventEmitter();
@@ -29,11 +29,4 @@ export class BoxScoresModule implements OnChanges{
   changeGame(num){
     this.gameNum = num;
   }
-
-  ngOnChanges(){
-    if(this.boxScores != null && this.calendarParams.teamId != null){
-      console.log(this.boxScores);
-    }
-  }
-
 }
