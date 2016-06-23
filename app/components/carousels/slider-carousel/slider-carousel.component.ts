@@ -199,15 +199,15 @@ export class SliderCarousel implements OnInit {
           },
           {//Item title line
             class: 'scc-details-type1-hdr',
-            textData: [item.profileNameLink]
+            textData: item.profileNameLink ? [item.profileNameLink] : []
           },
           {//Description line
             class: 'scc-details-type1-desc',
-            textData: item.description
+            textData: item.description ? item.description : []
           },
           {//Last Updated line
             class: 'scc-details-type1-date',
-            textData: ["Last Updated On " + item.lastUpdatedDate]
+            textData: item.lastUpdatedDate ? ["Last Updated On " + item.lastUpdatedDate] : []
           }
         ],
       imageConfig: {

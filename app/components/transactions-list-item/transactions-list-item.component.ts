@@ -1,7 +1,9 @@
-import {Component, OnInit, Input} from 'angular2/core';
+import {Component, Input} from 'angular2/core';
+import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {CircleImage} from '../../components/images/circle-image';
 import {CircleImageData} from '../../components/images/image-data';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
+import {Link} from '../../global/global-interface';
+import {ComplexInnerHtml} from '../complex-inner-html/complex-inner-html.component';
 
 export interface TransactionsListInput {
   // must have a length of 3 or the styling will be off
@@ -19,7 +21,7 @@ export interface TransactionsListInput {
   dataPoints: Array<{
       style?:string;
       data: string;
-      value: string;
+      value: Array<Link | string>;
       url?:[any];
       icon?:string;
   }>;
@@ -29,14 +31,10 @@ export interface TransactionsListInput {
 @Component({
     selector: 'transactions-list-item',
     templateUrl: './app/components/transactions-list-item/transactions-list-item.component.html',
-    directives: [ROUTER_DIRECTIVES, CircleImage],
+    directives: [ROUTER_DIRECTIVES, CircleImage, ComplexInnerHtml],
     providers: [],
 })
 
-export class TransactionsListItem implements OnInit{
+export class TransactionsListItem {
   @Input() transactionsItemData: TransactionsListInput[];
-
-    ngOnInit(){
-
-    }
 }
