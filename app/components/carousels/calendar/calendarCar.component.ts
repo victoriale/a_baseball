@@ -30,13 +30,12 @@ export interface weekDate {
     templateUrl: './app/components/carousels/calendar/calendarCar.component.html',
     directives: [DatePicker, FORM_DIRECTIVES],
     providers: [BoxScoresService],
-    outputs:['dateEmit'],
 })
 
 export class CalendarCarousel implements OnInit{
   @Input() chosenParam:any;
+  @Output() dateEmit: EventEmitter<any> = new EventEmitter();
   public curDateView:any;
-  public dateEmit: EventEmitter<any> = new EventEmitter();
   public weeklyApi:any;
   public weeklyDates: Array<any>;
   public failSafe: number = 0;
