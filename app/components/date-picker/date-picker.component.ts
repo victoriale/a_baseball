@@ -143,7 +143,7 @@ export class DatePicker implements ControlValueAccessor, AfterViewInit {
     let year = date.year();
     let n = 1;
     let firstWeekDay = null;
-    this.dateValue = "<span>"+date.format('MMMM')+" </span><span class='text-heavy'> "+date.format('YYYY')+"</span>"; //designed wanted double spacing
+    this.dateValue = "<span class='text-heavy'>"+date.format('MMMM')+" </span><span> "+date.format('YYYY')+"</span>"; //designed wanted double spacing
     this.days = [];
     var days42 = 42;
     if (this.firstWeekDaySunday === true) {
