@@ -39,7 +39,7 @@ export class ContactUsPage implements OnInit{
         ],
         titleData: {
             imageURL: GlobalSettings.getSiteLogoUrl(),
-            text1: 'Last Updated'+moment(new Date()).format('dddd MMMM Do, YYYY'),
+            text1: 'Last Updated: '+moment(new Date()).format('dddd MMMM Do, YYYY'),
             text2: ' United States',
             text3: 'Have a question about Home Run Loyal? Write us a message.',
             text4: '',
