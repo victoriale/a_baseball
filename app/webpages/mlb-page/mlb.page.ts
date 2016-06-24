@@ -354,7 +354,8 @@ export class MLBPage implements OnInit {
     }
 
     private draftHistoryModule(year: number) {
-      this._draftService.getDraftHistoryService(year, null, 'module')
+      var errorMessage = "Sorry, " + this.profileHeaderData.profileName + " does not currently have any data for the " + year + " draft history";
+      this._draftService.getDraftHistoryService(year, null, errorMessage, 'module')
         .subscribe(
             draftData => {
                 var dataArray, detailedDataArray, carouselDataArray;
@@ -372,7 +373,7 @@ export class MLBPage implements OnInit {
                     listData: detailedDataArray,
                     carData: carouselDataArray,
                     errorData: {
-                        data: "Sorry, " + this.profileHeaderData.profileName + " does not currently have any data for the " + year + " draft history",
+                        data: errorMessage,
                         icon: "fa fa-remove"
                     }
                 }

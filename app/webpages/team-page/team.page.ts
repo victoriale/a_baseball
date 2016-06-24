@@ -388,7 +388,8 @@ export class TeamPage implements OnInit {
     }
 
     private draftHistoryModule(year: number, teamId: number) {
-        this._draftService.getDraftHistoryService(year, teamId, 'module')
+        var errorMessage = "Sorry, the " + this.profileHeaderData.profileName + " do not currently have any data for the " + year + " draft history";
+        this._draftService.getDraftHistoryService(year, teamId, errorMessage, 'module')
             .subscribe(
                 draftData => {
                     var dataArray, detailedDataArray, carouselDataArray;
@@ -406,7 +407,7 @@ export class TeamPage implements OnInit {
                         listData: detailedDataArray,
                         carData: carouselDataArray,
                         errorData: {
-                            data: "Sorry, the " + this.profileHeaderData.profileName + " do not currently have any data for the " + year + " draft history",
+                            data: errorMessage,
                             icon: "fa fa-remove"
                         }
                     }

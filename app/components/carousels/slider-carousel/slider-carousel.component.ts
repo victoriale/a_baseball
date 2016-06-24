@@ -44,11 +44,11 @@ export interface Type1CarouselItem {
 
   description: Array<Link | string>;
 
-  copyrightInfo: string;
+  copyrightInfo?: string;
 
   lastUpdatedDate: string;
 
-  backgroundImage: string;
+  backgroundImage?: string;
 
   circleImageUrl: string;
 
@@ -77,9 +77,9 @@ export interface ListTypeCarouselItem {
 
   dataLabel: string;
 
-  backgroundImage: string;
+  backgroundImage?: string;
 
-  copyrightInfo: string;
+  copyrightInfo?: string;
 
   circleImageUrl: string;
 
