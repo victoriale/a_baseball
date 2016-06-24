@@ -44,11 +44,11 @@ export interface Type1CarouselItem {
 
   description: Array<Link | string>;
 
-  copyrightInfo: string;
+  copyrightInfo?: string;
 
   lastUpdatedDate: string;
 
-  backgroundImage: string;
+  backgroundImage?: string;
 
   circleImageUrl: string;
 
@@ -77,9 +77,9 @@ export interface ListTypeCarouselItem {
 
   dataLabel: string;
 
-  backgroundImage: string;
+  backgroundImage?: string;
 
-  copyrightInfo: string;
+  copyrightInfo?: string;
 
   circleImageUrl: string;
 
@@ -199,15 +199,15 @@ export class SliderCarousel implements OnInit {
           },
           {//Item title line
             class: 'scc-details-type1-hdr',
-            textData: [item.profileNameLink]
+            textData: item.profileNameLink ? [item.profileNameLink] : []
           },
           {//Description line
             class: 'scc-details-type1-desc',
-            textData: item.description
+            textData: item.description ? item.description : []
           },
           {//Last Updated line
             class: 'scc-details-type1-date',
-            textData: ["Last Updated On " + item.lastUpdatedDate]
+            textData: item.lastUpdatedDate ? ["Last Updated On " + item.lastUpdatedDate] : []
           }
         ],
       imageConfig: {
@@ -247,7 +247,7 @@ export class SliderCarousel implements OnInit {
         description: [
           {//[Profile Name 1]
             class: item.isPageCarousel ? 'scc-details-type2-page-hdr' : 'scc-details-type2-hdr',
-            textData: [item.profileNameLink]
+            textData: item.profileNameLink ? [item.profileNameLink] : []
           },
           {//data value list
             class: 'scc-details-type2-desc',
@@ -255,11 +255,11 @@ export class SliderCarousel implements OnInit {
           },
           {//[Data Value 1]
             class: 'scc-details-type2-value',
-            textData: [item.dataValue]
+            textData: item.dataValue ? [item.dataValue] : []
           },
           {//[Data Point 1]
             class: 'scc-details-type2-lbl',
-            textData: [item.dataLabel]
+            textData: item.dataLabel ? [item.dataLabel] : []
           }
         ],
       imageConfig: {

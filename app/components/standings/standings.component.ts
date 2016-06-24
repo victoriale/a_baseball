@@ -4,7 +4,7 @@ import {SliderCarousel, SliderCarouselInput} from '../carousels/slider-carousel/
 import {Tabs} from '../tabs/tabs.component';
 import {Tab} from '../tabs/tab.component';
 import {CustomTable} from '../custom-table/custom-table.component';
-import {TableModel, TableColumn, TableRow, TableCell} from '../custom-table/table-data.component';
+import {TableModel} from '../custom-table/table-data.component';
 import {LoadingComponent} from '../loading/loading.component';
 import {NoDataBox} from '../../components/error/data-box/data-box.component';
 

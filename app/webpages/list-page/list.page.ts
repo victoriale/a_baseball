@@ -115,7 +115,8 @@ export class ListPage implements OnInit {
 
 
   getStandardList(urlParams){
-    this.listService.getListPageService(urlParams)
+    var errorMessage = "Sorry, we do not currently have any data for this list";
+    this.listService.getListPageService(urlParams, errorMessage)
       .subscribe(
         list => {
           this._title.setTitle(GlobalSettings.getPageTitle(list.listDisplayName, "Lists"));

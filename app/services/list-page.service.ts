@@ -17,7 +17,7 @@ export class BaseballMVPTabData implements MVPTabData {
   tabDataKey: string;
   tabDisplayTitle: string;
   errorData: any = {
-      data: "Sorry, we do not currently have any data for this mvp list",
+      data: "Sorry, we do not currently have any data for this MVP list",
       icon: "fa fa-remove"
   };
   listData: DetailListInput[] = null;
@@ -32,7 +32,7 @@ export class BaseballMVPTabData implements MVPTabData {
   }
 
   getCarouselData(): Array<SliderCarouselInput> {
-    return ListPageService.carDataPage(this.data, this.profileType);
+    return ListPageService.carDataPage(this.data, this.profileType, this.errorData.data);
   }
 }
 
@@ -59,7 +59,7 @@ export class ListPageService {
     pageNum: //  determined by the limit as well detects what page to view based on the limit ex: limit: 10  page 1 holds 1-10 and page 2 holds 11-20
     }
   */
-  getListPageService(query){
+  getListPageService(query, errorMessage: string){
   //Configure HTTP Headers
   var headers = this.setToken();
 
@@ -80,7 +80,7 @@ export class ListPageService {
         data.data['query'] = query;
         return {
           profHeader: ListPageService.profileHeader(data.data),
-          carData: ListPageService.carDataPage(data.data, 'page'),
+          carData: ListPageService.carDataPage(data.data, 'page', errorMessage),
           listData: ListPageService.detailedData(data.data),
           pagination: data.data.listInfo,
           listDisplayName: data.data.listInfo.name
@@ -184,21 +184,22 @@ export class ListPageService {
   }
 
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
-  static carDataPage(data, profileType: string){
+  static carDataPage(data, profileType: string, errorMessage: string){
     var carouselArray = [];
     var currentYear = new Date().getFullYear();//TODO FOR POSSIBLE past season stats but for now we have lists for current year season
     var carData = data.listData;
     var carInfo = data.listInfo;
     if(carData.length == 0){
       var dummyImg = "/app/public/no-image.png";
-      var dummyRoute = ['Error-page'];
-      carouselArray = [{// dummy data if empty array is sent back
-        index:'2',
-        imageConfig: ListPageService.imageData("carousel", dummyImg, dummyRoute, 1),
-        description:[
-          '<p style="font-size:20px"><span class="text-heavy">Sorry, we currently do not have any data for this particular list</span><p>',
-        ],
-      }];
+      carouselArray.push(SliderCarousel.convertListItemToSliderCarouselItem(2, {
+        isPageCarousel: false, 
+        profileNameLink: null,
+        description: [errorMessage],
+        dataValue: null,
+        dataLabel: null,
+        circleImageUrl: dummyImg,
+        circleImageRoute: null 
+      }));
     } else{
       //if data is coming through then run through the transforming function for the module
       carouselArray = carData.map(function(val, index){

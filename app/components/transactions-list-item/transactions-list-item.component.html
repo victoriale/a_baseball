@@ -7,6 +7,8 @@
           <div class="transactions-li-timeline-circle"></div>
         </div>
         <circle-image class="dataBox-img"[data]="transactions.imageConfig"></circle-image>
-        <div class="dataBox-text-right" [innerHTML]="data.value"></div>
+        <div class="dataBox-text-right">
+          <complex-inner-html [textItems]="data.value"></complex-inner-html>
+        </div>
     </div>
   </div>
