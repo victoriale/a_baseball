@@ -85,15 +85,7 @@ export class DraftHistoryService {
     var carouselArray = [];
     var dummyImg = "/app/public/no-image.png";
     if(data.length == 0){//if no data is being returned then show proper Error Message in carousel
-      carouselArray.push(SliderCarousel.convertListItemToSliderCarouselItem(2, {
-        isPageCarousel: false, 
-        profileNameLink: null,
-        description: [errorMessage],
-        dataValue: null,
-        dataLabel: null,
-        circleImageUrl: dummyImg,
-        circleImageRoute: null 
-      }));
+      carouselArray.push(SliderCarousel.convertToEmptyCarousel(errorMessage));
     }else{
       //if data is coming through then run through the transforming function for the module
       data.forEach(function(val, index){

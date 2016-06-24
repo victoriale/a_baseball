@@ -274,4 +274,26 @@ export class SliderCarousel implements OnInit {
       }
     };
   }
+
+  static convertToEmptyCarousel(errorMessage: string): SliderCarouselInput {
+    return { 
+        index: 2,
+        description: [
+          {//error message
+            class: 'scc-details-type2-error',
+            textData: errorMessage ? [errorMessage] : []
+          }
+        ],
+      imageConfig: {
+        imageClass: "image-150",
+        mainImage: {
+          imageClass: "border-10",
+          urlRouteArray: null,
+          imageUrl: "/app/public/no-image.png",
+          hoverText: ""
+        },
+        subImages: []
+      }
+    };
+  }
 }
