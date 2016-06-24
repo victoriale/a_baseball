@@ -68,7 +68,6 @@ export class DraftHistoryModule{
       this.detailedDataArray = this.draftData.listData;
       if(this.detailedDataArray == false){
         this.carouselDataArray = this.draftData.carData
-        this.carouselDataArray[0]['description'][0] = '<br><b style="font-size:20px">'+this.errorData.data+'</b>';
       }
     }
     this.carouselDataArray = this.draftData.carData

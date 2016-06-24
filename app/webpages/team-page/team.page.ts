@@ -244,7 +244,7 @@ export class TeamPage implements OnInit {
             },
             err => {
                 this.hasError = true;
-                console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
+                console.log("Error getting team profile data for " + this.pageParams.teamId, err);
             }
         );
     }
@@ -286,7 +286,7 @@ export class TeamPage implements OnInit {
                     this.faqData = data;
                 },
                 err => {
-                    console.log("Error getting faq data");
+                    console.log("Error getting faq data for team", err);
                 });
     }
 
@@ -388,7 +388,8 @@ export class TeamPage implements OnInit {
     }
 
     private draftHistoryModule(year: number, teamId: number) {
-        this._draftService.getDraftHistoryService(year, teamId, 'module')
+        var errorMessage = "Sorry, the " + this.profileHeaderData.profileName + " do not currently have any data for the " + year + " draft history";
+        this._draftService.getDraftHistoryService(year, teamId, errorMessage, 'module')
             .subscribe(
                 draftData => {
                     var dataArray, detailedDataArray, carouselDataArray;
@@ -406,7 +407,7 @@ export class TeamPage implements OnInit {
                         listData: detailedDataArray,
                         carData: carouselDataArray,
                         errorData: {
-                            data: "Sorry, the " + this.profileHeaderData.profileName + " do not currently have any data for the " + year + " draft history",
+                            data: errorMessage,
                             icon: "fa fa-remove"
                         }
                     }

@@ -286,7 +286,7 @@ private dailyUpdateModule(playerId: number) {
             this.faqData = data;
           },
           err => {
-              console.log("Error getting faq data");
+              console.log("Error getting faq data for player", err);
           });
     }
 

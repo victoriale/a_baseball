@@ -45,7 +45,7 @@ export class ListOfListsService {
     }
 
     var callURL = this._apiUrl + '/listOfLists/' + type + '/' + id + scopePath +'/'+ limit +'/' + pageNum;
-
+    // console.log("list of lists url " + callURL);
     return this.http.get( callURL, {
         headers: headers
       })
@@ -56,28 +56,15 @@ export class ListOfListsService {
         data => {
           var lastUpdated = "";
           if ( data && data.data && data.data.length > 0 ) {
-            lastUpdated = data.data[0].targetData;lastUpdated;
+            lastUpdated = data.data[0].targetData;
           }
-          if(version == 'module'){
-            return {
-              carData: this.carDataPage(data.data, version, type),
-              listData: this.detailedData(data.data, version, type),
-              targetData: this.getTargetData(data.data),
-              pagination: data.data[0].listInfo,
-              lastUpdated: lastUpdated
-            };
-          }else{
-            return {
-              carData: this.carDataPage(data.data, version, type),
-              listData: this.detailedData(data.data, version, type),
-              targetData: this.getTargetData(data.data),
-              pagination: data.data[0].listInfo,
-              lastUpdated: lastUpdated
-            };
-          }
-        },
-        err => {
-          console.log('INVALID DATA');
+          return {
+            carData: this.carDataPage(data.data, version, type),
+            listData: this.detailedData(data.data, version, type),
+            targetData: this.getTargetData(data.data),
+            pagination: data.data[0].listInfo,
+            lastUpdated: lastUpdated
+          };
         }
       )
   }
