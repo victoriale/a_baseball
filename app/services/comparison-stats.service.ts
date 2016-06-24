@@ -221,7 +221,7 @@ export class ComparisonStatsService {
 
   getPlayerList(teamId: string): Observable<Array<{key: string, value: string, class: string}>> {
     //http://dev-homerunloyal-api.synapsys.us/team/comparisonRoster/2800
-    let playersUrl = this._apiUrl + "/team/comparisonRoster/" + teamId;
+    let playersUrl = this._apiUrl + "/team/comparisonRoster/" + teamId;    
     return this.http.get(playersUrl)
       .map(res => res.json())
       .map(data => {
@@ -394,13 +394,15 @@ export class ComparisonStatsService {
     }
   }
 
-  private getNumericValue(key: string, value: number): number {
-    value = Number(value);
+  private getNumericValue(key: string, value: string): number {
+    if ( value == null ) return null;
+
+    var num = Number(value);
     switch (key) {
-      case "batAverage": return Number(value.toFixed(3));
-      case "batOnBasePercentage": return Number(value.toFixed(3));
-      case "pitchEra": return Number(value.toFixed(2));
-      default: return value;
+      case "batAverage": return Number(num.toFixed(3));
+      case "batOnBasePercentage": return Number(num.toFixed(3));
+      case "pitchEra": return Number(num.toFixed(2));
+      default: return num;
     }
   }
 }
