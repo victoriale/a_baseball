@@ -45,10 +45,41 @@ class Color {
     return "#" + Color.decimalToHex(this.red, 2) + Color.decimalToHex(this.green, 2) + Color.decimalToHex(this.blue, 2);
   }
 
-  adjust(adjustColor: number) {
-    return new Color(this.red * adjustColor, this.green * adjustColor, this.blue * adjustColor);
+  static ColorLuminance(hex, lum){
+  	// validate hex string
+  	hex = String(hex).replace(/[^0-9a-f]/gi, '');
+  	if (hex.length < 6) {
+  		hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+  	}
+  	lum = lum || 0;
+
+  	// convert to decimal and change luminosity
+  	var rgb = "#", c, i;
+  	for (i = 0; i < 3; i++) {
+  		c = parseInt(hex.substr(i*2,2), 16);
+  		c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
+  		rgb += ("00"+c).substr(c.length);
+  	}
+    console.log("rgb", rgb);
+  	return rgb;
   }
-}
+
+  // function to check if given color is light or dark
+  // if light/dark then give a value to darken/lighten the color by 0.5
+  static lightOrDark(colorStr:string):number {
+    var epsilon = 255;
+    var color = Color.parseColor(colorStr);
+    var hsp = Math.abs(Math.sqrt(299 * color.red * color.red + 0.587 * color.green * color.green + 0.114 * color.blue * color.green));
+    var pointValue = 0;
+    if(hsp > 127.5){
+      pointValue = -0.5;
+    } else {
+      pointValue = 0.5;
+    }
+    return pointValue;
+  }// lightOrDark ends
+
+}//COLOR ends
 
 export class Gradient {
   static getGradientStyles(colorStrings: Array<string>, alpha?: number): any {
@@ -122,23 +153,26 @@ export class Gradient {
       throw new Error("Invalid colorSetTwo - it must contain a least one string");
     }
     var colorOne = colorSetOne[0];
-    var colorTwo = colorSetTwo[0]
+    var colorTwo = colorSetTwo[0];
+    //If the first set of colors are closed
     if ( Gradient.areColorsClose(colorOne, colorTwo) ) {
-      if ( colorSetTwo.length >= 2) {
-        colorTwo = colorSetTwo[1];
-        if(colorSetTwo.length > 2){
-          if ( Gradient.areColorsClose(colorOne, colorTwo) ) {
-            colorTwo = colorSetTwo[2];
-          } else {
-            colorTwo = colorSetTwo[0];
-          }
+      // colorTwo = Color.ColorLuminance(colorTwo, Color.lightOrDark(colorTwo));
+      if( colorSetTwo.length >= 2 && colorSetTwo[1] != ""){
+        colorTwo = colorSetTwo[1]; //get second color of set 2 if first colors are closed to each other
+        //check if the second color is closed with the first color of set 1
+        if ( Gradient.areColorsClose(colorOne, colorTwo) ) {
+          //get third color if available or get the darken/lighten color of the second color of the second set
+          colorTwo = colorSetTwo.length > 2 ? colorSetTwo[2] : Color.ColorLuminance(colorSetTwo[1], Color.lightOrDark(colorTwo));
         }
-      } else if ( colorSetOne.length >=2 ) {
-        colorOne = colorSetOne[1];
-      }
-      else {
-        //darken
-        colorTwo = Color.parseColor(colorSetTwo[0]).adjust(.5).toHexFormat();
+      } else {//if there's no more than 2 colors for set 2, then check for set 1 if there's more than 1 color
+        if( colorSetOne.length >= 2 && colorSetTwo[1] != ""){
+          colorOne = colorSetOne[1];//get the second color of the first set
+          if ( Gradient.areColorsClose(colorOne, colorTwo) ) {//check if the second color of the first set is close to the color of the second set, then darken the color of the second set
+            colorOne = Color.ColorLuminance(colorSetTwo[1], Color.lightOrDark(colorOne));
+          }
+        } else {//else there's only one color of the first set, then darken/lighten the color of second set
+          colorTwo = Color.ColorLuminance(colorTwo, Color.lightOrDark(colorTwo));
+        }
       }
     }
     return [colorOne, colorTwo];
