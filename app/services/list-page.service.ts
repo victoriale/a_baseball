@@ -272,7 +272,7 @@ export class ListPageService {
 
         carouselItem = SliderCarousel.convertToCarouselItemType2(index, {
           isPageCarousel: profileType == 'page',
-          backgroundImage: val.backgroundImage,
+          backgroundImage: GlobalSettings.getImageUrl(val.backgroundImage),
           copyrightInfo: GlobalSettings.getCopyrightInfo(),
           profileNameLink: profileLinkText,
           description: description,

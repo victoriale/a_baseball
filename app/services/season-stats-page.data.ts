@@ -302,18 +302,12 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
   isRowSelected(item:TeamSeasonStatsData, rowIndex:number): boolean {
     return null;
   }
-
-  // getCellData(item:TeamSeasonStatsData, column:TableColumn): CellData {
-  //   var display = this.getDisplayValueAt(item, column);
-  //   var sort = this.getSortValueAt(item, column);
-  //   var link: Array<any> = this.getRouterLinkAt(item, column);
-  //   return new CellData(display, sort, link);
-  // }
   
   getCellData(item:TeamSeasonStatsData, column:TableColumn):CellData {
     var display = "";
     var sort = null;
     var link = undefined;
+    var isTotalColumn = item['sectionStat'] != null;
 
     switch (column.key) {
       case "year":
@@ -322,8 +316,12 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
         break;
 
       case "team":
-        let avgTotal = item['sectionStat'] != null && item['sectionStat'] == "Average" ? "Total Average" : "Total";
-        display = item['sectionStat'] == null ? item.teamInfo.teamName : avgTotal.toUpperCase() + ":";
+        if ( isTotalColumn ) {
+          display = (item['sectionStat'] == "Average" ? "Total Average" : "Total").toUpperCase() + ":";       
+        }
+        else {
+          display = item.teamInfo.teamName;
+        }        
         sort = item.teamInfo.teamName;
         link = MLBGlobalFunctions.formatTeamRoute(item.teamInfo.teamName,item.teamInfo.teamId);
         break;
@@ -411,6 +409,9 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
         break;
     }
     display = display != null ? display : "N/A";
+    if ( isTotalColumn ) {
+      sort = null; // don't sort total column
+    }
     return new CellData(display, sort, link);
   }
 

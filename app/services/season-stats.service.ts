@@ -185,7 +185,8 @@ export class SeasonStatsService {
         minValue: worstValue != null ? Number(this.formatValue(fieldName, worstValue.statValue)) : null,
         maxValue: leaderValue != null ? Number(this.formatValue(fieldName, leaderValue.statValue)) : null,
         info: infoIcon != null ? infoIcon : null,
-        infoBoxDetails: infoBox
+        infoBoxDetails: infoBox,
+        qualifierLabel: SeasonStatsService.getQualifierLabel(fieldName)
       });
     }
     return bars;
@@ -258,6 +259,20 @@ export class SeasonStatsService {
       // subImageUrl: GlobalSettings.getImageUrl(data.playerInfo.teamLogo),
       // subImageRoute: teamRoute
     });
+  }
+
+  static getQualifierLabel(key: string): string {
+    switch (key) {
+      case "pitchBasesOnBalls": 
+      case "pitchHits":
+      case "pitchEra":
+      case "pitchEarnedRuns":
+      case "pitchHomeRunsAllowed": 
+        return "A lower number indicates a stronger performance.";
+
+      default: 
+        return null;
+    }
   }
 
   private getKeyDisplayTitle(key: string): string {

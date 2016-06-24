@@ -6,6 +6,7 @@ import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
 import {GlobalSettings} from '../global/global-settings';
 import {Gradient} from '../global/global-gradient';
+import {SeasonStatsService} from './season-stats.service';
 
 import {ComparisonModuleData} from '../modules/comparison/comparison.module';
 import {ComparisonBarInput} from '../components/comparison-bar/comparison-bar.component';
@@ -221,7 +222,7 @@ export class ComparisonStatsService {
 
   getPlayerList(teamId: string): Observable<Array<{key: string, value: string, class: string}>> {
     //http://dev-homerunloyal-api.synapsys.us/team/comparisonRoster/2800
-    let playersUrl = this._apiUrl + "/team/comparisonRoster/" + teamId;
+    let playersUrl = this._apiUrl + "/team/comparisonRoster/" + teamId;    
     return this.http.get(playersUrl)
       .map(res => res.json())
       .map(data => {
@@ -344,7 +345,7 @@ export class ComparisonStatsService {
 
       for ( var i = 0; i < fields.length; i++ ) {
         var key = fields[i];
-        var title = this.getKeyDisplayTitle(key);
+        var title = ComparisonStatsService.getKeyDisplayTitle(key);
 
         seasonBarList.push({
           title: title,
@@ -358,7 +359,8 @@ export class ComparisonStatsService {
             fontWeight: '700'
           }],
           minValue: worstStats != null ? this.getNumericValue(key, worstStats[key]) : null,
-          maxValue: bestStats != null ? this.getNumericValue(key, bestStats[key]) : null
+          maxValue: bestStats != null ? this.getNumericValue(key, bestStats[key]) : null,
+          qualifierLabel: SeasonStatsService.getQualifierLabel(key)
         });
       }
 
@@ -367,7 +369,7 @@ export class ComparisonStatsService {
     return bars;
   }
 
-  private getKeyDisplayTitle(key: string): string {
+  static getKeyDisplayTitle(key: string): string {
     switch (key) {
       case "batHomeRuns": return "Home Runs";
       case "batAverage": return "Batting Average";
@@ -394,13 +396,15 @@ export class ComparisonStatsService {
     }
   }
 
-  private getNumericValue(key: string, value: number): number {
-    value = Number(value);
+  private getNumericValue(key: string, value: string): number {
+    if ( value == null ) return null;
+
+    var num = Number(value);
     switch (key) {
-      case "batAverage": return Number(value.toFixed(3));
-      case "batOnBasePercentage": return Number(value.toFixed(3));
-      case "pitchEra": return Number(value.toFixed(2));
-      default: return value;
+      case "batAverage": return Number(num.toFixed(3));
+      case "batOnBasePercentage": return Number(num.toFixed(3));
+      case "pitchEra": return Number(num.toFixed(2));
+      default: return num;
     }
   }
 }
