@@ -1,5 +1,47 @@
 import {CircleImageData} from '../../components/images/image-data';
 
+export class CellData {  
+  /**
+   * The formatted value to display in the cell
+   */
+  display: string;
+  
+  /**
+   * The value used to sort the cell within the column
+   */
+  sort: any;
+  
+  /**
+   * (Optional) The route that the cell should be linked to (with <a>) 
+   */
+  routerLink: Array<any>;
+  
+  /**
+   * (Optional) The image configuration to use. 
+   * 
+   */
+  image: CircleImageData;
+  
+  
+  constructor(display: string, sort: any, routerLink?: Array<any>, imageUrl?: string) {
+    this.display = display;
+    this.sort = sort;
+    this.routerLink = routerLink;
+    if ( imageUrl ) {
+      this.image = {
+        imageClass: "image-48",
+        mainImage: {
+          imageUrl: imageUrl,
+          imageClass: "border-1",
+          urlRouteArray: routerLink,
+          hoverText: "<i class='fa fa-mail-forward'></i>",
+        },
+        subImages: []
+      };
+    }
+  }
+}
+
 export interface TableModel<T> {  
   columns: Array<TableColumn>;
   
@@ -11,17 +53,7 @@ export interface TableModel<T> {
   
   isRowSelected(item:T, rowIndex:number): boolean;
   
-  getDisplayValueAt(item:T, column:TableColumn):string;
-  
-  getSortValueAt(item:T, column:TableColumn):any;
-  
-  getImageConfigAt(item:T, column:TableColumn):CircleImageData;
-  
-  getRouterLinkAt(item:T, column:TableColumn):Array<any>;
-  
-  hasImageConfigAt(column:TableColumn):boolean;
-  
-  hasRouterLinkAt(column:TableColumn):boolean;
+  getCellData(item:T, column:TableColumn): CellData;
 }
 
 /**
@@ -77,45 +109,4 @@ export interface TableColumn {
    * Otherwise (if not included) columns will sort as normal 
    */
   ignoreSort?: boolean;
-}
-
-export interface TableRow {
-  /** 
-   * A hashmap of TableCells to display for the row. The key for
-   * a cell should match the corresponding column's key (defined 
-   * in the TableColumn object).   
-   */
-  cells: { [key:string]: TableCell }
-  
-  /**
-   * Set isSelected to true if a particular row should be highlighted as selected.
-   * The class '.custom-table-row-selected' is used to style selected rows which
-   * defaults to @masterBrandColor for the background and @white for the foreground. 
-   */
-  isSelected?: boolean;
-}
-
-export interface TableCell {
-  /**
-   * The sortValue is used to sort the rows when the column headers are clicked. 
-   * If the column is numeric (ie, the corresponding TableColumn has
-   * isNumericType set to true), then the sortValue should be a number and it 
-   * will be sorted numerically. Otherwise, sortValue should be a string which
-   * will be sorted alphabetically. 
-   */
-  sortValue: any;
-  
-  /**
-   * The displayValue is what gets displayed in the table for the cell and 
-   * HTML elements are supported. No further formatting is applied to the values,
-   * so values such as phone numbers, prices, and percents must be formatted as
-   * such before setting the displayHtml string.
-   */
-  displayHtml: string;
-  
-  /** 
-   * If a table cell contains a profile image, the configuration for that image
-   * is set here. The images are inserted to the left of the displayHtml
-   */
-  profileImageConfig?: CircleImageData
 }

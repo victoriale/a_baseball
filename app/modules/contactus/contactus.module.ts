@@ -17,6 +17,9 @@ export class ContactUsModule{
     formSubmit(data){
         //Validate form inputs
         try{
+            if(data.description === null && data.email === null && data.name === null){
+                throw 'Please enter your name, email, and a detailed description';
+            }
             if(data.name === null){
                 throw 'Please enter your name in the Full Name field.';
             }

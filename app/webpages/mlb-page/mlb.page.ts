@@ -210,7 +210,7 @@ export class MLBPage implements OnInit {
             },
             err => {
                 this.hasError = true;
-                console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
+                console.log("Error getting team profile data for mlb", err);
             }
         );
     }
@@ -283,7 +283,7 @@ export class MLBPage implements OnInit {
             this.faqData = data;
         },
         err => {
-            console.log("Error getting faq data");
+            console.log("Error getting faq data for mlb", err);
         });
    }
     private getNewsService() {
@@ -354,7 +354,8 @@ export class MLBPage implements OnInit {
     }
 
     private draftHistoryModule(year: number) {
-      this._draftService.getDraftHistoryService(year, null, 'module')
+      var errorMessage = "Sorry, " + this.profileHeaderData.profileName + " does not currently have any data for the " + year + " draft history";
+      this._draftService.getDraftHistoryService(year, null, errorMessage, 'module')
         .subscribe(
             draftData => {
                 var dataArray, detailedDataArray, carouselDataArray;
@@ -372,7 +373,7 @@ export class MLBPage implements OnInit {
                     listData: detailedDataArray,
                     carData: carouselDataArray,
                     errorData: {
-                        data: "Sorry, " + this.profileHeaderData.profileName + " does not currently have any data for the " + year + " draft history",
+                        data: errorMessage,
                         icon: "fa fa-remove"
                     }
                 }

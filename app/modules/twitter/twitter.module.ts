@@ -31,7 +31,6 @@ export class TwitterModule implements OnInit, OnChanges, AfterContentChecked {
     if ( window['twttr'] && !this.twitterLoaded ) {
       if ( document.getElementById("twitter-href") ) {
         var a = document.getElementById("twitter-href");
-        console.log("loading " + a.getAttribute("data-widget-id") + " and " + a.getAttribute("href"));
         window['twttr'].widgets.load();
         this.twitterLoaded = true;
       }

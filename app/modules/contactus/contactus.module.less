@@ -11,10 +11,6 @@
     font-size: 12px;
     font-weight: 800;
     margin-bottom: 10px;
-
-    &:first-letter{
-      color: @masterBrandColor;
-    }
   }
 
   &-question{
@@ -74,6 +70,7 @@
 
     &:focus{
       outline-color: @masterBrandColor;
+      font-style: normal;
     }
   }
 
@@ -88,6 +85,9 @@
       border: none;
       background-color: @masterBrandColor;
       float: right;
+      &:hover{
+        background-color: @black;
+      }
       &:focus{
         outline: none;
       }
@@ -99,7 +99,9 @@
       background-color: transparent;
       border: none;
       margin: 8px 55px 8px 0px;
-      cursor: pointer;
+      &:hover{
+        color: @masterBrandColor;
+      }
       &:focus{
         outline: none;
       }
