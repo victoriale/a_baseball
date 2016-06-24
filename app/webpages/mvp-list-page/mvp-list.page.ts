@@ -72,11 +72,11 @@ export class MVPListPage implements OnInit {
   ngOnInit(){
     this.profileHeaderData = {
       imageURL: GlobalSettings.getSiteLogoUrl(), //TODO
+      imageRoute: ["MLB-page"],
       text1: 'Last Updated: ',//+ GlobalFunctions.formatUpdatedDate(data.listData[0].lastUpdate),
       text2: 'United States',
       text3: "MLB's Most Valuable Players",
-      icon: 'fa fa-map-marker',
-      hasHover : true,
+      icon: 'fa fa-map-marker'
     };
 
     this._profileService.getMLBProfile()

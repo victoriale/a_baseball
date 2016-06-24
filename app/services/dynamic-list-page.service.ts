@@ -58,12 +58,13 @@ export class DynamicWidgetCall {
           var profHeader= {
             // Old placeholder image:  http://www.myinvestkit.com/StateImages/Location_National.jpg
             imageURL : GlobalSettings.getSiteLogoUrl(),
+            imageRoute: ["MLB-page"],
             text1 : 'Last Updated: ' + moment(data.date).format('dddd, MMMM Do, YYYY'),
             text2 : ' United States',
             text3 : data.title,
             text4 : '',
             icon: 'fa fa-map-marker',
-            hasHover: false
+            hasHover: true
           };
           return {
             profHeader: profHeader,

@@ -31,7 +31,6 @@ declare var moment;
 })
 
 export class SchedulesPage implements OnInit{
-  whatProfile:string = "Schedules";
   profileHeaderData: TitleInputData;
   errorData: any;
   paginationParameters:any;
@@ -66,21 +65,9 @@ export class SchedulesPage implements OnInit{
       .subscribe(
           data => {
             this._title.setTitle(GlobalSettings.getPageTitle("Schedules", data.teamName));
-            var profHeader = {
-              data:{
-                imageURL: data.fullProfileImageUrl, //TODO
-
-                text1: 'Last Updated:' + moment(data.headerData.lastUpdated).format('dddd MMMM Do, YYYY'), //TODO
-                text2: 'United States',
-                text3: 'Current Season Schedule - '+ data.teamName,
-                icon: 'fa fa-map-marker',
-                hasHover : true,
-              },
-              error: data.teamName + " has no record of anymore games for the current season."
-            };
-            this.profileHeaderData = profHeader.data;
+            this.profileHeaderData = this.profHeadService.convertTeamPageHeader(data, "Current Season Schedule - " + data.teamName);
             this.errorData = {
-              data: profHeader.error,
+              data: data.teamName + " has no record of any more games for the current season.",
               icon: "fa fa-calendar-times-o"
             }
           },
@@ -108,17 +95,22 @@ export class SchedulesPage implements OnInit{
       this.profHeadService.getMLBProfile()
       .subscribe(
           data => {
-            var profHeader = this.profHeadService.convertMLBHeader(data, this.whatProfile);
-            this.profileHeaderData = profHeader.data;
+            var currentDate = new Date();// no stat for date so will grab current year client is on
+            var display:string;
+            if(currentDate.getFullYear() == currentDate.getFullYear()){// TODO must change once we have historic data
+              display = "Current Season"
+            }
+            var pageTitle = display + " Schedules - " + data.profileName1;
+            this.profileHeaderData = this.profHeadService.convertMLBHeader(data, pageTitle);
             this.errorData = {
-              data:data,
+              data: data.profileName1 + " has no record of any more games for the current season.",
               icon: "fa fa-remove"
             }
           },
           err => {
             this.isError= true;
-              console.log('Error: Schedules Profile Header API: ', err);
-              // this.isError = true;
+            console.log('Error: Schedules Profile Header API: ', err);
+            // this.isError = true;
           }
       );
       this._schedulesService.getSchedulesService('league', status, 10, pageNum)

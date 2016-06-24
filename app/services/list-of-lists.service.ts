@@ -54,19 +54,25 @@ export class ListOfListsService {
       )
       .map(
         data => {
+          var lastUpdated = "";
+          if ( data && data.data && data.data.length > 0 ) {
+            lastUpdated = data.data[0].targetData;lastUpdated;
+          }
           if(version == 'module'){
             return {
               carData: this.carDataPage(data.data, version, type),
               listData: this.detailedData(data.data, version, type),
               targetData: this.getTargetData(data.data),
-              pagination: data.data[0].listInfo
+              pagination: data.data[0].listInfo,
+              lastUpdated: lastUpdated
             };
           }else{
             return {
               carData: this.carDataPage(data.data, version, type),
               listData: this.detailedData(data.data, version, type),
               targetData: this.getTargetData(data.data),
-              pagination: data.data[0].listInfo
+              pagination: data.data[0].listInfo,
+              lastUpdated: lastUpdated
             };
           }
         },

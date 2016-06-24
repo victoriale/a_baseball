@@ -40,8 +40,7 @@ export class DisclaimerPage {
           text2 : ' United States',
           text3 : this.pageName + "'s Disclaimer",
           text4 : '',
-          icon: 'fa fa-map-marker',
-          hasHover: false
+          icon: 'fa fa-map-marker'
       };
 
       var subpath = this._router.generate(["Contact-us-page"]).toRootUrl();
