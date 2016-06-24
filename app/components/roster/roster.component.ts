@@ -31,6 +31,8 @@ export class RosterComponent implements DoCheck {
 
   private selectedTabTitle: string;
 
+  private selectedKey: string;
+
   public noDataMessage: string = "This team is a National League team and has no designated hitters.";
 
   public footerStyle = {
@@ -57,6 +59,9 @@ export class RosterComponent implements DoCheck {
       else {
         let selectedTab = this.getSelectedTab();
         if ( selectedTab && !this.tabsLoaded[selectedTab.title] ) {
+          if ( selectedTab.tableData ) {
+            selectedTab.tableData.setSelectedKey(this.selectedKey);
+          }
           this.updateCarousel();
           this.tabsLoaded[selectedTab.title] = "1";
         }
@@ -85,6 +90,9 @@ export class RosterComponent implements DoCheck {
     if ( selectedTab ) {
       this.noDataMessage = selectedTab.errorMessage;
       selectedTab.loadData();
+      if ( selectedTab.tableData ) {
+        selectedTab.tableData.setSelectedKey(this.selectedKey);
+      }
       this.updateCarousel();
     }
   }
@@ -98,8 +106,9 @@ export class RosterComponent implements DoCheck {
       }
       let selectedTab = matchingTabs[0];
       let table = selectedTab.tableData;
-      if ( selectedIndex < table.rows.length ) {
+      if ( selectedIndex < table.rows.length ) {        
         table.setRowSelected(selectedIndex);
+        this.selectedKey = table.getSelectedKey();
       }
     }
   }

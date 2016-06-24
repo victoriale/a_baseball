@@ -206,13 +206,21 @@ export class RosterTableModel implements TableModel<TeamRosterData> {
 
   rows: Array<TeamRosterData>;
 
-  selectedKey:string = "";
+  selectedKey: string = "";
 
   constructor(rows: Array<TeamRosterData>) {
     this.rows = rows;
     if ( this.rows === undefined || this.rows === null ) {
       this.rows = [];
     }
+  }
+
+  setSelectedKey(key: string) {
+    this.selectedKey = key;
+  }
+
+  getSelectedKey(): string {
+    return this.selectedKey;
   }
 
   setRowSelected(rowIndex:number) {
@@ -268,101 +276,4 @@ export class RosterTableModel implements TableModel<TeamRosterData> {
     }
     return new CellData(display, sort, link, imageUrl);
   }
-
-  // getDisplayValueAt(item:TeamRosterData, column:TableColumn):string {
-  //   let self = this;
-  //   var display = "";
-  //   switch (column.key) {
-  //     case "name":
-  //       display = item.playerLastName + ', ' + item.playerFirstName;
-  //       break;
-
-  //     case "pos":
-  //       display = typeof item.position[0] == 'undefined' ? "N/A" : item.position.join(', ');
-  //       break;
-
-  //     case "ht":
-  //       display = typeof item.height == 'undefined' ? "N/A" : MLBGlobalFunctions.formatHeight(item.height);
-  //       break;
-
-  //     case "wt":
-  //       display = typeof item.weight == 'undefined' ? "N/A" : item.weight + " lbs.";
-  //       break;
-
-  //     case "age":
-  //     display = typeof item.age == 'undefined' ? "N/A" : item.age.toString();
-  //       break;
-
-  //     case "sal":
-  //       display = item.salary == null ? "N/A" : "$" + GlobalFunctions.nFormatter(Number(item.salary));
-  //       break;
-  //   }
-  //   return display;
-  // }
-
-  // getSortValueAt(item:TeamRosterData, column:TableColumn):any {
-  //   var sort = null;
-  //   switch (column.key) {
-  //       case "name":
-  //         sort = item.playerName;
-  //         break;
-
-  //       case "pos":
-  //         sort = item.position != null ? item.position.toString() : null;
-  //         break;
-
-  //       case "ht":
-  //         sort = item.heightInInches != null ? Number(item.heightInInches) : null;
-  //         break;
-
-  //       case "wt":
-  //         sort = item.weight != null ? Number(item.weight) : null;
-  //         break;
-
-  //       case "age":
-  //       sort = item.age != null ? Number(item.age) : null;
-  //         break;
-
-  //       case "sal":
-  //         sort = item.salary != null ? Number(item.salary) : null;
-  //         break;
-  //     }
-  //     return sort;
-  // }
-
-  // getImageConfigAt(item:TeamRosterData, column:TableColumn):CircleImageData {
-  //   if ( column.key === "name" ) {
-  //     return {
-  //         imageClass: "image-50",
-  //         mainImage: {
-  //           imageUrl: GlobalSettings.getImageUrl(item.playerHeadshot),
-  //           imageClass: "border-2",
-  //           urlRouteArray: MLBGlobalFunctions.formatPlayerRoute(item.teamName,item.playerName,item.playerId.toString()),
-  //           hoverText: "<i class='fa fa-mail-forward'></i>",
-  //         },
-  //         subImages: []
-  //       };
-  //   }
-  //   else {
-  //     return undefined;
-  //   }
-  // }
-
-  // hasImageConfigAt(column:TableColumn):boolean {
-  //   return column.key === "name";
-  // }
-
-  // getRouterLinkAt(item:TeamRosterData, column:TableColumn):Array<any> {
-  //   if ( column.key === "name" ) {
-  //     return MLBGlobalFunctions.formatPlayerRoute(item.teamName,item.playerName,item.playerId.toString());
-  //   }
-  //   else {
-  //     return undefined;
-  //   }
-
-  // }
-
-  // hasRouterLinkAt(column:TableColumn):boolean {
-  //   return column.key === "name";
-  // }
 }

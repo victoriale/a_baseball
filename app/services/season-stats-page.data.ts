@@ -280,7 +280,16 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
         key: "slg"
       }]
     };
+  }  
+
+  setSelectedKey(key: string) {
+    this.selectedKey = key;
   }
+
+  getSelectedKey(): string {
+    return this.selectedKey;
+  }
+
   setRowSelected(rowIndex:number) {
     if ( rowIndex >= 0 && rowIndex < this.rows.length ) {
       this.selectedKey = this.rows[rowIndex].playerInfo.playerId;

@@ -201,6 +201,14 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
     }
   }
 
+  setSelectedKey(key: string) {
+    this.selectedKey = Number(key);
+  }
+
+  getSelectedKey(): string {
+    return this.selectedKey.toString();
+  }
+
   setRowSelected(rowIndex:number) {
     if ( rowIndex >= 0 && rowIndex < this.rows.length ) {
       this.selectedKey = this.rows[rowIndex].teamId;

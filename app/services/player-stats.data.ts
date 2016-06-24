@@ -269,6 +269,14 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
     };
   }
 
+  setSelectedKey(key: string) {
+    this.selectedKey = key;
+  }
+
+  getSelectedKey(): string {
+    return this.selectedKey;
+  }
+
   setRowSelected(rowIndex:number) {
     if ( rowIndex >= 0 && rowIndex < this.rows.length ) {
       this.selectedKey = this.rows[rowIndex].playerId;
