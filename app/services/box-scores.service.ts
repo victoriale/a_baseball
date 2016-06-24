@@ -187,6 +187,7 @@ export class BoxScoresService {
         homeID:homeData.id,
         homeLocation:homeData.firstName, // first name of team usually represents the location
         homeLogo:homeLogo,
+        url:homeRoute,
         homeLosses:homeData.lossRecord,
         homeName:homeData.lastName,
         homeWins:homeData.winRecord
@@ -196,6 +197,7 @@ export class BoxScoresService {
         awayID:awayData.id,
         awayLocation:awayData.firstName,
         awayLogo: awayLogo,
+        url:awayRoute,
         awayLosses:awayData.lossRecord,
         awayName:awayData.lastName,
         awayWins:awayData.winRecord
