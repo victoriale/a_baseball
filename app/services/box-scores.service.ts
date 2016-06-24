@@ -34,6 +34,11 @@ export class BoxScoresService {
   }else{
     teamId = '';
   }
+  //player profile are treated as teams
+  if(profile == 'player'){
+    profile = 'team'
+  }
+
   //date needs to be the date coming in AS EST and come back as UTC
   var callURL = this._apiUrl+'/'+profile+'/boxScores'+teamId+'/'+ date;
   // console.log(callURL);
@@ -60,8 +65,8 @@ export class BoxScoresService {
             let currentBoxScores = {
               scoreBoard: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null ? this.formatScoreBoard(data.transformedDate[dateParam.date][0]) : null,
               moduleTitle: this.moduleHeader(dateParam.date, profileName),
-              gameInfo: data.transformedDate[dateParam.date] != null ? this.formatGameInfo(data.transformedDate[dateParam.date],dateParam.teamId): null,
-              schedule: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null? this.formatSchedule(data.transformedDate[dateParam.date][0], dateParam.teamId) : null,
+              gameInfo: data.transformedDate[dateParam.date] != null ? this.formatGameInfo(data.transformedDate[dateParam.date],dateParam.teamId, dateParam.profile): null,
+              schedule: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null? this.formatSchedule(data.transformedDate[dateParam.date][0], dateParam.teamId, dateParam.profile) : null,
               // aiContent: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null? this.formatArticle(data.transformedDate[dateParam.date][0]) : null,
             };
             currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
@@ -70,11 +75,11 @@ export class BoxScoresService {
     }
     else {
       let currentBoxScores = {
-        scoreBoard: dateParam.profile != 'league' ? this.formatScoreBoard(boxScoresData.transformedDate[dateParam.date][0]) : null,
+        scoreBoard: dateParam.profile != 'league' && boxScoresData.transformedDate[dateParam.date] != null ? this.formatScoreBoard(boxScoresData.transformedDate[dateParam.date][0]) : null,
         moduleTitle: this.moduleHeader(dateParam.date, profileName),
-        gameInfo: this.formatGameInfo(boxScoresData.transformedDate[dateParam.date], dateParam.teamId),
-        schedule: dateParam.profile != 'league' ? this.formatSchedule(boxScoresData.transformedDate[dateParam.date][0], dateParam.teamId) : null,
-        // aiContent: dateParam.profile != 'league' ? this.formatArticle(boxScoresData.transformedDate[dateParam.date][0]) : null,
+        gameInfo: boxScoresData.transformedDate[dateParam.date] != null ? this.formatGameInfo(boxScoresData.transformedDate[dateParam.date],dateParam.teamId, dateParam.profile): null,
+        schedule: dateParam.profile != 'league' && boxScoresData.transformedDate[dateParam.date] != null? this.formatSchedule(boxScoresData.transformedDate[dateParam.date][0], dateParam.teamId, dateParam.profile) : null,
+        // aiContent: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null? this.formatArticle(data.transformedDate[dateParam.date][0]) : null,
       };
       currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
       callback(boxScoresData, currentBoxScores);
@@ -83,7 +88,12 @@ export class BoxScoresService {
 
   moduleHeader(date, team?){
     var moduleTitle;
-    var convertedDate = moment(date,"YYYY-MM-DD").tz('America/New_York').format("MMMM Do, YYYY");
+    var month = moment(date,"YYYY-MM-DD").tz('America/New_York').format("MMMM");
+    var day = moment(date,"YYYY-MM-DD").tz('America/New_York').format("D");
+    var ordinal = moment(date,"YYYY-MM-DD").tz('America/New_York').format("D");
+    ordinal = '<sup>' + GlobalFunctions.Suffix(ordinal) + '</sup>';
+    var year = moment(date,"YYYY-MM-DD").tz('America/New_York').format("YYYY");
+    var convertedDate = month + day + ordinal + ', ' + year;
 
     moduleTitle = "Box Scores - " + team + ' : ' +convertedDate;
     return {
@@ -104,6 +114,12 @@ export class BoxScoresService {
   }else{
     teamId = '';
   }
+
+  //player profile are treated as teams
+  if(profile == 'player'){
+    profile = 'team'
+  }
+
   var callURL = this._apiUrl+'/'+profile+'/gameDatesWeekly'+teamId+'/'+ date;
   // console.log(callURL);
   return this.http.get(callURL, {headers: headers})
@@ -121,6 +137,10 @@ export class BoxScoresService {
     teamId = '/' + teamId;
   }else{
     teamId = '';
+  }
+  //player profile are treated as teams
+  if(profile == 'player'){
+    profile = 'team'
   }
 
   var callURL = this._apiUrl+'/'+profile+'/gameDates'+teamId+'/'+ date;//localToEST needs tobe the date coming in AS UNIX
@@ -147,19 +167,21 @@ export class BoxScoresService {
   }
 
     //TO MATCH HTML the profile client is on will be detected by teamID and a left and right format will be made with the home and away team data
-  formatSchedule(data, teamId?){
+  formatSchedule(data, teamId?, profile?){
     let awayData = data.awayTeamInfo;
     let homeData = data.homeTeamInfo;
     var left, right;
     var homeRoute = MLBGlobalFunctions.formatTeamRoute(homeData.name, homeData.id);
     var awayRoute = MLBGlobalFunctions.formatTeamRoute(awayData.name, awayData.id);
+    if(profile == 'team'){
       if(teamId == homeData.teamId){
-        var homeLogo = this.imageData("image-62", "border-logo", GlobalSettings.getImageUrl(homeData.logo), null);
-        var awayLogo = this.imageData("image-62", "border-logo", GlobalSettings.getImageUrl(awayData.logo), awayRoute);
+        homeRoute = null;
       }else{
-        var homeLogo = this.imageData("image-62", "border-logo", GlobalSettings.getImageUrl(homeData.logo), homeRoute);
-        var awayLogo = this.imageData("image-62", "border-logo", GlobalSettings.getImageUrl(awayData.logo), null);
+        awayRoute = null;
       }
+    }
+      var homeLogo = this.imageData("image-62", "border-logo", GlobalSettings.getImageUrl(homeData.logo), homeRoute);
+      var awayLogo = this.imageData("image-62", "border-logo", GlobalSettings.getImageUrl(awayData.logo), awayRoute);
       right = {
         homeHex:homeData.colors.split(', ')[0], //parse out comma + space to grab only hex colors
         homeID:homeData.id,
@@ -185,7 +207,7 @@ export class BoxScoresService {
     };
   }
 
-  formatGameInfo(game, teamId?){
+  formatGameInfo(game, teamId?, profile?){
     var gameArray:Array<any> = [];
     let self = this;
     var twoBoxes = [];// used to put two games into boxes
@@ -194,19 +216,23 @@ export class BoxScoresService {
       let awayData = data.awayTeamInfo;
       let homeData = data.homeTeamInfo;
       let gameInfo = data.gameInfo;
-      if(teamId != null){//if league then both items will link
-        var aiContent = self.formatArticle(data);
+      let homeLink = MLBGlobalFunctions.formatTeamRoute(homeData.name, homeData.id);
+      let awayLink = MLBGlobalFunctions.formatTeamRoute(awayData.name, awayData.id);
+      var aiContent = data.aiContent != null ? self.formatArticle(data):null;
+      if(teamId != null && profile == 'team'){//if league then both items will link
         if(homeData.id == teamId){//if not league then check current team they are one
-          //imageData(imageClass, imageBorder, mainImg, mainImgRoute?, rank?, rankClass?, subImgClass?, subImg?, subRoute?)
+          homeLink = null;
           var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo))
-          var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo), MLBGlobalFunctions.formatTeamRoute(awayData.name, awayData.id))
+          var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo), awayLink)
         }else{
-          var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo), MLBGlobalFunctions.formatTeamRoute(homeData.name, homeData.id))
+          awayLink = null;
+          var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo), homeLink)
           var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo))
         }
       }else{
-        var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo), MLBGlobalFunctions.formatTeamRoute(homeData.name, homeData.id))
-        var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo), MLBGlobalFunctions.formatTeamRoute(awayData.name, awayData.id))
+        var aiContent = data.aiContent != null ? self.formatArticle(data):null;
+        var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo), homeLink)
+        var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo), awayLink)
       }
 
       let gameDate = data.gameInfo;
@@ -239,8 +265,8 @@ export class BoxScoresService {
         inning:inningTitle,
         homeData:{
           homeTeamName: homeData.lastName,
-          //imageData(imageClass, imageBorder, mainImg, mainImgRoute?, rank?, rankClass?, subImgClass?, subImg?, subRoute?)
           homeImageConfig:link1,
+          homeLink: homeLink,
           homeRecord: homeWin +'-'+ homeLoss,
           runs:homeData.score,
           hits:homeData.hits,
@@ -249,6 +275,7 @@ export class BoxScoresService {
         awayData:{
           awayTeamName:awayData.lastName,
           awayImageConfig:link2,
+          awayLink: awayLink,
           awayRecord: awayWin +'-'+ awayLoss,
           runs:awayData.score,
           hits:awayData.hits,
