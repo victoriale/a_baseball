@@ -148,7 +148,7 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
                     "</span> and a <span class='text-heavy'>" + (item.batSluggingPercentage != null ? item.batSluggingPercentage.toPrecision(3) : "N/A") +
                     " Slugging Percentage</span>" + temporalInfo + "."];
     }
-    return SliderCarousel.convertToSliderCarouselItem(index, {
+    return SliderCarousel.convertToCarouselItemType1(index, {
       backgroundImage: item.fullBackgroundImageUrl,
       copyrightInfo: GlobalSettings.getCopyrightInfo(),
       subheader: [subHeaderYear, teamLinkText, " Player Stats"],

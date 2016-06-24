@@ -99,7 +99,7 @@ export class DraftHistoryService {
 
         var rank = (index+1).toString();
         var location = GlobalFunctions.toTitleCase(val.city) + ', ' + GlobalFunctions.stateToAP(val.area);
-        var carouselItem = SliderCarousel.convertListItemToSliderCarouselItem(index, {
+        var carouselItem = SliderCarousel.convertToCarouselItemType2(index, {
           isPageCarousel: false, 
           backgroundImage: GlobalSettings.getImageUrl(val.backgroundImage),
           copyrightInfo: GlobalSettings.getCopyrightInfo(),

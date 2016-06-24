@@ -143,7 +143,7 @@ export class MLBSeasonStatsTabData implements TableTabData<TeamSeasonStatsData> 
       text: playerData.teamName
     }
 
-    return SliderCarousel.convertToSliderCarouselItem(index, {
+    return SliderCarousel.convertToCarouselItemType1(index, {
       backgroundImage: playerData.liveImage != null ? GlobalSettings.getImageUrl(playerData.liveImage) : dummyImg,
       copyrightInfo: GlobalSettings.getCopyrightInfo(),
       subheader: [item.seasonId + " Season Stats Report"],

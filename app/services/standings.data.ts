@@ -126,7 +126,7 @@ export class MLBStandingsTabData implements StandingsTableTabData<TeamStandingsD
         route: teamRoute,
         text: item.teamName
     };
-    return SliderCarousel.convertToSliderCarouselItem(index, {
+    return SliderCarousel.convertToCarouselItemType1(index, {
       backgroundImage: item.fullBackgroundImageUrl,
       copyrightInfo: GlobalSettings.getCopyrightInfo(),
       subheader: [item.seasonId + " Season " + item.groupName + " Standings"],

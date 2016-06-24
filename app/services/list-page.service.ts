@@ -270,7 +270,7 @@ export class ListPageService {
           ];
         }
 
-        carouselItem = SliderCarousel.convertListItemToSliderCarouselItem(index, {
+        carouselItem = SliderCarousel.convertToCarouselItemType2(index, {
           isPageCarousel: profileType == 'page',
           backgroundImage: val.backgroundImage,
           copyrightInfo: GlobalSettings.getCopyrightInfo(),
@@ -282,15 +282,7 @@ export class ListPageService {
           circleImageRoute: primaryRoute,
           rank: val.rank
         });
-
-        // if(profileType == 'page'){ //removed from design spec
-        //   carouselItem.footerInfo = {
-        //     infoDesc: ctaDesc,
-        //     text: 'View Profile',
-        //     url: primaryRoute
-        //   }
-        // }
-
+        
         return carouselItem;
       });
     }

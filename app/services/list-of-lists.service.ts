@@ -59,7 +59,7 @@ export class ListOfListsService {
             lastUpdated = data.data[0].targetData;
           }
           return {
-            carData: this.carDataPage(data.data, version, type),
+            carData: this.carDataPage(data.data, type),
             listData: this.detailedData(data.data, version, type),
             targetData: this.getTargetData(data.data),
             pagination: data.data[0].listInfo,
@@ -74,76 +74,86 @@ export class ListOfListsService {
   }
 
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
-  carDataPage(data, version, type): Array<SliderCarouselInput>{
+  carDataPage(data, pageType: string): Array<SliderCarouselInput>{
     let self = this;
     var carouselArray = [];
-    var dummyImg = GlobalSettings.getImageUrl("/mlb/players/no-image.png");
 
     if(data.length == 0){
-      var Carousel = {
-        index:'2',
-        imageConfig: self.imageData("image-150","border-large",dummyImg,'',"image-50-sub",dummyImg,'',1, false),
-        description:[
-          '<p style="font-size:20px"><b>Sorry, we currently do not have any data for this list.</b><p>',
-        ],
-      };
-      carouselArray.push(Carousel);
+      carouselArray.push(SliderCarousel.convertToEmptyCarousel("Sorry, we currently do not have any data for this list."));
     }else{
       //if data is coming through then run through the transforming function for the module
       data.forEach(function(val, index){
         if( val.listData[0] == null) return;
-        let itemInfo          = val['listInfo'];
+        let itemInfo          = val.listInfo;
         let itemTargetData    = val.targetData;
-        let itemProfile       = itemTargetData.playerName != null ? itemTargetData.playerName : itemTargetData.teamName;
-        let itemImgUrl        = itemTargetData.imageUrl != null ? GlobalSettings.getImageUrl(itemTargetData.imageUrl) : GlobalSettings.getImageUrl(itemTargetData.teamLogo);
-        let itemRoute         = version == "page"               ? MLBGlobalFunctions.formatPlayerRoute(itemTargetData.teamName, itemTargetData.playerName, itemTargetData.playerId) : MLBGlobalFunctions.formatTeamRoute(itemTargetData.teamName, itemTargetData.teamId);
-        let itemSubImg        = type == "player"                ? MLBGlobalFunctions.formatTeamLogo(itemTargetData.teamName) : null;
-        let itemSubRoute      = type == "player"                ? MLBGlobalFunctions.formatTeamRoute(itemTargetData.teamName, itemTargetData.teamId) : null;
-        let itemHasHover      = version == "page";
-        let ctaUrlArray       = itemInfo.url.split("/");
+        let itemProfile       = null;
+        let itemImgUrl        = null;
+        let itemRoute         = null;
+        let itemSubImg        = null;
+        let itemSubRoute      = null;
+        // let itemHasHover      = version == "page";
+        // let ctaUrlArray       = itemInfo.url.split("/");
         let itemStatName      = (itemInfo.stat).replace(/-/g," ");
-        let updatedDate       = moment(itemTargetData.lastUpdated).format('dddd, MMMM Do, YYYY');
-        let itemDescription   = "";
-        let rankStr           = itemTargetData.rank;
-        rankStr += GlobalFunctions.Suffix(rankStr);
+        // let updatedDate       = moment(itemTargetData.lastUpdated).format('dddd, MMMM Do, YYYY');
+        let itemDescription   = [];
+        let rankStr = itemTargetData.rank + GlobalFunctions.Suffix(Number(itemTargetData.rank));
+        let profileLinkText;
 
-        if( type == "player"){
-          itemDescription += "<b>"+ itemProfile + "</b> is currently ranked <b>"+ rankStr +"</b> in the <b>"+ itemInfo.scope +"</b> with the most <b>" + itemStatName + "</b>.";
-        }else{
-          itemDescription += "The <b>"+ itemProfile + "</b> are currently ranked <b>"+ rankStr +"</b> in the <b>"+ itemInfo.scope +"</b> with the most <b>" + itemStatName + "</b>.";
+        if( pageType == "player") {
+          itemProfile       = itemTargetData.playerName;
+          itemImgUrl        = GlobalSettings.getImageUrl(itemTargetData.imageUrl);
+          itemRoute         = MLBGlobalFunctions.formatPlayerRoute(itemTargetData.teamName, itemTargetData.playerName, itemTargetData.playerId);
+          itemSubImg        = MLBGlobalFunctions.formatTeamLogo(itemTargetData.teamName);
+          itemSubRoute      = MLBGlobalFunctions.formatTeamRoute(itemTargetData.teamName, itemTargetData.teamId);
+          profileLinkText   = {
+            route: itemRoute,
+            text: itemProfile
+          };
+          itemDescription   = [profileLinkText, " is currently ranked <b>"+ rankStr +"</b> in the <b>"+ itemInfo.scope +"</b> with the most <b>" + itemStatName + "</b>."];
+        } else if ( pageType == "team" ) {
+          itemProfile       = itemTargetData.teamName;
+          itemImgUrl        = GlobalSettings.getImageUrl(itemTargetData.teamLogo);
+          itemRoute         = MLBGlobalFunctions.formatTeamRoute(itemTargetData.teamName, itemTargetData.teamId);
+          profileLinkText   = {
+            route: itemRoute,
+            text: itemProfile
+          };
+          itemDescription   = ["The ", profileLinkText, " are currently ranked <b>"+ rankStr +"</b> in the <b>"+ itemInfo.scope +"</b> with the most <b>" + itemStatName + "</b>."];
+        }
+        else {//MLB version
+          itemProfile       = "MLB";
+          itemImgUrl        = GlobalSettings.getSiteLogoUrl();
+          itemRoute         = ["MLB-page"];
+          profileLinkText   = {
+            route: itemRoute,
+            text: itemProfile
+          };
         }
 
-        // removes first empty item and second "list" item
-        ctaUrlArray.splice(0,2);
-        ctaUrlArray.push.apply(ctaUrlArray,["10","1"]);
+        var carouselItem = SliderCarousel.convertToCarouselItemType1(index, {
+          backgroundImage: itemTargetData.backgroundImage ? GlobalSettings.getImageUrl(itemTargetData.backgroundImage) : null,
+          copyrightInfo: GlobalSettings.getCopyrightInfo(),
+          subheader: ["Related List - ", profileLinkText],
+          profileNameLink: {text: itemInfo.name},
+          description: itemDescription,
+          lastUpdatedDate: GlobalFunctions.formatUpdatedDate(itemTargetData.lastUpdated),
+          circleImageUrl: itemImgUrl,
+          circleImageRoute: itemRoute,
+          rank: itemTargetData.rank,
+          rankClass: "image-48-rank"
+        });
 
-        var profileLinkText = {
-          route: ctaUrlArray,
-          text: itemInfo.name
-        };
-
-        var carouselItem = {
-          index:'2',
-          // imageData(imageClass, imageBorder, mainImg, mainImgRoute, subImgClass?, subImg?, subRoute?, rank?, hasHover?){
-          imageConfig: self.imageData("image-150", "border-large", itemImgUrl , itemRoute,"image-50-sub", itemSubImg, itemSubRoute, itemTargetData.rank, itemHasHover),
-          description:[
-            '<p class="font-12 fw-400 lh-12 titlecase"><i class="fa fa-circle"></i> Related List - ' + itemProfile + '</p>',
-            '<p class="font-22 fw-800 lh-25" style="padding-bottom:16px;">'+ itemInfo.name +'</p>',
-            '<p class="font-14 fw-400 lh-18" style="padding-bottom:6px;">'+ itemDescription +'<p>',
-            '<p class="font-10 fw-400 lh-25">Last Updated on '+ updatedDate +'</p>'
-          ],
-          footerInfo: {
-            infoDesc  :'Interested in discovering more about this ' + type +'?',
-            text      :'View This List',
-            url       : MLBGlobalFunctions.formatListRoute(ctaUrlArray)
-            //url:['Team-page',{teamName:'team-name-here', teamId: '2796'}],//NEED TO CHANGE
-          }
-        };
-        carouselItem.footerInfo = {
-          infoDesc  :'Interested in discovering more about this ' + type +'?',
-          text      :'View This List',
-          url       : MLBGlobalFunctions.formatListRoute(ctaUrlArray)
-        };
+        // var carouselItem = {
+        //   index:'2',
+        //   // imageData(imageClass, imageBorder, mainImg, mainImgRoute, subImgClass?, subImg?, subRoute?, rank?, hasHover?){
+        //   imageConfig: self.imageData("image-150", "border-large", itemImgUrl , itemRoute,"image-50-sub", itemSubImg, itemSubRoute, itemTargetData.rank, itemHasHover),
+        //   description:[
+        //     '<p class="font-12 fw-400 lh-12 titlecase"><i class="fa fa-circle"></i> Related List - ' + itemProfile + '</p>',
+        //     '<p class="font-22 fw-800 lh-25" style="padding-bottom:16px;">'+ itemInfo.name +'</p>',
+        //     '<p class="font-14 fw-400 lh-18" style="padding-bottom:6px;">'+ itemDescription +'<p>',
+        //     '<p class="font-10 fw-400 lh-25">Last Updated on '+ updatedDate +'</p>'
+        //   ],
+        // };
         carouselArray.push(carouselItem);
       });
     }

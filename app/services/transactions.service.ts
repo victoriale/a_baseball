@@ -174,7 +174,7 @@ export class TransactionsService {
   }
 
   getEmptyCarousel(tab: TransactionTabData): Array<SliderCarouselInput> {    
-    return [SliderCarousel.convertToSliderCarouselItem(2, {
+    return [SliderCarousel.convertToCarouselItemType1(2, {
       backgroundImage: null,
       copyrightInfo: GlobalSettings.getCopyrightInfo(),
       subheader: [tab.tabDisplay + ' Report'],
@@ -211,7 +211,7 @@ export class TransactionsService {
           route: playerRoute,
           text: val.playerName
         };
-        return SliderCarousel.convertToSliderCarouselItem(index, {
+        return SliderCarousel.convertToCarouselItemType1(index, {
           backgroundImage: val.backgroundImage != null ? GlobalSettings.getImageUrl(val.backgroundImage) : null,
           copyrightInfo: GlobalSettings.getCopyrightInfo(),
           subheader: [tab.tabDisplay + ' Report - ', teamLinkText],
