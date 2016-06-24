@@ -186,6 +186,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
        },{
          headerValue: "TIME",
          columnClass: "date-column",
+         ignoreSort: true,
          key: "t"
        },{
          headerValue: "AWAY",
@@ -218,6 +219,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
            headerValue: "RESULTS",
            columnClass: "data-column results-column",
            isNumericType: false,
+           ignoreSort: true,
            key: "r"
          },{
            headerValue: "GAME SUMMARY",
@@ -235,6 +237,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
          },{
            headerValue: "TIME",
            columnClass: "date-column",
+           ignoreSort: true,
            key: "t"
          },{
            headerValue: "OPPOSING TEAM",
@@ -287,25 +290,25 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
   isRowSelected(item:SchedulesData, rowIndex:number): boolean {
     return this.selectedKey == item.eventId;
   }
-  
+
   getCellData(item:SchedulesData, column:TableColumn):CellData {
     var display = "";
     var sort: any = null;
     var link: Array<any> = null;
     var imageUrl: string = null;
     var isLocation = false;
-    
+
     var hdrColumnKey = column.key;
     if ( column.key == "opp" ) {
-        hdrColumnKey = this.curTeam == item.homeTeamId ? "away" : "home"; 
+        hdrColumnKey = this.curTeam == item.homeTeamId ? "away" : "home";
     }
-    
+
     switch (hdrColumnKey) {
       case "date":
-        display = GlobalFunctions.formatDateWithAPMonth(item.startDateTimestamp, "", "DD");        
+        display = GlobalFunctions.formatDateWithAPMonth(item.startDateTimestamp, "", "DD");
         sort = item.startDateTimestamp;
         break;
-        
+
       case "t":
         display = moment(item.startDateTimestamp).tz('America/New_York').format('h:mm') + " <sup> "+moment(item.startDateTimestamp).tz('America/New_York').format('A')+" </sup>";
         sort = item.startDateTimestamp;
@@ -369,13 +372,13 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
         }else{
           display = item.awayOutcome.charAt(0).toUpperCase() + " " + item.awayScore + " - " + item.homeScore;
         }
-        sort = item.homeOutcome;
+        sort = Number(item.homeScore);
         break;
 
       case "rec":
         //shows the record of the current teams game at that time
         display = item.targetTeamWinsCurrent + " - " + item.targetTeamLossesCurrent;
-        sort = item.homeScore;
+        sort = Number(item.targetTeamWinsCurrent);
         break;
     }
     if ( isLocation ) {
