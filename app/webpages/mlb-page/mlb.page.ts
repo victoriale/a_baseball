@@ -283,7 +283,7 @@ export class MLBPage implements OnInit {
             this.faqData = data;
         },
         err => {
-            console.log("Error getting faq data");
+            console.log("Error getting faq data for mlb", err);
         });
    }
     private getNewsService() {
