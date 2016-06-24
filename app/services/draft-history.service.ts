@@ -119,13 +119,13 @@ export class DraftHistoryService {
           circleImageRoute: playerRoute,
           rank: rank
         });
-        if(type == 'page'){
-          carouselItem.footerInfo = {
-            infoDesc:'Interested in discovering more about this player?',
-            text:'View Profile',
-            url:playerRoute,
-          }
-        }
+        // if(type == 'page'){ //removed from spec
+        //   carouselItem.footerInfo = {
+        //     infoDesc:'Interested in discovering more about this player?',
+        //     text:'View Profile',
+        //     url:playerRoute,
+        //   }
+        // }
         carouselArray.push(carouselItem);
       });
     }
