@@ -247,7 +247,7 @@ export class SliderCarousel implements OnInit {
         description: [
           {//[Profile Name 1]
             class: item.isPageCarousel ? 'scc-details-type2-page-hdr' : 'scc-details-type2-hdr',
-            textData: [item.profileNameLink]
+            textData: item.profileNameLink ? [item.profileNameLink] : []
           },
           {//data value list
             class: 'scc-details-type2-desc',
@@ -255,11 +255,11 @@ export class SliderCarousel implements OnInit {
           },
           {//[Data Value 1]
             class: 'scc-details-type2-value',
-            textData: [item.dataValue]
+            textData: item.dataValue ? [item.dataValue] : []
           },
           {//[Data Point 1]
             class: 'scc-details-type2-lbl',
-            textData: [item.dataLabel]
+            textData: item.dataLabel ? [item.dataLabel] : []
           }
         ],
       imageConfig: {

@@ -244,7 +244,7 @@ export class TeamPage implements OnInit {
             },
             err => {
                 this.hasError = true;
-                console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
+                console.log("Error getting team profile data for " + this.pageParams.teamId, err);
             }
         );
     }

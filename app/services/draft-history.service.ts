@@ -88,15 +88,17 @@ export class DraftHistoryService {
     var carouselArray = [];
     var dummyImg = "/app/public/no-image.png";
     if(data.length == 0){//if no data is being returned then show proper Error Message in carousel
-      var Carousel = {
-        index:'2',
-        //TODO
-        imageConfig: ListPageService.imageData("carousel", dummyImg, null, 1),
-        description:[
-          "<p style='font-size:20px'><b>Sorry, we currently do not have any data for this year's draft history</b><p>",
-        ],
-      };
-      carouselArray.push(Carousel);
+      carouselArray.push(SliderCarousel.convertListItemToSliderCarouselItem(2, {
+        isPageCarousel: false, 
+        backgroundImage: null,
+        copyrightInfo: null,
+        profileNameLink: null,
+        description: ["Sorry, we currently do not have any data for this year's draft history"],
+        dataValue: null,
+        dataLabel: null,
+        circleImageUrl: dummyImg,
+        circleImageRoute: null 
+      }));
     }else{
       //if data is coming through then run through the transforming function for the module
       data.forEach(function(val, index){
