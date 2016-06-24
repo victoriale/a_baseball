@@ -8,7 +8,7 @@
   &-carousel{
     width:calc(~'100% - 40px');
     height:auto;
-    padding:5px 15px;
+    padding:3px 15px;
     .flexDisplay;
     .flexDirection(row);
     .flexJustify(space-between);
@@ -22,10 +22,11 @@
     &-select{
       .no-select;
       width:60px;
-      height:40px;
+      height:44px;
       text-align: center;
       font-size: 10px;
       border-radius: 5px;
+      padding:3px 0 5px;
       &.active{
         color:@white;
         background-color: @masterBrandColor;
@@ -72,15 +73,16 @@
       color:@fontIconGrey;
       line-height: 2em;
       cursor: pointer;
-      &:hover{
-        color:@masterBrandColor;
-      }
     }
+    &:hover i{
+      color:@masterBrandColor;
+    }
+
   }
   &-circles{
     @hoverColor: @masterBrandColor;
     @circleColor:@bulletGrey;//from base.less
-    font-size: 28px;
+    font-size: 30px;
     font-weight: 400;
     color: @circleColor;
     cursor: pointer;
@@ -89,7 +91,8 @@
     width: 40px;
     height: 40px;
     text-align: center;
-    padding-top: 4px;
+    padding-top: 3px;
+    margin:2px 0;
     z-index: 1;
     .no-select;
 

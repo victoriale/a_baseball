@@ -23,8 +23,6 @@ export class BoxScoresModule implements OnChanges{
   constructor(){}
 
   dateTransfer(event){
-    console.log('RECEIVE',event);
-    console.log('NOW EMIT',event);
     this.dateEmit.next(event);
   }
 

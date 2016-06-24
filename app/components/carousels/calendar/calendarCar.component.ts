@@ -98,9 +98,7 @@ export class CalendarCarousel implements OnInit{
         val.active = false;
       })
       event.active = true;
-      console.log('selected',event);
       this.chosenParam.date = event.fullDate;
-      console.log('setActive', this.chosenParam);
       this.dateEmit.emit(this.chosenParam);//sends through output so date can be used outside of component
     }
   }
@@ -234,8 +232,6 @@ export class CalendarCarousel implements OnInit{
         //sets new params and emit the date
         let params = this.chosenParam;
         this.curDateView = {profile: params.profile, teamId: params.teamId, date: params.date};
-        console.log('EMITTING',this.chosenParam);
-        console.log('EMITTING',{profile: params.profile, teamId: params.teamId, date: params.date});
         this.dateEmit.emit({profile: params.profile, teamId: params.teamId, date: params.date});//esmit variable that has been validated
       }
     }
