@@ -33,8 +33,6 @@ export class StandingsPage implements OnInit {
   public pageParams: MLBPageParameters = {}
   
   public titleData: TitleInputData;
-  
-  public titleImageData: ImageData
 
   public profileLoaded: boolean = false;
   public hasError: boolean = false;
@@ -66,40 +64,29 @@ export class StandingsPage implements OnInit {
           this.profileLoaded = true;
           this.pageParams = data.pageParams; 
           this._title.setTitle(GlobalSettings.getPageTitle("Standings", data.teamName));
-          this.setupTitleData(data.fullProfileImageUrl, data.pageParams.teamId.toString(), data.teamName);          
+
+          var title = this._standingsService.getPageTitle(this.pageParams, data.teamName);
+          this.titleData = this._profileService.convertTeamPageHeader(data, title)          
           this.tabs = this._standingsService.initializeAllTabs(this.pageParams);
         },
         err => {
           this.hasError = true;
-          console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
+          console.log("Error getting team profile data for " + this.pageParams.teamId, err);
         }
       );
     }
     else {
       this._title.setTitle(GlobalSettings.getPageTitle("Standings", "MLB"));
-      this.setupTitleData(GlobalSettings.getSiteLogoUrl());
+      var title = this._standingsService.getPageTitle(this.pageParams, null);
+      this.titleData = this.titleData = {
+        imageURL: GlobalSettings.getSiteLogoUrl(),
+        imageRoute: ["MLB-page"],
+        text1: "",
+        text2: "United States",
+        text3: title,
+        icon: "fa fa-map-marker"
+      }
       this.tabs = this._standingsService.initializeAllTabs(this.pageParams);
-    }
-  }
-  
-  private setupTitleData(imageUrl: string, teamId?: string, teamName?: string) {
-    var profileLink = ["MLB-page"];
-    if ( teamId ) {
-      profileLink = MLBGlobalFunctions.formatTeamRoute(teamName, teamId);
-    }
-    var title = this._standingsService.getPageTitle(this.pageParams, teamName);
-    this.titleData = {
-      imageURL: imageUrl,
-      text1: "",
-      text2: "United States",
-      text3: title,
-      icon: "fa fa-map-marker"
-    };
-    this.titleImageData = {
-      imageUrl: imageUrl,
-      urlRouteArray: profileLink,
-      hoverText: "<p>View</p><p>Profile</p>",
-      imageClass: "border-2"
     }
   }
   

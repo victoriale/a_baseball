@@ -32,6 +32,7 @@
   &-box{//game-box
     width:100%;
     height:55px;
+    background-color: @white;
     .flexDisplay;
     &:nth-child(2){
       border-top: 1px solid @strokeGrey;
@@ -68,6 +69,12 @@
             font-weight: 800;
             color:@black;
             line-height: 18px;
+            &:hover{
+              &.link{
+                color:@masterBrandColor;
+                cursor: pointer;
+              }
+            }
           }
           &:nth-child(2){
             font-size: 12px;

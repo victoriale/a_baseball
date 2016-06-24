@@ -1,13 +1,14 @@
 import {Component, Input, ViewChildren, OnChanges, EventEmitter, Output} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {TableHeader} from '../../components/custom-table/table-header.component';
-import {TableModel, TableColumn} from '../../components/custom-table/table-data.component';
+import {TableCell} from '../../components/custom-table/table-cell.component';
+import {TableModel, TableColumn, CellData} from '../../components/custom-table/table-data.component';
 import {CircleImage} from '../../components/images/circle-image';
 
 @Component({
   selector: 'custom-table',
   templateUrl: './app/components/custom-table/custom-table.component.html',
-  directives: [TableHeader, CircleImage, ROUTER_DIRECTIVES]
+  directives: [TableHeader, TableCell, CircleImage, ROUTER_DIRECTIVES]
 })
 
 export class CustomTable implements OnChanges {
@@ -34,8 +35,6 @@ export class CustomTable implements OnChanges {
    * the column being sorted. If no values are set for the footer, 
    * it will not be displayed.
    * 
-   * 
-   * 
    * The footer style (.custom-table-footer) defaults to 12px bold and centered. 
    */
   footer: { [key: string]: string };
@@ -60,14 +59,18 @@ export class CustomTable implements OnChanges {
       return;
     }
     
+    this.columns = this.model.columns;
+    
     var sortedColumn = null;
     var columnIndex = 0;
     
-    this.model.columns.forEach((col) => {
+    this.columns.forEach((col) => {
       if ( col.sortDirection && !sortedColumn ) {
         sortedColumn = col;
       }
     });
+    
+    // this.updateRows();
     
     if ( sortedColumn !== null ) {
       this.sortRows(sortedColumn);
@@ -94,8 +97,8 @@ export class CustomTable implements OnChanges {
   
   sortRows(tableHdr:TableColumn) {
     this.model.rows.sort((row1, row2) => {
-      var value1 = this.model.getSortValueAt(row1, tableHdr);
-      var value2 = this.model.getSortValueAt(row2, tableHdr);
+      var value1 = this.model.getCellData(row1, tableHdr).sort;
+      var value2 = this.model.getCellData(row2, tableHdr).sort;
       
       if ( value1 == null || value2 == null ) {
         return value1 == null ? (value2 == null ? 0 : 1) : -1;

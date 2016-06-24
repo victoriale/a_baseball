@@ -36,8 +36,6 @@ export class SeasonStatsPage implements OnInit {
 
   public titleData: TitleInputData;
 
-  public titleImageData: ImageData
-
   constructor(private _params: RouteParams,
               private _profileService: ProfileHeaderService,
               private _seasonStatsPageService: SeasonStatsPageService,
@@ -48,26 +46,23 @@ export class SeasonStatsPage implements OnInit {
     var playerId = _params.get("playerId");
     this.pageParams.playerId = Number(playerId);
   }
-  private setupTitleData(imageUrl: string, playerId?: string, playerName?: string) {
+
+  private setupTitleData(imageUrl: string, teamName: string, playerId: string, playerName: string) {
     var profileLink = ["MLB-page"];
     if ( playerId ) {
-      profileLink = MLBGlobalFunctions.formatTeamRoute(playerName, playerId);
+      profileLink = MLBGlobalFunctions.formatPlayerRoute(teamName, playerName, playerId);
     }
     var title = this._seasonStatsPageService.getPageTitle(this.pageParams, playerName);
     this.titleData = {
       imageURL: imageUrl,
+      imageRoute: profileLink,
       text1: "",
       text2: "United States",
       text3: title,
       icon: "fa fa-map-marker"
     };
-    this.titleImageData = {
-      imageUrl: imageUrl,
-      urlRouteArray: profileLink,
-      hoverText: "<p>View</p><p>Profile</p>",
-      imageClass: "border-2"
-    }
   }
+
   ngOnInit() {
     if ( this.pageParams.playerId ) {
       this._profileService.getPlayerProfile(this.pageParams.playerId).subscribe(
@@ -75,7 +70,7 @@ export class SeasonStatsPage implements OnInit {
           this.profileLoaded = true;
           this.pageParams = data.pageParams;
           this._title.setTitle(GlobalSettings.getPageTitle("Season Stats", data.headerData.info.playerName));
-          this.setupTitleData(data.fullProfileImageUrl, data.pageParams.playerId.toString(), data.pageParams['playerName']);
+          this.setupTitleData(data.fullProfileImageUrl, data.headerData.info.teamName, data.pageParams.playerId.toString(), data.headerData.info.playerName);
           this.tabs = this._seasonStatsPageService.initializeAllTabs(this.pageParams);
         },
         err => {
@@ -84,11 +79,6 @@ export class SeasonStatsPage implements OnInit {
           console.log("Error getting season stats data: " + err);
         }
       );
-    }
-    else {
-      this._title.setTitle(GlobalSettings.getPageTitle("Season Stats", "MLB"));
-      this.setupTitleData(GlobalSettings.getSiteLogoUrl());
-      this.tabs = this._seasonStatsPageService.initializeAllTabs(this.pageParams);
     }
   }
 

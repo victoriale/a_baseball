@@ -87,7 +87,6 @@ export class MVPListComponent implements DoCheck  {
   updateCarousel(tab: MVPTabData) {    
     if ( tab.listData.length == 0 ) {
       this.carouselDataArray = tab.getCarouselData()
-      this.carouselDataArray[0]['description'][0] = '<br><span class="text-heavy" style="font-size:20px">'+tab.errorData.data+'</span>';
     }
     else {
       this.carouselDataArray = tab.getCarouselData();

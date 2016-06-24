@@ -63,7 +63,7 @@ import {ImagesService} from "../../services/carousel.service";
 import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.module";
 import {ListOfListsService} from "../../services/list-of-lists.service";
 
-import {TransactionsModule} from "../../modules/transactions/transactions.module";
+import {TransactionsModule, TransactionModuleData} from "../../modules/transactions/transactions.module";
 import {TransactionsService} from "../../services/transactions.service";
 import {DailyUpdateModule} from "../../modules/daily-update/daily-update.module";
 import {DailyUpdateService, DailyUpdateData} from "../../services/daily-update.service";
@@ -147,8 +147,8 @@ export class TeamPage implements OnInit {
     currentBoxScores:any;
     dateParam:any;
 
-    transactionsData:any;
-    currentYear: number;
+    transactionsData:TransactionModuleData;
+    currentYear: any;
 
     schedulesData:any;
 
@@ -182,7 +182,6 @@ export class TeamPage implements OnInit {
         this.pageParams = {
             teamId: Number(_params.get("teamId"))
         };
-        this.currentYear = new Date().getFullYear();
 
         GlobalSettings.getPartnerID(_router, partnerID => {
             this.partnerID = partnerID;
@@ -190,7 +189,9 @@ export class TeamPage implements OnInit {
     }
 
     ngOnInit() {
-      var currentUnixDate = new Date().getTime();
+      var currDate = new Date();
+      this.currentYear = currDate.getFullYear();
+      var currentUnixDate = currDate.getTime();
       //convert currentDate(users local time) to Unix and push it into boxScoresAPI as YYYY-MM-DD in EST using moment timezone (America/New_York)
       this.dateParam ={
         profile:'team',//current profile page
@@ -222,10 +223,10 @@ export class TeamPage implements OnInit {
                 /*** Keep Up With Everything [Team Name] ***/
                 this.getBoxScores(this.dateParam);
                 this.getSchedulesData('pre-event');//grab pre event data for upcoming games
-                this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams, data.teamName);
+                this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams, this.pageParams.teamId, data.teamName);
                 this.rosterData = this._rosterService.loadAllTabsForModule(this.pageParams.teamId, data.teamName, this.pageParams.conference);
                 this.playerStatsData = this._playerStatsService.loadAllTabsForModule(this.pageParams.teamId, data.teamName);
-                this.transactionsModule(this.currentYear, this.pageParams.teamId);
+                this.transactionsData = this._transactionsService.loadAllTabsForModule(data.teamName, this.pageParams.teamId);
                 this.draftHistoryModule(this.currentYear, this.pageParams.teamId);
                 //this.loadMVP
                 this.setupComparisonData();
@@ -243,7 +244,7 @@ export class TeamPage implements OnInit {
             },
             err => {
                 this.hasError = true;
-                console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
+                console.log("Error getting team profile data for " + this.pageParams.teamId, err);
             }
         );
     }
@@ -285,7 +286,7 @@ export class TeamPage implements OnInit {
                     this.faqData = data;
                 },
                 err => {
-                    console.log("Error getting faq data");
+                    console.log("Error getting faq data for team", err);
                 });
     }
 
@@ -386,28 +387,9 @@ export class TeamPage implements OnInit {
         // this.draftData = this.teamPage.draftHistoryModule(event, this.teamId);
     }
 
-    private transactionsTab(event) {
-      let transactionType;
-      switch( event ){
-        case "Transactions":
-          transactionType = "transactions";
-          break;
-        case "Suspensions":
-          transactionType = "suspensions";
-          break;
-        case "Injuries":
-          transactionType = "injuries";
-          break;
-        default:
-          console.error("Supplied transaction name was not found.");
-          transactionType = "transactions";
-          break;
-      }
-      this.transactionsModule(transactionType, this.pageParams.teamId);
-    }
-
     private draftHistoryModule(year: number, teamId: number) {
-        this._draftService.getDraftHistoryService(year, teamId, 'module')
+        var errorMessage = "Sorry, the " + this.profileHeaderData.profileName + " do not currently have any data for the " + year + " draft history";
+        this._draftService.getDraftHistoryService(year, teamId, errorMessage, 'module')
             .subscribe(
                 draftData => {
                     var dataArray, detailedDataArray, carouselDataArray;
@@ -425,7 +407,7 @@ export class TeamPage implements OnInit {
                         listData: detailedDataArray,
                         carData: carouselDataArray,
                         errorData: {
-                            data: "Sorry, the " + this.profileHeaderData.profileName + " do not currently have any data for the " + year + " draft history",
+                            data: errorMessage,
                             icon: "fa fa-remove"
                         }
                     }
@@ -437,37 +419,17 @@ export class TeamPage implements OnInit {
             );
     }
 
-  private transactionsModule(transactionType, teamId) {
-    this._transactionsService.getTransactionsService(transactionType, teamId, 'module')
-      .subscribe(
-        transactionsData => {
-          var dataArray, transactionsDataArray, carouselDataArray;
-          if (typeof dataArray == 'undefined') {//makes sure it only runs once
-            dataArray = transactionsData.tabArray;
-          }
-          if (transactionsData.listData.length == 0) {//makes sure it only runs once
-            transactionsDataArray = false;
-          } else {
-            transactionsDataArray = transactionsData.listData;
-          }
-          carouselDataArray = transactionsData.carData
-          return this.transactionsData = {
-            tabArray: dataArray,
-            listData: transactionsDataArray,
-            carData: carouselDataArray,
-            errorData: {
-              data: "Sorry, the " + this.profileHeaderData.profileName + " do not currently have any data for "+ transactionType + ".",
-              icon: "fa fa-remove"
+    private transactionsTab(tab) {
+        this._transactionsService.getTransactionsService(tab, this.pageParams.teamId, 'module')
+        .subscribe(
+            transactionsData => {
+                //do nothing
+            },
+            err => {
+            console.log('Error: transactionsData API: ', err);
             }
-          }
-        },
-        err => {
-          console.log('Error: transactionsData API: ', err);
-          // this.isError = true;
-        }
-      );
-  }
-
+        );
+    }
 
     setupListOfListsModule() {
         // getListOfListsService(version, type, id, scope?, count?, page?){

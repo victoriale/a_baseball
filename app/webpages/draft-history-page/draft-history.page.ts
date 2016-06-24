@@ -31,11 +31,12 @@ export class DraftHistoryPage implements OnInit{
   dataArray: any;//array of data for detailed list
   detailedDataArray: Array<DetailListInput>; //variable that is just a list of the detailed DataArray
   carouselDataArray: Array<SliderCarouselInput>;
-  carouselFooter: any = {
-    ctaBoxClass: "list-footer",
-    ctaBtnClass:"list-footer-btn",
-    hasIcon: true,
-  };
+  // carouselFooter: any = {
+  //   ctaBoxClass: "list-footer",
+  //   ctaBtnClass:"list-footer-btn",
+  //   hasIcon: true,
+  // };
+  profileName: string;
   teamId: number;
   isError: boolean = false;
   constructor(private draftService:DraftHistoryService, 
@@ -43,20 +44,25 @@ export class DraftHistoryPage implements OnInit{
               private params: RouteParams, 
               private _title: Title) {
     _title.setTitle(GlobalSettings.getPageTitle("Draft History"));
-    this.teamId = Number(this.params.params['teamId']);
+    if ( this.params.params['teamId'] ) {
+      this.teamId = Number(this.params.params['teamId']);
+    }
   }
 
-  getProfileInfo() {    
+  getProfileInfo() {
+    //MLB starts and ends in same year so can use current year logic to grab all current season and back 4 years for tabs
+    var currentTab = new Date().getFullYear();
+
+    if ( this.teamId ) {
       this.profHeadService.getTeamProfile(this.teamId)
       .subscribe(
           data => {
             this._title.setTitle(GlobalSettings.getPageTitle("Draft History", data.teamName));
-            var profHeader = this.profHeadService.convertTeamPageHeader(data, this.whatProfile);
-            this.profileHeaderData = profHeader.data;
-            this.errorData = {
-              data: profHeader.error,
-              icon: "fa fa-remove"
-            }
+            var stats = data.headerData.stats;
+            var pageNameForTitle = stats.teamName + " " + stats.seasonId + " - " + this.whatProfile;
+            this.profileHeaderData = this.profHeadService.convertTeamPageHeader(data, pageNameForTitle);
+            this.profileName = stats.teamName;
+            this.getDraftPage(currentTab);
           },
           err => {
             this.isError= true;
@@ -64,42 +70,51 @@ export class DraftHistoryPage implements OnInit{
               // this.isError = true;
           }
       );
+    }
+    else {
+      this.profHeadService.getMLBProfile()
+      .subscribe(
+          data => {
+            this._title.setTitle(GlobalSettings.getPageTitle("Draft History", data.profileName1));
+            this.profileHeaderData = this.profHeadService.convertMLBHeader(data, this.whatProfile);
+            this.profileName = "MLB";
+            this.getDraftPage(currentTab);
+          },
+          err => {
+            this.isError= true;
+              console.log('Error: draftData Profile Header API: ', err);
+          }
+      );
+    }
   }
 
   getDraftPage(date) {
-      this.draftService.getDraftHistoryService(date, this.teamId, 'page')
-          .subscribe(
-              draftData => {
-                if(typeof this.dataArray == 'undefined'){//makes sure it only runs once
-                  this.dataArray = draftData.tabArray;
-                }
-                if(draftData.listData.length == 0){//makes sure it only runs once
-                  this.detailedDataArray = null;
-                }else{
-                  this.detailedDataArray = draftData.listData;
-                }
-                this.carouselDataArray = draftData.carData;
-              },
-              err => {
-                this.isError= true;
-                  console.log('Error: draftData API: ', err);
-                  // this.isError = true;
+    this.errorData = {
+      data: "Sorry, " + (this.teamId ? "the " + this.profileName + " do" : "MLB does") + " not currently have any data for the " + date + " " + this.whatProfile,
+      icon: "fa fa-remove"
+    }
+    this.draftService.getDraftHistoryService(date, this.teamId, this.errorData.data, 'page')
+        .subscribe(
+            draftData => {
+              if(typeof this.dataArray == 'undefined'){//makes sure it only runs once
+                this.dataArray = draftData.tabArray;
               }
-          );
+              if(draftData.listData.length == 0){//makes sure it only runs once
+                this.detailedDataArray = null;
+              }else{
+                this.detailedDataArray = draftData.listData;
+              }
+              this.carouselDataArray = draftData.carData;
+            },
+            err => {
+              this.isError= true;
+                console.log('Error: draftData API: ', err);
+            }
+        );
   }
 
   ngOnInit(){
     this.getProfileInfo();
-
-    //MLB starts and ends in same year so can use current year logic to grab all current season and back 4 years for tabs
-    var currentTab = new Date().getFullYear();
-    this.getDraftPage(currentTab);
-  }
-
-  ngOnChanges(){
-    if(this.errorData && !this.detailedDataArray){
-      this.carouselDataArray = this.errorData;
-    }
   }
 
   selectedTab(event){

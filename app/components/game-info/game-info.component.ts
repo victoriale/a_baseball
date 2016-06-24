@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from 'angular2/core';
 import {CircleImage} from '../images/circle-image';
 import {CircleImageData} from '../images/image-data';
 import {StatHyphenValuePipe} from '../../pipes/stat-hyphen.pipe';
+import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
 
 export interface GameInfoInput{
   gameHappened: boolean,
@@ -9,6 +10,7 @@ export interface GameInfoInput{
   homeData:{
     homeTeamName:string;
     homeImageConfig:CircleImageData;
+    homeLink:any;
     homeRecord:string;
     runs:any;
     hits:any;
@@ -17,6 +19,7 @@ export interface GameInfoInput{
   awayData:{
     awayTeamName:string;
     awayImageConfig:CircleImageData;
+    awayLink:any,
     awayRecord:string;
     runs:any;
     hits:any;
@@ -27,7 +30,7 @@ export interface GameInfoInput{
 @Component({
     selector: 'game-info',
     templateUrl: './app/components/game-info/game-info.component.html',
-    directives: [CircleImage],
+    directives: [ROUTER_DIRECTIVES, CircleImage],
     pipes: [StatHyphenValuePipe],
 })
 

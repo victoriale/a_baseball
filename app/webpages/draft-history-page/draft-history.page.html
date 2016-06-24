@@ -5,11 +5,11 @@
   <loading-component *ngIf="!carouselDataArray && !isError"></loading-component>
   <error-component *ngIf="isError"></error-component>
 
-  <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray" [footerStyle]="carouselFooter"></slider-carousel>
+  <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray"></slider-carousel>
   <tabs *ngIf="dataArray" (tabSelected)='selectedTab($event)'>
     <tab *ngFor="#data of dataArray; #i = index" [active]="i == 0" [tabTitle]="data.tabDisplay">
-      <div *ngIf="detailedDataArray" style="margin:-1em"> <!-- due to tab having a default value of padding 1em for tab purposes so we just reverse it with margin -->
-        <detailed-list-item [detailedItemData]="detailedDataArray"></detailed-list-item>
+      <div class="draft-container" style="margin:-10px"><!-- due to tab having a default value of padding 1em for tab purposes so we just reverse it with margin -->
+        <detailed-list-item *ngIf="detailedDataArray" [detailedItemData]="detailedDataArray"></detailed-list-item>      
       </div>
       <div *ngIf="!detailedDataArray && errorData" class="draft-no-data">
         <no-data-box [data]="errorData.data" [icon]="errorData.icon"></no-data-box>

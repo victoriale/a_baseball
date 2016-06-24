@@ -30,12 +30,17 @@ export class DraftHistoryModule{
   carouselDataArray: any;
   footerData: Object;
   teamId:number;
+
   constructor( public params: RouteParams){
-    this.teamId = Number(this.params.get('teamId'));
+    //TODO: Don't pull from params in module
+    if ( this.params.get('teamId') ) {
+      this.teamId = Number(this.params.get('teamId'));
+    }
+    var pageRoute = this.teamId ? ['Draft-history-page',{teamName:this.params.get('teamName'), teamId:this.teamId}] : ["Draft-history-mlb-page"];
     this.footerData = {
       infoDesc: 'Want to see everybody involved in this list?',
       text: 'VIEW THE LIST',
-      url: ['Draft-history-page',{teamName:this.params.get('teamName'), teamId:this.teamId}]
+      url: pageRoute
     };
   }
 
@@ -63,7 +68,6 @@ export class DraftHistoryModule{
       this.detailedDataArray = this.draftData.listData;
       if(this.detailedDataArray == false){
         this.carouselDataArray = this.draftData.carData
-        this.carouselDataArray[0]['description'][0] = '<br><b style="font-size:20px">'+this.errorData.data+'</b>';
       }
     }
     this.carouselDataArray = this.draftData.carData

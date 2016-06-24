@@ -1,4 +1,4 @@
-import {TableModel, TableColumn} from '../components/custom-table/table-data.component';
+import {TableModel, TableColumn, CellData} from '../components/custom-table/table-data.component';
 import {CircleImageData} from '../components/images/image-data';
 import {StandingsTableTabData, TableComponentData} from '../components/standings/standings.component';
 import {SliderCarousel, SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
@@ -12,7 +12,7 @@ export interface TeamStandingsData {
   teamName: string,
   imageUrl: string,
   backgroundImage: string,
-  teamId: number;
+  teamId: string;
   conferenceName: string,
   divisionName: string,
   lastUpdated: string,
@@ -84,49 +84,54 @@ export class MLBStandingsTabData implements StandingsTableTabData<TeamStandingsD
 
   selectedKey: string;
 
-  constructor(title: string, conference: Conference, division: Division, isActive: boolean) {
+  currentTeamId: string;
+
+  constructor(title: string, conference: Conference, division: Division, isActive: boolean, teamId: string) {
     this.title = title;
     this.conference = conference;
     this.division = division;
     this.isActive = isActive;
+    this.currentTeamId = teamId;
   }
 
   getSelectedKey(): string {
-    if ( !this.sections ) return "-1";
+    if ( !this.sections ) return "";
 
-    var numericKey = -1;
+    var key = "";
     this.sections.forEach(section => {
       var table = section.tableData;
-      if ( table.selectedKey != null && table.selectedKey >= 0 ) {
-        numericKey = table.selectedKey;
+      if ( table.selectedKey != null && table.selectedKey != "") {
+        key = table.selectedKey;
       }
     });
-    return numericKey.toString();
+    return key;
   }
 
   setSelectedKey(key:string) {
     this.selectedKey = key;
     if ( !this.sections ) return;
 
-    var numericKey = Number(key);
     this.sections.forEach(section => {
       var table = section.tableData;
-      if ( table.rows.filter(row => row.teamId == numericKey).length > 0 ) {
-        table.selectedKey = numericKey;
+      if ( table.rows.filter(row => row.teamId == key).length > 0 ) {
+        table.selectedKey = key;
       }
       else {
-        table.selectedKey = -1;
+        table.selectedKey = "";
       }
     });
   }
 
   convertToCarouselItem(item: TeamStandingsData, index:number): SliderCarouselInput {
-    var teamRoute = MLBGlobalFunctions.formatTeamRoute(item.teamName, item.teamId.toString());
+    var teamRoute = null;
+    if ( this.currentTeamId != item.teamId ) {
+      teamRoute = MLBGlobalFunctions.formatTeamRoute(item.teamName, item.teamId.toString());
+    }
     var teamNameLink = {
         route: teamRoute,
         text: item.teamName
     };
-    return SliderCarousel.convertToSliderCarouselItem(index, {
+    return SliderCarousel.convertToCarouselItemType1(index, {
       backgroundImage: item.fullBackgroundImageUrl,
       copyrightInfo: GlobalSettings.getCopyrightInfo(),
       subheader: [item.seasonId + " Season " + item.groupName + " Standings"],
@@ -192,13 +197,27 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
 
   rows: Array<TeamStandingsData>;
 
-  selectedKey:number = -1;
+  selectedKey: string = "";
 
-  constructor(rows: Array<TeamStandingsData>) {
+  /**
+   * The team id of the profile page displaying the Standings module. (Optional)
+   */
+  currentTeamId: string;
+
+  constructor(rows: Array<TeamStandingsData>, teamId: string) {
     this.rows = rows;
     if ( this.rows === undefined || this.rows === null ) {
       this.rows = [];
     }
+    this.currentTeamId = teamId;
+  }
+
+  setSelectedKey(key: string) {
+    this.selectedKey = key ? key.toString() : key;
+  }
+
+  getSelectedKey(): string {
+    return this.selectedKey;
   }
 
   setRowSelected(rowIndex:number) {
@@ -214,123 +233,182 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
     return this.selectedKey == item.teamId;
   }
 
-  getDisplayValueAt(item:TeamStandingsData, column:TableColumn):string {
-    var s = null;
+  getCellData(item:TeamStandingsData, column:TableColumn):CellData {
+    var display = null;
+    var sort: any = null;
+    var link: Array<any> = null;
+    var imageUrl: string = null;
     switch (column.key) {
       case "name":
-        s = item.teamName;
+        display = item.teamName;
+        sort = item.teamName;
+        if ( item.teamId != this.currentTeamId ) {
+          link = MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId.toString());
+        }
+        imageUrl = item.fullImageUrl;
         break;
 
       case "w":
-        s = item.totalWins != null ? item.totalWins.toString() : null;
+        display = item.totalWins != null ? item.totalWins.toString() : null;
+        sort = item.totalWins;
         break;
 
       case "l":
-        s = item.totalLosses != null ? item.totalLosses.toString() : null;
+        display = item.totalLosses != null ? item.totalLosses.toString() : null;
+        sort = item.totalLosses;
         break;
 
       case "pct":
-        s = item.winPercentage != null ? item.winPercentage.toPrecision(3) : null;
+        display = item.winPercentage != null ? item.winPercentage.toPrecision(3) : null;
+        sort = item.winPercentage;
         break;
 
       case "gb":
-        // s = item.gamesBack != null ? (item.gamesBack == 0 ? "-" : item.gamesBack.toString()) : null;
-        s = item.gamesBack != null ? item.gamesBack.toString() : null;
+        display = item.gamesBack != null ? item.gamesBack.toString() : null;
+        sort = item.gamesBack;
         break;
 
       case "rs":
-        s = item.batRunsScored != null ? item.batRunsScored.toString() : null;
+        display = item.batRunsScored != null ? item.batRunsScored.toString() : null;
+        sort = item.batRunsScored;
         break;
 
       case "ra":
-        s = item.pitchRunsAllowed != null ? item.pitchRunsAllowed.toString() : null;
+        display = item.pitchRunsAllowed != null ? item.pitchRunsAllowed.toString() : null;
+        sort = item.pitchRunsAllowed;
         break;
 
       case "strk":
         if ( item.streakCount != null && item.streakType ) {
           var str = item.streakCount.toString();
-          s = (item.streakType == "loss" ? "L-" : "W-") + item.streakCount.toString();
+          display = (item.streakType == "loss" ? "L-" : "W-") + item.streakCount.toString();
+          sort = (item.streakType == "loss" ? -1 : 1) * item.streakCount;
         }
         break;
     }
-    return s != null ? s : "N/A";
+    if ( display == null ) {
+      display = "N/A";
+    }    
+    return new CellData(display, sort, link, imageUrl);
   }
 
-  getSortValueAt(item:TeamStandingsData, column:TableColumn):any {
-    var o = null;
-    switch (column.key) {
-      case "name":
-        o = item.teamName;
-        break;
+  // getDisplayValueAt(item:TeamStandingsData, column:TableColumn):string {
+  //   var s = null;
+  //   switch (column.key) {
+  //     case "name":
+  //       s = item.teamName;
+  //       break;
 
-      case "w":
-        o = item.totalWins;
-        break;
+  //     case "w":
+  //       s = item.totalWins != null ? item.totalWins.toString() : null;
+  //       break;
 
-      case "l":
-        o = item.totalLosses;
-        break;
+  //     case "l":
+  //       s = item.totalLosses != null ? item.totalLosses.toString() : null;
+  //       break;
 
-      case "pct":
-        o = item.winPercentage;
-        break;
+  //     case "pct":
+  //       s = item.winPercentage != null ? item.winPercentage.toPrecision(3) : null;
+  //       break;
 
-      case "gb":
-        o = item.gamesBack;
-        break;
+  //     case "gb":
+  //       // s = item.gamesBack != null ? (item.gamesBack == 0 ? "-" : item.gamesBack.toString()) : null;
+  //       s = item.gamesBack != null ? item.gamesBack.toString() : null;
+  //       break;
 
-      case "rs":
-        o = item.batRunsScored;
-        break;
+  //     case "rs":
+  //       s = item.batRunsScored != null ? item.batRunsScored.toString() : null;
+  //       break;
 
-      case "ra":
-        o = item.pitchRunsAllowed;
-        break;
+  //     case "ra":
+  //       s = item.pitchRunsAllowed != null ? item.pitchRunsAllowed.toString() : null;
+  //       break;
 
-      case "strk":
-        if ( item.streakCount != null && item.streakType ) {
-          // var str = item.streakCount.toString();
-          // o = (item.streakType == "loss" ? "L-" : "W-") + ('0000' + str).substr(str.length); //pad with zeros
-          o = (item.streakType == "loss" ? -1 : 1) * item.streakCount;
-        }
-        break;
-    }
-    return o;
-  }
+  //     case "strk":
+  //       if ( item.streakCount != null && item.streakType ) {
+  //         var str = item.streakCount.toString();
+  //         s = (item.streakType == "loss" ? "L-" : "W-") + item.streakCount.toString();
+  //       }
+  //       break;
+  //   }
+  //   return s != null ? s : "N/A";
+  // }
 
-  getImageConfigAt(item:TeamStandingsData, column:TableColumn):CircleImageData {
-    if ( column.key === "name" ) {
-      //TODO-CJP: store after creation? or create each time?
-      return {
-          imageClass: "image-48",
-          mainImage: {
-            imageUrl: item.fullImageUrl,
-            imageClass: "border-1",
-            urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId.toString()),
-            hoverText: "<i class='fa fa-mail-forward'></i>",
-          },
-          subImages: []
-        };
-    }
-    else {
-      return undefined;
-    }
-  }
+  // getSortValueAt(item:TeamStandingsData, column:TableColumn):any {
+  //   var sort = null;
+  //   switch (column.key) {
+  //     case "name":
+  //       sort = item.teamName;
+  //       break;
 
-  hasImageConfigAt(column:TableColumn):boolean {
-    return column.key === "name";
-  }
+  //     case "w":
+  //       sort = item.totalWins;
+  //       break;
 
-  getRouterLinkAt(item:TeamStandingsData, column:TableColumn):Array<any> {
-    if ( column.key === "name" ) {
-      return MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId.toString());
-    }
-    else {
-      return undefined;
-    }
-  }
+  //     case "l":
+  //       sort = item.totalLosses;
+  //       break;
 
-  hasRouterLinkAt(column:TableColumn):boolean {
-    return column.key === "name";
-  }
+  //     case "pct":
+  //       sort = item.winPercentage;
+  //       break;
+
+  //     case "gb":
+  //       sort = item.gamesBack;
+  //       break;
+
+  //     case "rs":
+  //       sort = item.batRunsScored;
+  //       break;
+
+  //     case "ra":
+  //       sort = item.pitchRunsAllowed;
+  //       break;
+
+  //     case "strk":
+  //       if ( item.streakCount != null && item.streakType ) {
+  //         // var str = item.streakCount.toString();
+  //         // o = (item.streakType == "loss" ? "L-" : "W-") + ('0000' + str).substr(str.length); //pad with zeros
+  //         sort = (item.streakType == "loss" ? -1 : 1) * item.streakCount;
+  //       }
+  //       break;
+  //   }
+  //   return sort;
+  // }
+
+  // getImageConfigAt(item:TeamStandingsData, column:TableColumn):CircleImageData {
+  //   if ( column.key === "name" ) {
+  //     //TODO-CJP: store after creation? or create each time?
+  //     return {
+  //         imageClass: "image-48",
+  //         mainImage: {
+  //           imageUrl: item.fullImageUrl,
+  //           imageClass: "border-1",
+  //           urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId.toString()),
+  //           hoverText: "<i class='fa fa-mail-forward'></i>",
+  //         },
+  //         subImages: []
+  //       };
+  //   }
+  //   else {
+  //     return undefined;
+  //   }
+  // }
+
+  // hasImageConfigAt(column:TableColumn):boolean {
+  //   return column.key === "name";
+  // }
+
+  // getRouterLinkAt(item:TeamStandingsData, column:TableColumn):Array<any> {
+  //   if ( column.key === "name" ) {
+  //     return MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId.toString());
+  //   }
+  //   else {
+  //     return undefined;
+  //   }
+  // }
+
+  // hasRouterLinkAt(column:TableColumn):boolean {
+  //   return column.key === "name";
+  // }
 }

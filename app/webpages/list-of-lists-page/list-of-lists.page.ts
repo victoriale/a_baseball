@@ -14,6 +14,8 @@ import {LoadingComponent} from "../../components/loading/loading.component";
 import {ErrorComponent} from "../../components/error/error.component";
 import {PaginationFooter, PaginationParameters} from "../../components/pagination-footer/pagination-footer.component";
 import {GlobalSettings} from "../../global/global-settings";
+import {GlobalFunctions} from "../../global/global-functions";
+import {MLBGlobalFunctions} from "../../global/mlb-global-functions";
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
 declare var moment:any;
@@ -61,8 +63,30 @@ export class ListOfListsPage implements OnInit{
                 this.carouselDataArray = list.carData;
 
                 this.profileName = list.targetData.playerName != null ? list.targetData.playerName : list.targetData.teamName;  // TODO include this
+                var profileRoute = ["MLB-page"];
+                var profileImage = GlobalSettings.getSiteLogoUrl();
+                switch ( urlParams.type ) {
+                    case "player":
+                        profileRoute = MLBGlobalFunctions.formatPlayerRoute(list.targetData.teamName, list.targetData.playerName, list.targetData.playerId);
+                        profileImage = GlobalSettings.getImageUrl(list.targetData.imageUrl);
+                        break;
+
+                    case "team":
+                        profileRoute = MLBGlobalFunctions.formatTeamRoute(list.targetData.teamName, list.targetData.teamId);
+                        profileImage = GlobalSettings.getImageUrl(list.targetData.teamLogo);
+                        break;
+
+                    default: break;
+                }
                 this._title.setTitle(GlobalSettings.getPageTitle("List of Lists", this.profileName));
-                this.setProfileHeader(this.profileName)
+                this.titleData = {
+                    imageURL : profileImage,
+                    imageRoute: profileRoute,
+                    text1 : 'Last Updated: ' + GlobalFunctions.formatUpdatedDate(list.lastUpdated),
+                    text2 : ' United States',
+                    text3 : 'Top lists - ' + this.profileName,
+                    icon: 'fa fa-map-marker'
+                };
 
             },
             err => {
@@ -100,7 +124,7 @@ export class ListOfListsPage implements OnInit{
             index: params['pageNum'] != null ? Number(params['pageNum']) : null,
             max: Number(input.pageCount),
             paginationType: 'page',
-            navigationPage: 'Error-page',
+            navigationPage: navigationPage,
             navigationParams: navigationParams,
             indexKey: 'pageNum'
         };
@@ -108,16 +132,5 @@ export class ListOfListsPage implements OnInit{
 
     ngOnInit(){
         this.getListOfListsPage(this.params.params, this.version);
-    }
-
-    setProfileHeader(profile:string){
-        this.titleData = {
-            imageURL : GlobalSettings.getImageUrl('/mlb/players/no-image.png'),
-            text1 : 'Last Updated: ' + moment().format("dddd, MMMM DD, YYYY"),
-            text2 : ' United States',
-            text3 : 'Top lists - ' + profile,
-            icon: 'fa fa-map-marker',
-            hasHover: false
-        };
     }
 }

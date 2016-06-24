@@ -1,0 +1,10 @@
+<div *ngIf="index==0" class="highlight-box"></div>
+<a *ngIf="cell.routerLink" [routerLink]="cell.routerLink" class="table-cell-image">
+  <circle-image *ngIf="cell.image" [data]="cell.image"></circle-image>
+  <span [innerHtml]="cell.display"></span>
+</a>
+<span *ngIf="!cell.routerLink && cell.image" class="table-cell-image">
+  <circle-image *ngIf="cell.image" [data]="cell.image"></circle-image>
+  <span [innerHtml]="cell.display"></span>
+</span>
+<span *ngIf="!cell.routerLink && !cell.image" [innerHtml]="cell.display"></span>

@@ -149,6 +149,11 @@ import {ComponentPage} from "../webpages/component-page/component.page";
         component: ListPage
     },
     {
+        path: '/draft-history',
+        name: 'Draft-history-mlb-page',
+        component: DraftHistoryPage
+    },
+    {
         path: '/draft-history/:teamName/:teamId',
         name: 'Draft-history-page',
         component: DraftHistoryPage
@@ -156,6 +161,11 @@ import {ComponentPage} from "../webpages/component-page/component.page";
     {
         path: '/transactions/:teamName/:teamId/:limit/:pageNum',
         name: 'Transactions-page',
+        component: TransactionsPage
+    },
+    {
+        path: '/transactions/league/:limit/:pageNum',
+        name: 'Transactions-mlb-page',
         component: TransactionsPage
     },
     {
