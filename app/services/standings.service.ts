@@ -47,34 +47,34 @@ export class StandingsService {
     return pageTitle;
   }
 
-  loadAllTabsForModule(pageParams: MLBPageParameters, teamName?: string) {
+  loadAllTabsForModule(pageParams: MLBPageParameters, currentTeamId?: number, currentTeamName?: string) {
     return {
-        moduleTitle: this.getModuleTitle(pageParams, teamName),
-        pageRouterLink: this.getLinkToPage(pageParams, teamName),
-        tabs: this.initializeAllTabs(pageParams)
+        moduleTitle: this.getModuleTitle(pageParams, currentTeamName),
+        pageRouterLink: this.getLinkToPage(pageParams, currentTeamName),
+        tabs: this.initializeAllTabs(pageParams, currentTeamId ? currentTeamId.toString() : null)
     };
   }
 
-  initializeAllTabs(pageParams: MLBPageParameters): Array<MLBStandingsTabData> {
+  initializeAllTabs(pageParams: MLBPageParameters, currentTeamId?: string): Array<MLBStandingsTabData> {
     let tabs: Array<MLBStandingsTabData> = [];
 
     if ( pageParams.conference === undefined || pageParams.conference === null ) {
       //Is an MLB page: show MLB, then American, then National
-      tabs.push(this.createTab(true));
-      tabs.push(this.createTab(false, Conference.american));
-      tabs.push(this.createTab(false, Conference.national));
+      tabs.push(this.createTab(true, currentTeamId));
+      tabs.push(this.createTab(false, currentTeamId, Conference.american));
+      tabs.push(this.createTab(false, currentTeamId, Conference.national));
     }
     else if ( pageParams.division === undefined || pageParams.division === null ) {
       //Is a League page: show All Divisions, then American, then National
-      tabs.push(this.createTab(false));
-      tabs.push(this.createTab(pageParams.conference === Conference.american, Conference.american));
-      tabs.push(this.createTab(pageParams.conference === Conference.national, Conference.national));
+      tabs.push(this.createTab(false, currentTeamId));
+      tabs.push(this.createTab(pageParams.conference === Conference.american, currentTeamId, Conference.american));
+      tabs.push(this.createTab(pageParams.conference === Conference.national, currentTeamId, Conference.national));
     }
     else {
       //Is a Team page: show team's division, then team's league, then MLB
-      tabs.push(this.createTab(true, pageParams.conference, pageParams.division));
-      tabs.push(this.createTab(false, pageParams.conference));
-      tabs.push(this.createTab(false));
+      tabs.push(this.createTab(true, currentTeamId, pageParams.conference, pageParams.division));
+      tabs.push(this.createTab(false, currentTeamId, pageParams.conference));
+      tabs.push(this.createTab(false, currentTeamId));
     }
 
     return tabs;
@@ -119,9 +119,9 @@ export class StandingsService {
     }
   }
 
-  private createTab(selectTab: boolean, conference?: Conference, division?: Division) {
+  private createTab(selectTab: boolean, teamId: string, conference?: Conference, division?: Division) {
     let title = this.formatGroupName(conference, division) + " Standings";
-    return new MLBStandingsTabData(title, conference, division, selectTab);
+    return new MLBStandingsTabData(title, conference, division, selectTab, teamId);
   }
 
   private setupTabData(standingsTab: MLBStandingsTabData, apiData: any, maxRows: number): Array<MLBStandingsTableData> {
@@ -134,14 +134,14 @@ export class StandingsService {
       var conferenceKey = Conference[standingsTab.conference];
       var divisionKey = Division[standingsTab.division];
       var divData = conferenceKey && divisionKey ? apiData[conferenceKey][divisionKey] : [];
-      sections.push(this.setupTableData(standingsTab.conference, standingsTab.division, divData, maxRows, false));
+      sections.push(this.setupTableData(standingsTab.currentTeamId, standingsTab.conference, standingsTab.division, divData, maxRows, false));
     }
     else {
       //other load all provided divisions
       for ( var conferenceKey in apiData ) {
         for ( var divisionKey in apiData[conferenceKey] ) {
           var divData = conferenceKey && divisionKey ? apiData[conferenceKey][divisionKey] : [];
-          var table = this.setupTableData(Conference[conferenceKey], Division[divisionKey], divData, maxRows, true);
+          var table = this.setupTableData(standingsTab.currentTeamId, Conference[conferenceKey], Division[divisionKey], divData, maxRows, true);
           totalRows += table.tableData.rows.length;
           if ( maxRows && totalRows > maxRows ) {
             break; //don't add more divisions
@@ -157,7 +157,7 @@ export class StandingsService {
     return sections;
   }
 
-  private setupTableData(conference:Conference, division:Division, rows: Array<TeamStandingsData>, maxRows: number, includeTableName: boolean): MLBStandingsTableData {
+  private setupTableData(teamId: string, conference:Conference, division:Division, rows: Array<TeamStandingsData>, maxRows: number, includeTableName: boolean): MLBStandingsTableData {
     let groupName = this.formatGroupName(conference, division);
 
     //Limit to maxRows, if necessary
@@ -182,14 +182,10 @@ export class StandingsService {
       value.streakCount = Number(value.streakCount);
       value.batRunsScored = Number(value.batRunsScored);
       value.pitchRunsAllowed = Number(value.pitchRunsAllowed);
-
-      if ( value.teamId === undefined || value.teamId === null ) {
-        value.teamId = index;
-      }
     });
 
     let tableName = this.formatGroupName(conference, division, true);
-    var table = new MLBStandingsTableModel(rows);
+    var table = new MLBStandingsTableModel(rows, teamId);
     return new MLBStandingsTableData(includeTableName ? tableName : "", conference, division, table);
   }
 
