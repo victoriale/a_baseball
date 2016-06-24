@@ -143,7 +143,7 @@ export class MLBSeasonStatsTabData implements TableTabData<TeamSeasonStatsData> 
       text: playerData.teamName
     }
 
-    return SliderCarousel.convertToSliderCarouselItem(index, {
+    return SliderCarousel.convertToCarouselItemType1(index, {
       backgroundImage: playerData.liveImage != null ? GlobalSettings.getImageUrl(playerData.liveImage) : dummyImg,
       copyrightInfo: GlobalSettings.getCopyrightInfo(),
       subheader: [item.seasonId + " Season Stats Report"],
@@ -280,7 +280,16 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
         key: "slg"
       }]
     };
+  }  
+
+  setSelectedKey(key: string) {
+    this.selectedKey = key;
   }
+
+  getSelectedKey(): string {
+    return this.selectedKey;
+  }
+
   setRowSelected(rowIndex:number) {
     if ( rowIndex >= 0 && rowIndex < this.rows.length ) {
       this.selectedKey = this.rows[rowIndex].playerInfo.playerId;

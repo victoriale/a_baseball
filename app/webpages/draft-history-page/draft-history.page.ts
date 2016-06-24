@@ -31,11 +31,11 @@ export class DraftHistoryPage implements OnInit{
   dataArray: any;//array of data for detailed list
   detailedDataArray: Array<DetailListInput>; //variable that is just a list of the detailed DataArray
   carouselDataArray: Array<SliderCarouselInput>;
-  carouselFooter: any = {
-    ctaBoxClass: "list-footer",
-    ctaBtnClass:"list-footer-btn",
-    hasIcon: true,
-  };
+  // carouselFooter: any = {
+  //   ctaBoxClass: "list-footer",
+  //   ctaBtnClass:"list-footer-btn",
+  //   hasIcon: true,
+  // };
   profileName: string;
   teamId: number;
   isError: boolean = false;

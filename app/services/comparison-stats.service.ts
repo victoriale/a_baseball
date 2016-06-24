@@ -383,13 +383,13 @@ export class ComparisonStatsService {
       case "pitchLosses": return "Losses";
       case "pitchStrikeouts": return "Strikeouts";
       case "pitchInningsPitched": return "Innings Pitched";
-      case "pitchBasesOnBalls": return "Walks";
+      case "pitchBasesOnBalls": return "Walks Thrown";
       case "pitchWhip": return "WHIP";
       case "pitchSaves": return "Saves";
       case "pitchIpa": return "IPA";
-      case "pitchHits": return "Hits";
-      case "pitchEarnedRuns": return "Earned Runs";
-      case "pitchHomeRunsAllowed": return "Home Runs";
+      case "pitchHits": return "Hits Against Pitcher";
+      case "pitchEarnedRuns": return "Earned Runs Against Pitcher";
+      case "pitchHomeRunsAllowed": return "Home Runs Against Pitcher";
       default: return null;
     }
   }

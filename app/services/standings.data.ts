@@ -126,7 +126,7 @@ export class MLBStandingsTabData implements StandingsTableTabData<TeamStandingsD
         route: teamRoute,
         text: item.teamName
     };
-    return SliderCarousel.convertToSliderCarouselItem(index, {
+    return SliderCarousel.convertToCarouselItemType1(index, {
       backgroundImage: item.fullBackgroundImageUrl,
       copyrightInfo: GlobalSettings.getCopyrightInfo(),
       subheader: [item.seasonId + " Season " + item.groupName + " Standings"],
@@ -199,6 +199,14 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
     if ( this.rows === undefined || this.rows === null ) {
       this.rows = [];
     }
+  }
+
+  setSelectedKey(key: string) {
+    this.selectedKey = Number(key);
+  }
+
+  getSelectedKey(): string {
+    return this.selectedKey.toString();
   }
 
   setRowSelected(rowIndex:number) {

@@ -266,6 +266,14 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
     }
   }
 
+  setSelectedKey(key: string) {
+    this.selectedKey = key;
+  }
+
+  getSelectedKey(): string {
+    return this.selectedKey;
+  }
+
   setRowSelected(rowIndex:number) {
     if ( rowIndex >= 0 && rowIndex < this.rows.length ) {
       this.selectedKey = this.rows[rowIndex].eventId;
