@@ -58,7 +58,7 @@
             <button class="contactus-buttons-submit" [disabled]="!f.form.valid">
                 Submit <i class="fa fa-angle-right"></i>
             </button>
-            <input class="contactus-buttons-reset" type="reset" value="RESET" />
+            <input class="contactus-buttons-reset" (click)="reset()" value="RESET" />
         </div>
 
     </form>

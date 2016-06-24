@@ -70,11 +70,11 @@ export class BoxScoresService {
     }
     else {
       let currentBoxScores = {
-        scoreBoard: dateParam.profile != 'league' ? this.formatScoreBoard(boxScoresData.transformedDate[dateParam.date][0]) : null,
+        scoreBoard: dateParam.profile != 'league' && boxScoresData.transformedDate[dateParam.date] != null ? this.formatScoreBoard(boxScoresData.transformedDate[dateParam.date][0]) : null,
         moduleTitle: this.moduleHeader(dateParam.date, profileName),
-        gameInfo: this.formatGameInfo(boxScoresData.transformedDate[dateParam.date], dateParam.teamId),
-        schedule: dateParam.profile != 'league' ? this.formatSchedule(boxScoresData.transformedDate[dateParam.date][0], dateParam.teamId) : null,
-        // aiContent: dateParam.profile != 'league' ? this.formatArticle(boxScoresData.transformedDate[dateParam.date][0]) : null,
+        gameInfo: boxScoresData.transformedDate[dateParam.date] != null ? this.formatGameInfo(boxScoresData.transformedDate[dateParam.date],dateParam.teamId): null,
+        schedule: dateParam.profile != 'league' && boxScoresData.transformedDate[dateParam.date] != null? this.formatSchedule(boxScoresData.transformedDate[dateParam.date][0], dateParam.teamId) : null,
+        // aiContent: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null? this.formatArticle(data.transformedDate[dateParam.date][0]) : null,
       };
       currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
       callback(boxScoresData, currentBoxScores);
