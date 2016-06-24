@@ -4,7 +4,7 @@
     <title-component *ngIf="profileHeaderData" [titleData]="profileHeaderData"></title-component>
     <loading-component *ngIf="!tabs && !isError"></loading-component>
     <error-component *ngIf="isError"></error-component>
-    <mvp-list *ngIf="tabs" [tabs]="tabs" [selectedTabTitle]="selectedTabName" (tabSelected)="tabSelected($event)" [carouselFooter]="footerStyle"></mvp-list>
+    <mvp-list *ngIf="tabs" [tabs]="tabs" [selectedTabTitle]="selectedTabName" (tabSelected)="tabSelected($event)"></mvp-list>
     <pagination-footer *ngIf="paginationParameters" [paginationParameters]="paginationParameters" (newIndex)="newIndex($event)"></pagination-footer>
 </section>
 </sidekick-wrapper>

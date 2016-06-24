@@ -22,6 +22,7 @@ export interface ComparisonBarInput {
       routerLinkPlayer: any;
       routerLinkTeam: any;
     }>;
+    qualifierLabel: string;
 }
 
 @Component({

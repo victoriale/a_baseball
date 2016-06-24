@@ -40,5 +40,10 @@ export class ContactUsModule{
         this.active = false;
         setTimeout(()=> this.active=true, 0);
     }
-
+    
+    // reset the  form by removing it and re-adding the form to a new pristine state
+    reset(){
+      this.active = false;
+      setTimeout(()=> this.active=true, 0);
+    }
 }

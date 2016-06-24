@@ -175,7 +175,7 @@ export class PlayerPage implements OnInit {
               //get current date for box-scores
               var currentUnixDate = new Date().getTime();
               this.dateParam ={
-                profile:'team',//team for this player
+                profile:'player',
                 teamId:this.teamId, // teamId if it exists
                 date: moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD')
               }
@@ -327,7 +327,7 @@ private dailyUpdateModule(playerId: number) {
     private setupTeamProfileData() {
         this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
             data => {
-                this.standingsData = this._standingsService.loadAllTabsForModule(data.pageParams, data.teamName);
+                this.standingsData = this._standingsService.loadAllTabsForModule(data.pageParams, null, data.teamName);
             },
             err => {
                 console.log("Error getting player profile data for " + this.pageParams.playerId + ": " + err);

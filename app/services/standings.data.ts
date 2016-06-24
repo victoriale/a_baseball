@@ -12,7 +12,7 @@ export interface TeamStandingsData {
   teamName: string,
   imageUrl: string,
   backgroundImage: string,
-  teamId: number;
+  teamId: string;
   conferenceName: string,
   divisionName: string,
   lastUpdated: string,
@@ -84,49 +84,54 @@ export class MLBStandingsTabData implements StandingsTableTabData<TeamStandingsD
 
   selectedKey: string;
 
-  constructor(title: string, conference: Conference, division: Division, isActive: boolean) {
+  currentTeamId: string;
+
+  constructor(title: string, conference: Conference, division: Division, isActive: boolean, teamId: string) {
     this.title = title;
     this.conference = conference;
     this.division = division;
     this.isActive = isActive;
+    this.currentTeamId = teamId;
   }
 
   getSelectedKey(): string {
-    if ( !this.sections ) return "-1";
+    if ( !this.sections ) return "";
 
-    var numericKey = -1;
+    var key = "";
     this.sections.forEach(section => {
       var table = section.tableData;
-      if ( table.selectedKey != null && table.selectedKey >= 0 ) {
-        numericKey = table.selectedKey;
+      if ( table.selectedKey != null && table.selectedKey != "") {
+        key = table.selectedKey;
       }
     });
-    return numericKey.toString();
+    return key;
   }
 
   setSelectedKey(key:string) {
     this.selectedKey = key;
     if ( !this.sections ) return;
 
-    var numericKey = Number(key);
     this.sections.forEach(section => {
       var table = section.tableData;
-      if ( table.rows.filter(row => row.teamId == numericKey).length > 0 ) {
-        table.selectedKey = numericKey;
+      if ( table.rows.filter(row => row.teamId == key).length > 0 ) {
+        table.selectedKey = key;
       }
       else {
-        table.selectedKey = -1;
+        table.selectedKey = "";
       }
     });
   }
 
   convertToCarouselItem(item: TeamStandingsData, index:number): SliderCarouselInput {
-    var teamRoute = MLBGlobalFunctions.formatTeamRoute(item.teamName, item.teamId.toString());
+    var teamRoute = null;
+    if ( this.currentTeamId != item.teamId ) {
+      teamRoute = MLBGlobalFunctions.formatTeamRoute(item.teamName, item.teamId.toString());
+    }
     var teamNameLink = {
         route: teamRoute,
         text: item.teamName
     };
-    return SliderCarousel.convertToSliderCarouselItem(index, {
+    return SliderCarousel.convertToCarouselItemType1(index, {
       backgroundImage: item.fullBackgroundImageUrl,
       copyrightInfo: GlobalSettings.getCopyrightInfo(),
       subheader: [item.seasonId + " Season " + item.groupName + " Standings"],
@@ -192,13 +197,27 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
 
   rows: Array<TeamStandingsData>;
 
-  selectedKey:number = -1;
+  selectedKey: string = "";
 
-  constructor(rows: Array<TeamStandingsData>) {
+  /**
+   * The team id of the profile page displaying the Standings module. (Optional)
+   */
+  currentTeamId: string;
+
+  constructor(rows: Array<TeamStandingsData>, teamId: string) {
     this.rows = rows;
     if ( this.rows === undefined || this.rows === null ) {
       this.rows = [];
     }
+    this.currentTeamId = teamId;
+  }
+
+  setSelectedKey(key: string) {
+    this.selectedKey = key ? key.toString() : key;
+  }
+
+  getSelectedKey(): string {
+    return this.selectedKey;
   }
 
   setRowSelected(rowIndex:number) {
@@ -223,7 +242,9 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
       case "name":
         display = item.teamName;
         sort = item.teamName;
-        link = MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId.toString());
+        if ( item.teamId != this.currentTeamId ) {
+          link = MLBGlobalFunctions.formatTeamRoute(item.teamName,item.teamId.toString());
+        }
         imageUrl = item.fullImageUrl;
         break;
 
