@@ -122,7 +122,6 @@ export class MLBSchedulesTableData implements TableComponentData<SchedulesData> 
     }
     var teamRouteAway = MLBGlobalFunctions.formatTeamRoute(item.awayTeamName, item.awayTeamId);
     var teamRouteHome = MLBGlobalFunctions.formatTeamRoute(item.homeTeamName, item.homeTeamId);
-
     var colors = Gradient.getColorPair(item.awayTeamColors.split(','), item.homeTeamColors.split(','));
 
     return {//placeholder data
@@ -384,11 +383,11 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
         break;
 
       case "away":
-        o = item.awayTeamName;
+        o = item.awayTeamLastName;
         break;
 
       case "home":
-        o =item.homeTeamName;
+        o =item.homeTeamLastName;
         break;
 
       case "opp":

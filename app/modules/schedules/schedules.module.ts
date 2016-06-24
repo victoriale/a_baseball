@@ -32,14 +32,14 @@ export class SchedulesModule implements OnInit{
         }
         if(typeof this.params.get('teamId') != 'undefined' && this.params.get('teamId') !== null){
             this.footerData = {
-                infoDesc: 'Want to see everybody involved in this list?',
-                text: 'VIEW THE LIST',
+                infoDesc: 'Want to see the full season schedule?',
+                text: 'VIEW SCHEDULE',
                 url: ['Schedules-page-team',{teamName:GlobalFunctions.toLowerKebab(this.profHeader.profileName), teamId:this.params.get('teamId'), pageNum:1}]
             };
         }else{
             this.footerData = {
-                infoDesc: 'Want to see everybody involved in this list?',
-                text: 'VIEW THE LIST',
+                infoDesc: 'Want to see the full season schedule?',
+                text: 'VIEW SCHEDULE',
                 url: ['Schedules-page-league', {pageNum:1}]
             };
         }
