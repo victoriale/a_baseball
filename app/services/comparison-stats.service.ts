@@ -6,6 +6,7 @@ import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
 import {GlobalSettings} from '../global/global-settings';
 import {Gradient} from '../global/global-gradient';
+import {SeasonStatsService} from './season-stats.service';
 
 import {ComparisonModuleData} from '../modules/comparison/comparison.module';
 import {ComparisonBarInput} from '../components/comparison-bar/comparison-bar.component';
@@ -344,7 +345,7 @@ export class ComparisonStatsService {
 
       for ( var i = 0; i < fields.length; i++ ) {
         var key = fields[i];
-        var title = this.getKeyDisplayTitle(key);
+        var title = ComparisonStatsService.getKeyDisplayTitle(key);
 
         seasonBarList.push({
           title: title,
@@ -358,7 +359,8 @@ export class ComparisonStatsService {
             fontWeight: '700'
           }],
           minValue: worstStats != null ? this.getNumericValue(key, worstStats[key]) : null,
-          maxValue: bestStats != null ? this.getNumericValue(key, bestStats[key]) : null
+          maxValue: bestStats != null ? this.getNumericValue(key, bestStats[key]) : null,
+          qualifierLabel: SeasonStatsService.getQualifierLabel(key)
         });
       }
 
@@ -367,7 +369,7 @@ export class ComparisonStatsService {
     return bars;
   }
 
-  private getKeyDisplayTitle(key: string): string {
+  static getKeyDisplayTitle(key: string): string {
     switch (key) {
       case "batHomeRuns": return "Home Runs";
       case "batAverage": return "Batting Average";
