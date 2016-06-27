@@ -4,6 +4,7 @@
     <label class="comparison-bar-title">
         {{displayData.title}}
     </label>
+    <span *ngIf="displayData.qualifierLabel" class="comparison-bar-qualifier">*<span [innerHtml]="displayData.qualifierLabel"></span></span>
     <div #masterBar class="comparison-bar-capsule" *ngIf="displayData.data.length >= 1">
         <div class="comparison-bar-capsule-stroke stroke-top"
             [style.width]="displayData.data[0].width + '%'"
@@ -26,8 +27,8 @@
               <div class="infobox-display">
                 <span class="infobox-value1">{{displayData.maxValue}}</span>
                 <!-- When Hover Over, it will display an information drop box, the icon is optional -->
-                <div class="infobox-icons">
-                  <i *ngIf="displayData.info" class="fa {{displayData.info}}"></i>
+                <div *ngIf="displayData.info" class="infobox-icons">
+                  <i class="fa {{displayData.info}}"></i>
                   <i [class.active]="displayData.active" class="fa fa-sort-up"></i>
                 </div>
               </div>

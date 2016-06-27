@@ -249,7 +249,7 @@ private dailyUpdateModule(playerId: number) {
     if(status == 'post-event'){
       limit = 3;
     }
-    this._schedulesService.getSchedulesService('team', status, limit, 1, this.pageParams.teamId)
+    this._schedulesService.getSchedulesService('team', status, limit, 1, false, this.pageParams.teamId)// isTeamProfilePage = false
     .subscribe(
       data => {
         this.schedulesData = data;
@@ -327,7 +327,7 @@ private dailyUpdateModule(playerId: number) {
     private setupTeamProfileData() {
         this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
             data => {
-                this.standingsData = this._standingsService.loadAllTabsForModule(data.pageParams, data.teamName);
+                this.standingsData = this._standingsService.loadAllTabsForModule(data.pageParams, null, data.teamName);
             },
             err => {
                 console.log("Error getting player profile data for " + this.pageParams.playerId + ": " + err);

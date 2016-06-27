@@ -59,9 +59,11 @@ export interface Type1CarouselItem {
   subImageRoute?: Array<any>;
 
   rank?: string;
+
+  rankClass?: string;
 }
 
-export interface ListTypeCarouselItem {
+export interface Type2CarouselItem {
   /**
    * This flag only determines the size of text to use
    * for the profile name, as spec has a larger size on 
@@ -169,7 +171,18 @@ export class SliderCarousel implements OnInit {
     }
   }
 
-  static convertToSliderCarouselItem(index: number, item: Type1CarouselItem): SliderCarouselInput {
+/**
+ * The type 1 carousel style is used most carousels. The circle image
+ * can optionlly contain a sub-image (image-50-sub class) and 
+ * a rank (defaults to image-38-rank class if item.rankClass is null). 
+ * The four lines in the description are formatted as such:
+ * 
+ *            • [subheader] (small, uppercase font)
+ *            [profileNameLink] (large font) 
+ *            [description] (medium font)
+ *            Last Updated On [lastUpdatedDate] (small font) 
+ */
+  static convertToCarouselItemType1(index: number, item: Type1CarouselItem): SliderCarouselInput {
     var subImages = [];
     
     if ( item.subImageRoute ) {
@@ -181,9 +194,10 @@ export class SliderCarousel implements OnInit {
       });
     }
     if ( item.rank != null ) {
+      var rankClass = item.rankClass ? item.rankClass : "image-38-rank";
       subImages.push({
           text: "#" + item.rank,
-          imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
+          imageClass: rankClass + " image-round-upper-left image-round-sub-text"
       });
     }
     var subheaderText = ['<i class="fa fa-circle"></i>'];
@@ -223,7 +237,19 @@ export class SliderCarousel implements OnInit {
     };
   }
 
-  static convertListItemToSliderCarouselItem(index: number, item: ListTypeCarouselItem): SliderCarouselInput {
+/**
+ * The type 2 carousel style is used for list pages. The circle image
+ * can optionally contain a sub-image (image-50-sub class) and 
+ * a rank (image-48-rank class). 
+ * The four lines in the description are formatted as such:
+ * 
+ *            [ProfileNameLink] (larger font)
+ *            [description] (smaller font)
+ * 
+ *            [dataValue] (larger font)
+ *            [dataLabel] (smaller font) 
+ */
+  static convertToCarouselItemType2(index: number, item: Type2CarouselItem): SliderCarouselInput {
     var subImages = [];
     
     if ( item.subImageRoute ) {
@@ -271,6 +297,28 @@ export class SliderCarousel implements OnInit {
           hoverText: "<p>View</p><p>Profile</p>"
         },
         subImages: subImages
+      }
+    };
+  }
+
+  static convertToEmptyCarousel(errorMessage: string): SliderCarouselInput {
+    return { 
+        index: 2,
+        description: [
+          {//error message
+            class: 'scc-details-type2-error',
+            textData: errorMessage ? [errorMessage] : []
+          }
+        ],
+      imageConfig: {
+        imageClass: "image-150",
+        mainImage: {
+          imageClass: "border-10",
+          urlRouteArray: null,
+          imageUrl: "/app/public/no-image.png",
+          hoverText: ""
+        },
+        subImages: []
       }
     };
   }

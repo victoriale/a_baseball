@@ -71,11 +71,14 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
 
   isPitcherTable: boolean;
 
-  constructor(teamName: string, tabName: string, isPitcherTable: boolean, isActive: boolean) {
+  isTeamProfilePage: boolean;
+
+  constructor(teamName: string, tabName: string, isPitcherTable: boolean, isActive: boolean, isTeamProfilePage: boolean) {
     this.tabTitle = tabName;
     this.tableName = "<span class='text-heavy'>" + teamName + "</span> " + tabName + " Stats";
     this.isActive = isActive;
     this.isPitcherTable = isPitcherTable;
+    this.isTeamProfilePage = isTeamProfilePage;
     if ( this.isPitcherTable ) {
       this.glossary = [
         {key: "W/L", value: "Wins/Losses"},
@@ -124,7 +127,7 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
       route: playerRoute,
       text: item.playerName
     }
-    var teamRoute = MLBGlobalFunctions.formatTeamRoute(item.teamName, item.teamId.toString());
+    var teamRoute =this.isTeamProfilePage ? null : MLBGlobalFunctions.formatTeamRoute(item.teamName, item.teamId.toString());
     var teamLinkText = {
       route: teamRoute,
       text: item.teamName
@@ -148,7 +151,7 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
                     "</span> and a <span class='text-heavy'>" + (item.batSluggingPercentage != null ? item.batSluggingPercentage.toPrecision(3) : "N/A") +
                     " Slugging Percentage</span>" + temporalInfo + "."];
     }
-    return SliderCarousel.convertToSliderCarouselItem(index, {
+    return SliderCarousel.convertToCarouselItemType1(index, {
       backgroundImage: item.fullBackgroundImageUrl,
       copyrightInfo: GlobalSettings.getCopyrightInfo(),
       subheader: [subHeaderYear, teamLinkText, " Player Stats"],
@@ -176,9 +179,6 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
     this.rows = rows;
     if ( this.rows === undefined || this.rows === null ) {
       this.rows = [];
-    }
-    else if ( rows.length > 0 ) {
-      // this.selectedKey = rows[0].playerId;
     }
     this.isPitcher = isPitcher;
     if ( this.isPitcher ) {
@@ -267,6 +267,14 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
         key: "slg"
       }]
     };
+  }
+
+  setSelectedKey(key: string) {
+    this.selectedKey = key;
+  }
+
+  getSelectedKey(): string {
+    return this.selectedKey;
   }
 
   setRowSelected(rowIndex:number) {
@@ -403,176 +411,4 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
     }    
     return new CellData(display, sort, link, imageUrl);
   }
-
-  // getDisplayValueAt(item:PlayerStatsData, column:TableColumn):string {
-  //   var s = "";
-  //   switch (column.key) {
-  //     case "name": 
-  //       s = item.playerName
-  //       break;
-
-  //     //BATTING
-  //     case "hr": 
-  //       s = item.batHomeRuns != null ? item.batHomeRuns : null;
-  //       break;
-
-  //     case "ba": 
-  //       s = item.batAverage != null  ? item.batAverage.toFixed(3) : null;
-  //       break;
-
-  //     case "rbi": 
-  //       s = item.batRbi != null  ? item.batRbi : null;
-  //       break;
-
-  //     case "h": 
-  //       s = item.batHits != null  ? item.batHits : null;
-  //       break;
-
-  //     case "bbb": 
-  //       s = item.batBasesOnBalls != null  ? item.batBasesOnBalls : null;
-  //       break;
-
-  //     case "obp": 
-  //       s = item.batOnBasePercentage != null ? item.batOnBasePercentage.toFixed(3) : null;
-  //       break;
-
-  //     case "slg": 
-  //       s = item.batSluggingPercentage != null ? item.batSluggingPercentage.toFixed(3) : null;
-  //       break;
-
-  //     //PITCHING
-  //     case "wl": 
-  //       s = item.pitchWins != null && item.pitchLosses != null ? item.pitchWins + "-" + item.pitchLosses : null;
-  //       break;
-
-  //     case "ip": 
-  //       s = item.pitchInningsPitched != null ? item.pitchInningsPitched.toString() : null;
-  //       break;
-
-  //     case "so": 
-  //       s = item.pitchStrikeouts != null ? item.pitchStrikeouts.toString() : null;
-  //       break;
-
-  //     case "era": 
-  //       s = item.pitchEra != null ? item.pitchEra.toFixed(2) : null;
-  //       break;
-
-  //     case "pbb": 
-  //       s = item.pitchBasesOnBalls != null  ? item.pitchBasesOnBalls.toString() : null;
-  //       break;
-
-  //     case "whip": 
-  //       s = item.whip != null ? item.whip.toFixed(2) : null;
-  //       break;
-
-  //     case "sv": 
-  //       s = item.pitchSaves != null ? item.pitchSaves.toString() : null;
-  //       break;
-  //   }    
-  //   return s != null ? s : "N/A";
-  // }
-
-  // getSortValueAt(item:PlayerStatsData, column:TableColumn):any {
-  //   var sort: any;
-  //   switch (column.key) {
-  //     case "name": 
-  //       sort = item.playerName
-  //       break;
-      
-  //     case "hr": 
-  //       sort = item.batHomeRuns != null ? Number(item.batHomeRuns) : null;
-  //       break;
-      
-  //     case "ba": 
-  //       sort = item.batAverage != null ? Number(item.batAverage) : null;
-  //       break;
-      
-  //     case "rbi": 
-  //       sort = item.batRbi != null ? Number(item.batRbi) : null;
-  //       break;
-      
-  //     case "h": 
-  //       sort = item.batHits != null ? Number(item.batHits) : null;
-  //       break;
-      
-  //     case "bbb": 
-  //       sort = item.batBasesOnBalls != null ? Number(item.batBasesOnBalls) : null;
-  //       break;
-      
-  //     case "obp": 
-  //       sort = item.batOnBasePercentage != null ? Number(item.batOnBasePercentage) : null;
-  //       break;
-      
-  //     case "slg": 
-  //       sort = item.batSluggingPercentage != null ? Number(item.batSluggingPercentage) : null;
-  //       break;     
-      
-  //     //PITCHING
-  //     case "wl": 
-  //       var wins = item.pitchWins + "";
-  //       var losses = item.pitchLosses + "";
-  //       sort = ('00000' + wins).substr(wins.length) + "/" + ('00000' + losses).substr(losses.length); //pad with zeros
-  //       break;
-      
-  //     case "ip": 
-  //       sort = item.pitchInningsPitched != null ? Number(item.pitchInningsPitched) : null;
-  //       break;
-      
-  //     case "so": 
-  //       sort = item.pitchStrikeouts != null ? Number(item.pitchStrikeouts) : null;
-  //       break;
-      
-  //     case "era": 
-  //       sort = item.pitchEra != null ? Number(item.pitchEra) : null;
-  //       break;
-        
-  //     case "pbb": 
-  //       sort = item.pitchBasesOnBalls != null ? Number(item.pitchBasesOnBalls) : null;
-  //       break;
-      
-  //     case "whip": 
-  //       sort = item.whip != null ? Number(item.whip) : null;
-  //       break;
-      
-  //     case "sv": 
-  //       sort = item.pitchSaves != null ? Number(item.pitchSaves) : null;
-  //       break;
-  //   }    
-  //   return sort;
-  // }
-  
-  // getImageConfigAt(item:PlayerStatsData, column:TableColumn):CircleImageData {
-  //   if ( column.key === "name" ) {
-  //     return {
-  //         imageClass: "image-48",
-  //         mainImage: {
-  //           imageUrl: item.fullPlayerImageUrl,
-  //           imageClass: "border-1",
-  //           urlRouteArray: MLBGlobalFunctions.formatPlayerRoute(item.teamName, item.playerName, item.playerId.toString()),
-  //           hoverText: "<i class='fa fa-mail-forward'></i>",
-  //         },
-  //         subImages: []
-  //       };
-  //   }
-  //   else {
-  //     return undefined;
-  //   }
-  // }
-  
-  // hasImageConfigAt(column:TableColumn):boolean {
-  //   return column.key === "name";
-  // }  
-  
-  // getRouterLinkAt(item:PlayerStatsData, column:TableColumn):Array<any> {
-  //   if ( column.key === "name" ) {
-  //     return MLBGlobalFunctions.formatPlayerRoute(item.teamName, item.playerName, item.playerId.toString());
-  //   }
-  //   else {
-  //     return undefined;
-  //   }
-  // }
-  
-  // hasRouterLinkAt(column:TableColumn):boolean {
-  //   return column.key === "name";
-  // }
 }

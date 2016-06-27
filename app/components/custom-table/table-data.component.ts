@@ -52,6 +52,10 @@ export interface TableModel<T> {
   setRowSelected(rowIndex:number);
   
   isRowSelected(item:T, rowIndex:number): boolean;
+
+  getSelectedKey(): string;
+
+  setSelectedKey(key: string);
   
   getCellData(item:T, column:TableColumn): CellData;
 }

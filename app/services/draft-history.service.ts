@@ -85,15 +85,7 @@ export class DraftHistoryService {
     var carouselArray = [];
     var dummyImg = "/app/public/no-image.png";
     if(data.length == 0){//if no data is being returned then show proper Error Message in carousel
-      carouselArray.push(SliderCarousel.convertListItemToSliderCarouselItem(2, {
-        isPageCarousel: false, 
-        profileNameLink: null,
-        description: [errorMessage],
-        dataValue: null,
-        dataLabel: null,
-        circleImageUrl: dummyImg,
-        circleImageRoute: null 
-      }));
+      carouselArray.push(SliderCarousel.convertToEmptyCarousel(errorMessage));
     }else{
       //if data is coming through then run through the transforming function for the module
       data.forEach(function(val, index){
@@ -107,7 +99,7 @@ export class DraftHistoryService {
 
         var rank = (index+1).toString();
         var location = GlobalFunctions.toTitleCase(val.city) + ', ' + GlobalFunctions.stateToAP(val.area);
-        var carouselItem = SliderCarousel.convertListItemToSliderCarouselItem(index, {
+        var carouselItem = SliderCarousel.convertToCarouselItemType2(index, {
           isPageCarousel: false, 
           backgroundImage: GlobalSettings.getImageUrl(val.backgroundImage),
           copyrightInfo: GlobalSettings.getCopyrightInfo(),
@@ -119,13 +111,13 @@ export class DraftHistoryService {
           circleImageRoute: playerRoute,
           rank: rank
         });
-        if(type == 'page'){
-          carouselItem.footerInfo = {
-            infoDesc:'Interested in discovering more about this player?',
-            text:'View Profile',
-            url:playerRoute,
-          }
-        }
+        // if(type == 'page'){ //removed from spec
+        //   carouselItem.footerInfo = {
+        //     infoDesc:'Interested in discovering more about this player?',
+        //     text:'View Profile',
+        //     url:playerRoute,
+        //   }
+        // }
         carouselArray.push(carouselItem);
       });
     }

@@ -105,7 +105,7 @@ export class ComponentPage implements OnInit {
       data => {
         this.teamProfileHeaderData = this._profileService.convertToTeamProfileHeader(data)
         this.setupComparisonData();
-        this.playerStatsData = this._playerStatsService.loadAllTabsForModule(this.pageParams.teamId, data.teamName);
+        this.playerStatsData = this._playerStatsService.loadAllTabsForModule(this.pageParams.teamId, data.teamName, false);
       },
       err => {
         console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
