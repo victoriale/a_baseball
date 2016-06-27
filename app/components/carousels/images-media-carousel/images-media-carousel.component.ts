@@ -10,6 +10,7 @@ export interface MediaImageItem {
     id: number;
     image: string;
     copyData: string;
+    title: string;
 }
 
 @Component({
@@ -21,13 +22,14 @@ export interface MediaImageItem {
         ModuleHeader
     ],
     providers: [],
-    inputs: ['trending', 'mediaImages', 'featureListing', 'modalButton', 'imageData', 'copyright', 'profHeader', 'isProfilePage'],
+    inputs: ['trending', 'mediaImages', 'featureListing', 'modalButton', 'imageData', 'copyright', "imageTitle", 'profHeader', 'isProfilePage'],
     outputs: ['leftCircle', 'rightCircle', 'expand'],
 })
 
 export class ImagesMedia implements OnInit {
     @Input() imageData:any;
     @Input() copyright:any;
+    @Input() imageTitle:any;
     @Input() isProfilePage:boolean;
 
     leftCircle:EventEmitter<boolean> = new EventEmitter();
@@ -38,7 +40,7 @@ export class ImagesMedia implements OnInit {
     expandIcon:string = 'fa-expand';
     modalButton:boolean = false;
 
-    mediaImages: Array<MediaImageItem>;
+    mediaImages:Array<MediaImageItem>;
     // smallImage: MediaImageItem;
 
     smallObjCounter:number = 0;
@@ -50,8 +52,9 @@ export class ImagesMedia implements OnInit {
     images:any;
     displayCounter:number;
     imageCredit:string;
+    description:string;
     profHeader:any;
-    modHeadData: ModuleHeaderData;
+    modHeadData:ModuleHeaderData;
 
     modalExpand() {
         if (this.expand == true) {
@@ -69,7 +72,7 @@ export class ImagesMedia implements OnInit {
         this.imageCounter = (((this.imageCounter - 1) % this.imageData.length) + this.imageData.length) % this.imageData.length;
         this.smallObjCounter = (((this.smallObjCounter - 1) % 5) + 5) % 5;
         if (this.smallObjCounter == 4) {
-            this.mediaImages = this.modifyMedia(this.imageData, this.copyright, false);
+            this.mediaImages = this.modifyMedia(this.imageData, this.copyright, this.imageTitle, false);
         }
         //run the changeMain function to change the main image once a new array has been established
         this.changeMain(this.imageCounter);
@@ -79,7 +82,7 @@ export class ImagesMedia implements OnInit {
         this.imageCounter = (this.imageCounter + 1) % this.imageData.length;
         this.smallObjCounter = (this.smallObjCounter + 1) % 5;
         if (this.smallObjCounter == 0) {
-            this.mediaImages = this.modifyMedia(this.imageData, this.copyright);
+            this.mediaImages = this.modifyMedia(this.imageData, this.copyright, this.imageTitle);
         }
         //run the changeMain function to change the main image once a new array has been established
         this.changeMain(this.imageCounter);
@@ -89,9 +92,10 @@ export class ImagesMedia implements OnInit {
     changeMain(num) {
         this.displayCounter = this.imageCounter + 1;
         // this.smallImage = this.mediaImages;
-        if ( this.mediaImages && this.smallObjCounter < this.mediaImages.length ) {
+        if (this.mediaImages && this.smallObjCounter < this.mediaImages.length) {
             this.largeImage = this.mediaImages[this.smallObjCounter].image;
             this.imageCredit = this.mediaImages[this.smallObjCounter].copyData;
+            this.description = this.mediaImages[this.smallObjCounter].title;
         }
     }
 
@@ -101,7 +105,7 @@ export class ImagesMedia implements OnInit {
         this.changeMain(this.imageCounter);
     }
 
-    modifyMedia(images, copyright, forward = true): Array<MediaImageItem> {
+    modifyMedia(images, copyright, imageTitle, forward = true):Array<MediaImageItem> {
         if (this.modalButton) {//just so the carousel knows that the expand button is
             this.expandText = 'Collapse';
             this.expandIcon = 'fa-compress';
@@ -111,8 +115,13 @@ export class ImagesMedia implements OnInit {
         var arrayStart = (((this.imageCounter + (forward ? 0 : -4)) % totalImgs) + totalImgs) % totalImgs;
         for (var i = arrayStart; i < arrayStart + 5; i++) {
             var index = i % totalImgs;
-            if (typeof this.copyright != 'undefined') {
-                newImageArray.push({id: index, image: images[index], copyData: copyright[index]});
+            if (typeof this.copyright != 'undefined' && typeof this.imageTitle != 'undefined') {
+                newImageArray.push({
+                    id: index,
+                    image: images[index],
+                    copyData: copyright[index],
+                    title: imageTitle[index]
+                });
             } else {
                 newImageArray.push({id: index, image: images[index]});
             }
@@ -129,7 +138,10 @@ export class ImagesMedia implements OnInit {
             if (this.copyright == 'undefined') {
                 this.copyright = '';
             }
-            this.mediaImages = this.modifyMedia(this.imageData, this.copyright);
+            if (this.imageTitle == 'undefined') {
+                this.imageTitle = '';
+            }
+            this.mediaImages = this.modifyMedia(this.imageData, this.copyright, this.imageTitle);
             this.changeMain(0);
             this.totalImageCount = this.imageData.length;
             if (this.isProfilePage) {

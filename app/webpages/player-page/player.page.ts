@@ -64,246 +64,249 @@ declare var moment;
     selector: 'Player-page',
     templateUrl: './app/webpages/player-page/player.page.html',
     directives: [
-      SidekickWrapper,
-      LoadingComponent,
-      ErrorComponent,
-      SchedulesModule,
-      BoxScoresModule,
-      ProfileHeaderModule,
-      StandingsModule,
-      HeadlineComponent,
-      CommentModule,
-      DYKModule,
-      FAQModule,
-      LikeUs,
-      TwitterModule,
-      SeasonStatsModule,
-      ComparisonModule,
-      NewsModule,
-      ShareModule,
-      AboutUsModule,
-      ListOfListsModule,
-      DailyUpdateModule,
-      ImagesMedia],
+        SidekickWrapper,
+        LoadingComponent,
+        ErrorComponent,
+        SchedulesModule,
+        BoxScoresModule,
+        ProfileHeaderModule,
+        StandingsModule,
+        HeadlineComponent,
+        CommentModule,
+        DYKModule,
+        FAQModule,
+        LikeUs,
+        TwitterModule,
+        SeasonStatsModule,
+        ComparisonModule,
+        NewsModule,
+        ShareModule,
+        AboutUsModule,
+        ListOfListsModule,
+        DailyUpdateModule,
+        ImagesMedia],
     providers: [
-      BoxScoresService,
-      SchedulesService,
-      StandingsService,
-      ProfileHeaderService,
-      ImagesService,
-      NewsService,
-      FaqService,
-      DykService,
-      ListOfListsService,
-      SeasonStatsService,
-      ComparisonStatsService,
-      DailyUpdateService,
-      TwitterService,
-      Title
+        BoxScoresService,
+        SchedulesService,
+        StandingsService,
+        ProfileHeaderService,
+        ImagesService,
+        NewsService,
+        FaqService,
+        DykService,
+        ListOfListsService,
+        SeasonStatsService,
+        ComparisonStatsService,
+        DailyUpdateService,
+        TwitterService,
+        Title
     ],
 })
 
 export class PlayerPage implements OnInit {
-  public shareModuleInput:ShareModuleInput;
-  pageParams:MLBPageParameters;
-  partnerID:string = null;
-  hasError: boolean = false;
+    public shareModuleInput:ShareModuleInput;
+    pageParams:MLBPageParameters;
+    partnerID:string = null;
+    hasError:boolean = false;
 
-  profileHeaderData: ProfileHeaderData;
-  standingsData:StandingsModuleData;
-  dailyUpdateData: DailyUpdateData;
-  seasonStatsData: any;
-  comparisonModuleData: ComparisonModuleData;
+    profileHeaderData:ProfileHeaderData;
+    standingsData:StandingsModuleData;
+    dailyUpdateData:DailyUpdateData;
+    seasonStatsData:any;
+    comparisonModuleData:ComparisonModuleData;
 
-  boxScoresData:any;
-  currentBoxScores:any;
-  dateParam:any;
+    boxScoresData:any;
+    currentBoxScores:any;
+    dateParam:any;
 
-  imageData:any;
-  copyright:any;
-  profileType:string = "player";
-  isProfilePage:boolean = true;
-  profileName:string;
-  teamName: string;
-  teamId:number;
-  newsDataArray: Array<Object>;
-  faqData: Array<faqModuleData>;
-  dykData: Array<dykModuleData>;
-  listOfListsData: Object; // paginated data to be displayed
-  twitterData: Array<twitterModuleData>;
-  schedulesData:any;
+    imageData:any;
+    copyright:any;
+    imageTitle:any;
+    profileType:string = "player";
+    isProfilePage:boolean = true;
+    profileName:string;
+    teamName:string;
+    teamId:number;
+    newsDataArray:Array<Object>;
+    faqData:Array<faqModuleData>;
+    dykData:Array<dykModuleData>;
+    listOfListsData:Object; // paginated data to be displayed
+    twitterData:Array<twitterModuleData>;
+    schedulesData:any;
 
-  constructor(private _params:RouteParams,
-              private _router:Router,
-              private _title: Title,
-              private _standingsService:StandingsService,
-              private _boxScores:BoxScoresService,
-              private _schedulesService:SchedulesService,
-              private _profileService:ProfileHeaderService,
-              private _imagesService:ImagesService,
-              private _newsService: NewsService,
-              private _faqService: FaqService,
-              private _dykService: DykService,
-              private _lolService : ListOfListsService,
-              private _twitterService: TwitterService,
-              private _seasonStatsService: SeasonStatsService,
-              private _comparisonService: ComparisonStatsService,
-              private _dailyUpdateService: DailyUpdateService,
-              private _globalFunctions:GlobalFunctions) {
-      this.pageParams = {
-          playerId: Number(_params.get("playerId"))
-      };
+    constructor(private _params:RouteParams,
+                private _router:Router,
+                private _title:Title,
+                private _standingsService:StandingsService,
+                private _boxScores:BoxScoresService,
+                private _schedulesService:SchedulesService,
+                private _profileService:ProfileHeaderService,
+                private _imagesService:ImagesService,
+                private _newsService:NewsService,
+                private _faqService:FaqService,
+                private _dykService:DykService,
+                private _lolService:ListOfListsService,
+                private _twitterService:TwitterService,
+                private _seasonStatsService:SeasonStatsService,
+                private _comparisonService:ComparisonStatsService,
+                private _dailyUpdateService:DailyUpdateService,
+                private _globalFunctions:GlobalFunctions) {
+        this.pageParams = {
+            playerId: Number(_params.get("playerId"))
+        };
 
-    GlobalSettings.getPartnerID(_router, partnerID => {
-        this.partnerID = partnerID;
-    });
-  }
-
-  ngOnInit() {
-      this.setupPlayerProfileData();
-  }
-
-  private setupPlayerProfileData() {
-      this._profileService.getPlayerProfile(this.pageParams.playerId).subscribe(
-          data => {
-              /*** About [Player Name] ***/
-              this.pageParams = data.pageParams;
-              this.profileName = data.headerData.info.playerName;
-              this.teamName = data.headerData.info.teamName;
-              this.teamId = data.headerData.info.teamId;
-
-              //get current date for box-scores
-              var currentUnixDate = new Date().getTime();
-              this.dateParam ={
-                profile:'player',
-                teamId:this.teamId, // teamId if it exists
-                date: moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD')
-              }
-              this.getBoxScores(this.dateParam);
-
-              this._title.setTitle(GlobalSettings.getPageTitle(this.profileName));
-
-              this.profileHeaderData = this._profileService.convertToPlayerProfileHeader(data);
-              this.setupTeamProfileData();
-              this.dailyUpdateModule(this.pageParams.playerId);
-
-              /*** Keep Up With Everything [Player Name] ***/
-              this.getSchedulesData('pre-event');//grab pre event data for upcoming games
-              this.setupSeasonstatsData();
-              if ( data.headerData.info.qualified ) {
-                //only get the comparison data if the player is considered qualified
-                this.setupComparisonData();
-              }
-              /*** Other [League Name] Content You May Love ***/
-              this.getImages(this.imageData);
-              this.getDykService();
-              this.getFaqService();
-              this.setupListOfListsModule();
-              this.getNewsService();
-
-              /*** Interact With [League Name]’s Fans ***/
-              this.setupShareModule();
-              this.getTwitterService();
-          },
-          err => {
-              this.hasError = true;
-              console.log("Error getting player profile data for " + this.pageParams.playerId + ": " + err);
-          }
-      );
-  }
-
-private dailyUpdateModule(playerId: number) {
-    this._dailyUpdateService.getPlayerDailyUpdate(playerId)
-        .subscribe(data => {
-            this.dailyUpdateData = data;
-        },
-        err => {
-            this.dailyUpdateData = this._dailyUpdateService.getErrorData();
-            console.log("Error getting daily update data", err);
+        GlobalSettings.getPartnerID(_router, partnerID => {
+            this.partnerID = partnerID;
         });
-}
-
-  //grab tab to make api calls for post of pre event table
-  private scheduleTab(tab) {
-      if(tab == 'Upcoming Games'){
-          this.getSchedulesData('pre-event');
-      }else if(tab == 'Previous Games'){
-          this.getSchedulesData('post-event');
-      }else{
-          this.getSchedulesData('post-event');// fall back just in case no status event is present
-      }
-  }
-  private setupSeasonstatsData() {
-      this._seasonStatsService.getPlayerStats(this.pageParams.playerId)
-      .subscribe(
-          data => {
-              this.seasonStatsData = data;
-          },
-          err => {
-              console.log("Error getting season stats data for "+ this.pageParams.playerId, err);
-          });
-  }
-  //api for Schedules
-  private getSchedulesData(status){
-    var limit = 5;
-    if(status == 'post-event'){
-      limit = 3;
     }
-    this._schedulesService.getSchedulesService('team', status, limit, 1, this.pageParams.teamId)
-    .subscribe(
-      data => {
-        this.schedulesData = data;
-      },
-      err => {
-        console.log("Error getting Schedules Data");
-      }
-    )
-  }
 
-  private getTwitterService() {
-    this._twitterService.getTwitterService("team", this.pageParams.teamId) //getting team twitter information for now
-        .subscribe(data => {
-            this.twitterData = data;
-        },
-        err => {
-            console.log("Error getting twitter data");
-        });
+    ngOnInit() {
+        this.setupPlayerProfileData();
+    }
+
+    private setupPlayerProfileData() {
+        this._profileService.getPlayerProfile(this.pageParams.playerId).subscribe(
+            data => {
+                /*** About [Player Name] ***/
+                this.pageParams = data.pageParams;
+                this.profileName = data.headerData.info.playerName;
+                this.teamName = data.headerData.info.teamName;
+                this.teamId = data.headerData.info.teamId;
+
+                //get current date for box-scores
+                var currentUnixDate = new Date().getTime();
+                this.dateParam = {
+                    profile: 'player',
+                    teamId: this.teamId, // teamId if it exists
+                    date: moment.tz(currentUnixDate, 'America/New_York').format('YYYY-MM-DD')
+                }
+                this.getBoxScores(this.dateParam);
+
+                this._title.setTitle(GlobalSettings.getPageTitle(this.profileName));
+
+                this.profileHeaderData = this._profileService.convertToPlayerProfileHeader(data);
+                this.setupTeamProfileData();
+                this.dailyUpdateModule(this.pageParams.playerId);
+
+                /*** Keep Up With Everything [Player Name] ***/
+                this.getSchedulesData('pre-event');//grab pre event data for upcoming games
+                this.setupSeasonstatsData();
+                if (data.headerData.info.qualified) {
+                    //only get the comparison data if the player is considered qualified
+                    this.setupComparisonData();
+                }
+                /*** Other [League Name] Content You May Love ***/
+                this.getImages(this.imageData);
+                this.getDykService();
+                this.getFaqService();
+                this.setupListOfListsModule();
+                this.getNewsService();
+
+                /*** Interact With [League Name]’s Fans ***/
+                this.setupShareModule();
+                this.getTwitterService();
+            },
+            err => {
+                this.hasError = true;
+                console.log("Error getting player profile data for " + this.pageParams.playerId + ": " + err);
+            }
+        );
+    }
+
+    private dailyUpdateModule(playerId:number) {
+        this._dailyUpdateService.getPlayerDailyUpdate(playerId)
+            .subscribe(data => {
+                    this.dailyUpdateData = data;
+                },
+                err => {
+                    this.dailyUpdateData = this._dailyUpdateService.getErrorData();
+                    console.log("Error getting daily update data", err);
+                });
+    }
+
+    //grab tab to make api calls for post of pre event table
+    private scheduleTab(tab) {
+        if (tab == 'Upcoming Games') {
+            this.getSchedulesData('pre-event');
+        } else if (tab == 'Previous Games') {
+            this.getSchedulesData('post-event');
+        } else {
+            this.getSchedulesData('post-event');// fall back just in case no status event is present
+        }
+    }
+
+    private setupSeasonstatsData() {
+        this._seasonStatsService.getPlayerStats(this.pageParams.playerId)
+            .subscribe(
+                data => {
+                    this.seasonStatsData = data;
+                },
+                err => {
+                    console.log("Error getting season stats data for " + this.pageParams.playerId, err);
+                });
+    }
+
+    //api for Schedules
+    private getSchedulesData(status) {
+        var limit = 5;
+        if (status == 'post-event') {
+            limit = 3;
+        }
+        this._schedulesService.getSchedulesService('team', status, limit, 1, this.pageParams.teamId)
+            .subscribe(
+                data => {
+                    this.schedulesData = data;
+                },
+                err => {
+                    console.log("Error getting Schedules Data");
+                }
+            )
+    }
+
+    private getTwitterService() {
+        this._twitterService.getTwitterService("team", this.pageParams.teamId) //getting team twitter information for now
+            .subscribe(data => {
+                    this.twitterData = data;
+                },
+                err => {
+                    console.log("Error getting twitter data");
+                });
     }
 
     private getDykService() {
         this._dykService.getDykService(this.profileType, this.pageParams.playerId)
             .subscribe(data => {
-                this.dykData = data;
-            },
-            err => {
-                console.log("Error getting did you know data");
-            });
+                    this.dykData = data;
+                },
+                err => {
+                    console.log("Error getting did you know data");
+                });
     }
 
-    private getFaqService(){
-      this._faqService.getFaqService(this.profileType, this.pageParams.playerId)
-          .subscribe(data => {
-            this.faqData = data;
-          },
-          err => {
-              console.log("Error getting faq data for player", err);
-          });
+    private getFaqService() {
+        this._faqService.getFaqService(this.profileType, this.pageParams.playerId)
+            .subscribe(data => {
+                    this.faqData = data;
+                },
+                err => {
+                    console.log("Error getting faq data for player", err);
+                });
     }
 
     private getNewsService() {
         this._newsService.getNewsService(this.profileName)
             .subscribe(data => {
-                this.newsDataArray = data.news;
-            },
-            err => {
-                console.log("Error getting news data");
-            });
+                    this.newsDataArray = data.news;
+                },
+                err => {
+                    console.log("Error getting news data");
+                });
     }
 
     //api for BOX SCORES
     //function for MLB/Team Profiles
     private getBoxScores(dateParams?) {
-        if ( dateParams != null ) {
+        if (dateParams != null) {
             this.dateParam = dateParams;
         }
         this._boxScores.getBoxScores(this.boxScoresData, this.profileName, this.dateParam, (boxScoresData, currentBoxScores) => {
@@ -315,11 +318,11 @@ private dailyUpdateModule(playerId: number) {
     private getImages(imageData) {
         this._imagesService.getImages(this.profileType, this.pageParams.playerId)
             .subscribe(data => {
-                return this.imageData = data.imageArray, this.copyright = data.copyArray;
-            },
-            err => {
-                console.log("Error getting image data" + err);
-            });
+                    return this.imageData = data.imageArray, this.copyright = data.copyArray, this.imageTitle = data.titleArray;
+                },
+                err => {
+                    console.log("Error getting image data" + err);
+                });
     }
 
     //This gets team-specific data such as
@@ -335,9 +338,10 @@ private dailyUpdateModule(playerId: number) {
         );
     }
 
-    private standingsTabSelected(tabData: Array<any>) {
+    private standingsTabSelected(tabData:Array<any>) {
         //only show 5 rows in the module;
-        this._standingsService.getStandingsTabData(tabData, this.pageParams, (data) => {}, 5);
+        this._standingsService.getStandingsTabData(tabData, this.pageParams, (data) => {
+        }, 5);
     }
 
     private setupComparisonData() {
@@ -346,7 +350,7 @@ private dailyUpdateModule(playerId: number) {
                 this.comparisonModuleData = data;
             },
             err => {
-                console.log("Error getting comparison data for "+ this.pageParams.playerId, err);
+                console.log("Error getting comparison data for " + this.pageParams.playerId, err);
             });
     }
 
@@ -362,23 +366,23 @@ private dailyUpdateModule(playerId: number) {
     }
 
     setupListOfListsModule() {
-      // getListOfListsService(version, type, id, scope?, count?, page?){
-      let params = {
-        id : this.pageParams.playerId,
-        limit : 4,
-        pageNum : 1,
-        type : "player"
-      }
-      this._lolService.getListOfListsService(params, "module")
-        .subscribe(
-          listOfListsData => {
-            this.listOfListsData = listOfListsData.listData;
-            this.listOfListsData["type"] = "player";
-            this.listOfListsData["id"] = this.pageParams.playerId;
-          },
-          err => {
-            console.log('Error: listOfListsData API: ', err);
-          }
-        );
+        // getListOfListsService(version, type, id, scope?, count?, page?){
+        let params = {
+            id: this.pageParams.playerId,
+            limit: 4,
+            pageNum: 1,
+            type: "player"
+        }
+        this._lolService.getListOfListsService(params, "module")
+            .subscribe(
+                listOfListsData => {
+                    this.listOfListsData = listOfListsData.listData;
+                    this.listOfListsData["type"] = "player";
+                    this.listOfListsData["id"] = this.pageParams.playerId;
+                },
+                err => {
+                    console.log('Error: listOfListsData API: ', err);
+                }
+            );
     }
 }

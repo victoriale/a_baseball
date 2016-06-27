@@ -51,16 +51,29 @@
   background-color: rgba(0, 0, 0, 0.6);
   position: absolute;
   bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
   padding-right: 10px;
+  padding-left: 10px;
   color: @white;
   font-size: 80%;
   font-weight: 400;
+  display: flex;
+  &-title {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 26px;
+    width: 90%;
+  }
   &-credit {
-    padding-left: 3px;
-    font-weight: 800;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 26px;
+    width: 50%;
+    &-bold {
+      padding-left: 3px;
+      font-weight: 800;
+    }
   }
 }
 
