@@ -26,7 +26,7 @@ export class SchedulesModule implements OnInit{
 
     ngOnInit(){
         this.modHeadData = {
-          moduleTitle: this.profHeader.profileName + " - Schedules",
+          moduleTitle: "Weekly Schedules - " + this.profHeader.profileName,
           hasIcon: false,
           iconClass: '',
         }
