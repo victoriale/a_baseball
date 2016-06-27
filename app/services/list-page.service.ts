@@ -36,7 +36,7 @@ interface PlayerItem {
     teamVenue: string,
     teamLogo: string,
     lastUpdated: string,
-    backgroundImage: string    
+    backgroundImage: string
 }
 
 interface ListData {
@@ -100,7 +100,6 @@ export class ListPageService {
   for(var q in query){
     callURL += "/" + query[q];
   }
-  // console.log(callURL);
   return this.http.get( callURL, {
       headers: headers
     })
@@ -218,6 +217,7 @@ export class ListPageService {
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
   static carDataPage(data: ListData, profileType: string, errorMessage: string){
     var carouselArray = [];
+    var dummyImg = "/app/public/Image-Placeholder-1.jpg";
     var currentYear = new Date().getFullYear();//TODO FOR POSSIBLE past season stats but for now we have lists for current year season
     var carData = data.listData;
     var carInfo = data.listInfo;
@@ -227,7 +227,7 @@ export class ListPageService {
       //if data is coming through then run through the transforming function for the module
       carouselArray = carData.map(function(val, index){
         var carouselItem;
-        var rank = ((Number(data.query.pageNum) - 1) * Number(data.query.limit)) + (index+1);        
+        var rank = ((Number(data.query.pageNum) - 1) * Number(data.query.limit)) + (index+1);
         val.rank = rank.toString();
 
         var teamRoute = MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId);
@@ -272,7 +272,7 @@ export class ListPageService {
 
         carouselItem = SliderCarousel.convertToCarouselItemType2(index, {
           isPageCarousel: profileType == 'page',
-          backgroundImage: GlobalSettings.getImageUrl(val.backgroundImage),
+          backgroundImage: val.backgroundImage != undefined ? GlobalSettings.getImageUrl(val.backgroundImage) : dummyImg,
           copyrightInfo: GlobalSettings.getCopyrightInfo(),
           profileNameLink: profileLinkText,
           description: description,
@@ -282,7 +282,6 @@ export class ListPageService {
           circleImageRoute: primaryRoute,
           rank: val.rank
         });
-        
         return carouselItem;
       });
     }
