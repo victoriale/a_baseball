@@ -4,9 +4,7 @@
     <label class="comparison-bar-title">
         {{displayData.title}}
     </label>
-    <div *ngIf="displayData.qualifierLabel" class="comparison-bar-qualifier">
-        *<span [innerHtml]="displayData.qualifierLabel"></span>
-    </div>
+    <span *ngIf="displayData.qualifierLabel" class="comparison-bar-qualifier">*<span [innerHtml]="displayData.qualifierLabel"></span></span>
     <div #masterBar class="comparison-bar-capsule" *ngIf="displayData.data.length >= 1">
         <div class="comparison-bar-capsule-stroke stroke-top"
             [style.width]="displayData.data[0].width + '%'"
