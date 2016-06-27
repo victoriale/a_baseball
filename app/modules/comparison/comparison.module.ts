@@ -191,6 +191,7 @@ export class ComparisonModule implements OnInit, OnChanges {
                 ],
             },
             title: player.playerName,
+            linkObj: MLBGlobalFunctions.formatPlayerRoute(player.teamName, player.playerName, player.playerId),
             description: [
                 {
                     text: 'Position: '
@@ -205,6 +206,7 @@ export class ComparisonModule implements OnInit, OnChanges {
                 },
                 {
                     text: player.teamName,
+                    itemLink: MLBGlobalFunctions.formatTeamRoute(player.teamName, player.teamId),
                     class: 'text-heavy'
                 }
             ],
