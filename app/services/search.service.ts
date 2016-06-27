@@ -294,6 +294,7 @@ export class SearchService{
             //Fields the search is based on
             keys: ['playerName'],
             //At what point does the match algorithm give up. A threshold of 0.0 requires a perfect match (of both letters and location), a threshold of 1.0 would match anything.
+            shouldSort:true,
             threshold: 0.2
         });
 
@@ -306,6 +307,7 @@ export class SearchService{
             //Fields the search is based on
             keys: ['teamName'],
             //At what point does the match algorithm give up. A threshold of 0.0 requires a perfect match (of both letters and location), a threshold of 1.0 would match anything.
+            shouldSort:true,
             threshold: 0.2
         });
 
