@@ -136,12 +136,11 @@ export class SearchService{
     getSearchRoute(term: string){
         let searchRoute: Array<any>;
         //Build search Route
-        if(typeof term !== 'undefined') {
+        if(typeof term !== 'undefined' && term != 'null') {
             searchRoute = ['Search-page', {query: term}];
         }else{
             searchRoute = null;
         }
-
         return searchRoute !== null ? searchRoute : ['Error-page'];
     }
 
