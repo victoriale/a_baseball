@@ -66,7 +66,7 @@ export class SchedulesService {
       return headers;
   }
 
-  getSchedulesService(profile, eventStatus, limit, pageNum, id?, year?){
+  getSchedulesService(profile, eventStatus, limit, pageNum, isTeamProfilePage?: boolean, id?, year?){
     //Configure HTTP Headers
     var headers = this.setToken();
     var jsYear = new Date().getFullYear();//DEFAULT YEAR DATA TO CURRENT YEAR
@@ -92,7 +92,7 @@ export class SchedulesService {
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
-        var tableData = this.setupTableData(eventStatus, year, data.data, id, limit);
+        var tableData = this.setupTableData(eventStatus, year, data.data, id, limit, isTeamProfilePage);
         var tabData = [
           {display: 'Upcoming Games', data:'pre-event', season:displayYear, tabData: new MLBScheduleTabData(this.formatGroupName(year,'pre-event'), true)},
           {display: 'Previous Games', data:'post-event', season:displayYear, tabData: new MLBScheduleTabData(this.formatGroupName(year,'post-event'), true)}
@@ -110,17 +110,18 @@ export class SchedulesService {
   }
 
   //rows is the data coming in
-  private setupTableData(eventStatus, year, rows: Array<any>, teamId?, maxRows?: number): Array<MLBSchedulesTableData> {
+  private setupTableData(eventStatus, year, rows: Array<any>, teamId, maxRows: number, isTeamProfilePage: boolean): Array<MLBSchedulesTableData> {
     //Limit to maxRows, if necessary
     if ( maxRows !== undefined ) {
       rows = rows.slice(0, maxRows);
     }
+    var currentTeamProfile = isTeamProfilePage ? teamId : null;
 
     //TWO tables are to be made depending on what type of tabs the use is click on in the table
     if(eventStatus == 'pre-event'){
       // let tableName = this.formatGroupName(year,eventStatus);
-      var table = new MLBSchedulesTableModel(rows, eventStatus, teamId);
-      var tableArray = new MLBSchedulesTableData('' , table);
+      var table = new MLBSchedulesTableModel(rows, eventStatus, teamId, isTeamProfilePage);
+      var tableArray = new MLBSchedulesTableData('' , table, currentTeamProfile);
       return [tableArray];
     }else{
       var postDate = [];
@@ -128,7 +129,7 @@ export class SchedulesService {
 
       // let tableName = this.formatGroupName(year,eventStatus);
       if(typeof teamId == 'undefined'){
-        var table = new MLBSchedulesTableModel(rows, eventStatus, teamId);// there are two types of tables for Post game (team/league) tables
+        var table = new MLBSchedulesTableModel(rows, eventStatus, teamId, isTeamProfilePage);// there are two types of tables for Post game (team/league) tables
         rows.forEach(function(val,index){// seperate the dates into their own Obj tables for post game reports
           var splitToDate = moment(val.startDateTimestamp).tz('America/New_York').format('YYYY-MM-DD');
           if(typeof dateObject[splitToDate] == 'undefined'){
@@ -141,19 +142,20 @@ export class SchedulesService {
           }
         });
         for(var date in dateObject){
-          var newPostModel = new MLBSchedulesTableModel(dateObject[date]['tableData'], eventStatus, teamId);
-          var newPostTable = new MLBSchedulesTableData(dateObject[date]['display'], newPostModel);
+          var newPostModel = new MLBSchedulesTableModel(dateObject[date]['tableData'], eventStatus, teamId, isTeamProfilePage);
+          var newPostTable = new MLBSchedulesTableData(dateObject[date]['display'], newPostModel, currentTeamProfile);
           postDate.push(newPostTable);
         }
         return postDate;
       }else{//if there is a teamID
-        var table = new MLBSchedulesTableModel(rows, eventStatus, teamId);// there are two types of tables for Post game (team/league) tables
-        var tableArray = new MLBSchedulesTableData('' , table);
+        var table = new MLBSchedulesTableModel(rows, eventStatus, teamId, isTeamProfilePage);// there are two types of tables for Post game (team/league) tables
+        var tableArray = new MLBSchedulesTableData('' , table, currentTeamProfile);
         return [tableArray];
       }
     }
   }
 
+  //TODO-CJP - remove current team profile link
   private setupCarouselData(origData: Array<SchedulesData>, tableData: MLBSchedulesTableData, maxRows?: number){
     //Limit to maxRows, if necessary
     if ( maxRows !== undefined ) {
