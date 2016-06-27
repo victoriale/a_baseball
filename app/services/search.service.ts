@@ -166,7 +166,7 @@ export class SearchService{
         let searchPageInput: SearchPageInput = {
             searchComponent : {
                 placeholderText: 'Search for a player or team...',
-                hasSuggestions: false,
+                hasSuggestions: true,
                 initialText: query
             },
             heroImage: '/app/public/homePage_hero1.png',
