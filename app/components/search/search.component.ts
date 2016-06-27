@@ -228,8 +228,10 @@ export class Search{
             return false;
         }
         let searchRoute: Array<any>;
-        if(this.selectedIndex == -1){
+        if(this.selectedIndex == -1 && this.dropdownList.length > 1){
           searchRoute = this._searchService.getSearchRoute(term);
+        }else if(this.dropdownList.length == 1 ){
+          searchRoute = this.dropdownList[0].routerLink;
         }else{
           let dropdownLink = this.dropdownList[this.selectedIndex].routerLink;
           searchRoute = dropdownLink;
