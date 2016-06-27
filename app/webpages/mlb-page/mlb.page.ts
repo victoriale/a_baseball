@@ -111,15 +111,15 @@ export class MLBPage implements OnInit {
     public shareModuleInput:ShareModuleInput;
 
     pageParams:MLBPageParameters = {};
-    currentYear:number;
+    currentYear: number;
     partnerID:string = null;
-    hasError:boolean = false;
+    hasError: boolean = false;
 
     standingsData:StandingsModuleData;
 
     profileHeaderData:ProfileHeaderData;
 
-    comparisonModuleData:ComparisonModuleData;
+    comparisonModuleData: ComparisonModuleData;
 
     transactionsData:TransactionModuleData;
 
@@ -141,27 +141,27 @@ export class MLBPage implements OnInit {
     profileName:string = "MLB";
     listMax:number = 10;
     listOfListsData:Object; // paginated data to be displayed
-    newsDataArray:Array<Object>;
-    faqData:Array<faqModuleData>;
-    dykData:Array<dykModuleData>;
-    twitterData:Array<twitterModuleData>;
+    newsDataArray: Array<Object>;
+    faqData: Array<faqModuleData>;
+    dykData: Array<dykModuleData>;
+    twitterData: Array<twitterModuleData>;
     schedulesData:any;
 
     constructor(private _router:Router,
-                private _title:Title,
+                private _title: Title,
                 private _standingsService:StandingsService,
                 private _boxScores:BoxScoresService,
                 private _profileService:ProfileHeaderService,
                 private _schedulesService:SchedulesService,
                 private _imagesService:ImagesService,
-                private _newsService:NewsService,
+                private _newsService: NewsService,
                 private _draftService:DraftHistoryService,
-                private _faqService:FaqService,
-                private _dykService:DykService,
-                private _twitterService:TwitterService,
-                private _comparisonService:ComparisonStatsService,
-                private _transactionsService:TransactionsService,
-                private _lolService:ListOfListsService,
+                private _faqService: FaqService,
+                private _dykService: DykService,
+                private _twitterService: TwitterService,
+                private _comparisonService: ComparisonStatsService,
+                private _transactionsService: TransactionsService,
+                private _lolService: ListOfListsService,
                 private listService:ListPageService) {
         _title.setTitle(GlobalSettings.getPageTitle("MLB"));
 
@@ -170,10 +170,10 @@ export class MLBPage implements OnInit {
         //for boxscores
         var currentUnixDate = new Date().getTime();
         //convert currentDate(users local time) to Unix and push it into boxScoresAPI as YYYY-MM-DD in EST using moment timezone (America/New_York)
-        this.dateParam = {
-            profile: 'league',//current profile page
-            teamId: null,
-            date: moment.tz(currentUnixDate, 'America/New_York').format('YYYY-MM-DD')
+        this.dateParam ={
+            profile:'league',//current profile page
+            teamId:null,
+            date: moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD')
         }
 
         GlobalSettings.getPartnerID(_router, partnerID => {
@@ -199,11 +199,11 @@ export class MLBPage implements OnInit {
                 this.draftHistoryModule(this.currentYear);
                 this.transactionsData = this._transactionsService.loadAllTabsForModule(data.profileName1);
                 this.batterData = this.listService.getMVPTabs('batter', 'module');
-                if (this.batterData && this.batterData.length > 0) {
+                if ( this.batterData && this.batterData.length > 0 ) {
                     this.batterTab(this.batterData[0]);
                 }
                 this.pitcherData = this.listService.getMVPTabs('pitcher', 'module');
-                if (this.pitcherData && this.pitcherData.length > 0) {
+                if ( this.pitcherData && this.pitcherData.length > 0 ) {
                     this.pitcherTab(this.pitcherData[0]);
                 }
                 this.setupComparisonData();
@@ -226,19 +226,19 @@ export class MLBPage implements OnInit {
 
     //grab tab to make api calls for post of pre event table
     private scheduleTab(tab) {
-        if (tab == 'Upcoming Games') {
+        if(tab == 'Upcoming Games'){
             this.getSchedulesData('pre-event');
-        } else if (tab == 'Previous Games') {
+        }else if(tab == 'Previous Games'){
             this.getSchedulesData('post-event');
-        } else {
+        }else{
             this.getSchedulesData('post-event');// fall back just in case no status event is present
         }
     }
 
     //api for Schedules
-    private getSchedulesData(status) {
+    private getSchedulesData(status){
         var limit = 5;
-        if (status == 'post-event') {
+        if(status == 'post-event'){
             limit = 3;
         }
         this._schedulesService.getSchedulesService('league', status, limit, 1)
@@ -276,7 +276,6 @@ export class MLBPage implements OnInit {
                     console.log("Error getting twitter data");
                 });
     }
-
     private getDykService(profileType) {
         this._dykService.getDykService(this.profileType)
             .subscribe(data => {
@@ -300,11 +299,11 @@ export class MLBPage implements OnInit {
     private setupListOfListsModule() {
         // getListOfListsService(version, type, id, scope?, count?, page?){
         let params = {
-            id: this.pageParams.teamId,
-            limit: 4,
-            pageNum: 1,
-            type: "mbl"
-        }
+            id : this.pageParams.teamId,
+            limit : 4,
+            pageNum : 1,
+            type : "mbl"
+        };
         this._lolService.getListOfListsService(params, "module")
             .subscribe(
                 listOfListsData => {
@@ -329,7 +328,7 @@ export class MLBPage implements OnInit {
 
     //api for BOX SCORES
     private getBoxScores(dateParams?) {
-        if (dateParams != null) {
+        if ( dateParams != null ) {
             this.dateParam = dateParams;
         }
         this._boxScores.getBoxScores(this.boxScoresData, this.profileName, this.dateParam, (boxScoresData, currentBoxScores) => {
@@ -358,10 +357,9 @@ export class MLBPage implements OnInit {
             });
     }
 
-    private standingsTabSelected(tabData:Array<any>) {
+    private standingsTabSelected(tabData: Array<any>) {
         //only show 5 rows in the module
-        this._standingsService.getStandingsTabData(tabData, this.pageParams, (data) => {
-        }, 5);
+        this._standingsService.getStandingsTabData(tabData, this.pageParams, (data) => {}, 5);
     }
 
     private setupShareModule() {
@@ -385,7 +383,7 @@ export class MLBPage implements OnInit {
         // this.draftData = this.teamPage.draftHistoryModule(event, this.teamId);
     }
 
-    private draftHistoryModule(year:number) {
+    private draftHistoryModule(year: number) {
         var errorMessage = "Sorry, " + this.profileHeaderData.profileName + " does not currently have any data for the " + year + " draft history";
         this._draftService.getDraftHistoryService(year, null, errorMessage, 'module')
             .subscribe(
@@ -418,7 +416,7 @@ export class MLBPage implements OnInit {
     }
 
     //each time a tab is selected the carousel needs to change accordingly to the correct list being shown
-    private batterTab(tab:BaseballMVPTabData) {
+    private batterTab(tab: BaseballMVPTabData) {
         this.batterParams = { //Initial load for mvp Data
             profile: 'player',
             listname: tab.tabDataKey,
@@ -438,7 +436,7 @@ export class MLBPage implements OnInit {
     }
 
     //each time a tab is selected the carousel needs to change accordingly to the correct list being shown
-    private pitcherTab(tab:BaseballMVPTabData) {
+    private pitcherTab(tab: BaseballMVPTabData) {
         this.pitcherParams = { //Initial load for mvp Data
             profile: 'player',
             listname: tab.tabDataKey,
