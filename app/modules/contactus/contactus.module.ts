@@ -17,6 +17,9 @@ export class ContactUsModule{
     formSubmit(data){
         //Validate form inputs
         try{
+            if(data.description === null && data.email === null && data.name === null){
+                throw 'Please enter your name, email, and a detailed description';
+            }
             if(data.name === null){
                 throw 'Please enter your name in the Full Name field.';
             }
@@ -37,5 +40,10 @@ export class ContactUsModule{
         this.active = false;
         setTimeout(()=> this.active=true, 0);
     }
-
+    
+    // reset the  form by removing it and re-adding the form to a new pristine state
+    reset(){
+      this.active = false;
+      setTimeout(()=> this.active=true, 0);
+    }
 }

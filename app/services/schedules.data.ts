@@ -1,4 +1,4 @@
-import {TableModel, TableColumn} from '../components/custom-table/table-data.component';
+import {TableModel, TableColumn, CellData} from '../components/custom-table/table-data.component';
 import {CircleImageData} from '../components/images/image-data';
 import {TableTabData, TableComponentData} from '../components/schedules/schedules.component';
 import {SchedulesCarouselInput} from '../components/carousels/schedules-carousel/schedules-carousel.component';
@@ -22,8 +22,8 @@ export interface SchedulesData {
   siteId: string,
   homeScore: string,
   awayScore: string,
-  homeOutcome: number,
-  awayOutcome: number,
+  homeOutcome: string,
+  awayOutcome: string,
   seasonId: string,
   homeTeamLogo: string,
   homeTeamColors: string,
@@ -51,6 +51,8 @@ export interface SchedulesData {
   awayTeamLosses: string,
   reportUrlMod: string,
   results:string,
+  targetTeamWinsCurrent: string;
+  targetTeamLossesCurrent: string;
   /**
    * - Formatted from league and division values that generated the associated table
    */
@@ -122,7 +124,6 @@ export class MLBSchedulesTableData implements TableComponentData<SchedulesData> 
     }
     var teamRouteAway = MLBGlobalFunctions.formatTeamRoute(item.awayTeamName, item.awayTeamId);
     var teamRouteHome = MLBGlobalFunctions.formatTeamRoute(item.homeTeamName, item.homeTeamId);
-
     var colors = Gradient.getColorPair(item.awayTeamColors.split(','), item.homeTeamColors.split(','));
 
     return {//placeholder data
@@ -166,14 +167,15 @@ export class MLBSchedulesTableData implements TableComponentData<SchedulesData> 
 export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
   columns: Array<TableColumn>;
 
-  rows: Array<any>;
+  rows: Array<SchedulesData>;
 
-  selectedKey:number = -1;
+  selectedKey:string = "";
 
-  curTeam:any;//grab the current teams object name being returned to determine where the current team stands (away / home)
-  constructor(rows: Array<any>, eventStatus, teamId?) {
+  private curTeam:string;//grab the current teams object name being returned to determine where the current team stands (away / home)
+
+  constructor(rows: Array<any>, eventStatus, teamId) {
     //find if current team is home or away and set the name to the current objects name
-    this.curTeam = teamId;
+    this.curTeam = teamId ? teamId.toString() : null;
     if(eventStatus === 'pre-event'){
       this.columns = [{
          headerValue: "DATE",
@@ -184,6 +186,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
        },{
          headerValue: "TIME",
          columnClass: "date-column",
+         ignoreSort: true,
          key: "t"
        },{
          headerValue: "AWAY",
@@ -216,6 +219,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
            headerValue: "RESULTS",
            columnClass: "data-column results-column",
            isNumericType: false,
+           ignoreSort: true,
            key: "r"
          },{
            headerValue: "GAME SUMMARY",
@@ -233,6 +237,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
          },{
            headerValue: "TIME",
            columnClass: "date-column",
+           ignoreSort: true,
            key: "t"
          },{
            headerValue: "OPPOSING TEAM",
@@ -265,6 +270,14 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
     }
   }
 
+  setSelectedKey(key: string) {
+    this.selectedKey = key;
+  }
+
+  getSelectedKey(): string {
+    return this.selectedKey;
+  }
+
   setRowSelected(rowIndex:number) {
     if ( rowIndex >= 0 && rowIndex < this.rows.length ) {
       this.selectedKey = this.rows[rowIndex].eventId;
@@ -274,227 +287,106 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
     }
   }
 
-  isRowSelected(item, rowIndex:number): boolean {
+  isRowSelected(item:SchedulesData, rowIndex:number): boolean {
     return this.selectedKey == item.eventId;
   }
 
-  //what is displaying in the html
-  getDisplayValueAt(item, column:TableColumn):string {
+  getCellData(item:SchedulesData, column:TableColumn):CellData {
+    var display = "";
+    var sort: any = null;
+    var link: Array<any> = null;
+    var imageUrl: string = null;
+    var isLocation = false;
 
-    var homeTeamDisplay = item.homeTeamName;
-    var awayTeamDisplay = item.awayTeamName;
-
-    if(typeof item.homeTeamAbbreviation == 'undefined' || item.homeTeamAbbreviation == null){
-      item.homeTeamAbbreviation = "N/A";
+    var hdrColumnKey = column.key;
+    if ( column.key == "opp" ) {
+        hdrColumnKey = this.curTeam == item.homeTeamId ? "away" : "home";
     }
-    if(typeof item.awayTeamAbbreviation == 'undefined' || item.awayTeamAbbreviation == null){
-      item.awayTeamAbbreviation = "N/A";
-    }
-    var home = item.homeTeamAbbreviation + " " + item.homeScore;
-    var away = item.awayTeamAbbreviation + " " + item.awayScore;
 
-    var s = "";
-    switch (column.key) {
+    switch (hdrColumnKey) {
       case "date":
-        s = GlobalFunctions.formatDateWithAPMonth(item.startDateTimestamp, "", "DD");
+        display = GlobalFunctions.formatDateWithAPMonth(item.startDateTimestamp, "", "DD");
+        sort = item.startDateTimestamp;
         break;
+
       case "t":
-        s = moment(item.startDateTimestamp).tz('America/New_York').format('h:mm') + " <sup> "+moment(item.startDateTimestamp).tz('America/New_York').format('A')+" </sup>";
+        display = moment(item.startDateTimestamp).tz('America/New_York').format('h:mm') + " <sup> "+moment(item.startDateTimestamp).tz('America/New_York').format('A')+" </sup>";
+        sort = item.startDateTimestamp;
         break;
 
       case "away":
-        if(item.awayTeamLastName.length > 10){
-          s = "<span class='location-wrap'>"+item.awayTeamNickname+"</span>";
-        }else{
-          s = "<span class='location-wrap'>"+item.awayTeamLastName+"</span>";
+        isLocation = true;
+        display = item.awayTeamLastName.length > 10 ? item.awayTeamNickname : item.awayTeamLastName;
+        sort = item.awayTeamLastName;
+        imageUrl = GlobalSettings.getImageUrl(item.awayTeamLogo);
+        if ( this.curTeam != item.awayTeamId ) {
+          link = MLBGlobalFunctions.formatTeamRoute(item.awayTeamName, item.awayTeamId);
         }
         break;
 
       case "home":
-        if(item.homeTeamLastName.length > 10){
-          s = "<span class='location-wrap'>"+item.homeTeamNickname+"</span>";
-        }else{
-          s = "<span class='location-wrap'>"+item.homeTeamLastName+"</span>";
+        isLocation = true;
+        display = item.homeTeamLastName.length > 10 ? item.homeTeamNickname : item.homeTeamLastName;
+        sort = item.homeTeamLastName;
+        imageUrl = GlobalSettings.getImageUrl(item.homeTeamLogo);
+        if ( this.curTeam != item.homeTeamId ) {
+          link = MLBGlobalFunctions.formatTeamRoute(item.homeTeamName, item.homeTeamId);
         }
-        break;
-
-      case "opp":
-        if(this.curTeam == item.homeTeamId){
-          if(item.awayTeamLastName.length > 10){
-            s = "<span class='location-wrap'>"+item.awayTeamNickname+"</span>";
-          }else{
-            s = "<span class='location-wrap'>"+item.awayTeamLastName+"</span>";
-          }
-        }else{
-          if(item.homeTeamLastName.length > 10){
-            s = "<span class='location-wrap'>"+item.homeTeamNickname+"</span>";
-          }else{
-            s = "<span class='location-wrap'>"+item.homeTeamLastName+"</span>";
-          }
-        }
-
         break;
 
       case "gs":
-        if(item.eventStatus === 'pre-event'){
-          s = "<a href='"+item.reportUrlMod+"'>Pregame Report <i class='fa fa-angle-right'><i></a>";
-        }else if(item.eventStatus === 'post-event'){
-          s = "<a href='"+item.reportUrlMod+"'>Postgame Report <i class='fa fa-angle-right'><i></a>";
-        }else{
-          s = "N/A";
+        var status = item.eventStatus === 'pre-event' ? "Pregame" : (item.eventStatus === 'post-event' ? "Postgame" : null);
+        if ( status ) {
+          display = "<a href='" + item.reportUrlMod + "'>" + status + " Report <i class='fa fa-angle-right'><i></a>";
         }
+        sort = item.eventStatus;
         break;
 
       case "r":
+        if( !item.homeTeamAbbreviation ) {
+          item.homeTeamAbbreviation = "N/A";
+        }
+        if( !item.awayTeamAbbreviation ) {
+          item.awayTeamAbbreviation = "N/A";
+        }
         //whomever wins the game then their text gets bolded as winner
+        var home = item.homeTeamAbbreviation + " " + item.homeScore;
+        var away = item.awayTeamAbbreviation + " " + item.awayScore;
         if(item.homeOutcome == 'win'){
           home = "<span class='text-heavy'>" + home + "</span>";
-        }else if(item.awayOutcome == 'win'){
+          sort = Number(item.homeScore);
+        } else if(item.awayOutcome == 'win'){
           away = "<span class='text-heavy'>" + away + "</span>";
+          sort = Number(item.awayScore);
         }
-          s = home + " - " + away;
+        else {
+          sort = Number(item.awayScore);
+        }
+        display = home + " - " + away;
         break;
 
       case "wl":
         //shows the current teams w/l of the current game
         if(this.curTeam == item.homeTeamId){
-          s = item.homeOutcome.charAt(0).toUpperCase() + " " + item.homeScore + " - " + item.awayScore;
+          display = item.homeOutcome.charAt(0).toUpperCase() + " " + item.homeScore + " - " + item.awayScore;
         }else{
-          s = item.awayOutcome.charAt(0).toUpperCase() + " " + item.awayScore + " - " + item.homeScore;
+          display = item.awayOutcome.charAt(0).toUpperCase() + " " + item.awayScore + " - " + item.homeScore;
         }
+        sort = Number(item.homeScore);
         break;
 
       case "rec":
         //shows the record of the current teams game at that time
-          s = item.targetTeamWinsCurrent + " - " + item.targetTeamLossesCurrent;
+        display = item.targetTeamWinsCurrent + " - " + item.targetTeamLossesCurrent;
+        sort = Number(item.targetTeamWinsCurrent);
         break;
     }
-    return s;
-  }
-
-  getSortValueAt(item, column:TableColumn) {
-    var o = null;
-    switch (column.key) {
-      case "date":
-        o = item.startDateTimestamp;
-        break;
-
-      case "t":
-        o = item.startDateTimestamp;
-        break;
-
-      case "away":
-        o = item.awayTeamName;
-        break;
-
-      case "home":
-        o =item.homeTeamName;
-        break;
-
-      case "opp":
-        if(this.curTeam == item.homeTeamId){
-          o = item.awayTeamName;
-        }else{
-          o = item.homeTeamName;
-        }
-        break;
-
-      case "gs":
-        o = item.eventStatus;
-        break;
-
-      case "r":
-        o = item.results;
-        break;
-
-      case "wl":
-        o = item.homeOutcome;
-        break;
-
-      case "rec":
-        o = item.homeScore;
-        break;
+    if ( isLocation ) {
+      display = "<span class='location-wrap'>"+display+"</span>";
     }
-    return o;
-  }
-
-  getImageConfigAt(item, column:TableColumn):CircleImageData {
-    if ( column.key === "away") {
-      //TODO-CJP: store after creation? or create each time?
-      return {
-          imageClass: "image-48",
-          mainImage: {
-            imageUrl: GlobalSettings.getImageUrl(item.awayTeamLogo),
-            imageClass: "border-1",
-            urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.awayTeamName,item.awayTeamId.toString()),
-            hoverText: "<i class='fa fa-mail-forward'></i>",
-          },
-          subImages: []
-        };
-    }else if ( column.key === "home") {
-      //TODO-CJP: store after creation? or create each time?
-      return {
-          imageClass: "image-48",
-          mainImage: {
-            imageUrl: GlobalSettings.getImageUrl(item.homeTeamLogo),
-            imageClass: "border-1",
-            urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.homeTeamName,item.homeTeamId.toString()),
-            hoverText: "<i class='fa fa-mail-forward'></i>",
-          },
-          subImages: []
-        };
-    }else if (column.key === 'opp'){
-      if(this.curTeam == item.homeTeamId){
-        return {
-            imageClass: "image-48",
-            mainImage: {
-              imageUrl: GlobalSettings.getImageUrl(item.awayTeamLogo),
-              imageClass: "border-1",
-              urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.awayTeamName,item.awayTeamId.toString()),
-              hoverText: "<i class='fa fa-mail-forward'></i>",
-            },
-            subImages: []
-          };
-      }else{
-        return {
-            imageClass: "image-48",
-            mainImage: {
-              imageUrl: GlobalSettings.getImageUrl(item.homeTeamLogo),
-              imageClass: "border-1",
-              urlRouteArray: MLBGlobalFunctions.formatTeamRoute(item.homeTeamName,item.homeTeamId.toString()),
-              hoverText: "<i class='fa fa-mail-forward'></i>",
-            },
-            subImages: []
-          };
-      }
+    else if ( display == null ) {
+      display = "N/A";
     }
-    else {
-      return undefined;
-    }
-  }
-
-  hasImageConfigAt(column:TableColumn):boolean {
-    return (column.key === "home" || column.key === "away" || column.key === "opp");
-  }
-
-  getRouterLinkAt(item, column:TableColumn):Array<any> {
-    if ( column.key === "home" ) {
-      return MLBGlobalFunctions.formatTeamRoute(item.homeTeamName,item.homeTeamId.toString());
-    }else if ( column.key === "away" ) {
-      return MLBGlobalFunctions.formatTeamRoute(item.awayTeamName,item.awayTeamId.toString());
-    }else if ( column.key === "opp" ){
-      if(this.curTeam == item.homeTeamId){
-        return MLBGlobalFunctions.formatTeamRoute(item.awayTeamName,item.awayTeamId.toString());
-      }else{
-        return MLBGlobalFunctions.formatTeamRoute(item.homeTeamName,item.homeTeamId.toString());
-      }
-    }
-    else {
-      return undefined;
-    }
-  }
-
-  hasRouterLinkAt(column:TableColumn):boolean {
-    return (column.key === "home" || column.key === "away" || column.key === "opp");
+    return new CellData(display, sort, link, imageUrl);
   }
 }

@@ -13,11 +13,43 @@ import {TitleInputData} from '../components/title/title.component';
 
 declare var moment;
 
+interface PlayerItem {
+    teamName: string,
+    teamId: string,
+    conferenceName: string,
+    divisionName: string,
+    stat: string,
+    rank: string,
+    playerId: string,
+    playerName: string,
+    playerFirstName: string,
+    playerLastName: string,
+    imageUrl: string,
+    uniformNumber: string,
+    position: string[],
+    pitchWins: string,
+    pitchLosses: string,
+    teamState: string,
+    teamCity: string,
+    teamFirstName: string,
+    teamLastName: string,
+    teamVenue: string,
+    teamLogo: string,
+    lastUpdated: string,
+    backgroundImage: string    
+}
+
+interface ListData {
+  listInfo: any;
+  listData: Array<PlayerItem>;
+  query: any;
+}
+
 export class BaseballMVPTabData implements MVPTabData {
   tabDataKey: string;
   tabDisplayTitle: string;
   errorData: any = {
-      data: "Sorry, we do not currently have any data for this mvp list",
+      data: "Sorry, we do not currently have any data for this MVP list",
       icon: "fa fa-remove"
   };
   listData: DetailListInput[] = null;
@@ -32,7 +64,7 @@ export class BaseballMVPTabData implements MVPTabData {
   }
 
   getCarouselData(): Array<SliderCarouselInput> {
-    return ListPageService.carDataPage(this.data, this.profileType);
+    return ListPageService.carDataPage(this.data, this.profileType, this.errorData.data);
   }
 }
 
@@ -59,7 +91,7 @@ export class ListPageService {
     pageNum: //  determined by the limit as well detects what page to view based on the limit ex: limit: 10  page 1 holds 1-10 and page 2 holds 11-20
     }
   */
-  getListPageService(query){
+  getListPageService(query, errorMessage: string){
   //Configure HTTP Headers
   var headers = this.setToken();
 
@@ -80,7 +112,7 @@ export class ListPageService {
         data.data['query'] = query;
         return {
           profHeader: ListPageService.profileHeader(data.data),
-          carData: ListPageService.carDataPage(data.data, 'page'),
+          carData: ListPageService.carDataPage(data.data, 'page', errorMessage),
           listData: ListPageService.detailedData(data.data),
           pagination: data.data.listInfo,
           listDisplayName: data.data.listInfo.name
@@ -140,7 +172,7 @@ export class ListPageService {
       );
   }
 
-  formatData(key: string, data: Array<any>) {
+  formatData(key: string, data: Array<PlayerItem>) {
       data.forEach(item => {
         switch (key) {
           case 'pitcher-strikeouts':
@@ -184,27 +216,19 @@ export class ListPageService {
   }
 
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
-  static carDataPage(data, profileType: string){
+  static carDataPage(data: ListData, profileType: string, errorMessage: string){
     var carouselArray = [];
     var currentYear = new Date().getFullYear();//TODO FOR POSSIBLE past season stats but for now we have lists for current year season
     var carData = data.listData;
     var carInfo = data.listInfo;
     if(carData.length == 0){
-      var dummyImg = "/app/public/no-image.png";
-      var dummyRoute = ['Error-page'];
-      carouselArray = [{// dummy data if empty array is sent back
-        index:'2',
-        imageConfig: ListPageService.imageData("carousel", dummyImg, dummyRoute, 1),
-        description:[
-          '<p style="font-size:20px"><span class="text-heavy">Sorry, we currently do not have any data for this particular list</span><p>',
-        ],
-      }];
+      carouselArray.push(SliderCarousel.convertToEmptyCarousel(errorMessage));
     } else{
       //if data is coming through then run through the transforming function for the module
       carouselArray = carData.map(function(val, index){
         var carouselItem;
-        var rank = ((Number(data.query.pageNum) - 1) * Number(data.query.limit)) + (index+1);
-        val.listRank = rank;
+        var rank = ((Number(data.query.pageNum) - 1) * Number(data.query.limit)) + (index+1);        
+        val.rank = rank.toString();
 
         var teamRoute = MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId);
         var teamLinkText = {
@@ -217,7 +241,6 @@ export class ListPageService {
         var primaryImage: string;
         var profileLinkText: Link;
         var description: Array<Link | string>;
-
 
         if(data.query.profile == 'team') {
           ctaDesc = 'Interested in discovering more about this team?';
@@ -247,27 +270,19 @@ export class ListPageService {
           ];
         }
 
-        carouselItem = SliderCarousel.convertListItemToSliderCarouselItem(index, {
+        carouselItem = SliderCarousel.convertToCarouselItemType2(index, {
           isPageCarousel: profileType == 'page',
-          backgroundImage: null,
-          copyrightInfo: null,
+          backgroundImage: GlobalSettings.getImageUrl(val.backgroundImage),
+          copyrightInfo: GlobalSettings.getCopyrightInfo(),
           profileNameLink: profileLinkText,
           description: description,
           dataValue: val.stat,
           dataLabel: MLBGlobalFunctions.formatStatName(carInfo.stat)+' for '+ currentYear,
           circleImageUrl: primaryImage,
           circleImageRoute: primaryRoute,
-          rank: rank
+          rank: val.rank
         });
-
-        if(profileType == 'page'){
-          carouselItem.footerInfo = {
-            infoDesc: ctaDesc,
-            text: 'View Profile',
-            url: primaryRoute
-          }
-        }
-
+        
         return carouselItem;
       });
     }

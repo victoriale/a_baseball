@@ -52,6 +52,9 @@ import {NewsService} from '../../services/news.service';
 import {TransactionsModule, TransactionModuleData} from "../../modules/transactions/transactions.module";
 import {TransactionsService} from "../../services/transactions.service";
 
+import {ListOfListsModule} from "../../modules/list-of-lists/list-of-lists.module";
+import {ListOfListsService} from "../../services/list-of-lists.service";
+
 import {GlobalSettings} from "../../global/global-settings";
 import {ImagesService} from "../../services/carousel.service";
 import {ImagesMedia} from "../../components/carousels/images-media-carousel/images-media-carousel.component";
@@ -83,6 +86,7 @@ declare var moment;
         TransactionsModule,
         NewsModule,
         AboutUsModule,
+        ListOfListsModule,
         ImagesMedia],
     providers: [
         BoxScoresService,
@@ -98,6 +102,7 @@ declare var moment;
         ComparisonStatsService,
         TwitterService,
         TransactionsService,
+        ListOfListsService,
         Title
       ]
 })
@@ -134,6 +139,7 @@ export class MLBPage implements OnInit {
     profileType:string = "league";
     profileName:string = "MLB";
     listMax:number = 10;
+    listOfListsData:Object; // paginated data to be displayed
     newsDataArray: Array<Object>;
     faqData: Array<faqModuleData>;
     dykData: Array<dykModuleData>;
@@ -154,6 +160,7 @@ export class MLBPage implements OnInit {
                 private _twitterService: TwitterService,
                 private _comparisonService: ComparisonStatsService,
                 private _transactionsService: TransactionsService,
+                private _lolService: ListOfListsService,
                 private listService:ListPageService) {
         _title.setTitle(GlobalSettings.getPageTitle("MLB"));
 
@@ -205,12 +212,13 @@ export class MLBPage implements OnInit {
                 this.getImages(this.imageData);
                 this.getNewsService();
                 this.getFaqService(this.profileType);
+                // this.setupListOfListsModule(); //NO VALID API YET
                 this.getDykService(this.profileType);
                 this.getTwitterService(this.profileType);
             },
             err => {
                 this.hasError = true;
-                console.log("Error getting team profile data for " + this.pageParams.teamId + ": " + err);
+                console.log("Error getting team profile data for mlb", err);
             }
         );
     }
@@ -283,9 +291,30 @@ export class MLBPage implements OnInit {
             this.faqData = data;
         },
         err => {
-            console.log("Error getting faq data");
+            console.log("Error getting faq data for mlb", err);
         });
-   }
+   }   
+
+    private setupListOfListsModule() {
+        // getListOfListsService(version, type, id, scope?, count?, page?){
+        let params = {
+          id : this.pageParams.teamId,
+          limit : 4,
+          pageNum : 1,
+          type : "mbl"
+        }
+        this._lolService.getListOfListsService(params, "module")
+            .subscribe(
+                listOfListsData => {
+                    this.listOfListsData = listOfListsData.listData;
+                    this.listOfListsData["type"] = "mbl";
+                },
+                err => {
+                    console.log('Error: listOfListsData API: ', err);
+                }
+            );
+    }
+
     private getNewsService() {
         this._newsService.getNewsService('Major League Baseball')
             .subscribe(data => {
@@ -354,7 +383,8 @@ export class MLBPage implements OnInit {
     }
 
     private draftHistoryModule(year: number) {
-      this._draftService.getDraftHistoryService(year, null, 'module')
+      var errorMessage = "Sorry, " + this.profileHeaderData.profileName + " does not currently have any data for the " + year + " draft history";
+      this._draftService.getDraftHistoryService(year, null, errorMessage, 'module')
         .subscribe(
             draftData => {
                 var dataArray, detailedDataArray, carouselDataArray;
@@ -372,7 +402,7 @@ export class MLBPage implements OnInit {
                     listData: detailedDataArray,
                     carData: carouselDataArray,
                     errorData: {
-                        data: "Sorry, " + this.profileHeaderData.profileName + " does not currently have any data for the " + year + " draft history",
+                        data: errorMessage,
                         icon: "fa fa-remove"
                     }
                 }

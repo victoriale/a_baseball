@@ -1,4 +1,4 @@
-import {TableModel, TableColumn} from '../components/custom-table/table-data.component';
+import {TableModel, TableColumn, CellData} from '../components/custom-table/table-data.component';
 import {CircleImageData} from '../components/images/image-data';
 import {RosterTabData} from '../components/roster/roster.component';
 import {SliderCarousel,SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
@@ -148,7 +148,7 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
       route: teamRoute,
       text: val.teamName
     }
-    return SliderCarousel.convertToSliderCarouselItem(index, {
+    return SliderCarousel.convertToCarouselItemType1(index, {
       backgroundImage: val.backgroundImage != null ? GlobalSettings.getImageUrl(val.backgroundImage) : null,
       copyrightInfo: GlobalSettings.getCopyrightInfo(),
       subheader: [curYear + ' TEAM ROSTER'],
@@ -170,7 +170,7 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
   }
 }
 
-export class RosterTableModel {
+export class RosterTableModel implements TableModel<TeamRosterData> {
   columns: Array<TableColumn> = [{
       headerValue: "Player",
       columnClass: "image-column",
@@ -206,13 +206,21 @@ export class RosterTableModel {
 
   rows: Array<TeamRosterData>;
 
-  selectedKey:string = "";
+  selectedKey: string = "";
 
   constructor(rows: Array<TeamRosterData>) {
     this.rows = rows;
     if ( this.rows === undefined || this.rows === null ) {
       this.rows = [];
     }
+  }
+
+  setSelectedKey(key: string) {
+    this.selectedKey = key;
+  }
+
+  getSelectedKey(): string {
+    return this.selectedKey;
   }
 
   setRowSelected(rowIndex:number) {
@@ -228,100 +236,44 @@ export class RosterTableModel {
     return this.selectedKey == item.playerId;
   }
 
-  getDisplayValueAt(item:TeamRosterData, column:TableColumn):string {
-    let self = this;
-    var s = "";
+  getCellData(item:TeamRosterData, column:TableColumn): CellData {
+    var display = "";
+    var sort = null;
+    var link: Array<any> = null;
+    var imageUrl: string = null;
     switch (column.key) {
       case "name":
-        s = item.playerLastName + ', ' + item.playerFirstName;
+        display = item.playerName;
+        sort = item.playerLastName + ', ' + item.playerFirstName;
+        link = MLBGlobalFunctions.formatPlayerRoute(item.teamName, item.playerName, item.playerId);
+        imageUrl = GlobalSettings.getImageUrl(item.playerHeadshot);
         break;
 
       case "pos":
-        s = typeof item.position[0] == 'undefined' ? "N/A" : item.position.join(', ');
+        display = typeof item.position[0] == 'undefined' ? "N/A" : item.position.join(', ');
+        sort = item.position != null ? item.position.toString() : null;
         break;
 
       case "ht":
-        s = typeof item.height == 'undefined' ? "N/A" : MLBGlobalFunctions.formatHeight(item.height);
+        display = typeof item.height == 'undefined' ? "N/A" : MLBGlobalFunctions.formatHeight(item.height);
+        sort = item.heightInInches != null ? Number(item.heightInInches) : null;
         break;
 
       case "wt":
-        s = typeof item.weight == 'undefined' ? "N/A" : item.weight + " lbs.";
+        display = typeof item.weight == 'undefined' ? "N/A" : item.weight + " lbs.";
+        sort = item.weight != null ? Number(item.weight) : null;
         break;
 
       case "age":
-      s = typeof item.age == 'undefined' ? "N/A" : item.age.toString();
+        display = typeof item.age == 'undefined' ? "N/A" : item.age.toString();
+        sort = item.age != null ? Number(item.age) : null;
         break;
 
       case "sal":
-        s = item.salary == null ? "N/A" : "$" + GlobalFunctions.nFormatter(Number(item.salary));
+        display = item.salary == null ? "N/A" : "$" + GlobalFunctions.nFormatter(Number(item.salary));
+        sort = item.salary != null ? Number(item.salary) : null;
         break;
     }
-    return s;
-  }
-
-  getSortValueAt(item:TeamRosterData, column:TableColumn):any {
-    var s = null;
-    switch (column.key) {
-        case "name":
-          s = item.playerName;
-          break;
-
-        case "pos":
-          s = item.position != null ? item.position.toString() : null;
-          break;
-
-        case "ht":
-          s = item.heightInInches != null ? Number(item.heightInInches) : null;
-          break;
-
-        case "wt":
-          s = item.weight != null ? Number(item.weight) : null;
-          break;
-
-        case "age":
-        s = item.age != null ? Number(item.age) : null;
-          break;
-
-        case "sal":
-          s = item.salary != null ? Number(item.salary) : null;
-          break;
-      }
-      return s;
-  }
-
-  getImageConfigAt(item:TeamRosterData, column:TableColumn):CircleImageData {
-    if ( column.key === "name" ) {
-      return {
-          imageClass: "image-50",
-          mainImage: {
-            imageUrl: GlobalSettings.getImageUrl(item.playerHeadshot),
-            imageClass: "border-2",
-            urlRouteArray: MLBGlobalFunctions.formatPlayerRoute(item.teamName,item.playerName,item.playerId.toString()),
-            hoverText: "<i class='fa fa-mail-forward'></i>",
-          },
-          subImages: []
-        };
-    }
-    else {
-      return undefined;
-    }
-  }
-
-  hasImageConfigAt(column:TableColumn):boolean {
-    return column.key === "name";
-  }
-
-  getRouterLinkAt(item:TeamRosterData, column:TableColumn):Array<any> {
-    if ( column.key === "name" ) {
-      return MLBGlobalFunctions.formatPlayerRoute(item.teamName,item.playerName,item.playerId.toString());
-    }
-    else {
-      return undefined;
-    }
-
-  }
-
-  hasRouterLinkAt(column:TableColumn):boolean {
-    return column.key === "name";
+    return new CellData(display, sort, link, imageUrl);
   }
 }

@@ -21,37 +21,40 @@ export class DraftHistoryService {
       return headers;
   }
 
-  getDraftHistoryService(year, teamId, type?){
-  //Configure HTTP Headers
-  var headers = this.setToken();
-  //for MLB season starts and ends in the same year so return current season
-  //get past 5 years for tabs
-  var tabDates = Number(year);
-  var tabArray = [];
-  var currentYear = '';
-  for(var i = 0; i <5; i++){
-    if(i == 0){
-      var currentYear = 'Current Season';
-    }else{
-      var currentYear = (tabDates - i).toString();
+/**
+ * @param {string} type - 'page' or 'module'
+ */
+  getDraftHistoryService(year, teamId, errorMessage: string, type: string){
+    //Configure HTTP Headers
+    var headers = this.setToken();
+    //for MLB season starts and ends in the same year so return current season
+    //get past 5 years for tabs
+    var tabDates = Number(year);
+    var tabArray = [];
+    var currentYear = '';
+    for(var i = 0; i <5; i++){
+      if(i == 0){
+        var currentYear = 'Current Season';
+      }else{
+        var currentYear = (tabDates - i).toString();
+      }
+      tabArray.push({
+        tabData:tabDates - i,
+        tabDisplay:currentYear,
+      });
     }
-    tabArray.push({
-      tabData:tabDates - i,
-      tabDisplay:currentYear,
-    });
-  }
 
-  var callURL;
-  if ( teamId ) {
-    callURL = this._apiUrl + '/team/draftHistory/'+teamId+'/'+year;
-  }
-  else {
-    //http://dev-homerunloyal-api.synapsys.us/league/draftHistory/2016
-    callURL = this._apiUrl + '/league/draftHistory/'+ year;
-  }
-  // console.log(callURL);
+    var callURL;
+    if ( teamId ) {
+      callURL = this._apiUrl + '/team/draftHistory/'+teamId+'/'+year;
+    }
+    else {
+      //http://dev-homerunloyal-api.synapsys.us/league/draftHistory/2016
+      callURL = this._apiUrl + '/league/draftHistory/'+ year;
+    }
+    // console.log(callURL);
 
-  return this.http.get( callURL, {
+    return this.http.get( callURL, {
       headers: headers
     })
     .map(
@@ -62,18 +65,12 @@ export class DraftHistoryService {
         var returnData = {}
         if(type == 'module'){
           if(data.data.length >1) data.data = data.data.slice(0,2);// the module should only have 2 data points displaying
-          return returnData = {
-            carData:this.carDraftHistory(data.data, type),
-            listData:this.detailedData(data.data),
-            tabArray:tabArray,
-          };
-        }else{
-          return returnData = {
-            carData:this.carDraftHistory(data.data, type),
-            listData:this.detailedData(data.data),
-            tabArray:tabArray,
-          };
         }
+        return returnData = {
+          carData:this.carDraftHistory(data.data, errorMessage, type),
+          listData:this.detailedData(data.data),
+          tabArray:tabArray,
+        };
       },
       err => {
         console.log('INVALID DATA');
@@ -83,20 +80,12 @@ export class DraftHistoryService {
 
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
   //FOR THE PAGE
-  carDraftHistory(data, type){
+  carDraftHistory(data, errorMessage: string, type){
     let self = this;
     var carouselArray = [];
     var dummyImg = "/app/public/no-image.png";
     if(data.length == 0){//if no data is being returned then show proper Error Message in carousel
-      var Carousel = {
-        index:'2',
-        //TODO
-        imageConfig: ListPageService.imageData("carousel", dummyImg, null, 1),
-        description:[
-          "<p style='font-size:20px'><b>Sorry, we currently do not have any data for this year's draft history</b><p>",
-        ],
-      };
-      carouselArray.push(Carousel);
+      carouselArray.push(SliderCarousel.convertToEmptyCarousel(errorMessage));
     }else{
       //if data is coming through then run through the transforming function for the module
       data.forEach(function(val, index){
@@ -110,7 +99,7 @@ export class DraftHistoryService {
 
         var rank = (index+1).toString();
         var location = GlobalFunctions.toTitleCase(val.city) + ', ' + GlobalFunctions.stateToAP(val.area);
-        var carouselItem = SliderCarousel.convertListItemToSliderCarouselItem(index, {
+        var carouselItem = SliderCarousel.convertToCarouselItemType2(index, {
           isPageCarousel: false, 
           backgroundImage: GlobalSettings.getImageUrl(val.backgroundImage),
           copyrightInfo: GlobalSettings.getCopyrightInfo(),
@@ -122,13 +111,13 @@ export class DraftHistoryService {
           circleImageRoute: playerRoute,
           rank: rank
         });
-        if(type == 'page'){
-          carouselItem.footerInfo = {
-            infoDesc:'Interested in discovering more about this player?',
-            text:'View Profile',
-            url:playerRoute,
-          }
-        }
+        // if(type == 'page'){ //removed from spec
+        //   carouselItem.footerInfo = {
+        //     infoDesc:'Interested in discovering more about this player?',
+        //     text:'View Profile',
+        //     url:playerRoute,
+        //   }
+        // }
         carouselArray.push(carouselItem);
       });
     }
