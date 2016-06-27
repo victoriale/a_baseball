@@ -94,8 +94,8 @@ export class SchedulesService {
       .map(data => {
         var tableData = this.setupTableData(eventStatus, year, data.data, id, limit, isTeamProfilePage);
         var tabData = [
-          {display: 'Upcoming Games', data:'pre-event', season:displayYear, tabData: new MLBScheduleTabData(this.formatGroupName(year,'pre-event'), true)},
-          {display: 'Previous Games', data:'post-event', season:displayYear, tabData: new MLBScheduleTabData(this.formatGroupName(year,'post-event'), true)}
+          {display: 'Upcoming Games', data:'pre-event', disclaimer:'Times are displayed in ET and are subject to change', season:displayYear, tabData: new MLBScheduleTabData(this.formatGroupName(year,'pre-event'), true)},
+          {display: 'Previous Games', data:'post-event', disclaimer:'Games are displayed by most recent.', season:displayYear, tabData: new MLBScheduleTabData(this.formatGroupName(year,'post-event'), true)}
         ];
         return {
           data:tableData,
