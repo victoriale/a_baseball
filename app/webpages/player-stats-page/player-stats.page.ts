@@ -66,7 +66,7 @@ export class PlayerStatsPage implements OnInit {
           this._title.setTitle(GlobalSettings.getPageTitle("Player Stats", data.teamName));
           var teamRoute = MLBGlobalFunctions.formatTeamRoute(data.teamName, data.pageParams.teamId ? data.pageParams.teamId.toString() : null);
           this.setupTitleData(teamRoute, data.teamName, data.fullProfileImageUrl);
-          this.tabs = this._statsService.initializeAllTabs(data.teamName);
+          this.tabs = this._statsService.initializeAllTabs(data.teamName, false);
         },
         err => {
           this.hasError = true;

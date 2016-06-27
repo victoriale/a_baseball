@@ -71,11 +71,14 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
 
   isPitcherTable: boolean;
 
-  constructor(teamName: string, tabName: string, isPitcherTable: boolean, isActive: boolean) {
+  isTeamProfilePage: boolean;
+
+  constructor(teamName: string, tabName: string, isPitcherTable: boolean, isActive: boolean, isTeamProfilePage: boolean) {
     this.tabTitle = tabName;
     this.tableName = "<span class='text-heavy'>" + teamName + "</span> " + tabName + " Stats";
     this.isActive = isActive;
     this.isPitcherTable = isPitcherTable;
+    this.isTeamProfilePage = isTeamProfilePage;
     if ( this.isPitcherTable ) {
       this.glossary = [
         {key: "W/L", value: "Wins/Losses"},
@@ -124,7 +127,7 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
       route: playerRoute,
       text: item.playerName
     }
-    var teamRoute = MLBGlobalFunctions.formatTeamRoute(item.teamName, item.teamId.toString());
+    var teamRoute =this.isTeamProfilePage ? null : MLBGlobalFunctions.formatTeamRoute(item.teamName, item.teamId.toString());
     var teamLinkText = {
       route: teamRoute,
       text: item.teamName

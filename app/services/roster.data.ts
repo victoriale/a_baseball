@@ -53,12 +53,14 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
   hasError: boolean = false;
   errorMessage: string;
   tableData: RosterTableModel;
+  isTeamProfilePage: boolean;
 
-  constructor(private _service: RosterService, teamId: string, type: string, conference: Conference, maxRows: number) {
+  constructor(private _service: RosterService, teamId: string, type: string, conference: Conference, maxRows: number, isTeamProfilePage: boolean) {
     this.type = type;
     this.teamId = teamId;
     this.maxRows = maxRows;
     this.errorMessage = "Sorry, there is no roster data available.";
+    this.isTeamProfilePage = isTeamProfilePage;
 
     if ( this.type == "hitters" && conference == Conference.national ) {
       this.hasError = true;
@@ -126,7 +128,7 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
 
   convertToCarouselItem(val:TeamRosterData, index:number):SliderCarouselInput {
     var playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.teamName,val.playerName,val.playerId);
-    var teamRoute = MLBGlobalFunctions.formatTeamRoute(val.teamName,val.teamId);
+    var teamRoute = this.isTeamProfilePage ? null : MLBGlobalFunctions.formatTeamRoute(val.teamName,val.teamId);
     var curYear = new Date().getFullYear();
 
     var formattedHeight = MLBGlobalFunctions.formatHeightWithFoot(val.height);
@@ -148,6 +150,7 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
       route: teamRoute,
       text: val.teamName
     }
+
     return SliderCarousel.convertToCarouselItemType1(index, {
       backgroundImage: val.backgroundImage != null ? GlobalSettings.getImageUrl(val.backgroundImage) : null,
       copyrightInfo: GlobalSettings.getCopyrightInfo(),
