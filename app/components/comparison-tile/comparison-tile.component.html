@@ -20,17 +20,15 @@
     </div>
     <div class="comparison-tile-label">
           <span class="comparison-tile-label-line-one">
-            <span *ngIf="!comparisonTileInput.linkObj">
+            <complex-inner-html [textItems]="comparisonTileInput.title"></complex-inner-html>
+            <!-- <a *ngIf="comparisonTileInput.linkObj" [routerLink]="comparisonTileInput.linkObj">
               {{comparisonTileInput.title}}
-            </span>
-            <a *ngIf="comparisonTileInput.linkObj" [routerLink]="comparisonTileInput.linkObj">
-              {{comparisonTileInput.title}}
-            </a>
+            </a> -->
           </span>
         <span class="comparison-tile-label-line-two">
             <span *ngFor="#item of comparisonTileInput.description" class="{{item.class}}">
-              <span *ngIf="!item.itemLink" [innerHtml]="item.text"></span>
-              <a *ngIf="item.itemLink" [routerLink]="item.itemLink" [innerHtml]="item.text"></a>
+              <complex-inner-html [textItems]="item.text"></complex-inner-html>
+              <!-- <a *ngIf="item.itemLink" [routerLink]="item.itemLink" [innerHtml]="item.text"></a> -->
             </span>
         </span>
     </div>

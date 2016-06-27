@@ -166,6 +166,14 @@ export class ComparisonModule implements OnInit, OnChanges {
     }
 
     setupTile(player: PlayerData): ComparisonTileInput {
+        var playerLinkText = {
+          route: MLBGlobalFunctions.formatPlayerRoute(player.teamName,player.playerName,player.playerId),
+          text: player.playerName
+        }
+        var teamLinkText = {
+          route: MLBGlobalFunctions.formatTeamRoute(player.teamName,player.teamId),
+          text: player.teamName
+        }
         return {
             dropdownOneKey: player.teamId,
             dropdownTwoKey: player.playerId,
@@ -190,23 +198,21 @@ export class ComparisonModule implements OnInit, OnChanges {
                     }
                 ],
             },
-            title: player.playerName,
-            linkObj: MLBGlobalFunctions.formatPlayerRoute(player.teamName, player.playerName, player.playerId),
+            title: [playerLinkText],
             description: [
                 {
-                    text: 'Position: '
+                    text: ['Position: ']
                 },
                 {
-                    text: player.position,
+                    text: [player.position],
                     class: 'text-heavy'
                 },
                 {
-                    text: ' |&nbsp;&nbsp;Team: ', //TODO: differently
+                    text: [' |&nbsp;&nbsp;Team: '], //TODO: differently
                     class: ''
                 },
                 {
-                    text: player.teamName,
-                    itemLink: MLBGlobalFunctions.formatTeamRoute(player.teamName, player.teamId),
+                    text: [teamLinkText],
                     class: 'text-heavy'
                 }
             ],
