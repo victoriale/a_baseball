@@ -10,7 +10,6 @@ import {Gradient} from '../global/global-gradient';
 
 declare var moment: any;
 
-//TODO-CJP: Ask backend to return values as numbers and not strings!
 export interface SchedulesData {
   index:any;
   backgroundImage: string,
@@ -110,9 +109,12 @@ export class MLBSchedulesTableData implements TableComponentData<SchedulesData> 
 
   tableData: any;
 
-  constructor(title: string, table: any) {
+  currentTeamProfile: string;
+
+  constructor(title: string, table: any, currentTeamProfile: string) {
     this.groupName = title;
     this.tableData = table;
+    this.currentTeamProfile = currentTeamProfile;
   }
 
   updateCarouselData(item: SchedulesData, index:number){//ANY CHANGES HERE CHECK setupTableData in schedules.service.ts
@@ -122,8 +124,8 @@ export class MLBSchedulesTableData implements TableComponentData<SchedulesData> 
     }else{
       var displayNext = 'Previous Game:';
     }
-    var teamRouteAway = MLBGlobalFunctions.formatTeamRoute(item.awayTeamName, item.awayTeamId);
-    var teamRouteHome = MLBGlobalFunctions.formatTeamRoute(item.homeTeamName, item.homeTeamId);
+    var teamRouteAway = this.currentTeamProfile == item.awayTeamId ? null : MLBGlobalFunctions.formatTeamRoute(item.awayTeamName, item.awayTeamId);
+    var teamRouteHome = this.currentTeamProfile == item.homeTeamId ? null : MLBGlobalFunctions.formatTeamRoute(item.homeTeamName, item.homeTeamId);
     var colors = Gradient.getColorPair(item.awayTeamColors.split(','), item.homeTeamColors.split(','));
 
     return {//placeholder data
@@ -173,9 +175,12 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
 
   private curTeam:string;//grab the current teams object name being returned to determine where the current team stands (away / home)
 
-  constructor(rows: Array<any>, eventStatus, teamId) {
+  private isTeamProfilePage: boolean;
+
+  constructor(rows: Array<any>, eventStatus, teamId, isTeamProfilePage: boolean) {
     //find if current team is home or away and set the name to the current objects name
     this.curTeam = teamId ? teamId.toString() : null;
+    this.isTeamProfilePage = isTeamProfilePage;
     if(eventStatus === 'pre-event'){
       this.columns = [{
          headerValue: "DATE",
@@ -186,6 +191,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
        },{
          headerValue: "TIME",
          columnClass: "date-column",
+         ignoreSort: true,
          key: "t"
        },{
          headerValue: "AWAY",
@@ -218,6 +224,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
            headerValue: "RESULTS",
            columnClass: "data-column results-column",
            isNumericType: false,
+           ignoreSort: true,
            key: "r"
          },{
            headerValue: "GAME SUMMARY",
@@ -235,6 +242,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
          },{
            headerValue: "TIME",
            columnClass: "date-column",
+           ignoreSort: true,
            key: "t"
          },{
            headerValue: "OPPOSING TEAM",
@@ -287,25 +295,25 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
   isRowSelected(item:SchedulesData, rowIndex:number): boolean {
     return this.selectedKey == item.eventId;
   }
-  
+
   getCellData(item:SchedulesData, column:TableColumn):CellData {
     var display = "";
     var sort: any = null;
     var link: Array<any> = null;
     var imageUrl: string = null;
     var isLocation = false;
-    
+
     var hdrColumnKey = column.key;
     if ( column.key == "opp" ) {
-        hdrColumnKey = this.curTeam == item.homeTeamId ? "away" : "home"; 
+        hdrColumnKey = this.curTeam == item.homeTeamId ? "away" : "home";
     }
-    
+
     switch (hdrColumnKey) {
       case "date":
-        display = GlobalFunctions.formatDateWithAPMonth(item.startDateTimestamp, "", "DD");        
+        display = GlobalFunctions.formatDateWithAPMonth(item.startDateTimestamp, "", "DD");
         sort = item.startDateTimestamp;
         break;
-        
+
       case "t":
         display = moment(item.startDateTimestamp).tz('America/New_York').format('h:mm') + " <sup> "+moment(item.startDateTimestamp).tz('America/New_York').format('A')+" </sup>";
         sort = item.startDateTimestamp;
@@ -316,7 +324,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
         display = item.awayTeamLastName.length > 10 ? item.awayTeamNickname : item.awayTeamLastName;
         sort = item.awayTeamLastName;
         imageUrl = GlobalSettings.getImageUrl(item.awayTeamLogo);
-        if ( this.curTeam != item.awayTeamId ) {
+        if ( !this.isTeamProfilePage || this.curTeam != item.awayTeamId ) {
           link = MLBGlobalFunctions.formatTeamRoute(item.awayTeamName, item.awayTeamId);
         }
         break;
@@ -326,7 +334,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
         display = item.homeTeamLastName.length > 10 ? item.homeTeamNickname : item.homeTeamLastName;
         sort = item.homeTeamLastName;
         imageUrl = GlobalSettings.getImageUrl(item.homeTeamLogo);
-        if ( this.curTeam != item.homeTeamId ) {
+        if ( !this.isTeamProfilePage || this.curTeam != item.homeTeamId ) {
           link = MLBGlobalFunctions.formatTeamRoute(item.homeTeamName, item.homeTeamId);
         }
         break;
@@ -369,13 +377,13 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
         }else{
           display = item.awayOutcome.charAt(0).toUpperCase() + " " + item.awayScore + " - " + item.homeScore;
         }
-        sort = item.homeOutcome;
+        sort = Number(item.homeScore);
         break;
 
       case "rec":
         //shows the record of the current teams game at that time
         display = item.targetTeamWinsCurrent + " - " + item.targetTeamLossesCurrent;
-        sort = item.homeScore;
+        sort = Number(item.targetTeamWinsCurrent);
         break;
     }
     if ( isLocation ) {

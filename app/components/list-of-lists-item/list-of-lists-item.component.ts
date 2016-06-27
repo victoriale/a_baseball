@@ -20,25 +20,6 @@ export interface IListOfListsItem {
     dataPoints: Array<{
         imageUrl:   string;
         urlRoute:   [any];
-
-        //imageConfig:  CircleImageData;
-        //mainImage:    ImageData;
-        //urlRouteArray?: Array<any>; //TODO-CJP make not 'any'
-        //imageUrl?: string;
-        //placeholderImageUrl?: string;
-        //hoverText?: string;
-        //text?: string;
-        //imageClass: string;
-
-        //subImages?:   Array<ImageData>;
-        //urlRouteArray?: Array<any>; //TODO-CJP make not 'any'
-        //imageUrl?: string;
-        //placeholderImageUrl?: string;
-        //hoverText?: string;
-        //text?: string;
-        //imageClass: string;
-
-        //imageClass:   string;
     }>;
 }
 

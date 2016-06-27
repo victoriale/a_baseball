@@ -225,8 +225,8 @@ export class TeamPage implements OnInit {
                 this.getBoxScores(this.dateParam);
                 this.getSchedulesData('pre-event');//grab pre event data for upcoming games
                 this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams, this.pageParams.teamId, data.teamName);
-                this.rosterData = this._rosterService.loadAllTabsForModule(this.pageParams.teamId, data.teamName, this.pageParams.conference);
-                this.playerStatsData = this._playerStatsService.loadAllTabsForModule(this.pageParams.teamId, data.teamName);
+                this.rosterData = this._rosterService.loadAllTabsForModule(this.pageParams.teamId, data.teamName, this.pageParams.conference, true);
+                this.playerStatsData = this._playerStatsService.loadAllTabsForModule(this.pageParams.teamId, data.teamName, true);
                 this.transactionsData = this._transactionsService.loadAllTabsForModule(data.teamName, this.pageParams.teamId);
                 this.draftHistoryModule(this.currentYear, this.pageParams.teamId);
                 //this.loadMVP
@@ -326,7 +326,7 @@ export class TeamPage implements OnInit {
     //api for Schedules
     private getSchedulesData(status){
       var limit = 5;
-      this._schedulesService.getSchedulesService('team', status, limit, 1, this.pageParams.teamId)
+      this._schedulesService.getSchedulesService('team', status, limit, 1, true, this.pageParams.teamId) // isTeamProfilePage = true
       .subscribe(
         data => {
           this.schedulesData = data;
