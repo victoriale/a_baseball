@@ -28,11 +28,11 @@ export class PlayerStatsService {
     return teamName ? "Player Stats - " + teamName : "Player Stats";
   }
 
-  loadAllTabsForModule(teamId: number, teamName: string) {
+  loadAllTabsForModule(teamId: number, teamName: string, isTeamProfilePage: boolean) {
     return {
         moduleTitle: this.getModuleTitle(teamName),
         pageRouterLink: this.getLinkToPage(teamId, teamName),
-        tabs: this.initializeAllTabs(teamName)
+        tabs: this.initializeAllTabs(teamName, isTeamProfilePage)
     };
   }
 
@@ -81,11 +81,11 @@ export class PlayerStatsService {
         });;    
   }
   
-  initializeAllTabs(teamName: string): Array<MLBPlayerStatsTableData> {
+  initializeAllTabs(teamName: string, isTeamProfilePage: boolean): Array<MLBPlayerStatsTableData> {
     let tabs: Array<MLBPlayerStatsTableData> = [];
     
-    tabs.push(new MLBPlayerStatsTableData(teamName, "Batting", false, true)); //isPitcher = false, isActive = true
-    tabs.push(new MLBPlayerStatsTableData(teamName, "Pitching", true, false)); //isPitcher = true, isActive = false
+    tabs.push(new MLBPlayerStatsTableData(teamName, "Batting", false, true, isTeamProfilePage)); //isPitcher = false, isActive = true
+    tabs.push(new MLBPlayerStatsTableData(teamName, "Pitching", true, false, isTeamProfilePage)); //isPitcher = true, isActive = false
     
     return tabs;
   }
