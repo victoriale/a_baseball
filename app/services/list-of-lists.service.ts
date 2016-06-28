@@ -24,28 +24,34 @@ export class ListOfListsService {
     return headers;
   }
 
-  getListOfListsService(urlParams, version){
+        //http://dev-homerunloyal-api.synapsys.us/listOfLists/league/5
+  getListOfListsService(urlParams, profileType: string, pageType: string){
     // Configure HTTP Headers
     var headers = this.setToken();
 
-    let type    = urlParams.type;
-    let id      = urlParams.id;
+    // let type    = urlParams.type;
+    let id      = urlParams.id != null ? urlParams.id : "";
     var limit   = urlParams.limit != null ? urlParams.limit: 4;
     var pageNum = urlParams.pageNum != null ? urlParams.pageNum : 1;
-    var scope   = urlParams.scope != null ? urlParams.scope : null;
 
     // Set scope for url based on type
-    let scopePath;
-    if(type=="player"){
-      // if no scope is set for player list, default to league scope
-      scopePath = scope != null && type == "player" ? '/' + scope : "/league";
-    }
-    else{
-      scopePath = "";
+    let callURL = this._apiUrl + '/listOfLists/';
+    switch ( profileType ) {
+      case "player": 
+        var scope   = urlParams.scope != null ? urlParams.scope : "league";
+        callURL += 'player/' + id + '/' + scope +'/'+ limit +'/' + pageNum;
+        break;
+
+      case "team":
+        callURL += 'team/' + id + '/' + limit +'/' + pageNum;
+        break;
+
+      case "league":
+        callURL += 'league/' + limit; // +'/' + pageNum; //paging not added yet
+        break;
     }
 
-    var callURL = this._apiUrl + '/listOfLists/' + type + '/' + id + scopePath +'/'+ limit +'/' + pageNum;
-    // console.log("list of lists url " + callURL);
+    console.log("list of lists url " + callURL);
     return this.http.get( callURL, {
         headers: headers
       })
@@ -57,10 +63,11 @@ export class ListOfListsService {
           var lastUpdated = "";
           if ( data && data.data && data.data.length > 0 ) {
             lastUpdated = data.data[0].targetData;
+
           }
           return {
-            carData: this.carDataPage(data.data, type),
-            listData: this.detailedData(data.data, version, type),
+            carData: this.carDataPage(data.data, profileType),
+            listData: this.detailedData(data.data, pageType, profileType),
             targetData: this.getTargetData(data.data),
             pagination: data.data[0].listInfo,
             lastUpdated: lastUpdated
@@ -179,6 +186,7 @@ export class ListOfListsService {
       let itemListData = item.listData;
       if( itemListData.length<1 ) return;
       itemListData.unshift(item.targetData);
+      itemListData = itemListData.slice(0, 6);
 
       let itemListInfo = item['listInfo'];
       let ctaUrlArray = itemListInfo.url.split("/");

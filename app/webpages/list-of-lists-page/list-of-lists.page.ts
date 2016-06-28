@@ -34,8 +34,7 @@ export class ListOfListsPage implements OnInit{
     carouselDataArray     : Array<SliderCarouselInput>;
     profileName           : string;
     isError               : boolean = false;
-    version               : string = "page"; // [page,module]
-    type                  : string; // [player,team]
+    pageType              : string; // [player,team]
     id                    : string; // [playerId, teamId]
     limit                 : string; // pagination limit
     pageNum               : string; // page of pages to show
@@ -45,13 +44,16 @@ export class ListOfListsPage implements OnInit{
     paginationParameters  : PaginationParameters;
     titleData             : TitleInputData;
 
-    constructor(private listService:ListOfListsService, private params: RouteParams, private _title: Title) {
+    constructor(private listService:ListOfListsService, private _params: RouteParams, private _title: Title) {
         _title.setTitle(GlobalSettings.getPageTitle("List of Lists"));
+        this.pageType = this._params.get("type");
+        if ( this.pageType == null ) {
+            this.pageType = "league";
+        }
     }
 
-    //getListOfListsService(version, type, id, scope?, count?, page?){
-    getListOfListsPage(urlParams, version) {
-        this.listService.getListOfListsService(urlParams, version)
+    getListOfListsPage(urlParams) {
+        this.listService.getListOfListsService(urlParams, this.pageType, "page")
           .subscribe(
             list => {
                 if(list.listData.length == 0){//makes sure it only runs once
@@ -99,11 +101,9 @@ export class ListOfListsPage implements OnInit{
     //PAGINATION
     //sets the total pages for particular lists to allow client to move from page to page without losing the sorting of the list
     setPaginationParams(input) {
-        var params = this.params.params;
+        var params = this._params.params;
 
         var navigationParams = {
-            type       : params['type'],
-            id         : params['id'],
             limit      : params['limit'],
             pageNum    : params['pageNum'],
         };
@@ -112,12 +112,20 @@ export class ListOfListsPage implements OnInit{
            navigationParams['scope'] = params['scope'];
         }
 
-        var navigationPage: string;
+        if(params['id'] != null) {
+           navigationParams['id'] = params['id'];
+        }
+
+        if ( this.pageType != "league" ) {
+           navigationParams['type'] = this.pageType;
+        }
+           
+        var navigationPage = this.pageType == "league" ? 'List-of-lists-league-page' : 'List-of-lists-page';
         if ( !this.detailedDataArray ) {
             navigationPage = "Error-page";
         }
-        else {
-            navigationPage = navigationParams['scope'] != null ? 'List-of-lists-page-scoped' : 'List-of-lists-page';
+        else if ( navigationParams['scope'] ) {
+            navigationPage = 'List-of-lists-page-scoped';
         }
         
         this.paginationParameters = {
@@ -131,6 +139,6 @@ export class ListOfListsPage implements OnInit{
     }
 
     ngOnInit(){
-        this.getListOfListsPage(this.params.params, this.version);
+        this.getListOfListsPage(this._params.params);
     }
 }

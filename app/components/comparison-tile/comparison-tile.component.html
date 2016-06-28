@@ -1,15 +1,15 @@
 <div class="comparison-tile-container">
     <div class="row">
         <div class="col-xs-6 comparison-tile-dropdown">
-            <dropdown
-                [list]="dropdownList1"
+            <dropdown 
+                [list]="dropdownList1" 
                 [selectedKey]="comparisonTileInput.dropdownOneKey"
                 [icon]="'fa-caret-down'"
                 (selectionChanged)="dropdownOneSwitched($event)"></dropdown>
         </div>
-        <div class="col-xs-6 comparison-tile-dropdown">
-            <dropdown
-                [list]="dropdownList2"
+        <div class="col-xs-6 comparison-tile-dropdown">            
+            <dropdown 
+                [list]="dropdownList2" 
                 [selectedKey]="comparisonTileInput.dropdownTwoKey"
                 [icon]="'fa-caret-down'"
                 (selectionChanged)="dropdownTwoSwitched($event)"></dropdown>
@@ -19,17 +19,12 @@
         <circle-image [data]="comparisonTileInput.imageConfig"></circle-image>
     </div>
     <div class="comparison-tile-label">
-          <span class="comparison-tile-label-line-one">
-            <complex-inner-html [textItems]="comparisonTileInput.title"></complex-inner-html>
-            <!-- <a *ngIf="comparisonTileInput.linkObj" [routerLink]="comparisonTileInput.linkObj">
-              {{comparisonTileInput.title}}
-            </a> -->
-          </span>
+        <span *ngIf="comparisonTileInput.titleUrl" class="comparison-tile-label-line-one">
+            <a [routerLink]="comparisonTileInput.titleUrl">{{comparisonTileInput.title}}</a>
+        </span>
+        <span *ngIf="!comparisonTileInput.titleUrl" class="comparison-tile-label-line-one">{{comparisonTileInput.title}}</span>
         <span class="comparison-tile-label-line-two">
-            <span *ngFor="#item of comparisonTileInput.description" class="{{item.class}}">
-              <complex-inner-html [textItems]="item.text"></complex-inner-html>
-              <!-- <a *ngIf="item.itemLink" [routerLink]="item.itemLink" [innerHtml]="item.text"></a> -->
-            </span>
+            <complex-inner-html [textItems]="comparisonTileInput.description"></complex-inner-html>
         </span>
     </div>
 
