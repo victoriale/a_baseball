@@ -218,7 +218,6 @@ export class ListPageService {
 
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
   static carDataPage(data: ListData, profileType: string, errorMessage: string){
-    console.log("data", data);
     var carouselArray = [];
     var dummyImg = "/app/public/Image-Placeholder-1.jpg";
     var currentYear = new Date().getFullYear();//TODO FOR POSSIBLE past season stats but for now we have lists for current year season
