@@ -44,6 +44,18 @@ export class ListOfListsModule{
       hasIcon: false,
       iconClass: "",
     }
-    this.footerData['url'] = ['List-of-lists-page', { type: this.listOfListsData['type'], id: this.listOfListsData['id'], limit:10, pageNum:1}];
+    var type = this.listOfListsData['type'];    
+    var routeName = type == "league" ? 'List-of-lists-league-page' : 'List-of-lists-page';
+    var params = { 
+      limit:10, 
+      pageNum:1
+    };
+    if ( this.listOfListsData['id'] ) {
+      params["id"] = this.listOfListsData['id'];
+    }
+    if ( type != "league" ) {
+      params["type"] = type; 
+    }
+    this.footerData['url'] = [routeName, params];
   }
 }

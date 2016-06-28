@@ -57,7 +57,6 @@ export class TransactionsPage implements OnInit{
       this._profileService.getTeamProfile(this.pageParams.teamId)
       .subscribe(
           data => {
-            console.log("team data loaded");
             var stats = data.headerData.stats;
             this.profileHeaderData = this._profileService.convertTeamPageHeader(data, "");
             this.profileName = stats.teamName;

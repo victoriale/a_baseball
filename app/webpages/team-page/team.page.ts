@@ -432,14 +432,12 @@ export class TeamPage implements OnInit {
     }
 
     setupListOfListsModule() {
-        // getListOfListsService(version, type, id, scope?, count?, page?){
         let params = {
           id : this.pageParams.teamId,
           limit : 4,
-          pageNum : 1,
-          type : "team"
+          pageNum : 1
         }
-        this._lolService.getListOfListsService(params, "module")
+        this._lolService.getListOfListsService(params, "team", "module")
             .subscribe(
                 listOfListsData => {
                     this.listOfListsData = listOfListsData.listData;
