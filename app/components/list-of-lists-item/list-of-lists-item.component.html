@@ -12,11 +12,11 @@
     </div>
     <div class="cta-container">
       <span>
-        <button [routerLink]="item.ctaUrl">
+        <a [routerLink]="item.ctaUrl">
           <span class="cta-container-icon"></span>
-          <span>{{item.ctaText}}</span>
+          <span [innerHTML]="item.ctaText"></span>
           <i class="fa fa-angle-right"></i>
-        </button>
+        </a>
       </span>
     </div>
   </div>
