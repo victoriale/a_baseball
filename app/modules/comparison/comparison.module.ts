@@ -48,6 +48,10 @@ export class ComparisonModule implements OnInit, OnChanges {
 
     @Input() profileName: string;
 
+    @Input() profileId: string;
+
+    @Input() profileType: string;
+
     teamOnePlayerList: Array<{key: string, value: string}>;
 
     teamTwoPlayerList: Array<{key: string, value: string}>;
@@ -166,6 +170,14 @@ export class ComparisonModule implements OnInit, OnChanges {
     }
 
     setupTile(player: PlayerData): ComparisonTileInput {
+        var playerRoute = null;
+        var teamRoute = null;
+        if ( this.profileType != "player" || this.profileId != player.playerId ) {
+            playerRoute = MLBGlobalFunctions.formatPlayerRoute(player.teamName, player.playerName, player.playerId);
+        }
+        if ( this.profileType != "team" || this.profileId != player.teamId ) {
+            teamRoute = MLBGlobalFunctions.formatTeamRoute(player.teamName, player.teamId);
+        }
         return {
             dropdownOneKey: player.teamId,
             dropdownTwoKey: player.playerId,
@@ -173,7 +185,7 @@ export class ComparisonModule implements OnInit, OnChanges {
                 imageClass: "image-180",
                 mainImage: {
                     imageUrl: GlobalSettings.getImageUrl(player.playerHeadshot),
-                    urlRouteArray: MLBGlobalFunctions.formatPlayerRoute(player.teamName, player.playerName, player.playerId),
+                    urlRouteArray: playerRoute,
                     hoverText: "<p>View</p><p>Profile</p>",
                     imageClass: "border-large"
                 },
@@ -190,21 +202,15 @@ export class ComparisonModule implements OnInit, OnChanges {
                     }
                 ],
             },
+            titleUrl: playerRoute,
             title: player.playerName,
-            description: [
-                {
-                    text: 'Position: '
-                },
-                {
-                    text: player.position,
-                    class: 'text-heavy'
-                },
-                {
-                    text: ' |&nbsp;&nbsp;Team: ', //TODO: differently
-                    class: ''
-                },
-                {
+            description: ["Position: ",
+                { text: player.position, class: 'text-heavy' },
+                { text: "|", class: "pipe-separator" },
+                "Team: ",
+                { 
                     text: player.teamName,
+                    route: teamRoute,
                     class: 'text-heavy'
                 }
             ],
@@ -267,7 +273,6 @@ export class ComparisonModule implements OnInit, OnChanges {
     }
 
     loadPlayer(tileIndex: number, teamId: string, playerId?: string) {
-        // console.log("loading new player stats: teamId=" + teamId + "; playerId=" + playerId);
         this.modelData.loadPlayer(tileIndex, teamId, playerId, (bars) => {
             this.modelData.data.bars = bars;
             this.formatData(this.modelData.data);

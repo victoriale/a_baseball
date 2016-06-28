@@ -14,7 +14,7 @@
         <standings-module *ngIf="standingsData" [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
         <!-- season stats -->
         <season-stats-module *ngIf="seasonStatsData" [pageParams]="pageParams" [data]="seasonStatsData"></season-stats-module>
-        <comparison-module [modelData]="comparisonModuleData" [profileName]="profileHeaderData.profileName"></comparison-module>
+        <comparison-module [modelData]="comparisonModuleData" [profileName]="profileHeaderData.profileName" [profileType]="'player'" [profileId]="pageParams.playerId"></comparison-module>
 
         <headline-component [title]="'Other MLB Content You May Love'"></headline-component>
         <images-media-carousel [imageData]="imageData" [copyright]="copyright" [profHeader]="profileHeaderData" [isProfilePage]="isProfilePage"></images-media-carousel>
