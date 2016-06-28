@@ -53,9 +53,9 @@ export class SearchPageModule implements OnChanges{
     @Input() searchPageInput: SearchPageInput;
 
     pageNumber: number;
-    
+
     totalResults: number;
-    
+
     currentShowing: string;
 
     constructor(private _route:RouteParams){
