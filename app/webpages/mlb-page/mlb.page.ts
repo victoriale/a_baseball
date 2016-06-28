@@ -135,6 +135,7 @@ export class MLBPage implements OnInit {
 
     imageData:any;
     copyright:any;
+    imageTitle:any;
     isProfilePage:boolean = true;
     profileType:string = "league";
     profileName:string = "MLB";
@@ -212,7 +213,7 @@ export class MLBPage implements OnInit {
                 this.getImages(this.imageData);
                 this.getNewsService();
                 this.getFaqService(this.profileType);
-                // this.setupListOfListsModule(); //NO VALID API YET
+                this.setupListOfListsModule();
                 this.getDykService(this.profileType);
                 this.getTwitterService(this.profileType);
             },
@@ -296,18 +297,15 @@ export class MLBPage implements OnInit {
    }   
 
     private setupListOfListsModule() {
-        // getListOfListsService(version, type, id, scope?, count?, page?){
         let params = {
-          id : this.pageParams.teamId,
           limit : 4,
-          pageNum : 1,
-          type : "mbl"
+          pageNum : 1
         }
-        this._lolService.getListOfListsService(params, "module")
+        this._lolService.getListOfListsService(params, "league", "module")
             .subscribe(
                 listOfListsData => {
                     this.listOfListsData = listOfListsData.listData;
-                    this.listOfListsData["type"] = "mbl";
+                    this.listOfListsData["type"] = "league";
                 },
                 err => {
                     console.log('Error: listOfListsData API: ', err);
@@ -339,7 +337,7 @@ export class MLBPage implements OnInit {
     private getImages(imageData) {
         this._imagesService.getImages(this.profileType)
             .subscribe(data => {
-                    return this.imageData = data.imageArray, this.copyright = data.copyArray;
+                    return this.imageData = data.imageArray, this.copyright = data.copyArray, this.imageTitle = data.titleArray;
                 },
                 err => {
                     console.log("Error getting image data" + err);

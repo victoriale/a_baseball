@@ -121,6 +121,7 @@ export class PlayerPage implements OnInit {
 
   imageData:any;
   copyright:any;
+    imageTitle:any;
   profileType:string = "player";
   isProfilePage:boolean = true;
   profileName:string;
@@ -315,7 +316,7 @@ private dailyUpdateModule(playerId: number) {
     private getImages(imageData) {
         this._imagesService.getImages(this.profileType, this.pageParams.playerId)
             .subscribe(data => {
-                return this.imageData = data.imageArray, this.copyright = data.copyArray;
+                return this.imageData = data.imageArray, this.copyright = data.copyArray, this.imageTitle = data.titleArray;
             },
             err => {
                 console.log("Error getting image data" + err);
@@ -362,14 +363,12 @@ private dailyUpdateModule(playerId: number) {
     }
 
     setupListOfListsModule() {
-      // getListOfListsService(version, type, id, scope?, count?, page?){
       let params = {
         id : this.pageParams.playerId,
         limit : 4,
-        pageNum : 1,
-        type : "player"
+        pageNum : 1
       }
-      this._lolService.getListOfListsService(params, "module")
+      this._lolService.getListOfListsService(params, "player", "module")
         .subscribe(
           listOfListsData => {
             this.listOfListsData = listOfListsData.listData;

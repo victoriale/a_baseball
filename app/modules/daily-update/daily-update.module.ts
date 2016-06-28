@@ -23,7 +23,7 @@ export class DailyUpdateModule {
   @Input() data: DailyUpdateData;
 
   public chartOptions: any;
-  
+
   public backgroundImage: string;
 
   public noDataMessage: string = 'Sorry, there is no daily update available for [Profile Name]';
@@ -52,7 +52,6 @@ export class DailyUpdateModule {
   ngOnChanges(event) {
     this.headerInfo.moduleTitle = "Daily Update - " + this.profileName;
     this.noDataMessage = "Sorry, there is no daily update available for " + this.profileName;
-
     if ( this.data ) {
       this.drawChart();
       this.backgroundImage = this.data.fullBackgroundImageUrl;
@@ -66,7 +65,7 @@ export class DailyUpdateModule {
       this.comparisonCount = 0;
     }
     if(event.data['currentValue'] != null && event.data['currentValue'].postGameArticle != null && event.data['currentValue'].postGameArticle.img != null){
-      this.imageConfig.mainImage.imageUrl = event.data['currentValue'].postGameArticle.img.split(" ")[0];
+      this.imageConfig.mainImage.imageUrl = event.data['currentValue'].postGameArticle.img.image != null ? event.data['currentValue'].postGameArticle.img.image:GlobalSettings.getImageUrl(null);
     }
   }
 
@@ -165,4 +164,3 @@ export class DailyUpdateModule {
     };
   };
 }
-

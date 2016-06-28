@@ -139,6 +139,7 @@ export class TeamPage implements OnInit {
 
     imageData:any;
     copyright:any;
+    imageTitle: any;
     profileType:string = "team";
     isProfilePage:boolean = true;
     draftHistoryData:any;
@@ -339,7 +340,7 @@ export class TeamPage implements OnInit {
     private getImages(imageData) {
         this._imagesService.getImages(this.profileType, this.pageParams.teamId)
             .subscribe(data => {
-                    return this.imageData = data.imageArray, this.copyright = data.copyArray;
+                    return this.imageData = data.imageArray, this.copyright = data.copyArray, this.imageTitle = data.titleArray;
                 },
                 err => {
                     console.log("Error getting image data" + err);
@@ -432,14 +433,12 @@ export class TeamPage implements OnInit {
     }
 
     setupListOfListsModule() {
-        // getListOfListsService(version, type, id, scope?, count?, page?){
         let params = {
           id : this.pageParams.teamId,
           limit : 4,
-          pageNum : 1,
-          type : "team"
+          pageNum : 1
         }
-        this._lolService.getListOfListsService(params, "module")
+        this._lolService.getListOfListsService(params, "team", "module")
             .subscribe(
                 listOfListsData => {
                     this.listOfListsData = listOfListsData.listData;

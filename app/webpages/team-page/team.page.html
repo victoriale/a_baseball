@@ -18,10 +18,10 @@
     <transactions-module *ngIf="transactionsData" [data]="transactionsData" (tabSwitched)="transactionsTab($event)"></transactions-module>
     <draft-history *ngIf="draftHistoryData" [draftData]="draftHistoryData" [profHeader]="profileHeaderData" (tab)="draftTab($event)"></draft-history>
     <!-- MVP -->
-    <comparison-module [modelData]="comparisonModuleData" [profileName]="profileHeaderData.profileName"></comparison-module>
+    <comparison-module [modelData]="comparisonModuleData" [profileName]="profileHeaderData.profileName" [profileType]="'team'" [profileId]="pageParams.teamId"></comparison-module>
 
     <headline-component [title]="'Other MLB Content You May Love'"></headline-component>
-    <images-media-carousel [imageData]="imageData" [copyright]="copyright" [profHeader]="profileHeaderData" [isProfilePage]="isProfilePage"></images-media-carousel>
+    <images-media-carousel [imageData]="imageData" [copyright]="copyright" [profHeader]="profileHeaderData" [imageTitle]="imageTitle" [isProfilePage]="isProfilePage"></images-media-carousel>
     <dyk-module *ngIf="dykData" [profileName]="profileHeaderData.profileName" [dykData]="dykData"></dyk-module>
     <faq-module *ngIf="faqData" [profileName]="profileHeaderData.profileName" [faqData]="faqData"></faq-module>
     <list-of-lists  *ngIf="listOfListsData" [profileHeaderData]="profileHeaderData" [listOfListsData]="listOfListsData"></list-of-lists>

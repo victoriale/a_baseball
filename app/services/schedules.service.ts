@@ -155,7 +155,6 @@ export class SchedulesService {
     }
   }
 
-  //TODO-CJP - remove current team profile link
   private setupCarouselData(origData: Array<SchedulesData>, tableData: MLBSchedulesTableData, maxRows?: number){
     //Limit to maxRows, if necessary
     if ( maxRows !== undefined ) {
