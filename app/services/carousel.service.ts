@@ -7,14 +7,15 @@ import {Observable} from "rxjs/Observable";
 @Injectable()
 
 export class ImagesService {
-    constructor(public http:Http) {};
+    constructor(public http:Http) {
+    };
 
     getImages(profileType, profileId?) {
         var fullUrl = GlobalSettings.getApiUrl() + "/" + profileType.toLowerCase() + "/imagesAndMedia";
         if (profileId !== undefined) {
             fullUrl += "/" + profileId;
         }
-        
+
         return this.http.get(fullUrl)
             .map(res => res.json())
             .map(data => this.getImageArray(data.data));
@@ -23,15 +24,19 @@ export class ImagesService {
     getImageArray(imageData) {
         var imageArray = [];
         var copyArray = [];
+        var titleArray = [];
         imageData.images.forEach(function (val, index) {
             val['images'] = GlobalSettings.getImageUrl(val.image_url);
             val['copyright'] = val.image_copyright;
+            val['title'] = val.image_title;
             imageArray.push(val['images']);
-            copyArray.push(val['copyright'])
+            copyArray.push(val['copyright']);
+            titleArray.push(val['title']);
         });
         return {
             imageArray: imageArray,
-            copyArray: copyArray
+            copyArray: copyArray,
+            titleArray: titleArray
         }
     }
 }

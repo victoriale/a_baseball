@@ -49,6 +49,7 @@ export class ArticlePages implements OnInit {
     imageLinks:Array<any>;
     recommendedImageData:any;
     copyright:any;
+    imageTitle:any;
     teamId:number;
     public partnerParam:string;
     public partnerID:string;
@@ -93,9 +94,11 @@ export class ArticlePages implements OnInit {
     getCarouselImages(data) {
         var images = [];
         var copyData = [];
+        var description = [];
         var imageCount = 10;
         var image;
         var copyright;
+        var title;
         if (this.articleType == "gameModule") {
             if (Object.keys(data).length == 4) {
                 imageCount = 5;
@@ -107,22 +110,22 @@ export class ArticlePages implements OnInit {
             for (var id in data) {
                 data[id].map(function (val, index) {
                     if (index < imageCount) {
-                        var split = val.split(" copyright ");
-                        image = split[0];
-                        copyright = split[1];
+                        image = val['image'];
+                        copyright = val['copyright'];
+                        title = val['title'];
                         images.push(image);
                         copyData.push(copyright);
+                        description.push(title);
                     }
                 });
             }
-            images.sort(function () {
-                return 0.5 - Math.random()
-            });
             this.imageData = images;
             this.copyright = copyData;
+            this.imageTitle = description;
         } else {
             this.imageData = null;
             this.copyright = null;
+            this.imageTitle = null;
         }
     }
 
@@ -327,7 +330,6 @@ export class ArticlePages implements OnInit {
                 }
             }
         });
-        imageCount = 0;
         jQuery.map(recommendations.rightColumn, function (val, index) {
             if (pageIndex != index) {
                 switch (index) {

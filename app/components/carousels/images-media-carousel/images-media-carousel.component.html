@@ -16,7 +16,7 @@
                 <circle-button class="plcholder-img-navigation" (scrollLeft)="left()"
                                (scrollRight)="right()"></circle-button>
             </span>
-            <div class="grey-bar">Photo by<span class="grey-bar-credit">{{imageCredit}}</span></div>
+            <div class="grey-bar"><span class="grey-bar-title">{{description}}</span><span class="grey-bar-credit">Photo by<span class="grey-bar-credit-bold">{{imageCredit}}</span></span></div>
         </div>
         <div *ngIf="imageData" class="sm-images">
             <span *ngFor="#smImages of mediaImages; #i=index;">
@@ -47,6 +47,6 @@
             <circle-button class="modal-plcholder-img-navigation" (scrollLeft)="left()"
                             (scrollRight)="right()"></circle-button>
         </span>
-        <div class="modal-grey-bar">Photo by<span class="modal-grey-bar-credit">{{imageCredit}}</span></div>
+        <div class="modal-grey-bar"><span class="modal-grey-bar-title">{{description}}</span><span class="modal-grey-bar-credit">Photo by<span class="modal-grey-bar-credit-bold">{{imageCredit}}</span></span></div>
     </div>
 </div>
