@@ -33,6 +33,7 @@
       top: 48%;
     }
   }
+
   &-details {
     .inlineFlexDisplay;
     .flexDirection(row);
@@ -53,21 +54,19 @@
   bottom: 0;
   padding-right: 10px;
   padding-left: 10px;
-  color: @white;
-  font-size: 80%;
-  font-weight: 400;
-  display: flex;
+  .globalDefaultModFont(.8em, 400, @white);
+  .flexDisplay;
   &-title {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
+    .flexDisplay;
+    .flexJustify(flex-start);
+    .flexAlignItems(center);
     height: 26px;
     width: 90%;
   }
   &-credit {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+    .flexDisplay;
+    .flexJustify(flex-end);
+    .flexAlignItems(center);
     height: 26px;
     width: 50%;
     &-bold {
@@ -188,9 +187,8 @@
     }
   }
   &-exit {
+    .globalDefaultModFont(32px, 400, @white);
     cursor: pointer;
-    font-family: Arial;
-    font-size: 32px;
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -198,7 +196,6 @@
     top: -50px;
     right: -50px;
     background-color: @black;
-    color: @white;
     text-align: center;
     line-height: 50px;
   }
@@ -210,24 +207,21 @@
   background-color: rgba(0, 0, 0, 0.6);
   position: absolute;
   bottom: 0;
-  display: flex;
-  justify-content: flex-end;
   padding-right: 10px;
   padding-left: 10px;
-  color: @white;
-  font-size: 80%;
-  font-weight: 400;
+  .globalDefaultModFont(.8em, 400, @white);
+  .flexDisplay;
   &-title {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
+    .flexDisplay;
+    .flexJustify(flex-start);
+    .flexAlignItems(center);
     height: 26px;
     width: 90%;
   }
   &-credit {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+    .flexDisplay;
+    .flexJustify(flex-end);
+    .flexAlignItems(center);
     height: 26px;
     width: 50%;
     &-bold {
