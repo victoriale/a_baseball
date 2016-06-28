@@ -20,12 +20,12 @@
             <ul class="search-page-results">
             	<span class="search-page-total">Showing: <span class="text-heavy">{{currentShowing}}</span> of <span class="text-heavy">{{showResults}}</span> results:</span>
                 <li *ngFor="#innerItem of outerItem.results[pageNumber-1]" class="search-page-results-item">
-                    <span class="search-page-results-item-title" [innerHtml]="innerItem.title"></span>
+                    <a class="search-page-results-item-title" [routerLink]="innerItem.url" [innerHtml]="innerItem.title"></a>
                     <a class="search-page-results-item-link" [routerLink]="innerItem.url" [innerHtml]="innerItem.urlText"></a><br>
                     <span class="search-page-results-item-description" [innerHtml]="innerItem.description"></span>
                 </li>
                 <!-- No Results Found -->
-                <li *ngIf="outerItem.results.length === 0" class="search-page-results-item no-results">
+                <li *ngIf="outerItem.results.length == 0 && currentShowing == 0" class="search-page-results-item no-results">
                     <!-- Sorry, your search did not turn up any results.<br><br>
                     You searched for:<br>
                     <span class="text-heavy">{{searchPageInput.query}}</span> -->
