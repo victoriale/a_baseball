@@ -199,7 +199,7 @@ export class ProfileHeaderService {
         .map(res => res.json())
         .map(data => {
           var headerData: TeamProfileHeaderData = data.data;
-          
+
           //Setting up conference and division values
           var confKey = "", divKey = "";
           if ( headerData.stats ) {
@@ -210,7 +210,7 @@ export class ProfileHeaderService {
               divKey = headerData.stats.division.name.toLowerCase();
             }
           }
-          
+
           //Forcing values to be numbers
           if ( headerData.stats.batting ) {
             headerData.stats.batting.average = Number(headerData.stats.batting.average);
@@ -250,7 +250,7 @@ export class ProfileHeaderService {
           leagueData.totalLeagues = Number(leagueData.totalLeagues);
           leagueData.totalPlayers = Number(leagueData.totalPlayers);
           leagueData.totalTeams = Number(leagueData.totalTeams);
-          
+
           return leagueData;
         });
   }
@@ -318,23 +318,23 @@ export class ProfileHeaderService {
                   "</span> currently plays for the <span class='text-heavy'>" + info.teamName +
                   "</span>. ";
     }
-    
+
     var location = "N/A"; //[Wichita], [Kan.]
     if ( info.city && info.area ) {
       location = info.city + ", " + info.area;
     }
-    
+
     var formattedBirthDate = "N/A"; //[October] [3], [1991]
     if ( info.birthDate ) {
       var date = moment(info.birthDate);
       formattedBirthDate = GlobalFunctions.formatAPMonth(date.month()) + date.format(" D, YYYY");
     }
     var formattedAge = info.age ? info.age.toString() : "N/A";
-    
+
     var formattedHeight = MLBGlobalFunctions.formatHeightWithFoot(info.height); //[6-foot-11]
-    
+
     var formattedWeight = info.weight ? info.weight.toString() : "N/A";
-    
+
     var description = firstSentence + "<span class='text-heavy'>" + info.playerName +
                   "</span> was born in <span class='text-heavy'>" + location +
                   "</span> on <span class='text-heavy'>" + formattedBirthDate +
@@ -342,18 +342,18 @@ export class ProfileHeaderService {
                   "</span> years old. He stands at <span class='text-heavy'>" + formattedHeight +
                   "</span>, <span class='text-heavy'>" + formattedWeight +
                   "</span> pounds.";
-    
+
     var dataPoints: Array<DataItem>;
     var isPitcher = headerData.info.position.filter(value => value === "P").length > 0;
 
     if ( isPitcher ) {
       var formattedEra = null;
-      if ( stats && stats.earnedRuns != null ) {
-        if ( stats.earnedRuns > 1 ) {
-          formattedEra = stats.earnedRuns.toPrecision(3);
+      if ( stats && stats.era != null ) {
+        if ( stats.era > 1 ) {
+          formattedEra = stats.era.toPrecision(3);
         }
         else {
-          formattedEra = stats.earnedRuns.toPrecision(2);
+          formattedEra = stats.era.toPrecision(2);
         }
       }
       dataPoints = [
@@ -527,7 +527,7 @@ export class ProfileHeaderService {
                       " teams and " + GlobalFunctions.formatNumber(data.totalPlayers) + " players. " +
                       "These teams and players are divided across " + GlobalFunctions.formatNumber(data.totalLeagues) +
                       " leagues and " + GlobalFunctions.formatNumber(data.totalDivisions) + " divisions.";
-                      
+
     var location = "N/A";
     if ( data.city && data.state ) {
       location = city + ", " + state;
