@@ -259,7 +259,7 @@ export class ComparisonStatsService {
       url += "league";
     }
 
-    // console.log("getting player stats: " + url);
+    console.log("getting player stats: " + url);
     return this.http.get(url)
       .map(res => res.json())
       .map(data => {
@@ -295,9 +295,9 @@ export class ComparisonStatsService {
     var dropdownList = [];
 
     if ( playerList && playerList.length > 0 ) {
-      dropdownList.push({ key: "", value: description, class: "dropdown-grp-lbl" });
+      dropdownList.push({ key: "", value: description, class: "dropdown-grp-lbl", preventSelection: true });
       Array.prototype.push.apply(dropdownList, playerList.map(player => {
-        if ( player.playerId ) return {key: player.playerId, value: player.playerName, class: "dropdown-grp-item"};
+        if ( player.playerId ) return {key: player.playerId, value: player.playerName, class: "dropdown-grp-item", preventSelection: false};
         else return {key: player.player_id, value: player.player_name, class: "dropdown-grp-item"};
       }));
     }
