@@ -176,7 +176,10 @@ export class ComparisonStatsService {
     var teamId = pageParams.teamId != null ? pageParams.teamId.toString() : null;
     var playerId = pageParams.playerId != null ? pageParams.playerId.toString() : null;
     return this.callPlayerComparisonAPI(teamId, playerId, data => {
-      // console.log("  comparison data", data);
+      if ( data == null ) {
+        console.log("Error: No valid comparison data for " + (pageParams.playerId != null ? " player " + playerId + " in " : "") + " team " + teamId);
+        return null;
+      }
       data.playerOne.statistics = this.formatPlayerData(data.playerOne.playerId, data.data);
       data.playerTwo.statistics = this.formatPlayerData(data.playerTwo.playerId, data.data);
       data.bestStatistics = this.formatPlayerData("statHigh", data.data);
@@ -222,7 +225,7 @@ export class ComparisonStatsService {
 
   getPlayerList(teamId: string): Observable<Array<{key: string, value: string, class: string}>> {
     //http://dev-homerunloyal-api.synapsys.us/team/comparisonRoster/2800
-    let playersUrl = this._apiUrl + "/team/comparisonRoster/" + teamId;    
+    let playersUrl = this._apiUrl + "/team/comparisonRoster/" + teamId;
     return this.http.get(playersUrl)
       .map(res => res.json())
       .map(data => {
@@ -259,7 +262,9 @@ export class ComparisonStatsService {
     // console.log("getting player stats: " + url);
     return this.http.get(url)
       .map(res => res.json())
-      .map(data => dataLoaded(data.data));
+      .map(data => {
+        return dataLoaded(data.data);
+      });
   }
 
   /*
@@ -346,7 +351,6 @@ export class ComparisonStatsService {
       for ( var i = 0; i < fields.length; i++ ) {
         var key = fields[i];
         var title = ComparisonStatsService.getKeyDisplayTitle(key);
-
         seasonBarList.push({
           title: title,
           data: [{

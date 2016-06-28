@@ -139,6 +139,11 @@ import {PartnerHeader} from "../global/global-service";
         component: TransactionsPage
     },
     {
+        path: '/transactions/league/:limit/:pageNum',
+        name: 'Transactions-mlb-page',
+        component: TransactionsPage
+    },
+    {
         path: '/team-roster/:teamName/:teamId',
         name: 'Team-roster-page',
         component: TeamRosterPage
@@ -166,6 +171,11 @@ import {PartnerHeader} from "../global/global-service";
     {
         path: '/list-of-lists/:type/:id/:limit/:pageNum',
         name: 'List-of-lists-page',
+        component: ListOfListsPage
+    },
+    {
+        path: '/list-of-lists/league/:limit/:pageNum',
+        name: 'List-of-lists-league-page',
         component: ListOfListsPage
     },
     //Error pages and error handling

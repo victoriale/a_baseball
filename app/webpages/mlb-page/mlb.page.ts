@@ -104,7 +104,7 @@ declare var moment;
         TransactionsService,
         ListOfListsService,
         Title
-    ]
+      ]
 })
 
 export class MLBPage implements OnInit {
@@ -166,14 +166,14 @@ export class MLBPage implements OnInit {
         _title.setTitle(GlobalSettings.getPageTitle("MLB"));
 
         this.currentYear = new Date().getFullYear();
-
+        
         //for boxscores
         var currentUnixDate = new Date().getTime();
         //convert currentDate(users local time) to Unix and push it into boxScoresAPI as YYYY-MM-DD in EST using moment timezone (America/New_York)
         this.dateParam ={
-            profile:'league',//current profile page
-            teamId:null,
-            date: moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD')
+          profile:'league',//current profile page
+          teamId:null,
+          date: moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD')
         }
 
         GlobalSettings.getPartnerID(_router, partnerID => {
@@ -195,7 +195,7 @@ export class MLBPage implements OnInit {
                 /*** Keep Up With Everything MLB ***/
                 this.getBoxScores(this.dateParam);
                 this.getSchedulesData('pre-event');//grab pre event data for upcoming games
-                this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);
+                this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams);                
                 this.draftHistoryModule(this.currentYear);
                 this.transactionsData = this._transactionsService.loadAllTabsForModule(data.profileName1);
                 this.batterData = this.listService.getMVPTabs('batter', 'module');
@@ -213,7 +213,7 @@ export class MLBPage implements OnInit {
                 this.getImages(this.imageData);
                 this.getNewsService();
                 this.getFaqService(this.profileType);
-                // this.setupListOfListsModule(); //NO VALID API YET
+                this.setupListOfListsModule();
                 this.getDykService(this.profileType);
                 this.getTwitterService(this.profileType);
             },
@@ -237,78 +237,75 @@ export class MLBPage implements OnInit {
 
     //api for Schedules
     private getSchedulesData(status){
-        var limit = 5;
-        if(status == 'post-event'){
-            limit = 3;
+      var limit = 5;
+      if(status == 'post-event'){
+        limit = 3;
+      }
+      this._schedulesService.getSchedulesService('league', status, limit, 1)
+      .subscribe(
+        data => {
+          this.schedulesData = data;
+        },
+        err => {
+          console.log("Error getting Schedules Data");
         }
-        this._schedulesService.getSchedulesService('league', status, limit, 1)
-            .subscribe(
-                data => {
-                    this.schedulesData = data;
-                },
-                err => {
-                    console.log("Error getting Schedules Data");
-                }
-            )
+      )
     }
 
     private transactionsTab(tab) {
         this._transactionsService.getTransactionsService(tab, this.pageParams.teamId, 'module')
-            .subscribe(
-                transactionsData => {
-                    //do nothing
-                },
-                err => {
-                    console.log('Error: transactionsData API: ', err);
-                }
-            );
+        .subscribe(
+            transactionsData => {
+                //do nothing
+            },
+            err => {
+            console.log('Error: transactionsData API: ', err);
+            }
+        );
     }
 
     private getTwitterService(profileType) {
-        this.isProfilePage = true;
-        this.profileType = 'league';
-        this.profileName = "MLB";
-        this._twitterService.getTwitterService(this.profileType)
-            .subscribe(data => {
-                    this.twitterData = data;
-                },
-                err => {
-                    console.log("Error getting twitter data");
-                });
+          this.isProfilePage = true;
+          this.profileType = 'league';
+          this.profileName = "MLB";
+          this._twitterService.getTwitterService(this.profileType)
+              .subscribe(data => {
+                  this.twitterData = data;
+              },
+              err => {
+                  console.log("Error getting twitter data");
+              });
     }
     private getDykService(profileType) {
-        this._dykService.getDykService(this.profileType)
-            .subscribe(data => {
-                    this.dykData = data;
-                },
-                err => {
-                    console.log("Error getting did you know data");
-                });
-    }
+      this._dykService.getDykService(this.profileType)
+          .subscribe(data => {
+                this.dykData = data;
+            },
+            err => {
+                console.log("Error getting did you know data");
+            });
+  }
 
     private getFaqService(profileType) {
-        this._faqService.getFaqService(this.profileType)
-            .subscribe(data => {
-                    this.faqData = data;
-                },
-                err => {
-                    console.log("Error getting faq data for mlb", err);
-                });
-    }
+      this._faqService.getFaqService(this.profileType)
+        .subscribe(data => {
+            this.faqData = data;
+        },
+        err => {
+            console.log("Error getting faq data for mlb", err);
+        });
+   }   
 
     private setupListOfListsModule() {
-        // getListOfListsService(version, type, id, scope?, count?, page?){
         let params = {
-            id : this.pageParams.teamId,
-            limit : 4,
-            pageNum : 1,
-            type : "mbl"
-        };
-        this._lolService.getListOfListsService(params, "module")
+          limit : 4,
+          pageNum : 1
+        }
+        this._lolService.getListOfListsService(params, "league", "module")
             .subscribe(
                 listOfListsData => {
                     this.listOfListsData = listOfListsData.listData;
-                    this.listOfListsData["type"] = "mbl";
+                    this.listOfListsData["type"] = "league";
                 },
                 err => {
                     console.log('Error: listOfListsData API: ', err);
@@ -319,11 +316,11 @@ export class MLBPage implements OnInit {
     private getNewsService() {
         this._newsService.getNewsService('Major League Baseball')
             .subscribe(data => {
-                    this.newsDataArray = data.news;
-                },
-                err => {
-                    console.log("Error getting news data");
-                });
+                this.newsDataArray = data.news;
+            },
+            err => {
+                console.log("Error getting news data");
+            });
     }
 
     //api for BOX SCORES
@@ -384,35 +381,35 @@ export class MLBPage implements OnInit {
     }
 
     private draftHistoryModule(year: number) {
-        var errorMessage = "Sorry, " + this.profileHeaderData.profileName + " does not currently have any data for the " + year + " draft history";
-        this._draftService.getDraftHistoryService(year, null, errorMessage, 'module')
-            .subscribe(
-                draftData => {
-                    var dataArray, detailedDataArray, carouselDataArray;
-                    if (typeof dataArray == 'undefined') {//makes sure it only runs once
-                        dataArray = draftData.tabArray;
-                    }
-                    if (draftData.listData.length == 0) {//makes sure it only runs once
-                        detailedDataArray = false;
-                    } else {
-                        detailedDataArray = draftData.listData;
-                    }
-                    carouselDataArray = draftData.carData
-                    return this.draftHistoryData = {
-                        tabArray: dataArray,
-                        listData: detailedDataArray,
-                        carData: carouselDataArray,
-                        errorData: {
-                            data: errorMessage,
-                            icon: "fa fa-remove"
-                        }
-                    }
-                },
-                err => {
-                    console.log('Error: draftData API: ', err);
-                    // this.isError = true;
+      var errorMessage = "Sorry, " + this.profileHeaderData.profileName + " does not currently have any data for the " + year + " draft history";
+      this._draftService.getDraftHistoryService(year, null, errorMessage, 'module')
+        .subscribe(
+            draftData => {
+                var dataArray, detailedDataArray, carouselDataArray;
+                if (typeof dataArray == 'undefined') {//makes sure it only runs once
+                    dataArray = draftData.tabArray;
                 }
-            );
+                if (draftData.listData.length == 0) {//makes sure it only runs once
+                    detailedDataArray = false;
+                } else {
+                    detailedDataArray = draftData.listData;
+                }
+                carouselDataArray = draftData.carData
+                return this.draftHistoryData = {
+                    tabArray: dataArray,
+                    listData: detailedDataArray,
+                    carData: carouselDataArray,
+                    errorData: {
+                        data: errorMessage,
+                        icon: "fa fa-remove"
+                    }
+                }
+            },
+            err => {
+                console.log('Error: draftData API: ', err);
+                // this.isError = true;
+            }
+        );
     }
 
     //each time a tab is selected the carousel needs to change accordingly to the correct list being shown
@@ -429,7 +426,7 @@ export class MLBPage implements OnInit {
         this.listService.getListModuleService(tab, this.batterParams)
             .subscribe(updatedTab => {
                 //do nothing?
-            }, err => {
+            }, err => { 
                 tab.isLoaded = true;
                 console.log('Error: Loading MVP Batters: ', err);
             })
@@ -449,7 +446,7 @@ export class MLBPage implements OnInit {
         this.listService.getListModuleService(tab, this.pitcherParams)
             .subscribe(updatedTab => {
                 //do nothing?
-            }, err => {
+            }, err => { 
                 tab.isLoaded = true;
                 console.log('Error: Loading MVP Pitchers: ', err);
             })

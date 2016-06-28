@@ -19,9 +19,12 @@
         <circle-image [data]="comparisonTileInput.imageConfig"></circle-image>
     </div>
     <div class="comparison-tile-label">
-        <span class="comparison-tile-label-line-one">{{comparisonTileInput.title}}</span>
+        <span *ngIf="comparisonTileInput.titleUrl" class="comparison-tile-label-line-one">
+            <a [routerLink]="comparisonTileInput.titleUrl">{{comparisonTileInput.title}}</a>
+        </span>
+        <span *ngIf="!comparisonTileInput.titleUrl" class="comparison-tile-label-line-one">{{comparisonTileInput.title}}</span>
         <span class="comparison-tile-label-line-two">
-            <span *ngFor="#item of comparisonTileInput.description" class="{{item.class}}" [innerHtml]="item.text"></span>
+            <complex-inner-html [textItems]="comparisonTileInput.description"></complex-inner-html>
         </span>
     </div>
 
