@@ -14,7 +14,7 @@
         <div *ngIf="dropdownList.length === 0" class="search-no-results">
             No Results Found
         </div>
-        <ul *ngIf="dropdownList.length > 0" (mouseout)="resetSelected()">
+        <ul *ngIf="dropdownList.length > 0" (click)="unFocus()" (mouseout)="resetSelected()">
               <li class="search-dropdown-items" *ngFor="#item of dropdownList; #i = index;" (mouseover)="itemHovered(i)">
                   <a [routerLink]="item.routerLink" class="search-dropdown-item" [ngClass]="{active: (i === selectedIndex)}">
                     <span class="search-dropdown-item-img"><circle-image [data]="item.imageUrl"></circle-image></span>

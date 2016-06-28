@@ -222,7 +222,7 @@ export class ComparisonStatsService {
 
   getPlayerList(teamId: string): Observable<Array<{key: string, value: string, class: string}>> {
     //http://dev-homerunloyal-api.synapsys.us/team/comparisonRoster/2800
-    let playersUrl = this._apiUrl + "/team/comparisonRoster/" + teamId;    
+    let playersUrl = this._apiUrl + "/team/comparisonRoster/" + teamId;
     return this.http.get(playersUrl)
       .map(res => res.json())
       .map(data => {
@@ -346,7 +346,6 @@ export class ComparisonStatsService {
       for ( var i = 0; i < fields.length; i++ ) {
         var key = fields[i];
         var title = ComparisonStatsService.getKeyDisplayTitle(key);
-
         seasonBarList.push({
           title: title,
           data: [{

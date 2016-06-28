@@ -125,7 +125,6 @@ export class Search{
                         //If index is equal or greater than last item, reset index to -1 (input is selected)
                         this.selectedIndex = -1;
                         this.unsuppressSearch();
-
                     } else {
                         //Else increment index by 1
                         this.selectedIndex++;
@@ -157,6 +156,8 @@ export class Search{
                 }
                 //Prevents unwanted cursor jumping when up and down arrows are selected
                 event.preventDefault();
+            } else if(event.keyCode == 13){
+              //do nothing and let the form submit route to necessary area
             } else {
                 //If other key is pressed unsuppress search
                 this.isSuppressed = false;
@@ -194,6 +195,7 @@ export class Search{
 
     //Function to check if autocomplete text should be displayed or hidden
     compareAutoComplete(text: string){
+      this.dropdownIsFocused = true;
         if(this.dropdownList.length > 0){
             //If dropdown suggestions exists, determine if autocomplete text should be shown
             let suggestionText = this.dropdownList[0].value;
@@ -226,12 +228,23 @@ export class Search{
             return false;
         }
         let searchRoute: Array<any>;
-        searchRoute = this._searchService.getSearchRoute(term);
+        if(this.selectedIndex == -1 && this.dropdownList.length > 1){
+          searchRoute = this._searchService.getSearchRoute(term);
+        }else if(this.dropdownList.length == 1 ){
+          searchRoute = this.dropdownList[0].routerLink;
+        }else{
+          let dropdownLink = this.dropdownList[this.selectedIndex].routerLink;
+          searchRoute = dropdownLink;
+        }
         this._router.navigate(searchRoute);
 
         //Clear out autocomplete text and close dropdown when search occurs
         this.dropdownIsFocused = false;
         this.autoCompleteText = '';
+    }
+
+    unFocus(){
+      this.dropdownIsFocused = false;
     }
 
     ngOnInit(){

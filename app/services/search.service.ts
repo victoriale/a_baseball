@@ -136,12 +136,11 @@ export class SearchService{
     getSearchRoute(term: string){
         let searchRoute: Array<any>;
         //Build search Route
-        if(typeof term !== 'undefined') {
+        if(typeof term !== 'undefined' && term != 'null') {
             searchRoute = ['Search-page', {query: term}];
         }else{
             searchRoute = null;
         }
-
         return searchRoute !== null ? searchRoute : ['Error-page'];
     }
 
@@ -167,7 +166,7 @@ export class SearchService{
         let searchPageInput: SearchPageInput = {
             searchComponent : {
                 placeholderText: 'Search for a player or team...',
-                hasSuggestions: false,
+                hasSuggestions: true,
                 initialText: query
             },
             heroImage: '/app/public/homePage_hero1.png',
@@ -294,7 +293,7 @@ export class SearchService{
             //Fields the search is based on
             keys: ['playerName'],
             //At what point does the match algorithm give up. A threshold of 0.0 requires a perfect match (of both letters and location), a threshold of 1.0 would match anything.
-            threshold: 0.2
+            threshold: 0.0
         });
 
         return fuse.search(term);

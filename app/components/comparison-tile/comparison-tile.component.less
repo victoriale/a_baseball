@@ -7,14 +7,14 @@
   &-dropdown {
     .dropdown {
       width: 100%;
-      
+
       &-hdr {
         padding: 10px 15px;
         background-color: rgba(39, 39, 39, 0.35);
         border-right: 1px solid rgba(153, 153, 153, 0.5);
         .globalDefaultModFont(14px, 400, @white);
       }
-      
+
       &-list-option {
         font-size: 14px;
       }
@@ -35,10 +35,16 @@
       .globalDefaultFont(24px, 800);
       display: block;
       margin-bottom: 2px;
+      &:hover{
+        color: @masterBrandColor;
+      }
     }
     &-line-two {
       .globalDefaultFont(12px, 400);
       display: block;
+      > span a:hover{
+        color: @masterBrandColor;
+      }
     }
   }
 
@@ -56,7 +62,7 @@
       display: block;
       text-transform: uppercase;
     }
-    
+
     sup {
       font-size: 10px;
       top: -8px;

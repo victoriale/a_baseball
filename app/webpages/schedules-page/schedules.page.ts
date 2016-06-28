@@ -77,7 +77,7 @@ export class SchedulesPage implements OnInit{
               // this.isError = true;
           }
       );
-      this._schedulesService.getSchedulesService('team', status, 10, pageNum, teamId)
+      this._schedulesService.getSchedulesService('team', status, 10, pageNum, false, teamId) // isTeamProfilePage = false
       .subscribe(
         data => {
           this.schedulesData = data;

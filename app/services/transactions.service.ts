@@ -136,7 +136,7 @@ export class TransactionsService {
     }
   }
 
-  getTransactionsService(tab:TransactionTabData, teamId, type?, sort?, limit?, page?){
+  getTransactionsService(tab:TransactionTabData, teamId: number, type: string, sort?, limit?, page?){
     //Configure HTTP Headers
     var headers = this.setToken();
     if( sort == null){ sort = "desc";}
@@ -153,13 +153,18 @@ export class TransactionsService {
     }
     callURL += tab.tabDataKey+'/'+sort+'/'+limit+'/'+page;
 
+    // only set current team if it's a team profile page,
+    // this module should also only be on the team profile
+    // and MLB profile pages
+    var currentTeam = type == "module" ? teamId : null; 
+
     // console.log("transactions url: " + callURL);
 
     return this.http.get( callURL, {headers: headers})
       .map(res => res.json())
       .map(
         data => {
-          tab.carData = this.carTransactions(data.data, type, tab);
+          tab.carData = this.carTransactions(data.data, type, tab, currentTeam);
           tab.dataArray = this.listTransactions(data.data, type);
           if ( tab.dataArray != null && tab.dataArray.length == 0 ) {
             tab.dataArray = null;
@@ -187,8 +192,7 @@ export class TransactionsService {
   }
 
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
-  //FOR THE PAGE
-  carTransactions(data: Array<TransactionInfo>, type: string, tab: TransactionTabData): Array<SliderCarouselInput> {
+  carTransactions(data: Array<TransactionInfo>, type: string, tab: TransactionTabData, teamId): Array<SliderCarouselInput> {
     let self = this;
     var carouselArray = [];
     if(data.length == 0){//if no data is being returned then show proper Error Message in carousel
@@ -204,7 +208,7 @@ export class TransactionsService {
         var teamRoute = MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId);
         var playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.teamName, val.playerName, val.playerId);
         var teamLinkText = {
-          route: teamRoute,
+          route: teamId == val.teamId ? null : teamRoute,
           text: val.teamName
         };
         var playerLinkText = {
