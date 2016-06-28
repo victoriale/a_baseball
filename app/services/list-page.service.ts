@@ -109,6 +109,7 @@ export class ListPageService {
     .map(
       data => {
         data.data['query'] = query;
+        this.formatData(data.data.listInfo.stat, data.data.listData);
         return {
           profHeader: ListPageService.profileHeader(data.data),
           carData: ListPageService.carDataPage(data.data, 'page', errorMessage),
@@ -139,6 +140,7 @@ export class ListPageService {
       tabArray.push(new BaseballMVPTabData('RBIs', 'batter-runs-batted-in', profileType));
       tabArray.push(new BaseballMVPTabData('Hits', 'batter-hits', profileType));
       tabArray.push(new BaseballMVPTabData('Walks', 'batter-bases-on-balls', profileType));
+      tabArray.push(new BaseballMVPTabData('OBP', 'batter-on-base-percentage', profileType));
     }
 
     return tabArray;
@@ -190,7 +192,7 @@ export class ListPageService {
               var temp = Number(item.stat);
               item.stat = temp.toFixed(2); // format as integer
               break;
-
+          case 'batter-on-base-percentage':
           case 'batter-batting-average':
               var temp = Number(item.stat);
               item.stat = temp.toFixed(3); // format as integer

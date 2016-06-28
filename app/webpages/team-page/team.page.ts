@@ -139,6 +139,7 @@ export class TeamPage implements OnInit {
 
     imageData:any;
     copyright:any;
+    imageTitle: any;
     profileType:string = "team";
     isProfilePage:boolean = true;
     draftHistoryData:any;
@@ -220,7 +221,7 @@ export class TeamPage implements OnInit {
 
                 this.dailyUpdateModule(this.pageParams.teamId);
 
-                /*** Keep Up With Everything [Team Name] ***/
+                /*** Keep Up With Everything [Team Name] ***/ 
                 this.getBoxScores(this.dateParam);
                 this.getSchedulesData('pre-event');//grab pre event data for upcoming games
                 this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams, this.pageParams.teamId, data.teamName);
@@ -339,7 +340,7 @@ export class TeamPage implements OnInit {
     private getImages(imageData) {
         this._imagesService.getImages(this.profileType, this.pageParams.teamId)
             .subscribe(data => {
-                    return this.imageData = data.imageArray, this.copyright = data.copyArray;
+                    return this.imageData = data.imageArray, this.copyright = data.copyArray, this.imageTitle = data.titleArray;
                 },
                 err => {
                     console.log("Error getting image data" + err);
