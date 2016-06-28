@@ -27,9 +27,9 @@ export interface MediaImageItem {
 })
 
 export class ImagesMedia implements OnInit {
-    @Input() imageData:any;
-    @Input() copyright:any;
-    @Input() imageTitle:any;
+    @Input() imageData:string;
+    @Input() copyright:string;
+    @Input() imageTitle:string;
     @Input() isProfilePage:boolean;
 
     leftCircle:EventEmitter<boolean> = new EventEmitter();
