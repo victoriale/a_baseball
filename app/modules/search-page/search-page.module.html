@@ -25,7 +25,7 @@
                     <span class="search-page-results-item-description" [innerHtml]="innerItem.description"></span>
                 </li>
                 <!-- No Results Found -->
-                <li *ngIf="outerItem.results.length === 0" class="search-page-results-item no-results">
+                <li *ngIf="outerItem.results.length == 0 && currentShowing == 0" class="search-page-results-item no-results">
                     <!-- Sorry, your search did not turn up any results.<br><br>
                     You searched for:<br>
                     <span class="text-heavy">{{searchPageInput.query}}</span> -->

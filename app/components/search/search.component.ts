@@ -138,7 +138,7 @@ export class Search{
                 //Up Arrow Keystroke
                 if (this.dropdownList.length > 0) {
                     //If dropdown list exists change index
-                    if (this.selectedIndex === -1) {
+                    if (this.selectedIndex < 0) {
                         //If index is -1 (input is selected), set index to last item
                         this.selectedIndex = this.dropdownList.length - 1;
                         let value = this.getSelectedValue(this.selectedIndex);

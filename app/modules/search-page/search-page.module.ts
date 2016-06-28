@@ -84,16 +84,18 @@ export class SearchPageModule implements OnChanges{
       let self = this;
       data.tabData.forEach(function(val, index){
         if(val.isTabDefault){//Optimize
+          if(val.results[self.pageNumber - 1] == null){
+            val.results[self.pageNumber - 1] = [];
+          }
           var pageMax = Number(val.pageMax);
           var currPage = Number(self.pageNumber);
           var totalItemsOnPage = val.results[self.pageNumber - 1].length;
           var rangeStart = (currPage - 1) * pageMax + 1;
           var rangeEnd = rangeStart + totalItemsOnPage - 1;
-          if(val.results.length > 0){
+          if(val.results[self.pageNumber - 1].length > 0){
             self.currentShowing = rangeStart + ' - ' + rangeEnd;
           }else{
             self.currentShowing = '0 - 0';
-
           }
           self.totalResults = Number(val.totalResults);
         }
