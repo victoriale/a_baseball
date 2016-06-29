@@ -1,99 +1,140 @@
-export class ScrollerFunctions { 
+export class Scroller { 
+  scrollContentWrapper: any;
+  scrollContent: any; 
+  scrollbarHeightRatio: number;
+  scrollbarBaseHeight: number;
+  contentRatio: number;
+  scrollerHeight: number
+  scrollOffset: number  
+  scrollerElement: any;
+  scrollerAlreadyOnPage: boolean;
+  scrollContainer: any;
   
-  static initializeScroller(nativeElement: any, document: HTMLDocument) {
-    var scrollContainers = nativeElement.getElementsByClassName('scrollable-item');
+  normalizedPosition: number;
+  contentPosition: number;
+  scrollerBeingDragged: boolean;
+
+  constructor(scrollContainer) { 
+    this.scrollContainer = scrollContainer;
+    this.scrollContentWrapper = scrollContainer.getElementsByClassName('scrollable-item-wrapper');
+    this.scrollContent = scrollContainer.getElementsByClassName('scrollable-item-content');
+    if ( this.scrollContentWrapper.length == 0 || this.scrollContent.length == 0 ) {
+      return;
+    }
+    else {
+      this.scrollContentWrapper = this.scrollContentWrapper[0];
+      this.scrollContent = this.scrollContent[0];
+    }
     
-    for ( var i = 0; i < scrollContainers.length; i++ ) {
-      checkForScrollable(scrollContainers[i]);
-    };
-      
-    function checkForScrollable(scrollContainer) { 
-      var scrollContentWrapper = scrollContainer.getElementsByClassName('scrollable-item-wrapper');
-      var scrollContent = scrollContainer.getElementsByClassName('scrollable-item-content');
-      if ( scrollContentWrapper.length == 0 || scrollContent.length == 0 ) {
-        return;
-      }
-      else {
-        scrollContentWrapper = scrollContentWrapper[0];
-        scrollContent = scrollContent[0];
-      }
-      
-      // Setup Scroller
-      var scrollbarHeightRatio = 0.90;
-      var scrollbarBaseHeight = scrollContainer.offsetHeight * scrollbarHeightRatio;
-      var contentRatio = scrollContainer.offsetHeight / scrollContentWrapper.scrollHeight;
-      var scrollerHeight = contentRatio * scrollbarBaseHeight;
-      var scrollOffset = 5; // should be the same as offset in scroll-content.component.less file  
-      var scrollerElement = scrollContainer.getElementsByClassName('scrollable-item-scroller');
-      var scrollerAlreadyOnPage = false;
-      
-      if ( scrollerElement && scrollerElement.length > 0 ) {
-        scrollerElement = scrollerElement[0];
-        scrollerAlreadyOnPage = true;
-      }
-      else {
-        scrollerElement = document.createElement("div");
-      }
-      
-      scrollerElement.className = 'scrollable-item-scroller';
+    // Setup Scroller
+    this.scrollbarHeightRatio = 0.90;
+    this.scrollbarBaseHeight = scrollContainer.offsetHeight * this.scrollbarHeightRatio;
+    this.contentRatio = scrollContainer.offsetHeight / this.scrollContentWrapper.scrollHeight;
+    this.scrollerHeight = this.contentRatio * this.scrollbarBaseHeight;
+    this.scrollOffset = 5; // should be the same as offset in scroll-content.component.less file
 
-      if (contentRatio < 1) {
-          scrollerElement.style.height = scrollerHeight + 'px';
-
-          // append scroller to scrollContainer div
-          if ( !scrollerAlreadyOnPage ) {
-            scrollerElement.style.top = scrollOffset.toString();
-            ScrollerFunctions.createScroller(scrollContentWrapper, scrollContainer, scrollerElement, scrollbarBaseHeight, scrollerHeight, scrollOffset);
-          }
-      }
+    let scrollerElements = scrollContainer.getElementsByClassName('scrollable-item-scroller');
+    if ( scrollerElements && scrollerElements.length > 0 ) {
+      this.scrollerElement = scrollerElements[0];
+      this.scrollerAlreadyOnPage = true;
+    }
+    else {
+      this.scrollerAlreadyOnPage = false;
     }
   }
-  
-  static createScroller(wrapper, container, scroller, baseHeight, height, offset) {
-    var scrollContentWrapper = wrapper;
-    var scrollContainer = container;
-    var scrollerElement = scroller;
-    var scrollbarBaseHeight = baseHeight;
-    var scrollOffset = offset;
-    var normalizedPosition = 0;
-    var contentPosition = 0;
-    var scrollerBeingDragged = false;
-                  
-    // Functions          
-    function startDrag(evt) {
-        normalizedPosition = evt.pageY;
-        contentPosition = scrollContentWrapper.scrollTop;
-        scrollerBeingDragged = true;
+
+  setup() {
+    if ( !this.scrollerElement ) {
+      this.scrollerElement = document.createElement("div");
     }
     
-    function stopDrag(evt) {
-        scrollerBeingDragged = false;
-    }
+    this.scrollerElement.className = 'scrollable-item-scroller';
 
-    function scrollBarScroll(evt) {
-        if (scrollerBeingDragged === true) {
-            var mouseDifferential = evt.pageY - normalizedPosition;
-            var scrollEquivalent = mouseDifferential * (scrollContentWrapper.scrollHeight / scrollContainer.offsetHeight);
-            scrollContentWrapper.scrollTop = contentPosition + scrollEquivalent;
+    if (this.contentRatio < 1) {
+        this.scrollerElement.style.height = this.scrollerHeight + 'px';
+
+        // append scroller to scrollContainer div
+        if ( !this.scrollerAlreadyOnPage ) {
+          this.scrollerElement.style.top = this.scrollOffset.toString();
+          this.createScroller();
         }
     }
+  }
+
+  // Functions          
+  startDrag(evt) {
+      this.normalizedPosition = evt.pageY;
+      this.contentPosition = this.scrollContentWrapper.scrollTop;
+      this.scrollerBeingDragged = true;
+  }
+  
+  stopDrag(evt) {
+      this.scrollerBeingDragged = false;
+  }
+
+  scrollBarScroll(evt) {
+      if (this.scrollerBeingDragged === true) {
+          var mouseDifferential = evt.pageY - this.normalizedPosition;
+          var scrollEquivalent = mouseDifferential * (this.scrollContentWrapper.scrollHeight / this.scrollContainer.offsetHeight);
+          this.scrollContentWrapper.scrollTop = this.contentPosition + scrollEquivalent;
+      }
+  }
+  
+  createScroller() {
+    var self = this;
+
+    this.normalizedPosition = 0;
+    this.contentPosition = 0;
+    this.scrollerBeingDragged = false; 
     
-    scrollContainer.appendChild(scrollerElement);
+    this.scrollContainer.appendChild(this.scrollerElement);
 
     // show scroll path divot
-    scrollContainer.className += ' showScroll';
+    this.scrollContainer.className += ' showScroll';
 
     // attach related draggable listeners
-    scrollerElement.addEventListener('mousedown', startDrag);
-    window.addEventListener('mouseup', stopDrag);
-    window.addEventListener('mousemove', scrollBarScroll);
+    this.scrollerElement.addEventListener('mousedown', this.startDrag);
+    window.addEventListener('mouseup', this.stopDrag);
+    window.addEventListener('mousemove', this.scrollBarScroll);
     
-    scrollContentWrapper.addEventListener('scroll', function(evt) {
+    this.scrollContentWrapper.addEventListener('scroll', function(evt) {
         // Move Scroll bar to top offset
-        var scrollPercentage = evt.target.scrollTop / scrollContentWrapper.scrollHeight;
-        var topPosition = (scrollPercentage * scrollbarBaseHeight);
-        topPosition += scrollOffset;
-        scrollerElement.style.top = topPosition + 'px';
+        var scrollPercentage = evt.target.scrollTop / self.scrollContentWrapper.scrollHeight;
+        var topPosition = (scrollPercentage * self.scrollbarBaseHeight);
+        topPosition += self.scrollOffset;
+        self.scrollerElement.style.top = topPosition + 'px';
     });
+  }
+
+  scrollToItem(element) {    
+    var containerRect = this.scrollContainer.getBoundingClientRect();
+    var itemRect = element.getBoundingClientRect();
+
+    var diff = 0;
+    if ( itemRect.bottom > containerRect.bottom ) {
+      diff = itemRect.bottom - containerRect.bottom;
+    }
+    else if ( itemRect.top < containerRect.top ) {
+      diff = itemRect.top - containerRect.top;
+    }
+    
+    if ( diff != 0 ) {
+      this.scrollContentWrapper.scrollTop += diff;
+    }
+  }
+}
+
+export class ScrollerFunctions { 
+  
+  static initializeScroller(nativeElement: any, document: HTMLDocument): Scroller {
+    var scrollContainers = nativeElement.getElementsByClassName('scrollable-item');
+    var container = scrollContainers.length > 0 ? scrollContainers[0] : null;
+    if ( !container ) {
+      return null;
+    }
+      
+    var scroller = new Scroller(container);
+    scroller.setup();
+    return scroller;
   }
 }
