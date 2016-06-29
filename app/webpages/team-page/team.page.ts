@@ -44,7 +44,7 @@ import {RosterService} from '../../services/roster.service';
 import {TeamRosterData} from '../../services/roster.data';
 
 import {ProfileHeaderData, ProfileHeaderModule} from '../../modules/profile-header/profile-header.module';
-import {ProfileHeaderService} from '../../services/profile-header.service';
+import {IProfileData, ProfileHeaderService} from '../../services/profile-header.service';
 
 import {NewsModule} from '../../modules/news/news.module';
 import {NewsService} from '../../services/news.service';
@@ -55,7 +55,6 @@ import {MLBPlayerStatsTableData} from '../../services/player-stats.data'
 
 //module | interface | service
 import {DraftHistoryModule} from '../../modules/draft-history/draft-history.module';
-import {DraftHistoryService} from '../../services/draft-history.service';
 
 import {ImagesMedia} from "../../components/carousels/images-media-carousel/images-media-carousel.component";
 import {ImagesService} from "../../services/carousel.service";
@@ -105,7 +104,6 @@ declare var moment;
     providers: [
       BoxScoresService,
       SchedulesService,
-      DraftHistoryService,
       StandingsService,
       ProfileHeaderService,
       RosterService,
@@ -131,6 +129,7 @@ export class TeamPage implements OnInit {
     hasError: boolean = false;
 
     profileHeaderData:ProfileHeaderData;
+    profileData:IProfileData;
     comparisonModuleData: ComparisonModuleData;
     standingsData: StandingsModuleData;
     playerStatsData: PlayerStatsModuleData;
@@ -142,14 +141,14 @@ export class TeamPage implements OnInit {
     imageTitle: any;
     profileType:string = "team";
     isProfilePage:boolean = true;
-    draftHistoryData:any;
+    // draftHistoryData:any;
 
     boxScoresData:any;
     currentBoxScores:any;
     dateParam:any;
 
     transactionsData:TransactionModuleData;
-    currentYear: any;
+    // currentYear: any;
 
     schedulesData:any;
 
@@ -167,7 +166,6 @@ export class TeamPage implements OnInit {
                 private _boxScores:BoxScoresService,
                 private _schedulesService:SchedulesService,
                 private _profileService:ProfileHeaderService,
-                private _draftService:DraftHistoryService,
                 private _lolService: ListOfListsService,
                 private _transactionsService:TransactionsService,
                 private _imagesService:ImagesService,
@@ -191,7 +189,7 @@ export class TeamPage implements OnInit {
 
     ngOnInit() {
       var currDate = new Date();
-      this.currentYear = currDate.getFullYear();
+    //   this.currentYear = currDate.getFullYear();
       var currentUnixDate = currDate.getTime();
       //convert currentDate(users local time) to Unix and push it into boxScoresAPI as YYYY-MM-DD in EST using moment timezone (America/New_York)
       this.dateParam ={
@@ -215,6 +213,7 @@ export class TeamPage implements OnInit {
             data => {
                 /*** About the [Team Name] ***/
                 this.pageParams = data.pageParams;
+                this.profileData = data;
                 this.profileName = data.teamName;
                 this._title.setTitle(GlobalSettings.getPageTitle(this.profileName));
                 this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data);
@@ -228,7 +227,6 @@ export class TeamPage implements OnInit {
                 this.rosterData = this._rosterService.loadAllTabsForModule(this.pageParams.teamId, data.teamName, this.pageParams.conference, true);
                 this.playerStatsData = this._playerStatsService.loadAllTabsForModule(this.pageParams.teamId, data.teamName, true);
                 this.transactionsData = this._transactionsService.loadAllTabsForModule(data.teamName, this.pageParams.teamId);
-                this.draftHistoryModule(this.currentYear, this.pageParams.teamId);
                 //this.loadMVP
                 this.setupComparisonData();
 
@@ -377,49 +375,7 @@ export class TeamPage implements OnInit {
             shareText: shareText
         };
     }
-
-    //each time a tab is selected the carousel needs to change accordingly to the correct list being shown
-    private draftTab(event) {
-        var firstTab = 'Current Season';
-        if (event == firstTab) {
-            event = this.currentYear;
-        }
-        this.draftHistoryModule(event, this.pageParams.teamId);
-        // this.draftData = this.teamPage.draftHistoryModule(event, this.teamId);
-    }
-
-    private draftHistoryModule(year: number, teamId: number) {
-        var errorMessage = "Sorry, the " + this.profileHeaderData.profileName + " do not currently have any data for the " + year + " draft history";
-        this._draftService.getDraftHistoryService(year, teamId, errorMessage, 'module')
-            .subscribe(
-                draftData => {
-                    var dataArray, detailedDataArray, carouselDataArray;
-                    if (typeof dataArray == 'undefined') {//makes sure it only runs once
-                        dataArray = draftData.tabArray;
-                    }
-                    if (draftData.listData.length == 0) {//makes sure it only runs once
-                        detailedDataArray = false;
-                    } else {
-                        detailedDataArray = draftData.listData;
-                    }
-                    carouselDataArray = draftData.carData
-                    return this.draftHistoryData = {
-                        tabArray: dataArray,
-                        listData: detailedDataArray,
-                        carData: carouselDataArray,
-                        errorData: {
-                            data: errorMessage,
-                            icon: "fa fa-remove"
-                        }
-                    }
-                },
-                err => {
-                    console.log('Error: draftData API: ', err);
-                    // this.isError = true;
-                }
-            );
-    }
-
+    
     private transactionsTab(tab) {
         this._transactionsService.getTransactionsService(tab, this.pageParams.teamId, 'module')
         .subscribe(
