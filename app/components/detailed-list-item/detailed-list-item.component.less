@@ -26,7 +26,7 @@
     width:77.2%;
     height:100%;
     padding: 10px 20px 0 0;
-    i{
+    > i{
       padding-top: 5px
     }
     .dataBox{
@@ -124,35 +124,8 @@
         float:right;
       }
       & a{
-        font-size: 14px;
-        width:160px;
-        height:35px;
-        background-color:@masterBrandColor;
-        color:@white;
-        border:none;
-        line-height: 2.5em;
-        border-radius: 5px;
-        position: relative;
-        display:block;
-        text-align: center;
-        &:focus{
-          outline: 0;
-        }
-        &:hover{
-          background-color: @textEmphasisGrey;
-        }
-        & > span:first-child{
-          width:25px;
-          height:25px;
-          border-radius: 50%;
-          background-image: url(@homeRunLoyalIcon);
-          background-position: center;
-          background-repeat: no-repeat;
-        }
-        & > i{
-          margin-left: 5px;
-        }
+        .mod-page-btn(35px, 160px, 25px, 14px, 400);
       }
-    }
+    }//cta-container ends
   }
 }

@@ -1036,46 +1036,42 @@ goalsHeader
   }
 }
 
-// links styled like buttons
-
-.mod-page-btn {
-  .inlineFlexDisplay;
-  .flexDirection(row);
-  .flexAlignItems(center);
-  height: 35px;
+//Button with masterIcon on left, button text in the center and a font awesome on the right
+//Option to set button height, master icon size, font size, and font weight
+.mod-page-btn(@modBtnHeight, @modBtnWidth, @masterIconSize, @modBtnFontSize, @modBtnFontWeight) {
+  height: @modBtnHeight;
+  width: @modBtnWidth;
+  border:none;
   background-color: @masterBrandColor;
+  padding: 0 5px;
   .borderRadiusPrefix(5px);
+  .flexDisplay;
+  .flexAlignItems(center);
+  .flexJustify(space-around);
+  .globalDefaultModFont(@modBtnFontSize, @modBtnFontWeight, @white);
   & > span:first-child {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    margin-left: 10px;
     background-image: url(@masterIcon);
     background-position: center center;
     background-repeat: no-repeat;
-  }
-  & > span:nth-child(2) {
-    .globalDefaultModFont(15px, 600, @white);
-    margin-left: 10px;
+    border-radius: 50%;
+    height: @masterIconSize;
+    width: @masterIconSize;
   }
   & > i {
-    margin: 2px 10px 0;
     color: @white;
     font-weight: 800;
   }
+  &:focus{
+    outline: 0;
+  }
   &:hover {
-    background-color: darken(@masterBrandColor, 10%);
-    text-decoration: none;
+    background-color: @textEmphasisGrey;
   }
   &:active {
     background-color: @black;
-    span:first-child {
-      background-color: @masterBrandColor;
-      background-position: center center;
-      background-repeat: no-repeat;
-    }
+    color: @white;
   }
-}
+}//.mod-page-btn ENDS
 .mod-page-btn-30 {
   .inlineFlexDisplay;
   .flexDirection(row);
