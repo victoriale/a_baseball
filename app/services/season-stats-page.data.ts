@@ -130,7 +130,6 @@ export class MLBSeasonStatsTabData implements TableTabData<TeamSeasonStatsData> 
 
   convertToCarouselItem(item: TeamSeasonStatsData, index:number): SliderCarouselInput {
     var playerData = item.playerInfo != null ? item.playerInfo : null;
-    var dummyImg = "/app/public/no-image.png";
 
     var playerRoute = MLBGlobalFunctions.formatPlayerRoute(playerData.teamName,playerData.playerName,playerData.playerId.toString());
     var playerRouteText = {
@@ -144,7 +143,7 @@ export class MLBSeasonStatsTabData implements TableTabData<TeamSeasonStatsData> 
     }
 
     return SliderCarousel.convertToCarouselItemType1(index, {
-      backgroundImage: playerData.liveImage != null ? GlobalSettings.getImageUrl(playerData.liveImage) : dummyImg,
+      backgroundImage: GlobalSettings.getBackgroundImageUrl(playerData.liveImage),
       copyrightInfo: GlobalSettings.getCopyrightInfo(),
       subheader: [item.seasonId + " Season Stats Report"],
       profileNameLink: playerRouteText,

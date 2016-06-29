@@ -198,7 +198,7 @@ export class ProfileHeaderService {
               playerId: headerData.info.playerId,
               playerName: headerData.info.playerName
             },
-            fullBackgroundImageUrl: GlobalSettings.getImageUrl(headerData.info.backgroundImage),
+            fullBackgroundImageUrl: GlobalSettings.getBackgroundImageUrl(headerData.info.backgroundImage),
             fullProfileImageUrl: GlobalSettings.getImageUrl(headerData.info.playerHeadshot),
             headerData: headerData,
             profileName: headerData.info.playerName,
@@ -244,7 +244,7 @@ export class ProfileHeaderService {
               division: Division[divKey],
               conference: Conference[confKey],
             },
-            fullBackgroundImageUrl: GlobalSettings.getImageUrl(headerData.backgroundImage),
+            fullBackgroundImageUrl: GlobalSettings.getBackgroundImageUrl(headerData.backgroundImage),
             fullProfileImageUrl: GlobalSettings.getImageUrl(headerData.profileImage),
             headerData: headerData,
             teamName: teamName,
@@ -545,7 +545,7 @@ export class ProfileHeaderService {
     var city = data.city != null ? data.city : "N/A";
     var state = data.state != null ? data.state : "N/A";
 
-    data.backgroundImage = GlobalSettings.getImageUrl(data.backgroundImage);
+    data.backgroundImage = GlobalSettings.getBackgroundImageUrl(data.backgroundImage);
 
     var description = "The MLB consists of " + GlobalFunctions.formatNumber(data.totalTeams) +
                       " teams and " + GlobalFunctions.formatNumber(data.totalPlayers) + " players. " +

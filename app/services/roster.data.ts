@@ -152,7 +152,7 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
     }
 
     return SliderCarousel.convertToCarouselItemType1(index, {
-      backgroundImage: val.backgroundImage != null ? GlobalSettings.getImageUrl(val.backgroundImage) : null,
+      backgroundImage: GlobalSettings.getBackgroundImageUrl(val.backgroundImage),
       copyrightInfo: GlobalSettings.getCopyrightInfo(),
       subheader: [curYear + ' TEAM ROSTER'],
       profileNameLink: playerLinkText,
