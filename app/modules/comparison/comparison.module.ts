@@ -155,11 +155,13 @@ export class ComparisonModule implements OnInit, OnChanges {
             legendValues: [
                 {
                     title: data.playerOne.playerName,
-                    color: data.playerOne.mainTeamColor
+                    // color: data.playerOne.mainTeamColor
+                    color: '#BC1624'
                 },
                 {
                     title: data.playerTwo.playerName,
-                    color: data.playerTwo.mainTeamColor
+                    // color: data.playerTwo.mainTeamColor
+                    color: '#444444'
                 },
                 {
                     title: "Stat High",
@@ -208,7 +210,7 @@ export class ComparisonModule implements OnInit, OnChanges {
                 { text: player.position, class: 'text-heavy' },
                 { text: "|", class: "pipe-separator" },
                 "Team: ",
-                { 
+                {
                     text: player.teamName,
                     route: teamRoute,
                     class: 'text-heavy'
