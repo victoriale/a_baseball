@@ -81,7 +81,7 @@ export class MVPListPage implements OnInit {
 
     this._profileService.getMLBProfile()
       .subscribe(data => {
-        this.profileHeaderData.text1 = "Last Updated: " + GlobalFunctions.formatUpdatedDate(data.lastUpdated);
+        this.profileHeaderData.text1 = "Last Updated: " + GlobalFunctions.formatUpdatedDate(data.headerData.lastUpdated);
       }, err => {
         console.log("Error loading MLB profile");
       });

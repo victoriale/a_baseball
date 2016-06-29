@@ -293,7 +293,9 @@ export class SearchService{
             //Fields the search is based on
             keys: ['playerName'],
             //At what point does the match algorithm give up. A threshold of 0.0 requires a perfect match (of both letters and location), a threshold of 1.0 would match anything.
-            threshold: 0.0
+            threshold: 0.2,
+            distance:6,
+            tokenize :true,
         });
 
         return fuse.search(term);
@@ -305,7 +307,12 @@ export class SearchService{
             //Fields the search is based on
             keys: ['teamName'],
             //At what point does the match algorithm give up. A threshold of 0.0 requires a perfect match (of both letters and location), a threshold of 1.0 would match anything.
-            threshold: 0.2
+            threshold: 0.2,
+            shouldSort: true,
+            sortFn: function(a, b){
+              return a.score - b.score;
+            }
+
         });
 
         return fuse.search(term);

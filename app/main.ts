@@ -8,9 +8,18 @@ import {AppDomain} from './app-domain/app.domain';
 import {GlobalFunctions} from './global/global-functions';
 import {MLBGlobalFunctions} from './global/mlb-global-functions';
 import {SearchService} from './services/search.service';
+import {DraftHistoryService, MLBDraftHistoryService} from './services/draft-history.service'; //testing a proof of concept
 import {provide} from "angular2/core";
 // Needed for http map on observables
 import 'rxjs/add/operator/map';
 import {HTTP_PROVIDERS} from "angular2/http";
-bootstrap(AppDomain,[ROUTER_PROVIDERS, HTTP_PROVIDERS, ROUTER_DIRECTIVES, GlobalFunctions, MLBGlobalFunctions, SearchService])
-  .catch(err => console.error(err));
+
+bootstrap(AppDomain, [
+    ROUTER_PROVIDERS, 
+    HTTP_PROVIDERS, 
+    ROUTER_DIRECTIVES, 
+    GlobalFunctions, 
+    MLBGlobalFunctions, 
+    SearchService,
+    provide(DraftHistoryService, {useClass: MLBDraftHistoryService})
+]).catch(err => console.error(err));

@@ -18,17 +18,14 @@
         <tab *ngFor="#outerItem of searchPageInput.tabData; #i = index" [tabTitle]="outerItem.tabName" [active]="outerItem.isTabDefault">
             <!-- Results -->
             <ul class="search-page-results">
-            	<span class="search-page-total">Showing: <span class="text-heavy">{{currentShowing}}</span> of <span class="text-heavy">{{showResults}}</span> results:</span>
+            	<span class="search-page-total" *ngIf="currentShowing && totalResults">Showing: <span class="text-heavy">{{currentShowing}}</span> of <span class="text-heavy">{{totalResults}}</span> results:</span>
                 <li *ngFor="#innerItem of outerItem.results[pageNumber-1]" class="search-page-results-item">
                     <a class="search-page-results-item-title" [routerLink]="innerItem.url" [innerHtml]="innerItem.title"></a>
                     <a class="search-page-results-item-link" [routerLink]="innerItem.url" [innerHtml]="innerItem.urlText"></a><br>
                     <span class="search-page-results-item-description" [innerHtml]="innerItem.description"></span>
                 </li>
                 <!-- No Results Found -->
-                <li *ngIf="outerItem.results.length == 0 && currentShowing == 0" class="search-page-results-item no-results">
-                    <!-- Sorry, your search did not turn up any results.<br><br>
-                    You searched for:<br>
-                    <span class="text-heavy">{{searchPageInput.query}}</span> -->
+                <li *ngIf="outerItem.results.length == 0 || outerItem.totalResults == 0" class="search-page-results-item no-results">
                     <no-data-box [data]="outerItem.error.message" [icon]="outerItem.error.icon"></no-data-box>
                 </li>
             </ul>

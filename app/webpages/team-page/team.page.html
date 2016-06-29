@@ -16,7 +16,7 @@
     <team-roster-module *ngIf="rosterData" [data]="rosterData"></team-roster-module>
     <player-stats-module *ngIf="playerStatsData" [data]="playerStatsData" (tabSelected)="playerStatsTabSelected($event)"></player-stats-module>
     <transactions-module *ngIf="transactionsData" [data]="transactionsData" (tabSwitched)="transactionsTab($event)"></transactions-module>
-    <draft-history *ngIf="draftHistoryData" [draftData]="draftHistoryData" [profHeader]="profileHeaderData" (tab)="draftTab($event)"></draft-history>
+    <draft-history-module *ngIf="profileData" [profileData]="profileData"></draft-history-module>
     <!-- MVP -->
     <comparison-module [modelData]="comparisonModuleData" [profileName]="profileHeaderData.profileName" [profileType]="'team'" [profileId]="pageParams.teamId"></comparison-module>
 
