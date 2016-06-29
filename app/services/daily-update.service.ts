@@ -137,7 +137,7 @@ export class DailyUpdateService {
         return {
           hasError: false,
           lastUpdateDate: data.lastUpdated ? GlobalFunctions.formatUpdatedDate(data.lastUpdated) : "",
-          fullBackgroundImageUrl: GlobalSettings.getImageUrl(data.backgroundImage),
+          fullBackgroundImageUrl: GlobalSettings.getBackgroundImageUrl(data.backgroundImage),
           type: "Team",
           wrapperStyle: {},
           seasonStats: stats,
@@ -206,7 +206,7 @@ export class DailyUpdateService {
       return {
         hasError: false,
         lastUpdateDate: data.lastUpdated ? GlobalFunctions.formatUpdatedDate(data.lastUpdated) : "",
-        fullBackgroundImageUrl: GlobalSettings.getImageUrl(data.backgroundImage),
+        fullBackgroundImageUrl: GlobalSettings.getBackgroundImageUrl(data.backgroundImage),
         type: "Player",
         wrapperStyle: {'padding-bottom': '10px'},
         seasonStats: stats,

@@ -138,7 +138,7 @@ export class ListOfListsService {
         }
 
         var carouselItem = SliderCarousel.convertToCarouselItemType1(index, {
-          backgroundImage: itemTargetData.backgroundImage ? GlobalSettings.getImageUrl(itemTargetData.backgroundImage) : null,
+          backgroundImage: GlobalSettings.getBackgroundImageUrl(itemTargetData.backgroundImage),
           copyrightInfo: GlobalSettings.getCopyrightInfo(),
           subheader: ["Related List - ", profileLinkText],
           profileNameLink: {text: itemInfo.name},

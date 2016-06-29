@@ -127,7 +127,7 @@ export class MLBDraftHistoryService extends DraftHistoryService {
         var location = GlobalFunctions.toTitleCase(val.city) + ', ' + GlobalFunctions.stateToAP(val.area);
         var carouselItem = SliderCarousel.convertToCarouselItemType2(index, {
           isPageCarousel: false, 
-          backgroundImage: GlobalSettings.getImageUrl(val.backgroundImage),
+          backgroundImage: GlobalSettings.getBackgroundImageUrl(val.backgroundImage),
           copyrightInfo: GlobalSettings.getCopyrightInfo(),
           profileNameLink: playerLinkText,
           description: ['Hometown: ', location],

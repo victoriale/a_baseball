@@ -170,10 +170,8 @@ export class StandingsService {
       value.groupName = groupName;
       value.displayDate = GlobalFunctions.formatUpdatedDate(value.lastUpdated, false);
       value.fullImageUrl = GlobalSettings.getImageUrl(value.imageUrl);
-      if ( value.backgroundImage ) {
-        value.fullBackgroundImageUrl = GlobalSettings.getImageUrl(value.backgroundImage);
-      }
-
+      value.fullBackgroundImageUrl = GlobalSettings.getBackgroundImageUrl(value.backgroundImage);
+      
       //Make sure numbers are numbers.
       value.totalWins = Number(value.totalWins);
       value.totalLosses = Number(value.totalLosses);
