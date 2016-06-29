@@ -1,15 +1,5 @@
-<section *ngIf="carouselDataArray" class="module-container draft-history">
+<section class="module-container draft-history">
   <module-header [modHeadData]="modHeadData"></module-header>
-  <slider-carousel [carouselData]="carouselDataArray"></slider-carousel>
-  <tabs *ngIf="dataArray" (tabSelected)='selectedTab($event)'>
-    <tab *ngFor="#data of dataArray; #i = index" [active]="i == 0" [tabTitle]="data.tabDisplay">
-      <div class="draft-history-container" style="margin:-10px"> <!-- due to tab having a default value of padding 1em for tab purposes so we just reverse it with margin -->
-        <detailed-list-item *ngIf="detailedDataArray" [detailedItemData] = 'detailedDataArray'></detailed-list-item>
-      </div>
-      <div class="draft-history-no-data" *ngIf="!detailedDataArray && errorData">
-        <no-data-box [data]="errorData.data" [icon]="errorData.icon"></no-data-box>
-      </div>
-    </tab>
-  </tabs>
+  <draft-history *ngIf="profileData" [profileData]="profileData" [type]="'module'"></draft-history>
   <module-footer [footerData]='footerData'></module-footer>
 </section>
