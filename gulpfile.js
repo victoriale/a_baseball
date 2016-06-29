@@ -24,6 +24,7 @@ gulp.task('compile', ['clean'], function () {
 // copy dependencies
 gulp.task('copy:libs', ['clean'], function() {
   return gulp.src([
+      'node_modules/core-js/client/core.min.js',
       'node_modules/es6-shim/es6-shim.min.js',
       'node_modules/systemjs/dist/system-polyfills.js',
       'node_modules/angular2/bundles/angular2-polyfills.js',
