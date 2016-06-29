@@ -252,10 +252,15 @@ export class TransactionsService {
 
     listDataArray = data.map(function(val, index){
       var playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.playerName, val.playerName, val.playerId);
+      if(val.active != 'active'){
+        playerRoute = null;
+      }
       var playerTextLink = {
         route: playerRoute,
         text: val.playerLastName + ", " + val.playerFirstName
       }
+      console.log("data", data);
+
       return {
         dataPoints: [{
           style   : 'transactions-small',
