@@ -228,7 +228,6 @@ export class Search{
             return false;
         }
         let searchRoute: Array<any>;
-        console.log(this.selectedIndex, this.dropdownList);
         if( this.selectedIndex < 0 && (this.dropdownList.length > 1 || this.dropdownList.length == 0) ){//no dropdown selected and if there are multiple results or 0 go to search page with query
           searchRoute = this._searchService.getSearchRoute(term);
         }else if(this.dropdownList.length == 1 ){// if there is a selected dropdown and only one item available to to that route
