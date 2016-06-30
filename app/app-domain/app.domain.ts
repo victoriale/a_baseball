@@ -1,6 +1,6 @@
-import {Component} from 'angular2/core';
-import {Router, RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
-import {Title} from 'angular2/platform/browser';
+import {Component} from '@angular/core';
+import {Router, RouteConfig, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import {Title} from '@angular/platform-browser';
 import {Observable} from 'rxjs/Rx';
 import {AppComponent} from "../app-webpage/app.webpage";
 import {MyAppComponent} from "../app-webpage/app.mywebpage";
