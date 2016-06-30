@@ -2,7 +2,6 @@ const gulp = require('gulp');
 const del = require('del');
 const typescript = require('gulp-typescript');
 const tscConfig = require('./tsconfig.json');
-const core = require('core-js/library');
 const browserSync = require('browser-sync');
 const historyApiFallback = require('connect-history-api-fallback');
 const concat = require('gulp-concat');
