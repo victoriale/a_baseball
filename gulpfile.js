@@ -7,7 +7,7 @@ const historyApiFallback = require('connect-history-api-fallback');
 const concat = require('gulp-concat');
 const less = require('gulp-less');
 const cleanCSS = require('gulp-clean-css');
-const minify = require('gulp-minify');
+// const minify = require('gulp-minify');
 const reload = browserSync.reload;
 
 // clean the contents of the distribution directory
@@ -26,16 +26,17 @@ gulp.task('minify-css',['less'], function() {
 });
 
 //minify javascript
-gulp.task('compress', ['copy:assets'], function() {
-  gulp.src('dist/app/**/*.js')
-    .pipe(minify({
-        ext:{
-            src:'-debug.js',
-            min:'.js'
-        },
-    }))
-    .pipe(gulp.dest('dist/app'))
-});
+// gulp.task('compress', ['copy:assets'], function() {
+//   gulp.src('dist/app/**/*.js')
+//     .pipe(minify({
+//         ext:{
+//             src:'-debug.js',
+//             min:'.js'
+//         },
+//         exclude: ['lib'],
+//     }))
+//     .pipe(gulp.dest('dist/app'))
+// });
 
 // TypeScript compile
 gulp.task('compile', ['clean'], function () {
@@ -94,7 +95,8 @@ gulp.task('serve', ['build'], function() {
   gulp.watch(['app/**/*', 'index.html', 'master.css'], ['buildAndReload']);
 });
 
-gulp.task('build', ['compile', 'less', 'copy:libs', 'copy:assets', 'minify-css', 'compress']);
+// gulp.task('build', ['compile', 'less', 'copy:libs', 'copy:assets', 'minify-css', 'compress']);
+gulp.task('build', ['compile', 'less', 'copy:libs', 'copy:assets', 'minify-css']);
 gulp.task('buildAndReload', ['build'], reload);
 gulp.task('default', ['build']);
 
