@@ -430,7 +430,7 @@ export class GlobalFunctions {
     static formatDateWithAPMonth(jsDate:any, beforeMonthFormat: string, afterMonthFormat: string): string {
       var date = moment(jsDate);
       var str = (beforeMonthFormat ? date.format(beforeMonthFormat) : "") +
-                GlobalFunctions.formatAPMonth(date.month()) +
+                GlobalFunctions.formatAPMonth(date.month()) + " " +
                 (afterMonthFormat ? date.format(afterMonthFormat) : "");
       return str;
     }

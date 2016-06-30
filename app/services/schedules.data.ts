@@ -310,7 +310,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
 
     switch (hdrColumnKey) {
       case "date":
-        display = GlobalFunctions.formatDateWithAPMonth(item.startDateTimestamp, "", "DD");
+        display = GlobalFunctions.formatDateWithAPMonth(item.startDateTimestamp, "", "D");
         sort = item.startDateTimestamp;
         break;
 
