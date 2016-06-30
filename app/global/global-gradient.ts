@@ -153,27 +153,29 @@ export class Gradient {
     }
     var colorOne = colorSetOne[0];
     var colorTwo = colorSetTwo[0];
-    //If the first set of colors are closed
-    if ( Gradient.areColorsClose(colorOne, colorTwo) ) {
-      // colorTwo = Color.ColorLuminance(colorTwo, Color.lightOrDark(colorTwo));
-      if( colorSetTwo.length >= 2 && colorSetTwo[1] != ""){
-        colorTwo = colorSetTwo[1]; //get second color of set 2 if first colors are closed to each other
-        //check if the second color is closed with the first color of set 1
-        if ( Gradient.areColorsClose(colorOne, colorTwo) ) {
-          //get third color if available or get the darken/lighten color of the second color of the second set
-          colorTwo = colorSetTwo.length > 2 ? colorSetTwo[2] : Color.ColorLuminance(colorSetTwo[1], Color.lightOrDark(colorTwo));
-        }
-      } else {//if there's no more than 2 colors for set 2, then check for set 1 if there's more than 1 color
-        if( colorSetOne.length >= 2 && colorSetTwo[1] != ""){
-          colorOne = colorSetOne[1];//get the second color of the first set
-          if ( Gradient.areColorsClose(colorOne, colorTwo) ) {//check if the second color of the first set is close to the color of the second set, then darken the color of the second set
-            colorOne = Color.ColorLuminance(colorSetTwo[1], Color.lightOrDark(colorOne));
-          }
-        } else {//else there's only one color of the first set, then darken/lighten the color of second set
-          colorTwo = Color.ColorLuminance(colorTwo, Color.lightOrDark(colorTwo));
-        }
-      }
-    }
+    // CURRENTLY JUST USING THE PRIMARY COLORS AND NOT GOING TO SECONDARY COLORS
+    // WHEN THEY ARE CLOSE
+    // //If the first set of colors are closed
+    // if ( Gradient.areColorsClose(colorOne, colorTwo) ) {
+    //   // colorTwo = Color.ColorLuminance(colorTwo, Color.lightOrDark(colorTwo));
+    //   if( colorSetTwo.length >= 2 && colorSetTwo[1] != ""){
+    //     colorTwo = colorSetTwo[1]; //get second color of set 2 if first colors are closed to each other
+    //     //check if the second color is closed with the first color of set 1
+    //     if ( Gradient.areColorsClose(colorOne, colorTwo) ) {
+    //       //get third color if available or get the darken/lighten color of the second color of the second set
+    //       colorTwo = colorSetTwo.length > 2 ? colorSetTwo[2] : Color.ColorLuminance(colorSetTwo[1], Color.lightOrDark(colorTwo));
+    //     }
+    //   } else {//if there's no more than 2 colors for set 2, then check for set 1 if there's more than 1 color
+    //     if( colorSetOne.length >= 2 && colorSetTwo[1] != ""){
+    //       colorOne = colorSetOne[1];//get the second color of the first set
+    //       if ( Gradient.areColorsClose(colorOne, colorTwo) ) {//check if the second color of the first set is close to the color of the second set, then darken the color of the second set
+    //         colorOne = Color.ColorLuminance(colorSetTwo[1], Color.lightOrDark(colorOne));
+    //       }
+    //     } else {//else there's only one color of the first set, then darken/lighten the color of second set
+    //       colorTwo = Color.ColorLuminance(colorTwo, Color.lightOrDark(colorTwo));
+    //     }
+    //   }
+    // }
     return [colorOne, colorTwo];
   }
 
