@@ -77,8 +77,8 @@ export class TransactionsPage implements OnInit{
       this._profileService.getMLBProfile()
         .subscribe(
           data => {
-            this.profileName = data.profileName1;
-            this.profileHeaderData = this._profileService.convertMLBHeader(data, "");            
+            this.profileName = data.headerData.profileNameShort;
+            this.profileHeaderData = this._profileService.convertMLBHeader(data.headerData, "");            
             this._title.setTitle(GlobalSettings.getPageTitle("Transactions", this.profileName));
 
             this.tabs = this._transactionsService.getTabsForPage(this.profileName, this.pageParams.teamId);

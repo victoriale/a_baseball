@@ -219,7 +219,6 @@ export class ListPageService {
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
   static carDataPage(data: ListData, profileType: string, errorMessage: string){
     var carouselArray = [];
-    var dummyImg = "/app/public/Image-Placeholder-1.jpg";
     var currentYear = new Date().getFullYear();//TODO FOR POSSIBLE past season stats but for now we have lists for current year season
     var carData = data.listData;
     var carInfo = data.listInfo;
@@ -274,7 +273,7 @@ export class ListPageService {
 
         carouselItem = SliderCarousel.convertToCarouselItemType2(index, {
           isPageCarousel: profileType == 'page',
-          backgroundImage: val.backgroundImage != undefined ? GlobalSettings.getImageUrl(val.backgroundImage) : dummyImg,
+          backgroundImage: GlobalSettings.getBackgroundImageUrl(val.backgroundImage),
           copyrightInfo: GlobalSettings.getCopyrightInfo(),
           profileNameLink: profileLinkText,
           description: description,

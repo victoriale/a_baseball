@@ -223,7 +223,7 @@ export class TransactionsService {
           text: val.playerName
         };
         return SliderCarousel.convertToCarouselItemType1(index, {
-          backgroundImage: val.backgroundImage != null ? GlobalSettings.getImageUrl(val.backgroundImage) : null,
+          backgroundImage: GlobalSettings.getBackgroundImageUrl(val.backgroundImage),
           copyrightInfo: GlobalSettings.getCopyrightInfo(),
           subheader: [tab.tabDisplay + ' Report - ', teamLinkText],
           profileNameLink: playerLinkText,
@@ -252,10 +252,14 @@ export class TransactionsService {
 
     listDataArray = data.map(function(val, index){
       var playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.playerName, val.playerName, val.playerId);
+      if(val.active != 'active'){ //TODO
+        playerRoute = null;
+      }
       var playerTextLink = {
         route: playerRoute,
         text: val.playerLastName + ", " + val.playerFirstName
       }
+
       return {
         dataPoints: [{
           style   : 'transactions-small',

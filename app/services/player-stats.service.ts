@@ -103,7 +103,7 @@ export class PlayerStatsService {
       value.fullPlayerImageUrl = GlobalSettings.getImageUrl(value.playerHeadshot);
       value.fullTeamImageUrl = GlobalSettings.getImageUrl(value.teamLogo);
       if ( value.backgroundImage ) {
-        value.fullBackgroundImageUrl = GlobalSettings.getImageUrl(value.backgroundImage);
+        value.fullBackgroundImageUrl = GlobalSettings.getBackgroundImageUrl(value.backgroundImage);
       }
       
       //force these fields to numbers:

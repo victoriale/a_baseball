@@ -93,7 +93,7 @@ export class BoxScoresService {
     var ordinal = moment(date,"YYYY-MM-DD").tz('America/New_York').format("D");
     ordinal = '<sup>' + GlobalFunctions.Suffix(ordinal) + '</sup>';
     var year = moment(date,"YYYY-MM-DD").tz('America/New_York').format("YYYY");
-    var convertedDate = month + day + ordinal + ', ' + year;
+    var convertedDate = month + ' ' + day + ordinal + ', ' + year;
 
     moduleTitle = "Box Scores - " + team + ' : ' +convertedDate;
     return {

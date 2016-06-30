@@ -93,7 +93,7 @@ export class DesignPage implements OnInit {
     );
     this._profileService.getMLBProfile().subscribe(
       data => {
-        this.leagueProfileHeaderData = this._profileService.convertToLeagueProfileHeader(data);
+        this.leagueProfileHeaderData = this._profileService.convertToLeagueProfileHeader(data.headerData);
       },
       err => {
         console.log("Error getting league profile data: " + err);
