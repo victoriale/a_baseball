@@ -324,7 +324,7 @@ export class TeamPage implements OnInit {
     //api for Schedules
     private getSchedulesData(status){
       var limit = 5;
-      this._schedulesService.getSchedulesService('team', status, limit, 1, status, true, this.pageParams.teamId) // isTeamProfilePage = true
+      this._schedulesService.getSchedulesService('team', status, limit, 1, true, this.pageParams.teamId) // isTeamProfilePage = true
       .subscribe(
         data => {
           this.schedulesData = data;

@@ -250,7 +250,7 @@ private dailyUpdateModule(playerId: number) {
     if(status == 'post-event'){
       limit = 3;
     }
-    this._schedulesService.getSchedulesService('team', status, limit, 1, status, false, this.pageParams.teamId)// isTeamProfilePage = false
+    this._schedulesService.getSchedulesService('team', status, limit, 1, false, this.pageParams.teamId)// isTeamProfilePage = false
     .subscribe(
       data => {
         this.schedulesData = data;

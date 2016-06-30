@@ -47,11 +47,15 @@ export class SchedulesPage implements OnInit{
 
   //grab tab to make api calls for post of pre event table
   private scheduleTab(tab) {
+    var newParams = this.params.params;
       if(tab == 'Upcoming Games'){
+          newParams['tab'] = 'pre-event';
           this.getSchedulesData('pre-event');
       }else if(tab == 'Previous Games'){
+          newParams['tab'] = 'post-event';
           this.getSchedulesData('post-event');
       }else{
+          newParams['tab'] = 'post-event';
           this.getSchedulesData('post-event');// fall back just in case no status event is present
       }
   }
@@ -59,7 +63,6 @@ export class SchedulesPage implements OnInit{
   private getSchedulesData(status){
     var teamId = this.params.params['teamId']; //determines to call league page or team page for schedules-table
     var pageNum = this.params.params['pageNum'];
-
     if(typeof teamId != 'undefined'){
       this.profHeadService.getTeamProfile(Number(teamId))
       .subscribe(
@@ -77,7 +80,7 @@ export class SchedulesPage implements OnInit{
               // this.isError = true;
           }
       );
-      this._schedulesService.getSchedulesService('team', status, 10, pageNum, status, false, teamId) // isTeamProfilePage = false
+      this._schedulesService.getSchedulesService('team', this.params.params['tab'], 10, pageNum, false, teamId) // isTeamProfilePage = false
       .subscribe(
         data => {
           this.schedulesData = data;
@@ -113,7 +116,7 @@ export class SchedulesPage implements OnInit{
             // this.isError = true;
           }
       );
-      this._schedulesService.getSchedulesService('league', status, 10, pageNum, status)
+      this._schedulesService.getSchedulesService('league', this.params.params['tab'], 10, pageNum)
       .subscribe(
         data => {
           this.schedulesData = data;
@@ -161,7 +164,7 @@ export class SchedulesPage implements OnInit{
           index: params['pageNum'],
           max: input.totalPages,
           paginationType: 'page',
-          navigationPage: 'Schedules-page-team',
+          navigationPage: pageType,
           navigationParams: navigationParams,
           indexKey: 'pageNum'
         };
@@ -175,7 +178,7 @@ export class SchedulesPage implements OnInit{
           index: params['pageNum'],
           max: input.totalPages,
           paginationType: 'page',
-          navigationPage: 'Schedules-page-league',
+          navigationPage: pageType,
           navigationParams: navigationParams,
           indexKey: 'pageNum'
         };
@@ -183,7 +186,12 @@ export class SchedulesPage implements OnInit{
   }
 
   ngOnInit() {
-    this.getSchedulesData('pre-event');// on load load any upcoming games
+    console.log(this.params.params['tab']);
+    if(this.params.params['tab']!= null){
+      this.getSchedulesData(this.params.params['tab']);// on load load any upcoming games
+    }else{
+      this.getSchedulesData('pre-event');// on load load any upcoming games
+    }
   }
 
 }

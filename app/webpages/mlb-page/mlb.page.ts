@@ -238,7 +238,7 @@ export class MLBPage implements OnInit {
       if(status == 'post-event'){
         limit = 3;
       }
-      this._schedulesService.getSchedulesService('league', status, limit, 1, status)
+      this._schedulesService.getSchedulesService('league', status, limit, 1)
       .subscribe(
         data => {
           this.schedulesData = data;

@@ -66,7 +66,7 @@ export class SchedulesService {
       return headers;
   }
 
-  getSchedulesService(profile, eventStatus, limit, pageNum, preTab, isTeamProfilePage?: boolean, id?, year?){
+  getSchedulesService(profile, eventStatus, limit, pageNum, isTeamProfilePage?: boolean, id?, year?){
     //Configure HTTP Headers
     var headers = this.setToken();
     var jsYear = new Date().getFullYear();//DEFAULT YEAR DATA TO CURRENT YEAR
@@ -83,19 +83,21 @@ export class SchedulesService {
       displayYear = year;
     }
 
+    console.log(eventStatus);
     //eventType determines which tab is highlighted
-    if(preTab == 'pre-event'){
+    if(eventStatus == 'pre-event'){
       eventTab = true;
     }else{
       eventTab = false;
     }
+    console.log(eventTab);
     var callURL = this._apiUrl+'/'+profile+'/schedule';
 
     if(typeof id != 'undefined'){
       callURL += '/'+id;
     }
     callURL += '/'+eventStatus+'/'+limit+'/'+ pageNum;  //default pagination limit: 5; page: 1
-
+    console.log(callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
