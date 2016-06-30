@@ -17,7 +17,6 @@ gulp.task('clean', function () {
 });
 
 //minify the css
-var source = 'https://fonts.googleapis.com/css?family=Lato:400,700,800,400italic';
 gulp.task('minify-css',['less'], function() {
   return gulp.src('dist/app/global/stylesheets/*.css')
     .pipe(cleanCSS({debug: true, processImport:false}, function(details) {
