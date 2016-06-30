@@ -38,7 +38,6 @@ export class SchedulesComponent implements OnInit{
     if ( this.tabs && this.tabs.length > 0 && this.carouselData && this.data != null && !this.tabsLoaded && this.getSelectedTab()) {
       if ( !this.tabsLoaded) {
         this.tabsLoaded = {};
-        console.log(this.getSelectedTab());
         var selectedTitle = this.getSelectedTab()['display'];
         let matchingTabs = this.tabs.filter(value => value.display == this.tabTitle);
         this.tabs.forEach(tab => {
@@ -50,7 +49,6 @@ export class SchedulesComponent implements OnInit{
         this.tabSelected(selectedTitle);
       }else {
         let selectedTab = this.getSelectedTab()['tabData'];
-        console.log(this.getSelectedTab());
         if ( selectedTab && selectedTab.sections && selectedTab.sections.length > 0 && this.tabsLoaded != null ) {
           this.tabsLoaded[this.tabTitle] = "1";
           this.updateCarousel();
@@ -130,7 +128,6 @@ export class SchedulesComponent implements OnInit{
 
   ngOnInit(){//on view load set default data
     var selectedTab = this.tabs.filter(value => value.tabData.isActive == true)[0];
-    console.log(selectedTab);
     this.tabTitle = selectedTab.display;
   }//ngOnInit ENDS
 }
