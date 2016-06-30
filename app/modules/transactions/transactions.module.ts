@@ -1,6 +1,6 @@
-import {Component, Output, EventEmitter, Input} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
-import {Injectable} from 'angular2/core';
+import {Component, Output, EventEmitter, Input} from '@angular/core';
+import {RouteParams} from '@angular/router-deprecated';
+import {Injectable} from '@angular/core';
 
 import {ModuleFooter, FooterStyle, ModuleFooterData} from '../../components/module-footer/module-footer.component';
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
@@ -19,7 +19,7 @@ export interface TransactionModuleData {
 })
 
 export class TransactionsModule {
-  @Output() tabSwitched: EventEmitter<string> = new EventEmitter();
+  @Output() tabSwitched = new EventEmitter();
 
   @Input() data: TransactionModuleData;
 

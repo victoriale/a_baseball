@@ -1,5 +1,5 @@
-import {Component, Output, EventEmitter, Injectable, Input, OnInit} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
+import {Component, Output, EventEmitter, Injectable, Input, OnInit} from '@angular/core';
+import {RouteParams} from '@angular/router-deprecated';
 
 import {DetailedListItem, DetailListInput} from '../../components/detailed-list-item/detailed-list-item.component';
 import {ModuleFooter} from '../../components/module-footer/module-footer.component';

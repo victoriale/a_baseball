@@ -1,6 +1,6 @@
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
-import {Http, Headers} from 'angular2/http';
+import {Http, Headers} from '@angular/http';
 import {GlobalFunctions} from '../global/global-functions';
 import {MLBGlobalFunctions}  from '../global/mlb-global-functions';
 import {GlobalSettings}  from '../global/global-settings';
@@ -14,7 +14,7 @@ export class ListOfListsService {
   // private _apiToken: string = 'BApA7KEfj';
   // private _headerName: string = 'X-SNT-TOKEN';
 
-  constructor(public http: Http, public globalFunc: GlobalFunctions){
+  constructor(public http: Http){
   }
 
   //Function to set custom headers

@@ -1,14 +1,14 @@
 /**
  * Created by Victoria on 4/19/2016.
  */
-import {Component, OnInit, Output, Input, EventEmitter} from 'angular2/core';
+import {Component, OnInit, Output, Input, EventEmitter} from '@angular/core';
 import {CircleImage} from '../../images/circle-image';
 import {ImageData, CircleImageData} from '../../images/image-data';
 import {Carousel} from '../carousel.component';
 import {ModuleFooter, ModuleFooterData} from '../../module-footer/module-footer.component'
 import {ComplexInnerHtml} from '../../complex-inner-html/complex-inner-html.component'
 import {Link, ParagraphItem} from '../../../global/global-interface';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
+import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
 /*
   index?: //(optional) parameter in case it is needed to know the position of the object in its current array
@@ -108,7 +108,7 @@ export class SliderCarousel implements OnInit {
   @Input() indexInput: any;//this is an optional Input to determine where the current index is currently positioned. otherwise set the defaul indexInput to 0;
   @Input() footerStyle: any;
 
-  public indexNum: EventEmitter<any> = new EventEmitter();//interface for the output to return an index
+  public indexNum = new EventEmitter();//interface for the output to return an index
   public dataPoint: SliderCarouselInput;
 
   constructor() {

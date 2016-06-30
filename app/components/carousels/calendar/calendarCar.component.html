@@ -3,7 +3,7 @@
   <div class="calendar-picker-carousel">
     <div class="calendar-picker-circles" (click)="left()"><i class="fa fa-angle-left"></i></div>
     <div class="calendar-picker-dates">
-      <span *ngFor="#dates of weeklyDates">
+      <span *ngFor="let dates of weeklyDates">
         <div class="calendar-picker-dates-select" *ngIf="dates.clickable" [class.active]="dates.active == true" [class.hover]="dates.clickable == true && dates.active == false" (click)="setActive(dates)">
           <span>{{dates.month}}.</span>
           <span class="calendar-picker-dates-select-day">{{dates.day}}<sup>{{dates.ordinal}}</sup></span>

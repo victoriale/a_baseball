@@ -1,6 +1,6 @@
 <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray"></slider-carousel>
 <tabs *ngIf="tabs" (tabSelected)='selectedTab($event)'>
-  <tab *ngFor="#tab of tabs; #i = index" [active]="i == 0" [tabTitle]="tab.tabDisplay">
+  <tab *ngFor="let tab of tabs; let i = index" [active]="i == 0" [tabTitle]="tab.tabDisplay">
     <div *ngIf="tab.isLoaded" class="transactions-container">
       <div class="tab-inset"> <!-- due to tab having a default value of padding 1em for tab purposes so we just reverse it with margin -->
         <div *ngIf="tab.includeDropdown" class="transactions-page-title">

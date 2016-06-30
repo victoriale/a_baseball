@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges} from 'angular2/core';
+import {Component, Input, OnChanges} from '@angular/core';
 import {CircleImage} from '../../components/images/circle-image';
 import {ImageData, CircleImageData} from '../../components/images/image-data';
 import {GlobalSettings} from '../../global/global-settings';

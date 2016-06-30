@@ -34,7 +34,7 @@
               </div>
               <!-- Information Drop Box Next to Lead Stats if there's display data info when hovered over icon-->
               <ul class="infobox-box" [class.active]="displayData.active">
-                <li class="infobox-list" *ngFor="#displayData of displayData.infoBoxDetails">
+                <li class="infobox-list" *ngFor="let displayData of displayData.infoBoxDetails">
                   <a class="infobox-list-item" [routerLink]="displayData.routerLinkPlayer">
                     <div class="infobox-list-image">
                         <circle-image [data]="displayData.infoBoxImage"></circle-image>

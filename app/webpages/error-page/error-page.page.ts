@@ -1,6 +1,6 @@
-import {Component, Injector} from 'angular2/core';
-import {Router,ROUTER_DIRECTIVES} from 'angular2/router';
-import {Title} from 'angular2/platform/browser';
+import {Component, Injector} from '@angular/core';
+import {Router,ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import {Title} from '@angular/platform-browser';
 
 import {GlobalSettings} from '../../global/global-settings';
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";

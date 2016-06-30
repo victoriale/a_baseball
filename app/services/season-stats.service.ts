@@ -1,6 +1,6 @@
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
-import {Http, Headers} from 'angular2/http';
+import {Http, Headers} from '@angular/http';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
 import {GlobalSettings} from '../global/global-settings';
@@ -314,7 +314,7 @@ export class SeasonStatsService {
 }
 @Injectable()
 export class SeasonStatsPageService {
-  constructor(public http: Http, private _globalFunctions: GlobalFunctions, private _mlbFunctions: MLBGlobalFunctions){}
+  constructor(public http: Http, private _mlbFunctions: MLBGlobalFunctions){}
 
   getPageTitle( pageParams: MLBPageParameters, playerName: string): string {
     let pageTitle = "Season Stats";

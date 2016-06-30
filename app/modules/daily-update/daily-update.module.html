@@ -10,7 +10,7 @@
           <span class="text-heavy">Current Season</span> Stats</h3>
           <p class="stat-wrapper-table-subtitle">Last Updated: {{data.lastUpdateDate}}</p>
           <div class="datapoints">
-            <p *ngFor="#item of data.seasonStats" class="datapoints-item">
+            <p *ngFor="let item of data.seasonStats" class="datapoints-item">
               <span class="pull-left"><i class="fa {{item.icon}}"></i>{{item.name}}</span>
               <span class="pull-right"><span class="text-heavy">{{item.value}}</span></span>
             </p>

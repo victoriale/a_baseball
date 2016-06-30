@@ -1,6 +1,6 @@
-import {Component, OnInit, Injectable} from 'angular2/core';
-import {Router, RouteParams} from 'angular2/router';
-import {Title} from 'angular2/platform/browser';
+import {Component, OnInit, Injectable} from '@angular/core';
+import {Router, RouteParams} from '@angular/router-deprecated';
+import {Title} from '@angular/platform-browser';
 
 import {GlobalFunctions} from "../../global/global-functions";
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
@@ -176,8 +176,7 @@ export class TeamPage implements OnInit {
                 private _dykService: DykService,
                 private _twitterService: TwitterService,
                 private _comparisonService: ComparisonStatsService,
-                private _dailyUpdateService: DailyUpdateService,
-                private _globalFunctions:GlobalFunctions) {
+                private _dailyUpdateService: DailyUpdateService) {
         this.pageParams = {
             teamId: Number(_params.get("teamId"))
         };

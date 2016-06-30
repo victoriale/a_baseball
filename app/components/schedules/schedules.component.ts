@@ -1,4 +1,4 @@
-import {Component, Input, Output, OnInit, DoCheck, EventEmitter} from 'angular2/core';
+import {Component, Input, Output, OnInit, DoCheck, EventEmitter} from '@angular/core';
 
 import {SchedulesCarousel, SchedulesCarouselInput} from '../carousels/schedules-carousel/schedules-carousel.component';
 import {Tabs} from '../tabs/tabs.component';

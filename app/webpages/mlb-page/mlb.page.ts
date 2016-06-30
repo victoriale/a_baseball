@@ -1,6 +1,6 @@
-import {Component, OnInit} from 'angular2/core';
-import {Router} from 'angular2/router';
-import {Title} from 'angular2/platform/browser';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router-deprecated';
+import {Title} from '@angular/platform-browser';
 
 import {LoadingComponent} from '../../components/loading/loading.component';
 import {ErrorComponent} from '../../components/error/error.component';

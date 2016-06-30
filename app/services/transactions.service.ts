@@ -1,6 +1,6 @@
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
-import {Http, Headers} from 'angular2/http';
+import {Http, Headers} from '@angular/http';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
 import {GlobalSettings} from '../global/global-settings';
@@ -252,10 +252,14 @@ export class TransactionsService {
 
     listDataArray = data.map(function(val, index){
       var playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.playerName, val.playerName, val.playerId);
+      if(val.active != 'active'){ //TODO
+        playerRoute = null;
+      }
       var playerTextLink = {
         route: playerRoute,
         text: val.playerLastName + ", " + val.playerFirstName
       }
+
       return {
         dataPoints: [{
           style   : 'transactions-small',

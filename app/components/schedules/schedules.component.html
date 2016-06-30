@@ -1,6 +1,6 @@
 <schedules-carousel *ngIf="carouselData" [carouselData]="carouselData" (indexNum)="indexNum($event)" [indexInput]="selectedIndex"></schedules-carousel>
 <tabs (tabSelected)="tabSelected($event)">
-  <tab *ngFor="#tab of tabs; #i = index" [active]="tab.tabData.isActive" [tabTitle]="tab.display" >
+  <tab *ngFor="let tab of tabs; let i = index" [active]="tab.tabData.isActive" [tabTitle]="tab.display" >
     <div *ngIf="tab" class="schedules-container">
       <div class="schedules-heading">
         <div class="schedules-heading-title">
@@ -11,7 +11,7 @@
         <!-- <div class="schedules-heading-time">Games are displayed by most recent</div> -->
       </div>
       <div class="schedules-table">
-        <div *ngFor="#section of tab.tabData.sections" class="schedules-section">
+        <div *ngFor="let section of tab.tabData.sections" class="schedules-section">
           <h4 *ngIf="section.groupName" [innerHtml]="section.groupName"></h4>
           <loading-component *ngIf="!section.tableData"></loading-component>
           <custom-table *ngIf="section.tableData" [model]="section.tableData" (sortChanged)="updateCarousel($event)"></custom-table>

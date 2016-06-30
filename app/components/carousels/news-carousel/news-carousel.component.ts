@@ -1,7 +1,7 @@
 /**
  * Created by Victoria on 4/19/2016.
  */
-import {Component, OnInit, Output, Input, EventEmitter} from 'angular2/core';
+import {Component, OnInit, Output, Input, EventEmitter} from '@angular/core';
 import {Carousel} from '../carousel.component';
 declare var stButtons: any;
 
@@ -20,7 +20,7 @@ export interface NewsCarouselInput {
 })
 
 export class NewsCarousel implements OnInit {
-  public indexNum: EventEmitter<any> = new EventEmitter();//interface for the output to return an index
+  public indexNum = new EventEmitter();//interface for the output to return an index
   public newsData: NewsCarouselInput;
   public locateShareThis = function(){
     stButtons.locateElements();

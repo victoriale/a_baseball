@@ -1,6 +1,6 @@
-import {Component, OnInit, Input, DoCheck, OnChanges} from 'angular2/core';
-import {RouteParams} from "angular2/router";
-import {Title} from 'angular2/platform/browser';
+import {Component, OnInit, Input, DoCheck, OnChanges} from '@angular/core';
+import {RouteParams} from "@angular/router-deprecated";
+import {Title} from '@angular/platform-browser';
 
 import {BackTabComponent} from '../../components/backtab/backtab.component';
 import {TitleComponent, TitleInputData} from "../../components/title/title.component";
