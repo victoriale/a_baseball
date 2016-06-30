@@ -66,11 +66,12 @@ export class SchedulesService {
       return headers;
   }
 
-  getSchedulesService(profile, eventStatus, limit, pageNum, isTeamProfilePage?: boolean, id?, year?){
+  getSchedulesService(profile, eventStatus, limit, pageNum, preTab, isTeamProfilePage?: boolean, id?, year?){
     //Configure HTTP Headers
     var headers = this.setToken();
     var jsYear = new Date().getFullYear();//DEFAULT YEAR DATA TO CURRENT YEAR
     var displayYear;
+    var eventTab:boolean = false;
 
     if(typeof year == 'undefined'){
       year = new Date().getFullYear();//once we have historic data we shall show this
@@ -82,6 +83,12 @@ export class SchedulesService {
       displayYear = year;
     }
 
+    //eventType determines which tab is highlighted
+    if(preTab == 'pre-event'){
+      eventTab = true;
+    }else{
+      eventTab = false;
+    }
     var callURL = this._apiUrl+'/'+profile+'/schedule';
 
     if(typeof id != 'undefined'){
@@ -94,8 +101,8 @@ export class SchedulesService {
       .map(data => {
         var tableData = this.setupTableData(eventStatus, year, data.data, id, limit, isTeamProfilePage);
         var tabData = [
-          {display: 'Upcoming Games', data:'pre-event', disclaimer:'Times are displayed in ET and are subject to change', season:displayYear, tabData: new MLBScheduleTabData(this.formatGroupName(year,'pre-event'), true)},
-          {display: 'Previous Games', data:'post-event', disclaimer:'Games are displayed by most recent.', season:displayYear, tabData: new MLBScheduleTabData(this.formatGroupName(year,'post-event'), true)}
+          {display: 'Upcoming Games', data:'pre-event', disclaimer:'Times are displayed in ET and are subject to change', season:displayYear, tabData: new MLBScheduleTabData(this.formatGroupName(year,'pre-event'), eventTab)},
+          {display: 'Previous Games', data:'post-event', disclaimer:'Games are displayed by most recent.', season:displayYear, tabData: new MLBScheduleTabData(this.formatGroupName(year,'post-event'), !eventTab)}
         ];
         return {
           data:tableData,

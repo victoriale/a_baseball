@@ -38,10 +38,10 @@ export class SchedulesPage implements OnInit{
   schedulesData:any;
   tabData: any;
 
-  constructor(private _schedulesService:SchedulesService, 
-          private profHeadService:ProfileHeaderService, 
-          private params: RouteParams, 
-          private _title: Title) {            
+  constructor(private _schedulesService:SchedulesService,
+          private profHeadService:ProfileHeaderService,
+          private params: RouteParams,
+          private _title: Title) {
       _title.setTitle(GlobalSettings.getPageTitle("Schedules"));
     }
 
@@ -77,7 +77,7 @@ export class SchedulesPage implements OnInit{
               // this.isError = true;
           }
       );
-      this._schedulesService.getSchedulesService('team', status, 10, pageNum, false, teamId) // isTeamProfilePage = false
+      this._schedulesService.getSchedulesService('team', status, 10, pageNum, status, false, teamId) // isTeamProfilePage = false
       .subscribe(
         data => {
           this.schedulesData = data;
@@ -113,7 +113,7 @@ export class SchedulesPage implements OnInit{
             // this.isError = true;
           }
       );
-      this._schedulesService.getSchedulesService('league', status, 10, pageNum)
+      this._schedulesService.getSchedulesService('league', status, 10, pageNum, status)
       .subscribe(
         data => {
           this.schedulesData = data;
@@ -133,15 +133,30 @@ export class SchedulesPage implements OnInit{
   //sets the total pages for particular lists to allow client to move from page to page without losing the sorting of the list
   setPaginationParams(input) {
       var params = this.params.params;
+      var pageType;
       // console.log(params)
       //'/schedules/:teamName/:teamId/:pageNum'
       var navigationParams = {
-        teamName: params['teamName'],
-        teamId: params['teamId'],
         pageNum: params['pageNum'],
       };
 
+      if(params['teamName'] != null){
+        navigationParams['teamName'] = params['teamName'];
+      }
+      if(params['teamId'] != null){
+        navigationParams['teamId'] = params['teamId'];
+      }
+      if(params['tab'] != null){
+        pageType =
+        navigationParams['tab'] = params['tab'];
+      }
+
       if(typeof params['teamId'] != 'undefined'){
+        if(params['tab'] != null){
+          pageType = 'Schedules-page-team-tab'
+        }else{
+          pageType = 'Schedules-page-team'
+        }
         this.paginationParameters = {
           index: params['pageNum'],
           max: input.totalPages,
@@ -151,6 +166,11 @@ export class SchedulesPage implements OnInit{
           indexKey: 'pageNum'
         };
       }else{
+        if(params['tab'] != null){
+          pageType = 'Schedules-page-league-tab'
+        }else{
+          pageType = 'Schedules-page-league'
+        }
         this.paginationParameters = {
           index: params['pageNum'],
           max: input.totalPages,

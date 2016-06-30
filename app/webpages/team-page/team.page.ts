@@ -220,7 +220,7 @@ export class TeamPage implements OnInit {
 
                 this.dailyUpdateModule(this.pageParams.teamId);
 
-                /*** Keep Up With Everything [Team Name] ***/ 
+                /*** Keep Up With Everything [Team Name] ***/
                 this.getBoxScores(this.dateParam);
                 this.getSchedulesData('pre-event');//grab pre event data for upcoming games
                 this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams, this.pageParams.teamId, data.teamName);
@@ -324,7 +324,7 @@ export class TeamPage implements OnInit {
     //api for Schedules
     private getSchedulesData(status){
       var limit = 5;
-      this._schedulesService.getSchedulesService('team', status, limit, 1, true, this.pageParams.teamId) // isTeamProfilePage = true
+      this._schedulesService.getSchedulesService('team', status, limit, 1, status, true, this.pageParams.teamId) // isTeamProfilePage = true
       .subscribe(
         data => {
           this.schedulesData = data;
@@ -375,7 +375,7 @@ export class TeamPage implements OnInit {
             shareText: shareText
         };
     }
-    
+
     private transactionsTab(tab) {
         this._transactionsService.getTransactionsService(tab, this.pageParams.teamId, 'module')
         .subscribe(
