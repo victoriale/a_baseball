@@ -6,27 +6,35 @@ Be sure to be in the `develop` branch
 
 install each one individually
 
-1. `npm install` (individually
+1. `npm install` (Once pulled you may install each individually with ex: `npm install -g gulp-cli`) or skip step 1. and go to step 2.
 
       a.`-g gulp-cli`
 
       b.`gulp-less`
 
-      c.`gulp-concat`
+      c.`gulp-clean-css`
 
-      d.`connect-history-api-fallback`
+      d.`gulp-minify`
 
-      e.`browser-sync`
+      e.`gulp-less`
 
-      f.`highcharts` (used for any type of graphs)
+      f.`gulp-concat`
 
-      g.`moment` (used for time manipulation of dates)
-      
-      h.`moment-timezone`
+      g.`core-js` (used to replace es6-shim and load IE 11 quickly)
 
-      i.`autoprefixer` (automatically adds browser prefixes to css file)
+      h.`connect-history-api-fallback`
 
-      j.`fuse.js` (Lightweight JSON search library for client side)
+      i.`browser-sync`
+
+      j.`highcharts` (used for any type of graphs)
+
+      k.`moment` (used for time manipulation of dates)
+
+      l.`moment-timezone`
+
+      m.`autoprefixer` (automatically adds browser prefixes to css file)
+
+      n.`fuse.js` (Lightweight JSON search library for client side)
 
 2. `npm i`
 
