@@ -1,5 +1,5 @@
 <schedules-carousel *ngIf="carouselData" [carouselData]="carouselData" (indexNum)="indexNum($event)" [indexInput]="selectedIndex"></schedules-carousel>
-<tabs (tabSelected)="tabSelected($event)">
+<tabs (tabSelected)="tabSelected($event)" *ngIf="tabs">
   <tab *ngFor="let tab of tabs; let i = index" [active]="tab.tabData.isActive" [tabTitle]="tab.display" >
     <div *ngIf="tab" class="schedules-container">
       <div class="schedules-heading">

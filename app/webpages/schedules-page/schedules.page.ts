@@ -80,7 +80,7 @@ export class SchedulesPage implements OnInit{
               // this.isError = true;
           }
       );
-      this._schedulesService.getSchedulesService('team', this.params.params['tab'], 10, pageNum, false, teamId) // isTeamProfilePage = false
+      this._schedulesService.getSchedulesService('team', status, 10, pageNum, false, teamId) // isTeamProfilePage = false
       .subscribe(
         data => {
           this.schedulesData = data;
@@ -116,7 +116,7 @@ export class SchedulesPage implements OnInit{
             // this.isError = true;
           }
       );
-      this._schedulesService.getSchedulesService('league', this.params.params['tab'], 10, pageNum)
+      this._schedulesService.getSchedulesService('league', status, 10, pageNum)
       .subscribe(
         data => {
           this.schedulesData = data;
@@ -186,7 +186,6 @@ export class SchedulesPage implements OnInit{
   }
 
   ngOnInit() {
-    console.log(this.params.params['tab']);
     if(this.params.params['tab']!= null){
       this.getSchedulesData(this.params.params['tab']);// on load load any upcoming games
     }else{

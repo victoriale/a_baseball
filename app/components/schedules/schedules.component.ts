@@ -35,12 +35,12 @@ export class SchedulesComponent implements OnInit{
   @Output("tabSelected") tabSelectedListener = new EventEmitter();
 
   ngDoCheck() { // checks and runs everytime a dependency has changed
-    if ( this.tabs && this.tabs.length > 0 && this.carouselData && this.data != null) {
-      console.log(this.tabs);
+    if ( this.tabs && this.tabs.length > 0 && this.carouselData && this.data != null && !this.tabsLoaded && this.getSelectedTab()) {
       if ( !this.tabsLoaded) {
         this.tabsLoaded = {};
-        var selectedTitle = this.tabs[0].display;
-        let matchingTabs = this.tabs.filter(value => value.tabData.isActive == true);
+        console.log(this.getSelectedTab());
+        var selectedTitle = this.getSelectedTab()['display'];
+        let matchingTabs = this.tabs.filter(value => value.display == this.tabTitle);
         this.tabs.forEach(tab => {
           this.setSelectedCarouselIndex(tab.tabData, 0);
           if ( matchingTabs[0].display === tab.display ) {
@@ -48,10 +48,10 @@ export class SchedulesComponent implements OnInit{
           }
         });
         this.tabSelected(selectedTitle);
-      }
-      else {
-        let selectedTab = this.getSelectedTab();
-        if ( selectedTab && selectedTab.sections && selectedTab.sections.length > 0 && !this.tabsLoaded[this.tabTitle] ) {
+      }else {
+        let selectedTab = this.getSelectedTab()['tabData'];
+        console.log(this.getSelectedTab());
+        if ( selectedTab && selectedTab.sections && selectedTab.sections.length > 0 && this.tabsLoaded != null ) {
           this.tabsLoaded[this.tabTitle] = "1";
           this.updateCarousel();
         }
@@ -61,7 +61,7 @@ export class SchedulesComponent implements OnInit{
 
   indexNum(event) {
     let selectedIndex = event;
-    let matchingTabs = this.tabs.filter(value => value.tabData.isActive == true);
+    let matchingTabs = this.tabs.filter(value => value.display == this.tabTitle);
     if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) {
       let selectedTab = matchingTabs[0].tabData;
       // console.log('selectedTab',selectedIndex,selectedTab);
@@ -83,7 +83,7 @@ export class SchedulesComponent implements OnInit{
   }
 
   getSelectedTab(): TableTabData<any> {
-    var matchingTabs = this.tabs.filter(value => value.tabData.isActive == true);
+    var matchingTabs = this.tabs.filter(value => value.display == this.tabTitle);
     if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) {
       return matchingTabs[0];
     }
@@ -94,14 +94,11 @@ export class SchedulesComponent implements OnInit{
 
   tabSelected(event){
     this.tabTitle = event;
-    console.log(event);
     this.tabSelectedListener.emit(event);
   }
 
   ngOnChanges(){
-    console.log(this.getSelectedTab());
-    console.log(this.getSelectedTab()['tabData'].sections.length);
-    if(this.getSelectedTab() != null && this.getSelectedTab()['tabData'].sections.length == 0){
+    if(this.getSelectedTab() != null){
       this.getSelectedTab()['tabData'].sections = this.data;
     }
   }
@@ -110,7 +107,7 @@ export class SchedulesComponent implements OnInit{
     let carouselData: Array<any> = [];
     let index = 0;
     let selectedIndex = -1;
-    var selectedTab = this.tabs.filter(value => value.tabData.isActive == true)[0];
+    var selectedTab = this.tabs.filter(value => value.display == this.tabTitle)[0];
     selectedTab.tabData.sections.forEach((section,i) =>{//when updating carousel run through each table to new sorted style
       section.tableData.rows.map((value) => {//then run through each tables rows
         let item = section.updateCarouselData(value, index);
@@ -132,9 +129,8 @@ export class SchedulesComponent implements OnInit{
   } //constructor ENDS
 
   ngOnInit(){//on view load set default data
-    // var selectedTab = this.tabs.filter(value => value.tabData.isActive == true)[0];
-    // console.log(selectedTab);
-    // this.tabs[0]['tabData'].sections = selectedTab.tabData;
-    // this.tabTitle = this.tabs[0].display;
+    var selectedTab = this.tabs.filter(value => value.tabData.isActive == true)[0];
+    console.log(selectedTab);
+    this.tabTitle = selectedTab.display;
   }//ngOnInit ENDS
 }

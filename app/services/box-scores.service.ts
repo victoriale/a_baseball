@@ -174,7 +174,7 @@ export class BoxScoresService {
     var homeRoute = MLBGlobalFunctions.formatTeamRoute(homeData.name, homeData.id);
     var awayRoute = MLBGlobalFunctions.formatTeamRoute(awayData.name, awayData.id);
     if(profile == 'team'){
-      if(teamId == homeData.teamId){
+      if(teamId == homeData.id){
         homeRoute = null;
       }else{
         awayRoute = null;

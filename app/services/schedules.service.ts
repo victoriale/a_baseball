@@ -83,21 +83,19 @@ export class SchedulesService {
       displayYear = year;
     }
 
-    console.log(eventStatus);
     //eventType determines which tab is highlighted
     if(eventStatus == 'pre-event'){
       eventTab = true;
     }else{
       eventTab = false;
     }
-    console.log(eventTab);
     var callURL = this._apiUrl+'/'+profile+'/schedule';
 
     if(typeof id != 'undefined'){
       callURL += '/'+id;
     }
     callURL += '/'+eventStatus+'/'+limit+'/'+ pageNum;  //default pagination limit: 5; page: 1
-    console.log(callURL);
+    
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
