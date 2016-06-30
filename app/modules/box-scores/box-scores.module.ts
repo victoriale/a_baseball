@@ -1,4 +1,4 @@
-import {Component, OnChanges, Output, Input, EventEmitter} from 'angular2/core';
+import {Component, OnChanges, Output, Input, EventEmitter} from '@angular/core';
 import {ModuleHeader} from '../../components/module-header/module-header.component';
 import {CalendarCarousel} from '../../components/carousels/calendar/calendarCar.component';
 import {Competition} from '../../components/competition/competition.component';
@@ -18,7 +18,7 @@ import {GameArticle} from '../../components/game-article/game-article.component'
 export class BoxScoresModule implements OnChanges{
   @Input() calendarParams:any;
   @Input() boxScores:any;
-  public dateEmit: EventEmitter<any> = new EventEmitter();
+  public dateEmit = new EventEmitter();
   private gameNum:number = 0;
   constructor(){}
 

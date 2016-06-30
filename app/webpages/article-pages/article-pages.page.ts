@@ -1,5 +1,5 @@
-import {Component, OnInit} from 'angular2/core';
-import {Router,ROUTER_DIRECTIVES, RouteParams} from 'angular2/router';
+import {Component, OnInit} from '@angular/core';
+import {Router,ROUTER_DIRECTIVES, RouteParams} from '@angular/router-deprecated';
 import {ImagesMedia} from "../../components/carousels/images-media-carousel/images-media-carousel.component";
 import {ShareLinksComponent} from "../../components/articles/shareLinks/shareLinks.component";
 import {ArticleContentComponent} from "../../components/articles/article-content/article-content.component";
@@ -54,7 +54,7 @@ export class ArticlePages implements OnInit {
     public partnerParam:string;
     public partnerID:string;
 
-    constructor(private _params:RouteParams, private _articleDataService:ArticleDataService, private _globalFunctions:GlobalFunctions) {
+    constructor(private _params:RouteParams, private _articleDataService:ArticleDataService) {
         window.scrollTo(0, 0);
         this.eventID = _params.get('eventID');
         this.eventType = _params.get('eventType');

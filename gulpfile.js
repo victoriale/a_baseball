@@ -52,20 +52,19 @@ gulp.task('copy:libs', ['clean'], function() {
       'node_modules/core-js/client/core.min.js',
       // 'node_modules/es6-shim/es6-shim.min.js',
       'node_modules/systemjs/dist/system-polyfills.js',
-      'node_modules/angular2/bundles/angular2-polyfills.js',
+      'node_modules/reflect-metadata/Reflect.js',
+      'node_modules/symbol-observable/*.js',
+      'node_modules/@angular/**/*.js',
       'node_modules/systemjs/dist/system.src.js',
-      'node_modules/rxjs/bundles/Rx.js',
-      'node_modules/angular2/bundles/angular2.dev.js',
-      'node_modules/angular2/bundles/router.dev.js',
-      'node_modules/angular2/bundles/http.js',
+      'node_modules/rxjs/**/*.js',
       'node_modules/node-uuid/uuid.js',
       'node_modules/immutable/dist/immutable.js',
-      // 'node_modules/angular2/es6/dev/src/testing/shims_for_IE.js',
       'node_modules/highcharts/highcharts.js',
       'node_modules/moment/moment.js',
       // 'node_modules/moment-timezone/moment-timezone.js',//load only one moment timezone otherwise problems will occur
       'node_modules/moment-timezone/builds/moment-timezone-with-data-2010-2020.js',
-      'node_modules/fuse.js/src/fuse.min.js'
+      'node_modules/fuse.js/src/fuse.min.js',
+      'node_modules/zone.js/dist/zone.js'
     ])
     .pipe(gulp.dest('dist/lib'));
 });

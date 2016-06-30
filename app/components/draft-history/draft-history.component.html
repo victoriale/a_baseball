@@ -1,6 +1,6 @@
 <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray"></slider-carousel>
 <tabs *ngIf="dataArray" (tabSelected)='selectedTab($event)'>
-  <tab *ngFor="#data of dataArray; #i = index" [active]="i == 0" [tabTitle]="data.tabTitle">
+  <tab *ngFor="let data of dataArray; let i = index" [active]="i == 0" [tabTitle]="data.tabTitle">
     <div class="draft-container" style="margin:-10px">
       <detailed-list-item *ngIf="data.detailedDataArray" [detailedItemData]="data.detailedDataArray"></detailed-list-item>      
     </div>

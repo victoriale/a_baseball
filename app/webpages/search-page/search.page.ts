@@ -1,6 +1,6 @@
-import {Component, OnInit, OnDestroy} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
-import {Title} from 'angular2/platform/browser';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import {RouteParams} from '@angular/router-deprecated';
+import {Title} from '@angular/platform-browser';
 
 import {GlobalSettings} from "../../global/global-settings";
 import {SearchPageModule} from '../../modules/search-page/search-page.module';

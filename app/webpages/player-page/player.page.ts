@@ -1,6 +1,6 @@
-import {Component, OnInit} from 'angular2/core';
-import {Router, RouteParams, RouteConfig} from 'angular2/router';
-import {Title} from 'angular2/platform/browser';
+import {Component, OnInit} from '@angular/core';
+import {Router, RouteParams, RouteConfig} from '@angular/router-deprecated';
+import {Title} from '@angular/platform-browser';
 
 import {MLBPageParameters} from '../../global/global-interface';
 import {LoadingComponent} from '../../components/loading/loading.component';
@@ -149,8 +149,7 @@ export class PlayerPage implements OnInit {
               private _twitterService: TwitterService,
               private _seasonStatsService: SeasonStatsService,
               private _comparisonService: ComparisonStatsService,
-              private _dailyUpdateService: DailyUpdateService,
-              private _globalFunctions:GlobalFunctions) {
+              private _dailyUpdateService: DailyUpdateService) {
       this.pageParams = {
           playerId: Number(_params.get("playerId"))
       };

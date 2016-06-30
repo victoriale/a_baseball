@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, DoCheck, Output, EventEmitter} from 'angular2/core';
+import {Component, Input, OnInit, DoCheck, Output, EventEmitter} from '@angular/core';
 
 import {SliderCarousel, SliderCarouselInput} from '../carousels/slider-carousel/slider-carousel.component';
 import {Tabs} from '../tabs/tabs.component';

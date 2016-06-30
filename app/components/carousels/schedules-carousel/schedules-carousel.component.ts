@@ -1,9 +1,9 @@
-import {Component, Input, Output, EventEmitter, OnInit} from 'angular2/core';
+import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
 import {CircleButton} from '../../buttons/circle/circle.button';
 import {CircleImage} from '../../images/circle-image';
 import {CircleImageData} from '../../images/image-data';
 import {Carousel} from '../carousel.component';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
+import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
 export interface SchedulesCarouselInput{
   backgroundGradient:string;
@@ -38,7 +38,7 @@ export interface SchedulesCarouselInput{
 export class SchedulesCarousel implements OnInit{
   @Input() carouselData:Array<SchedulesCarouselInput>;
   @Input() indexInput: any;//this is an optional Input to determine where the current index is currently positioned. otherwise set the defaul indexInput to 0;
-  public indexNum: EventEmitter<any> = new EventEmitter();//interface for the output to return an index
+  public indexNum = new EventEmitter();//interface for the output to return an index
   public dataPoint: SchedulesCarouselInput;
   response(event){
     //set the data event being emitted back from the carousel component

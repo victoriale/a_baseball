@@ -1,6 +1,6 @@
 <section *ngIf="dykData" class="module-container dyk">
   <module-header [modHeadData]="headerInfo"></module-header>
-  <div class="dyk-details" *ngFor="#dykInfo of dykData">
+  <div class="dyk-details" *ngFor="let dykInfo of dykData">
     <div class="dyk-details-info">
       <p>{{dykInfo}}</p>
     </div>

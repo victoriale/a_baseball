@@ -5,12 +5,12 @@
  _@BATCH-1
  _@BATCH
  */
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 import {ArticleData} from "./global-interface";
-import {Http, Headers} from 'angular2/http';
+import {Http, Headers} from '@angular/http';
 import {GlobalFunctions} from './global-functions';
 import {Observable} from "rxjs/Observable";
-import {Router} from "angular2/router";
+import {Router} from "@angular/router-deprecated";
 
 @Injectable()
 

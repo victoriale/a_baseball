@@ -2,7 +2,7 @@
     <div class="trending-hr"></div>
     <div class="trending-main-title">RECOMMENDED ARTICLES</div>
     <div class="trending-hr"></div>
-    <span *ngFor="#data of randomArticles; #i=index">
+    <span *ngFor="let data of randomArticles; let i=index">
         <shareLinks-component></shareLinks-component>
         <div class="trending-article-title">{{data.title}}</div>
         <div class="arpt">
