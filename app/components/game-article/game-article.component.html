@@ -2,7 +2,7 @@
   <div class="game-article-title"><i class="news fa fa-newspaper-o"></i><span class="story">Stories About This Game</span></div>
   <div class="game-article-container">
     <div class="game-article-image" >
-      <div *ngFor="#image of gameArticle.images" [class.image2]="gameArticle.images.length > 1" [class.image1]="gameArticle.images.length == 1" [ngStyle]="{'background-image': 'url(' + image + ')'}">
+      <div *ngFor="let image of gameArticle.images" [class.image2]="gameArticle.images.length > 1" [class.image1]="gameArticle.images.length == 1" [ngStyle]="{'background-image': 'url(' + image + ')'}">
       </div>
     </div>
     <div class="game-article-headlineBox">

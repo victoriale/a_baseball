@@ -1,7 +1,7 @@
 /**
  * Created by Victoria on 2/23/2016.
  */
-import {Component, Input, OnInit}  from "angular2/core";
+import {Component, Input, OnInit}  from "@angular/core";
 
 @Component({
     selector: 'headline-component',

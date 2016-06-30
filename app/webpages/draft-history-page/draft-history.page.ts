@@ -1,6 +1,6 @@
-import {Component, OnInit} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
-import {Title} from 'angular2/platform/browser';
+import {Component, OnInit} from '@angular/core';
+import {RouteParams} from '@angular/router-deprecated';
+import {Title} from '@angular/platform-browser';
 
 import {GlobalSettings} from "../../global/global-settings";
 import {TitleComponent, TitleInputData} from '../../components/title/title.component';

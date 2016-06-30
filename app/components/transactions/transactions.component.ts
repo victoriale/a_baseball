@@ -1,6 +1,6 @@
-import {Component, Output, EventEmitter, Input} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
-import {Injectable} from 'angular2/core';
+import {Component, Output, EventEmitter, Input} from '@angular/core';
+import {RouteParams} from '@angular/router-deprecated';
+import {Injectable} from '@angular/core';
 
 import {TransactionsListItem, TransactionsListInput} from '../../components/transactions-list-item/transactions-list-item.component';
 import {SliderCarousel, SliderCarouselInput} from '../../components/carousels/slider-carousel/slider-carousel.component';
@@ -30,8 +30,8 @@ export interface TransactionTabData {
 })
 
 export class TransactionsComponent {
-  @Output() tabSwitched: EventEmitter<string> = new EventEmitter();
-  @Output() dropdownSwitched: EventEmitter<string> = new EventEmitter();
+  @Output() tabSwitched = new EventEmitter();
+  @Output() dropdownSwitched = new EventEmitter();
 
   @Input() tabs: Array<TransactionTabData>;
   

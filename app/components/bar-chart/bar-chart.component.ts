@@ -1,5 +1,4 @@
-import {Component, AfterViewInit, Input, Inject} from 'angular2/core';
-import {ElementRef} from 'angular2/src/core/linker/element_ref';
+import {Component, AfterViewInit, Input, Inject, ElementRef} from '@angular/core';
 
 declare var jQuery:any;
 

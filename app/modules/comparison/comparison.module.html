@@ -20,10 +20,10 @@
         </div>
     </div>
     <tabs (tabSelected)="tabSelected($event)">
-        <tab *ngFor="#tab of tabs; #i = index" [tabTitle]="tab.tabTitle" [active]="i == 0">            
+        <tab *ngFor="let tab of tabs; let i = index" [tabTitle]="tab.tabTitle" [active]="i == 0">            
             <comparison-legend *ngIf="comparisonLegendData" [comparisonLegendInput]="comparisonLegendData"></comparison-legend>
             <div class="comparison-module-bars">
-                <comparison-bar *ngFor="#item of tab.barData; #i = index" [comparisonBarInput]="item" [index]="i"></comparison-bar>
+                <comparison-bar *ngFor="let item of tab.barData; let i = index" [comparisonBarInput]="item" [index]="i"></comparison-bar>
             </div>
             <div *ngIf="!tab.barData" class="comparison-module-no-data">
                 <no-data-box [data]="noDataMessage" [icon]="'fa fa-remove'"></no-data-box>

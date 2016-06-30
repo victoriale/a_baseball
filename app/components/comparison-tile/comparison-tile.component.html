@@ -29,7 +29,7 @@
     </div>
 
     <div class="row comparison-tile-stats">
-        <div *ngFor="#item of comparisonTileInput.data" class="col-xs-3">
+        <div *ngFor="let item of comparisonTileInput.data" class="col-xs-3">
            <span class="comparison-tile-stats-line-one" [innerHtml]="item.data"></span>
             <span class="comparison-tile-stats-line-two">{{item.key}}</span>
         </div>

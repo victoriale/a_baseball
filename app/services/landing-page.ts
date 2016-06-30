@@ -1,6 +1,6 @@
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
-import {Http, Headers} from 'angular2/http';
+import {Http, Headers} from '@angular/http';
 import {GlobalFunctions} from '../global/global-functions';
 import {GlobalSettings} from '../global/global-settings';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
@@ -8,7 +8,7 @@ import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 @Injectable()
 export class LandingPageService {
   private _apiUrl: string = GlobalSettings.getApiUrl();
-  constructor(public http: Http, private _globalFunctions: GlobalFunctions, private _mlbGlobalFunctions: MLBGlobalFunctions){}
+  constructor(public http: Http, private _mlbGlobalFunctions: MLBGlobalFunctions){}
   setToken(){
     var headers = new Headers();
     return headers;

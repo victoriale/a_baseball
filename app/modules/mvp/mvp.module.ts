@@ -1,6 +1,6 @@
-import {Component, OnInit, Output, EventEmitter, Input} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
-import {Injectable} from 'angular2/core';
+import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
+import {RouteParams} from '@angular/router-deprecated';
+import {Injectable} from '@angular/core';
 
 import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer.component';
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
@@ -16,7 +16,7 @@ import {LoadingComponent} from '../../components/loading/loading.component';
 })
 
 export class MVPModule {
-  @Output("tabSelected") tabSelectedListener: EventEmitter<string> = new EventEmitter();
+  @Output("tabSelected") tabSelectedListener = new EventEmitter();
 
   @Input() mvpData: Array<MVPTabData>;
 

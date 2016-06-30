@@ -1,12 +1,12 @@
-import {Component, OnInit, Input} from 'angular2/core';
-import {Title} from 'angular2/platform/browser';
+import {Component, OnInit, Input} from '@angular/core';
+import {Title} from '@angular/platform-browser';
 
 import {GlobalSettings} from "../../global/global-settings";
 import {SliderButton} from "../../components/buttons/slider/slider.button";
 import {CircleImage} from '../../components/images/circle-image';
 import {ImageData,CircleImageData} from '../../components/images/image-data';
 import {Search, SearchInput} from '../../components/search/search.component';
-import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
+import {Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {LandingPageService} from '../../services/landing-page';
 
 export interface homePageData {

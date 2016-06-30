@@ -1,6 +1,6 @@
-import {Component, OnInit} from 'angular2/core';
+import {Component, OnInit} from '@angular/core';
 import {Search, SearchInput} from '../../components/search/search.component';
-import {Router, ROUTER_DIRECTIVES} from 'angular2/router';
+import {Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 declare var stButtons: any;
 
 @Component({
