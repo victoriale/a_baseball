@@ -1,52 +1,86 @@
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
-import {Http, Headers} from 'angular2/http';
+import {Http, Headers} from '@angular/http';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
 import {GlobalSettings} from '../global/global-settings';
 import {SliderCarousel, SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
 import {CircleImageData} from '../components/images/image-data';
 import {ListPageService} from './list-page.service';
+import {IProfileData} from './profile-header.service';
+import {DetailListInput} from '../components/detailed-list-item/detailed-list-item.component';
+
+export interface DraftHistoryTab {
+  tabTitle: string;
+  tabKey: string;
+  isLoaded: boolean;
+  detailedDataArray: Array<DetailListInput>;
+  carouselDataArray: Array<SliderCarouselInput>;
+  errorMessage: string;
+}
+
+export interface DraftHistoryData {
+  detailedDataArray: Array<DetailListInput>;
+  carouselDataArray: Array<SliderCarouselInput>;
+}
+
+@Injectable() 
+export class DraftHistoryService {
+
+  getDraftHistoryTabs(profileData: IProfileData): DraftHistoryTab[] {
+    // console.log("interface - getDraftHistoryTabs")
+    return [];
+  }
+  
+  getDraftHistoryService(profileData: IProfileData, tab: DraftHistoryTab, type: string): Observable<DraftHistoryData> {
+    // console.log("interface - getDraftHistoryService")
+    return null;
+  }
+
+}
 
 @Injectable()
-export class DraftHistoryService {
+export class MLBDraftHistoryService extends DraftHistoryService {
   private _apiUrl: string = GlobalSettings.getApiUrl();
 
-  constructor(public http: Http){}
+  constructor(public http: Http){
+    super();
+  }
 
-  //Function to set custom headers
-  setToken(){
-      var headers = new Headers();
-      //headers.append(this.headerName, this.apiToken);
-      return headers;
+  getDraftHistoryTabs(profileData: IProfileData): DraftHistoryTab[] {
+    // console.log("concrete - getDraftHistoryTabs")
+
+    let profilePageDesc = (profileData.profileType == "team" ? "the " + profileData.profileName + " do" : profileData.profileName + " does");
+    let errorPrefix = "Sorry, " + profilePageDesc + " not currently have any draft history data for the ";
+
+    //for MLB season starts and ends in the same year so return current season
+    //get past 5 years for tabs
+    var currentYear = new Date().getFullYear();
+    var year = currentYear;
+    var tabArray = [];
+    for(var i = 0; i <5; i++) {
+      tabArray.push({
+        tabTitle: i == 0 ? 'Current Season' : year.toString(),
+        tabKey: year.toString(),
+        isLoaded: false,
+        errorMessage: errorPrefix + year + " season."
+      });
+      year--;
+    }
+    return tabArray;
   }
 
 /**
  * @param {string} type - 'page' or 'module'
  */
-  getDraftHistoryService(year, teamId, errorMessage: string, type: string){
-    //Configure HTTP Headers
-    var headers = this.setToken();
-    //for MLB season starts and ends in the same year so return current season
-    //get past 5 years for tabs
-    var tabDates = Number(year);
-    var tabArray = [];
-    var currentYear = '';
-    for(var i = 0; i <5; i++){
-      if(i == 0){
-        var currentYear = 'Current Season';
-      }else{
-        var currentYear = (tabDates - i).toString();
-      }
-      tabArray.push({
-        tabData:tabDates - i,
-        tabDisplay:currentYear,
-      });
-    }
+  getDraftHistoryService(profileData: IProfileData, tab: DraftHistoryTab, type: string): Observable<DraftHistoryData> {
+    // console.log("concrete - getDraftHistoryService");
+    
+    let year = tab.tabKey;
 
     var callURL;
-    if ( teamId ) {
-      callURL = this._apiUrl + '/team/draftHistory/'+teamId+'/'+year;
+    if ( profileData.profileType == "team" ) {
+      callURL = this._apiUrl + '/team/draftHistory/'+profileData.profileId+'/'+year;
     }
     else {
       //http://dev-homerunloyal-api.synapsys.us/league/draftHistory/2016
@@ -54,33 +88,25 @@ export class DraftHistoryService {
     }
     // console.log(callURL);
 
-    return this.http.get( callURL, {
-      headers: headers
-    })
-    .map(
-      res => res.json()
-    )
-    .map(
-      data => {
-        var returnData = {}
+    return this.http.get(callURL)
+    .map(res => res.json())
+    .map(data => {
         if(type == 'module'){
-          if(data.data.length >1) data.data = data.data.slice(0,2);// the module should only have 2 data points displaying
+          if(data.data.length > 1) {
+            // the module should only have 2 data points displaying
+            data.data = data.data.slice(0,2);
+          } 
         }
-        return returnData = {
-          carData:this.carDraftHistory(data.data, errorMessage, type),
-          listData:this.detailedData(data.data),
-          tabArray:tabArray,
+        return {
+          carouselDataArray: this.carDraftHistory(data.data, tab.errorMessage, type),
+          detailedDataArray: this.detailedData(data.data),
         };
-      },
-      err => {
-        console.log('INVALID DATA');
-      }
-    )
+      });
   }
 
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
   //FOR THE PAGE
-  carDraftHistory(data, errorMessage: string, type){
+  private carDraftHistory(data, errorMessage: string, type){
     let self = this;
     var carouselArray = [];
     var dummyImg = "/app/public/no-image.png";
@@ -101,7 +127,7 @@ export class DraftHistoryService {
         var location = GlobalFunctions.toTitleCase(val.city) + ', ' + GlobalFunctions.stateToAP(val.area);
         var carouselItem = SliderCarousel.convertToCarouselItemType2(index, {
           isPageCarousel: false, 
-          backgroundImage: GlobalSettings.getImageUrl(val.backgroundImage),
+          backgroundImage: GlobalSettings.getBackgroundImageUrl(val.backgroundImage),
           copyrightInfo: GlobalSettings.getCopyrightInfo(),
           profileNameLink: playerLinkText,
           description: ['Hometown: ', location],
@@ -125,7 +151,7 @@ export class DraftHistoryService {
     return carouselArray;
   }
 
-  detailedData(data){
+  private detailedData(data){
     var listDataArray = data.map(function(val, index){
       var playerFullName = val.playerFirstName + " " + val.playerLastName;
       var location = GlobalFunctions.toTitleCase(val.city) + ', ' + GlobalFunctions.stateToAP(val.area);
@@ -155,6 +181,6 @@ export class DraftHistoryService {
       return listData;
     });
     // console.log('TRANSFORMED List Data', listDataArray);
-    return listDataArray;
+    return listDataArray.length > 0 ? listDataArray : null;
   }//end of function
 }

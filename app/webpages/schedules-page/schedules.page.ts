@@ -1,6 +1,6 @@
-import {Component, OnInit} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
-import {Title} from 'angular2/platform/browser';
+import {Component, OnInit} from '@angular/core';
+import {RouteParams} from '@angular/router-deprecated';
+import {Title} from '@angular/platform-browser';
 
 import {GlobalSettings} from "../../global/global-settings";
 import {DetailedListItem, DetailListInput} from '../../components/detailed-list-item/detailed-list-item.component';
@@ -100,10 +100,10 @@ export class SchedulesPage implements OnInit{
             if(currentDate.getFullYear() == currentDate.getFullYear()){// TODO must change once we have historic data
               display = "Current Season"
             }
-            var pageTitle = display + " Schedules - " + data.profileName1;
-            this.profileHeaderData = this.profHeadService.convertMLBHeader(data, pageTitle);
+            var pageTitle = display + " Schedules - " + data.headerData.profileNameShort;
+            this.profileHeaderData = this.profHeadService.convertMLBHeader(data.headerData, pageTitle);
             this.errorData = {
-              data: data.profileName1 + " has no record of any more games for the current season.",
+              data: data.headerData.profileNameShort + " has no record of any more games for the current season.",
               icon: "fa fa-remove"
             }
           },

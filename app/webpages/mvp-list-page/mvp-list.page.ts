@@ -1,6 +1,6 @@
-import {Component, OnInit} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
-import {Title} from 'angular2/platform/browser';
+import {Component, OnInit} from '@angular/core';
+import {RouteParams} from '@angular/router-deprecated';
+import {Title} from '@angular/platform-browser';
 
 import {TitleComponent, TitleInputData} from '../../components/title/title.component';
 import {BackTabComponent} from '../../components/backtab/backtab.component';
@@ -81,7 +81,7 @@ export class MVPListPage implements OnInit {
 
     this._profileService.getMLBProfile()
       .subscribe(data => {
-        this.profileHeaderData.text1 = "Last Updated: " + GlobalFunctions.formatUpdatedDate(data.lastUpdated);
+        this.profileHeaderData.text1 = "Last Updated: " + GlobalFunctions.formatUpdatedDate(data.headerData.lastUpdated);
       }, err => {
         console.log("Error loading MLB profile");
       });

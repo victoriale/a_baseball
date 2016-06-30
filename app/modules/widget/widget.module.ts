@@ -1,5 +1,5 @@
-import {Component, OnInit} from 'angular2/core';
-import {Http, Headers} from 'angular2/http';
+import {Component, OnInit} from '@angular/core';
+import {Http, Headers} from '@angular/http';
 declare var jQuery: any;
 
 @Component({

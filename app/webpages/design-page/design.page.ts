@@ -1,5 +1,5 @@
-import {Component, OnInit} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
+import {Component, OnInit} from '@angular/core';
+import {RouteParams} from '@angular/router-deprecated';
 
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
 import {GlobalFunctions} from '../../global/global-functions';
@@ -54,7 +54,6 @@ export class DesignPage implements OnInit {
     private _standingsService: StandingsService,
     private _profileService: ProfileHeaderService,
     private _lolService: ListOfListsService,
-    private _globalFunctions: GlobalFunctions,
     private _mlbFunctions: MLBGlobalFunctions) {
 
     if ( this.pageParams === undefined || this.pageParams === null ) {
@@ -93,7 +92,7 @@ export class DesignPage implements OnInit {
     );
     this._profileService.getMLBProfile().subscribe(
       data => {
-        this.leagueProfileHeaderData = this._profileService.convertToLeagueProfileHeader(data);
+        this.leagueProfileHeaderData = this._profileService.convertToLeagueProfileHeader(data.headerData);
       },
       err => {
         console.log("Error getting league profile data: " + err);

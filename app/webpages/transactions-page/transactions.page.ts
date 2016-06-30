@@ -1,6 +1,6 @@
-import {Component, OnInit} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
-import {Title} from 'angular2/platform/browser';
+import {Component, OnInit} from '@angular/core';
+import {RouteParams} from '@angular/router-deprecated';
+import {Title} from '@angular/platform-browser';
 
 import {TitleComponent, TitleInputData} from '../../components/title/title.component';
 import {BackTabComponent} from '../../components/backtab/backtab.component';
@@ -77,8 +77,8 @@ export class TransactionsPage implements OnInit{
       this._profileService.getMLBProfile()
         .subscribe(
           data => {
-            this.profileName = data.profileName1;
-            this.profileHeaderData = this._profileService.convertMLBHeader(data, "");            
+            this.profileName = data.headerData.profileNameShort;
+            this.profileHeaderData = this._profileService.convertMLBHeader(data.headerData, "");            
             this._title.setTitle(GlobalSettings.getPageTitle("Transactions", this.profileName));
 
             this.tabs = this._transactionsService.getTabsForPage(this.profileName, this.pageParams.teamId);

@@ -1,5 +1,5 @@
-import {Component, Input} from 'angular2/core';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
+import {Component, Input} from '@angular/core';
+import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {TableColumn, CellData} from '../../components/custom-table/table-data.component';
 import {CircleImage} from '../../components/images/circle-image';
 

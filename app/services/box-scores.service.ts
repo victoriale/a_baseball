@@ -1,6 +1,6 @@
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
-import {Http, Headers} from 'angular2/http';
+import {Http, Headers} from '@angular/http';
 import {GlobalFunctions} from '../global/global-functions';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalSettings} from '../global/global-settings';
@@ -93,7 +93,7 @@ export class BoxScoresService {
     var ordinal = moment(date,"YYYY-MM-DD").tz('America/New_York').format("D");
     ordinal = '<sup>' + GlobalFunctions.Suffix(ordinal) + '</sup>';
     var year = moment(date,"YYYY-MM-DD").tz('America/New_York').format("YYYY");
-    var convertedDate = month + day + ordinal + ', ' + year;
+    var convertedDate = month + ' ' + day + ordinal + ', ' + year;
 
     moduleTitle = "Box Scores - " + team + ' : ' +convertedDate;
     return {

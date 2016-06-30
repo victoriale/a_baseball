@@ -1,6 +1,6 @@
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
-import {Http, Headers} from 'angular2/http';
+import {Http, Headers} from '@angular/http';
 import {GlobalFunctions} from '../global/global-functions';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalSettings} from '../global/global-settings';
@@ -109,6 +109,7 @@ export class ListPageService {
     .map(
       data => {
         data.data['query'] = query;
+        this.formatData(data.data.listInfo.stat, data.data.listData);
         return {
           profHeader: ListPageService.profileHeader(data.data),
           carData: ListPageService.carDataPage(data.data, 'page', errorMessage),
@@ -139,6 +140,7 @@ export class ListPageService {
       tabArray.push(new BaseballMVPTabData('RBIs', 'batter-runs-batted-in', profileType));
       tabArray.push(new BaseballMVPTabData('Hits', 'batter-hits', profileType));
       tabArray.push(new BaseballMVPTabData('Walks', 'batter-bases-on-balls', profileType));
+      tabArray.push(new BaseballMVPTabData('OBP', 'batter-on-base-percentage', profileType));
     }
 
     return tabArray;
@@ -190,7 +192,7 @@ export class ListPageService {
               var temp = Number(item.stat);
               item.stat = temp.toFixed(2); // format as integer
               break;
-
+          case 'batter-on-base-percentage':
           case 'batter-batting-average':
               var temp = Number(item.stat);
               item.stat = temp.toFixed(3); // format as integer
@@ -217,7 +219,6 @@ export class ListPageService {
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
   static carDataPage(data: ListData, profileType: string, errorMessage: string){
     var carouselArray = [];
-    var dummyImg = "/app/public/Image-Placeholder-1.jpg";
     var currentYear = new Date().getFullYear();//TODO FOR POSSIBLE past season stats but for now we have lists for current year season
     var carData = data.listData;
     var carInfo = data.listInfo;
@@ -272,7 +273,7 @@ export class ListPageService {
 
         carouselItem = SliderCarousel.convertToCarouselItemType2(index, {
           isPageCarousel: profileType == 'page',
-          backgroundImage: val.backgroundImage != undefined ? GlobalSettings.getImageUrl(val.backgroundImage) : dummyImg,
+          backgroundImage: GlobalSettings.getBackgroundImageUrl(val.backgroundImage),
           copyrightInfo: GlobalSettings.getCopyrightInfo(),
           profileNameLink: profileLinkText,
           description: description,

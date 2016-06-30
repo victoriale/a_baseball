@@ -1,6 +1,6 @@
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
-import {Http, Headers} from 'angular2/http';
+import {Http, Headers} from '@angular/http';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
 import {GlobalSettings} from '../global/global-settings';
@@ -139,7 +139,14 @@ export class TransactionsService {
   getTransactionsService(tab:TransactionTabData, teamId: number, type: string, sort?, limit?, page?){
     //Configure HTTP Headers
     var headers = this.setToken();
-    if( sort == null){ sort = "desc";}
+    if( sort == "desc" ){
+      tab.selectedSort = "recent";
+    } else if( sort == "asc" ){
+      tab.selectedSort = "oldest";
+    } else {
+      sort = "desc";
+      tab.selectedSort = "recent";
+    }
     if( limit == null){ limit = 10;}
     if( page == null){ page = 1;}
 
@@ -156,7 +163,7 @@ export class TransactionsService {
     // only set current team if it's a team profile page,
     // this module should also only be on the team profile
     // and MLB profile pages
-    var currentTeam = type == "module" ? teamId : null; 
+    var currentTeam = type == "module" ? teamId : null;
 
     // console.log("transactions url: " + callURL);
 
@@ -178,7 +185,7 @@ export class TransactionsService {
       );
   }
 
-  getEmptyCarousel(tab: TransactionTabData): Array<SliderCarouselInput> {    
+  getEmptyCarousel(tab: TransactionTabData): Array<SliderCarouselInput> {
     return [SliderCarousel.convertToCarouselItemType1(2, {
       backgroundImage: null,
       copyrightInfo: GlobalSettings.getCopyrightInfo(),
@@ -216,14 +223,15 @@ export class TransactionsService {
           text: val.playerName
         };
         return SliderCarousel.convertToCarouselItemType1(index, {
-          backgroundImage: val.backgroundImage != null ? GlobalSettings.getImageUrl(val.backgroundImage) : null,
+          backgroundImage: GlobalSettings.getBackgroundImageUrl(val.backgroundImage),
           copyrightInfo: GlobalSettings.getCopyrightInfo(),
           subheader: [tab.tabDisplay + ' Report - ', teamLinkText],
           profileNameLink: playerLinkText,
           description: [
               this.getTabSingularName(tab.tabDataKey) + ' date - ' + val.repDate + ': ' + val.contents
           ],
-          lastUpdatedDate: GlobalFunctions.formatUpdatedDate(val.transactionTimestamp),
+          // lastUpdatedDate: GlobalFunctions.formatUpdatedDate(val.transactionTimestamp),
+          lastUpdatedDate: GlobalFunctions.formatUpdatedDate(val.lastUpdate),
           circleImageUrl: GlobalSettings.getImageUrl(val.playerHeadshot),
           circleImageRoute: playerRoute
           // subImageUrl: GlobalSettings.getImageUrl(val.teamLogo),
@@ -244,10 +252,14 @@ export class TransactionsService {
 
     listDataArray = data.map(function(val, index){
       var playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.playerName, val.playerName, val.playerId);
+      if(val.active != 'active'){ //TODO
+        playerRoute = null;
+      }
       var playerTextLink = {
         route: playerRoute,
         text: val.playerLastName + ", " + val.playerFirstName
       }
+
       return {
         dataPoints: [{
           style   : 'transactions-small',

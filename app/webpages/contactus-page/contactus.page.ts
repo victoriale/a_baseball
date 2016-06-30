@@ -1,7 +1,7 @@
-import {Component, OnInit} from 'angular2/core';
-import {Http} from 'angular2/http';
+import {Component, OnInit} from '@angular/core';
+import {Http} from '@angular/http';
 import {Observable} from 'rxjs/Rx';
-import {Title} from 'angular2/platform/browser';
+import {Title} from '@angular/platform-browser';
 
 import {WidgetModule} from "../../modules/widget/widget.module";
 import {ContactUsModule} from '../../modules/contactus/contactus.module';

@@ -1,6 +1,6 @@
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
-import {Http} from 'angular2/http';
+import {Http} from '@angular/http';
 import {MLBPageParameters} from '../global/global-interface';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
@@ -103,7 +103,7 @@ export class PlayerStatsService {
       value.fullPlayerImageUrl = GlobalSettings.getImageUrl(value.playerHeadshot);
       value.fullTeamImageUrl = GlobalSettings.getImageUrl(value.teamLogo);
       if ( value.backgroundImage ) {
-        value.fullBackgroundImageUrl = GlobalSettings.getImageUrl(value.backgroundImage);
+        value.fullBackgroundImageUrl = GlobalSettings.getBackgroundImageUrl(value.backgroundImage);
       }
       
       //force these fields to numbers:

@@ -1,11 +1,11 @@
-import {Component, OnInit, Output, Input, EventEmitter} from 'angular2/core';
+import {Component, OnInit, Output, Input, EventEmitter} from '@angular/core';
 import {BoxScoresService} from '../../../services/box-scores.service';
 import {GlobalFunctions} from '../../../global/global-functions';
 import {MLBGlobalFunctions} from '../../../global/mlb-global-functions';
 import {GlobalSettings} from '../../../global/global-settings';
 
 import {DatePicker} from '../../date-picker/date-picker.component';
-import {FORM_DIRECTIVES} from 'angular2/common';
+import {FORM_DIRECTIVES} from '@angular/common';
 
 declare var moment;
 
@@ -34,7 +34,7 @@ export interface weekDate {
 
 export class CalendarCarousel implements OnInit{
   @Input() chosenParam:any;
-  @Output() dateEmit: EventEmitter<any> = new EventEmitter();
+  @Output() dateEmit = new EventEmitter();
   public curDateView:any;
   public weeklyApi:any;
   public weeklyDates: Array<any>;

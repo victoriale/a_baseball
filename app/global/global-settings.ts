@@ -1,5 +1,5 @@
-import {Injectable} from 'angular2/core';
-import {Router} from 'angular2/router';
+import {Injectable} from '@angular/core';
+import {Router} from '@angular/router-deprecated';
 
 @Injectable()
 
@@ -38,7 +38,12 @@ export class GlobalSettings {
     }
 
     static getImageUrl(relativePath):string {
-      var relPath = relativePath != null ? this._proto + "//" + "prod" + this._imageUrl + relativePath: '/app/public/no-image.png';
+        var relPath = relativePath != null ? this._proto + "//" + "prod" + this._imageUrl + relativePath: '/app/public/no-image.png';
+        return relPath;
+    }
+
+    static getBackgroundImageUrl(relativePath):string {
+        var relPath = relativePath != null ? this._proto + "//" + "prod" + this._imageUrl + relativePath: '/app/public/drk-linen.png';
         return relPath;
     }
 

@@ -1,8 +1,8 @@
-import {Component, Input, Output, OnInit, OnDestroy, EventEmitter, ElementRef} from 'angular2/core';
-import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
+import {Component, Input, Output, OnInit, OnDestroy, EventEmitter, ElementRef} from '@angular/core';
+import {ROUTER_DIRECTIVES, Router} from '@angular/router-deprecated';
 import {SearchService} from '../../services/search.service';
 import {Observable} from 'rxjs/Rx';
-import {Control} from 'angular2/common';
+import {Control} from '@angular/common';
 import {CircleImage} from '../images/circle-image';
 import {ImageData, CircleImageData} from '../images/image-data';
 /*
@@ -228,9 +228,9 @@ export class Search{
             return false;
         }
         let searchRoute: Array<any>;
-        if(this.selectedIndex == -1 && this.dropdownList.length > 1){
+        if( this.selectedIndex < 0 && (this.dropdownList.length > 1 || this.dropdownList.length == 0) ){//no dropdown selected and if there are multiple results or 0 go to search page with query
           searchRoute = this._searchService.getSearchRoute(term);
-        }else if(this.dropdownList.length == 1 ){
+        }else if(this.dropdownList.length == 1 ){// if there is a selected dropdown and only one item available to to that route
           searchRoute = this.dropdownList[0].routerLink;
         }else{
           let dropdownLink = this.dropdownList[this.selectedIndex].routerLink;

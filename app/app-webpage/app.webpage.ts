@@ -1,5 +1,5 @@
-import {Component} from 'angular2/core';
-import {RouteConfig, RouterOutlet, ROUTER_DIRECTIVES} from 'angular2/router';
+import {Component} from '@angular/core';
+import {RouteConfig, RouterOutlet, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
 import {GlobalFunctions} from "../global/global-functions";
 import {FooterComponent} from "../components/footer/footer.component";

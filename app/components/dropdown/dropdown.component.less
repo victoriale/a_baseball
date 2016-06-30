@@ -6,6 +6,7 @@
     padding: 3px 5px;
     text-align: left;
     line-height: 1.2;
+    outline: none;
     .globalDefaultFont(12px, 400);
     .flexDisplay;
     .flexJustify(space-between);
@@ -73,7 +74,7 @@
         border-bottom: none;
       }
       
-      &:hover {
+      &.active, &:hover {
         cursor: pointer;
         background-color: @masterBrandColor;
         color: @white;
@@ -118,7 +119,7 @@
       border-right: 4px solid transparent;
     }
     
-    &-hover::after {
+    &-hover::after, &-active::after {
       border-bottom-color: @masterBrandColor;      
     }
   }

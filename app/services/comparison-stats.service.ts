@@ -1,6 +1,6 @@
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
-import {Http} from 'angular2/http';
+import {Http} from '@angular/http';
 import {MLBPageParameters} from '../global/global-interface';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalFunctions} from '../global/global-functions';
@@ -259,7 +259,7 @@ export class ComparisonStatsService {
       url += "league";
     }
 
-    // console.log("getting player stats: " + url);
+    //console.log("getting player stats: " + url);
     return this.http.get(url)
       .map(res => res.json())
       .map(data => {
@@ -295,9 +295,9 @@ export class ComparisonStatsService {
     var dropdownList = [];
 
     if ( playerList && playerList.length > 0 ) {
-      dropdownList.push({ key: "", value: description, class: "dropdown-grp-lbl" });
+      dropdownList.push({ key: "", value: description, class: "dropdown-grp-lbl", preventSelection: true });
       Array.prototype.push.apply(dropdownList, playerList.map(player => {
-        if ( player.playerId ) return {key: player.playerId, value: player.playerName, class: "dropdown-grp-item"};
+        if ( player.playerId ) return {key: player.playerId, value: player.playerName, class: "dropdown-grp-item", preventSelection: false};
         else return {key: player.player_id, value: player.player_name, class: "dropdown-grp-item"};
       }));
     }
@@ -355,11 +355,13 @@ export class ComparisonStatsService {
           title: title,
           data: [{
             value: playerOneStats != null ? this.getNumericValue(key, playerOneStats[key]) : null,
-            color: data.playerOne.mainTeamColor
+            // color: data.playerOne.mainTeamColor
+            color: '#BC1624'
           },
           {
             value: playerTwoStats != null ? this.getNumericValue(key, playerTwoStats[key]) : null,
-            color: data.playerTwo.mainTeamColor,
+            // color: data.playerTwo.mainTeamColor,
+            color: '#444444',
             fontWeight: '700'
           }],
           minValue: worstStats != null ? this.getNumericValue(key, worstStats[key]) : null,
