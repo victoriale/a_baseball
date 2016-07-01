@@ -89,9 +89,11 @@ export class GlobalSettings {
 
         router.root.subscribe (
             route => {
-                var routeItems = route.split('/');
-                var partnerID = routeItems[0] == '' ? null : routeItems[0];
-                subscribeListener(partnerID);
+                //TODO: figure out how to determine partner page from root route
+                // console.log("router", route);
+                // var routeItems = route.split('/');
+                // var partnerID = routeItems[0] == '' ? null : routeItems[0];
+                subscribeListener(null);
             }
         )
     }

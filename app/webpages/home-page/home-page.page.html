@@ -6,7 +6,7 @@
           <img class="home-hero-img" src='{{imgHero1}}' />
           <div class="home-hero-info">
             <h1>{{homeHeading1}}</h1>
-            <h4>{{homeHeading2}}</h4>
+            <h4>{{homeSubHeading1}}</h4>
             <div class="home-hero-info-search col-xs-4">
               <search [searchInput]="searchInput"></search>
             </div>
@@ -14,10 +14,11 @@
         </div>
       </div>
       <div class="home-main col-xs-offset-1 col-xs-10">
-        <h2><span [innerHTML]="homeHeading3"></span></h2>
+        <!--Extra span is needed to restrict width of top/bottom header border-->
+        <h2><span [innerHtml]="homeHeading2"></span></h2>
         <!-- ngFor here for league -->
         <div class="home-league" *ngFor="let league of mlbTeams">
-          <h3><span [innerHTML]="league.displayName"></span></h3>
+          <h3 [innerHtml]="league.name"></h3>
           <section class="row">
             <!-- ngFor here for Division -->
             <div class="col-lg-4 home-league-col" *ngFor="let division of league.dataArray">
@@ -32,7 +33,7 @@
           </section>
           <!-- divisions end -->
         </div>
-        <!-- homne league ends -->
+        <!-- home league ends -->
       </div>
       <!-- home main ends -->
     </div>
@@ -53,7 +54,7 @@
   <!-- end of news data carousel -->
 
   <div class="home-features col-xs-offset-2 col-xs-8">
-    <div class="home-features-title"><img src='{{imgIcon1}}' /><h2 [innerHTML]="homeFeatures"></h2></div>
+    <div class="home-features-title"><img src='{{imgIcon1}}' /><h2><span class="text-heavy">Features</span> to Note</h2></div>
 
     <div class=home-features-tiles>
       <a [routerLink]="routerInfo1" [ngStyle]="{'background-image': 'url('+imageTile1+')'}" class="home-features-tile1"><h3>{{homeFeaturesTile1}}</h3>

@@ -1,18 +1,22 @@
 import {Component, OnInit} from '@angular/core';
+import {DomSanitizationService, SafeResourceUrl} from '@angular/platform-browser';
 import {Http, Headers} from '@angular/http';
 declare var jQuery: any;
 
 @Component({
     selector: 'widget-module',
-    templateUrl: './app/modules/widget/widget.module.html',
-
-    directives: [],
-    providers: [],
+    templateUrl: './app/modules/widget/widget.module.html'
 })
 
 export class WidgetModule {
-    //widgetEmbed:string = "http://w1.synapsys.us/widgets/realestate/standard2.html";
-    widgetEmbed: string  = '/app/ads/widget1.html';
+    //dangerousWidgetUrl:string = "http://w1.synapsys.us/widgets/realestate/standard2.html";
+    dangerousWidgetUrl: string  = '/app/ads/widget1.html';
+    
+    safeWidgetUrl: SafeResourceUrl;
+
+    constructor(private _sanitizer: DomSanitizationService) {
+        this.safeWidgetUrl = _sanitizer.bypassSecurityTrustResourceUrl(this.dangerousWidgetUrl);
+    }
 
     // Page is being scrolled
     onScroll(event) {
