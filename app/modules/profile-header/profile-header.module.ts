@@ -18,39 +18,39 @@ export interface DataItem {
 }
 
 export interface ProfileHeaderData {
-  profileName: string;    
-  profileImageUrl: string;    
-  backgroundImageUrl: string;    
-  profileTitleFirstPart: string;    
-  profileTitleLastPart: string;    
+  profileName: string;
+  profileImageUrl: string;
+  backgroundImageUrl: string;
+  profileTitleFirstPart: string;
+  profileTitleLastPart: string;
   lastUpdatedDate: string;
-  description: string; 
+  description: string;
   topDataPoints: Array<DataItem>
   bottomDataPoints: Array<DataItem>;
 }
 
 @Component({
     selector: 'profile-header',
-    templateUrl: './app/modules/profile-header/profile-header.module.html',    
+    templateUrl: './app/modules/profile-header/profile-header.module.html',
     directives: [ROUTER_DIRECTIVES, CircleImage, ScrollableContent, LoadingComponent],
     pipes: [NaValuePipe]
 })
 export class ProfileHeaderModule implements OnChanges {
     @Input() profileHeaderData: ProfileHeaderData;
-    
+
     public contentTitle: string = "Quick info";
     public displayDate: string;
     public profileTitle: string;
     public backgroundImage: SafeStyle;
-    
+
     public imageConfig: CircleImageData = {
       imageClass: "image-180",
       mainImage: {
         imageClass: "border-large",
         placeholderImageUrl: "/app/public/profile_placeholder_large.png"
       }
-    }; 
-    
+    };
+
     public logoConfig: CircleImageData = {
       imageClass: "image-40",
       mainImage: {
@@ -58,10 +58,10 @@ export class ProfileHeaderModule implements OnChanges {
         imageUrl: GlobalSettings.getSiteLogoUrl(),
         placeholderImageUrl: GlobalSettings.getSiteLogoUrl()
       }
-    }; 
+    };
 
     constructor(private _sanitizer: DomSanitizationService) {}
-    
+
     ngOnChanges() {
       var data = this.profileHeaderData;
       if ( data ) {
@@ -72,13 +72,12 @@ export class ProfileHeaderModule implements OnChanges {
           data.profileImageUrl = "/app/public/no-image.png";
         }
         this.imageConfig.mainImage.imageUrl = data.profileImageUrl;
-        this.backgroundImage = this._sanitizer.bypassSecurityTrustStyle("url('" + data.backgroundImageUrl + "')");
+        this.backgroundImage = this._sanitizer.bypassSecurityTrustStyle("url(" + data.backgroundImageUrl + ")");
         this.contentTitle = "Quick info about " + data.profileName;
         this.profileTitle = data.profileTitleFirstPart + "<span class='text-heavy'> " + data.profileTitleLastPart + "</span>";
         this.displayDate = GlobalFunctions.formatUpdatedDate(data.lastUpdatedDate);
-        
+
         data.description = "<div class=\"ph-content-desc-border\"></div>" + data.description;
       }
     }
 }
-
