@@ -20,16 +20,14 @@
         <!-- round main image ends -->
         <!-- carousel description -->
         <div class="scc-details-desc">
-          <!--<template ngFor [ngForOf]="dataPoint.description" #description>-->
-          <div *ngFor="let description of dataPoint.description">
+          <template ngFor let-description [ngForOf]="dataPoint.description">
             <div *ngIf="description.textData" [ngClass]="description.class" [ngStyle]="description.style">
               <complex-inner-html [textItems]="description.textData"></complex-inner-html>
             </div>
             <!--deprecated version-->
             <span *ngIf="description.linkObj" [ngStyle]="description.wrapperStyle"><span [innerHTML]="description.beforeLink"></span><a class="text-heavy-link" [routerLink]="description.linkObj" [innerHTML]="description.linkText"></a><span [innerHTML]="description.afterLink"></span></span>
             <span *ngIf="!description.textData && !description.linkObj" [innerHTML]="description"></span>
-          </div>
-          <!--</template>-->
+          </template>
         </div>
         <!-- desc ends -->
       </div>
