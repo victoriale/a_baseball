@@ -1,4 +1,5 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import {DomSanitizationService, SafeStyle} from '@angular/platform-browser';
 import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {CircleButton} from "../../buttons/circle/circle.button";
 import {ModuleHeader} from "../../module-header/module-header.component";
@@ -41,7 +42,7 @@ export class ImagesMedia implements OnInit {
     // smallImage: MediaImageItem;
 
     smallObjCounter:number = 0;
-    largeImage:string;
+    backgroundImage:SafeStyle;
     totalImageCount:number = 0;
     imageCounter:number = 0;
     imagesTitle:string = "Images";
@@ -52,6 +53,8 @@ export class ImagesMedia implements OnInit {
     description:string;
     profHeader:any;
     modHeadData:ModuleHeaderData;
+
+    constructor(private _sanitizer: DomSanitizationService) {}
 
     modalExpand() {
         if (this.expand == true) {
@@ -90,7 +93,7 @@ export class ImagesMedia implements OnInit {
         this.displayCounter = this.imageCounter + 1;
         // this.smallImage = this.mediaImages;
         if (this.mediaImages && this.smallObjCounter < this.mediaImages.length) {
-            this.largeImage = this.mediaImages[this.smallObjCounter].image;
+            this.backgroundImage = this._sanitizer.bypassSecurityTrustStyle("url(" + this.mediaImages[this.smallObjCounter].image + ")");
             this.imageCredit = this.mediaImages[this.smallObjCounter].copyData;
             this.description = this.mediaImages[this.smallObjCounter].title;
         }
@@ -116,6 +119,7 @@ export class ImagesMedia implements OnInit {
                 newImageArray.push({
                     id: index,
                     image: images[index],
+                    backgroundImage: this._sanitizer.bypassSecurityTrustStyle("url(" + images[index] + ")"),
                     copyData: copyright[index],
                     title: imageTitle[index]
                 });
