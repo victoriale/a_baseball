@@ -147,7 +147,7 @@ export class ImagesMedia implements OnInit {
             this.totalImageCount = this.imageData.length;
             if (this.isProfilePage) {
                 this.modHeadData = {
-                    moduleTitle: "Images & Media - " + this.profHeader.profileName,
+                    moduleTitle: "Images &amp; Media - " + this.profHeader.profileName,
                     hasIcon: false,
                     iconClass: '',
                 };
