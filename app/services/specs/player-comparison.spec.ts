@@ -1,6 +1,6 @@
-import {provide} from 'angular2/core';
-import {it, describe, expect, beforeEachProviders, injectAsync} from 'angular2/testing';
-import {XHRBackend, BaseRequestOptions, Http, HTTP_PROVIDERS} from 'angular2/http';
+import {provide} from '@angular/core';
+import {it, describe, expect, beforeEachProviders, injectAsync} from '@angular/testing';
+import {XHRBackend, BaseRequestOptions, Http, HTTP_PROVIDERS} from '@angular/http';
 import 'rxjs/add/operator/map'; //allows the `map` function on Http Observable objects, which is used by services
 
 import {ComparisonStatsService} from '../comparison-stats.service';

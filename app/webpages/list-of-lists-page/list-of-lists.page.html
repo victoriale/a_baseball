@@ -7,8 +7,8 @@
   <error-component *ngIf="isError"></error-component>
 
   <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray" [footerStyle]="footerStyle"></slider-carousel>
-  <!--<div *ngFor="#itemData of detailedDataArray"> {{ itemData | json }}</div>-->
-  <list-of-lists-item *ngFor="#itemData of detailedDataArray" [item] = 'itemData'></list-of-lists-item>
+  <!--<div *ngFor="let itemData of detailedDataArray"> {{ itemData | json }}</div>-->
+  <list-of-lists-item *ngFor="let itemData of detailedDataArray" [item] = 'itemData'></list-of-lists-item>
   <pagination-footer *ngIf="paginationParameters" [paginationParameters]="paginationParameters"></pagination-footer>
   <no-data-box *ngIf="!detailedDataArray && errorData" [data]="errorData"></no-data-box>
 </section>

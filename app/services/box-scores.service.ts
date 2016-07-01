@@ -1,6 +1,6 @@
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
-import {Http, Headers} from 'angular2/http';
+import {Http, Headers} from '@angular/http';
 import {GlobalFunctions} from '../global/global-functions';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalSettings} from '../global/global-settings';
@@ -174,7 +174,7 @@ export class BoxScoresService {
     var homeRoute = MLBGlobalFunctions.formatTeamRoute(homeData.name, homeData.id);
     var awayRoute = MLBGlobalFunctions.formatTeamRoute(awayData.name, awayData.id);
     if(profile == 'team'){
-      if(teamId == homeData.teamId){
+      if(teamId == homeData.id){
         homeRoute = null;
       }else{
         awayRoute = null;

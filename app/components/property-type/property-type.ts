@@ -1,8 +1,8 @@
 /**
  * Created by Larry on 2/23/2016.
  */
-import {Component, OnInit} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
+import {Component, OnInit} from '@angular/core';
+import {RouteParams} from '@angular/router-deprecated';
 
 @Component({
     selector: 'property-type',

@@ -1,5 +1,5 @@
-import {Component, OnInit, Input, OnChanges} from 'angular2/core';
-import {Router, RouteParams} from 'angular2/router';
+import {Component, OnInit, Input, OnChanges} from '@angular/core';
+import {Router, RouteParams} from '@angular/router-deprecated';
 
 import {ModuleHeader} from '../../components/module-header/module-header.component';
 import {FlipTilesComponent, TileData} from '../../components/flip-tiles/flip-tiles.component';
@@ -23,7 +23,7 @@ export class FeaturedListsModule implements OnInit{
     public index: number = 0;
     @Input() featuredListData: any;
 
-    constructor(private router: Router, private _params: RouteParams, private globalFunctions: GlobalFunctions){
+    constructor(private router: Router, private _params: RouteParams){
         //Determine what page the profile header module is on
         this.profileType = this.router.hostComponent.name;
     }
@@ -33,8 +33,8 @@ export class FeaturedListsModule implements OnInit{
         if(this.profileType === 'LocationPage'){
             //Location Featured List Module
             var paramLocation: string = this._params.get('loc');
-            var paramCity: string = this.globalFunctions.toTitleCase(this.locData.city);
-            paramCity = this.globalFunctions.toTitleCase(paramCity.replace(/%20/g, " "));
+            var paramCity: string = GlobalFunctions.toTitleCase(this.locData.city);
+            paramCity = GlobalFunctions.toTitleCase(paramCity.replace(/%20/g, " "));
             var paramState: string = this.locData.state;
             this.moduleTitle = 'Featured Lists for ' + paramCity + ', ' + paramState;
         }else if(this.profileType === 'ProfilePage'){
@@ -45,7 +45,7 @@ export class FeaturedListsModule implements OnInit{
             var tempArr = paramAddress.splice(-paramAddress.length, paramAddress.length - 2);
             var address = tempArr.join(' ');
 
-            this.moduleTitle = 'Featured List for ' + this.globalFunctions.toTitleCase(address) + ' ' + this.globalFunctions.toTitleCase(paramCity) + ', ' + paramState;
+            this.moduleTitle = 'Featured List for ' + GlobalFunctions.toTitleCase(address) + ' ' + GlobalFunctions.toTitleCase(paramCity) + ', ' + paramState;
         }
     }
 
@@ -114,17 +114,17 @@ export class FeaturedListsModule implements OnInit{
         this.listData = {
             rank: this.index + 1,
             header: 'Trending Real Estate',
-            title: "",//this.globalFunctions.convertListName(data.listName),
-            hding1: this.globalFunctions.toTitleCase(listData.fullStreetAddress),
-            hding2: this.globalFunctions.toTitleCase(listData.city) + ', ' + listData.stateOrProvince + ' ' + listData.postalCode,
+            title: "",//GlobalFunctions.convertListName(data.listName),
+            hding1: GlobalFunctions.toTitleCase(listData.fullStreetAddress),
+            hding2: GlobalFunctions.toTitleCase(listData.city) + ', ' + listData.stateOrProvince + ' ' + listData.postalCode,
             detail1: heading2,
             detail2: listData.listPrice === null ? '' : 'Asking Price: ',
-            detail3: this.globalFunctions.formatPriceNumber(listData.listPrice),
+            // detail3: GlobalFunctions.formatPriceNumber(listData.listPrice),
             imageUrl: listData.photos.length === 0 ? null : listData.photos[0],
             ListUrl: 'List-page',
             listParam: {
                 viewType: 'list',
-              listname: this.globalFunctions.camelCaseToKababCase(data.listName),
+            //   listname: GlobalFunctions.camelCaseToKababCase(data.listName),
               state: listData.stateOrProvince,
               city: listData.city,
               page: '1',
@@ -142,7 +142,7 @@ export class FeaturedListsModule implements OnInit{
             description: '',
             routerInfo: ['List-page',
               { viewType: 'list',
-                listname: this.globalFunctions.camelCaseToKababCase(data.listName),
+                // listname: GlobalFunctions.camelCaseToKababCase(data.listName),
                 state: listData.stateOrProvince,
                 city: listData.city,
                 page: '1',

@@ -7,7 +7,7 @@
   <!--for team profile-->
   <article-schedule-component *ngIf=" calendarParams.profile != 'league' && boxScores" [homeData]="boxScores.schedule.home" [awayData]="boxScores.schedule.away"></article-schedule-component>
   <div *ngIf="boxScores && boxScores.gameInfo[0].length > 1 && calendarParams.profile != 'league'" class="box-scores-moregames">
-    <div *ngFor="#gameInfo of boxScores.gameInfo" class="box-scores-mult">
+    <div *ngFor="let gameInfo of boxScores.gameInfo" class="box-scores-mult">
       <div class="box-scores-mult-title">
         <span class="text-heavy">{{gameInfo[gameNum].game.homeData.homeTeamName}}</span>
         <span>vs</span>
@@ -15,16 +15,16 @@
         <span class="text-heavy">: Game {{gameNum+1}}</span>
       </div>
       <div class="box-scores-mult-game">
-        <div class="box-scores-mult-button" [class.selected]="i == gameNum" *ngFor="#game of gameInfo; #i = index" (click)="changeGame(i)">Game {{i+1}}</div>
+        <div class="box-scores-mult-button" [class.selected]="i == gameNum" *ngFor="let game of gameInfo; let i = index" (click)="changeGame(i)">Game {{i+1}}</div>
       </div>
     </div>
   </div>
   <!--box-scores info-->
   <div *ngIf="boxScores" class="box-scores-info">
-    <div *ngFor="#gameBox of boxScores.gameInfo; #i = odd" class="box-scores-info-container" [class.odd]="i" [class.even]="!i">
+    <div *ngFor="let gameBox of boxScores.gameInfo; let i = odd" class="box-scores-info-container" [class.odd]="i" [class.even]="!i">
       <!--game info that affects only how league box scores are displayed-->
       <div *ngIf=" calendarParams.profile == 'league' " >
-        <game-info  *ngFor="#game of gameBox; #g = index" [ngClass]="{'float-left':g % 2 == 0,'float-right':g % 2 == 1}"[gameInfo]="game.game"></game-info>
+        <game-info  *ngFor="let game of gameBox; let g = index" [ngClass]="{'float-left':g % 2 == 0,'float-right':g % 2 == 1}"[gameInfo]="game.game"></game-info>
       </div>
       <!--game info that affects only how team box scores are displayed-->
       <div *ngIf=" calendarParams.profile != 'league' " >

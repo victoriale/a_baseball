@@ -1,5 +1,5 @@
-import {Component, OnInit, Input, Output, EventEmitter} from 'angular2/core';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {CircleButton} from "../../buttons/circle/circle.button";
 import {ModuleHeader} from "../../module-header/module-header.component";
 import {ModuleHeaderData} from "../../module-header/module-header.component";
@@ -23,7 +23,6 @@ export interface MediaImageItem {
     ],
     providers: [],
     inputs: ['trending', 'mediaImages', 'featureListing', 'modalButton', 'imageData', 'copyright', "imageTitle", 'profHeader', 'isProfilePage'],
-    outputs: ['leftCircle', 'rightCircle', 'expand'],
 })
 
 export class ImagesMedia implements OnInit {
@@ -32,9 +31,7 @@ export class ImagesMedia implements OnInit {
     @Input() imageTitle:string;
     @Input() isProfilePage:boolean;
 
-    leftCircle:EventEmitter<boolean> = new EventEmitter();
-    rightCircle:EventEmitter<boolean> = new EventEmitter();
-    expand:any = new EventEmitter();
+    expand: boolean;
 
     expandText:string = 'Expand';
     expandIcon:string = 'fa-expand';

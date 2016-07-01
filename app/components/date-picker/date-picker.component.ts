@@ -1,5 +1,5 @@
-import {Component, ViewContainerRef, Input, Output, EventEmitter, AfterViewInit} from 'angular2/core';
-import {NgIf, NgFor, NgClass, NgModel, FORM_DIRECTIVES, ControlValueAccessor} from 'angular2/common';
+import {Component, ViewContainerRef, Input, Output, EventEmitter, AfterViewInit} from '@angular/core';
+import {NgIf, NgFor, NgClass, NgModel, FORM_DIRECTIVES, ControlValueAccessor} from '@angular/common';
 import {BoxScoresService} from '../../services/box-scores.service';
 import {GlobalFunctions} from '../../global/global-functions';
 
@@ -42,7 +42,7 @@ export class DatePicker implements ControlValueAccessor, AfterViewInit {
   @Input() viewValue: string;
   @Input() chosenParam: any;
 
-  @Output() changed: EventEmitter<Date> = new EventEmitter<Date>();
+  @Output() changed = new EventEmitter<Date>();
 
   constructor(cd: NgModel, viewContainer: ViewContainerRef, private _boxScores:BoxScoresService) {
     cd.valueAccessor = this;

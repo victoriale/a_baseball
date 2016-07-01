@@ -1,6 +1,4 @@
-import {Component, OnInit, Inject, OnDestroy, Input, Output, EventEmitter, Renderer, OnChanges, AfterViewInit, ViewChild} from 'angular2/core';
-import {BrowserDomAdapter} from 'angular2/platform/browser'
-import {ElementRef} from 'angular2/src/core/linker/element_ref';
+import {Component, OnInit, Inject, OnDestroy, Input, Output, EventEmitter, Renderer, OnChanges, AfterViewInit, ViewChild, ElementRef} from '@angular/core';
 import {ScrollableContent} from '../scrollable-content/scrollable-content.component';
 import {Scroller, ScrollerFunctions} from '../../global/scroller-functions';
 
@@ -14,7 +12,6 @@ import {Scroller, ScrollerFunctions} from '../../global/scroller-functions';
  * event starts on the scroller element.
  */
 class Dropdown {
-  document: any;
   mouseDownOnScrollBar: boolean = false;
   isDropdownVisible: boolean = false;
   nativeElement: any;
@@ -22,8 +19,7 @@ class Dropdown {
   dropdownContainer: any;    
   dropdownIcon: any;
 
-  constructor(elementRef: ElementRef, dom: BrowserDomAdapter) {    
-    this.document = dom.defaultDoc();
+  constructor(elementRef: ElementRef) {    
     this.nativeElement = elementRef.nativeElement;
     this.dropdownHeader = this.nativeElement.getElementsByClassName('dropdown')[0];
     this.dropdownContainer = this.nativeElement.getElementsByClassName('dropdown-wrapper')[0];    
@@ -55,8 +51,7 @@ class Dropdown {
 @Component({
   selector: 'dropdown',
   templateUrl: './app/components/dropdown/dropdown.component.html',
-  directives: [ScrollableContent],
-  providers: [BrowserDomAdapter]
+  directives: [ScrollableContent]
 })
 
 export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {  
@@ -86,12 +81,12 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
 
   private dropdown: Dropdown;
   
-  constructor(@Inject(ElementRef) elementRef: ElementRef, private _dom: BrowserDomAdapter, private _renderer: Renderer) { 
+  constructor(@Inject(ElementRef) elementRef: ElementRef, private _renderer: Renderer) { 
     this._elementRef = elementRef;
   }
   
   ngAfterViewInit() {
-    this.dropdown = new Dropdown(this._elementRef, this._dom);
+    this.dropdown = new Dropdown(this._elementRef);
     this.dropdownSetup();
     this.hoverSetup();
   }
@@ -270,7 +265,7 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
       // So this checks to see if the mouse went down on the scroller.
       this.dropdown.dropdownHeader.addEventListener('mousedown', function(event) {
           //Gets the element underneath the mouse
-          var element = self.dropdown.document.elementFromPoint(event.clientX, event.clientY);
+          var element = document.elementFromPoint(event.clientX, event.clientY);
 
           // Checks to see if that element is the scrollbar
           self.dropdown.mouseDownOnScrollBar = element.className.indexOf("scrollable-item-scroller") >= 0;
@@ -307,7 +302,7 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
         //The scroller can't calculate a content's height and scroll ratio when it's hidden.
         //So this checks to see if the dropdown is visible and then sets up the scroller. 
         if ( self.dropdown.isDropdownVisible ) {
-          self.scroller = ScrollerFunctions.initializeScroller(self.dropdown.nativeElement, self.dropdown.document);
+          self.scroller = ScrollerFunctions.initializeScroller(self.dropdown.nativeElement, document);
           self.scrollToSelected(); //Make sure the current selected item is visible.
         }
 
@@ -352,7 +347,6 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
   }
   
   hoverSetup() {    
-    var document = this._dom.defaultDoc();
     var self = this;
         
     var scrollContainer = this._elementRef.nativeElement.getElementsByClassName('scrollable-item')[0];

@@ -1,6 +1,6 @@
-import {Component, DoCheck, Output, EventEmitter, Input} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
-import {Injectable} from 'angular2/core';
+import {Component, DoCheck, Output, EventEmitter, Input} from '@angular/core';
+import {RouteParams} from '@angular/router-deprecated';
+import {Injectable} from '@angular/core';
 
 import {DetailedListItem, DetailListInput} from '../../components/detailed-list-item/detailed-list-item.component';
 import {SliderCarousel, SliderCarouselInput} from '../../components/carousels/slider-carousel/slider-carousel.component';

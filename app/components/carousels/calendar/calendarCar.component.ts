@@ -1,11 +1,11 @@
-import {Component, OnInit, Output, Input, EventEmitter} from 'angular2/core';
+import {Component, OnInit, Output, Input, EventEmitter} from '@angular/core';
 import {BoxScoresService} from '../../../services/box-scores.service';
 import {GlobalFunctions} from '../../../global/global-functions';
 import {MLBGlobalFunctions} from '../../../global/mlb-global-functions';
 import {GlobalSettings} from '../../../global/global-settings';
 
 import {DatePicker} from '../../date-picker/date-picker.component';
-import {FORM_DIRECTIVES} from 'angular2/common';
+import {FORM_DIRECTIVES} from '@angular/common';
 
 declare var moment;
 
@@ -34,7 +34,7 @@ export interface weekDate {
 
 export class CalendarCarousel implements OnInit{
   @Input() chosenParam:any;
-  @Output() dateEmit: EventEmitter<any> = new EventEmitter();
+  @Output() dateEmit = new EventEmitter();
   public curDateView:any;
   public weeklyApi:any;
   public weeklyDates: Array<any>;
@@ -49,7 +49,7 @@ export class CalendarCarousel implements OnInit{
     .subscribe( data => {
       this.validateDate(this.chosenParam.date, this.weeklyDates);
     })
-    this.dateEmit.emit(this.chosenParam);//sends through output so date can be used outside of component
+    this.dateEmit.next(this.chosenParam);//sends through output so date can be used outside of component
   }
   ngOnInit(){
     //on load grab the input chosenParam and set new variable for currently viewing dates that is used for any changes without changing initial input while it goes through validation
@@ -99,7 +99,7 @@ export class CalendarCarousel implements OnInit{
       })
       event.active = true;
       this.chosenParam.date = event.fullDate;
-      this.dateEmit.emit(this.chosenParam);//sends through output so date can be used outside of component
+      this.dateEmit.next(this.chosenParam);//sends through output so date can be used outside of component
     }
   }
 
@@ -232,7 +232,7 @@ export class CalendarCarousel implements OnInit{
         //sets new params and emit the date
         let params = this.chosenParam;
         this.curDateView = {profile: params.profile, teamId: params.teamId, date: params.date};
-        this.dateEmit.emit({profile: params.profile, teamId: params.teamId, date: params.date});//esmit variable that has been validated
+        this.dateEmit.next({profile: params.profile, teamId: params.teamId, date: params.date});//esmit variable that has been validated
       }
     }
     //change validatedDate back into format for dateArray;

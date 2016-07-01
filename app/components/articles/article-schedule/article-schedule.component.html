@@ -2,7 +2,7 @@
     <div class="schedule-next">
         <div class="schedule-next {{defaultGradient}}" [ngStyle]="gradient">
         </div>
-        <span *ngFor="#away of awayData">
+        <span *ngFor="let away of awayData">
             <div class="schedule-next-team schedule-next-team-left">
                 <a *ngIf="away.url" [routerLink]="away.url">
                     <div class="schedule-next-team-left-url">
@@ -23,7 +23,7 @@
         <div class="schedule-next-vs">
             vs.
         </div>
-        <span *ngFor="#home of homeData">
+        <span *ngFor="let home of homeData">
             <circle-image *ngIf="home.homeLogo" class="schedule-next-circle schedule-next-circle-right"
                           [data]="home.homeLogo"></circle-image>
             <div class="schedule-next-team schedule-next-team-right">

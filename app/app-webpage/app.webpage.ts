@@ -1,5 +1,5 @@
-import {Component} from 'angular2/core';
-import {RouteConfig, RouterOutlet, ROUTER_DIRECTIVES} from 'angular2/router';
+import {Component} from '@angular/core';
+import {RouteConfig, RouterOutlet, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
 import {GlobalFunctions} from "../global/global-functions";
 import {FooterComponent} from "../components/footer/footer.component";
@@ -104,11 +104,6 @@ import {ComponentPage} from "../webpages/component-page/component.page";
     },
     //Module Pages
     {
-        path: '/schedules/mlb/:pageNum',
-        name: 'Schedules-page-league',
-        component: SchedulesPage
-    },
-    {
         path: '/mvp-list/:type/:pageNum',
         name: 'MVP-list-page',
         component: MVPListPage
@@ -119,8 +114,23 @@ import {ComponentPage} from "../webpages/component-page/component.page";
         component: MVPListPage
     },
     {
+        path: '/schedules/mlb/:pageNum',
+        name: 'Schedules-page-league',
+        component: SchedulesPage
+    },
+    {
+        path: '/schedules/mlb/:tab/:pageNum',
+        name: 'Schedules-page-league-tab',
+        component: SchedulesPage
+    },
+    {
         path: '/schedules/:teamName/:teamId/:pageNum',
         name: 'Schedules-page-team',
+        component: SchedulesPage
+    },
+    {
+        path: '/schedules/:teamName/:tab/:teamId/:pageNum',
+        name: 'Schedules-page-team-tab',
         component: SchedulesPage
     },
     {

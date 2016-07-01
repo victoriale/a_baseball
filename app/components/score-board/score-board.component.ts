@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, EventEmitter} from 'angular2/core';
+import {Component, Input, OnInit, EventEmitter} from '@angular/core';
 import {StatHyphenValuePipe} from '../../pipes/stat-hyphen.pipe';
 
 export interface ScoreBoardInput{

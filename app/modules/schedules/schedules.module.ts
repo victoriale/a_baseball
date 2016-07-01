@@ -1,8 +1,8 @@
-import {Component, Input, Output, OnInit, EventEmitter} from 'angular2/core';
+import {Component, Input, Output, OnInit, EventEmitter} from '@angular/core';
 import {ModuleFooter} from '../../components/module-footer/module-footer.component';
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 import {SchedulesComponent} from '../../components/schedules/schedules.component';
-import {RouteParams} from 'angular2/router';
+import {RouteParams} from '@angular/router-deprecated';
 import {GlobalFunctions} from '../../global/global-functions';
 
 @Component({
