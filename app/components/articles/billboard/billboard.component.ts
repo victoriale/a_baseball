@@ -3,14 +3,15 @@ import {DomSanitizationService, SafeResourceUrl} from '@angular/platform-browser
 
 @Component({
     selector: 'billboard-component',
-    templateUrl: './app/components/articles/billboard/billboard.component.html',
-    inputs: ["teamId"],
+    templateUrl: './app/components/articles/billboard/billboard.component.html'
 })
 
 export class BillboardComponent implements OnInit{
   dangerousBillBoardUrl: string;
 
   safeBillBoardUrl: SafeResourceUrl;
+
+  @Input() teamId;
 
   constructor(private _sanitizer: DomSanitizationService) {
   }
