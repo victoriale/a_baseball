@@ -25,9 +25,9 @@ declare var jQuery:any;
         ShareLinksComponent,
         ArticleContentComponent,
         RecommendationsComponent,
-        TrendingComponent,
         DisqusComponent,
-        LoadingComponent
+        LoadingComponent,
+        TrendingComponent,
     ],
     providers: [],
 })
@@ -51,6 +51,8 @@ export class ArticlePages implements OnInit {
     copyright:any;
     imageTitle:any;
     teamId:number;
+    trendingData:Array<any>;
+    trendingImages:Array<any>;
     public partnerParam:string;
     public partnerID:string;
 
@@ -89,6 +91,37 @@ export class ArticlePages implements OnInit {
                     this.getRandomArticles(HeadlineData, this.pageIndex, this.eventID, this.recommendedImageData);
                 }
             );
+        this._articleDataService.getTrendingData()
+            .subscribe(
+                TrendingData => {
+                    this.getTrendingArticles(TrendingData);
+                }
+            );
+    }
+
+    getTrendingArticles(data) {
+        var articles = [];
+        var images = [];
+        Object.keys(data).map(function (val, index) {
+            if (val != "meta-data") {
+                articles[index-1] = {
+                    title: data[val].displayHeadline,
+                    date: data[val].dateline + " EST",
+                    content: data[val].article[0],
+                    eventId: data['meta-data']['current'].eventId,
+                    eventType: val,
+                    url: MLBGlobalFunctions.formatArticleRoute(val, data['meta-data']['current'].eventId)
+                };
+            }
+        });
+        Object.keys(data['meta-data']['images']).map(function (val, index) {
+            images[index] = data['meta-data']['images'][val];
+        });
+        this.trendingImages = images[0].concat(images[1]);
+        articles.sort(function () {
+            return 0.5 - Math.random()
+        });
+        this.trendingData = articles;
     }
 
     getCarouselImages(data) {

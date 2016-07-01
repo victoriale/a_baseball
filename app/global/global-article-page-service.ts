@@ -21,4 +21,11 @@ export class ArticleDataService {
             .map(res => res.json())
             .map(data => data);
     }
+
+    getTrendingData() {
+        var fullUrl = GlobalSettings.getTrendingUrl();
+        return this.http.get(fullUrl)
+            .map(res => res.json())
+            .map(data => data);
+    }
 }
