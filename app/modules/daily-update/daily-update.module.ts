@@ -9,6 +9,7 @@ import {GlobalSettings} from "../../global/global-settings";
 import {NoDataBox} from '../../components/error/data-box/data-box.component';
 import {BarChartComponent} from '../../components/bar-chart/bar-chart.component';
 import {DailyUpdateData, DailyUpdateChart} from "../../services/daily-update.service";
+import {SanitizeHtml} from "../../pipes/safe.pipe";
 
 declare var jQuery:any;
 
@@ -16,6 +17,7 @@ declare var jQuery:any;
     selector: 'daily-update-module',
     templateUrl: './app/modules/daily-update/daily-update.module.html',
     directives: [ModuleHeader, CircleImage, NoDataBox, BarChartComponent, ROUTER_DIRECTIVES],
+    pipes: [SanitizeHtml],
     providers: []
 })
 

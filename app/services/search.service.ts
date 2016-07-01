@@ -97,7 +97,7 @@ export class SearchService{
                     imageClass: "image-43",
                     mainImage: {
                       imageUrl: GlobalSettings.getImageUrl(item.teamLogo),
-                      hoverText: "<i style='font-size:20px;' class='fa fa-mail-forward'></i>",
+                      hoverText: "<i class='fa fa-mail-forward search-text'></i>",
                       imageClass: "border-1",
                       urlRouteArray: MLBGlobalFunctions.formatTeamRoute(teamName, item.teamId),
                     }
@@ -122,7 +122,7 @@ export class SearchService{
                     mainImage: {
                       imageUrl: GlobalSettings.getImageUrl(item.imageUrl),
                       urlRouteArray: MLBGlobalFunctions.formatPlayerRoute(item.teamName, playerName, item.playerId),
-                      hoverText: "<i style='font-size:20px;' class='fa fa-mail-forward'></i>",
+                      hoverText: "<i class='fa fa-mail-forward search-text'></i>",
                       imageClass: "border-1"
                     }
                 },
