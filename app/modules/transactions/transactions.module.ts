@@ -19,7 +19,7 @@ export interface TransactionModuleData {
 })
 
 export class TransactionsModule {
-  @Output() tabSwitched = new EventEmitter();
+  @Output() tabSwitched = new EventEmitter(true);
 
   @Input() data: TransactionModuleData;
 

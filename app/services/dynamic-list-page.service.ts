@@ -80,6 +80,7 @@ export class DynamicWidgetCall {
       )
   }
 
+//TODO: remove linkObj for carousel description objects
   transformCarData(data, profile: string) {
     let self = this;
     var carouselArray = [];

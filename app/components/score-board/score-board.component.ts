@@ -1,5 +1,6 @@
 import {Component, Input, OnInit, EventEmitter} from '@angular/core';
 import {StatHyphenValuePipe} from '../../pipes/stat-hyphen.pipe';
+import {DomSanitizationService} from '@angular/platform-browser';
 
 export interface ScoreBoardInput{
 
@@ -26,8 +27,8 @@ export class ScoreBoard implements OnInit{
     -o-transition: all 0.5s ease-out;
     transition: all 0.5s ease-out;
   `;
-  constructor(){
 
+  constructor(){
   }
 
   left(){

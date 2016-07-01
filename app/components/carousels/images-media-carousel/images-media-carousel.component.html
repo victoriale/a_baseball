@@ -11,7 +11,7 @@
                 <i class='fa fa-file-image-o'></i>
                 {{imagesTitle}} ({{displayCounter}}/{{totalImageCount}})
             </div>
-            <span [ngStyle]="{'background-image': 'url(' + largeImage + ')'}"
+            <span [style.background-image]="backgroundImage"
                   class="plcholder-img">
                 <circle-button class="plcholder-img-navigation" (scrollLeft)="left()"
                                (scrollRight)="right()"></circle-button>
@@ -22,7 +22,7 @@
             <span *ngFor="let smImages of mediaImages; let i=index;">
                 <div class="sm-images-container">
                     <div *ngIf="smImages.id == imageCounter" class="carouselImageBoxSmall">
-                        <span id="smImg-{{i}}" [ngStyle]="{'background-image': 'url(' + smImages.image + ')'}"
+                        <span id="smImg-{{i}}" [style.background-image]="smImages.backgroundImage"
                               [ngClass]="{'sm-images-square-image-active': i == smallObjCounter}">
                         </span>
                         <div>
@@ -30,7 +30,7 @@
                         </div>
                     </div>
                     <div id="smImg-{{i}}"
-                         class="sm-images-square-image" [ngStyle]="{'background-image': 'url(' + smImages.image + ')'}"
+                         class="sm-images-square-image" [style.background-image]="smImages.backgroundImage"
                          alt="small square images" (click)="changeClick(i)">
                     </div>
                 </div>
@@ -42,7 +42,7 @@
 <div class="modal" (keyup)="close($event)" [ngClass]="{'modal-open': expand == true}">
     <div class="modal-exit" (click)="modalExpand()">X</div>
     <div class="modal-plcholder">
-        <span [ngStyle]="{'background-image': 'url(' + largeImage + ')'}"
+        <span [style.background-image]="backgroundImage"
                 class="modal-plcholder-img">
             <circle-button class="modal-plcholder-img-navigation" (scrollLeft)="left()"
                             (scrollRight)="right()"></circle-button>

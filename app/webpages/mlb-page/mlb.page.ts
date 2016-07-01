@@ -163,7 +163,7 @@ export class MLBPage implements OnInit {
         _title.setTitle(GlobalSettings.getPageTitle("MLB"));
 
         // this.currentYear = new Date().getFullYear();
-        
+
         //for boxscores
         var currentUnixDate = new Date().getTime();
         //convert currentDate(users local time) to Unix and push it into boxScoresAPI as YYYY-MM-DD in EST using moment timezone (America/New_York)
@@ -291,7 +291,7 @@ export class MLBPage implements OnInit {
         err => {
             console.log("Error getting faq data for mlb", err);
         });
-   }   
+   }
 
     private setupListOfListsModule() {
         let params = {
@@ -381,7 +381,7 @@ export class MLBPage implements OnInit {
         this.listService.getListModuleService(tab, this.batterParams)
             .subscribe(updatedTab => {
                 //do nothing?
-            }, err => { 
+            }, err => {
                 tab.isLoaded = true;
                 console.log('Error: Loading MVP Batters: ', err);
             })
@@ -401,7 +401,7 @@ export class MLBPage implements OnInit {
         this.listService.getListModuleService(tab, this.pitcherParams)
             .subscribe(updatedTab => {
                 //do nothing?
-            }, err => { 
+            }, err => {
                 tab.isLoaded = true;
                 console.log('Error: Loading MVP Pitchers: ', err);
             })

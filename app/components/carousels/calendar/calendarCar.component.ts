@@ -49,7 +49,7 @@ export class CalendarCarousel implements OnInit{
     .subscribe( data => {
       this.validateDate(this.chosenParam.date, this.weeklyDates);
     })
-    this.dateEmit.emit(this.chosenParam);//sends through output so date can be used outside of component
+    this.dateEmit.next(this.chosenParam);//sends through output so date can be used outside of component
   }
   ngOnInit(){
     //on load grab the input chosenParam and set new variable for currently viewing dates that is used for any changes without changing initial input while it goes through validation
@@ -99,7 +99,7 @@ export class CalendarCarousel implements OnInit{
       })
       event.active = true;
       this.chosenParam.date = event.fullDate;
-      this.dateEmit.emit(this.chosenParam);//sends through output so date can be used outside of component
+      this.dateEmit.next(this.chosenParam);//sends through output so date can be used outside of component
     }
   }
 
@@ -232,7 +232,7 @@ export class CalendarCarousel implements OnInit{
         //sets new params and emit the date
         let params = this.chosenParam;
         this.curDateView = {profile: params.profile, teamId: params.teamId, date: params.date};
-        this.dateEmit.emit({profile: params.profile, teamId: params.teamId, date: params.date});//esmit variable that has been validated
+        this.dateEmit.next({profile: params.profile, teamId: params.teamId, date: params.date});//esmit variable that has been validated
       }
     }
     //change validatedDate back into format for dateArray;

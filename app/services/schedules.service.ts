@@ -71,6 +71,7 @@ export class SchedulesService {
     var headers = this.setToken();
     var jsYear = new Date().getFullYear();//DEFAULT YEAR DATA TO CURRENT YEAR
     var displayYear;
+    var eventTab:boolean = false;
 
     if(typeof year == 'undefined'){
       year = new Date().getFullYear();//once we have historic data we shall show this
@@ -82,20 +83,26 @@ export class SchedulesService {
       displayYear = year;
     }
 
+    //eventType determines which tab is highlighted
+    if(eventStatus == 'pre-event'){
+      eventTab = true;
+    }else{
+      eventTab = false;
+    }
     var callURL = this._apiUrl+'/'+profile+'/schedule';
 
     if(typeof id != 'undefined'){
       callURL += '/'+id;
     }
     callURL += '/'+eventStatus+'/'+limit+'/'+ pageNum;  //default pagination limit: 5; page: 1
-
+    
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
         var tableData = this.setupTableData(eventStatus, year, data.data, id, limit, isTeamProfilePage);
         var tabData = [
-          {display: 'Upcoming Games', data:'pre-event', disclaimer:'Times are displayed in ET and are subject to change', season:displayYear, tabData: new MLBScheduleTabData(this.formatGroupName(year,'pre-event'), true)},
-          {display: 'Previous Games', data:'post-event', disclaimer:'Games are displayed by most recent.', season:displayYear, tabData: new MLBScheduleTabData(this.formatGroupName(year,'post-event'), true)}
+          {display: 'Upcoming Games', data:'pre-event', disclaimer:'Times are displayed in ET and are subject to change', season:displayYear, tabData: new MLBScheduleTabData(this.formatGroupName(year,'pre-event'), eventTab)},
+          {display: 'Previous Games', data:'post-event', disclaimer:'Games are displayed by most recent.', season:displayYear, tabData: new MLBScheduleTabData(this.formatGroupName(year,'post-event'), !eventTab)}
         ];
         return {
           data:tableData,

@@ -174,14 +174,14 @@ export class BoxScoresService {
     var homeRoute = MLBGlobalFunctions.formatTeamRoute(homeData.name, homeData.id);
     var awayRoute = MLBGlobalFunctions.formatTeamRoute(awayData.name, awayData.id);
     if(profile == 'team'){
-      if(teamId == homeData.teamId){
+      if(teamId == homeData.id){
         homeRoute = null;
       }else{
         awayRoute = null;
       }
     }
-      var homeLogo = this.imageData("image-62", "border-logo", GlobalSettings.getImageUrl(homeData.logo), homeRoute);
-      var awayLogo = this.imageData("image-62", "border-logo", GlobalSettings.getImageUrl(awayData.logo), awayRoute);
+      var homeLogo = this.imageData("image-65", "border-logo", GlobalSettings.getImageUrl(homeData.logo), homeRoute);
+      var awayLogo = this.imageData("image-65", "border-logo", GlobalSettings.getImageUrl(awayData.logo), awayRoute);
       right = {
         homeHex:homeData.colors.split(', ')[0], //parse out comma + space to grab only hex colors
         homeID:homeData.id,

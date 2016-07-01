@@ -162,7 +162,7 @@ export class SeasonStatsService {
           var playerName = firstPlayer.firstName + ' ' + firstPlayer.playerLastName;
           var linkToPlayer = MLBGlobalFunctions.formatPlayerRoute(firstPlayer.teamName, playerName, firstPlayer.playerId);
           infoBox = [{
-              teamName: "<span style='color: #000; font-style: italic'>Team: </span>" + firstPlayer.teamLastName,
+              teamName: firstPlayer.teamLastName,
               playerName: playerName,
               infoBoxImage : {
                 imageClass: "image-40",
@@ -170,7 +170,7 @@ export class SeasonStatsService {
                   imageUrl: GlobalSettings.getImageUrl(firstPlayer.playerHeadshot),
                   imageClass: "border-1",
                   urlRouteArray:  linkToPlayer,
-                  hoverText: "<i style='font-size: 18px;' class='fa fa-mail-forward'></i>",
+                  hoverText: "<i class='fa fa-mail-forward infobox-list-fa'></i>",
                 },
               },
               routerLinkPlayer: linkToPlayer,

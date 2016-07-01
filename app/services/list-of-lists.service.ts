@@ -47,7 +47,7 @@ export class ListOfListsService {
         break;
 
       case "league":
-        callURL += 'league/' + limit; // +'/' + pageNum; //paging not added yet
+        callURL += 'league/' + limit +'/' + pageNum;
         break;
     }
 

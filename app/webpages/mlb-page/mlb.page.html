@@ -3,12 +3,12 @@
   <loading-component *ngIf="!profileHeaderData && !hasError"></loading-component>
   <error-component *ngIf="hasError"></error-component>
   <div *ngIf="profileHeaderData">
-    <headline-component [title]="'About the MLB'"></headline-component>
+    <!-- <headline-component [title]="'About the MLB'"></headline-component> -->
 
     <profile-header [profileHeaderData]="profileHeaderData"></profile-header>
     <!-- aiArticles -->
 
-    <headline-component [title]="'Keep Up With Everything MLB'"></headline-component>
+    <!-- <headline-component [title]="'Keep Up With Everything MLB'"></headline-component> -->
 
     <box-scores *ngIf="currentBoxScores && dateParam" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)"></box-scores>
     <schedules *ngIf="schedulesData" [profHeader]="profileHeaderData" [data]="schedulesData" (tabSelected)="scheduleTab($event)"></schedules>
@@ -19,7 +19,7 @@
     <mvp-module *ngIf="pitcherData" [title]="'Pitcher'" [mvpData]="pitcherData" [query]="pitcherParams" (tabSelected)="pitcherTab($event)"></mvp-module>
     <comparison-module [modelData]="comparisonModuleData" [profileName]="profileHeaderData.profileName"></comparison-module>
 
-    <headline-component [title]="'Other MLB Content You May Love'"></headline-component>
+    <!-- <headline-component [title]="'Other MLB Content You May Love'"></headline-component> -->
     <images-media-carousel [imageData]="imageData" [copyright]="copyright" [imageTitle]="imageTitle" [profHeader]="profileHeaderData" [isProfilePage]="isProfilePage"></images-media-carousel>
     <dyk-module *ngIf="dykData" [profileName]="profileHeaderData.profileName" [dykData]="dykData"></dyk-module>
     <faq-module *ngIf="faqData" [profileName]="profileHeaderData.profileName" [faqData]="faqData"></faq-module>
@@ -27,7 +27,7 @@
     <!-- Other NEWS you will love -->
     <news-module *ngIf="newsDataArray" [newsDataArray]="newsDataArray" [profileName]="profileHeaderData.profileName"></news-module>
 
-    <headline-component [title]="'Interact With MLB\'s Fans'"></headline-component>
+    <!-- <headline-component [title]="'Interact With MLB\'s Fans'"></headline-component> -->
 
     <twitter-module *ngIf="twitterData" [profileName]="profileHeaderData.profileName" [twitterData]="twitterData"></twitter-module>
     <!--Like Us On FB Module, only display if not on partner page-->
