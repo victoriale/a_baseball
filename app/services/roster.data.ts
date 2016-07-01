@@ -240,10 +240,11 @@ export class RosterTableModel implements TableModel<TeamRosterData> {
   }
 
   getCellData(item:TeamRosterData, column:TableColumn): CellData {
-    var display = "";
+    var display = null;
     var sort = null;
     var link: Array<any> = null;
     var imageUrl: string = null;
+    var displayAsRawText = false;
     switch (column.key) {
       case "name":
         display = item.playerName;
@@ -253,30 +254,34 @@ export class RosterTableModel implements TableModel<TeamRosterData> {
         break;
 
       case "pos":
-        display = typeof item.position[0] == 'undefined' ? "N/A" : item.position.join(', ');
+        display = typeof item.position[0] != null ? item.position.join(', ') : null;
         sort = item.position != null ? item.position.toString() : null;
         break;
 
       case "ht":
-        display = typeof item.height == 'undefined' ? "N/A" : MLBGlobalFunctions.formatHeight(item.height);
+        display = item.height != null ? MLBGlobalFunctions.formatHeight(item.height) : null;
+        displayAsRawText = true;
         sort = item.heightInInches != null ? Number(item.heightInInches) : null;
         break;
 
       case "wt":
-        display = typeof item.weight == 'undefined' ? "N/A" : item.weight + " lbs.";
+        display = item.weight != null ? item.weight + " lbs." : null;
         sort = item.weight != null ? Number(item.weight) : null;
         break;
 
       case "age":
-        display = typeof item.age == 'undefined' ? "N/A" : item.age.toString();
+        display = item.age != null ? item.age.toString() : null;
         sort = item.age != null ? Number(item.age) : null;
         break;
 
       case "sal":
-        display = item.salary == null ? "N/A" : "$" + GlobalFunctions.nFormatter(Number(item.salary));
+        display = item.salary != null ? "$" + GlobalFunctions.nFormatter(Number(item.salary)) : null;
         sort = item.salary != null ? Number(item.salary) : null;
         break;
     }
-    return new CellData(display, sort, link, imageUrl);
+    if ( display == null ) {
+      display = "N/A";
+    }
+    return new CellData(display, sort, link, imageUrl, displayAsRawText);
   }
 }

@@ -21,12 +21,17 @@ export class CellData {
    * 
    */
   image: CircleImageData;
+
+  /**
+   * When set to true, [innerHtml] is not used to display the text, but rather {{}}
+   */
+  displayAsRawText: boolean = false;  
   
-  
-  constructor(display: string, sort: any, routerLink?: Array<any>, imageUrl?: string) {
+  constructor(display: string, sort: any, routerLink?: Array<any>, imageUrl?: string, displayAsRawText?: boolean) {
     this.display = display;
     this.sort = sort;
     this.routerLink = routerLink;
+    this.displayAsRawText = displayAsRawText;
     if ( imageUrl ) {
       this.image = {
         imageClass: "image-48",

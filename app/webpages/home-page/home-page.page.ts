@@ -39,10 +39,8 @@ export class HomePage implements OnInit {
     public imageTile2: string = "/app/public/ipad.png";
     public imageTile3: string = "/app/public/MLB_Schedule_Image.jpg";
     public homeHeading1: string = "Stay Loyal to Your Favorite MLB Team";
-    public homeHeading2: string = "Find the sports information you need to show your loyalty";
-    public homeHeading3: string = "PICK YOUR FAVORITE <b>MLB TEAM</b>";
-    public leagueHeading: string;
-    public homeFeatures: string;
+    public homeSubHeading1: string = "Find the sports information you need to show your loyalty";
+    public homeHeading2: string = "PICK YOUR FAVORITE <span class='text-heavy'>MLB TEAM</span>";
     public homeFeaturesTile1: string = "MLB Standings";
     public homeFeaturesTile3: string = "MLB Scores";
     public homeFeaturesTile4: string = "MLB Schedules";
@@ -131,8 +129,6 @@ export class HomePage implements OnInit {
           // console.log(this.mlbTeams);
         })
       var sampleImage = "./app/public/placeholder-location.jpg";
-      this.leagueHeading = "<b>AMERICAN LEAGUE</b> TEAMS<b>:</b>";
-      this.homeFeatures = "<b>Features</b> to Note";
     }
     ngOnInit(){}
 }

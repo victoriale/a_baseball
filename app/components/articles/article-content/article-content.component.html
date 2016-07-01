@@ -1,5 +1,5 @@
 <div class="content-container" *ngFor="let content of articleData?.article; let i=index; let last=last; let odd=odd;">
-    <p *ngIf="i==0" class="content-first" [innerHTML]="content"></p>
+    <p *ngIf="i==0" class="content-first" [innerHTML]="content | safeHtml"></p>
     <profileData-component *ngIf="odd && articleType == 'playerRoster'" [articleType]="articleType"
                            [articleData]="articleData" [index]="i" [imageLinks]="imageLinks"></profileData-component>
     <profileData-component *ngIf="i==1 && articleType == 'gameModule'" [articleType]="articleType"
@@ -17,7 +17,7 @@
                            [articleSubType]="articleSubType" [articleType]="articleType"
                            [articleData]="articleData" [imageLinks]="imageLinks"></profileData-component>
     <p *ngIf="i!=0 && !content.playerComparisonModule && !content.teamRecordModule && !content.playerRosterModule && !content.gameModule"
-       class="content" [innerHTML]="content"></p>
+       class="content" [innerHTML]="content | safeHtml"></p>
     <profileData-component *ngIf="i==4 && articleType == 'teamRecord' && articleSubType == 'about'" [index]="'2'"
                            [articleSubType]="articleSubType" [articleType]="articleType"
                            [articleData]="articleData" [imageLinks]="imageLinks"></profileData-component>
