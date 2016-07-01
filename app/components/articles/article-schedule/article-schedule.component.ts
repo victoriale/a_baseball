@@ -1,5 +1,4 @@
 import {Component, Input, OnInit } from "@angular/core";
-import {Articles} from "../../../global/global-service";
 import {ArticleData} from "../../../global/global-interface";
 import {CircleImage} from "../../images/circle-image";
 import {CircleImageData} from '../../images/image-data';
@@ -11,7 +10,7 @@ import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
     templateUrl: './app/components/articles/article-schedule/article-schedule.component.html',
     directives: [CircleImage, ROUTER_DIRECTIVES],
     inputs: ['articleData', 'league', 'homeData', 'awayData'],
-    providers: [Articles],
+    providers: [],
 })
 
 export class ArticleScheduleComponent implements OnInit {
@@ -23,16 +22,6 @@ export class ArticleScheduleComponent implements OnInit {
     articleData:ArticleData[];
     defaultGradient:string;
     public league:boolean;
-
-    constructor(private _magazineOverviewService:Articles) {
-
-    }
-
-    getArticles() {
-        this._magazineOverviewService.getArticles().then(data => {
-            this.articleData = data;
-        });
-    }
 
     ngOnInit() {
     }

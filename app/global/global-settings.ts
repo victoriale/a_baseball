@@ -14,6 +14,7 @@ export class GlobalSettings {
     private static _articleUrl:string = '-homerunloyal-ai.synapsys.us/';
     private static _recommendUrl:string = '-homerunloyal-ai.synapsys.us/headlines/event/';
     private static _headlineUrl:string = '-homerunloyal-ai.synapsys.us/headlines/team/';
+    private static _trendingUrl:string = '-homerunloyal-ai.synapsys.us/sidekick';
 
     private static _homepageUrl:string = '.homerunloyal.com';
     private static _partnerHomepageUrl:string = '.homerunloyal.com/';
@@ -53,6 +54,10 @@ export class GlobalSettings {
 
     static getRecommendUrl():string {
         return this._proto + "//" + this.getEnv(this._env) + this._recommendUrl;
+    }
+
+    static getTrendingUrl():string {
+        return this._proto + "//" + this.getEnv(this._env) + this._trendingUrl;
     }
 
     static getHeadlineUrl():string {
