@@ -18,7 +18,7 @@
         <h2><span [innerHtml]="homeHeading2"></span></h2>
         <!-- ngFor here for league -->
         <div class="home-league" *ngFor="let league of mlbTeams">
-          <h3 [innerHtml]="league.name"></h3>
+          <h3 [innerHtml]="league.displayName"></h3>
           <section class="row">
             <!-- ngFor here for Division -->
             <div class="col-lg-4 home-league-col" *ngFor="let division of league.dataArray">
