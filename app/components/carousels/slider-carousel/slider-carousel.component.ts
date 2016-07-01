@@ -1,14 +1,13 @@
-/**
- * Created by Victoria on 4/19/2016.
- */
 import {Component, OnInit, Output, Input, EventEmitter} from '@angular/core';
+import {DomSanitizationService, SafeUrl} from '@angular/platform-browser';
+import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+
 import {CircleImage} from '../../images/circle-image';
 import {ImageData, CircleImageData} from '../../images/image-data';
 import {Carousel} from '../carousel.component';
 import {ModuleFooter, ModuleFooterData} from '../../module-footer/module-footer.component'
 import {ComplexInnerHtml} from '../../complex-inner-html/complex-inner-html.component'
 import {Link, ParagraphItem} from '../../../global/global-interface';
-import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
 /*
   index?: //(optional) parameter in case it is needed to know the position of the object in its current array
@@ -104,25 +103,28 @@ export interface Type2CarouselItem {
 
 export class SliderCarousel implements OnInit {
   @Input() carouselData: Array<SliderCarouselInput>;
-  @Input() backgroundImage: string;
+  @Input() backgroundImage: SafeUrl;
   @Input() indexInput: any;//this is an optional Input to determine where the current index is currently positioned. otherwise set the defaul indexInput to 0;
   @Input() footerStyle: any;
 
-  public indexNum = new EventEmitter();//interface for the output to return an index
+  /**
+   * interface for the output to return an index
+   */
+  public indexNum = new EventEmitter(true); //async = true 
   public dataPoint: SliderCarouselInput;
 
-  constructor() {
+  constructor(private _sanitizer: DomSanitizationService) {
   }
 
   response(event){
     //set the data event being emitted back from the carousel component
     this.dataPoint = event;
     if ( this.dataPoint.backgroundImage ) {
-      this.backgroundImage = this.dataPoint.backgroundImage;
+      this.backgroundImage = this._sanitizer.bypassSecurityTrustUrl(this.dataPoint.backgroundImage);
     }
     else {
       //var randomIndex = Math.random() > .5 ? 1 : 2;
-      this.backgroundImage = '/app/public/Image-Placeholder-2.jpg';
+      this.backgroundImage = this._sanitizer.bypassSecurityTrustUrl('/app/public/Image-Placeholder-2.jpg');
     }
     //sets the index of the dataPoint of its current position in the array
     // the '?' meaning if there is data to even receive
@@ -139,7 +141,7 @@ export class SliderCarousel implements OnInit {
   ngOnInit() {
     //incase there is no backgroundImage being return set the default background
     if(typeof this.backgroundImage == 'undefined'){
-      this.backgroundImage = '/app/public/Image-Placeholder-1.jpg';
+      this.backgroundImage = this._sanitizer.bypassSecurityTrustUrl('/app/public/Image-Placeholder-1.jpg');
     }
 
     //In case of errors display below

@@ -1,5 +1,5 @@
 <section *ngIf="profileHeaderData" class="module-container ph">
-  <div class="ph-banner-image" [ngStyle]="{'background-image': backgroundImage}">  
+  <div class="ph-banner-image" [style.background-image]="backgroundImage">  
     <div class="ph-hdr">
       <div class="ph-hdr-date">Last Updated: {{displayDate}}</div>
       <div class="ph-hdr-title" [innerHtml]="profileTitle"></div>

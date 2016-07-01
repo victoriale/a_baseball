@@ -1,6 +1,6 @@
 <section *ngIf="data && !data.hasError" class="module-container daily-update">
   <module-header [modHeadData]="headerInfo"></module-header>
-    <div class="daily-update-hero" [ngStyle]="{'background': 'url(' + backgroundImage + ') top center no-repeat', 'background-size': 'cover'}">
+    <div class="daily-update-hero" [style.background-image]="backgroundImage">
       <h3 class="daily-update-hero-title">{{profileName}}'s Daily Update</h3>
     </div>
     <div class="container-fluid">

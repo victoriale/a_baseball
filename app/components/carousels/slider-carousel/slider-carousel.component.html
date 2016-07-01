@@ -4,7 +4,7 @@
     <!-- slider carousel component placeholder section -->
     <div class="scc-placeholder">
       <div class="scc-slide-background">
-        <img *ngIf="backgroundImage" src="{{backgroundImage}}"  class="scc-slide-background-image" />
+        <img *ngIf="backgroundImage" [src]="backgroundImage"  class="scc-slide-background-image" />
       </div>
       <!-- slider next/previous buttons -->
       <!-- center section where images and descriptions details display -->
@@ -25,6 +25,7 @@
             <div *ngIf="description.textData" [ngClass]="description.class" [ngStyle]="description.style">
               <complex-inner-html [textItems]="description.textData"></complex-inner-html>
             </div>
+            <!--deprecated version-->
             <span *ngIf="description.linkObj" [ngStyle]="description.wrapperStyle"><span [innerHTML]="description.beforeLink"></span><a class="text-heavy-link" [routerLink]="description.linkObj" [innerHTML]="description.linkText"></a><span [innerHTML]="description.afterLink"></span></span>
             <span *ngIf="!description.textData && !description.linkObj" [innerHTML]="description"></span>
           </div>

@@ -1,4 +1,5 @@
 import {Component, Input, OnChanges} from '@angular/core';
+import {DomSanitizationService, SafeStyle} from '@angular/platform-browser';
 import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
 import {LoadingComponent} from '../../components/loading/loading.component';
@@ -40,7 +41,7 @@ export class ProfileHeaderModule implements OnChanges {
     public contentTitle: string = "Quick info";
     public displayDate: string;
     public profileTitle: string;
-    public backgroundImage: string;
+    public backgroundImage: SafeStyle;
     
     public imageConfig: CircleImageData = {
       imageClass: "image-180",
@@ -59,7 +60,7 @@ export class ProfileHeaderModule implements OnChanges {
       }
     }; 
 
-    constructor() {}
+    constructor(private _sanitizer: DomSanitizationService) {}
     
     ngOnChanges() {
       var data = this.profileHeaderData;
@@ -71,7 +72,7 @@ export class ProfileHeaderModule implements OnChanges {
           data.profileImageUrl = "/app/public/no-image.png";
         }
         this.imageConfig.mainImage.imageUrl = data.profileImageUrl;
-        this.backgroundImage =  "url(" + data.backgroundImageUrl + ")";
+        this.backgroundImage = this._sanitizer.bypassSecurityTrustStyle("url('" + data.backgroundImageUrl + "')");
         this.contentTitle = "Quick info about " + data.profileName;
         this.profileTitle = data.profileTitleFirstPart + "<span class='text-heavy'> " + data.profileTitleLastPart + "</span>";
         this.displayDate = GlobalFunctions.formatUpdatedDate(data.lastUpdatedDate);
@@ -80,3 +81,4 @@ export class ProfileHeaderModule implements OnChanges {
       }
     }
 }
+
