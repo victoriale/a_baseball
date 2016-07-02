@@ -1,0 +1,5 @@
+<section class="module-container schedules">
+  <module-header [modHeadData]="modHeadData"></module-header>
+  <schedules-component *ngIf="data" [carouselData]="data.carData" [data]="data.data" [tabs]="tabData" (tabSelected)="tabSelected($event)" ></schedules-component>
+  <module-footer [footerData]="footerData"></module-footer>
+</section>

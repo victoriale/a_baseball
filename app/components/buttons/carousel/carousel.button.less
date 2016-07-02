@@ -1,0 +1,49 @@
+@ButtonLocation: 50px;
+.prev{
+  color: @white;
+  font-size: 36px;
+  margin-top: @ButtonLocation;
+  padding-top: 20px;
+  float: left;
+  height: 80px;
+  width: 40px;
+  border-radius: 0 80px 80px 0;
+  -moz-border-radius: 80px 80px 0 0;
+  -webkit-border-radius: 0 80px 80px 0;
+  background-color: @black;
+  text-align: center;
+  align-items: flex-start;
+  cursor: pointer;
+  .no-select;
+  &:hover{
+    background-color: @masterBrandColor;
+    color: @black;
+    i{
+      color: @white;
+    }
+  }
+}
+.next{
+  color: @white;
+  font-size: 36px;
+  margin-top: @ButtonLocation;
+  padding-top: 20px;
+  float: right;
+  height: 80px;
+  width: 40px;
+  border-radius: 80px 0 0 80px;
+  -moz-border-radius: 80px 80px 0 0;
+  -webkit-border-radius: 80px 0 0 80px;
+  background: @black;
+  text-align: center;
+  align-item: flex-end;
+  cursor: pointer;
+  .no-select;
+  &:hover{
+    background-color: @masterBrandColor;
+    color: @white;
+    i{
+      color: @white;
+    }
+  }
+}

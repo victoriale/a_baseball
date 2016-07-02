@@ -1,0 +1,12 @@
+<div class="mvp-container">
+  <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray" [footerStyle]="carouselFooter"></slider-carousel>
+  <tabs *ngIf="tabs" (tabSelected)='tabSelected($event)'>
+    <tab *ngFor="let tab of tabs; let i = index" [active]="tab.tabDisplayTitle == selectedTabTitle" [tabTitle]="tab.tabDisplayTitle">
+      <div class="mvp-container-list" style="margin:-10px"> <!-- due to tab having a default value of padding 10px for tab purposes so we just reverse it with margin -->
+          <detailed-list-item *ngIf="detailedDataArray" [detailedItemData]='detailedDataArray'></detailed-list-item>
+          <no-data-box *ngIf="!detailedDataArray && tab.isLoaded && tab.errorData" [data]="tab.errorData.data" [icon]="tab.errorData.icon"></no-data-box>
+          <loading-component *ngIf="!detailedDataArray && !tab.isLoaded"></loading-component>
+      </div>
+    </tab>
+  </tabs>
+</div>

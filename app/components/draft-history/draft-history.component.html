@@ -1,0 +1,12 @@
+<slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray"></slider-carousel>
+<tabs *ngIf="dataArray" (tabSelected)='selectedTab($event)'>
+  <tab *ngFor="let data of dataArray; let i = index" [active]="i == 0" [tabTitle]="data.tabTitle">
+    <div class="draft-container" style="margin:-10px">
+      <detailed-list-item *ngIf="data.detailedDataArray" [detailedItemData]="data.detailedDataArray"></detailed-list-item>      
+    </div>
+    <loading-component *ngIf="!data.isLoaded"></loading-component>
+    <div *ngIf="!data.detailedDataArray && data.isLoaded && data.errorMessage" class="draft-no-data">
+      <no-data-box [data]="data.errorMessage" [icon]="'fa fa-remove'"></no-data-box>
+    </div>
+  </tab>
+</tabs>

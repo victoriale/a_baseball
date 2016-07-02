@@ -1,0 +1,6 @@
+<section class="module-container tweet" *ngIf="twitterData">
+  <module-header [modHeadData]="headerInfo"></module-header>
+  <section class="tweet-embedded">
+    <a id="twitter-href" class="twitter-timeline" [href]="twitterData.twitterUrl" [attr.data-widget-id]="twitterData.twitterApi">Tweets by {{twitterData.twitterUserName}}</a>
+  </section>
+</section>

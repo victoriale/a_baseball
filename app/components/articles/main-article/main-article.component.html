@@ -1,0 +1,23 @@
+<div class="main-article">
+    <span *ngIf="eventType">
+        <a [routerLink]="['Article-pages', {eventType: eventType, eventID: mainEventID}]">
+            <span class="articleBoxLarge">
+                <img src="{{mainImage}}" onerror="this.src='/app/public/no-image.png'"/>
+                <div>
+                    <p>View this Article</p>
+                </div>
+            </span>
+            <div class="main-article-container">
+                <div class="main-article-container-title" style="{{titleFontSize}}">
+                    {{mainTitle}}
+                </div>
+                <div class="main-article-container-content">
+                    {{mainContent}}... <span class="main-article-container-content-read-more">Read More</span>
+                </div>
+                <!--<div class="main-article-container-source">By&nbsp;-->
+                <!--<span class="main-article-container-source-b"> Hoopsloyal Columnist</span>-->
+                <!--</div>-->
+            </div>
+        </a>
+    </span>
+</div>

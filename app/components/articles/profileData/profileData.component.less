@@ -1,0 +1,280 @@
+.comparison {
+  width: 580px;
+  height: 198px;
+  font-family: @globalFont;
+  &-hr {
+    background-color: @strokeGrey;
+    width: 582px;
+    height: 1px;
+    margin: 0 auto;
+    margin: 25px 0 25px 0;
+  }
+
+  &-single {
+    width: 100%;
+    height: 100%;
+    &-logo {
+      border-radius: 50%;
+      border: 2px solid @strokeGrey;
+      box-sizing: border-box;
+      background-color: @white;
+      width: 125px;
+      height: 125px;
+      display: block;
+      margin: 0 auto;
+      background-position: center center;
+      background-size: contain;
+    }
+    &-team {
+      margin-top: 5px;
+      margin-left: 0;
+      max-width: 100%;
+      .globalDefaultFont(18px, 700);
+      text-align: center;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    &-record {
+      margin-top: 5px;
+      margin-left: 0;
+      max-width: 100%;
+      .globalDefaultFont(12px, 400);
+      text-align: center;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  }
+
+  &-roster {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    bottom: 10px;
+    &-images {
+      width: 100%;
+      margin: 0 auto;
+      position: relative;
+    }
+    &-circles {
+      width: 100%;
+      height: 130px;
+      position: relative;
+      &-player-image {
+        border-radius: 50%;
+        border: 2px solid @strokeGrey;
+        box-sizing: border-box;
+        background-color: @white;
+        width: 125px;
+        height: 125px;
+        position: absolute;
+        top: 15px;
+        left: 39%;
+        z-index: 1;
+        background-position: center center;
+        background-size: contain;
+      }
+    }
+    &-player {
+      margin-top: 5px;
+      margin-left: 0;
+      max-width: 100%;
+      .globalDefaultFont(18px, 700);
+      text-align: center;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      top: 150px;
+    }
+    &-position {
+      margin-top: 5px;
+      margin-left: 0;
+      max-width: 100%;
+      .globalDefaultFont(14px, 400);
+      text-align: center;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      top: 150px;
+      line-height: 20px;
+    }
+  }
+
+  &-upcoming{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    bottom: 10px;
+    &-images {
+      width: 100%;
+      margin: 0 auto;
+      position: relative;
+    }
+    &-circles {
+      width: 100%;
+      height: 130px;
+      position: relative;
+      &-home-logo {
+        border-radius: 50%;
+        border: 2px solid @strokeGrey;
+        box-sizing: border-box;
+        background-color: @white;
+        width: 125px;
+        height: 125px;
+        position: absolute;
+        top: 15px;
+        left: 10%;
+        z-index: 1;
+        background-position: center center;
+        background-size: contain;
+      }
+      &-date {
+        .globalDefaultFont(14px, 400);
+        text-align: center;
+        position: relative;
+        top: 45px;
+      }
+      &-away-logo {
+        border: 2px solid @strokeGrey;
+        border-radius: 50%;
+        position: absolute;
+        background-color: @white;
+        width: 125px;
+        height: 125px;
+        z-index: 0;
+        top: 15px;
+        right: 10%;
+        background-position: center center;
+        background-size: contain;
+        &:hover {
+          z-index: 1;
+        }
+      }
+    }
+    &-home-info {
+      width: 42%;
+      float: left;
+      &-team {
+        .globalDefaultFont(18px, 800);
+        margin: 0 auto;
+        text-align: center;
+        position: relative;
+        top: 90px;
+      }
+      &-record {
+        .globalDefaultFont(14px, 800);
+        margin: 0 auto;
+        text-align: center;
+        padding-top: 5px;
+        position: relative;
+        top: 90px;
+      }
+    }
+    &-away-info {
+      width: 42%;
+      float: right;
+      &-team {
+        .globalDefaultFont(18px, 800);
+        margin: 0 auto;
+        text-align: center;
+        position: relative;
+        top: 90px;
+      }
+      &-record {
+        .globalDefaultFont(14px, 800);
+        margin: 0 auto;
+        text-align: center;
+        padding-top: 5px;
+        position: relative;
+        top: 90px;
+      }
+    }
+  }
+
+  &-player {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    bottom: 10px;
+    &-circles {
+      width: 100%;
+      height: 130px;
+      position: relative;
+      &-circle1 {
+        border-radius: 50%;
+        border: 2px solid @strokeGrey;
+        box-sizing: border-box;
+        background-color: @white;
+        width: 125px;
+        height: 125px;
+        position: absolute;
+        top: 15px;
+        left: 60px;
+        z-index: 1;
+        background-position: center center;
+        background-size: contain;
+      }
+      &-circle2 {
+        border-radius: 50%;
+        border: 2px solid @strokeGrey;
+        box-sizing: border-box;
+        background-color: @white;
+        width: 125px;
+        height: 125px;
+        position: absolute;
+        top: 15px;
+        right: 60px;
+        z-index: 1;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: contain;
+      }
+      &-vs {
+        .globalDefaultFont(16px, 400);
+        position: relative;
+        width: 10px;
+        margin: 0 auto;
+        top: 65px;
+      }
+    }
+    &-profile-info-left {
+      width: 34%;
+      float: left;
+      position: relative;
+      left: 25px;
+      top: 15px;
+      &-profile-name1 {
+        .globalDefaultFont(18px, 800);
+        margin: 0 auto;
+        text-align: center;
+      }
+      &-profile-data1 {
+        .globalDefaultFont(14px, 400);
+        margin: 0 auto;
+        text-align: center;
+        padding-top: 5px;
+      }
+    }
+    &-profile-info-right {
+      width: 34%;
+      float: right;
+      position: relative;
+      right: 25px;
+      top: 15px;
+      &-profile-name2 {
+        .globalDefaultFont(18px, 800);
+        margin: 0 auto;
+        text-align: center;
+      }
+      &-profile-data2 {
+        .globalDefaultFont(14px, 400);
+        margin: 0 auto;
+        text-align: center;
+        padding-top: 5px;
+      }
+    }
+  }
+}

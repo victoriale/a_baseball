@@ -1,0 +1,20 @@
+<div *ngIf="footerData && footerStyle" class="module-footer {{footerStyle.ctaBoxClass}}">
+  <span class="mf-text">{{footerData.infoDesc}}</span>
+  <span class="list-button">
+    <!--button component goes here-->
+    <!--put inside button when ready [routerLink]="footerData.url"-->
+    <a *ngIf="!footerData.hrefUrl" [routerLink]="footerData.url" class="{{footerStyle.ctaBtnClass}}">
+    <!-- <button class="{{footerStyle.ctaBtnClass}}"> -->
+      <span *ngIf="footerStyle.hasIcon" class="module-footer-icon"></span>
+      <span class="module-footer-text">{{footerData.text}}</span>
+      <i class="module-footer-text fa fa-angle-right"></i>
+    </a>
+    <a *ngIf="footerData.hrefUrl" href="{{footerData.url}}" class="{{footerStyle.ctaBtnClass}}">
+    <!-- <button class="{{footerStyle.ctaBtnClass}}"> -->
+      <span *ngIf="footerStyle.hasIcon" class="module-footer-icon"></span>
+      <span class="module-footer-text">{{footerData.text}}</span>
+      <i class="module-footer-text fa fa-angle-right"></i>
+    </a>
+    <!--button component goes here-->
+  </span>
+</div>

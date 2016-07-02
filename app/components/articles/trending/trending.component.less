@@ -1,0 +1,42 @@
+.trending {
+  width: 580px;
+  font-family: @globalFont;
+  &-hr {
+    background-color: #cccccc;
+    width: 582px;
+    height: 1px;
+    margin: 0 auto;
+  }
+  &-main-title {
+    .globalDefaultModFont(24px, 800, @textEmphasisGrey);
+    line-height: 25px;
+    text-align: center;
+    border-bottom: solid @investKitBlue 4px;
+    width: 325px;
+    margin: 25px auto;
+    padding-bottom: 3px;
+  }
+  &-article-title {
+    .globalDefaultFont(32px, 800);
+    text-align: left;
+  }
+  &-article-content {
+    .globalDefaultFont(16px, 400);
+    text-align: left;
+    line-height: 20px;
+    &:first-letter {
+      .globalDefaultFont(120px, 800);
+      float: left;
+      line-height: 80px;
+      padding-top: 10px;
+      padding-right: 25px;
+      font-style: italic;
+    }
+  }
+  &-read-more {
+    .globalDefaultModFont(16px, 800, @masterBrandColor);
+    line-height: 35px;
+    text-align: left;
+    margin: 10px 0 25px;
+  }
+}

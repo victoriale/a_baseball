@@ -1,0 +1,32 @@
+@hoverColor: @masterBrandColor;
+.circles{
+  background-color: @masterButtonBackground;
+  border: 2px solid @white;
+  border-radius: 50%;
+  color: @white;
+  cursor: pointer;
+  font-size: 28px;
+  font-weight: 400;
+  height: 46px;
+  width: 46px;
+  top: 50%;
+  transform: translateY(-50%);
+  position: absolute;
+  z-index: 1;
+  .flexDisplay;
+  .flexAlignItems(center);
+  .flexJustify(center);
+  .no-select;
+
+  &-right {
+    right: 15px;
+  }
+
+  &-left {
+    left: 15px;
+  }
+  &:hover{
+    border-color: @black;
+    background-color: @black;
+  }
+}

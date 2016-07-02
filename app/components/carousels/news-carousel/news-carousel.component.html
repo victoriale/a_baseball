@@ -1,0 +1,17 @@
+<carousel *ngIf="carouselData" [carouselData]="carouselData" (carouselDataPoint)="response($event)" [indexInput]="indexInput">
+  <!-- check if data is available and/or valid -->
+  <div class="news">
+    <div class="news-placeholder">
+      <div class="news-text">
+        <div class="news-headline"></div>
+        <div class="news-preview"></div>
+        <div class="news-footer">
+          <span class="news-footer-author"></span>
+          <span class="news-footer-created"></span>
+          <div (click)="locateShareThis()" class="news-footer-share st_sharethis_large"><i class="fa fa-share-alt"> Share</i></div>
+        </div>
+      </div>
+    </div>
+    <!-- placeholder ends -->
+  </div>
+</carousel>

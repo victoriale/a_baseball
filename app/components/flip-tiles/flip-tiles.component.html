@@ -1,0 +1,21 @@
+<div class='flpy'>
+    <div class='flpy-col'>     
+        <div *ngFor="let tile of tileData" class='flpy-container'>
+            <div class='flpy-flipper'>
+                <div class='flpy-side flpy-front'>
+                    <div class="flpy-front-icon"><i class='fa {{tile.faIcon}}'></i></div>
+                    <h4 class="flpy-front-title">{{tile.title}}</h4>
+                </div>
+                <a [routerLink]="tile.routerInfo" class='flpy-side flpy-back'>
+                    <div>
+                        <h4 class="flpy-back-title"><i class='fa {{tile.faIcon}}'></i> {{tile.title}}</h4>
+                        <p class="flpy-back-desc">{{tile.description}}</p>
+                    </div>
+                    <div class="flpy-back-bottom">
+                        <div class="flpy-back-btn">{{tile.buttonText}} <i class='fa fa-mail-forward'></i></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

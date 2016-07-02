@@ -1,0 +1,184 @@
+.comparison-bar{
+  &-container{
+    border-top: 1px solid @highlightGrey;
+    font-family: Lato;
+    padding: 10px 20px;
+
+    &.background-even {
+      background-color: @backgroundGrey;
+    }
+  }
+
+  &-title{
+    font-size: 16px;
+  }
+
+  &-qualifier {
+    .globalDefaultModFont(10px, 400, @bulletGrey);
+    padding-left: 6px;
+  }
+
+  &-capsule{
+    background-color: @highlightGrey;
+    border: 1px solid @backgroundGrey;
+    border-radius: 15px;
+    height: 15px;
+    margin-top: 2px;
+    margin-bottom: 15px;
+    position: relative;
+
+    &-stroke{
+      width: 0%;
+      border-radius: 15px;
+      bottom: 0px;
+      height: 100%;
+      left: 0px;
+      position: absolute;
+      transition: 1s width;
+      -webkit-transition: 1s width;
+      border-right: 1px solid @backgroundGrey;
+
+      &.stroke-top{
+        z-index: 5;
+      }
+    }
+
+    &-label{
+      top: 16px;
+      font-size: 14px;
+      font-weight: 400;
+      position: absolute;
+      right: 1px;
+      opacity: 1;
+      transition: 1s top, 1s right, 1s bottom;
+      -webkit-transition: 1s top, 1s right, 1s bottom;
+
+      &.label-top{
+        top: -17px;
+        right: -10px;
+        .flexDisplay;
+        .flexDirection(row);
+        &.active{
+          .fa-info-circle{
+            color: @black;
+          }
+        }
+      }//.label-top ends
+    }
+  }
+}
+.infobox{
+  &-values{
+    .flexDisplay;
+    .flexDirection(column);
+  }
+  &-value1{
+    padding-right: 5px;
+  }
+  &-icons{
+    height: 21px;
+    .flexDisplay;
+    .flexDirection(column);
+    .fa{
+      font-size: 10px;
+      cursor: pointer;
+      color: @masterBrandColor;
+      padding: 0;
+    }
+    .fa-sort-up{
+      color: @white;
+      visibility: hidden;
+      font-size: 16px;
+      padding: 5px 0;
+      text-align: center;
+      z-index: 6;
+      &.active{
+        visibility: visible;
+      }
+    }
+  }
+  &-box{
+    width: 226px;
+    min-height: 64px;
+    max-height: 194px;
+    overflow: auto;
+    background-color: @white;
+    border: 1px solid @highlightGrey;
+    display: none;
+    z-index: 5;
+    .fa-angle-right{
+      font-size: 30px;
+    }
+    &.active{
+      display: block;
+    }
+  }
+
+  &-display{
+    .flexDisplay;
+    .flexJustify(flex-end);
+    margin-right: 10px;
+  }
+
+  &-list{
+    padding-top: 8px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid @highlightGrey;
+    &-item{
+      .flexDisplay;
+      .flexJustify(flex-start);
+      position: relative;
+      &:hover{
+        .fa-angle-right{
+          color: @masterBrandColor;
+        }
+        .border-3 img{
+          box-shadow: 0 0 0 2px @white;
+        }
+        .infobox-list-playerName{
+          color: @black;
+        }
+        .image-round-hover div{
+          display: flex;
+        }
+      }
+    }
+    &-details{
+      text-overflow: ellipsis;
+      overflow: hidden;
+      width: 130px;
+      padding-right: 5px;
+      margin-top: 11px;
+      height: 1em;
+    }
+    &-view{
+      margin-top: 5px;
+    }
+    &-playerName{
+      .globalDefaultModFont(14px, 800, @masterBrandColor);
+
+    }
+    &-team{
+      position: absolute;
+      font-style: italic;
+      top: 54px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 130px;
+      left: 66px;
+      .globalDefaultModFont(12px, 400, @masterBrandColor);
+      &:hover{
+        color: @black;
+      }
+    }
+    &-teamName{
+      font-weight: 800;
+      font-style: normal;
+      line-height: 12px;
+    }
+    &-image{
+      margin: 4px 12px 0 12px;
+      height: 42px;
+    }
+  }
+}

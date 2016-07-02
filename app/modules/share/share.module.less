@@ -1,0 +1,90 @@
+.share {
+  &-container {
+    background-color: @white;
+    font-family: @globalFont;
+  }
+
+  &-main{
+    .flexDisplay;
+
+    &-image{
+      margin: 10px 10px 15px 20px;
+      -webkit-flex:1 0 auto; /* needed for Safari, otherwise columns overlap */
+    }
+
+    &-content{
+      margin: 36px 0 0 0;
+      padding-left: 15px;
+      font-size: 24px;
+      font-weight: 400;
+
+      &-text{
+        margin-bottom: 16px;
+      }
+
+      &-buttons{
+        .clearfix;
+
+        &-item{
+          height: 40px;
+          width: 200px;
+          background-color: @facebook;
+          .borderRadiusPrefix(5px);
+          margin: 0 15px 15px 0;
+          display: block;
+          float: left;
+          line-height: 34px;
+          span{
+            vertical-align: middle;
+          }
+          & > span:first-child {
+            width: 25px;
+            height: 25px;
+            margin: 10px 0 0 20px;
+            color: @white;
+            font-size: 18px;
+            font-weight: 400;
+          }
+          & > span:nth-child(2) {
+            .globalDefaultModFont(12px, 800, @white);
+            margin-left: 10px;
+          }
+          &:active {
+            background-color: @black;
+          }
+          //Facebook Button Styles
+          &.facebook{
+            background-color: @facebook;
+            &:hover {
+              background-color: darken(@facebook, 10%);
+            }
+            &:active {
+              background-color: @black;
+            }
+          }
+          //Twitter Button Styles
+          &.twitter{
+            background-color: @twitter;
+            &:hover {
+              background-color: darken(@twitter, 10%);
+            }
+          }
+          //Google Button Styles
+          &.google{
+            background-color: @googlePlus;
+            &:hover {
+              background-color: darken(@googlePlus, 10%);
+            }
+          }
+          //Pinterest Button Styles
+          &.pinterest{
+            background-color: @pinterest;
+            &:hover {
+              background-color: darken(@pinterest, 10%);
+            }
+          }
+        }
+      }
+    }
+  }
+}

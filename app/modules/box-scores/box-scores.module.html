@@ -1,0 +1,40 @@
+<div class="module-container box-scores" *ngIf="calendarParams">
+  <module-header *ngIf="boxScores" [modHeadData]="boxScores.moduleTitle"></module-header>
+  <!--for calendar-->
+  <calendar-carousel [chosenParam]="calendarParams" (dateEmit)="dateTransfer($event)"></calendar-carousel>
+  <!--for calendar-->
+
+  <!--for team profile-->
+  <article-schedule-component *ngIf=" calendarParams.profile != 'league' && boxScores" [homeData]="boxScores.schedule.home" [awayData]="boxScores.schedule.away"></article-schedule-component>
+  <div *ngIf="boxScores && boxScores.gameInfo[0].length > 1 && calendarParams.profile != 'league'" class="box-scores-moregames">
+    <div *ngFor="let gameInfo of boxScores.gameInfo" class="box-scores-mult">
+      <div class="box-scores-mult-title">
+        <span class="text-heavy">{{gameInfo[gameNum].game.homeData.homeTeamName}}</span>
+        <span>vs</span>
+        <span class="text-heavy">{{gameInfo[gameNum].game.awayData.awayTeamName}}</span>
+        <span class="text-heavy">: Game {{gameNum+1}}</span>
+      </div>
+      <div class="box-scores-mult-game">
+        <div class="box-scores-mult-button" [class.selected]="i == gameNum" *ngFor="let game of gameInfo; let i = index" (click)="changeGame(i)">Game {{i+1}}</div>
+      </div>
+    </div>
+  </div>
+  <!--box-scores info-->
+  <div *ngIf="boxScores" class="box-scores-info">
+    <div *ngFor="let gameBox of boxScores.gameInfo; let i = odd" class="box-scores-info-container" [class.odd]="i" [class.even]="!i">
+      <!--game info that affects only how league box scores are displayed-->
+      <div *ngIf=" calendarParams.profile == 'league' " >
+        <game-info  *ngFor="let game of gameBox; let g = index" [ngClass]="{'float-left':g % 2 == 0,'float-right':g % 2 == 1}"[gameInfo]="game.game"></game-info>
+      </div>
+      <!--game info that affects only how team box scores are displayed-->
+      <div *ngIf=" calendarParams.profile != 'league' " >
+        <game-info *ngIf=" calendarParams.profile != 'league' " class="float-left" [gameInfo]="gameBox[gameNum].game"></game-info>
+        <game-article  *ngIf=" calendarParams.profile != 'league' " class="float-right" [gameArticle]="gameBox[gameNum].aiContent"></game-article>
+      </div>
+    </div>
+  </div>
+  <score-board *ngIf=" calendarParams.profile != 'league' && boxScores" [scoreBoard]="boxScores.scoreBoard"></score-board>
+  <!--box-scores info END-->
+
+  <!--end team profile-->
+</div>

@@ -1,0 +1,125 @@
+.footer{
+  height: auto;
+  &-top{
+    .flexDisplay;
+    .flexJustify(space-between);
+    .flexAlignItems(center);
+    background-color: @textEmphasisGrey;
+    padding: 0 130px;
+    min-height: 60px;
+    img{
+      margin: 9px auto;
+      height: 40px;
+    }
+    ul{
+      .flexDisplay;
+      .flexJustify(space-between);
+      text-align: center;
+      width: 200px;
+      li{
+        border-radius: 50%;
+        border: 1px solid @bulletGrey;
+        .globalDefaultModFont(20px, 400, @highlightGrey);
+        height: 40px;
+        width: 40px;
+        i{
+          padding-top: 10px;
+        }//i ends
+      }// ul li ends
+    }// ul ends
+  }// footer-top ends
+
+  &-main{
+    background-color: @fontIconGrey;
+    height: auto;
+    padding-bottom: 20px;
+    .globalDefaultModFont(14px, 400, @white);
+    .flexAlignItems(center);
+    .flexDisplay;
+    .flexDirection(column);
+    h1{
+      .globalDefaultModFont(30px, 800, @white);
+    }// h1 ends
+    ul{
+      .flexDisplay;
+      .flexWrap(wrap);
+      .flexJustify(center);
+      width: 56%;
+      .sortCategory{
+        padding-right: 12px;
+      }
+
+      li{
+        line-height: 25px;
+        padding-right: 5px;
+        span{
+          color: @bulletGrey;
+        }
+        i{
+          padding: 5px;
+        }
+        &:hover{
+          a{
+            color: @masterBrandColor;
+          }
+        }
+        &:last-child{
+          span{
+            visibility: hidden;
+          }
+        }
+      }//li ends
+    }// ul ends
+    hr{
+      width: 70%;
+    }
+
+  }// footer-main ends
+  &-text1{
+    a{
+      .globalDefaultModFont(14px, 800, @masterBrandColor);
+    }
+  }//footer-text1 ends
+  &-line3{
+    width: 70%;
+  }
+}//footer ENDS
+#share-facebook{
+  &:hover, &:active{
+    border-color: @facebook;
+    background-color: @facebook;
+    .fa{
+      color: @white;
+    }
+  }
+}
+#share-twitter{
+  &:hover, &:active{
+    border-color: @twitter;
+    background-color: @twitter;
+    .fa{
+      color: @white;
+    }
+  }
+}
+#share-linkedin{
+  &:hover, &:active{
+    border-color: @linkedin;
+    background-color: @linkedin;
+    .fa{
+      color: @white;
+    }
+  }
+}
+#share-google{
+  &:hover, &:active{
+    border-color: @googlePlus;
+    background-color: @googlePlus;
+    .fa{
+      color: @white;
+    }
+  }
+}
+#set-width70{
+  width: 70%;
+}

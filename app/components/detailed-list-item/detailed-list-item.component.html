@@ -1,0 +1,33 @@
+<!--ngFor loop here and add background color class within dli-container-->
+  <div *ngFor="let details of detailedItemData; let i = odd" class="dli-container" [ngClass]="{'odd': i == true}">
+    <div class="dli-container-left">
+      <circle-image [data]="details.imageConfig"></circle-image>
+    </div>
+    <div class="dli-container-right">
+      <!--put in right box styles-->
+      <div class="dataBox">
+        <div class="dataBox-info" *ngFor="let data of details.dataPoints" [ngClass]="data.style">
+          <i class="{{data.icon}}"></i>
+          <span class="databox-info-text">
+            <complex-inner-html [textItems]="data.leftText"></complex-inner-html>
+          </span>
+          <span class="databox-info-text-right">
+            <complex-inner-html [textItems]="data.rightText"></complex-inner-html>
+          </span>
+        </div>
+      </div>
+      <!--cta container-->
+      <div class="cta-container">
+        <span [innerHTML]="details.ctaDesc"></span>
+        <span>
+          <!--button component goes here-->
+          <a [routerLink]="details.ctaUrl">
+            <span></span>
+            <span [innerHTML]="details.ctaText"></span>
+            <i class="fa fa-angle-right"></i>
+          </a>
+          <!--button component goes here-->
+        </span>
+      </div>
+    </div>
+  </div>

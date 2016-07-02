@@ -1,0 +1,17 @@
+<section class='module-container share-container'>
+    <module-header [modHeadData]="moduleHeaderData"></module-header>
+    <div class="share-main">
+        <div class="share-main-image">
+            <circle-image [data]="imageData"></circle-image>
+        </div>
+        <div class="share-main-content">
+            <div class="share-main-content-text">{{shareText}}</div>
+            <div class="share-main-content-buttons">
+                <a *ngFor="let item of shareButtons" href="{{item.url}}" class="share-main-content-buttons-item {{item.class}}" target="_blank">
+                    <span><i class='fa {{item.icon}}'></i></span>
+                    <span>{{item.text}}</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>

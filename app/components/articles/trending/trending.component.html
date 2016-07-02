@@ -1,0 +1,23 @@
+<div class="trending">
+    <div class="trending-hr"></div>
+    <div class="trending-main-title">RECOMMENDED ARTICLES</div>
+    <div class="trending-hr"></div>
+    <span *ngFor="let data of randomArticles; let i=index">
+        <shareLinks-component></shareLinks-component>
+        <div class="trending-article-title">{{data.title}}</div>
+        <div class="arpt">
+            <!--<div class="arpt-author">-->
+                <!--<div class="arpt-author-image"></div>-->
+                <!--<div class="arpt-author-text">-->
+                    <!--By <span class="arpt-author-text-name">Hoopsloyal Columnist</span>-->
+                <!--</div>-->
+            <!--</div>-->
+            <div class="arpt-date">{{data.date}}</div>
+        </div>
+        <div class="trending-article-content">{{data.content}}</div>
+        <a href="#">
+            <div class="trending-read-more">Read the Full Article <i class="fa fa-arrow-right"></i></div>
+        </a>
+        <div class="trending-hr"></div>
+    </span>
+</div>

@@ -1,0 +1,153 @@
+.custom-table {
+  width: 100%;
+  // table-layout: fixed;
+
+  &-header {
+    position: relative;
+    padding: 8px 12px 8px 2px;
+    text-align: center;
+    .globalDefaultFont(12px, 400);
+    border: @strokeGrey 1px solid;
+
+    // margin-left: 5px;
+    margin-bottom: 10px;
+
+    &-sort:hover {
+      border-color: @masterBrandColor;
+      cursor: pointer;
+    }
+
+    &-name {
+      text-transform: uppercase;
+    }
+  }
+
+  &-sort {
+    position: absolute;
+    right: 4px;
+  }
+
+  th+th &-header {
+    margin-left: 5px;
+  }
+
+  /** regular body and cell definitions **/
+  &-body {
+    tr {
+      height: 70px;
+    }
+
+    td {
+      position: relative;
+    }
+
+    &-cell {
+      .globalDefaultFont(16px, 400);
+      padding: 6px;
+      line-height: 18px;
+    }
+  }
+
+  /** compact body and cell definitions **/
+  &-compact {
+    tr {
+      height: 50px;
+    }
+
+    &-cell {
+      .globalDefaultFont(12px, 400);
+      padding: 10px 6px;
+      line-height: 14px;
+    }
+  }
+
+  td+td .custom-table-body-cell,
+  td+td .custom-table-compact-cell {
+    margin-left: 5px;
+  }
+
+  /** row definitions **/
+  &-row {
+
+    .bold-column {
+      font-weight: 800;
+      color: @masterBrandColor;
+      text-align: center;
+    }
+
+    .data-column, .date-column {
+      text-align: center;
+    }
+
+    .image-column {
+      font-weight: 800;
+      text-align: left;
+      // white-space: nowrap;
+      // overflow: hidden;
+      // text-overflow: ellipsis;
+      .image-round {
+        margin-right: 10px;
+        margin-left: 5px;
+        display: inline-block;
+      }
+      .table-cell-image {
+        .flexDisplay;
+        .flexAlignItems(center);
+        span {
+          min-height: 1em;
+          max-height: 2.25em; //approx 2x line-height
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+      a:hover {
+        color: @masterBrandColor;
+        text-decoration: none;
+        .image-round-hover {
+          div {
+            .flexDisplay;
+          }
+        }
+      }
+
+      a:focus {
+        color: @masterBrandColor;
+        text-decoration: none;
+      }
+    }
+
+    .highlight-box, .highlight-box {
+      width: 5px;
+      height:70px;
+      top: 0px;
+      bottom: 0px;
+      left: 0px;
+      position: absolute;
+    }
+
+    &-even {
+      background: @backgroundGrey;
+    }
+
+    &-selected,
+    &-selected .custom-table-compact-bold-column,
+    &-selected .custom-table-body-bold-column {
+      background-color: @lightMasterBrandColor;
+      border-color: @masterBrandColor;
+    }
+
+    &-selected .highlight-box {
+      background-color: @masterBrandColor;
+    }
+  }
+
+  /** footer definitions **/
+  &-footer {
+    td {
+      .globalDefaultFont(12px, 800);
+      text-align: center;
+    }
+
+    background: @backgroundGrey;
+  }
+}

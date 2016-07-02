@@ -1,0 +1,43 @@
+<!--GAME info-->
+<div class="game" *ngIf="gameInfo">
+  <div class="game-title">
+    <span [class.gameAfter]="gameInfo.gameHappened" [class.gameBefore]="!gameInfo.gameHappened">{{gameInfo.inning}}</span>
+    <span class="game-title-category">Runs</span>
+    <span class="game-title-category">Hits</span>
+    <span class="game-title-category">Errors</span>
+  </div>
+  <div class="game-box"><!--AWAY-->
+    <div class="game-box-main">
+      <div class="game-box-main-image">
+        <circle-image [data]="awayInfo.awayImageConfig"></circle-image>
+      </div>
+      <div class="game-box-main-details">
+        <span *ngIf="awayInfo.awayLink" class="link" [routerLink]="awayInfo.awayLink">{{awayInfo.awayTeamName}}</span>
+        <span *ngIf="!awayInfo.awayLink">{{awayInfo.awayTeamName}}</span>
+        <span>Away {{awayInfo.awayRecord}}</span>
+      </div>
+    </div>
+    <div class="game-box-values">
+      <span>{{awayInfo.runs | statHyphenValue}}</span>
+      <span>{{awayInfo.hits | statHyphenValue}}</span>
+      <span>{{awayInfo.errors | statHyphenValue}}</span>
+    </div>
+  </div><!--AWAY END-->
+  <div class="game-box"> <!--HOME-->
+    <div class="game-box-main">
+      <div class="game-box-main-image">
+        <circle-image [data]="homeInfo.homeImageConfig"></circle-image>
+      </div>
+      <div class="game-box-main-details">
+        <span *ngIf="homeInfo.homeLink" class="link" [routerLink]="homeInfo.homeLink">{{homeInfo.homeTeamName}}</span>
+        <span *ngIf="!homeInfo.homeLink">{{homeInfo.homeTeamName}}</span>
+        <span>Home {{homeInfo.homeRecord}}</span>
+      </div>
+    </div>
+    <div class="game-box-values">
+      <span>{{homeInfo.runs | statHyphenValue}}</span>
+      <span>{{homeInfo.hits | statHyphenValue}}</span>
+      <span>{{homeInfo.errors | statHyphenValue}}</span>
+    </div><!--HOME END-->
+</div>
+<!--GAME info END-->

@@ -1,0 +1,74 @@
+  <loading-component *ngIf="isLoading && !isError" ></loading-component>
+
+  <error-component *ngIf="isError"></error-component>
+
+  <div *ngIf="!isLoading && !isError">
+
+      <!-- Title and Path Name -->
+      <header class="dir-hdr">
+          <div class="dir-hdr-loc">
+              <i class="fa fa-map-marker"></i>
+              <span *ngFor="let link of data.breadcrumbList; let isList = last">
+                <a *ngIf="link.route" [routerLink]="[link.page, link.pageParams]">{{link.text}}</a>
+                <span *ngIf="!link.route">{{link.text}}</span>
+                <i *ngIf="isLast" class="fa fa-angle-right"></i>                
+              </span>
+          </div>
+          <div class="dir-hdr-title">
+              {{data.directoryListTitle}}
+          </div>
+      </header>
+
+      <!-- Navigation Links to Sub Directories -->
+      <div *ngIf="data.navigationData" class="dir-nav">
+          <div class="dir-nav-title">
+              {{data.navigationData.title}}
+          </div>
+          <div class="dir-nav-links">
+              <span *ngFor="let item of data.navigationData.links; let isLast = last">
+                <span class="dir-nav-separator">|</span>
+                <a [routerLink]="item.route" >
+                    {{item.text}}
+                </a>
+              </span>
+              <span *ngIf="data.navigationData.moreLink">
+                <span class="dir-nav-separator">|</span>
+                <a [routerLink]="data.navigationData.moreLink.route" class="dir-nav-links-more">
+                    {{data.navigationData.moreLink.text}}
+                </a>
+              </span>
+          </div>
+      </div>
+
+      <directory-pagination *ngIf="data.pagingDescription" [data]="pagingDescription" [nextLink]="nextLink" [prevLink]="prevLink"></directory-pagination>
+      
+      <!-- Directory List Data -->
+      <ul *ngIf="data.hasListings && data.listingItems" class="dir-list">
+          <li *ngFor="let item of data.listingItems.items" class="dir-list-item">
+              <p *ngIf="item.lastUpdated" class="dir-list-item-small">
+                  Last updated: {{item.lastUpdated | dateTimeStamp}}
+              </p>
+              <p class="dir-list-item-line">
+                <span *ngFor="let link of item.mainDescription; let isLast = last">
+                  <a *ngIf="link.route" [routerLink]="link.route" [innerHtml]="link.text">
+                  </a>
+                  <span *ngIf="!link.route" [innerHtml]="link.text"></span>
+                  <span *ngIf="!isLast" class="dir-list-item-separator">|</span>
+                </span>
+              </p>
+              <p class="dir-list-item-line">
+                <span *ngFor="let text of item.subDescription; let isLast = last">
+                  <span [innerHtml]="text"></span>
+                  <i *ngIf="!isLast" class="fa fa-angle-right dir-list-item-separator"></i>
+                </span>
+              </p>
+          </li>
+      </ul>
+
+      <div *ngIf="!data.hasListings" class="dir-list dir-list-noresults">
+          <no-data-box [data]="data.noResultsMessage" [icon]="'fa fa-remove'"></no-data-box>
+      </div>
+
+      <directory-pagination *ngIf="data.pagingDescription" [data]="pagingDescription" [nextLink]="nextLink" [prevLink]="prevLink"></directory-pagination>
+      
+  </div>

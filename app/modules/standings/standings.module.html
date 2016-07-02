@@ -1,0 +1,5 @@
+<section *ngIf="data" class="module-container">
+  <module-header [modHeadData]="headerInfo"></module-header>
+  <standings-component [tabs]="data.tabs" (tabSelected)="tabSelected($event)"></standings-component>
+  <module-footer [footerData]="footerInfo"></module-footer>
+</section>

@@ -1,0 +1,5 @@
+<sidekick-wrapper>
+<section class="page page-container">
+    <contactus-module *ngIf="contactusInput" [contactusInput]="contactusInput" (contactusOutput)="formSubmitted($event)"></contactus-module>
+</section>
+</sidekick-wrapper>

@@ -1,0 +1,31 @@
+.content-container {
+  text-align: left;
+  width: 580px;
+  a {
+    color: @masterBrandColor;
+    font-weight: 800;
+    &:hover {
+      color: @black;
+    }
+  }
+}
+
+.content-first {
+  margin-bottom: 0;
+  display: inline-block;
+  .globalDefaultFont(16px, 400);
+  line-height: 21px;
+  &:first-letter {
+    .globalDefaultFont(105px, 800);
+    float: left;
+    line-height: 75px;
+    padding-top: 5px;
+    padding-right: 10px;
+    font-style: italic;
+  }
+}
+
+.content {
+  .globalDefaultFont(16px, 400);
+  line-height: 21px;
+}

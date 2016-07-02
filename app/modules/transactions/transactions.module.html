@@ -1,0 +1,5 @@
+<section *ngIf="data" class="module-container transactions">
+  <module-header [modHeadData]="modHeadData"></module-header>
+  <transactions [tabs]="data.tabs" (tabSwitched)="tabSelected($event)"></transactions>  
+  <module-footer [footerData]='footerData'></module-footer>
+</section>

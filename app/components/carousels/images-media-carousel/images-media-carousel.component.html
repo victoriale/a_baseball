@@ -1,0 +1,52 @@
+<section *ngIf="totalImageCount > 1" [class.module-container]="isProfilePage" [class.images-media-module]="isProfilePage">
+    <module-header *ngIf="isProfilePage" [modHeadData]="modHeadData"></module-header>
+    <div class="article-carousel">
+        <loading-component *ngIf="!imageData"></loading-component>
+        <div *ngIf="imageData" class="plcholder">
+            <a class='feature-btn expand' (click)="modalExpand()">
+                {{expandText}}
+                <i class='fa {{expandIcon}}'></i>
+            </a>
+            <div class='feature-btn images'>
+                <i class='fa fa-file-image-o'></i>
+                {{imagesTitle}} ({{displayCounter}}/{{totalImageCount}})
+            </div>
+            <span [ngStyle]="{'background-image': 'url(' + largeImage + ')'}"
+                  class="plcholder-img">
+                <circle-button class="plcholder-img-navigation" (scrollLeft)="left()"
+                               (scrollRight)="right()"></circle-button>
+            </span>
+            <div class="grey-bar"><span class="grey-bar-title">{{description}}</span><span class="grey-bar-credit">Photo by<span class="grey-bar-credit-bold">{{imageCredit}}</span></span></div>
+        </div>
+        <div *ngIf="imageData" class="sm-images">
+            <span *ngFor="let smImages of mediaImages; let i=index;">
+                <div class="sm-images-container">
+                    <div *ngIf="smImages.id == imageCounter" class="carouselImageBoxSmall">
+                        <span id="smImg-{{i}}" [ngStyle]="{'background-image': 'url(' + smImages.image + ')'}"
+                              [ngClass]="{'sm-images-square-image-active': i == smallObjCounter}">
+                        </span>
+                        <div>
+                            <p>Now Viewing</p>
+                        </div>
+                    </div>
+                    <div id="smImg-{{i}}"
+                         class="sm-images-square-image" [ngStyle]="{'background-image': 'url(' + smImages.image + ')'}"
+                         alt="small square images" (click)="changeClick(i)">
+                    </div>
+                </div>
+            </span>
+        </div>
+    </div>
+</section>
+
+<div class="modal" (keyup)="close($event)" [ngClass]="{'modal-open': expand == true}">
+    <div class="modal-exit" (click)="modalExpand()">X</div>
+    <div class="modal-plcholder">
+        <span [ngStyle]="{'background-image': 'url(' + largeImage + ')'}"
+                class="modal-plcholder-img">
+            <circle-button class="modal-plcholder-img-navigation" (scrollLeft)="left()"
+                            (scrollRight)="right()"></circle-button>
+        </span>
+        <div class="modal-grey-bar"><span class="modal-grey-bar-title">{{description}}</span><span class="modal-grey-bar-credit">Photo by<span class="modal-grey-bar-credit-bold">{{imageCredit}}</span></span></div>
+    </div>
+</div>

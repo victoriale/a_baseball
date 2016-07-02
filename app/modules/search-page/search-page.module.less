@@ -1,0 +1,93 @@
+.search-page{
+  &-header{
+    color: @white;
+    padding: 50px 0px 65px 0px;
+    background-color: @black;
+
+    &-heading{
+      font-size: 38px;
+      font-weight: 800;
+      display: block;
+      text-align: center;
+      margin: 0px;
+    }
+    &-sub-heading{
+      font-size: 16px;
+      font-weight:400;
+      display: block;
+      text-align: center;
+      margin: 20px 0px;
+      font-weight: 400;
+    }
+
+    &-input{
+      width: 600px;
+      margin: 0 auto;
+      & .fa-caret-left{
+        display:none;
+      }
+    }
+  }
+  &-total{
+    display:inline-block;
+    width:100%;
+    margin:10px 0;
+  }
+  &-results{
+    min-height:500px;
+    padding: 0px 30px;
+    & > li + li{
+      border-top: 1px solid @masterSmallImageShadow;
+    }
+
+    &-item{
+      line-height: 25px;
+      padding: 18px 0px 15px 0px;
+
+      &:first-child{
+        border-top: none;
+      }
+
+      &-title{
+        display: block;
+        font-size: 20px;
+        &:hover{
+          color:@masterBrandColor;
+          cursor: pointer;
+        }
+      }
+
+      &-link{
+        color: @activeBlue;
+        text-decoration: none;
+        &:hover{
+          color: @activeBlue;
+          text-decoration: underline;;
+        }
+        &:focus{
+          outline: none;
+        }
+      }
+
+      &-description{
+        line-height: normal;
+      }
+
+      &.no-results{
+        line-height: 24px;
+        font-size: 20px;
+        margin: 0 -30px
+      }
+    }
+  }
+}
+
+.noSearch{
+  width:34px;
+  height:29px;
+  background-image: url('/app/public/icons/No_Search.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  display: block;
+  margin:0 -5px;
+}

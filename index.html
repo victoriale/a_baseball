@@ -1,0 +1,82 @@
+<html>
+  <head>
+    <base href="/">
+    <title>Home Run Loyal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Get the latest MLB baseball news, scores, stats, standings, and more." />
+    <meta name="news_keywords" content="mlb, major league baseball, pro baseball, mlb baseball, baseball" />
+    <meta name="keywords" content="mlb, major league baseball, pro baseball, mlb baseball, baseball" />
+    <link rel="shortcut icon" href="/app/public/icons/HRL_Favicon.png" />
+
+    <!--<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">-->
+    <link href="/app/global/stylesheets/hrl-font.css" rel="stylesheet">
+    <link href="/app/global/stylesheets/bootstrap.min.css" rel="stylesheet">
+    <link href="/app/global/stylesheets/master.css" rel="stylesheet">
+
+    <!-- 1. Load libraries -->
+    <script src="lib/core.min.js"></script>
+    <script src="lib/Reflect.js"></script>
+    <script src="lib/system.src.js"></script>
+    <script src="lib/moment.js"></script>
+    <script src="lib/moment-timezone-with-data-2010-2020.js"></script>
+    <script src="lib/zone.js"></script>
+    <script src="lib/fuse.min.js"></script>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <!-- social share button on home page -->
+    <script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="lib/highcharts.js"></script>
+    <script>
+        // setup DisQus config for initial load
+        var disqus_config = function () {
+            this.page.identifier = (window.location.pathname + " ").replace("/"," ");
+            this.page.url = window.location.href + "#!newthread";
+        };
+    </script>
+    <script type="text/javascript">stLight.options({publisher: "ab81b5e8-9aea-4921-9930-26ce6925e901", doNotHash: false, doNotCopy: false, hashAddressBar: false, onhover: false});</script>
+    <!-- 2. Configure SystemJS -->
+    <script>
+      System.config({
+        packages: {
+          "app"                              : {format: "register", defaultExtension: "js"},
+          "@angular/core"                    : {defaultExtension: "js", main: "index.js"},
+          "@angular/common"                  : {defaultExtension: "js", main: "index.js"},
+          "@angular/compiler"                : {defaultExtension: "js", main: "index.js"},
+          "@angular/router-deprecated"       : {defaultExtension: "js", main: "index.js"},
+          "@angular/http"                    : {defaultExtension: "js", main: "index.js"},
+          "@angular/platform-browser"        : {defaultExtension: "js", main: "index.js"},
+          "@angular/platform-browser-dynamic": {defaultExtension: "js", main: "index.js"},
+          "symbol-observable"                : {defaultExtension: "js", main: "index.js"},
+          "rxjs"                             : {defaultExtension: "js" }
+        },
+        map: {
+          "@angular/core"                    : "lib/core",
+          "@angular/common"                  : "lib/common",
+          "@angular/compiler"                : "lib/compiler",
+          "@angular/router-deprecated"       : "lib/router-deprecated",
+          "@angular/http"                    : "lib/http",
+          "@angular/platform-browser"        : "lib/platform-browser",
+          "@angular/platform-browser-dynamic": "lib/platform-browser-dynamic",
+          "symbol-observable"                : "lib",
+          "rxjs"                             : "lib"
+        }
+      });
+      System.import('app/main')
+        .then(null, console.error.bind(console));
+    </script>
+
+  </head>
+
+  <!-- 3. Display the application -->
+  <body>
+    <app-domain>
+      <div class="page-loading">
+        <img src="/app/public/page_loading.gif" />
+      </div>
+    </app-domain>
+  </body>
+
+</html>

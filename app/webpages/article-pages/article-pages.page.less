@@ -1,0 +1,80 @@
+@import (reference) "./app/global/stylesheets/components.less";
+@import (reference) "./app/global/stylesheets/base.less";
+
+.carousel-container {
+  width: 583px;
+  height: 400px;
+}
+
+.articles-page {
+  width: 100%;
+  height: auto;
+  background-color: @white;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+  &-content {
+    position: relative;
+    background-color: @white;
+    width: 960px;
+    padding: 0 20px;
+    margin: 0 auto;
+    overflow: hidden;
+    top: 1px;
+  }
+  &-title {
+    .globalDefaultFont(40px, 800);
+    text-align: left;
+    margin-bottom: 17px;
+  }
+}
+
+.arpt {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  text-align: left;
+
+  &-author {
+    width: 200%;
+    height: 50px;
+    float: left;
+
+    &-image {
+      background-image: url("/app/public/mainLogo.png");
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      border-radius: 100%;
+      width: 50px;
+      height: 50px;
+      float: left;
+    }
+
+    &-text {
+      .globalDefaultFont(16px, 400);
+      width: 520px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      padding-top: 15px;
+      padding-left: 15px;
+      text-align: left;
+
+      &-name {
+        .globalDefaultModFont(16px, 700, @masterBrandColor);
+        text-align: left;
+      }
+    }
+  }
+
+  &-date {
+    .globalDefaultModFont(12px, 400, @textEmphasisGrey);
+    width: 100%;
+    height: 11px;
+    text-transform: uppercase;
+    line-height: 10px;
+    float: left;
+    margin-top: 20px;
+  }
+}

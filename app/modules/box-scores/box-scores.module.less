@@ -1,0 +1,88 @@
+.box-scores{// BOX-SCORES CONTAINER
+  width:680px;
+  height:auto;
+  overflow: visible;
+  &-info{
+    width:100%;
+    height:auto;
+    padding:5px 0;
+    .flexDisplay;
+    .flexDirection(row);
+    .flexJustify(space-between);
+    .flexWrap(wrap);
+    &-container{
+      width:100%;
+      height:auto;
+      & > div:first-child{
+        margin-left:10px;
+      }
+      & > div:last-child{
+        margin-right:10px;
+      }
+    }
+    .float-left{
+      float:left;
+    }
+    .float-right{
+      float:right;
+    }
+    .odd{
+      background-color: @backgroundGrey;
+    }
+    .even{
+      background-color: @white;
+    }
+  }
+
+  &-moregames{
+    width:100%;
+    height:40px;
+  }
+  &-mult{
+    width:97%;
+    height: 100%;
+    margin:0 auto;
+    border-bottom: 1px solid @strokeGrey;
+    .flexDisplay;
+    .flexJustify(space-between);
+    &-title{
+      height:100%;
+      line-height: 40px;
+      font-size: 16px;
+      text-align: left;
+    }
+    &-games{
+      height:100%;
+    }
+    &-button{
+      width:100px;
+      height:30px;
+      background-color: @white;
+      color:@masterBrandColor;
+      font-size: 14px;
+      font-weight: 800;
+      border:1px solid @masterBrandColor;
+      padding:6px 25px;
+      margin:5px;
+      float:left;
+      &.selected{
+        background-color: @masterBrandColor;
+        color:@white;
+        cursor: default;
+      }
+      &:hover{
+        cursor:pointer;
+        background-color:@masterBrandColor;
+        color:@white;
+      }
+    }
+  }
+  .schedule-next-circle{
+    border: 2px solid @strokeGrey;
+    height:66px;
+    width:66px;
+  }
+  .schedule-next-vs{
+    font-weight: 800;
+  }
+}//end of box-scores container

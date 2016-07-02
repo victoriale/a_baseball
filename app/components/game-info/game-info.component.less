@@ -1,0 +1,104 @@
+.game{//start of the game styles
+  width:325px;
+  height:128px;
+  margin: 10px 0;
+  &-title{
+    font-size:14px;
+    line-height: 18px;
+    .flexDisplay;
+    .gameBefore{
+      display:inline-block;
+      width:175px;
+      font-weight: 400;
+      color:@bulletGrey;
+      text-align: left;
+    }
+    .gameAfter{
+      display:inline-block;
+      width:175px;
+      font-weight: 800;
+      color:@masterBrandColor;
+      text-align: left;
+    }
+    &-category{
+      display:inline-block;
+      width:52px;
+      color:@black;
+      font-weight: 400;
+      text-align: center;
+    }
+  }//end of &-title
+
+  &-box{//game-box
+    width:100%;
+    height:55px;
+    background-color: @white;
+    .flexDisplay;
+    &:nth-child(2){
+      border-top: 1px solid @strokeGrey;
+      border-left: 1px solid @strokeGrey;
+      border-right: 1px solid @strokeGrey;
+    }
+    &:nth-child(3){
+      border: 1px solid @strokeGrey;
+    }
+    &-main{
+      width:170px;
+      text-align: left;
+      border:none;
+      padding:4px 0 4px 4px;
+      &-image{
+        width:45px;
+        height:45px;
+        float:left;
+      }
+      &-details{
+        width:110px;
+        float:left;
+        margin-left: 10px;
+        padding:5px 0;
+        overflow: hidden;
+        & > span{
+          width:100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          display:inline-block;
+          &:first-child{
+            font-size: 14px;
+            font-weight: 800;
+            color:@black;
+            line-height: 18px;
+            &:hover{
+              &.link{
+                color:@masterBrandColor;
+                cursor: pointer;
+              }
+            }
+          }
+          &:nth-child(2){
+            font-size: 12px;
+            color:@bulletGrey;
+            line-height: 18px;
+          }
+        }
+      }//game-box-details end
+    }//game-box-main END
+    &-values{
+      width:150px;
+      height:auto;
+      & > span{
+        display:block;
+        float:left;
+        width:50px;
+        height:100%;
+        font-size: 18px;
+        color:@black;
+        text-align: center;
+        font-weight: 800;
+        border-left: 1px solid @strokeGrey;
+        padding:18px 0;
+      }
+    }//game-box-values END
+  }//end .game-box
+}//end of .game

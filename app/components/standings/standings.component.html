@@ -1,0 +1,19 @@
+<div *ngIf="tabs" class="standings">
+  <div class="standings-car">
+    <slider-carousel *ngIf="carouselData" [carouselData]="carouselData" (indexNum)="indexNum($event)" [indexInput]="selectedIndex"></slider-carousel>
+  </div>
+  <tabs (tabSelected)="tabSelected($event)">
+    <tab *ngFor="let tab of tabs" [tabTitle]="tab.title" [active]="tab.isActive">
+      <loading-component *ngIf="!tab.isLoaded && !tab.hasError"></loading-component>
+      <div *ngIf="tab.isLoaded && tab.sections">
+        <div *ngFor="let section of tab.sections" class="standings-tab-section">
+            <h4 [innerHtml]="section.groupName"></h4>
+            <custom-table [model]="section.tableData" (sortChanged)="updateCarousel($event)"></custom-table>
+        </div>
+      </div>
+      <div *ngIf="!tab.sections && tab.isLoaded" class="standings-no-data">
+          <no-data-box [data]="noDataMessage" [icon]="'fa fa-remove'"></no-data-box>
+      </div>
+    </tab>
+  </tabs>
+</div>

@@ -1,0 +1,121 @@
+.flpy {
+  width: 180px;
+  height: 570px;
+  position: absolute;
+
+  &-col {
+    .inlineFlexDisplay;
+    .flexDirection(column);
+    .flexJustify(space-between);
+    height: auto;
+  }
+
+  &-container {
+    width: 180px;
+    height: 180px;
+    .perspective(1000);
+    margin-bottom: 15px;
+
+    &:hover .flpy-front,
+    &.hover .flpy-front {
+      .transformPrefixes(rotateY(180deg));
+    }
+
+    &:hover .flpy-back,
+    &.hover .flpy-back {
+      .transformPrefixes(rotateY(0deg));
+    }
+  }
+
+  &-flipper {
+    a {
+      color: @white;
+    }
+    a, a:hover, a:focus {
+      color: @white;
+      text-decoration: none;
+    }
+    .perspective(1000);
+    position: relative;
+    .transitionPrefixes(0.3s);
+    .transformStylePrefixes(preserve-3d);
+  }
+
+  &-side {
+    .flexDisplay;
+    .flexDirection(column);
+    .transformStylePrefixes(preserve-3d);
+    .transitionPrefixes(0.3s);
+    width: 180px;
+    height: 180px;
+    background-color: @fontIconGrey;
+    background-image: url('/app/public/Tile_Framework.png');
+    .backfaceVisibility(hidden);
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  &-front {
+    .flexAlignItems(center);
+    .transformPrefixes(rotateY(0deg));
+    z-index: 2;
+    text-align: center;
+    padding-top: 40px;
+
+    &-icon {
+      font-size: 48px;
+      color: @white;
+      margin-bottom: 18px;
+    }
+
+    &-title {
+      margin: 0;
+      .globalDefaultModFont(22px, 400, @white);
+    }
+  }
+
+  &-back {
+    .flexJustify(space-between);
+    padding: 10px 10px 20px 10px;
+    .transformPrefixes(rotateY(-180deg));
+
+    &-title {
+      margin: 0 0 8px 0;
+      .globalDefaultModFont(18px, 400, @white);
+      .fa {
+        padding-right: 4px;
+      }
+    }
+
+    &-desc {
+      margin: 0px;
+      .globalDefaultModFont(12px, 400, @white);
+      line-height: 14px;
+      text-align: justify;
+    }
+
+    &-bottom {
+      text-align: center;
+    }
+
+    &-btn {
+      .flexDisplay;
+      .flexJustify(center);
+      .flexAlignItems(center);
+      width: 140px;
+      height: 35px;
+      margin: auto;
+      .globalDefaultModFont(12px, 800, @white);
+
+      border: 1px solid @masterBrandColor;
+      background-color: @masterBrandColor;
+      .borderRadiusPrefix(2px);
+
+      .fa {
+        margin-left: 8px;
+        font-weight: 400;
+      }
+    }
+  }
+}

@@ -1,0 +1,72 @@
+.stats {
+  &-car {     
+    .scc-details-desc {
+      height: 170px;
+    }
+  }
+  
+  .data-column-hdr, .data-column {
+    width: 60px; //since it needs to include margin for padding
+  }
+  
+  .image-column-hdr, .image-column {
+    width: 205px;
+  }
+  
+  .pane {
+    padding: 0px;
+    
+    &-content {
+      padding: 0 10px;
+    }
+  }
+  
+  &-table-title {
+    h4 {
+      margin: 0px;
+      .globalDefaultFont(18px, 400);
+    }
+    margin: 20px 25px;
+  }
+  
+  &-season-dropdown {
+    margin: 0px;
+    float: right;
+    display: flex;
+    .globalDefaultFont(12px, 400);
+    
+    .dropdown {
+      margin-left: 11px;      
+      width: 145px;
+      &-hdr {
+        padding: 4px;
+      }
+    }
+  }
+  
+  &-glossary {
+    border-top: 1px solid @strokeGrey;
+    // margin-bottom: 10px;
+
+    &.pane-content {
+      padding-bottom: 10px;
+    }
+      
+    &-title {
+      margin: 10px 0;
+      padding: 0 10px;
+      .globalDefaultFont(16px, 700);
+    }
+    
+    &-box {
+      background-color: @backgroundGrey;
+      border-top: 1px solid @strokeGrey;
+      padding: 14px 16px;
+      .globalDefaultFont(12px, 400);
+      
+      li {
+        line-height: 15px;
+      }
+    }
+  }
+}

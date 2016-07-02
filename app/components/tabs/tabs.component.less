@@ -1,0 +1,37 @@
+.pane{
+  padding: 10px 10px 0 10px;
+  color: @black;
+}
+.nav-tabs{
+  background-color: @highlightGrey;
+  height: 60px;
+  width: 100%;
+  .flexAlignItems(center);
+  .flexDisplay;
+  color:@fontIconGrey;
+  li{
+    height: 100%;
+    .flexAlignItems(center);
+    .flexDisplay;
+    .flexJustify(center);
+    text-align: center;
+    padding: 0 9px;
+    i{
+      display: none;
+    }
+    &:hover {
+      cursor: pointer;
+    }
+    &.active{
+      i{
+        display: inline-block;
+        visibility: visible;
+        color: @activeBlue;
+        padding-right: 5px;
+      }
+      background-color: @white;
+      font-weight: 800;
+      color: @black;
+    }
+  }
+}

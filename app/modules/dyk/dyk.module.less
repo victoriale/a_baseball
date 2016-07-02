@@ -1,0 +1,34 @@
+.dyk{
+  &-details{
+    border-left: solid 5px @highlightGrey;
+    border-bottom: solid 1px @highlightGrey;
+    .flexDisplay;
+    // .flexAlignItems(baseline);
+    .globalDefaultModFont(16px, 400, @black);
+    width: 100%;
+    &-info{
+      width: 92%;
+      text-align: left;
+      p{
+        margin: 25px;
+      }
+    }
+    &-icon{
+      .st_sharethis_large{
+        cursor: pointer;
+        span:first-child{
+          display: none;
+        }
+      }
+      .globalDefaultModFont(25px, 400, @masterBrandColor);
+      .flexDisplay;
+      .flexAlignItems(center);
+      &:hover{
+        color: @black;
+      }
+    }
+    &:hover{
+      border-left-color: @masterBrandColor;
+    }
+  }
+}

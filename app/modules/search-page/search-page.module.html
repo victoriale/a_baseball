@@ -1,0 +1,36 @@
+<section class="search-page-container" *ngIf="searchPageInput">
+    <!-- Back Tab Component -->
+    <backtab-component></backtab-component>
+    <!-- Hero Search Component -->
+    <div class="search-page-header" [ngStyle]="{'background-image': 'url(' + searchPageInput.heroImage + ')'}">
+        <h1 class="search-page-header-heading">
+            {{searchPageInput.headerText}}
+        </h1>
+        <h2 class="search-page-header-sub-heading">
+            {{searchPageInput.subHeaderText}}
+        </h2>
+        <div class="search-page-header-input">
+            <search [searchInput]="searchPageInput.searchComponent" ></search>
+        </div>
+    </div>
+    <!-- Tabs Component -->
+    <tabs (tabSelected)="tabSelected($event)">
+        <tab *ngFor="let outerItem of searchPageInput.tabData; let i = index" [tabTitle]="outerItem.tabName" [active]="outerItem.isTabDefault">
+            <!-- Results -->
+            <ul class="search-page-results">
+            	<span class="search-page-total" *ngIf="currentShowing && totalResults">Showing: <span class="text-heavy">{{currentShowing}}</span> of <span class="text-heavy">{{totalResults}}</span> results:</span>
+                <li *ngFor="let innerItem of outerItem.results[pageNumber-1]" class="search-page-results-item">
+                    <a class="search-page-results-item-title" [routerLink]="innerItem.url" [innerHtml]="innerItem.title"></a>
+                    <a class="search-page-results-item-link" [routerLink]="innerItem.url" [innerHtml]="innerItem.urlText"></a><br>
+                    <span class="search-page-results-item-description" [innerHtml]="innerItem.description"></span>
+                </li>
+                <!-- No Results Found -->
+                <li *ngIf="outerItem.results.length == 0 || outerItem.totalResults == 0" class="search-page-results-item no-results">
+                    <no-data-box [data]="outerItem.error.message" [icon]="outerItem.error.icon"></no-data-box>
+                </li>
+            </ul>
+            <pagination-footer *ngIf="outerItem.paginationParameters" [paginationParameters]="outerItem.paginationParameters" (newIndex)="newIndex($event)"></pagination-footer>
+        </tab>
+    </tabs>
+
+</section>

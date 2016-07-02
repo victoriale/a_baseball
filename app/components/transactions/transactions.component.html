@@ -1,0 +1,18 @@
+<slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray"></slider-carousel>
+<tabs *ngIf="tabs" (tabSelected)='selectedTab($event)'>
+  <tab *ngFor="let tab of tabs; let i = index" [active]="i == 0" [tabTitle]="tab.tabDisplay">
+    <div *ngIf="tab.isLoaded" class="transactions-container">
+      <div class="tab-inset"> <!-- due to tab having a default value of padding 1em for tab purposes so we just reverse it with margin -->
+        <div *ngIf="tab.includeDropdown" class="transactions-page-title">
+          <p class="transactions-page-dropdown">
+            Sorted By: <dropdown [list]="tab.sortOptions" [selectedKey]="tab.selectedSort" (selectionChanged)="dropdownChanged($event)"></dropdown>
+          </p>
+          <h4><b>{{pageName}}</b> Report</h4>
+        </div>
+        <transactions-list-item *ngIf="tab.dataArray" [transactionsItemData]='tab.dataArray'></transactions-list-item>
+      </div>
+    </div>
+    <loading-component *ngIf="!tab.isLoaded"></loading-component> 
+    <no-data-box *ngIf="!tab.dataArray && tab.isLoaded && tab.errorMessage" [data]="tab.errorMessage" [icon]="'fa fa-remove'"></no-data-box>
+  </tab>
+</tabs>

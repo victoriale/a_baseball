@@ -1,0 +1,197 @@
+slider-carousel{
+    display:block;
+    overflow: hidden;
+}
+.scc{
+  width:100%;
+  height:auto;
+  position: relative;
+  &-slide-background-image{
+    position: absolute;
+    top:0;
+    right:0;
+    width: 100%;
+    opacity: .5;
+    filter:alpha(opacity=50);
+  }
+    &-placeholder{
+      width: 100%;
+      height: auto;
+      background-color: @black;
+      module-footer{
+        position: relative;
+        .list-footer{
+          float:left;
+          position: relative;
+          .list-footer-btn{
+            background: @masterBrandColor;
+            color: @white;
+            &:hover {
+              background: @textEmphasisGrey;
+              color: @white;
+            }
+          }
+        }
+      }
+    }//.scc-placeholder ends
+    &-details{
+      .flexDisplay;
+      .flexDirection(row);
+      width: 80%;
+      height: auto;
+      margin:auto;
+      padding-top: 7%;
+      min-height: 250px;
+      position: relative;
+
+      &-mainImg{
+        width: 38%;
+        .flexDisplay;
+        .flexDirection(column);
+        .flexAlignItems(center);
+      }//.scc-details-mainImg ends
+
+      &-type1 { //for most modules
+        &-subhdr {
+          .globalDefaultModFont(12px, 400, @white);
+          text-transform: uppercase;
+          line-height: 1.2em;
+
+          .fa {
+            color: @masterBrandColor;
+            padding-right: 6px;
+            top: 2px;
+            position: relative;
+          }
+        }
+
+        &-hdr {
+          .globalDefaultModFont(22px, 800, @white);
+          margin-top: 10px;
+        }
+
+        &-desc {
+          .globalDefaultModFont(14px, 400, @white);
+          line-height: 1.2em;
+          margin-top: 10px;
+        }
+
+        &-date {
+          .globalDefaultModFont(10px, 400, @white);
+          margin-top: 12px;
+        }
+      }
+
+      &-type2 { //for most list modules
+        &-hdr {
+          .globalDefaultModFont(22px, 800, @white);
+        }
+
+        &-page-hdr {
+          .globalDefaultModFont(24px, 800, @white);
+        }
+
+        &-desc {
+          .globalDefaultModFont(16px, 400, @white);
+          line-height: 1.2em;
+          margin-top: 4px;
+        }
+
+        &-value {
+          .globalDefaultModFont(22px, 800, @white);
+          margin-top: 18px;
+        }
+
+        &-lbl {
+          .globalDefaultModFont(16px, 400, @white);
+          margin-top: 4px;
+        }
+
+        &-error {
+          .globalDefaultModFont(22px, 800, @white);
+          line-height: 26px;     
+        }
+      }
+
+
+      &-desc{
+        width:60%;
+        max-height:182px;
+        .flexAlignItems(flex-start);
+        .globalDefaultModFont(16px, 400, @white);        
+        overflow-y: auto;
+
+        a:hover {
+          color: @masterBrandColor;
+        }
+
+        & p { //TODO: remove when not used by list-of-lists
+          line-height: 16px;
+          margin:0;
+          i.fa{
+            padding-top:2px;
+            color: @masterBrandColor;
+          }
+          &.font-10{
+            font-size: 10px;
+          }
+          &.font-12{
+            font-size: 12px;
+          }
+          &.font-14{
+            font-size: 14px;
+          }
+          &.font-22{
+            font-size: 22px;
+          }
+          &.lh-12{
+            line-height: 12px;
+          }
+          &.lh-16{
+            line-height: 16px;
+          }
+          &.lh-18{
+            line-height: 18px;
+          }
+          &.lh-22{
+            line-height: 22px;
+          }
+          &.lh-25{
+            line-height: 25px;
+          }
+          &.lh-30{
+            line-height: 30px;
+          }
+          &.lh-32{
+            line-height: 32px;
+          }
+          &.fw-400{
+            font-weight: 400;
+          }
+          &.fw-700{
+            font-weight: 700;
+          }
+          &.fw-800{
+            font-weight: 800;
+          }
+          &.titlecase{
+            text-transform: uppercase;
+          }
+          b{
+            font-weight: 800;
+          }
+
+        }
+      }//.scc-details-desc ends
+    }//.scc-details ends
+
+    &-copyright {
+      .globalDefaultModFont(10px, 400, @white);
+      padding: 4px 20px;
+      text-align: right;
+      background-color: rgba(0, 0, 0, .65);
+      width: 100%; 
+      position: absolute;
+      bottom: 0;
+    }
+}//.scc ends

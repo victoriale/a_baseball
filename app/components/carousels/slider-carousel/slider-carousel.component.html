@@ -1,0 +1,43 @@
+<carousel *ngIf="carouselData" [carouselData]="carouselData" (carouselDataPoint)="response($event)" [indexInput]="indexInput">
+  <!-- check if data is available and/or valid -->
+  <div class="scc">
+    <!-- slider carousel component placeholder section -->
+    <div class="scc-placeholder">
+      <div class="scc-slide-background">
+        <img *ngIf="backgroundImage" src="{{backgroundImage}}"  class="scc-slide-background-image" />
+      </div>
+      <!-- slider next/previous buttons -->
+      <!-- center section where images and descriptions details display -->
+      <div class="scc-details">
+          <!-- main round image -->
+          <div class="scc-details-mainImg">
+            <!-- image component place here -->
+            <div>
+                <circle-image [data]="dataPoint.imageConfig"></circle-image>
+            </div>
+            <!-- image component ends -->
+        </div>
+        <!-- round main image ends -->
+        <!-- carousel description -->
+        <div class="scc-details-desc">
+          <!--<template ngFor [ngForOf]="dataPoint.description" #description>-->
+          <div *ngFor="let description of dataPoint.description">
+            <div *ngIf="description.textData" [ngClass]="description.class" [ngStyle]="description.style">
+              <complex-inner-html [textItems]="description.textData"></complex-inner-html>
+            </div>
+            <span *ngIf="description.linkObj" [ngStyle]="description.wrapperStyle"><span [innerHTML]="description.beforeLink"></span><a class="text-heavy-link" [routerLink]="description.linkObj" [innerHTML]="description.linkText"></a><span [innerHTML]="description.afterLink"></span></span>
+            <span *ngIf="!description.textData && !description.linkObj" [innerHTML]="description"></span>
+          </div>
+          <!--</template>-->
+        </div>
+        <!-- desc ends -->
+      </div>
+      <div *ngIf="dataPoint.copyrightInfo" class="scc-copyright">
+        Images Provided By: <i>{{dataPoint.copyrightInfo}}</i>
+      </div>
+      <!-- center details ends -->
+      <module-footer *ngIf="dataPoint.footerInfo" [footerData]="dataPoint.footerInfo" [footerStyle]="footerStyle"></module-footer>
+    </div>
+    <!-- placeholder ends -->
+  </div>
+</carousel>

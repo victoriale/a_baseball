@@ -1,0 +1,19 @@
+<div *ngIf="!league" class="right-column" style="">
+    <div class="right-column-head" style="">
+        <i class="fa fa-trophy"></i> Head to Head
+    </div>
+    <div class="right-column-head-content" style="">
+        <span *ngFor="let headData of randomHeadToHead; let i=index; let last=last">
+            <!--<span *ngIf="i < 9">-->
+                <a [routerLink]="['Article-pages', {eventType: headData.eventType, eventID: headData.eventID}]">
+                    <div class="right-column-head-content-blurb" style="">
+                        {{headData.title}}
+                    </div>
+                </a>
+                <span *ngIf="i != arrLength">
+                    <div class="right-column-head-content-hr"></div>
+                </span>
+            <!--</span>-->
+        </span>
+    </div>
+</div>

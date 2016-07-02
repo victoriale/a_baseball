@@ -1,0 +1,257 @@
+.home{
+  b{
+    font-weight: 800;
+  }
+  h1{
+    .globalDefaultFont(60px, 800);
+  }
+  h2{
+    .globalDefaultFont(36px, 400);
+  }
+  h3{
+    .globalDefaultFont(32px, 400);
+  }
+  h4{
+    .globalDefaultFont(24px, 400);
+  }
+  h5{
+    .globalDefaultFont(16px, 400);
+  }
+
+  background-color: @white;
+  height: auto;
+  &-hero{
+    height: 475px;
+    width: 100%;
+    position: relative;
+    &-img{
+      height: 100%;
+      width: 100%;
+      position: absolute;
+    }//home-hero-img ends
+    &-info{
+      color: @white;
+      margin-top: 120px;
+      position: absolute;
+      width: 100%;
+      .flexDisplay;
+      .flexDirection(column);
+      .flexAlignItems(center);
+      h1{
+        margin: 0;
+        text-align: center;
+      }
+      h4{
+        margin: 1em;
+      }
+      &-search{
+        background-color: @masterBrandColor;
+        border-radius: 5px;
+        color: @black;
+        font-size: 24px;
+        height: 50px;
+        width: 600px;
+      }//home-hero-info-search ends
+    }//home-hero-info ends
+  }//home-hero ends
+  &-main{
+    h2{
+      padding: 20px;
+      text-align: center;
+      span{
+        border-bottom: 1px solid @black;
+        border-top: 1px solid @black;
+        padding: 20px;
+      }
+    }//home-main h2 ends
+  }//home-main ends
+
+  &-league{
+    h3{
+      margin-left: 60px;
+    }
+    h4{
+      margin: 0 0 1em 60px;
+      color: @fontIconGrey;
+    }
+    &-col{
+      border: solid transparent;
+      border-width: 0 1px 0 0;
+      -moz-border-image: -moz-linear-gradient(0deg, @white 0%, @bulletGrey 46%, @white 100%);
+      -webkit-border-image: -webkit-linear-gradient(0deg, @white 0%, @bulletGrey 46%, @white 100%);
+      border-image: linear-gradient(0deg, @white 0%, @bulletGrey 46%, @white 100%);
+      border-image-slice: 1;
+      &:last-child{
+        border-right: 0;
+      }
+    }
+  }//home-league ends
+
+  &-team{
+    margin-bottom: 25px;
+    padding-left: 60px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    width: 100%;
+    .flexDisplay;
+    .flexAlignItems(center);
+    &-name{
+      margin-left: 15px;
+      padding-top: 10px;
+      .globalDefaultFont(18px, 400);
+      & > p {
+        line-height: 0;
+        white-space: nowrap;
+        .globalDefaultFont(24px, 800);
+      }
+    }//home-team-name ends
+    .fa-angle-right {
+      color: @masterBrandColor;
+      font-size: 50px; /* Approximation due to font substitution */
+      font-weight: 400;
+      line-height: 28px; /* Approximation due to font substitution */
+      margin: 0 57px 0 auto;
+      visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    &:hover{
+      color: @masterBrandColor;
+      background-color: @highlightGrey;
+      .fa-angle-right{
+        visibility: visible;
+        -webkit-backface-visibility: visible;
+      }
+      .border-3 img{
+        box-shadow: 0 0 0 3px @white;
+      }
+      .image-round-hover div{
+        display: flex;
+      }
+    }//home-team hover ends
+  }//home-team ends
+  &-slider{
+    background-image: url('/app/public/homePage_hero2.png');
+    color: @white;
+    height: 449px;
+    .backgroundSize(cover);
+    .flexDisplay;
+    .flexAlignItems(center);
+    &-news{
+      h3{
+        margin-bottom: 12px;
+      }
+      h5{
+        line-height: 1.2em;
+        margin: 20px 0 70px 0;
+      }
+      hr{
+        border-width: 3px;
+        margin: 0 60% 0 0;
+      }
+      div:first-child{
+        background-color: @masterBrandColor;
+        border-radius: 3px;
+        height: 25px;
+        width: 53px;
+        text-align: center;
+        padding: 7px;
+        .globalDefaultFont(12px, 800);
+      }
+      > a{
+        .mod-page-btn-text-only(@masterBrandColor, @black, @white, 16px, 800);
+      }
+    }
+  }//home-slider ends
+  &-features{
+    height: auto;
+    margin-bottom: 30px;
+    &-title{
+      .flexDisplay;
+      .flexJustify(center);
+      .flexAlignItems(center);
+      img{
+        margin-right: 18px;
+        height: 40px;
+        width: 45px;
+      }//img ends
+    }//home-features-title ends
+    &-tiles{
+      color: @white;
+      text-align: center;
+      margin: auto;
+      max-width: 1200px;
+      .flexDisplay;
+      .flexFlow(row wrap);
+      .flexJustify(center);
+    }
+
+    &-tile1{
+      height: 250px;
+      margin: 5px;
+      width: 635px;
+      .backgroundSize(cover);
+      .backgroundPosition(center);
+      .flexDisplay;
+      .flexJustify(center);
+      .flexAlignItems(center);
+      &:hover{
+        box-shadow: inset 0 0 0 1000px rgba(188, 32, 39, 0.75);
+        h3{
+          display: none;
+        }
+        .tile-button{
+          display: block;
+        }
+      }
+    }//home-features-tile1 ends
+    &-tile2{
+      margin: 5px;
+      height: 250px;
+      width: 315px;
+      .backgroundSize(cover);
+      .backgroundPosition(center);
+      .flexDisplay;
+      .flexDirection(column);
+      .flexJustify(center);
+      h3{ margin: 0; }
+      &:hover{
+        box-shadow: inset 0 0 0 1000px rgba(188, 32, 39, 0.75);
+        h3{
+          display: none;
+        }
+        .tile-button{
+          display: block;
+        }
+      }//home-feature-tile2 hover ends
+    }//home-features-tile2 ends
+    &-tile-no-hover{
+      border-top: 5px solid @homeRunLoyalRed;
+      background-color: @black;
+      margin: 5px;
+      height: 250px;
+      width: 315px;
+      .backgroundSize(cover);
+      .backgroundPosition(center);
+      h3{ margin: 0; }
+      h4{ margin: 5px 0; }
+      .flexDisplay;
+      .flexDirection(column);
+      .flexJustify(center);
+    }//home-features-tile2 ends
+  }//home-features ends
+}//home ends
+.tile-button{
+  border: 1px solid @white;
+  border-radius: 3px;
+  display: none;
+  padding: 14px 12px;
+  margin: 0 auto;
+  .globalDefaultFont(16px, 700);
+}
+
+@media (max-width: 1200px) {
+  .home-league-col {
+    -mox-border-image: none;
+    border-image: none;
+  }
+}

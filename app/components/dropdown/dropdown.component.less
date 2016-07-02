@@ -1,0 +1,126 @@
+.dropdown {
+  position: relative;
+  
+  &-hdr {
+    background-color: @backgroundGrey;
+    padding: 3px 5px;
+    text-align: left;
+    line-height: 1.2;
+    outline: none;
+    .globalDefaultFont(12px, 400);
+    .flexDisplay;
+    .flexJustify(space-between);
+    
+    &-value {      
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  
+    &-button {
+      padding-left: 12px;
+      text-align: right;
+      float: right;
+    }    
+  }
+  
+  &-active, &:hover {
+    border-color: @masterBrandColor;  
+    cursor: pointer;
+  }
+  
+  &-wrapper {
+    position: relative;
+  }
+
+  &-list {
+    background-color: @white;
+    border: @masterBrandColor 1px solid;
+    border-radius: 3px;
+    width: 100%;
+    
+    position: absolute;
+    top: 10px;
+    z-index: 100;
+    
+    &-scroll .scrollable-item {
+      height: 160px;
+      
+      .dropdown-list-option {
+        padding: 10px 9px;
+        box-sizing: content-box;
+        width: 100%;
+      }
+
+      &-scroller {
+        width: 5px;
+        border-radius: 2.5px;
+        background: @textEmphasisGrey;
+      }
+      
+      &.showScroll::after {
+        display: none;
+      }
+    }
+  
+    &-option {
+      height: auto;
+      text-align: left;
+      .globalDefaultFont(12px, 400);
+      padding: 10px 8px;
+      border-bottom: 1px solid @strokeGrey;
+      
+      &:last-child {
+        border-bottom: none;
+      }
+      
+      &.active, &:hover {
+        cursor: pointer;
+        background-color: @masterBrandColor;
+        color: @white;
+  
+        &.dropdown-grp-lbl {
+          cursor: default;
+          background-color: @white;
+          color: @bulletGrey;
+        } 
+      }
+    }    
+  }
+  
+  .dropdown-grp {
+    &-lbl {
+      color: @bulletGrey;
+    } 
+    
+    &-item-txt {
+      padding-left: 15px;
+      display: block;
+    }
+  }
+
+  &-caret-top {
+    content: '';
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    border-bottom: 6px solid @masterBrandColor;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    z-index: 101; //to move caret-top above dropdown
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 1px;
+      left: -4px;
+      border-bottom: 5px solid @white;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+    }
+    
+    &-hover::after, &-active::after {
+      border-bottom-color: @masterBrandColor;      
+    }
+  }
+}

@@ -1,0 +1,32 @@
+<table *ngIf="model" class="custom-table">
+  <thead>
+    <tr>
+      <th *ngFor="let hdr of model.columns; let i = index" class="{{hdr.columnClass}}-hdr">
+        <custom-table-header
+          [headerData]="hdr"
+          [headerIndex]="i"
+          (sortSwitched)="setSortColumn($event)">
+        </custom-table-header>
+      </th>
+    </tr>
+  </thead>
+  <tbody class="{{bodyClass}}">
+    <tr *ngFor="let item of model.rows; let isEven = even; let rowIndex = index"
+      class="custom-table-row"
+      [class.custom-table-row-selected]="model.isRowSelected(item, rowIndex)"
+      [class.custom-table-row-even]="isEven"
+      [class.custom-table-row-odd]="!isEven">
+      <td *ngFor="let hdr of model.columns; let i = index" class="">
+        <div class="{{hdr.columnClass}} {{bodyClass}}-cell">
+          <table-cell [cell]="model.getCellData(item, hdr)" [index]="i"></table-cell>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+
+  <tfoot *ngIf="model.footer" class="custom-table-footer {{bodyClass}}">
+    <tr>
+      <td *ngFor="let hdr of model.columns" [innerHtml]="model.footer[hdr.key]" class="{{bodyClass}}-cell"></td>
+    </tr>
+  </tfoot>
+</table>

@@ -1,0 +1,15 @@
+<sidekick-wrapper>
+<section class="page page-module-container">
+  <div>{{ detaileDataArray | json}}</div>
+  <backtab-component></backtab-component>
+  <title-component *ngIf="titleData" [titleData]="titleData"></title-component>
+  <loading-component *ngIf="!detailedDataArray && !isError"></loading-component>
+  <error-component *ngIf="isError"></error-component>
+
+  <slider-carousel *ngIf="carouselDataArray" [carouselData]="carouselDataArray" [footerStyle]="footerStyle"></slider-carousel>
+  <!--<div *ngFor="let itemData of detailedDataArray"> {{ itemData | json }}</div>-->
+  <list-of-lists-item *ngFor="let itemData of detailedDataArray" [item] = 'itemData'></list-of-lists-item>
+  <pagination-footer *ngIf="paginationParameters" [paginationParameters]="paginationParameters"></pagination-footer>
+  <no-data-box *ngIf="!detailedDataArray && errorData" [data]="errorData"></no-data-box>
+</section>
+</sidekick-wrapper>
