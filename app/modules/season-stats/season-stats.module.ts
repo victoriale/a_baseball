@@ -27,7 +27,7 @@ export interface SeasonStatsTabData {
   tabTitle: string;
   comparisonLegendData: ComparisonLegendInput;
   tabData: Array<ComparisonBarInput>;
-  seasonId: string;
+  longSeasonName: string;
 }
 
 @Component({
@@ -46,29 +46,45 @@ export interface SeasonStatsTabData {
 
 export class SeasonStatsModule implements OnChanges {
 
-    @Input() data: SeasonStatsModuleData;
+  @Input() data: SeasonStatsModuleData;
 
-    public noDataMessage = "Sorry, there are no values for this season.";
+  public noDataMessage = "Sorry, there are no values for this season.";
 
-    public moduleHeaderData: ModuleHeaderData;
+  public moduleHeaderData: ModuleHeaderData;
 
-    public footerData: ModuleFooterData;
+  public footerData: ModuleFooterData;
 
-    public carouselDataArray: Array<SliderCarouselInput>;
+  public carouselDataArray: Array<SliderCarouselInput>;
 
-    formatData(data: SeasonStatsModuleData) {
-      this.carouselDataArray = [data.carouselDataItem];
-      this.footerData  = {
-        infoDesc: 'Want to see full statistics for this player?',
-        text: 'VIEW FULL STATISTICS',
-        url: data.pageRouterLink
-      };
-      this.moduleHeaderData = {
-          moduleTitle: 'Season Stats - ' + data.profileName,
-          hasIcon: false,
-          iconClass: ''
-      };
+  public profileName: string;
+
+  public selectedTabTitle: string;
+
+  formatData(data: SeasonStatsModuleData) {
+    this.carouselDataArray = [data.carouselDataItem];
+    this.footerData  = {
+      infoDesc: 'Want to see full statistics for this player?',
+      text: 'VIEW FULL STATISTICS',
+      url: data.pageRouterLink
+    };
+    this.profileName = data.profileName;
+    
+    if ( this.data.tabs && this.data.tabs.length > 0 ) {
+      var selectedTabs = this.data.tabs.filter(tab => tab.tabTitle == this.selectedTabTitle);
+      this.formatTitle(selectedTabs && selectedTabs.length > 0 ? selectedTabs[0] : this.data.tabs[0]);
     }
+    else {
+      this.formatTitle(null);
+    }
+  }
+
+  formatTitle(tab: SeasonStatsTabData) {      
+    this.moduleHeaderData = {
+        moduleTitle: (tab ? tab.longSeasonName : 'Season') + ' Stats - ' + this.profileName,
+        hasIcon: false,
+        iconClass: ''
+    };
+  }
 
   constructor(){}
 
@@ -79,6 +95,7 @@ export class SeasonStatsModule implements OnChanges {
   }
 
   tabSelected(tabTitle){
+    this.selectedTabTitle = tabTitle;
     if ( tabTitle == "Career Stats" ) {
         this.noDataMessage = "Sorry, there are no season stats available for this player.";
     }
@@ -88,7 +105,8 @@ export class SeasonStatsModule implements OnChanges {
     var selectedTabs = this.data.tabs.filter(tab => tab.tabTitle == tabTitle);
     if ( selectedTabs && selectedTabs.length > 0 ) {
       var tab = selectedTabs[0];
-      this.carouselDataArray = [SeasonStatsService.getCarouselData(this.data.playerInfo, tab.seasonId)];
+      this.carouselDataArray = [SeasonStatsService.getCarouselData(this.data.playerInfo, tab.longSeasonName)];
+      this.formatTitle(tab);
     }
   }
 }
