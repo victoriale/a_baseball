@@ -280,7 +280,7 @@ export class SeasonStatsService {
       case "batHomeRuns": return "Home Runs (HR)";
       case "batAverage": return "Batting Average (BA)";
       case "batRbi": return "Runs Batted In (RBI)";
-      case "batHits": return "Hits";
+      case "batHits": return "Hits (H)";
       case "batBasesOnBalls": return "Walks (BB)";
 
       case "pitchWins": return "Wins";
