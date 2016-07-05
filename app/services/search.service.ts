@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {Router} from '@angular/router-deprecated';
 import {Observable} from 'rxjs/Rx';
 import {Http} from '@angular/http';
 import {SearchComponentResult, SearchComponentData} from '../components/search/search.component';
@@ -148,19 +149,19 @@ export class SearchService{
      * Functions for search page
      */
 
-    getSearchPageData(query: string, data){
+    getSearchPageData(router: Router, partnerId: string, query: string, data){
         // let data = this.searchJSON;
         //Search for players and teams
         let playerResults = this.searchPlayers(query, data.players);
         let teamResults = this.searchTeams(query, data.teams);
 
-        let searchResults = this.resultsToTabs(query, playerResults, teamResults);
+        let searchResults = this.resultsToTabs(router, partnerId, query, playerResults, teamResults);
 
         return searchResults;
     }
 
     //Convert players and teams to tabs format
-    resultsToTabs(query, playerResults, teamResults){
+    resultsToTabs(router: Router, partnerId: string, query, playerResults, teamResults){
       // console.log('results to Tabs', playerResults, teamResults);
       let self = this;
         let searchPageInput: SearchPageInput = {
@@ -217,9 +218,14 @@ export class SearchService{
             let playerName = item.playerName;
             let title = GlobalFunctions.convertToPossessive(playerName) + " Player Profile";
             //TODO: use router functions to get URL
-            let urlText = 'http://www.homerunloyal.com/';
-            urlText += '<span class="text-heavy">player/' + GlobalFunctions.toLowerKebab(item.teamName) + '/' + GlobalFunctions.toLowerKebab(playerName) + '/' + item.playerId + '</span>';
-            let url = MLBGlobalFunctions.formatPlayerRoute(item.teamName, playerName, item.playerId);
+            // let urlText = 'http://www.homerunloyal.com/';
+            // urlText += '<span class="text-heavy">player/' + GlobalFunctions.toLowerKebab(item.teamName) + '/' + GlobalFunctions.toLowerKebab(playerName) + '/' + item.playerId + '</span>';
+            let route = MLBGlobalFunctions.formatPlayerRoute(item.teamName, playerName, item.playerId);
+            let relativePath = router.generate(route).toUrlPath();
+            if ( relativePath.length > 0 && relativePath.charAt(0) == '/' ) {
+                relativePath = relativePath.substr(1);
+            }
+            let urlText = GlobalSettings.getHomePage(partnerId, false) + '/<span class="text-heavy">' + relativePath + '</span>';
             let regExp = new RegExp(playerName, 'g');
             let description = item.playerDescription.replace(regExp, ('<span class="text-heavy">' + playerName + '</span>'));
 
@@ -228,14 +234,14 @@ export class SearchService{
               objData1[objCounter].push({
                   title: title,
                   urlText: urlText,
-                  url: url,
+                  url: route,
                   description: description
               })
             }else{// otherwise push in data
               objData1[objCounter].push({
                   title: title,
                   urlText: urlText,
-                  url: url,
+                  url: route,
                   description: description
               })
               if(objData1[objCounter].length >= self.pageMax){// increment the objCounter to go to next array
@@ -253,9 +259,14 @@ export class SearchService{
             let teamName = item.teamName;
             let title = GlobalFunctions.convertToPossessive(teamName) + " Team Profile";
             //TODO: use router functions to get URL
-            let urlText = 'http://www.homerunloyal.com/';
-            urlText += '<span class="text-heavy">team/' + GlobalFunctions.toLowerKebab(teamName) + '/' + item.teamId;
-            let url = MLBGlobalFunctions.formatTeamRoute(teamName, item.teamId);
+            // let urlText = 'http://www.homerunloyal.com/';
+            // urlText += '<span class="text-heavy">team/' + GlobalFunctions.toLowerKebab(teamName) + '/' + item.teamId;
+            let route = MLBGlobalFunctions.formatTeamRoute(teamName, item.teamId);
+            let relativePath = router.generate(route).toUrlPath();
+            if ( relativePath.length > 0 && relativePath.charAt(0) == '/' ) {
+                relativePath = relativePath.substr(1);
+            }
+            let urlText = GlobalSettings.getHomePage(partnerId, false) + '/<span class="text-heavy">' + relativePath + '</span>';
             let regExp = new RegExp(teamName, 'g');
             let description = item.teamDescription.replace(regExp, ('<span class="text-heavy">' + teamName + '</span>'));
 
@@ -264,14 +275,14 @@ export class SearchService{
               objData2[objCounter].push({
                   title: title,
                   urlText: urlText,
-                  url: url,
+                  url: route,
                   description: description
               })
             }else{// otherwise push in data
               objData2[objCounter].push({
                   title: title,
                   urlText: urlText,
-                  url: url,
+                  url: route,
                   description: description
               })
               if(objData2[objCounter].length >= self.pageMax){// increment the objCounter to go to next array

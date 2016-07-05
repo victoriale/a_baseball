@@ -49,7 +49,7 @@ import {ComponentPage} from "../webpages/component-page/component.page";
         RouterOutlet,
         ROUTER_DIRECTIVES
     ],
-    providers: [ ROUTER_DIRECTIVES, ArticleDataService, HeadlineDataService],
+    providers: [ArticleDataService, HeadlineDataService],
 })
 
 @RouteConfig([

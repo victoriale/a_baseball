@@ -64,22 +64,25 @@ export class ListOfListsPage implements OnInit{
                 this.setPaginationParams(list.pagination);
                 this.carouselDataArray = list.carData;
 
-                this.profileName = list.targetData.playerName != null ? list.targetData.playerName : list.targetData.teamName;  // TODO include this
+                var profileName = "MLB";
                 var profileRoute = ["MLB-page"];
                 var profileImage = GlobalSettings.getSiteLogoUrl();
                 switch ( urlParams.type ) {
                     case "player":
+                        profileName = list.targetData.playerName;
                         profileRoute = MLBGlobalFunctions.formatPlayerRoute(list.targetData.teamName, list.targetData.playerName, list.targetData.playerId);
                         profileImage = GlobalSettings.getImageUrl(list.targetData.imageUrl);
                         break;
 
                     case "team":
+                        profileName = list.targetData.teamName;
                         profileRoute = MLBGlobalFunctions.formatTeamRoute(list.targetData.teamName, list.targetData.teamId);
                         profileImage = GlobalSettings.getImageUrl(list.targetData.teamLogo);
                         break;
 
                     default: break;
                 }
+                this.profileName = profileName
                 this._title.setTitle(GlobalSettings.getPageTitle("List of Lists", this.profileName));
                 this.titleData = {
                     imageURL : profileImage,
