@@ -107,7 +107,9 @@ export class StandingsComponent implements DoCheck {
       newTab.setSelectedKey(this.selectedKey);
     }
     this.tabSelectedListener.next([newTab, this.selectedKey]);
-    // this.updateCarousel();
+    if ( newTab.isLoaded ) {
+      this.updateCarousel();
+    }
   }
 
   indexNum($event) {

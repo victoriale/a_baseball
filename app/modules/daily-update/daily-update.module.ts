@@ -34,8 +34,8 @@ export class DailyUpdateModule {
 
   public headerInfo: ModuleHeaderData = {
     moduleTitle: "Daily Update - [Profile Name]",
-    hasIcon: true,
-    iconClass: null
+    hasIcon: false,
+    iconClass: ""
   };
 
   public comparisonCount: number;
