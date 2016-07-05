@@ -2,10 +2,16 @@
 
     // map tells the System loader where to look for things
     var map = {
-        'app':                        'dist/app', // this is where your transpiled files live
-        'rxjs':                       'node_modules/rxjs',
-        'symbol-observable':          'node_modules/symbol-observable',
-        '@angular':                   'node_modules/@angular'
+        "@angular/core"                    : "dist/lib/core",
+        "@angular/common"                  : "dist/lib/common",
+        "@angular/compiler"                : "dist/lib/compiler",
+        "@angular/router-deprecated"       : "dist/lib/router-deprecated",
+        "@angular/http"                    : "dist/lib/http",
+        "@angular/platform-browser"        : "dist/lib/platform-browser",
+        "@angular/platform-browser-dynamic": "dist/lib/platform-browser-dynamic",
+        "symbol-observable"                : "dist/lib",
+        "rxjs"                             : "dist/lib",
+        'app'                              : 'dist/app' // this is where your transpiled files live
     };
     // packages tells the System loader how to load when no filename and/or no extension
     var packages = {
