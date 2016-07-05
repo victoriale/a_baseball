@@ -55,6 +55,7 @@ export class ArticlesModule implements OnInit {
     mainEventID:number;
     arrLength:number;
     league:boolean = false;
+    error:boolean=false;
     public headerInfo:ModuleHeaderData = {
         moduleTitle: "",
         hasIcon: false,
@@ -85,6 +86,7 @@ export class ArticlesModule implements OnInit {
                     this.getHeadToHeadArticles(this.headToHeadData, this.eventID);
                 },
                 err => {
+                    this.error = true;
                     console.log("Error loading AI headline data for " + this.teamID, err);
                 }
             )
