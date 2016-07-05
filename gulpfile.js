@@ -95,6 +95,7 @@ gulp.task('copy:libs', ['clean'], function() {
       'node_modules/fuse.js/src/fuse.min.js',
       'node_modules/zone.js/dist/zone.js',
 
+      'system.config.js'
     ])
     .pipe(gulp.dest('dist/lib'));
 });
