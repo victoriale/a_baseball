@@ -120,7 +120,7 @@ export class ArticlesModule implements OnInit {
         val['homeHex'] = homeData.hex;
         if (this.teamID == homeData.id) {
             val['homeLogo'] = {
-                imageClass: "image-65",
+                imageClass: "image-62",
                 mainImage: {
                     imageUrl: homeData.logo,
                     imageClass: "border-logo"
@@ -131,7 +131,7 @@ export class ArticlesModule implements OnInit {
             let homeLink = MLBGlobalFunctions.formatTeamRoute(homeName, homeData.id);
             val['url'] = homeLink;
             val['homeLogo'] = {
-                imageClass: "image-65",
+                imageClass: "image-62",
                 mainImage: {
                     imageUrl: homeData.logo,
                     urlRouteArray: homeLink,
@@ -151,7 +151,7 @@ export class ArticlesModule implements OnInit {
         val['awayHex'] = awayData.hex;
         if (this.teamID == awayData.id) {
             val['awayLogo'] = {
-                imageClass: "image-65",
+                imageClass: "image-62",
                 mainImage: {
                     imageUrl: awayData.logo,
                     imageClass: "border-logo"
@@ -162,7 +162,7 @@ export class ArticlesModule implements OnInit {
             let awayLink = MLBGlobalFunctions.formatTeamRoute(awayName, awayData.id);
             val['url'] = awayLink;
             val['awayLogo'] = {
-                imageClass: "image-65",
+                imageClass: "image-62",
                 mainImage: {
                     imageUrl: awayData.logo,
                     urlRouteArray: awayLink,
