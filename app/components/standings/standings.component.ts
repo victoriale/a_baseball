@@ -93,7 +93,7 @@ export class StandingsComponent implements DoCheck {
     });
   }
 
-  tabSelected(newTitle) {
+  tabSelected(newTitle) {    
     this.noDataMessage = "Sorry, there is no data available for the "+ newTitle;
     
     var priorTab = this.getSelectedTab();
@@ -107,7 +107,7 @@ export class StandingsComponent implements DoCheck {
       newTab.setSelectedKey(this.selectedKey);
     }
     this.tabSelectedListener.next([newTab, this.selectedKey]);
-    this.updateCarousel();
+    // this.updateCarousel();
   }
 
   indexNum($event) {
@@ -144,6 +144,7 @@ export class StandingsComponent implements DoCheck {
           });
       });
     }
+    
     this.selectedIndex = selectedIndex < 0 ? 0 : selectedIndex;
     this.carouselData = carouselData;
   }

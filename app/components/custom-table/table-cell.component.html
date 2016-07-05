@@ -7,4 +7,5 @@
   <circle-image *ngIf="cell.image" [data]="cell.image"></circle-image>
   <span [innerHtml]="cell.display"></span>
 </span>
-<span *ngIf="!cell.routerLink && !cell.image" [innerHtml]="cell.display"></span>
+<span *ngIf="cell.displayAsRawText && !cell.routerLink && !cell.image">{{cell.display}}</span>
+<span *ngIf="!cell.displayAsRawText && !cell.routerLink && !cell.image" [innerHtml]="cell.display"></span>

@@ -1,5 +1,5 @@
 <section *ngIf="profileHeaderData" class="module-container ph">
-  <div class="ph-banner-image" [ngStyle]="{'background-image': backgroundImage}">  
+  <div class="ph-banner-image" [style.background]="backgroundImage">  
     <div class="ph-hdr">
       <div class="ph-hdr-date">Last Updated: {{displayDate}}</div>
       <div class="ph-hdr-title" [innerHtml]="profileTitle"></div>
@@ -29,7 +29,7 @@
         <div class="ph-content-desc">
           <!--<div class="ph-content-desc-border"></div>          -->
           <scrollable-content>
-             <p class="ph-content-desc-text" [innerHtml]="profileHeaderData.description"></p>         
+             <p class="ph-content-desc-text" [innerHtml]="profileHeaderData.description"></p>
           </scrollable-content>
         </div>
       </div>
@@ -40,6 +40,6 @@
         <div class="ph-datapts-label">{{data.label}}</div>
         <div class="ph-datapts-value">{{data.value | naValue}}</div>
         <div class="ph-datapts-label">{{data.labelCont}}</div>
-      </div>    
+      </div>
   </div>
 </section>

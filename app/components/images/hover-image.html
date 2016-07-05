@@ -1,6 +1,6 @@
 <!--image (no hover link)-->
 <img *ngIf="!imageData.urlRouteArray && !textOnly" 
-  src='{{imageData.imageUrl}}' 
+  [src]='imageUrl' 
   onerror="this.src='/app/public/no-image.png';" />
 
 <!--image (with hover link)-->
@@ -8,7 +8,7 @@
   [routerLink]="imageData.urlRouteArray"
   class="image-round-hover">
   <img 
-    src='{{imageData.imageUrl}}' 
+    [src]='imageUrl' 
     onerror="this.src='/app/public/no-image.png';" />
   <div [innerHtml]="imageData.hoverText"></div>
 </a>

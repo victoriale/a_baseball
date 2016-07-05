@@ -14,7 +14,7 @@ import {CircleImage} from '../../components/images/circle-image';
 export class CustomTable implements OnChanges {
   @ViewChildren(TableHeader) _tableHeaders: Array<TableHeader>;
   
-  @Output() sortChanged = new EventEmitter();
+  @Output() sortChanged = new EventEmitter(true); //async=true
   
   public isSortDropdownVisible: boolean = false;  
   

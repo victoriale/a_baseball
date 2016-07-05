@@ -11,7 +11,7 @@
         <span>{{scoreBoard.homeLastName}}</span>
       </div>
       <div class="box-table-display">
-        <div class="box-table-max" style="{{scrollScore}}">
+        <div class="box-table-max" [style]="scrollScore">
           <div class="box-table-container" *ngFor="let score of scoreBoard.scoreArray">
             <!-- inning number -->
             <span>{{score.inning}}</span>
