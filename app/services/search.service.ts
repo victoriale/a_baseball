@@ -215,7 +215,8 @@ export class SearchService{
 
         playerResults.forEach(function(item){
             let playerName = item.playerName;
-            let title = playerName + '\'s ' + 'Player Profile';
+            let title = GlobalFunctions.convertToPossessive(playerName) + " Player Profile";
+            //TODO: use router functions to get URL
             let urlText = 'http://www.homerunloyal.com/';
             urlText += '<span class="text-heavy">player/' + GlobalFunctions.toLowerKebab(item.teamName) + '/' + GlobalFunctions.toLowerKebab(playerName) + '/' + item.playerId + '</span>';
             let url = MLBGlobalFunctions.formatPlayerRoute(item.teamName, playerName, item.playerId);
@@ -250,7 +251,8 @@ export class SearchService{
 
         teamResults.forEach(function(item){
             let teamName = item.teamName;
-            let title = teamName + '\'s ' + 'Team Profile';
+            let title = GlobalFunctions.convertToPossessive(teamName) + " Team Profile";
+            //TODO: use router functions to get URL
             let urlText = 'http://www.homerunloyal.com/';
             urlText += '<span class="text-heavy">team/' + GlobalFunctions.toLowerKebab(teamName) + '/' + item.teamId;
             let url = MLBGlobalFunctions.formatTeamRoute(teamName, item.teamId);
