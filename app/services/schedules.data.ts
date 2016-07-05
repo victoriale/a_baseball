@@ -315,7 +315,11 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
         break;
 
       case "t":
-        display = moment(item.startDateTimestamp).tz('America/New_York').format('h:mm') + " <sup> "+moment(item.startDateTimestamp).tz('America/New_York').format('A')+" </sup>";
+        if(item.eventStatus != 'cancelled'){
+          display = moment(item.startDateTimestamp).tz('America/New_York').format('h:mm') + " <sup> "+moment(item.startDateTimestamp).tz('America/New_York').format('A')+" </sup>";
+        }else{
+          display = "Cancelled";
+        }
         sort = item.startDateTimestamp;
         break;
 
@@ -340,9 +344,11 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
         break;
 
       case "gs":
-        var status = item.eventStatus === 'pre-event' ? "Pregame" : (item.eventStatus === 'post-event' ? "Postgame" : null);
-        if ( status ) {
-          display = "<a href='" + item.reportUrlMod + "'>" + status + " Report <i class='fa fa-angle-right'><i></a>";
+        if (item.eventStatus != 'cancelled'){
+          var status = item.eventStatus === 'pre-event' ? "Pregame" : (item.eventStatus === 'post-event' ? "Postgame" : null);
+          if ( status ) {
+            display = "<a href='" + item.reportUrlMod + "'>" + status + " Report <i class='fa fa-angle-right'><i></a>";
+          }
         }
         sort = item.eventStatus;
         break;
