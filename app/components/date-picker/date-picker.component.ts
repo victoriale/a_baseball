@@ -70,7 +70,6 @@ export class DatePicker implements ControlValueAccessor, AfterViewInit {
       //set each of the dates the EST from UTC and change format to respective format
       dateObj[newDate] = monthData[date];
     }
-
     return dateObj;
   }
 
