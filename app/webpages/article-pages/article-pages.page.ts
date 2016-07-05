@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {Location} from '@angular/common';
 import {Router,ROUTER_DIRECTIVES, RouteParams} from '@angular/router-deprecated';
 import {ImagesMedia} from "../../components/carousels/images-media-carousel/images-media-carousel.component";
 import {ShareLinksComponent} from "../../components/articles/shareLinks/shareLinks.component";
@@ -53,10 +54,14 @@ export class ArticlePages implements OnInit {
     teamId:number;
     trendingData:Array<any>;
     trendingImages:Array<any>;
+    error:boolean=false;
     public partnerParam:string;
     public partnerID:string;
 
-    constructor(private _params:RouteParams, private _articleDataService:ArticleDataService) {
+    constructor(private _params:RouteParams,
+                private _articleDataService:ArticleDataService,
+                private _router:Router,
+                private _location:Location) {
         window.scrollTo(0, 0);
         this.eventID = _params.get('eventID');
         this.eventType = _params.get('eventType');
@@ -80,6 +85,16 @@ export class ArticlePages implements OnInit {
                     this.imageLinks = this.getImageLinks(ArticleData[pageIndex]);
                     this.teamId = ArticleData[pageIndex].teamId;
                     ArticlePages.setMetaTag(this.articleData.metaHeadline);
+                },
+                err => {
+                    this.error = true;
+                    var self = this;
+                    setTimeout(function () {
+                        //removes errored page from browser history
+                        self._location.replaceState('/');
+                        //returns user to previous page
+                        self._location.back();
+                    }, 5000);
                 }
             );
         this._articleDataService.getRecommendationsData(this.eventID)
@@ -104,7 +119,7 @@ export class ArticlePages implements OnInit {
         var images = [];
         Object.keys(data).map(function (val, index) {
             if (val != "meta-data") {
-                articles[index-1] = {
+                articles[index - 1] = {
                     title: data[val].displayHeadline,
                     date: data[val].dateline + " EST",
                     content: data[val].article[0],
