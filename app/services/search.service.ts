@@ -221,8 +221,11 @@ export class SearchService{
             // let urlText = 'http://www.homerunloyal.com/';
             // urlText += '<span class="text-heavy">player/' + GlobalFunctions.toLowerKebab(item.teamName) + '/' + GlobalFunctions.toLowerKebab(playerName) + '/' + item.playerId + '</span>';
             let route = MLBGlobalFunctions.formatPlayerRoute(item.teamName, playerName, item.playerId);
-            let instruction = router.generate(route);
-            let urlText = GlobalSettings.getHomePage(partnerId) + '/<span class="text-heavy">' + instruction.toUrlPath().substr(1) + '</span>';
+            let relativePath = router.generate(route).toUrlPath();
+            if ( relativePath.length > 0 && relativePath.charAt(0) == '/' ) {
+                relativePath = relativePath.substr(1);
+            }
+            let urlText = GlobalSettings.getHomePage(partnerId, false) + '/<span class="text-heavy">' + relativePath + '</span>';
             let regExp = new RegExp(playerName, 'g');
             let description = item.playerDescription.replace(regExp, ('<span class="text-heavy">' + playerName + '</span>'));
 
@@ -259,8 +262,11 @@ export class SearchService{
             // let urlText = 'http://www.homerunloyal.com/';
             // urlText += '<span class="text-heavy">team/' + GlobalFunctions.toLowerKebab(teamName) + '/' + item.teamId;
             let route = MLBGlobalFunctions.formatTeamRoute(teamName, item.teamId);
-            let instruction = router.generate(route);
-            let urlText = GlobalSettings.getHomePage(partnerId) + '/<span class="text-heavy">' + instruction.toUrlPath().substr(1) + '</span>';
+            let relativePath = router.generate(route).toUrlPath();
+            if ( relativePath.length > 0 && relativePath.charAt(0) == '/' ) {
+                relativePath = relativePath.substr(1);
+            }
+            let urlText = GlobalSettings.getHomePage(partnerId, false) + '/<span class="text-heavy">' + relativePath + '</span>';
             let regExp = new RegExp(teamName, 'g');
             let description = item.teamDescription.replace(regExp, ('<span class="text-heavy">' + teamName + '</span>'));
 

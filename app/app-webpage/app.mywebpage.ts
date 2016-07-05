@@ -1,6 +1,9 @@
 import {Component} from '@angular/core';
 import {RouteConfig, RouterOutlet, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
+import {FooterComponent} from "../components/footer/footer.component";
+import {HeaderComponent} from "../components/header/header.component";
+
 import {HomePage} from "../webpages/home-page/home-page.page";
 import {AboutUsPage} from "../webpages/about-us-page/about-us.page";
 import {DirectoryPage} from "../webpages/directory-page/directory.page";
@@ -38,8 +41,16 @@ import {PartnerHeader} from "../global/global-service";
     selector: 'my-house',
     templateUrl: './app/app-webpage/app.webpage.html',
 
-    directives: [RouterOutlet, ROUTER_DIRECTIVES, ArticleDataService, HeadlineDataService],
-    providers: [],
+    directives: [
+        //Components for Main Layout
+        HeaderComponent,
+        FooterComponent,
+
+        //Routing Directives
+        RouterOutlet,
+        ROUTER_DIRECTIVES
+    ],
+    providers: [ArticleDataService, HeadlineDataService],
 })
 
 @RouteConfig([
