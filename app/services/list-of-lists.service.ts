@@ -55,11 +55,12 @@ export class ListOfListsService {
     return this.http.get( callURL, {
         headers: headers
       })
-      .map(
-        res => res.json()
-      )
+      .map(res => res.json())
       .map(
         data => {
+          if ( !data || !data.data ) {
+            return null;
+          }
           var lastUpdated = "";
           if ( data && data.data && data.data.length > 0 ) {
             lastUpdated = data.data[0].targetData;
