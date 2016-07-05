@@ -87,6 +87,7 @@ export class SeasonStatsService {
 
   getPlayerStats(playerId: number): Observable<SeasonStatsModuleData> {
     let url = this._apiUrl + "/player/seasonStats/" + playerId;
+    // console.log("player stats: " + url);
     return this.http.get(url)
       .map(res => res.json())
       .map(data => this.formatData(data.data));
@@ -109,14 +110,15 @@ export class SeasonStatsService {
 
     //Load 4 years worth of data, starting from current year
     for ( var year = curYear; year > curYear-4; year-- ) {
-      seasonStatTabs.push(this.getTabData(year, data, year.toString(), playerInfo.playerName, isPitcher, year == curYear));
+      var strYear = year.toString();
+      seasonStatTabs.push(this.getTabData(strYear, data, playerInfo.playerName, isPitcher, year == curYear));
     }
     //Load "Career Stats" data
-    seasonStatTabs.push(this.getTabData("Career", data, "career", playerInfo.playerName, isPitcher));
+    seasonStatTabs.push(this.getTabData("Career", data, playerInfo.playerName, isPitcher));
     return {
       tabs: seasonStatTabs,
       profileName: playerInfo.playerName,
-      carouselDataItem: SeasonStatsService.getCarouselData(playerInfo, curYear), 
+      carouselDataItem: SeasonStatsService.getCarouselData(playerInfo, curYear.toString()), 
       pageRouterLink: this.getLinkToPage(Number(playerInfo.playerId), playerInfo.playerName),
       playerInfo: playerInfo
     };
@@ -193,15 +195,18 @@ export class SeasonStatsService {
     return bars;
   }
 
-  private getTabData(seasonId: string, data: APISeasonStatsData, year: string, playerName: string, isPitcher: boolean, isCurrYear?: boolean): SeasonStatsTabData {
+  private getTabData(seasonId: string, data: APISeasonStatsData, playerName: string, isPitcher: boolean, isCurrYear?: boolean): SeasonStatsTabData {
     var legendValues;
-    var subTitle;
-    var tabTitle;
-    var bars: Array<ComparisonBarInput> = this.getBarData(data.stats[year], year == "career", isPitcher);
+    var subTitle;  
+    var tabTitle; 
+    var longSeasonName; // for display in the carousel and module title
+    var isCareer = seasonId.toLowerCase() == "career";
+    var bars: Array<ComparisonBarInput> = this.getBarData(data.stats[seasonId.toLowerCase()], isCareer, isPitcher);
 
-    if ( year == "career" ) {
+    if ( isCareer ) {
       tabTitle = "Career Stats";
-      subTitle = "Career Stats";
+      subTitle = tabTitle;
+      longSeasonName = "Career";
       legendValues = [
           { title: playerName,    color: '#BC2027' },
           { title: "Stat High",  color: "#E1E1E1" }
@@ -210,11 +215,13 @@ export class SeasonStatsService {
     else {
       if ( isCurrYear ) {
         tabTitle = "Current Season";
-        subTitle = "Current Season";
+        subTitle = tabTitle;
+        longSeasonName = tabTitle;
       }
-      else if ( year != "career" ) {
-        tabTitle = year;
-        subTitle = year + " Season";
+      else {
+        tabTitle = seasonId;
+        subTitle = seasonId + " Season";
+        longSeasonName = subTitle;
       }
       legendValues = [
           { title: playerName,    color: '#BC2027' },
@@ -224,7 +231,7 @@ export class SeasonStatsService {
     }
 
     return {
-      seasonId: seasonId,
+      longSeasonName: longSeasonName,
       tabTitle: tabTitle,
       comparisonLegendData: {
         legendTitle: [
@@ -237,7 +244,7 @@ export class SeasonStatsService {
     };
   }
 
-  static getCarouselData(playerInfo: SeasonStatsPlayerData, seasonId): SliderCarouselInput {
+  static getCarouselData(playerInfo: SeasonStatsPlayerData, longSeasonName: string): SliderCarouselInput {
     if ( !playerInfo ) {
       return null;
     }
@@ -249,14 +256,10 @@ export class SeasonStatsService {
     var playerRouteText = {
       text: playerInfo.playerName
     };
-    var currYear = new Date().getFullYear();
-    if ( currYear == seasonId ) {
-      seasonId = "Current";
-    }
     return SliderCarousel.convertToCarouselItemType1(1, {
       backgroundImage: GlobalSettings.getBackgroundImageUrl(playerInfo.liveImage),
       copyrightInfo: GlobalSettings.getCopyrightInfo(),
-      subheader: [seasonId + " Season Stats Report"],
+      subheader: [longSeasonName + " Stats Report"],
       profileNameLink: playerRouteText,
       description: ["Team: ", teamRouteText],
       lastUpdatedDate: GlobalFunctions.formatUpdatedDate(playerInfo.lastUpdate),
