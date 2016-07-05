@@ -81,10 +81,21 @@ export class MVPListPage implements OnInit {
 
     this._profileService.getMLBProfile()
       .subscribe(data => {
-        this.profileHeaderData.text1 = "Last Updated: " + GlobalFunctions.formatUpdatedDate(data.headerData.lastUpdated);
+        this.profileHeaderData = {
+          imageURL: GlobalSettings.getImageUrl(data.headerData.logo),
+          imageRoute: ["MLB-page"],
+          text1: 'Last Updated: ' + GlobalFunctions.formatUpdatedDate(data.headerData.lastUpdated),
+          text2: 'United States',
+          text3: "MLB's Most Valuable Players",
+          icon: 'fa fa-map-marker'
+        };
+        this.loadTabs();
       }, err => {
         console.log("Error loading MLB profile");
       });
+  }
+
+  loadTabs() {    
 
     this.tabs = this._service.getMVPTabs(this.listType, 'page');
     if ( this.tabs != null && this.tabs.length > 0 ) {

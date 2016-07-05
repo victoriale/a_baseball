@@ -91,7 +91,7 @@ export class ListPageService {
     pageNum: //  determined by the limit as well detects what page to view based on the limit ex: limit: 10  page 1 holds 1-10 and page 2 holds 11-20
     }
   */
-  getListPageService(query, errorMessage: string){
+  getListPageService(query, errorMessage: string, urlLogo: string){
   //Configure HTTP Headers
   var headers = this.setToken();
 
@@ -100,18 +100,14 @@ export class ListPageService {
   for(var q in query){
     callURL += "/" + query[q];
   }
-  return this.http.get( callURL, {
-      headers: headers
-    })
-    .map(
-      res => res.json()
-    )
+  return this.http.get( callURL, {headers: headers})
+    .map(res => res.json())
     .map(
       data => {
         data.data['query'] = query;
         this.formatData(data.data.listInfo.stat, data.data.listData);
         return {
-          profHeader: ListPageService.profileHeader(data.data),
+          profHeader: ListPageService.profileHeader(data.data, urlLogo),
           carData: ListPageService.carDataPage(data.data, 'page', errorMessage),
           listData: ListPageService.detailedData(data.data),
           pagination: data.data.listInfo,
@@ -157,9 +153,7 @@ export class ListPageService {
       callURL += "/" + query[q];
     }
     // console.log("list module url: " + callURL);
-    return this.http.get(callURL, {
-        headers: headers
-      })
+    return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(
         data => {
@@ -204,10 +198,10 @@ export class ListPageService {
       });
   }
 
-  static profileHeader(data): TitleInputData {
+  static profileHeader(data, urlLogo: string): TitleInputData {
     var profile = data.listInfo;
     return {
-      imageURL: GlobalSettings.getSiteLogoUrl(), //TODO
+      imageURL: urlLogo ? urlLogo : GlobalSettings.getSiteLogoUrl(), //TODO
       imageRoute: ["MLB-page"], //TODO: change if image changes
       text1: 'Last Updated: '+ GlobalFunctions.formatUpdatedDate(data.listData[0].lastUpdate),
       text2: 'United States',
