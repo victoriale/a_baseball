@@ -12,7 +12,7 @@ import {ArticleData} from "../../global/global-interface";
 import {ArticleDataService} from "../../global/global-article-page-service";
 import {GlobalFunctions} from "../../global/global-functions";
 import {MLBGlobalFunctions} from "../../global/mlb-global-functions";
-import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
+import {SidekickWrapperAI} from "../../components/sidekick-wrapper-ai/sidekick-wrapper-ai.component";
 
 declare var jQuery:any;
 
@@ -20,7 +20,7 @@ declare var jQuery:any;
     selector: 'article-pages',
     templateUrl: './app/webpages/article-pages/article-pages.page.html',
     directives: [
-        SidekickWrapper,
+        SidekickWrapperAI,
         ROUTER_DIRECTIVES,
         ImagesMedia,
         ShareLinksComponent,
