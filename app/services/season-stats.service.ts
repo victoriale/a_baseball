@@ -109,15 +109,16 @@ export class SeasonStatsService {
 
     //Load 4 years worth of data, starting from current year
     for ( var year = curYear; year > curYear-4; year-- ) {
-      seasonStatTabs.push(this.getTabData(data, year.toString(), playerInfo.playerName, isPitcher, year == curYear));
+      seasonStatTabs.push(this.getTabData(year, data, year.toString(), playerInfo.playerName, isPitcher, year == curYear));
     }
     //Load "Career Stats" data
-    seasonStatTabs.push(this.getTabData(data, "career", playerInfo.playerName, isPitcher));
+    seasonStatTabs.push(this.getTabData("Career", data, "career", playerInfo.playerName, isPitcher));
     return {
       tabs: seasonStatTabs,
       profileName: playerInfo.playerName,
-      carouselDataItem: this.getCarouselData(1, data), //there's only one item in the carousel
-      pageRouterLink: this.getLinkToPage(Number(playerInfo.playerId), playerInfo.playerName)
+      carouselDataItem: SeasonStatsService.getCarouselData(playerInfo, curYear), 
+      pageRouterLink: this.getLinkToPage(Number(playerInfo.playerId), playerInfo.playerName),
+      playerInfo: playerInfo
     };
   }
 
@@ -192,7 +193,7 @@ export class SeasonStatsService {
     return bars;
   }
 
-  private getTabData(data: APISeasonStatsData, year: string, playerName: string, isPitcher: boolean, isCurrYear?: boolean): SeasonStatsTabData {
+  private getTabData(seasonId: string, data: APISeasonStatsData, year: string, playerName: string, isPitcher: boolean, isCurrYear?: boolean): SeasonStatsTabData {
     var legendValues;
     var subTitle;
     var tabTitle;
@@ -223,6 +224,7 @@ export class SeasonStatsService {
     }
 
     return {
+      seasonId: seasonId,
       tabTitle: tabTitle,
       comparisonLegendData: {
         legendTitle: [
@@ -235,26 +237,30 @@ export class SeasonStatsService {
     };
   }
 
-  private getCarouselData(index: number, data: APISeasonStatsData): SliderCarouselInput {
-    if ( !data || !data.playerInfo ) {
+  static getCarouselData(playerInfo: SeasonStatsPlayerData, seasonId): SliderCarouselInput {
+    if ( !playerInfo ) {
       return null;
     }
-    var teamRoute = MLBGlobalFunctions.formatTeamRoute(data.playerInfo.teamName,data.playerInfo.teamId);
+    var teamRoute = MLBGlobalFunctions.formatTeamRoute(playerInfo.teamName, playerInfo.teamId);
     var teamRouteText = {
       route: teamRoute,
-      text: data.playerInfo.teamName
+      text: playerInfo.teamName
     };
     var playerRouteText = {
-      text: data.playerInfo.playerName
+      text: playerInfo.playerName
     };
-    return SliderCarousel.convertToCarouselItemType1(index, {
-      backgroundImage: GlobalSettings.getBackgroundImageUrl(data.playerInfo.liveImage),
+    var currYear = new Date().getFullYear();
+    if ( currYear == seasonId ) {
+      seasonId = "Current";
+    }
+    return SliderCarousel.convertToCarouselItemType1(1, {
+      backgroundImage: GlobalSettings.getBackgroundImageUrl(playerInfo.liveImage),
       copyrightInfo: GlobalSettings.getCopyrightInfo(),
-      subheader: ["CURRENT SEASON STATS REPORT"],
+      subheader: [seasonId + " Season Stats Report"],
       profileNameLink: playerRouteText,
       description: ["Team: ", teamRouteText],
-      lastUpdatedDate: GlobalFunctions.formatUpdatedDate(data.playerInfo.lastUpdate),
-      circleImageUrl: GlobalSettings.getImageUrl(data.playerInfo.playerHeadshot),
+      lastUpdatedDate: GlobalFunctions.formatUpdatedDate(playerInfo.lastUpdate),
+      circleImageUrl: GlobalSettings.getImageUrl(playerInfo.playerHeadshot),
       circleImageRoute: null, //? the single item on the player profile page, so no link is needed
       // subImageUrl: GlobalSettings.getImageUrl(data.playerInfo.teamLogo),
       // subImageRoute: teamRoute
@@ -312,6 +318,7 @@ export class SeasonStatsService {
     }
   }
 }
+
 @Injectable()
 export class SeasonStatsPageService {
   constructor(public http: Http, private _mlbFunctions: MLBGlobalFunctions){}
