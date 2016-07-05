@@ -1,5 +1,6 @@
 const gulp = require('gulp');
 const del = require('del');
+const Builder = require('systemjs-builder');
 const typescript = require('gulp-typescript');
 const tscConfig = require('./tsconfig.json');
 const browserSync = require('browser-sync');
@@ -38,6 +39,28 @@ gulp.task('minify-css',['less'], function() {
 //     .pipe(gulp.dest('dist/app'))
 // });
 
+/** then bundle */
+gulp.task('bundle', ['clean', 'copy:libs'], function() {
+    // optional constructor options
+    // sets the baseURL and loads the configuration file
+    var builder = new Builder('', 'dist/lib/system.config.js');
+    /*
+       the parameters of the below buildStatic() method are:
+           - your transcompiled application boot file (the one wich would contain the bootstrap(MyApp, [PROVIDERS]) function - in my case 'dist/app/boot.js'
+           - the output (file into which it would output the bundled code)
+           - options {}
+    */
+    return builder
+        .buildStatic('dist/app/main.js', 'dist/lib/bundle.js', { minify: true, sourceMaps: true})
+        .then(function() {
+            console.log('Build complete');
+        })
+        .catch(function(err) {
+            console.log('Build error');
+            console.log(err);
+        });
+});
+
 // TypeScript compile
 gulp.task('compile', ['clean'], function () {
   return gulp
@@ -70,7 +93,9 @@ gulp.task('copy:libs', ['clean'], function() {
       // 'node_modules/moment-timezone/moment-timezone.js',//load only one moment timezone otherwise problems will occur
       'node_modules/moment-timezone/builds/moment-timezone-with-data-2010-2020.js',
       'node_modules/fuse.js/src/fuse.min.js',
-      'node_modules/zone.js/dist/zone.js'
+      'node_modules/zone.js/dist/zone.js',
+
+      'system.config.js'
     ])
     .pipe(gulp.dest('dist/lib'));
 });
@@ -101,7 +126,7 @@ gulp.task('serve', ['build'], function() {
 });
 
 // gulp.task('build', ['compile', 'less', 'copy:libs', 'copy:assets', 'minify-css', 'compress']);
-gulp.task('build', ['compile', 'less', 'copy:libs', 'copy:assets', 'minify-css']);
+gulp.task('build', ['compile', 'less', 'copy:libs', 'copy:assets', 'minify-css','bundle']);
 gulp.task('buildAndReload', ['build'], reload);
 gulp.task('default', ['build']);
 
