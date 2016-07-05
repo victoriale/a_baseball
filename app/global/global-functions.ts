@@ -564,4 +564,18 @@ export class GlobalFunctions {
           return null;
       }
   }
+
+  /**
+   * Converts a given name to it's possessive version by checking to see if 
+   * the last character is an 's' or not. If it's an 's', then only an 
+   * apostrophe is added. Otherwise both an apostrophe and an 's' are added.
+   * 
+   * If 'name' is null or empty, then it is returned unchanged. 
+   */
+  static convertToPossessive(name: string) {
+    if ( !name || name.length == 0 ) return name;
+
+    var lastChar = name.charAt(name.length-1);
+    return lastChar == 's' ? name + "'" : name + "'s";
+  }
 }
