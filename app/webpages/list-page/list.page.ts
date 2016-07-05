@@ -23,7 +23,7 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
     selector: 'list-page',
     templateUrl: './app/webpages/list-page/list.page.html',
     directives: [SidekickWrapper, ErrorComponent, LoadingComponent,PaginationFooter, BackTabComponent, TitleComponent, SliderCarousel, DetailedListItem,  ModuleFooter],
-    providers: [ListPageService, ProfileHeaderService, DynamicWidgetCall, Title],
+    providers: [ListPageService, DynamicWidgetCall, Title, ProfileHeaderService],
     inputs:[]
 })
 
@@ -45,6 +45,7 @@ export class ListPage implements OnInit {
   pageNumber: number;
 
   constructor(private listService:ListPageService, 
+              private _profileService: ProfileHeaderService, 
               private params: RouteParams, 
               private dynamicWidget: DynamicWidgetCall, 
               private _title: Title) {
@@ -63,11 +64,11 @@ export class ListPage implements OnInit {
     }
   }
 
-  getListPage(urlParams) {
+  getListPage(urlParams, urlLogo: string) {
     if(urlParams.query != null){
       this.getDynamicList();
     }else {
-      this.getStandardList(urlParams);
+      this.getStandardList(urlParams, urlLogo);
     }
   }
 
@@ -114,9 +115,9 @@ export class ListPage implements OnInit {
   }
 
 
-  getStandardList(urlParams){
+  getStandardList(urlParams, urlLogo: string){
     var errorMessage = "Sorry, we do not currently have any data for this list";
-    this.listService.getListPageService(urlParams, errorMessage)
+    this.listService.getListPageService(urlParams, errorMessage, urlLogo)
       .subscribe(
         list => {
           this._title.setTitle(GlobalSettings.getPageTitle(list.listDisplayName, "Lists"));
@@ -171,7 +172,12 @@ export class ListPage implements OnInit {
 
 
   ngOnInit(){
-      this.getListPage(this.params.params);
+    this._profileService.getMLBProfile()
+    .subscribe(data => {
+        this.getListPage(this.params.params, GlobalSettings.getImageUrl(data.headerData.logo));
+    }, err => {
+        console.log("Error loading MLB profile");
+    });
   }
 
 }
