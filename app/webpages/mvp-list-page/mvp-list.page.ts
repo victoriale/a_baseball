@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {RouteParams} from '@angular/router-deprecated';
+import {Router, ROUTER_DIRECTIVES, RouteParams} from '@angular/router-deprecated';
 import {Title} from '@angular/platform-browser';
 
 import {TitleComponent, TitleInputData} from '../../components/title/title.component';
@@ -20,7 +20,7 @@ import {MVPListComponent, MVPTabData} from '../../components/mvp-list/mvp-list.c
 @Component({
     selector: 'mvp-list-page',
     templateUrl: './app/webpages/mvp-list-page/mvp-list.page.html',
-    directives: [SidekickWrapper, ErrorComponent, LoadingComponent, PaginationFooter, BackTabComponent, TitleComponent, MVPListComponent],
+    directives: [ROUTER_DIRECTIVES, SidekickWrapper, ErrorComponent, LoadingComponent, PaginationFooter, BackTabComponent, TitleComponent, MVPListComponent],
     providers: [ListPageService, ProfileHeaderService, Title],
     inputs:[]
 })
@@ -41,10 +41,10 @@ export class MVPListPage implements OnInit {
     hasIcon: true,
   };
 
-  constructor(private _service:ListPageService, 
+  constructor(private _service:ListPageService,
               private _params: RouteParams,
               private _profileService: ProfileHeaderService,
-              private _title: Title) {
+              private _title: Title, private _router: Router) {
     _title.setTitle(GlobalSettings.getPageTitle("MLB's Most Valuable Players"));
 
     this.listType = _params.get("type");
@@ -57,7 +57,7 @@ export class MVPListPage implements OnInit {
       pageNumber = 1;
     }
 
-    var tabKey = _params.get("tab");   
+    var tabKey = _params.get("tab");
     this.queryParams = { //Initial load for mvp Data
         profile: 'player',
         listname: tabKey,
@@ -95,7 +95,7 @@ export class MVPListPage implements OnInit {
       });
   }
 
-  loadTabs() {    
+  loadTabs() {
 
     this.tabs = this._service.getMVPTabs(this.listType, 'page');
     if ( this.tabs != null && this.tabs.length > 0 ) {
@@ -112,17 +112,17 @@ export class MVPListPage implements OnInit {
   }
 
   //PAGINATION
-  //sets the total pages for particular lists to allow client to 
+  //sets the total pages for particular lists to allow client to
   //move from page to page without losing the sorting of the list
   setPaginationParams(input) {
     if (!input) return;
 
     var navigationParams = {
-      type: this.listType,        
+      type: this.listType,
       tab: input.stat,
       pageNum: input.pageNum
     };
-    
+
     this.paginationParameters = {
       index: input.pageNum,
       max: Number(input.pageCount),
@@ -151,6 +151,9 @@ export class MVPListPage implements OnInit {
   }
 
   tabSelected(tab: BaseballMVPTabData) {
+    var tabRoute;
+    var tabNameFrom = this.selectedTabName; //get the tab we are changing from into a var before we change it
+    var tabNameTo = tab.tabDisplayTitle;
     if ( this.selectedTabName != tab.tabDisplayTitle ) {
       this.queryParams.pageNum = 1;
     }
@@ -160,5 +163,13 @@ export class MVPListPage implements OnInit {
     else {
       this.setPaginationParams(tab.data.listInfo);
     }
+    this.selectedTabName = tab.tabDisplayTitle;//line added to update the current tab variable when tabs are changed without reloading the page
+
+    //actually redirect the page on tab change to update the URL for deep linking and to fix the pagination bug
+    if (tabNameTo !== tabNameFrom) {
+      tabRoute = ["MVP-list-tab-page", { type: this._params.params['type'], tab: tab.tabDataKey, pageNum: "1"}];
+      this._router.navigate(tabRoute);
+     }
+
   }
 }
