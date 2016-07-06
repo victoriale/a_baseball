@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Search, SearchInput} from '../../components/search/search.component';
 import {Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 declare var stButtons: any;
@@ -11,6 +11,7 @@ declare var stButtons: any;
     providers: [],
 })
 export class HeaderComponent implements OnInit {
+  @Input('partner') partner:string;
   public searchInput: SearchInput = {
        placeholderText: "Search for a player or team...",
        hasSuggestions: true

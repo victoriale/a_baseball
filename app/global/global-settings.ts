@@ -10,6 +10,8 @@ export class GlobalSettings {
     private static _newsUrl:string = 'newsapi.synapsys.us';
 
     private static _apiUrl:string = '-homerunloyal-api.synapsys.us';
+    private static _partnerApiUrl: string = 'apireal.synapsys.us/listhuv/?action=get_partner_data&domain=';
+
     private static _imageUrl:string = '-sports-images.synapsys.us';
     private static _articleUrl:string = '-homerunloyal-ai.synapsys.us/';
     private static _recommendUrl:string = '-homerunloyal-ai.synapsys.us/headlines/event/';
@@ -36,6 +38,10 @@ export class GlobalSettings {
     static getApiUrl():string {
         //[https:]//[prod]-homerunloyal-api.synapsys.us
         return this._proto + "//" + this.getEnv(this._env) + this._apiUrl;
+    }
+
+    static getPartnerApiUrl(partnerID):string {
+        return this._proto + "//"+ this._partnerApiUrl + partnerID;
     }
 
     static getImageUrl(relativePath):string {
