@@ -3,56 +3,79 @@ list-of-lists-item{
     .loli-container {
       background-color: @backgroundGrey;
     }
-  }
-  .loli-container{
-    width:100%;
-    min-height:155px;
-    border-bottom: 1px solid #CCCCCC;
-    .clearfix;
-    &-left{
-      float:left;
-      width:22.8%;
-      padding:15px 15px 15px 20px;
-    }
-    &-right{
-      float:right;
-      width:77.2%;
-      padding: 24px 25px 24px 0;
+  }  
+
+  .loli {
+    &-title {
+      margin: 0;
+      // margin: 0 0 15px 0;
+      // min-height: 52px;
+
+      .globalDefaultModFont(18px, 700, @black);      
+      line-height: 28px;
+    } 
+
+    &-container {
+      width:100%;
+      min-height:155px;
+      border-bottom: 1px solid @strokeGrey;
       .clearfix;
+      padding: 15px 20px;
 
-      .loli-sub-item{
-        float: left;
-        margin-left: 10px;
+      &-left{
+        float:left;
+        width: 140px;
+        padding-top: 2px;
       }
+      
+      &-right{
+        float:right;
+        width: 500px;
+        height: 125px;
+        .clearfix;
+        position: relative;
 
-      .dataBox{
-        width:100%;
-        height:auto;
-        color:@black;
-
-        .loli-title{
-          margin: 0 0 15px 0;
-          min-height: 52px;
-
-          .globalDefaultModFont(20px, 800, @black);
-          line-height: 26px;
+        .loli-sub-item{
+          float: left;
+          margin-left: 10px;
         }
-        .data-hover{//hover states
-          text-decoration: none;
-          color: @black;
-          &:hover{
+
+        .dataBox{
+          width:100%;
+          height:auto;
+          color:@black;
+
+          .data-hover{//hover states
             text-decoration: none;
-            color:@masterBrandColor;
-            cursor: pointer;
+            color: @black;
+            &:hover{
+              text-decoration: none;
+              color:@masterBrandColor;
+              cursor: pointer;
+            }
           }
         }
-      }
-      .cta-container{
-        position: relative;
-        top: 5px;
-        a{
-          float: right;
-          .mod-page-btn(35px, 170px, 25px, 14px, 400);
+
+        .cta-container {
+          padding: 5px 5px 5px 12px;
+          overflow: hidden;
+          background: @white;
+          border: 1px solid @backgroundGrey;
+          border-radius: 5px;
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+
+          &-text {
+            display: inline-block;
+            margin-top: 11px;
+            .globalDefaultModFont(14px, 400, @black);   
+          }
+
+          &-button {
+            float: right;
+            .mod-page-btn(35px, 170px, 25px, 14px, 400);
+          }
         }
       }
     }

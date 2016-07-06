@@ -214,9 +214,9 @@ export class TransactionsService {
       carouselArray = data.map((val, index) => {
         var teamRoute = MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId);
         var playerRoute = null;
-        if( (val.active == 'active' || val.active == 'injured') && !val.roleStatus ) {
-          playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.playerName, val.playerName, val.playerId);
-        }
+        if ( ( !val.roleStatus && val.active == 'injured' ) || val.active == 'active' ) {
+          playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.playerName, val.playerName, val.playerId);;
+        } 
         var teamLinkText = {
           route: teamId == val.teamId ? null : teamRoute,
           text: val.teamName
@@ -255,9 +255,9 @@ export class TransactionsService {
 
     listDataArray = data.map(function(val, index){
       var playerRoute = null;
-      if( (val.active == 'active' || val.active == 'injured') && !val.roleStatus ) {
-        playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.playerName, val.playerName, val.playerId);
-      }
+      if ( ( !val.roleStatus && val.active == 'injured' ) || val.active == 'active' ) {
+        playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.playerName, val.playerName, val.playerId);;
+      } 
       var playerTextLink = {
         route: playerRoute,
         text: val.playerLastName + ", " + val.playerFirstName
