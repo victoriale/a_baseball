@@ -378,24 +378,16 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
 
       case "wl":
         //shows the current teams w/l of the current game
-        if (Number(item.homeScore) > Number(item.awayScore)) {
-          display = item.homeOutcome.charAt(0).toUpperCase() + " " + item.homeScore + " - " + item.awayScore;
-          if (Number(item.awayScore)!==0){
-            sort = (Number(item.homeScore)/(Number(item.homeScore)+Number(item.awayScore)));
-          }
-          else {
-            sort = (Number(item.homeScore)/Number(item.homeScore)+0.01);
-          }
+        var scoreHome = Number(item.homeScore);
+        var scoreAway = Number(item.awayScore);
+        if (scoreHome > scoreAway) {
+          display = item.homeOutcome.charAt(0).toUpperCase() + " " + scoreHome + " - " + scoreAway;
+          sort = (scoreHome/scoreHome+scoreAway);
         }
         else
         {
-          display = item.homeOutcome.charAt(0).toUpperCase() + " " + item.awayScore + " - " + item.homeScore;
-          if (Number(item.awayScore)!==0){
-            sort = (Number(item.awayScore)/(Number(item.homeScore)+Number(item.awayScore)));
-          }
-          else {
-            sort = (Number(item.awayScore)/Number(item.homeScore)+0.01);
-          }
+          display = item.homeOutcome.charAt(0).toUpperCase() + " " + scoreAway + " - " + scoreHome;
+            sort = (scoreAway/scoreHome+scoreAway);
         }
         break;
 
