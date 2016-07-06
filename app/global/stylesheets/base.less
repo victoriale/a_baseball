@@ -415,7 +415,16 @@ code.less-var-name-light {
   -ms-perspective: @perspectiveVals;
   perspective: @perspectiveVals;
 }
-
+.textAreaPlaceholder(@taPlaceholderStyle, @taPlaceholderColor) {
+  &-textarea::-webkit-input-placeholder { font-style: @taPlaceholderStyle; color:@taPlaceholderColor;}
+  &-textarea::-moz-placeholder { font-style: @taPlaceholderStyle; color:@taPlaceholderColor;} /* firefox 19+ */
+  &-textarea:-ms-input-placeholder { font-style: @taPlaceholderStyle; color:@taPlaceholderColor;} /* ie */
+}
+.inputPlaceholder(@iPlaceholderStyle, @iPlaceholderColor) {
+  &-input::-webkit-input-placeholder { font-style: @iPlaceholderStyle; color:@iPlaceholderColor;}
+  &-input::-moz-placeholder { font-style: @iPlaceholderStyle; color:@iPlaceholderColor;} /* firefox 19+ */
+  &-input:-ms-input-placeholder { font-style: @iPlaceholderStyle; color:@iPlaceholderColor;} /* ie */
+}
 /* Begin required CSS for line-clamp. */
 .line-clamp
 {
