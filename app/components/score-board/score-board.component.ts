@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, EventEmitter} from '@angular/core';
 import {StatHyphenValuePipe} from '../../pipes/stat-hyphen.pipe';
-import {DomSanitizationService} from '@angular/platform-browser';
+import {SanitizeStyle} from '../../pipes/safe.pipe';
 
 export interface ScoreBoardInput{
 
@@ -10,7 +10,7 @@ export interface ScoreBoardInput{
     selector: 'score-board',
     templateUrl: './app/components/score-board/score-board.component.html',
     directives: [],
-    pipes: [StatHyphenValuePipe],
+    pipes: [StatHyphenValuePipe, SanitizeStyle],
 })
 
 export class ScoreBoard implements OnInit{
