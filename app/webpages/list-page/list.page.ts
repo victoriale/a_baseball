@@ -44,10 +44,10 @@ export class ListPage implements OnInit {
   input: string;
   pageNumber: number;
 
-  constructor(private listService:ListPageService, 
-              private _profileService: ProfileHeaderService, 
-              private params: RouteParams, 
-              private dynamicWidget: DynamicWidgetCall, 
+  constructor(private listService:ListPageService,
+              private _profileService: ProfileHeaderService,
+              private params: RouteParams,
+              private dynamicWidget: DynamicWidgetCall,
               private _title: Title) {
     _title.setTitle(GlobalSettings.getPageTitle("Lists"));
     if(params.params['query'] != null){
@@ -64,11 +64,11 @@ export class ListPage implements OnInit {
     }
   }
 
-  getListPage(urlParams, urlLogo: string) {
+  getListPage(urlParams) {
     if(urlParams.query != null){
       this.getDynamicList();
     }else {
-      this.getStandardList(urlParams, urlLogo);
+      this.getStandardList(urlParams);
     }
   }
 
@@ -86,7 +86,7 @@ export class ListPage implements OnInit {
         limit: params['limit'],
       };
       var navigationPage = this.detailedDataArray ? "List-page" : "Error-page";
-      
+
       this.paginationParameters = {
         index: params['pageNum'] != null ? Number(params['pageNum']) : null,
         max: Number(input.pageCount),
@@ -103,7 +103,7 @@ export class ListPage implements OnInit {
     };
 
     var navigationPage = this.detailedDataArray ? "Dynamic-list-page" : "Error-page";
-    
+
     this.paginationParameters = {
       index: this.pageNumber,
       max: Number(input.pageCount),
@@ -115,9 +115,9 @@ export class ListPage implements OnInit {
   }
 
 
-  getStandardList(urlParams, urlLogo: string){
+  getStandardList(urlParams){
     var errorMessage = "Sorry, we do not currently have any data for this list";
-    this.listService.getListPageService(urlParams, errorMessage, urlLogo)
+    this.listService.getListPageService(urlParams, errorMessage)
       .subscribe(
         list => {
           this._title.setTitle(GlobalSettings.getPageTitle(list.listDisplayName, "Lists"));
@@ -174,7 +174,7 @@ export class ListPage implements OnInit {
   ngOnInit(){
     this._profileService.getMLBProfile()
     .subscribe(data => {
-        this.getListPage(this.params.params, GlobalSettings.getImageUrl(data.headerData.logo));
+        this.getListPage(this.params.params);
     }, err => {
         console.log("Error loading MLB profile");
     });
