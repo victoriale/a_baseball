@@ -26,13 +26,13 @@ export class ScoreBoard implements OnInit{
     if(this.offset > 0){//do not allow scoreboard to move below the first inning
       this.offset--;
     }
-    this.scrollScore = "left:-"+(this.pixel * this.offset)+"px";
+    this.scrollScore = "-"+(this.pixel * this.offset)+"px";
   }
   right(){
     if(this.offset < (this.scoreBoard.scoreArray.length - 9)){//there has to be 9 innings and if there happens to be more allow user to scroll up to that point
       this.offset++;
     }
-    this.scrollScore = "left:-"+(this.pixel * this.offset)+"px";
+    this.scrollScore = "-"+(this.pixel * this.offset)+"px";
   }
 
   ngOnInit(){
