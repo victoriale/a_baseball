@@ -91,7 +91,7 @@ export class ListPageService {
     pageNum: //  determined by the limit as well detects what page to view based on the limit ex: limit: 10  page 1 holds 1-10 and page 2 holds 11-20
     }
   */
-  getListPageService(query, errorMessage: string, urlLogo: string){
+  getListPageService(query, errorMessage: string){
   //Configure HTTP Headers
   var headers = this.setToken();
 
@@ -107,7 +107,7 @@ export class ListPageService {
         data.data['query'] = query;
         this.formatData(data.data.listInfo.stat, data.data.listData);
         return {
-          profHeader: ListPageService.profileHeader(data.data, urlLogo),
+          profHeader: ListPageService.profileHeader(data.data),
           carData: ListPageService.carDataPage(data.data, 'page', errorMessage),
           listData: ListPageService.detailedData(data.data),
           pagination: data.data.listInfo,
@@ -198,11 +198,11 @@ export class ListPageService {
       });
   }
 
-  static profileHeader(data, urlLogo: string): TitleInputData {
+  static profileHeader(data): TitleInputData {
     var profile = data.listInfo;
     return {
-      imageURL: urlLogo ? urlLogo : GlobalSettings.getSiteLogoUrl(), //TODO
-      imageRoute: ["MLB-page"], //TODO: change if image changes
+      imageURL: GlobalSettings.getSiteLogoUrl(), //TODO
+      imageRoute: ["Home-page"],
       text1: 'Last Updated: '+ GlobalFunctions.formatUpdatedDate(data.listData[0].lastUpdate),
       text2: 'United States',
       text3: profile.name,

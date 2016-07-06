@@ -1,4 +1,4 @@
-import {Component, OnInit, OnChanges, Input} from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import {Router, ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 import {GlobalFunctions} from '../../global/global-functions';
 import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
@@ -12,7 +12,10 @@ import {Link, NavigationData} from '../../global/global-interface';
     providers: [],
 })
 export class FooterComponent implements OnInit {
-    public pageName: string = "HomeRunLoyal";//TODO
+    @Input() partnerID: string;
+    public pageName: string;
+    public homePageLinkName: string;
+    public linkName: string;
     public currentUrl: string = window.location.href
     teamDirectoryListings: Array<Link> = []
 
@@ -33,11 +36,20 @@ export class FooterComponent implements OnInit {
         { name: "Colorado Rockies", id: 2800},
         { name: "Detroit Tigers", id: 2797}
     ];
+    loadData(partnerID: string) {
+      if(typeof partnerID == 'undefined') {
+          this.pageName = "Home Run Loyal";
+          this.linkName = "HomeRunLoyal.com";
+     } else {
+          this.pageName = "My HomeRun";
+          this.linkName = "MyHomeRun.com";
+      }
+    }
 
     ngOnInit() {
+        this.loadData(this.partnerID);
         this.teamDirectoryListings = GlobalFunctions.setupAlphabeticalNavigation("teams");
         this.playerDirectoryListings = GlobalFunctions.setupAlphabeticalNavigation("players");
-
         this.mlbTeams.forEach(team => {
            this.mlbTeamListings.push({
               text: team.name,

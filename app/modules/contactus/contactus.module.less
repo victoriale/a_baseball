@@ -68,8 +68,7 @@
     resize: vertical;
     border: 1px solid @strokeGrey;
     &:focus{
-      outline: 2px solid @masterBrandColor;
-      font-style: normal;
+      outline-color: @masterBrandColor;
     }
   }
 .textAreaPlaceholder(italic, @bulletGrey);
@@ -98,7 +97,8 @@
       background-color: transparent;
       border: none;
       margin: 8px 55px 8px 0px;
-      text-align:center;
+      text-align: center;
+      cursor: pointer;
       &:hover{
         color: @masterBrandColor;
       }
