@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, EventEmitter} from '@angular/core';
 import {StatHyphenValuePipe} from '../../pipes/stat-hyphen.pipe';
-import {DomSanitizationService} from '@angular/platform-browser';
+import {SanitizeStyle} from '../../pipes/safe.pipe';
 
 export interface ScoreBoardInput{
 
@@ -10,7 +10,7 @@ export interface ScoreBoardInput{
     selector: 'score-board',
     templateUrl: './app/components/score-board/score-board.component.html',
     directives: [],
-    pipes: [StatHyphenValuePipe],
+    pipes: [StatHyphenValuePipe, SanitizeStyle],
 })
 
 export class ScoreBoard implements OnInit{
@@ -19,15 +19,6 @@ export class ScoreBoard implements OnInit{
   public scrollScore:string;
   public offset:number;
 
-  //css rule to allow transitioning boxes as it moves left and right smoothly
-  private transition = `
-    -webkit-transition: all 0.5s ease-out;
-    -moz-transition: all 0.5s ease-out;
-    -ms-transition: all 0.5s ease-out;
-    -o-transition: all 0.5s ease-out;
-    transition: all 0.5s ease-out;
-  `;
-
   constructor(){
   }
 
@@ -35,13 +26,13 @@ export class ScoreBoard implements OnInit{
     if(this.offset > 0){//do not allow scoreboard to move below the first inning
       this.offset--;
     }
-    this.scrollScore = "left:-"+(this.pixel * this.offset)+"px;" + this.transition;
+    this.scrollScore = "-"+(this.pixel * this.offset)+"px";
   }
   right(){
     if(this.offset < (this.scoreBoard.scoreArray.length - 9)){//there has to be 9 innings and if there happens to be more allow user to scroll up to that point
       this.offset++;
     }
-    this.scrollScore = "left:-"+(this.pixel * this.offset)+"px;" + this.transition;
+    this.scrollScore = "-"+(this.pixel * this.offset)+"px";
   }
 
   ngOnInit(){

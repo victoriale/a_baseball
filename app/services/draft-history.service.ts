@@ -9,19 +9,22 @@ import {CircleImageData} from '../components/images/image-data';
 import {ListPageService} from './list-page.service';
 import {IProfileData} from './profile-header.service';
 import {DetailListInput} from '../components/detailed-list-item/detailed-list-item.component';
+import {PaginationParameters} from '../components/pagination-footer/pagination-footer.component';
 
 export interface DraftHistoryTab {
   tabTitle: string;
   tabKey: string;
   isLoaded: boolean;
-  detailedDataArray: Array<DetailListInput>;
-  carouselDataArray: Array<SliderCarouselInput>;
+  detailedDataArray: Array<Array<DetailListInput>>;
+  carouselDataArray: Array<Array<SliderCarouselInput>>;
+  paginationDetails: PaginationParameters;
   errorMessage: string;
 }
 
 export interface DraftHistoryData {
-  detailedDataArray: Array<DetailListInput>;
-  carouselDataArray: Array<SliderCarouselInput>;
+  detailedDataArray: Array<Array<DetailListInput>>;
+  carouselDataArray: Array<Array<SliderCarouselInput>>;
+  paginationDetails: PaginationParameters;
 }
 
 @Injectable() 
@@ -32,7 +35,7 @@ export class DraftHistoryService {
     return [];
   }
   
-  getDraftHistoryService(profileData: IProfileData, tab: DraftHistoryTab, type: string): Observable<DraftHistoryData> {
+  getDraftHistoryService(profileData: IProfileData, tab: DraftHistoryTab, currIndex: number, type: string): Observable<DraftHistoryData> {
     // console.log("interface - getDraftHistoryService")
     return null;
   }
@@ -73,10 +76,11 @@ export class MLBDraftHistoryService extends DraftHistoryService {
 /**
  * @param {string} type - 'page' or 'module'
  */
-  getDraftHistoryService(profileData: IProfileData, tab: DraftHistoryTab, type: string): Observable<DraftHistoryData> {
+  getDraftHistoryService(profileData: IProfileData, tab: DraftHistoryTab, currIndex: number, type: string): Observable<DraftHistoryData> {
     // console.log("concrete - getDraftHistoryService");
     
     let year = tab.tabKey;
+    let itemsOnPage = 20;
 
     var callURL;
     if ( profileData.profileType == "team" ) {
@@ -97,10 +101,38 @@ export class MLBDraftHistoryService extends DraftHistoryService {
             data.data = data.data.slice(0,2);
           } 
         }
-        return {
-          carouselDataArray: this.carDraftHistory(data.data, tab.errorMessage, type),
-          detailedDataArray: this.detailedData(data.data),
+        var allCarouselItems = this.carDraftHistory(data.data, tab.errorMessage, type); 
+        var allDetailItems = this.detailedData(data.data);
+        var totalPages = allDetailItems ? Math.ceil(allDetailItems.length / itemsOnPage) : 0;
+        var draftData = {
+          carouselDataArray: [],
+          detailedDataArray: null, //detailedDataArray and paginationDetails should be null in case there are no items to display
+          paginationDetails: null  // otherwise, the no-data tab doesn't show up correctly.
         };
+        if ( totalPages > 0 ) { //paginate carousel and detail data
+          draftData.detailedDataArray = [];          
+          if ( type == 'page' ) { //only include pagination for pages
+            draftData.paginationDetails = {
+              index: currIndex + 1, //currIndex is 0-based, but pagination needs 1-based
+              max: totalPages,
+              paginationType: 'module' //even if it's a page type, we want to use 'module' type pagination
+            };
+          }
+          for ( var page = 0; page < totalPages; page++ ) {
+            var start = page * itemsOnPage;
+            var end = start + itemsOnPage;
+            if ( end >= allDetailItems.length ) {
+              end = allDetailItems.length;
+            }
+            draftData.carouselDataArray.push(allCarouselItems.slice(start, end));
+            draftData.detailedDataArray.push(allDetailItems.slice(start, end));
+          }
+        } else { //otherwise just add default carousel item to array
+          if ( totalPages == 0 && allCarouselItems.length == 1 ) {
+            draftData.carouselDataArray.push(allCarouselItems);
+          }
+        }
+        return draftData;
       });
   }
 

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {RouteParams} from '@angular/router-deprecated';
+import {Router, ROUTER_DIRECTIVES, RouteParams} from '@angular/router-deprecated';
 import {Title} from '@angular/platform-browser';
 
 import {GlobalSettings} from "../../global/global-settings";
@@ -25,7 +25,7 @@ declare var moment;
 @Component({
     selector: 'schedules-page',
     templateUrl: './app/webpages/schedules-page/schedules.page.html',
-    directives: [SidekickWrapper, SchedulesComponent, ErrorComponent, LoadingComponent,PaginationFooter, BackTabComponent, TitleComponent, SliderCarousel, DetailedListItem,  ModuleFooter],
+    directives: [ROUTER_DIRECTIVES, SidekickWrapper, SchedulesComponent, ErrorComponent, LoadingComponent,PaginationFooter, BackTabComponent, TitleComponent, SliderCarousel, DetailedListItem,  ModuleFooter],
     providers: [SchedulesService, ProfileHeaderService, Title],
     inputs:[]
 })
@@ -41,22 +41,37 @@ export class SchedulesPage implements OnInit{
   constructor(private _schedulesService:SchedulesService,
           private profHeadService:ProfileHeaderService,
           private params: RouteParams,
-          private _title: Title) {
+          private _title: Title, private _router: Router) {
       _title.setTitle(GlobalSettings.getPageTitle("Schedules"));
     }
 
   //grab tab to make api calls for post of pre event table
   private scheduleTab(tab) {
+    var tabRoute;
+    var tabNameFrom = this.params.params['tab']; //get the tab we are changing from into a var before we change it
+    var tabNameTo;
     var newParams = this.params.params;
       if(tab == 'Upcoming Games'){
           newParams['tab'] = 'pre-event';
+          tabNameTo = "pre-event";
           this.getSchedulesData('pre-event');
       }else if(tab == 'Previous Games'){
           newParams['tab'] = 'post-event';
+          tabNameTo = "post-event";
           this.getSchedulesData('post-event');
       }else{
           newParams['tab'] = 'post-event';
+          tabNameTo = "post-event";
           this.getSchedulesData('post-event');// fall back just in case no status event is present
+      }
+      if (tabNameTo !== tabNameFrom) {
+      if (newParams['teamId'] !== null) {
+        tabRoute = ["Schedules-page-team-tab", {teamName: newParams['teamName'], teamId: newParams['teamId'], pageNum: "1", tab: newParams['tab']}];
+      }
+      else {
+        tabRoute = ["Schedules-page-mlb-tab", {pageNum: "1", tab: newParams['tab']}];
+      }
+      this._router.navigate(tabRoute);
       }
   }
 

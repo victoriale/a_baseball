@@ -10,11 +10,12 @@ import {LoadingComponent} from "../../components/loading/loading.component";
 import {ErrorComponent} from "../../components/error/error.component";
 import {DraftHistoryTab, DraftHistoryService} from '../../services/draft-history.service';
 import {IProfileData} from '../../services/profile-header.service';
+import {PaginationFooter, PaginationParameters} from '../../components/pagination-footer/pagination-footer.component';
 
 @Component({
     selector: 'draft-history',
     templateUrl: './app/components/draft-history/draft-history.component.html',
-    directives: [ErrorComponent, LoadingComponent, NoDataBox, Tab, Tabs, SliderCarousel, DetailedListItem]
+    directives: [ErrorComponent, LoadingComponent, NoDataBox, Tab, Tabs, SliderCarousel, DetailedListItem, PaginationFooter]
 })
 
 export class DraftHistoryComponent implements OnInit {
@@ -27,9 +28,11 @@ export class DraftHistoryComponent implements OnInit {
 
   private dataArray: Array<DraftHistoryTab>;
   
-  private carouselDataArray: Array<SliderCarouselInput>;
+  private carouselDataArray: Array<Array<SliderCarouselInput>>;
 
   private isError: boolean = false;
+
+  private currentIndex: number = 0;
 
   constructor(private _draftService:DraftHistoryService) {
   }
@@ -45,17 +48,19 @@ export class DraftHistoryComponent implements OnInit {
 
   getDraftPage(tab: DraftHistoryTab) {
     if ( tab.isLoaded ) {
+      tab.paginationDetails.index = this.currentIndex + 1;    
       this.carouselDataArray = tab.carouselDataArray;
       return;
     }
     
-    this._draftService.getDraftHistoryService(this.profileData, tab, this.type)
+    this._draftService.getDraftHistoryService(this.profileData, tab, this.currentIndex, this.type)
         .subscribe(
             draftData => {
               tab.isLoaded = true;
               tab.detailedDataArray = draftData.detailedDataArray;
               tab.carouselDataArray = draftData.carouselDataArray;
-              this.carouselDataArray = draftData.carouselDataArray;
+              tab.paginationDetails = draftData.paginationDetails;
+              this.carouselDataArray = tab.carouselDataArray;
             },
             err => {
               tab.isLoaded = true;
@@ -65,10 +70,16 @@ export class DraftHistoryComponent implements OnInit {
         );
   }
 
-  selectedTab(tabTitle){
+  selectedTab(tabTitle) {
     let tabs = this.dataArray.filter(tab => tab.tabTitle == tabTitle);
     if ( tabs.length > 0 ) {
+      this.currentIndex = 0; // change page back to beginning
       this.getDraftPage(tabs[0]);
     }
+  }
+
+  newIndex(index) {
+    window.scrollTo(0,0);
+    this.currentIndex = index - 1; //page index is 1-based, but we need 0-based to select correct array
   }
 }

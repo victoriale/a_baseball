@@ -115,7 +115,7 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
             rows.push(player);
           }
         });
-      }      
+      }
     }
     rows = rows.sort((a, b) => {
       return Number(b.salary) - Number(a.salary);
@@ -137,9 +137,9 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
       formattedSalary = "$" + GlobalFunctions.nFormatter(Number(val.salary));
     }
 
-    var playerNum = val.uniformNumber != null ? ", <span class='text-heavy'>#" + val.uniformNumber + "</span>," : "";
+    var playerNum = val.uniformNumber != null ? "<span class='text-heavy'>#" + val.uniformNumber + "</span>," : "";
     var playerHeight = val.height != null ? "<span class='text-heavy'>" + formattedHeight + "</span>, " : "";
-    var playerWeight = val.weight != null ? "<span class='text-heavy'>" + val.weight + "</span> lbs " : "";
+    var playerWeight = val.weight != null ? "<span class='text-heavy'>" + val.weight + "</span> " : "";
     var playerSalary = " makes <span class='text-heavy'>" + formattedSalary + "</span> per season.";
 
     var playerLinkText = {
@@ -159,9 +159,9 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
       description: [
           '<span class="text-heavy">',
           playerLinkText,
-          '</span> <span class="text-heavy">'+ playerNum + '</span> plays for the ',
+          '</span> plays ', "<span class='text-heavy'>" + val.position.join(', '), "</span>",'for the ',
           teamLinkText,
-          '. The ' + playerHeight + playerWeight + "<span class='text-heavy'>" + val.position.join(', ') + "</span>" + playerSalary
+          ', wears <span class="text-heavy">'+ playerNum + '</span> is ' + playerHeight + playerWeight +" and "+ playerSalary
       ],
       lastUpdatedDate: GlobalFunctions.formatUpdatedDate(val.lastUpdate),
       circleImageUrl: GlobalSettings.getImageUrl(val.playerHeadshot),

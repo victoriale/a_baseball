@@ -80,6 +80,8 @@ export class ComparisonModule implements OnInit, OnChanges {
 
     noDataMessage = "Sorry, there are no values for this season.";
 
+    selectedTabTitle: string;
+
     constructor() {
         var year = new Date().getFullYear();
         this.tabs.push({
@@ -128,20 +130,30 @@ export class ComparisonModule implements OnInit, OnChanges {
 
     //TODO-CJP: think about passing of data and creating a list of players rather than player one and player two
     formatData(data: ComparisonStatsData) {
-        var selectedSeason = new Date().getFullYear(); //TODO: get from selected tab.
-        // this.selectedTeamOne = data.playerOne.teamId;
-        // this.selectedTeamTwo = data.playerTwo.teamId;
         this.comparisonTileDataOne = this.setupTile(data.playerOne);
         this.comparisonTileDataTwo = this.setupTile(data.playerTwo);
         this.gradient = Gradient.getGradientStyles([data.playerOne.mainTeamColor, data.playerTwo.mainTeamColor], 1);
 
+        var selectedTab;
         for ( var i = 0; i < this.tabs.length; i++ ) {
+            if ( !this.selectedTabTitle && i == 0 ) {
+                selectedTab = this.tabs[i];
+            }
+            else if ( this.selectedTabTitle && this.tabs[i].tabTitle == this.selectedTabTitle ) {
+                selectedTab = this.tabs[i];
+            }
             this.tabs[i].barData = data.bars[this.tabs[i].seasonId];
         }
+
+        if ( !selectedTab ) {
+            return;
+        }
+
+        var legendTitle = selectedTab.tabTitle == "Career Stats" ? selectedTab.tabTitle : selectedTab.seasonId + " Season"; 
         this.comparisonLegendData = {
             legendTitle: [
                 {
-                    text: selectedSeason + ' Season',
+                    text: legendTitle,
                     class: 'text-heavy'
                 },
                 {
@@ -282,6 +294,7 @@ export class ComparisonModule implements OnInit, OnChanges {
     }
 
     tabSelected(tabTitle) {
+        this.selectedTabTitle = tabTitle;
         var selectedTabs = this.tabs.filter(tab => {
            return tab.tabTitle == tabTitle;
         });

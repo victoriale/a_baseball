@@ -29,6 +29,13 @@ export class ContactUsModule{
             if(data.description === null){
                 throw 'Please enter a message in the Description field.';
             }
+
+            data.email = data.email ? data.email.trim() : "";
+            var emailPattern = /^.+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+            if (!emailPattern.test(data.email)) {
+                throw 'Please enter a valid email in the Email Address field.';
+            }
+            
         }catch(e){
             window.alert(e);
             return false;
