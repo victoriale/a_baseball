@@ -50,9 +50,10 @@
       outline: 2px solid @masterBrandColor;
     }
   }
+  .inputPlaceholder(normal, @bulletGrey);
 
   &-checkbox{
-    margin-right: 10px;;
+    margin-right: 10px;
     border: 1px solid @strokeGrey;
 
     &:focus{
@@ -64,17 +65,14 @@
     width: 100%;
     padding: 10px;
     min-height: 166px;
-    resize: vertical;;
+    resize: vertical;
     border: 1px solid @strokeGrey;
     &:focus{
       outline: 2px solid @masterBrandColor;
       font-style: normal;
     }
   }
-&-textarea::-webkit-input-placeholder { font-style: italic; }
-&-textarea::-moz-placeholder { font-style: italic; } /* firefox 19+ */
-&-textarea:-ms-input-placeholder { font-style: italic; } /* ie */
-
+.textAreaPlaceholder(italic, @bulletGrey);
   &-buttons{
     width:100%;
     height:36px;
