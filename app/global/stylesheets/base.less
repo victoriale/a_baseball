@@ -39,6 +39,7 @@ ToC
 
 // Brand Color Image Hovers
 @imageHoverOpacity: 0.75;
+@imageHoverOpacityHalf: 0.5;
 @sntMediaBlueImageHover: rgba(0, 157, 251, @imageHoverOpacity);
 @investKitBlueImageHover: rgba(48, 152, 255, @imageHoverOpacity);
 @lifestylePurpleImageHover: rgba(101, 57, 142, @imageHoverOpacity);
@@ -51,6 +52,7 @@ ToC
 @joyfulHomeGreenHover: rgba(68, 178, 36, @imageHoverOpacity);
 @homeRunLoyalImageHover: rgba(188, 32, 39, @imageHoverOpacity);
 @featureBtn: rgba(54, 54, 54, 0.85);
+@homeRunLoyalSqrtHover: rgba(188,22,36,@imageHoverOpacityHalf);
 // Grey Color Palette; light to dark
 // We should only use these 6 types of grey
 // if there is ever a variation of one of those,please round to the closest color
@@ -62,7 +64,8 @@ ToC
 @textEmphasisGrey: #272727;
 
 // Box Shadow for Image Borders
-@masterButtonBackground: rgba(0, 0, 0, 0.5);
+@masterNoneBackground: rgba(0, 0, 0, 0);
+@masterButtonBackground: rgba(0, 0, 0, @imageHoverOpacityHalf);
 @masterLargeImageShadow: rgba(0,0,0,0.25);
 @masterSmallImageShadow: @strokeGrey;
 // Master Vertical Brand Colors
