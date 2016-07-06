@@ -128,15 +128,6 @@ export class ListOfListsService {
           };
           itemDescription   = ["The ", profileLinkText, " are currently ranked <b>"+ rankStr +"</b> in the <b>"+ itemInfo.scope +"</b> with the most <b>" + itemStatName + "</b>."];
         }
-        // else {//MLB version
-        //   itemProfile       = "MLB";
-        //   itemImgUrl        = GlobalSettings.getSiteLogoUrl();
-        //   itemRoute         = ["MLB-page"];
-        //   profileLinkText   = {
-        //     route: itemRoute,
-        //     text: itemProfile
-        //   };
-        // }
 
         var carouselItem = SliderCarousel.convertToCarouselItemType1(index, {
           backgroundImage: GlobalSettings.getBackgroundImageUrl(itemTargetData.backgroundImage),
@@ -150,18 +141,7 @@ export class ListOfListsService {
           rank: itemTargetData.rank,
           rankClass: "image-48-rank"
         });
-
-        // var carouselItem = {
-        //   index:'2',
-        //   // imageData(imageClass, imageBorder, mainImg, mainImgRoute, subImgClass?, subImg?, subRoute?, rank?, hasHover?){
-        //   imageConfig: self.imageData("image-150", "border-large", itemImgUrl , itemRoute,"image-50-sub", itemSubImg, itemSubRoute, itemTargetData.rank, itemHasHover),
-        //   description:[
-        //     '<p class="font-12 fw-400 lh-12 titlecase"><i class="fa fa-circle"></i> Related List - ' + itemProfile + '</p>',
-        //     '<p class="font-22 fw-800 lh-25" style="padding-bottom:16px;">'+ itemInfo.name +'</p>',
-        //     '<p class="font-14 fw-400 lh-18" style="padding-bottom:6px;">'+ itemDescription +'<p>',
-        //     '<p class="font-10 fw-400 lh-25">Last Updated on '+ updatedDate +'</p>'
-        //   ],
-        // };
+        
         carouselArray.push(carouselItem);
       });
     }
@@ -196,6 +176,14 @@ export class ListOfListsService {
       ctaUrlArray.splice(0,2);
       ctaUrlArray.push.apply(ctaUrlArray,["10","1"]);
 
+      var profileTypePlural = "types";
+      if ( itemListInfo.target == "player" ) {
+        profileTypePlural = "players";
+      }
+      else if ( itemListInfo.target == "team" ) {
+        profileTypePlural = "teams";
+      }
+
       var listData = {
         url           : itemListInfo.url           != null  ? itemListInfo.url          : dummyUrl,
         name          : itemListInfo.name          != null  ? itemListInfo.name         : dummyName,
@@ -211,6 +199,7 @@ export class ListOfListsService {
         icon          : itemListInfo.icon          != null  ? itemListInfo.icon         : dummyIcon,
         dataPoints    : [],
         ctaBtn        : '',
+        ctaDesc       : 'What to see the ' + profileTypePlural + ' in this list?',
         ctaText       : 'View The List',
         ctaUrl        : MLBGlobalFunctions.formatListRoute(ctaUrlArray)
       };
@@ -230,12 +219,12 @@ export class ListOfListsService {
               imageClass      : index > 0 ? "border-1" : "border-2"
             },
             subImages         : index > 0 ? null : [
-              {
-                imageUrl      : itemListInfo.target == "player" ? MLBGlobalFunctions.formatTeamLogo(val.teamName) : null,
-                urlRouteArray : itemListInfo.target == "player" ? MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId) : null,
-                hoverText     : itemListInfo.target == "player" ? "<i class='fa fa-mail-forward'></i>" : null,
-                imageClass    : itemListInfo.target == "player" ? "image-round-sub image-40-sub image-round-lower-right" : null
-              },
+              // {
+              //   imageUrl      : itemListInfo.target == "player" ? MLBGlobalFunctions.formatTeamLogo(val.teamName) : null,
+              //   urlRouteArray : itemListInfo.target == "player" ? MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId) : null,
+              //   hoverText     : itemListInfo.target == "player" ? "<i class='fa fa-mail-forward'></i>" : null,
+              //   imageClass    : itemListInfo.target == "player" ? "image-round-sub image-40-sub image-round-lower-right" : null
+              // },
               {
               text: "#"+ val.rank,
               imageClass: "image-38-rank image-round-upper-left image-round-sub-text"

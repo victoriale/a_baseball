@@ -110,7 +110,7 @@ export class DailyUpdateService {
         },
         {
           name: "Earned Runs Average",
-          value: apiSeasonStats.pitchEra != null ? Number(apiSeasonStats.pitchEra).toFixed(2) + "%" : "N/A",
+          value: apiSeasonStats.pitchEra != null ? Number(apiSeasonStats.pitchEra).toFixed(2) : "N/A",
           icon: "fa-batter" //TODO: use 'batter swinging' icon
         },
         {
