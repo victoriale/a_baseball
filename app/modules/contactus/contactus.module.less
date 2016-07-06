@@ -66,13 +66,14 @@
     min-height: 166px;
     resize: vertical;;
     border: 1px solid @strokeGrey;
-    font-style: italic;
-
     &:focus{
       outline: 2px solid @masterBrandColor;
       font-style: normal;
     }
   }
+&-textarea::-webkit-input-placeholder { font-style: italic; }
+&-textarea::-moz-placeholder { font-style: italic; } /* firefox 19+ */
+&-textarea:-ms-input-placeholder { font-style: italic; } /* ie */
 
   &-buttons{
     width:100%;
