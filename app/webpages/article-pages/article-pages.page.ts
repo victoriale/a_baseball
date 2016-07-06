@@ -54,7 +54,8 @@ export class ArticlePages implements OnInit {
     teamId:number;
     trendingData:Array<any>;
     trendingImages:Array<any>;
-    error:boolean=false;
+    error:boolean = false;
+    hasImages:boolean = false;
     public partnerParam:string;
     public partnerID:string;
 
@@ -154,26 +155,31 @@ export class ArticlePages implements OnInit {
         } else if (this.articleType == "playerRoster") {
             imageCount = 2;
         }
-        if (Object.keys(data).length > 0) {
-            for (var id in data) {
-                data[id].map(function (val, index) {
-                    if (index < imageCount) {
-                        image = val['image'];
-                        copyright = val['copyright'];
-                        title = val['title'];
-                        images.push(image);
-                        copyData.push(copyright);
-                        description.push(title);
-                    }
-                });
+        try {
+            if (Object.keys(data).length > 0) {
+                for (var id in data) {
+                    data[id].map(function (val, index) {
+                        if (index < imageCount) {
+                            image = val['image'];
+                            copyright = val['copyright'];
+                            title = val['title'];
+                            images.push(image);
+                            copyData.push(copyright);
+                            description.push(title);
+                        }
+                    });
+                }
+                this.imageData = images;
+                this.copyright = copyData;
+                this.imageTitle = description;
+            } else {
+                this.imageData = null;
+                this.copyright = null;
+                this.imageTitle = null;
             }
-            this.imageData = images;
-            this.copyright = copyData;
-            this.imageTitle = description;
-        } else {
-            this.imageData = null;
-            this.copyright = null;
-            this.imageTitle = null;
+            this.hasImages = true;
+        } catch (err) {
+            this.hasImages = false;
         }
     }
 
