@@ -250,12 +250,12 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
            isNumericType: false,
            key: 'opp'
          },{
-           headerValue: "W/L",
+           headerValue: "RESULT", //changed name for clarity to match espn
            columnClass: "data-column wl-column",
            isNumericType: false,
            key: "wl"
-         },{
-           headerValue: "RECORD",
+           },{
+           headerValue: "W/L", //changed name for clarity to match espn
            columnClass: "data-column record-column",
            isNumericType: true,
            key: "rec"
@@ -378,18 +378,36 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
 
       case "wl":
         //shows the current teams w/l of the current game
-        if(this.curTeam == item.homeTeamId){
+        if (Number(item.homeScore) > Number(item.awayScore)) {
           display = item.homeOutcome.charAt(0).toUpperCase() + " " + item.homeScore + " - " + item.awayScore;
-        }else{
-          display = item.awayOutcome.charAt(0).toUpperCase() + " " + item.awayScore + " - " + item.homeScore;
+          if (Number(item.awayScore)!==0){
+            sort = (Number(item.homeScore)/(Number(item.homeScore)+Number(item.awayScore)));
+          }
+          else {
+            sort = (Number(item.homeScore)/Number(item.homeScore)+0.01);
+          }
         }
-        sort = Number(item.homeScore);
+        else
+        {
+          display = item.homeOutcome.charAt(0).toUpperCase() + " " + item.awayScore + " - " + item.homeScore;
+          if (Number(item.awayScore)!==0){
+            sort = (Number(item.awayScore)/(Number(item.homeScore)+Number(item.awayScore)));
+          }
+          else {
+            sort = (Number(item.awayScore)/Number(item.homeScore)+0.01);
+          }
+        }
         break;
 
       case "rec":
         //shows the record of the current teams game at that time
         display = item.targetTeamWinsCurrent + " - " + item.targetTeamLossesCurrent;
-        sort = Number(item.targetTeamWinsCurrent);
+        if (Number(item.targetTeamWinsCurrent) > Number(item.targetTeamLossesCurrent)) {
+          sort = (Number(item.targetTeamWinsCurrent)/(Number(item.targetTeamLossesCurrent)+(Number(item.targetTeamWinsCurrent))));
+        }
+        else {
+          sort = (Number(item.targetTeamLossesCurrent)/(Number(item.targetTeamWinsCurrent)+(Number(item.targetTeamLossesCurrent))));
+        }
         break;
     }
     if ( isLocation ) {
