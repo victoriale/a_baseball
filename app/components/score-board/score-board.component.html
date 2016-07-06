@@ -3,15 +3,15 @@
   <div class="score-board-data">
     <div class="score-board-title">FINAL SCORE</div>
     <div class="box-table">
-      <div *ngIf="scoreBoard.scoreArray > 9" class="box-table-arrows box-table-arrows-left" (click)="left()"><i class="fa fa-angle-left"></i></div>
-      <div *ngIf="scoreBoard.scoreArray > 9" class="box-table-arrows box-table-arrows-right" (click)="right()"><i class="fa fa-angle-right"></i></div>
+      <div *ngIf="scoreBoard.scoreArray.length > 9" class="box-table-arrows box-table-arrows-left" (click)="left()"><i class="fa fa-angle-left"></i></div>
+      <div *ngIf="scoreBoard.scoreArray.length > 9" class="box-table-arrows box-table-arrows-right" (click)="right()"><i class="fa fa-angle-right"></i></div>
       <div class="box-table-labels">
         <span></span>
         <span>{{scoreBoard.awayLastName}}</span>
         <span>{{scoreBoard.homeLastName}}</span>
       </div>
       <div class="box-table-display">
-        <div class="box-table-max" [style]="scrollScore">
+        <div class="box-table-max" [ngStyle]="scrollScore">
           <div class="box-table-container" *ngFor="let score of scoreBoard.scoreArray">
             <!-- inning number -->
             <span>{{score.inning}}</span>

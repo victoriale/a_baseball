@@ -136,6 +136,7 @@ export class DatePicker implements ControlValueAccessor, AfterViewInit {
     this.setValue(selectedDate);
     // this.closeDatepicker();
     this.changed.emit(selectedDate.toDate());
+    this.closeDatepicker();
   }
 
   private generateCalendar(date): void {
