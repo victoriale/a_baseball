@@ -304,11 +304,12 @@ export class SearchService{
     searchPlayers(term, data){
         let fuse = new Fuse(data, {
             //Fields the search is based on
-            keys: ['playerName'],
-            //At what point does the match algorithm give up. A threshold of 0.0 requires a perfect match (of both letters and location), a threshold of 1.0 would match anything.
-            threshold: 0.2,
-            distance:6,
-            tokenize :true,
+            keys: ['playerFirstName', 'playerLastName', 'playerName'],
+            //At what point does the match algorithm give up. A threshold of 0.0 requires a perfect match (of both letters and location), 
+            // a threshold of 1.0 would match anything.
+            threshold: 0.1,
+            distance: 0,
+            tokenize: false,
         });
 
         return fuse.search(term);
@@ -321,11 +322,7 @@ export class SearchService{
             keys: ['teamName'],
             //At what point does the match algorithm give up. A threshold of 0.0 requires a perfect match (of both letters and location), a threshold of 1.0 would match anything.
             threshold: 0.2,
-            shouldSort: true,
-            sortFn: function(a, b){
-              return a.score - b.score;
-            }
-
+            shouldSort: true
         });
 
         return fuse.search(term);
