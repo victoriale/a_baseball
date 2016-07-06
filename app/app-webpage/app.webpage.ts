@@ -262,6 +262,13 @@ export class AppComponent implements AfterViewChecked{
     return document.getElementById('pageHeader').offsetHeight;
   }
 
+  ngDoCheck(){
+    var checkHeight = this.getHeaderHeight();
+    if(this.shiftContainer != (checkHeight + 'px')){
+      this.shiftContainer = checkHeight + 'px';
+    }
+  }
+
   ngAfterViewChecked(){
     this.shiftContainer = this.getHeaderHeight() + 'px';
   }

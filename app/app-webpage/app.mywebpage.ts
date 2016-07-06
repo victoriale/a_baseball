@@ -266,6 +266,7 @@ export class MyAppComponent {
     var parentParams = _params.params;
     if( parentParams['partner_id'] !== null){
         this.partnerID = parentParams['partner_id'];
+        this.getPartnerHeader();
     }
   }
 
@@ -275,24 +276,22 @@ export class MyAppComponent {
           partnerScript => {
               this.partnerData = partnerScript;
               this.partnerScript = this.partnerData['results'].header.script;
-              this.shiftContainer = this.getHeaderHeight() + 'px';
-              console.log(partnerScript);
           }
       );
   }
 
+  ngDoCheck(){
+    var checkHeight = this.getHeaderHeight();
+    if(this.shiftContainer != (checkHeight + 'px')){
+      this.shiftContainer = checkHeight + 'px';
+    }
+  }
+
   getHeaderHeight(){
-    console.log('height', document.getElementById('pageHeader').offsetHeight);
     return document.getElementById('pageHeader').offsetHeight;
   }
 
   ngOnInit(){
-      if (this.partnerID != null){
-        console.log('partner');
-          this.getPartnerHeader();
-      }else{
-        console.log('noparther');
-        this.shiftContainer = this.getHeaderHeight() + 'px';
-      }
+    this.shiftContainer = this.getHeaderHeight() + 'px';
   }
 }
