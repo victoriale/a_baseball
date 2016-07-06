@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, AfterViewChecked} from '@angular/core';
 import {RouteConfig, RouterOutlet, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
 import {GlobalFunctions} from "../global/global-functions";
@@ -37,6 +37,9 @@ import {ImagesTestPage} from "../webpages/images-test-page/images-test.page";
 import {DesignPage} from "../webpages/design-page/design.page";
 import {ComponentPage} from "../webpages/component-page/component.page";
 
+import {SanitizeHtml} from "../pipes/safe.pipe";
+import {SanitizeStyle} from "../pipes/safe.pipe";
+
 @Component({
     selector: 'my-app',
     templateUrl: './app/app-webpage/app.webpage.html',
@@ -50,6 +53,7 @@ import {ComponentPage} from "../webpages/component-page/component.page";
         ROUTER_DIRECTIVES
     ],
     providers: [ArticleDataService, HeadlineDataService],
+    pipes:[SanitizeHtml, SanitizeStyle]
 })
 
 @RouteConfig([
@@ -251,4 +255,14 @@ import {ComponentPage} from "../webpages/component-page/component.page";
     }
 ])
 
-export class AppComponent {}
+export class AppComponent implements AfterViewChecked{
+  public shiftContainer:string;
+
+  getHeaderHeight(){
+    return document.getElementById('pageHeader').offsetHeight;
+  }
+
+  ngAfterViewChecked(){
+    this.shiftContainer = this.getHeaderHeight() + 'px';
+  }
+}

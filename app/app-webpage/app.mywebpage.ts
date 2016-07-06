@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {RouteConfig, RouterOutlet, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import {Component, OnInit} from '@angular/core';
+import {RouteParams, RouteConfig, RouterOutlet, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
 import {FooterComponent} from "../components/footer/footer.component";
 import {HeaderComponent} from "../components/header/header.component";
@@ -37,6 +37,8 @@ import {DesignPage} from "../webpages/design-page/design.page";
 import {ComponentPage} from "../webpages/component-page/component.page";
 
 import {PartnerHeader} from "../global/global-service";
+import {SanitizeHtml} from "../pipes/safe.pipe";
+import {SanitizeStyle} from "../pipes/safe.pipe";
 
 @Component({
     selector: 'my-house',
@@ -51,7 +53,8 @@ import {PartnerHeader} from "../global/global-service";
         RouterOutlet,
         ROUTER_DIRECTIVES
     ],
-    providers: [ArticleDataService, HeadlineDataService],
+    providers: [ArticleDataService, HeadlineDataService, PartnerHeader],
+    pipes:[SanitizeHtml,SanitizeStyle]
 })
 
 @RouteConfig([
@@ -253,4 +256,43 @@ import {PartnerHeader} from "../global/global-service";
     }
 ])
 
-export class MyAppComponent {}
+export class MyAppComponent {
+  public partnerID: string;
+  public partnerData: Object;
+  public partnerScript:string;
+  public shiftContainer:string;
+
+  constructor(private _partnerData: PartnerHeader, private _params: RouteParams){
+    var parentParams = _params.params;
+    if( parentParams['partner_id'] !== null){
+        this.partnerID = parentParams['partner_id'];
+    }
+  }
+
+  getPartnerHeader(){//Since it we are receiving
+    this._partnerData.getPartnerData(this.partnerID)
+      .subscribe(
+          partnerScript => {
+              this.partnerData = partnerScript;
+              this.partnerScript = this.partnerData['results'].header.script;
+              this.shiftContainer = this.getHeaderHeight() + 'px';
+              console.log(partnerScript);
+          }
+      );
+  }
+
+  getHeaderHeight(){
+    console.log('height', document.getElementById('pageHeader').offsetHeight);
+    return document.getElementById('pageHeader').offsetHeight;
+  }
+
+  ngOnInit(){
+      if (this.partnerID != null){
+        console.log('partner');
+          this.getPartnerHeader();
+      }else{
+        console.log('noparther');
+        this.shiftContainer = this.getHeaderHeight() + 'px';
+      }
+  }
+}
