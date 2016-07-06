@@ -35,7 +35,7 @@
             <span class="competitors-stats-team">
               <a *ngIf="dataPoint.teamUrl2" [routerLink]="dataPoint.teamUrl2">{{dataPoint.teamName2}}</a>
             </span>
-            <span *ngIf="!dataPoint.teamUrl2" class="competitors-stats-team">{{dataPoint.teamName1}}</span>
+            <span *ngIf="!dataPoint.teamUrl2" class="competitors-stats-team">{{dataPoint.teamName2}}</span>
             <span class="competitors-stats-details">
               <i class="fa fa-map-marker"></i>{{dataPoint.teamLocation2}} <span class="pipe-seperator">|</span> {{dataPoint.teamRecord2}}
             </span>
