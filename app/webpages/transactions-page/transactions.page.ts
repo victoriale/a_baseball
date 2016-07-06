@@ -58,11 +58,13 @@ export class TransactionsPage implements OnInit{
       .subscribe(
           data => {
             var stats = data.headerData.stats;
-            this.profileHeaderData = this._profileService.convertTeamPageHeader(data, "");
+            var profileHeaderData = this._profileService.convertTeamPageHeader(data, "");
             this.profileName = stats.teamName;
             this._title.setTitle(GlobalSettings.getPageTitle("Transactions", this.profileName));
 
             this.tabs = this._transactionsService.getTabsForPage(this.profileName, this.pageParams.teamId);
+            profileHeaderData.text3 = this.tabs[0].tabDisplay + ' - ' + this.profileName;
+            this.profileHeaderData = profileHeaderData;
 
             var teamRoute = MLBGlobalFunctions.formatTeamRoute(data.teamName, this.pageParams.teamId.toString());
           },
@@ -78,10 +80,12 @@ export class TransactionsPage implements OnInit{
         .subscribe(
           data => {
             this.profileName = data.headerData.profileNameShort;
-            this.profileHeaderData = this._profileService.convertMLBHeader(data.headerData, "");            
+            var profileHeaderData = this._profileService.convertMLBHeader(data.headerData, "");                        
             this._title.setTitle(GlobalSettings.getPageTitle("Transactions", this.profileName));
 
             this.tabs = this._transactionsService.getTabsForPage(this.profileName, this.pageParams.teamId);
+            profileHeaderData.text3 = this.tabs[0].tabDisplay + ' - ' + this.profileName;
+            this.profileHeaderData = profileHeaderData;
 
             var teamRoute = MLBGlobalFunctions.formatTeamRoute(this.profileName, null);
           },
@@ -112,8 +116,10 @@ export class TransactionsPage implements OnInit{
   }
 
   tabSwitched(tab) {
+    if ( this.selectedTabKey ) {
+      this.profileHeaderData.text3 = tab.tabDisplay + ' - ' + this.profileName;
+    }
     this.selectedTabKey = tab.tabDataKey;
-    this.profileHeaderData.text3 = tab.tabDisplay + ' - ' + this.profileName,
     this.getTransactionsPage();
   }
 

@@ -39,13 +39,13 @@
                     <div class="infobox-list-image">
                         <circle-image [data]="displayData.infoBoxImage"></circle-image>
                     </div>
-                    <div class="infobox-list-details">
-                      <span class="infobox-list-playerName" [innerHtml]="displayData.playerName"></span>
+                    <div class="infobox-list-details infobox-list-playerName">
+                      {{displayData.playerName}}
                     </div>
                     <div class="infobox-list-view"><i class="fa fa-angle-right"></i></div>
                   </a>
                   <a class="infobox-list-team" [routerLink]="displayData.routerLinkTeam">
-                    <span class="infobox-list-teamName" [innerHtml]="displayData.teamName"></span>
+                    <span class='infobox-list-team-label'>Team: </span>{{displayData.teamName}}
                   </a>
                 </li>
               </ul>

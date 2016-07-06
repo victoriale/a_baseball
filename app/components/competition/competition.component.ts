@@ -35,7 +35,7 @@ export class Competition implements OnInit{
             mainImage: {
               imageUrl: "./app/public/placeholder-location.jpg",
               urlRouteArray: ['Disclaimer-page'],
-              hoverText: "<i style='font-size:30px;' class='fa fa-mail-forward'></i>",
+              hoverText: "<i class='fa fa-mail-forward competition-fa'></i>",
               imageClass: "border-1"
             }
           },
@@ -46,7 +46,7 @@ export class Competition implements OnInit{
             mainImage: {
               imageUrl: "./app/public/placeholder-location.jpg",
               urlRouteArray: ['Disclaimer-page'],
-              hoverText: "<i style='font-size:30px;' class='fa fa-mail-forward'></i>",
+              hoverText: "<i class='fa fa-mail-forward competition-fa'></i>",
               imageClass: "border-1"
             }
           },

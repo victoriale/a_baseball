@@ -1,9 +1,10 @@
 <div class="content-container" *ngFor="let content of articleData?.article; let i=index; let last=last; let odd=odd;">
-    <p *ngIf="i==0" class="content-first" [innerHTML]="content"></p>
+    <p *ngIf="i==0" class="content-first" [innerHTML]="content | safeHtml"></p>
     <profileData-component *ngIf="odd && articleType == 'playerRoster'" [articleType]="articleType"
                            [articleData]="articleData" [index]="i" [imageLinks]="imageLinks"></profileData-component>
     <profileData-component *ngIf="i==1 && articleType == 'gameModule'" [articleType]="articleType"
                            [articleData]="articleData" [index]="i" [imageLinks]="imageLinks"></profileData-component>
+    <billboard-component *ngIf="i == 2 && articleType == 'gameReport'" [teamId]="teamId"></billboard-component>
     <profileData-component *ngIf="i==2 && articleType == 'playerComparison'" [articleType]="articleType"
                            [articleSubType]="articleSubType" [articleData]="articleData"
                            [imageLinks]="imageLinks"></profileData-component>
@@ -17,7 +18,7 @@
                            [articleSubType]="articleSubType" [articleType]="articleType"
                            [articleData]="articleData" [imageLinks]="imageLinks"></profileData-component>
     <p *ngIf="i!=0 && !content.playerComparisonModule && !content.teamRecordModule && !content.playerRosterModule && !content.gameModule"
-       class="content" [innerHTML]="content"></p>
+       class="content" [innerHTML]="content | safeHtml"></p>
     <profileData-component *ngIf="i==4 && articleType == 'teamRecord' && articleSubType == 'about'" [index]="'2'"
                            [articleSubType]="articleSubType" [articleType]="articleType"
                            [articleData]="articleData" [imageLinks]="imageLinks"></profileData-component>
@@ -31,5 +32,4 @@
                            [articleData]="articleData" [imageLinks]="imageLinks"></profileData-component>
     <div *ngIf="last && (articleType == 'playerRoster' || articleType == 'teamRecord' || articleType == 'gameModule' || articleType == 'playerComparison')"
          class="comparison-hr"></div>
-    <billboard-component *ngIf="last" [teamId]="teamId"></billboard-component>
-</div>
+    <billboard-component *ngIf="last && articleType != 'gameReport'" [teamId]="teamId"></billboard-component>

@@ -1,6 +1,11 @@
 <div class="articles-page">
     <div class="articles-page-content">
-        <loading-component *ngIf="!articleData"></loading-component>
+        <div *ngIf="error">
+            <div class="loading-container">
+                <span class="loading-text">The article you are trying to reach is unavailable. You will be redirected to your previous page shortly.</span>
+            </div>
+        </div>
+        <loading-component *ngIf="!articleData && !error"></loading-component>
     <span *ngIf="articleData">
         <shareLinks-component></shareLinks-component>
         <div class="articles-page-title">{{title}}</div>
@@ -25,7 +30,7 @@
             <disqus-component [comment]="comment"></disqus-component>
             <recommendations-component [randomHeadlines]="randomHeadlines"
                                        [images]="images"></recommendations-component>
-            <trending-component></trending-component>
+            <trending-component [trendingData]="trendingData" [trendingImages]="trendingImages"></trending-component>
     </span>
     </div>
 </div>

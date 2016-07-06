@@ -87,6 +87,7 @@ export class SeasonStatsService {
 
   getPlayerStats(playerId: number): Observable<SeasonStatsModuleData> {
     let url = this._apiUrl + "/player/seasonStats/" + playerId;
+    // console.log("player stats: " + url);
     return this.http.get(url)
       .map(res => res.json())
       .map(data => this.formatData(data.data));
@@ -109,15 +110,17 @@ export class SeasonStatsService {
 
     //Load 4 years worth of data, starting from current year
     for ( var year = curYear; year > curYear-4; year-- ) {
-      seasonStatTabs.push(this.getTabData(data, year.toString(), playerInfo.playerName, isPitcher, year == curYear));
+      var strYear = year.toString();
+      seasonStatTabs.push(this.getTabData(strYear, data, playerInfo.playerName, isPitcher, year == curYear));
     }
     //Load "Career Stats" data
-    seasonStatTabs.push(this.getTabData(data, "career", playerInfo.playerName, isPitcher));
+    seasonStatTabs.push(this.getTabData("Career", data, playerInfo.playerName, isPitcher));
     return {
       tabs: seasonStatTabs,
       profileName: playerInfo.playerName,
-      carouselDataItem: this.getCarouselData(1, data), //there's only one item in the carousel
-      pageRouterLink: this.getLinkToPage(Number(playerInfo.playerId), playerInfo.playerName)
+      carouselDataItem: SeasonStatsService.getCarouselData(playerInfo, curYear.toString()), 
+      pageRouterLink: this.getLinkToPage(Number(playerInfo.playerId), playerInfo.playerName),
+      playerInfo: playerInfo
     };
   }
 
@@ -162,7 +165,7 @@ export class SeasonStatsService {
           var playerName = firstPlayer.firstName + ' ' + firstPlayer.playerLastName;
           var linkToPlayer = MLBGlobalFunctions.formatPlayerRoute(firstPlayer.teamName, playerName, firstPlayer.playerId);
           infoBox = [{
-              teamName: "<span style='color: #000; font-style: italic'>Team: </span>" + firstPlayer.teamLastName,
+              teamName: firstPlayer.teamLastName,
               playerName: playerName,
               infoBoxImage : {
                 imageClass: "image-40",
@@ -170,7 +173,7 @@ export class SeasonStatsService {
                   imageUrl: GlobalSettings.getImageUrl(firstPlayer.playerHeadshot),
                   imageClass: "border-1",
                   urlRouteArray:  linkToPlayer,
-                  hoverText: "<i style='font-size: 18px;' class='fa fa-mail-forward'></i>",
+                  hoverText: "<i class='fa fa-mail-forward infobox-list-fa'></i>",
                 },
               },
               routerLinkPlayer: linkToPlayer,
@@ -192,15 +195,18 @@ export class SeasonStatsService {
     return bars;
   }
 
-  private getTabData(data: APISeasonStatsData, year: string, playerName: string, isPitcher: boolean, isCurrYear?: boolean): SeasonStatsTabData {
+  private getTabData(seasonId: string, data: APISeasonStatsData, playerName: string, isPitcher: boolean, isCurrYear?: boolean): SeasonStatsTabData {
     var legendValues;
-    var subTitle;
-    var tabTitle;
-    var bars: Array<ComparisonBarInput> = this.getBarData(data.stats[year], year == "career", isPitcher);
+    var subTitle;  
+    var tabTitle; 
+    var longSeasonName; // for display in the carousel and module title
+    var isCareer = seasonId.toLowerCase() == "career";
+    var bars: Array<ComparisonBarInput> = this.getBarData(data.stats[seasonId.toLowerCase()], isCareer, isPitcher);
 
-    if ( year == "career" ) {
+    if ( isCareer ) {
       tabTitle = "Career Stats";
-      subTitle = "Career Stats";
+      subTitle = tabTitle;
+      longSeasonName = "Career";
       legendValues = [
           { title: playerName,    color: '#BC2027' },
           { title: "Stat High",  color: "#E1E1E1" }
@@ -209,11 +215,13 @@ export class SeasonStatsService {
     else {
       if ( isCurrYear ) {
         tabTitle = "Current Season";
-        subTitle = "Current Season";
+        subTitle = tabTitle;
+        longSeasonName = tabTitle;
       }
-      else if ( year != "career" ) {
-        tabTitle = year;
-        subTitle = year + " Season";
+      else {
+        tabTitle = seasonId;
+        subTitle = seasonId + " Season";
+        longSeasonName = subTitle;
       }
       legendValues = [
           { title: playerName,    color: '#BC2027' },
@@ -223,6 +231,7 @@ export class SeasonStatsService {
     }
 
     return {
+      longSeasonName: longSeasonName,
       tabTitle: tabTitle,
       comparisonLegendData: {
         legendTitle: [
@@ -235,26 +244,26 @@ export class SeasonStatsService {
     };
   }
 
-  private getCarouselData(index: number, data: APISeasonStatsData): SliderCarouselInput {
-    if ( !data || !data.playerInfo ) {
+  static getCarouselData(playerInfo: SeasonStatsPlayerData, longSeasonName: string): SliderCarouselInput {
+    if ( !playerInfo ) {
       return null;
     }
-    var teamRoute = MLBGlobalFunctions.formatTeamRoute(data.playerInfo.teamName,data.playerInfo.teamId);
+    var teamRoute = MLBGlobalFunctions.formatTeamRoute(playerInfo.teamName, playerInfo.teamId);
     var teamRouteText = {
       route: teamRoute,
-      text: data.playerInfo.teamName
+      text: playerInfo.teamName
     };
     var playerRouteText = {
-      text: data.playerInfo.playerName
+      text: playerInfo.playerName
     };
-    return SliderCarousel.convertToCarouselItemType1(index, {
-      backgroundImage: GlobalSettings.getBackgroundImageUrl(data.playerInfo.liveImage),
+    return SliderCarousel.convertToCarouselItemType1(1, {
+      backgroundImage: GlobalSettings.getBackgroundImageUrl(playerInfo.liveImage),
       copyrightInfo: GlobalSettings.getCopyrightInfo(),
-      subheader: ["CURRENT SEASON STATS REPORT"],
+      subheader: [longSeasonName + " Stats Report"],
       profileNameLink: playerRouteText,
       description: ["Team: ", teamRouteText],
-      lastUpdatedDate: GlobalFunctions.formatUpdatedDate(data.playerInfo.lastUpdate),
-      circleImageUrl: GlobalSettings.getImageUrl(data.playerInfo.playerHeadshot),
+      lastUpdatedDate: GlobalFunctions.formatUpdatedDate(playerInfo.lastUpdate),
+      circleImageUrl: GlobalSettings.getImageUrl(playerInfo.playerHeadshot),
       circleImageRoute: null, //? the single item on the player profile page, so no link is needed
       // subImageUrl: GlobalSettings.getImageUrl(data.playerInfo.teamLogo),
       // subImageRoute: teamRoute
@@ -280,7 +289,7 @@ export class SeasonStatsService {
       case "batHomeRuns": return "Home Runs (HR)";
       case "batAverage": return "Batting Average (BA)";
       case "batRbi": return "Runs Batted In (RBI)";
-      case "batHits": return "Hits";
+      case "batHits": return "Hits (H)";
       case "batBasesOnBalls": return "Walks (BB)";
 
       case "pitchWins": return "Wins";
@@ -312,6 +321,7 @@ export class SeasonStatsService {
     }
   }
 }
+
 @Injectable()
 export class SeasonStatsPageService {
   constructor(public http: Http, private _mlbFunctions: MLBGlobalFunctions){}
@@ -329,22 +339,17 @@ export class SeasonStatsPageService {
     var curYear = new Date().getFullYear();
     var year = curYear;
     var playerName = pageParams['playerName'];
+    var possessivePlayer = GlobalFunctions.convertToPossessive(playerName);
     //create tabs for season stats from current year of MLB and back 3 years
     for ( var i = 0; i < 4; i++ ){
-      if( year == curYear){
-        let title = 'Current Season';
-        let tabName = playerName + "'s " + title + " Stats";
-        tabs.push(new MLBSeasonStatsTabData(title, tabName, null, year.toString(), i==0));
-      } else {
-        let title = year.toString();
-        let tabName = playerName + "'s " + title + " Stats";
-        tabs.push(new MLBSeasonStatsTabData(title, tabName, null, year.toString(), i==0));
-      }
+      let title = year == curYear ? 'Current Season' : year.toString();
+      let tabName = possessivePlayer + " " + title + " Stats";
+      tabs.push(new MLBSeasonStatsTabData(title, tabName, null, year.toString(), i==0));
       year--;
     }
     //also push in last the career stats tab
     let title = 'Career Stats';
-    let tabName = playerName + "'s Career Stats";
+    let tabName = possessivePlayer + " Career Stats";
     tabs.push(new MLBSeasonStatsTabData(title, tabName, null, 'career', false));
     return tabs;
   }

@@ -6,7 +6,9 @@ Be sure to be in the `develop` branch
 
 install each one individually
 
-1. `npm install` (Once pulled you may install each individually with ex: `npm install -g gulp-cli`) or skip step 1. and go to step 2.
+1 `npm i` update node package with all dependencies in package.json
+
+2. `npm install` if step 1 does not work (Once pulled you may install each individually with ex: `npm install -g gulp-cli`) or skip step 1. and go to step 2.
 
       a.`-g gulp-cli`
 
@@ -14,29 +16,23 @@ install each one individually
 
       c.`gulp-clean-css`
 
-      d.`gulp-minify`
+      d.`gulp-concat`
 
-      e.`gulp-less`
+      e.`core-js` (used to replace es6-shim and load IE 11 quickly)
 
-      f.`gulp-concat`
+      f.`connect-history-api-fallback`
 
-      g.`core-js` (used to replace es6-shim and load IE 11 quickly)
+      g.`browser-sync`
 
-      h.`connect-history-api-fallback`
+      h.`highcharts` (used for any type of graphs)
 
-      i.`browser-sync`
+      i.`moment` (used for time manipulation of dates)
 
-      j.`highcharts` (used for any type of graphs)
+      j.`moment-timezone`
 
-      k.`moment` (used for time manipulation of dates)
+      k.`autoprefixer` (automatically adds browser prefixes to css file)
 
-      l.`moment-timezone`
-
-      m.`autoprefixer` (automatically adds browser prefixes to css file)
-
-      n.`fuse.js` (Lightweight JSON search library for client side)
-
-2. `npm i`
+      l.`fuse.js` (Lightweight JSON search library for client side)
 
 3. `gulp serve`
 

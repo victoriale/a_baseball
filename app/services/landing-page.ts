@@ -49,7 +49,7 @@ export class LandingPageService {
             mainImage: {
               imageUrl:  GlobalSettings.getImageUrl(val.teamLogo),
               urlRouteArray: MLBGlobalFunctions.formatTeamRoute(teamName, val.teamId.toString()),
-              hoverText: "<i style='font-size:30px;' class='fa fa-mail-forward'></i>",
+              hoverText: "<i class='fa fa-mail-forward home-team-image-fa'></i>",// style='font-size:30px;'
               imageClass: "border-3"
             }
           }
@@ -60,7 +60,7 @@ export class LandingPageService {
         });
       }
       leagueArray.push({//once all divisions are done push the league info into final array
-        displayName:"<b>" + league.toUpperCase() + " LEAGUE</b> TEAMS<b>:</b>",
+        displayName:"<span class='text-heavy'>" + league.toUpperCase() + "</span> TEAMS<span class='text-heavy'>:</span>",
         dataArray:divisionArray
       });
     }

@@ -81,10 +81,21 @@ export class MVPListPage implements OnInit {
 
     this._profileService.getMLBProfile()
       .subscribe(data => {
-        this.profileHeaderData.text1 = "Last Updated: " + GlobalFunctions.formatUpdatedDate(data.headerData.lastUpdated);
+        this.profileHeaderData = {
+          imageURL: GlobalSettings.getImageUrl(data.headerData.logo),
+          imageRoute: ["MLB-page"],
+          text1: 'Last Updated: ' + GlobalFunctions.formatUpdatedDate(data.headerData.lastUpdated),
+          text2: 'United States',
+          text3: "MLB's Most Valuable Players",
+          icon: 'fa fa-map-marker'
+        };
+        this.loadTabs();
       }, err => {
         console.log("Error loading MLB profile");
       });
+  }
+
+  loadTabs() {    
 
     this.tabs = this._service.getMVPTabs(this.listType, 'page');
     if ( this.tabs != null && this.tabs.length > 0 ) {
@@ -104,20 +115,22 @@ export class MVPListPage implements OnInit {
   //sets the total pages for particular lists to allow client to 
   //move from page to page without losing the sorting of the list
   setPaginationParams(input) {
-      var navigationParams = {
-        type: this.listType,        
-        tab: this.queryParams.listname,
-        pageNum: this.queryParams.pageNum
-      };
-      
-      this.paginationParameters = {
-        index: this.queryParams.pageNum,
-        max: Number(input.pageCount),
-        paginationType: 'page',
-        navigationPage: "MVP-list-tab-page",
-        navigationParams: navigationParams,
-        indexKey: 'pageNum'
-      };
+    if (!input) return;
+
+    var navigationParams = {
+      type: this.listType,        
+      tab: input.stat,
+      pageNum: input.pageNum
+    };
+    
+    this.paginationParameters = {
+      index: input.pageNum,
+      max: Number(input.pageCount),
+      paginationType: 'page',
+      navigationPage: "MVP-list-tab-page",
+      navigationParams: navigationParams,
+      indexKey: 'pageNum'
+    };
   }
 
   getStandardList(tab: BaseballMVPTabData){
@@ -125,6 +138,9 @@ export class MVPListPage implements OnInit {
     this._service.getListModuleService(tab, this.queryParams)
       .subscribe(
         tab => {
+          if ( tab.data.listInfo ) {
+            tab.data.listInfo.pageNum = this.queryParams.pageNum;
+          }
           this.setPaginationParams(tab.data.listInfo);
         },
         err => {
@@ -140,6 +156,9 @@ export class MVPListPage implements OnInit {
     }
     if (!tab.listData) { //let the page handle the service call if there's no data
       this.getStandardList(tab);
+    }
+    else {
+      this.setPaginationParams(tab.data.listInfo);
     }
   }
 }

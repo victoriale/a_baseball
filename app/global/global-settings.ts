@@ -14,9 +14,10 @@ export class GlobalSettings {
     private static _articleUrl:string = '-homerunloyal-ai.synapsys.us/';
     private static _recommendUrl:string = '-homerunloyal-ai.synapsys.us/headlines/event/';
     private static _headlineUrl:string = '-homerunloyal-ai.synapsys.us/headlines/team/';
+    private static _trendingUrl:string = '-homerunloyal-ai.synapsys.us/sidekick';
 
     private static _homepageUrl:string = '.homerunloyal.com';
-    private static _partnerHomepageUrl:string = '.homerunloyal.com/';
+    private static _partnerHomepageUrl:string = '.myhomerunzone.com';
 
     private static _baseTitle: string = "Home Run Loyal";
 
@@ -55,6 +56,10 @@ export class GlobalSettings {
         return this._proto + "//" + this.getEnv(this._env) + this._recommendUrl;
     }
 
+    static getTrendingUrl():string {
+        return this._proto + "//" + this.getEnv(this._env) + this._trendingUrl;
+    }
+
     static getHeadlineUrl():string {
         return this._proto + "//" + this.getEnv(this._env) + this._headlineUrl;
     }
@@ -64,9 +69,9 @@ export class GlobalSettings {
         return this._proto + "//" + this._newsUrl;
     }
 
-    static getHomePage(partnerId: string) {
+    static getHomePage(partnerId: string, includePartnerId?: boolean) {
         if ( partnerId ) {
-            return this._proto + "//" + this.getEnv(this._env) + this._partnerHomepageUrl + partnerId;
+            return this._proto + "//" + this.getEnv(this._env) + this._partnerHomepageUrl + (includePartnerId ? "/" + partnerId : "");
         }
         else {
             return this._proto + "//" + this.getEnv(this._env) + this._homepageUrl;
@@ -89,9 +94,11 @@ export class GlobalSettings {
 
         router.root.subscribe (
             route => {
-                var routeItems = route.split('/');
-                var partnerID = routeItems[0] == '' ? null : routeItems[0];
-                subscribeListener(partnerID);
+                let partnerID = null;
+                if ( route && route.instruction && route.instruction.params ) {
+                    partnerID = route.instruction.params["partner_id"];
+                }
+                subscribeListener(partnerID == '' ? null : partnerID);
             }
         )
     }

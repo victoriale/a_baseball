@@ -20,8 +20,7 @@ export class DynamicWidgetCall {
   public protocol: string = location.protocol;
 
 
-  constructor(public http: Http) {
-  }
+  constructor(public http: Http) {}
 
   // Method to get data for the list for the dynamic widget
   // Inputs: tw - trigger word, sw - sort parameter, input - input value
@@ -33,11 +32,8 @@ export class DynamicWidgetCall {
     // Build the URL
     var url = this.apiUrl + "?tw=" + tw + "&sw=" + sw + "&input=" + input;
 
-    return this.http.get(url, {
-      })
-      .map(
-        res => res.json()
-      )
+    return this.http.get(url, {})
+      .map(res => res.json())
       .map(
         data => {
           var profile;
@@ -56,7 +52,6 @@ export class DynamicWidgetCall {
             paginationType: 'module'
           }
           var profHeader= {
-            // Old placeholder image:  http://www.myinvestkit.com/StateImages/Location_National.jpg
             imageURL : GlobalSettings.getSiteLogoUrl(),
             imageRoute: ["MLB-page"],
             text1 : 'Last Updated: ' + moment(data.date).format('dddd, MMMM Do, YYYY'),
@@ -80,6 +75,7 @@ export class DynamicWidgetCall {
       )
   }
 
+//TODO: remove linkObj for carousel description objects
   transformCarData(data, profile: string) {
     let self = this;
     var carouselArray = [];

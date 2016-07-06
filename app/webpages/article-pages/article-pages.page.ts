@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {Location} from '@angular/common';
 import {Router,ROUTER_DIRECTIVES, RouteParams} from '@angular/router-deprecated';
 import {ImagesMedia} from "../../components/carousels/images-media-carousel/images-media-carousel.component";
 import {ShareLinksComponent} from "../../components/articles/shareLinks/shareLinks.component";
@@ -25,9 +26,9 @@ declare var jQuery:any;
         ShareLinksComponent,
         ArticleContentComponent,
         RecommendationsComponent,
-        TrendingComponent,
         DisqusComponent,
-        LoadingComponent
+        LoadingComponent,
+        TrendingComponent,
     ],
     providers: [],
 })
@@ -51,10 +52,16 @@ export class ArticlePages implements OnInit {
     copyright:any;
     imageTitle:any;
     teamId:number;
+    trendingData:Array<any>;
+    trendingImages:Array<any>;
+    error:boolean=false;
     public partnerParam:string;
     public partnerID:string;
 
-    constructor(private _params:RouteParams, private _articleDataService:ArticleDataService) {
+    constructor(private _params:RouteParams,
+                private _articleDataService:ArticleDataService,
+                private _router:Router,
+                private _location:Location) {
         window.scrollTo(0, 0);
         this.eventID = _params.get('eventID');
         this.eventType = _params.get('eventType');
@@ -78,6 +85,16 @@ export class ArticlePages implements OnInit {
                     this.imageLinks = this.getImageLinks(ArticleData[pageIndex]);
                     this.teamId = ArticleData[pageIndex].teamId;
                     ArticlePages.setMetaTag(this.articleData.metaHeadline);
+                },
+                err => {
+                    this.error = true;
+                    var self = this;
+                    setTimeout(function () {
+                        //removes errored page from browser history
+                        self._location.replaceState('/');
+                        //returns user to previous page
+                        self._location.back();
+                    }, 5000);
                 }
             );
         this._articleDataService.getRecommendationsData(this.eventID)
@@ -89,6 +106,37 @@ export class ArticlePages implements OnInit {
                     this.getRandomArticles(HeadlineData, this.pageIndex, this.eventID, this.recommendedImageData);
                 }
             );
+        this._articleDataService.getTrendingData()
+            .subscribe(
+                TrendingData => {
+                    this.getTrendingArticles(TrendingData);
+                }
+            );
+    }
+
+    getTrendingArticles(data) {
+        var articles = [];
+        var images = [];
+        Object.keys(data).map(function (val, index) {
+            if (val != "meta-data") {
+                articles[index - 1] = {
+                    title: data[val].displayHeadline,
+                    date: data[val].dateline + " EST",
+                    content: data[val].article[0],
+                    eventId: data['meta-data']['current'].eventId,
+                    eventType: val,
+                    url: MLBGlobalFunctions.formatArticleRoute(val, data['meta-data']['current'].eventId)
+                };
+            }
+        });
+        Object.keys(data['meta-data']['images']).map(function (val, index) {
+            images[index] = data['meta-data']['images'][val];
+        });
+        this.trendingImages = images[0].concat(images[1]);
+        articles.sort(function () {
+            return 0.5 - Math.random()
+        });
+        this.trendingData = articles;
     }
 
     getCarouselImages(data) {

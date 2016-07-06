@@ -367,7 +367,9 @@ export class TeamPage implements OnInit {
     private setupShareModule() {
         let profileHeaderData = this.profileHeaderData;
         let imageUrl = !profileHeaderData.profileImageUrl ? GlobalSettings.getImageUrl('/mlb/players/no-image.png') : profileHeaderData.profileImageUrl;
-        let shareText = !profileHeaderData.profileName ? 'Share This Profile Below' : 'Share ' + profileHeaderData.profileName + '\'s Profile Below:';
+        let shareText = !profileHeaderData.profileName ? 
+            'Share This Profile Below' : 
+            'Share ' + GlobalFunctions.convertToPossessive(profileHeaderData.profileName) + ' Profile Below:';
 
         this.shareModuleInput = {
             imageUrl: imageUrl,

@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ArticleScheduleComponent} from "../../components/articles/article-schedule/article-schedule.component";
-import {Articles} from "../../global/global-service";
 import {ArticleMainComponent} from "../../components/articles/main-article/main-article.component";
 import {ArticleSubComponent} from "../../components/articles/sub-article/sub-article.component";
 import {HeadToHeadComponent} from "../../components/articles/head-to-head-articles/head-to-head-articles.component";
@@ -30,7 +29,7 @@ declare var moment:any;
         LoadingComponent
     ],
     inputs: [],
-    providers: [Articles],
+    providers: [],
 })
 
 export class ArticlesModule implements OnInit {
@@ -56,6 +55,7 @@ export class ArticlesModule implements OnInit {
     mainEventID:number;
     arrLength:number;
     league:boolean = false;
+    error:boolean=false;
     public headerInfo:ModuleHeaderData = {
         moduleTitle: "",
         hasIcon: false,
@@ -86,6 +86,7 @@ export class ArticlesModule implements OnInit {
                     this.getHeadToHeadArticles(this.headToHeadData, this.eventID);
                 },
                 err => {
+                    this.error = true;
                     console.log("Error loading AI headline data for " + this.teamID, err);
                 }
             )

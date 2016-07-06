@@ -1,4 +1,7 @@
 import {Component, Input} from '@angular/core';
+import {DomSanitizationService, SafeStyle} from '@angular/platform-browser';
+import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
+
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 import {CircleImageData} from "../../components/images/image-data";
 import {CircleImage} from "../../components/images/circle-image";
@@ -6,7 +9,8 @@ import {GlobalSettings} from "../../global/global-settings";
 import {NoDataBox} from '../../components/error/data-box/data-box.component';
 import {BarChartComponent} from '../../components/bar-chart/bar-chart.component';
 import {DailyUpdateData, DailyUpdateChart} from "../../services/daily-update.service";
-import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
+import {SanitizeHtml} from "../../pipes/safe.pipe";
+import {PossessivePipe} from "../../pipes/possessive.pipe";
 
 declare var jQuery:any;
 
@@ -14,7 +18,7 @@ declare var jQuery:any;
     selector: 'daily-update-module',
     templateUrl: './app/modules/daily-update/daily-update.module.html',
     directives: [ModuleHeader, CircleImage, NoDataBox, BarChartComponent, ROUTER_DIRECTIVES],
-    providers: []
+    pipes: [SanitizeHtml, PossessivePipe]
 })
 
 export class DailyUpdateModule {
@@ -24,21 +28,21 @@ export class DailyUpdateModule {
 
   public chartOptions: any;
 
-  public backgroundImage: string;
+  public backgroundImage: SafeStyle;
 
   public noDataMessage: string = 'Sorry, there is no daily update available for [Profile Name]';
 
   public headerInfo: ModuleHeaderData = {
     moduleTitle: "Daily Update - [Profile Name]",
-    hasIcon: true,
-    iconClass: null
+    hasIcon: false,
+    iconClass: ""
   };
 
   public comparisonCount: number;
 
   public imageConfig: CircleImageData;
 
-  constructor(){
+  constructor(private _sanitizer: DomSanitizationService){
     this.imageConfig = {
       imageClass: "image-121",
       mainImage: {
@@ -54,7 +58,7 @@ export class DailyUpdateModule {
     this.noDataMessage = "Sorry, there is no daily update available for " + this.profileName;
     if ( this.data ) {
       this.drawChart();
-      this.backgroundImage = this.data.fullBackgroundImageUrl;
+      this.backgroundImage = this._sanitizer.bypassSecurityTrustStyle("url(" + this.data.fullBackgroundImageUrl + ")");
     }
 
     if ( this.data && this.data.chart && this.data.chart.dataSeries && this.data.chart.dataSeries.length > 0) {
@@ -65,7 +69,8 @@ export class DailyUpdateModule {
       this.comparisonCount = 0;
     }
     if(event.data['currentValue'] != null && event.data['currentValue'].postGameArticle != null && event.data['currentValue'].postGameArticle.img != null){
-      this.imageConfig.mainImage.imageUrl = event.data['currentValue'].postGameArticle.img.image != null ? event.data['currentValue'].postGameArticle.img.image:GlobalSettings.getImageUrl(null);
+      var img = event.data['currentValue'].postGameArticle.img.image;
+      this.imageConfig.mainImage.imageUrl = img != null ? img : GlobalSettings.getImageUrl(null);
     }
   }
 

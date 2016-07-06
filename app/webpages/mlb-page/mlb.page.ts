@@ -40,6 +40,7 @@ import {ProfileHeaderData, ProfileHeaderModule} from '../../modules/profile-head
 import {IProfileData, ProfileHeaderService} from '../../services/profile-header.service';
 
 import {Division, Conference, MLBPageParameters} from '../../global/global-interface';
+import {GlobalFunctions} from '../../global/global-functions';
 
 import {HeadlineComponent} from '../../components/headline/headline.component';
 
@@ -359,7 +360,9 @@ export class MLBPage implements OnInit {
     private setupShareModule() {
         let profileHeaderData = this.profileHeaderData;
         let imageUrl = !profileHeaderData.profileImageUrl ? GlobalSettings.getImageUrl("/mlb/players/no-image.png") : profileHeaderData.profileImageUrl;
-        let shareText = !profileHeaderData.profileName ? 'Share This Profile Below' : 'Share ' + profileHeaderData.profileName + '\'s Profile Below:';
+        let shareText = !profileHeaderData.profileName ? 
+            'Share This Profile Below' : 
+            'Share ' + GlobalFunctions.convertToPossessive(profileHeaderData.profileName) + ' Profile Below:';
 
         this.shareModuleInput = {
             imageUrl: imageUrl,

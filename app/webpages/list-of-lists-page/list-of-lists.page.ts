@@ -17,6 +17,7 @@ import {GlobalSettings} from "../../global/global-settings";
 import {GlobalFunctions} from "../../global/global-functions";
 import {MLBGlobalFunctions} from "../../global/mlb-global-functions";
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
+import {ProfileHeaderService} from '../../services/profile-header.service';
 
 declare var moment:any;
 
@@ -24,7 +25,7 @@ declare var moment:any;
     selector: 'list-of-lists-page',
     templateUrl: './app/webpages/list-of-lists-page/list-of-lists.page.html',
     directives: [SidekickWrapper, NoDataBox, BackTabComponent, TitleComponent, SliderCarousel, ListOfListsItem, ModuleFooter, LoadingComponent, ErrorComponent, PaginationFooter],
-    providers: [ListOfListsService, Title],
+    providers: [ListOfListsService, Title, ProfileHeaderService],
     inputs:[]
 })
 
@@ -44,7 +45,10 @@ export class ListOfListsPage implements OnInit{
     paginationParameters  : PaginationParameters;
     titleData             : TitleInputData;
 
-    constructor(private listService:ListOfListsService, private _params: RouteParams, private _title: Title) {
+    constructor(private listService:ListOfListsService,
+        private _profileService: ProfileHeaderService, 
+        private _params: RouteParams,
+        private _title: Title) {
         _title.setTitle(GlobalSettings.getPageTitle("List of Lists"));
         this.pageType = this._params.get("type");
         if ( this.pageType == null ) {
@@ -52,7 +56,7 @@ export class ListOfListsPage implements OnInit{
         }
     }
 
-    getListOfListsPage(urlParams) {
+    getListOfListsPage(urlParams, logoUrl?: string) {
         this.listService.getListOfListsService(urlParams, this.pageType, "page")
           .subscribe(
             list => {
@@ -64,22 +68,25 @@ export class ListOfListsPage implements OnInit{
                 this.setPaginationParams(list.pagination);
                 this.carouselDataArray = list.carData;
 
-                this.profileName = list.targetData.playerName != null ? list.targetData.playerName : list.targetData.teamName;  // TODO include this
+                var profileName = "MLB";
                 var profileRoute = ["MLB-page"];
-                var profileImage = GlobalSettings.getSiteLogoUrl();
+                var profileImage = logoUrl ? logoUrl : GlobalSettings.getSiteLogoUrl();
                 switch ( urlParams.type ) {
                     case "player":
+                        profileName = list.targetData.playerName;
                         profileRoute = MLBGlobalFunctions.formatPlayerRoute(list.targetData.teamName, list.targetData.playerName, list.targetData.playerId);
                         profileImage = GlobalSettings.getImageUrl(list.targetData.imageUrl);
                         break;
 
                     case "team":
+                        profileName = list.targetData.teamName;
                         profileRoute = MLBGlobalFunctions.formatTeamRoute(list.targetData.teamName, list.targetData.teamId);
                         profileImage = GlobalSettings.getImageUrl(list.targetData.teamLogo);
                         break;
 
                     default: break;
                 }
+                this.profileName = profileName
                 this._title.setTitle(GlobalSettings.getPageTitle("List of Lists", this.profileName));
                 this.titleData = {
                     imageURL : profileImage,
@@ -139,6 +146,16 @@ export class ListOfListsPage implements OnInit{
     }
 
     ngOnInit(){
-        this.getListOfListsPage(this._params.params);
+        if ( this.pageType == "league" ) {
+            this._profileService.getMLBProfile()
+            .subscribe(data => {
+                this.getListOfListsPage(this._params.params, GlobalSettings.getImageUrl(data.headerData.logo));
+            }, err => {
+                console.log("Error loading MLB profile");
+            });
+        }
+        else {
+            this.getListOfListsPage(this._params.params);
+        }
     }
 }

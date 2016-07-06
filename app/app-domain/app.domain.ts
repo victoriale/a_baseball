@@ -30,11 +30,11 @@ export class AppDomain {
     constructor(private _router: Router) {
         this._router.root.subscribe (
             url => {
-                var routeItems = url.split('/');                
+                // var routeItems = url.split('/');                
                 //Only scroll to top if the page isn't the directory.
-                if ( routeItems[1] != "directory" ) {
+                // if ( routeItems[1] != "directory" ) {
                     window.scrollTo(0, 0);
-                }
+                // }
             }
         )
     }

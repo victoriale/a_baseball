@@ -66,6 +66,31 @@ export class MLBGlobalFunctions {
   }
 
   /**
+   * - Pass in datapoints to required parameters and formats
+   * them into a single route.
+   * - If parameters given do not fit the requirements then default to the error page.
+   * - Otherwise takes eventType as a string
+   *
+   * @example
+   * // eventType => 'pregame-report'
+   * formatTeamRoute('pregame-report', 61008)
+   *
+   *
+   * @param {eventType} eventType - event type given from data
+   * @param {eventID} eventID - event ID the required field needed to successfully navigate to artcile page
+   * @returns the eventType => pregame-report,  teamId => ##, routeName => 'Article-page'
+   */
+  static formatArticleRoute(eventType: string, eventID: string): Array<any> {
+    var articleRoute: Array<any>;
+    if(typeof eventType != 'undefined' && eventType != null){
+      articleRoute = ['Article-pages', {eventType: eventType, eventID: eventID}];
+    } else{
+      articleRoute = null;
+    }
+    return articleRoute ? articleRoute : ['Error-page'];
+  }
+
+  /**
    * - Formats the height string by removing the dashes and adding
    * tick marks for feet and inches.
    * - If heightStr is null or empty, "N/A" is returned.
