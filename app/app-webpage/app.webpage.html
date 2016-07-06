@@ -1,9 +1,11 @@
-<div id="partner" *ngIf="partnerScript" [innerHTML]="partnerScript"></div>
 <div class="container-fluid">
   <div class="row">
     <div class="col-xs-12">
-      <header-component></header-component>
-      <div class='web-container'>
+      <header id="pageHeader" class="fixedHeader">
+        <div id="partner" *ngIf="partnerScript" [innerHTML]="partnerScript | safeHtml"></div>
+        <header-component partner="{{partnerID}}"></header-component>
+      </header>
+      <div class='web-container' [style.padding-top]="shiftContainer | safeStyle">
         <router-outlet></router-outlet>
       </div>
       <footer-component></footer-component>

@@ -27,8 +27,8 @@ export class DraftHistoryPage implements OnInit{
 
   isError: boolean = false;
 
-  constructor(private _profileService:ProfileHeaderService, 
-              private params: RouteParams, 
+  constructor(private _profileService:ProfileHeaderService,
+              private params: RouteParams,
               private _title: Title) {
     _title.setTitle(GlobalSettings.getPageTitle(this.whatProfile));
   }
@@ -59,7 +59,7 @@ export class DraftHistoryPage implements OnInit{
       .subscribe(
           data => {
             this._title.setTitle(GlobalSettings.getPageTitle("Draft History", data.headerData.profileNameShort));
-            this.profileHeaderData = this._profileService.convertMLBHeader(data.headerData, this.whatProfile);
+            this.profileHeaderData = this._profileService.convertMLBHeader(data.headerData, "MLB's " + this.whatProfile);
             this.profileData = data;
           },
           err => {

@@ -11,7 +11,7 @@
         <div class="articles-page-title">{{title}}</div>
         <sidekick-wrapper-ai>
             <span *ngIf="imageData">
-                <div class="carousel-container">
+                <div template="ngIf hasImages" class="carousel-container">
                     <images-media-carousel [imageData]="imageData" [copyright]="copyright"
                                            [imageTitle]="imageTitle"></images-media-carousel>
                 </div>

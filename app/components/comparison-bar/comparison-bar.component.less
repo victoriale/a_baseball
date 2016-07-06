@@ -1,7 +1,6 @@
 .comparison-bar{
   &-container{
     border-top: 1px solid @highlightGrey;
-    font-family: Lato;
     padding: 10px 20px;
 
     &.background-even {
@@ -34,8 +33,7 @@
       height: 100%;
       left: 0px;
       position: absolute;
-      transition: 1s width;
-      -webkit-transition: 1s width;
+      .transitionPrefixes(1s width);
       border-right: 1px solid @backgroundGrey;
 
       &.stroke-top{
@@ -50,9 +48,9 @@
       position: absolute;
       right: 1px;
       opacity: 1;
-      transition: 1s top, 1s right, 1s bottom;
-      -webkit-transition: 1s top, 1s right, 1s bottom;
-
+      .transitionPrefixes(1s top);
+      .transitionPrefixes(1s bottom);
+      .transitionPrefixes(1s right);
       &.label-top{
         top: -17px;
         right: -10px;
@@ -124,6 +122,7 @@
     padding-top: 8px;
     padding-bottom: 10px;
     border-bottom: 1px solid @highlightGrey;
+    position: relative;
     &-item{
       .flexDisplay;
       .flexJustify(flex-start);
@@ -139,7 +138,7 @@
           color: @black;
         }
         .image-round-hover div{
-          display: flex;
+          .flexDisplay;
         }
       }
     }
@@ -163,17 +162,18 @@
     }
     &-team{
       position: absolute;
-      top: 54px;
+      top: 33px;
       overflow: hidden;
       text-overflow: ellipsis;
       width: 130px;
       left: 66px;
+      line-height: 1.2em;
       .globalDefaultModFont(12px, 800, @masterBrandColor);
       &:hover{
         color: @black;
       }
       &-label {
-        color: #000; 
+        color: @black;
         font-style: italic;
       }
     }

@@ -11,15 +11,24 @@ declare var jQuery: any;
 export class WidgetModule {
     //dangerousWidgetUrl:string = "http://w1.synapsys.us/widgets/realestate/standard2.html";
     dangerousWidgetUrl: string  = '/app/ads/widget1.html';
-    
+
     safeWidgetUrl: SafeResourceUrl;
 
+    headerHeight:string;
     constructor(private _sanitizer: DomSanitizationService) {
         this.safeWidgetUrl = _sanitizer.bypassSecurityTrustResourceUrl(this.dangerousWidgetUrl);
     }
 
+    ngOnInit(){
+      var padding = document.getElementById('pageHeader').offsetHeight;
+      this.headerHeight = padding + 'px';
+    }
+
     // Page is being scrolled
     onScroll(event) {
+      var padding = document.getElementById('pageHeader').offsetHeight;
+      this.headerHeight = padding + 'px';
+
         var y_buffer = 40;
         var $widget = jQuery("#widget");
         var $pageWrapper = jQuery(".widget-page-wrapper");
@@ -27,21 +36,18 @@ export class WidgetModule {
             var scrollTop = jQuery(window).scrollTop();
             var widgetHeight = $widget.height();
             var pageWrapperTop = $pageWrapper.offset().top;
-            var pageWrapperBottom = pageWrapperTop+$pageWrapper.height();
-
+            var pageWrapperBottom = pageWrapperTop+$pageWrapper.height() - padding;
             if ( (scrollTop + widgetHeight + y_buffer) > pageWrapperBottom ) {
-                $widget.removeClass("widget-fixed");
+                this.headerHeight = '0px';
                 $widget.addClass("widget-bottom");
                 var diff = $pageWrapper.height() - (widgetHeight + y_buffer);
                 $widget.get(0).style.top = diff + "px";
             }
             else if ( scrollTop < pageWrapperTop ) {
-                $widget.removeClass("widget-fixed");
                 $widget.removeClass("widget-bottom");
                 $widget.get(0).style.top = "";
             }
             else {
-                $widget.addClass("widget-fixed");
                 $widget.removeClass("widget-bottom");
                 $widget.get(0).style.top = "";
             }
