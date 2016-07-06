@@ -176,6 +176,14 @@ export class ListOfListsService {
       ctaUrlArray.splice(0,2);
       ctaUrlArray.push.apply(ctaUrlArray,["10","1"]);
 
+      var profileTypePlural = "types";
+      if ( itemListInfo.target == "player" ) {
+        profileTypePlural = "players";
+      }
+      else if ( itemListInfo.target == "team" ) {
+        profileTypePlural = "teams";
+      }
+
       var listData = {
         url           : itemListInfo.url           != null  ? itemListInfo.url          : dummyUrl,
         name          : itemListInfo.name          != null  ? itemListInfo.name         : dummyName,
@@ -191,6 +199,7 @@ export class ListOfListsService {
         icon          : itemListInfo.icon          != null  ? itemListInfo.icon         : dummyIcon,
         dataPoints    : [],
         ctaBtn        : '',
+        ctaDesc       : 'What to see the ' + profileTypePlural + ' in this list?',
         ctaText       : 'View The List',
         ctaUrl        : MLBGlobalFunctions.formatListRoute(ctaUrlArray)
       };
@@ -210,12 +219,12 @@ export class ListOfListsService {
               imageClass      : index > 0 ? "border-1" : "border-2"
             },
             subImages         : index > 0 ? null : [
-              {
-                imageUrl      : itemListInfo.target == "player" ? MLBGlobalFunctions.formatTeamLogo(val.teamName) : null,
-                urlRouteArray : itemListInfo.target == "player" ? MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId) : null,
-                hoverText     : itemListInfo.target == "player" ? "<i class='fa fa-mail-forward'></i>" : null,
-                imageClass    : itemListInfo.target == "player" ? "image-round-sub image-40-sub image-round-lower-right" : null
-              },
+              // {
+              //   imageUrl      : itemListInfo.target == "player" ? MLBGlobalFunctions.formatTeamLogo(val.teamName) : null,
+              //   urlRouteArray : itemListInfo.target == "player" ? MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId) : null,
+              //   hoverText     : itemListInfo.target == "player" ? "<i class='fa fa-mail-forward'></i>" : null,
+              //   imageClass    : itemListInfo.target == "player" ? "image-round-sub image-40-sub image-round-lower-right" : null
+              // },
               {
               text: "#"+ val.rank,
               imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
