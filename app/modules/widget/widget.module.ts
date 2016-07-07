@@ -20,7 +20,11 @@ export class WidgetModule {
     }
 
     ngOnInit(){
-      var padding = document.getElementById('pageHeader').offsetHeight;
+      var pageHeader = document.getElementById('pageHeader');
+      var padding;
+      if(pageHeader != null){
+        padding = pageHeader.offsetHeight;
+      }
       this.headerHeight = padding + 'px';
     }
 
