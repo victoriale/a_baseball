@@ -387,7 +387,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
         else
         {
           display = item.homeOutcome.charAt(0).toUpperCase() + " " + scoreAway + " - " + scoreHome;
-            sort = (scoreAway/scoreHome+scoreAway);
+            sort = (scoreHome/scoreHome+scoreAway);
         }
         break;
 
