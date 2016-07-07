@@ -53,8 +53,27 @@ export class MLBDraftHistoryService extends DraftHistoryService {
   getDraftHistoryTabs(profileData: IProfileData): DraftHistoryTab[] {
     // console.log("concrete - getDraftHistoryTabs")
 
-    let profilePageDesc = (profileData.profileType == "team" ? "the " + profileData.profileName + " do" : profileData.profileName + " does");
-    let errorPrefix = "Sorry, " + profilePageDesc + " not currently have any draft history data for the ";
+    let errorMessage; // {0} is for the season name
+    // if ( profileData.isLegit && year == currentYear ) { 
+      if ( profileData.profileType == "team" ) {
+        //team names are plural, and should have a determative
+        errorMessage = "Currently, there are no drafted players assigned to the " + GlobalFunctions.convertToPossessive(profileData.profileName) + " roster for the {0}.";
+      }
+      else {
+        //otherwise it's MLB, which is singular and a proper name
+        errorMessage = "Currently, there are no drafted players assigned to a team's roster for the {0}.";
+      }
+    // }
+    // else {
+    //   if ( profileData.profileType == "team" ) {
+    //     //team names are plural, and should have a determative
+    //     errorMessage = "Sorry, the " + profileData.profileName + " do not currently have any draft history data for the {0}.";
+    //   }
+    //   else {
+    //     //otherwise it's MLB, which is singular and a proper name
+    //     errorMessage = "Sorry, " + profileData.profileName + " does not currently have any draft history data for the {0}.";
+    //   }
+    // }
 
     //for MLB season starts and ends in the same year so return current season
     //get past 5 years for tabs
@@ -62,11 +81,12 @@ export class MLBDraftHistoryService extends DraftHistoryService {
     var year = currentYear;
     var tabArray = [];
     for(var i = 0; i <5; i++) {
+      var seasonName = year + " season";
       tabArray.push({
         tabTitle: i == 0 ? 'Current Season' : year.toString(),
         tabKey: year.toString(),
         isLoaded: false,
-        errorMessage: errorPrefix + year + " season."
+        errorMessage: errorMessage.replace("{0}", seasonName)
       });
       year--;
     }
@@ -149,7 +169,10 @@ export class MLBDraftHistoryService extends DraftHistoryService {
       data.forEach(function(val, index){
         var playerFullName = val.playerFirstName + " " + val.playerLastName;
 
-        var playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId);
+        var playerRoute = null;
+        if ( val.active == "active" || (val.active == "injured" && !val.roleStatus) ) {
+          playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId); 
+        } 
         var playerLinkText = {
           route: playerRoute,
           text: playerFullName
@@ -189,7 +212,10 @@ export class MLBDraftHistoryService extends DraftHistoryService {
       var location = GlobalFunctions.toTitleCase(val.city) + ', ' + GlobalFunctions.stateToAP(val.area);
       var rank = (index+1);
 
-      var playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId);
+      var playerRoute = null;
+      if ( val.active == "active" || (val.active == "injured" && !val.roleStatus) ) {
+        playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId); 
+      } 
       var teamRoute = MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam);   
 
       var listData = {
