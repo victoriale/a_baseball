@@ -12,7 +12,7 @@ import {Link, NavigationData} from '../../global/global-interface';
     providers: [],
 })
 export class FooterComponent implements OnInit {
-    @Input() partnerID: string;
+    @Input() partner: string;
     public pageName: string;
     public homePageLinkName: string;
     public linkName: string;
@@ -36,8 +36,8 @@ export class FooterComponent implements OnInit {
         { name: "Colorado Rockies", id: 2800},
         { name: "Detroit Tigers", id: 2797}
     ];
-    loadData(partnerID: string) {
-      if(typeof partnerID == 'undefined') {
+    loadData(partner: string) {
+      if(typeof partner === null || partner == "") {
           this.pageName = "Home Run Loyal";
           this.linkName = "HomeRunLoyal.com";
      } else {
@@ -47,7 +47,7 @@ export class FooterComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.loadData(this.partnerID);
+        this.loadData(this.partner);
         this.teamDirectoryListings = GlobalFunctions.setupAlphabeticalNavigation("teams");
         this.playerDirectoryListings = GlobalFunctions.setupAlphabeticalNavigation("players");
         this.mlbTeams.forEach(team => {
