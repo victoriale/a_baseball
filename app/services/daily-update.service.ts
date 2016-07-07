@@ -78,7 +78,6 @@ export class DailyUpdateService {
   getTeamDailyUpdate(teamId: number): Observable<DailyUpdateData> {
     //http://dev-homerunloyal-api.synapsys.us/team/dailyUpdate/2800
     let url = GlobalSettings.getApiUrl() + '/team/dailyUpdate/' + teamId;
-
     return this.http.get(url)
         .map(res => res.json())
         .map(data => this.formatTeamData(data.data, teamId));
@@ -155,6 +154,7 @@ export class DailyUpdateService {
     //http://dev-homerunloyal-api.synapsys.us/player/dailyUpdate/2800
     let url = GlobalSettings.getApiUrl() + '/player/dailyUpdate/' + playerId;
 
+    console.log("getting daily update for player " + playerId + ": " + url);
     return this.http.get(url)
         .map(res => res.json())
         .map(data => this.formatPlayerData(data.data, playerId));
@@ -197,9 +197,9 @@ export class DailyUpdateService {
     var chart:DailyUpdateChart = this.getChart(data, seriesOne, seriesTwo);
     this.getPostGameArticle(data);
 
-    if(this.postGameArticleData['text'].length>0){
-      let tempText = this.postGameArticleData['text'].join(" ");
-      this.postGameArticleData['text'] = [tempText];
+    if(this.postGameArticleData.text && this.postGameArticleData.text.length>0){
+      let tempText = this.postGameArticleData.text.join(" ");
+      this.postGameArticleData.text = [tempText];
     }
 
     if ( chart ) {
