@@ -1,5 +1,6 @@
 const gulp = require('gulp');
 const del = require('del');
+const Builder = require('systemjs-builder');
 const typescript = require('gulp-typescript');
 const tscConfig = require('./tsconfig.json');
 const browserSync = require('browser-sync');
@@ -9,6 +10,7 @@ const less = require('gulp-less');
 const cleanCSS = require('gulp-clean-css');
 // const minify = require('gulp-minify');
 const reload = browserSync.reload;
+const rename = require('gulp-rename'); //for dev
 
 // clean the contents of the distribution directory
 gulp.task('clean', function () {
@@ -26,14 +28,14 @@ gulp.task('minify-css',['less'], function() {
 });
 
 //minify javascript
-// gulp.task('compress', ['copy:assets'], function() {
+// gulp.task('compress', ['copy:dev-assets'], function() {
 //   gulp.src('dist/app/**/*.js')
 //     .pipe(minify({
 //         ext:{
 //             src:'-debug.js',
 //             min:'.js'
 //         },
-//         exclude: ['lib'],
+//         exclude: ['dist/lib'],
 //     }))
 //     .pipe(gulp.dest('dist/app'))
 // });
@@ -70,9 +72,33 @@ gulp.task('copy:libs', ['clean'], function() {
       // 'node_modules/moment-timezone/moment-timezone.js',//load only one moment timezone otherwise problems will occur
       'node_modules/moment-timezone/builds/moment-timezone-with-data-2010-2020.js',
       'node_modules/fuse.js/src/fuse.min.js',
-      'node_modules/zone.js/dist/zone.js'
+      'node_modules/zone.js/dist/zone.js',
+
+      'system.config.js'
     ])
     .pipe(gulp.dest('dist/lib'));
+});
+
+/** then bundle */
+gulp.task('bundle', ['clean', 'copy:libs'], function() {
+    // optional constructor options
+    // sets the baseURL and loads the configuration file
+    var builder = new Builder('', 'dist/lib/system.config.js');
+    /*
+       the parameters of the below buildStatic() method are:
+           - your transcompiled application boot file (the one wich would contain the bootstrap(MyApp, [PROVIDERS]) function - in my case 'dist/app/boot.js'
+           - the output (file into which it would output the bundled code)
+           - options {}
+    */
+    return builder
+        .buildStatic('dist/app/main.js', 'dist/lib/bundle.js', { minify: true, sourceMaps: true})
+        .then(function() {
+            console.log('Build complete');
+        })
+        .catch(function(err) {
+            console.log('Build error');
+            console.log(err);
+        });
 });
 
 // copy static assets - i.e. non TypeScript compiled source
@@ -101,8 +127,40 @@ gulp.task('serve', ['build'], function() {
 });
 
 // gulp.task('build', ['compile', 'less', 'copy:libs', 'copy:assets', 'minify-css', 'compress']);
-gulp.task('build', ['compile', 'less', 'copy:libs', 'copy:assets', 'minify-css']);
+gulp.task('build', ['compile', 'less', 'copy:libs', 'copy:assets', 'minify-css','bundle']);
 gulp.task('buildAndReload', ['build'], reload);
+
+gulp.task('build-tests', ['compile-tests', 'build']);
+gulp.task('test', ['build-tests']);
+
+/**
+  *
+  *BELOW ARE ALL FOR DEV BUILD TO RUN FOR DEVELOPMENT
+  *
+  */
+// Run browsersync for development
+gulp.task('dev', ['dev-build'], function() {
+  browserSync({
+    server: {
+      baseDir: 'dist',
+        middleware: [ historyApiFallback() ]
+    }
+  });
+
+  gulp.watch(['app/**/*', 'dev-index.html', 'master.css'], ['dev-buildAndReload']);
+});
+// copy static assets - i.e. non TypeScript compiled source
+gulp.task('copy:dev-assets', ['clean'], function() {
+  gulp.src('dev-index.html')
+    .pipe(rename('index.html'))
+    .pipe(gulp.dest('dist'));
+
+  return gulp.src(['app/**/*', 'master.css', '!app/**/*.ts', '!app/**/*.less'], { base : './' })
+    .pipe(gulp.dest('dist'));
+});
+gulp.task('dev-build', ['compile', 'less', 'copy:libs', 'copy:dev-assets', 'minify-css']);
+gulp.task('dev-buildAndReload', ['dev-build'], reload);
+
 gulp.task('default', ['build']);
 
 //GULP TASKS for TESTING
@@ -112,6 +170,3 @@ gulp.task('compile-tests', ['clean'], function () {
     .pipe(typescript(tscConfig.compilerOptions))
     .pipe(gulp.dest('dist'));
 });
-
-gulp.task('build-tests', ['compile-tests', 'build']);
-gulp.task('test', ['build-tests']);
