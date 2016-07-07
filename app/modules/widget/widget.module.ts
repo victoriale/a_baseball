@@ -9,7 +9,7 @@ declare var jQuery:any;
     inputs: ['aiSidekick']
 })
 
-export class WidgetModule implements OnChanges{
+export class WidgetModule implements OnChanges {
     @Input() aiSidekick:boolean;
     //dangerousWidgetUrl:string = "http://w1.synapsys.us/widgets/realestate/standard2.html";
     dangerousWidgetUrl:string = '/app/ads/widget1.html';
@@ -32,31 +32,38 @@ export class WidgetModule implements OnChanges{
     }
 
     ngOnInit() {
+        var titleHeight = jQuery('.articles-page-title').height();
         var padding = document.getElementById('pageHeader').offsetHeight;
         if (!this.aiSidekick) {
             this.headerHeight = padding + 'px';
         } else {
-            this.headerHeight = padding + 95 + 'px';
+            if (titleHeight == 40) {
+                this.headerHeight = padding + 95 + 'px';
+            } else if (titleHeight == 80) {
+                this.headerHeight = padding + 135 + 'px';
+            }
         }
     }
 
     // Page is being scrolled
     onScroll(event) {
+        var titleHeight = jQuery('.articles-page-title').height();
         var padding = document.getElementById('pageHeader').offsetHeight;
         var y_buffer = 40;
         var scrollTop = jQuery(window).scrollTop();
         if (!this.aiSidekick) {
-           this.sidekickHeight = 0;
-         } else {
-           console.log('top',scrollTop);
-           console.log('curr',this.sidekickHeight);
-             this.sidekickHeight = 95 - scrollTop; //95 is static height set for a distance from header to top of image and media. need to fix this if the title goes past two lines
-             console.log('After',this.sidekickHeight);
-             if(this.sidekickHeight <= 0){
-               this.sidekickHeight = 0;
-             }
-             y_buffer += this.sidekickHeight;
-         }
+            this.sidekickHeight = 0;
+        } else {
+            if (titleHeight == 40) {
+                this.sidekickHeight = 95 - scrollTop;
+            } else if (titleHeight == 80) {
+                this.sidekickHeight = 135 - scrollTop;
+            }
+            if (this.sidekickHeight <= 0) {
+                this.sidekickHeight = 0;
+            }
+            y_buffer += this.sidekickHeight;
+        }
         this.headerHeight = padding + this.sidekickHeight + 'px';
         var $widget = jQuery("#widget");
         var $pageWrapper = jQuery(".widget-page-wrapper");
