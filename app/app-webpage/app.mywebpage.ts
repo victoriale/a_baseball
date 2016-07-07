@@ -39,6 +39,7 @@ import {ComponentPage} from "../webpages/component-page/component.page";
 import {PartnerHeader} from "../global/global-service";
 import {SanitizeHtml} from "../pipes/safe.pipe";
 import {SanitizeStyle} from "../pipes/safe.pipe";
+import {GlobalSettings} from "../global/global-settings";
 
 @Component({
     selector: 'my-house',
@@ -261,13 +262,15 @@ export class MyAppComponent {
   public partnerData: Object;
   public partnerScript:string;
   public shiftContainer:string;
-
+  private isHomeRunZone:boolean = false;
   constructor(private _partnerData: PartnerHeader, private _params: RouteParams){
     var parentParams = _params.params;
     if( parentParams['partner_id'] !== null){
         this.partnerID = parentParams['partner_id'];
         this.getPartnerHeader();
     }
+    //grabs the domain name of the site and sees if it is our partner page
+    this.isHomeRunZone = GlobalSettings.isPartnerPage().isPartner;
   }
 
   getPartnerHeader(){//Since it we are receiving
@@ -288,7 +291,10 @@ export class MyAppComponent {
   }
 
   getHeaderHeight(){
-    return document.getElementById('pageHeader').offsetHeight;
+    var pageHeader = document.getElementById('pageHeader');
+    if(pageHeader != null){
+      return pageHeader.offsetHeight;
+    }
   }
 
   ngOnInit(){

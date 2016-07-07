@@ -39,6 +39,7 @@ import {ComponentPage} from "../webpages/component-page/component.page";
 
 import {SanitizeHtml} from "../pipes/safe.pipe";
 import {SanitizeStyle} from "../pipes/safe.pipe";
+import {GlobalSettings} from "../global/global-settings";
 
 @Component({
     selector: 'my-app',
@@ -257,9 +258,13 @@ import {SanitizeStyle} from "../pipes/safe.pipe";
 
 export class AppComponent implements AfterViewChecked{
   public shiftContainer:string;
+  private isHomeRunZone:boolean = false;
 
   getHeaderHeight(){
-    return document.getElementById('pageHeader').offsetHeight;
+    var pageHeader = document.getElementById('pageHeader');
+    if(pageHeader != null){
+      return pageHeader.offsetHeight;
+    }
   }
 
   ngDoCheck(){

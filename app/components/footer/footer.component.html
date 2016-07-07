@@ -1,7 +1,8 @@
 <footer class="footer container-fluid">
   <section class="footer-top col-xs-12">
     <!-- TODO if partner then hide the logo -->
-    <a href="/"><img src="/app/public/homeRunLoyalLogo_Small.png" /></a>
+    <a *ngIf="!partnerID" href="/"><img src="/app/public/homeRunLoyalLogo_Small.png" /></a>
+    <div class="placeholderImg" *ngIf="partnerID"></div>
     <ul>
         <a href="https://www.facebook.com/sharer/sharer.php?u={{currentUrl}}" target="_blank"><li id="share-facebook"><i class="fa fa-facebook"></i></li></a>
         <a href="https://twitter.com/home?status={{currentUrl}}" target="_blank"><li id="share-twitter"><i class="fa fa-twitter"></i></li></a>

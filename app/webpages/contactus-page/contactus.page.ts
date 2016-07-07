@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Http} from '@angular/http';
+import {Router} from '@angular/router-deprecated';
 import {Observable} from 'rxjs/Rx';
 import {Title} from '@angular/platform-browser';
 
@@ -18,38 +19,48 @@ declare var moment;
 export class ContactUsPage implements OnInit{
     //Object that builds contact us module
     public mailManUrl: string;
-    public contactusInput: Object = {
-        subjects: [
-            {
-                value: 'General Feedback',
-                id: 'general'
-            },
-            {
-                value: 'Advertisement',
-                id: 'advertisement'
-            },
-            {
-                value: 'Copyright Infringement',
-                id: 'copyright'
-            },
-            {
-                value: 'Inquire about partnering with Home Run Loyal',
-                id: 'inquire'
-            }
-        ],
-        titleData: {
-            imageURL: GlobalSettings.getSiteLogoUrl(),
-            // text1: 'Last Updated: '+moment(new Date()).format('dddd MMMM Do, YYYY'),
-            text1: 'Last Updated: Friday, June 24th, 2016',
-            text2: ' United States',
-            text3: 'Have a question about Home Run Loyal? Write us a message.',
-            text4: '',
-            icon: 'fa fa-map-marker'
-        }
-    };
+    public contactusInput: Object;
 
-    constructor(private http:Http, private _title: Title) {
+    constructor(private http:Http, private _title: Title, private _router:Router) {
         _title.setTitle(GlobalSettings.getPageTitle("Contact Us"));
+        GlobalSettings.getPartnerID(_router, partnerID => {
+          var domainTitle;
+          if(partnerID != null){
+            domainTitle = "My Home Run Zone";
+          }else{
+            domainTitle = "Home Run Loyal";
+          }
+
+          this.contactusInput = {
+              subjects: [
+                  {
+                      value: 'General Feedback',
+                      id: 'general'
+                  },
+                  {
+                      value: 'Advertisement',
+                      id: 'advertisement'
+                  },
+                  {
+                      value: 'Copyright Infringement',
+                      id: 'copyright'
+                  },
+                  {
+                      value: 'Inquire about partnering with '+ domainTitle,
+                      id: 'inquire'
+                  }
+              ],
+              titleData: {
+                  imageURL: GlobalSettings.getSiteLogoUrl(),
+                  // text1: 'Last Updated: '+moment(new Date()).format('dddd MMMM Do, YYYY'),
+                  text1: 'Last Updated: Friday, June 24th, 2016',
+                  text2: ' United States',
+                  text3: 'Have a question about '+domainTitle+'? Write us a message.',
+                  text4: '',
+                  icon: 'fa fa-map-marker'
+              }
+          }
+        });
     }
 
     formSubmitted(form){

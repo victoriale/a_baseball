@@ -6,8 +6,9 @@ import {SliderButton} from "../../components/buttons/slider/slider.button";
 import {CircleImage} from '../../components/images/circle-image';
 import {ImageData,CircleImageData} from '../../components/images/image-data';
 import {Search, SearchInput} from '../../components/search/search.component';
-import {Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import {RouteParams, Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {LandingPageService} from '../../services/landing-page';
+import {PartnerHomePage} from '../partner-home-page/partner-home-page';
 
 export interface homePageData {
   imageData: CircleImageData;
@@ -25,7 +26,7 @@ export interface newsCarouselData {
 @Component({
     selector: 'home-page',
     templateUrl: './app/webpages/home-page/home-page.page.html',
-    directives: [CircleImage, ROUTER_DIRECTIVES, Search, SliderButton],
+    directives: [CircleImage, ROUTER_DIRECTIVES, Search, SliderButton, PartnerHomePage],
     providers: [LandingPageService, Title],
 })
 
@@ -66,13 +67,16 @@ export class HomePage implements OnInit {
       this.getData();
       this.getListData();
 
-      //grabs the domain name of the site and sees if it is our partner page
-      var domain = window.location.hostname.split(".")[1];
-      console.log(domain);
-      domain = domain.toLowerCase();
-      if(domain == 'myhomerunzone'){
-        this.isHomeRunZone = true;
-      }
+      GlobalSettings.getPartnerID(_router, partnerID => {
+        //grabs the domain name of the site and sees if it is our partner page
+        var domain = window.location.hostname.split(".");
+        // if(domain[1] == 'myhomerunzone' && domain[1] != null && typeof partnerID == 'undefined'){
+        //   this.isHomeRunZone = true;
+        // }
+        if(domain[0] == 'localhost' && typeof partnerID == 'undefined'){
+          this.isHomeRunZone = true;
+        }
+      });
     }
     getListData(){
       this.listData = [

@@ -21,7 +21,7 @@ export interface AboutUsInterface {
 }
 
 @Injectable()
-export class AboutUsService {  
+export class AboutUsService {
   constructor(public http: Http){}
 
   getData(partnerID: string): Observable<AboutUsModel> {
@@ -30,10 +30,10 @@ export class AboutUsService {
         .map(res => res.json())
         .map(data => this.formatData(data.data, partnerID));
   }
-  
+
   private formatData(data: AboutUsInterface, partnerID: string): AboutUsModel {
-    let pageName = (partnerID === null)
-            ? "Home Run Loyal" 
+    let pageName = (partnerID == null)
+            ? "Home Run Loyal"
             : "My Home Run Loyal";
     let teamProfiles = GlobalFunctions.commaSeparateNumber(data.teamProfilesCount);
     let playerProfiles = GlobalFunctions.commaSeparateNumber(data.playerProfilesCount);
@@ -76,23 +76,23 @@ export class AboutUsService {
                 urlRouteArray: championLink,
                 hoverText: "<i class=\"fa fa-mail-forward\"></i>"
               }
-            },            
+            },
           },
           titleText: data.worldChampYear + ' World Series Champions',
           dataText: data.worldChampLastName,
         }
       ],
       //TODO-CJP: Update [July, 2016] to reflect actual creation date!
-      content: [        
+      content: [
         "We created Wichita, Kan. -based Home Run Loyal in [July, 2016] to connect baseball fans with insightful, well-informed and up-to-date content.",
-         
-        "Here at Home Run Loyal, we have an appetite for digesting down big data in the world of baseball." + 
+
+        "Here at Home Run Loyal, we have an appetite for digesting down big data in the world of baseball." +
         " We create unique content so you can learn everything about your favorite team or player." +
-        " From rookie players and underachieving teams to veteran stars and perennial favorites," + 
+        " From rookie players and underachieving teams to veteran stars and perennial favorites," +
         " Home Run Loyal produces content and statistical information for " + teamProfiles + " MLB teams and over " + playerProfiles + " player profiles."
       ]
     };
-    
+
     return model;
   }
 }

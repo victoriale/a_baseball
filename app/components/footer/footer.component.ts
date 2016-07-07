@@ -41,8 +41,8 @@ export class FooterComponent implements OnInit {
           this.pageName = "Home Run Loyal";
           this.linkName = "HomeRunLoyal.com";
      } else {
-          this.pageName = "My HomeRun";
-          this.linkName = "MyHomeRun.com";
+          this.pageName = "My HomeRun Zone";
+          this.linkName = "MyHomeRunZone.com";
       }
     }
 

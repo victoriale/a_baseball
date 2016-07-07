@@ -17,7 +17,6 @@ export class GlobalSettings {
     private static _recommendUrl:string = '-homerunloyal-ai.synapsys.us/headlines/event/';
     private static _headlineUrl:string = '-homerunloyal-ai.synapsys.us/headlines/team/';
     private static _trendingUrl:string = '-homerunloyal-ai.synapsys.us/sidekick';
-
     private static _homepageUrl:string = '.homerunloyal.com';
     private static _partnerHomepageUrl:string = '.myhomerunzone.com';
 
@@ -82,6 +81,19 @@ export class GlobalSettings {
         else {
             return this._proto + "//" + this.getEnv(this._env) + this._homepageUrl;
         }
+    }
+
+    static isPartnerPage(){
+      //grabs the domain name of the site and sees if it is our partner page
+      var partner = false;
+      var domain = window.location.hostname.split(".");
+      // if(domain[1] == 'myhomerunzone' && domain[1] != null){
+      //   this.isHomeRunZone = true;
+      // }
+      if(domain[0] == 'localhost'){
+        partner = true;
+      }
+      return {isPartner: partner};
     }
 
     static getSiteLogoUrl():string {
