@@ -294,6 +294,7 @@ export class PaginationFooter implements OnChanges{
     indexClick(event){
       var newIndex = Number(event.target.innerHTML);
       this.paginationParameters.index = newIndex;
+      this.newIndex.next(newIndex);
       this.buildModuleButtons();
     }
 

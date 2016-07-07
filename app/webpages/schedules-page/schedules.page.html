@@ -6,6 +6,6 @@
     <error-component *ngIf="isError"></error-component>
 
     <schedules-component *ngIf="schedulesData" [carouselData]="schedulesData.carData" [data]="schedulesData.data" [tabs]="tabData" (tabSelected)="scheduleTab($event)"></schedules-component>
-    <pagination-footer *ngIf="paginationParameters" [paginationParameters]="paginationParameters"></pagination-footer>
+    <pagination-footer *ngIf="paginationParameters" [paginationParameters]="paginationParameters" (newIndex)="newIndex($event)"></pagination-footer>
 </section>
 </sidekick-wrapper>
