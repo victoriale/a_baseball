@@ -32,7 +32,7 @@ export class AboutUsModule implements OnChanges {
       if(partnerID != null) {
         this.homePageLinkName = "www.myhomerun.com/" + partnerID;
         this.pageName = "My HomeRun";
-        this.logoUrl = '/app/public/Logo_My-Home-run-zone.svg';
+        this.logoUrl = '/app/public/Logo_My-Home-Run-Zone.svg';
      } else {
        this.homePageLinkName = "www.homerunloyal.com"
        this.pageName = "Home Run Loyal";
