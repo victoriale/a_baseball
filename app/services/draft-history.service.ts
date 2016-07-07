@@ -27,6 +27,25 @@ export interface DraftHistoryData {
   paginationDetails: PaginationParameters;
 }
 
+export interface PlayerDraftData {
+  playerId: string;
+  playerFirstName: string;
+  playerLastName: string;
+  roleStatus: string;
+  active: string;
+  teamId: string;
+  teamName: string;
+  entryReason: string;
+  selectionLevel: string;
+  selectionOverall: string;
+  startDate: string;
+  city: string;
+  area: string;
+  country: string;
+  backgroundImage: string;
+  imageUrl: string;
+}
+
 @Injectable() 
 export class DraftHistoryService {
 
@@ -110,7 +129,7 @@ export class MLBDraftHistoryService extends DraftHistoryService {
       //http://dev-homerunloyal-api.synapsys.us/league/draftHistory/2016
       callURL = this._apiUrl + '/league/draftHistory/'+ year;
     }
-    // console.log(callURL);
+    console.log(callURL);
 
     return this.http.get(callURL)
     .map(res => res.json())
@@ -158,7 +177,7 @@ export class MLBDraftHistoryService extends DraftHistoryService {
 
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
   //FOR THE PAGE
-  private carDraftHistory(data, errorMessage: string, type){
+  private carDraftHistory(data: Array<PlayerDraftData>, errorMessage: string, type){
     let self = this;
     var carouselArray = [];
     var dummyImg = "/app/public/no-image.png";
@@ -171,7 +190,7 @@ export class MLBDraftHistoryService extends DraftHistoryService {
 
         var playerRoute = null;
         if ( val.active == "active" || (val.active == "injured" && !val.roleStatus) ) {
-          playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId); 
+          playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId); 
         } 
         var playerLinkText = {
           route: playerRoute,
@@ -206,7 +225,7 @@ export class MLBDraftHistoryService extends DraftHistoryService {
     return carouselArray;
   }
 
-  private detailedData(data){
+  private detailedData(data: Array<PlayerDraftData>){
     var listDataArray = data.map(function(val, index){
       var playerFullName = val.playerFirstName + " " + val.playerLastName;
       var location = GlobalFunctions.toTitleCase(val.city) + ', ' + GlobalFunctions.stateToAP(val.area);
@@ -214,9 +233,9 @@ export class MLBDraftHistoryService extends DraftHistoryService {
 
       var playerRoute = null;
       if ( val.active == "active" || (val.active == "injured" && !val.roleStatus) ) {
-        playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId); 
+        playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId); 
       } 
-      var teamRoute = MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam);   
+      var teamRoute = MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId);   
 
       var listData = {
         dataPoints: ListPageService.detailsData(
@@ -231,7 +250,7 @@ export class MLBDraftHistoryService extends DraftHistoryService {
           'fa fa-map-marker'),
         imageConfig: ListPageService.imageData("list", GlobalSettings.getImageUrl(val.imageUrl), playerRoute, rank),
         hasCTA:true,
-        ctaDesc:'Want more info about this player?',
+        ctaDesc: playerRoute ? 'Want more info about this player?' : 'This player is currently not active.',
         ctaBtn:'',
         ctaText:'View Profile',
         ctaUrl: playerRoute
