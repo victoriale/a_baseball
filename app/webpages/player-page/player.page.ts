@@ -190,10 +190,7 @@ export class PlayerPage implements OnInit {
               /*** Keep Up With Everything [Player Name] ***/
               this.getSchedulesData('pre-event');//grab pre event data for upcoming games
               this.setupSeasonstatsData();
-              if ( data.headerData.info.qualified ) {
-                //only get the comparison data if the player is considered qualified
-                this.setupComparisonData();
-              }
+              this.setupComparisonData();
               /*** Other [League Name] Content You May Love ***/
               this.getImages(this.imageData);
               this.getDykService();

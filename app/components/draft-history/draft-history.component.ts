@@ -48,7 +48,9 @@ export class DraftHistoryComponent implements OnInit {
 
   getDraftPage(tab: DraftHistoryTab) {
     if ( tab.isLoaded ) {
-      tab.paginationDetails.index = this.currentIndex + 1;    
+      if ( tab.paginationDetails ) {
+        tab.paginationDetails.index = this.currentIndex + 1;
+      }    
       this.carouselDataArray = tab.carouselDataArray;
       return;
     }

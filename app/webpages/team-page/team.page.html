@@ -6,9 +6,7 @@
     <!-- <headline-component [title]="'About the ' + profileHeaderData.profileName"></headline-component> -->
     <profile-header [profileHeaderData]="profileHeaderData"></profile-header>
     <daily-update-module [profileName]="profileHeaderData.profileName" [data]="dailyUpdateData"></daily-update-module>
-    <!-- daily update -->
     <articles-module></articles-module>
-
     <!-- <headline-component [title]="'Keep Up With Everything ' + profileHeaderData.profileName"></headline-component> -->
     <box-scores *ngIf="dateParam" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)"></box-scores>
     <schedules *ngIf="schedulesData" [profHeader]="profileHeaderData" [data]="schedulesData" (tabSelected)="scheduleTab($event)"></schedules>
@@ -17,17 +15,13 @@
     <player-stats-module *ngIf="playerStatsData" [data]="playerStatsData" (tabSelected)="playerStatsTabSelected($event)"></player-stats-module>
     <transactions-module *ngIf="transactionsData" [data]="transactionsData" (tabSwitched)="transactionsTab($event)"></transactions-module>
     <draft-history-module *ngIf="profileData" [profileData]="profileData"></draft-history-module>
-    <!-- MVP -->
     <comparison-module [modelData]="comparisonModuleData" [profileName]="profileHeaderData.profileName" [profileType]="'team'" [profileId]="pageParams.teamId"></comparison-module>
-
     <!-- <headline-component [title]="'Other MLB Content You May Love'"></headline-component> -->
     <images-media-carousel [imageData]="imageData" [copyright]="copyright" [profHeader]="profileHeaderData" [imageTitle]="imageTitle" [isProfilePage]="isProfilePage"></images-media-carousel>
     <dyk-module *ngIf="dykData" [profileName]="profileHeaderData.profileName" [dykData]="dykData"></dyk-module>
     <faq-module *ngIf="faqData" [profileName]="profileHeaderData.profileName" [faqData]="faqData"></faq-module>
     <list-of-lists  *ngIf="listOfListsData" [profileHeaderData]="profileHeaderData" [listOfListsData]="listOfListsData"></list-of-lists>
-    <!-- other news you will love -->
     <news-module *ngIf="newsDataArray" [newsDataArray]="newsDataArray" [profileName]="profileHeaderData.profileName"></news-module>
-
     <!-- <headline-component [title]="'Interact With MLB\'s Fans'"></headline-component> -->
     <twitter-module *ngIf="twitterData" [profileName]="profileHeaderData.profileName" [twitterData]="twitterData"></twitter-module>
     <!--Like Us On FB Module, only display if not on partner page-->

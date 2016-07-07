@@ -18,7 +18,7 @@ export class AboutUsModule implements OnChanges {
     public pageName: string;
     public moduleHeader: ModuleHeaderData;
     public headerText: string = "Disclaimer";
-    public logoUrl = '/app/public/Logo_Home-Run-Loyal-B.png';
+    public logoUrl:string;
     public buttonText = 'See The Full Disclaimer';
     public aboutUsData: Array<TileData>;
 
@@ -29,12 +29,14 @@ export class AboutUsModule implements OnChanges {
     }
 
     loadData(partnerID: string) {
-      if(typeof partnerID == 'undefined') {
-          this.homePageLinkName = "www.homerunloyal.com"
-          this.pageName = "Home Run Loyal";
+      if(partnerID != null) {
+        this.homePageLinkName = "www.myhomerun.com/" + partnerID;
+        this.pageName = "My HomeRun";
+        this.logoUrl = '/app/public/Logo_My-Home-run-zone.svg';
      } else {
-          this.homePageLinkName = "www.myhomerun.com/" + partnerID;
-          this.pageName = "My HomeRun";
+       this.homePageLinkName = "www.homerunloyal.com"
+       this.pageName = "Home Run Loyal";
+       this.logoUrl = '/app/public/Logo_Home-Run-Loyal.png';
       }
 
       this.headerText = GlobalFunctions.convertToPossessive(this.pageName) + ' Disclaimer';
