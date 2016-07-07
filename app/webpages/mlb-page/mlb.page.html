@@ -4,40 +4,32 @@
   <error-component *ngIf="hasError"></error-component>
   <div *ngIf="profileHeaderData">
     <!-- <headline-component [title]="'About the MLB'"></headline-component> -->
-
     <profile-header [profileHeaderData]="profileHeaderData"></profile-header>
     <!-- aiArticles -->
-
     <!-- <headline-component [title]="'Keep Up With Everything MLB'"></headline-component> -->
-
     <box-scores *ngIf="currentBoxScores && dateParam" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)"></box-scores>
     <schedules *ngIf="schedulesData" [profHeader]="profileHeaderData" [data]="schedulesData" (tabSelected)="scheduleTab($event)"></schedules>
     <standings-module [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
-    <draft-history-module *ngIf="profileData" [profileData]="profileData"></draft-history-module>
     <transactions-module *ngIf="transactionsData" [data]="transactionsData" (tabSwitched)="transactionsTab($event)"></transactions-module>
+    <draft-history-module *ngIf="profileData" [profileData]="profileData"></draft-history-module>
     <mvp-module *ngIf="batterData" [title]="'Batter'" [mvpData]="batterData" [query]="batterParams" (tabSelected)="batterTab($event)"></mvp-module>
     <mvp-module *ngIf="pitcherData" [title]="'Pitcher'" [mvpData]="pitcherData" [query]="pitcherParams" (tabSelected)="pitcherTab($event)"></mvp-module>
     <comparison-module [modelData]="comparisonModuleData" [profileName]="profileHeaderData.profileName"></comparison-module>
-
     <!-- <headline-component [title]="'Other MLB Content You May Love'"></headline-component> -->
     <images-media-carousel [imageData]="imageData" [copyright]="copyright" [imageTitle]="imageTitle" [profHeader]="profileHeaderData" [isProfilePage]="isProfilePage"></images-media-carousel>
     <dyk-module *ngIf="dykData" [profileName]="profileHeaderData.profileName" [dykData]="dykData"></dyk-module>
     <faq-module *ngIf="faqData" [profileName]="profileHeaderData.profileName" [faqData]="faqData"></faq-module>
     <list-of-lists  *ngIf="listOfListsData" [profileHeaderData]="profileHeaderData" [listOfListsData]="listOfListsData"></list-of-lists>
-    <!-- Other NEWS you will love -->
     <news-module *ngIf="newsDataArray" [newsDataArray]="newsDataArray" [profileName]="profileHeaderData.profileName"></news-module>
-
     <!-- <headline-component [title]="'Interact With MLB\'s Fans'"></headline-component> -->
-
     <twitter-module *ngIf="twitterData" [profileName]="profileHeaderData.profileName" [twitterData]="twitterData"></twitter-module>
     <!--Like Us On FB Module, only display if not on partner page-->
     <!-- TODO <section *ngIf="!partnerCheck"> -->
-    <like-us-module></like-us-module>
     <share-module *ngIf="profileHeaderData && shareModuleInput" [shareModuleInput]="shareModuleInput"></share-module>
+    <like-us-module></like-us-module>
     <!-- </section> -->
     <!-- TODO<section *ngIf="!partnerCheck"> also required for comment module-->
     <comment-module [profileName]="profileHeaderData.profileName"></comment-module>
-
     <about-us [partnerID]="partnerID"></about-us>
   </div>
 </section>
