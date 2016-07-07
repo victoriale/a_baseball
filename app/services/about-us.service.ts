@@ -88,7 +88,7 @@ export class AboutUsService {
 
         "Here at " + pageName + ", we have an appetite for digesting down big data in the world of baseball." +
         " We create unique content so you can learn everything about your favorite team or player." +
-        " From rookie players and underachieving teams to veteran stars and perennial favorites," +
+        " From rookie players and underachieving teams to veteran stars and perennial favorites, " +
         pageName + " produces content and statistical information for " + teamProfiles + " MLB teams and over " + playerProfiles + " player profiles."
       ]
     };
