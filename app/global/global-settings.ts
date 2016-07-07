@@ -138,7 +138,7 @@ export class GlobalSettings {
 
     static getPageTitle(subtitle?: string, profileName?: string) {
       if(this.getHomeInfo().isPartner){
-        this._baseTitle = "My Home Run Zone";
+        this._baseTitle = "My HomeRun Zone";
       }
         return this._baseTitle +
             (profileName && profileName.length > 0 ? " - " + profileName : "") +

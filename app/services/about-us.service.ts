@@ -34,7 +34,7 @@ export class AboutUsService {
   private formatData(data: AboutUsInterface, partnerID: string): AboutUsModel {
     let pageName = (partnerID == null)
             ? "Home Run Loyal"
-            : "My Home Run Loyal";
+            : "My HomeRun Loyal";
     let teamProfiles = GlobalFunctions.commaSeparateNumber(data.teamProfilesCount);
     let playerProfiles = GlobalFunctions.commaSeparateNumber(data.playerProfilesCount);
     let fullName = data.worldChampFirstName + " " + data.worldChampLastName;
