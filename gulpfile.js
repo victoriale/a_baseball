@@ -147,19 +147,19 @@ gulp.task('dev', ['dev-build'], function() {
     }
   });
 
-  gulp.watch(['app/**/*', 'dev-index.html', 'master.css'], ['buildAndReload']);
+  gulp.watch(['app/**/*', 'dev-index.html', 'master.css'], ['dev-buildAndReload']);
 });
 // copy static assets - i.e. non TypeScript compiled source
 gulp.task('copy:dev-assets', ['clean'], function() {
   gulp.src('dev-index.html')
     .pipe(rename('index.html'))
-    .pipe(gulp.dest('dist'))
+    .pipe(gulp.dest('dist'));
 
-  return gulp.src(['app/**/*', 'index.html', 'master.css', '!app/**/*.ts', '!app/**/*.less'], { base : './' })
+  return gulp.src(['app/**/*', 'master.css', '!app/**/*.ts', '!app/**/*.less'], { base : './' })
     .pipe(gulp.dest('dist'));
 });
 gulp.task('dev-build', ['compile', 'less', 'copy:libs', 'copy:dev-assets', 'minify-css']);
-gulp.task('dev-buildAndReload', ['build'], reload);
+gulp.task('dev-buildAndReload', ['dev-build'], reload);
 
 gulp.task('default', ['build']);
 
