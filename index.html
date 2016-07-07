@@ -36,7 +36,16 @@
             this.page.url = window.location.href + "#!newthread";
         };
     </script>
-    <script type="text/javascript">stLight.options({publisher: "ab81b5e8-9aea-4921-9930-26ce6925e901", doNotHash: false, doNotCopy: false, hashAddressBar: false, onhover: false});</script>
+    <script type="text/javascript">
+      if ( window.stLight ) {
+        stLight.options({publisher: "ab81b5e8-9aea-4921-9930-26ce6925e901", doNotHash: false, doNotCopy: false, hashAddressBar: false, onhover: false});
+      }
+      else {
+        window.stButtons = {
+          locateElements: function() {}
+        };
+      }
+      </script>
     <!-- 2. Configure SystemJS -->
     <script src="lib/bundle.js"></script>
   </head>
