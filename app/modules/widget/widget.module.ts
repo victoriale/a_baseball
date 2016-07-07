@@ -44,18 +44,23 @@ export class WidgetModule implements OnChanges{
     onScroll(event) {
         var padding = document.getElementById('pageHeader').offsetHeight;
         var y_buffer = 40;
+        var scrollTop = jQuery(window).scrollTop();
         if (!this.aiSidekick) {
-            this.sidekickHeight = 0;
-        } else {
-            this.sidekickHeight = 95;
-            y_buffer = 135
-        }
+           this.sidekickHeight = 0;
+         } else {
+           console.log('top',scrollTop);
+           console.log('curr',this.sidekickHeight);
+             this.sidekickHeight = 95 - scrollTop; //95 is static height set for a distance from header to top of image and media. need to fix this if the title goes past two lines
+             console.log('After',this.sidekickHeight);
+             if(this.sidekickHeight <= 0){
+               this.sidekickHeight = 0;
+             }
+             y_buffer += this.sidekickHeight;
+         }
         this.headerHeight = padding + this.sidekickHeight + 'px';
-        console.log(event);
         var $widget = jQuery("#widget");
         var $pageWrapper = jQuery(".widget-page-wrapper");
         if ($widget.length > 0 && $pageWrapper.length > 0) {
-            var scrollTop = jQuery(window).scrollTop();
             var widgetHeight = $widget.height();
             var pageWrapperTop = $pageWrapper.offset().top;
             var pageWrapperBottom = pageWrapperTop + $pageWrapper.height() - padding;
