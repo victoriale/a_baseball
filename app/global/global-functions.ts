@@ -542,13 +542,13 @@ export class GlobalFunctions {
  */
   static nFormatter(num: number): string {
   	if (num >= 1000000000) {
-  		return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + ' B';
+  		return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
   	}
   	if (num >= 1000000) {
-  		return (num / 1000000).toFixed(1).replace(/\.0$/, '') + ' M';
+  		return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
   	}
   	if (num >= 1000) {
-  		return (num / 1000).toFixed(1).replace(/\.0$/, '') + ' K';
+  		return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
   	}
   	return num.toString();
   }
@@ -566,11 +566,11 @@ export class GlobalFunctions {
   }
 
   /**
-   * Converts a given name to it's possessive version by checking to see if 
-   * the last character is an 's' or not. If it's an 's', then only an 
+   * Converts a given name to it's possessive version by checking to see if
+   * the last character is an 's' or not. If it's an 's', then only an
    * apostrophe is added. Otherwise both an apostrophe and an 's' are added.
-   * 
-   * If 'name' is null or empty, then it is returned unchanged. 
+   *
+   * If 'name' is null or empty, then it is returned unchanged.
    */
   static convertToPossessive(name: string) {
     if ( !name || name.length == 0 ) return name;
