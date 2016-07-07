@@ -14,20 +14,20 @@ declare var DISQUS: any;
     providers: [],
 })
 export class CommentModule implements OnInit, OnChanges {
-    
+
     @Input() profileName: string;
-    
+
     public headerInfo: ModuleHeaderData = {
       moduleTitle: "Comments - [Profile Name]",
       hasIcon: false,
       iconClass: ""
     };
-    
+
     ngOnChanges() {
         let profileName = this.profileName ? this.profileName : "[Profile Name]";
         this.headerInfo.moduleTitle = "Comments - " + profileName;
     }
-    
+
     ngOnInit(){
         var script:any = document.createElement("script");
 

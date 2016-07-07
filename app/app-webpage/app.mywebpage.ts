@@ -262,15 +262,18 @@ export class MyAppComponent {
   public partnerData: Object;
   public partnerScript:string;
   public shiftContainer:string;
+  public hideHeader:boolean;
   private isHomeRunZone:boolean = false;
+  private partner
   constructor(private _partnerData: PartnerHeader, private _params: RouteParams){
     var parentParams = _params.params;
+
     if( parentParams['partner_id'] !== null){
         this.partnerID = parentParams['partner_id'];
         this.getPartnerHeader();
     }
-    //grabs the domain name of the site and sees if it is our partner page
-    this.isHomeRunZone = GlobalSettings.isPartnerPage().isPartner;
+
+    this.hideHeader = GlobalSettings.isPartnerPage().hide;
   }
 
   getPartnerHeader(){//Since it we are receiving

@@ -68,14 +68,8 @@ export class HomePage implements OnInit {
       this.getListData();
 
       GlobalSettings.getPartnerID(_router, partnerID => {
-        //grabs the domain name of the site and sees if it is our partner page
-        var domain = window.location.hostname.split(".");
-        // if(domain[1] == 'myhomerunzone' && domain[1] != null && typeof partnerID == 'undefined'){
-        //   this.isHomeRunZone = true;
-        // }
-        if(domain[0] == 'localhost' && typeof partnerID == 'undefined'){
-          this.isHomeRunZone = true;
-        }
+        var partnerHome = GlobalSettings.isPartnerPage().isHome && GlobalSettings.isPartnerPage().isPartner;
+        this.isHomeRunZone = partnerHome;
       });
     }
     getListData(){

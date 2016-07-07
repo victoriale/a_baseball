@@ -21,11 +21,11 @@
         <!-- <headline-component [title]="'Interact With MLB\'s Fans'"></headline-component> -->
         <twitter-module *ngIf="twitterData" [profileName]="profileHeaderData.profileName" [twitterData]="twitterData"></twitter-module>
         <!--Like Us On FB Module, only display if not on partner page-->
-        <!-- <section *ngIf="!partnerCheck"> -->
         <share-module *ngIf="shareModuleInput" [shareModuleInput]="shareModuleInput"></share-module>
-        <like-us-module></like-us-module>
-        <!-- </section> -->
-        <comment-module [profileName]="profileHeaderData.profileName"></comment-module>
+        <section *ngIf="!partnerID">
+          <like-us-module></like-us-module>
+          <comment-module [profileName]="profileHeaderData.profileName"></comment-module>
+        </section>
         <about-us [partnerID]="partnerID"></about-us>
     </div>
 </section>

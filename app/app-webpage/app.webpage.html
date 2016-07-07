@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-xs-12">
-      <header *ngIf="isHomeRunZone" id="pageHeader" class="fixedHeader">
+      <header *ngIf="!hideHeader" id="pageHeader" class="fixedHeader">
         <div id="partner" *ngIf="partnerScript" [innerHTML]="partnerScript | safeHtml"></div>
         <header-component partner="{{partnerID}}"></header-component>
       </header>

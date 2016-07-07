@@ -258,7 +258,11 @@ import {GlobalSettings} from "../global/global-settings";
 
 export class AppComponent implements AfterViewChecked{
   public shiftContainer:string;
+  public hideHeader: boolean;
   private isHomeRunZone:boolean = false;
+  constructor(){
+    this.hideHeader = GlobalSettings.isPartnerPage().hide;
+  }
 
   getHeaderHeight(){
     var pageHeader = document.getElementById('pageHeader');

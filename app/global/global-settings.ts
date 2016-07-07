@@ -86,14 +86,29 @@ export class GlobalSettings {
     static isPartnerPage(){
       //grabs the domain name of the site and sees if it is our partner page
       var partner = false;
-      var domain = window.location.hostname.split(".");
-      // if(domain[1] == 'myhomerunzone' && domain[1] != null){
-      //   this.isHomeRunZone = true;
-      // }
-      if(domain[0] == 'localhost'){
-        partner = true;
+      var isHome = false;
+      var hide = false;
+      var hostname = window.location.hostname;
+      var partnerPage = /myhomerunzone/.test(hostname);
+      // var partnerPage = /localhost/.test(hostname);
+      var homePage = window.location.pathname.split('/')[1];
+
+      if(partnerPage && homePage == ''){
+        hide = true;
+        isHome = true;
+      }else if(!partnerPage && homePage == ''){
+        hide = false;
+        isHome = true;
+      }else{
+        hide = false;
+        isHome = false;
       }
-      return {isPartner: partner};
+
+      if(partnerPage){
+        partner = partnerPage;
+      }
+      // console.log({isPartner: partner, hide:hide, isHome:isHome});
+      return {isPartner: partner, hide:hide, isHome:isHome};
     }
 
     static getSiteLogoUrl():string {
