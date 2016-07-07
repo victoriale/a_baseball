@@ -118,22 +118,25 @@ export class SeasonStatsService {
     return {
       tabs: seasonStatTabs,
       profileName: playerInfo.playerName,
-      carouselDataItem: SeasonStatsService.getCarouselData(playerInfo, curYear.toString()), 
+      carouselDataItem: SeasonStatsService.getCarouselData(playerInfo, curYear.toString()),
       pageRouterLink: this.getLinkToPage(Number(playerInfo.playerId), playerInfo.playerName),
       playerInfo: playerInfo
     };
   }
 
   private getBarData(stats: SeasonStats, isCareer: boolean, isPitcher: boolean): Array<ComparisonBarInput> {
+    if(stats.player !== undefined){ //catch if no data for season
     let statsToInclude = isPitcher ? this.pitchingFields : this.battingFields;
     let bars: Array<ComparisonBarInput> = [];
 
     for ( var index in statsToInclude ) {
       var fieldName = statsToInclude[index];
       var infoBox = null;
-      var worstValue = stats.worst[fieldName];
-      var leaderValue = stats.leader[fieldName];
-      var playerValue = stats.player[fieldName];
+      
+      //catch no stat data
+      var worstValue = stats.worst[fieldName] != undefined ? stats.worst[fieldName] : null;
+      var leaderValue = stats.leader[fieldName] != undefined ? stats.leader[fieldName] : null;
+      var playerValue = stats.player[fieldName] != undefined ? stats.player[fieldName] : null;
       var dataPoints = [];
 
       //Set up data points
@@ -193,12 +196,14 @@ export class SeasonStatsService {
       });
     }
     return bars;
+    }
   }
+
 
   private getTabData(seasonId: string, data: APISeasonStatsData, playerName: string, isPitcher: boolean, isCurrYear?: boolean): SeasonStatsTabData {
     var legendValues;
-    var subTitle;  
-    var tabTitle; 
+    var subTitle;
+    var tabTitle;
     var longSeasonName; // for display in the carousel and module title
     var isCareer = seasonId.toLowerCase() == "career";
     var bars: Array<ComparisonBarInput> = this.getBarData(data.stats[seasonId.toLowerCase()], isCareer, isPitcher);
@@ -272,14 +277,14 @@ export class SeasonStatsService {
 
   static getQualifierLabel(key: string): string {
     switch (key) {
-      case "pitchBasesOnBalls": 
+      case "pitchBasesOnBalls":
       case "pitchHits":
       case "pitchEra":
       case "pitchEarnedRuns":
-      case "pitchHomeRunsAllowed": 
+      case "pitchHomeRunsAllowed":
         return "A lower number indicates a stronger performance.";
 
-      default: 
+      default:
         return null;
     }
   }
