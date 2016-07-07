@@ -3,6 +3,7 @@ import {Router, ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 import {GlobalFunctions} from '../../global/global-functions';
 import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
 import {Link, NavigationData} from '../../global/global-interface';
+import {GlobalSettings} from "../../global/global-settings";
 
 @Component({
     selector: 'footer-component',
@@ -37,7 +38,9 @@ export class FooterComponent implements OnInit {
         { name: "Detroit Tigers", id: 2797}
     ];
     loadData(partner: string) {
-      if(typeof partner == 'undefined' || partner == "") {
+      var checkPartner = GlobalSettings.getHomeInfo().isPartner;
+      console.log(checkPartner, GlobalSettings.getHomeInfo())
+      if(!checkPartner) {
           this.pageName = "Home Run Loyal";
           this.linkName = "HomeRunLoyal.com";
      } else {

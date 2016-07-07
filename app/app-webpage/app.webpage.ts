@@ -1,5 +1,5 @@
 import {Component, AfterViewChecked} from '@angular/core';
-import {RouteConfig, RouterOutlet, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import {RouteParams, RouteConfig, RouterOutlet, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
 import {GlobalFunctions} from "../global/global-functions";
 import {FooterComponent} from "../components/footer/footer.component";
@@ -260,7 +260,7 @@ export class AppComponent implements AfterViewChecked{
   public shiftContainer:string;
   public hideHeader: boolean;
   private isHomeRunZone:boolean = false;
-  constructor(){
+  constructor(private _params: RouteParams){
     this.hideHeader = GlobalSettings.getHomeInfo().hide;
   }
 
@@ -270,6 +270,7 @@ export class AppComponent implements AfterViewChecked{
       return pageHeader.offsetHeight;
     }
   }
+
 
   ngDoCheck(){
     var checkHeight = this.getHeaderHeight();

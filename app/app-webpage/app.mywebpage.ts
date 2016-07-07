@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, AfterViewChecked} from '@angular/core';
 import {RouteParams, RouteConfig, RouterOutlet, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
 import {FooterComponent} from "../components/footer/footer.component";
@@ -257,14 +257,13 @@ import {GlobalSettings} from "../global/global-settings";
     }
 ])
 
-export class MyAppComponent {
+export class MyAppComponent implements AfterViewChecked{
   public partnerID: string;
   public partnerData: Object;
   public partnerScript:string;
   public shiftContainer:string;
   public hideHeader:boolean;
   private isHomeRunZone:boolean = false;
-  private partner
   constructor(private _partnerData: PartnerHeader, private _params: RouteParams){
     var parentParams = _params.params;
 
@@ -274,6 +273,13 @@ export class MyAppComponent {
     }
 
     this.hideHeader = GlobalSettings.getHomeInfo().hide;
+  }
+
+  getHeaderHeight(){
+    var pageHeader = document.getElementById('pageHeader');
+    if(pageHeader != null){
+      return pageHeader.offsetHeight;
+    }
   }
 
   getPartnerHeader(){//Since it we are receiving
@@ -293,14 +299,7 @@ export class MyAppComponent {
     }
   }
 
-  getHeaderHeight(){
-    var pageHeader = document.getElementById('pageHeader');
-    if(pageHeader != null){
-      return pageHeader.offsetHeight;
-    }
-  }
-
-  ngOnInit(){
+  ngAfterViewChecked(){
     this.shiftContainer = this.getHeaderHeight() + 'px';
   }
 }
