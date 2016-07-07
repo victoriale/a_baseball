@@ -4,7 +4,7 @@ import {Router, RouteParams, ROUTER_DIRECTIVES} from '@angular/router-deprecated
 @Component({
     selector: 'Housekit-home-page',
     templateUrl: './app/webpages/partner-home-page/partner-home-page.html',
-    
+
     directives: [ROUTER_DIRECTIVES],
     providers: [],
 })
@@ -681,7 +681,7 @@ export class PartnerHomePage implements OnInit{
       ];
       for ( var i = 0; i < partners.length; i++ ) {
         for ( var j = 0; j < partners[i].websites.length; j++ ) {
-          partners[i].websites[j].url = "/"+partners[i].websites[j].partner_id +"/loc";
+          partners[i].websites[j].url = "/"+partners[i].websites[j].partner_id;
         }
       }
       return partners;

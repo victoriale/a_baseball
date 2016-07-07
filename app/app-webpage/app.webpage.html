@@ -1,14 +1,14 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-xs-12">
-      <header id="pageHeader" class="fixedHeader">
+      <header *ngIf="!hideHeader" id="pageHeader" class="fixedHeader">
         <div id="partner" *ngIf="partnerScript" [innerHTML]="partnerScript | safeHtml"></div>
         <header-component partner="{{partnerID}}"></header-component>
       </header>
       <div class='web-container' [style.padding-top]="shiftContainer | safeStyle">
         <router-outlet></router-outlet>
       </div>
-      <footer-component></footer-component>
+      <footer-component *ngIf="!hideHeader" [partner]="partnerID"></footer-component>
     </div>
   </div>
 </div>

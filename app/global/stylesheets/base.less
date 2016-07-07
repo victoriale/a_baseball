@@ -228,7 +228,12 @@ img{
 .text-heavy{
   font-weight: 800;
 }
-
+.no-hover(@noHoverColor){
+  color: @noHoverColor;
+  &:hover{
+    color: @noHoverColor;
+  }
+}
 .text-heavy-link{
   font-weight: 800;
   &:hover{

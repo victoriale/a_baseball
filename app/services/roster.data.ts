@@ -131,16 +131,16 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
     var teamRoute = this.isTeamProfilePage ? null : MLBGlobalFunctions.formatTeamRoute(val.teamName,val.teamId);
     var curYear = new Date().getFullYear();
 
-    var formattedHeight = MLBGlobalFunctions.formatHeightWithFoot(val.height);
+    // var formattedHeight = MLBGlobalFunctions.formatHeightWithFoot(val.height);
     var formattedSalary = "N/A";
     if ( val.salary != null ) {
       formattedSalary = "$" + GlobalFunctions.nFormatter(Number(val.salary));
     }
 
-    var playerNum = val.uniformNumber != null ? "<span class='text-heavy'>#" + val.uniformNumber + "</span>," : "";
-    var playerHeight = val.height != null ? "<span class='text-heavy'>" + formattedHeight + "</span>, " : "";
+    var playerNum = val.uniformNumber != null ? "<span class='text-heavy'>No. " + val.uniformNumber + "</span>," : "";
+    var playerHeight = val.height != null ? "<span class='text-heavy'>" + val.height + "</span>, " : "";
     var playerWeight = val.weight != null ? "<span class='text-heavy'>" + val.weight + "</span> " : "";
-    var playerSalary = " makes <span class='text-heavy'>" + formattedSalary + "</span> per season.";
+    var playerSalary = " makes <span class='text-heavy'>" + formattedSalary + "</span> per year.";
 
     var playerLinkText = {
       route: playerRoute,
@@ -148,7 +148,7 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
     }
     var teamLinkText = {
       route: teamRoute,
-      text: val.teamName
+      text: val.teamName + "<span class='roster-no-hover'>,</span>"
     }
 
     return SliderCarousel.convertToCarouselItemType1(index, {
@@ -161,7 +161,7 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
           playerLinkText,
           '</span> plays ', "<span class='text-heavy'>" + val.position.join(', '), "</span>",'for the ',
           teamLinkText,
-          ', wears <span class="text-heavy">'+ playerNum + '</span> is ' + playerHeight + playerWeight +" and "+ playerSalary
+          'wears <span class="text-heavy">'+ playerNum + '</span> is ' + playerHeight + playerWeight +" and "+ playerSalary
       ],
       lastUpdatedDate: GlobalFunctions.formatUpdatedDate(val.lastUpdate),
       circleImageUrl: GlobalSettings.getImageUrl(val.playerHeadshot),

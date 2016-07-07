@@ -16,10 +16,10 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
 
 export interface AuBlockData {
   iconUrl?:string;
-  link?: {  
+  link?: {
     imageConfig: CircleImageData;
     route: Array<any>;
-  }  
+  }
   titleText:string;
   dataText:string;
 }
@@ -38,15 +38,15 @@ export interface AboutUsModel {
     providers: [AboutUsService, Title],
 })
 
-export class AboutUsPage {    
+export class AboutUsPage {
     public auHeaderTitle: string = "What is the site about?";
-    
+
     public auBlocks: Array<AuBlockData> = [];
-    
+
     public auContent: Array<string> = [];
-    
+
     public content: string;
-    
+
     public titleData: TitleInputData = {
         imageURL : GlobalSettings.getSiteLogoUrl(),
         text1: 'Last Updated: [date]',
@@ -61,10 +61,10 @@ export class AboutUsPage {
         GlobalSettings.getPartnerID(_router, partnerID => this.loadData(partnerID));
     }
 
-    loadData(partnerID:string) {      
+    loadData(partnerID:string) {
         this._service.getData(partnerID).subscribe(
           data => this.setupAboutUsData(data),
-          err => { 
+          err => {
             console.log("Error getting About Us data: " + err);
           }
         );
