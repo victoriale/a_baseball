@@ -32,7 +32,7 @@ export class ImagesMedia implements OnInit {
     @Input() imageTitle:string;
     @Input() isProfilePage:boolean;
 
-    expand: boolean;
+    expand:boolean;
 
     expandText:string = 'Expand';
     expandIcon:string = 'fa-expand';
@@ -52,9 +52,11 @@ export class ImagesMedia implements OnInit {
     imageCredit:string;
     description:string;
     profHeader:any;
+    arraySize:number = 5;
     modHeadData:ModuleHeaderData;
 
-    constructor(private _sanitizer: DomSanitizationService) {}
+    constructor(private _sanitizer:DomSanitizationService) {
+    }
 
     modalExpand() {
         if (this.expand == true) {
@@ -70,7 +72,7 @@ export class ImagesMedia implements OnInit {
     left() {
         //check to see if the end of the obj array of images has reached the end and will go on the the next obj with new set of array
         this.imageCounter = (((this.imageCounter - 1) % this.imageData.length) + this.imageData.length) % this.imageData.length;
-        this.smallObjCounter = (((this.smallObjCounter - 1) % 5) + 5) % 5;
+        this.smallObjCounter = (((this.smallObjCounter - 1) % this.arraySize) + this.arraySize) % this.arraySize;
         if (this.smallObjCounter == 4) {
             this.mediaImages = this.modifyMedia(this.imageData, this.copyright, this.imageTitle, false);
         }
@@ -80,7 +82,7 @@ export class ImagesMedia implements OnInit {
 
     right() {
         this.imageCounter = (this.imageCounter + 1) % this.imageData.length;
-        this.smallObjCounter = (this.smallObjCounter + 1) % 5;
+        this.smallObjCounter = (this.smallObjCounter + 1) % this.arraySize;
         if (this.smallObjCounter == 0) {
             this.mediaImages = this.modifyMedia(this.imageData, this.copyright, this.imageTitle);
         }
@@ -111,9 +113,12 @@ export class ImagesMedia implements OnInit {
             this.expandIcon = 'fa-compress';
         }
         var totalImgs = images.length;
+        if (totalImgs < 5) {
+            this.arraySize = totalImgs;
+        }
         var newImageArray = [];
         var arrayStart = (((this.imageCounter + (forward ? 0 : -4)) % totalImgs) + totalImgs) % totalImgs;
-        for (var i = arrayStart; i < arrayStart + 5; i++) {
+        for (var i = arrayStart; i < arrayStart + this.arraySize; i++) {
             var index = i % totalImgs;
             if (typeof this.copyright != 'undefined' && typeof this.imageTitle != 'undefined') {
                 newImageArray.push({
