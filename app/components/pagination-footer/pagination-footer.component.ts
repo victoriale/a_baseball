@@ -39,8 +39,8 @@ export interface PaginationParameters {
     navigationParams?: Object;
 
     /**
-     * Required for pagination Type page - This is the key name within navigation parameters in which index will apply to. 
-     * 
+     * Required for pagination Type page - This is the key name within navigation parameters in which index will apply to.
+     *
      * @Example - If a routes index field is named pageNumber, input "pageNumber" through this field and it will be added to navigationParams to allow for routerLink routing.
      */
     indexKey?: string;
@@ -73,8 +73,8 @@ export interface PaginationParameters {
             viewAllParams: Object,
 
             navigationPage: string,
-            navigationParams: Object, 
-            indexKey: string 
+            navigationParams: Object,
+            indexKey: string
         }
     Output
         newIndex() //Used for pagination Type module. This event emitter returns the new index value that was clicked.
@@ -292,11 +292,7 @@ export class PaginationFooter implements OnChanges{
 
     //Function to navigate number buttons for paginationType module
     indexClick(event){
-      // console.log(event);
       var newIndex = Number(event.target.innerHTML);
-      //Send new index to output event emitter
-      this.newIndex.next(newIndex);
-
       this.paginationParameters.index = newIndex;
       this.buildModuleButtons();
     }

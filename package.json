@@ -38,7 +38,6 @@
     "concurrently": "^1.0.0",
     "del": "^2.1.0",
     "gulp": "^3.9.0",
-    "gulp-clean-css": "^2.0.10",
     "gulp-concat": "^2.6.0",
     "gulp-less": "^3.0.5",
     "gulp-rename": "^1.2.2",
@@ -52,7 +51,6 @@
     "karma-spec-reporter": "0.0.26",
     "lite-server": "^2.0.1",
     "remap-istanbul": "^0.6.3",
-    "systemjs": "^0.19.6",
     "typescript": "^1.7.5"
   }
 }
