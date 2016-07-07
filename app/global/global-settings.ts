@@ -17,7 +17,6 @@ export class GlobalSettings {
     private static _recommendUrl:string = '-homerunloyal-ai.synapsys.us/headlines/event/';
     private static _headlineUrl:string = '-homerunloyal-ai.synapsys.us/headlines/team/';
     private static _trendingUrl:string = '-homerunloyal-ai.synapsys.us/sidekick';
-
     private static _homepageUrl:string = '.homerunloyal.com';
     private static _partnerHomepageUrl:string = '.myhomerunzone.com';
 
@@ -84,6 +83,34 @@ export class GlobalSettings {
         }
     }
 
+    static getHomeInfo(){
+      //grabs the domain name of the site and sees if it is our partner page
+      var partner = false;
+      var isHome = false;
+      var hide = false;
+      var hostname = window.location.hostname;
+      var partnerPage = /myhomerunzone/.test(hostname);
+      // var partnerPage = /localhost/.test(hostname);
+      var homePage = window.location.pathname.split('/')[1];
+
+      if(partnerPage && homePage == ''){
+        hide = true;
+        isHome = true;
+      }else if(!partnerPage && homePage == ''){
+        hide = false;
+        isHome = true;
+      }else{
+        hide = false;
+        isHome = false;
+      }
+
+      if(partnerPage){
+        partner = partnerPage;
+      }
+      // console.log({isPartner: partner, hide:hide, isHome:isHome});
+      return {isPartner: partner, hide:hide, isHome:isHome};
+    }
+
     static getSiteLogoUrl():string {
         return "/app/public/mainLogo.png";
     }
@@ -110,6 +137,9 @@ export class GlobalSettings {
     }
 
     static getPageTitle(subtitle?: string, profileName?: string) {
+      if(this.getHomeInfo().isPartner){
+        this._baseTitle = "My HomeRun Zone";
+      }
         return this._baseTitle +
             (profileName && profileName.length > 0 ? " - " + profileName : "") +
             (subtitle && subtitle.length > 0 ? " - " + subtitle : "");

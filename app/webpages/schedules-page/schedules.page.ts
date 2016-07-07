@@ -38,47 +38,54 @@ export class SchedulesPage implements OnInit{
   schedulesData:any;
   tabData: any;
 
+  initialPage: number;
+  initialTabKey: string;
+  selectedTabKey: string;
+
   constructor(private _schedulesService:SchedulesService,
           private profHeadService:ProfileHeaderService,
           private params: RouteParams,
           private _title: Title, private _router: Router) {
       _title.setTitle(GlobalSettings.getPageTitle("Schedules"));
+
+      this.initialPage = Number(this.params.get("pageNum"));
+      this.initialTabKey = this.params.get("tab");
     }
 
   //grab tab to make api calls for post of pre event table
   private scheduleTab(tab) {
-    var tabRoute;
-    var tabNameFrom = this.params.params['tab']; //get the tab we are changing from into a var before we change it
-    var tabNameTo;
-    var newParams = this.params.params;
-      if(tab == 'Upcoming Games'){
-          newParams['tab'] = 'pre-event';
-          tabNameTo = "pre-event";
-          this.getSchedulesData('pre-event');
-      }else if(tab == 'Previous Games'){
-          newParams['tab'] = 'post-event';
-          tabNameTo = "post-event";
-          this.getSchedulesData('post-event');
-      }else{
-          newParams['tab'] = 'post-event';
-          tabNameTo = "post-event";
-          this.getSchedulesData('post-event');// fall back just in case no status event is present
-      }
-      if (tabNameTo !== tabNameFrom) {
-      if (newParams['teamId'] !== null) {
-        tabRoute = ["Schedules-page-team-tab", {teamName: newParams['teamName'], teamId: newParams['teamId'], pageNum: "1", tab: newParams['tab']}];
-      }
-      else {
-        tabRoute = ["Schedules-page-mlb-tab", {pageNum: "1", tab: newParams['tab']}];
-      }
-      this._router.navigate(tabRoute);
-      }
+    if ( tab == 'Upcoming Games' ){
+        this.selectedTabKey = "pre-event";
+    } else {
+        this.selectedTabKey = "post-event";
+    }
+    // Uncomment if we want to enable URL changing when switching tabs.
+    // However! with the way the scroll-to-top is set up, it will move the
+    // page to the top each time the tab is changed, which QA doesn't want.
+    // if ( this.initialTabKey != this.selectedTabKey ) {
+    //   var navigationParams = {
+    //     pageNum: 1,
+    //     tab: this.selectedTabKey
+    //   };
+
+    //   var teamName = this.params.get('teamName');
+    //   var teamId = this.params.get('teamId');
+
+    //   if(teamName){
+    //     navigationParams['teamName'] = teamName;
+    //   }
+    //   if(teamId){
+    //     navigationParams['teamId'] = teamId;
+    //   }
+    //   var navigationPage = teamName ? 'Schedules-page-team-tab' : 'Schedules-page-league-tab';
+    //   this._router.navigate([navigationPage, navigationParams]);
+    // }
+    this.getSchedulesData(this.selectedTabKey, this.selectedTabKey == this.initialTabKey ? this.initialPage : 1);
   }
 
-  private getSchedulesData(status){
+  private getSchedulesData(status, pageNum){
     var teamId = this.params.params['teamId']; //determines to call league page or team page for schedules-table
-    var pageNum = this.params.params['pageNum'];
-    if(typeof teamId != 'undefined'){
+    if(teamId){
       this.profHeadService.getTeamProfile(Number(teamId))
       .subscribe(
           data => {
@@ -102,7 +109,7 @@ export class SchedulesPage implements OnInit{
             if(typeof this.tabData == 'undefined'){
                 this.tabData = data.tabs;
             }
-          this.setPaginationParams(data.pageInfo);
+          this.setPaginationParams(data.pageInfo, status, pageNum);
         },
         err => {
           console.log("Error getting Schedules Data");
@@ -126,19 +133,19 @@ export class SchedulesPage implements OnInit{
             }
           },
           err => {
-            this.isError= true;
+            this.isError = true;
             console.log('Error: Schedules Profile Header API: ', err);
-            // this.isError = true;
           }
       );
       this._schedulesService.getSchedulesService('league', status, 10, pageNum)
       .subscribe(
         data => {
+          // console.log('got scheuldes data');
           this.schedulesData = data;
           if(typeof this.tabData == 'undefined'){
               this.tabData = data.tabs;
           }
-          this.setPaginationParams(data.pageInfo);
+          this.setPaginationParams(data.pageInfo, status, pageNum);
         },
         err => {
           console.log("Error getting Schedules Data");
@@ -149,63 +156,45 @@ export class SchedulesPage implements OnInit{
 
   //PAGINATION
   //sets the total pages for particular lists to allow client to move from page to page without losing the sorting of the list
-  setPaginationParams(input) {
-      var params = this.params.params;
-      var pageType;
+  setPaginationParams(input, tabKey: string, pageNum: number) {
+      // var pageType;
       // console.log(params)
       //'/schedules/:teamName/:teamId/:pageNum'
       var navigationParams = {
-        pageNum: params['pageNum'],
+        pageNum: pageNum,
+        tab: tabKey
       };
 
-      if(params['teamName'] != null){
-        navigationParams['teamName'] = params['teamName'];
+      var teamName = this.params.get('teamName');
+      var teamId = this.params.get('teamId');
+
+      if(teamName){
+        navigationParams['teamName'] = teamName;
       }
-      if(params['teamId'] != null){
-        navigationParams['teamId'] = params['teamId'];
-      }
-      if(params['tab'] != null){
-        pageType =
-        navigationParams['tab'] = params['tab'];
+      if(teamId){
+        navigationParams['teamId'] = teamId;
       }
 
-      if(typeof params['teamId'] != 'undefined'){
-        if(params['tab'] != null){
-          pageType = 'Schedules-page-team-tab'
-        }else{
-          pageType = 'Schedules-page-team'
-        }
-        this.paginationParameters = {
-          index: params['pageNum'],
-          max: input.totalPages,
-          paginationType: 'page',
-          navigationPage: pageType,
-          navigationParams: navigationParams,
-          indexKey: 'pageNum'
-        };
-      }else{
-        if(params['tab'] != null){
-          pageType = 'Schedules-page-league-tab'
-        }else{
-          pageType = 'Schedules-page-league'
-        }
-        this.paginationParameters = {
-          index: params['pageNum'],
-          max: input.totalPages,
-          paginationType: 'page',
-          navigationPage: pageType,
-          navigationParams: navigationParams,
-          indexKey: 'pageNum'
-        };
-      }
+      this.paginationParameters = {
+        index: pageNum,
+        max: input.totalPages,
+        paginationType: 'module',
+      };
+  }
+   
+  newIndex(newPage) {    
+    window.scrollTo(0,0);
+    this.getSchedulesData(this.selectedTabKey, newPage);
   }
 
   ngOnInit() {
-    if(this.params.params['tab']!= null){
-      this.getSchedulesData(this.params.params['tab']);// on load load any upcoming games
-    }else{
-      this.getSchedulesData('pre-event');// on load load any upcoming games
+    if( !this.initialTabKey ){
+      this.initialTabKey = 'pre-event';
     }
+    if ( this.initialPage <= 0 ) {
+      this.initialPage = 1;
+    }
+    this.getSchedulesData(this.initialTabKey, this.initialPage);
   }
 
 }

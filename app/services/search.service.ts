@@ -137,7 +137,7 @@ export class SearchService{
     getSearchRoute(term: string){
         let searchRoute: Array<any>;
         //Build search Route
-        if(typeof term !== 'undefined' && term != 'null') {
+        if ( term ) {
             searchRoute = ['Search-page', {query: term}];
         }else{
             searchRoute = null;
@@ -305,10 +305,10 @@ export class SearchService{
         let fuse = new Fuse(data, {
             //Fields the search is based on
             keys: ['playerFirstName', 'playerLastName', 'playerName'],
-            //At what point does the match algorithm give up. A threshold of 0.0 requires a perfect match (of both letters and location), 
+            //At what point does the match algorithm give up. A threshold of 0.0 requires a perfect match (of both letters and location),
             // a threshold of 1.0 would match anything.
             threshold: 0.1,
-            distance: 0,
+            distance: 10,
             tokenize: false,
         });
 
