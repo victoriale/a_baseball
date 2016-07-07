@@ -56,12 +56,11 @@ export class ArticlePages implements OnInit {
     trendingImages:Array<any>;
     error:boolean = false;
     hasImages:boolean = false;
-    public partnerParam:string;
+    aiSidekick:boolean = true;
     public partnerID:string;
 
     constructor(private _params:RouteParams,
                 private _articleDataService:ArticleDataService,
-                private _router:Router,
                 private _location:Location) {
         window.scrollTo(0, 0);
         this.eventID = _params.get('eventID');

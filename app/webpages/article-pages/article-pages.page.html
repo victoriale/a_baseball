@@ -9,7 +9,7 @@
     <span *ngIf="articleData">
         <shareLinks-component></shareLinks-component>
         <div class="articles-page-title">{{title}}</div>
-        <sidekick-wrapper-ai>
+        <sidekick-wrapper-ai [aiSidekick]="aiSidekick">
             <span *ngIf="imageData">
                 <div template="ngIf hasImages" class="carousel-container">
                     <images-media-carousel [imageData]="imageData" [copyright]="copyright"
