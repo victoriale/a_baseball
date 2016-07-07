@@ -10,13 +10,13 @@ declare var jQuery: any;
 
 export class WidgetModule {
     //dangerousWidgetUrl:string = "http://w1.synapsys.us/widgets/realestate/standard2.html";
-    dangerousWidgetUrl: string  = '/app/ads/widget1.html';
-
+    //dangerousWidgetUrl: string  = '/app/ads/widget1.html';
+    //commented out because of iframe issue on safari with angular router
     safeWidgetUrl: SafeResourceUrl;
 
     headerHeight:string;
     constructor(private _sanitizer: DomSanitizationService) {
-        this.safeWidgetUrl = _sanitizer.bypassSecurityTrustResourceUrl(this.dangerousWidgetUrl);
+        //this.safeWidgetUrl = _sanitizer.bypassSecurityTrustResourceUrl(this.dangerousWidgetUrl);
     }
 
     ngOnInit(){
