@@ -1,14 +1,21 @@
 <div class="articles-page">
     <div class="articles-page-content">
-        <loading-component *ngIf="!articleData"></loading-component>
+        <div *ngIf="error">
+            <div class="loading-container">
+                <span class="loading-text">The article you are trying to reach is unavailable. You will be redirected to your previous page shortly.</span>
+            </div>
+        </div>
+        <loading-component *ngIf="!articleData && !error"></loading-component>
     <span *ngIf="articleData">
         <shareLinks-component></shareLinks-component>
         <div class="articles-page-title">{{title}}</div>
-        <span *ngIf="imageData">
-            <div class="carousel-container">
-                <images-media-carousel [imageData]="imageData" [copyright]="copyright" [imageTitle]="imageTitle"></images-media-carousel>
-            </div>
-        </span>
+        <sidekick-wrapper-ai>
+            <span *ngIf="imageData">
+                <div template="ngIf hasImages" class="carousel-container">
+                    <images-media-carousel [imageData]="imageData" [copyright]="copyright"
+                                           [imageTitle]="imageTitle"></images-media-carousel>
+                </div>
+            </span>
             <div class="arpt">
                 <!--<div class="arpt-author">-->
                 <!--<div class="arpt-author-image"></div>-->
@@ -26,6 +33,7 @@
             <recommendations-component [randomHeadlines]="randomHeadlines"
                                        [images]="images"></recommendations-component>
             <trending-component [trendingData]="trendingData" [trendingImages]="trendingImages"></trending-component>
+        </sidekick-wrapper-ai>
     </span>
     </div>
 </div>

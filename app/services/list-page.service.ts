@@ -100,12 +100,8 @@ export class ListPageService {
   for(var q in query){
     callURL += "/" + query[q];
   }
-  return this.http.get( callURL, {
-      headers: headers
-    })
-    .map(
-      res => res.json()
-    )
+  return this.http.get( callURL, {headers: headers})
+    .map(res => res.json())
     .map(
       data => {
         data.data['query'] = query;
@@ -157,9 +153,7 @@ export class ListPageService {
       callURL += "/" + query[q];
     }
     // console.log("list module url: " + callURL);
-    return this.http.get(callURL, {
-        headers: headers
-      })
+    return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(
         data => {
@@ -208,7 +202,7 @@ export class ListPageService {
     var profile = data.listInfo;
     return {
       imageURL: GlobalSettings.getSiteLogoUrl(), //TODO
-      imageRoute: ["MLB-page"], //TODO: change if image changes
+      imageRoute: ["Home-page"],
       text1: 'Last Updated: '+ GlobalFunctions.formatUpdatedDate(data.listData[0].lastUpdate),
       text2: 'United States',
       text3: profile.name,

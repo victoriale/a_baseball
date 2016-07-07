@@ -250,12 +250,12 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
            isNumericType: false,
            key: 'opp'
          },{
-           headerValue: "W/L",
+           headerValue: "RESULT", //changed name for clarity to match espn
            columnClass: "data-column wl-column",
            isNumericType: false,
            key: "wl"
-         },{
-           headerValue: "RECORD",
+           },{
+           headerValue: "W/L", //changed name for clarity to match espn
            columnClass: "data-column record-column",
            isNumericType: true,
            key: "rec"
@@ -315,7 +315,11 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
         break;
 
       case "t":
-        display = moment(item.startDateTimestamp).tz('America/New_York').format('h:mm') + " <sup> "+moment(item.startDateTimestamp).tz('America/New_York').format('A')+" </sup>";
+        if(item.eventStatus != 'cancelled'){
+          display = moment(item.startDateTimestamp).tz('America/New_York').format('h:mm') + " <sup> "+moment(item.startDateTimestamp).tz('America/New_York').format('A')+" </sup>";
+        }else{
+          display = "Cancelled";
+        }
         sort = item.startDateTimestamp;
         break;
 
@@ -340,9 +344,11 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
         break;
 
       case "gs":
-        var status = item.eventStatus === 'pre-event' ? "Pregame" : (item.eventStatus === 'post-event' ? "Postgame" : null);
-        if ( status ) {
-          display = "<a href='" + item.reportUrlMod + "'>" + status + " Report <i class='fa fa-angle-right'><i></a>";
+        if (item.eventStatus != 'cancelled'){
+          var status = item.eventStatus === 'pre-event' ? "Pregame" : (item.eventStatus === 'post-event' ? "Postgame" : null);
+          if ( status ) {
+            display = "<a href='" + item.reportUrlMod + "'>" + status + " Report <i class='fa fa-angle-right'><i></a>";
+          }
         }
         sort = item.eventStatus;
         break;
@@ -372,18 +378,28 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
 
       case "wl":
         //shows the current teams w/l of the current game
-        if(this.curTeam == item.homeTeamId){
-          display = item.homeOutcome.charAt(0).toUpperCase() + " " + item.homeScore + " - " + item.awayScore;
-        }else{
-          display = item.awayOutcome.charAt(0).toUpperCase() + " " + item.awayScore + " - " + item.homeScore;
+        var scoreHome = Number(item.homeScore);
+        var scoreAway = Number(item.awayScore);
+        if (scoreHome > scoreAway) {
+          display = item.homeOutcome.charAt(0).toUpperCase() + " " + scoreHome + " - " + scoreAway;
+          sort = (scoreHome/scoreHome+scoreAway);
         }
-        sort = Number(item.homeScore);
+        else
+        {
+          display = item.homeOutcome.charAt(0).toUpperCase() + " " + scoreAway + " - " + scoreHome;
+            sort = (scoreAway/scoreHome+scoreAway);
+        }
         break;
 
       case "rec":
         //shows the record of the current teams game at that time
         display = item.targetTeamWinsCurrent + " - " + item.targetTeamLossesCurrent;
-        sort = Number(item.targetTeamWinsCurrent);
+        if (Number(item.targetTeamWinsCurrent) > Number(item.targetTeamLossesCurrent)) {
+          sort = (Number(item.targetTeamWinsCurrent)/(Number(item.targetTeamLossesCurrent)+(Number(item.targetTeamWinsCurrent))));
+        }
+        else {
+          sort = (Number(item.targetTeamLossesCurrent)/(Number(item.targetTeamWinsCurrent)+(Number(item.targetTeamLossesCurrent))));
+        }
         break;
     }
     if ( isLocation ) {

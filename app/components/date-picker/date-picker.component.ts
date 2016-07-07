@@ -135,6 +135,7 @@ export class DatePicker implements ControlValueAccessor, AfterViewInit {
     this.setValue(selectedDate);
     // this.closeDatepicker();
     this.changed.emit(selectedDate.toDate());
+    this.closeDatepicker();
   }
 
   private generateCalendar(date): void {
@@ -161,7 +162,7 @@ export class DatePicker implements ControlValueAccessor, AfterViewInit {
     var finalDaysOfWeek = days42 - lastDayOfMonth;
     finalDaysOfWeek = finalDaysOfWeek - ((n-1)*(-1));
     for (let i = n; i <= (lastDayOfMonth + finalDaysOfWeek); i += 1) {
-      let fullDate = moment(year + '-' + (Number(month)+1) + '-' + i).format('YYYY-MM-DD');
+      let fullDate = moment(year + '-' + (Number(month)+1) + '-' + i, 'YYYY-MM-DD').format('YYYY-MM-DD');
       let today = (this.today == fullDate);
       if (i <= 0){
         let prevMonthLastDay = new moment().date(i).tz('America/New_York').format('D');

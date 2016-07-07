@@ -47,12 +47,13 @@
     border: 1px solid @strokeGrey;
 
     &:focus{
-      outline-color: @masterBrandColor;
+      outline: 2px solid @masterBrandColor;
     }
   }
+  .inputPlaceholder(normal, @bulletGrey);
 
   &-checkbox{
-    margin-right: 10px;;
+    margin-right: 10px;
     border: 1px solid @strokeGrey;
 
     &:focus{
@@ -64,16 +65,13 @@
     width: 100%;
     padding: 10px;
     min-height: 166px;
-    resize: vertical;;
+    resize: vertical;
     border: 1px solid @strokeGrey;
-    font-style: italic;
-
     &:focus{
       outline-color: @masterBrandColor;
-      font-style: normal;
     }
   }
-
+.textAreaPlaceholder(italic, @bulletGrey);
   &-buttons{
     width:100%;
     height:36px;
@@ -99,6 +97,8 @@
       background-color: transparent;
       border: none;
       margin: 8px 55px 8px 0px;
+      text-align: center;
+      cursor: pointer;
       &:hover{
         color: @masterBrandColor;
       }

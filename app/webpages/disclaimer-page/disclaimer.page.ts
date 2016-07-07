@@ -38,7 +38,7 @@ export class DisclaimerPage {
           imageURL : GlobalSettings.getSiteLogoUrl(),
           text1: 'Last Updated: Monday, March 21, 2016.',
           text2 : ' United States',
-          text3 : this.pageName + "'s Disclaimer",
+          text3 : GlobalFunctions.convertToPossessive(this.pageName) + " Disclaimer",
           text4 : '',
           icon: 'fa fa-map-marker'
       };

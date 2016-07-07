@@ -55,19 +55,20 @@ export class ListOfListsService {
     return this.http.get( callURL, {
         headers: headers
       })
-      .map(
-        res => res.json()
-      )
+      .map(res => res.json())
       .map(
         data => {
+          if ( !data || !data.data ) {
+            return null;
+          }
           var lastUpdated = "";
           if ( data && data.data && data.data.length > 0 ) {
             lastUpdated = data.data[0].targetData;
 
           }
           return {
-            carData: this.carDataPage(data.data, profileType),
-            listData: this.detailedData(data.data, pageType, profileType),
+            carData: this.carDataPage(data.data),
+            listData: this.detailedData(data.data, pageType),
             targetData: this.getTargetData(data.data),
             pagination: data.data[0].listInfo,
             lastUpdated: lastUpdated
@@ -81,7 +82,7 @@ export class ListOfListsService {
   }
 
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
-  carDataPage(data, pageType: string): Array<SliderCarouselInput>{
+  carDataPage(data): Array<SliderCarouselInput>{
     let self = this;
     var carouselArray = [];
 
@@ -106,7 +107,7 @@ export class ListOfListsService {
         let rankStr = itemTargetData.rank + GlobalFunctions.Suffix(Number(itemTargetData.rank));
         let profileLinkText;
 
-        if( pageType == "player") {
+        if( itemInfo.target == "player") {
           itemProfile       = itemTargetData.playerName;
           itemImgUrl        = GlobalSettings.getImageUrl(itemTargetData.imageUrl);
           itemRoute         = MLBGlobalFunctions.formatPlayerRoute(itemTargetData.teamName, itemTargetData.playerName, itemTargetData.playerId);
@@ -117,7 +118,7 @@ export class ListOfListsService {
             text: itemProfile
           };
           itemDescription   = [profileLinkText, " is currently ranked <b>"+ rankStr +"</b> in the <b>"+ itemInfo.scope +"</b> with the most <b>" + itemStatName + "</b>."];
-        } else if ( pageType == "team" ) {
+        } else if ( itemInfo.target == "team" ) {
           itemProfile       = itemTargetData.teamName;
           itemImgUrl        = GlobalSettings.getImageUrl(itemTargetData.teamLogo);
           itemRoute         = MLBGlobalFunctions.formatTeamRoute(itemTargetData.teamName, itemTargetData.teamId);
@@ -126,15 +127,6 @@ export class ListOfListsService {
             text: itemProfile
           };
           itemDescription   = ["The ", profileLinkText, " are currently ranked <b>"+ rankStr +"</b> in the <b>"+ itemInfo.scope +"</b> with the most <b>" + itemStatName + "</b>."];
-        }
-        else {//MLB version
-          itemProfile       = "MLB";
-          itemImgUrl        = GlobalSettings.getSiteLogoUrl();
-          itemRoute         = ["MLB-page"];
-          profileLinkText   = {
-            route: itemRoute,
-            text: itemProfile
-          };
         }
 
         var carouselItem = SliderCarousel.convertToCarouselItemType1(index, {
@@ -149,18 +141,7 @@ export class ListOfListsService {
           rank: itemTargetData.rank,
           rankClass: "image-48-rank"
         });
-
-        // var carouselItem = {
-        //   index:'2',
-        //   // imageData(imageClass, imageBorder, mainImg, mainImgRoute, subImgClass?, subImg?, subRoute?, rank?, hasHover?){
-        //   imageConfig: self.imageData("image-150", "border-large", itemImgUrl , itemRoute,"image-50-sub", itemSubImg, itemSubRoute, itemTargetData.rank, itemHasHover),
-        //   description:[
-        //     '<p class="font-12 fw-400 lh-12 titlecase"><i class="fa fa-circle"></i> Related List - ' + itemProfile + '</p>',
-        //     '<p class="font-22 fw-800 lh-25" style="padding-bottom:16px;">'+ itemInfo.name +'</p>',
-        //     '<p class="font-14 fw-400 lh-18" style="padding-bottom:6px;">'+ itemDescription +'<p>',
-        //     '<p class="font-10 fw-400 lh-25">Last Updated on '+ updatedDate +'</p>'
-        //   ],
-        // };
+        
         carouselArray.push(carouselItem);
       });
     }
@@ -168,7 +149,7 @@ export class ListOfListsService {
     return carouselArray;
   }
 
-  detailedData(data, version, type){
+  detailedData(data, version){
     let listDataArray     = [];
     let dummyUrl          = "/list/player/batter-home-runs/asc/National";
     let dummyName         = "Batters with the most home runs in the National League";
@@ -183,6 +164,7 @@ export class ListOfListsService {
     let dummyIcon         = "fa fa-mail-forward";
 
     data.forEach(function(item, index){
+      let itemInfo = item.listInfo;
       let itemListData = item.listData;
       if( itemListData.length<1 ) return;
       itemListData.unshift(item.targetData);
@@ -194,10 +176,18 @@ export class ListOfListsService {
       ctaUrlArray.splice(0,2);
       ctaUrlArray.push.apply(ctaUrlArray,["10","1"]);
 
+      var profileTypePlural = "types";
+      if ( itemListInfo.target == "player" ) {
+        profileTypePlural = "players";
+      }
+      else if ( itemListInfo.target == "team" ) {
+        profileTypePlural = "teams";
+      }
+
       var listData = {
         url           : itemListInfo.url           != null  ? itemListInfo.url          : dummyUrl,
         name          : itemListInfo.name          != null  ? itemListInfo.name         : dummyName,
-        target        : type == "player"                    ? "player"                  : "team",
+        target        : itemInfo.target,
         stat          : itemListInfo.stat          != null  ? itemListInfo.stat         : dummyStat,
         ordering      : itemListInfo.ordering      != null  ? itemListInfo.ordering     : dummyOrdering,
         scope         : itemListInfo.scope         != null  ? itemListInfo.scope        : dummyScope,
@@ -209,14 +199,15 @@ export class ListOfListsService {
         icon          : itemListInfo.icon          != null  ? itemListInfo.icon         : dummyIcon,
         dataPoints    : [],
         ctaBtn        : '',
+        ctaDesc       : 'What to see the ' + profileTypePlural + ' in this list?',
         ctaText       : 'View The List',
         ctaUrl        : MLBGlobalFunctions.formatListRoute(ctaUrlArray)
       };
 
-      itemListData.forEach(function(val, index){
-        // reset  the target since data is always returning player //TODO Backend
-        itemListInfo.target   = type == "player"  ? type : "team";
-        let itemUrlRouteArray = type == "player"  ? MLBGlobalFunctions.formatPlayerRoute(val.teamName, val.playerName, val.playerId) : MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId); let firstItemHover    = version == "page" ? "<p>View</p><p>Profile</p>" : null;
+      itemListData.forEach(function(val, index) {
+        let itemUrlRouteArray = itemListInfo.target == "player"  ? 
+          MLBGlobalFunctions.formatPlayerRoute(val.teamName, val.playerName, val.playerId) : 
+          MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId); let firstItemHover    = version == "page" ? "<p>View</p><p>Profile</p>" : null;
 
         listData.dataPoints.push(
           {
@@ -228,12 +219,12 @@ export class ListOfListsService {
               imageClass      : index > 0 ? "border-1" : "border-2"
             },
             subImages         : index > 0 ? null : [
-              {
-                imageUrl      : itemListInfo.target == "player" ? MLBGlobalFunctions.formatTeamLogo(val.teamName) : null,
-                urlRouteArray : itemListInfo.target == "player" ? MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId) : null,
-                hoverText     : itemListInfo.target == "player" ? "<i class='fa fa-mail-forward'></i>" : null,
-                imageClass    : itemListInfo.target == "player" ? "image-round-sub image-40-sub image-round-lower-right" : null
-              },
+              // {
+              //   imageUrl      : itemListInfo.target == "player" ? MLBGlobalFunctions.formatTeamLogo(val.teamName) : null,
+              //   urlRouteArray : itemListInfo.target == "player" ? MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId) : null,
+              //   hoverText     : itemListInfo.target == "player" ? "<i class='fa fa-mail-forward'></i>" : null,
+              //   imageClass    : itemListInfo.target == "player" ? "image-round-sub image-40-sub image-round-lower-right" : null
+              // },
               {
               text: "#"+ val.rank,
               imageClass: "image-38-rank image-round-upper-left image-round-sub-text"

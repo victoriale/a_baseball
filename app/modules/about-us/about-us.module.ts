@@ -2,6 +2,7 @@ import {Component, Input, Injector, OnChanges} from '@angular/core';
 import {ModuleHeader, ModuleHeaderData} from "../../components/module-header/module-header.component";
 import {FlipTilesComponent, TileData} from "../../components/flip-tiles/flip-tiles.component";
 import {GlobalSettings} from '../../global/global-settings';
+import {GlobalFunctions} from '../../global/global-functions';
 import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
 @Component({
@@ -17,9 +18,9 @@ export class AboutUsModule implements OnChanges {
     public pageName: string;
     public moduleHeader: ModuleHeaderData;
     public headerText: string = "Disclaimer";
-    public logoUrl = '/app/public/Logo_Home-Run-Loyal-B.png';
+    public logoUrl:string;
     public buttonText = 'See The Full Disclaimer';
-    public aboutUsData: Array<TileData>;    
+    public aboutUsData: Array<TileData>;
 
     constructor() {}
 
@@ -28,15 +29,17 @@ export class AboutUsModule implements OnChanges {
     }
 
     loadData(partnerID: string) {
-      if(partnerID === null) {
-          this.homePageLinkName = "www.homerunloyal.com"
-          this.pageName = "Home Run Loyal";
+      if(partnerID != null) {
+        this.homePageLinkName = "www.myhomerun.com/" + partnerID;
+        this.pageName = "My HomeRun";
+        this.logoUrl = '/app/public/Logo_My-Home-run-zone.svg';
      } else {
-          this.homePageLinkName = "www.myhomerun.com/" + partnerID;
-          this.pageName = "My HomeRun";
+       this.homePageLinkName = "www.homerunloyal.com"
+       this.pageName = "Home Run Loyal";
+       this.logoUrl = '/app/public/Logo_Home-Run-Loyal.png';
       }
 
-      this.headerText = this.pageName + '\'s Disclaimer';
+      this.headerText = GlobalFunctions.convertToPossessive(this.pageName) + ' Disclaimer';
       this.moduleHeader = {
         moduleTitle: 'Learn More About ' + this.pageName,
         hasIcon: false,

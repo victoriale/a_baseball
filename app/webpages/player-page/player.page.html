@@ -25,7 +25,7 @@
         <news-module *ngIf="newsDataArray" [newsDataArray]="newsDataArray" [profileName]="profileHeaderData.profileName"></news-module>
 
         <!-- <headline-component [title]="'Interact With MLB\'s Fans'"></headline-component> -->
-        <comment-module [profileTitle]="pageParams.playerName"></comment-module>
+        <comment-module [profileName]="profileHeaderData.profileName"></comment-module>
         <twitter-module *ngIf="twitterData" [profileName]="profileHeaderData.profileName" [twitterData]="twitterData"></twitter-module>
         <!--Like Us On FB Module, only display if not on partner page-->
         <!-- <section *ngIf="!partnerCheck"> -->

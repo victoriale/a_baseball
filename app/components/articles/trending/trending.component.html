@@ -8,7 +8,7 @@
         <div class="arpt">
             <div class="arpt-date">{{data.date}}</div>
         </div>
-        <div class="trending-article-content">{{data.content}}</div>
+        <div class="trending-article-content" [innerHTML]="data.content"></div>
         <a [routerLink]="data.url">
             <div class="trending-read-more">Read the Full Article <i class="fa fa-arrow-right"></i></div>
         </a>

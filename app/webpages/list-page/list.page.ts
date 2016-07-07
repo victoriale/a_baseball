@@ -23,7 +23,7 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
     selector: 'list-page',
     templateUrl: './app/webpages/list-page/list.page.html',
     directives: [SidekickWrapper, ErrorComponent, LoadingComponent,PaginationFooter, BackTabComponent, TitleComponent, SliderCarousel, DetailedListItem,  ModuleFooter],
-    providers: [ListPageService, ProfileHeaderService, DynamicWidgetCall, Title],
+    providers: [ListPageService, DynamicWidgetCall, Title, ProfileHeaderService],
     inputs:[]
 })
 
@@ -44,9 +44,10 @@ export class ListPage implements OnInit {
   input: string;
   pageNumber: number;
 
-  constructor(private listService:ListPageService, 
-              private params: RouteParams, 
-              private dynamicWidget: DynamicWidgetCall, 
+  constructor(private listService:ListPageService,
+              private _profileService: ProfileHeaderService,
+              private params: RouteParams,
+              private dynamicWidget: DynamicWidgetCall,
               private _title: Title) {
     _title.setTitle(GlobalSettings.getPageTitle("Lists"));
     if(params.params['query'] != null){
@@ -85,7 +86,7 @@ export class ListPage implements OnInit {
         limit: params['limit'],
       };
       var navigationPage = this.detailedDataArray ? "List-page" : "Error-page";
-      
+
       this.paginationParameters = {
         index: params['pageNum'] != null ? Number(params['pageNum']) : null,
         max: Number(input.pageCount),
@@ -102,7 +103,7 @@ export class ListPage implements OnInit {
     };
 
     var navigationPage = this.detailedDataArray ? "Dynamic-list-page" : "Error-page";
-    
+
     this.paginationParameters = {
       index: this.pageNumber,
       max: Number(input.pageCount),
@@ -171,7 +172,12 @@ export class ListPage implements OnInit {
 
 
   ngOnInit(){
-      this.getListPage(this.params.params);
+    this._profileService.getMLBProfile()
+    .subscribe(data => {
+        this.getListPage(this.params.params);
+    }, err => {
+        console.log("Error loading MLB profile");
+    });
   }
 
 }

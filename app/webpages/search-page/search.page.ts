@@ -1,5 +1,5 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {RouteParams} from '@angular/router-deprecated';
+import {RouteParams, Router} from '@angular/router-deprecated';
 import {Title} from '@angular/platform-browser';
 
 import {GlobalSettings} from "../../global/global-settings";
@@ -24,12 +24,17 @@ export class SearchPage implements OnInit {
 
     public searchPageInput: SearchPageInput;
 
-    constructor(_params: RouteParams, private _searchService: SearchService, private _title: Title) {
+    public partnerId: string;
+
+    constructor(_params: RouteParams, private _searchService: SearchService, private _title: Title, private _router: Router) {
         _title.setTitle(GlobalSettings.getPageTitle("Search"));
         let query = decodeURIComponent(_params.get('query'));
         this.pageParams = {
             query: query
         }
+        GlobalSettings.getPartnerID(_router, partnerID => {
+            this.partnerId = partnerID;
+        });
     }
 
     configureSearchPageData(){
@@ -39,7 +44,7 @@ export class SearchPage implements OnInit {
         self._searchService.getSearch()
             .subscribe(
                 data => {
-                    self.searchPageInput = self._searchService.getSearchPageData(query, data);
+                    self.searchPageInput = self._searchService.getSearchPageData(this._router, this.partnerId, query, data);
                 }
             );
     }
