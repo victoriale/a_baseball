@@ -19,6 +19,7 @@
                   <a [routerLink]="item.routerLink" class="search-dropdown-item" [ngClass]="{active: (i === selectedIndex)}">
                     <span class="search-dropdown-item-img"><circle-image [data]="item.imageUrl"></circle-image></span>
                     <span class="search-dropdown-item-title" [innerHtml]="item.title"></span>
+                    <i class="fa fa-angle-right"></i>
                   </a>
               </li>
         </ul>

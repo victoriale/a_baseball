@@ -29,6 +29,11 @@
     > i{
       padding-top: 5px
     }
+
+    a.dataBox-mainLink:hover { //only <a> elements should have a hover style
+      color: @masterBrandColor
+    }
+
     .dataBox{
       width:100%;
       height:auto;
@@ -42,10 +47,6 @@
         color: @black;
         text-decoration: none;
         font-weight: 800;
-
-        &:hover {
-          color: @masterBrandColor
-        }
       }
 
       &-subLink {
