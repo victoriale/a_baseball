@@ -154,7 +154,7 @@ export class DailyUpdateService {
     //http://dev-homerunloyal-api.synapsys.us/player/dailyUpdate/2800
     let url = GlobalSettings.getApiUrl() + '/player/dailyUpdate/' + playerId;
 
-    console.log("getting daily update for player " + playerId + ": " + url);
+    // console.log("getting daily update for player " + playerId + ": " + url);
     return this.http.get(url)
         .map(res => res.json())
         .map(data => this.formatPlayerData(data.data, playerId));
