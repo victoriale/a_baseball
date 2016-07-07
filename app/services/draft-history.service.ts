@@ -200,7 +200,7 @@ export class MLBDraftHistoryService extends DraftHistoryService {
         var rank = (index+1).toString();
         var location;
         if (val.city == null || val.area == null){
-          location = "N/A, N/A";
+          location = "N/A";
         }
         else {
         location = GlobalFunctions.toTitleCase(val.city) + ', ' + GlobalFunctions.stateToAP(val.area);
@@ -235,7 +235,7 @@ export class MLBDraftHistoryService extends DraftHistoryService {
     var listDataArray = data.map(function(val, index){
       var playerFullName = val.playerFirstName + " " + val.playerLastName;
       if (val.city == null || val.area == null){
-        location = "N/A, N/A";
+        location = "N/A";
       }
       else {
       var location = GlobalFunctions.toTitleCase(val.city) + ', ' + GlobalFunctions.stateToAP(val.area);
