@@ -57,12 +57,22 @@ export class HomePage implements OnInit {
          placeholderText: "Search for a player or team...",
          hasSuggestions: true
      };
-    constructor(private _router: Router, 
-                private _landingPageService: LandingPageService, 
+
+     private isHomeRunZone: boolean = false;
+    constructor(private _router: Router,
+                private _landingPageService: LandingPageService,
                 private _title: Title) {
       _title.setTitle(GlobalSettings.getPageTitle(""));
       this.getData();
       this.getListData();
+
+      //grabs the domain name of the site and sees if it is our partner page
+      var domain = window.location.hostname.split(".")[1];
+      console.log(domain);
+      domain = domain.toLowerCase();
+      if(domain == 'myhomerunzone'){
+        this.isHomeRunZone = true;
+      }
     }
     getListData(){
       this.listData = [

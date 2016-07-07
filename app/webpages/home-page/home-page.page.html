@@ -1,4 +1,4 @@
-<section class="home container-fluid">
+<section class="home container-fluid" *ngIf="!isMyHomeRunZone">
   <div class="row">
     <div class="col-xs-12">
       <div class="row">
@@ -38,7 +38,6 @@
       <!-- home main ends -->
     </div>
   </div>
-
   <div *ngIf="displayData" class="home-slider col-xs-12">
     <slider-button (scrollRight)="right()" (scrollLeft)="left()"></slider-button>
     <div class="home-slider-news col-xs-offset-2 col-xs-3">
@@ -52,26 +51,22 @@
     </div>
   </div>
   <!-- end of news data carousel -->
-
   <div class="home-features col-xs-offset-2 col-xs-8">
     <div class="home-features-title"><img src='{{imgIcon1}}' /><h2><span class="text-heavy">Features</span> to Note</h2></div>
-
     <div class=home-features-tiles>
       <a [routerLink]="routerInfo1" [ngStyle]="{'background-image': 'url('+imageTile1+')'}" class="home-features-tile1"><h3>{{homeFeaturesTile1}}</h3>
         <span class="tile-button">{{homeFeaturesButton1}}</span>
       </a>
-
       <div class="home-features-tile-no-hover"><h3><b>Dive deep</b></h3> <h4>into key information</h4>
       </div>
-
       <a [routerLink]="['Disclaimer-page']" [ngStyle]="{'background-image': 'url('+imageTile2+')'}" class="home-features-tile2"><h3>{{homeFeaturesTile3}}</h3>
         <span class="tile-button">{{homeFeaturesButton3}}</span>
       </a>
-
       <a [routerLink]="['Schedules-page-league', {pageNum:1}]" [ngStyle]="{'background-image': 'url('+imageTile3+')'}" class="home-features-tile1"><h3>{{homeFeaturesTile4}}</h3>
         <span class="tile-button">{{homeFeaturesButton4}}</span>
       </a>
     </div>
   </div>
-
 </section>
+
+<Housekit-home-page *ngIf="isMyHomeRunZone"></Housekit-home-page>
