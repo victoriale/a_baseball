@@ -273,7 +273,7 @@ export class MyAppComponent {
         this.getPartnerHeader();
     }
 
-    this.hideHeader = GlobalSettings.isPartnerPage().hide;
+    this.hideHeader = GlobalSettings.getHomeInfo().hide;
   }
 
   getPartnerHeader(){//Since it we are receiving

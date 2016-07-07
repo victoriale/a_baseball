@@ -83,7 +83,7 @@ export class GlobalSettings {
         }
     }
 
-    static isPartnerPage(){
+    static getHomeInfo(){
       //grabs the domain name of the site and sees if it is our partner page
       var partner = false;
       var isHome = false;

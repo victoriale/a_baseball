@@ -261,7 +261,7 @@ export class AppComponent implements AfterViewChecked{
   public hideHeader: boolean;
   private isHomeRunZone:boolean = false;
   constructor(){
-    this.hideHeader = GlobalSettings.isPartnerPage().hide;
+    this.hideHeader = GlobalSettings.getHomeInfo().hide;
   }
 
   getHeaderHeight(){

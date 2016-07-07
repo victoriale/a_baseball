@@ -68,7 +68,7 @@ export class HomePage implements OnInit {
       this.getListData();
 
       GlobalSettings.getPartnerID(_router, partnerID => {
-        var partnerHome = GlobalSettings.isPartnerPage().isHome && GlobalSettings.isPartnerPage().isPartner;
+        var partnerHome = GlobalSettings.getHomeInfo().isHome && GlobalSettings.getHomeInfo().isPartner;
         this.isHomeRunZone = partnerHome;
       });
     }
