@@ -37,7 +37,7 @@ export class FooterComponent implements OnInit {
         { name: "Detroit Tigers", id: 2797}
     ];
     loadData(partner: string) {
-      if(typeof partner === null || partner == "") {
+      if(typeof partner == 'undefined' || partner == "") {
           this.pageName = "Home Run Loyal";
           this.linkName = "HomeRunLoyal.com";
      } else {
