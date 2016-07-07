@@ -39,7 +39,7 @@ export class FooterComponent implements OnInit {
     ];
     loadData(partner: string) {
       var checkPartner = GlobalSettings.getHomeInfo().isPartner;
-      if(!checkPartner) {
+      if(!partner && !checkPartner) {
           this.pageName = "Home Run Loyal";
           this.linkName = "HomeRunLoyal.com";
      } else {
