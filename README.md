@@ -2,7 +2,7 @@
 
 install the latest version of node.js https://nodejs.org/en/
 
-Be sure to be in the `develop` branch
+Be sure to be in the `develop` branch 
 
 install each one individually
 
