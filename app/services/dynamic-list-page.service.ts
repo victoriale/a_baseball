@@ -8,13 +8,14 @@ import {TitleInputData} from "../components/title/title.component";
 import {Link} from "../global/global-interface";
 import {DetailListInput} from "../components/detailed-list-item/detailed-list-item.component";
 import {ListPageService} from './list-page.service'
+import {SliderCarousel, SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
 
 declare var moment;
 
 @Injectable()
 
 export class DynamicWidgetCall {
-  public apiUrl: string = "http://108.170.11.234:190/list_creator_api.php";
+  public apiUrl: string = GlobalSettings.getDynamicWidet();
   pageLimit: number = 10;
 
   public protocol: string = location.protocol;
@@ -83,84 +84,61 @@ export class DynamicWidgetCall {
     var carData = data.data;
 
     if(carData.length == 0 || profile != 'team' && profile != 'player' ){
-      // dummy data if empty array is sent back
-      var dummyImg = "/app/public/no-image.png";
-      var dummyRoute = ['Error-page'];
-      carouselArray.push({
-        index:'2',
-        imageConfig: self.imageData("image-150","border-large",dummyImg,dummyRoute, 1, 'image-38-rank',"image-50-sub"),
-        description:[
-          '<p style="font-size:20px"><span class="text-heavy">Sorry, we currently do not have any data for this particular list</span><p>',
-        ],
-      });
-    }else{
+      var errorMessage = "Sorry, we currently do not have any data for this particular list";
+      carouselArray.push(SliderCarousel.convertToEmptyCarousel(errorMessage));
+    } else {
       //if data is coming through then run through the transforming function for the module
       carouselArray = carData.map((val, index) => {
         var carouselItem;
 
-        var primaryRoute = GlobalFunctions.parseToRoute(val['primary_url']);        
-        var primaryRouteText = {
-                    wrapperStyle: {'font-size': '22px', 'font-weight': '800'},
-                    beforeLink: "",
-                    linkObj: primaryRoute,
-                    linkText: val.title,
-                    afterLink: ""
-                  };
+        var primaryRoute = GlobalFunctions.parseToRoute(val['primary_url']);
+        var profileLinkText =  {
+            route: primaryRoute,
+            text: val.title
+        };
+
+        var subLinkText;
+        var subRoute;
+        var footerInfo;
+
         if(profile == 'team'){
-          carouselItem = {
-            index:index,
-            imageConfig: ListPageService.imageData("carousel",
-              self.protocol + val.img,
-              primaryRoute,
-              val.rank),
-            description:[
-              '<br>',
-              primaryRouteText,
-              '<p>' + val.list_sub +'</p>',
-              '<br>',
-              '<p style="font-size:22px"><b>'+val.value+'</b></p>',
-              '<p style="font-size:16px"> '+val.tag+'</p>'
-            ],
-            footerInfo: {
+          subLinkText = {
+            text: val.list_sub
+          };
+          footerInfo = {
               infoDesc:'Interested in discovering more about this team?',
               text:'View Profile',
               url:primaryRoute
-            }
           };
         } else {// if(profile == 'player'){
-          var subRoute = GlobalFunctions.parseToRoute(val['sub_img'].primary_url);
-          var subRouteText = {
-                      wrapperStyle: {},
-                      beforeLink: "<p>",
-                      linkObj: subRoute,
-                      linkText: val.list_sub,
-                      afterLink: "</p>"
-                    };
-
-          carouselItem = {
-            index:index,
-            imageConfig: ListPageService.imageData("carousel",
-              self.protocol + val.img,
-              primaryRoute,
-              val.rank,
-              self.protocol + val['sub_img'].img,
-              subRoute),
-            description:[
-              '<br>',
-              primaryRouteText,
-              '<br>',
-              subRouteText,
-              '<br>',
-              '<p style="font-size:22px"><span class="text-heavy">'+val.value+'</span></p>',
-              '<p style="font-size:16px"> '+val.tag+'</p>'
-            ],
-            footerInfo: {
-              infoDesc:'Interested in discovering more about this player?',
-              text:'View Profile',
-              url: GlobalFunctions.parseToRoute(val['primary_url']),
-            }
+          subRoute = GlobalFunctions.parseToRoute(val['sub_img'].primary_url);
+          subLinkText = {
+            route: subRoute,
+            text: val.list_sub
+          };
+          
+          footerInfo = {
+            infoDesc:'Interested in discovering more about this player?',
+            text:'View Profile',
+            url: primaryRoute,
           };
         }
+
+        carouselItem = SliderCarousel.convertToCarouselItemType2(index, {
+          isPageCarousel: true, //always page version
+          // backgroundImage: GlobalSettings.getBackgroundImageUrl(val.backgroundImage),
+          // copyrightInfo: GlobalSettings.getCopyrightInfo(),
+          profileNameLink: profileLinkText,
+          description: [subLinkText],
+          dataValue: val.value,
+          dataLabel: val.tag,
+          circleImageUrl: self.protocol + val.img,
+          circleImageRoute: primaryRoute,
+          // subImageUrl: self.protocol + val['sub_img'].img,
+          // subImageRoute: subRoute,              
+          rank: val.rank
+        });
+        carouselItem.footerInfo = footerInfo;
         return carouselItem;
       });
     }
@@ -195,13 +173,13 @@ export class DynamicWidgetCall {
         subImage = self.protocol + val['sub_img'].img;
         ctaDesc = "Want more info about this player?";
       }
-      
+
       return {
         dataPoints: ListPageService.detailsData(
             [ //main left text
               { route: primaryRoute, text: val.title }
-            ],       
-            val.value,   
+            ],
+            val.value,
             [ //sub left text
               { text: val.list_sub, class: 'text-master text-heavy', route: subRoute }
             ],
