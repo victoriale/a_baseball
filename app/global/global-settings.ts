@@ -96,12 +96,12 @@ export class GlobalSettings {
       var hostname = window.location.hostname;
       var partnerPage = /myhomerunzone/.test(hostname);
       // var partnerPage = /localhost/.test(hostname);
-      var homePage = window.location.pathname.split('/')[1];
+      var name = window.location.pathname.split('/')[1];
 
-      if(partnerPage && homePage == ''){
+      if(partnerPage && name == ''){
         hide = true;
         isHome = true;
-      }else if(!partnerPage && homePage == ''){
+      }else if(!partnerPage && name == ''){
         hide = false;
         isHome = true;
       }else{
@@ -113,7 +113,7 @@ export class GlobalSettings {
         partner = partnerPage;
       }
       // console.log({isPartner: partner, hide:hide, isHome:isHome});
-      return {isPartner: partner, hide:hide, isHome:isHome};
+      return {isPartner: partner, hide:hide, isHome:isHome, partnerName: name};
     }
 
     static getSiteLogoUrl():string {
