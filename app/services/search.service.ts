@@ -69,6 +69,7 @@ export class SearchService{
         let teamResults = this.searchTeams(term, data.teams);
         //Transform data to useable format
         let searchResults = this.resultsToDropdown(playerResults, teamResults);
+        console.log(searchResults);
         //Build output to send to search component
         let searchOutput: SearchComponentData = {
             term: term,
@@ -299,17 +300,42 @@ export class SearchService{
     /*
      *  Search Functions used by both component and page
      */
-
+     static _orderByComparatorPlayer(a:any, b:any):number{
+       if ((a.score - b.score) == 0){
+         if (a.item.playerName.toLowerCase() > b.item.playerName.toLowerCase()){return 1;} else {return -1;}
+       }
+       else {
+         return a.score - b.score;
+       }
+     }
+     static _orderByComparatorTeam(a:any, b:any):number{
+       if ((a.score - b.score) == 0){
+         if (a.item.teamName.toLowerCase() > b.item.teamName.toLowerCase()){return 1;} else {return -1;}
+       }
+       else {
+         return a.score - b.score;
+       }
+     }
     //Function to search through players. Outputs array of players that match criteria
     searchPlayers(term, data){
         let fuse = new Fuse(data, {
             //Fields the search is based on
-            keys: ['playerFirstName', 'playerLastName', 'playerName'],
+            keys: [{
+              name: 'playerFirstName',
+              weight: 0.5
+            }, {
+              name: 'playerLastName',
+              weight: 0.3
+            }, {
+                name: 'playerName',
+                weight: 0.2
+            }],
             //At what point does the match algorithm give up. A threshold of 0.0 requires a perfect match (of both letters and location),
             // a threshold of 1.0 would match anything.
             threshold: 0.1,
             distance: 10,
             tokenize: false,
+            sortFn: SearchService._orderByComparatorPlayer
         });
 
         return fuse.search(term);
@@ -322,7 +348,8 @@ export class SearchService{
             keys: ['teamName'],
             //At what point does the match algorithm give up. A threshold of 0.0 requires a perfect match (of both letters and location), a threshold of 1.0 would match anything.
             threshold: 0.2,
-            shouldSort: true
+            shouldSort: true,
+            sortFn: SearchService._orderByComparatorTeam
         });
 
         return fuse.search(term);
