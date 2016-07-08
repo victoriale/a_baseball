@@ -26,7 +26,7 @@ export class ContactUsPage implements OnInit{
         GlobalSettings.getPartnerID(_router, partnerID => {
           var domainTitle;
           if(partnerID != null){
-            domainTitle = "My HomeRun Zone";
+            domainTitle = "My Home Run Zone";
           }else{
             domainTitle = "Home Run Loyal";
           }
