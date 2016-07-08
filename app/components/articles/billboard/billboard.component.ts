@@ -11,13 +11,14 @@ export class BillboardComponent implements OnInit{
 
   safeBillBoardUrl: SafeResourceUrl;
 
+  @Input() isHome;
   @Input() teamId;
 
   constructor(private _sanitizer: DomSanitizationService) {
   }
 
   ngOnInit(){
-    this.dangerousBillBoardUrl = "http://devapi.synapsys.us/widgets/sports/ai_billboard.html?%7B%22team%22%3A%22"+this.teamId+"%22%2C%22remn%22%3A%22true%22%7D"
+    this.dangerousBillBoardUrl = "http://devapi.synapsys.us/widgets/sports/ai_billboard.html?%7B%22team%22%3A%22"+this.teamId+"%22%2C%22remn%22%3A%22" + this.isHome + "%22%7D"
     this.safeBillBoardUrl = this._sanitizer.bypassSecurityTrustResourceUrl(this.dangerousBillBoardUrl);
   }
 }

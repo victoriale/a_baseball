@@ -13,10 +13,10 @@ export class WidgetModule {
     @Input() aiSidekick:boolean;
     sidekickHeight:number;
     headerHeight:string;
-    isPartner:boolean=false;
+    isHome:boolean=true;
 
     ngOnInit() {
-        this.isPartner = GlobalSettings.getHomeInfo().isPartner;
+        this.isHome = GlobalSettings.getHomeInfo().isHome;
         var titleHeight = jQuery('.articles-page-title').height();
         var padding = document.getElementById('pageHeader').offsetHeight;
 
