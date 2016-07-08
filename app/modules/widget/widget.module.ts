@@ -19,6 +19,12 @@ export class WidgetModule {
         this.isPartner = GlobalSettings.getHomeInfo().isPartner;
         var titleHeight = jQuery('.articles-page-title').height();
         var padding = document.getElementById('pageHeader').offsetHeight;
+
+        if(document.getElementById('partner').offsetHeight != null){
+          var partnerHeight = document.getElementById('partner').offsetHeight;
+          padding += partnerHeight;
+        }
+
         if (!this.aiSidekick) {
             this.headerHeight = padding + 'px';
         } else {
@@ -52,7 +58,12 @@ export class WidgetModule {
           y_buffer += this.sidekickHeight;
         }
 
-        this.headerHeight = padding + this.sidekickHeight + 'px';
+        var maxScroll = partnerHeight - scrollTop;
+
+        if(maxScroll <= 0){
+          maxScroll = 0;
+        }
+        this.headerHeight = padding + maxScroll + this.sidekickHeight + 'px';
         var $widget = jQuery("#widget");
         var $pageWrapper = jQuery(".widget-page-wrapper");
         if ($widget.length > 0 && $pageWrapper.length > 0) {
