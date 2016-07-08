@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ApplicationRef} from '@angular/core';
 import {Router, RouteConfig, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {Title} from '@angular/platform-browser';
 import {Observable} from 'rxjs/Rx';
@@ -27,15 +27,20 @@ import {MyAppComponent} from "../app-webpage/app.mywebpage";
 ])
 
 export class AppDomain {
-    constructor(private _router: Router) {
-        this._router.root.subscribe (
-            url => {
-                // var routeItems = url.split('/');                
-                //Only scroll to top if the page isn't the directory.
-                // if ( routeItems[1] != "directory" ) {
-                    window.scrollTo(0, 0);
-                // }
-            }
-        )
+    constructor(private _router: Router, private _ref: ApplicationRef) {
+      if ( Object.prototype.toString.call(window['HTMLElement']).indexOf('Constructor') > 0 ) {
+        //we appear to be using safari
+        this._router.subscribe(route => {
+          _ref.zone.run(() => _ref.tick());
+        });
+      }
+      this._router.root.subscribe(route => {
+          // var routeItems = url.split('/');
+          //Only scroll to top if the page isn't the directory.
+          // if ( routeItems[1] != "directory" ) {
+              window.scrollTo(0, 0);
+          // }
+        }
+      );
     }
 }
