@@ -113,7 +113,7 @@ export class DynamicWidgetCall {
         } else {// if(profile == 'player'){
           subRoute = GlobalFunctions.parseToRoute(val['sub_img'].primary_url);
           subLinkText = {
-            link: subRoute,
+            route: subRoute,
             text: val.list_sub
           };
           
