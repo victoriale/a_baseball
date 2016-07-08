@@ -77,12 +77,10 @@ export class SearchService{
         return Observable.of(searchOutput);
     }
 
-
     //Convert players and teams to needed dropdown array format
     resultsToDropdown(playerResults, teamResults){
         let searchArray: Array<SearchComponentResult> = [];
         let count = 0, max = 4;
-
         for(let i = 0, length = teamResults.length; i < length; i++){
             //Exit loop if max dropdown count
             if(count >= max){
