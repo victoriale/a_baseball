@@ -36,7 +36,8 @@ install each one individually
 
 3. `gulp serve`
 
-Less files will be compiled to: `dist/app/global/stylesheets/master.css`
+Less files will be compiled to: `dist/app/global/stylesheets/master.css` 
+
 
 Router fix:
 https://github.com/BrowserSync/browser-sync/issues/204
