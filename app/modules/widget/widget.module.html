@@ -1,9 +1,9 @@
 <div *ngIf="!aiSidekick" class="widget" id="widget" [style.margin-top]="headerHeight" (window:scroll)="onScroll($event)">
 <iframe frameborder="0" scrolling="no" allowtransparency="true" src="/app/ads/widget1.html" [ngStyle]="{'display': 'block', 'height': '600px','width': '300px','margin': '0px','border': '0px','overflow': 'hidden','z-index': '0'}" ></iframe>
 </div>
-<div *ngIf="aiSidekick && isPartner" class="widget" id="widget" [style.margin-top]="headerHeight" (window:scroll)="onScroll($event)">
+<div *ngIf="aiSidekick && isHome" class="widget" id="widget" [style.margin-top]="headerHeight" (window:scroll)="onScroll($event)">
     <iframe frameborder="0" scrolling="no" allowtransparency="true" src="/app/ads/aiSidekick.html" [ngStyle]="{'display': 'block', 'height': '600px','width': '300px','margin': '0px','border': '0px','overflow': 'hidden','z-index': '0'}" ></iframe>
 </div>
-<div *ngIf="aiSidekick && !isPartner" class="widget" id="widget" [style.margin-top]="headerHeight" (window:scroll)="onScroll($event)">
+<div *ngIf="aiSidekick && !isHome" class="widget" id="widget" [style.margin-top]="headerHeight" (window:scroll)="onScroll($event)">
     <iframe frameborder="0" scrolling="no" allowtransparency="true" src="/app/ads/aiSidekick-partner.html" [ngStyle]="{'display': 'block', 'height': '600px','width': '300px','margin': '0px','border': '0px','overflow': 'hidden','z-index': '0'}" ></iframe>
 </div>

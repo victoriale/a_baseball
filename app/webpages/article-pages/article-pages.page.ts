@@ -13,6 +13,7 @@ import {ArticleDataService} from "../../global/global-article-page-service";
 import {GlobalFunctions} from "../../global/global-functions";
 import {MLBGlobalFunctions} from "../../global/mlb-global-functions";
 import {SidekickWrapperAI} from "../../components/sidekick-wrapper-ai/sidekick-wrapper-ai.component";
+import {GlobalSettings} from "../../global/global-settings";
 
 declare var jQuery:any;
 
@@ -57,7 +58,7 @@ export class ArticlePages implements OnInit {
     error:boolean = false;
     hasImages:boolean = false;
     aiSidekick:boolean = true;
-    public partnerID:string;
+    isHome:boolean = true;
 
     constructor(private _params:RouteParams,
                 private _articleDataService:ArticleDataService,
@@ -484,5 +485,6 @@ export class ArticlePages implements OnInit {
     }
 
     ngOnInit() {
+        this.isHome = GlobalSettings.getHomeInfo().isHome;
     }
 }
