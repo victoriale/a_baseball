@@ -348,7 +348,8 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
         if (item.eventStatus != 'cancelled'){
           var status = item.eventStatus === 'pre-event' ? "Pregame" : (item.eventStatus === 'post-event' ? "Postgame" : null);
           if ( status ) {
-            if(partnerCheck.isPartner == false){
+            // console.log("partnerCheck", partnerCheck);
+            if(partnerCheck.isPartner){
               display = "<a href='" + '/' + partnerCheck.partnerName + item.reportUrlMod + "'>" + status + " Report <i class='fa fa-angle-right'><i></a>";
             }else{
               display = "<a href='" + item.reportUrlMod + "'>" + status + " Report <i class='fa fa-angle-right'><i></a>";
