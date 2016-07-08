@@ -36,18 +36,38 @@
             this.page.url = window.location.href + "#!newthread";
         };
     </script>
-    <script type="text/javascript">
-      if ( window.stLight ) {
-        stLight.options({publisher: "ab81b5e8-9aea-4921-9930-26ce6925e901", doNotHash: false, doNotCopy: false, hashAddressBar: false, onhover: false});
-      }
-      else {
-        window.stButtons = {
-          locateElements: function() {}
-        };
-      }
-      </script>
+    <script type="text/javascript">stLight.options({publisher: "ab81b5e8-9aea-4921-9930-26ce6925e901", doNotHash: false, doNotCopy: false, hashAddressBar: false, onhover: false});</script>
     <!-- 2. Configure SystemJS -->
-    <script src="lib/bundle.js"></script>
+    <script>
+      System.config({
+        packages: {
+          "app"                              : {format: "register", defaultExtension: "js"},
+          "@angular/core"                    : {defaultExtension: "js", main: "index.js"},
+          "@angular/common"                  : {defaultExtension: "js", main: "index.js"},
+          "@angular/compiler"                : {defaultExtension: "js", main: "index.js"},
+          "@angular/router-deprecated"       : {defaultExtension: "js", main: "index.js"},
+          "@angular/http"                    : {defaultExtension: "js", main: "index.js"},
+          "@angular/platform-browser"        : {defaultExtension: "js", main: "index.js"},
+          "@angular/platform-browser-dynamic": {defaultExtension: "js", main: "index.js"},
+          "symbol-observable"                : {defaultExtension: "js", main: "index.js"},
+          "rxjs"                             : {defaultExtension: "js" }
+        },
+        map: {
+          "@angular/core"                    : "lib/core",
+          "@angular/common"                  : "lib/common",
+          "@angular/compiler"                : "lib/compiler",
+          "@angular/router-deprecated"       : "lib/router-deprecated",
+          "@angular/http"                    : "lib/http",
+          "@angular/platform-browser"        : "lib/platform-browser",
+          "@angular/platform-browser-dynamic": "lib/platform-browser-dynamic",
+          "symbol-observable"                : "lib",
+          "rxjs"                             : "lib"
+        }
+      });
+      System.import('app/main')
+        .then(null, console.error.bind(console));
+    </script>
+
   </head>
 
   <!-- 3. Display the application -->

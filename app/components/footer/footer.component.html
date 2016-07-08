@@ -1,7 +1,8 @@
 <footer class="footer container-fluid">
   <section class="footer-top col-xs-12">
     <!-- TODO if partner then hide the logo -->
-    <a href="/"><img src="/app/public/homeRunLoyalLogo_Small.png" /></a>
+    <a *ngIf="!partner" href="/"><img src="/app/public/homeRunLoyalLogo_Small.png" /></a>
+    <div class="placeholderImg" *ngIf="partner"></div>
     <ul>
         <a href="https://www.facebook.com/sharer/sharer.php?u={{currentUrl}}" target="_blank"><li id="share-facebook"><i class="fa fa-facebook"></i></li></a>
         <a href="https://twitter.com/home?status={{currentUrl}}" target="_blank"><li id="share-twitter"><i class="fa fa-twitter"></i></li></a>
@@ -44,7 +45,7 @@
     </ul>
     <hr /><!--line break-->
     <ul>
-        <li class="footer-text1"><a href="/"><b>{{pageName}}.com</b></a> <i class="fa fa-caret-right"></i></li>
+        <li class="footer-text1"><a [routerLink]="['Home-page']"><b>{{linkName}}</b></a> <i class="fa fa-caret-right"></i></li>
         <li><a [routerLink]="['Contact-us-page']">Advertise with {{pageName}}</a> <i class="fa fa-caret-right"></i></li>
     </ul>
     <ul>
@@ -52,6 +53,7 @@
         <li><a [routerLink]="['Disclaimer-page']"><b>Disclaimer</b></a><i class="fa fa-caret-right"></i></li>
         <li><a [routerLink]="['About-us-page']"><b>About Us</b></a></li>
     </ul>
+    <p class="footer-main-citation">Images Provided By: <em>USA Today Sports Images</em></p>
   </section>
 
 </footer>

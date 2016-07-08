@@ -172,6 +172,11 @@ export class PlayerPage implements OnInit {
               this.teamName = data.headerData.info.teamName;
               this.teamId = data.headerData.info.teamId;
 
+              this._title.setTitle(GlobalSettings.getPageTitle(this.profileName));
+              this.profileHeaderData = this._profileService.convertToPlayerProfileHeader(data);
+              this.setupTeamProfileData();
+              this.dailyUpdateModule(this.pageParams.playerId);
+
               //get current date for box-scores
               var currentUnixDate = new Date().getTime();
               this.dateParam ={
@@ -181,19 +186,10 @@ export class PlayerPage implements OnInit {
               }
               this.getBoxScores(this.dateParam);
 
-              this._title.setTitle(GlobalSettings.getPageTitle(this.profileName));
-
-              this.profileHeaderData = this._profileService.convertToPlayerProfileHeader(data);
-              this.setupTeamProfileData();
-              this.dailyUpdateModule(this.pageParams.playerId);
-
               /*** Keep Up With Everything [Player Name] ***/
               this.getSchedulesData('pre-event');//grab pre event data for upcoming games
               this.setupSeasonstatsData();
-              if ( data.headerData.info.qualified ) {
-                //only get the comparison data if the player is considered qualified
-                this.setupComparisonData();
-              }
+              this.setupComparisonData();
               /*** Other [League Name] Content You May Love ***/
               this.getImages(this.imageData);
               this.getDykService();

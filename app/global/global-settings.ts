@@ -10,12 +10,14 @@ export class GlobalSettings {
     private static _newsUrl:string = 'newsapi.synapsys.us';
 
     private static _apiUrl:string = '-homerunloyal-api.synapsys.us';
+    private static _partnerApiUrl: string = 'apireal.synapsys.us/listhuv/?action=get_partner_data&domain=';
+    private static _dynamicApiUrl: string = 'dw.synapsys.us/list_creator_api.php'
+
     private static _imageUrl:string = '-sports-images.synapsys.us';
     private static _articleUrl:string = '-homerunloyal-ai.synapsys.us/';
     private static _recommendUrl:string = '-homerunloyal-ai.synapsys.us/headlines/event/';
     private static _headlineUrl:string = '-homerunloyal-ai.synapsys.us/headlines/team/';
     private static _trendingUrl:string = '-homerunloyal-ai.synapsys.us/sidekick';
-
     private static _homepageUrl:string = '.homerunloyal.com';
     private static _partnerHomepageUrl:string = '.myhomerunzone.com';
 
@@ -33,9 +35,17 @@ export class GlobalSettings {
         return env;
     }
 
+    static getDynamicWidet():string {
+        return this._proto + "//" + this._dynamicApiUrl;
+    }
+
     static getApiUrl():string {
         //[https:]//[prod]-homerunloyal-api.synapsys.us
         return this._proto + "//" + this.getEnv(this._env) + this._apiUrl;
+    }
+
+    static getPartnerApiUrl(partnerID):string {
+        return this._proto + "//"+ this._partnerApiUrl + partnerID;
     }
 
     static getImageUrl(relativePath):string {
@@ -78,6 +88,34 @@ export class GlobalSettings {
         }
     }
 
+    static getHomeInfo(){
+      //grabs the domain name of the site and sees if it is our partner page
+      var partner = false;
+      var isHome = false;
+      var hide = false;
+      var hostname = window.location.hostname;
+      var partnerPage = /myhomerunzone/.test(hostname);
+      // var partnerPage = /localhost/.test(hostname);
+      var name = window.location.pathname.split('/')[1];
+
+      if(partnerPage && name == ''){
+        hide = true;
+        isHome = true;
+      }else if(!partnerPage && name == ''){
+        hide = false;
+        isHome = true;
+      }else{
+        hide = false;
+        isHome = false;
+      }
+
+      if(partnerPage){
+        partner = partnerPage;
+      }
+      // console.log({isPartner: partner, hide:hide, isHome:isHome});
+      return {isPartner: partner, hide:hide, isHome:isHome, partnerName: name};
+    }
+
     static getSiteLogoUrl():string {
         return "/app/public/mainLogo.png";
     }
@@ -104,6 +142,9 @@ export class GlobalSettings {
     }
 
     static getPageTitle(subtitle?: string, profileName?: string) {
+      if(this.getHomeInfo().isPartner){
+        this._baseTitle = "My HomeRun Zone";
+      }
         return this._baseTitle +
             (profileName && profileName.length > 0 ? " - " + profileName : "") +
             (subtitle && subtitle.length > 0 ? " - " + subtitle : "");

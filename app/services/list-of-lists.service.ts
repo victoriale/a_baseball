@@ -37,7 +37,7 @@ export class ListOfListsService {
     // Set scope for url based on type
     let callURL = this._apiUrl + '/listOfLists/';
     switch ( profileType ) {
-      case "player": 
+      case "player":
         var scope   = urlParams.scope != null ? urlParams.scope : "league";
         callURL += 'player/' + id + '/' + scope +'/'+ limit +'/' + pageNum;
         break;
@@ -62,7 +62,7 @@ export class ListOfListsService {
             return null;
           }
           var lastUpdated = "";
-          if ( data && data.data && data.data.length > 0 ) {
+          if ( data && data.data && data.data.length > 0 && data.data != undefined) {
             lastUpdated = data.data[0].targetData;
 
           }
@@ -141,7 +141,7 @@ export class ListOfListsService {
           rank: itemTargetData.rank,
           rankClass: "image-48-rank"
         });
-        
+
         carouselArray.push(carouselItem);
       });
     }
@@ -205,8 +205,8 @@ export class ListOfListsService {
       };
 
       itemListData.forEach(function(val, index) {
-        let itemUrlRouteArray = itemListInfo.target == "player"  ? 
-          MLBGlobalFunctions.formatPlayerRoute(val.teamName, val.playerName, val.playerId) : 
+        let itemUrlRouteArray = itemListInfo.target == "player"  ?
+          MLBGlobalFunctions.formatPlayerRoute(val.teamName, val.playerName, val.playerId) :
           MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId); let firstItemHover    = version == "page" ? "<p>View</p><p>Profile</p>" : null;
 
         listData.dataPoints.push(

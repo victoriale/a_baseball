@@ -17,7 +17,7 @@
         </div>
       </div>
       <!--cta container-->
-      <div class="cta-container">
+      <div *ngIf="details.ctaUrl" class="cta-container">
         <span [innerHTML]="details.ctaDesc"></span>
         <span>
           <!--button component goes here-->

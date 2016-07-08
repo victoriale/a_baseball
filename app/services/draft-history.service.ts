@@ -9,30 +9,52 @@ import {CircleImageData} from '../components/images/image-data';
 import {ListPageService} from './list-page.service';
 import {IProfileData} from './profile-header.service';
 import {DetailListInput} from '../components/detailed-list-item/detailed-list-item.component';
+import {PaginationParameters} from '../components/pagination-footer/pagination-footer.component';
 
 export interface DraftHistoryTab {
   tabTitle: string;
   tabKey: string;
   isLoaded: boolean;
-  detailedDataArray: Array<DetailListInput>;
-  carouselDataArray: Array<SliderCarouselInput>;
+  detailedDataArray: Array<Array<DetailListInput>>;
+  carouselDataArray: Array<Array<SliderCarouselInput>>;
+  paginationDetails: PaginationParameters;
   errorMessage: string;
 }
 
 export interface DraftHistoryData {
-  detailedDataArray: Array<DetailListInput>;
-  carouselDataArray: Array<SliderCarouselInput>;
+  detailedDataArray: Array<Array<DetailListInput>>;
+  carouselDataArray: Array<Array<SliderCarouselInput>>;
+  paginationDetails: PaginationParameters;
 }
 
-@Injectable() 
+export interface PlayerDraftData {
+  playerId: string;
+  playerFirstName: string;
+  playerLastName: string;
+  roleStatus: string;
+  active: string;
+  teamId: string;
+  teamName: string;
+  entryReason: string;
+  selectionLevel: string;
+  selectionOverall: string;
+  startDate: string;
+  city: string;
+  area: string;
+  country: string;
+  backgroundImage: string;
+  imageUrl: string;
+}
+
+@Injectable()
 export class DraftHistoryService {
 
   getDraftHistoryTabs(profileData: IProfileData): DraftHistoryTab[] {
     // console.log("interface - getDraftHistoryTabs")
     return [];
   }
-  
-  getDraftHistoryService(profileData: IProfileData, tab: DraftHistoryTab, type: string): Observable<DraftHistoryData> {
+
+  getDraftHistoryService(profileData: IProfileData, tab: DraftHistoryTab, currIndex: number, type: string): Observable<DraftHistoryData> {
     // console.log("interface - getDraftHistoryService")
     return null;
   }
@@ -50,8 +72,27 @@ export class MLBDraftHistoryService extends DraftHistoryService {
   getDraftHistoryTabs(profileData: IProfileData): DraftHistoryTab[] {
     // console.log("concrete - getDraftHistoryTabs")
 
-    let profilePageDesc = (profileData.profileType == "team" ? "the " + profileData.profileName + " do" : profileData.profileName + " does");
-    let errorPrefix = "Sorry, " + profilePageDesc + " not currently have any draft history data for the ";
+    let errorMessage; // {0} is for the season name
+    // if ( profileData.isLegit && year == currentYear ) {
+      if ( profileData.profileType == "team" ) {
+        //team names are plural, and should have a determative
+        errorMessage = "Currently, there are no drafted players assigned to the " + GlobalFunctions.convertToPossessive(profileData.profileName) + " roster for the {0}.";
+      }
+      else {
+        //otherwise it's MLB, which is singular and a proper name
+        errorMessage = "Currently, there are no drafted players assigned to a team's roster for the {0}.";
+      }
+    // }
+    // else {
+    //   if ( profileData.profileType == "team" ) {
+    //     //team names are plural, and should have a determative
+    //     errorMessage = "Sorry, the " + profileData.profileName + " do not currently have any draft history data for the {0}.";
+    //   }
+    //   else {
+    //     //otherwise it's MLB, which is singular and a proper name
+    //     errorMessage = "Sorry, " + profileData.profileName + " does not currently have any draft history data for the {0}.";
+    //   }
+    // }
 
     //for MLB season starts and ends in the same year so return current season
     //get past 5 years for tabs
@@ -59,11 +100,12 @@ export class MLBDraftHistoryService extends DraftHistoryService {
     var year = currentYear;
     var tabArray = [];
     for(var i = 0; i <5; i++) {
+      var seasonName = year + " season";
       tabArray.push({
         tabTitle: i == 0 ? 'Current Season' : year.toString(),
         tabKey: year.toString(),
         isLoaded: false,
-        errorMessage: errorPrefix + year + " season."
+        errorMessage: errorMessage.replace("{0}", seasonName)
       });
       year--;
     }
@@ -73,10 +115,11 @@ export class MLBDraftHistoryService extends DraftHistoryService {
 /**
  * @param {string} type - 'page' or 'module'
  */
-  getDraftHistoryService(profileData: IProfileData, tab: DraftHistoryTab, type: string): Observable<DraftHistoryData> {
+  getDraftHistoryService(profileData: IProfileData, tab: DraftHistoryTab, currIndex: number, type: string): Observable<DraftHistoryData> {
     // console.log("concrete - getDraftHistoryService");
-    
+
     let year = tab.tabKey;
+    let itemsOnPage = 20;
 
     var callURL;
     if ( profileData.profileType == "team" ) {
@@ -86,7 +129,6 @@ export class MLBDraftHistoryService extends DraftHistoryService {
       //http://dev-homerunloyal-api.synapsys.us/league/draftHistory/2016
       callURL = this._apiUrl + '/league/draftHistory/'+ year;
     }
-    // console.log(callURL);
 
     return this.http.get(callURL)
     .map(res => res.json())
@@ -95,18 +137,46 @@ export class MLBDraftHistoryService extends DraftHistoryService {
           if(data.data.length > 1) {
             // the module should only have 2 data points displaying
             data.data = data.data.slice(0,2);
-          } 
+          }
         }
-        return {
-          carouselDataArray: this.carDraftHistory(data.data, tab.errorMessage, type),
-          detailedDataArray: this.detailedData(data.data),
+        var allCarouselItems = this.carDraftHistory(data.data, tab.errorMessage, type);
+        var allDetailItems = this.detailedData(data.data);
+        var totalPages = allDetailItems ? Math.ceil(allDetailItems.length / itemsOnPage) : 0;
+        var draftData = {
+          carouselDataArray: [],
+          detailedDataArray: null, //detailedDataArray and paginationDetails should be null in case there are no items to display
+          paginationDetails: null  // otherwise, the no-data tab doesn't show up correctly.
         };
+        if ( totalPages > 0 ) { //paginate carousel and detail data
+          draftData.detailedDataArray = [];
+          if ( type == 'page' ) { //only include pagination for pages
+            draftData.paginationDetails = {
+              index: currIndex + 1, //currIndex is 0-based, but pagination needs 1-based
+              max: totalPages,
+              paginationType: 'module' //even if it's a page type, we want to use 'module' type pagination
+            };
+          }
+          for ( var page = 0; page < totalPages; page++ ) {
+            var start = page * itemsOnPage;
+            var end = start + itemsOnPage;
+            if ( end >= allDetailItems.length ) {
+              end = allDetailItems.length;
+            }
+            draftData.carouselDataArray.push(allCarouselItems.slice(start, end));
+            draftData.detailedDataArray.push(allDetailItems.slice(start, end));
+          }
+        } else { //otherwise just add default carousel item to array
+          if ( totalPages == 0 && allCarouselItems.length == 1 ) {
+            draftData.carouselDataArray.push(allCarouselItems);
+          }
+        }
+        return draftData;
       });
   }
 
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
   //FOR THE PAGE
-  private carDraftHistory(data, errorMessage: string, type){
+  private carDraftHistory(data: Array<PlayerDraftData>, errorMessage: string, type){
     let self = this;
     var carouselArray = [];
     var dummyImg = "/app/public/no-image.png";
@@ -117,16 +187,25 @@ export class MLBDraftHistoryService extends DraftHistoryService {
       data.forEach(function(val, index){
         var playerFullName = val.playerFirstName + " " + val.playerLastName;
 
-        var playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId);
+        var playerRoute = null;
+        if ( val.active == "active" || (val.active == "injured" && !val.roleStatus) ) {
+          playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId);
+        }
         var playerLinkText = {
           route: playerRoute,
           text: playerFullName
         };
 
         var rank = (index+1).toString();
-        var location = GlobalFunctions.toTitleCase(val.city) + ', ' + GlobalFunctions.stateToAP(val.area);
+        var location;
+        if (val.city == null || val.area == null){
+          location = "N/A";
+        }
+        else {
+        location = GlobalFunctions.toTitleCase(val.city) + ', ' + GlobalFunctions.stateToAP(val.area);
+        }
         var carouselItem = SliderCarousel.convertToCarouselItemType2(index, {
-          isPageCarousel: false, 
+          isPageCarousel: false,
           backgroundImage: GlobalSettings.getBackgroundImageUrl(val.backgroundImage),
           copyrightInfo: GlobalSettings.getCopyrightInfo(),
           profileNameLink: playerLinkText,
@@ -151,14 +230,22 @@ export class MLBDraftHistoryService extends DraftHistoryService {
     return carouselArray;
   }
 
-  private detailedData(data){
+  private detailedData(data: Array<PlayerDraftData>){
     var listDataArray = data.map(function(val, index){
       var playerFullName = val.playerFirstName + " " + val.playerLastName;
+      if (val.city == null || val.area == null){
+        location = "N/A";
+      }
+      else {
       var location = GlobalFunctions.toTitleCase(val.city) + ', ' + GlobalFunctions.stateToAP(val.area);
+      }
       var rank = (index+1);
 
-      var playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.draftTeamName, playerFullName, val.personId);
-      var teamRoute = MLBGlobalFunctions.formatTeamRoute(val.draftTeamName, val.draftTeam);   
+      var playerRoute = null;
+      if ( val.active == "active" || (val.active == "injured" && !val.roleStatus) ) {
+        playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.teamName, playerFullName, val.playerId);
+      }
+      var teamRoute = MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId);
 
       var listData = {
         dataPoints: ListPageService.detailsData(
@@ -173,7 +260,7 @@ export class MLBDraftHistoryService extends DraftHistoryService {
           'fa fa-map-marker'),
         imageConfig: ListPageService.imageData("list", GlobalSettings.getImageUrl(val.imageUrl), playerRoute, rank),
         hasCTA:true,
-        ctaDesc:'Want more info about this player?',
+        ctaDesc: playerRoute ? 'Want more info about this player?' : 'This player is currently not active.',
         ctaBtn:'',
         ctaText:'View Profile',
         ctaUrl: playerRoute

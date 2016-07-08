@@ -1,7 +1,8 @@
-<section class="header container-fluid">
+<header class="header container-fluid fixedHeader" id="pageHeader" (window:scroll)="onScrollStick($event)" [style.top]="_stickyHeader">
   <div class="header-top">
     <div class="header-left col-md-6">
-      <a href="/" class="header-left-icon"><img src="/app/public/homeRunLoyalLogo_Small.png" /></a>
+      <a href="/" class="header-left-icon"><img *ngIf="!partner" src="/app/public/homeRunLoyalLogo_Small.png" /></a>
+      <div class="placeholderImg" *ngIf="partner"></div>
       <div class="header-mlb">MLB</div>
     </div>
     <div class="header-right col-md-6">
@@ -19,4 +20,4 @@
       <a class="header-tabs-tab" [routerLink]="['MLB-page']">MLB Profile</a>
     </div>
   </div>
-</section>
+</header>

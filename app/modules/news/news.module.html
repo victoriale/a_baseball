@@ -1,9 +1,9 @@
-<section class="module-container">
+<section *ngIf="displayData" class="module-container">
   <module-header [modHeadData]="headerInfo"></module-header>
   <div class="news">
     <div class="news-placeholder">
       <circle-button (scrollRight)="right()" (scrollLeft)="left()"></circle-button>
-      <div class="news-text" *ngIf="displayData">
+      <div class="news-text">
         <div class='feature-btn articles'>
           <span>
             <i class='fa fa-newspaper-o'></i>

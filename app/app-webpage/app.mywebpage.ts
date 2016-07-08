@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {RouteConfig, RouterOutlet, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import {Component, AfterViewChecked} from '@angular/core';
+import {RouteParams, RouteConfig, RouterOutlet, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
 import {FooterComponent} from "../components/footer/footer.component";
 import {HeaderComponent} from "../components/header/header.component";
@@ -26,6 +26,7 @@ import {StandingsPage} from "../webpages/standings-page/standings.page";
 import {ArticlePages} from "../webpages/article-pages/article-pages.page";
 import {ListOfListsPage} from "../webpages/list-of-lists-page/list-of-lists.page";
 import {TransactionsPage} from "../webpages/transactions-page/transactions.page";
+import {MVPListPage} from "../webpages/mvp-list-page/mvp-list.page";
 
 import {ArticleDataService} from "../global/global-article-page-service";
 import {HeadlineDataService} from "../global/global-ai-headline-module-service";
@@ -36,6 +37,9 @@ import {DesignPage} from "../webpages/design-page/design.page";
 import {ComponentPage} from "../webpages/component-page/component.page";
 
 import {PartnerHeader} from "../global/global-service";
+import {SanitizeHtml} from "../pipes/safe.pipe";
+import {SanitizeStyle} from "../pipes/safe.pipe";
+import {GlobalSettings} from "../global/global-settings";
 
 @Component({
     selector: 'my-house',
@@ -50,7 +54,8 @@ import {PartnerHeader} from "../global/global-service";
         RouterOutlet,
         ROUTER_DIRECTIVES
     ],
-    providers: [ArticleDataService, HeadlineDataService],
+    providers: [ArticleDataService, HeadlineDataService, PartnerHeader],
+    pipes:[SanitizeHtml,SanitizeStyle]
 })
 
 @RouteConfig([
@@ -105,13 +110,33 @@ import {PartnerHeader} from "../global/global-service";
     },
     //Module Pages
     {
+        path: '/mvp-list/:type/:pageNum',
+        name: 'MVP-list-page',
+        component: MVPListPage
+    },
+    {
+        path: '/mvp-list/:type/:tab/:pageNum',
+        name: 'MVP-list-tab-page',
+        component: MVPListPage
+    },
+    {
         path: '/schedules/mlb/:pageNum',
         name: 'Schedules-page-league',
         component: SchedulesPage
     },
     {
+        path: '/schedules/mlb/:tab/:pageNum',
+        name: 'Schedules-page-league-tab',
+        component: SchedulesPage
+    },
+    {
         path: '/schedules/:teamName/:teamId/:pageNum',
         name: 'Schedules-page-team',
+        component: SchedulesPage
+    },
+    {
+        path: '/schedules/:teamName/:tab/:teamId/:pageNum',
+        name: 'Schedules-page-team-tab',
         component: SchedulesPage
     },
     {
@@ -138,6 +163,11 @@ import {PartnerHeader} from "../global/global-service";
         path: '/list/:profile/:listname/:sort/:conference/:division/:limit/:pageNum',
         name: 'List-page',
         component: ListPage
+    },
+    {
+        path: '/draft-history',
+        name: 'Draft-history-mlb-page',
+        component: DraftHistoryPage
     },
     {
         path: '/draft-history/:teamName/:teamId',
@@ -227,4 +257,49 @@ import {PartnerHeader} from "../global/global-service";
     }
 ])
 
-export class MyAppComponent {}
+export class MyAppComponent implements AfterViewChecked{
+  public partnerID: string;
+  public partnerData: Object;
+  public partnerScript:string;
+  public shiftContainer:string;
+  public hideHeader:boolean;
+  private isHomeRunZone:boolean = false;
+  constructor(private _partnerData: PartnerHeader, private _params: RouteParams){
+    var parentParams = _params.params;
+
+    if( parentParams['partner_id'] !== null){
+        this.partnerID = parentParams['partner_id'];
+        this.getPartnerHeader();
+    }
+
+    this.hideHeader = GlobalSettings.getHomeInfo().hide;
+  }
+
+  getHeaderHeight(){
+    var pageHeader = document.getElementById('pageHeader');
+    if(pageHeader != null){
+      return pageHeader.offsetHeight;
+    }
+  }
+
+  getPartnerHeader(){//Since it we are receiving
+    this._partnerData.getPartnerData(this.partnerID)
+      .subscribe(
+          partnerScript => {
+              this.partnerData = partnerScript;
+              this.partnerScript = this.partnerData['results'].header.script;
+          }
+      );
+  }
+
+  ngDoCheck(){
+    var checkHeight = this.getHeaderHeight();
+    if(this.shiftContainer != (checkHeight + 'px')){
+      this.shiftContainer = checkHeight + 'px';
+    }
+  }
+
+  ngAfterViewChecked(){
+    this.shiftContainer = this.getHeaderHeight() + 'px';
+  }
+}

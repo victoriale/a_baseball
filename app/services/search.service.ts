@@ -77,12 +77,10 @@ export class SearchService{
         return Observable.of(searchOutput);
     }
 
-
     //Convert players and teams to needed dropdown array format
     resultsToDropdown(playerResults, teamResults){
         let searchArray: Array<SearchComponentResult> = [];
         let count = 0, max = 4;
-
         for(let i = 0, length = teamResults.length; i < length; i++){
             //Exit loop if max dropdown count
             if(count >= max){
@@ -137,7 +135,7 @@ export class SearchService{
     getSearchRoute(term: string){
         let searchRoute: Array<any>;
         //Build search Route
-        if(typeof term !== 'undefined' && term != 'null') {
+        if ( term ) {
             searchRoute = ['Search-page', {query: term}];
         }else{
             searchRoute = null;
@@ -299,16 +297,42 @@ export class SearchService{
     /*
      *  Search Functions used by both component and page
      */
-
+     static _orderByComparatorPlayer(a:any, b:any):number{
+       if ((a.score - b.score) == 0){
+         if (a.item.playerName.toLowerCase() > b.item.playerName.toLowerCase()){return 1;} else {return -1;}
+       }
+       else {
+         return a.score - b.score;
+       }
+     }
+     static _orderByComparatorTeam(a:any, b:any):number{
+       if ((a.score - b.score) == 0){
+         if (a.item.teamName.toLowerCase() > b.item.teamName.toLowerCase()){return 1;} else {return -1;}
+       }
+       else {
+         return a.score - b.score;
+       }
+     }
     //Function to search through players. Outputs array of players that match criteria
     searchPlayers(term, data){
         let fuse = new Fuse(data, {
             //Fields the search is based on
-            keys: ['playerName'],
-            //At what point does the match algorithm give up. A threshold of 0.0 requires a perfect match (of both letters and location), a threshold of 1.0 would match anything.
-            threshold: 0.2,
-            distance:6,
-            tokenize :true,
+            keys: [{
+              name: 'playerFirstName',
+              weight: 0.5
+            }, {
+              name: 'playerLastName',
+              weight: 0.3
+            }, {
+                name: 'playerName',
+                weight: 0.2
+            }],
+            //At what point does the match algorithm give up. A threshold of 0.0 requires a perfect match (of both letters and location),
+            // a threshold of 1.0 would match anything.
+            threshold: 0.1,
+            distance: 10,
+            tokenize: false,
+            sortFn: SearchService._orderByComparatorPlayer
         });
 
         return fuse.search(term);
@@ -322,10 +346,7 @@ export class SearchService{
             //At what point does the match algorithm give up. A threshold of 0.0 requires a perfect match (of both letters and location), a threshold of 1.0 would match anything.
             threshold: 0.2,
             shouldSort: true,
-            sortFn: function(a, b){
-              return a.score - b.score;
-            }
-
+            sortFn: SearchService._orderByComparatorTeam
         });
 
         return fuse.search(term);

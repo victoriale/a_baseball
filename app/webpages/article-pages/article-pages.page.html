@@ -9,11 +9,13 @@
     <span *ngIf="articleData">
         <shareLinks-component></shareLinks-component>
         <div class="articles-page-title">{{title}}</div>
-        <span *ngIf="imageData">
-            <div class="carousel-container">
-                <images-media-carousel [imageData]="imageData" [copyright]="copyright" [imageTitle]="imageTitle"></images-media-carousel>
-            </div>
-        </span>
+        <sidekick-wrapper-ai [aiSidekick]="aiSidekick">
+            <span *ngIf="imageData">
+                <div template="ngIf hasImages" class="carousel-container">
+                    <images-media-carousel [imageData]="imageData" [copyright]="copyright"
+                                           [imageTitle]="imageTitle"></images-media-carousel>
+                </div>
+            </span>
             <div class="arpt">
                 <!--<div class="arpt-author">-->
                 <!--<div class="arpt-author-image"></div>-->
@@ -26,11 +28,14 @@
             <article-content-component [articleType]="articleType" [articleSubType]="articleSubType"
                                        [articleData]="articleData"
                                        [teamId]="teamId"
-                                       [imageLinks]="imageLinks"></article-content-component>
+                                       [imageLinks]="imageLinks"
+                                       [isHome]="isHome"
+            ></article-content-component>
             <disqus-component [comment]="comment"></disqus-component>
             <recommendations-component [randomHeadlines]="randomHeadlines"
                                        [images]="images"></recommendations-component>
             <trending-component [trendingData]="trendingData" [trendingImages]="trendingImages"></trending-component>
+        </sidekick-wrapper-ai>
     </span>
     </div>
 </div>

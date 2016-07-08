@@ -222,9 +222,9 @@ export class Search{
     //On submit function for input
     onSubmit(){
         //Encode input to safely push to URL
-        let term = encodeURIComponent(this.term.value);
+        let term = this.term.value ? encodeURIComponent(this.term.value) : '';
         //If input is empty exit submit
-        if(term === ''){
+        if(term == ''){
             return false;
         }
         let searchRoute: Array<any>;

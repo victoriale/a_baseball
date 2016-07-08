@@ -1,3 +1,10 @@
+.score-transition{
+  -webkit-transition: all 0.5s ease-out;
+  -moz-transition: all 0.5s ease-out;
+  -ms-transition: all 0.5s ease-out;
+  -o-transition: all 0.5s ease-out;
+  transition: all 0.5s ease-out;
+}
 .score-board{
   @boardGrey:#e8e8e8;
   width:100%;
@@ -92,6 +99,7 @@
 
     &-container{
       //need width of the containers to stay at 27px width
+      min-width: 27px;
       width: 27px;
       height:100%;
       font-size: 14px;

@@ -1,4 +1,6 @@
-<section *ngIf="totalImageCount > 1" [class.module-container]="isProfilePage" [class.images-media-module]="isProfilePage">
+<section *ngIf="totalImageCount > 0" [class.module-container]="isProfilePage"
+         [class.images-media-module]="isProfilePage && arraySize > 1"
+         [class.images-media-module-small]="isProfilePage && arraySize == 1">
     <module-header *ngIf="isProfilePage" [modHeadData]="modHeadData"></module-header>
     <div class="article-carousel">
         <loading-component *ngIf="!imageData"></loading-component>
@@ -13,12 +15,13 @@
             </div>
             <span [style.background-image]="backgroundImage"
                   class="plcholder-img">
-                <circle-button class="plcholder-img-navigation" (scrollLeft)="left()"
+                <circle-button *ngIf="arraySize > 1" class="plcholder-img-navigation" (scrollLeft)="left()"
                                (scrollRight)="right()"></circle-button>
             </span>
-            <div class="grey-bar"><span class="grey-bar-title">{{description}}</span><span class="grey-bar-credit">Photo by<span class="grey-bar-credit-bold">{{imageCredit}}</span></span></div>
+            <div class="grey-bar"><span class="grey-bar-title">{{description}}</span><span class="grey-bar-credit">Photo by<span
+                    class="grey-bar-credit-bold">{{imageCredit}}</span></span></div>
         </div>
-        <div *ngIf="imageData" class="sm-images">
+        <div *ngIf="imageData && arraySize > 1" class="sm-images">
             <span *ngFor="let smImages of mediaImages; let i=index;">
                 <div class="sm-images-container">
                     <div *ngIf="smImages.id == imageCounter" class="carouselImageBoxSmall">
@@ -43,10 +46,12 @@
     <div class="modal-exit" (click)="modalExpand()">X</div>
     <div class="modal-plcholder">
         <span [style.background-image]="backgroundImage"
-                class="modal-plcholder-img">
+              class="modal-plcholder-img">
             <circle-button class="modal-plcholder-img-navigation" (scrollLeft)="left()"
-                            (scrollRight)="right()"></circle-button>
+                           (scrollRight)="right()"></circle-button>
         </span>
-        <div class="modal-grey-bar"><span class="modal-grey-bar-title">{{description}}</span><span class="modal-grey-bar-credit">Photo by<span class="modal-grey-bar-credit-bold">{{imageCredit}}</span></span></div>
+        <div class="modal-grey-bar"><span class="modal-grey-bar-title">{{description}}</span><span
+                class="modal-grey-bar-credit">Photo by<span
+                class="modal-grey-bar-credit-bold">{{imageCredit}}</span></span></div>
     </div>
 </div>

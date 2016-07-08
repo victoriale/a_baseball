@@ -12,7 +12,8 @@ import {ArticleData} from "../../global/global-interface";
 import {ArticleDataService} from "../../global/global-article-page-service";
 import {GlobalFunctions} from "../../global/global-functions";
 import {MLBGlobalFunctions} from "../../global/mlb-global-functions";
-import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
+import {SidekickWrapperAI} from "../../components/sidekick-wrapper-ai/sidekick-wrapper-ai.component";
+import {GlobalSettings} from "../../global/global-settings";
 
 declare var jQuery:any;
 
@@ -20,7 +21,7 @@ declare var jQuery:any;
     selector: 'article-pages',
     templateUrl: './app/webpages/article-pages/article-pages.page.html',
     directives: [
-        SidekickWrapper,
+        SidekickWrapperAI,
         ROUTER_DIRECTIVES,
         ImagesMedia,
         ShareLinksComponent,
@@ -54,13 +55,13 @@ export class ArticlePages implements OnInit {
     teamId:number;
     trendingData:Array<any>;
     trendingImages:Array<any>;
-    error:boolean=false;
-    public partnerParam:string;
-    public partnerID:string;
+    error:boolean = false;
+    hasImages:boolean = false;
+    aiSidekick:boolean = true;
+    isHome:boolean = true;
 
     constructor(private _params:RouteParams,
                 private _articleDataService:ArticleDataService,
-                private _router:Router,
                 private _location:Location) {
         window.scrollTo(0, 0);
         this.eventID = _params.get('eventID');
@@ -154,26 +155,31 @@ export class ArticlePages implements OnInit {
         } else if (this.articleType == "playerRoster") {
             imageCount = 2;
         }
-        if (Object.keys(data).length > 0) {
-            for (var id in data) {
-                data[id].map(function (val, index) {
-                    if (index < imageCount) {
-                        image = val['image'];
-                        copyright = val['copyright'];
-                        title = val['title'];
-                        images.push(image);
-                        copyData.push(copyright);
-                        description.push(title);
-                    }
-                });
+        try {
+            if (Object.keys(data).length > 0) {
+                for (var id in data) {
+                    data[id].map(function (val, index) {
+                        if (index < imageCount) {
+                            image = val['image'];
+                            copyright = val['copyright'];
+                            title = val['title'];
+                            images.push(image);
+                            copyData.push(copyright);
+                            description.push(title);
+                        }
+                    });
+                }
+                this.imageData = images;
+                this.copyright = copyData;
+                this.imageTitle = description;
+            } else {
+                this.imageData = null;
+                this.copyright = null;
+                this.imageTitle = null;
             }
-            this.imageData = images;
-            this.copyright = copyData;
-            this.imageTitle = description;
-        } else {
-            this.imageData = null;
-            this.copyright = null;
-            this.imageTitle = null;
+            this.hasImages = true;
+        } catch (err) {
+            this.hasImages = false;
         }
     }
 
@@ -479,5 +485,6 @@ export class ArticlePages implements OnInit {
     }
 
     ngOnInit() {
+        this.isHome = GlobalSettings.getHomeInfo().isHome;
     }
 }

@@ -44,6 +44,7 @@
       .flexDisplay;
       .flexWrap(wrap);
       .flexJustify(center);
+      .flexAlignItems(baseline);
       width: 56%;
       .sortCategory{
         padding-right: 12px;
@@ -52,11 +53,15 @@
       li{
         line-height: 25px;
         padding-right: 5px;
+        .flexDisplay;
         span{
           color: @bulletGrey;
         }
         i{
-          padding: 5px;
+          padding: 5px 0;
+        }
+        a{
+          padding-right: 5px;
         }
         &:hover{
           a{
@@ -72,6 +77,13 @@
     }// ul ends
     hr{
       width: 70%;
+    }
+    &-citation{
+      font-size: 11px;
+      font-weight: 400;
+      em{
+        font-style: italic;
+      }
     }
 
   }// footer-main ends
