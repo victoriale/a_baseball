@@ -69,7 +69,6 @@ export class SearchService{
         let teamResults = this.searchTeams(term, data.teams);
         //Transform data to useable format
         let searchResults = this.resultsToDropdown(playerResults, teamResults);
-        console.log(searchResults);
         //Build output to send to search component
         let searchOutput: SearchComponentData = {
             term: term,
