@@ -1,5 +1,4 @@
-import {Component, Input, OnChanges} from '@angular/core';
-import {DomSanitizationService, SafeResourceUrl} from '@angular/platform-browser';
+import {Component, Input} from '@angular/core';
 import {Http, Headers} from '@angular/http';
 declare var jQuery:any;
 
@@ -9,27 +8,10 @@ declare var jQuery:any;
     inputs: ['aiSidekick']
 })
 
-export class WidgetModule implements OnChanges {
+export class WidgetModule {
     @Input() aiSidekick:boolean;
-    //dangerousWidgetUrl:string = "http://w1.synapsys.us/widgets/realestate/standard2.html";
-    dangerousWidgetUrl:string = '/app/ads/widget1.html';
-    safeWidgetUrl:SafeResourceUrl;
-    headerHeight:string;
     sidekickHeight:number;
-
-    constructor(private _sanitizer:DomSanitizationService) {
-        this.safeWidgetUrl = _sanitizer.bypassSecurityTrustResourceUrl(this.dangerousWidgetUrl);
-    }
-
-    ngOnChanges() {
-        if (this.aiSidekick) {
-            this.dangerousWidgetUrl = '/app/ads/aiSidekick.html';
-            this.safeWidgetUrl = this._sanitizer.bypassSecurityTrustResourceUrl(this.dangerousWidgetUrl);
-        }
-        else {
-            this.aiSidekick = false;
-        }
-    }
+    headerHeight:string;
 
     ngOnInit() {
         var titleHeight = jQuery('.articles-page-title').height();
@@ -87,5 +69,4 @@ export class WidgetModule implements OnChanges {
             }
         }
     }
-
 }
