@@ -116,7 +116,6 @@ export class DynamicWidgetCall {
             route: subRoute,
             text: val.list_sub
           };
-          console.log("sublinktext", subLinkText);
           
           footerInfo = {
             infoDesc:'Interested in discovering more about this player?',
