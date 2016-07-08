@@ -14,7 +14,7 @@ declare var moment;
 @Injectable()
 
 export class DynamicWidgetCall {
-  public apiUrl: string = "http://108.170.11.234:190/list_creator_api.php";
+  public apiUrl: string = GlobalSettings.getDynamicWidet();
   pageLimit: number = 10;
 
   public protocol: string = location.protocol;
@@ -98,7 +98,7 @@ export class DynamicWidgetCall {
       carouselArray = carData.map((val, index) => {
         var carouselItem;
 
-        var primaryRoute = GlobalFunctions.parseToRoute(val['primary_url']);        
+        var primaryRoute = GlobalFunctions.parseToRoute(val['primary_url']);
         var primaryRouteText = {
                     wrapperStyle: {'font-size': '22px', 'font-weight': '800'},
                     beforeLink: "",
@@ -195,13 +195,13 @@ export class DynamicWidgetCall {
         subImage = self.protocol + val['sub_img'].img;
         ctaDesc = "Want more info about this player?";
       }
-      
+
       return {
         dataPoints: ListPageService.detailsData(
             [ //main left text
               { route: primaryRoute, text: val.title }
-            ],       
-            val.value,   
+            ],
+            val.value,
             [ //sub left text
               { text: val.list_sub, class: 'text-master text-heavy', route: subRoute }
             ],
