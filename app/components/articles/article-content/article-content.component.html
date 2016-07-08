@@ -32,4 +32,5 @@
                            [articleData]="articleData" [imageLinks]="imageLinks"></profileData-component>
     <div *ngIf="last && (articleType == 'playerRoster' || articleType == 'teamRecord' || articleType == 'gameModule' || articleType == 'playerComparison')"
          class="comparison-hr"></div>
-    <billboard-component *ngIf="last && articleType != 'gameReport'" [teamId]="teamId"></billboard-component>
+    <billboard-component *ngIf="last && articleType != 'gameReport'" [teamId]="teamId" [isPartner]="isPartner"></billboard-component>
+</div>
