@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {Http, Headers} from '@angular/http';
+import {GlobalSettings} from "../../global/global-settings";
 declare var jQuery:any;
 
 @Component({
@@ -12,8 +13,10 @@ export class WidgetModule {
     @Input() aiSidekick:boolean;
     sidekickHeight:number;
     headerHeight:string;
+    isPartner:boolean=false;
 
     ngOnInit() {
+        this.isPartner = GlobalSettings.getHomeInfo().isPartner;
         var titleHeight = jQuery('.articles-page-title').height();
         var padding = document.getElementById('pageHeader').offsetHeight;
         if (!this.aiSidekick) {
