@@ -5,6 +5,7 @@ import {Observable} from 'rxjs/Rx';
 import {Control} from '@angular/common';
 import {CircleImage} from '../images/circle-image';
 import {ImageData, CircleImageData} from '../images/image-data';
+import {OrderBy} from "./orderBy.component"
 /*
  * Search Component
  * Lutz Lai - 05/13/2016
@@ -60,7 +61,8 @@ export interface SearchInput {
     },
     templateUrl: './app/components/search/search.component.html',
     directives: [CircleImage, ROUTER_DIRECTIVES],
-    providers: []
+    providers: [],
+    pipes: [OrderBy]
 })
 
 export class Search{
