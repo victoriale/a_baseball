@@ -20,7 +20,7 @@ export class WidgetModule {
         var titleHeight = jQuery('.articles-page-title').height();
         var padding = document.getElementById('pageHeader').offsetHeight;
 
-        if(document.getElementById('partner').offsetHeight != null){
+        if( document.getElementById('partner') != null){
           var partnerHeight = document.getElementById('partner').offsetHeight;
           padding += partnerHeight;
         }
@@ -38,10 +38,12 @@ export class WidgetModule {
 
     // Page is being scrolled
     onScroll(event) {
-      if( document.getElementById('partner') != null){
+        var partnerHeight = 0;
+        if( document.getElementById('partner') != null){
+          partnerHeight = document.getElementById('partner').offsetHeight;
+        }
         var titleHeight = jQuery('.articles-page-title').height();
         var padding = document.getElementById('pageHeader').offsetHeight;
-        var partnerHeight = document.getElementById('partner').offsetHeight;
         var y_buffer = 40;
         var scrollTop = jQuery(window).scrollTop();
         if (!this.aiSidekick) {
@@ -85,6 +87,5 @@ export class WidgetModule {
             $widget.get(0).style.top = "";
           }
         }
-      }
     }
 }
