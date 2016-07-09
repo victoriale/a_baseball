@@ -12,7 +12,7 @@ import {provide} from "@angular/core";
 import 'rxjs/add/operator/map';
 import {HTTP_PROVIDERS} from "@angular/http";
 
-import {enableProdMode} from 'angular2/core';
+import {enableProdMode} from '@angular/core';
 // enable production mode and thus disable debugging information
 enableProdMode();
 
