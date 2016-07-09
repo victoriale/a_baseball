@@ -53,8 +53,8 @@ export class WidgetModule {
             } else if (titleHeight == 80) {
                 this.sidekickHeight = 135;
             }
-            if ((maxScroll + y_buffer + this.sidekickHeight) <= (this.sidekickHeight + titleHeight) - y_buffer) {
-                this.sidekickHeight += (maxScroll + y_buffer);
+            if (maxScroll <= 0) {
+                this.sidekickHeight += maxScroll;
                 if (this.sidekickHeight < 0) {
                     this.sidekickHeight = 0
                 }
