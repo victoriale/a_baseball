@@ -37,6 +37,7 @@ export class LandingPageService {
     var dummyImg = "./app/public/placeholder-location.jpg";
     var dummyRoute = ['Team-page', {teamName:'yankees', teamId: 2796}];
     for(var league in data){//get each of the league given by data
+      console.log(league);
       var divisionArray = [];
       for(var division in data[league]){//get each division within league data
         var div = data[league][division];
@@ -54,13 +55,14 @@ export class LandingPageService {
             }
           }
         })//finish converting each team
+        console.log(division);
         divisionArray.push({//once team conversion is finished push into each division
           displayName: division.toUpperCase(),
           dataArray: div
         });
       }
       leagueArray.push({//once all divisions are done push the league info into final array
-        displayName:"<span class='text-heavy'>" + league.toUpperCase() + "</span> TEAMS<span class='text-heavy'>:</span>",
+        displayName:"<span class='text-heavy'>" + league.toUpperCase() + "</span>LEAGUE TEAMS<span class='text-heavy'>:</span>",
         dataArray:divisionArray
       });
     }
