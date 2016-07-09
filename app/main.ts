@@ -12,12 +12,16 @@ import {provide} from "@angular/core";
 import 'rxjs/add/operator/map';
 import {HTTP_PROVIDERS} from "@angular/http";
 
+import {enableProdMode} from 'angular2/core';
+// enable production mode and thus disable debugging information
+enableProdMode();
+
 bootstrap(AppDomain, [
-    ROUTER_PROVIDERS, 
-    HTTP_PROVIDERS, 
-    ROUTER_DIRECTIVES, 
-    GlobalFunctions, 
-    MLBGlobalFunctions, 
+    ROUTER_PROVIDERS,
+    HTTP_PROVIDERS,
+    ROUTER_DIRECTIVES,
+    GlobalFunctions,
+    MLBGlobalFunctions,
     SearchService,
     provide(DraftHistoryService, {useClass: MLBDraftHistoryService})
 ]).catch(err => console.error(err));
