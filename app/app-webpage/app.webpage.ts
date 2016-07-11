@@ -41,6 +41,9 @@ import {SanitizeHtml} from "../pipes/safe.pipe";
 import {SanitizeStyle} from "../pipes/safe.pipe";
 import {GlobalSettings} from "../global/global-settings";
 
+//FOR DEEP DIVE
+import {DeepDivePage} from "../webpages/deep-dive-page/deep-dive.page";
+
 @Component({
     selector: 'my-app',
     templateUrl: './app/app-webpage/app.webpage.html',
@@ -64,6 +67,16 @@ import {GlobalSettings} from "../global/global-settings";
         name: 'Home-page',
         component: HomePage,
         useAsDefault: true
+    },
+    {
+        path: '/home',
+        name: 'Page-Home',
+        component: HomePage,
+    },
+    {
+        path: '/deep-dive',
+        name: 'Deep-dive-page',
+        component: DeepDivePage,
     },
     //Profile Pages
     {

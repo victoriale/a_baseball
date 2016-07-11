@@ -94,14 +94,16 @@ export class GlobalSettings {
       var isHome = false;
       var hide = false;
       var hostname = window.location.hostname;
-      var partnerPage = /myhomerunzone/.test(hostname);
-      // var partnerPage = /localhost/.test(hostname);
+      // var partnerPage = /myhomerunzone/.test(hostname);
+      var partnerPage = /localhost/.test(hostname);
       var name = window.location.pathname.split('/')[1];
+      console.log("GlobalSettings:", 'partnerPage =>', partnerPage, 'name =>', name);
 
-      if(partnerPage && name == ''){
+      //PLEASE REVISIT and change
+      if(partnerPage && (name == '' || name == 'deep-dive')){
         hide = true;
         isHome = true;
-      }else if(!partnerPage && name == ''){
+      }else if(!partnerPage && (name == '' || name == 'deep-dive')){
         hide = false;
         isHome = true;
       }else{
