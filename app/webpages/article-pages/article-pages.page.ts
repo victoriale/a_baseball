@@ -58,9 +58,10 @@ export class ArticlePages implements OnInit {
     error:boolean = false;
     hasImages:boolean = false;
     aiSidekick:boolean = true;
-    isHome:boolean = true;
+    partnerId:string;
 
     constructor(private _params:RouteParams,
+                private _router:Router,
                 private _articleDataService:ArticleDataService,
                 private _location:Location) {
         window.scrollTo(0, 0);
@@ -69,6 +70,11 @@ export class ArticlePages implements OnInit {
         if (this.eventType == "upcoming-game") {
             this.eventType = "upcoming";
         }
+        GlobalSettings.getPartnerID(_router, partnerID =>{
+            if (partnerID != null) {
+                this.partnerId = partnerID.replace("-", ".")
+            }
+        });
         this.getArticles();
     }
 
@@ -485,6 +491,5 @@ export class ArticlePages implements OnInit {
     }
 
     ngOnInit() {
-        this.isHome = GlobalSettings.getHomeInfo().isHome;
     }
 }

@@ -7,7 +7,7 @@ import {SanitizeHtml} from '../../../pipes/safe.pipe';
     selector: 'article-content-component',
     templateUrl: './app/components/articles/article-content/article-content.component.html',
     directives: [ProfileDataComponent, BillboardComponent],
-    inputs: ["articleData", "articleType", "articleSubType", "imageLinks", "teamId", "isHome"],
+    inputs: ["articleData", "articleType", "articleSubType", "imageLinks", "teamId", "partnerId"],
     pipes: [SanitizeHtml]
 })
 
