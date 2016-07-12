@@ -144,22 +144,22 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
 
     var playerLinkText = {
       route: playerRoute,
-      text: val.playerName
+      text: val.playerName,
+      class: 'text-heavy'
     }
     var teamLinkText = {
       route: teamRoute,
-      text: val.teamName + "<span class='roster-no-hover'>,</span>"
+      text: val.teamName,
+      class: 'text-heavy'
     }
-
     return SliderCarousel.convertToCarouselItemType1(index, {
       backgroundImage: GlobalSettings.getBackgroundImageUrl(val.backgroundImage),
       copyrightInfo: GlobalSettings.getCopyrightInfo(),
       subheader: [curYear + ' TEAM ROSTER'],
       profileNameLink: playerLinkText,
       description: [
-          '<span class="text-heavy">',
           playerLinkText,
-          '</span> plays ', "<span class='text-heavy'>" + val.position.join(', '), "</span>",'for the ',
+          " plays ", "<span class='text-heavy'>" + val.position.join(', '), "</span>",'for the ',
           teamLinkText,
           'wears <span class="text-heavy">'+ playerNum + '</span> is ' + playerHeight + playerWeight +" and "+ playerSalary
       ],

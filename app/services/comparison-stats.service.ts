@@ -23,7 +23,7 @@ export interface PlayerData {
   teamColors: Array<string>
   mainTeamColor: string;
   uniformNumber: number;
-  position: string;
+  position: Array<string>;
   height: string;
   weight: number;
   age: number;

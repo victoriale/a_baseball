@@ -144,7 +144,7 @@ export class DailyUpdateModule {
         column: {
           pointPadding: 0,
           borderWidth: 0,
-          groupPadding: .10,
+          groupPadding: .09,
           minPointLength: 3,
           dataLabels: {
             enabled: true,
