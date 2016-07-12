@@ -22,8 +22,8 @@
     width: 640px;
     position: relative;
     &-circle {
-      height: 66px;
-      width: 66px;
+      height: 72px;
+      width: 72px;
       border-radius: 50%;
       border: 2px solid @strokeGrey;
       background-size: contain !important;
@@ -33,17 +33,16 @@
       position: absolute;
       top: 15px;
       &-left {
-        left: 230px;
+        left: 240px;
       }
       &-right {
-        right: 230px;
+        right: 240px;
       }
     }
     &-team {
       font-size: 1em;
       position: absolute;
-      top: 154px;
-      width: 215px;
+      width: 230px;
       height: 55px;
       line-height: 14px;
       text-overflow: ellipsis;
@@ -53,7 +52,7 @@
         left: 0px;
         text-align: right;
         z-index: 1;
-        top: 25px;
+        top: 30px;
         &-url {
           color: @white;
           display: inline-block;
@@ -66,7 +65,7 @@
         right: 0;
         text-align: left;
         z-index: 1;
-        top: 25px;
+        top: 30px;
         &-url {
           color: @white;
           display: inline-block;
@@ -93,11 +92,10 @@
       }
     }
     &-vs {
-      color: @white;
-      font-size: 18px;
+      .globalDefaultModFont(20px, 800, @white);
       position: absolute;
       top: 40px;
-      left: 48.5%;
+      left: 48.7%;
       text-align: center;
       line-height: 10px;
     }

@@ -168,7 +168,7 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
       circleImageRoute: playerRoute,
       // subImageUrl: GlobalSettings.getImageUrl(val.teamLogo),
       // subImageRoute: teamRoute,
-      rank: val.uniformNumber
+      //rank: val.uniformNumber
     });
   }
 }

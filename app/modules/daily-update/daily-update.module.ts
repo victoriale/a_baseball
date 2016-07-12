@@ -44,7 +44,7 @@ export class DailyUpdateModule {
 
   constructor(private _sanitizer: DomSanitizationService){
     this.imageConfig = {
-      imageClass: "image-125",
+      imageClass: "image-121",
       mainImage: {
         imageClass: "border-2",
         imageUrl: GlobalSettings.getSiteLogoUrl(),
