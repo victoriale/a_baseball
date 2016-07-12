@@ -201,7 +201,7 @@ export class ComparisonModule implements OnInit, OnChanges {
                     imageUrl: GlobalSettings.getImageUrl(player.playerHeadshot),
                     urlRouteArray: playerRoute,
                     hoverText: "<p>View</p><p>Profile</p>",
-                    imageClass: "border-large"
+                    imageClass: "border-med"
                 },
                 subImages: [
                     // {
