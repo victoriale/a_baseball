@@ -6,11 +6,7 @@ transactions{
 .center-vertically{
   position: relative;
   top: 50%;
-  -webkit-transform: translateY(-50%);
-  -moz-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  -o-transform: translateY(-50%);
-  transform: translateY(-50%);
+  .transformPrefixes(translateY(-50%));
 }
 .transactions-li-timeline{
   display: block;
@@ -52,15 +48,9 @@ transactions{
     color:@black;
     margin: 0;
     position: relative;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-
-    -ms-flex-align: center;
-    -webkit-align-items: center;
-    -webkit-box-align: center;
-
     align-items: center;
+    .flexDisplay;
+    .flexAlignItems(center);
     .clearfix;
     .data-hover{//hover states
       text-decoration: none;
@@ -83,7 +73,7 @@ transactions{
         .center-vertically;
         position: absolute;
         left: 20px;
-        font-size: 14px;
+        font-size: 12px;
         width: 106px;
         text-align: center;
       }
