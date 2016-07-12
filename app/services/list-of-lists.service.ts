@@ -199,7 +199,7 @@ export class ListOfListsService {
         icon          : itemListInfo.icon          != null  ? itemListInfo.icon         : dummyIcon,
         dataPoints    : [],
         ctaBtn        : '',
-        ctaDesc       : 'What to see the ' + profileTypePlural + ' in this list?',
+        ctaDesc       : 'Want to see the ' + profileTypePlural + ' in this list?',
         ctaText       : 'View The List',
         ctaUrl        : MLBGlobalFunctions.formatListRoute(ctaUrlArray)
       };
@@ -211,7 +211,7 @@ export class ListOfListsService {
 
         listData.dataPoints.push(
           {
-            imageClass : index > 0 ? "image-43" : "image-121",
+            imageClass : index > 0 ? "image-43" : "image-125",
             mainImage: {
               imageUrl        : val.imageUrl != null ? GlobalSettings.getImageUrl(val.imageUrl) : GlobalSettings.getImageUrl(val.teamLogo),
               urlRouteArray   : version == "page" || index > 0 ? itemUrlRouteArray : null,
