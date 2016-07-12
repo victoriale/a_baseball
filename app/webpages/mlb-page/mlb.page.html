@@ -7,8 +7,7 @@
     <profile-header [profileHeaderData]="profileHeaderData"></profile-header>
     <!-- aiArticles -->
     <!-- <headline-component [title]="'Keep Up With Everything MLB'"></headline-component> -->
-    <!-- <box-scores *ngIf="dateParam" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)"></box-scores> -->
-    <box-scores [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)"></box-scores>
+    <box-scores *ngIf="dateParam" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)"></box-scores>
     <schedules *ngIf="schedulesData" [profHeader]="profileHeaderData" [data]="schedulesData" (tabSelected)="scheduleTab($event)"></schedules>
     <standings-module [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
     <transactions-module *ngIf="transactionsData" [data]="transactionsData" (tabSwitched)="transactionsTab($event)"></transactions-module>
