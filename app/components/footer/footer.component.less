@@ -5,7 +5,10 @@
     .flexJustify(space-between);
     .flexAlignItems(center);
     background-color: @textEmphasisGrey;
-    padding: 0 130px;
+    @media (min-width: 1024px) {
+      padding: 0 130px;
+    }
+    padding:0 20px;
     min-height: 60px;
     img{
       margin: 9px auto;

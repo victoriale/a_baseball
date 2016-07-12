@@ -34,8 +34,9 @@ export class TransactionsComponent {
   @Output() dropdownSwitched = new EventEmitter();
 
   @Input() tabs: Array<TransactionTabData>;
-  
+
   carouselDataArray: Array<SliderCarouselInput>;
+  pageName: string;
 
   private selectedTabTitle: string;
   private tabsLoaded: {[index:number]:string};
@@ -61,10 +62,10 @@ export class TransactionsComponent {
     var selectedTab = this.getSelectedTab();
     if ( selectedTab ) {
       this.carouselDataArray = selectedTab.carData;
-    } 
+    }
     else {
       // an error occurred because tab is null
-    }   
+    }
   }
 
   getSelectedTab() {
@@ -77,6 +78,7 @@ export class TransactionsComponent {
     var selectedTab = this.getSelectedTab();
     this.tabSwitched.next(selectedTab);
     this.updateCarousel();
+    this.pageName = this.selectedTabTitle;
   }
 
   dropdownChanged(event) {
