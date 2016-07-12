@@ -58,9 +58,10 @@ export class ArticlePages implements OnInit {
     error:boolean = false;
     hasImages:boolean = false;
     aiSidekick:boolean = true;
-    isHome:boolean = true;
+    partnerId:string;
 
     constructor(private _params:RouteParams,
+                private _router:Router,
                 private _articleDataService:ArticleDataService,
                 private _location:Location) {
         window.scrollTo(0, 0);
@@ -69,16 +70,22 @@ export class ArticlePages implements OnInit {
         if (this.eventType == "upcoming-game") {
             this.eventType = "upcoming";
         }
-        this.getArticles();
+        GlobalSettings.getPartnerID(_router, partnerID => {
+            if (partnerID != null) {
+                this.partnerId = partnerID.replace("-", ".");
+            }
+            this.getArticles();
+        });
     }
 
     getArticles() {
         this.getArticleType();
-        this._articleDataService.getArticleData(this.eventID, this.eventType)
+        this._articleDataService.getArticleData(this.eventID, this.eventType, this.partnerId)
             .subscribe(
                 ArticleData => {
                     var pageIndex = Object.keys(ArticleData)[0];
                     this.getCarouselImages(ArticleData[pageIndex]['images']);
+                    //this.parseLinks(ArticleData[pageIndex]);
                     this.articleData = ArticleData[pageIndex];
                     this.title = ArticleData[pageIndex].displayHeadline;
                     this.date = ArticleData[pageIndex].dateline;
@@ -114,6 +121,25 @@ export class ArticlePages implements OnInit {
                 }
             );
     }
+
+    //Possible fix for partner site link issues.
+    //parseLinks(data) {
+    //    try {
+    //        data['article'].map(function (val, index) {
+    //            var strToParse = val.match("<a href=" + "(.*?)" + "</a>");
+    //            if (strToParse != null) {
+    //                var urlInfo = strToParse[1].split("/");
+    //                if (urlInfo[1] == "player") {
+    //                    var url = MLBGlobalFunctions.formatPlayerRoute(urlInfo[2], urlInfo[3], urlInfo[4].slice(0, 5));
+    //                } else if (urlInfo[1] == "team") {
+    //                    var url = MLBGlobalFunctions.formatTeamRoute(urlInfo[2], urlInfo[3].slice(0, 4));
+    //                }
+    //                data['article'][index] = val.replace(strToParse[0], url);
+    //            }
+    //        });
+    //    } catch (err) {
+    //    }
+    //}
 
     getTrendingArticles(data) {
         var articles = [];
@@ -485,6 +511,5 @@ export class ArticlePages implements OnInit {
     }
 
     ngOnInit() {
-        this.isHome = GlobalSettings.getHomeInfo().isHome;
     }
 }

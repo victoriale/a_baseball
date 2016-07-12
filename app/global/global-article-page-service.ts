@@ -8,9 +8,10 @@ export class ArticleDataService {
 
     constructor(public http:Http) {}
 
-    getArticleData(eventID, eventType) {
+    getArticleData(eventID, eventType, partnerId) {
         var fullUrl = GlobalSettings.getArticleUrl();
-        return this.http.get(fullUrl + eventType + '/' + eventID)
+        //having the query string is only temporary until the partner site link issue is figured out.
+        return this.http.get(fullUrl + eventType + '/' + eventID + "?partnerId=" + partnerId)
             .map(res => res.json())
             .map(data => data);
     }
