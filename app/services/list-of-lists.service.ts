@@ -199,7 +199,7 @@ export class ListOfListsService {
         icon          : itemListInfo.icon          != null  ? itemListInfo.icon         : dummyIcon,
         dataPoints    : [],
         ctaBtn        : '',
-        ctaDesc       : 'What to see the ' + profileTypePlural + ' in this list?',
+        ctaDesc       : 'Want to see the ' + profileTypePlural + ' in this list?',
         ctaText       : 'View The List',
         ctaUrl        : MLBGlobalFunctions.formatListRoute(ctaUrlArray)
       };
