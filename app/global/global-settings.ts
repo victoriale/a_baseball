@@ -97,7 +97,7 @@ export class GlobalSettings {
       // var partnerPage = /myhomerunzone/.test(hostname);
       var partnerPage = /localhost/.test(hostname);
       var name = window.location.pathname.split('/')[1];
-      console.log("GlobalSettings:", 'partnerPage =>', partnerPage, 'name =>', name);
+      //console.log("GlobalSettings:", 'partnerPage =>', partnerPage, 'name =>', name);
 
       //PLEASE REVISIT and change
       if(partnerPage && (name == '' || name == 'deep-dive')){
