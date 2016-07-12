@@ -116,7 +116,7 @@ export class ArticlesModule implements OnInit {
         var awayName = awayData.location + ' ' + awayData.name;
         val['homeID'] = homeData.id;
         val['homeLocation'] = homeData.location;
-        val['homeName'] = homeData.name;
+        val['homeName'] = homeData.name.toLowerCase() != "diamondbacks" ? homeData.name : "D'backs";
         val['homeHex'] = homeData.hex;
         if (this.teamID == homeData.id) {
             val['homeLogo'] = {
@@ -147,7 +147,7 @@ export class ArticlesModule implements OnInit {
         val = [];
         val['awayID'] = awayData.id;
         val['awayLocation'] = awayData.location;
-        val['awayName'] = awayData.name;
+        val['awayName'] = awayData.name.toLowerCase() != "diamondbacks" ? awayData.name : "D'backs";
         val['awayHex'] = awayData.hex;
         if (this.teamID == awayData.id) {
             val['awayLogo'] = {
