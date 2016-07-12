@@ -211,7 +211,7 @@ export class ListOfListsService {
 
         listData.dataPoints.push(
           {
-            imageClass : index > 0 ? "image-43" : "image-121",
+            imageClass : index > 0 ? "image-43" : "image-125",
             mainImage: {
               imageUrl        : val.imageUrl != null ? GlobalSettings.getImageUrl(val.imageUrl) : GlobalSettings.getImageUrl(val.teamLogo),
               urlRouteArray   : version == "page" || index > 0 ? itemUrlRouteArray : null,
