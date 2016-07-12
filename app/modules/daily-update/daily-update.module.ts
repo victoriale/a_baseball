@@ -44,7 +44,7 @@ export class DailyUpdateModule {
 
   constructor(private _sanitizer: DomSanitizationService){
     this.imageConfig = {
-      imageClass: "image-125",
+      imageClass: "image-121",
       mainImage: {
         imageClass: "border-2",
         imageUrl: GlobalSettings.getSiteLogoUrl(),
@@ -144,7 +144,7 @@ export class DailyUpdateModule {
         column: {
           pointPadding: 0,
           borderWidth: 0,
-          groupPadding: 0.14,
+          groupPadding: .10,
           minPointLength: 3,
           dataLabels: {
             enabled: true,
