@@ -361,14 +361,14 @@ export class TeamPage implements OnInit {
 
     private playerStatsTabSelected(tabData: Array<any>) {
          //only show 4 rows in the module
-        this._playerStatsService.getStatsTabData(tabData, this.pageParams, data => {}, 4);
+        this._playerStatsService.getStatsTabData(tabData, this.pageParams, data => {}, 5);
     }
 
     private setupShareModule() {
         let profileHeaderData = this.profileHeaderData;
         let imageUrl = !profileHeaderData.profileImageUrl ? GlobalSettings.getImageUrl('/mlb/players/no-image.png') : profileHeaderData.profileImageUrl;
-        let shareText = !profileHeaderData.profileName ? 
-            'Share This Profile Below' : 
+        let shareText = !profileHeaderData.profileName ?
+            'Share This Profile Below' :
             'Share ' + GlobalFunctions.convertToPossessive(profileHeaderData.profileName) + ' Profile Below:';
 
         this.shareModuleInput = {
@@ -392,7 +392,7 @@ export class TeamPage implements OnInit {
     setupListOfListsModule() {
         let params = {
           id : this.pageParams.teamId,
-          limit : 4,
+          limit : 5,
           pageNum : 1
         }
         this._lolService.getListOfListsService(params, "team", "module")

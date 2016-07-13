@@ -1,4 +1,4 @@
-transactions{
+.transactions{
   .image-round, .image-round-sub{
     background: @white;
   }
@@ -82,8 +82,9 @@ transactions{
         position: absolute;
         left: 242px;
         font-size: 16px;
-        width: 390px;
-
+        width: 375px;
+        overflow: hidden;
+        text-overflow: ellipsis;
         a:hover {
           color: @masterBrandColor;
         }

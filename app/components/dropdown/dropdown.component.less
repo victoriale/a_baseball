@@ -1,34 +1,34 @@
 .dropdown {
   position: relative;
-  
+
   &-hdr {
     background-color: @backgroundGrey;
-    padding: 3px 5px;
+    padding: 7px 15px 0 15px;
     text-align: left;
-    line-height: 1.2;
+    line-height: 1.2em;
+    height: 30px;
     outline: none;
     .globalDefaultFont(12px, 400);
     .flexDisplay;
     .flexJustify(space-between);
-    
-    &-value {      
+    &-value {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
-  
+
     &-button {
       padding-left: 12px;
       text-align: right;
       float: right;
-    }    
+    }
   }
-  
+
   &-active, &:hover {
-    border-color: @masterBrandColor;  
+    border-color: @masterBrandColor;
     cursor: pointer;
   }
-  
+
   &-wrapper {
     position: relative;
   }
@@ -38,14 +38,14 @@
     border: @masterBrandColor 1px solid;
     border-radius: 3px;
     width: 100%;
-    
+
     position: absolute;
     top: 10px;
     z-index: 100;
-    
+
     &-scroll .scrollable-item {
       height: 160px;
-      
+
       .dropdown-list-option {
         padding: 10px 9px;
         box-sizing: content-box;
@@ -57,42 +57,42 @@
         border-radius: 2.5px;
         background: @textEmphasisGrey;
       }
-      
+
       &.showScroll::after {
         display: none;
       }
     }
-  
+
     &-option {
       height: auto;
       text-align: left;
       .globalDefaultFont(12px, 400);
       padding: 10px 8px;
       border-bottom: 1px solid @strokeGrey;
-      
+
       &:last-child {
         border-bottom: none;
       }
-      
+
       &.active, &:hover {
         cursor: pointer;
         background-color: @masterBrandColor;
         color: @white;
-  
+
         &.dropdown-grp-lbl {
           cursor: default;
           background-color: @white;
           color: @bulletGrey;
-        } 
+        }
       }
-    }    
+    }
   }
-  
+
   .dropdown-grp {
     &-lbl {
       color: @bulletGrey;
-    } 
-    
+    }
+
     &-item-txt {
       padding-left: 15px;
       display: block;
@@ -118,9 +118,9 @@
       border-left: 4px solid transparent;
       border-right: 4px solid transparent;
     }
-    
+
     &-hover::after, &-active::after {
-      border-bottom-color: @masterBrandColor;      
+      border-bottom-color: @masterBrandColor;
     }
   }
 }

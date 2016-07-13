@@ -17,30 +17,30 @@
     padding: 0px;
 
     &-content {
-      padding: 0 10px;
+      padding: 0 15px;
     }
   }
 
   &-table-title {
+    .flexDisplay;
+    .flexAlignItems(center);
+    .flexJustify(space-between);
     h4 {
       margin: 0px;
       .globalDefaultFont(18px, 400);
     }
-    margin: 20px 25px;
+    margin: 20px 15px;
   }
 
   &-season-dropdown {
     margin: 0px;
     float: right;
-    display: flex;
+    .flexDisplay;
+    .flexAlignItems(center);
     .globalDefaultFont(12px, 400);
-
     .dropdown {
       margin-left: 11px;
       width: 145px;
-      &-hdr {
-        padding: 4px;
-      }
     }
   }
 
