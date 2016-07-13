@@ -1,9 +1,11 @@
 import {Component, OnInit, Input} from '@angular/core';
+import {SidekickWrapper} from '../../components/sidekick-wrapper/sidekick-wrapper.component';
+import {WidgetModule} from '../../modules/widget/widget.module';
 
 @Component({
     selector: 'deep-dive-page',
     templateUrl: './app/webpages/deep-dive-page/deep-dive.page.html',
-    directives: [],
+    directives: [SidekickWrapper, WidgetModule],
     providers: [],
 })
 
