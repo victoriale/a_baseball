@@ -125,7 +125,9 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
     var playerRoute = MLBGlobalFunctions.formatPlayerRoute(item.teamName, item.playerName, item.playerId.toString());
     var playerLinkText = {
       route: playerRoute,
-      text: item.playerName
+      text: item.playerName,
+      class: 'text-heavy'
+
     }
     var teamRoute =this.isTeamProfilePage ? null : MLBGlobalFunctions.formatTeamRoute(item.teamName, item.teamId.toString());
     var teamLinkText = {
