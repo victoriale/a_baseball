@@ -1,25 +1,55 @@
 <div class="ss_container">
   <div class="ss_title">
     <span class="ss_title-1">MLB</span>
-    <span class="ss_title-2">UPCOMING GAMES</span>
+    <span class="ss_title-2">Upcoming Games</span>
   </div>
   <div class="side_scroll"><!--become a component <side-scoll-box>-->
 
-    <div class="side_scroll-left"></div>
+    <div class="side_scroll-left disabled"><i class="fa fa-angle-left"></i></div>
     <!--possible <ng-content>-->
     <div class="side_scroll-box">
 
-        <div class="schedule-box"><!--become a component <schedule-box>-->
-        </div><!--</schedule-box>-->
-        <div class="schedule-box"><!--become a component <schedule-box>-->
-        </div><!--</schedule-box>-->
-        <div class="schedule-box"><!--become a component <schedule-box>-->
-        </div><!--</schedule-box>-->
+      <div class="schedule_box"><!--become a component <schedule-box>-->
+        <div class="schedule_box-date">
+          [Month] [DD] [YYYY] <i class="fa fa-circle"></i> [Time PM]
+        </div>
+        <div class="schedule_box-versus">
+          <div class="schedule_box-team">
+            <div class="schedule_box-image">
+              Image Here
+            </div>
+            <span class="schedule_box-text">
+              [Team1]
+            </span>
+          </div>
+          <div class="schedule_box-team">
+            <div class="schedule_box-image">
+              Image Here
+            </div>
+            <span class="schedule_box-text">
+              [Team1]
+            </span>
+          </div>
+          <div class="schedule_box-linkbox">
+            GET STORIES
+          </div>
+        </div>
+      </div><!--</schedule-box>-->
+      <div class="schedule_box"><!--become a component <schedule-box>-->
+      </div><!--</schedule-box>-->
+      <div class="schedule_box"><!--become a component <schedule-box>-->
+      </div><!--</schedule-box>-->
+      <div class="schedule_box"><!--become a component <schedule-box>-->
+      </div><!--</schedule-box>-->
+      <div class="schedule_box"><!--become a component <schedule-box>-->
+      </div><!--</schedule-box>-->
+      <div class="schedule_box"><!--become a component <schedule-box>-->
+      </div><!--</schedule-box>-->
 
     </div>
     <div class="side_scroll-overlay"></div>
     <!--</ng-content>-->
-    <div class="side_scroll-right"></div>
+    <div class="side_scroll-right"><i class="fa fa-angle-right"></i></div>
 
   </div><!--</side-scoll-box>-->
 </div>
