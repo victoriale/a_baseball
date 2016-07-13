@@ -1,13 +1,14 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Search, SearchInput} from '../../components/search/search.component';
 import {Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import {SubHeaderComponent} from '../../components/sub-header/sub-header.component';
 declare var stButtons: any;
 declare var jQuery:any;
 
 @Component({
     selector: 'header-component',
     templateUrl: './app/components/header/header.component.html',
-    directives: [Search, ROUTER_DIRECTIVES],
+    directives: [Search, ROUTER_DIRECTIVES, SubHeaderComponent],
     inputs: [],
     providers: [],
 })
