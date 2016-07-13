@@ -62,27 +62,31 @@ export class BoxScoresService {
     if ( boxScoresData == null || boxScoresData.transformedDate[dateParam.date] == null ) {
       this.getBoxScoresService(dateParam.profile, dateParam.date, dateParam.teamId)
         .subscribe(data => {
+          if(data.transformedDate[dateParam.date] != null){
             let currentBoxScores = {
               scoreBoard: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null ? this.formatScoreBoard(data.transformedDate[dateParam.date][0]) : null,
               moduleTitle: this.moduleHeader(dateParam.date, profileName),
-              gameInfo: data.transformedDate[dateParam.date] != null ? this.formatGameInfo(data.transformedDate[dateParam.date],dateParam.teamId, dateParam.profile): null,
+              gameInfo: this.formatGameInfo(data.transformedDate[dateParam.date],dateParam.teamId, dateParam.profile),
               schedule: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null? this.formatSchedule(data.transformedDate[dateParam.date][0], dateParam.teamId, dateParam.profile) : null,
               // aiContent: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null? this.formatArticle(data.transformedDate[dateParam.date][0]) : null,
             };
             currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
             callback(data, currentBoxScores);
+          }
         })
     }
     else {
-      let currentBoxScores = {
-        scoreBoard: dateParam.profile != 'league' && boxScoresData.transformedDate[dateParam.date] != null ? this.formatScoreBoard(boxScoresData.transformedDate[dateParam.date][0]) : null,
-        moduleTitle: this.moduleHeader(dateParam.date, profileName),
-        gameInfo: boxScoresData.transformedDate[dateParam.date] != null ? this.formatGameInfo(boxScoresData.transformedDate[dateParam.date],dateParam.teamId, dateParam.profile): null,
-        schedule: dateParam.profile != 'league' && boxScoresData.transformedDate[dateParam.date] != null? this.formatSchedule(boxScoresData.transformedDate[dateParam.date][0], dateParam.teamId, dateParam.profile) : null,
-        // aiContent: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null? this.formatArticle(data.transformedDate[dateParam.date][0]) : null,
-      };
-      currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
-      callback(boxScoresData, currentBoxScores);
+      if(boxScoresData.transformedDate[dateParam.date] != null){
+        let currentBoxScores = {
+          scoreBoard: dateParam.profile != 'league' && boxScoresData.transformedDate[dateParam.date] != null ? this.formatScoreBoard(boxScoresData.transformedDate[dateParam.date][0]) : null,
+          moduleTitle: this.moduleHeader(dateParam.date, profileName),
+          gameInfo: this.formatGameInfo(boxScoresData.transformedDate[dateParam.date],dateParam.teamId, dateParam.profile),
+          schedule: dateParam.profile != 'league' && boxScoresData.transformedDate[dateParam.date] != null? this.formatSchedule(boxScoresData.transformedDate[dateParam.date][0], dateParam.teamId, dateParam.profile) : null,
+          // aiContent: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null? this.formatArticle(data.transformedDate[dateParam.date][0]) : null,
+        };
+        currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
+        callback(boxScoresData, currentBoxScores);
+      }
     }
   }
 
