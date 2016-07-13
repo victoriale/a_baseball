@@ -95,7 +95,7 @@ export class BoxScoresService {
     var year = moment(date,"YYYY-MM-DD").tz('America/New_York').format("YYYY");
     var convertedDate = month + ' ' + day + ordinal + ', ' + year;
 
-    moduleTitle = "Box Scores - " + team + ' : ' +convertedDate;
+    moduleTitle = "Box Scores - " + team + ': ' +convertedDate;
     return {
       moduleTitle: moduleTitle,
       hasIcon: false,
@@ -306,17 +306,7 @@ export class BoxScoresService {
     let aiContent = data.aiContent;
     var gameArticle = {};
     for(var report in aiContent.featuredReport){
-      switch(report){
-        case 'postgame-report':
-        gameArticle['report'] = "Post Game Report";
-        break;
-        case 'pregame-report':
-        gameArticle['report'] = "Pre Game Report";
-        break;
-        default:
-        gameArticle['report'] = "Mid Game Report";
-        break;
-      }
+      gameArticle['report'] = "Read The Report";
       gameArticle['headline'] = aiContent.featuredReport[report].displayHeadline;
       gameArticle['articleLink'] = ['Article-pages',{eventType:report,eventID:aiContent.event}];
       var i = aiContent['home']['images'];
