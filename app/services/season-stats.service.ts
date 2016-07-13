@@ -256,8 +256,7 @@ export class SeasonStatsService {
     var teamRoute = MLBGlobalFunctions.formatTeamRoute(playerInfo.teamName, playerInfo.teamId);
     var teamRouteText = {
       route: teamRoute,
-      text: playerInfo.teamName,
-      class: 'text-heavy'
+      text: playerInfo.teamName
     };
     var playerRouteText = {
       text: playerInfo.playerName

@@ -137,9 +137,9 @@ export class MLBStandingsTabData implements StandingsTableTabData<TeamStandingsD
       profileNameLink: teamNameLink,
       description:[
           "The ", teamNameLink,
-          " are currently <span class='text-heavy'>ranked " + item.rank + GlobalFunctions.Suffix(item.rank) +
-          "</span>" + " in the <span class='text-heavy'>" + item.groupName +
-          "</span>, with a record of " + "<span class='text-heavy'>" + item.totalWins + " - " + item.totalLosses +
+          " are currently <span class='text-heavy'>ranked " + item.rank + GlobalFunctions.Suffix(item.rank) + 
+          "</span>" + " in the <span class='text-heavy'>" + item.groupName + 
+          "</span>, with a record of " + "<span class='text-heavy'>" + item.totalWins + " - " + item.totalLosses + 
           "</span>."
       ],
       lastUpdatedDate: item.displayDate,
@@ -287,7 +287,7 @@ export class MLBStandingsTableModel implements TableModel<TeamStandingsData> {
     }
     if ( display == null ) {
       display = "N/A";
-    }
+    }    
     return new CellData(display, sort, link, imageUrl);
   }
 }
