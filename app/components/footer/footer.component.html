@@ -12,43 +12,30 @@
   </section>
 
   <section class="footer-main col-xs-12">
-    <h1>Major League Baseball</h1>
-    <ul>
-        <li class="sortCategory">Team Listings </li>
-        <li *ngFor="let link of teamDirectoryListings; let isLast=last">
-          <a [routerLink]='link.route'>{{link.text}}</a>
-          <span *ngIf="!isLast" class="separator">|</span>
-        </li>
-    </ul>
-    <ul>
-        <li class="sortCategory">Player Listings </li>
-        <li *ngFor="let link of playerDirectoryListings; let isLast=last">
-          <a [routerLink]='link.route'>{{link.text}}</a>
-          <span *ngIf="!isLast" class="separator">|</span>
-        </li>
-    </ul>
-    <hr /><!--line break-->
-    <ul>
-      <li>MLB Teams: </li>
+    <br>
+    <dropdown-directory [heading]="'Team Listings'">
+      <li *ngFor="let link of teamDirectoryListings">
+        <a [routerLink]='link.route'>{{link.text}}</a>
+      </li>
+    </dropdown-directory>
+    <br>
+    <dropdown-directory [heading]="'Player Listings'">
+      <li *ngFor="let link of playerDirectoryListings">
+        <a [routerLink]='link.route'>{{link.text}}</a>
+      </li>
+    </dropdown-directory>
+    <br>
+    <dropdown-directory [heading]="'MLB Teams'" [width]="'fullWidth'">
       <li *ngFor="let link of mlbTeamListings">
         <a [routerLink]='link.route'>{{link.text}}</a>
-        <span class="separator">|</span>
       </li>
-      <li class="footer-text1"><a [routerLink]="['Directory-page-starts-with', { type: 'teams', startsWith: 'A', page: 1 }]">View All MLB Profiles</a> <i class="fa fa-caret-right"></i></li>
-    </ul>
-    <hr /><!--line break-->
-    <ul class="footer-text1" id="set-width70">
-      <li>You Might Like: </li>
-      <li><a [routerLink]="['List-page', {profile:'team', listname: 'batter-home-runs', sort:'asc', conference: 'all', division: 'all', limit: '10', pageNum:'1'} ]"><b>Teams with the most home runs</b></a> <i class="fa fa-caret-right"></i></li>
-      <li><a [routerLink]="['List-page', {profile:'player', listname: 'batter-bases-on-balls', sort:'asc', conference: 'all', division: 'all', limit: '10', pageNum:'1'} ]"><b>Batters with the most bases on balls received</b></a> <i class="fa fa-caret-right"></i></li>
-      <li><a [routerLink]="['List-page', {profile:'player', listname: 'pitcher-strikeouts', sort:'asc', conference: 'all', division: 'all', limit: '10', pageNum:'1'} ]"><b>Pitchers with the most strikeouts thrown</b></a></li>
-    </ul>
-    <hr /><!--line break-->
+    </dropdown-directory>
+    <br>
     <ul>
-        <li class="footer-text1"><a [routerLink]="['Home-page']"><b>{{linkName}}</b></a> <i class="fa fa-caret-right"></i></li>
+        <li class="footer-text1"><a [routerLink]="['Home-page']"><b>{{linkName}}</b></a></li>
+    </ul>
+    <ul>
         <li><a [routerLink]="['Contact-us-page']">Advertise with {{pageName}}</a> <i class="fa fa-caret-right"></i></li>
-    </ul>
-    <ul>
         <li><a [routerLink]="['Contact-us-page']"><b>Contact Us</b></a> <i class="fa fa-caret-right"></i></li>
         <li><a [routerLink]="['Disclaimer-page']"><b>Disclaimer</b></a><i class="fa fa-caret-right"></i></li>
         <li><a [routerLink]="['About-us-page']"><b>About Us</b></a></li>
