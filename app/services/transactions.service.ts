@@ -256,18 +256,18 @@ export class TransactionsService {
     listDataArray = data.map(function(val, index){
       var playerRoute = null;
       if ( ( !val.roleStatus && val.active == 'injured' ) || val.active == 'active' ) {
-        playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.playerName, val.playerName, val.playerId);;
+        playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.playerName, val.playerName, val.playerId);
       }
       var playerTextLink = {
         route: playerRoute,
-        text: val.playerLastName + ", " + val.playerFirstName
+        text: val.playerLastName + ", " + val.playerFirstName + ": "
       }
 
       return {
         dataPoints: [{
           style   : 'transactions-small',
           data    : GlobalFunctions.formatDateWithAPMonth(new Date(val['repDate']), "", " DD, YYYY"),
-          value   : [playerTextLink, ": " + val.contents],
+          value   : [playerTextLink, val.contents],
           url     : null
         }],
         imageConfig: TransactionsService.getListImageData(GlobalSettings.getImageUrl(val.playerHeadshot), playerRoute)
