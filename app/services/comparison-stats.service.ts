@@ -23,7 +23,7 @@ export interface PlayerData {
   teamColors: Array<string>
   mainTeamColor: string;
   uniformNumber: number;
-  position: string;
+  position: Array<string>;
   height: string;
   weight: number;
   age: number;
@@ -361,8 +361,7 @@ export class ComparisonStatsService {
           {
             value: playerTwoStats != null ? this.getNumericValue(key, playerTwoStats[key]) : null,
             // color: data.playerTwo.mainTeamColor,
-            color: '#444444',
-            fontWeight: '700'
+            color: '#444444'
           }],
           minValue: worstStats != null ? this.getNumericValue(key, worstStats[key]) : null,
           maxValue: bestStats != null ? this.getNumericValue(key, bestStats[key]) : null,

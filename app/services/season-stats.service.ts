@@ -132,7 +132,7 @@ export class SeasonStatsService {
     for ( var index in statsToInclude ) {
       var fieldName = statsToInclude[index];
       var infoBox = null;
-      
+
       //catch no stat data
       var worstValue = stats.worst[fieldName] != undefined ? stats.worst[fieldName] : null;
       var leaderValue = stats.leader[fieldName] != undefined ? stats.leader[fieldName] : null;
@@ -241,7 +241,7 @@ export class SeasonStatsService {
       comparisonLegendData: {
         legendTitle: [
           { text: subTitle, class: 'text-heavy' },
-          { text: ' Breakdown' }
+          { text: ' Stats' }
         ],
         legendValues: legendValues
       },

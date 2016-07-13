@@ -201,7 +201,7 @@ export class ComparisonModule implements OnInit, OnChanges {
                     imageUrl: GlobalSettings.getImageUrl(player.playerHeadshot),
                     urlRouteArray: playerRoute,
                     hoverText: "<p>View</p><p>Profile</p>",
-                    imageClass: "border-large"
+                    imageClass: "border-med"
                 },
                 subImages: [
                     // {
@@ -219,7 +219,7 @@ export class ComparisonModule implements OnInit, OnChanges {
             titleUrl: playerRoute,
             title: player.playerName,
             description: ["Position: ",
-                { text: player.position, class: 'text-heavy' },
+                { text: player.position.join(', '), class: 'text-heavy' },
                 { text: "<br>", class: "line-break" },
                 "Team: ",
                 {
