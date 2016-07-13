@@ -82,23 +82,23 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
     if ( this.isPitcherTable ) {
       this.glossary = [
         {key: "W/L", value: "Wins/Losses"},
-        {key: "ERA", value: "Earned Run Average"},
-        {key: "WHIP", value: "Walks + Hits per Inning Pitched"},
-        {key: "IP", value: "Innings Pitched"},
         {key: "BB", value: "Walks Pitched (Bases on Balls)"},
+        {key: "IP", value: "Innings Pitched"},
+        {key: "WHIP", value: "Walks + Hits per Inning Pitched"},
+        {key: "SO", value: "Strikeouts"},
         {key: "SV", value: "Saves"},
-        {key: "SO", value: "Strikeouts"}
+        {key: "ERA", value: "Earned Run Average"}
       ];
     }
     else {
       this.glossary = [
         {key: "HR", value: "Homeruns"},
-        {key: "H", value: "Hits"},
-        {key: "OBP", value: "On-Base Percentage"},
-        {key: "BA", value: "Batting Average"},
         {key: "BB", value: "Walks (Bases on Balls)"},
+        {key: "BA", value: "Batting Average"},
+        {key: "OBP", value: "On-Base Percentage"},
+        {key: "RBI", value: "Runs Batted In"},
         {key: "SLG", value: "Slugging Percentage"},
-        {key: "RBI", value: "Runs Batted In"}
+        {key: "H", value: "Hits"}
       ];
     }
     var currYear = new Date().getFullYear();
@@ -361,7 +361,7 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
           var losses = item.pitchLosses + "";
           sort = ('00000' + wins).substr(wins.length) + "/" + ('00000' + losses).substr(losses.length); //pad with zeros
         }
-        
+
         break;
 
       case "ip":
@@ -408,7 +408,7 @@ export class MLBPlayerStatsTableModel implements TableModel<PlayerStatsData> {
     }
     if ( display == null ) {
       display = "N/A";
-    }    
+    }
     return new CellData(display, sort, link, imageUrl);
   }
 }
