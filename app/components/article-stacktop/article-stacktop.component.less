@@ -1,0 +1,63 @@
+.article-stacktop-container {
+  width: 610px;
+  &-title {
+    font-weight: 900;
+    line-height: 1.2;
+    letter-spacing: -0.1px;
+    color: @black;
+    font-family: Lato;
+    font-size: 32px;
+    &-top {
+      font-size: 11px;
+     >span {
+       color:@strokeGrey;
+     }
+    }
+  }
+  &-titleinfo {
+    font-family: Lato;
+    font-size: 14px;
+    font-weight: 900;
+    line-height: 2.14;
+    color: @strokeGrey;
+    margin-bottom: 15px;
+    margin-top:12px;
+  }
+  &-image {
+    width: 610px;
+    height: 421px;
+    background-color: @masterBackgroundColor;
+  }
+  &-text {
+    font-family: Lato;
+    font-size: 12px;
+    font-weight: normal;
+    color: #000000;
+    margin-top: 10px;
+    line-height: normal;
+  }
+  
+
+
+
+}
+@media (min-width: 768px) {
+  .article-stacktop-container {
+    width: 670px;
+    &-image {
+      width: 670px;
+    }
+  }
+
+}
+@media(min-width: 1440px) {
+  .article-stacktop-container {
+    width:100%;
+    &-image {
+      width: 750px;
+    }
+  }
+  &-text {
+    font-size:21px;
+  }
+}

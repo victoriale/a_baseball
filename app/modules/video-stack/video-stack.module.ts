@@ -1,14 +1,14 @@
 import {Component,OnInit} from '@angular/core';
 
 @Component({
-  selector: 'tile-stack-module',
-  templateUrl: './app/modules/tile-stack/tile-stack.module.html',
+  selector: 'video-stack-module',
+  templateUrl: './app/modules/video-stack/video-stack.module.html',
   directives: [],
   providers: []
 
 })
 
-export class TileStackModule{
+export class VideoStackModule{
   constructor(){
 
   }
