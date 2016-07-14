@@ -1,12 +1,8 @@
 .article-stacktop-container {
   width: 610px;
   &-title {
-    font-weight: 900;
+    .globalDefaultModFont(32px, 800, @black);
     line-height: 1.2;
-    letter-spacing: -0.1px;
-    color: @black;
-    font-family: Lato;
-    font-size: 32px;
     &-top {
       font-size: 11px;
      >span {
@@ -15,11 +11,8 @@
     }
   }
   &-titleinfo {
-    font-family: Lato;
-    font-size: 14px;
-    font-weight: 900;
+    .globalDefaultModFont(14px, 800, @strokeGrey);
     line-height: 2.14;
-    color: @strokeGrey;
     margin-bottom: 15px;
     margin-top:12px;
   }
@@ -29,12 +22,10 @@
     background-color: @masterBackgroundColor;
   }
   &-text {
-    font-family: Lato;
-    font-size: 12px;
-    font-weight: normal;
-    color: #000000;
+  .globalDefaultModFont(12px, 400, @black);
     margin-top: 10px;
-    line-height: normal;
+    line-height: 1.2;
+
   }
 
 
@@ -56,8 +47,8 @@
     &-image {
       width: 750px;
     }
-  }
-  &-text {
-    font-size:21px;
+    &-text {
+      font-size:14px;
+    }
   }
 }
