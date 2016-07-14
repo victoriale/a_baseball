@@ -258,9 +258,9 @@ export class ListPageService {
           var position = val.position.join(", ");
           description = [
             teamLinkText,
-            '<span class="separator">|</span> ',
+            '<span class="separator">   |   </span> ',
             'Jersey: #'+val.uniformNumber,
-            ' <span class="separator">|</span> ',
+            ' <span class="separator">   |   </span> ',
             position
           ];
         }
@@ -306,7 +306,7 @@ export class ListPageService {
             val.stat,
             [ //sub left text
               {text: teamLocation},
-              {text: "|", class: "separator"},
+              {text: "   |   ", class: "separator"},
               {text: "Division: " + divisionName},
             ],
             statDescription,
@@ -330,9 +330,9 @@ export class ListPageService {
             val.stat,
             [ //sub left text
               {route: teamRoute, text: val.teamName, class: "dataBox-subLink"},
-              {text: "|", class: "separator"},
+              {text: "   |   ", class: "separator"},
               {text: "Jersey: #" + val.uniformNumber},
-              {text: "|", class: "separator"},
+              {text: "   |   ", class: "separator"},
               {text: position},
             ],
             statDescription,
