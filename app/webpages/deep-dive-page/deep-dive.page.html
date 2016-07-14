@@ -2,9 +2,16 @@
     <div class="newsCarousel"></div>
     <side-scroll-schedules></side-scroll-schedules>
     <div class="container2"></div>
+    <div class="horizontal_widget">
+      <div class="horizontal_widget-large"></div>
+      <div class="horizontal_widget-small"></div>
+    </div>
     <div class="container3"></div>
     <div class="container4"></div>
-    <div class="container5">//CODE HERE</div>
+    <div class="container5">
+      <div class="box-scores">
+        <box-scores *ngIf="dateParam" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)" max-height='650' scroll='true'></box-scores>
+      </div>
+    </div>
   </section>
-<!-- </sidekick-wrapper> -->
-<!-- <widget-module></widget-module> -->
+  <div class="widget_wrapper"><widget-module></widget-module></div>
