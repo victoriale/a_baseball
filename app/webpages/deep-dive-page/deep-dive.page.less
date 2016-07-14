@@ -47,10 +47,15 @@
     .flexJustify(space-around);
     .box-scores{
       display:block;
-      width:670px;
+      width:640px;
       margin:0 auto;
     }
     .test_articles{
+      width:100%;
+      .flexDisplay;
+      .flexDirection(row);
+      .flexWrap(wrap);
+      .flexJustify(space-around);
       &-item{
         width:288px;
         height:247px;
@@ -120,5 +125,8 @@
 @media(min-width: 786){
   .horizontal_widget-small{
     display: none;
+  }
+  .container5{
+    width:640px;
   }
 }
