@@ -146,9 +146,7 @@ export class HomePage implements OnInit {
     getData(){
       this._landingPageService.getLandingPageService()
         .subscribe(data => {
-          // console.log(data);
           this.mlbTeams = data.league;
-          // console.log(this.mlbTeams);
         })
       var sampleImage = "./app/public/placeholder-location.jpg";
     }

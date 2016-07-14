@@ -40,7 +40,8 @@ export class LandingPageService {
         var div = data[league][division];
         div.forEach(function(val, index){//start converting team info
           val.teamFirstName = val.teamFirstName.toUpperCase();
-          var teamName = val.teamFirstName + ' ' + val.teamLastName.replace('Diamondbacks','D-backs');
+          val.teamLastName = val.teamLastName.replace("Diamondbacks","D-backs");
+          var teamName = val.teamFirstName + ' ' + val.teamLastName;
           val.teamRoute = MLBGlobalFunctions.formatTeamRoute(teamName, val.teamId.toString());
           val.imageData= {
             imageClass: "image-100",
