@@ -41,8 +41,21 @@
     width:100%;
     min-height:300px;
     background: @white;
+    .flexDisplay;
+    .flexDirection(row);
+    .flexWrap(wrap);
+    .flexJustify(space-around);
     .box-scores{
-      width:640px;
+      display:block;
+      width:670px;
+      margin:0 auto;
+    }
+    .test_articles{
+      &-item{
+        width:288px;
+        height:247px;
+        background-color: @black;
+      }
     }
   }
   .footer{
