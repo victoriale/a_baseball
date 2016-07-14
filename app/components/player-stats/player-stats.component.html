@@ -12,7 +12,7 @@
             Now Viewing:<dropdown [list]="tab.seasonIds" [selectedKey]="initialSeasonId" (selectionChanged)="dropdownChanged($event)"></dropdown>
           </p>
         </div>
-        
+
         <div *ngIf="tab.tableData" class="pane-content">
           <custom-table [model]="tab.tableData" (sortChanged)="updateCarousel($event)"></custom-table>
         </div>
@@ -27,7 +27,7 @@
         <h4 class="stats-glossary-title">Glossary</h4>
         <div class="stats-glossary-box row">
           <ul>
-            <li *ngFor="let term of tab.glossary" class="col-xs-4">
+            <li *ngFor="let term of tab.glossary" class="col-xs-6">
               <span class="text-heavy">{{term.key}}:</span> {{term.value}}
             </li>
           </ul>

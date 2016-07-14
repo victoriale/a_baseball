@@ -31,7 +31,16 @@
       }// ul li ends
     }// ul ends
   }// footer-top ends
-
+  @media (max-width: 640px) {
+    .displayDesktop {
+      display:none;
+    }
+  }
+  @media (min-width: 641px) {
+    .display640 {
+      display:none;
+    }
+  }
   &-main{
     background-color: @fontIconGrey;
     height: auto;
@@ -52,7 +61,6 @@
       .sortCategory{
         padding-right: 12px;
       }
-
       li{
         line-height: 25px;
         padding-right: 5px;
@@ -88,7 +96,6 @@
         font-style: italic;
       }
     }
-
   }// footer-main ends
   &-text1{
     a{
