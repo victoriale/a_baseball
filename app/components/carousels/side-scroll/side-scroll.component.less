@@ -1,0 +1,65 @@
+.side_scroll{
+  width:100%;
+  height:auto;
+  position: relative;
+  margin: 10px 0 15px;
+  .flexDisplay;
+  .flexDirection(row);
+  .flexWrap(nowrap);
+  .flexJustify(space-between);
+  text-align: center;
+  &-box{
+    width:100%;
+    height:160px;
+    padding-left: 50px;
+    overflow: hidden;
+  }
+  &-transition{
+    .flexDisplay;
+    .flexDirection(row);
+    .flexWrap(nowrap);
+  }
+  &-left{
+    width:40px;
+    height:105px;
+    background-color: @black;
+    position: absolute;
+    left:0;
+    top:0;
+    bottom:0;
+    margin: auto 0;
+    font-size: 30px;
+    color:@white;
+    cursor: pointer;
+   & > i {
+     line-height: 105px;// same as height of button
+    }
+  }
+  &-right{
+    width:40px;
+    height:105px;
+    background-color: @black;
+    position: absolute;
+    right:0;
+    top:0;
+    bottom:0;
+    margin: auto 0;
+    font-size: 30px;
+    color:@white;
+    cursor: pointer;
+    & > i {
+      line-height: 105px;// same as height of button
+     }
+  }
+  .disabled{
+    cursor: default;
+    background-color:@strokeGrey;
+  }
+  &-overlay{
+    width:50px;;
+    height:100%;
+    background: linear-gradient(-90deg, @white 0%, @whiteGradient 100%);
+    position: absolute;
+    right:0;
+  }
+}
