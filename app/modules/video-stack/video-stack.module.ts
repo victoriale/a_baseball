@@ -1,10 +1,12 @@
 import {Component,OnInit} from '@angular/core';
-import {VideoStacktopComponent} from '../../components/video-stacktop/video-stacktop.component'
+import {VideoStacktopComponent} from '../../components/video-stacktop/video-stacktop.component';
+import {VideoStackbotComponent} from '../../components/video-stackbot/video-stackbot.component'
+
 
 @Component({
   selector: 'video-stack-module',
   templateUrl: './app/modules/video-stack/video-stack.module.html',
-  directives: [VideoStacktopComponent],
+  directives: [VideoStacktopComponent,VideoStackbotComponent],
   providers: []
 
 })

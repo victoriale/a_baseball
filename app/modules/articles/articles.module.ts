@@ -116,11 +116,11 @@ export class ArticlesModule implements OnInit {
         var awayName = awayData.location + ' ' + awayData.name;
         val['homeID'] = homeData.id;
         val['homeLocation'] = homeData.location;
-        val['homeName'] = homeData.name;
+        val['homeName'] = homeData.name.toLowerCase() != "diamondbacks" ? homeData.name : "D'backs";
         val['homeHex'] = homeData.hex;
         if (this.teamID == homeData.id) {
             val['homeLogo'] = {
-                imageClass: "image-62",
+                imageClass: "image-68",
                 mainImage: {
                     imageUrl: homeData.logo,
                     imageClass: "border-logo"
@@ -131,7 +131,7 @@ export class ArticlesModule implements OnInit {
             let homeLink = MLBGlobalFunctions.formatTeamRoute(homeName, homeData.id);
             val['url'] = homeLink;
             val['homeLogo'] = {
-                imageClass: "image-62",
+                imageClass: "image-68",
                 mainImage: {
                     imageUrl: homeData.logo,
                     urlRouteArray: homeLink,
@@ -147,11 +147,11 @@ export class ArticlesModule implements OnInit {
         val = [];
         val['awayID'] = awayData.id;
         val['awayLocation'] = awayData.location;
-        val['awayName'] = awayData.name;
+        val['awayName'] = awayData.name.toLowerCase() != "diamondbacks" ? awayData.name : "D'backs";
         val['awayHex'] = awayData.hex;
         if (this.teamID == awayData.id) {
             val['awayLogo'] = {
-                imageClass: "image-62",
+                imageClass: "image-68",
                 mainImage: {
                     imageUrl: awayData.logo,
                     imageClass: "border-logo"
@@ -162,7 +162,7 @@ export class ArticlesModule implements OnInit {
             let awayLink = MLBGlobalFunctions.formatTeamRoute(awayName, awayData.id);
             val['url'] = awayLink;
             val['awayLogo'] = {
-                imageClass: "image-62",
+                imageClass: "image-68",
                 mainImage: {
                     imageUrl: awayData.logo,
                     urlRouteArray: awayLink,
