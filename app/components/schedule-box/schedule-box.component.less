@@ -8,8 +8,7 @@
   &-date{
     width:100%;
     height:30px;
-    font-size: 12px;
-    color: @black;
+    .globalDefaultModFont(12px, 400, @black);
     line-height: 30px;
     white-space: nowrap;
     overflow: hidden;
@@ -48,10 +47,8 @@
   &-text{
     display: inline-block;
     margin-top:6px;
-    font-size: 12px;
-    font-weight: 800;
+    .globalDefaultModFont(12px, 800, @black);
     text-align: center;
-    color:@black;
   }
   &-linkbox{
     width: 120px;
@@ -62,10 +59,9 @@
     right:0;
     margin:0 auto 10px;
     background-color: @white;
-    font-size: 12px;
+    .globalDefaultModFont(12px, 800, @black);
     line-height: 22px;
     text-align:center;
-    font-weight: 800;
     border:1px solid @highlightGrey;
   }
 }
