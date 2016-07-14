@@ -1,7 +1,7 @@
 .video-stacktop {
   width: 640px;
   display: flex;
-  //margin-bottom: 20px; // divides the 2 modules from each other
+  margin-top: 15px;//divides the two 'video-stacktop-components and the article module above 
 
   &-video {
     background-color: @strokeGrey;
@@ -56,6 +56,22 @@
     width: 768px;
     &-right {
       width: 352px;
+    }
+  }
+
+}
+@media (min-width: 1300px) {
+  .video-stacktop {
+    width: 728px;
+    margin-top: 15px;
+    &-video {
+      width: 320px;
+      height: 206px;
+      margin-left: 15px;
+    }
+    &-right {
+      width: 364px;
+      height: 190px;
     }
   }
 
