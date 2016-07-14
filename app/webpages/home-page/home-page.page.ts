@@ -1,6 +1,5 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {Title} from '@angular/platform-browser';
-
 import {GlobalSettings} from "../../global/global-settings";
 import {SliderButton} from "../../components/buttons/slider/slider.button";
 import {CircleImage} from '../../components/images/circle-image';
@@ -58,8 +57,12 @@ export class HomePage implements OnInit {
          placeholderText: "Search for a player or team...",
          hasSuggestions: true
      };
-
-     private isHomeRunZone: boolean = false;
+    private isHomeRunZone: boolean = false;
+    public gridDivCol: string;
+    public gridLMain: string;
+    public gridFeaturesOffset: string;
+    public gridFeaturesCol: string;
+    public width: number;
     constructor(private _router: Router,
                 private _landingPageService: LandingPageService,
                 private _title: Title) {
@@ -71,6 +74,20 @@ export class HomePage implements OnInit {
         var partnerHome = GlobalSettings.getHomeInfo().isHome && GlobalSettings.getHomeInfo().isPartner;
         this.isHomeRunZone = partnerHome;
       });
+    }
+    onResize(event) {
+      this.width = event.target.innerWidth;
+      if(this.width < 641){
+        this.gridDivCol = "col-xs-6";
+        this.gridLMain = "col-xs-12";
+        this.gridFeaturesOffset = "";
+        this.gridFeaturesCol = "col-xs-8";
+      } else {
+        this.gridDivCol = "col-lg-4";
+        this.gridLMain = "col-xs-10";
+        this.gridFeaturesOffset = "col-xs-offset-2";
+        this.gridFeaturesCol = "col-xs-8";
+      }
     }
     getListData(){
       this.listData = [
@@ -138,5 +155,7 @@ export class HomePage implements OnInit {
         })
       var sampleImage = "./app/public/placeholder-location.jpg";
     }
-    ngOnInit(){}
+    ngOnInit(){
+      this.onResize(event);
+    }
 }

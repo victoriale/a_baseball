@@ -638,9 +638,12 @@ goalsHeader
 }//.mod-page-btn ENDS
 //Button with text only, ex: home page in tile and slide carousel
 .mod-page-btn-text-only(@btnTxtOnlyBackGrnd, @btnTxtOnlyBackGrndHover, @btnTxtOnlyColor, @btnTxtOnlyFontSize, @btnTxtOnlyFontWeight){
+  @media (max-width: 640px){
+    padding: 5px 40px 10px 40px;
+  }
+  padding: 15px 40px;
   background-color: @btnTxtOnlyBackGrnd;
   text-align: center;
-  padding: 15px 40px;
   .borderRadiusPrefix(3px);
   .globalDefaultModFont(@btnTxtOnlyFontSize, @btnTxtOnlyFontWeight, @btnTxtOnlyColor);
   &:hover {

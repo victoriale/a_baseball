@@ -35,7 +35,6 @@ import {HeadlineDataService} from "../global/global-ai-headline-module-service";
 import {ModulePage} from "../webpages/module-page/module.page";
 import {ImagesTestPage} from "../webpages/images-test-page/images-test.page";
 import {DesignPage} from "../webpages/design-page/design.page";
-import {ComponentPage} from "../webpages/component-page/component.page";
 
 import {SanitizeHtml} from "../pipes/safe.pipe";
 import {SanitizeStyle} from "../pipes/safe.pipe";
@@ -251,11 +250,6 @@ import {DeepDivePage} from "../webpages/deep-dive-page/deep-dive.page";
         path: '/modules/:teamID',
         name: 'Module-page',
         component: ModulePage
-    },
-    {
-        path: '/components',
-        name: 'Component-page',
-        component: ComponentPage,
     },
     {
         path: '/design/:teamId',
