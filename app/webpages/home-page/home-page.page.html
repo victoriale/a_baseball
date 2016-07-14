@@ -21,7 +21,7 @@
           <h3 [innerHtml]="league.displayName"></h3>
           <section class="row">
             <!-- ngFor here for Division -->
-            <div class="col-xs-6 home-league-col" *ngFor="let division of league.dataArray">
+            <div class="col-lg-4 home-league-col" *ngFor="let division of league.dataArray">
               <h4>{{division.displayName}}</h4>
               <!-- ngFor here to get all the teams in the same division -->
               <a [routerLink]="team.teamRoute" class="home-team" *ngFor="let team of division.dataArray">
@@ -40,7 +40,7 @@
   </div>
   <div *ngIf="displayData" class="home-slider col-xs-12">
     <slider-button (scrollRight)="right()" (scrollLeft)="left()"></slider-button>
-    <div class="home-slider-news col-xs-offset-2 col-xs-6">
+    <div class="home-slider-news col-xs-offset-2 col-xs-3">
       <div>{{mlb}}</div>
       <h3><b>{{displayData.newsTitle}}</b></h3>
       <hr />
