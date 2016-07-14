@@ -139,7 +139,8 @@ export class MLBSeasonStatsTabData implements TableTabData<TeamSeasonStatsData> 
     var teamRoute = MLBGlobalFunctions.formatTeamRoute(playerData.teamName, playerData.teamId);
     var teamRouteText = {
       route: teamRoute,
-      text: playerData.teamName
+      text: playerData.teamName,
+      class: 'text-heavy'
     }
 
     return SliderCarousel.convertToCarouselItemType1(index, {
@@ -162,7 +163,7 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
   rows: Array<TeamSeasonStatsData>;
   selectedKey: string = "";
   isPitcher: boolean;
-  
+
   constructor(rows: Array<TeamSeasonStatsData>, isPitcher: boolean){
     this.rows = rows;
     if ( this.rows === undefined || this.rows === null ) {
@@ -279,7 +280,7 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
         key: "slg"
       }]
     };
-  }  
+  }
 
   setSelectedKey(key: string) {
     this.selectedKey = key;
@@ -301,7 +302,7 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
   isRowSelected(item:TeamSeasonStatsData, rowIndex:number): boolean {
     return null;
   }
-  
+
   getCellData(item:TeamSeasonStatsData, column:TableColumn):CellData {
     var display = "";
     var sort = null;
@@ -316,11 +317,11 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
 
       case "team":
         if ( isTotalColumn ) {
-          display = (item['sectionStat'] == "Average" ? "Total Average" : "Total").toUpperCase() + ":";       
+          display = (item['sectionStat'] == "Average" ? "Total Average" : "Total").toUpperCase() + ":";
         }
         else {
           display = item.teamInfo.teamName;
-        }        
+        }
         sort = item.teamInfo.teamName;
         link = MLBGlobalFunctions.formatTeamRoute(item.teamInfo.teamName,item.teamInfo.teamId);
         break;
