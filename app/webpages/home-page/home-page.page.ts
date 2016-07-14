@@ -60,7 +60,6 @@ export class HomePage implements OnInit {
     private isHomeRunZone: boolean = false;
     public gridDivCol: string;
     public gridLMain: string;
-    public gridFeaturesOffset: string;
     public gridFeaturesCol: string;
     public width: number;
     constructor(private _router: Router,
@@ -80,13 +79,11 @@ export class HomePage implements OnInit {
       if(this.width < 641){
         this.gridDivCol = "col-xs-6";
         this.gridLMain = "col-xs-12";
-        this.gridFeaturesOffset = "";
-        this.gridFeaturesCol = "col-xs-8";
+        this.gridFeaturesCol = "col-xs-12";
       } else {
         this.gridDivCol = "col-lg-4";
         this.gridLMain = "col-xs-10";
-        this.gridFeaturesOffset = "col-xs-offset-2";
-        this.gridFeaturesCol = "col-xs-8";
+        this.gridFeaturesCol = "col-xs-offset-2 col-xs-8";
       }
     }
     getListData(){

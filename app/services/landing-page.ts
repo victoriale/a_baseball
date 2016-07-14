@@ -34,15 +34,13 @@ export class LandingPageService {
     var self = this;
     var leagueArray = [];
     var teamArray = [];
-    var dummyImg = "./app/public/placeholder-location.jpg";
-    var dummyRoute = ['Team-page', {teamName:'yankees', teamId: 2796}];
     for(var league in data){//get each of the league given by data
       var divisionArray = [];
       for(var division in data[league]){//get each division within league data
         var div = data[league][division];
         div.forEach(function(val, index){//start converting team info
           val.teamFirstName = val.teamFirstName.toUpperCase();
-          var teamName = val.teamFirstName + ' ' + val.teamLastName;
+          var teamName = val.teamFirstName + ' ' + val.teamLastName.replace('Diamondbacks','D-backs');
           val.teamRoute = MLBGlobalFunctions.formatTeamRoute(teamName, val.teamId.toString());
           val.imageData= {
             imageClass: "image-100",
