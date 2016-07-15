@@ -15,9 +15,14 @@
     <div class="container3"></div>
     <div class="container4"></div>
     <div class="container5">
-      <div class="box-scores">
-        <box-scores *ngIf="dateParam" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)" max-height='650' scroll='true'></box-scores>
+      <box-scores *ngIf="dateParam" class="box-scores" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)" max-height='650' scroll='true'></box-scores>
+      <div class="box_articles">
+        <div class="box_articles-item"></div>
+        <div class="box_articles-item"></div>
+      </div>
+      <div class="box-widget">
+        
       </div>
     </div>
   </section>
-  <div class="widget_wrapper"><widget-module></widget-module></div>
+  <!-- <div class="widget_wrapper"><widget-module></widget-module></div> -->
