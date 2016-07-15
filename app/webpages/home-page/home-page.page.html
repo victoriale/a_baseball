@@ -1,4 +1,4 @@
-<section class="home container-fluid" *ngIf="!isHomeRunZone">
+<section class="home container-fluid" *ngIf="!isHomeRunZone" (window:resize)="onResize($event)">
   <div class="row">
     <div class="col-xs-12">
       <div class="row">
@@ -13,15 +13,16 @@
           </div>
         </div>
       </div>
-      <div class="home-main col-xs-offset-1 col-xs-10">
+      <h2 class="home-mlbhdr"><span class="home-main-h2" [innerHtml]="homeHeading2"></span></h2>
+      <!-- <div class="home-main col-xs-10"> -->
+      <div class="home-main {{gridLMain}}">
         <!--Extra span is needed to restrict width of top/bottom header border-->
-        <h2><span class="home-main-h2" [innerHtml]="homeHeading2"></span></h2>
         <!-- ngFor here for league -->
         <div class="home-league" *ngFor="let league of mlbTeams">
           <h3 [innerHtml]="league.displayName"></h3>
           <section class="row">
             <!-- ngFor here for Division -->
-            <div class="col-lg-4 home-league-col" *ngFor="let division of league.dataArray">
+            <div class="{{gridDivCol}} home-league-col" *ngFor="let division of league.dataArray">
               <h4>{{division.displayName}}</h4>
               <!-- ngFor here to get all the teams in the same division -->
               <a [routerLink]="team.teamRoute" class="home-team" *ngFor="let team of division.dataArray">
@@ -51,7 +52,7 @@
     </div>
   </div>
   <!-- end of news data carousel -->
-  <div class="home-features col-xs-offset-2 col-xs-8">
+  <div class="home-features {{gridFeaturesCol}}">
     <div class="home-features-title"><img src='{{imgIcon1}}' /><h2><span class="text-heavy">Features</span> to Note</h2></div>
     <div class=home-features-tiles>
       <a [routerLink]="routerInfo1" [ngStyle]="{'background-image': 'url('+imageTile1+')'}" class="home-features-tile1"><h3>{{homeFeaturesTile1}}</h3>
@@ -62,7 +63,7 @@
       <a [routerLink]="['MLB-page']" [ngStyle]="{'background-image': 'url('+imageTile2+')'}" class="home-features-tile2"><h3>{{homeFeaturesTile3}}</h3>
         <span class="tile-button">{{homeFeaturesButton3}}</span>
       </a>
-      <a [routerLink]="['Schedules-page-league', {pageNum:1}]" [ngStyle]="{'background-image': 'url('+imageTile3+')'}" class="home-features-tile1"><h3>{{homeFeaturesTile4}}</h3>
+      <a [routerLink]="['Schedules-page-league', {pageNum:1}]" [ngStyle]="{'background-image': 'url('+imageTile3+')'}" class="home-features-tile3"><h3>{{homeFeaturesTile4}}</h3>
         <span class="tile-button">{{homeFeaturesButton4}}</span>
       </a>
     </div>

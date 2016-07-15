@@ -1,8 +1,0 @@
-<div *ngIf="teamProfileHeaderData" class="page page-container">
-    <profile-header [profileHeaderData]="teamProfileHeaderData"></profile-header>
-      
-    <comparison-module [modelData]="comparisonModuleData" [profileName]="teamProfileHeaderData.profileName"></comparison-module>
-    
-    <player-stats-module *ngIf="playerStatsData" [data]="playerStatsData" (tabSelected)="playerStatsTabSelected($event)"></player-stats-module>
-  
-</div>
