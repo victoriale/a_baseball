@@ -219,11 +219,13 @@ export class TransactionsService {
         }
         var teamLinkText = {
           route: teamId == val.teamId ? null : teamRoute,
-          text: val.teamName
+          text: val.teamName,
+          class: 'text-heavy'
         };
         var playerLinkText = {
           route: playerRoute,
-          text: val.playerName
+          text: val.playerName,
+          class: 'text-heavy'
         };
         return SliderCarousel.convertToCarouselItemType1(index, {
           backgroundImage: GlobalSettings.getBackgroundImageUrl(val.backgroundImage),
@@ -260,7 +262,8 @@ export class TransactionsService {
       }
       var playerTextLink = {
         route: playerRoute,
-        text: val.playerLastName + ", " + val.playerFirstName + ": "
+        text: val.playerLastName + ", " + val.playerFirstName + ": ",
+        class: 'text-heavy'
       }
 
       return {
