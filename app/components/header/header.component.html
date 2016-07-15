@@ -1,24 +1,23 @@
 <header class="header container-fluid fixedHeader" id="pageHeader" (window:scroll)="onScrollStick($event)" [style.top]="_stickyHeader">
-  <div class="header-top">
-    <div class="header-left col-md-6">
-      <a href="/" class="header-left-icon"><img *ngIf="!partner" src="/app/public/homeRunLoyalLogo_Small.png" /></a>
-      <div class="placeholderImg" *ngIf="partner"></div>
-      <div class="header-mlb">MLB</div>
+  <section class="header-top">
+    <div id="header-hamburger" class="header-hamburger">
+      <i class="fa fa-arrow-down"></i><!--TODO-->
+      <i class="fa fa-remove"></i>
     </div>
-    <div class="header-right col-md-6">
+    <div class="header-logo">
+      <a href="/"><img src={{logoUrl}}/></a>
+    </div>
+    <div class="header-right">
       <div class="header-search">
-        <search [searchInput]="searchInput"></search>
+        <div class="header-search-searchBtn" tabindex="9999">
+          <i class="fa fa-search"></i>
+          <i class="fa fa-remove"></i>
+        </div>
+        <div class="header-search-searchBox"><search [searchInput]="searchInput"></search></div>
       </div>
       <div class="header-share st_sharethis_large"><i class="fa fa-share-alt"></i></div>
     </div>
-  </div>
-  <div class="header-bottom">
-    <div class="header-tabs">
-      <a class="header-tabs-tab active" [routerLink]="['Home-page']">Home</a>
-      <a class="header-tabs-tab" [routerLink]="['Standings-page']">Standings</a>
-      <a class="header-tabs-tab" [routerLink]="['Schedules-page-league', {pageNum:1}]">Schedule</a>
-      <a class="header-tabs-tab" [routerLink]="['MLB-page']">MLB Profile</a>
-    </div>
-  </div>
+  </section>
+
   <sub-header-component></sub-header-component>
 </header>
