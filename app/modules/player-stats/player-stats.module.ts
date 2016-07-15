@@ -3,7 +3,6 @@ import {Component, Input, OnInit, OnChanges, Output, EventEmitter} from '@angula
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer.component';
 import {PlayerStatsComponent, StatsTableTabData} from '../../components/player-stats/player-stats.component';
-import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
 export interface PlayerStatsModuleData {
   moduleTitle: string;
@@ -22,15 +21,12 @@ export interface PlayerStatsModuleData {
 @Component({
   selector: "player-stats-module",
   templateUrl: "./app/modules/player-stats/player-stats.module.html",
-  directives: [ModuleHeader, ModuleFooter, PlayerStatsComponent, ResponsiveWidget],
+  directives: [ModuleHeader, ModuleFooter, PlayerStatsComponent],
 })
 export class PlayerStatsModule implements OnChanges {
   @Input() data: PlayerStatsModuleData;
 
   @Output("tabSelected") tabSelectedListener = new EventEmitter();
-
-  public widgetPlace: string = "widgetForModule";
-  public widgetDisplayRes: number = 640;
 
   public headerInfo: ModuleHeaderData = {
     moduleTitle: "Player Stats",

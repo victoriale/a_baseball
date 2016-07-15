@@ -11,14 +11,13 @@ import {BarChartComponent} from '../../components/bar-chart/bar-chart.component'
 import {DailyUpdateData, DailyUpdateChart} from "../../services/daily-update.service";
 import {SanitizeHtml} from "../../pipes/safe.pipe";
 import {PossessivePipe} from "../../pipes/possessive.pipe";
-import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
 declare var jQuery:any;
 
 @Component({
     selector: 'daily-update-module',
     templateUrl: './app/modules/daily-update/daily-update.module.html',
-    directives: [ModuleHeader, CircleImage, NoDataBox, BarChartComponent, ROUTER_DIRECTIVES, ResponsiveWidget],
+    directives: [ModuleHeader, CircleImage, NoDataBox, BarChartComponent, ROUTER_DIRECTIVES],
     pipes: [SanitizeHtml, PossessivePipe]
 })
 
@@ -26,10 +25,6 @@ export class DailyUpdateModule {
   @Input() profileName: string = "[Profile Name]";
 
   @Input() data: DailyUpdateData;
-
-  public widgetPlace: string = "widgetForModule";
-
-  public widgetDisplayRes: number = 640;
 
   public chartOptions: any;
 

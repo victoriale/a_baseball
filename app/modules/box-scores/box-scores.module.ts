@@ -7,12 +7,11 @@ import {GameInfo} from '../../components/game-info/game-info.component';
 import {ScoreBoard} from '../../components/score-board/score-board.component';
 import {GameArticle} from '../../components/game-article/game-article.component';
 import {ScrollableContent} from '../../components/scrollable-content/scrollable-content.component';
-import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
 @Component({
     selector: 'box-scores',
     templateUrl: './app/modules/box-scores/box-scores.module.html',
-    directives: [ScrollableContent, GameArticle, ScoreBoard, GameInfo, ArticleScheduleComponent, CalendarCarousel,  ModuleHeader, ResponsiveWidget],
+    directives: [ScrollableContent, GameArticle, ScoreBoard, GameInfo, ArticleScheduleComponent, CalendarCarousel,  ModuleHeader],
     providers: [],
     outputs: ['dateEmit'],
 })
@@ -22,10 +21,6 @@ export class BoxScoresModule implements OnChanges{
   @Input() boxScores:any;
   @Input('max-height') maxHeight:number;
   @Input('scroll') scroll:boolean;
-
-  public widgetPlace: string = "widgetForModule";
-  public widgetDisplayRes: number = 640;
-
   // private moduleHeight: string;
   public dateEmit = new EventEmitter();
   private gameNum:number = 0;

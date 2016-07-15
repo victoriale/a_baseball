@@ -1,6 +1,5 @@
 import {Component, OnChanges, Input, Output, EventEmitter} from '@angular/core';
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
-import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
 export interface faqModuleData{
   question: string;
@@ -10,16 +9,13 @@ export interface faqModuleData{
 @Component({
     selector: 'faq-module',
     templateUrl: './app/modules/faq/faq.module.html',
-    directives: [ModuleHeader, ResponsiveWidget],
+    directives: [ModuleHeader],
 })
 
 export class FAQModule implements OnChanges {
   @Input() profileName: string;
   @Input() faqData: Array<faqModuleData>;
   @Output() faqSelected = new EventEmitter();
-
-  public widgetPlace: string = "widgetForModule";
-  public widgetDisplayRes: number = 640;
 
   public headerInfo: ModuleHeaderData = {
     moduleTitle: "FAQ - [Profile Name]",

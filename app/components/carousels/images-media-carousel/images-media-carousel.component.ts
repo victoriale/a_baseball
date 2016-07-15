@@ -4,7 +4,6 @@ import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {CircleButton} from "../../buttons/circle/circle.button";
 import {ModuleHeader} from "../../module-header/module-header.component";
 import {ModuleHeaderData} from "../../module-header/module-header.component";
-import {ResponsiveWidget} from '../../responsive-widget/responsive-widget.component';
 
 declare var jQuery:any;
 
@@ -21,8 +20,7 @@ export interface MediaImageItem {
     directives: [
         ROUTER_DIRECTIVES,
         CircleButton,
-        ModuleHeader,
-        ResponsiveWidget
+        ModuleHeader
     ],
     providers: [],
     inputs: ['trending', 'mediaImages', 'featureListing', 'modalButton', 'imageData', 'copyright', "imageTitle", 'profHeader', 'isProfilePage'],
@@ -33,8 +31,6 @@ export class ImagesMedia implements OnInit {
     @Input() copyright:string;
     @Input() imageTitle:string;
     @Input() isProfilePage:boolean;
-
-    public widgetPlace: string = "widgetForModule";
 
     expand:boolean;
 

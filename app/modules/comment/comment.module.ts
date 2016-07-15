@@ -4,20 +4,16 @@
 import {Component, OnInit, Input, OnChanges} from '@angular/core';
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 import {MLBPageParameters} from '../../global/global-interface';
-import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
 declare var DISQUS: any;
 
 @Component({
     selector: 'comment-module',
     templateUrl: './app/modules/comment/comment.module.html',
-    directives: [ModuleHeader, ResponsiveWidget],
+    directives: [ModuleHeader],
     providers: [],
 })
 export class CommentModule implements OnInit, OnChanges {
-    public widgetPlace: string = "widgetForModule";
-    public widgetDisplayRes: number = 640;
-
     @Input() profileName: string;
 
     public headerInfo: ModuleHeaderData = {
