@@ -1,10 +1,19 @@
 @media (min-width:1024px) {
-  .widgetBorder {
+  .widgetForPage {
+  display:none;
+  }
+  .widgetForModule {
   display:none;
   }
 }
-.module-container .widgetBorder {
+.module-container .widgetForPage {
   display:none;
+}
+.widgetForModule {
+  width:100vw;
+  .widgetWrapper {
+    padding-top:8px;
+  }
 }
 .widgetWrapper {
   width: 100%;
@@ -18,4 +27,10 @@
     text-align: center;
     margin: 0 auto;
   }
+}
+._640only {
+  @media (min-width: 641px) {display:none;}
+}
+._1024only {
+  @media (min-width: 1023px), (max-width: 640px) {display:none;}
 }

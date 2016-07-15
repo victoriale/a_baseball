@@ -4,6 +4,7 @@ import {CircleImage} from '../../components/images/circle-image';
 //Import needed interfaces
 import {ModuleHeaderData} from '../../components/module-header/module-header.component';
 import {CircleImageData} from '../../components/images/image-data';
+import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
 export interface ShareModuleInput{
     //Image url used for the image component
@@ -19,12 +20,13 @@ export interface ShareModuleInput{
 @Component({
     selector: 'share-module',
     templateUrl: './app/modules/share/share.module.html',
-    directives: [ModuleHeader, CircleImage],
+    directives: [ModuleHeader, CircleImage, ResponsiveWidget],
     providers: []
 })
 
 export class ShareModule implements OnInit{
     @Input() shareModuleInput: ShareModuleInput;
+    public widgetPlace: string = "widgetForModule";
     public moduleHeaderData: ModuleHeaderData = {
         moduleTitle: 'Share This Profile With Your Friends',
         hasIcon: false,

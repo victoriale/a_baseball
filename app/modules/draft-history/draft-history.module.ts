@@ -11,14 +11,18 @@ import {NoDataBox} from '../../components/error/data-box/data-box.component';
 import {LoadingComponent} from "../../components/loading/loading.component";
 import {DraftHistoryComponent} from "../../components/draft-history/draft-history.component";
 import {IProfileData, ProfileHeaderService} from '../../services/profile-header.service';
+import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
 @Component({
     selector: 'draft-history-module',
     templateUrl: './app/modules/draft-history/draft-history.module.html',
-    directives: [DraftHistoryComponent, ModuleHeader, ModuleFooter]
+    directives: [DraftHistoryComponent, ModuleHeader, ModuleFooter, ResponsiveWidget]
 })
 
 export class DraftHistoryModule implements OnInit {
+
+  public widgetPlace: string = "widgetForModule";
+  public widgetDisplayRes: number = 640;
 
   modHeadData: Object;
 
@@ -35,8 +39,8 @@ export class DraftHistoryModule implements OnInit {
   }
 
   displayData(){
-    var pageRoute = this.profileData.profileType == "team" ? 
-      ['Draft-history-page',{teamName: this.profileData.profileName, teamId:this.profileData.profileId}] : 
+    var pageRoute = this.profileData.profileType == "team" ?
+      ['Draft-history-page',{teamName: this.profileData.profileName, teamId:this.profileData.profileId}] :
       ["Draft-history-mlb-page"];
 
     this.footerData = {

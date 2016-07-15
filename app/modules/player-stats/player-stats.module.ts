@@ -3,15 +3,16 @@ import {Component, Input, OnInit, OnChanges, Output, EventEmitter} from '@angula
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/module-footer.component';
 import {PlayerStatsComponent, StatsTableTabData} from '../../components/player-stats/player-stats.component';
+import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
 export interface PlayerStatsModuleData {
   moduleTitle: string;
- 
+
   /**
     * Used for the link in the footer button
     */
   pageRouterLink: Array<any>;
-  
+
   /**
    * Sent to Standings component
    */
@@ -21,12 +22,15 @@ export interface PlayerStatsModuleData {
 @Component({
   selector: "player-stats-module",
   templateUrl: "./app/modules/player-stats/player-stats.module.html",
-  directives: [ModuleHeader, ModuleFooter, PlayerStatsComponent],
+  directives: [ModuleHeader, ModuleFooter, PlayerStatsComponent, ResponsiveWidget],
 })
 export class PlayerStatsModule implements OnChanges {
   @Input() data: PlayerStatsModuleData;
-  
+
   @Output("tabSelected") tabSelectedListener = new EventEmitter();
+
+  public widgetPlace: string = "widgetForModule";
+  public widgetDisplayRes: number = 640;
 
   public headerInfo: ModuleHeaderData = {
     moduleTitle: "Player Stats",
@@ -39,9 +43,9 @@ export class PlayerStatsModule implements OnChanges {
     text: "VIEW FULL STATISTICS",
     url: ['Player-stats-page']
   };
-  
-  public tabs: Array<StatsTableTabData<any>>;  
-  
+
+  public tabs: Array<StatsTableTabData<any>>;
+
   ngOnChanges() {
     if ( !this.data ) {
       this.headerInfo.moduleTitle = "Player Stats";
@@ -50,9 +54,9 @@ export class PlayerStatsModule implements OnChanges {
       this.headerInfo.moduleTitle = this.data.moduleTitle;
       this.footerInfo.url = this.data.pageRouterLink;
       this.tabs = this.data.tabs;
-    }    
+    }
   }
-  
+
   tabSelected(tabData) {
     this.tabSelectedListener.next(tabData);
   }

@@ -12,6 +12,7 @@ import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 import {ModuleHeaderData} from "../../components/module-header/module-header.component";
 import {LoadingComponent} from "../../components/loading/loading.component";
 import {MLBGlobalFunctions} from "../../global/mlb-global-functions";
+import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
 declare var jQuery:any;
 declare var moment:any;
@@ -26,13 +27,18 @@ declare var moment:any;
         ArticleMainComponent,
         ArticleSubComponent,
         HeadToHeadComponent,
-        LoadingComponent
+        LoadingComponent,
+        ResponsiveWidget
     ],
     inputs: [],
     providers: [],
 })
 
 export class ArticlesModule implements OnInit {
+    public widgetPlace: string = "widgetForModule";
+
+    public widgetDisplayRes: number = 1024;
+
     headlineData:HeadlineData;
     imageData:any;
     scheduleHomeData:any;

@@ -8,6 +8,7 @@ import {RouteParams} from "@angular/router-deprecated";
 import {Router} from "@angular/router-deprecated";
 import {Input} from "@angular/core";
 import {ProfileHeaderData} from "../profile-header/profile-header.module";
+import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
 export interface ListOfListsData {
   listData: any;
@@ -16,10 +17,14 @@ export interface ListOfListsData {
 @Component({
     selector: 'list-of-lists',
     templateUrl: './app/modules/list-of-lists/list-of-lists.module.html',
-    directives: [ModuleHeader, ModuleFooter, ListOfListsItem],
+    directives: [ModuleHeader, ModuleFooter, ListOfListsItem, ResponsiveWidget],
 })
 
 export class ListOfListsModule{
+  public widgetPlace: string = "widgetForModule";
+
+  public widgetDisplayRes: number = 1024;
+
   @Input() profileHeaderData : ProfileHeaderData;
   @Input() listOfListsData : ListOfListsData;
   moduleHeader: ModuleHeaderData;
@@ -44,17 +49,17 @@ export class ListOfListsModule{
       hasIcon: false,
       iconClass: "",
     }
-    var type = this.listOfListsData['type'];    
+    var type = this.listOfListsData['type'];
     var routeName = type == "league" ? 'List-of-lists-league-page' : 'List-of-lists-page';
-    var params = { 
-      limit:10, 
+    var params = {
+      limit:10,
       pageNum:1
     };
     if ( this.listOfListsData['id'] ) {
       params["id"] = this.listOfListsData['id'];
     }
     if ( type != "league" ) {
-      params["type"] = type; 
+      params["type"] = type;
     }
     this.footerData['url'] = [routeName, params];
   }

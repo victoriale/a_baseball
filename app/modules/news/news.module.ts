@@ -5,16 +5,19 @@ import {ModuleFooter, ModuleFooterData} from '../../components/module-footer/mod
 import {RouteParams} from "@angular/router-deprecated";
 import {GlobalFunctions} from '../../global/global-functions';
 import {CircleButton} from "../../components/buttons/circle/circle.button";
+import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 declare var stButtons: any;
 
 @Component({
     selector: 'news-module',
     templateUrl: './app/modules/news/news.module.html',
-    directives: [ModuleHeader, NewsCarousel, ModuleFooter, CircleButton],
+    directives: [ModuleHeader, NewsCarousel, ModuleFooter, CircleButton, ResponsiveWidget],
     providers: []
 })
 
 export class NewsModule implements OnInit, OnChanges {
+    public widgetPlace: string = "widgetForModule";
+    public widgetDisplayRes: number = 640;
     public counter: number = 0;
     public max:number;
     public newsLink: string;

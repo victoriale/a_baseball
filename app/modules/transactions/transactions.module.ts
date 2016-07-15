@@ -5,6 +5,7 @@ import {Injectable} from '@angular/core';
 import {ModuleFooter, FooterStyle, ModuleFooterData} from '../../components/module-footer/module-footer.component';
 import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/module-header.component';
 import {TransactionsComponent, TransactionTabData} from '../../components/transactions/transactions.component';
+import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
 export interface TransactionModuleData {
   tabs: Array<TransactionTabData>;
@@ -15,7 +16,7 @@ export interface TransactionModuleData {
 @Component({
   selector: 'transactions-module',
   templateUrl: './app/modules/transactions/transactions.module.html',
-  directives: [ModuleHeader, ModuleFooter, TransactionsComponent]
+  directives: [ModuleHeader, ModuleFooter, TransactionsComponent, ResponsiveWidget]
 })
 
 export class TransactionsModule {
@@ -23,11 +24,15 @@ export class TransactionsModule {
 
   @Input() data: TransactionModuleData;
 
+  public widgetPlace: string = "widgetForModule";
+
+  public widgetDisplayRes: number = 1024;
+
   modHeadData: ModuleHeaderData;
 
   footerData: ModuleFooterData;
 
-  ngOnChanges() {    
+  ngOnChanges() {
     this.footerData = {
       infoDesc: 'Want to see more transactions?',
       text: 'VIEW TRANSACTIONS',

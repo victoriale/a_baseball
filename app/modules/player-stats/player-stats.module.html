@@ -3,3 +3,4 @@
   <player-stats-component *ngIf="tabs" [tabs]="tabs" (tabSelected)="tabSelected($event)"></player-stats-component>
   <module-footer [footerData]="footerInfo"></module-footer>
 </section>
+<responsive-widget [embedPlace]="widgetPlace" [displayAtRes]="widgetDisplayRes"></responsive-widget>
