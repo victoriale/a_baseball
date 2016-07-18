@@ -6,7 +6,6 @@ declare var moment: any;
 @Injectable()
 
 export class GlobalFunctions {
-
     /**
      * Returns the approriate ordinal suffix for the given number
      *
@@ -578,4 +577,5 @@ export class GlobalFunctions {
     var lastChar = name.charAt(name.length-1);
     return lastChar == 's' ? name + "'" : name + "'s";
   }
+
 }
