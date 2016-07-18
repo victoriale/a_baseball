@@ -18,7 +18,7 @@ declare var moment;
     providers: [Title],
 })
 export class ContactUsPage implements OnInit{
-    public widgetPlace: string = "widgetForModule";
+    public widgetPlace: string = "widgetForPage";
     //Object that builds contact us module
     public mailManUrl: string;
     public contactusInput: Object;
