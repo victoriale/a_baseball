@@ -12,6 +12,7 @@ import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
 import {BoxScoresService} from '../../services/box-scores.service';
 
 import {GlobalSettings} from "../../global/global-settings";
+import {GlobalFunctions} from "../../global/global-functions";
 import {Router} from '@angular/router-deprecated';
 
 //window declarions of global functions from library scripts
@@ -43,7 +44,8 @@ export class DeepDivePage implements OnInit {
     boxScoresData: any;
     currentBoxScores: any;
     dateParam: any;
-
+    maxHeight: any;
+    scroll: boolean = true;
     constructor(
       private _router:Router,
       private _boxScores:BoxScoresService
@@ -62,6 +64,21 @@ export class DeepDivePage implements OnInit {
       GlobalSettings.getPartnerID(_router, partnerID => {
           this.partnerID = partnerID;
       });
+
+      window.onresize = (e) =>
+      {
+        var width = window.outerWidth;
+        var height = window.outerHeight;
+
+        // console.log(width, height);
+        if(width < 640){
+          this.maxHeight = 'auto';
+          this.scroll = false;
+        }else if(width >= 640){
+          this.maxHeight = 650;
+          this.scroll = true;
+        }
+      }
     }
     //api for BOX SCORES
     private getBoxScores(dateParams?) {
@@ -71,9 +88,15 @@ export class DeepDivePage implements OnInit {
         this._boxScores.getBoxScores(this.boxScoresData, this.profileName, this.dateParam, (boxScoresData, currentBoxScores) => {
             this.boxScoresData = boxScoresData;
             this.currentBoxScores = currentBoxScores;
+            console.log(this.boxScoresData);
         })
     }
     ngOnInit() {
         this.getBoxScores(this.dateParam);
     }
+
+    ngDoCheck(){
+
+    }
+
 }

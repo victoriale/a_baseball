@@ -1,7 +1,7 @@
 
   <section class="deep-dive">
     <div class="newsCarousel"></div>
-    <side-scroll-schedules></side-scroll-schedules>
+    <side-scroll-schedules *ngIf="boxScoresData" [sideScrollData]="boxScoresData"></side-scroll-schedules>
 
     <div class="container2">
       <tile-stack-module></tile-stack-module>
@@ -15,10 +15,26 @@
     <div class="container3"></div>
     <div class="container4"></div>
     <div class="container5">
-      <box-scores *ngIf="dateParam" class="box-scores" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)" max-height='650' scroll='true'></box-scores>
+      <box-scores *ngIf="dateParam" class="box-scores" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)" max-height={{maxHeight}} scroll={{scroll}}></box-scores>
       <div class="box_articles">
-        <div class="box_articles-item"></div>
-        <div class="box_articles-item"></div>
+        <div class="box_articles-item">
+          <div class="article-image">
+
+          </div>
+          <div class="article-text">
+            <span>[KEYWORD]</span><span>[MONTH][DD], [YYYY]</span>
+            <p>Lorem ispum dolor sit amet, consectetu adiplicsing elit, sed do eisuemod tempor.</p>
+          </div>
+        </div>
+        <div class="box_articles-item">
+          <div class="article-image">
+
+          </div>
+          <div class="article-text">
+            <span>[KEYWORD]</span><span>[MONTH][DD], [YYYY]</span>
+            <p>Lorem ispum dolor sit amet, consectetu adiplicsing elit, sed do eisuemod tempor.</p>
+          </div>
+        </div>
       </div>
       <div class="box-widget">
 

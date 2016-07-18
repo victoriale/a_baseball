@@ -19,7 +19,7 @@ import {ScrollableContent} from '../../components/scrollable-content/scrollable-
 export class BoxScoresModule implements OnChanges{
   @Input() calendarParams:any;
   @Input() boxScores:any;
-  @Input('max-height') maxHeight:number;
+  @Input('max-height') maxHeight:any;
   @Input('scroll') scroll:boolean;
 
   // private moduleHeight: string;
@@ -36,10 +36,15 @@ export class BoxScoresModule implements OnChanges{
   }
 
   ngOnChanges(){
-    if(document.getElementById('box-header') != null){
+    if(document.getElementById('box-header') != null && this.scroll){
       var boxHeader = document.getElementById('box-header').offsetHeight;
       //only for mlb page but subtract the mod title and calendar height from what was sent in
-      this.maxHeight -= boxHeader;
+      if(this.maxHeight != 'auto'){
+        this.maxHeight -= boxHeader;
+        this.maxHeight = this.maxHeight + "px";
+      }else{
+        this.scroll = false;
+      }
     }
   }
 }

@@ -41,7 +41,7 @@
     <!-- box-score scroll -->
     <template [ngIf]="scroll">
       <scrollable-content class="box-scores-scroll"
-      (reloadScroller)="_reloadScroller">
+      (reloadScroller)="_reloadScroller" [style.height]="maxHeight">
         <div *ngFor="let gameBox of boxScores.gameInfo; let i = odd" class="box-scores-info-container" [class.odd]="i" [class.even]="!i">
           <!--game info that affects only how league box scores are displayed-->
           <div *ngIf=" calendarParams.profile == 'league' " >

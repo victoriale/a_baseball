@@ -13,11 +13,12 @@ import 'rxjs/add/operator/map';
 import {HTTP_PROVIDERS} from "@angular/http";
 
 bootstrap(AppDomain, [
-    ROUTER_PROVIDERS, 
-    HTTP_PROVIDERS, 
-    ROUTER_DIRECTIVES, 
-    GlobalFunctions, 
-    MLBGlobalFunctions, 
+    ROUTER_PROVIDERS,
+    HTTP_PROVIDERS,
+    ROUTER_DIRECTIVES,
+    GlobalFunctions,
+    MLBGlobalFunctions,
     SearchService,
-    provide(DraftHistoryService, {useClass: MLBDraftHistoryService})
+    provide(DraftHistoryService, {useClass: MLBDraftHistoryService}),
+    provide(Window, {useValue: window})
 ]).catch(err => console.error(err));
