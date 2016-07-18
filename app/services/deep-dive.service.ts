@@ -7,7 +7,7 @@ import {GlobalSettings} from '../global/global-settings';
 
 declare var moment;
 @Injectable()
-export class BoxScoresService {
+export class DeepDiveService {
   private _apiUrl: string = GlobalSettings.getApiUrl();
   // private _apiToken: string = 'BApA7KEfj';
   // private _headerName: string = 'X-SNT-TOKEN';
@@ -35,9 +35,18 @@ export class BoxScoresService {
     .map(res => res.json())
     .map(data => {
       // transform the data to YYYY-MM-DD objects from unix
-      // console.log(data);
+      console.log(data);
       return data;
 
     })
   }
+  getdeepDiveData(deepDiveData, callback:Function, dataParam) {
+  if(deepDiveData == null){
+    deepDiveData = {};
+
+  }
+  else {
+  }
+}
+
 }

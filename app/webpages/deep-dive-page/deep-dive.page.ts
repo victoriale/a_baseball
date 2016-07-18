@@ -3,6 +3,7 @@ import {TileStackModule} from '../../modules/tile-stack/tile-stack.module';
 import {ArticleStackModule} from '../../modules/article-stack/article-stack.module';
 import {VideoStackModule} from '../../modules/video-stack/video-stack.module';
 import {CarouselDiveModule} from '../../modules/carousel-dive/carousel-dive.module';
+import {DeepDiveService} from '../../services/deep-dive.service'
 
 import {SidekickWrapper} from '../../components/sidekick-wrapper/sidekick-wrapper.component';
 
