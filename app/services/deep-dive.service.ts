@@ -35,7 +35,7 @@ export class DeepDiveService {
     .map(res => res.json())
     .map(data => {
       // transform the data to YYYY-MM-DD objects from unix
-      console.log(data);
+    //  console.log(data);
       return data;
 
     })
