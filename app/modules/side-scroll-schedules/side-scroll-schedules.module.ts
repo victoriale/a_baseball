@@ -9,6 +9,10 @@ import {SideScroll} from '../../components/carousels/side-scroll/side-scroll.com
     providers: []
 })
 
-export class SideScrollSchedule{
+export class SideScrollSchedule implements OnInit{
+  @Input() sideScrollData: any;
 
+  ngOnInit(){
+    // console.log(this.sideScrollData.transformedDate);
+  }
 }

@@ -13,18 +13,20 @@
     &-container{
       width:100%;
       height:auto;
-      & > div:first-child{
-        margin-left:10px;
-      }
+      // & > div:first-child{
+      //   margin-left:10px;
+      // }
       & > div:last-child{
         margin-right:10px;
       }
     }
     .float-left{
       float:left;
+      margin-left:10px;
     }
     .float-right{
-      float:right;
+      float:left;
+      margin-left:10px;
     }
     .odd{
       background-color: @backgroundGrey;
@@ -91,7 +93,8 @@
   width: 100%;
   height: 400px;
   .scrollable-item-wrapper{
-    width:102.5%;//add addtional widget for width of scroller to accommodate
+    width:100%;
+    padding-right:0;
   }
   .scrollable-item-scroller{
     width:5px;
