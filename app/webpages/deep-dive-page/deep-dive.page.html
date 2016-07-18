@@ -1,8 +1,11 @@
-
   <section class="deep-dive">
-    <div class="newsCarousel" id="newsCarousel"></div>
+
+    <div class="newsCarousel" id="newsCarousel">
+      <carousel-dive-module></carousel-dive-module>
+    </div>
     <div class="deep-dive-content-container">
       <side-scroll-schedules *ngIf="boxScoresData" [sideScrollData]="boxScoresData"></side-scroll-schedules>
+
 
       <div class="container2">
         <tile-stack-module></tile-stack-module>
@@ -43,4 +46,5 @@
       </div>
     </div>
   </section>
+
   <div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div>
