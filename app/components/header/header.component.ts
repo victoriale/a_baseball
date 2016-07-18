@@ -25,7 +25,6 @@ export class HeaderComponent implements OnInit,OnChanges {
     } else {
       this.logoUrl = 'app/public/Home-Run-Loyal_Logo.svg';
     }
-    console.log(this.logoUrl);
   }
   // Page is being scrolled
   onScrollStick(event) {
