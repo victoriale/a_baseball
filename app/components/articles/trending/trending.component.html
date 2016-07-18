@@ -13,6 +13,7 @@
             <div class="trending-read-more">Read the Full Article <i class="fa fa-arrow-right"></i></div>
         </a>
         <div class="trending-hr"></div>
-        <sidekick-container-component *ngIf="((i+1) % 10 == 5 || (i+1) % 10 == 0) && i != 0"></sidekick-container-component>
+        <sidekick-container-component *ngIf="((i+1) % 10 == 5 || (i+1) % 10 == 0) && i != 0"
+                                      [trending]="trending"></sidekick-container-component>
     </span>
 </div>
