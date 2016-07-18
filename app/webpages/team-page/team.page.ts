@@ -69,6 +69,8 @@ import {DailyUpdateService, DailyUpdateData} from "../../services/daily-update.s
 
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
+import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
+
 declare var moment;
 
 @Component({
@@ -99,7 +101,8 @@ declare var moment;
         ImagesMedia,
         ListOfListsModule,
         PlayerStatsModule,
-        TransactionsModule
+        TransactionsModule,
+        ResponsiveWidget
     ],
     providers: [
       BoxScoresService,
@@ -122,6 +125,7 @@ declare var moment;
 })
 
 export class TeamPage implements OnInit {
+    public widgetPlace: string = "widgetForModule";
     public shareModuleInput:ShareModuleInput;
     headerData:any;
     pageParams:MLBPageParameters;

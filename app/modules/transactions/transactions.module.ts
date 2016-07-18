@@ -27,7 +27,7 @@ export class TransactionsModule {
 
   footerData: ModuleFooterData;
 
-  ngOnChanges() {    
+  ngOnChanges() {
     this.footerData = {
       infoDesc: 'Want to see more transactions?',
       text: 'VIEW TRANSACTIONS',
