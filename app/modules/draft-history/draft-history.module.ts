@@ -35,8 +35,8 @@ export class DraftHistoryModule implements OnInit {
   }
 
   displayData(){
-    var pageRoute = this.profileData.profileType == "team" ? 
-      ['Draft-history-page',{teamName: this.profileData.profileName, teamId:this.profileData.profileId}] : 
+    var pageRoute = this.profileData.profileType == "team" ?
+      ['Draft-history-page',{teamName: this.profileData.profileName, teamId:this.profileData.profileId}] :
       ["Draft-history-mlb-page"];
 
     this.footerData = {

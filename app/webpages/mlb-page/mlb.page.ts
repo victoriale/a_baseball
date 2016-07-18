@@ -60,6 +60,8 @@ import {ImagesService} from "../../services/carousel.service";
 import {ImagesMedia} from "../../components/carousels/images-media-carousel/images-media-carousel.component";
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
+import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
+
 declare var moment;
 
 @Component({
@@ -87,7 +89,9 @@ declare var moment;
         NewsModule,
         AboutUsModule,
         ListOfListsModule,
-        ImagesMedia],
+        ImagesMedia,
+        ResponsiveWidget
+      ],
     providers: [
         BoxScoresService,
         SchedulesService,
@@ -107,6 +111,7 @@ declare var moment;
 })
 
 export class MLBPage implements OnInit {
+    public widgetPlace: string = "widgetForModule";
     public shareModuleInput:ShareModuleInput;
 
     pageParams:MLBPageParameters = {};
@@ -360,8 +365,8 @@ export class MLBPage implements OnInit {
     private setupShareModule() {
         let profileHeaderData = this.profileHeaderData;
         let imageUrl = !profileHeaderData.profileImageUrl ? GlobalSettings.getImageUrl("/mlb/players/no-image.png") : profileHeaderData.profileImageUrl;
-        let shareText = !profileHeaderData.profileName ? 
-            'Share This Profile Below' : 
+        let shareText = !profileHeaderData.profileName ?
+            'Share This Profile Below' :
             'Share ' + GlobalFunctions.convertToPossessive(profileHeaderData.profileName) + ' Profile Below:';
 
         this.shareModuleInput = {
