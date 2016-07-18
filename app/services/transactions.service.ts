@@ -262,7 +262,7 @@ export class TransactionsService {
       }
       var playerTextLink = {
         route: playerRoute,
-        text: val.playerLastName + ", " + val.playerFirstName + ": ",
+        text: val.playerLastName + ", " + val.playerFirstName + " ",
         class: 'text-heavy'
       }
 
