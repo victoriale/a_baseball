@@ -6,7 +6,7 @@
         <div class="au-content">
             <div class="au-desc">
                 <p *ngFor="let paragraph of auContent" [innerHtml]="paragraph">
-                    
+
                 </p>
             </div>
         </div>
@@ -35,4 +35,5 @@
         </div>
         <!--Blocks End-->
     </section>
+    <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
 </sidekick-wrapper>
