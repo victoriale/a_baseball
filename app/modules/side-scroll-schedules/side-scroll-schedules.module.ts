@@ -13,6 +13,6 @@ export class SideScrollSchedule implements OnInit{
   @Input() sideScrollData: any;
 
   ngOnInit(){
-    console.log(this.sideScrollData.transformedDate);
+    // console.log(this.sideScrollData.transformedDate);
   }
 }

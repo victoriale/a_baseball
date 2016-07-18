@@ -19,8 +19,8 @@ import {ScrollableContent} from '../../components/scrollable-content/scrollable-
 export class BoxScoresModule implements OnChanges{
   @Input() calendarParams:any;
   @Input() boxScores:any;
-  @Input('max-height') maxHeight:any;
-  @Input('scroll') scroll:boolean;
+  @Input() maxHeight:any;
+  @Input() scroll:boolean;
 
   // private moduleHeight: string;
   public dateEmit = new EventEmitter();

@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, NgZone} from '@angular/core';
 import {TileStackModule} from '../../modules/tile-stack/tile-stack.module';
 import {ArticleStackModule} from '../../modules/article-stack/article-stack.module';
 import {VideoStackModule} from '../../modules/video-stack/video-stack.module';
@@ -48,7 +48,8 @@ export class DeepDivePage implements OnInit {
     scroll: boolean = true;
     constructor(
       private _router:Router,
-      private _boxScores:BoxScoresService
+      private _boxScores:BoxScoresService,
+      ngZone:NgZone
     ) {
       this.profileName = "MLB";
 
@@ -70,14 +71,15 @@ export class DeepDivePage implements OnInit {
         var width = window.outerWidth;
         var height = window.outerHeight;
 
-        // console.log(width, height);
-        if(width < 640){
-          this.maxHeight = 'auto';
-          this.scroll = false;
-        }else if(width >= 640){
-          this.maxHeight = 650;
-          this.scroll = true;
-        }
+        ngZone.run(() => {
+          if(width < 640){
+            this.maxHeight = 'auto';
+            this.scroll = false;
+          }else if(width >= 640){
+            this.maxHeight = 650;
+            this.scroll = true;
+          }
+        });
       }
     }
     //api for BOX SCORES
@@ -88,7 +90,6 @@ export class DeepDivePage implements OnInit {
         this._boxScores.getBoxScores(this.boxScoresData, this.profileName, this.dateParam, (boxScoresData, currentBoxScores) => {
             this.boxScoresData = boxScoresData;
             this.currentBoxScores = currentBoxScores;
-            console.log(this.boxScoresData);
         })
     }
     ngOnInit() {
