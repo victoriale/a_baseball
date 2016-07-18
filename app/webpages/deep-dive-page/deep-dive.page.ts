@@ -2,6 +2,8 @@ import {Component, OnInit, Input, NgZone} from '@angular/core';
 import {TileStackModule} from '../../modules/tile-stack/tile-stack.module';
 import {ArticleStackModule} from '../../modules/article-stack/article-stack.module';
 import {VideoStackModule} from '../../modules/video-stack/video-stack.module';
+import {CarouselDiveModule} from '../../modules/carousel-dive/carousel-dive.module';
+import {DeepDiveService} from '../../services/deep-dive.service'
 
 import {SidekickWrapper} from '../../components/sidekick-wrapper/sidekick-wrapper.component';
 
@@ -17,6 +19,7 @@ import {Router} from '@angular/router-deprecated';
 
 //window declarions of global functions from library scripts
 declare var moment;
+declare var jQuery: any;
 
 @Component({
     selector: 'deep-dive-page',
@@ -29,7 +32,8 @@ declare var moment;
       BoxScoresModule,
       TileStackModule,
       ArticleStackModule,
-      VideoStackModule
+      VideoStackModule,
+      CarouselDiveModule
     ],
     providers: [BoxScoresService],
 })
