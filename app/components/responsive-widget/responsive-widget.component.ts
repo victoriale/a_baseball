@@ -8,13 +8,17 @@ import {Component, Input, Output, ChangeDetectorRef, OnInit} from '@angular/core
 })
 
 export class ResponsiveWidget implements OnInit {
-    windowWidth: number = 10;
-    ngOnInit() {
-        window.onresize = this.onWindowLoadOrResize;
-        this.onWindowLoadOrResize();
-    }
-    private onWindowLoadOrResize() {
-      this.windowWidth = window.innerWidth;
-    }
+  @Input() embedPlace: string;
+  @Input() displayAtRes: string;
+
+  windowWidth: number = 10;
+  ngOnInit() {
+    this.displayAtRes = "_" + this.displayAtRes + "only"
+    window.onresize = this.onWindowLoadOrResize;
+    this.onWindowLoadOrResize();
+  }
+  private onWindowLoadOrResize() {
+    this.windowWidth = window.innerWidth;
+  }
 
 }

@@ -44,17 +44,17 @@ export class ListOfListsModule{
       hasIcon: false,
       iconClass: "",
     }
-    var type = this.listOfListsData['type'];    
+    var type = this.listOfListsData['type'];
     var routeName = type == "league" ? 'List-of-lists-league-page' : 'List-of-lists-page';
-    var params = { 
-      limit:10, 
+    var params = {
+      limit:10,
       pageNum:1
     };
     if ( this.listOfListsData['id'] ) {
       params["id"] = this.listOfListsData['id'];
     }
     if ( type != "league" ) {
-      params["type"] = type; 
+      params["type"] = type;
     }
     this.footerData['url'] = [routeName, params];
   }
