@@ -1,10 +1,14 @@
 <div class="side_scroll">
-  <div class="side_scroll-left disabled"><i class="fa fa-angle-left"></i></div>
+  <div class="side_scroll-left disabled" (click)="left()"><i class="fa fa-angle-left"></i></div>
   <div class="side_scroll-box">
-    <div class="side_scroll-transition">
-      <ng-content></ng-content>
+    <div class="side_scroll-transition owl-carousel" id="ss_owl">
+      <!-- owl carousel for slider -->
+      <div class="owl-item">
+        <ng-content></ng-content>
+      </div>
+      <!-- owl carousel for slider -->
     </div>
   </div>
   <div class="side_scroll-overlay"></div>
-  <div class="side_scroll-right"><i class="fa fa-angle-right"></i></div>
+  <div class="side_scroll-right" (click)="right()"><i class="fa fa-angle-right"></i></div>
 </div>
