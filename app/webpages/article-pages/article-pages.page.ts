@@ -14,6 +14,7 @@ import {GlobalFunctions} from "../../global/global-functions";
 import {MLBGlobalFunctions} from "../../global/mlb-global-functions";
 import {SidekickWrapperAI} from "../../components/sidekick-wrapper-ai/sidekick-wrapper-ai.component";
 import {GlobalSettings} from "../../global/global-settings";
+import {SidekickContainerComponent} from "../../components/articles/sidekick-container/sidekick-container.component";
 
 declare var jQuery:any;
 
@@ -30,6 +31,7 @@ declare var jQuery:any;
         DisqusComponent,
         LoadingComponent,
         TrendingComponent,
+        SidekickContainerComponent
     ],
     providers: [],
 })
