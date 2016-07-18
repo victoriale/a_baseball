@@ -6,12 +6,12 @@ import {PlayerStatsComponent, StatsTableTabData} from '../../components/player-s
 
 export interface PlayerStatsModuleData {
   moduleTitle: string;
- 
+
   /**
     * Used for the link in the footer button
     */
   pageRouterLink: Array<any>;
-  
+
   /**
    * Sent to Standings component
    */
@@ -25,7 +25,7 @@ export interface PlayerStatsModuleData {
 })
 export class PlayerStatsModule implements OnChanges {
   @Input() data: PlayerStatsModuleData;
-  
+
   @Output("tabSelected") tabSelectedListener = new EventEmitter();
 
   public headerInfo: ModuleHeaderData = {
@@ -39,9 +39,9 @@ export class PlayerStatsModule implements OnChanges {
     text: "VIEW FULL STATISTICS",
     url: ['Player-stats-page']
   };
-  
-  public tabs: Array<StatsTableTabData<any>>;  
-  
+
+  public tabs: Array<StatsTableTabData<any>>;
+
   ngOnChanges() {
     if ( !this.data ) {
       this.headerInfo.moduleTitle = "Player Stats";
@@ -50,9 +50,9 @@ export class PlayerStatsModule implements OnChanges {
       this.headerInfo.moduleTitle = this.data.moduleTitle;
       this.footerInfo.url = this.data.pageRouterLink;
       this.tabs = this.data.tabs;
-    }    
+    }
   }
-  
+
   tabSelected(tabData) {
     this.tabSelectedListener.next(tabData);
   }

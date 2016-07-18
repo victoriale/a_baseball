@@ -78,12 +78,7 @@ export class HeaderComponent implements OnInit,OnChanges {
       this._stickyHeader = "0px"
     }
   }//onScrollStick ends
-  isSelected(menu){
-    if(menu.active === true){
-      return false;
-    }
-    menu.active = true;
-  }
+
   ngOnInit(){
     stButtons.locateElements();
   }

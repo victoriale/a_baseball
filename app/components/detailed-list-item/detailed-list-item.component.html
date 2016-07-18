@@ -1,5 +1,6 @@
 <!--ngFor loop here and add background color class within dli-container-->
-  <div *ngFor="let details of detailedItemData; let i = odd" class="dli-container" [ngClass]="{'even': i == false}">
+<div *ngFor="let details of detailedItemData; let i = odd; let rowIndex = index" >
+  <div class="dli-container" [ngClass]="{'even': i == false}">
     <div class="dli-container-left">
       <circle-image [data]="details.imageConfig"></circle-image>
     </div>
@@ -31,3 +32,5 @@
       </div>
     </div>
   </div>
+  <responsive-widget *ngIf="!((rowIndex + 1) % 5)" embedPlace="widgetForPage"></responsive-widget>
+</div>

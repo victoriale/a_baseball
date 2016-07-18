@@ -6,22 +6,31 @@
         <!-- <headline-component [title]="'About the ' + profileHeaderData.profileName"></headline-component> -->
         <profile-header *ngIf="profileHeaderData" [profileHeaderData]="profileHeaderData"></profile-header>
         <daily-update-module [profileName]="profileHeaderData.profileName" [data]="dailyUpdateData"></daily-update-module>
+        <responsive-widget *ngIf="dailyUpdateData" [embedPlace]="widgetPlace" [displayAtRes]="'640'"></responsive-widget>
         <!-- <headline-component [title]="'Keep Up With Everything ' + profileHeaderData.profileName"></headline-component> -->
         <box-scores *ngIf="dateParam" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)"></box-scores>
+        <responsive-widget *ngIf="dateParam" [embedPlace]="widgetPlace" [displayAtRes]="'1024'"></responsive-widget>
         <schedules *ngIf="schedulesData" [profHeader]="profileHeaderData" [data]="schedulesData" (tabSelected)="scheduleTab($event)"></schedules>
+        <responsive-widget *ngIf="schedulesData" [embedPlace]="widgetPlace" [displayAtRes]="'640'"></responsive-widget>
         <standings-module *ngIf="standingsData" [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
         <season-stats-module *ngIf="seasonStatsData" [pageParams]="pageParams" [data]="seasonStatsData"></season-stats-module>
+        <responsive-widget *ngIf="seasonStatsData" [embedPlace]="widgetPlace"></responsive-widget>
         <comparison-module [modelData]="comparisonModuleData" [profileName]="profileHeaderData.profileName" [profileType]="'player'" [profileId]="pageParams.playerId"></comparison-module>
         <!-- <headline-component [title]="'Other MLB Content You May Love'"></headline-component> -->
         <images-media-carousel [imageData]="imageData" [copyright]="copyright" [imageTitle]="imageTitle" [profHeader]="profileHeaderData" [isProfilePage]="isProfilePage"></images-media-carousel>
+        <responsive-widget *ngIf="profileHeaderData" [embedPlace]="widgetPlace" [displayAtRes]="'640'"></responsive-widget>
         <dyk-module *ngIf="dykData" [profileName]="profileHeaderData.profileName" [dykData]="dykData"></dyk-module>
+        <responsive-widget *ngIf="dykData" [embedPlace]="widgetPlace" [displayAtRes]="'1024'"></responsive-widget>
         <faq-module *ngIf="faqData" [profileName]="profileHeaderData.profileName" [faqData]="faqData"></faq-module>
+        <responsive-widget *ngIf="faqData" [embedPlace]="widgetPlace" [displayAtRes]="'640'"></responsive-widget>
         <list-of-lists *ngIf="profileHeaderData && listOfListsData" [profileHeaderData]="profileHeaderData" [listOfListsData]="listOfListsData"></list-of-lists>
         <news-module *ngIf="newsDataArray" [newsDataArray]="newsDataArray" [profileName]="profileHeaderData.profileName"></news-module>
+        <responsive-widget *ngIf="newsDataArray" [embedPlace]="widgetPlace"></responsive-widget>
         <!-- <headline-component [title]="'Interact With MLB\'s Fans'"></headline-component> -->
         <twitter-module *ngIf="twitterData" [profileName]="profileHeaderData.profileName" [twitterData]="twitterData"></twitter-module>
         <!--Like Us On FB Module, only display if not on partner page-->
         <share-module *ngIf="shareModuleInput" [shareModuleInput]="shareModuleInput"></share-module>
+        <responsive-widget *ngIf="shareModuleInput" [embedPlace]="widgetPlace" [displayAtRes]="'640'"></responsive-widget>
         <section *ngIf="!partnerID">
           <like-us-module></like-us-module>
           <comment-module [profileName]="profileHeaderData.profileName"></comment-module>
