@@ -5,7 +5,7 @@ import {VideoStackModule} from '../../modules/video-stack/video-stack.module';
 
 import {SidekickWrapper} from '../../components/sidekick-wrapper/sidekick-wrapper.component';
 
-import {WidgetModule} from '../../modules/widget/widget.module';
+import {WidgetCarouselModule} from '../../modules/widget/widget-carousel.module';
 import {SideScrollSchedule} from '../../modules/side-scroll-schedules/side-scroll-schedules.module';
 
 import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
@@ -23,7 +23,7 @@ declare var moment;
 
     directives: [
       SidekickWrapper,
-      WidgetModule,
+      WidgetCarouselModule,
       SideScrollSchedule,
       BoxScoresModule,
       TileStackModule,
