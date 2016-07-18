@@ -4,7 +4,7 @@
   </div>
   <section class="header-top">
     <div class="header-left">
-      <div class="header-hamburger" >
+      <div class="header-hamburger" tabindex="999">
         <i class="fa fa-bars"></i>
         <i class="fa fa-remove"></i>
         <div class="header-hamburger-dropDown"><hamburger-menu-component [menuData]="hamburgerMenuData" [menuInfo]="hamburgerMenuInfo"></hamburger-menu-component></div>
@@ -12,7 +12,7 @@
     </div>
     <div class="header-right">
       <div class="header-search">
-        <div class="header-search-searchBtn" (keydown)="searchKeydown($event)" tabindex="0">
+        <div class="header-search-searchBtn" (keydown)="searchKeydown($event)" tabindex="998">
           <i class="fa fa-search"></i>
           <i class="fa fa-remove"></i>
         </div>
