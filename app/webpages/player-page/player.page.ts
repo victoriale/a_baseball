@@ -58,6 +58,8 @@ import {DailyUpdateService, DailyUpdateData} from "../../services/daily-update.s
 
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
+import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
+
 declare var moment;
 
 @Component({
@@ -84,7 +86,9 @@ declare var moment;
       AboutUsModule,
       ListOfListsModule,
       DailyUpdateModule,
-      ImagesMedia],
+      ImagesMedia,
+      ResponsiveWidget
+    ],
     providers: [
       BoxScoresService,
       SchedulesService,
@@ -104,6 +108,7 @@ declare var moment;
 })
 
 export class PlayerPage implements OnInit {
+  public widgetPlace: string = "widgetForModule";
   public shareModuleInput:ShareModuleInput;
   pageParams:MLBPageParameters;
   partnerID:string = null;

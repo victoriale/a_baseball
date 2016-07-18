@@ -21,7 +21,6 @@ export class BoxScoresModule implements OnChanges{
   @Input() boxScores:any;
   @Input('max-height') maxHeight:number;
   @Input('scroll') scroll:boolean;
-
   // private moduleHeight: string;
   public dateEmit = new EventEmitter();
   private gameNum:number = 0;
