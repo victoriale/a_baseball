@@ -2,13 +2,19 @@
   &-car {
     .scc-details-desc {
       height: 170px;
+      width: 320px;
     }
   }
 
   .image-column-hdr, .image-column {
     width: 200px;
   }
-
+  .data-column-hdr:first-child, .data-column:first-child {
+    max-width: 40px;
+  }
+  .data-column-hdr:last-child, .data-column:last-child {
+    min-width: 55px;
+  }
   .pane {
     padding-top: 0;
     h4 {
@@ -18,7 +24,7 @@
     }
 
     .standings-tab-section:first-child h4 {
-      margin-top: 0px;
+      margin-top: 10px;
     }
   }
 }

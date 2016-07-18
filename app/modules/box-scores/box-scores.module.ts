@@ -6,11 +6,12 @@ import {ArticleScheduleComponent} from '../../components/articles/article-schedu
 import {GameInfo} from '../../components/game-info/game-info.component';
 import {ScoreBoard} from '../../components/score-board/score-board.component';
 import {GameArticle} from '../../components/game-article/game-article.component';
+import {ScrollableContent} from '../../components/scrollable-content/scrollable-content.component';
 
 @Component({
     selector: 'box-scores',
     templateUrl: './app/modules/box-scores/box-scores.module.html',
-    directives: [GameArticle, ScoreBoard, GameInfo, ArticleScheduleComponent, CalendarCarousel,  ModuleHeader],
+    directives: [ScrollableContent, GameArticle, ScoreBoard, GameInfo, ArticleScheduleComponent, CalendarCarousel,  ModuleHeader],
     providers: [],
     outputs: ['dateEmit'],
 })
@@ -18,6 +19,10 @@ import {GameArticle} from '../../components/game-article/game-article.component'
 export class BoxScoresModule implements OnChanges{
   @Input() calendarParams:any;
   @Input() boxScores:any;
+  @Input('max-height') maxHeight:number;
+  @Input('scroll') scroll:boolean;
+
+  // private moduleHeight: string;
   public dateEmit = new EventEmitter();
   private gameNum:number = 0;
   constructor(){}
@@ -31,6 +36,10 @@ export class BoxScoresModule implements OnChanges{
   }
 
   ngOnChanges(){
-
+    if(document.getElementById('box-header') != null){
+      var boxHeader = document.getElementById('box-header').offsetHeight;
+      //only for mlb page but subtract the mod title and calendar height from what was sent in
+      this.maxHeight -= boxHeader;
+    }
   }
 }

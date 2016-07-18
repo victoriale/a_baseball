@@ -4,11 +4,12 @@ import {GlobalFunctions} from '../../global/global-functions';
 import {MLBGlobalFunctions} from '../../global/mlb-global-functions';
 import {Link, NavigationData} from '../../global/global-interface';
 import {GlobalSettings} from "../../global/global-settings";
+import {DropdownDirectoryComponent} from '../dropdown-directory/dropdown-directory.component';
 
 @Component({
     selector: 'footer-component',
     templateUrl: './app/components/footer/footer.component.html',
-    directives: [ROUTER_DIRECTIVES],
+    directives: [ROUTER_DIRECTIVES, DropdownDirectoryComponent],
     inputs: [],
     providers: [],
 })
