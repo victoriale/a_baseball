@@ -4,6 +4,7 @@ import {CircleImageData} from '../../components/images/image-data';
 import {ComplexInnerHtml} from '../../components/complex-inner-html/complex-inner-html.component';
 import {Link} from '../../global/global-interface';
 import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
 export interface DetailListInput {
   // must have a length of 3 or the styling will be off
@@ -37,7 +38,7 @@ export interface DetailListInput {
 @Component({
     selector: 'detailed-list-item',
     templateUrl: './app/components/detailed-list-item/detailed-list-item.component.html',
-    directives: [ROUTER_DIRECTIVES, CircleImage, ComplexInnerHtml],
+    directives: [ROUTER_DIRECTIVES, CircleImage, ComplexInnerHtml, ResponsiveWidget],
     providers: [],
 })
 
