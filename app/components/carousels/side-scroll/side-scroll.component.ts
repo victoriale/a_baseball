@@ -14,7 +14,6 @@ export class SideScroll implements OnInit{
   }
 
   ngOnInit(){
-    console.log(jQuery(".ss_owl"));
     jQuery(".owl-carousel").owlCarousel({
       items:7,
       loop:true,
@@ -27,13 +26,11 @@ export class SideScroll implements OnInit{
   left() {
     var owl = jQuery('.ss_owl');
     owl.owlCarousel();
-    console.log(owl.owlCarousel());
     owl.trigger('prev.owl.carousel');
   }
   right() {
     var owl = jQuery('.ss_owl');
     owl.owlCarousel();
-    console.log(owl.owlCarousel());
     owl.trigger('next.owl.carousel');
   }
 
