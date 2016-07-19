@@ -17,8 +17,11 @@ transactions-page .module-container .widgetForPage {
 list-page .widgetForPage, list-of-lists-page .widgetForPage, about-us-page .widgetForPage, contactus-page .widgetForPage, disclaimer-page .widgetForPage {
   width:100vw;
 }
-.standings tabs tab div div .standings-tab-section:nth-child(even) .widgetForPage {
-  display:none;
+.standings div .standings-tab-section:nth-child(odd) .widgetForPage {
+  display: none;
+}
+.standings div .standings-tab-section:last-of-type .widgetForPage {
+  display: block !important;
 }
 .widgetForModule {
   width:100vw;
