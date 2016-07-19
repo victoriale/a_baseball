@@ -26,21 +26,11 @@
     .flexDirection(column);
     .flexJustify(flex-end);
     .flexAlignItems(flex-start);
-    .fa-remove{
-      margin: 22px;
-      display: none;
-    }
     .fa-bars{
       margin: 22px;
     }
     &:hover{
       background-color: darken(@masterBrandColor, 10%);
-      .fa-remove{
-        display: block;
-      }
-      .fa-bars{
-        display: none;
-      }
     }
     &-dropDown{
       display: none;
@@ -118,12 +108,6 @@
         .header-search-searchBox{
           display: block;
         }
-        .fa-search{
-          display: none;
-        }
-        .fa-remove{
-          display: block;
-        }
         background-color: darken(@masterBrandColor, 10%);
       }
     }
@@ -136,17 +120,8 @@
       .flexDirection(column);
       .flexJustify(center);
       .flexAlignItems(center);
-      .fa-remove{
-        display: none;
-      }
       &:hover{
         .header-search-searchBox{
-          display: block;
-        }
-        .fa-search{
-          display: none;
-        }
-        .fa-remove{
           display: block;
         }
         background-color: darken(@masterBrandColor, 10%);
