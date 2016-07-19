@@ -16,6 +16,7 @@ transactions-page .module-container .widgetForPage {
 }
 .widgetForPage {
   width:100vw;
+  z-index:5;
 }
 standings-page div .standings-tab-section:nth-child(odd) .widgetForPage {
   display: none;
@@ -25,8 +26,10 @@ standings-page div .standings-tab-section:last-of-type .widgetForPage {
 }
 .widgetForModule {
   width:100vw;
+  z-index:5;
   .widgetWrapper {
-    padding-top:8px;
+    padding: 0 0 20px;
+    height: 270px;
   }
 }
 @media (min-width: 641px) and (max-width: 1024px) {
