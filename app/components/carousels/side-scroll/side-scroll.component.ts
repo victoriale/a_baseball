@@ -10,20 +10,13 @@ declare var jQuery:any
 })
 
 export class SideScroll implements OnInit{
-  constructor(
-    ngZone:NgZone
-  ){
-    window.onresize = (e) =>
-    {
-      var width = window.outerWidth;
-      var height = window.outerHeight;
-    }
+  constructor(){
   }
 
   ngOnInit(){
-    console.log(jQuery(".owl-carousel"));
+    console.log(jQuery(".ss_owl"));
     jQuery(".owl-carousel").owlCarousel({
-      items:5,
+      items:7,
       loop:true,
       dots:false,
       nav:false,
@@ -32,13 +25,15 @@ export class SideScroll implements OnInit{
   }
 
   left() {
-    var owl = jQuery('.owl-carousel');
+    var owl = jQuery('.ss_owl');
     owl.owlCarousel();
+    console.log(owl.owlCarousel());
     owl.trigger('prev.owl.carousel');
   }
   right() {
-    var owl = jQuery('.owl-carousel');
+    var owl = jQuery('.ss_owl');
     owl.owlCarousel();
+    console.log(owl.owlCarousel());
     owl.trigger('next.owl.carousel');
   }
 
