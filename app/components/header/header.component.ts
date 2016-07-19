@@ -25,11 +25,7 @@ export class HeaderComponent implements OnInit,OnChanges {
   public hamburgerMenuInfo: Array<MenuData>;
   public titleHeader: string;
   loadData(partnerID: string) {
-    if(partnerID != null && partnerID !== undefined && partnerID != "") {
-      this.logoUrl = 'app/public/Logo_My-Home-Run-Zone.svg';
-    } else {
-      this.logoUrl = 'app/public/Home-Run-Loyal_Logo.svg';
-    }
+    this.logoUrl = 'app/public/Home-Run-Loyal_Logo.svg';
     this.hamburgerMenuData = [{
         menuTitle: "Home",
         url: ['Home-page']
