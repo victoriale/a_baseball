@@ -127,13 +127,16 @@ export class ListOfListsService {
             route: itemRoute,
             text: itemProfile
           };
-          itemDescription   = ["The ", profileLinkText, " are currently ranked <b>"+ rankStr +"</b> in the "+ itemInfo.scope +"with the most <b>" + itemStatName + "</b>."];
+          itemDescription   = ["The ", profileLinkText, " are currently ranked <b>"+ rankStr +"</b> in the "+ itemInfo.scope +" with the most <b>" + itemStatName + "</b>."];
         }
         if (itemTargetData.backgroundImage == null || itemTargetData.backgroundImage == undefined) {
-          itemTargetData.backgroundImage = "/app/public/Image-Placeholder-2.jpg"
+          itemTargetData.backgroundImage = "/app/public/Image-Placeholder-2.jpg";
+        }
+        else {
+          itemTargetData.backgroundImage = GlobalSettings.getBackgroundImageUrl(itemTargetData.backgroundImage);
         }
         var carouselItem = SliderCarousel.convertToCarouselItemType1(index, {
-          backgroundImage: GlobalSettings.getBackgroundImageUrl(itemTargetData.backgroundImage),
+          backgroundImage: itemTargetData.backgroundImage,
           copyrightInfo: GlobalSettings.getCopyrightInfo(),
           subheader: ["Related List - ", profileLinkText],
           profileNameLink: {text: itemInfo.name},
