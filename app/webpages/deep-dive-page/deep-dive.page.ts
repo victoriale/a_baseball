@@ -50,11 +50,12 @@ export class DeepDivePage implements OnInit {
     dateParam: any;
     maxHeight: any;
     scroll: boolean = true;
+    private isHomeRunZone: boolean = false;
+
     constructor(
       private _router:Router,
       private _boxScores:BoxScoresService,
-      ngZone:NgZone
-    ) {
+      ngZone:NgZone){
       this.profileName = "MLB";
 
       //for boxscores
@@ -68,6 +69,8 @@ export class DeepDivePage implements OnInit {
 
       GlobalSettings.getPartnerID(_router, partnerID => {
           this.partnerID = partnerID;
+          var partnerHome = GlobalSettings.getHomeInfo().isHome && GlobalSettings.getHomeInfo().isPartner;
+          this.isHomeRunZone = partnerHome;
       });
 
       window.onresize = (e) =>
