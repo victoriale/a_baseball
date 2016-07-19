@@ -10,11 +10,12 @@ import {ErrorComponent} from "../../components/error/error.component";
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 import {DraftHistoryComponent} from "../../components/draft-history/draft-history.component";
 import {IProfileData, ProfileHeaderService} from '../../services/profile-header.service';
+import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
 @Component({
     selector: 'draft-history-page',
     templateUrl: './app/webpages/draft-history-page/draft-history.page.html',
-    directives: [SidekickWrapper, ErrorComponent, LoadingComponent, DraftHistoryComponent, BackTabComponent, TitleComponent],
+    directives: [SidekickWrapper, ErrorComponent, LoadingComponent, DraftHistoryComponent, BackTabComponent, TitleComponent, ResponsiveWidget],
     providers: [ProfileHeaderService, Title]
 })
 
