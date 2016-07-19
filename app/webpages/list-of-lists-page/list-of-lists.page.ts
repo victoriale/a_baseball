@@ -18,13 +18,14 @@ import {GlobalFunctions} from "../../global/global-functions";
 import {MLBGlobalFunctions} from "../../global/mlb-global-functions";
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 import {ProfileHeaderService} from '../../services/profile-header.service';
+import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
 declare var moment:any;
 
 @Component({
     selector: 'list-of-lists-page',
     templateUrl: './app/webpages/list-of-lists-page/list-of-lists.page.html',
-    directives: [SidekickWrapper, NoDataBox, BackTabComponent, TitleComponent, SliderCarousel, ListOfListsItem, ModuleFooter, LoadingComponent, ErrorComponent, PaginationFooter],
+    directives: [SidekickWrapper, NoDataBox, BackTabComponent, TitleComponent, SliderCarousel, ListOfListsItem, ModuleFooter, LoadingComponent, ErrorComponent, PaginationFooter, ResponsiveWidget],
     providers: [ListOfListsService, Title, ProfileHeaderService],
     inputs:[]
 })
@@ -46,7 +47,7 @@ export class ListOfListsPage implements OnInit{
     titleData             : TitleInputData;
 
     constructor(private listService:ListOfListsService,
-        private _profileService: ProfileHeaderService, 
+        private _profileService: ProfileHeaderService,
         private _params: RouteParams,
         private _title: Title) {
         _title.setTitle(GlobalSettings.getPageTitle("List of Lists"));
@@ -126,7 +127,7 @@ export class ListOfListsPage implements OnInit{
         if ( this.pageType != "league" ) {
            navigationParams['type'] = this.pageType;
         }
-           
+
         var navigationPage = this.pageType == "league" ? 'List-of-lists-league-page' : 'List-of-lists-page';
         if ( !this.detailedDataArray ) {
             navigationPage = "Error-page";
@@ -134,7 +135,7 @@ export class ListOfListsPage implements OnInit{
         else if ( navigationParams['scope'] ) {
             navigationPage = 'List-of-lists-page-scoped';
         }
-        
+
         this.paginationParameters = {
             index: params['pageNum'] != null ? Number(params['pageNum']) : null,
             max: Number(input.pageCount),
