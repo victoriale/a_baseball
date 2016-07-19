@@ -29,7 +29,7 @@ export interface newsCarouselData {
     providers: [LandingPageService, Title],
 })
 
-export class HomePage implements OnInit {
+export class PickTeamPage implements OnInit {
     public teamData: Array<homePageData>;
     public listData: Array<newsCarouselData>;
     public displayData: Object;
