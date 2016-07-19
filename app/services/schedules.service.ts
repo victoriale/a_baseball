@@ -95,7 +95,7 @@ export class SchedulesService {
       callURL += '/'+id;
     }
     callURL += '/'+eventStatus+'/'+limit+'/'+ pageNum;  //default pagination limit: 5; page: 1
-    
+
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -114,6 +114,52 @@ export class SchedulesService {
           }
         };
       });
+  }
+
+//possibly simpler version of getting schedules
+  getSchedule(profile, eventStatus, limit, pageNum, id?, year?){
+    //Configure HTTP Headers
+    var headers = this.setToken();
+    var jsYear = new Date().getFullYear();//DEFAULT YEAR DATA TO CURRENT YEAR
+    var displayYear;
+    var eventTab:boolean = false;
+
+    if(typeof year == 'undefined'){
+      year = new Date().getFullYear();//once we have historic data we shall show this
+    }
+
+    if(jsYear == year){
+      displayYear = "Current Season";
+    }else{
+      displayYear = year;
+    }
+
+    //eventType determines which tab is highlighted
+    if(eventStatus == 'pre-event'){
+      eventTab = true;
+    }else{
+      eventTab = false;
+    }
+    var callURL = this._apiUrl+'/'+profile+'/schedule';
+
+    if(typeof id != 'undefined'){
+      callURL += '/'+id;
+    }
+    callURL += '/'+eventStatus+'/'+limit+'/'+ pageNum;  //default pagination limit: 5; page: 1
+
+    return this.http.get(callURL, {headers: headers})
+      .map(res => res.json())
+      .map(data => {
+        return data;
+      });
+  }
+
+  setupSlideScroll(data, profile, eventStatus, limit, pageNum, callback: Function){
+    this.getSchedule('league', 'pre-event', 10, 1)
+    .subscribe( data => {
+      console.log('got schedules data', data);
+      callback(data);
+    })
   }
 
   //rows is the data coming in
