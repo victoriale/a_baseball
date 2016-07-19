@@ -1,6 +1,5 @@
 <div class="schedule_box"><!--become a component <schedule-box>-->
-  <div class="schedule_box-date">
-    [Month] [DD] [YYYY] <i class="fa fa-circle"></i> [Time PM]
+  <div class="schedule_box-date" [innerHTML]="boxData.date">
   </div>
   <div class="schedule_box-versus">
     <div class="schedule_box-team">
@@ -8,7 +7,7 @@
         Image Here
       </div>
       <span class="schedule_box-text">
-        [Team1]
+        {{boxData.awayTeamName}}
       </span>
     </div>
     <div class="schedule_box-team">
@@ -16,11 +15,13 @@
         Image Here
       </div>
       <span class="schedule_box-text">
-        [Team1]
+        {{boxData.homeTeamName}}
       </span>
     </div>
-    <div class="schedule_box-linkbox">
-      MID GAME REPORT
-    </div>
+    <a href="{{boxData.reportLink}}">
+      <div class="schedule_box-linkbox">
+        {{boxData.reportDisplay}}
+      </div>
+    </a>
   </div>
 </div><!--</schedule-box>-->

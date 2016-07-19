@@ -15,7 +15,7 @@
       <div class="horizontal_widget-small"></div>
     </div>
     <div class="container3">
-      <box-scores *ngIf="dateParam" class="box-scores" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)" max-height='650' scroll='true'></box-scores>
+      <box-scores *ngIf="dateParam" class="box-scores" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)" [maxHeight]='maxHeight' [scroll]='scroll'></box-scores>
       <div class="box_articles">
         <div class="box_articles-item">
         <div class="article-image">

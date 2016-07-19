@@ -10,6 +10,7 @@ declare var jQuery:any
 })
 
 export class SideScroll implements OnInit{
+  @Input() carouselData:any;
   constructor(){
   }
 

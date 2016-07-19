@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
 import {Http, Headers} from '@angular/http';
 import {GlobalFunctions} from '../global/global-functions';
+import {CircleImageData} from '../components/images/image-data';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalSettings} from '../global/global-settings';
 import {Conference, Division, MLBPageParameters} from '../global/global-interface';
@@ -157,9 +158,15 @@ export class SchedulesService {
   setupSlideScroll(data, profile, eventStatus, limit, pageNum, callback: Function){
     this.getSchedule('league', 'pre-event', 10, 1)
     .subscribe( data => {
-      // console.log('got schedules data', data);
-      callback(data);
+      var formattedData = this.transformSlideScroll(data.data);
+      callback(formattedData);
     })
+  }
+
+  transformSlideScroll(data){
+    console.log('transformed',data);
+
+    return data;
   }
 
   //rows is the data coming in
@@ -254,5 +261,21 @@ export class SchedulesService {
       games = year + " Season";
     }
     return games;
+  }
+
+  imageData(imageClass, imageBorder, mainImg, mainImgRoute?){
+    if(typeof mainImg =='undefined' || mainImg == ''){
+      mainImg = "/app/public/no-image.png";
+    }
+    var image: CircleImageData = {//interface is found in image-data.ts
+        imageClass: imageClass,
+        mainImage: {
+            imageUrl: mainImg,
+            urlRouteArray: mainImgRoute,
+            hoverText: "<i class='fa fa-mail-forward'></i>",
+            imageClass: imageBorder,
+        },
+    };
+    return image;
   }
 }
