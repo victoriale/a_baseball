@@ -321,9 +321,9 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
         }
         else {
           display = item.teamInfo.teamName;
+          link = MLBGlobalFunctions.formatTeamRoute(item.teamInfo.teamName,item.teamInfo.teamId);
         }
         sort = item.teamInfo.teamName;
-        link = MLBGlobalFunctions.formatTeamRoute(item.teamInfo.teamName,item.teamInfo.teamId);
         break;
 
       case "wl":
