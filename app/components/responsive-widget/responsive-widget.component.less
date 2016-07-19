@@ -14,13 +14,25 @@ transactions-page .module-container .widgetForPage {
   width:100vw;
   padding-bottom:15px;
 }
-list-page .widgetForPage {
+list-page .widgetForPage, list-of-lists-page .widgetForPage, about-us-page .widgetForPage, contactus-page .widgetForPage, disclaimer-page .widgetForPage {
   width:100vw;
 }
 .widgetForModule {
   width:100vw;
   .widgetWrapper {
     padding-top:8px;
+  }
+}
+@media (min-width: 641px) and (max-width: 1024px) {
+  table .widgetForPage .widgetWrapper {
+      background-color: @white;
+      padding: 10px 0;
+      height: 270px;
+  }
+}
+@media (max-width: 640px) {
+  table .widgetForPage .widgetWrapper {
+        margin: 10px 0;
   }
 }
 .widgetWrapper {

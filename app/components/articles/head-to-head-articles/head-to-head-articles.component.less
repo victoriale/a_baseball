@@ -1,15 +1,17 @@
 .right-column {
   width: 250px;
   position: absolute;
-  right: 20px;
+  right: 10px;
   margin-top: 10px;
   &-head {
     .globalDefaultModFont(22px, 800, @white);
+    .flexDisplay;
+    .flexJustify(center);
     height: 50px;
     background-color: @black;
-    text-align: center;
     padding-top: 15px;
     > .fa-trophy {
+      padding-right: 5px;
       color: #ffd700;
     }
     &-content {

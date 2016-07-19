@@ -1,15 +1,18 @@
 <header class="header container-fluid fixedHeader" id="pageHeader" (window:scroll)="onScrollStick($event)" [style.top]="_stickyHeader">
+  <div class="header-logo">
+    <a href="/"><img src={{logoUrl}}/></a>
+  </div>
   <section class="header-top">
-    <div id="header-hamburger" class="header-hamburger">
-      <i class="fa fa-bars"></i>
-      <i class="fa fa-remove"></i>
-    </div>
-    <div class="header-logo">
-      <a href="/"><img src={{logoUrl}}/></a>
+    <div class="header-left">
+      <div class="header-hamburger" tabindex="999">
+        <i class="fa fa-bars"></i>
+        <i class="fa fa-remove"></i>
+        <div class="header-hamburger-dropDown"><hamburger-menu-component [menuData]="hamburgerMenuData" [menuInfo]="hamburgerMenuInfo"></hamburger-menu-component></div>
+      </div>
     </div>
     <div class="header-right">
       <div class="header-search">
-        <div class="header-search-searchBtn" tabindex="9999">
+        <div class="header-search-searchBtn" (keydown)="searchKeydown($event)" tabindex="998">
           <i class="fa fa-search"></i>
           <i class="fa fa-remove"></i>
         </div>

@@ -3,7 +3,6 @@
         <div class="search-input-container">
             <input class="search-input autocomplete" disabled [value]="autoCompleteText" />
             <input class="search-input main" [class.search-empty]="!hasInputText" (keydown)="searchKeydown($event)" [ngFormControl]="term" autocomplete="off" placeholder="{{searchInput.placeholderText}}"/><hr/>
-            <i class="fa fa-caret-left"></i>
         </div>
         <button type="submit" class="search-button">
             <i class="fa fa-search"></i>
