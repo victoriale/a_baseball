@@ -96,17 +96,6 @@ export class DeepDivePage implements OnInit {
 
     //api for Schedules
     private getSchedulesData(){
-
-      this._schedulesService.getSchedulesService('league', 'pre-event', 10, 1)
-      .subscribe(
-        data => {
-          console.log('got scheuldes data', data);
-        },
-        err => {
-          console.log("Error getting Schedules Data");
-        }
-      )
-
       this._schedulesService.setupSlideScroll(this.sideScrollData, 'league', 'pre-event', 10, 1, (sideScrollData) => {
           this.sideScrollData = sideScrollData;
           // console.log('finished',sideScrollData);

@@ -157,7 +157,7 @@ export class SchedulesService {
   setupSlideScroll(data, profile, eventStatus, limit, pageNum, callback: Function){
     this.getSchedule('league', 'pre-event', 10, 1)
     .subscribe( data => {
-      console.log('got schedules data', data);
+      // console.log('got schedules data', data);
       callback(data);
     })
   }
