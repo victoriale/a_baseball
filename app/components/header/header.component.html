@@ -1,5 +1,5 @@
 <header class="header container-fluid fixedHeader" id="pageHeader" (window:scroll)="onScrollStick($event)" [style.top]="_stickyHeader">
-  <div class="header-logo">
+  <div *ngIf="!partnerID" class="header-logo">
     <a href="/"><img src={{logoUrl}}/></a>
   </div>
   <section class="header-top">

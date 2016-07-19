@@ -11,5 +11,6 @@
   <list-of-lists-item *ngFor="let itemData of detailedDataArray; let rowIndex = index" [item] = 'itemData' [rowIndex] = 'rowIndex'></list-of-lists-item>
   <pagination-footer *ngIf="paginationParameters" [paginationParameters]="paginationParameters"></pagination-footer>
   <no-data-box *ngIf="!detailedDataArray && errorData" [data]="errorData"></no-data-box>
+  <responsive-widget *ngIf="paginationParameters" embedPlace="widgetForPage"></responsive-widget>
 </section>
 </sidekick-wrapper>

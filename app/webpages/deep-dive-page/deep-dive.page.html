@@ -1,4 +1,4 @@
-  <section class="deep-dive">
+  <section class="deep-dive" *ngIf="!isHomeRunZone">
 
     <div class="newsCarousel" id="newsCarousel">
       <carousel-dive-module></carousel-dive-module>
@@ -48,3 +48,4 @@
   </section>
 
   <div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div>
+  <Partner-home-page *ngIf="isHomeRunZone"></Partner-home-page>
