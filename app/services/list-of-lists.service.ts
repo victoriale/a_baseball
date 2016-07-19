@@ -115,9 +115,10 @@ export class ListOfListsService {
           itemSubRoute      = MLBGlobalFunctions.formatTeamRoute(itemTargetData.teamName, itemTargetData.teamId);
           profileLinkText   = {
             route: itemRoute,
-            text: itemProfile
+            text: itemProfile,
+            class: 'text-heavy'
           };
-          itemDescription   = [profileLinkText, " is currently ranked <b>"+ rankStr +"</b> in the <b>"+ itemInfo.scope +"</b> with the most <b>" + itemStatName + "</b>."];
+          itemDescription   = [profileLinkText, " is currently ranked <b>"+ rankStr +"</b> in the "+ itemInfo.scope +" with the most <b>" + itemStatName + "</b>."];
         } else if ( itemInfo.target == "team" ) {
           itemProfile       = itemTargetData.teamName;
           itemImgUrl        = GlobalSettings.getImageUrl(itemTargetData.teamLogo);
@@ -126,9 +127,11 @@ export class ListOfListsService {
             route: itemRoute,
             text: itemProfile
           };
-          itemDescription   = ["The ", profileLinkText, " are currently ranked <b>"+ rankStr +"</b> in the <b>"+ itemInfo.scope +"</b> with the most <b>" + itemStatName + "</b>."];
+          itemDescription   = ["The ", profileLinkText, " are currently ranked <b>"+ rankStr +"</b> in the "+ itemInfo.scope +"with the most <b>" + itemStatName + "</b>."];
         }
-
+        if (itemTargetData.backgroundImage == null || itemTargetData.backgroundImage == undefined) {
+          itemTargetData.backgroundImage = "/app/public/Image-Placeholder-2.jpg"
+        }
         var carouselItem = SliderCarousel.convertToCarouselItemType1(index, {
           backgroundImage: GlobalSettings.getBackgroundImageUrl(itemTargetData.backgroundImage),
           copyrightInfo: GlobalSettings.getCopyrightInfo(),
