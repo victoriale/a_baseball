@@ -10,7 +10,7 @@
       </th>
     </tr>
   </thead>
-    <tbody class="{{bodyClass}}" *ngFor="let item of model.rows; let isEven = even; let rowIndex = index">
+    <tbody class="{{bodyClass}}" *ngFor="let item of model.rows; let isEven = even; let rowIndex = index; let isLast = last">
       <tr class="custom-table-row"
       [class.custom-table-row-selected]="model.isRowSelected(item, rowIndex)"
       [class.custom-table-row-even]="isEven"
@@ -21,7 +21,7 @@
         </div>
       </td>
     </tr>
-    <responsive-widget style="display:table-row;" colspan=50 *ngIf="(!((rowIndex + 1) % 5) && model.footer) || (!((rowIndex + 1) % 10) && !model.footer)" embedPlace="widgetForPage"></responsive-widget>
+    <responsive-widget style="display:table-row;" colspan=50 *ngIf="(!((rowIndex + 1) % 5) && model.footer) || (!((rowIndex + 1) % 10) && !model.footer) || (isLast && rowIndex < 5)" embedPlace="widgetForPage"></responsive-widget>
   </tbody>
 
   <tfoot *ngIf="model.footer" class="custom-table-footer {{bodyClass}}">
