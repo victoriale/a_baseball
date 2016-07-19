@@ -40,7 +40,7 @@ export interface AboutUsModel {
 })
 
 export class AboutUsPage {
-    public widgetPlace: string = "widgetForModule";
+    public widgetPlace: string = "widgetForPage";
     public auHeaderTitle: string = "What is the site about?";
 
     public auBlocks: Array<AuBlockData> = [];

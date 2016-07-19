@@ -21,7 +21,7 @@ import {ResponsiveWidget} from '../../components/responsive-widget/responsive-wi
 })
 
 export class DisclaimerPage {
-    public widgetPlace: string = "widgetForModule";
+    public widgetPlace: string = "widgetForPage";
     public pageName: string;
     public pageLinkName: string;
     public contactUsLinkName: string;
