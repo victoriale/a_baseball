@@ -42,9 +42,18 @@
     &-text{
       font-size: 10px;
     }
+  }//sub_header-poweredby ends
+  &-logo{
+    width: 37px;
+    height:auto;
+    margin-left:5px;
+    @media @non-mobile{
+      width:60px;
+    }
   }
 }
 .pbwrapper{
   .flexDisplay;
+  .flexAlignItems(center);
   margin-left: auto;
 }
