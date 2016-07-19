@@ -1,5 +1,5 @@
 <section *ngIf="profileHeaderData" class="module-container ph">
-  <div class="ph-banner-image" [style.background]="backgroundImage">  
+  <div class="ph-banner-image" [style.background]="backgroundImage">
     <div class="ph-hdr">
       <div class="ph-hdr-date">Last Updated: {{displayDate}}</div>
       <div class="ph-hdr-title" [innerHtml]="profileTitle"></div>
@@ -24,7 +24,7 @@
       <div class="ph-content-wrapper">
         <div class="ph-content-title">
           <circle-image [data]="logoConfig"></circle-image>
-          {{contentTitle}}
+          <span class="ph-content-title-text">{{contentTitle}}</span>
         </div>
         <div class="ph-content-desc">
           <!--<div class="ph-content-desc-border"></div>          -->
