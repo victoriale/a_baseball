@@ -32,5 +32,5 @@
       </div>
     </div>
   </div>
-  <responsive-widget *ngIf="!((rowIndex + 1) % 5)" embedPlace="widgetForPage"></responsive-widget>
+  <responsive-widget *ngIf="!((rowIndex + 1) % 5) && rowIndex != 9" embedPlace="widgetForPage"></responsive-widget>
 </div>
