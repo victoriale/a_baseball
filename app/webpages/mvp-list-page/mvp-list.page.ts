@@ -16,11 +16,12 @@ import {GlobalSettings} from "../../global/global-settings";
 import {DynamicWidgetCall} from "../../services/dynamic-list-page.service";
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 import {MVPListComponent, MVPTabData} from '../../components/mvp-list/mvp-list.component';
+import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
 @Component({
     selector: 'mvp-list-page',
     templateUrl: './app/webpages/mvp-list-page/mvp-list.page.html',
-    directives: [ROUTER_DIRECTIVES, SidekickWrapper, ErrorComponent, LoadingComponent, PaginationFooter, BackTabComponent, TitleComponent, MVPListComponent],
+    directives: [ROUTER_DIRECTIVES, SidekickWrapper, ErrorComponent, LoadingComponent, PaginationFooter, BackTabComponent, TitleComponent, MVPListComponent, ResponsiveWidget],
     providers: [ListPageService, ProfileHeaderService, Title],
     inputs:[]
 })
