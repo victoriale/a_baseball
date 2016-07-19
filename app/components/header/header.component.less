@@ -88,13 +88,13 @@
           border-top-left-radius: 18px;
           border-bottom-left-radius: 18px;
           &:focus{
-            border: none;
-            box-shadow: none;
+            border: 1px solid transparent;
+            box-shadow: 0 3px 7px 0 transparent;
           }
         }
         .search-button{
           font-size: 20px;
-          width: 50px;
+          width: 52px;
           border-top-right-radius: 18px;
           border-bottom-right-radius: 18px;
           background-color: @highlightGrey;
@@ -181,7 +181,7 @@
     }
   }
 }
-@media (@desktop-l) and (@desktop-xl){
+@media @desktop{
   .header{
     &-search{
       height: 65px;
