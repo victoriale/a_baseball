@@ -1,13 +1,13 @@
 <div class="hamburger-component">
-  <div class="nav">
-    <ul class="nav-topics-list">
-      <a *ngFor="let menuData of menuData" [routerLink]="menuData.url"><li class="nav-topics-list-item">{{menuData.menuTitle}}</li></a>
+  <div class="hamburger">
+    <ul class="hamburger-topics-list">
+      <a *ngFor="let menuData of menuData" [routerLink]="menuData.url"><li class="hamburger-topics-list-item">{{menuData.menuTitle}}</li></a>
     </ul>
   </div>
-  <div class="nav-company">
-    <h2 class="nav-company-title">{{menuInfoHeader}}</h2>
-    <ul class="nav-nested-list">
-      <a *ngFor="let menuData of menuInfo" [routerLink]="menuData.url"><li class="nav-nested-list-item">{{menuData.menuTitle}}</li></a>
+  <div class="hamburger-company">
+    <h2 class="hamburger-company-title">{{menuInfoHeader}}</h2>
+    <ul class="hamburger-nested-list">
+      <a *ngFor="let menuData of menuInfo" [routerLink]="menuData.url"><li class="hamburger-nested-list-item">{{menuData.menuTitle}}</li></a>
     </ul>
   </div>
 </div>

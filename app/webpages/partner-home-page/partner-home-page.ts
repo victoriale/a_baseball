@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router, RouteParams, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
 @Component({
-    selector: 'Housekit-home-page',
+    selector: 'Partner-home-page',
     templateUrl: './app/webpages/partner-home-page/partner-home-page.html',
 
     directives: [ROUTER_DIRECTIVES],

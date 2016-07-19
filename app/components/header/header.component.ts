@@ -35,6 +35,10 @@ export class HeaderComponent implements OnInit,OnChanges {
         url: ['Home-page']
       },
       {
+        menuTitle: "Pick a Team",
+        url: ['Pick-team-page']
+      },
+      {
         menuTitle: "MLB League",
         url: ['MLB-page']
       },
