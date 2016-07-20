@@ -4,48 +4,39 @@
     <carousel-dive-module></carousel-dive-module>
   </div>
   <div class="deep-dive-content-container">
-    <side-scroll-schedules *ngIf="boxScoresData" [sideScrollData]="boxScoresData"></side-scroll-schedules>
+    <side-scroll-schedules *ngIf="sideScrollData" [sideScrollData]="sideScrollData"></side-scroll-schedules>
     <div class="container2">
-      <article-stack-module></article-stack-module>
       <tile-stack-module></tile-stack-module>
-    </div><!--container2 ends-->
-
-    <!--ADS-->
-    <div class="horizontal_widget">
-      <div class="horizontal_widget-large"></div>
-      <div class="horizontal_widget-small"></div>
-    </div>
-    <!--ADS ENDS-->
-
-    <div class="container3">
+      <article-stack-module></article-stack-module>
       <video-stack-module></video-stack-module>
-      <box-scores *ngIf="dateParam" class="box-scores" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)" max-height='650' scroll='true'></box-scores>
-    </div><!--container3 ends-->
-
-    <!--ADS-->
+    </div>
     <div class="horizontal_widget">
       <div class="horizontal_widget-large"></div>
       <div class="horizontal_widget-small"></div>
     </div>
-    <!--ADS ENDS-->
+    <div class="container3">
+      <box-scores *ngIf="dateParam && maxHeight" class="box-scores" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)" [maxHeight]="maxHeight" [scroll]="scroll"></box-scores>
+      <div class="box_articles">
+        <div class="box_articles-item">
+        <div class="article-image">
 
-    <div class="box_articles">
-      <div class="box_articles-item">
-        <div class="article-image"></div>
+        </div>
         <div class="article-text">
           <span>[KEYWORD]</span><span>[MONTH][DD], [YYYY]</span>
           <p>Lorem ispum dolor sit amet, consectetu adiplicsing elit, sed do eisuemod tempor.</p>
         </div>
       </div>
       <div class="box_articles-item">
-        <div class="article-image"></div>
+        <div class="article-image">
+
+        </div>
         <div class="article-text">
           <span>[KEYWORD]</span><span>[MONTH][DD], [YYYY]</span>
           <p>Lorem ispum dolor sit amet, consectetu adiplicsing elit, sed do eisuemod tempor.</p>
         </div>
+      </div>
       </div>
     </div>
-
   </div>
 </section>
   <div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div>

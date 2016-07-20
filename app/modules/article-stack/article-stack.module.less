@@ -1,24 +1,25 @@
 .article-stack-container {
   width:610px;
-  margin: auto auto 30px;
-  .flexDisplay;
-  .flexDirection(column);
+  margin: auto;
 }
-@media @desktop-m {
+@media(min-width: 768px) {
   .article-stack-container {
     width:670px;
   }
 
 }
-@media @desktop-l { //Places stack-rows to the right of article-stacktop
+@media(min-width:1300px) { //Places stack-rows to the right of article-stacktop
   .article-stack-container {
+    display: flex;
     width: auto;
+    margin-left: 2%;
   }
 
 }
-@media @desktop-xl {
+@media(min-width:1400px) {
   .article-stack-container {
     width: 1087px;
+    margin-left: ;
   }
 
 }

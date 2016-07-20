@@ -1,60 +1,54 @@
-.stacktop{
+.article-stacktop-container {
   width: 610px;
   &-title {
-    height: 100px;
-    line-height: 1.2;
     .globalDefaultModFont(32px, 800, @black);
-    &-date{
-      text-transform: uppercase;
-      font-size: 12px;
-    }//stacktop-title-date ends
-    &-headline{
-      margin: 20px 0;
+    line-height: 1.2;
+    &-top {
+      font-size: 11px;
+     >span {
+       color:@strokeGrey;
+     }
     }
-  }//stacktop-title ends
+  }
   &-titleinfo {
     .globalDefaultModFont(14px, 800, @strokeGrey);
     line-height: 2.14;
-    margin: 10px 0 20px;
-    &-provider{
-      max-width: 200px;
-      margin-right: 25px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+    margin-bottom: 15px;
+    margin-top:12px;
   }
   &-image {
     width: 610px;
     height: 421px;
     background-color: @masterBackgroundColor;
   }
-  &-desc {
-    margin: 15px 0;
+  &-text {
+  .globalDefaultModFont(12px, 400, @black);
+    margin-top: 10px;
     line-height: 1.2;
-    .globalDefaultModFont(12px, 400, @black);
+
   }
+
+
+
+
 }
-@media (@desktop-m) { // up to 787px
+@media (min-width: 768px) {
   .article-stacktop-container {
     width: 670px;
     &-image {
       width: 670px;
     }
   }
-}
 
-@media(@desktop-l) { // up to 1024px
+}
+@media(min-width: 1300px) {
   .article-stacktop-container {
     width:auto;
     &-image {
       width: 750px;
     }
-    &-desc {
+    &-text {
       font-size:14px;
     }
   }
-}
-
-@media (@desktop-xl){ // more than 1044px
-
 }

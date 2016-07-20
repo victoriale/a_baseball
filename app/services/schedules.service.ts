@@ -2,12 +2,14 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Rx';
 import {Http, Headers} from '@angular/http';
 import {GlobalFunctions} from '../global/global-functions';
+import {CircleImageData} from '../components/images/image-data';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalSettings} from '../global/global-settings';
 import {Conference, Division, MLBPageParameters} from '../global/global-interface';
 import {SchedulesCarouselInput} from '../components/carousels/schedules-carousel/schedules-carousel.component';
 import {SchedulesData, MLBSchedulesTableModel, MLBSchedulesTableData, MLBScheduleTabData} from './schedules.data';
 import {Gradient} from '../global/global-gradient';
+import {scheduleBoxInput} from '../components/schedule-box/schedule-box.component';
 
 declare var moment: any;
 
@@ -116,7 +118,7 @@ export class SchedulesService {
       });
   }
 
-//possibly simpler version of getting schedules
+  //possibly simpler version of getting schedules api call
   getSchedule(profile, eventStatus, limit, pageNum, id?, year?){
     //Configure HTTP Headers
     var headers = this.setToken();
@@ -155,11 +157,44 @@ export class SchedulesService {
   }
 
   setupSlideScroll(data, profile, eventStatus, limit, pageNum, callback: Function){
-    this.getSchedule('league', 'pre-event', 10, 1)
+    this.getSchedule('league', eventStatus, limit, pageNum)
     .subscribe( data => {
-      // console.log('got schedules data', data);
-      callback(data);
+      var formattedData = this.transformSlideScroll(data.data);
+      callback(formattedData);
     })
+  }
+
+  transformSlideScroll(data){
+    let self = this;
+    var modifiedArray = [];
+    var newData:scheduleBoxInput;
+    //run through and convert data to what is needed for the component
+    data.forEach(function(val,index){
+      let reportText = 'GAME REPORT';
+      let reportLink = MLBGlobalFunctions.formatArticleRoute(val.eventStatus, val.eventId);
+
+      if(val.eventStatus = 'pre-event'){
+        reportText = 'PRE GAME REPORT'
+      }else if (val.eventStatus == 'post-event'){
+        reportText = 'POST GAME REPORT';
+      }else{
+        reportText = 'MID GAME REPORT';
+      }
+
+      let date = moment(val.startDateTimestamp).tz('America/New_York').format('MMMM D YYYY');
+      let time = moment(val.startDateTimestamp).tz('America/New_York').format('h:mm A');
+      newData = {
+        date: date + " <i class='fa fa-circle'></i> " + time,
+        awayImageConfig: self.imageData('image-60', 'border-1', GlobalSettings.getImageUrl(val.awayTeamLogo), MLBGlobalFunctions.formatTeamRoute(val.awayTeamName, val.awayTeamId)),
+        homeImageConfig: self.imageData('image-60', 'border-1', GlobalSettings.getImageUrl(val.homeTeamLogo), MLBGlobalFunctions.formatTeamRoute(val.homeTeamName, val.homeTeamId)),
+        awayTeamName: val.awayTeamLastName,
+        homeTeamName: val.homeTeamLastName,
+        reportDisplay: reportText,
+        reportLink: reportLink ? reportLink : ['Error-page'],
+      }
+      modifiedArray.push(newData);
+    });
+    return modifiedArray;
   }
 
   //rows is the data coming in
@@ -254,5 +289,21 @@ export class SchedulesService {
       games = year + " Season";
     }
     return games;
+  }
+
+  imageData(imageClass, imageBorder, mainImg, mainImgRoute?){
+    if(typeof mainImg =='undefined' || mainImg == ''){
+      mainImg = "/app/public/no-image.png";
+    }
+    var image: CircleImageData = {//interface is found in image-data.ts
+        imageClass: imageClass,
+        mainImage: {
+            imageUrl: mainImg,
+            urlRouteArray: mainImgRoute,
+            hoverText: "<i class='fa fa-mail-forward'></i>",
+            imageClass: imageBorder,
+        },
+    };
+    return image;
   }
 }
