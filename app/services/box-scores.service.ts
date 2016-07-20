@@ -90,6 +90,9 @@ export class BoxScoresService {
     }
   }
 
+  /**
+  * modifies data to get header data for modules
+  */
   moduleHeader(date, team?){
     var moduleTitle;
     var month = moment(date,"YYYY-MM-DD").tz('America/New_York').format("MMMM");
@@ -106,8 +109,10 @@ export class BoxScoresService {
       iconClass: '',
     };
   }
+
   /**
-  *
+  * api to grab the dates that have games for box scores
+  * sends back => unixdate: true/false
   */
   weekCarousel(profile, date, teamId?){
   //Configure HTTP Headers

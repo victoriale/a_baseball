@@ -17,7 +17,7 @@ import {BoxScoresService} from '../../services/box-scores.service';
 
 import {GlobalSettings} from "../../global/global-settings";
 import {GlobalFunctions} from "../../global/global-functions";
-import {Router} from '@angular/router-deprecated';
+import {Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
 //window declarions of global functions from library scripts
 declare var moment;
@@ -28,6 +28,7 @@ declare var jQuery: any;
     templateUrl: './app/webpages/deep-dive-page/deep-dive.page.html',
 
     directives: [
+      ROUTER_DIRECTIVES,
       SidekickWrapper,
       WidgetCarouselModule,
       SideScrollSchedule,
@@ -52,7 +53,11 @@ export class DeepDivePage implements OnInit {
     dateParam: any;
     maxHeight: any;
     scroll: boolean = true;
+
     sideScrollData: any;
+    ssMax:number = 7;
+    ssCount:number = 0;
+
     private isHomeRunZone: boolean = false;
 
     constructor(
@@ -87,8 +92,6 @@ export class DeepDivePage implements OnInit {
     private getSchedulesData(){
       this._schedulesService.setupSlideScroll(this.sideScrollData, 'league', 'pre-event', 10, 1, (sideScrollData) => {
           this.sideScrollData = sideScrollData;
-          // console.log('finished',sideScrollData);
-          // console.log(this.sideScrollData);
       })
     }
 

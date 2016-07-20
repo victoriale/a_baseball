@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, NgZone} from '@angular/core';
+import {Component, AfterContentChecked, Input, NgZone} from '@angular/core';
 
 declare var jQuery:any
 ;
@@ -9,15 +9,15 @@ declare var jQuery:any
     providers: [],
 })
 
-export class SideScroll implements OnInit{
+export class SideScroll implements AfterContentChecked{
   @Input() carouselData:any;
   constructor(){
   }
 
-  ngOnInit(){
+  ngAfterContentChecked(){
     jQuery(".owl-carousel").owlCarousel({
       items:7,
-      loop:true,
+      loop:false,
       dots:false,
       nav:false,
       navText:false

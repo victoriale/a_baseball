@@ -1,33 +1,33 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {CircleImageData} from '../images/image-data';
 import {CircleImage} from '../images/circle-image';
+import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
-export interface scheduleBox{
+export interface scheduleBoxInput{
   date:string;
   awayImageConfig:CircleImageData,
   homeImageConfig:CircleImageData,
   awayTeamName:string,
   homeTeamName:string,
   reportDisplay:string,
-  reportLink:string,
-
+  reportLink:any,
 }
 
 @Component({
     selector: 'schedule-box',
     templateUrl: './app/components/schedule-box/schedule-box.component.html',
-    directives: [CircleImage],
+    directives: [ROUTER_DIRECTIVES, CircleImage],
     pipes: [],
 })
 
 export class ScheduleBox{
-  @Input() boxData: scheduleBox;
+  @Input() boxData: Array<scheduleBoxInput>;
     constructor() {
     }
 
     ngOnInit(){
       if(typeof this.boxData == 'undefined'){
-        this.boxData = {
+        this.boxData = [{
           date:"[Month] [DD] [YYYY] <i class='fa fa-circle'></i> [Time PM]",
           awayImageConfig:{//interface is found in image-data.ts
               imageClass: 'image-60',
@@ -51,7 +51,7 @@ export class ScheduleBox{
           homeTeamName:'Orioles',
           reportDisplay:'Mid Game Report',
           reportLink:'/pick-a-team',
-        }
+        }]
       }
       console.log(this.boxData);
     }
