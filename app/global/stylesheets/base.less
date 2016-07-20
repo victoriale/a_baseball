@@ -11,9 +11,10 @@ ToC
 
 //Media Queries for responsive
 @mobile:      ~"only screen and (max-width: 640px)";
-@tablet:      ~"only screen and (min-width: 641px) and (max-width: 786px)";
-@desktop:     ~"only screen and (min-width: 787px) and (max-width: 1024px)";
-@desktop-l:   ~"only screen and (min-width: 1025px) and (max-width: 1440px)";
+@tablet:      ~"only screen and (min-width: 641px)";
+@desktop:     ~"only screen and (min-width: 1024px)";
+@desktop-m:   ~"only screen and (min-width: 787px)";
+@desktop-l:   ~"only screen and (min-width: 1024px)";
 @desktop-xl:  ~"only screen and (min-width: 1441px)";
 // @desktop-xl:  ~"only screen and (min-width: 1500px)";
 
@@ -465,7 +466,7 @@ code.less-var-name-light {
   width      : 25%;
   display    : block;
   position   : absolute;
-  height     : calc(1em * 1.2);
+  height     : ~"calc(1em * 1.2)";
   background : linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 75%);
 }
 @supports (-webkit-line-clamp: 1)
@@ -478,27 +479,27 @@ code.less-var-name-light {
 .line-clamp-1
 {
   -webkit-line-clamp : 1;
-  height             : calc(1em * 1.2 * 1);
+  height             : ~"calc(1em * 1.2 * 1)";
 }
 .line-clamp-2
 {
   -webkit-line-clamp : 2;
-  height             : calc(1em * 1.2 * 2);
+  height             : ~"calc(1em * 1.2 * 2)";
 }
 .line-clamp-3
 {
   -webkit-line-clamp : 3;
-  height             : calc(1em * 1.2 * 3);
+  height             : ~"calc(1em * 1.2 * 3)";
 }
 .line-clamp-4
 {
   -webkit-line-clamp : 4;
-  height             : calc(1em * 1.2 * 4);
+  height             : ~"calc(1em * 1.2 * 4)";
 }
 .line-clamp-5
 {
   -webkit-line-clamp : 5;
-  height             : calc(1em * 1.2 * 5);
+  height             : ~"calc(1em * 1.2 * 5)";
 }
 /* End required CSS. line-clamp */
 

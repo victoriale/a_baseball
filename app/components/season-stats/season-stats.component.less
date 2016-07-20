@@ -1,3 +1,8 @@
+.season-stats-mod{
+  .pane{
+    overflow: visible;
+  }
+}
 .season-stats {
   .circles{
     display: none;
@@ -20,7 +25,8 @@
         font-weight: 400;
       }
       .image-column{
-        color: @masterBrandColor;
+        a span {color: @masterBrandColor;}
+        span {color: @black;}
         a:hover{
           color: @black;
         }
@@ -36,16 +42,16 @@
     margin-bottom: 5px;
   }
   .data-column-hdr, .data-column {
-    min-width: 48px; //since it needs to include space for padding
+    min-width: 50px; //since it needs to include space for padding
     white-space: nowrap;
   }
 
   .date-column-hdr, .date-column {
-    width: 59px; //since it needs to include space for padding
+    width: 55px; //since it needs to include space for padding
   }
 
   .image-column-hdr, .image-column {
-    width: 115px;
+    width: 105px;
     text-align: center;
     font-weight: 800 !important;
   }

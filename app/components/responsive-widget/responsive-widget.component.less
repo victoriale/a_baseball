@@ -14,13 +14,34 @@ transactions-page .module-container .widgetForPage {
   width:100vw;
   padding-bottom:15px;
 }
-list-page .widgetForPage {
+.widgetForPage {
   width:100vw;
+  z-index:5;
+}
+standings-page div .standings-tab-section:nth-child(odd) .widgetForPage {
+  display: none;
+}
+standings-page div .standings-tab-section:last-of-type .widgetForPage {
+  display: block!important;
 }
 .widgetForModule {
   width:100vw;
+  z-index:5;
   .widgetWrapper {
-    padding-top:8px;
+    padding: 0 0 20px;
+    height: 270px;
+  }
+}
+@media (min-width: 641px) and (max-width: 1024px) {
+  table .widgetForPage .widgetWrapper {
+      background-color: @white;
+      padding: 10px 0;
+      height: 270px;
+  }
+}
+@media (max-width: 640px) {
+  table .widgetForPage .widgetWrapper {
+        margin: 10px 0;
   }
 }
 .widgetWrapper {

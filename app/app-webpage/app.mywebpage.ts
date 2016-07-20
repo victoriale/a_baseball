@@ -4,7 +4,7 @@ import {RouteParams, RouteConfig, RouterOutlet, ROUTER_DIRECTIVES} from '@angula
 import {FooterComponent} from "../components/footer/footer.component";
 import {HeaderComponent} from "../components/header/header.component";
 
-import {HomePage} from "../webpages/home-page/home-page.page";
+import {PickTeamPage} from "../webpages/home-page/home-page.page";
 import {AboutUsPage} from "../webpages/about-us-page/about-us.page";
 import {DirectoryPage} from "../webpages/directory-page/directory.page";
 import {ContactUsPage} from "../webpages/contactus-page/contactus.page";
@@ -63,20 +63,15 @@ import {DeepDivePage} from "../webpages/deep-dive-page/deep-dive.page";
 @RouteConfig([
     //Home Page
     {
-        path: '/',
-        name: 'Home-page',
-        component: HomePage,
-        useAsDefault: true
+      path: '/',
+      name: 'Home-page',
+      component: DeepDivePage,
+      useAsDefault: true
     },
     {
-        path: '/home',
-        name: 'Page-Home',
-        component: HomePage,
-    },
-    {
-        path: '/deep-dive',
-        name: 'Deep-dive-page',
-        component: DeepDivePage,
+        path: '/pick-a-team',
+        name: 'Pick-team-page',
+        component: PickTeamPage,
     },
     //Profile Pages
     {

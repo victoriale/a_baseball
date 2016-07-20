@@ -1,11 +1,30 @@
 .trending {
   width: 580px;
   font-family: @globalFont;
+  &-hr-title {
+    background-color: #cccccc;
+    width: 582px;
+    height: 1px;
+    margin: 0 auto;
+  }
   &-hr {
     background-color: #cccccc;
     width: 582px;
     height: 1px;
     margin: 0 auto;
+    @media (max-width: 1023px) {
+      display: none;
+    }
+  }
+  &-hr-responsive {
+    background-color: #cccccc;
+    width: 582px;
+    height: 1px;
+    margin: 0 auto;
+    display: none;
+    @media (max-width: 1023px) {
+      display: block;
+    }
   }
   &-main-title {
     .globalDefaultModFont(24px, 800, @textEmphasisGrey);

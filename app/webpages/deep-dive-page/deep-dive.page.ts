@@ -7,6 +7,8 @@ import {DeepDiveService} from '../../services/deep-dive.service'
 
 import {SidekickWrapper} from '../../components/sidekick-wrapper/sidekick-wrapper.component';
 
+import {SchedulesService} from '../../services/schedules.service';
+
 import {WidgetCarouselModule} from '../../modules/widget/widget-carousel.module';
 import {SideScrollSchedule} from '../../modules/side-scroll-schedules/side-scroll-schedules.module';
 
@@ -38,7 +40,7 @@ declare var jQuery: any;
       CarouselDiveModule,
       RecommendationsComponent
     ],
-    providers: [BoxScoresService, DeepDiveService],
+    providers: [BoxScoresService, DeepDiveService, SchedulesService],
 })
 
 export class DeepDivePage implements OnInit {
@@ -58,12 +60,15 @@ export class DeepDivePage implements OnInit {
     recommendationData: any;
     recommendationImages: any;
 
+    sideScrollData: any;
+    private isHomeRunZone: boolean = false;
+
     constructor(
       private _deepDiveData: DeepDiveService,
       private _router:Router,
       private _boxScores:BoxScoresService,
-      ngZone:NgZone
-    ) {
+      private _schedulesService:SchedulesService,
+      public ngZone:NgZone){
       this.profileName = "MLB";
 
       //for boxscores
@@ -77,6 +82,8 @@ export class DeepDivePage implements OnInit {
 
       GlobalSettings.getPartnerID(_router, partnerID => {
           this.partnerID = partnerID;
+          var partnerHome = GlobalSettings.getHomeInfo().isHome && GlobalSettings.getHomeInfo().isPartner;
+          this.isHomeRunZone = partnerHome;
       });
 
       window.onresize = (e) =>
@@ -95,6 +102,16 @@ export class DeepDivePage implements OnInit {
         });
       }
     }
+
+    //api for Schedules
+    private getSchedulesData(){
+      this._schedulesService.setupSlideScroll(this.sideScrollData, 'league', 'pre-event', 10, 1, (sideScrollData) => {
+          this.sideScrollData = sideScrollData;
+          // console.log('finished',sideScrollData);
+          // console.log(this.sideScrollData);
+      })
+    }
+
     //api for BOX SCORES
     private getBoxScores(dateParams?) {
         if (dateParams != null) {
@@ -114,6 +131,7 @@ export class DeepDivePage implements OnInit {
     ngOnInit(){
         this.getBoxScores(this.dateParam);
         this.getRecommendationData();
+        this.getSchedulesData();
     }
 
     ngDoCheck(){

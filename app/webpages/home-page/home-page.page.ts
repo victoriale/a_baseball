@@ -29,7 +29,7 @@ export interface newsCarouselData {
     providers: [LandingPageService, Title],
 })
 
-export class HomePage implements OnInit {
+export class PickTeamPage implements OnInit {
     public teamData: Array<homePageData>;
     public listData: Array<newsCarouselData>;
     public displayData: Object;
@@ -83,7 +83,7 @@ export class HomePage implements OnInit {
       } else {
         this.gridDivCol = "col-lg-4";
         this.gridLMain = "col-xs-10";
-        this.gridFeaturesCol = "col-xs-offset-2 col-xs-8";
+        this.gridFeaturesCol = "col-xs-12";
       }
     }
     getListData(){

@@ -9,6 +9,7 @@
     line-height: 35px;
     text-align: center;
     border-bottom: 3px @tcxBlue solid;
+    height: 35px;
     .globalDefaultModFont(14px, 800, @white);
     &-logo{
       margin-bottom: 3px;
@@ -41,9 +42,18 @@
     &-text{
       font-size: 10px;
     }
+  }//sub_header-poweredby ends
+  &-logo{
+    width: 37px;
+    height:auto;
+    margin-left:5px;
+    @media @tablet{
+      width:60px;
+    }
   }
 }
 .pbwrapper{
   .flexDisplay;
+  .flexAlignItems(center);
   margin-left: auto;
 }
