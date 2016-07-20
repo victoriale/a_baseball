@@ -36,15 +36,19 @@ export class BoxScoresModule implements OnChanges{
   }
 
   ngOnChanges(){
-    if(document.getElementById('box-header') != null && this.scroll){
+    if(document.getElementById('box-header') != null && this.scroll && this.maxHeight != null){
       var boxHeader = document.getElementById('box-header').offsetHeight;
       //only for mlb page but subtract the mod title and calendar height from what was sent in
+      console.log(this.maxHeight);
       if(this.maxHeight != 'auto'){
         this.maxHeight -= boxHeader;
         this.maxHeight = this.maxHeight + "px";
       }else{
         this.scroll = false;
       }
+      console.log(this.maxHeight);
+      console.log(this.scroll);
+
     }
   }
 }

@@ -30,21 +30,21 @@ export class ScheduleBox{
         this.boxData = {
           date:"[Month] [DD] [YYYY] <i class='fa fa-circle'></i> [Time PM]",
           awayImageConfig:{//interface is found in image-data.ts
-              imageClass: 'imageClass',
+              imageClass: 'image-60',
               mainImage: {
-                  imageUrl: 'mainImg',
-                  urlRouteArray: ['mainImgRoute'],
+                  imageUrl: '/app/public/no-image.png',
+                  urlRouteArray: ['Home-page'],
                   hoverText: "<i class='fa fa-mail-forward'></i>",
-                  imageClass: 'imageBorder',
+                  imageClass: 'border-1',
               },
           },
           homeImageConfig:{//interface is found in image-data.ts
-              imageClass: 'imageClass',
+              imageClass: 'image-60',
               mainImage: {
-                  imageUrl: 'mainImg',
-                  urlRouteArray: ['mainImgRoute'],
+                  imageUrl: '/app/public/no-image.png',
+                  urlRouteArray: ['Home-page'],
                   hoverText: "<i class='fa fa-mail-forward'></i>",
-                  imageClass: 'imageBorder',
+                  imageClass: 'border-1',
               },
           },
           awayTeamName:'Blue Jays',

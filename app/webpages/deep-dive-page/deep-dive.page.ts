@@ -58,8 +58,7 @@ export class DeepDivePage implements OnInit {
     constructor(
       private _router:Router,
       private _boxScores:BoxScoresService,
-      private _schedulesService:SchedulesService,
-      public ngZone:NgZone){
+      private _schedulesService:SchedulesService){
       this.profileName = "MLB";
 
       //for boxscores
@@ -76,21 +75,11 @@ export class DeepDivePage implements OnInit {
           var partnerHome = GlobalSettings.getHomeInfo().isHome && GlobalSettings.getHomeInfo().isPartner;
           this.isHomeRunZone = partnerHome;
       });
-
+      //constantly check the size of the browser width and run the size check function
       window.onresize = (e) =>
       {
-        var width = window.outerWidth;
-        var height = window.outerHeight;
-
-        ngZone.run(() => {
-          if(width < 640){
-            this.maxHeight = 'auto';
-            this.scroll = false;
-          }else if(width >= 640){
-            this.maxHeight = 650;
-            this.scroll = true;
-          }
-        });
+        // current use is box scores
+        this.checkSize();
       }
     }
 
@@ -113,9 +102,22 @@ export class DeepDivePage implements OnInit {
             this.currentBoxScores = currentBoxScores;
         })
     }
+
+    checkSize(){
+      var width = window.outerWidth;
+      var height = window.outerHeight;
+      if(width <= 640){
+        this.scroll = false;
+        this.maxHeight = 'auto';
+      }else if(width > 640){
+        this.scroll = true;
+        this.maxHeight = 650;
+      }
+    }
     ngOnInit() {
-        this.getBoxScores(this.dateParam);
-        this.getSchedulesData();
+      this.checkSize();
+      this.getBoxScores(this.dateParam);
+      this.getSchedulesData();
     }
 
     ngDoCheck(){

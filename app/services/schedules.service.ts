@@ -165,7 +165,29 @@ export class SchedulesService {
 
   transformSlideScroll(data){
     console.log('transformed',data);
-
+    var modifiedArray = [];
+    data.forEach(function(val,index){
+      console.log(val);
+      let reportText = 'GAME REPORT';
+      if(val.eventStatus = 'pre-event'){
+        reportText = 'PRE GAME REPORT'
+      }else if (val.eventStatus == 'post-event'){
+        reportText = 'POST GAME REPORT';
+      }else{
+        reportText = 'MID GAME REPORT';
+      }
+      let date = moment(val.startDateTimestamp).tz('America/New_York').format('MMMM D YYYY');
+      let time = moment(val.startDateTimestamp).tz('America/New_York').format('h:mm A');
+      var newData = {
+        date: date + " <i class='fa fa-circle'></i> " + time,
+        awayImageConfig:this.imageData('image-60', 'border-1', val.awayTeamLogo, MLBGlobalFunctions.formatTeamRoute(val.awayTeamName, val.awayTeamId)),
+        homeImageConfig:this.imageData('image-60', 'border-1', val.awayTeamLogo, MLBGlobalFunctions.formatTeamRoute(val.homeTeamName, val.homeTeamId)),
+        awayTeamName: val.awayTeamLastName,
+        homeTeamName: val.homeTeamLastName,
+        reportDisplay:'Mid Game Report',
+        reportLink:'/pick-a-team',
+      }
+    });
     return data;
   }
 
