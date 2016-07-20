@@ -47,14 +47,15 @@ export class SyndicatedArticlePage implements OnInit{
       this._deepdiveservice.getDeepDiveArticleService().subscribe(
         data => {
 
-          if (data.data[0].imagePath == null || data.data[0].imagePath == undefined || data.data[0].imagePath == "") {
+          if (data.data.imagePath == null || data.data.imagePath == undefined || data.data.imagePath == "") {
             this.imageData  = ["/app/public/stockphoto_bb_1.jpg", "/app/public/stockphoto_bb_2.jpg"];
           }
           else {
-            this.imageData = ["https://prod-sports-images.synapsys.us" + data.data[0].imagePath, "/app/public/stockphoto_bb_2.jpg"];
+            this.imageData = ["https://prod-sports-images.synapsys.us" + data.data.imagePath, "/app/public/stockphoto_bb_2.jpg"];
           }
-          this.articleData = data.data[0];
-          console.log(data.data[0]);
+          this.articleData = data.data;
+          // this.articleData.teaser = this.articleData.teaser.replace("\'", "'");
+          console.log(this.articleData.teaser);
         }
       )
     }

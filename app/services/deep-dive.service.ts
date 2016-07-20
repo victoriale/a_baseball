@@ -52,6 +52,20 @@ export class DeepDiveService {
       return data;
     })
   }
+  getDeepDiveBatchService(){//DATE
+  //Configure HTTP Headers
+  var headers = this.setToken();
+  //date needs to be the date coming in AS EST and come back as UTC
+  var callURL = this._apiUrl+'/article'+ 'batch/2/2';
+  console.log(callURL);
+
+  return this.http.get(callURL, {headers: headers})
+    .map(res => res.json())
+    .map(data => {
+      // transform the data to YYYY-MM-DD objects from unix
+      return data;
+    })
+  }
   getdeepDiveData(deepDiveData, callback:Function, dataParam) {
   if(deepDiveData == null){
     deepDiveData = {};
