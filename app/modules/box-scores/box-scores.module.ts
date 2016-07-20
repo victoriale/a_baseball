@@ -24,6 +24,7 @@ export class BoxScoresModule implements OnChanges{
 
   // private moduleHeight: string;
   public dateEmit = new EventEmitter();
+  public liveArray = new EventEmitter();
   private gameNum:number = 0;
   constructor(){}
 
@@ -36,7 +37,7 @@ export class BoxScoresModule implements OnChanges{
   }
 
   ngOnChanges(){
-    if(document.getElementById('box-header') != null && this.scroll){
+    if(document.getElementById('box-header') != null && this.scroll && this.maxHeight != null){
       var boxHeader = document.getElementById('box-header').offsetHeight;
       //only for mlb page but subtract the mod title and calendar height from what was sent in
       if(this.maxHeight != 'auto'){

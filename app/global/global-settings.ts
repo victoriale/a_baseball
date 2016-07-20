@@ -32,6 +32,9 @@ export class GlobalSettings {
         if (env != "dev" && env != "qa") {
             env = "prod";
         }
+        if(env != "prod" && env != "dev" && env != "qa"){
+          env = "www";
+        }
         return env;
     }
 
