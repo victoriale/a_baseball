@@ -30,14 +30,26 @@ export class DeepDiveService {
   //date needs to be the date coming in AS EST and come back as UTC
   var callURL = this._apiUrl+'/'+ 'article/batch/2/25';
 
-  // console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
       // transform the data to YYYY-MM-DD objects from unix
-    //  console.log(data);
       return data;
 
+    })
+  }
+  getDeepDiveArticleService(){//DATE
+  //Configure HTTP Headers
+  var headers = this.setToken();
+  //date needs to be the date coming in AS EST and come back as UTC
+  var callURL = this._apiUrl+'/'+ 'article/1491';
+  console.log(callURL);
+
+  return this.http.get(callURL, {headers: headers})
+    .map(res => res.json())
+    .map(data => {
+      // transform the data to YYYY-MM-DD objects from unix
+      return data;
     })
   }
   getdeepDiveData(deepDiveData, callback:Function, dataParam) {
@@ -46,6 +58,7 @@ export class DeepDiveService {
 
   }
   else {
+
   }
 }
 

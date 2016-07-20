@@ -6,9 +6,9 @@
             </div>
         </div>
 
-    <span >
+    <span *ngIf="articleData">
         <shareLinks-component></shareLinks-component>
-        <div class="syndicated-articles-page-title">Lorem ipsum dolor sit amet</div>
+        <div class="syndicated-articles-page-title" >{{articleData.title}}</div>
         <sidekick-wrapper-ai [aiSidekick]="aiSidekick">
             <span >
                 <div class="carousel-container">
@@ -17,15 +17,13 @@
                 </div>
             </span>
             <div class="arpt">
-                <span class="arpt-author">Written By: <b>Name</b></span>
-                <span class="arpt-date">Posted: on month day year at 12:12 PM CST</span>
+                <span class="arpt-author" >Written By: <b>{{articleData.publisher}}</b></span>
+                <span class="arpt-date">Posted: {{articleData.publishedDate}}</span>
             </div>
-            <div class="content-exerpt">
-              Lorem ipsum dolor sit amet, decore commodo aliquando ne has, cu pri munere aliquid, unum sale quo id. Duo ei elit vocent platonem, no cum debet alienum, per aliquid laboramus ne. At sonet errem solet eam, paulo iriure integre cu pri. Mei an quot apeirian scriptorem, mel no primis consulatu, ut corpora placerat nominati duo. Ea reque eleifend est.<br><br>
-              No offendit intellegat duo. An vim nisl graeco sadipscing, vix ex interesset complectitur. Diam insolens assentior usu ne, alterum antiopam corrumpit eu nec, paulo virtute voluptaria ne duo. Ea cibo docendi mediocritatem est, vix an quaeque eloquentiam philosophia.
-              <div class="bottom-shader"></div>
+            <div class="content-exerpt"  [innerHTML]="articleData.teaser">
             </div>
-            <a class="readMore mod-page-btn">Read the Full Article <i class="fa fa-arrow-right"></i></a>
+            <div class="bottom-shader"></div>
+            <a class="readMore mod-page-btn" [href]="articleData.articleUrl">Read the Full Article <i class="fa fa-arrow-right"></i></a>
 
             <recommendations-component></recommendations-component>
             <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
