@@ -7,4 +7,9 @@ import {Component, Input} from '@angular/core';
 })
 
 export class SidekickContainerComponent {
+    isSmall:boolean = false;
+
+    onResize(event) {
+        this.isSmall = event.target.innerWidth <= 640;
+    }
 }
