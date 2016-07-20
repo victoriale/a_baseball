@@ -12,13 +12,13 @@
         <sidekick-wrapper-ai [aiSidekick]="aiSidekick">
             <span >
                 <div class="carousel-container">
-                  <images-media-carousel [imageData]="'imageData'" [copyright]="'copyright'"
+                  <images-media-carousel [imageData]="imageData" [copyright]="'copyright'"
                                          [imageTitle]="'imageTitle'"></images-media-carousel>
                 </div>
             </span>
             <div class="arpt">
                 <span class="arpt-author" >Written By: <b>{{articleData.publisher}}</b></span>
-                <span class="arpt-date">Posted: {{articleData.publishedDate}}</span>
+                <span class="arpt-date">Posted: on {{articleData.publishedDate}}</span>
             </div>
             <div class="content-exerpt"  [innerHTML]="articleData.teaser">
             </div>

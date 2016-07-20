@@ -36,6 +36,7 @@ declare var jQuery:any;
 export class SyndicatedArticlePage implements OnInit{
   public widgetPlace: string = "widgetForPage";
   public articleData: any;
+  public imageData: Array<string>;
   constructor(
     private _router:Router,
     private _deepdiveservice:DeepDiveService
@@ -45,6 +46,13 @@ export class SyndicatedArticlePage implements OnInit{
     private getDeepDiveArticle() {
       this._deepdiveservice.getDeepDiveArticleService().subscribe(
         data => {
+
+          if (data.data[0].imagePath == null || data.data[0].imagePath == undefined || data.data[0].imagePath == "") {
+            this.imageData  = ["/app/public/stockphoto_bb_1.jpg", "/app/public/stockphoto_bb_2.jpg"];
+          }
+          else {
+            this.imageData = ["https://prod-sports-images.synapsys.us" + data.data[0].imagePath, "/app/public/stockphoto_bb_2.jpg"];
+          }
           this.articleData = data.data[0];
           console.log(data.data[0]);
         }
