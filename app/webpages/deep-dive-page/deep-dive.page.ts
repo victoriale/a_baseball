@@ -4,7 +4,7 @@ import {ArticleStackModule} from '../../modules/article-stack/article-stack.modu
 import {VideoStackModule} from '../../modules/video-stack/video-stack.module';
 import {CarouselDiveModule} from '../../modules/carousel-dive/carousel-dive.module';
 import {DeepDiveService} from '../../services/deep-dive.service'
-
+import {RecommendationsComponent} from '../../components/articles/recommendations/recommendations.component';
 import {SidekickWrapper} from '../../components/sidekick-wrapper/sidekick-wrapper.component';
 
 import {SchedulesService} from '../../services/schedules.service';
@@ -14,8 +14,6 @@ import {SideScrollSchedule} from '../../modules/side-scroll-schedules/side-scrol
 
 import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
 import {BoxScoresService} from '../../services/box-scores.service';
-
-import {RecommendationsComponent} from '../../components/articles/recommendations/recommendations.component';
 
 import {GlobalSettings} from "../../global/global-settings";
 import {GlobalFunctions} from "../../global/global-functions";
@@ -40,7 +38,7 @@ declare var jQuery: any;
       CarouselDiveModule,
       RecommendationsComponent
     ],
-    providers: [BoxScoresService, DeepDiveService, SchedulesService],
+    providers: [BoxScoresService,SchedulesService,DeepDiveService],
 })
 
 export class DeepDivePage implements OnInit {
@@ -55,17 +53,15 @@ export class DeepDivePage implements OnInit {
     dateParam: any;
     maxHeight: any;
     scroll: boolean = true;
-
-    //data for rec module
-    recommendationData: any;
-    recommendationImages: any;
-
     sideScrollData: any;
     private isHomeRunZone: boolean = false;
 
+    //for recommendation module
+    recommendationData: any;
+
     constructor(
-      private _deepDiveData: DeepDiveService,
       private _router:Router,
+      private _deepDiveData: DeepDiveService,
       private _boxScores:BoxScoresService,
       private _schedulesService:SchedulesService,
       public ngZone:NgZone){
@@ -129,8 +125,8 @@ export class DeepDivePage implements OnInit {
           });
     }
     ngOnInit(){
-        this.getBoxScores(this.dateParam);
         this.getRecommendationData();
+        this.getBoxScores(this.dateParam);
         this.getSchedulesData();
     }
 
