@@ -25,13 +25,11 @@ export class CarouselDiveModule implements OnInit{
 
   }
   leftcarousel() {
-    console.log('left arrow')
     var owl = jQuery('.owl-carousel');
     owl.owlCarousel();
     owl.trigger('prev.owl.carousel');
   }
   rightcarousel() {
-    console.log('right arrow')
     var owl = jQuery('.owl-carousel');
     owl.owlCarousel();
     owl.trigger('next.owl.carousel');

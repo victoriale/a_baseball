@@ -4,9 +4,9 @@
     <title-component *ngIf="titleData" [titleData]="titleData"></title-component>
     <loading-component *ngIf="!profileLoaded && !hasError && !tabs"></loading-component>
     <error-component *ngIf="hasError"></error-component>
-    
-    <player-stats-component *ngIf="tabs" 
-        [tabs]="tabs" 
+
+    <player-stats-component *ngIf="tabs"
+        [tabs]="tabs"
         [showGlossary]="true"
         (tabSelected)="playerStatsTabSelected($event)"></player-stats-component>
 </section>

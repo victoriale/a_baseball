@@ -1,7 +1,7 @@
 <div class="trending">
-    <div class="trending-hr"></div>
+    <div class="trending-hr-title"></div>
     <div class="trending-main-title">RECOMMENDED ARTICLES</div>
-    <div class="trending-hr"></div>
+    <div class="trending-hr-title"></div>
     <span *ngFor="let data of trendingData; let i = index">
         <!--<shareLinks-component></shareLinks-component>-->
         <div class="trending-article-title">{{data.title}}</div>
@@ -13,7 +13,8 @@
             <div class="trending-read-more">Read the Full Article <i class="fa fa-arrow-right"></i></div>
         </a>
         <div class="trending-hr"></div>
-        <sidekick-container-component *ngIf="((i+1) % 10 == 5 || (i+1) % 10 == 0) && i != 0"
-                                      [trending]="trending"></sidekick-container-component>
+        <div *ngIf="((i+1) % 10 != 5) && ((i+1) % 10 != 0)" class="trending-hr-responsive"></div>
+        <sidekick-container-component
+                *ngIf="((i+1) % 10 == 5 || (i+1) % 10 == 0) && i != 0"></sidekick-container-component>
     </span>
 </div>

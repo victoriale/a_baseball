@@ -14,7 +14,7 @@
     <responsive-widget *ngIf="dateParam" [embedPlace]="widgetPlace" [displayAtRes]="'640'"></responsive-widget>
     <schedules *ngIf="schedulesData" [profHeader]="profileHeaderData" [data]="schedulesData" (tabSelected)="scheduleTab($event)"></schedules>
     <standings-module *ngIf="standingsData" [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
-    <responsive-widget *ngIf="standingsData" [embedPlace]="widgetPlace" [displayAtRes]="'640'"></responsive-widget>
+    <responsive-widget *ngIf="standingsData" [embedPlace]="widgetPlace"></responsive-widget>
     <team-roster-module *ngIf="rosterData" [data]="rosterData"></team-roster-module>
     <player-stats-module *ngIf="playerStatsData" [data]="playerStatsData" (tabSelected)="playerStatsTabSelected($event)"></player-stats-module>
     <responsive-widget *ngIf="playerStatsData" [embedPlace]="widgetPlace" [displayAtRes]="'640'"></responsive-widget>

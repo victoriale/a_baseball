@@ -74,10 +74,12 @@
 
   &-league{
     h3{
-      text-align: center;
+      margin-left: 30px;
+      margin-bottom: 10px;
+      text-align: left;
     }
     h4{
-      margin: 0 0 0 30px;
+      margin: 25px 0 5px 30px;
       color: @fontIconGrey;
     }
     &-col{
@@ -94,7 +96,7 @@
   }//home-league ends
 
   &-team{
-    padding: 30px 0 20px 30px;
+    padding: 25px 0 25px 30px;
     width: 100%;
     .flexDisplay;
     .flexAlignItems(center);
@@ -232,6 +234,7 @@
         }
         .tile-button{
           display: block;
+          margin: 0 ~"calc(50% - 100px)";
         }
       }//home-feature-tile2 hover ends
     }//home-features-tile2 ends
@@ -252,6 +255,7 @@
         }
         .tile-button{
           display: block;
+          margin: 0 ~"calc(50% - 100px)";
         }
       }//home-feature-tile2 hover ends
     }//home-features-tile2 ends
@@ -269,13 +273,7 @@
   .globalDefaultFont(16px, 700);
 }
 
-// @media (max-width: 1200px) {
-//   .home-league-col {
-//     -mox-border-image: none;
-//     border-image: none;
-//   }
-// }
-@media (min-width: 641px){
+@media @tablet{
   .home{
     h1{
       .globalDefaultFont(60px, 800);
@@ -296,16 +294,16 @@
 
     &-league{
       h3{
-        text-align: left;
         margin-left: 60px;
+        margin-bottom: 30px;
       }
       h4{
-        margin: 0 0 1em 60px;
+        margin: 0 0 10px 60px;
       }
     }//home-league ends
 
     &-team{
-      margin-bottom: 25px;
+      margin-bottom: 0;
       padding: 30px 0 30px 60px;
     }//home-team ends
     &-slider{
