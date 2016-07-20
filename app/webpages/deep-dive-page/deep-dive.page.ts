@@ -15,8 +15,6 @@ import {SideScrollSchedule} from '../../modules/side-scroll-schedules/side-scrol
 import {BoxScoresModule} from '../../modules/box-scores/box-scores.module';
 import {BoxScoresService} from '../../services/box-scores.service';
 
-import {RecommendationsComponent} from '../../components/articles/recommendations/recommendations.component';
-
 import {GlobalSettings} from "../../global/global-settings";
 import {GlobalFunctions} from "../../global/global-functions";
 import {Router} from '@angular/router-deprecated';
@@ -37,10 +35,9 @@ declare var jQuery: any;
       TileStackModule,
       ArticleStackModule,
       VideoStackModule,
-      CarouselDiveModule,
-      RecommendationsComponent
+      CarouselDiveModule
     ],
-    providers: [BoxScoresService, DeepDiveService, SchedulesService],
+    providers: [BoxScoresService,SchedulesService],
 })
 
 export class DeepDivePage implements OnInit {
@@ -55,16 +52,10 @@ export class DeepDivePage implements OnInit {
     dateParam: any;
     maxHeight: any;
     scroll: boolean = true;
-
-    //data for rec module
-    recommendationData: any;
-    recommendationImages: any;
-
     sideScrollData: any;
     private isHomeRunZone: boolean = false;
 
     constructor(
-      private _deepDiveData: DeepDiveService,
       private _router:Router,
       private _boxScores:BoxScoresService,
       private _schedulesService:SchedulesService,
@@ -122,15 +113,8 @@ export class DeepDivePage implements OnInit {
             this.currentBoxScores = currentBoxScores;
         })
     }
-    getRecommendationData(){
-      this._deepDiveData.getDeepDiveService()
-          .subscribe(data => {
-            this.recommendationData = this._deepDiveData.transformToRecArticles(data);
-          });
-    }
-    ngOnInit(){
+    ngOnInit() {
         this.getBoxScores(this.dateParam);
-        this.getRecommendationData();
         this.getSchedulesData();
     }
 

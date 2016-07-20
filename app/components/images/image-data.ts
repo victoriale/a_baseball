@@ -54,7 +54,7 @@ export interface ImageData {
 
 export interface CircleImageData {
   /**
-   * The main image in the center of the component.
+   * The main image in the center of the component. 
    * Required.
    */
   mainImage: ImageData;
@@ -78,9 +78,4 @@ export interface CircleImageData {
    * specify the width/height of the component.
    */
   imageClass: string;
-}
-
-export interface RectangleImageData{
-  mainImage: ImageData;
-  imageClass?: string;
 }
