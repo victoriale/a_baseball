@@ -1,27 +1,22 @@
 .video-stack-container {
-  margin: auto;
+  margin: auto auto 30px;
   width: 610px;
 }
 
-
-
-@media(min-width: 768px) {
+@media(@desktop-m) {
   .video-stack-container {
     width: 670px;
   }
 }
-@media(min-width: 1300px) {
+@media(@desktop-l) {
   .video-stack-container {
     width: 100%;
     .flexDisplay;
     .flexDirection(row-reverse);
-    margin-left: 2%;
-
   }
 }
-@media(min-width: 1400px) {
+@media(@desktop-xl) {
   .video-stack-container {
     width: 1087px;
-    margin-left: ;
   }
 }

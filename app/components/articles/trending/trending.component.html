@@ -14,7 +14,7 @@
         </a>
         <div class="trending-hr"></div>
         <div *ngIf="((i+1) % 10 != 5) && ((i+1) % 10 != 0)" class="trending-hr-responsive"></div>
-        <sidekick-container-component *ngIf="((i+1) % 10 == 5 || (i+1) % 10 == 0) && i != 0"
-                                      [trending]="trending"></sidekick-container-component>
+        <sidekick-container-component
+                *ngIf="((i+1) % 10 == 5 || (i+1) % 10 == 0) && i != 0"></sidekick-container-component>
     </span>
 </div>
