@@ -17,7 +17,7 @@ import {BoxScoresService} from '../../services/box-scores.service';
 
 import {GlobalSettings} from "../../global/global-settings";
 import {GlobalFunctions} from "../../global/global-functions";
-import {Router} from '@angular/router-deprecated';
+import {Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
 //window declarions of global functions from library scripts
 declare var moment;
@@ -28,6 +28,7 @@ declare var jQuery: any;
     templateUrl: './app/webpages/deep-dive-page/deep-dive.page.html',
 
     directives: [
+      ROUTER_DIRECTIVES,
       SidekickWrapper,
       WidgetCarouselModule,
       SideScrollSchedule,
@@ -52,14 +53,17 @@ export class DeepDivePage implements OnInit {
     dateParam: any;
     maxHeight: any;
     scroll: boolean = true;
+
     sideScrollData: any;
+    ssMax:number = 7;
+    ssCount:number = 0;
+
     private isHomeRunZone: boolean = false;
 
     constructor(
       private _router:Router,
       private _boxScores:BoxScoresService,
-      private _schedulesService:SchedulesService,
-      public ngZone:NgZone){
+      private _schedulesService:SchedulesService){
       this.profileName = "MLB";
 
       //for boxscores
@@ -76,30 +80,25 @@ export class DeepDivePage implements OnInit {
           var partnerHome = GlobalSettings.getHomeInfo().isHome && GlobalSettings.getHomeInfo().isPartner;
           this.isHomeRunZone = partnerHome;
       });
-
+      //constantly check the size of the browser width and run the size check function
       window.onresize = (e) =>
       {
-        var width = window.outerWidth;
-        var height = window.outerHeight;
-
-        ngZone.run(() => {
-          if(width < 640){
-            this.maxHeight = 'auto';
-            this.scroll = false;
-          }else if(width >= 640){
-            this.maxHeight = 650;
-            this.scroll = true;
-          }
-        });
+        // current use is box scores
+        this.checkSize();
       }
     }
 
     //api for Schedules
     private getSchedulesData(){
-      this._schedulesService.setupSlideScroll(this.sideScrollData, 'league', 'pre-event', 10, 1, (sideScrollData) => {
+      this._schedulesService.setupSlideScroll(this.sideScrollData, 'league', 'pre-event', 20, 1, (sideScrollData) => {
+        if(this.sideScrollData == null){
+          //if the data comes back as null then set the newly defiend data as the returned data.
           this.sideScrollData = sideScrollData;
-          // console.log('finished',sideScrollData);
-          // console.log(this.sideScrollData);
+          this.sideScrollData.length += 6;//so that it can reach the end of the screen
+        }else{
+          //if there is already data inside the variable the push in the next set of data
+          this.sideScrollData.push(sideScrollData);
+        }
       })
     }
 
@@ -113,9 +112,22 @@ export class DeepDivePage implements OnInit {
             this.currentBoxScores = currentBoxScores;
         })
     }
+
+    checkSize(){
+      var width = window.outerWidth;
+      var height = window.outerHeight;
+      if(width <= 640){
+        this.scroll = false;
+        this.maxHeight = 'auto';
+      }else if(width > 640){
+        this.scroll = true;
+        this.maxHeight = 650;
+      }
+    }
     ngOnInit() {
-        this.getBoxScores(this.dateParam);
-        this.getSchedulesData();
+      this.checkSize();
+      this.getBoxScores(this.dateParam);
+      this.getSchedulesData();
     }
 
     ngDoCheck(){

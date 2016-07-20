@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, Input, EventEmitter} from '@angular/core';
 import {ScheduleBox} from '../../components/schedule-box/schedule-box.component'
 import {SideScroll} from '../../components/carousels/side-scroll/side-scroll.component'
 
@@ -9,10 +9,11 @@ import {SideScroll} from '../../components/carousels/side-scroll/side-scroll.com
     providers: []
 })
 
-export class SideScrollSchedule implements OnInit{
+export class SideScrollSchedule{
   @Input() sideScrollData: any;
+  public count = new EventEmitter();
 
-  ngOnInit(){
-    // console.log(this.sideScrollData.transformedDate);
+  counter(event){
+    // this.count.next(event);
   }
 }
