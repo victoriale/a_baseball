@@ -82,5 +82,5 @@ export interface CircleImageData {
 
 export interface RectangleImageData{
   mainImage: ImageData;
-  imageClass: string;
+  imageClass?: string;
 }
