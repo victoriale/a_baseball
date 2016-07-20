@@ -58,12 +58,20 @@ export class DeepDivePage implements OnInit {
     ssMax:number = 7;
     ssCount:number = 0;
 
+    //for carousel
+    carouselData: any;
+​
+    //for article-stack
+    stackrowsData: any;
+
     private isHomeRunZone: boolean = false;
 
     constructor(
       private _router:Router,
+      private _deepDiveData:DeepDiveService,
       private _boxScores:BoxScoresService,
-      private _schedulesService:SchedulesService){
+      private _schedulesService:SchedulesService)
+      {
       this.profileName = "MLB";
 
       //for boxscores
@@ -112,6 +120,22 @@ export class DeepDivePage implements OnInit {
             this.currentBoxScores = currentBoxScores;
         })
     }
+    getDataCarousel() {
+      this._deepDiveData.getCarouselData(this.carouselData, (carData)=>{
+        this.carouselData = carData;
+      //  console.log('carousel',this.carouselData);
+​
+      })
+    }
+​
+// getDataStackRows() {
+    //   this._deepDiveData.getStackRowsData(this.stackrowsData, (stackData)=>{
+    //     this.stackrowsData = stackData;
+    //     console.log('stack rows',this.stackrowsData);
+    //   })
+    // }
+    //
+    //
 
     checkSize(){
       var width = window.outerWidth;
@@ -128,6 +152,8 @@ export class DeepDivePage implements OnInit {
       this.checkSize();
       this.getBoxScores(this.dateParam);
       this.getSchedulesData();
+      this.getDataCarousel();
+      this.getDataStackRows();
     }
 
     ngDoCheck(){
