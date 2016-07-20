@@ -16,8 +16,6 @@ import {SidekickWrapperAI} from "../../components/sidekick-wrapper-ai/sidekick-w
 import {GlobalSettings} from "../../global/global-settings";
 import {SidekickContainerComponent} from "../../components/articles/sidekick-container/sidekick-container.component";
 
-declare var jQuery:any;
-
 @Component({
     selector: 'article-pages',
     templateUrl: './app/webpages/article-pages/article-pages.page.html',
@@ -32,8 +30,7 @@ declare var jQuery:any;
         LoadingComponent,
         TrendingComponent,
         SidekickContainerComponent
-    ],
-    providers: [],
+    ]
 })
 
 export class ArticlePages implements OnInit {
@@ -126,7 +123,7 @@ export class ArticlePages implements OnInit {
     getTrendingArticles(data) {
         var articles = [];
         var images = [];
-        Object.keys(data).map(function (val, index) {
+        Object.keys(data).forEach(function (val, index) {
             if (val != "meta-data") {
                 articles[index - 1] = {
                     title: data[val].displayHeadline,
@@ -138,7 +135,7 @@ export class ArticlePages implements OnInit {
                 };
             }
         });
-        Object.keys(data['meta-data']['images']).map(function (val, index) {
+        Object.keys(data['meta-data']['images']).forEach(function (val, index) {
             images[index] = data['meta-data']['images'][val];
         });
         this.trendingImages = images[0].concat(images[1]);
@@ -166,7 +163,7 @@ export class ArticlePages implements OnInit {
         try {
             if (Object.keys(data).length > 0) {
                 for (var id in data) {
-                    data[id].map(function (val, index) {
+                    data[id].forEach(function (val, index) {
                         if (index < imageCount) {
                             image = val['image'];
                             copyright = val['copyright'];
@@ -195,7 +192,7 @@ export class ArticlePages implements OnInit {
         var hoverText = "<p>View</p><p>Profile</p>";
         var links = [];
         if (this.articleType == "playerRoster") {
-            data['article'].map(function (val, index) {
+            data['article'].forEach(function (val) {
                 if (val['playerRosterModule']) {
                     let playerUrl = MLBGlobalFunctions.formatPlayerRoute(val['playerRosterModule'].teamName, val['playerRosterModule'].name, val['playerRosterModule'].id);
                     let teamUrl = MLBGlobalFunctions.formatTeamRoute(val['playerRosterModule'].teamName, val['playerRosterModule'].teamId);
@@ -223,7 +220,7 @@ export class ArticlePages implements OnInit {
             return links;
         }
         if (this.articleType == 'playerComparison') {
-            data['article'][2]['playerComparisonModule'].map(function (val, index) {
+            data['article'][2]['playerComparisonModule'].forEach(function (val, index) {
                 if (index == 0) {
                     let urlPlayerLeft = MLBGlobalFunctions.formatPlayerRoute(val.teamName, val.name, val.id);
                     let urlTeamLeft = MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId);
@@ -274,7 +271,7 @@ export class ArticlePages implements OnInit {
             return links;
         }
         if (this.articleType == 'gameModule') {
-            data['article'].map(function (val, index) {
+            data['article'].forEach(function (val, index) {
                 if (index == 1 && val['gameModule']) {
                     let urlTeamLeftTop = MLBGlobalFunctions.formatTeamRoute(val['gameModule'].homeTeamName, val['gameModule'].homeTeamId);
                     let urlTeamRightTop = MLBGlobalFunctions.formatTeamRoute(val['gameModule'].awayTeamName, val['gameModule'].awayTeamId);
@@ -326,7 +323,7 @@ export class ArticlePages implements OnInit {
         }
         if (this.articleType == 'teamRecord') {
             var isFirstTeam = true;
-            data['article'].map(function (val, index) {
+            data['article'].forEach(function (val) {
                 if (val['teamRecordModule'] && isFirstTeam) {
                     let urlFirstTeam = MLBGlobalFunctions.formatTeamRoute(val['teamRecordModule'].name, val['teamRecordModule'].id);
                     val['imageTop'] = {
@@ -368,33 +365,37 @@ export class ArticlePages implements OnInit {
 
     getRandomArticles(recommendations, pageIndex, eventID, recommendedImageData) {
         this.getImages(recommendedImageData);
+        var articles;
         var recommendArr = [];
         var imageCount = 0;
         var self = this;
-        jQuery.map(recommendations.leftColumn, function (val, index) {
-            if (pageIndex != index) {
-                switch (index) {
+        Object.keys(recommendations.leftColumn).forEach(function (val) {
+            if (pageIndex != val) {
+                switch (val) {
                     case'about-the-teams':
                     case'historical-team-statistics':
-                    case'last-matchUp':
+                    case'last-matchup':
                     case'starting-lineup-home':
                     case'starting-lineup-away':
                     case'injuries-home':
                     case'injuries-away':
                     case'upcoming-game':
-                        val['title'] = val.displayHeadline;
-                        val['eventType'] = index;
-                        val['eventID'] = eventID;
-                        val['images'] = self.images[imageCount];
-                        recommendArr.push(val);
+                        articles = {
+                            title: recommendations.leftColumn[val].displayHeadline,
+                            eventType: val,
+                            eventID: eventID,
+                            images: self.images[imageCount],
+                        };
+                        recommendArr.push(articles);
                         imageCount++;
                         break;
                 }
             }
         });
-        jQuery.map(recommendations.rightColumn, function (val, index) {
-            if (pageIndex != index) {
-                switch (index) {
+        articles = [];
+        Object.keys(recommendations.rightColumn).forEach(function (val) {
+            if (pageIndex != val) {
+                switch (val) {
                     case'pitcher-player-comparison':
                     case'catcher-player-comparison':
                     case'first-base-player-comparison':
@@ -411,11 +412,13 @@ export class ArticlePages implements OnInit {
                     case'infield-most-home-runs':
                     case'infield-best-batting-average':
                     case'infield-most-putouts':
-                        val['title'] = val.displayHeadline;
-                        val['eventType'] = index;
-                        val['eventID'] = eventID;
-                        val['images'] = self.images[imageCount];
-                        recommendArr.push(val);
+                        articles = {
+                            title: recommendations.rightColumn[val].displayHeadline,
+                            eventType: val,
+                            eventID: eventID,
+                            images: self.images[imageCount],
+                        };
+                        recommendArr.push(articles);
                         imageCount++;
                         break;
                 }
