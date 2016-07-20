@@ -53,6 +53,5 @@ export class ScheduleBox{
           reportLink:'/pick-a-team',
         }]
       }
-      console.log(this.boxData);
     }
 }

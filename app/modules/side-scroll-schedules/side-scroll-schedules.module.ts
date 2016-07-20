@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, EventEmitter} from '@angular/core';
 import {ScheduleBox} from '../../components/schedule-box/schedule-box.component'
 import {SideScroll} from '../../components/carousels/side-scroll/side-scroll.component'
 
@@ -11,5 +11,9 @@ import {SideScroll} from '../../components/carousels/side-scroll/side-scroll.com
 
 export class SideScrollSchedule{
   @Input() sideScrollData: any;
+  public count = new EventEmitter();
 
+  counter(event){
+    // this.count.next(event);
+  }
 }

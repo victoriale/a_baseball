@@ -1,4 +1,4 @@
-import {Component, AfterContentChecked, Input, NgZone} from '@angular/core';
+import {Component, AfterContentChecked, Input, EventEmitter} from '@angular/core';
 
 declare var jQuery:any
 ;
@@ -11,17 +11,26 @@ declare var jQuery:any
 
 export class SideScroll implements AfterContentChecked{
   @Input() carouselData:any;
+  public carouselCount = new EventEmitter();
+
   constructor(){
   }
 
   ngAfterContentChecked(){
-    jQuery(".owl-carousel").owlCarousel({
+    var owl = jQuery('.owl-carousel');
+    owl.owlCarousel({
       items:7,
       loop:false,
       dots:false,
       nav:false,
-      navText:false
+      navText:false,
+      info:true,
     });
+    owl.on('changed.owl.carousel', function(event) {
+        var currentItem = event.item.index;
+        // this.carouselCount.next(currentItem);
+        window.location.hash = currentItem + 1;
+    })
   }
 
   left() {

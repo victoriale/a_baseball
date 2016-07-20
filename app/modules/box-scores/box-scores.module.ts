@@ -24,6 +24,7 @@ export class BoxScoresModule implements OnChanges{
 
   // private moduleHeight: string;
   public dateEmit = new EventEmitter();
+  public liveArray = new EventEmitter();
   private gameNum:number = 0;
   constructor(){}
 

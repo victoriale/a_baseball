@@ -159,23 +159,19 @@ export class SchedulesService {
   setupSlideScroll(data, profile, eventStatus, limit, pageNum, callback: Function){
     this.getSchedule('league', eventStatus, limit, pageNum)
     .subscribe( data => {
-      console.log(data);
       var formattedData = this.transformSlideScroll(data.data);
       callback(formattedData);
     })
   }
 
   transformSlideScroll(data){
-    console.log('transforming',data);
     let self = this;
     var modifiedArray = [];
     var newData:scheduleBoxInput;
     //run through and convert data to what is needed for the component
     data.forEach(function(val,index){
-      console.log(val);
       let reportText = 'GAME REPORT';
       let reportLink = MLBGlobalFunctions.formatArticleRoute(val.eventStatus, val.eventId);
-      console.log('reportLink',reportLink);
 
       if(val.eventStatus = 'pre-event'){
         reportText = 'PRE GAME REPORT'
@@ -198,7 +194,6 @@ export class SchedulesService {
       }
       modifiedArray.push(newData);
     });
-
     return modifiedArray;
   }
 
