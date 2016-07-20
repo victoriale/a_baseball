@@ -36,6 +36,7 @@
           <span>[KEYWORD]</span><span>[MONTH][DD], [YYYY]</span>
           <p>Lorem ispum dolor sit amet, consectetu adiplicsing elit, sed do eisuemod tempor.</p>
         </div>
+
       </div>
       <div class="box_articles-item">
         <div class="article-image"></div>
@@ -45,6 +46,9 @@
         </div>
       </div>
     </div>
+
+    <recommendations-component *ngIf="recommendationData" [randomHeadlines]="recommendationData"
+   [isDeepDive]="true"></recommendations-component>
 
   </div>
 </section>

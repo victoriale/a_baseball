@@ -35,18 +35,27 @@ export class DeepDiveService {
     .map(res => res.json())
     .map(data => {
       // transform the data to YYYY-MM-DD objects from unix
-    //  console.log(data);
       return data;
 
     })
   }
-  getdeepDiveData(deepDiveData, callback:Function, dataParam) {
-  if(deepDiveData == null){
-    deepDiveData = {};
+  getdeepDiveData() {
+    return this.getDeepDiveService();
+  }
 
+  transformToRecArticles(data){
+    data = data.data;
+    for(var i = 0; i < data.length; i++){
+      data[i]['image_url'] = GlobalSettings.getImageUrl(data[i]['imagePath']);
+    }
+    //build to format expected by html
+    var ret = new Array(2);
+    for(var i = 0; i < ret.length;i++){ret[i] = [];}
+    for(var i = 0; i < data.length; i++){
+      if(i < 3){ret[0].push(data[i]);}
+      if(i >= 3 && i < 6){ret[1].push(data[i]);}
+    }
+    return ret;
   }
-  else {
-  }
-}
 
 }

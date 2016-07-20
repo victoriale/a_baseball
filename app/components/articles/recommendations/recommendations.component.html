@@ -1,4 +1,4 @@
-<div class="recommendations">
+<div class="recommendations" *ngIf="!isDeepDive">
     <div class="recommendations-header">
         <i class="fa fa-heartbeat recommendations-header-icon"></i><span class="recommendations-header-text">Other Articles You Will Love</span>
     </div>
@@ -18,4 +18,21 @@
             </a>
         </span>
     </div>
+</div>
+
+<div class="deep_recs" *ngIf="isDeepDive">
+  <div style="display: flex;" *ngFor="let data of randomHeadlines">
+    <a class="deep_recs-articles" *ngFor="let item of data;">
+      <div class="deep_recs-articles-item">
+        <div class="deep_recs-articles-item-image" [ngStyle]="{'background-image': 'url(' + item.image_url + ')'}"></div>
+        <div class="deep_recs-articles-item-content">
+          <div class="deep_recs-articles-item-content-dateline">
+              <span class="deep_recs-articles-item-content-dateline-keyword" [innerHTML]="item.keyword"></span>
+              <span class="deep_recs-articles-item-content-dateline-date" [innerHTML]="item.publishedDate"></span>
+          </div>
+          <div class="deep_recs-articles-item-content-teaser" [innerHTML]="item.title"></div>
+        </div>
+      </div>
+    </a>
+  </div>
 </div>
