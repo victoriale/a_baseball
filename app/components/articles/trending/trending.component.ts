@@ -13,5 +13,4 @@ import {SidekickContainerComponent} from "../sidekick-container/sidekick-contain
 })
 
 export class TrendingComponent {
-    trending:boolean = true;
 }
