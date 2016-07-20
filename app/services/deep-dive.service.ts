@@ -9,6 +9,7 @@ declare var moment;
 @Injectable()
 export class DeepDiveService {
   private _apiUrl: string = GlobalSettings.getApiUrl();
+  private _trendingUrl: string = GlobalSettings.getTrendingUrl();
   // private _apiToken: string = 'BApA7KEfj';
   // private _headerName: string = 'X-SNT-TOKEN';
 
@@ -43,18 +44,29 @@ export class DeepDiveService {
     return this.getDeepDiveService();
   }
 
+  getAiArticleData(){
+    var headers = this.setToken();
+    //this is the sidkeick url
+    var callURL = this._trendingUrl;
+    return this.http.get(callURL, {headers: headers})
+      .map(res => res.json())
+      .map(data => {
+        return data;
+      });
+  }
   transformToRecArticles(data){
-    data = data.data;
-    for(var i = 0; i < data.length; i++){
-      data[i]['image_url'] = GlobalSettings.getImageUrl(data[i]['imagePath']);
-    }
-    //build to format expected by html
-    var ret = new Array(2);
-    for(var i = 0; i < ret.length;i++){ret[i] = [];}
-    for(var i = 0; i < data.length; i++){
-      if(i < 3){ret[0].push(data[i]);}
-      if(i >= 3 && i < 6){ret[1].push(data[i]);}
-    }
+    // for(var i = 0; i < data.length; i++){
+    //   data[i]['image_url'] = GlobalSettings.getImageUrl(data[i]['imagePath']);
+    // }
+    // //build to format expected by html
+    // var ret = new Array(2);
+    // for(var i = 0; i < ret.length;i++){ret[i] = [];}
+    // for(var i = 0; i < data.length; i++){
+    //   if(i < 3){ret[0].push(data[i]);}
+    //   if(i >= 3 && i < 6){ret[1].push(data[i]);}
+    // }
+    var ret = data;
+    console.log(ret);
     return ret;
   }
 

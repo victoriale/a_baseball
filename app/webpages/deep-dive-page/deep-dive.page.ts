@@ -123,7 +123,7 @@ export class DeepDivePage implements OnInit {
         })
     }
     getRecommendationData(){
-      this._deepDiveData.getDeepDiveService()
+      this._deepDiveData.getAiArticleData()
           .subscribe(data => {
             this.recommendationData = this._deepDiveData.transformToRecArticles(data);
           });
