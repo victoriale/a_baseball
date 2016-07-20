@@ -55,7 +55,6 @@ export class DeepDiveService {
       if(i < 3){ret[0].push(data[i]);}
       if(i >= 3 && i < 6){ret[1].push(data[i]);}
     }
-    console.log(ret);
     return ret;
   }
 
