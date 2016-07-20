@@ -1,0 +1,37 @@
+<div class="syndicated-articles-page">
+    <div class="syndicated-articles-page-content">
+        <div *ngIf="error">
+            <div class="loading-container">
+                <span class="loading-text">The syndicated-article you are trying to reach is unavailable. You will be redirected to your previous page shortly.</span>
+            </div>
+        </div>
+
+    <span >
+        <shareLinks-component></shareLinks-component>
+        <div class="syndicated-articles-page-title">Lorem ipsum dolor sit amet</div>
+        <sidekick-wrapper-ai [aiSidekick]="aiSidekick">
+            <span >
+                <div class="carousel-container">
+                  <images-media-carousel [imageData]="'imageData'" [copyright]="'copyright'"
+                                         [imageTitle]="'imageTitle'"></images-media-carousel>
+                </div>
+            </span>
+            <div class="arpt">
+                <span class="arpt-author">Written By: Name</span>
+                <span class="arpt-date">Posted: on month day year at 12:12 PM CST</span>
+            </div>
+            <div class="content-exerpt">
+              Lorem ipsum dolor sit amet, decore commodo aliquando ne has, cu pri munere aliquid, unum sale quo id. Duo ei elit vocent platonem, no cum debet alienum, per aliquid laboramus ne. At sonet errem solet eam, paulo iriure integre cu pri. Mei an quot apeirian scriptorem, mel no primis consulatu, ut corpora placerat nominati duo. Ea reque eleifend est.<br><br>
+              No offendit intellegat duo. An vim nisl graeco sadipscing, vix ex interesset complectitur. Diam insolens assentior usu ne, alterum antiopam corrumpit eu nec, paulo virtute voluptaria ne duo. Ea cibo docendi mediocritatem est, vix an quaeque eloquentiam philosophia.
+              <div class="bottom-shader"></div>
+            </div>
+            <a class="readMore mod-page-btn">Read the Full Article <i class="fa fa-arrow-right"></i></a>
+
+            <recommendations-component></recommendations-component>
+            <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+            <disqus-component ></disqus-component>
+            <syndicated-trending-component></syndicated-trending-component>
+        </sidekick-wrapper-ai>
+    </span>
+    </div>
+</div>

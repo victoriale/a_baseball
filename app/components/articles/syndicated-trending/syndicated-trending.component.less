@@ -1,0 +1,108 @@
+.syndicated-trending {
+  width: 100%;
+  font-family: @globalFont;
+  &-hr {
+    background-color: #cccccc;
+    width: 100%;
+    height: 1px;
+    margin: 0 auto;
+  }
+  &-container {
+    margin-top: 25px;
+  }
+  &-main-title {
+    .globalDefaultModFont(24px, 800, @textEmphasisGrey);
+    line-height: 25px;
+    text-align: center;
+    border-bottom: solid @masterBrandColor 4px;
+    width: 325px;
+    margin: 25px auto;
+    padding-bottom: 3px;
+  }
+  .arpt {
+    &-author {
+      font-size: 16px;
+      margin:30px 0;
+      b {
+        color: @masterBrandColor;
+        font-weight: 800;
+      }
+    }
+    &-date {
+      font-size:12px;
+      color: @bulletGrey;
+    }
+  }
+  &-article-title {
+    .globalDefaultFont(32px, 800);
+    text-align: left;
+    margin-top: 20px;
+  }
+  &-article-content {
+    .globalDefaultFont(16px, 400);
+    text-align: left;
+    line-height: 20px;
+    margin-top: 10px;
+    &:first-letter {
+      .globalDefaultFont(120px, 800);
+      float: left;
+      line-height: 80px;
+      padding-top: 10px;
+      padding-right: 15px;
+      font-style: italic;
+    }
+  }
+  &-read-more {
+    .globalDefaultModFont(16px, 800, @masterBrandColor);
+    line-height: 35px;
+    text-align: left;
+    margin: 10px 0 25px;
+  }
+  &-load-more {
+    i {
+      font-size: 15px;
+      padding-right: 5px;
+      vertical-align: bottom;
+    }
+    width: 100%;
+    border: 2px solid @masterBrandColor;
+    padding: 15px 0;
+    border-radius: 5px;
+    text-align: center;
+    .globalDefaultModFont(15px, 900, @masterBrandColor);
+  }
+  .featured-tag {
+    background-color: @masterBrandColor;
+    color: @white;
+    font-size: 12px;
+    border-radius:3px;
+    padding: 5px 15px;
+    &-large {
+      i {
+        font-size: 28px;
+        margin: 25px 25px 2px;
+      }
+      font-size: 12px;
+      text-align: center;
+      background-color: @masterBrandColor;
+      color: @white;
+      position: absolute;
+      right:0;
+      width: 80px;
+      height: 100px;
+      box-shadow: inset 1.5px 2.6px 0 0 rgba(0, 0, 0, 0.08);
+    }
+    &-large .vr {
+      height: 128px;
+      width: 10px;
+      top: -15px;
+      left:-10px;
+      background-color: white;
+      box-shadow: 2px 0px 6px -3px #000;
+      position: absolute;
+    }
+  }
+  .more {
+    padding: 10px 0 15px;
+  }
+}
