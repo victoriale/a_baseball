@@ -40,9 +40,11 @@
           </div>
         </div>
         </div>
-        <div class="box-widget">
+        <!-- <div class="box-widget">
 
-        </div>
+        </div> -->
+        <recommendations-component *ngIf="recommendationData" [randomHeadlines]="recommendationData"
+       [isDeepDive]="true"></recommendations-component>
       </div>
     </div>
   </section>
