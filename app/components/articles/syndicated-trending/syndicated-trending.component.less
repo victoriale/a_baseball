@@ -27,6 +27,11 @@
       b {
         color: @masterBrandColor;
         font-weight: 800;
+        display: inline-block;
+        max-width: 250px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       b:last-of-type {
         margin-left:20px;
@@ -116,7 +121,7 @@
       top: -15px;
       left:-10px;
       background-color: white;
-      box-shadow: 2px 0px 6px -3px #000;
+      box-shadow: 3px 0 3px -3px #000;
       position: absolute;
     }
   }
