@@ -6,6 +6,7 @@ import {CarouselDiveModule} from '../../modules/carousel-dive/carousel-dive.modu
 import {DeepDiveService} from '../../services/deep-dive.service'
 
 import {SidekickWrapper} from '../../components/sidekick-wrapper/sidekick-wrapper.component';
+import {BoxArticleComponent} from '../../components/box-article/box-article.component';
 
 import {SchedulesService} from '../../services/schedules.service';
 
@@ -36,9 +37,10 @@ declare var jQuery: any;
       TileStackModule,
       ArticleStackModule,
       VideoStackModule,
-      CarouselDiveModule
+      CarouselDiveModule,
+      BoxArticleComponent
     ],
-    providers: [BoxScoresService,SchedulesService],
+    providers: [BoxScoresService,SchedulesService,DeepDiveService],
 })
 
 export class DeepDivePage implements OnInit {
@@ -63,7 +65,8 @@ export class DeepDivePage implements OnInit {
     constructor(
       private _router:Router,
       private _boxScores:BoxScoresService,
-      private _schedulesService:SchedulesService){
+      private _schedulesService:SchedulesService,
+      private _deepDiveService:DeepDiveService){
       this.profileName = "MLB";
 
       //for boxscores
