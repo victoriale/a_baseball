@@ -15,6 +15,7 @@ import {GlobalSettings} from "../../global/global-settings";
 import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
 declare var jQuery:any;
+declare var moment;
 
 @Component({
     selector: 'syndicated-article-page',
@@ -73,6 +74,8 @@ export class SyndicatedArticlePage implements OnInit{
             this.imageTitle = ["", ""];
           }
           this.articleData = data.data;
+          console.log(this.articleData.publishedDate);
+          this.articleData.publishedDate = moment(this.articleData.publishedDate, "YYYY-MM-Do, h:mm:ss").format("MMMM Do, YYYY h:mm:ss a");
         }
       )
     }
