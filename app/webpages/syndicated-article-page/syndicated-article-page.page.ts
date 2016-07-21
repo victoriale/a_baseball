@@ -36,9 +36,11 @@ declare var jQuery:any;
 export class SyndicatedArticlePage implements OnInit{
   public widgetPlace: string = "widgetForPage";
   public articleData: any;
+  public recomendationData: any;
   public eventID: string;
   public articleType: string;
   public imageData: Array<string>;
+  iframeUrl: any;
   constructor(
     private _params:RouteParams,
     private _router:Router,
@@ -46,7 +48,13 @@ export class SyndicatedArticlePage implements OnInit{
     ){
       this.eventID = _params.get('eventID');
       this.articleType = _params.get('articleType');
-      this.getDeepDiveArticle(this.eventID);
+      if (this.articleType == "story") {
+        this.getDeepDiveArticle(this.eventID);
+      }
+      else {
+        this.getDeepDiveVideo(this.eventID);
+      }
+      this.getRecomendationData();
     }
     private getDeepDiveArticle(articleID) {
       this._deepdiveservice.getDeepDiveArticleService(articleID).subscribe(
@@ -61,6 +69,21 @@ export class SyndicatedArticlePage implements OnInit{
           this.articleData = data.data;
         }
       )
+    }
+    private getDeepDiveVideo(articleID){
+      this._deepdiveservice.getDeepDiveVideoService(articleID).subscribe(
+        data => {
+          this.articleData = data.data[0];
+          this.iframeUrl = this.articleData.videoLink;
+        }
+      )
+    }
+    getRecomendationData(){
+      this._deepdiveservice.getAiArticleData()
+          .subscribe(data => {
+            this.recomendationData = this._deepdiveservice.transformToRecArticles(data);
+            this.recomendationData = [this.recomendationData[0]];
+          });
     }
     ngOnInit() {
 

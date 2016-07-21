@@ -30,7 +30,6 @@ export class SyndicatedTrendingComponent {
           data => {
             this.articleData = data.data;
             // this.articleData.teaser = this.articleData.teaser.replace("\'", "'");
-            console.log(this.articleData);
           }
         )
       }
