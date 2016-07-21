@@ -54,8 +54,6 @@ export class SyndicatedArticlePage implements OnInit{
             this.imageData = ["https://prod-sports-images.synapsys.us" + data.data.imagePath, "/app/public/stockphoto_bb_2.jpg"];
           }
           this.articleData = data.data;
-          // this.articleData.teaser = this.articleData.teaser.replace("\'", "'");
-          console.log(this.articleData.teaser);
         }
       )
     }
