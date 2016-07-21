@@ -1,8 +1,9 @@
 .syndicated-trending {
+  margin-top: 30px;
   width: 100%;
   font-family: @globalFont;
   &-hr {
-    background-color: #cccccc;
+    background-color: @strokeGrey;
     width: 100%;
     height: 1px;
     margin: 0 auto;
@@ -15,7 +16,7 @@
     line-height: 25px;
     text-align: center;
     border-bottom: solid @masterBrandColor 4px;
-    width: 325px;
+    width: 240px;
     margin: 25px auto;
     padding-bottom: 3px;
   }
@@ -26,6 +27,14 @@
       b {
         color: @masterBrandColor;
         font-weight: 800;
+        display: inline-block;
+        max-width: 250px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      b:last-of-type {
+        margin-left:20px;
       }
     }
     &-date {
@@ -42,14 +51,28 @@
   &-article-content {
     .globalDefaultFont(16px, 400);
     text-align: left;
+    height:100px;
+    overflow:hidden;
     line-height: 20px;
     margin-top: 10px;
+    text-overflow: ellipsis;
+    p:first-of-type{
+      margin-top:0;
+    }
+    p{
+      margin: 20px 0;
+    }
   }
   &-read-more {
     .globalDefaultModFont(16px, 800, @masterBrandColor);
-    line-height: 35px;
     text-align: left;
-    margin: 10px 0 25px;
+    margin: 25px 0 25px;
+    i{
+      vertical-align: top;
+    }
+  }
+  &-read-more:hover {
+    .globalDefaultModFont(16px, 800, @black);
   }
   &-load-more {
     i {
@@ -97,8 +120,8 @@
       width: 10px;
       top: -15px;
       left:-10px;
-      background-color: white;
-      box-shadow: 2px 0px 6px -3px #000;
+      background-color: @white;
+      box-shadow: 3px 0 3px -3px @black;
       position: absolute;
     }
   }
@@ -109,8 +132,38 @@
   }
   .art-hdr {
     vertical-align: middle;
+    .fa {
+    font-size: 18px!important;
+    }
+    span {
+      display:none;
+    }
+    .st_sharethis_large {
+      display:inline;
+      i{
+        padding: 0 2px;
+      }
+      .fa-facebook {
+        color: @facebook;
+      }
+      .fa-twitter {
+        color: @twitter;
+      }
+      .fa-linkedin {
+        color: @linkedin;
+      }
+      .fa-google-plus {
+        color: @googlePlus;
+      }
+    }
   }
   .more {
     padding: 10px 0 15px;
+  }
+  .trending-article-image {
+    width:140px;
+    height:100px;
+    margin-right:10px;
+    float:left;
   }
 }

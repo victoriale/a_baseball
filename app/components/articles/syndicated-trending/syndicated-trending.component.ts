@@ -5,6 +5,8 @@ import {SanitizeHtml} from "../../../pipes/safe.pipe";
 import {ResponsiveWidget} from '../../../components/responsive-widget/responsive-widget.component';
 import {DeepDiveService} from '../../../services/deep-dive.service'
 
+declare var moment;
+
 @Component({
     selector: 'syndicated-trending-component',
     templateUrl: './app/components/articles/syndicated-trending/syndicated-trending.component.html',
@@ -29,8 +31,10 @@ export class SyndicatedTrendingComponent {
         this._deepdiveservice.getDeepDiveBatchService(numItems).subscribe(
           data => {
             this.articleData = data.data;
-            // this.articleData.teaser = this.articleData.teaser.replace("\'", "'");
           }
         )
+      }
+      private formatDate(date) {
+        return moment(date, "YYYY-MM-Do, h:mm:ss").format("MMMM Do, YYYY h:mm:ss A");
       }
 }
