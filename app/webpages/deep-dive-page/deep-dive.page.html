@@ -1,13 +1,14 @@
+
 <section class="deep-dive" *ngIf="!isHomeRunZone">
   <div class="newsCarousel" id="newsCarousel">
-    <carousel-dive-module></carousel-dive-module>
+    <carousel-dive-module *ngIf = "carouselData" [carouselData] = "carouselData"></carousel-dive-module>
   </div>
   <div class="deep-dive-container">
     <div class="deep-dive-content1">
       <side-scroll-schedules *ngIf="sideScrollData" [sideScrollData]="sideScrollData" (count)="scrollCheck($event)" [scrollLength]="scrollLength"></side-scroll-schedules>
       <!-- container of responsive box -->
       <div class="container2">
-        <article-stack-module></article-stack-module>
+        <article-stack-module [stackTop]="stackTop" [stackRow]="stackRow"></article-stack-module>
         <tile-stack-module></tile-stack-module>
       </div>
       <!-- container of responsive box -->
@@ -38,5 +39,5 @@
     <div class="deep-dive-content2"></div>
   </div>
 </section>
-<div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div>
+<!-- <div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div> -->
 <Partner-home-page *ngIf="isHomeRunZone"></Partner-home-page>

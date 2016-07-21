@@ -57,8 +57,8 @@ export class SideScroll{
 
   }
 
-  ngOnChanges(){
-  }
+
+
 
   counter(event){
     this.count = event;

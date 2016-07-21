@@ -37,6 +37,7 @@ export class DeepDiveService {
       // transform the data to YYYY-MM-DD objects from unix
       return data;
 
+
     })
   }
   getDeepDiveArticleService(articleID){//DATE
@@ -83,6 +84,7 @@ export class DeepDiveService {
     }
   }
 
+
   getAiArticleData(){
     var headers = this.setToken();
     //this is the sidkeick url
@@ -114,6 +116,84 @@ export class DeepDiveService {
       boxArray.push(Box);
     });
     return boxArray;
+  }
+
+  getCarouselData(data, callback:Function) {
+     this.getDeepDiveService()
+     .subscribe(data=>{
+     //   console.log('before',data);
+       var transformedData = this.carouselTransformData(data.data);
+     //  console.log('after',transformedData);
+      callback(transformedData);
+     })
+ }
+ carouselTransformData(arrayData){
+    // for(var i = 0; i < carouselData.length; i++){
+    //   carouselData[i]['image_url'] = GlobalSettings.getImageUrl(carouselData[i]['imagePath']);
+    //   carouselData[i]['title'] = carouselData[i]['title'];
+    // }
+      var transformData = [];
+      arrayData.forEach(function(val,index){
+      //  console.log(val);
+        let carData = {
+          // image_url: GlobalSettings.getImageUrl(val['imagePath']),
+      //    image_url: this._sanitizer.bypassSecurityTrustStyle("url(" + GlobalSettings.getImageUrl(val['imagePath']), + ")"),
+          title:  "<span> Today's News </span>" + val['title'],
+          keyword: val['keyword'],
+          teaser: val['teaser'].substr(0,300) + "..."
+        };
+        transformData.push(carData);
+      });
+
+      return transformData;
+  }
+  
+  transformToArticleRow(data){
+    var articleStackArray = [];
+
+    var sampleImage = "/app/public/placeholder_XL.png";
+    var articleStackArray = [];
+    data = data.data.slice(1,7);//TODO
+
+    data.forEach(function(val, index){
+      var s = {
+          url: val.articleUrl != null ? val.articleUrl : '/',
+          keyword: val.keyword,
+          publishedDate: GlobalFunctions.formatUpdatedDate(val.publishedDate),
+          headline: val.title,
+          provider1: val.author,
+          provider2: "Published By: " + val.publisher,
+          description: val.teaser,
+          imageConfig: {
+            imageClass: "image-100x75",
+            mainImage:{
+              imageUrl: val.imagePath != null ? GlobalSettings.getImageUrl(val.imagePath) : sampleImage
+            }
+          }
+      }
+      articleStackArray.push(s);
+    });
+    return articleStackArray;
+  }
+
+  transformToArticleStack(data){
+    var sampleImage = "/app/public/placeholder_XL.png";
+    var topData = data.data[0];//TODO
+    var articleStackData = {
+        url: topData.articleUrl != null ? topData.articleUrl : '/',
+        date: topData.keyword + ' ' + GlobalFunctions.formatUpdatedDate(topData.publishedDate),
+        headline: topData.title,
+        provider1: topData.author,
+        provider2: "Published By: " + topData.publisher,
+        description: topData.teaser,
+        imageConfig: {
+          imageClass: "image-610x420",
+          mainImage:{
+            imageUrl: topData.imagePath != null ? GlobalSettings.getImageUrl(topData.imagePath) : sampleImage
+          }
+        }
+    };
+    return articleStackData;
   }
 
   transformToRecArticles(data){
@@ -168,5 +248,24 @@ export class DeepDiveService {
     }
     return _return;
   }
+
+  // getCarouselData(data, callback:Function) {
+  //     this.getDeepDiveService()
+  //     .subscribe(data=>{
+  //     //   console.log('before',data);
+  //       var transformedData = this.carouselTransformData(data);
+  //     //    console.log('after',transformedData);
+  //      callback(transformedData);
+  //     })
+  // }
+
+  // getStackRowsData(data) {
+  //     this.getDeepDiveService()
+  //     .subscribe(data=>{
+  //         console.log('before',data);
+  //         var transformedData = this.stackrowsTransformData(data);
+  //        //console.log('after',transformedData);
+  //     })
+  // }
 
 }

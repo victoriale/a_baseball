@@ -1,3 +1,4 @@
+
 import {Component,OnInit,Input} from '@angular/core';
 import {RectangleImage} from '../../components/images/rectangle-image';
 import {ImageData, RectangleImageData} from '../../components/images/image-data';
@@ -18,9 +19,9 @@ export interface StackTopInput{
   directives: [RectangleImage, ROUTER_DIRECTIVES],
 })
 
-export class ArticleStacktopComponent{
+export class ArticleStacktopComponent implements OnInit{
   @Input() stackTopData: StackTopInput;
-
+  constructor(){}
   ngOnInit() {
     if (typeof this.stackTopData == 'undefined') {
       var sampleImage = "/app/public/placeholder_XL.png";
