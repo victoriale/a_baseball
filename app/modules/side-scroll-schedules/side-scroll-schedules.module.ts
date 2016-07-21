@@ -14,6 +14,7 @@ export class SideScrollSchedule{
   public count = new EventEmitter();
 
   counter(event){
-    // this.count.next(event);
+    console.log('counter',event);
+    this.count.next(event);
   }
 }
