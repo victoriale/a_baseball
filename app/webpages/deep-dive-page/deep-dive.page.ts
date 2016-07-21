@@ -107,7 +107,7 @@ export class DeepDivePage implements OnInit {
     }
 
     private scrollCheck(event){
-      console.log('deep dive check', event);
+      // console.log('deep dive check', event);
       let maxScroll = this.sideScrollData.length;
       this.scrollLength = this.sideScrollData.length - this.ssMax;
       if(event >= (maxScroll - this.ssMax)){
