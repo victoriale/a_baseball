@@ -65,7 +65,7 @@ export class DeepDivePage implements OnInit {
 
     //for recommendation module
     recommendationData: any;
-
+    boxArticleData: any;
     constructor(
       private _router:Router,
       private _deepDiveData: DeepDiveService,
@@ -151,11 +151,19 @@ export class DeepDivePage implements OnInit {
             this.recommendationData = this._deepDiveData.transformToRecArticles(data);
           });
     }
+    getArticleStackData(){
+      this._deepDiveData.getDeepDiveService()
+          .subscribe(data => {
+            console.log("data", this._deepDiveData.transformToBoxArticle(data));
+            this.boxArticleData = this._deepDiveData.transformToBoxArticle(data);
+          });
+    }
     ngOnInit() {
       this.getRecommendationData();
       this.checkSize();
       this.getBoxScores(this.dateParam);
       this.getSideScroll();
+      this.getArticleStackData();
     }
 
     ngDoCheck(){
