@@ -63,6 +63,7 @@ export class DeepDivePage implements OnInit {
 ​
     //for article-stack
     stackrowsData: any;
+    articlestackData: any;
 
     private isHomeRunZone: boolean = false;
 
@@ -143,6 +144,15 @@ private getDataStackRows() {
 
 
 }
+private getDataArticleStack() {
+  this._deepDiveData.getDeepDiveService()
+    .subscribe(data => {
+      this.articlestackData = this._deepDiveData.articlestackTransformData(data);
+      console.log(this.articlestackData);
+    });
+
+
+}
 
 
 
@@ -163,6 +173,7 @@ private getDataStackRows() {
       this.getSchedulesData();
       this.getDataCarousel();
       this.getDataStackRows();
+
     }
 
     ngDoCheck(){

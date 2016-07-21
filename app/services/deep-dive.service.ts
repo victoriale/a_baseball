@@ -77,13 +77,27 @@ carouselTransformData(arrayData){
           stackarray[i]['image_url'] = GlobalSettings.getImageUrl(data[i]['imagePath']);
           stackarray[i]['title'] = data[i]['title'];
           stackarray[i]['keyword'] = data[i]['keyword'];
-          stackarray[i]['teaser'] = data[i]['teaser'].substr(0,300) + "...";
+          // stackarray[i]['teaser'] = data[i]['teaser'].substr(0,300) + "...";
           stackarray[i]['publishedDate'] =  data[i]['publishedDate'];
-          stackarray[i]['publisher'] = data[i]['publisher'];
-          stackarray[i]['author'] = data[i]['author'];
+          // stackarray[i]['publisher'] = data[i]['publisher'];
+          // stackarray[i]['author'] = data[i]['author'];
           console.log(i);
     }
     return stackarray;
+  }
+  articlestackTransformData(data){
+    console.log(data);
+     data = data;
+      var i = 10; //Going to change this
+          data[i]['image_url'] = GlobalSettings.getImageUrl(data[i]['imagePath']);
+          data[i]['title'] = data[i]['title'];
+          data[i]['keyword'] = data[i]['keyword'];
+          data[i]['teaser'] = data[i]['teaser'].substr(0,300) + "...";
+          data[i]['publishedDate'] =  data[i]['publishedDate'];
+          data[i]['publisher'] = data[i]['publisher'];
+          data[i]['author'] = data[i]['author'];
+          console.log(i);
+    return data;
   }
 
 ​

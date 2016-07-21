@@ -12,6 +12,7 @@ import {ArticleStacktopComponent} from '../../components/article-stacktop/articl
 
 export class ArticleStackModule{
   @Input() stackrowsData: any;
+  @Input() articlestackData: any;
   constructor(){
 
   }

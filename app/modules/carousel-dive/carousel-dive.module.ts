@@ -16,28 +16,29 @@ export class CarouselDiveModule implements OnInit{
 ​
   }
   ngOnInit() {
-      jQuery(".owl-carousel").owlCarousel({
+    setTimeout(function(){
+      jQuery(".owl-carousel carousel_owl").owlCarousel({
         items:1,
         loop:true,
         dots:false,
         nav:false,
         navText:false
       });
-      leftcarousel() {
-        console.log('left arrow')
-        var owl = jQuery('.carousel_owl');
-        owl.owlCarousel();
-        owl.trigger('prev.owl.carousel');
-      }
-      rightcarousel() {
-        console.log('right arrow')
-        var owl = jQuery('.carousel_owl');
-        owl.owlCarousel();
-        owl.trigger('next.owl.carousel');
-      }
+    }, 10000);
 ​
   }
-
+  leftcarousel() {
+    console.log('left arrow')
+    var owl = jQuery('.carousel_owl');
+    owl.owlCarousel();
+    owl.trigger('prev.owl.carousel');
+  }
+  rightcarousel() {
+    console.log('right arrow')
+    var owl = jQuery('.carousel_owl');
+    owl.owlCarousel();
+    owl.trigger('next.owl.carousel');
+  }
 ​
 ​
 ​
