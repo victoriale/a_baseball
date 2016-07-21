@@ -61,7 +61,6 @@ export class DeepDiveService {
       });
   }
   transformToRecArticles(data){
-    console.log(data);
     var articleTypes = [];
     var articles = [];
     var images = [];
