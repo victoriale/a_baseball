@@ -5,9 +5,7 @@ import {ArticleStacktopComponent} from '../../components/article-stacktop/articl
 @Component({
   selector: 'article-stack-module',
   templateUrl: './app/modules/article-stack/article-stack.module.html',
-  directives: [StackRowsComponent,ArticleStacktopComponent],
-  providers: []
-
+  directives: [StackRowsComponent,ArticleStacktopComponent]
 })
 
 export class ArticleStackModule{
@@ -17,6 +15,7 @@ export class ArticleStackModule{
 
   }
   ngOnInit() {
+    console.log('on init', this.articlestackData);
 
   }
 

@@ -62,8 +62,8 @@ export class DeepDivePage implements OnInit {
     carouselData: any;
 ​
     //for article-stack
-    stackrowsData: any;
     articlestackData: any;
+    stackrowsData: any;
 
     private isHomeRunZone: boolean = false;
 
@@ -144,11 +144,11 @@ private getDataStackRows() {
 
 
 }
-private getDataArticleStack() {
+ getDataArticleStack() {
   this._deepDiveData.getDeepDiveService()
     .subscribe(data => {
       this.articlestackData = this._deepDiveData.articlestackTransformData(data);
-      console.log(this.articlestackData);
+      console.log('deep page',this.articlestackData);
     });
 
 
@@ -173,6 +173,7 @@ private getDataArticleStack() {
       this.getSchedulesData();
       this.getDataCarousel();
       this.getDataStackRows();
+      this.getDataArticleStack();
 
     }
 

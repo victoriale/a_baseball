@@ -57,7 +57,9 @@ carouselTransformData(arrayData){
       arrayData.forEach(function(val,index){
       //  console.log(val);
         let carData = {
-          image_url: GlobalSettings.getImageUrl(val['imagePath']),
+          // image_url: GlobalSettings.getImageUrl(val['imagePath']),
+          image_url: this._sanitizer.bypassSecurityTrustStyle("url(" + GlobalSettings.getImageUrl(val['imagePath']), + ")"),
+
           title:  "<span> Today's News </span>" + val['title'],
           keyword: val['keyword'],
           teaser: val['teaser'].substr(0,300) + "..."
@@ -86,17 +88,9 @@ carouselTransformData(arrayData){
     return stackarray;
   }
   articlestackTransformData(data){
-    console.log(data);
-     data = data;
-      var i = 10; //Going to change this
-          data[i]['image_url'] = GlobalSettings.getImageUrl(data[i]['imagePath']);
-          data[i]['title'] = data[i]['title'];
-          data[i]['keyword'] = data[i]['keyword'];
-          data[i]['teaser'] = data[i]['teaser'].substr(0,300) + "...";
-          data[i]['publishedDate'] =  data[i]['publishedDate'];
-          data[i]['publisher'] = data[i]['publisher'];
-          data[i]['author'] = data[i]['author'];
-          console.log(i);
+    console.log('array',data)
+    data = data[10];
+    console.log('one',data);
     return data;
   }
 
@@ -109,7 +103,7 @@ carouselTransformData(arrayData){
       .subscribe(data=>{
       //   console.log('before',data);
         var transformedData = this.carouselTransformData(data);
-      //    console.log('after',transformedData);
+      //  console.log('after',transformedData);
        callback(transformedData);
       })
   }

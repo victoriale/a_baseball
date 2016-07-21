@@ -17,31 +17,31 @@ export class SideScroll implements AfterContentChecked{
   }
 
   ngAfterContentChecked(){
-    var owl = jQuery('.owl-carousel');
-    owl.owlCarousel({
-      items:7,
-      loop:false,
-      dots:false,
-      nav:false,
-      navText:false,
-      info:true,
-    });
-    owl.on('changed.owl.carousel', function(event) {
-        var currentItem = event.item.index;
-        // this.carouselCount.next(currentItem);
-        window.location.hash = currentItem + 1;
-    })
+    // var owl = jQuery('.owl-carousel');
+    // owl.owlCarousel({
+    //   items:7,
+    //   loop:false,
+    //   dots:false,
+    //   nav:false,
+    //   navText:false,
+    //   info:true,
+    // });
+    // owl.on('changed.owl.carousel', function(event) {
+    //     var currentItem = event.item.index;
+    //     // this.carouselCount.next(currentItem);
+    //     window.location.hash = currentItem + 1;
+    // })
   }
 
-  left() {
-    var owl = jQuery('.ss_owl');
-    owl.owlCarousel();
-    owl.trigger('prev.owl.carousel');
-  }
-  right() {
-    var owl = jQuery('.ss_owl');
-    owl.owlCarousel();
-    owl.trigger('next.owl.carousel');
-  }
+  // left() {
+  //   var owl = jQuery('.ss_owl');
+  //   owl.owlCarousel();
+  //   owl.trigger('prev.owl.carousel');
+  // }
+  // right() {
+  //   var owl = jQuery('.ss_owl');
+  //   owl.owlCarousel();
+  //   owl.trigger('next.owl.carousel');
+  // }
 
 }

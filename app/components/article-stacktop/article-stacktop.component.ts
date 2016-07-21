@@ -16,7 +16,7 @@ export class ArticleStacktopComponent{
 
   }
   ngOnInit() {
-
+  //  console.log('on init', this.articlestackData);
   }
 
 

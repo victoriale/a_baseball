@@ -24,7 +24,7 @@ export class CarouselDiveModule implements OnInit{
         nav:false,
         navText:false
       });
-    }, 1000);
+    }, 500);
 ​
   }
   leftcarousel() {
