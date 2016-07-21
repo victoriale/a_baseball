@@ -6,6 +6,7 @@ import {CarouselDiveModule} from '../../modules/carousel-dive/carousel-dive.modu
 import {DeepDiveService} from '../../services/deep-dive.service'
 import {RecommendationsComponent} from '../../components/articles/recommendations/recommendations.component';
 import {SidekickWrapper} from '../../components/sidekick-wrapper/sidekick-wrapper.component';
+import {BoxArticleComponent} from '../../components/box-article/box-article.component';
 
 import {SchedulesService} from '../../services/schedules.service';
 
@@ -37,6 +38,7 @@ declare var jQuery: any;
       ArticleStackModule,
       VideoStackModule,
       CarouselDiveModule,
+      BoxArticleComponent,
       RecommendationsComponent
     ],
     providers: [BoxScoresService,SchedulesService,DeepDiveService],
@@ -63,7 +65,7 @@ export class DeepDivePage implements OnInit {
 
     //for recommendation module
     recommendationData: any;
-
+    boxArticleData: any;
     constructor(
       private _router:Router,
       private _deepDiveData: DeepDiveService,
@@ -149,11 +151,18 @@ export class DeepDivePage implements OnInit {
             this.recommendationData = this._deepDiveData.transformToRecArticles(data);
           });
     }
+    getArticleStackData(){
+      this._deepDiveData.getDeepDiveService()
+          .subscribe(data => {
+            this.boxArticleData = this._deepDiveData.transformToBoxArticle(data);
+          });
+    }
     ngOnInit() {
       this.getRecommendationData();
       this.checkSize();
       this.getBoxScores(this.dateParam);
       this.getSideScroll();
+      this.getArticleStackData();
     }
 
     ngDoCheck(){

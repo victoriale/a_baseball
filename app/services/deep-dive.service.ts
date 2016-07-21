@@ -29,18 +29,50 @@ export class DeepDiveService {
   //Configure HTTP Headers
   var headers = this.setToken();
 
-
   //date needs to be the date coming in AS EST and come back as UTC
   var callURL = this._apiUrl+'/'+ 'article/batch/2/25';
-
-  // console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
       // transform the data to YYYY-MM-DD objects from unix
-
       return data;
 
+    })
+  }
+  getDeepDiveArticleService(articleID){//DATE
+  //Configure HTTP Headers
+  var headers = this.setToken();
+  //date needs to be the date coming in AS EST and come back as UTC
+  var callURL = this._apiUrl+'/'+ 'article/' + articleID;
+  return this.http.get(callURL, {headers: headers})
+    .map(res => res.json())
+    .map(data => {
+      // transform the data to YYYY-MM-DD objects from unix
+      return data;
+    })
+  }
+  getDeepDiveVideoService(articleID){//DATE
+  //Configure HTTP Headers
+  var headers = this.setToken();
+  //date needs to be the date coming in AS EST and come back as UTC
+  var callURL = this._apiUrl+'/'+ 'article/video/batch/'+ articleID +'/1' ;
+  return this.http.get(callURL, {headers: headers})
+    .map(res => res.json())
+    .map(data => {
+      // transform the data to YYYY-MM-DD objects from unix
+      return data;
+    })
+  }
+  getDeepDiveBatchService(numItems){//DATE
+  //Configure HTTP Headers
+  var headers = this.setToken();
+  //date needs to be the date coming in AS EST and come back as UTC
+  var callURL = this._apiUrl+'/article'+ '/batch/2/'+numItems;
+  return this.http.get(callURL, {headers: headers})
+    .map(res => res.json())
+    .map(data => {
+      // transform the data to YYYY-MM-DD objects from unix
+      return data;
     })
   }
   getdeepDiveData(deepDiveData, callback:Function, dataParam) {
@@ -50,6 +82,7 @@ export class DeepDiveService {
   }else {
     }
   }
+
   getAiArticleData(){
     var headers = this.setToken();
     //this is the sidkeick url
@@ -60,6 +93,29 @@ export class DeepDiveService {
         return data;
       });
   }
+
+  transformToBoxArticle(data){
+    var boxArray = [];
+    var sampleImage = "/app/public/placeholder_XL.png";
+    data = data.data.slice(0,2);//TODO
+    data.forEach(function(val, index){
+      var Box = {
+        keyword: val.keyword,
+        date: GlobalFunctions.formatUpdatedDate(val.publishedDate),
+        teaser: val.teaser,
+        url: val.articleUrl != null ? val.articleUrl : '/',
+        imageConfig:{
+          imageClass: "image-288x180",
+          mainImage:{
+            imageUrl: val.imagePath != null ? GlobalSettings.getImageUrl(val.imagePath) : sampleImage
+          }
+        }
+      }
+      boxArray.push(Box);
+    });
+    return boxArray;
+  }
+
   transformToRecArticles(data){
     console.log(data);
     var articleTypes = [];
