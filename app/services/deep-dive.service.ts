@@ -61,6 +61,7 @@ export class DeepDiveService {
       });
   }
   transformToRecArticles(data){
+    console.log(data);
     var articleTypes = [];
     var articles = [];
     var images = [];
@@ -70,6 +71,8 @@ export class DeepDiveService {
       articleTypes.push(obj);
       articles.push(data[obj]);
     }
+
+    var eventID = data['meta-data']['current']['eventId'];
 
     //set up the images array
     for(var obj in data['meta-data']['images']){
@@ -95,9 +98,11 @@ export class DeepDiveService {
       ret[i] = articles[i];
       ret[i]['type'] = articleTypes[i];
       ret[i]['image'] = images[i];
+      ret[i]['keyword'] = ret[i]['sidekickTitle'].toUpperCase();
       ret[i]['bg_image_var'] = this._sanitizer.bypassSecurityTrustStyle("url(" + ret[i]['image'] + ")");
+      ret[i]['new_date'] = MLBGlobalFunctions.convertAiDate(ret[i]['dateline']);
+      ret[i]['event_id'] = eventID;
     }
-
 
     //build to format expected by html
     var _return = new Array(2);
@@ -106,6 +111,7 @@ export class DeepDiveService {
       if(i < 3){_return[0].push(ret[i]);}
       if(i >= 3 && i < 6){_return[1].push(ret[i]);}
     }
+    console.log(_return);
     return _return;
   }
 

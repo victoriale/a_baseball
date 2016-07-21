@@ -39,10 +39,10 @@
             </div>
           </div>
         </div>
+        <recommendations-component *ngIf="recommendationData" [randomHeadlines]="recommendationData"
+          [isDeepDive]="true"></recommendations-component>
       </div>
       <!-- container of responsive box -->
-      <recommendations-component *ngIf="recommendationData" [randomHeadlines]="recommendationData"
-         [isDeepDive]="true"></recommendations-component>
     </div>
   </div>
 </section>
