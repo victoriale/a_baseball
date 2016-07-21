@@ -1,4 +1,4 @@
-import {Component,OnInit} from '@angular/core';
+import {Component,OnInit,Input} from '@angular/core';
 import {StackRowsComponent} from '../../components/stack-rows/stack-rows.component'
 import {ArticleStacktopComponent} from '../../components/article-stacktop/article-stacktop.component'
 
@@ -11,6 +11,7 @@ import {ArticleStacktopComponent} from '../../components/article-stacktop/articl
 })
 
 export class ArticleStackModule{
+  @Input() stackrowsData: any;
   constructor(){
 
   }

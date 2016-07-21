@@ -1,4 +1,5 @@
 import {Component,OnInit,EventEmitter,Input} from '@angular/core';
+
 declare var jQuery:any;
 
 
@@ -15,7 +16,6 @@ export class CarouselDiveModule implements OnInit{
 ​
   }
   ngOnInit() {
-    setTimeout(function(){
       jQuery(".owl-carousel").owlCarousel({
         items:1,
         loop:true,
@@ -23,21 +23,21 @@ export class CarouselDiveModule implements OnInit{
         nav:false,
         navText:false
       });
-    }, 10000);
+      leftcarousel() {
+        console.log('left arrow')
+        var owl = jQuery('.carousel_owl');
+        owl.owlCarousel();
+        owl.trigger('prev.owl.carousel');
+      }
+      rightcarousel() {
+        console.log('right arrow')
+        var owl = jQuery('.carousel_owl');
+        owl.owlCarousel();
+        owl.trigger('next.owl.carousel');
+      }
 ​
   }
-  leftcarousel() {
-    console.log('left arrow')
-    var owl = jQuery('.carousel_owl');
-    owl.owlCarousel();
-    owl.trigger('prev.owl.carousel');
-  }
-  rightcarousel() {
-    console.log('right arrow')
-    var owl = jQuery('.carousel_owl');
-    owl.owlCarousel();
-    owl.trigger('next.owl.carousel');
-  }
+
 ​
 ​
 ​

@@ -120,20 +120,29 @@ export class DeepDivePage implements OnInit {
             this.currentBoxScores = currentBoxScores;
         })
     }
-    getDataCarousel() {
+    private getDataCarousel() {
       this._deepDiveData.getCarouselData(this.carouselData, (carData)=>{
         this.carouselData = carData;
-      //  console.log('carousel',this.carouselData);
 ​
       })
     }
 ​
-// getDataStackRows() {
-//       this._deepDiveData.getStackRowsData(this.stackrowsData, (stackData)=>{
-//         this.stackrowsData = stackData;
+// private getDataStackRows() {
+//       this._deepDiveData.getStackRowsData(this.stackrowsData, (data)=>{
+//         this.stackrowsData = data;
 //         console.log('stack rows',this.stackrowsData);
 //       })
 //     }
+
+private getDataStackRows() {
+  this._deepDiveData.getDeepDiveService()
+    .subscribe(data => {
+      this.stackrowsData = this._deepDiveData.stackrowsTransformData(data);
+      console.log(this.stackrowsData);
+    });
+
+
+}
 
 
 
@@ -153,7 +162,7 @@ export class DeepDivePage implements OnInit {
       this.getBoxScores(this.dateParam);
       this.getSchedulesData();
       this.getDataCarousel();
-      // this.getDataStackRows();
+      this.getDataStackRows();
     }
 
     ngDoCheck(){

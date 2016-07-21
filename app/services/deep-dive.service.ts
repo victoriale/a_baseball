@@ -64,26 +64,28 @@ carouselTransformData(arrayData){
         };
         transformData.push(carData);
       });
+
       return transformData;
   }
 ​
-  stackrowsTransformData(arrayData){
-      var transformData = [];
-      arrayData.forEach(function(val,index){
-        console.log('error',val);
-        let stackData = {
-          image_url: GlobalSettings.getImageUrl(val['imagePath']),
-          title: val['title'],
-          keyword: val['keyword'],
-          teaser: val['teaser'].substr(0,300) + "...",
-          date: val['publishedDate'],
-          publisher: val['publisher'],
-          author: val['author']
-        };
-        transformData.push(stackData);
-      });
-      return transformData;
+  stackrowsTransformData(data){
+    console.log(data);
+     var stackarray = [];
+     data = data;
+        for(var i = 0; i <=5; i++) {
+          stackarray[i] = {};
+          stackarray[i]['image_url'] = GlobalSettings.getImageUrl(data[i]['imagePath']);
+          stackarray[i]['title'] = data[i]['title'];
+          stackarray[i]['keyword'] = data[i]['keyword'];
+          stackarray[i]['teaser'] = data[i]['teaser'].substr(0,300) + "...";
+          stackarray[i]['publishedDate'] =  data[i]['publishedDate'];
+          stackarray[i]['publisher'] = data[i]['publisher'];
+          stackarray[i]['author'] = data[i]['author'];
+          console.log(i);
+    }
+    return stackarray;
   }
+
 ​
 ​
 ​
@@ -94,19 +96,18 @@ carouselTransformData(arrayData){
       //   console.log('before',data);
         var transformedData = this.carouselTransformData(data);
       //    console.log('after',transformedData);
-        callback(transformedData);
+      //  callback(transformedData);
       })
   }
-  //
-  // getStackRowsData(data, callback:Function) {
+
+  // getStackRowsData(data) {
   //     this.getDeepDiveService()
   //     .subscribe(data=>{
-  //        //console.log('before',data);
-  //       var transformedData = this.stackrowsTransformData(data);
-  //       //  console.log('after',transformedData);
-  //         callback(transformedData);
+  //         console.log('before',data);
+  //         var transformedData = this.stackrowsTransformData(data);
+  //        //console.log('after',transformedData);
   //     })
   // }
-  //
+
 
 }
