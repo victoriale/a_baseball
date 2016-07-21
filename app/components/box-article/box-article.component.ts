@@ -7,6 +7,7 @@ export interface BoxArticleData {
   keyword: string;
   date: string;
   teaser: string;
+  url?: string;
   imageConfig: RectangleImageData;
 }
 
@@ -24,6 +25,7 @@ export class BoxArticleComponent implements OnInit {
       this.boxArticleData = [{
         keyword: "[Keyword]",
         date: "[Date]",
+        url: "/",
         teaser: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo ipsum dolor sit amet, consectetur adipisicing",
         imageConfig: {
           imageClass: "image-288x180",

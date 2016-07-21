@@ -66,6 +66,7 @@ export class DeepDiveService {
         keyword: val.keyword,
         date: GlobalFunctions.formatUpdatedDate(val.publishedDate),
         teaser: val.teaser,
+        url: val.articleUrl != null ? val.articleUrl : '/',
         imageConfig:{
           imageClass: "image-288x180",
           mainImage:{
