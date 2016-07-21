@@ -92,11 +92,10 @@ export class DeepDivePage implements OnInit {
     private getSchedulesData(){
       this._schedulesService.setupSlideScroll(this.sideScrollData, 'league', 'pre-event', 20, 1, (sideScrollData) => {
         if(this.sideScrollData == null){
-          //if the data comes back as null then set the newly defiend data as the returned data.
           this.sideScrollData = sideScrollData;
-          this.sideScrollData.length += 6;//so that it can reach the end of the screen
+          this.sideScrollData.length += 6;
         }else{
-          //if there is already data inside the variable the push in the next set of data
+          //if there is already data inside this.sideScrollData
           this.sideScrollData.push(sideScrollData);
         }
       })
