@@ -154,7 +154,6 @@ export class DeepDivePage implements OnInit {
     getArticleStackData(){
       this._deepDiveData.getDeepDiveService()
           .subscribe(data => {
-            console.log("data", this._deepDiveData.transformToBoxArticle(data));
             this.boxArticleData = this._deepDiveData.transformToBoxArticle(data);
           });
     }
