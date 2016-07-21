@@ -1,55 +1,40 @@
-import {Component, AfterContentChecked, Input, Output, EventEmitter, ElementRef} from '@angular/core';
-import 'owl-carousel';
-declare var jQuery:any;
+import {Component, AfterContentChecked, Input, Output, EventEmitter} from '@angular/core';
+import { OwlCarousel } from '../owl-carousel/owl-carousel.component';
 
+declare var jQuery:any
+;
 @Component({
     selector: 'side-scroll',
     templateUrl: './app/components/carousels/side-scroll/side-scroll.component.html',
+    directives: [OwlCarousel],
     outputs: ['carouselCount']
 })
 
 export class SideScroll{
-  @Input() options: Object;
-  @Input() maxLength:any;
+  @Input() maxLength: any;
   @Input() current:any;
+  @Input() data: any;
   public carouselCount = new EventEmitter();
   public count = 0;
-
-  owlElement: any;
-  defaultOptions: Object = {};
-
-  constructor(private _el: ElementRef){
+  public options: Object = {
+    items:7,
+    loop:false,
+    dots:false,
+    nav:false,
+    navText:false
   }
 
-  ngAfterViewInit() {
-    for (var key in this.options) {
-      this.defaultOptions[key] = this.options[key];
-    }
-    this.owlElement = jQuery(this._el.nativeElement).owlCarousel(this.defaultOptions);
+  constructor(){
   }
 
-  ngOnDestroy() {
-    this.owlElement.data('owlCarousel').destroy();
-    this.owlElement = null;
+  ngOnInit(){
+    console.log(this.maxLength, this.current);
   }
-  // ngAfterContentChecked(){
-  //   var self = this;
-  //   var owl = jQuery('.ss_owl');
-  //   owl.owlCarousel({
-  //     items:7,
-  //     loop:false,
-  //     dots:false,
-  //     nav:false,
-  //     navText:false,
-  //   });
-  //   owl.on('changed.owl.carousel', function(event) {
-  //       var currentItem = event.item.index;
-  //       if(self.count != currentItem){
-  //         self.carouselCount.next(currentItem);
-  //       }
-  //       self.count = currentItem;
-  //   })
-  // }
+
+  counter(event){
+    this.count = event;
+    this.carouselCount.emit(event);
+  }
 
   left() {
     var owl = jQuery('.ss_owl');

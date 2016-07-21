@@ -16,12 +16,13 @@ export class SideScrollSchedule{
   @Input() scrollLength: any;
   public count = new EventEmitter();
   public curCount = 0;
-  
+
   counter(event){
     this.curCount = event;
     this.count.emit(event);
   }
 
   ngOnChanges(){
+    console.log(this.sideScrollData);
   }
 }

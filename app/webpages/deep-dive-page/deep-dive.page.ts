@@ -103,23 +103,21 @@ export class DeepDivePage implements OnInit {
         if(this.sideScrollData == null){
           this.sideScrollData = sideScrollData;
           this.scrollLength = sideScrollData.length;
-          this.sideScrollData.length += 6;
         }else{
-          //if there is already data inside this.sideScrollData
-          sideScrollData.forEach(function(val, index){
+          sideScrollData.forEach(function(val,i){
             self.sideScrollData.push(val);
           })
-          this.sideScrollData.length += 6;
+          this.scrollLength = sideScrollData.length;
         }
       })
     }
 
     private scrollCheck(event){
-      // console.log('deep dive check', event);
       let maxScroll = this.sideScrollData.length;
       this.scrollLength = this.sideScrollData.length - this.ssMax;
+      console.log(event, (maxScroll-this.ssMax));
       if(event >= (maxScroll - this.ssMax)){
-        // this.getSideScroll();
+        this.getSideScroll();
       }
     }
 
