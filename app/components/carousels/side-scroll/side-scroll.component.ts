@@ -12,25 +12,29 @@ declare var jQuery:any
 export class SideScroll implements AfterContentChecked{
   @Input() carouselData:any;
   public carouselCount = new EventEmitter();
-
+  public count = 0;
   constructor(){
   }
 
   ngAfterContentChecked(){
-    var owl = jQuery('.owl-carousel');
+    var self = this;
+    var owl = jQuery('.ss_owl');
     owl.owlCarousel({
       items:7,
       loop:false,
       dots:false,
       nav:false,
       navText:false,
-      info:true,
     });
     owl.on('changed.owl.carousel', function(event) {
         var currentItem = event.item.index;
-        // this.carouselCount.next(currentItem);
-        window.location.hash = currentItem + 1;
+        // console.log(currentItem)
+        self.carouselCount.next(currentItem);
+        // console.log('emitting');
     })
+  }
+
+  ngDoCheck(){
   }
 
   left() {
