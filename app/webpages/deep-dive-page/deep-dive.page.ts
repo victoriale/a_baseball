@@ -144,10 +144,6 @@ export class DeepDivePage implements OnInit {
     private getDataCarousel() {
       this._deepDiveData.getCarouselData(this.carouselData, (carData)=>{
         this.carouselData = carData;
-        console.log('heythere',carData);
-
-
-​
       })
     }
 
