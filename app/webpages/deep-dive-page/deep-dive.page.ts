@@ -55,8 +55,8 @@ export class DeepDivePage implements OnInit {
     scroll: boolean = true;
 
     sideScrollData: any;
+    scrollLength: number;
     ssMax:number = 7;
-    disableArrow:boolean = false;;
 
     private isHomeRunZone: boolean = false;
 
@@ -90,13 +90,17 @@ export class DeepDivePage implements OnInit {
 
     //api for Schedules
     private getSideScroll(){
+      let self = this;
       this._schedulesService.setupSlideScroll(this.sideScrollData, 'league', 'pre-event', 20, 1, (sideScrollData) => {
         if(this.sideScrollData == null){
           this.sideScrollData = sideScrollData;
+          this.scrollLength = sideScrollData.length;
           this.sideScrollData.length += 6;
         }else{
           //if there is already data inside this.sideScrollData
-          this.sideScrollData.push(sideScrollData);
+          sideScrollData.forEach(function(val, index){
+            self.sideScrollData.push(val);
+          })
           this.sideScrollData.length += 6;
         }
       })
@@ -105,9 +109,9 @@ export class DeepDivePage implements OnInit {
     private scrollCheck(event){
       console.log('deep dive check', event);
       let maxScroll = this.sideScrollData.length;
-      console.log(maxScroll);
-      if(maxScroll == 0){
-
+      this.scrollLength = this.sideScrollData.length - this.ssMax;
+      if(event >= (maxScroll - this.ssMax)){
+        // this.getSideScroll();
       }
     }
 

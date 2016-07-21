@@ -1,7 +1,7 @@
 import {Component, AfterContentChecked, Input, Output, EventEmitter} from '@angular/core';
 
-declare var jQuery:any
-;
+declare var jQuery:any;
+
 @Component({
     selector: 'side-scroll',
     templateUrl: './app/components/carousels/side-scroll/side-scroll.component.html',
@@ -9,7 +9,8 @@ declare var jQuery:any
 })
 
 export class SideScroll implements AfterContentChecked{
-  @Input() carouselData:any;
+  @Input() maxLength:any;
+  @Input() current:any;
   public carouselCount = new EventEmitter();
   public count = 0;
   constructor(){
