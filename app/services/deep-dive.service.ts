@@ -110,7 +110,7 @@ carouselTransformData(arrayData){
       //   console.log('before',data);
         var transformedData = this.carouselTransformData(data);
       //    console.log('after',transformedData);
-      //  callback(transformedData);
+       callback(transformedData);
       })
   }
 

@@ -17,14 +17,14 @@ export class CarouselDiveModule implements OnInit{
   }
   ngOnInit() {
     setTimeout(function(){
-      jQuery(".owl-carousel carousel_owl").owlCarousel({
+      jQuery(".owl-carousel").owlCarousel({
         items:1,
         loop:true,
         dots:false,
         nav:false,
         navText:false
       });
-    }, 10000);
+    }, 1000);
 ​
   }
   leftcarousel() {
