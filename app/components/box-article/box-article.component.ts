@@ -3,30 +3,32 @@ import {RectangleImage} from '../../components/images/rectangle-image';
 import {ImageData, RectangleImageData} from '../../components/images/image-data';
 import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 
-export interface StackRowsInput {
+export interface BoxArticleData {
   keyword: string;
-  title: string;
-  publishedDate: string;
+  date: string;
+  teaser: string;
+  url?: string;
   imageConfig: RectangleImageData;
 }
 
 @Component({
-  selector: 'stack-rows-component',
-  templateUrl: './app/components/stack-rows/stack-rows.component.html',
+  selector: 'box-article-component',
+  templateUrl: './app/components/box-article/box-article.component.html',
   directives: [RectangleImage, ROUTER_DIRECTIVES],
 })
 
-export class StackRowsComponent implements OnInit {
-  @Input() stackRowsData: Array<StackRowsInput>;
+export class BoxArticleComponent implements OnInit {
+  @Input() boxArticleData: Array<BoxArticleData>;//TODO
   ngOnInit() {
-    if (typeof this.stackRowsData == 'undefined') {
+    if (typeof this.boxArticleData == 'undefined') {
       var sampleImage = "/app/public/placeholder_XL.png";
-      this.stackRowsData = [{
+      this.boxArticleData = [{
         keyword: "[Keyword]",
-        publishedDate: "[Date]",
-        title: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo ipsum dolor sit amet, consectetur adipisicing",
+        date: "[Date]",
+        url: "/",
+        teaser: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo ipsum dolor sit amet, consectetur adipisicing",
         imageConfig: {
-          imageClass: "image-100x75",
+          imageClass: "image-288x180",
           mainImage:{
             imageUrl: sampleImage
           }

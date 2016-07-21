@@ -1,10 +1,11 @@
-
-<div class="stack-rows-container">
-  <!-- each item is a placeholder -->
-  <div class="stack-rows-container-item" *ngFor = "let data of stackrowsData;">
-    <div class="stack-rows-container-item-image"></div>
-    <div class="stack-rows-container-item-text">
-      <div class="stack-rows-container-item-text-details">{{data.keyword}}<span>{{data.publishedDate}}</span></div>
-      {{data.title}}
-</div>
+<div *ngIf="stackRowsData" class="stackSmall" *ngFor = "let data of stackrowsData;">
+  <a href="{{data.url}}">
+    <div class="stackSmall-image">
+      <rectangle-image [data]="data.imageConfig"></rectangle-image>
+    </div>
+    <div class="stackSmall-text">
+      <div class="stackSmall-text-keyword"><span [innerHTML]="data.keyword"></span><span [innerHTML]="data.publishedDate"></span></div>
+      <div class="stackSmall-text-subHeadline" [innerHTML]="data.title"></div>
+    </div>
+  </a>
 </div>

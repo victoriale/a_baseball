@@ -52,7 +52,7 @@ export class GlobalSettings {
     }
 
     static getImageUrl(relativePath):string {
-        var relPath = relativePath != null ? this._proto + "//" + "prod" + this._imageUrl + relativePath: '/app/public/no-image.png';
+        var relPath = relativePath != null && relativePath != "" ? this._proto + "//" + "prod" + this._imageUrl + relativePath: '/app/public/no-image.png';
         return relPath;
     }
 
