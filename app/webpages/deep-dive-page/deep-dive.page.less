@@ -4,6 +4,20 @@
   margin:0;
   padding:0;
   background-color: @white;
+  &-container{
+    width:100%;
+    height:auto;
+    .flexDisplay;
+    .flexDirection(row);
+    .flexJustify(center);
+  }
+  &-content1{
+    width:100%;
+    height:auto;
+  }
+  &-content2{
+    display:block;
+  }
 .header{
     width:100%;
     height:65px;
@@ -23,13 +37,11 @@
   }
 
   .container2{
-    //width:100%;
-  //  height:260px;
-    background: @white;
+    width:100%;
+    padding-left: 15px;
   }
   .container3{
     min-height:300px;
-    background: @white;
     .flexDisplay;
     .flexDirection(row);
     .flexWrap(wrap);
@@ -38,6 +50,9 @@
       display:block;
       width:640px;
       margin:0 auto;
+      &-info{
+        padding:0;
+      }
     }
     .module-container{
       box-shadow: none;
@@ -117,9 +132,6 @@
       }
     }
   }
-  .deep-dive-content-container{
-    width: 100%;
-  }
   .widget_wrapper{
     display: none;
   }
@@ -153,9 +165,6 @@
       }
     }
   }
-  .deep-dive-content-container{
-    width: 100%;
-  }
   .widget_wrapper{
     display: none;
   }
@@ -179,8 +188,10 @@
       }
     }
   }
-  .deep-dive-content-container{
-    width: 100%;
+  .deep-dive{
+    &-content2{
+      display:none;
+    }
   }
   .widget_wrapper{
     display: none;
@@ -205,9 +216,16 @@
       }
     }
   }
-  .deep-dive-content-container{
-  //  width: 67%;
-    margin-right: 320px;
+  .deep-dive{
+    &-content1{
+      width:calc(~'100% - 340px');
+    }
+    &-content2{
+      display:block;
+      width:300px;
+      height:100%;
+      margin:0 20px;
+    }
   }
   .widget_wrapper{
     display: block;
@@ -221,15 +239,17 @@
 }
 
 @media @desktop-xl{
-  .deep-dive-content-container{
-    // width: calc(100% - 310px);
-    // left:0;
-    width: 76%;
-    margin-right: 320px;
+  .deep-dive{
+    &-content1{
+      max-width: 1440px;
+      margin:0 auto;
+    }
   }
   .container3{
     width:100%;
+    max-width: 1120px;
     padding-right:20px;
+    margin:0 auto;
     .box-scores{
       margin:0;
     }
@@ -239,6 +259,9 @@
       &-item{
         width:100%;
         height:247px;
+        .article-image{
+          height:240px;
+        }
       }
     }
   }

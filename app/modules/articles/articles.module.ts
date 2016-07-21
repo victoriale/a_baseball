@@ -13,7 +13,6 @@ import {ModuleHeaderData} from "../../components/module-header/module-header.com
 import {LoadingComponent} from "../../components/loading/loading.component";
 import {MLBGlobalFunctions} from "../../global/mlb-global-functions";
 
-declare var jQuery:any;
 declare var moment:any;
 
 @Component({
@@ -210,12 +209,13 @@ export class ArticlesModule implements OnInit {
 
     getLeftColumnArticles(leftColumnData, imageData, eventID) {
         var articleType = 'sub';
+        var articles;
         this.getImages(imageData, articleType);
         var articleArr = [];
         var imageCount = 0;
         var self = this;
-        jQuery.map(leftColumnData, function (val, index) {
-            switch (index) {
+        Object.keys(leftColumnData).forEach(function (val) {
+            switch (val) {
                 case'about-the-teams':
                 case'historical-team-statistics':
                 case'last-matchup':
@@ -225,11 +225,13 @@ export class ArticlesModule implements OnInit {
                 case'injuries-away':
                 case'upcoming-game':
                     imageCount++;
-                    val['title'] = val.displayHeadline;
-                    val['eventType'] = index;
-                    val['eventID'] = eventID;
-                    val['images'] = self.subImages[imageCount];
-                    articleArr.push(val);
+                    articles = {
+                        title: leftColumnData[val].displayHeadline,
+                        eventType: val,
+                        eventID: eventID,
+                        images: self.subImages[imageCount]
+                    };
+                    articleArr.push(articles);
                     break;
             }
         });
@@ -241,8 +243,9 @@ export class ArticlesModule implements OnInit {
 
     getHeadToHeadArticles(headToHeadData, eventID) {
         var articleArr = [];
-        jQuery.map(headToHeadData, function (val, index) {
-            switch (index) {
+        var articles;
+        Object.keys(headToHeadData).forEach(function (val) {
+            switch (val) {
                 case'pitcher-player-comparison':
                 case'catcher-player-comparison':
                 case'first-base-player-comparison':
@@ -259,10 +262,12 @@ export class ArticlesModule implements OnInit {
                 case'infield-most-home-runs':
                 case'infield-best-batting-average':
                 case'infield-most-putouts':
-                    val['title'] = val.displayHeadline;
-                    val['eventType'] = index;
-                    val['eventID'] = eventID;
-                    articleArr.push(val);
+                    articles = {
+                        title: headToHeadData[val].displayHeadline,
+                        eventType: val,
+                        eventID: eventID
+                    };
+                    articleArr.push(articles);
                     break;
             }
         });
