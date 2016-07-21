@@ -18,17 +18,40 @@ export class SideScroll{
   public count = 0;
 
   public options: Object = {
-    items:7,
-    loop:false,
-    dots:false,
-    nav:false,
-    navText:false
+    responsiveClass:true,
+    responsive:{
+      0:{
+          items:3,
+          nav:false,
+          navText:false,
+          loop:false
+      },
+      640:{
+          items:4,
+          nav:false,
+          navText:false,
+          loop:false
+      },
+      768:{
+          items:5,
+          nav:false,
+          navText:false,
+          loop:false
+      },
+      1024:{
+          items:6,
+          nav:false,
+          navText:false,
+          loop:false
+      }
+    }
   }
+
   constructor(){
+
   }
 
   ngOnInit(){
-    console.log(this.maxLength, this.current);
   }
 
   counter(event){
