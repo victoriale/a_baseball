@@ -3,12 +3,10 @@
     <span class="ss_title-1">MLB</span>
     <span class="ss_title-2">Upcoming Games</span>
   </div>
-  <side-scroll *ngIf="scrollLength" (carouselCount)="counter($event)" [current]="curCount" [maxLength]="scrollLength">
+  <side-scroll *ngIf="scrollLength"  [options]="{items:7, loop:false, dots:false, nav:false, navText:false,}" (carouselCount)="counter($event)" [current]="curCount" [maxLength]="scrollLength">
     <!-- owl carousel for slider -->
-    <div class="owl-carousel ss_owl">
-      <div class="owl-item" *ngFor="let item of sideScrollData; let i = index">
-        <schedule-box *ngIf="item && refresh" [boxData]="item"></schedule-box>
-      </div>
+    <div *ngFor="let item of sideScrollData; let i = index">
+      <schedule-box *ngIf="item" [boxData]="item"></schedule-box>
     </div>
     <!-- owl carousel for slider -->
   </side-scroll>
