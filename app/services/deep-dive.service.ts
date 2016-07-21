@@ -38,13 +38,11 @@ export class DeepDiveService {
 
     })
   }
-  getDeepDiveArticleService(){//DATE
+  getDeepDiveArticleService(articleID){//DATE
   //Configure HTTP Headers
   var headers = this.setToken();
   //date needs to be the date coming in AS EST and come back as UTC
-  var callURL = this._apiUrl+'/'+ 'article/1491';
-  console.log(callURL);
-
+  var callURL = this._apiUrl+'/'+ 'article/' + articleID;
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -52,13 +50,11 @@ export class DeepDiveService {
       return data;
     })
   }
-  getDeepDiveBatchService(){//DATE
+  getDeepDiveBatchService(numItems){//DATE
   //Configure HTTP Headers
   var headers = this.setToken();
   //date needs to be the date coming in AS EST and come back as UTC
-  var callURL = this._apiUrl+'/article'+ '/batch/2/2';
-  console.log(callURL);
-
+  var callURL = this._apiUrl+'/article'+ '/batch/2/'+numItems;
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {

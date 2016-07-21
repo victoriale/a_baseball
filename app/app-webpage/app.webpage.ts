@@ -212,7 +212,7 @@ import {DeepDivePage} from "../webpages/deep-dive-page/deep-dive.page";
         component: ArticlePages
 	  },
     {
-        path: '/syndicated-articles/',
+        path: '/news/:articleType/:eventID',
         name: 'Syndicated-article-page',
         component: SyndicatedArticlePage
 	  },

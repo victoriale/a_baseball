@@ -23,10 +23,10 @@ export class SyndicatedTrendingComponent {
       private _router:Router,
       private _deepdiveservice:DeepDiveService
       ){
-        this.getDeepDiveArticle();
+        this.getDeepDiveArticle(2);
       }
-      private getDeepDiveArticle() {
-        this._deepdiveservice.getDeepDiveBatchService().subscribe(
+      private getDeepDiveArticle(numItems) {
+        this._deepdiveservice.getDeepDiveBatchService(numItems).subscribe(
           data => {
             this.articleData = data.data;
             // this.articleData.teaser = this.articleData.teaser.replace("\'", "'");

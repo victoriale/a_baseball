@@ -36,15 +36,20 @@ declare var jQuery:any;
 export class SyndicatedArticlePage implements OnInit{
   public widgetPlace: string = "widgetForPage";
   public articleData: any;
+  public eventID: string;
+  public articleType: string;
   public imageData: Array<string>;
   constructor(
+    private _params:RouteParams,
     private _router:Router,
     private _deepdiveservice:DeepDiveService
     ){
-      this.getDeepDiveArticle();
+      this.eventID = _params.get('eventID');
+      this.articleType = _params.get('articleType');
+      this.getDeepDiveArticle(this.eventID);
     }
-    private getDeepDiveArticle() {
-      this._deepdiveservice.getDeepDiveArticleService().subscribe(
+    private getDeepDiveArticle(articleID) {
+      this._deepdiveservice.getDeepDiveArticleService(articleID).subscribe(
         data => {
 
           if (data.data.imagePath == null || data.data.imagePath == undefined || data.data.imagePath == "") {

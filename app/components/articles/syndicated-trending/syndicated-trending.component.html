@@ -2,9 +2,9 @@
     <div class="syndicated-trending-hr"></div>
     <div class="syndicated-trending-main-title">TRENDING ARTICLES</div>
     <div class="syndicated-trending-hr"></div>
-    <div class="syndicated-trending-container" *ngFor=" let item of articleData; let rowIndex = index">
+    <div class="syndicated-trending-container" *ngFor="let item of articleData; let rowIndex = index">
         <span class="featured-tag" *ngIf="rowIndex == 0">FEATURED</span>
-        <shareLinks>Share Links</shareLinks>
+        <shareLinks-component></shareLinks-component>
         <div class="featured-tag-large" *ngIf="rowIndex == 0"><div class="vr"></div><i class="fa fa-newspaper-o"></i>FEATURED ARTICLE</div>
         <div class="syndicated-trending-article-title">{{item.title}}</div>
         <div class="arpt">
@@ -18,12 +18,12 @@
         </a>
         <div class="syndicated-trending-hr"></div>
         <div class="syndicated-trending-hr-responsive"></div>
-        <responsive-widget [embedPlace]="widgetPlace" *ngIf="rowIndex == 0 || !((rowIndex + 1) % 5)"></responsive-widget>
+        <responsive-widget [embedPlace]="widgetPlace" *ngIf="rowIndex == 0 || (!((rowIndex + 1) % 2) && rowIndex != 1) "></responsive-widget>
     </div>
     <div class="syndicated-trending-hr"></div>
     <div class="more">
       <a>
-        <div class="syndicated-trending-load-more"><i class="fa fa-newspaper-o"></i> Load More</div>
+        <div class="syndicated-trending-load-more" (click)="getDeepDiveArticle(articleData.length + 10)"><i class="fa fa-newspaper-o"></i> Load More</div>
       </a>
     </div>
 </div>

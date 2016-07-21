@@ -11,7 +11,7 @@
         <div class="syndicated-articles-page-title" >{{articleData.title}}</div>
         <sidekick-wrapper-ai [aiSidekick]="aiSidekick">
             <span >
-                <div class="carousel-container">
+                <div class="carousel-container" *ngIf="articleType == 'story'">
                   <images-media-carousel [imageData]="imageData" [copyright]="'copyright'"
                                          [imageTitle]="'imageTitle'"></images-media-carousel>
                 </div>
