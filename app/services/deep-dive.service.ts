@@ -117,7 +117,6 @@ export class DeepDiveService {
   }
 
   transformToRecArticles(data){
-    console.log(data);
     var articleTypes = [];
     var articles = [];
     var images = [];
@@ -167,7 +166,6 @@ export class DeepDiveService {
       if(i < 3){_return[0].push(ret[i]);}
       if(i >= 3 && i < 6){_return[1].push(ret[i]);}
     }
-    console.log(_return);
     return _return;
   }
 
