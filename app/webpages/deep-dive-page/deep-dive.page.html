@@ -21,6 +21,7 @@
       <div class="container3">
         <box-scores *ngIf="dateParam && maxHeight" class="box-scores" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)" [maxHeight]="maxHeight" [scroll]="scroll"></box-scores>
         <div class="box_articles">
+          <box-article-component></box-article-component>
         </div>
       </div>
       <!-- container of responsive box -->

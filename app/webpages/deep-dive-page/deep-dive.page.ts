@@ -38,7 +38,7 @@ declare var jQuery: any;
       ArticleStackModule,
       VideoStackModule,
       CarouselDiveModule,
-      BoxArticleComponent
+      BoxArticleComponent,
       RecommendationsComponent
     ],
     providers: [BoxScoresService,SchedulesService,DeepDiveService],
