@@ -24,7 +24,7 @@
   <div style="display: flex;" *ngFor="let data of randomHeadlines">
     <a class="deep_recs-articles" *ngFor="let item of data;">
       <div class="deep_recs-articles-item">
-        <div class="deep_recs-articles-item-image" [ngStyle]="{'background-image': 'url(' + item.image + ')'}"></div>
+        <div class="deep_recs-articles-item-image" [style.background-image]="item.bg_image_var"></div>
         <div class="deep_recs-articles-item-content">
           <div class="deep_recs-articles-item-content-dateline">
               <span class="deep_recs-articles-item-content-dateline-keyword" [innerHTML]="item.sidekickTitle"></span>

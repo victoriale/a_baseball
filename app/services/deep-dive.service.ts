@@ -4,6 +4,7 @@ import {Http, Headers} from '@angular/http';
 import {GlobalFunctions} from '../global/global-functions';
 import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalSettings} from '../global/global-settings';
+import {DomSanitizationService} from '@angular/platform-browser';
 
 declare var moment;
 @Injectable()
@@ -13,8 +14,9 @@ export class DeepDiveService {
   // private _apiToken: string = 'BApA7KEfj';
   // private _headerName: string = 'X-SNT-TOKEN';
 
-  constructor(public http: Http){
-  }
+  constructor(
+    public http: Http,
+    private _sanitizer: DomSanitizationService){}
 
   //Function to set custom headers
   setToken(){
@@ -36,7 +38,7 @@ export class DeepDiveService {
     .map(res => res.json())
     .map(data => {
       // transform the data to YYYY-MM-DD objects from unix
-    //  console.log(data);
+
       return data;
 
     })
@@ -52,7 +54,6 @@ export class DeepDiveService {
     var headers = this.setToken();
     //this is the sidkeick url
     var callURL = this._trendingUrl;
-    console.log(callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -95,6 +96,7 @@ export class DeepDiveService {
       ret[i] = articles[i];
       ret[i]['type'] = articleTypes[i];
       ret[i]['image'] = images[i];
+      ret[i]['bg_image_var'] = this._sanitizer.bypassSecurityTrustStyle("url(" + ret[i]['image'] + ")");
     }
 
 
@@ -105,7 +107,6 @@ export class DeepDiveService {
       if(i < 3){_return[0].push(ret[i]);}
       if(i >= 3 && i < 6){_return[1].push(ret[i]);}
     }
-    console.log(_return);
     return _return;
   }
 
