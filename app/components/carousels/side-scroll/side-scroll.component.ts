@@ -28,9 +28,9 @@ export class SideScroll implements AfterContentChecked{
     });
     owl.on('changed.owl.carousel', function(event) {
         var currentItem = event.item.index;
-        console.log(currentItem)
+        // console.log(currentItem)
         self.carouselCount.next(currentItem);
-        console.log('emitting');
+        // console.log('emitting');
     })
   }
 
