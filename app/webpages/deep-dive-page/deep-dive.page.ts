@@ -67,10 +67,8 @@ export class DeepDivePage implements OnInit {
     carouselData: any;
 ​
     //for article-stack
-    articleStack: any;
-    // stackRow: any;
-    articleStackData: any;
-
+    stackTop: any;
+    stackRow: any;
     private isHomeRunZone: boolean = false;
 
     //for recommendation module
@@ -180,7 +178,8 @@ export class DeepDivePage implements OnInit {
     getArticleStackData(){
       this._deepDiveData.getDeepDiveService()
           .subscribe(data => {
-            this.articleStack = this._deepDiveData.transformToArticleStack(data);
+            this.stackTop = this._deepDiveData.transformToArticleStack(data);
+            this.stackRow = this._deepDiveData.transformToArticleRow(data);
           });
     }
 
