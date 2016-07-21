@@ -33,13 +33,19 @@ export class SideScroll{
           loop:false
       },
       768:{
-          items:5,
+          items:6,
           nav:false,
           navText:false,
           loop:false
       },
       1024:{
-          items:6,
+          items:4,
+          nav:false,
+          navText:false,
+          loop:false
+      },
+      1440:{
+          items:7,
           nav:false,
           navText:false,
           loop:false
@@ -51,23 +57,21 @@ export class SideScroll{
 
   }
 
-  ngOnInit(){
+  ngOnChanges(){
   }
 
   counter(event){
     this.count = event;
-    this.carouselCount.emit(event);
+    this.carouselCount.next(event);
   }
 
   left() {
     var owl = jQuery('.ss_owl');
-    console.log('blarg');
     owl.owlCarousel();
     owl.trigger('prev.owl.carousel');
   }
   right() {
     var owl = jQuery('.ss_owl');
-    console.log('blargenghei');
     owl.owlCarousel();
     owl.trigger('next.owl.carousel');
   }

@@ -1,7 +1,7 @@
 <div class="side_scroll">
   <div class="side_scroll-left" (click)="left()" [ngClass]="{'disabled': current <= 0}"><i class="fa fa-angle-left"></i></div>
   <div class="side_scroll-box">
-    <owl-carousel *ngIf="options" class="side_scroll-transition ss_owl" [options]="options" (carouselCount)="counter($event)" [data]="data">
+    <owl-carousel *ngIf="options && data" class="side_scroll-transition ss_owl" [options]="options" (carouselCount)="counter($event)" [data]="data">
       <ng-content></ng-content>
     </owl-carousel>
   </div>

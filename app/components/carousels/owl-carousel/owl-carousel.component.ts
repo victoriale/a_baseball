@@ -20,7 +20,6 @@ export class OwlCarousel implements AfterViewInit{
   ngAfterViewInit() {
     let self = this;
 
-    console.log(this.options);
     this.owlElement = jQuery(this._el.nativeElement).owlCarousel(this.options);
     this.owlElement.on('changed.owl.carousel', function(event) {
         var currentItem = event.item.index;
@@ -38,6 +37,11 @@ export class OwlCarousel implements AfterViewInit{
   }
 
   ngOnChanges(){
-    // this.owlElement.trigger('add.owl.carousel', ['first','second']);
+    let self = this;
+    if(this.owlElement != null){
+      this.data.forEach(function(val,i){
+        this.owlElement.data('owlCarousel').addItem(val);
+      })
+    }
   }
 }

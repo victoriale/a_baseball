@@ -100,24 +100,25 @@ export class DeepDivePage implements OnInit {
     //api for Schedules
     private getSideScroll(){
       let self = this;
-      this._schedulesService.setupSlideScroll(this.sideScrollData, 'league', 'pre-event', 20, 1, (sideScrollData) => {
+      this._schedulesService.setupSlideScroll(this.sideScrollData, 'league', 'pre-event', (20 + this.callCount), this.callCount, (sideScrollData) => {
         if(this.sideScrollData == null){
           this.sideScrollData = sideScrollData;
           this.scrollLength = sideScrollData.length;
+          this.callCount++;
         }
-        // else{
-        //   sideScrollData.forEach(function(val,i){
-        //     self.sideScrollData.push(val);
-        //   })
-        //   this.scrollLength = sideScrollData.length;
-        // }
+        else{
+          // sideScrollData.forEach(function(val,i){
+          //   self.sideScrollData.push(val);
+          // })
+          this.scrollLength = sideScrollData.length;
+          this.callCount++;
+        }
       })
     }
 
     private scrollCheck(event){
       let maxScroll = this.sideScrollData.length;
       this.scrollLength = this.sideScrollData.length - this.ssMax;
-      console.log(event, (maxScroll-this.ssMax));
       if(event >= (maxScroll - this.ssMax)){
         this.getSideScroll();
       }
