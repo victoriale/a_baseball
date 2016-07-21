@@ -60,6 +60,7 @@ export class DeepDivePage implements OnInit {
     sideScrollData: any;
     scrollLength: number;
     ssMax:number = 7;
+    callCount:number = 1;
 
     private isHomeRunZone: boolean = false;
 
@@ -103,12 +104,13 @@ export class DeepDivePage implements OnInit {
         if(this.sideScrollData == null){
           this.sideScrollData = sideScrollData;
           this.scrollLength = sideScrollData.length;
-        }else{
-          sideScrollData.forEach(function(val,i){
-            self.sideScrollData.push(val);
-          })
-          this.scrollLength = sideScrollData.length;
         }
+        // else{
+        //   sideScrollData.forEach(function(val,i){
+        //     self.sideScrollData.push(val);
+        //   })
+        //   this.scrollLength = sideScrollData.length;
+        // }
       })
     }
 

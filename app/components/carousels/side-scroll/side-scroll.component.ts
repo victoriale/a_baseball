@@ -16,6 +16,7 @@ export class SideScroll{
   @Input() data: any;
   public carouselCount = new EventEmitter();
   public count = 0;
+
   public options: Object = {
     items:7,
     loop:false,
@@ -23,7 +24,6 @@ export class SideScroll{
     nav:false,
     navText:false
   }
-
   constructor(){
   }
 
@@ -38,11 +38,13 @@ export class SideScroll{
 
   left() {
     var owl = jQuery('.ss_owl');
+    console.log('blarg');
     owl.owlCarousel();
     owl.trigger('prev.owl.carousel');
   }
   right() {
     var owl = jQuery('.ss_owl');
+    console.log('blargenghei');
     owl.owlCarousel();
     owl.trigger('next.owl.carousel');
   }
