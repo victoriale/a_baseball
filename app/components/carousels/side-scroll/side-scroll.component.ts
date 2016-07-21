@@ -1,16 +1,16 @@
-import {Component, AfterContentChecked, Input, EventEmitter} from '@angular/core';
+import {Component, AfterContentChecked, Input, Output, EventEmitter} from '@angular/core';
 
-declare var jQuery:any
-;
+declare var jQuery:any;
+
 @Component({
     selector: 'side-scroll',
     templateUrl: './app/components/carousels/side-scroll/side-scroll.component.html',
-    directives: [],
-    providers: [],
+    outputs: ['carouselCount']
 })
 
 export class SideScroll implements AfterContentChecked{
-  @Input() carouselData:any;
+  @Input() maxLength:any;
+  @Input() current:any;
   public carouselCount = new EventEmitter();
   public count = 0;
   constructor(){
@@ -28,13 +28,11 @@ export class SideScroll implements AfterContentChecked{
     });
     owl.on('changed.owl.carousel', function(event) {
         var currentItem = event.item.index;
-        // console.log(currentItem)
-        self.carouselCount.next(currentItem);
-        // console.log('emitting');
+        if(self.count != currentItem){
+          self.carouselCount.next(currentItem);
+        }
+        self.count = currentItem;
     })
-  }
-
-  ngDoCheck(){
   }
 
   left() {
