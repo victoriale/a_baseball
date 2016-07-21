@@ -15,6 +15,7 @@ export class CarouselDiveModule implements OnInit{
 ​
   }
   ngOnInit() {
+    setTimeout(function(){
       jQuery(".owl-carousel").owlCarousel({
         items:1,
         loop:true,
@@ -22,6 +23,7 @@ export class CarouselDiveModule implements OnInit{
         nav:false,
         navText:false
       });
+    }, 10000);
 ​
   }
   leftcarousel() {

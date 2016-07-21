@@ -32,14 +32,14 @@ export class DeepDiveService {
 
   // console.log(callURL);
   return this.http.get(callURL, {headers: headers})
-    .map(res => res.json())
-    .map(data => {
-      // transform the data to YYYY-MM-DD objects from unix
-    //  console.log(data);
-      return data;
+   .map(res => res.json())
+   .map(data => {
+     // transform the data to YYYY-MM-DD objects from unix
+   //  console.log(data);
+     return data.data
 
-    })
-  }
+   })
+ }
   getdeepDiveData(deepDiveData, callback:Function, dataParam) {
   if(deepDiveData == null){
     deepDiveData = {};
@@ -48,5 +48,65 @@ export class DeepDiveService {
   else {
   }
 }
+carouselTransformData(arrayData){
+    // for(var i = 0; i < carouselData.length; i++){
+    //   carouselData[i]['image_url'] = GlobalSettings.getImageUrl(carouselData[i]['imagePath']);
+    //   carouselData[i]['title'] = carouselData[i]['title'];
+    // }
+      var transformData = [];
+      arrayData.forEach(function(val,index){
+      //  console.log(val);
+        let carData = {
+          image_url: GlobalSettings.getImageUrl(val['imagePath']),
+          title:  "<span> Today's News </span>" + val['title'],
+          keyword: val['keyword'],
+          teaser: val['teaser'].substr(0,300) + "..."
+        };
+        transformData.push(carData);
+      });
+      return transformData;
+  }
+​
+  stackrowsTransformData(arrayData){
+      var transformData = [];
+      arrayData.forEach(function(val,index){
+        console.log('error',val);
+        let stackData = {
+          image_url: GlobalSettings.getImageUrl(val['imagePath']),
+          title: val['title'],
+          keyword: val['keyword'],
+          teaser: val['teaser'].substr(0,300) + "...",
+          date: val['publishedDate'],
+          publisher: val['publisher'],
+          author: val['author']
+        };
+        transformData.push(stackData);
+      });
+      return transformData;
+  }
+​
+​
+​
+​
+  getCarouselData(data, callback:Function) {
+      this.getDeepDiveService()
+      .subscribe(data=>{
+      //   console.log('before',data);
+        var transformedData = this.carouselTransformData(data);
+      //    console.log('after',transformedData);
+        callback(transformedData);
+      })
+  }
+  //
+  // getStackRowsData(data, callback:Function) {
+  //     this.getDeepDiveService()
+  //     .subscribe(data=>{
+  //        //console.log('before',data);
+  //       var transformedData = this.stackrowsTransformData(data);
+  //       //  console.log('after',transformedData);
+  //         callback(transformedData);
+  //     })
+  // }
+  //
 
 }

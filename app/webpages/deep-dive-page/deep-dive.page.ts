@@ -38,7 +38,7 @@ declare var jQuery: any;
       VideoStackModule,
       CarouselDiveModule
     ],
-    providers: [BoxScoresService,SchedulesService],
+    providers: [BoxScoresService,SchedulesService,DeepDiveService],
 })
 
 export class DeepDivePage implements OnInit {
@@ -129,13 +129,13 @@ export class DeepDivePage implements OnInit {
     }
 ​
 // getDataStackRows() {
-    //   this._deepDiveData.getStackRowsData(this.stackrowsData, (stackData)=>{
-    //     this.stackrowsData = stackData;
-    //     console.log('stack rows',this.stackrowsData);
-    //   })
-    // }
-    //
-    //
+//       this._deepDiveData.getStackRowsData(this.stackrowsData, (stackData)=>{
+//         this.stackrowsData = stackData;
+//         console.log('stack rows',this.stackrowsData);
+//       })
+//     }
+
+
 
     checkSize(){
       var width = window.outerWidth;
@@ -153,7 +153,7 @@ export class DeepDivePage implements OnInit {
       this.getBoxScores(this.dateParam);
       this.getSchedulesData();
       this.getDataCarousel();
-      this.getDataStackRows();
+      // this.getDataStackRows();
     }
 
     ngDoCheck(){
