@@ -31,7 +31,6 @@ export class OwlCarousel implements AfterViewInit{
   }
 
   ngOnDestroy() {
-    console.log('destroy');
     this.owlElement.remove();
     this.owlElement = null;
   }
