@@ -1,38 +1,68 @@
 import {Component, AfterContentChecked, Input, Output, EventEmitter} from '@angular/core';
+import { OwlCarousel } from '../owl-carousel/owl-carousel.component';
 
-declare var jQuery:any;
-
+declare var jQuery:any
+;
 @Component({
     selector: 'side-scroll',
     templateUrl: './app/components/carousels/side-scroll/side-scroll.component.html',
+    directives: [OwlCarousel],
     outputs: ['carouselCount']
 })
 
-export class SideScroll implements AfterContentChecked{
-  @Input() maxLength:any;
+export class SideScroll{
+  @Input() maxLength: any;
   @Input() current:any;
+  @Input() data: any;
   public carouselCount = new EventEmitter();
   public count = 0;
-  constructor(){
+
+  public options: Object = {
+    responsiveClass:true,
+    responsive:{
+      0:{
+          items:3,
+          nav:false,
+          navText:false,
+          loop:false
+      },
+      640:{
+          items:4,
+          nav:false,
+          navText:false,
+          loop:false
+      },
+      768:{
+          items:6,
+          nav:false,
+          navText:false,
+          loop:false
+      },
+      1024:{
+          items:4,
+          nav:false,
+          navText:false,
+          loop:false
+      },
+      1440:{
+          items:7,
+          nav:false,
+          navText:false,
+          loop:false
+      }
+    }
   }
 
-  ngAfterContentChecked(){
-    var self = this;
-    var owl = jQuery('.ss_owl');
-    owl.owlCarousel({
-      items:7,
-      loop:false,
-      dots:false,
-      nav:false,
-      navText:false,
-    });
-    owl.on('changed.owl.carousel', function(event) {
-        var currentItem = event.item.index;
-        if(self.count != currentItem){
-          self.carouselCount.next(currentItem);
-        }
-        self.count = currentItem;
-    })
+  constructor(){
+
+  }
+
+  ngOnChanges(){
+  }
+
+  counter(event){
+    this.count = event;
+    this.carouselCount.next(event);
   }
 
   left() {
