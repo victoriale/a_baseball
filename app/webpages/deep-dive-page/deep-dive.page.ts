@@ -4,8 +4,9 @@ import {ArticleStackModule} from '../../modules/article-stack/article-stack.modu
 import {VideoStackModule} from '../../modules/video-stack/video-stack.module';
 import {CarouselDiveModule} from '../../modules/carousel-dive/carousel-dive.module';
 import {DeepDiveService} from '../../services/deep-dive.service'
-
+import {RecommendationsComponent} from '../../components/articles/recommendations/recommendations.component';
 import {SidekickWrapper} from '../../components/sidekick-wrapper/sidekick-wrapper.component';
+import {BoxArticleComponent} from '../../components/box-article/box-article.component';
 
 import {SchedulesService} from '../../services/schedules.service';
 
@@ -36,7 +37,9 @@ declare var jQuery: any;
       TileStackModule,
       ArticleStackModule,
       VideoStackModule,
-      CarouselDiveModule
+      CarouselDiveModule,
+      BoxArticleComponent,
+      RecommendationsComponent
     ],
     providers: [BoxScoresService,SchedulesService,DeepDiveService],
 })
@@ -55,24 +58,28 @@ export class DeepDivePage implements OnInit {
     scroll: boolean = true;
 
     sideScrollData: any;
+    scrollLength: number;
     ssMax:number = 7;
-    ssCount:number = 0;
 
     //for carousel
     carouselData: any;
 ​
     //for article-stack
-    stackrowsData: any;
-    articlestackData: any;
+    articleStack: any;
+    // stackRow: any;
+    articleStackData: any;
 
     private isHomeRunZone: boolean = false;
 
+    //for recommendation module
+    recommendationData: any;
+    boxArticleData: any;
     constructor(
       private _router:Router,
-      private _deepDiveData:DeepDiveService,
+      private _deepDiveData: DeepDiveService,
       private _boxScores:BoxScoresService,
-      private _schedulesService:SchedulesService)
-      {
+      private _schedulesService:SchedulesService,
+      public ngZone:NgZone){
       this.profileName = "MLB";
 
       //for boxscores
@@ -98,17 +105,30 @@ export class DeepDivePage implements OnInit {
     }
 
     //api for Schedules
-    private getSchedulesData(){
+    private getSideScroll(){
+      let self = this;
       this._schedulesService.setupSlideScroll(this.sideScrollData, 'league', 'pre-event', 20, 1, (sideScrollData) => {
         if(this.sideScrollData == null){
-          //if the data comes back as null then set the newly defiend data as the returned data.
           this.sideScrollData = sideScrollData;
-          this.sideScrollData.length += 6;//so that it can reach the end of the screen
+          this.scrollLength = sideScrollData.length;
+          this.sideScrollData.length += 6;
         }else{
-          //if there is already data inside the variable the push in the next set of data
-          this.sideScrollData.push(sideScrollData);
+          //if there is already data inside this.sideScrollData
+          sideScrollData.forEach(function(val, index){
+            self.sideScrollData.push(val);
+          })
+          this.sideScrollData.length += 6;
         }
       })
+    }
+
+    private scrollCheck(event){
+      // console.log('deep dive check', event);
+      let maxScroll = this.sideScrollData.length;
+      this.scrollLength = this.sideScrollData.length - this.ssMax;
+      if(event >= (maxScroll - this.ssMax)){
+        // this.getSideScroll();
+      }
     }
 
     //api for BOX SCORES
@@ -121,40 +141,12 @@ export class DeepDivePage implements OnInit {
             this.currentBoxScores = currentBoxScores;
         })
     }
-    private getDataCarousel() {
-      this._deepDiveData.getCarouselData(this.carouselData, (carData)=>{
-        this.carouselData = carData;
-​
-      })
-    }
-​
-// private getDataStackRows() {
-//       this._deepDiveData.getStackRowsData(this.stackrowsData, (data)=>{
-//         this.stackrowsData = data;
-//         console.log('stack rows',this.stackrowsData);
+//     private getDataCarousel() {
+//       this._deepDiveData.getCarouselData(this.carouselData, (carData)=>{
+//         this.carouselData = carData;
+// ​
 //       })
 //     }
-
-private getDataStackRows() {
-  this._deepDiveData.getDeepDiveService()
-    .subscribe(data => {
-      this.stackrowsData = this._deepDiveData.stackrowsTransformData(data);
-      console.log(this.stackrowsData);
-    });
-
-
-}
-private getDataArticleStack() {
-  this._deepDiveData.getDeepDiveService()
-    .subscribe(data => {
-      this.articlestackData = this._deepDiveData.articlestackTransformData(data);
-      console.log(this.articlestackData);
-    });
-
-
-}
-
-
 
     checkSize(){
       var width = window.outerWidth;
@@ -167,13 +159,34 @@ private getDataArticleStack() {
         this.maxHeight = 650;
       }
     }
+    getRecommendationData(){
+      this._deepDiveData.getAiArticleData()
+          .subscribe(data => {
+            this.recommendationData = this._deepDiveData.transformToRecArticles(data);
+          });
+    }
+    getBoxArticleData(){
+      this._deepDiveData.getDeepDiveService()
+          .subscribe(data => {
+            this.boxArticleData = this._deepDiveData.transformToBoxArticle(data);
+          });
+    }
+
+    getArticleStackData(){
+      this._deepDiveData.getDeepDiveService()
+          .subscribe(data => {
+            this.articleStack = this._deepDiveData.transformToArticleStack(data);
+          });
+    }
+
     ngOnInit() {
+      this.getRecommendationData();
       this.checkSize();
       this.getBoxScores(this.dateParam);
-      this.getSchedulesData();
-      this.getDataCarousel();
-      this.getDataStackRows();
-
+      // this.getDataCarousel();
+      this.getArticleStackData();
+      this.getSideScroll();
+      this.getBoxArticleData();
     }
 
     ngDoCheck(){

@@ -1,6 +1,30 @@
+<div *ngIf="stackTop" class="article-stack-container">
+  <section class="article-stack-container-main">
+    <div class="stacktop">
+      <div class="stacktop-title">
+        <div class="stacktop-title-date" [innerHTML]="stackTop.date"></div>
+        <div class="stacktop-title-headline" [innerHTML]="stackTop.headline"></div>
+      </div>
+      <div class="stacktop-titleinfo">
+        <span class="stacktop-titleinfo-provider" [innerHTML]="stackTop.provider1"></span>
+        <span class="stacktop-titleinfo-provider" [innerHTML]="stackTop.provider2"></span>
+      </div>
+      <div class="stacktop-image">
+        <rectangle-image [data]="stackTop.imageConfig"></rectangle-image>
+      </div>
+      <div class="stacktop-desc" [innerHTML]="stackTop.description"></div>
+    </div>
+  </section>
 
-
-<div class="article-stack-container">
-  <article-stacktop-component></article-stacktop-component>
-  <stack-rows-component [stackrowsData] = "stackrowsData"></stack-rows-component> 
+  <section class="article-stack-container-subs">
+    <div class="stackSmall" *ngFor="let stackrowsData of stackRow;">
+        <div class="stackSmall-image">
+          <rectangle-image [data]="stackrowsData.imageConfig"></rectangle-image>
+        </div>
+        <div class="stackSmall-text">
+          <div class="stackSmall-text-keyword"><span [innerHTML]="stackrowsData.keyword"></span><span [innerHTML]="stackrowsData.publishedDate"></span></div>
+          <div class="stackSmall-text-subHeadline" [innerHTML]="stackrowsData.title"></div>
+        </div>
+    </div>
+  </section>
 </div>
