@@ -16,7 +16,8 @@ export class SideScrollSchedule{
   @Input() scrollLength: any;
   public count = new EventEmitter();
   public curCount = 0;
-  private refresh: boolean = true;
+
+
   counter(event){
     this.curCount = event;
     this.count.emit(event);

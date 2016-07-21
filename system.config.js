@@ -12,6 +12,8 @@
         "symbol-observable"                : "dist/lib",
         "rxjs"                             : "dist/lib",
         'app'                              : 'dist/app' // this is where your transpiled files live
+        'jquery'                           : '//code.jquery.com/jquery-2.2.3.min.js',
+        'owl-carousel'                     : '//cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.6/owl.carousel.js' 
     };
     // packages tells the System loader how to load when no filename and/or no extension
     var packages = {
@@ -19,6 +21,12 @@
         'rxjs':                       { defaultExtension: 'js' },
         'symbol-observable':          { defaultExtension: 'js' }
     };
+
+    var meta = {
+      'owl-carousel': {
+        deps: ['jquery']
+      }
+    },
 
     var packageNames = [
         '@angular/common',
@@ -41,7 +49,8 @@
 
     var config = {
         map: map,
-        packages: packages
+        packages: packages,
+        meta: meta
     };
 
     // filterSystemConfig - index.html's chance to modify config before we register it.
