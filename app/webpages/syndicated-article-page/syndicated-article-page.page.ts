@@ -40,6 +40,8 @@ export class SyndicatedArticlePage implements OnInit{
   public eventID: string;
   public articleType: string;
   public imageData: Array<string>;
+  public imageTitle: Array<string>;
+  public copyright: Array<string>;
   iframeUrl: any;
   constructor(
     private _params:RouteParams,
@@ -62,9 +64,13 @@ export class SyndicatedArticlePage implements OnInit{
 
           if (data.data.imagePath == null || data.data.imagePath == undefined || data.data.imagePath == "") {
             this.imageData  = ["/app/public/stockphoto_bb_1.jpg", "/app/public/stockphoto_bb_2.jpg"];
+            this.copyright = ["TCX Images", "TCX Images"];
+            this.imageTitle = ["", ""];
           }
           else {
             this.imageData = ["https://prod-sports-images.synapsys.us" + data.data.imagePath, "/app/public/stockphoto_bb_2.jpg"];
+            this.copyright = ["TCX Images", "TCX Images"];
+            this.imageTitle = ["", ""];
           }
           this.articleData = data.data;
         }
