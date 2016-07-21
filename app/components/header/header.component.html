@@ -4,15 +4,18 @@
   </div>
   <section class="header-top">
     <div class="header-left">
-      <div class="header-hamburger" tabindex="999">
-        <i class="fa fa-bars"></i>
-        <div class="header-hamburger-dropDown"><hamburger-menu-component [menuData]="hamburgerMenuData" [menuInfo]="hamburgerMenuInfo"></hamburger-menu-component></div>
+      <!-- <div class="header-hamburger" tabindex="999"> -->
+      <div class="header-hamburger" (click)="getMenu()">
+        <i *ngIf="!isOpened" class="fa fa-bars"></i>
+        <i *ngIf="isOpened" class="fa fa-remove"></i>
+        <div *ngIf="isOpened" class="header-hamburger-dropDown"><hamburger-menu-component [menuData]="hamburgerMenuData" [menuInfo]="hamburgerMenuInfo"></hamburger-menu-component></div>
       </div>
     </div>
     <div class="header-right">
       <div class="header-search">
-        <div class="header-search-searchBtn" (keydown)="searchKeydown($event)" tabindex="998">
-          <i class="fa fa-search"></i>
+        <div class="header-search-searchBtn" (keydown)="searchKeydown($event)" (click)="getSearch()">
+          <i *ngIf="!isActive" class="fa fa-search"></i>
+          <i *ngIf="isActive" class="fa fa-remove"></i>
         </div>
         <div class="header-search-searchBox"><search [searchInput]="searchInput"></search></div>
       </div>

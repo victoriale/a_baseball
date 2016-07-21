@@ -21,28 +21,13 @@
       <div class="container3">
         <box-scores *ngIf="dateParam && maxHeight" class="box-scores" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)" [maxHeight]="maxHeight" [scroll]="scroll"></box-scores>
         <div class="box_articles">
-          <div class="box_articles-item">
-            <div class="article-image">
-            </div>
-            <div class="article-text">
-              <span>[KEYWORD]</span><span>[MONTH][DD], [YYYY]</span>
-              <p>Lorem ispum dolor sit amet, consectetu adiplicsing elit, sed do eisuemod tempor.</p>
-            </div>
-          </div>
-          <div class="box_articles-item">
-            <div class="article-image">
-
-            </div>
-            <div class="article-text">
-              <span>[KEYWORD]</span><span>[MONTH][DD], [YYYY]</span>
-              <p>Lorem ispum dolor sit amet, consectetu adiplicsing elit, sed do eisuemod tempor.</p>
-            </div>
-          </div>
+          <box-article-component></box-article-component>
         </div>
       </div>
       <!-- container of responsive box -->
+      <recommendations-component *ngIf="recommendationData" [randomHeadlines]="recommendationData"
+         [isDeepDive]="true"></recommendations-component>
     </div>
-    <div class="deep-dive-content2"></div>
   </div>
 </section>
   <div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div>
