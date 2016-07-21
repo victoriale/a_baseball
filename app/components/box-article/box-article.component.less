@@ -1,0 +1,24 @@
+.box_articles{
+  .flexDisplay;
+  .flexJustify(space-around);
+  &-item{
+    .flexDisplay;
+    .flexDirection(column);
+    color: @black;
+    width: 288px;
+    height: 250px;
+  }
+  &-image{
+    margin: 0 0 14px;
+  }
+  &-text{
+    .globalDefaultFont(10px, 800);
+    margin-bottom: 5px;
+    text-transform: uppercase;
+  }
+  &-description{
+    line-height: 1.2em;
+    height: 30px;
+    .globalDefaultFont(12px, 800);
+  }
+}
