@@ -6,6 +6,7 @@ import {CarouselDiveModule} from '../../modules/carousel-dive/carousel-dive.modu
 import {DeepDiveService} from '../../services/deep-dive.service'
 import {RecommendationsComponent} from '../../components/articles/recommendations/recommendations.component';
 import {SidekickWrapper} from '../../components/sidekick-wrapper/sidekick-wrapper.component';
+import {BoxArticleComponent} from '../../components/box-article/box-article.component';
 
 import {SchedulesService} from '../../services/schedules.service';
 
@@ -37,6 +38,7 @@ declare var jQuery: any;
       ArticleStackModule,
       VideoStackModule,
       CarouselDiveModule,
+      BoxArticleComponent,
       RecommendationsComponent
     ],
     providers: [BoxScoresService,SchedulesService,DeepDiveService],
