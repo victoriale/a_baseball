@@ -59,7 +59,6 @@ carouselTransformData(arrayData){
         let carData = {
           // image_url: GlobalSettings.getImageUrl(val['imagePath']),
           image_url: this._sanitizer.bypassSecurityTrustStyle("url(" + GlobalSettings.getImageUrl(val['imagePath']), + ")"),
-
           title:  "<span> Today's News </span>" + val['title'],
           keyword: val['keyword'],
           teaser: val['teaser'].substr(0,300) + "..."
