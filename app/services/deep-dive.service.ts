@@ -36,8 +36,46 @@ export class DeepDiveService {
     .map(data => {
       // transform the data to YYYY-MM-DD objects from unix
       return data;
-   })
- }
+
+
+    })
+  }
+  getDeepDiveArticleService(articleID){//DATE
+  //Configure HTTP Headers
+  var headers = this.setToken();
+  //date needs to be the date coming in AS EST and come back as UTC
+  var callURL = this._apiUrl+'/'+ 'article/' + articleID;
+  return this.http.get(callURL, {headers: headers})
+    .map(res => res.json())
+    .map(data => {
+      // transform the data to YYYY-MM-DD objects from unix
+      return data;
+    })
+  }
+  getDeepDiveVideoService(articleID){//DATE
+  //Configure HTTP Headers
+  var headers = this.setToken();
+  //date needs to be the date coming in AS EST and come back as UTC
+  var callURL = this._apiUrl+'/'+ 'article/video/batch/'+ articleID +'/1' ;
+  return this.http.get(callURL, {headers: headers})
+    .map(res => res.json())
+    .map(data => {
+      // transform the data to YYYY-MM-DD objects from unix
+      return data;
+    })
+  }
+  getDeepDiveBatchService(numItems){//DATE
+  //Configure HTTP Headers
+  var headers = this.setToken();
+  //date needs to be the date coming in AS EST and come back as UTC
+  var callURL = this._apiUrl+'/article'+ '/batch/2/'+numItems;
+  return this.http.get(callURL, {headers: headers})
+    .map(res => res.json())
+    .map(data => {
+      // transform the data to YYYY-MM-DD objects from unix
+      return data;
+    })
+  }
   getdeepDiveData(deepDiveData, callback:Function, dataParam) {
   if(deepDiveData == null){
     deepDiveData = {};
@@ -84,7 +122,7 @@ export class DeepDiveService {
      this.getDeepDiveService()
      .subscribe(data=>{
      //   console.log('before',data);
-       var transformedData = this.carouselTransformData(data);
+       var transformedData = this.carouselTransformData(data.data);
      //  console.log('after',transformedData);
       callback(transformedData);
      })
@@ -99,7 +137,7 @@ export class DeepDiveService {
       //  console.log(val);
         let carData = {
           // image_url: GlobalSettings.getImageUrl(val['imagePath']),
-          image_url: this._sanitizer.bypassSecurityTrustStyle("url(" + GlobalSettings.getImageUrl(val['imagePath']), + ")"),
+      //    image_url: this._sanitizer.bypassSecurityTrustStyle("url(" + GlobalSettings.getImageUrl(val['imagePath']), + ")"),
           title:  "<span> Today's News </span>" + val['title'],
           keyword: val['keyword'],
           teaser: val['teaser'].substr(0,300) + "..."
@@ -165,6 +203,8 @@ export class DeepDiveService {
       articles.push(data[obj]);
     }
 
+    var eventID = data['meta-data']['current']['eventId'];
+
     //set up the images array
     for(var obj in data['meta-data']['images']){
       for(var i = 0; i < data['meta-data']['images'][obj].length; i++){
@@ -189,9 +229,11 @@ export class DeepDiveService {
       ret[i] = articles[i];
       ret[i]['type'] = articleTypes[i];
       ret[i]['image'] = images[i];
+      ret[i]['keyword'] = ret[i]['sidekickTitle'].toUpperCase();
       ret[i]['bg_image_var'] = this._sanitizer.bypassSecurityTrustStyle("url(" + ret[i]['image'] + ")");
+      ret[i]['new_date'] = MLBGlobalFunctions.convertAiDate(ret[i]['dateline']);
+      ret[i]['event_id'] = eventID;
     }
-
 
     //build to format expected by html
     var _return = new Array(2);
