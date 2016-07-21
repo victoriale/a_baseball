@@ -70,7 +70,6 @@
 .deep_recs{
   width: 100%;
   margin-left: 25px;
-  margin-top: 15px;
   &-articles{
     margin-bottom: 15px;
     &-item{
@@ -93,13 +92,16 @@
         &-dateline{
           &-keyword{
             margin-right: 3px;
+            font-weight: 800;
+          }
+          &-date{
+            color: @bulletGrey;
           }
         }
         &-teaser{
           margin-top: 5px;
           height: 45px;
           font-size: 16px;
-          font-weight:800;
         }
       }
     }
@@ -107,8 +109,29 @@
 }
 
 //Media Queries for .deep_recs elements;
-@media (max-width: 730px){
+@media @mobile{
   .deep_recs-articles-item{
+    &-image{
+      width: 180px;
+      height: 120px;
+    }
+    &-content{
+      width: 157px;
+      height: 52px;
+      font-size: 16px;
+      font-weight: 800;
+      margin-top: 0px;
+      &-dateline{
+        display: none;
+        &-teaser{
+          font-weight: 800;
+        }
+      }
+    }
+  }
+}
+@media @tablet{
+  .deep-dive-container .deep_recs-articles-item{
     &-image{
       width: 180px;
       height: 120px;
@@ -125,9 +148,8 @@
     }
   }
 }
-@media (min-width: 731px) and (max-width:786px){
-  .deep_recs{
-    margin-left: 85px;
+@media @desktop-m {
+  .deep-dive-container .deep_recs{
     &-articles-item{
       &-image{
         width: 215px;
@@ -147,7 +169,7 @@
   }
 }
 @media @desktop-l{
-  .deep_recs-articles-item{
+  .deep-dive-container .deep_recs-articles-item{
     &-image{
       width: 215px;
       height: 136px;
@@ -164,7 +186,7 @@
   }
 }
 @media @desktop-xl{
-  .deep_recs-articles-item{
+  .deep-dive-container .deep_recs-articles-item{
     &-image{
       width: 348px;
       height: 220px;

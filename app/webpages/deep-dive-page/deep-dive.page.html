@@ -1,5 +1,4 @@
 <section class="deep-dive" *ngIf="!isHomeRunZone">
-
   <div class="newsCarousel" id="newsCarousel">
     <carousel-dive-module></carousel-dive-module>
   </div>
@@ -8,21 +7,29 @@
       <side-scroll-schedules *ngIf="sideScrollData" [sideScrollData]="sideScrollData" (count)="scrollCheck($event)" [scrollLength]="scrollLength"></side-scroll-schedules>
       <!-- container of responsive box -->
       <div class="container2">
-        <tile-stack-module></tile-stack-module>
         <article-stack-module></article-stack-module>
-        <video-stack-module></video-stack-module>
+        <tile-stack-module></tile-stack-module>
       </div>
       <!-- container of responsive box -->
+      <!-- ADS -->
       <div class="horizontal_widget">
         <div class="horizontal_widget-large"></div>
         <div class="horizontal_widget-small"></div>
       </div>
+      <!-- ADS ends-->
       <!-- container of responsive box -->
       <div class="container3">
+        <video-stack-module></video-stack-module>
         <box-scores *ngIf="dateParam && maxHeight" class="box-scores" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)" [maxHeight]="maxHeight" [scroll]="scroll"></box-scores>
-        <div class="box_articles">
-          <box-article-component></box-article-component>
-        </div>
+      </div>
+      <!-- ADS -->
+      <div class="horizontal_widget">
+        <div class="horizontal_widget-large"></div>
+        <div class="horizontal_widget-small"></div>
+      </div>
+      <!-- ADS ends-->
+      <div class="box_articles">
+        <box-article-component *ngIf="boxArticleData" [boxArticleData]="boxArticleData" [isDeepDive]="true"></box-article-component>
       </div>
       <!-- container of responsive box -->
       <recommendations-component *ngIf="recommendationData" [randomHeadlines]="recommendationData"
@@ -31,5 +38,5 @@
     <div class="deep-dive-content2"></div>
   </div>
 </section>
-  <div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div>
-  <Partner-home-page *ngIf="isHomeRunZone"></Partner-home-page>
+<div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div>
+<Partner-home-page *ngIf="isHomeRunZone"></Partner-home-page>

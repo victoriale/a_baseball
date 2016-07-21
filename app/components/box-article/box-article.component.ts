@@ -5,7 +5,9 @@ import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 
 export interface BoxArticleData {
   keyword: string;
-  description: string;
+  date: string;
+  teaser: string;
+  url?: string;
   imageConfig: RectangleImageData;
 }
 
@@ -16,20 +18,22 @@ export interface BoxArticleData {
 })
 
 export class BoxArticleComponent implements OnInit {
-  @Input() boxArticleData: BoxArticleData;
+  @Input() boxArticleData: Array<BoxArticleData>;//TODO
   ngOnInit() {
     if (typeof this.boxArticleData == 'undefined') {
       var sampleImage = "/app/public/placeholder_XL.png";
-      this.boxArticleData = {
-        keyword: "[Keyword] [Date]",
-        description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo ipsum dolor sit amet, consectetur adipisicing",
+      this.boxArticleData = [{
+        keyword: "[Keyword]",
+        date: "[Date]",
+        url: "/",
+        teaser: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo ipsum dolor sit amet, consectetur adipisicing",
         imageConfig: {
           imageClass: "image-288x180",
           mainImage:{
             imageUrl: sampleImage
           }
         }
-      };//this.dataPoint ends
+      }];//this.dataPoint ends
     }
   }//ngOnInit ends
 }
