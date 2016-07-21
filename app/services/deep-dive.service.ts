@@ -39,6 +39,42 @@ export class DeepDiveService {
 
     })
   }
+  getDeepDiveArticleService(articleID){//DATE
+  //Configure HTTP Headers
+  var headers = this.setToken();
+  //date needs to be the date coming in AS EST and come back as UTC
+  var callURL = this._apiUrl+'/'+ 'article/' + articleID;
+  return this.http.get(callURL, {headers: headers})
+    .map(res => res.json())
+    .map(data => {
+      // transform the data to YYYY-MM-DD objects from unix
+      return data;
+    })
+  }
+  getDeepDiveVideoService(articleID){//DATE
+  //Configure HTTP Headers
+  var headers = this.setToken();
+  //date needs to be the date coming in AS EST and come back as UTC
+  var callURL = this._apiUrl+'/'+ 'article/video/batch/'+ articleID +'/1' ;
+  return this.http.get(callURL, {headers: headers})
+    .map(res => res.json())
+    .map(data => {
+      // transform the data to YYYY-MM-DD objects from unix
+      return data;
+    })
+  }
+  getDeepDiveBatchService(numItems){//DATE
+  //Configure HTTP Headers
+  var headers = this.setToken();
+  //date needs to be the date coming in AS EST and come back as UTC
+  var callURL = this._apiUrl+'/article'+ '/batch/2/'+numItems;
+  return this.http.get(callURL, {headers: headers})
+    .map(res => res.json())
+    .map(data => {
+      // transform the data to YYYY-MM-DD objects from unix
+      return data;
+    })
+  }
   getdeepDiveData(deepDiveData, callback:Function, dataParam) {
   if(deepDiveData == null){
     deepDiveData = {};
@@ -46,6 +82,7 @@ export class DeepDiveService {
   }else {
     }
   }
+
   getAiArticleData(){
     var headers = this.setToken();
     //this is the sidkeick url
