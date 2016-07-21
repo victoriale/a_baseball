@@ -5,22 +5,24 @@
   </div>
   <div class="deep-dive-container">
     <div class="deep-dive-content1">
-      <side-scroll-schedules *ngIf="sideScrollData" [sideScrollData]="sideScrollData"></side-scroll-schedules>
+      <side-scroll-schedules *ngIf="sideScrollData" [sideScrollData]="sideScrollData" (count)="scrollCheck($event)"></side-scroll-schedules>
+      <!-- container of responsive box -->
       <div class="container2">
         <tile-stack-module></tile-stack-module>
         <article-stack-module></article-stack-module>
         <video-stack-module></video-stack-module>
       </div>
+      <!-- container of responsive box -->
       <div class="horizontal_widget">
         <div class="horizontal_widget-large"></div>
         <div class="horizontal_widget-small"></div>
       </div>
+      <!-- container of responsive box -->
       <div class="container3">
         <box-scores *ngIf="dateParam && maxHeight" class="box-scores" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)" [maxHeight]="maxHeight" [scroll]="scroll"></box-scores>
         <div class="box_articles">
           <div class="box_articles-item">
             <div class="article-image">
-
             </div>
             <div class="article-text">
               <span>[KEYWORD]</span><span>[MONTH][DD], [YYYY]</span>
@@ -38,6 +40,7 @@
           </div>
         </div>
       </div>
+      <!-- container of responsive box -->
     </div>
     <div class="deep-dive-content2"></div>
   </div>
