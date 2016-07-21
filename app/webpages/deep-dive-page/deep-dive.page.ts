@@ -4,7 +4,7 @@ import {ArticleStackModule} from '../../modules/article-stack/article-stack.modu
 import {VideoStackModule} from '../../modules/video-stack/video-stack.module';
 import {CarouselDiveModule} from '../../modules/carousel-dive/carousel-dive.module';
 import {DeepDiveService} from '../../services/deep-dive.service'
-
+import {RecommendationsComponent} from '../../components/articles/recommendations/recommendations.component';
 import {SidekickWrapper} from '../../components/sidekick-wrapper/sidekick-wrapper.component';
 import {BoxArticleComponent} from '../../components/box-article/box-article.component';
 
@@ -39,6 +39,7 @@ declare var jQuery: any;
       VideoStackModule,
       CarouselDiveModule,
       BoxArticleComponent
+      RecommendationsComponent
     ],
     providers: [BoxScoresService,SchedulesService,DeepDiveService],
 })
@@ -62,11 +63,15 @@ export class DeepDivePage implements OnInit {
 
     private isHomeRunZone: boolean = false;
 
+    //for recommendation module
+    recommendationData: any;
+
     constructor(
       private _router:Router,
+      private _deepDiveData: DeepDiveService,
       private _boxScores:BoxScoresService,
       private _schedulesService:SchedulesService,
-      private _deepDiveService:DeepDiveService){
+      public ngZone:NgZone){
       this.profileName = "MLB";
 
       //for boxscores
@@ -140,8 +145,14 @@ export class DeepDivePage implements OnInit {
         this.maxHeight = 650;
       }
     }
-
+    getRecommendationData(){
+      this._deepDiveData.getAiArticleData()
+          .subscribe(data => {
+            this.recommendationData = this._deepDiveData.transformToRecArticles(data);
+          });
+    }
     ngOnInit() {
+      this.getRecommendationData();
       this.checkSize();
       this.getBoxScores(this.dateParam);
       this.getSideScroll();
