@@ -85,7 +85,7 @@ export class SyndicatedArticlePage implements OnInit{
       this._deepdiveservice.getDeepDiveVideoService(articleID).subscribe(
         data => {
           this.articleData = data.data;
-          this.iframeUrl = this.articleData.videoLink;
+          this.iframeUrl = this.articleData.videoLink + "&autoplay=on";
         }
       )
     }
