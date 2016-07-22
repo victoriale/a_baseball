@@ -122,6 +122,9 @@ export class DeepDiveService {
     var articles = [];
     var images = [];
 
+    var homeId = data['meta-data']['current']['homeTeamId'];
+    var awayId = data['meta-data']['current']['awayTeamId'];
+
     for(var obj in data){
       if(obj == "meta-data")continue;
       articleTypes.push(obj);
@@ -132,7 +135,8 @@ export class DeepDiveService {
 
     //set up the images array
     for(var obj in data['meta-data']['images']){
-      for(var i = 0; i < data['meta-data']['images'][obj].length; i++){
+      // -1 on the length of images array to reserve one image for home/away specific article photo
+      for(var i = 0; i < data['meta-data']['images'][obj].length - 1; i++){
         images.push(data['meta-data']['images'][obj][i]);
       }
     }
@@ -153,7 +157,13 @@ export class DeepDiveService {
     for(var i = 0; i < articles.length; i++){
       ret[i] = articles[i];
       ret[i]['type'] = articleTypes[i];
-      ret[i]['image'] = images[i];
+      if(ret[i]['type'].split('-')[1] == 'home'){
+        ret[i]['image'] = data['meta-data']['images'][homeId][data['meta-data']['images'][homeId].length - 1];
+      }else if(ret[i]['type'].split('-')[1]  == 'away'){
+        ret[i]['image'] = data['meta-data']['images'][awayId][data['meta-data']['images'][awayId].length - 1];
+      }else{
+        ret[i]['image'] = images[i];
+      }
       ret[i]['keyword'] = ret[i]['sidekickTitle'].toUpperCase();
       ret[i]['bg_image_var'] = this._sanitizer.bypassSecurityTrustStyle("url(" + ret[i]['image'] + ")");
       ret[i]['new_date'] = MLBGlobalFunctions.convertAiDate(ret[i]['dateline']);

@@ -69,11 +69,15 @@
 
 .deep_recs{
   width: 100%;
-  margin-left: 25px;
+  margin-top: 40px;
   &-articles{
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     &-item{
       margin-right:15px;
+      &:hover .deep_recs-articles-item-image-highlight{
+        // display: block;
+        display: flex;
+      }
       &-image{
         //this is the minimum value
         width: 180px;
@@ -82,12 +86,43 @@
         background-size: cover;
         background-repeat: no-repeat;
         background-position: top center;
+        position: relative;
+        display: inline-block;
+        line-height: 120px;
+        &-highlight{
+          position: absolute;
+          top:0;
+          left:0;
+          z-index: 5;
+          width:100%;
+          height:100%;
+          box-shadow: inset 0 0 0 -10000px @masterHighlightColor;
+          display: none;
+          text-align: center;
+          background-color: rgba(188, 32, 39, 0.75);
+            p{
+            &:first-child{
+              font-size: 18px;
+              line-height: 28px;
+              font-weight: 700;
+              margin:auto;
+              border-radius: 5px;
+              width: 125px;
+              height: 28px;
+              color: @white;
+              border: 1px solid @white;
+              background-color: rgba(0, 0, 0, 0.25);
+              position: relative;
+
+            }
+          }
+        }
       }
       &-content{
         margin-top: 10px;
         overflow:hidden;
         text-overflow: ellipsis;
-        width:160px;
+        width:180px;
         height: 52px;
         &-dateline{
           &-keyword{
@@ -110,21 +145,24 @@
 
 //Media Queries for .deep_recs elements;
 @media @mobile{
-  .deep_recs-articles-item{
-    &-image{
-      width: 180px;
-      height: 120px;
-    }
-    &-content{
-      width: 157px;
-      height: 52px;
-      font-size: 16px;
-      font-weight: 800;
-      margin-top: 0px;
-      &-dateline{
-        display: none;
-        &-teaser{
-          font-weight: 800;
+  .deep_recs{
+    margin-top: 30px;
+    &-articles-item{
+      &-image{
+        width: 180px;
+        height: 120px;
+      }
+      &-content{
+        width: 180px;
+        height: 52px;
+        font-size: 16px;
+        font-weight: 800;
+        margin-top: 0px;
+        &-dateline{
+          display: none;
+          &-teaser{
+            font-weight: 800;
+          }
         }
       }
     }
@@ -137,7 +175,7 @@
       height: 120px;
     }
     &-content{
-      width: 157px;
+      width: 180px;
       height: 52px;
       font-size: 16px;
       font-weight: 800;
@@ -156,7 +194,7 @@
         height: 136px;
       }
       &-content{
-        width: 200px;
+        width: 215px;
         height: 62px;
         font-size: 11px;
         font-weight: 800;
@@ -175,7 +213,7 @@
       height: 136px;
     }
     &-content{
-      width: 200px;
+      width: 215px;
       height: 62px;
       font-size: 11px;
       font-weight: 800;
@@ -192,7 +230,7 @@
       height: 220px;
     }
     &-content{
-      width: 316px;
+      width: 348px;
       height: 56px;
       font-size: 11px;
       font-weight: 800;
