@@ -9,7 +9,7 @@
     <div class="owl-carousel carousel_owl">
       <div class="owl-item"  *ngFor = "let data of carouselData; let i = index;">
         <img src="{{data.image_url}}">
-          <div class="carousel-item" [style.background-image]="'url(' + data.image_url + ')'">
+          <div class="carousel-item" [style.background-image]="data.image_url">
             <div class="carousel-item-container">
               <div class="carousel-item-container-key" [innerHTML]="data.keyword"></div>
               <div class="carousel-item-container-title" [innerHTML]="data.title"></div>
