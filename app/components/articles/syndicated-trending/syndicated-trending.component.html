@@ -1,4 +1,4 @@
-<div class="syndicated-trending">
+<div class="syndicated-trending" (window:scroll)="onScroll($event)">
     <div class="syndicated-trending-hr"></div>
     <div class="syndicated-trending-main-title">TRENDING ARTICLES</div>
     <div class="syndicated-trending-hr"></div>
@@ -24,7 +24,7 @@
     <div class="syndicated-trending-hr"></div>
     <div class="more">
       <a>
-        <div class="syndicated-trending-load-more" (click)="getDeepDiveArticle(articleData.length + 10)"><i class="fa fa-newspaper-o"></i> Load More</div>
+        <div id="loadingArticles" class="syndicated-trending-load-more"><i class="fa fa-newspaper-o"></i> Load More</div>
       </a>
     </div>
 </div>
