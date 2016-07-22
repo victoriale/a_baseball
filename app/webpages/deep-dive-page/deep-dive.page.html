@@ -9,7 +9,7 @@
       <!-- container of responsive box -->
       <div class="container2">
         <article-stack-module [stackTop]="stackTop" [stackRow]="stackRow"></article-stack-module>
-        <tile-stack-module></tile-stack-module>
+        <tile-stack-module *ngIf = "tilestackData" [tilestackData] = "tilestackData"></tile-stack-module>
       </div>
       <!-- container of responsive box -->
       <!-- ADS -->

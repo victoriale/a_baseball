@@ -7,9 +7,8 @@
       <i class="fa fa-angle-left" aria-hidden="true" id="carousel-dive-leftarrow"></i>
     </div>
     <div class="owl-carousel carousel_owl">
-      <div class="owl-item"  *ngFor = "let data of carouselData; let i = index;">
-        <img src="{{data.image_url}}">
-          <div class="carousel-item" [style.background-image]="data.image_url">
+      <div class="owl-item"  *ngFor = "let data of carouselData; let i = index;" [ngStyle]="{'background-image': 'linear-gradient(180deg, rgba(40, 40, 40, 0.5) 0%, rgba(24, 24, 24, 0.65) 100%), url(' + data.image_url + ')'}">
+          <div class="carousel-item">
             <div class="carousel-item-container">
               <div class="carousel-item-container-key" [innerHTML]="data.keyword"></div>
               <div class="carousel-item-container-title" [innerHTML]="data.title"></div>
