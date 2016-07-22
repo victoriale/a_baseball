@@ -24,6 +24,5 @@ export class SideScrollSchedule{
   }
 
   ngOnChanges(){
-    console.log(this.scrollLength);
   }
 }
