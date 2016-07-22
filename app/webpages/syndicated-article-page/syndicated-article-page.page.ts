@@ -13,8 +13,10 @@ import {MLBGlobalFunctions} from "../../global/mlb-global-functions";
 import {SidekickWrapperAI} from "../../components/sidekick-wrapper-ai/sidekick-wrapper-ai.component";
 import {GlobalSettings} from "../../global/global-settings";
 import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
+import {SanitizeRUrl} from "../../pipes/safe.pipe";
 
 declare var jQuery:any;
+declare var moment;
 
 @Component({
     selector: 'syndicated-article-page',
@@ -31,6 +33,7 @@ declare var jQuery:any;
         ResponsiveWidget
     ],
     providers: [DeepDiveService],
+    pipes: [SanitizeRUrl]
 })
 
 export class SyndicatedArticlePage implements OnInit{
@@ -40,6 +43,8 @@ export class SyndicatedArticlePage implements OnInit{
   public eventID: string;
   public articleType: string;
   public imageData: Array<string>;
+  public imageTitle: Array<string>;
+  public copyright: Array<string>;
   iframeUrl: any;
   constructor(
     private _params:RouteParams,
@@ -62,18 +67,24 @@ export class SyndicatedArticlePage implements OnInit{
 
           if (data.data.imagePath == null || data.data.imagePath == undefined || data.data.imagePath == "") {
             this.imageData  = ["/app/public/stockphoto_bb_1.jpg", "/app/public/stockphoto_bb_2.jpg"];
+            this.copyright = ["TCX Images", "TCX Images"];
+            this.imageTitle = ["", ""];
           }
           else {
             this.imageData = ["https://prod-sports-images.synapsys.us" + data.data.imagePath, "/app/public/stockphoto_bb_2.jpg"];
+            this.copyright = ["TCX Images", "TCX Images"];
+            this.imageTitle = ["", ""];
           }
           this.articleData = data.data;
+          console.log(this.articleData.publishedDate);
+          this.articleData.publishedDate = moment(this.articleData.publishedDate, "YYYY-MM-Do, h:mm:ss").format("MMMM Do, YYYY h:mm:ss a");
         }
       )
     }
     private getDeepDiveVideo(articleID){
       this._deepdiveservice.getDeepDiveVideoService(articleID).subscribe(
         data => {
-          this.articleData = data.data[0];
+          this.articleData = data.data;
           this.iframeUrl = this.articleData.videoLink;
         }
       )

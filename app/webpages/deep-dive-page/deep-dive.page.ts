@@ -1,3 +1,4 @@
+
 import {Component, OnInit, Input, NgZone} from '@angular/core';
 import {TileStackModule} from '../../modules/tile-stack/tile-stack.module';
 import {ArticleStackModule} from '../../modules/article-stack/article-stack.module';
@@ -20,6 +21,8 @@ import {GlobalSettings} from "../../global/global-settings";
 import {GlobalFunctions} from "../../global/global-functions";
 import {Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
+import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
+
 //window declarions of global functions from library scripts
 declare var moment;
 declare var jQuery: any;
@@ -39,12 +42,14 @@ declare var jQuery: any;
       VideoStackModule,
       CarouselDiveModule,
       BoxArticleComponent,
-      RecommendationsComponent
+      RecommendationsComponent,
+      ResponsiveWidget
     ],
     providers: [BoxScoresService,SchedulesService,DeepDiveService],
 })
 
 export class DeepDivePage implements OnInit {
+    public widgetPlace: string = "widgetForPage";
 
     //page variables
     partnerID: string;
@@ -60,7 +65,14 @@ export class DeepDivePage implements OnInit {
     sideScrollData: any;
     scrollLength: number;
     ssMax:number = 7;
+    callCount:number = 1;
 
+    //for carousel
+    carouselData: any;
+​
+    //for article-stack
+    stackTop: any;
+    stackRow: any;
     private isHomeRunZone: boolean = false;
 
     //for recommendation module
@@ -99,27 +111,27 @@ export class DeepDivePage implements OnInit {
     //api for Schedules
     private getSideScroll(){
       let self = this;
-      this._schedulesService.setupSlideScroll(this.sideScrollData, 'league', 'pre-event', 20, 1, (sideScrollData) => {
+      this._schedulesService.setupSlideScroll(this.sideScrollData, 'league', 'pre-event', (20 + this.callCount), this.callCount, (sideScrollData) => {
         if(this.sideScrollData == null){
           this.sideScrollData = sideScrollData;
           this.scrollLength = sideScrollData.length;
-          this.sideScrollData.length += 6;
-        }else{
-          //if there is already data inside this.sideScrollData
-          sideScrollData.forEach(function(val, index){
+          this.callCount++;
+        }
+        else{
+          sideScrollData.forEach(function(val,i){
             self.sideScrollData.push(val);
           })
-          this.sideScrollData.length += 6;
+          this.scrollLength = sideScrollData.length;
+          this.callCount++;
         }
       })
     }
 
     private scrollCheck(event){
-      // console.log('deep dive check', event);
       let maxScroll = this.sideScrollData.length;
       this.scrollLength = this.sideScrollData.length - this.ssMax;
       if(event >= (maxScroll - this.ssMax)){
-        // this.getSideScroll();
+        this.getSideScroll();
       }
     }
 
@@ -132,6 +144,11 @@ export class DeepDivePage implements OnInit {
             this.boxScoresData = boxScoresData;
             this.currentBoxScores = currentBoxScores;
         })
+    }
+    private getDataCarousel() {
+      this._deepDiveData.getCarouselData(this.carouselData, (carData)=>{
+        this.carouselData = carData;
+      })
     }
 
     checkSize(){
@@ -151,18 +168,29 @@ export class DeepDivePage implements OnInit {
             this.recommendationData = this._deepDiveData.transformToRecArticles(data);
           });
     }
-    getArticleStackData(){
+    getBoxArticleData(){
       this._deepDiveData.getDeepDiveService()
           .subscribe(data => {
             this.boxArticleData = this._deepDiveData.transformToBoxArticle(data);
           });
     }
+
+    getArticleStackData(){
+      this._deepDiveData.getDeepDiveService()
+          .subscribe(data => {
+            this.stackTop = this._deepDiveData.transformToArticleStack(data);
+            this.stackRow = this._deepDiveData.transformToArticleRow(data);
+          });
+    }
+
     ngOnInit() {
       this.getRecommendationData();
       this.checkSize();
       this.getBoxScores(this.dateParam);
-      this.getSideScroll();
+      this.getDataCarousel();
       this.getArticleStackData();
+      this.getSideScroll();
+      this.getBoxArticleData();
     }
 
     ngDoCheck(){

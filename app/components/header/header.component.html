@@ -13,9 +13,8 @@
     </div>
     <div class="header-right">
       <div class="header-search">
-        <div class="header-search-searchBtn" (keydown)="searchKeydown($event)" (click)="getSearch()">
-          <i *ngIf="!isActive" class="fa fa-search"></i>
-          <i *ngIf="isActive" class="fa fa-remove"></i>
+        <div class="header-search-searchBtn" (keydown)="searchKeydown($event)">
+          <i class="fa fa-search"></i>
         </div>
         <div class="header-search-searchBox"><search [searchInput]="searchInput"></search></div>
       </div>

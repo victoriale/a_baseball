@@ -1,10 +1,11 @@
-<div class="side_scroll" *ngIf="maxLength">
-  <div class="side_scroll-left" (click)="left()" [ngClass]="{'disabled': current <= 0}"><i class="fa fa-angle-left"></i></div>
-  <div class="side_scroll-box">
-    <div class="side_scroll-transition">
+<div class="side_scroll" (mousemove)="movingMouse($event)">
+  <div class="side_scroll-left" (click)="left($event)" [ngClass]="{'disabled': currentScroll <= 0}"><i class="fa fa-angle-left"></i></div>
+  <div class="side_scroll-box" (mousedown)="scrollX($event)" (mouseup)="scrollX($event)">
+    <div class="side_scroll-container score-transition2" [style.right]="rightText | safeStyle">
       <ng-content></ng-content>
     </div>
   </div>
-  <div class="side_scroll-overlay"></div>
-  <div class="side_scroll-right" (click)="right()" [ngClass]="{'disabled': current >= maxLength}"><i class="fa fa-angle-right"></i></div>
+  <div class="side_scroll-overlayright"></div>
+  <div class="side_scroll-overlayleft"></div>
+  <div class="side_scroll-right" (click)="right($event)" [ngClass]="{'disabled': current >= (maxLength*itemSize)}"><i class="fa fa-angle-right"></i></div>
 </div>

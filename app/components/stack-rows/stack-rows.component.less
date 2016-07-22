@@ -1,5 +1,4 @@
 .stackSmall {
-    width:50%;
     height: 75px;
     margin-top: 15px;
     .flexDisplay;
@@ -13,7 +12,7 @@
       line-height: 1.2em;
       text-align: left;
       width: 180px;
-      height: 57px;
+      height: 64px;
       overflow: hidden;
       text-overflow: ellipsis;
       &-keyword {
@@ -21,9 +20,18 @@
          text-transform: uppercase;
          margin-bottom: 10px;
          .globalDefaultModFont(10px, 800, @black);
+         > span:last-child{
+           margin-left: 5px;
+           color: @bulletGrey;
+           overflow: hidden;
+           height: 50px;
+         }
       }
       &-subHeadline {
          .globalDefaultFont(12px, 400);
+         p{
+           line-height: 1.2em;
+         }
       }
     }
 }
@@ -31,7 +39,7 @@
  .stackSmall {
     &-text {
       width: 200px;
-      height: 66px;
+      height: 72px;
       &-keyword {
         font-size: 12px;
       }

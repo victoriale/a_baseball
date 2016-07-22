@@ -1,8 +1,21 @@
-<div class="article-stack-container">
+<div *ngIf="stackTop" class="article-stack-container">
   <section class="article-stack-container-main">
-    <article-stacktop-component></article-stacktop-component>
+    <a class="stacktop" href="{{stackTop.url}}">
+      <div class="stacktop-title">
+        <div class="stacktop-title-date" [innerHTML]="stackTop.date"></div>
+        <div class="stacktop-title-headline" [innerHTML]="stackTop.headline"></div>
+      </div>
+      <div class="stacktop-titleinfo">
+        <span class="stacktop-titleinfo-provider" [innerHTML]="stackTop.provider1"></span>
+        <span class="stacktop-titleinfo-provider" [innerHTML]="stackTop.provider2"></span>
+      </div>
+      <div class="stacktop-image">
+        <rectangle-image [data]="stackTop.imageConfig"></rectangle-image>
+      </div>
+      <div class="stacktop-desc" [innerHTML]="stackTop.description"></div>
+    </a>
   </section>
-  <section class="article-stack-container-subs">
-    <stack-rows-component></stack-rows-component>
-  </section>
+    <section class="article-stack-container-subs">
+      <stack-rows-component [stackRow]="stackRow"></stack-rows-component>
+    </section>
 </div>

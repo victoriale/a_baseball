@@ -80,20 +80,13 @@ export class HeaderComponent implements OnInit,OnChanges {
       this._stickyHeader = "0px"
     }
   }//onScrollStick ends
- public getMenu(): void{
-   if(this.isOpened == true){
-     this.isOpened = false;
-   }else{
-     this.isOpened = true;
+   public getMenu(): void{
+     if(this.isOpened == true){
+       this.isOpened = false;
+     }else{
+       this.isOpened = true;
+     }
    }
- }
- public getSearch(): void{
-   if(this.isActive == null || this.isActive == false){
-     this.isActive = true;
-   }else{
-     this.isActive = false;
-   }
- }
   ngOnInit(){
     stButtons.locateElements();
   }

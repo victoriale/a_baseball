@@ -1,9 +1,11 @@
-<div *ngIf="stackRowsData" class="stackSmall">
-  <div class="stackSmall-image">
-    <rectangle-image [data]="stackRowsData.imageConfig"></rectangle-image>
-  </div>
-  <div class="stackSmall-text">
-    <div class="stackSmall-text-keyword" [innerHTML]="stackRowsData.keyword"></div>
-    <div class="stackSmall-text-subHeadline" [innerHTML]="stackRowsData.subHeadline"></div>
-  </div>
-</div>
+<section class="row">
+  <a class="stackSmall col-xs-6" *ngFor="let stackRow of stackRow;" href="{{stackRow.url}}">
+      <div class="stackSmall-image">
+        <rectangle-image [data]="stackRow.imageConfig"></rectangle-image>
+      </div>
+      <div class="stackSmall-text">
+        <div class="stackSmall-text-keyword"><span [innerHTML]="stackRow.keyword"></span><span [innerHTML]="stackRow.publishedDate"></span></div>
+        <div class="stackSmall-text-subHeadline" [innerHTML]="stackRow.description"></div>
+      </div>
+  </a>
+</section>
