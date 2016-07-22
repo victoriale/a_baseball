@@ -15,6 +15,7 @@ import {GlobalSettings} from "../../global/global-settings";
 import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
 declare var jQuery:any;
+declare var moment;
 
 @Component({
     selector: 'syndicated-article-page',
@@ -40,6 +41,8 @@ export class SyndicatedArticlePage implements OnInit{
   public eventID: string;
   public articleType: string;
   public imageData: Array<string>;
+  public imageTitle: Array<string>;
+  public copyright: Array<string>;
   iframeUrl: any;
   constructor(
     private _params:RouteParams,
@@ -62,11 +65,17 @@ export class SyndicatedArticlePage implements OnInit{
 
           if (data.data.imagePath == null || data.data.imagePath == undefined || data.data.imagePath == "") {
             this.imageData  = ["/app/public/stockphoto_bb_1.jpg", "/app/public/stockphoto_bb_2.jpg"];
+            this.copyright = ["TCX Images", "TCX Images"];
+            this.imageTitle = ["", ""];
           }
           else {
             this.imageData = ["https://prod-sports-images.synapsys.us" + data.data.imagePath, "/app/public/stockphoto_bb_2.jpg"];
+            this.copyright = ["TCX Images", "TCX Images"];
+            this.imageTitle = ["", ""];
           }
           this.articleData = data.data;
+          console.log(this.articleData.publishedDate);
+          this.articleData.publishedDate = moment(this.articleData.publishedDate, "YYYY-MM-Do, h:mm:ss").format("MMMM Do, YYYY h:mm:ss a");
         }
       )
     }

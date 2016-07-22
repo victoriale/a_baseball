@@ -1,3 +1,4 @@
+
 import {Component, OnInit, Input, NgZone} from '@angular/core';
 import {TileStackModule} from '../../modules/tile-stack/tile-stack.module';
 import {ArticleStackModule} from '../../modules/article-stack/article-stack.module';
@@ -62,6 +63,12 @@ export class DeepDivePage implements OnInit {
     ssMax:number = 7;
     callCount:number = 1;
 
+    //for carousel
+    carouselData: any;
+​
+    //for article-stack
+    stackTop: any;
+    stackRow: any;
     private isHomeRunZone: boolean = false;
 
     //for recommendation module
@@ -134,6 +141,11 @@ export class DeepDivePage implements OnInit {
             this.currentBoxScores = currentBoxScores;
         })
     }
+    private getDataCarousel() {
+      this._deepDiveData.getCarouselData(this.carouselData, (carData)=>{
+        this.carouselData = carData;
+      })
+    }
 
     checkSize(){
       var width = window.outerWidth;
@@ -152,18 +164,29 @@ export class DeepDivePage implements OnInit {
             this.recommendationData = this._deepDiveData.transformToRecArticles(data);
           });
     }
-    getArticleStackData(){
+    getBoxArticleData(){
       this._deepDiveData.getDeepDiveService()
           .subscribe(data => {
             this.boxArticleData = this._deepDiveData.transformToBoxArticle(data);
           });
     }
+
+    getArticleStackData(){
+      this._deepDiveData.getDeepDiveService()
+          .subscribe(data => {
+            this.stackTop = this._deepDiveData.transformToArticleStack(data);
+            this.stackRow = this._deepDiveData.transformToArticleRow(data);
+          });
+    }
+
     ngOnInit() {
       this.getRecommendationData();
       this.checkSize();
       this.getBoxScores(this.dateParam);
-      this.getSideScroll();
+      this.getDataCarousel();
       this.getArticleStackData();
+      this.getSideScroll();
+      this.getBoxArticleData();
     }
 
     ngDoCheck(){

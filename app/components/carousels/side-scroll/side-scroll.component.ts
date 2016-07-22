@@ -23,19 +23,11 @@ export class SideScroll{
   }
 
   counter(event){
-    this.count = event;
-    this.carouselCount.next(event);
   }
 
   left() {
-    var owl = jQuery('.ss_owl');
-    owl.owlCarousel();
-    owl.trigger('prev.owl.carousel');
   }
   right() {
-    var owl = jQuery('.ss_owl');
-    owl.owlCarousel();
-    owl.trigger('next.owl.carousel');
   }
 
 }
