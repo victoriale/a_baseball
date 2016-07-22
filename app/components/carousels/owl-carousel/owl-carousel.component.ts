@@ -1,4 +1,4 @@
-import { Component, Input, Output, AfterViewInit, EventEmitter, ElementRef } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter, ElementRef } from '@angular/core';
 declare var jQuery:any;
 import 'owl-carousel';
 
@@ -8,7 +8,7 @@ import 'owl-carousel';
     outputs: ['carouselCount']
 })
 
-export class OwlCarousel implements AfterViewInit{
+export class OwlCarousel implements OnInit{
   @Input() options: Object;
   @Input() data: any;
   carouselCount = new EventEmitter();
@@ -17,9 +17,8 @@ export class OwlCarousel implements AfterViewInit{
 
   constructor(private _el: ElementRef) {}
 
-  ngAfterViewInit() {
+  ngOnInit() {
     let self = this;
-
     this.owlElement = jQuery(this._el.nativeElement).owlCarousel(this.options);
     this.owlElement.on('changed.owl.carousel', function(event) {
         var currentItem = event.item.index;
@@ -30,17 +29,6 @@ export class OwlCarousel implements AfterViewInit{
     })
   }
 
-  ngOnDestroy() {
-    this.owlElement.remove();
-    this.owlElement = null;
-  }
-
   ngOnChanges(){
-    let self = this;
-    if(this.owlElement != null){
-      this.data.forEach(function(val,i){
-        this.owlElement.data('owlCarousel').addItem(val);
-      })
-    }
   }
 }

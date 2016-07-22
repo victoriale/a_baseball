@@ -107,9 +107,9 @@ export class DeepDivePage implements OnInit {
           this.callCount++;
         }
         else{
-          // sideScrollData.forEach(function(val,i){
-          //   self.sideScrollData.push(val);
-          // })
+          sideScrollData.forEach(function(val,i){
+            self.sideScrollData.push(val);
+          })
           this.scrollLength = sideScrollData.length;
           this.callCount++;
         }
