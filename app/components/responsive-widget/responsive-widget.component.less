@@ -1,4 +1,4 @@
-@media (min-width:1024px) {
+@media @desktop-l {
   .widgetForPage {
   display:none;
   }
@@ -40,7 +40,7 @@ standings-page div .standings-tab-section:last-of-type .widgetForPage {
     left:0;
   }
 }
-@media (min-width: 641px) and (max-width: 1024px) {
+@media @tablet and (max-width: 1024px) {
   .widgetForPage .widgetWrapper {
       background-color: @white;
       padding: 10px 0;
@@ -50,7 +50,7 @@ standings-page div .standings-tab-section:last-of-type .widgetForPage {
     height: 270px;
   }
 }
-@media (max-width: 640px) {
+@media @mobile {
   table .widgetForPage {
     padding: 10px 0;
     height:290px;
@@ -76,8 +76,8 @@ standings-page div .standings-tab-section:last-of-type .widgetForPage {
     }
 }
 ._640only {
-  @media (min-width: 641px) {display:none;}
+  @media @tablet {display:none;}
 }
 ._1024only {
-  @media (min-width: 1023px), (max-width: 640px) {display:none;}
+  @media (min-width: 1023px), @mobile {display:none;}
 }
