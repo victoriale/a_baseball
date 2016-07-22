@@ -1,14 +1,13 @@
 import {Component,OnInit} from '@angular/core';
 import {DeepDiveService} from '../../services/deep-dive.service';
-import {SanitizeHtml} from "../../pipes/safe.pipe";
 
+declare var moment;
 
 @Component({
   selector: 'video-stacktop-component',
   templateUrl: './app/components/video-stacktop/video-stacktop.component.html',
   directives: [],
   providers: [DeepDiveService],
-  pipes: [SanitizeHtml]
 
 })
 
@@ -26,6 +25,9 @@ export class VideoStacktopComponent{
         }
       )
     }
+  formatDate(date) {
+    return moment(date, "YYYY-MM-Do, h:mm:ss").format("MMMM Do, YYYY h:mm:ss a");
+  }
   ngOnInit() {
 
   }
