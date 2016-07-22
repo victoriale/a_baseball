@@ -280,9 +280,10 @@ export class DeepDiveService {
     var j = Math.floor(Math.random() * 25) + 1;
     console.log(j);
       for(var i = 0; i < 3; i++){
+        var j = Math.floor(Math.random() * 18) + 1;
         datastack[i] = data[i];
         datastack[i]['lines'] = lines[i];
-        datastack[i]['image_url'] = GlobalSettings.getImageUrl(data[i]['imagePath']);
+        datastack[i]['image_url'] = GlobalSettings.getImageUrl(data[j]['imagePath']);
         console.log(GlobalSettings.getImageUrl(data[i]['imagePath']));
         //datastack[i]['image_url'] = data[i]['image_url'];
       }
