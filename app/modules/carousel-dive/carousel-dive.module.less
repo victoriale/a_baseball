@@ -9,13 +9,17 @@
     height: 420px;
     display: table;
     z-index: 2;
+    color:@white;
     >i {
       position: relative;
       text-align: center;
-      color:@white;
+    //  color:@white;
       font-size:60px;
       display: table-cell;
       vertical-align: middle;
+    }
+    &:hover {
+      color:@homeRunLoyalRed;
     }
   }
   &-left {
@@ -25,15 +29,19 @@
     height: 420px;
     display: table;
     z-index: 2;
+    color:@white;
     >i {
       position: relative;
       text-align: center;
-      color:@white;
       font-size:60px;
       display: table-cell;
       vertical-align: middle;
     }
+    &:hover {
+      color:@homeRunLoyalRed;
+    }
   }
+
 }
 .owl-item {
   height: 420px;
@@ -59,7 +67,7 @@
     width: 126px;
     height: 25px;
     border-radius: 3px;
-    background-color: @tcxBlue;
+    background-color: @homeRunLoyalRed;
     text-align: center;
     color:@white;
     line-height: 25px;
@@ -91,13 +99,13 @@
     width: 200px;
     height: 40px;
     border-radius: 3px;
-    background-color: @tcxBlue;
+    background-color: @homeRunLoyalRed;
     color:@white;
     line-height: 40px;
     text-align: center;
     margin-top: 33px;
     &:hover {
-      background-color:@homeRunLoyalRed;
+      background-color:@black;
     }
   }
 }
