@@ -41,7 +41,6 @@
 }
 @media (@desktop-m) { // up to 787px
   .stacktop {
-    min-width: 768px;
     &-image {
       width: 670px;
       height: 421px;
@@ -50,8 +49,11 @@
 }
 
 @media(@desktop-l) { // up to 1024px
-  .article-stacktop-container {
-    width:auto;
+  .stacktop {
+    min-width: 768px;
+    &-image {
+      width: 768px;
+    }
     &-desc {
       font-size:14px;
     }
