@@ -1,10 +1,11 @@
-
 import {Component,OnInit,Input} from '@angular/core';
 import {RectangleImage} from '../../components/images/rectangle-image';
 import {ImageData, RectangleImageData} from '../../components/images/image-data';
 import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 
 export interface StackTopInput{
+  url: string;
+  keyword: string;
   date: string;
   headline: string;
   provider1: string;
@@ -21,12 +22,13 @@ export interface StackTopInput{
 
 export class ArticleStacktopComponent implements OnInit{
   @Input() stackTopData: StackTopInput;
-  constructor(){}
   ngOnInit() {
     if (typeof this.stackTopData == 'undefined') {
       var sampleImage = "/app/public/placeholder_XL.png";
       this.stackTopData = {
-        date: "[Keyword]",
+        url: "/",
+        keyword: "[Keyword]",
+        date: "[Date]",
         headline: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo",
         provider1: "By [Columnist Name]",
         provider2: "Published By: [Domain.com]",
@@ -37,7 +39,7 @@ export class ArticleStacktopComponent implements OnInit{
             imageUrl: sampleImage
           }
         }
-      }//this.dataPoint ends
+      }//this.stackTopData ends
     }
   }//ngOnInit ends
 }

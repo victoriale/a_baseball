@@ -1,7 +1,9 @@
-
-<div class="stacktop">
+<a class="stacktop" href="{{stackTopData.url}}">
   <div class="stacktop-title">
-    <div class="stacktop-title-date" [innerHTML]="stackTopData.date"></div>
+    <div class="stacktop-title-date">
+      <span [innerHTML]="stackTopData.keyword"></span>
+      <span  [innerHTML]="stackTopData.date"></span>
+    </div>
     <div class="stacktop-title-headline" [innerHTML]="stackTopData.headline"></div>
   </div>
   <div class="stacktop-titleinfo">
@@ -12,4 +14,4 @@
     <rectangle-image [data]="stackTopData.imageConfig"></rectangle-image>
   </div>
   <div class="stacktop-desc" [innerHTML]="stackTopData.description"></div>
-</div>
+</a>
