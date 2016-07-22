@@ -4,10 +4,6 @@
   height:auto;
   position: relative;
   margin: 10px 0 15px;
-  .flexDisplay;
-  .flexDirection(row);
-  .flexWrap(nowrap);
-  .flexJustify(space-between);
   text-align: center;
   &-box{
     width:100%;
@@ -15,11 +11,20 @@
     padding-left: 50px;
     overflow: hidden;
   }
+  &-container{
+    .flexDisplay;
+    .flexDirection(row);
+    .flexWrap(nowrap);
+    .flexJustify(space-between);
+    width:auto;
+    height:100%;
+    position: relative;
+  }
   &-transition{
     .flexDisplay;
     .flexDirection(row);
     .flexWrap(nowrap);
-    width: 1440px;
+    height:100%;
   }
   &-left{
     width:40px;
@@ -56,13 +61,53 @@
   .disabled{
     cursor: default;
     background-color:@strokeGrey;
+    .no-select;
   }
-  &-overlay{
+  &-overlayright{
     width:50px;
     height:100%;
     background: linear-gradient(-90deg, @white 0%, @whiteGradient 100%);
     position: absolute;
+    top:0;
     right:0;
     z-index:1;
+  }
+  &-overlayleft{
+    width:50px;
+    height:100%;
+    background: linear-gradient(90deg, @white 0%, @whiteGradient 100%);
+    position: absolute;
+    top:0;
+    left:0;
+    z-index:1;
+  }
+}
+
+@media @mobile{
+  .side_scroll-transition{
+    width:640px;
+  }
+}
+
+@media @tablet{
+  .side_scroll-transition{
+    width:640px;
+  }
+}
+
+@media @desktop-m{
+  .side_scroll-transition{
+    width:640px;
+  }
+}
+
+@media @desktop-l{
+  .side_scroll-transition{
+    width:640px;
+  }
+}
+@media @desktop-xl{
+  .side_scroll-transition{
+    width:1280px;
   }
 }
