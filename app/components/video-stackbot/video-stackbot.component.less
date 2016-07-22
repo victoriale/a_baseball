@@ -14,16 +14,22 @@
       background-repeat: no-repeat;
       background-position: center;
       margin-right: 10px;
-      .playCircle {
-        position:relative;
-        height: 30px;
-        width: 30px;
-        left: ~"calc(50% - 15px)";
-        top: ~"calc(50% - 15px)";
-        background-color: rgba(30, 185, 227, 0.9);
-        color: @white;
-        padding: 8px 10px;
-        border-radius:30px;
+      .greyout {
+        position: relative;
+        width:100%;
+        height:100%;
+        background-color: rgba(0,0,0,0.3);
+        .playCircle {
+          position:relative;
+          height: 30px;
+          width: 30px;
+          left: ~"calc(50% - 15px)";
+          top: ~"calc(50% - 15px)";
+          background-color: rgba(30, 185, 227, 0.9);
+          color: @white;
+          padding: 8px 10px;
+          border-radius:30px;
+        }
       }
     }
     .overlay {
@@ -49,7 +55,7 @@
       .overlay {
         display: block;
       }
-      .playCircle {
+      .greyout {
         display:none;
       }
     }

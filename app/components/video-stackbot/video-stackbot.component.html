@@ -2,7 +2,10 @@
   <div class="video-stackbot-item" *ngFor="let item of articleData; let rowIndex = index">
     <a [routerLink]="['Syndicated-article-page', {eventID:item.id, articleType:'video'}]">
     <div class="video-stackbot-item-image" [ngStyle]="{'background-image': 'url(' + item.thumbnail + ')'}">
-      <div class="playCircle"><i class="fa fa-play"></i>
+      <div class="greyout">
+        <div class="playCircle">
+          <i class="fa fa-play"></i>
+        </div>
       </div>
       <div class="overlay">
         <div>Watch</div>
