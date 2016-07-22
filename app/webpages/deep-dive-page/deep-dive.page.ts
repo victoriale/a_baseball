@@ -188,7 +188,7 @@ export class DeepDivePage implements OnInit {
             this.tilestackData = this._deepDiveData.transformTileStack(data);
           });
     }
-  
+
     getArticleStackData(){
       this._deepDiveData.getDeepDiveService()
           .subscribe(data => {

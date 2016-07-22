@@ -85,6 +85,8 @@ export class DeepDiveService {
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
+      console.log(callURL);
+
       // transform the data to YYYY-MM-DD objects from unix
       return data;
     })
@@ -260,12 +262,21 @@ export class DeepDiveService {
   }
 
   transformTileStack(data) {
+    console.log(data);
     data = data.data;
-      for(var i = 0; i < 2; i++){
-        data[i]['image_url'] = GlobalSettings.getImageUrl(data[i]['imagePath']);
-        console.log(data[i]['image_url']);
+    var lines = ['Find Your Favorite Player', 'Find Your Favorite Team', 'Check Out The Latest With the MLB'];
+    var datastack = [];
+    var j = Math.floor(Math.random() * 25) + 1;
+    console.log(j);
+      for(var i = 0; i < 3; i++){
+        datastack[i] = data[i];
+        datastack[i]['lines'] = lines[i];
+        datastack[i]['image_url'] = GlobalSettings.getImageUrl(data[i]['imagePath']);
+        console.log(GlobalSettings.getImageUrl(data[i]['imagePath']));
+        //datastack[i]['image_url'] = data[i]['image_url'];
       }
-      return data;
+      //console.log(datastack);
+      return datastack;
   }
 
   // getCarouselData(data, callback:Function) {
