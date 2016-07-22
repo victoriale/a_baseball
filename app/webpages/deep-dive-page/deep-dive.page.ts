@@ -79,6 +79,9 @@ export class DeepDivePage implements OnInit {
     //for recommendation module
     recommendationData: any;
     boxArticleData: any;
+    //for Tile Stack Module
+    tilestackData: any;
+
     constructor(
       private _router:Router,
       private _deepDiveData: DeepDiveService,
@@ -153,6 +156,11 @@ export class DeepDivePage implements OnInit {
       this._deepDiveData.getCarouselData(this.carouselData, (carData)=>{
         this.carouselData = carData;
       })
+      // this._deepDiveData.getCarouselData()
+      //     .subscribe(data => {
+      //       console.log(data);
+      //       this.carouselData = this._deepDiveData.carouselTransformData(data);
+      //     });
     }
 
     checkSize(){
@@ -178,6 +186,12 @@ export class DeepDivePage implements OnInit {
             this.boxArticleData = this._deepDiveData.transformToBoxArticle(data);
           });
     }
+    getTileStackData(){
+      this._deepDiveData.getDeepDiveService()
+          .subscribe(data => {
+            this.tilestackData = this._deepDiveData.transformTileStack(data);
+          });
+    }
 
     getArticleStackData(){
       this._deepDiveData.getDeepDiveService()
@@ -195,6 +209,7 @@ export class DeepDivePage implements OnInit {
       this.getArticleStackData();
       this.getSideScroll();
       this.getBoxArticleData();
+      this.getTileStackData();
     }
 
     ngDoCheck(){

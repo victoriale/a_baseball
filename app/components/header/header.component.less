@@ -26,15 +26,18 @@
     .flexDirection(column);
     .flexJustify(flex-end);
     .flexAlignItems(flex-start);
-    .fa-bars, .fa-remove{
+    .fa-bars{
       margin: 22px;
     }
-    &:hover{
+    .fa-remove{
+      height: 100%;
+      width: 100%;
+      .flexDisplay;
+      .flexJustify(center);
+      .flexAlignItems(center);
       background-color: darken(@masterBrandColor, 10%);
     }
-    &-dropDown{
-      display: none;
-    }
+
     &.active, &:hover, &:focus, &:active{
       .header-hamburger-dropDown{
         display: inline-block;
