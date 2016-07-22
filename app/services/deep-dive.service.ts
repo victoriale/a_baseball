@@ -13,6 +13,7 @@ export class DeepDiveService {
   private _trendingUrl: string = GlobalSettings.getTrendingUrl();
   // private _apiToken: string = 'BApA7KEfj';
   // private _headerName: string = 'X-SNT-TOKEN';
+  
 
   constructor(
     public http: Http,
@@ -137,7 +138,7 @@ export class DeepDiveService {
       //  console.log(val);
         let carData = {
           // image_url: GlobalSettings.getImageUrl(val['imagePath']),
-      //    image_url: this._sanitizer.bypassSecurityTrustStyle("url(" + GlobalSettings.getImageUrl(val['imagePath']), + ")"),
+          image_url: this._sanitizer.bypassSecurityTrustStyle("url(" + GlobalSettings.getImageUrl(val['imagePath']), + ")"),
           title:  "<span> Today's News </span>" + val['title'],
           keyword: val['keyword'],
           teaser: val['teaser'].substr(0,300) + "..."
