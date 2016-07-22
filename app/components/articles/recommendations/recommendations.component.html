@@ -1,4 +1,4 @@
-<div class="recommendations">
+<div class="recommendations" *ngIf="!isDeepDive">
     <div class="recommendations-header">
         <i class="fa fa-heartbeat recommendations-header-icon"></i><span class="recommendations-header-text">Other Articles You Will Love</span>
     </div>
@@ -18,4 +18,23 @@
             </a>
         </span>
     </div>
+</div>
+
+<div class="deep_recs" *ngIf="isDeepDive">
+  <div style="display: flex;" *ngFor="let data of randomHeadlines">
+    <a class="deep_recs-articles" *ngFor="let item of data;"
+        [routerLink]="['Article-pages', {eventType: item.type, eventID: item.event_id}]"
+        title="{{item.displayHeadline}}">
+      <div class="deep_recs-articles-item">
+        <div class="deep_recs-articles-item-image" [style.background-image]="item.bg_image_var"></div>
+        <div class="deep_recs-articles-item-content">
+          <div class="deep_recs-articles-item-content-dateline">
+              <span class="deep_recs-articles-item-content-dateline-keyword" [innerHTML]="item.keyword"></span>
+              <span class="deep_recs-articles-item-content-dateline-date" [innerHTML]="item.new_date"></span>
+          </div>
+          <div class="deep_recs-articles-item-content-teaser" [innerHTML]="item.displayHeadline"></div>
+        </div>
+      </div>
+    </a>
+  </div>
 </div>

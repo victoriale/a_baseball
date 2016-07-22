@@ -1,0 +1,62 @@
+.stackSmall {
+    height: 75px;
+    margin-top: 15px;
+    .flexDisplay;
+    &-image {
+      width: 100px;
+      height: 75px;
+      background-color: @masterBackgroundColor;
+      margin-right: 10px;
+    }
+    &-text {
+      line-height: 1.2em;
+      text-align: left;
+      width: 180px;
+      height: 64px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      &-keyword {
+         font-weight: 800;
+         text-transform: uppercase;
+         margin-bottom: 10px;
+         .globalDefaultModFont(10px, 800, @black);
+         > span:last-child{
+           margin-left: 5px;
+           color: @bulletGrey;
+           overflow: hidden;
+           height: 50px;
+         }
+      }
+      &-subHeadline {
+         .globalDefaultFont(12px, 400);
+         p{
+           line-height: 1.2em;
+         }
+      }
+    }
+}
+@media @desktop-m {
+ .stackSmall {
+    &-text {
+      width: 200px;
+      height: 72px;
+      &-keyword {
+        font-size: 12px;
+      }
+      &-subHeadline{
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+@media @desktop-xl {
+  .stackSmall {
+    &-image {
+      display: none;
+    }
+    &-text {
+      width: 313px;
+    }
+  }
+}

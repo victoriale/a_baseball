@@ -2,7 +2,7 @@
   <head>
     <base href="/">
     <title>Home Run Loyal</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1">
     <meta name="description" content="Get the latest MLB baseball news, scores, stats, standings, and more." />
     <meta name="news_keywords" content="mlb, major league baseball, pro baseball, mlb baseball, baseball" />
     <meta name="keywords" content="mlb, major league baseball, pro baseball, mlb baseball, baseball" />
@@ -12,7 +12,10 @@
     <link href="/app/global/stylesheets/hrl-font.css" rel="stylesheet">
     <link href="/app/global/stylesheets/bootstrap.min.css" rel="stylesheet">
     <link href="/app/global/stylesheets/master.css" rel="stylesheet">
-
+    <!-- Owl carousel styles 2.1.6-->
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.6/assets/owl.carousel.min.css">
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.6/assets/owl.theme.default.css">
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.6/assets/owl.theme.green.min.css" />
     <!-- 1. Load libraries -->
     <script src="lib/core.min.js"></script>
     <script src="lib/Reflect.js"></script>
@@ -27,7 +30,10 @@
     <script type="text/javascript">var switchTo5x=true;</script>
     <script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
     <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
-    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <!-- <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script> -->
+    <script src="//code.jquery.com/jquery-2.2.3.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.6/owl.carousel.js"></script>
+
     <script src="lib/highcharts.js"></script>
     <script>
         // setup DisQus config for initial load
@@ -62,7 +68,7 @@
           "@angular/platform-browser-dynamic": "lib/platform-browser-dynamic",
           "symbol-observable"                : "lib",
           "rxjs"                             : "lib"
-        }
+        },
       });
       System.import('app/main')
         .then(null, console.error.bind(console));

@@ -32,6 +32,9 @@ export class GlobalSettings {
         if (env != "dev" && env != "qa") {
             env = "prod";
         }
+        if(env != "prod" && env != "dev" && env != "qa"){
+          env = "www";
+        }
         return env;
     }
 
@@ -49,7 +52,7 @@ export class GlobalSettings {
     }
 
     static getImageUrl(relativePath):string {
-        var relPath = relativePath != null ? this._proto + "//" + "prod" + this._imageUrl + relativePath: '/app/public/no-image.png';
+        var relPath = relativePath != null && relativePath != "" ? this._proto + "//" + "prod" + this._imageUrl + relativePath: '/app/public/no-image.png';
         return relPath;
     }
 
@@ -97,11 +100,13 @@ export class GlobalSettings {
       var partnerPage = /myhomerunzone/.test(hostname);
       // var partnerPage = /localhost/.test(hostname);
       var name = window.location.pathname.split('/')[1];
+      //console.log("GlobalSettings:", 'partnerPage =>', partnerPage, 'name =>', name);
 
-      if(partnerPage && name == ''){
+      //PLEASE REVISIT and change
+      if(partnerPage && (name == '' || name == 'deep-dive')){
         hide = true;
         isHome = true;
-      }else if(!partnerPage && name == ''){
+      }else if(!partnerPage && (name == '' || name == 'deep-dive')){
         hide = false;
         isHome = true;
       }else{

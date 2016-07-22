@@ -1,108 +1,131 @@
 .placeholderImg{
-    width:214px;
-    height:40px;
+  width: 184px;
+  height: 35px;
 }
-
 .header{
   height: auto;
-  width:100%;
+  min-width: 640px;
   &-top{
-    height: 60px;
-    background-color: @textEmphasisGrey;
-    .flexDisplay;
-  }//header-top ends
-  &-bottom{
+    height: 65px;
     background-color: @masterBrandColor;
-    height: 35px;
     .flexDisplay;
-  }//header-bottom ends
+    .flexJustify(space-between);
+  }//header-top ends
   &-left{
-    height: 100%;
-    padding-left: 80px;
+    max-width: 320px;
+    .flexDisplay;
+    .flexJustify(space-between);
+  }
+  &-hamburger{
+    width: 65px;
+    height: 65px;
+    cursor: pointer;
+    position: relative;
+    .globalDefaultModFont(20px, 400, @highlightGrey);
+    .flexDisplay;
+    .flexDirection(column);
+    .flexJustify(flex-end);
+    .flexAlignItems(flex-start);
+    .fa-bars, .fa-remove{
+      margin: 22px;
+    }
+    &:hover{
+      background-color: darken(@masterBrandColor, 10%);
+    }
+    &-dropDown{
+      display: none;
+    }
+    &.active, &:hover, &:focus, &:active{
+      .header-hamburger-dropDown{
+        display: inline-block;
+        visibility: visible;
+      }
+    }
+  }//header-hamburger ends
+  &-logo{
+    position: absolute;
+    left: ~"calc(50% - 92px)";
+    top: 15px;
     .flexDisplay;
     .flexAlignItems(center);
-    .flexJustify(flex-start);
-    &-icon{
-      margin: 0 50px;
+    img{
+      width: 184px;
+      height: 35px;
     }
-  }//header-left ends
+  }
   &-right{
-    height: 100%;
-    width: 50%;
     .flexDisplay;
-    .flexJustify(flex-end);
-  }//header-right ends
+  }
   // modify search style begins
   &-search{
-    width: 50%;
-    .header-search{
-      width: 407px;
-      height: 100%;
-    }
-    .fa-caret-left{
-      color: @activeBlue;
-      font-size: 30px;
-      position: absolute;
-      right: -11px;
-      top: 17px;
-      z-index: 2;
-    }
-    .search-large{
-      box-shadow: none;
-      border-radius: 0;
-      height: 100%;
-      padding-right: 0;
-      width: auto;
-    }
-
-    .search-large .search-input.autocomplete{
-      background: @white;
-    }
-    hr{
-      width: 80%;
-      border-top: 1px solid @highlightBlue;
-      position: absolute;
-      z-index: 2;
-      top: 42%;
-      left: 27px;
-      display: block;
-    }
-    .search-large .search-input{
-      border: none;
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-      height: 100%;
-      width: 100%;
-      padding: 0px 27px;
-      transition: none;
-      -webkit-transition: none;
-      border: none;
-      box-shadow: none;
-      &:focus{
-        box-shadow: 0 3px 7px 0 transparent;
-        border: 1px solid transparent;
+    &-searchBox{
+      background-color: darken(@masterBrandColor, 10%);
+      display: none;
+      height: 60px;
+      width: 320px;
+      z-index: 99;
+      .search-large{
+        box-shadow: none;
+        height: 35px;
+        padding-right: 0;
+        width: 300px;
+        margin: 12px auto auto 10px;
+        .search-input-container{
+          width: 250px;
+          font-size: 14px;
+        }
+        .search-input{
+          border-top-left-radius: 18px;
+          border-bottom-left-radius: 18px;
+          &:focus{
+            border: 1px solid transparent;
+            box-shadow: 0 3px 7px 0 transparent;
+          }
+        }
+        .search-button{
+          font-size: 20px;
+          width: 52px;
+          border-top-right-radius: 18px;
+          border-bottom-right-radius: 18px;
+          background-color: @highlightGrey;
+          color: @masterBrandColor;
+        }
+        .search-input.autocomplete{
+          background-color: @highlightGrey;
+        }
       }
     }
-
-    .search-large .search-input-container{
-      right: 63px;
-    }
-
-    .search-input.main {
-      &.search-empty {
-        font-style: italic;
+    .globalDefaultModFont(20px, 400, @highlightGrey);
+    .flexDisplay;
+    .flexDirection(column);
+    .flexAlignItems(flex-end);
+    height: 125px;
+    &.active, &:hover, &:focus, &:active{
+      .header-search-searchBox{
+        display: inline-block;
       }
-      &:focus{
-        font-style: normal;
+      .header-search-searchBtn{
+        .header-search-searchBox{
+          display: block;
+        }
+        background-color: darken(@masterBrandColor, 10%);
       }
     }
-    .search-large .search-button{
-      width: 63px;
-      background-color: @activeBlue;
-      border: none;
-      font-size: 30px;
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
+    &-searchBtn{
+      height: 65px;
+      width: 65px;
+      position: relative;
+      cursor: pointer;
+      .flexDisplay;
+      .flexDirection(column);
+      .flexJustify(center);
+      .flexAlignItems(center);
+      &:hover{
+        .header-search-searchBox{
+          display: block;
+        }
+        background-color: darken(@masterBrandColor, 10%);
+      }
     }
   }//header-search ends
   &-share{
@@ -110,53 +133,41 @@
     span:first-child{
         display: none;
     }
-    background-color: @altShareGreen;
-    height: 60px;
-    width: 64px;
-    text-align: center;
-    .globalDefaultModFont(2.58em, 400, @white);
-    .flexDisplay;
-    .flexDirection(column);
-    .flexJustify(center)
-  }//header-share ends
-  &-mlb{
     background-color: @masterBrandColor;
-    width: 120px;
-    height: 60px;
+    height: 65px;
+    width: 65px;
     text-align: center;
-    .globalDefaultModFont(1.5em, 800, @white);
+    .globalDefaultModFont(20px, 400, @highlightGrey);
     .flexDisplay;
     .flexDirection(column);
     .flexJustify(center);
-  }//header-mlb ends
-  &-tabs{
-    .flexDisplay;
-    padding-left: 396px;
-    color: @white;
-    &-tab{
-      width: 120px;
-      height: 100%;
-      .flexDisplay;
-      .flexJustify(center);
-      .flexAlignItems(center);
-      .globalDefaultModFont(1.17em, 400, @white);
-      &:hover, &:active {
-        text-decoration: none;
-        .globalDefaultModFont(1.17em, 800, @white);
-      }
+    &:hover{
+      background-color: darken(@masterBrandColor, 10%);
     }
-    .router-link-active{
-      .globalDefaultModFont(1.17em, 800, @white);
-    }
-  }//header-tabs ends
+  }//header-share ends
 }
 .st_sharethis_large{
   span:first-child{
     span:first-child{
-      height: 60px;
-      width: 60px;
+      height: 65px;
+      width: 65px;
       background-repeat: no-repeat;
       background-size: cover;
     }
   }
+}
+@media @desktop-l{
+  .header{
+    &-search{
+      height: 65px;
+      .flexJustify(center);
+      &-searchBtn{
+        display: none;
+      }
+      &-searchBox{
+        display: block;
+        background-color: @masterBrandColor;
+      }
+    }//header-search ends
+  }//header ends
 }

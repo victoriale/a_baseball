@@ -19,5 +19,6 @@ bootstrap(AppDomain, [
     GlobalFunctions,
     MLBGlobalFunctions,
     SearchService,
-    provide(DraftHistoryService, {useClass: MLBDraftHistoryService})
+    provide(DraftHistoryService, {useClass: MLBDraftHistoryService}),
+    provide(Window, {useValue: window})
 ]).catch(err => console.error(err));

@@ -19,7 +19,7 @@ export class Carousel implements OnInit, OnChanges {
   public carouselDataPoint = new EventEmitter();
   public scrollRight = new EventEmitter();
   public scrollLeft = new EventEmitter();
-  
+
   public schedule:boolean;
   public counter: number = 0;
   public max: number = 0;
@@ -65,15 +65,17 @@ export class Carousel implements OnInit, OnChanges {
     }
   }
 
-  ngOnChanges(){ 
+  ngOnChanges(){
     if(typeof this.indexInput == 'undefined' || this.indexInput < 0){
       this.counter = 0;
     }else{
       this.counter = this.indexInput;
     }
-    this.max = this.carouselData.length;    
+    this.max = this.carouselData.length;
     this.changeMain(this.counter);
+    
   }
+
 
   ngOnInit() {
     if(typeof this.carouselData == 'undefined' || this.carouselData.length == 0){

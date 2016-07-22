@@ -66,3 +66,139 @@
   width: 180px;
   height: 210px;
 }
+
+.deep_recs{
+  width: 100%;
+  margin-left: 25px;
+  &-articles{
+    margin-bottom: 15px;
+    &-item{
+      margin-right:15px;
+      &-image{
+        //this is the minimum value
+        width: 180px;
+        height: 120px;
+        background-color: grey;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: top center;
+      }
+      &-content{
+        margin-top: 10px;
+        overflow:hidden;
+        text-overflow: ellipsis;
+        width:160px;
+        height: 52px;
+        &-dateline{
+          &-keyword{
+            margin-right: 3px;
+            font-weight: 800;
+          }
+          &-date{
+            color: @bulletGrey;
+          }
+        }
+        &-teaser{
+          margin-top: 5px;
+          height: 45px;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
+
+//Media Queries for .deep_recs elements;
+@media @mobile{
+  .deep_recs-articles-item{
+    &-image{
+      width: 180px;
+      height: 120px;
+    }
+    &-content{
+      width: 157px;
+      height: 52px;
+      font-size: 16px;
+      font-weight: 800;
+      margin-top: 0px;
+      &-dateline{
+        display: none;
+        &-teaser{
+          font-weight: 800;
+        }
+      }
+    }
+  }
+}
+@media @tablet{
+  .deep-dive-container .deep_recs-articles-item{
+    &-image{
+      width: 180px;
+      height: 120px;
+    }
+    &-content{
+      width: 157px;
+      height: 52px;
+      font-size: 16px;
+      font-weight: 800;
+      margin-top: 0px;
+      &-dateline{
+        display: none;
+      }
+    }
+  }
+}
+@media @desktop-m {
+  .deep-dive-container .deep_recs{
+    &-articles-item{
+      &-image{
+        width: 215px;
+        height: 136px;
+      }
+      &-content{
+        width: 200px;
+        height: 62px;
+        font-size: 11px;
+        font-weight: 800;
+        margin-top: 10px;
+        &-dateline{
+          display: block;
+        }
+      }
+    }
+  }
+}
+@media @desktop-l{
+  .deep-dive-container .deep_recs-articles-item{
+    &-image{
+      width: 215px;
+      height: 136px;
+    }
+    &-content{
+      width: 200px;
+      height: 62px;
+      font-size: 11px;
+      font-weight: 800;
+      &-dateline{
+        display: block;
+      }
+    }
+  }
+}
+@media @desktop-xl{
+  .deep-dive-container .deep_recs-articles-item{
+    &-image{
+      width: 348px;
+      height: 220px;
+    }
+    &-content{
+      width: 316px;
+      height: 56px;
+      font-size: 11px;
+      font-weight: 800;
+      &-dateline{
+        display: block;
+      }
+    }
+  }
+}

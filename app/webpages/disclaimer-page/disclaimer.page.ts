@@ -10,16 +10,18 @@ import {TitleInputData} from "../../components/title/title.component";
 import {GlobalSettings} from '../../global/global-settings';
 import {GlobalFunctions} from '../../global/global-functions';
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
+import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
 @Component({
     selector: 'Disclaimer-page',
     templateUrl: './app/webpages/disclaimer-page/disclaimer.page.html',
 
-    directives: [SidekickWrapper, BackTabComponent, TitleComponent, WidgetModule, ROUTER_DIRECTIVES],
+    directives: [SidekickWrapper, BackTabComponent, TitleComponent, WidgetModule, ROUTER_DIRECTIVES, ResponsiveWidget],
     providers: [Title],
 })
 
 export class DisclaimerPage {
+    public widgetPlace: string = "widgetForPage";
     public pageName: string;
     public pageLinkName: string;
     public contactUsLinkName: string;

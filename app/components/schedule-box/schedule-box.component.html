@@ -1,0 +1,29 @@
+<div class="schedule_box"><!--become a component <schedule-box>-->
+  <div class="schedule_box-date" [innerHTML]="boxData.date">
+  </div>
+  <div class="schedule_box-versus">
+    <!-- away data below -->
+    <div class="schedule_box-team">
+      <div class="schedule_box-image">
+        <circle-image [data]="boxData.awayImageConfig"></circle-image>
+      </div>
+      <span class="schedule_box-text">
+        {{boxData.awayTeamName}}
+      </span>
+    </div>
+    <!-- home data below -->
+    <div class="schedule_box-team">
+      <div class="schedule_box-image">
+        <circle-image [data]="boxData.homeImageConfig"></circle-image>
+      </div>
+      <span class="schedule_box-text">
+        {{boxData.homeTeamName}}
+      </span>
+    </div>
+    <a [routerLink]="boxData.reportLink">
+      <div class="schedule_box-linkbox">
+        {{boxData.reportDisplay}}
+      </div>
+    </a>
+  </div>
+</div><!--</schedule-box>-->

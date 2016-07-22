@@ -4,7 +4,7 @@ import {RouteParams, RouteConfig, RouterOutlet, ROUTER_DIRECTIVES} from '@angula
 import {FooterComponent} from "../components/footer/footer.component";
 import {HeaderComponent} from "../components/header/header.component";
 
-import {HomePage} from "../webpages/home-page/home-page.page";
+import {PickTeamPage} from "../webpages/home-page/home-page.page";
 import {AboutUsPage} from "../webpages/about-us-page/about-us.page";
 import {DirectoryPage} from "../webpages/directory-page/directory.page";
 import {ContactUsPage} from "../webpages/contactus-page/contactus.page";
@@ -27,6 +27,7 @@ import {ArticlePages} from "../webpages/article-pages/article-pages.page";
 import {ListOfListsPage} from "../webpages/list-of-lists-page/list-of-lists.page";
 import {TransactionsPage} from "../webpages/transactions-page/transactions.page";
 import {MVPListPage} from "../webpages/mvp-list-page/mvp-list.page";
+import {SyndicatedArticlePage} from "../webpages/syndicated-article-page/syndicated-article-page.page";
 
 import {ArticleDataService} from "../global/global-article-page-service";
 import {HeadlineDataService} from "../global/global-ai-headline-module-service";
@@ -34,12 +35,14 @@ import {HeadlineDataService} from "../global/global-ai-headline-module-service";
 import {ModulePage} from "../webpages/module-page/module.page";
 import {ImagesTestPage} from "../webpages/images-test-page/images-test.page";
 import {DesignPage} from "../webpages/design-page/design.page";
-import {ComponentPage} from "../webpages/component-page/component.page";
 
 import {PartnerHeader} from "../global/global-service";
 import {SanitizeHtml} from "../pipes/safe.pipe";
 import {SanitizeStyle} from "../pipes/safe.pipe";
 import {GlobalSettings} from "../global/global-settings";
+
+//FOR DEEP DIVE
+import {DeepDivePage} from "../webpages/deep-dive-page/deep-dive.page";
 
 @Component({
     selector: 'my-house',
@@ -61,10 +64,15 @@ import {GlobalSettings} from "../global/global-settings";
 @RouteConfig([
     //Home Page
     {
-        path: '/',
-        name: 'Home-page',
-        component: HomePage,
-        useAsDefault: true
+      path: '/',
+      name: 'Home-page',
+      component: DeepDivePage,
+      useAsDefault: true
+    },
+    {
+        path: '/pick-a-team',
+        name: 'Pick-team-page',
+        component: PickTeamPage,
     },
     //Profile Pages
     {
@@ -205,6 +213,11 @@ import {GlobalSettings} from "../global/global-settings";
         component: ArticlePages
     },
     {
+        path: '/news/:articleType/:eventID',
+        name: 'Syndicated-article-page',
+        component: SyndicatedArticlePage
+	  },
+    {
         path: '/list-of-lists/:scope/:type/:id/:limit/:pageNum',
         name: 'List-of-lists-page-scoped',
         component: ListOfListsPage
@@ -239,11 +252,6 @@ import {GlobalSettings} from "../global/global-settings";
         path: '/modules/:teamID',
         name: 'Module-page',
         component: ModulePage
-    },
-    {
-        path: '/components',
-        name: 'Component-page',
-        component: ComponentPage,
     },
     {
         path: '/design/:teamId',

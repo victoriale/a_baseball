@@ -1,6 +1,6 @@
 <!--ngFor loop here and add background color class within transactions-li-container-->
   <div *ngFor="let transactions of transactionsItemData; let i = index" class="transactions-li-container">
-    <div class="dataBox container-fluid" *ngFor="let data of transactions.dataPoints" [ngClass]="data.style">
+    <div class="dataBox container-fluid" *ngFor="let data of transactions.dataPoints; let rowIndex = index" [ngClass]="data.style">
         <div class="dataBox-text-left" [ngClass]="{'data-hover': data.url != ''}" [innerHTML]="data.data"></div>
         <div class="transactions-li-timeline">
           <div class="transactions-li-timeline-line" [ngClass]="{'transactions-li-timeline-line-first': i == 0}"></div>
@@ -10,5 +10,6 @@
         <div class="dataBox-text-right">
           <complex-inner-html [textItems]="data.value"></complex-inner-html>
         </div>
+        <responsive-widget *ngIf="!((i + 1) % 10)" embedPlace="widgetForPage"></responsive-widget>
     </div>
   </div>

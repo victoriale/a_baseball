@@ -1,6 +1,5 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {Title} from '@angular/platform-browser';
-
 import {GlobalSettings} from "../../global/global-settings";
 import {SliderButton} from "../../components/buttons/slider/slider.button";
 import {CircleImage} from '../../components/images/circle-image';
@@ -30,7 +29,7 @@ export interface newsCarouselData {
     providers: [LandingPageService, Title],
 })
 
-export class HomePage implements OnInit {
+export class PickTeamPage implements OnInit {
     public teamData: Array<homePageData>;
     public listData: Array<newsCarouselData>;
     public displayData: Object;
@@ -58,8 +57,11 @@ export class HomePage implements OnInit {
          placeholderText: "Search for a player or team...",
          hasSuggestions: true
      };
-
-     private isHomeRunZone: boolean = false;
+    private isHomeRunZone: boolean = false;
+    public gridDivCol: string;
+    public gridLMain: string;
+    public gridFeaturesCol: string;
+    public width: number;
     constructor(private _router: Router,
                 private _landingPageService: LandingPageService,
                 private _title: Title) {
@@ -71,6 +73,18 @@ export class HomePage implements OnInit {
         var partnerHome = GlobalSettings.getHomeInfo().isHome && GlobalSettings.getHomeInfo().isPartner;
         this.isHomeRunZone = partnerHome;
       });
+    }
+    onResize(event) {
+      this.width = event.target.innerWidth;
+      if(this.width < 641){
+        this.gridDivCol = "col-xs-6";
+        this.gridLMain = "col-xs-12";
+        this.gridFeaturesCol = "col-xs-12";
+      } else {
+        this.gridDivCol = "col-lg-4";
+        this.gridLMain = "col-xs-10";
+        this.gridFeaturesCol = "col-xs-12";
+      }
     }
     getListData(){
       this.listData = [
@@ -132,11 +146,11 @@ export class HomePage implements OnInit {
     getData(){
       this._landingPageService.getLandingPageService()
         .subscribe(data => {
-          // console.log(data);
           this.mlbTeams = data.league;
-          // console.log(this.mlbTeams);
         })
       var sampleImage = "./app/public/placeholder-location.jpg";
     }
-    ngOnInit(){}
+    ngOnInit(){
+      this.onResize(event);
+    }
 }

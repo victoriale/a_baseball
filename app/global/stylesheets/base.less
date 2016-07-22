@@ -9,6 +9,14 @@ ToC
   @Module Box Shadow
 */
 
+//Media Queries for responsive
+@mobile:      ~"only screen and (max-width: 640px)";
+@tablet:      ~"only screen and (min-width: 641px)";
+@desktop-m:   ~"only screen and (min-width: 787px)";
+@desktop-l:   ~"only screen and (min-width: 1024px)";
+@desktop-xl:  ~"only screen and (min-width: 1441px)";
+// @desktop-xl:  ~"only screen and (min-width: 1500px)";
+
 /***********/
 /* @Colors */
 /***********/
@@ -22,6 +30,7 @@ ToC
 @homeRunLoyalRed: #bc2027;
 @homeRunLoyalLightRed: #fff7f7;
 @sntMediaBlue: #009dfb;
+@tcxBlue: #00b9e3;
 @investKitBlue: #3098ff;
 @lifestylePurple: #65398e;
 @disasterPurple: #902d8e;
@@ -56,6 +65,7 @@ ToC
 // Grey Color Palette; light to dark
 // We should only use these 6 types of grey
 // if there is ever a variation of one of those,please round to the closest color
+@subHeaderTabGrey: #464646;
 @backgroundGrey: #f2f2f2;
 @highlightGrey: #e1e1e1;
 @strokeGrey: #ccc;
@@ -169,7 +179,7 @@ body {
   overflow: auto;
   margin: 0 !important;
   background-color: @highlightGrey !important;
-  min-width: 1044px;
+  min-width: 640px;
 }
 
 div {
@@ -196,7 +206,7 @@ a {
   }
   &:hover{
     text-decoration: none;
-    color: inherit;;
+    color: inherit;
   }
 }
 img{
@@ -455,7 +465,7 @@ code.less-var-name-light {
   width      : 25%;
   display    : block;
   position   : absolute;
-  height     : calc(1em * 1.2);
+  height     : ~"calc(1em * 1.2)";
   background : linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 75%);
 }
 @supports (-webkit-line-clamp: 1)
@@ -468,27 +478,27 @@ code.less-var-name-light {
 .line-clamp-1
 {
   -webkit-line-clamp : 1;
-  height             : calc(1em * 1.2 * 1);
+  height             : ~"calc(1em * 1.2 * 1)";
 }
 .line-clamp-2
 {
   -webkit-line-clamp : 2;
-  height             : calc(1em * 1.2 * 2);
+  height             : ~"calc(1em * 1.2 * 2)";
 }
 .line-clamp-3
 {
   -webkit-line-clamp : 3;
-  height             : calc(1em * 1.2 * 3);
+  height             : ~"calc(1em * 1.2 * 3)";
 }
 .line-clamp-4
 {
   -webkit-line-clamp : 4;
-  height             : calc(1em * 1.2 * 4);
+  height             : ~"calc(1em * 1.2 * 4)";
 }
 .line-clamp-5
 {
   -webkit-line-clamp : 5;
-  height             : calc(1em * 1.2 * 5);
+  height             : ~"calc(1em * 1.2 * 5)";
 }
 /* End required CSS. line-clamp */
 

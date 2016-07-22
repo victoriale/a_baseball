@@ -1,0 +1,87 @@
+.deep-dive{
+  height: auto;
+  min-width: 640px;
+  background-color: @white;
+  &-container1{
+    height: 420px;
+    background-color: @bulletGrey;
+  }
+  &-container2{
+    background-color: @white;
+    min-height: 800px;
+    height: auto;
+    width: 640px;
+  }
+  &-container2a{
+    width: inherit;
+    .flexDisplay;
+    .flexDirection(column);
+    .flexAlignItems(center);
+  }
+  &-module{
+    margin-bottom: 30px;
+    width: inherit;
+  }
+  &-adSmall{
+    display: block;
+    margin: 30px auto;
+    &-last{
+      margin-bottom: 0;
+    }
+  }//adSmall ends
+  &-adMed{
+    display: none;
+  }
+  &-container2b{
+    display: none;
+    background-color: @masterBrandColor;
+    margin: 20px auto 0 20px;
+  }
+}
+@media @desktop-m{
+  .deep-dive{
+    min-width: 768px;
+    &-container2{
+      width: 768px;
+    }
+    &-adSmall{
+      display: none;
+    }
+    &-adMed{
+      display: block;
+    }
+  }
+}
+@media @desktop-l{
+  .deep-dive{
+    min-width: 1024px;
+    &-adMed{
+      display: none;
+    }
+    &-container2{
+      min-width: 1024px;
+      .flexDisplay;
+    }
+    &-container2a{
+      width: 710px;
+    }
+    &-container2b{
+      display: block;
+      position: absolute;
+      width: 300px;
+      height: 600px;
+    }
+  }
+}
+
+@media @desktop-xl{
+  .deep-dive{
+    min-width: 1044px;
+    &-container2{
+      min-width: 1044px;
+    }
+    &-container2a{
+      width: 1120px;
+    }
+  }
+}

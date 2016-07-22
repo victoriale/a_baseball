@@ -1,0 +1,46 @@
+.tile-stack {
+  .flexDisplay;
+  .flexJustify(center);
+  &-item {
+    width:204px;
+    height:141px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: linear-gradient(180deg, rgba(40, 40, 40, 0.5) 0%, rgba(24, 24, 24, 0.65) 100%), url('http://bytesizemoments.com/wp-content/uploads/2014/04/placeholder3.png');
+    border-right: 1px solid;
+    &-text {
+      font-size: 20px;
+      font-weight: 400;
+      text-align: center;
+      color: @white;
+      position: relative;
+      top:50%;
+      transform: translate(0,-50%);
+      margin: 0px 10px 0px 10px;
+    }
+  }
+}
+&:last-child {
+  //border-right: none;
+}
+
+@media (min-width: 768px) {
+  .tile-stack-item {
+    width:223px
+  }
+}
+@media (min-width: 1300px) {
+  .tile-stack-item {
+    width:362px;
+    height:220px;
+
+  }
+}
+@media (min-width: 1400px) {
+  .tile-stack-item {
+    width:332px;
+    height:210px;
+
+  }
+}

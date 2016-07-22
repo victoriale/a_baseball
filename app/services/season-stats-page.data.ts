@@ -139,7 +139,8 @@ export class MLBSeasonStatsTabData implements TableTabData<TeamSeasonStatsData> 
     var teamRoute = MLBGlobalFunctions.formatTeamRoute(playerData.teamName, playerData.teamId);
     var teamRouteText = {
       route: teamRoute,
-      text: playerData.teamName
+      text: playerData.teamName,
+      class: 'text-heavy'
     }
 
     return SliderCarousel.convertToCarouselItemType1(index, {
@@ -162,7 +163,7 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
   rows: Array<TeamSeasonStatsData>;
   selectedKey: string = "";
   isPitcher: boolean;
-  
+
   constructor(rows: Array<TeamSeasonStatsData>, isPitcher: boolean){
     this.rows = rows;
     if ( this.rows === undefined || this.rows === null ) {
@@ -279,7 +280,7 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
         key: "slg"
       }]
     };
-  }  
+  }
 
   setSelectedKey(key: string) {
     this.selectedKey = key;
@@ -301,7 +302,7 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
   isRowSelected(item:TeamSeasonStatsData, rowIndex:number): boolean {
     return null;
   }
-  
+
   getCellData(item:TeamSeasonStatsData, column:TableColumn):CellData {
     var display = "";
     var sort = null;
@@ -316,13 +317,13 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
 
       case "team":
         if ( isTotalColumn ) {
-          display = (item['sectionStat'] == "Average" ? "Total Average" : "Total").toUpperCase() + ":";       
+          display = (item['sectionStat'] == "Average" ? "Total Average" : "Total").toUpperCase() + ":";
         }
         else {
           display = item.teamInfo.teamName;
-        }        
+          link = MLBGlobalFunctions.formatTeamRoute(item.teamInfo.teamName,item.teamInfo.teamId);
+        }
         sort = item.teamInfo.teamName;
-        link = MLBGlobalFunctions.formatTeamRoute(item.teamInfo.teamName,item.teamInfo.teamId);
         break;
 
       case "wl":
@@ -413,107 +414,4 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
     }
     return new CellData(display, sort, link);
   }
-
-  // getSortValueAt(item:TeamSeasonStatsData, column:TableColumn):any {
-  //   var sort = null;
-  //   switch (column.key) {
-  //     case "year":
-  //       sort = item.seasonId;
-  //       break;
-
-  //     case "team":
-  //       sort = item.teamInfo.teamName;
-  //       break;
-
-  //     case "wl":
-  //       var wins = item.pitchWins + "";
-  //       var losses = item.pitchLosses + "";
-  //       sort = ('00000' + wins).substr(wins.length) + "/" + ('00000' + losses).substr(losses.length); //pad with zeros
-  //       break;
-
-  //     case "ip":
-  //       sort = item.pitchInningsPitched;
-  //       break;
-
-  //     case "so":
-  //       sort = item.pitchStrikeouts;
-  //       break;
-
-  //     case "era":
-  //       sort = item.pitchEra;
-  //       break;
-
-  //     case "ph":
-  //       sort = item.pitchHits;
-  //       break;
-
-  //     case "er":
-  //       sort = item.pitchEarnedRuns;
-  //       break;
-
-  //     case "pbb":
-  //       sort = item.pitchBasesOnBalls;
-  //       break;
-
-  //     case "whip":
-  //       sort = item.pitchWhip;
-  //       break;
-
-  //     case "r":
-  //       sort = item.batHomeRuns;
-  //     break;
-
-  //     case "h":
-  //       sort = item.batHits;
-  //       break;
-
-  //     case "hr":
-  //       sort = item.batHomeRuns;
-  //       break;
-
-  //     case "rbi":
-  //       sort = item.batRbi;
-  //       break;
-
-  //     case "bb":
-  //       sort = item.batBasesOnBalls;
-  //       break;
-
-  //     case "avg":
-  //       sort = item.batAverage;
-  //       break;
-
-  //     case "obp":
-  //       sort = item.batOnBasePercentage;
-
-  //       break;
-
-  //     case "slg":
-  //       sort = item.batSluggingPercentage;
-
-  //       break;
-  //   }
-  //   return sort;
-  // }
-
-  // getImageConfigAt(item:TeamSeasonStatsData, column:TableColumn):CircleImageData {
-  //     return undefined;
-  // }
-
-  // hasImageConfigAt(column:TableColumn):boolean {
-  //   return undefined;
-  // }
-
-  // getRouterLinkAt(item:TeamSeasonStatsData, column:TableColumn):Array<any> {
-  //   if ( column.key === "team") {
-  //     return MLBGlobalFunctions.formatTeamRoute(item.teamInfo.teamName,item.teamInfo.teamId);
-  //   }
-  //   else {
-  //     return undefined;
-  //   }
-  // }
-
-  // hasRouterLinkAt(column:TableColumn):boolean {
-  //   return column.key === "team";
-  // }
 }

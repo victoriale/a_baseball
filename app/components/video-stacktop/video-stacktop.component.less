@@ -1,0 +1,90 @@
+.video-stacktop {
+  width: 640px;
+  display: flex;
+  margin-top: 15px;//divides the two 'video-stacktop-components and the article module above
+
+  &-video {
+    background-color: @strokeGrey;
+    width: 300px;
+    height: 193px;
+    margin-right: 15px;
+    .playCircle {
+      font-size:30px;
+      position:relative;
+      height: 70px;
+      width: 70px;
+      left: ~"calc(50% - 35px)";
+      top: ~"calc(50% - 35px)";
+      background-color: @investKitBlueImageHover;
+      color: @white;
+      padding: 18px 21px;
+      border-radius:70px;
+    }
+  }
+  &-right {
+
+    width: 294px;
+    height: auto;
+    margin-right:15px;
+    &-title {
+      font-family: Lato;
+      color: #000000;
+      .video-title-top {
+        font-size:10px;
+        display: block;
+        span {
+          color:@strokeGrey;
+          font-weight: 900;
+        }
+
+      }
+      .video-title-mid {
+        font-size: 22px;
+        display: block;
+        margin: 5px 0px 8px 0px;
+
+      }
+      .video-title-bottom {
+        font-size:11px;
+        display: block;
+        color:@strokeGrey;
+        margin-bottom: 5px;
+
+      }
+    }
+    &-text {
+      width: 100%;
+      font-size:12px;
+      height: auto;
+      line-height: 1.5
+    }
+
+
+  }
+}
+@media (min-width: 768px) {
+  .video-stacktop {
+    width: 768px;
+    &-right {
+      width: 352px;
+    }
+  }
+
+}
+@media (min-width: 1300px) {
+  .video-stacktop {
+    width: auto;
+    margin-top: 15px;
+    &-video {
+      width: 320px;
+      height: 206px;
+      margin-left: 15px;
+    }
+    &-right {
+    //  width: 364px;
+      width: 43%;
+      height: 190px;
+    }
+  }
+
+}

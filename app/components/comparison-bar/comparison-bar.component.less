@@ -1,7 +1,6 @@
 .comparison-bar{
   &-container{
-    border-top: 1px solid @highlightGrey;
-    padding: 10px 20px;
+    padding: 10px 10px;
 
     &.background-even {
       background-color: @backgroundGrey;
@@ -42,6 +41,7 @@
     }
 
     &-label{
+      z-index: 5;
       top: 16px;
       font-size: 14px;
       font-weight: 400;
@@ -57,6 +57,7 @@
         .flexDisplay;
         .flexDirection(row);
         &.active{
+          z-index:6;
           .fa-info-circle{
             color: @black;
           }
@@ -66,6 +67,7 @@
   }
 }
 .infobox{
+  z-index: 6;
   &-values{
     .flexDisplay;
     .flexDirection(column);
