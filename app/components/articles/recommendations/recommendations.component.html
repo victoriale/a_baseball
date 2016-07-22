@@ -26,7 +26,11 @@
         [routerLink]="['Article-pages', {eventType: item.type, eventID: item.event_id}]"
         title="{{item.displayHeadline}}">
       <div class="deep_recs-articles-item">
-        <div class="deep_recs-articles-item-image" [style.background-image]="item.bg_image_var"></div>
+        <div class="deep_recs-articles-item-image" [style.background-image]="item.bg_image_var">
+          <div class="deep_recs-articles-item-image-highlight">
+            <p> View Article </p>
+          </div>
+        </div>
         <div class="deep_recs-articles-item-content">
           <div class="deep_recs-articles-item-content-dateline">
               <span class="deep_recs-articles-item-content-dateline-keyword" [innerHTML]="item.keyword"></span>

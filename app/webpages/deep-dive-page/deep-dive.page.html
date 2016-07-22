@@ -11,7 +11,7 @@
         <article-stack-module [stackTop]="stackTop" [stackRow]="stackRow"></article-stack-module>
       </div>
 
-      <tile-stack-module></tile-stack-module>
+      <tile-stack-module *ngIf = "tilestackData" [tilestackData] = "tilestackData"></tile-stack-module>
       <!-- adSmall HERE -->
       <div class="deep-dive-adSmall">
         <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
@@ -57,6 +57,7 @@
         <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
       </div>
     </div>
+
     <div class="deep-dive-container2b">
       <!-- TODO -->
       <!-- <div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div> -->

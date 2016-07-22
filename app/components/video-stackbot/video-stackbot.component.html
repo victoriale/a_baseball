@@ -1,34 +1,14 @@
 <div class="video-stackbot">
-  <div class="video-stackbot-item">
-    <div class="video-stackbot-item-image"></div>
-    <div class="video-stackbot-item-text">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-
-
-    </div>
-  </div>
-  <div class="video-stackbot-item">
-    <div class="video-stackbot-item-image"></div>
-    <div class="video-stackbot-item-text">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-
-
-    </div>
-  </div>
-  <div class="video-stackbot-item">
-    <div class="video-stackbot-item-image"></div>
-    <div class="video-stackbot-item-text">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-
-
-    </div>
-  </div>
-  <div class="video-stackbot-item">
-    <div class="video-stackbot-item-image"></div>
-    <div class="video-stackbot-item-text">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-
-
+  <div class="video-stackbot-item" *ngFor="let item of articleData; let rowIndex = index">
+    <a [routerLink]="['Syndicated-article-page', {eventID:item.id, articleType:'video'}]">
+    <div class="video-stackbot-item-image"><div class="playCircle"><i class="fa fa-play"></i></div></div>
+    </a>
+    <div class="video-stackbot-item-right">
+      <div class="video-title-top"><span>{{formatDate(item.pubDate)}}</span></div>
+      <a [routerLink]="['Syndicated-article-page', {eventID:item.id, articleType:'video'}]">
+      <div class="video-stackbot-item-text" [innerHTML]="item.title">
+      </div>
+      </a>
     </div>
   </div>
 </div>

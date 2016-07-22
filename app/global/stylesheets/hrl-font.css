@@ -401,3 +401,9 @@
 .fa-bars:before {
   content: "\e044";
 }
+.fa-play:before {
+  content: "\e045";
+}
+.fa-heart-o:before {
+  content: "\e046";
+}

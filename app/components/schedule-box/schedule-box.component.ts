@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {CircleImageData} from '../images/image-data';
 import {CircleImage} from '../images/circle-image';
 import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import {SanitizeHtml} from '../../pipes/safe.pipe';
 
 export interface scheduleBoxInput{
   date:string;
@@ -17,7 +18,7 @@ export interface scheduleBoxInput{
     selector: 'schedule-box',
     templateUrl: './app/components/schedule-box/schedule-box.component.html',
     directives: [ROUTER_DIRECTIVES, CircleImage],
-    pipes: [],
+    pipes: [SanitizeHtml],
 })
 
 export class ScheduleBox{
