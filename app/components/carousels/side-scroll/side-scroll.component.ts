@@ -25,6 +25,8 @@ export class SideScroll{
   private mouseDown:number = 0;
   private mouseUp:number = 0;
   private boundary:any = {};
+
+  private transition:any = null;
   constructor(){
 
   }
@@ -68,7 +70,6 @@ export class SideScroll{
   }
 
   ngOnChanges(){
-    console.log(this.maxLength);
   }
 
 
@@ -77,13 +78,17 @@ export class SideScroll{
     if(this.currentScroll <= 0){
       this.currentScroll = 0;
     }
+    this.transition = true;
     this.checkCurrent(this.currentScroll);
+    this.transition = null;
   }
   right(event) {
-    console.log(this.maxLength, Number(this.carouselCount)+1);
-    if(this.maxLength <= (this.currentScroll/this.maxScroll)){
+    console.log(this.maxLength, Math.round(this.currentScroll/this.maxScroll));
+    if(this.maxLength >= Math.round(this.currentScroll/this.maxScroll)){
       this.currentScroll += this.itemSize;
+      this.transition = true;
       this.checkCurrent(this.currentScroll);
+      this.transition = null;
     }
   }
 
