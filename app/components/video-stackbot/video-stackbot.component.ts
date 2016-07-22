@@ -1,12 +1,13 @@
 import {Component,OnInit} from '@angular/core';
 import {DeepDiveService} from '../../services/deep-dive.service';
+import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
 declare var moment;
 
 @Component({
   selector: 'video-stackbot-component',
   templateUrl: './app/components/video-stackbot/video-stackbot.component.html',
-  directives: [],
+  directives: [ROUTER_DIRECTIVES],
   providers: [DeepDiveService]
 
 })

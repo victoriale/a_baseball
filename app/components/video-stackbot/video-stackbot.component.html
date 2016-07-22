@@ -1,11 +1,11 @@
 <div class="video-stackbot">
   <div class="video-stackbot-item" *ngFor="let item of articleData; let rowIndex = index">
-    <a href="{{'/news/video/' + (rowIndex + 5)}}">
+    <a [routerLink]="['Syndicated-article-page', {eventID:item.id, eventType:'video'}]">
     <div class="video-stackbot-item-image"><div class="playCircle"><i class="fa fa-arrow-right"></i></div></div>
     </a>
     <div class="video-stackbot-item-right">
       <div class="video-title-top"><span>{{formatDate(item.pubDate)}}</span></div>
-      <a href="{{'/news/video/' + (rowIndex + 5)}}">
+      <a [routerLink]="['Syndicated-article-page', {eventID:item.id, eventType:'video'}]">
       <div class="video-stackbot-item-text" [innerHTML]="item.title">
       </div>
       </a>
