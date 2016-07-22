@@ -65,7 +65,7 @@ export class DeepDivePage implements OnInit {
     sideScrollData: any;
     scrollLength: number;
     ssMax:number = 7;
-    callCount:number = 50;
+    callCount:number = 1;
     callLimit:number = 20;
     safeCall: boolean = true;
     //for carousel
@@ -116,6 +116,7 @@ export class DeepDivePage implements OnInit {
       if(this.safeCall){
         this.safeCall = false;
         this._schedulesService.setupSlideScroll(this.sideScrollData, 'league', 'pre-event', this.callLimit, this.callCount, (sideScrollData) => {
+          console.log(sideScrollData);
           if(this.sideScrollData == null){
             this.sideScrollData = sideScrollData;
           }
@@ -127,7 +128,6 @@ export class DeepDivePage implements OnInit {
           this.safeCall = true;
           this.callCount++;
           this.scrollLength = this.sideScrollData.length;
-          console.log(this.safeCall, this.callCount,this.scrollLength);
         })
       }
     }
