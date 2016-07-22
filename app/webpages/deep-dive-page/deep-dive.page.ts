@@ -119,7 +119,6 @@ export class DeepDivePage implements OnInit {
       if(this.safeCall){
         this.safeCall = false;
         this._schedulesService.setupSlideScroll(this.sideScrollData, 'league', 'pre-event', this.callLimit, this.callCount, (sideScrollData) => {
-          console.log(sideScrollData);
           if(this.sideScrollData == null){
             this.sideScrollData = sideScrollData;
           }
