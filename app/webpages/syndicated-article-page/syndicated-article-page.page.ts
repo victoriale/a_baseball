@@ -13,6 +13,7 @@ import {MLBGlobalFunctions} from "../../global/mlb-global-functions";
 import {SidekickWrapperAI} from "../../components/sidekick-wrapper-ai/sidekick-wrapper-ai.component";
 import {GlobalSettings} from "../../global/global-settings";
 import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
+import {SanitizeRUrl} from "../../pipes/safe.pipe";
 
 declare var jQuery:any;
 declare var moment;
@@ -32,6 +33,7 @@ declare var moment;
         ResponsiveWidget
     ],
     providers: [DeepDiveService],
+    pipes: [SanitizeRUrl]
 })
 
 export class SyndicatedArticlePage implements OnInit{
