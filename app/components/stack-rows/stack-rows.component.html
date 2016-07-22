@@ -1,5 +1,5 @@
-<section class="row">
-  <a class="stackSmall col-xs-6" *ngFor="let stackRow of stackRow;" href="{{stackRow.url}}">
+<section class="stackRows row" (window:resize)="onResize($event)">
+  <a class="stackSmall {{gridStackCol}}" *ngFor="let stackRow of stackRow;" href="{{stackRow.url}}">
       <div class="stackSmall-image">
         <rectangle-image [data]="stackRow.imageConfig"></rectangle-image>
       </div>

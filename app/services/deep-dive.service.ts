@@ -193,7 +193,8 @@ export class DeepDiveService {
     var topData = data.data[0];//TODO
     var articleStackData = {
         url: topData.articleUrl != null ? topData.articleUrl : '/',
-        date: topData.keyword + ' ' + GlobalFunctions.formatUpdatedDate(topData.publishedDate),
+        keyword: topData.keyword,
+        date: GlobalFunctions.formatUpdatedDate(topData.publishedDate),
         headline: topData.title,
         provider1: topData.author,
         provider2: "Published By: " + topData.publisher,

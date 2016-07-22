@@ -19,6 +19,17 @@ export interface StackRowsInput {
 
 export class StackRowsComponent implements OnInit {
   @Input() stackRow: Array<StackRowsInput>;
+  public width: number;
+  public gridStackCol: string;
+
+  onResize(event) {
+    this.width = event.target.innerWidth;
+    if(this.width > 1440){
+      this.gridStackCol = "col-xs-12";
+    } else {
+      this.gridStackCol = "col-xs-6";
+    }
+  }
   ngOnInit() {
     if (typeof this.stackRow == 'undefined') {
       var sampleImage = "/app/public/placeholder_XL.png";
