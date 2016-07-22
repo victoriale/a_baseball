@@ -1,6 +1,6 @@
 <div class="video-stacktop" *ngFor="let item of articleData; let rowIndex = index">
   <a [routerLink]="['Syndicated-article-page', {eventID:item.id, articleType:'video'}]">
-  <div class="video-stacktop-video">
+  <div class="video-stacktop-video" [ngStyle]="{'background-image': 'url(' + item.thumbnail + ')'}">
     <div class="playCircle">
       <i class="fa fa-play"></i>
     </div>
