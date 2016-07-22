@@ -21,45 +21,66 @@ export class SideScroll{
   private maxScroll:number =205;
 
   private isMouseDown: boolean = false;
-
+  private drag: number = 0;
+  private mouseDown:number = 0;
+  private mouseUp:number = 0;
+  private boundary:any = {};
   constructor(){
 
   }
 
   scrollX(event){
     let currentClick = event.clientX;
-    console.log('scrollX',event);
-    if (this.isMouseDown) {
-        console.log(currentClick);
+    let mouseType = event.type;
+    if(mouseType == 'mousedown'){
+      this.mouseDown = event.clientX;
+    }
+    if(mouseType == 'mouseup'){
+      this.mouseUp = event.clientX;
+      this.checkCurrent(this.currentScroll);
     }
   }
 
   movingMouse(event){
-    console.log('movingMouse',event);
     this.isMouseDown = event.buttons === 1;
+    if(this.isMouseDown){
+      this.drag = (this.mouseDown - event.clientX);
+      this.currentScroll += this.drag;
+      this.mouseDown = event.clientX;
+      if(this.currentScroll <= 0){
+        this.currentScroll = 0;
+      }
+      this.rightText = this.currentScroll+'px';
+    }
+  }
+
+  checkCurrent(num){
+    if(num < 0){
+      num = 0;
+    }
+    let pos = (num / this.maxScroll);
+    this.currentScroll = Math.round(pos) * this.maxScroll;
+    this.carouselCount.next(Math.round(pos));
+    this.rightText = this.currentScroll+'px';
   }
 
   counter(event){
   }
 
   ngOnInit(){
-    this.maxScroll = (this.maxLength-1) * this.itemSize;
-  }
-  ngOnChanges(){
   }
 
+
   left(event) {
-    console.log('left');
     this.currentScroll -= this.itemSize;
     if(this.currentScroll <= 0){
       this.currentScroll = 0;
     }
-    this.rightText = this.currentScroll+'px';
+    this.checkCurrent(this.currentScroll);
   }
   right(event) {
-    console.log('right');
     this.currentScroll += this.itemSize;
-    this.rightText = this.currentScroll+'px';
+    this.checkCurrent(this.currentScroll);
   }
 
 }
