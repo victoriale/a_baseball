@@ -1,5 +1,5 @@
 <div class="dropdownCategory">
-  <div class="dropdownOptions {{width}}" tabindex="9999" onmousedown="event.preventDefault(); if(this === document.activeElement){this.blur()} else {this.focus()}">
+  <div class="dropdownOptions {{width}}" tabindex="9999" onmousedown="if(this.classList.contains('active')){this.classList.remove('active')} else {this.classList.add('active');}">
     <div class="toggle">{{heading}}</div>
     <span class="dropdownArrow"><i class="fa fa-caret-down"></i></span>
       <scrollable-content>
