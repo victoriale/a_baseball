@@ -14,6 +14,7 @@ export class DeepDiveService {
   // private _apiToken: string = 'BApA7KEfj';
   // private _headerName: string = 'X-SNT-TOKEN';
 
+
   constructor(
     public http: Http,
     private _sanitizer: DomSanitizationService){}
@@ -84,6 +85,8 @@ export class DeepDiveService {
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
+      console.log(callURL);
+
       // transform the data to YYYY-MM-DD objects from unix
       return data;
     })
@@ -140,19 +143,16 @@ export class DeepDiveService {
      })
  }
  carouselTransformData(arrayData){
-    // for(var i = 0; i < carouselData.length; i++){
-    //   carouselData[i]['image_url'] = GlobalSettings.getImageUrl(carouselData[i]['imagePath']);
-    //   carouselData[i]['title'] = carouselData[i]['title'];
-    // }
+
       var transformData = [];
       arrayData.forEach(function(val,index){
       //  console.log(val);
         let carData = {
-          // image_url: GlobalSettings.getImageUrl(val['imagePath']),
-      //    image_url: this._sanitizer.bypassSecurityTrustStyle("url(" + GlobalSettings.getImageUrl(val['imagePath']), + ")"),
+          image_url: GlobalSettings.getImageUrl(val['imagePath']),
+    //    image_url: this._sanitizer.bypassSecurityTrustStyle("url(" + GlobalSettings.getImageUrl(val['imagePath']), + ")"),
           title:  "<span> Today's News </span>" + val['title'],
           keyword: val['keyword'],
-          teaser: val['teaser'].substr(0,300) + "..."
+          teaser: val['teaser'].substr(0,250).replace('_',': ').replace(/<p[^>]*>/g, "") + "..."
         };
         transformData.push(carData);
       });
@@ -193,7 +193,8 @@ export class DeepDiveService {
     var topData = data.data[0];//TODO
     var articleStackData = {
         url: topData.articleUrl != null ? topData.articleUrl : '/',
-        date: topData.keyword + ' ' + GlobalFunctions.formatUpdatedDate(topData.publishedDate),
+        keyword: topData.keyword,
+        date: GlobalFunctions.formatUpdatedDate(topData.publishedDate),
         headline: topData.title,
         provider1: topData.author,
         provider2: "Published By: " + topData.publisher,
@@ -269,6 +270,22 @@ export class DeepDiveService {
       if(i >= 3 && i < 6){_return[1].push(ret[i]);}
     }
     return _return;
+  }
+
+  transformTileStack(data) {
+    data = data.data;
+    var lines = ['Find Your Favorite Player', 'Find Your Favorite Team', 'Check Out The Latest With the MLB'];
+    var datastack = [];
+      for(var i = 0; i < 3; i++){
+        var j = Math.floor(Math.random() * 18) + 1;
+        datastack[i] = data[i];
+        datastack[i]['lines'] = lines[i];
+        datastack[i]['image_url'] = GlobalSettings.getImageUrl(data[j]['imagePath']);
+        console.log(GlobalSettings.getImageUrl(data[i]['imagePath']));
+        //datastack[i]['image_url'] = data[i]['image_url'];
+      }
+      //console.log(datastack);
+      return datastack;
   }
 
   // getCarouselData(data, callback:Function) {

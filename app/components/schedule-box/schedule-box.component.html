@@ -1,5 +1,5 @@
 <div class="schedule_box"><!--become a component <schedule-box>-->
-  <div class="schedule_box-date" [innerHTML]="boxData.date">
+  <div class="schedule_box-date" [innerHTML]="boxData.date | safeHtml">
   </div>
   <div class="schedule_box-versus">
     <!-- away data below -->
