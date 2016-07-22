@@ -4,8 +4,9 @@ import {ImageData, RectangleImageData} from '../../components/images/image-data'
 import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 
 export interface StackRowsInput {
+  url: string;
   keyword: string;
-  title: string;
+  description: string;
   publishedDate: string;
   imageConfig: RectangleImageData;
 }
@@ -17,21 +18,22 @@ export interface StackRowsInput {
 })
 
 export class StackRowsComponent implements OnInit {
-  @Input() stackRowsData: Array<StackRowsInput>;
+  @Input() stackRow: Array<StackRowsInput>;
   ngOnInit() {
-    if (typeof this.stackRowsData == 'undefined') {
+    if (typeof this.stackRow == 'undefined') {
       var sampleImage = "/app/public/placeholder_XL.png";
-      this.stackRowsData = [{
-        keyword: "[Keyword]",
-        publishedDate: "[Date]",
-        title: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo ipsum dolor sit amet, consectetur adipisicing",
-        imageConfig: {
-          imageClass: "image-100x75",
-          mainImage:{
-            imageUrl: sampleImage
+      this.stackRow = [{
+          url: "/",
+          keyword: "[Keyword]",
+          publishedDate: "[Date]",
+          description: "Atlanta Braves interim manager Brian Snitker said he didn't worry about his young pitchers starting for the first time at Great American Ball Park, known for its homer-friendly dimensions",
+          imageConfig: {
+            imageClass: "image-100x75",
+            mainImage:{
+              imageUrl: "/app/public/placeholder_XL.png"
+            }
           }
-        }
-      }];//this.dataPoint ends
+        }]
     }
   }//ngOnInit ends
 }

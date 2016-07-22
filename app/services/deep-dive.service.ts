@@ -57,7 +57,19 @@ export class DeepDiveService {
   //Configure HTTP Headers
   var headers = this.setToken();
   //date needs to be the date coming in AS EST and come back as UTC
-  var callURL = this._apiUrl+'/'+ 'article/video/batch/'+ articleID +'/1' ;
+  var callURL = this._apiUrl+'/'+ 'article/video/'+ articleID;
+  return this.http.get(callURL, {headers: headers})
+    .map(res => res.json())
+    .map(data => {
+      // transform the data to YYYY-MM-DD objects from unix
+      return data;
+    })
+  }
+  getDeepDiveVideoBatchService(numItems, startNum){//DATE
+  //Configure HTTP Headers
+  var headers = this.setToken();
+  //date needs to be the date coming in AS EST and come back as UTC
+  var callURL = this._apiUrl+'/'+ 'article/video/batch/'+ startNum +'/' + numItems ;
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -148,16 +160,19 @@ export class DeepDiveService {
 
       return transformData;
   }
-  transformToArticleStack(data){
+
+  transformToArticleRow(data){
     var articleStackArray = [];
+
     var sampleImage = "/app/public/placeholder_XL.png";
-    var topData = data.data[0];
-    data = data.data.slice(1,8);
+    var articleStackArray = [];
+    data = data.data.slice(1,7);//TODO
 
     data.forEach(function(val, index){
       var s = {
           url: val.articleUrl != null ? val.articleUrl : '/',
-          date: val.keyword + ' ' + GlobalFunctions.formatUpdatedDate(val.publishedDate),
+          keyword: val.keyword,
+          publishedDate: GlobalFunctions.formatUpdatedDate(val.publishedDate),
           headline: val.title,
           provider1: val.author,
           provider2: "Published By: " + val.publisher,
@@ -171,8 +186,13 @@ export class DeepDiveService {
       }
       articleStackArray.push(s);
     });
+    return articleStackArray;
+  }
+
+  transformToArticleStack(data){
+    var sampleImage = "/app/public/placeholder_XL.png";
+    var topData = data.data[0];//TODO
     var articleStackData = {
-      stackTop: {
         url: topData.articleUrl != null ? topData.articleUrl : '/',
         date: topData.keyword + ' ' + GlobalFunctions.formatUpdatedDate(topData.publishedDate),
         headline: topData.title,
@@ -185,11 +205,7 @@ export class DeepDiveService {
             imageUrl: topData.imagePath != null ? GlobalSettings.getImageUrl(topData.imagePath) : sampleImage
           }
         }
-      },
-      stackRow: articleStackArray
     };
-    console.log("array", articleStackData);
-
     return articleStackData;
   }
 

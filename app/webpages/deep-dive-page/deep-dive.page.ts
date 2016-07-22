@@ -21,6 +21,8 @@ import {GlobalSettings} from "../../global/global-settings";
 import {GlobalFunctions} from "../../global/global-functions";
 import {Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
+import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
+
 //window declarions of global functions from library scripts
 declare var moment;
 declare var jQuery: any;
@@ -40,12 +42,14 @@ declare var jQuery: any;
       VideoStackModule,
       CarouselDiveModule,
       BoxArticleComponent,
-      RecommendationsComponent
+      RecommendationsComponent,
+      ResponsiveWidget
     ],
     providers: [BoxScoresService,SchedulesService,DeepDiveService],
 })
 
 export class DeepDivePage implements OnInit {
+    public widgetPlace: string = "widgetForPage";
 
     //page variables
     partnerID: string;
@@ -67,10 +71,8 @@ export class DeepDivePage implements OnInit {
     carouselData: any;
 ​
     //for article-stack
-    articleStack: any;
-    // stackRow: any;
-    articleStackData: any;
-
+    stackTop: any;
+    stackRow: any;
     private isHomeRunZone: boolean = false;
 
     //for recommendation module
@@ -116,9 +118,9 @@ export class DeepDivePage implements OnInit {
           this.callCount++;
         }
         else{
-          // sideScrollData.forEach(function(val,i){
-          //   self.sideScrollData.push(val);
-          // })
+          sideScrollData.forEach(function(val,i){
+            self.sideScrollData.push(val);
+          })
           this.scrollLength = sideScrollData.length;
           this.callCount++;
         }
@@ -146,10 +148,6 @@ export class DeepDivePage implements OnInit {
     private getDataCarousel() {
       this._deepDiveData.getCarouselData(this.carouselData, (carData)=>{
         this.carouselData = carData;
-        console.log('heythere',carData);
-
-
-​
       })
     }
 
@@ -180,7 +178,8 @@ export class DeepDivePage implements OnInit {
     getArticleStackData(){
       this._deepDiveData.getDeepDiveService()
           .subscribe(data => {
-            this.articleStack = this._deepDiveData.transformToArticleStack(data);
+            this.stackTop = this._deepDiveData.transformToArticleStack(data);
+            this.stackRow = this._deepDiveData.transformToArticleRow(data);
           });
     }
 
