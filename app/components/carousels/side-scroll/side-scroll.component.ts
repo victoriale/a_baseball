@@ -67,7 +67,8 @@ export class SideScroll{
   counter(event){
   }
 
-  ngOnInit(){
+  ngOnChanges(){
+    console.log(this.maxLength);
   }
 
 
@@ -79,8 +80,11 @@ export class SideScroll{
     this.checkCurrent(this.currentScroll);
   }
   right(event) {
-    this.currentScroll += this.itemSize;
-    this.checkCurrent(this.currentScroll);
+    console.log(this.maxLength, Number(this.carouselCount)+1);
+    if(this.maxLength <= (this.currentScroll/this.maxScroll)){
+      this.currentScroll += this.itemSize;
+      this.checkCurrent(this.currentScroll);
+    }
   }
 
 }

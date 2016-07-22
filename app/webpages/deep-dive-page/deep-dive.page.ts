@@ -65,8 +65,9 @@ export class DeepDivePage implements OnInit {
     sideScrollData: any;
     scrollLength: number;
     ssMax:number = 7;
-    callCount:number = 1;
-
+    callCount:number = 50;
+    callLimit:number = 20;
+    safeCall: boolean = true;
     //for carousel
     carouselData: any;
 ​
@@ -111,25 +112,31 @@ export class DeepDivePage implements OnInit {
     //api for Schedules
     private getSideScroll(){
       let self = this;
-      this._schedulesService.setupSlideScroll(this.sideScrollData, 'league', 'pre-event', (20 + this.callCount), this.callCount, (sideScrollData) => {
-        if(this.sideScrollData == null){
-          this.sideScrollData = sideScrollData;
-          this.scrollLength = sideScrollData.length;
-          this.callCount++;
-        }
-        else{
-          sideScrollData.forEach(function(val,i){
-            self.sideScrollData.push(val);
-          })
-          this.scrollLength = sideScrollData.length;
-          this.callCount++;
-        }
-      })
+
+      if(this.safeCall){
+        this.safeCall = false;
+        this._schedulesService.setupSlideScroll(this.sideScrollData, 'league', 'pre-event', this.callLimit, this.callCount, (sideScrollData) => {
+          if(this.sideScrollData == null){
+            this.sideScrollData = sideScrollData;
+            this.scrollLength = sideScrollData.length;
+            this.callCount++;
+            this.safeCall = true;
+          }
+          else{
+            sideScrollData.forEach(function(val,i){
+              self.sideScrollData.push(val);
+            })
+            this.scrollLength = sideScrollData.length;
+            this.callCount++;
+            this.safeCall = true;
+          }
+          console.log(this.safeCall, this.callCount,this.sideScrollData);
+        })
+      }
     }
 
     private scrollCheck(event){
       let maxScroll = this.sideScrollData.length;
-      this.scrollLength = this.sideScrollData.length - this.ssMax;
       if(event >= (maxScroll - this.ssMax)){
         this.getSideScroll();
       }
