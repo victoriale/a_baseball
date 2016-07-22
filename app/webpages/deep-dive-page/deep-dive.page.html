@@ -3,6 +3,7 @@
   <div class="newsCarousel" id="newsCarousel">
     <carousel-dive-module *ngIf = "carouselData" [carouselData] = "carouselData"></carousel-dive-module>
   </div>
+
   <div class="deep-dive-container">
     <div class="deep-dive-content1">
       <side-scroll-schedules *ngIf="sideScrollData" [sideScrollData]="sideScrollData" (count)="scrollCheck($event)" [scrollLength]="scrollLength"></side-scroll-schedules>
@@ -32,10 +33,26 @@
       <div class="box_articles">
         <box-article-component *ngIf="boxArticleData" [boxArticleData]="boxArticleData" [isDeepDive]="true"></box-article-component>
       </div>
+      <article-stack-module [stackTop]="stackTop" [stackRow]="stackRow"></article-stack-module>
+      <!-- ADS -->
+      <div class="horizontal_widget">
+        <div class="horizontal_widget-large"></div>
+        <div class="horizontal_widget-small"></div>
+      </div>
+      <!-- ADS ends-->
       <!-- container of responsive box -->
-      <recommendations-component *ngIf="recommendationData" [randomHeadlines]="recommendationData"
-         [isDeepDive]="true"></recommendations-component>
+      <div class="rec_module">
+        <recommendations-component *ngIf="recommendationData" [randomHeadlines]="recommendationData" [isDeepDive]="true"></recommendations-component>
+      </div>
+      <article-stack-module [stackTop]="stackTop" [stackRow]="stackRow"></article-stack-module>
+      <!-- ADS -->
+      <div class="horizontal_widget">
+        <div class="horizontal_widget-large"></div>
+        <div class="horizontal_widget-small"></div>
+      </div>
+      <!-- ADS ends-->
     </div>
+    <!-- content1 ENDS -->
     <div class="deep-dive-content2"></div>
   </div>
 </section>
