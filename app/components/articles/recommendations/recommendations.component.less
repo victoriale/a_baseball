@@ -102,9 +102,8 @@
           background-color: rgba(188, 32, 39, 0.75);
             p{
             &:first-child{
-              font-size: 18px;
+              .globalDefaultFont(18px, 700);
               line-height: 28px;
-              font-weight: 700;
               margin:auto;
               border-radius: 5px;
               width: 125px;
@@ -125,10 +124,9 @@
         width:180px;
         height: 52px;
         &-dateline{
-          font-size: 11px;
+          .globalDefaultFont(11px, 800);
           &-keyword{
             margin-right: 3px;
-            font-weight: 800;
           }
           &-date{
             color: @bulletGrey;
@@ -137,7 +135,7 @@
         &-teaser{
           margin-top: 5px;
           height: 45px;
-          font-size: 11px;
+          font-size: 12px;
         }
       }
     }
@@ -156,8 +154,7 @@
       &-content{
         width: 180px;
         height: 52px;
-        font-size: 16px;
-        font-weight: 800;
+        .globalDefaultFont(16px, 800);
         margin-top: 0px;
         &-dateline{
           display: none;
@@ -179,8 +176,7 @@
     &-content{
       width: 180px;
       height: 52px;
-      font-size: 11px;
-      font-weight: 800;
+      .globalDefaultFont(11px, 800);
       margin-top: 0px;
       &-dateline{
         display: none;
@@ -198,8 +194,7 @@
       &-content{
         width: 215px;
         height: 62px;
-        font-size: 11px;
-        font-weight: 800;
+        .globalDefaultFont(12px, 800);
         margin-top: 10px;
         &-dateline{
           display: block;
@@ -217,8 +212,7 @@
     &-content{
       width: 215px;
       height: 62px;
-      font-size: 11px;
-      font-weight: 800;
+      .globalDefaultFont(12px, 800);
       &-dateline{
         display: block;
       }
@@ -234,8 +228,7 @@
     &-content{
       width: 348px;
       height: 56px;
-      font-size: 11px;
-      font-weight: 800;
+      .globalDefaultFont(12px, 800);
       &-dateline{
         display: block;
       }
