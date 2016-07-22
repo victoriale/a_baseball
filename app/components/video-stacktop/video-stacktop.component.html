@@ -1,12 +1,13 @@
 <div class="video-stacktop" *ngFor="let item of articleData">
+  <a href="{{'/news/video/' + articleData.id}}">
   <div class="video-stacktop-video">VIDEO</div>
+  </a>
   <div class="video-stacktop-right">
     <div class="video-stacktop-right-title">
       <span class="video-title-top"><span>{{item.pubDate}}</span></span>
       <span class="video-title-mid">{{item.title}}</span>
       </div>
-      <div class="video-stacktop-right-text">
-        {{item.description}}
+      <div class="video-stacktop-right-text" [innerHTML]="item.description | safeHtml">
       </div>
     </div>
   </div>
