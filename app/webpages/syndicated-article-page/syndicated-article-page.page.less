@@ -48,7 +48,21 @@
       border: 2px solid @white;
     }
     .feature-btn.images {
-      display:none;
+      background-color: transparent!important;
+      border:none;
+      height:28px;
+      padding: 0;
+      position:absolute;
+      bottom: 0;
+      left:0;
+      top:auto;
+      right:auto;
+      font-size: 10px;
+      border-radius: 0;
+    }
+    .modal-exit:hover {
+      background-color: @white;
+      color: @black;
     }
   }
   &-content {
@@ -65,7 +79,7 @@
   }
   .videoFrame {
 	position: relative;
-	padding-bottom: 56.25%; /* 16:9 */
+	padding-bottom: 55%; /* 16:9 */
 	padding-top: 25px;
   margin-top:10px;
   margin-bottom:20px;

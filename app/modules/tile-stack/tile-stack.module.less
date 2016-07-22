@@ -1,19 +1,17 @@
 .tile-stack {
-  .flexDisplay;
-  .flexJustify(center);
+  width: 610px;
+  height: 141px;
   &-item {
-    width:204px;
-    height:141px;
+    height: 100%;
     background-size: cover;
-    background-position: center;
+    background-position: center top;
     background-repeat: no-repeat;
-    background-image: linear-gradient(180deg, rgba(40, 40, 40, 0.5) 0%, rgba(24, 24, 24, 0.65) 100%), url('http://bytesizemoments.com/wp-content/uploads/2014/04/placeholder3.png');
+  //  background-image: linear-gradient(180deg, rgba(40, 40, 40, 0.5) 0%, rgba(24, 24, 24, 0.65) 100%), url('http://bytesizemoments.com/wp-content/uploads/2014/04/placeholder3.png');
     border-right: 1px solid;
+
     &-text {
-      font-size: 20px;
-      font-weight: 400;
+      .globalDefaultModFont(20px, 400, @white);
       text-align: center;
-      color: @white;
       position: relative;
       top:50%;
       transform: translate(0,-50%);
@@ -21,26 +19,15 @@
     }
   }
 }
-&:last-child {
-  //border-right: none;
-}
-
-@media (min-width: 768px) {
-  .tile-stack-item {
-    width:223px
+@media @desktop-m {
+  .tile-stack {
+    width: 670px;
   }
 }
-@media (min-width: 1300px) {
-  .tile-stack-item {
-    width:362px;
-    height:220px;
 
-  }
-}
-@media (min-width: 1400px) {
-  .tile-stack-item {
-    width:332px;
-    height:210px;
-
+@media @desktop-xl {
+  .tile-stack {
+    width: 1086px;
+    height: 220px;
   }
 }

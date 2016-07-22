@@ -66,7 +66,8 @@ export class DeepDivePage implements OnInit {
     scrollLength: number;
     ssMax:number = 7;
     callCount:number = 1;
-
+    callLimit:number = 20;
+    safeCall: boolean = true;
     //for carousel
     carouselData: any;
 ​
@@ -78,6 +79,9 @@ export class DeepDivePage implements OnInit {
     //for recommendation module
     recommendationData: any;
     boxArticleData: any;
+    //for Tile Stack Module
+    tilestackData: any;
+
     constructor(
       private _router:Router,
       private _deepDiveData: DeepDiveService,
@@ -111,25 +115,27 @@ export class DeepDivePage implements OnInit {
     //api for Schedules
     private getSideScroll(){
       let self = this;
-      this._schedulesService.setupSlideScroll(this.sideScrollData, 'league', 'pre-event', (20 + this.callCount), this.callCount, (sideScrollData) => {
-        if(this.sideScrollData == null){
-          this.sideScrollData = sideScrollData;
-          this.scrollLength = sideScrollData.length;
+
+      if(this.safeCall){
+        this.safeCall = false;
+        this._schedulesService.setupSlideScroll(this.sideScrollData, 'league', 'pre-event', this.callLimit, this.callCount, (sideScrollData) => {
+          if(this.sideScrollData == null){
+            this.sideScrollData = sideScrollData;
+          }
+          else{
+            sideScrollData.forEach(function(val,i){
+              self.sideScrollData.push(val);
+            })
+          }
+          this.safeCall = true;
           this.callCount++;
-        }
-        else{
-          sideScrollData.forEach(function(val,i){
-            self.sideScrollData.push(val);
-          })
-          this.scrollLength = sideScrollData.length;
-          this.callCount++;
-        }
-      })
+          this.scrollLength = this.sideScrollData.length;
+        })
+      }
     }
 
     private scrollCheck(event){
       let maxScroll = this.sideScrollData.length;
-      this.scrollLength = this.sideScrollData.length - this.ssMax;
       if(event >= (maxScroll - this.ssMax)){
         this.getSideScroll();
       }
@@ -149,6 +155,11 @@ export class DeepDivePage implements OnInit {
       this._deepDiveData.getCarouselData(this.carouselData, (carData)=>{
         this.carouselData = carData;
       })
+      // this._deepDiveData.getCarouselData()
+      //     .subscribe(data => {
+      //       console.log(data);
+      //       this.carouselData = this._deepDiveData.carouselTransformData(data);
+      //     });
     }
 
     checkSize(){
@@ -174,6 +185,12 @@ export class DeepDivePage implements OnInit {
             this.boxArticleData = this._deepDiveData.transformToBoxArticle(data);
           });
     }
+    getTileStackData(){
+      this._deepDiveData.getDeepDiveService()
+          .subscribe(data => {
+            this.tilestackData = this._deepDiveData.transformTileStack(data);
+          });
+    }
 
     getArticleStackData(){
       this._deepDiveData.getDeepDiveService()
@@ -191,6 +208,7 @@ export class DeepDivePage implements OnInit {
       this.getArticleStackData();
       this.getSideScroll();
       this.getBoxArticleData();
+      this.getTileStackData();
     }
 
     ngDoCheck(){

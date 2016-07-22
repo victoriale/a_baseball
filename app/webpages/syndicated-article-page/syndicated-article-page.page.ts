@@ -67,13 +67,13 @@ export class SyndicatedArticlePage implements OnInit{
 
           if (data.data.imagePath == null || data.data.imagePath == undefined || data.data.imagePath == "") {
             this.imageData  = ["/app/public/stockphoto_bb_1.jpg", "/app/public/stockphoto_bb_2.jpg"];
-            this.copyright = ["TCX Images", "TCX Images"];
+            this.copyright = ["USA Today Sports Images", "USA Today Sports Images"];
             this.imageTitle = ["", ""];
           }
           else {
-            this.imageData = ["https://prod-sports-images.synapsys.us" + data.data.imagePath, "/app/public/stockphoto_bb_2.jpg"];
-            this.copyright = ["TCX Images", "TCX Images"];
-            this.imageTitle = ["", ""];
+            this.imageData = ["https://prod-sports-images.synapsys.us" + data.data.imagePath];
+            this.copyright = ["TCX Images"];
+            this.imageTitle = [""];
           }
           this.articleData = data.data;
           console.log(this.articleData.publishedDate);
@@ -85,7 +85,7 @@ export class SyndicatedArticlePage implements OnInit{
       this._deepdiveservice.getDeepDiveVideoService(articleID).subscribe(
         data => {
           this.articleData = data.data;
-          this.iframeUrl = this.articleData.videoLink;
+          this.iframeUrl = this.articleData.videoLink + "&autoplay=on";
         }
       )
     }
