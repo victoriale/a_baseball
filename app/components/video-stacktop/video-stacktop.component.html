@@ -1,18 +1,12 @@
-<div class="video-stacktop">
+<div class="video-stacktop" *ngFor="let item of articleData">
   <div class="video-stacktop-video">VIDEO</div>
   <div class="video-stacktop-right">
     <div class="video-stacktop-right-title">
-      <span class="video-title-top"> [Keyword] <span>date</span></span>
-      <span class="video-title-mid"> Title!</span>
-      <span class="video-title-bottom">By: Col</span>
+      <span class="video-title-top"><span>{{item.pubDate}}</span></span>
+      <span class="video-title-mid">{{item.title}}</span>
       </div>
       <div class="video-stacktop-right-text">
-
-Lorem ipsum dolor sit amet, consectetur
- adipisicing elit, sed do eiusmod tempor incididunt
-  ut labore et dolore magna aliqua. Ut enim ad minim
-   veniam, quis nostrud exercitation ullamco laboris
-   nisi ut aliquip ex ea commodo consequat.
+        {{item.description}}
       </div>
     </div>
   </div>

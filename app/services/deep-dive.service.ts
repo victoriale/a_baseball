@@ -64,6 +64,18 @@ export class DeepDiveService {
       return data;
     })
   }
+  getDeepDiveVideoBatchService(numItems, startNum){//DATE
+  //Configure HTTP Headers
+  var headers = this.setToken();
+  //date needs to be the date coming in AS EST and come back as UTC
+  var callURL = this._apiUrl+'/'+ 'article/video/batch/'+ startNum +'/' + numItems ;
+  return this.http.get(callURL, {headers: headers})
+    .map(res => res.json())
+    .map(data => {
+      // transform the data to YYYY-MM-DD objects from unix
+      return data;
+    })
+  }
   getDeepDiveBatchService(numItems){//DATE
   //Configure HTTP Headers
   var headers = this.setToken();
@@ -147,7 +159,7 @@ export class DeepDiveService {
 
       return transformData;
   }
-  
+
   transformToArticleRow(data){
     var articleStackArray = [];
 
