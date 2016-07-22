@@ -51,21 +51,24 @@
 }
 
 @media @desktop-xl {
-  .stackRow{
-    .row{
+  .stackRow {
+    .row {
       width: 313px;
       margin-left: 20px;
     }
   }
   .stackSmall {
     width: 313px;
-    float: right;
-    border-bottom: 1px solid @highlightGrey;
     &-image {
       display: none;
     }
     &-text {
       width: 313px;
     }
-  }
+    &-breakLine {
+      width: 315px;
+      height: 1px;
+      background-color: @highlightGrey;
+    }
+  }//stackSmall ends
 }
