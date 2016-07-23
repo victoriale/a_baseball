@@ -351,8 +351,39 @@
     }//home-features ends
   }//home ends
 }
+.home-league-col{
+  .col-xs-6;
+}
+.home-main{
+  .col-xs-12;
+}
+.home-features{
+  .col-xs-12;
+}
+
 @media @desktop-xl{
   .home-main {
     margin-left: 8.3333%;
   }
+  .home-league-col{
+    .col-lg-4;
+  }
+  .home-main{
+    .col-xs-10;
+  }
+  .home-features{
+    .col-xs-12;
+  }
 }
+/*
+if(this.width < 1441){
+this.gridDivCol = "col-xs-6";  // home-league-col
+this.gridLMain = "col-xs-12";  // home-main
+this.gridFeaturesCol = "col-xs-12";  // home-features
+} else {
+    this.gridDivCol = "col-lg-4";  // home-league-col
+    this.gridLMain = "col-xs-10";  // home-main
+    this.gridFeaturesCol = "col-xs-12";  // home-features
+  }
+}
+*/
