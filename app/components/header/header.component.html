@@ -4,7 +4,6 @@
   </div>
   <section class="header-top">
     <div class="header-left">
-      <!-- <div class="header-hamburger" tabindex="999"> -->
       <div class="header-hamburger" (click)="getMenu()">
         <i *ngIf="!isOpened" class="fa fa-bars"></i>
         <i *ngIf="isOpened" class="fa fa-remove"></i>
@@ -22,5 +21,5 @@
     </div>
   </section>
 
-  <!-- <sub-header-component></sub-header-component> -->
+  <sub-header-component></sub-header-component>
 </header>
