@@ -1,47 +1,86 @@
-import {Component, AfterContentChecked, Input, EventEmitter} from '@angular/core';
+import {Component, AfterContentChecked, Input, Output, EventEmitter} from '@angular/core';
+import {SanitizeStyle} from '../../../pipes/safe.pipe';
 
 declare var jQuery:any
 ;
 @Component({
     selector: 'side-scroll',
     templateUrl: './app/components/carousels/side-scroll/side-scroll.component.html',
-    directives: [],
-    providers: [],
+    outputs: ['carouselCount'],
+    pipes:[SanitizeStyle]
 })
 
-export class SideScroll implements AfterContentChecked{
-  @Input() carouselData:any;
+export class SideScroll{
+  @Input() maxLength:any;
+  @Input() current:any;
+  @Input() data: any;
   public carouselCount = new EventEmitter();
+  public currentScroll = 0;
+  public rightText:string = '0px';
+  private itemSize:number = 205;
+  private maxScroll:boolean = false;
 
+  private isMouseDown: boolean = false;
+  private drag: number = 0;
+  private mouseDown:number = 0;
+  private mouseUp:number = 0;
+  private boundary:any = {};
+
+
+  private transition:any = null;
   constructor(){
+
   }
 
-  ngAfterContentChecked(){
-    var owl = jQuery('.owl-carousel');
-    owl.owlCarousel({
-      items:7,
-      loop:false,
-      dots:false,
-      nav:false,
-      navText:false,
-      info:true,
-    });
-    owl.on('changed.owl.carousel', function(event) {
-        var currentItem = event.item.index;
-        // this.carouselCount.next(currentItem);
-        window.location.hash = currentItem + 1;
-    })
+  scrollX(event){
+    let currentClick = event.clientX;
+    let mouseType = event.type;
+    if(mouseType == 'mousedown'){
+      this.mouseDown = event.clientX;
+    }
+    if(mouseType == 'mouseup'){
+      this.mouseUp = event.clientX;
+      this.checkCurrent(this.currentScroll);
+    }
   }
 
-  left() {
-    var owl = jQuery('.ss_owl');
-    owl.owlCarousel();
-    owl.trigger('prev.owl.carousel');
+  movingMouse(event){
+    this.isMouseDown = event.buttons === 1;
+    this.maxScroll = !((this.maxLength-1) > Math.round(this.currentScroll/this.itemSize));
+    if(this.isMouseDown && !this.maxScroll){
+      this.drag = (this.mouseDown - event.clientX);
+      this.currentScroll += this.drag;
+      this.mouseDown = event.clientX;
+      if(this.currentScroll <= 0){
+        this.currentScroll = 0;
+      }
+      this.rightText = this.currentScroll+'px';
+    }
   }
-  right() {
-    var owl = jQuery('.ss_owl');
-    owl.owlCarousel();
-    owl.trigger('next.owl.carousel');
+
+  checkCurrent(num){
+    if(num < 0){
+      num = 0;
+    }
+    let pos = (num / this.itemSize);
+    this.currentScroll = Math.round(pos) * this.itemSize;
+    this.carouselCount.next(Math.round(pos));
+    this.rightText = this.currentScroll+'px';
+  }
+
+  left(event) {
+    this.currentScroll -= this.itemSize;
+    if(this.currentScroll <= 0){
+      this.currentScroll = 0;
+    }
+    this.checkCurrent(this.currentScroll);
+  }
+  right(event) {
+    this.maxScroll = !((this.maxLength-1) > Math.round(this.currentScroll/this.itemSize));
+    if((this.maxLength-1) > Math.round(this.currentScroll/this.itemSize)){
+      this.currentScroll += this.itemSize;
+      this.checkCurrent(this.currentScroll);
+    }
   }
 
 }

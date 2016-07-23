@@ -25,6 +25,7 @@ export class BoxScoresModule implements OnChanges{
   // private moduleHeight: string;
   public dateEmit = new EventEmitter();
   public liveArray = new EventEmitter();
+  public heightStyle: string;
   private gameNum:number = 0;
   constructor(){}
 
@@ -37,14 +38,15 @@ export class BoxScoresModule implements OnChanges{
   }
 
   ngOnChanges(){
-    if(document.getElementById('box-header') != null && this.scroll && this.maxHeight != null){
+    if(document.getElementById('box-header') != null && this.scroll && this.maxHeight != null && this.boxScores != null){
       var boxHeader = document.getElementById('box-header').offsetHeight;
       //only for mlb page but subtract the mod title and calendar height from what was sent in
       if(this.maxHeight != 'auto'){
         this.maxHeight -= boxHeader;
-        this.maxHeight = this.maxHeight + "px";
+        this.heightStyle = this.maxHeight + "px";
       }else{
         this.scroll = false;
+        this.heightStyle = 'auto';
       }
     }
   }

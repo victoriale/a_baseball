@@ -1,4 +1,3 @@
-
 <carousel-dive>
   <div class="carousel-dive">
     <div class="carousel-dive-right" (click)="rightcarousel()">
@@ -7,34 +6,19 @@
     <div class="carousel-dive-left" (click)="leftcarousel()">
       <i class="fa fa-angle-left" aria-hidden="true" id="carousel-dive-leftarrow"></i>
     </div>
-    <div class="owl-carousel">
-      <div class="owl-item">
+    <div class="owl-carousel carousel_owl">
+      <div class="owl-item"  *ngFor = "let data of carouselData; let i = index;" [ngStyle]="{'background-image': 'linear-gradient(180deg, rgba(40, 40, 40, 0.5) 0%, rgba(24, 24, 24, 0.65) 100%), url(' + data.image_url + ')'}">
           <div class="carousel-item">
             <div class="carousel-item-container">
-              <div class="carousel-item-container-key">Keyword</div>
-              <div class="carousel-item-container-title"><span>Today's News:</span>Lorem ipsum dolor sit amet,
-            consectetur adipisicing elit, sed do eiusmod tempor</div>
+              <div class="carousel-item-container-key" [innerHTML]="data.keyword"></div>
+              <div class="carousel-item-container-title" [innerHTML]="data.title"></div>
                 <div class="carousel-item-container-title-border"></div>
-              <div class="carousel-item-container-content">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-             sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-              ut aliquip ex ea commodo consequat...
-
+              <div class="carousel-item-container-content" [innerHTML]="data.teaser">
               </div>
               <div class="carousel-item-container-fullstory">Read the Full Story</div>
             </div>
           </div>
       </div>
-    <div class="owl-item">
-      2 --- Content in here.
-    </div>
-    <div class="owl-item">
-      3 -- Content in here.
-    </div>
-    <div class="owl-item">
-      4 -- Content in here.
-    </div>
   </div>
 </div>
 </carousel-dive>

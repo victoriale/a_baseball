@@ -218,6 +218,20 @@ export class MLBGlobalFunctions {
 
 
   /**
+  * Function will return string, reformatted from AI Content API Response as of July 21, 2016
+  */
+  static convertAiDate(date){
+    date = date.split(' ');
+    var month = date[0];
+    var day = date[1];
+    day = day.split(',')[0].replace(/([A-Za-z])\w+/g,'');
+    var year = date[2];
+
+    var _string = month + ' ' + day + ', ' + year;
+    return _string;
+  }
+
+  /**
    * Returns the abbreviation for American or National leagues
    *
    * @param {string} confName - 'American' or 'National' (case insensitive)

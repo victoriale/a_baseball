@@ -1,43 +1,66 @@
-<section class="deep-dive" *ngIf="!isHomeRunZone">
-
-  <div class="newsCarousel" id="newsCarousel">
-    <carousel-dive-module></carousel-dive-module>
+<section class="deep-dive container-fluid">
+  <div class="deep-dive-container1">
+    <carousel-dive-module *ngIf = "carouselData" [carouselData] = "carouselData"></carousel-dive-module>
   </div>
-  <div class="deep-dive-content-container">
-    <side-scroll-schedules *ngIf="sideScrollData" [sideScrollData]="sideScrollData"></side-scroll-schedules>
-    <div class="container2"> 
-      <tile-stack-module></tile-stack-module>
-      <article-stack-module></article-stack-module>
-      <video-stack-module></video-stack-module>
-    </div>
-    <div class="horizontal_widget">
-      <div class="horizontal_widget-large"></div>
-      <div class="horizontal_widget-small"></div>
-    </div>
-    <div class="container3">
+  <section class="deep-dive-container2">
+    <div class="deep-dive-container2a">
+      <div class="deep-dive-module">
+        <side-scroll-schedules *ngIf="sideScrollData" [sideScrollData]="sideScrollData" (count)="scrollCheck($event)" [scrollLength]="scrollLength"></side-scroll-schedules>
+      </div>
+      <div class="deep-dive-module">
+        <article-stack-module [stackTop]="stackTop" [stackRow]="stackRow"></article-stack-module>
+      </div>
+
+      <tile-stack-module *ngIf = "tilestackData" [tilestackData] = "tilestackData"></tile-stack-module>
+      <!-- adSmall HERE -->
+      <div class="deep-dive-adSmall">
+        <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+      </div>
+      <!-- adMed HERE -->
+      <div class="deep-dive-adMed">
+        <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+      </div>
+      <div class="deep-dive-module">
+        <video-stack-module></video-stack-module>
+      </div>
+      <!-- adMed HERE -->
+      <div class="deep-dive-adMed">
+        <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+      </div>
       <box-scores *ngIf="dateParam && maxHeight" class="box-scores" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)" [maxHeight]="maxHeight" [scroll]="scroll"></box-scores>
-      <div class="box_articles">
-        <div class="box_articles-item">
-        <div class="article-image">
-
-        </div>
-        <div class="article-text">
-          <span>[KEYWORD]</span><span>[MONTH][DD], [YYYY]</span>
-          <p>Lorem ispum dolor sit amet, consectetu adiplicsing elit, sed do eisuemod tempor.</p>
-        </div>
+      <!-- adSmall HERE -->
+      <div class="deep-dive-adSmall">
+        <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
       </div>
-      <div class="box_articles-item">
-        <div class="article-image">
-
-        </div>
-        <div class="article-text">
-          <span>[KEYWORD]</span><span>[MONTH][DD], [YYYY]</span>
-          <p>Lorem ispum dolor sit amet, consectetu adiplicsing elit, sed do eisuemod tempor.</p>
-        </div>
+      <div class="deep-dive-module">
+        <box-article-component *ngIf="boxArticleData" [boxArticleData]="boxArticleData" [isDeepDive]="true"></box-article-component>
       </div>
+      <!-- adMed HERE -->
+      <div class="deep-dive-adMed">
+        <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+      </div>
+      <article-stack-module [stackTop]="stackTop" [stackRow]="stackRow"></article-stack-module>
+      <!-- adSmall HERE -->
+      <div class="deep-dive-adSmall">
+        <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+      </div>
+      <!-- adMed HERE -->
+      <div class="deep-dive-adMed">
+        <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+      </div>
+      <div class="deep-dive-module">
+        <recommendations-component *ngIf="recommendationData" [randomHeadlines]="recommendationData" [isDeepDive]="true"></recommendations-component>
+      </div>
+      <article-stack-module [stackTop]="stackTop" [stackRow]="stackRow"></article-stack-module>
+      <!-- adSmall HERE -->
+      <div class="deep-dive-adSmall-last">
+        <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
       </div>
     </div>
-  </div>
+
+    <div class="deep-dive-container2b">
+      <!-- TODO -->
+      <!-- <div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div> -->
+    </div>
+  </section>
 </section>
-  <div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div>
-  <Partner-home-page *ngIf="isHomeRunZone"></Partner-home-page>

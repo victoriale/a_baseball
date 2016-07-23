@@ -76,7 +76,7 @@ export class PickTeamPage implements OnInit {
     }
     onResize(event) {
       this.width = event.target.innerWidth;
-      if(this.width < 641){
+      if(this.width < 1441){
         this.gridDivCol = "col-xs-6";
         this.gridLMain = "col-xs-12";
         this.gridFeaturesCol = "col-xs-12";

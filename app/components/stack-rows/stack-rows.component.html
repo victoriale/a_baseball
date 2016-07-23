@@ -1,46 +1,14 @@
-
-<div class="stack-rows-container">
-  <!-- each item is a placeholder -->
-  <div class="stack-rows-container-item">
-    <div class="stack-rows-container-item-image"></div>
-    <div class="stack-rows-container-item-text">
-      <div class="stack-rows-container-item-text-details">[Keyword]<span>[Date Date Date]</span></div>
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-</div>
+<section class="stackRows row" (window:resize)="onResize($event)">
+  <div *ngFor="let stackRow of stackRow;">
+    <a class="stackSmall {{gridStackCol}}" href="{{stackRow.url}}">
+        <div class="stackSmall-image">
+          <rectangle-image [data]="stackRow.imageConfig"></rectangle-image>
+        </div>
+        <div class="stackSmall-text">
+          <div class="stackSmall-text-keyword"><span [innerHTML]="stackRow.keyword"></span><span [innerHTML]="stackRow.publishedDate"></span></div>
+          <div class="stackSmall-text-subHeadline" [innerHTML]="stackRow.description"></div>
+        </div>
+    </a>
+    <div class="stackSmall-breakLine"></div>
   </div>
-  <div class="stack-rows-container-item">
-    <div class="stack-rows-container-item-image"></div>
-    <div class="stack-rows-container-item-text">
-      <div class="stack-rows-container-item-text-details">[Keyword]<span>[Date Date Date]</span></div>
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-</div>
-  </div>
-  <div class="stack-rows-container-item">
-    <div class="stack-rows-container-item-image"></div>
-    <div class="stack-rows-container-item-text">
-      <div class="stack-rows-container-item-text-details">[Keyword]<span>[Date Date Date]</span></div>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-  </div>
-  </div>
-  <div class="stack-rows-container-item">
-    <div class="stack-rows-container-item-image"></div>
-    <div class="stack-rows-container-item-text">
-      <div class="stack-rows-container-item-text-details">[Keyword]<span>[Date Date Date]</span></div>
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-</div>
-  </div>
-  <div class="stack-rows-container-item">
-    <div class="stack-rows-container-item-image"></div>
-    <div class="stack-rows-container-item-text">
-      <div class="stack-rows-container-item-text-details">[Keyword]<span>[Date Date Date]</span></div>
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-</div>
-  </div>
-  <div class="stack-rows-container-item">
-    <div class="stack-rows-container-item-image"></div>
-    <div class="stack-rows-container-item-text">
-      <div class="stack-rows-container-item-text-details">[Keyword]<span>[Date Date Date]</span></div>
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-</div>
-  </div>
-</div>
+</section>

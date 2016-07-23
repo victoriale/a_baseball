@@ -29,12 +29,15 @@
     .fa-bars{
       margin: 22px;
     }
-    &:hover{
+    .fa-remove{
+      height: 100%;
+      width: 100%;
+      .flexDisplay;
+      .flexJustify(center);
+      .flexAlignItems(center);
       background-color: darken(@masterBrandColor, 10%);
     }
-    &-dropDown{
-      display: none;
-    }
+
     &.active, &:hover, &:focus, &:active{
       .header-hamburger-dropDown{
         display: inline-block;
@@ -156,7 +159,7 @@
     }
   }
 }
-@media @desktop{
+@media @desktop-l{
   .header{
     &-search{
       height: 65px;

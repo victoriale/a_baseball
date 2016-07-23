@@ -24,16 +24,18 @@ export class HeaderComponent implements OnInit,OnChanges {
   public hamburgerMenuData: Array<MenuData>;
   public hamburgerMenuInfo: Array<MenuData>;
   public titleHeader: string;
+  public isOpened: boolean;
+  public isActive: boolean = false;
   loadData(partnerID: string) {
     this.logoUrl = 'app/public/Home-Run-Loyal_Logo.svg';
     this.hamburgerMenuData = [{
         menuTitle: "Home",
         url: ['Home-page']
       },
-      {
-        menuTitle: "Pick a Team",
-        url: ['Pick-team-page']
-      },
+      // {
+      //   menuTitle: "Pick a Team",
+      //   url: ['Pick-team-page']
+      // },
       {
         menuTitle: "MLB League",
         url: ['MLB-page']
@@ -78,7 +80,13 @@ export class HeaderComponent implements OnInit,OnChanges {
       this._stickyHeader = "0px"
     }
   }//onScrollStick ends
-
+   public getMenu(): void{
+     if(this.isOpened == true){
+       this.isOpened = false;
+     }else{
+       this.isOpened = true;
+     }
+   }
   ngOnInit(){
     stButtons.locateElements();
   }

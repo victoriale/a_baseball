@@ -1,18 +1,24 @@
-<div class="video-stacktop">
-  <div class="video-stacktop-video">VIDEO</div>
+<div class="video-stacktop" *ngFor="let item of articleData; let rowIndex = index">
+  <a [routerLink]="['Syndicated-article-page', {eventID:item.id, articleType:'video'}]">
+  <div class="video-stacktop-video" [ngStyle]="{'background-image': 'url(' + item.thumbnail + ')'}">
+    <div class="greyout">
+      <div class="playCircle">
+        <i class="fa fa-play"></i>
+      </div>
+    </div>
+    <div class="overlay">
+      <div>Watch Video</div>
+    </div>
+  </div>
+  </a>
   <div class="video-stacktop-right">
     <div class="video-stacktop-right-title">
-      <span class="video-title-top"> [Keyword] <span>date</span></span>
-      <span class="video-title-mid"> Title!</span>
-      <span class="video-title-bottom">By: Col</span>
+      <span class="video-title-top"><span>{{formatDate(item.pubDate)}}</span></span>
+      <a [routerLink]="['Syndicated-article-page', {eventID:item.id, articleType:'video'}]">
+      <span class="video-title-mid" [innerHTML]="item.title"></span>
+      </a>
       </div>
-      <div class="video-stacktop-right-text">
-
-Lorem ipsum dolor sit amet, consectetur
- adipisicing elit, sed do eiusmod tempor incididunt
-  ut labore et dolore magna aliqua. Ut enim ad minim
-   veniam, quis nostrud exercitation ullamco laboris
-   nisi ut aliquip ex ea commodo consequat.
+      <div class="video-stacktop-right-text" [innerHTML]="item.description">
       </div>
     </div>
   </div>
