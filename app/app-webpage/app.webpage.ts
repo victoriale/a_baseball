@@ -25,7 +25,6 @@ import {DraftHistoryPage} from "../webpages/draft-history-page/draft-history.pag
 import {SeasonStatsPage} from "../webpages/season-stats-page/season-stats.page";
 import {StandingsPage} from "../webpages/standings-page/standings.page";
 import {ArticlePages} from "../webpages/article-pages/article-pages.page";
-import {SyndicatedArticlePage} from "../webpages/syndicated-article-page/syndicated-article-page.page";
 import {ListOfListsPage} from "../webpages/list-of-lists-page/list-of-lists.page";
 import {TransactionsPage} from "../webpages/transactions-page/transactions.page";
 import {MVPListPage} from "../webpages/mvp-list-page/mvp-list.page";
@@ -42,7 +41,8 @@ import {SanitizeStyle} from "../pipes/safe.pipe";
 import {GlobalSettings} from "../global/global-settings";
 
 //FOR DEEP DIVE
-import {DeepDivePage} from "../webpages/deep-dive-page/deep-dive.page";
+// import {SyndicatedArticlePage} from "../webpages/syndicated-article-page/syndicated-article-page.page";
+// import {DeepDivePage} from "../webpages/deep-dive-page/deep-dive.page";
 
 @Component({
     selector: 'my-app',
@@ -62,16 +62,22 @@ import {DeepDivePage} from "../webpages/deep-dive-page/deep-dive.page";
 
 @RouteConfig([
     //Home Page
-    {
-      path: '/',
-      name: 'Home-page',
-      component: DeepDivePage,
-      useAsDefault: true
-    },
-    {
-        path: '/pick-a-team',
-        name: 'Pick-team-page',
+    // {
+    //   path: '/',
+    //   name: 'Home-page',
+    //   component: DeepDivePage,
+    //   useAsDefault: true
+    // },
+    // {
+    //     path: '/pick-a-team',
+    //     name: 'Pick-team-page',
+    //     component: PickTeamPage,
+    // },
+    {//TODO REMOVE when deep dive is ready
+        path: '/',
+        name: 'Home-page',
         component: PickTeamPage,
+        useAsDefault: true
     },
     //Profile Pages
     {
@@ -211,11 +217,11 @@ import {DeepDivePage} from "../webpages/deep-dive-page/deep-dive.page";
         name: 'Article-pages',
         component: ArticlePages
 	  },
-    {
-        path: '/news/:articleType/:eventID',
-        name: 'Syndicated-article-page',
-        component: SyndicatedArticlePage
-	  },
+    // {
+    //     path: '/news/:articleType/:eventID',
+    //     name: 'Syndicated-article-page',
+    //     component: SyndicatedArticlePage
+	  // },
     {
         path: '/list-of-lists/:scope/:type/:id/:limit/:pageNum',
         name: 'List-of-lists-page-scoped',

@@ -5,20 +5,56 @@
 
   &-video {
     background-color: @strokeGrey;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
     width: 300px;
     height: 193px;
     margin-right: 15px;
-    .playCircle {
-      font-size:30px;
-      position:relative;
-      height: 70px;
-      width: 70px;
-      left: ~"calc(50% - 35px)";
-      top: ~"calc(50% - 35px)";
-      background-color: @investKitBlueImageHover;
+    .greyout {
+      position: relative;
+      width:100%;
+      height:100%;
+      background-color: rgba(0,0,0,0.3);
+      .playCircle {
+        font-size:30px;
+        position:relative;
+        height: 70px;
+        width: 70px;
+        left: ~"calc(50% - 35px)";
+        top: ~"calc(50% - 35px)";
+        background-color: rgba(30, 185, 227, 0.9);
+        color: @white;
+        padding: 20px 22px;
+        border-radius:70px;
+      }
+    }
+  }
+  .overlay {
+    width:100%;
+    height:100%;
+    background-color: @homeRunLoyalImageHover;
+    position: relative;
+    display: none;
+    div {
       color: @white;
-      padding: 20px 22px;
-      border-radius:70px;
+      position: absolute;
+      border: 1px solid @white;
+      font-size: 16px;
+      padding:10px;
+      height:40px;
+      width: 120px;
+      left: ~"calc(50% - 60px)";
+      top: ~"calc(50% - 20px)";
+      text-align: center;
+    }
+  }
+  &-video:hover {
+    .overlay {
+      display: block;
+    }
+    .greyout {
+      display:none;
     }
   }
   &-right {

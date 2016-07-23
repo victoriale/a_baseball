@@ -144,6 +144,7 @@
     background-image: url('/app/public/homePage_hero2.png');
     color: @white;
     height: 449px;
+    margin-top: 20px;
     .backgroundSize(cover);
     .flexDisplay;
     .flexAlignItems(center);
@@ -289,7 +290,7 @@
       }//home-hero-info ends
     }//home-hero ends
     &-main{
-      margin-left: 8.333%;
+      margin-left: 0;
     }//home-main ends
 
     &-league{
@@ -349,4 +350,9 @@
       }//home-features-tile2 ends
     }//home-features ends
   }//home ends
+}
+@media @desktop-xl{
+  .home-main {
+    margin-left: 8.3333%;
+  }
 }

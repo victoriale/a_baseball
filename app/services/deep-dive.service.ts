@@ -85,7 +85,6 @@ export class DeepDiveService {
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
-      console.log(callURL);
 
       // transform the data to YYYY-MM-DD objects from unix
       return data;
@@ -284,7 +283,6 @@ export class DeepDiveService {
         console.log(GlobalSettings.getImageUrl(data[i]['imagePath']));
         //datastack[i]['image_url'] = data[i]['image_url'];
       }
-      //console.log(datastack);
       return datastack;
   }
 
