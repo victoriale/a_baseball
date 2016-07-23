@@ -74,19 +74,7 @@ export class PickTeamPage implements OnInit {
         this.isHomeRunZone = partnerHome;
       });
     }
-  // TODO put this into css
-  //  onResize(event) {
-  //    this.width = event.target.innerWidth;
-  //    if(this.width < 1441){
-  //      this.gridDivCol = "col-xs-6";
-  //      this.gridLMain = "col-xs-12";
-  //      this.gridFeaturesCol = "col-xs-12";
-  //    } else {
-  //      this.gridDivCol = "col-lg-4";
-  //      this.gridLMain = "col-xs-10";
-  //      this.gridFeaturesCol = "col-xs-12";
-  //    }
-  //  }
+  
     getListData(){
       this.listData = [
         {
