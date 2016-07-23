@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {GlobalSettings} from "../../global/global-settings";
 import {SliderButton} from "../../components/buttons/slider/slider.button";
@@ -29,7 +29,7 @@ export interface newsCarouselData {
     providers: [LandingPageService, Title],
 })
 
-export class PickTeamPage implements OnInit {
+export class PickTeamPage{
     public teamData: Array<homePageData>;
     public listData: Array<newsCarouselData>;
     public displayData: Object;
@@ -138,8 +138,5 @@ export class PickTeamPage implements OnInit {
           this.mlbTeams = data.league;
         })
       var sampleImage = "./app/public/placeholder-location.jpg";
-    }
-    ngOnInit(){
-      //this.onResize(event);
     }
 }
