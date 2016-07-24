@@ -21,7 +21,7 @@
         </div>
       </td>
     </tr>
-    <responsive-widget style="display:table-row;" colspan=50 *ngIf="(!((rowIndex + 1) % 10) && model.rows.length > 10) || (!((rowIndex + 1) % 5) && model.rows.length <= 10 && (!isLast && rowIndex != 10)) || (isLast && rowIndex < 5)" embedPlace="widgetForPage"></responsive-widget>
+    <responsive-widget style="display:table-row;" colspan=50 *ngIf="(!((rowIndex + 1) % 10) && model.rows.length >= 10) || (!((rowIndex + 1) % 5) && model.rows.length <= 10 && (!isLast && rowIndex != 10)) || (isLast && rowIndex <= 5)" embedPlace="widgetForPage"></responsive-widget>
   </tbody>
 
   <tfoot *ngIf="model.footer" class="custom-table-footer {{bodyClass}}">
