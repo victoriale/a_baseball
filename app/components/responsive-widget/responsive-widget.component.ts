@@ -17,7 +17,7 @@ export class ResponsiveWidget implements OnInit {
 
   ngOnInit() {
     this.displayAtRes = "_" + this.displayAtRes + "only"
-    var windowWidth = window.outerWidth;
+    var windowWidth = window.innerWidth;
     if(windowWidth <= 640){
       this.widgetSml = true;
       this.widgetMed = false;
@@ -27,7 +27,7 @@ export class ResponsiveWidget implements OnInit {
     }
   }
   private onWindowLoadOrResize(event) {
-    var windowWidth = event.target.outerWidth;
+    var windowWidth = event.target.innerWidth;
     if(windowWidth <= 640){
       this.widgetSml = true;
       this.widgetMed = false;
