@@ -6,6 +6,8 @@
     <error-component *ngIf="isError"></error-component>
     <mvp-list *ngIf="tabs" [tabs]="tabs" [selectedTabTitle]="selectedTabName" (tabSelected)="tabSelected($event)"></mvp-list>
     <pagination-footer *ngIf="paginationParameters" [paginationParameters]="paginationParameters" (newIndex)="newIndex($event)"></pagination-footer>
-    <responsive-widget *ngIf="paginationParameters" embedPlace="widgetForPage"></responsive-widget>
+    <div class="list-widget">
+      <responsive-widget *ngIf="paginationParameters" embedPlace="widgetForPage"></responsive-widget>
+    </div>
 </section>
 </sidekick-wrapper>
