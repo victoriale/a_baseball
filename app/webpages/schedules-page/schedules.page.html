@@ -6,5 +6,8 @@
     <error-component *ngIf="isError"></error-component>
     <schedules-component *ngIf="schedulesData" [carouselData]="schedulesData.carData" [data]="schedulesData.data" [tabs]="tabData" (tabSelected)="scheduleTab($event)"></schedules-component>
     <pagination-footer *ngIf="paginationParameters" [paginationParameters]="paginationParameters" (newIndex)="newIndex($event)"></pagination-footer>
+    <div class="list-widget">
+      <responsive-widget *ngIf="paginationParameters" embedPlace="widgetForPage"></responsive-widget>
+    </div>
 </section>
 </sidekick-wrapper>

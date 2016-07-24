@@ -15,7 +15,7 @@
     </div>
     <!-- Tabs Component -->
     <tabs (tabSelected)="tabSelected($event)">
-        <tab *ngFor="let outerItem of searchPageInput.tabData; let i = index" [tabTitle]="outerItem.tabName" [active]="outerItem.isTabDefault">
+        <tab *ngFor="let outerItem of searchPageInput.tabData; let i = index; let isLast = last" [tabTitle]="outerItem.tabName" [active]="outerItem.isTabDefault">
             <!-- Results -->
             <ul class="search-page-results">
             	<span class="search-page-total">Showing: <span class="text-heavy">{{currentShowing}}</span> of <span class="text-heavy">{{totalResults}}</span> results:</span>
@@ -24,7 +24,7 @@
                     <a class="search-page-results-item-link" [routerLink]="innerItem.url" [innerHtml]="innerItem.urlText"></a><br>
                     <span class="search-page-results-item-description" [innerHtml]="innerItem.description"></span>
                     <div class="search-widget">
-                      <responsive-widget *ngIf="!((i + 1) % 5)" embedPlace="widgetForPage"></responsive-widget>
+                      <responsive-widget *ngIf="!((i + 1) % 5) && ((i + 1) % 10)" embedPlace="widgetForPage"></responsive-widget>
                     </div>
                 </li>
                 <!-- No Results Found -->
@@ -36,6 +36,9 @@
                 </li>
             </ul>
             <pagination-footer *ngIf="outerItem.paginationParameters" [paginationParameters]="outerItem.paginationParameters" (newIndex)="newIndex($event)"></pagination-footer>
+            <div class="search-widget">
+              <responsive-widget embedPlace="widgetForPage"></responsive-widget>
+            </div>
         </tab>
     </tabs>
 
