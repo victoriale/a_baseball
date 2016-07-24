@@ -34,6 +34,7 @@
         <section *ngIf="!partnerID">
           <like-us-module></like-us-module>
           <comment-module [profileName]="profileHeaderData.profileName"></comment-module>
+          <responsive-widget *ngIf="profileHeaderData && shareModuleInput" [embedPlace]="widgetPlace" [displayAtRes]="'640'"></responsive-widget>
         </section>
         <about-us [partnerID]="partnerID"></about-us>
     </div>
