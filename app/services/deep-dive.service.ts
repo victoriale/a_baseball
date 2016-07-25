@@ -136,9 +136,9 @@ export class DeepDiveService {
   getCarouselData(data, callback:Function) {
      this.getDeepDiveService()
      .subscribe(data=>{
-     //   console.log('before',data);
+    //   console.log('before',data);
        var transformedData = this.carouselTransformData(data.data);
-     //  console.log('after',transformedData);
+    //   console.log('after',transformedData);
       callback(transformedData);
      })
  }
@@ -147,12 +147,18 @@ export class DeepDiveService {
       var transformData = [];
       arrayData.forEach(function(val,index){
       //  console.log(val);
+      if (val['teaser'].length <= 3) {
+        val['teaser'] = val['title'];
+      }
         let carData = {
           image_url: GlobalSettings.getImageUrl(val['imagePath']),
     //    image_url: this._sanitizer.bypassSecurityTrustStyle("url(" + GlobalSettings.getImageUrl(val['imagePath']), + ")"),
           title:  "<span> Today's News </span>" + val['title'],
           keyword: val['keyword'],
-          teaser: val['teaser'].substr(0,250).replace('_',': ').replace(/<p[^>]*>/g, "") + "..."
+          teaser: val['teaser'].substr(0,250).replace('_',': ').replace(/<p[^>]*>/g, "") + "...",
+          id: val['id']
+
+
         };
         transformData.push(carData);
       });
