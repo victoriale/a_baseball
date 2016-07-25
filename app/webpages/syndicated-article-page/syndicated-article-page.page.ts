@@ -77,7 +77,7 @@ export class SyndicatedArticlePage implements OnInit{
           }
           this.articleData = data.data;
           console.log(this.articleData.publishedDate);
-          this.articleData.publishedDate = moment(this.articleData.publishedDate, "YYYY-MM-Do, h:mm:ss").format("MMMM Do, YYYY h:mm:ss a");
+          this.articleData.publishedDate = moment.unix(this.articleData.publishedDate/1000).format("MMMM Do, YYYY h:mm A") + " EST";
         }
       )
     }

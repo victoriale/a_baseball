@@ -41,7 +41,7 @@ export class SyndicatedTrendingComponent {
         )
       }
       private formatDate(date) {
-        return moment(date, "YYYY-MM-Do, h:mm:ss").format("MMMM Do, YYYY h:mm:ss A");
+        return moment.unix(date/1000).format("MMMM Do, YYYY h:mm A") + " EST";
       }
       private onScroll(event) {
         if (jQuery(document).height() - window.innerHeight - jQuery("footer").height() <= jQuery(window).scrollTop()) {
