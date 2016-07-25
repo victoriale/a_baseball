@@ -1,7 +1,6 @@
 .stackSmall {
     height: 75px;
     margin: 15px 0;
-    width:50%;
     float:left;
     color: @black;
     .flexDisplay;
@@ -22,6 +21,9 @@
          font-weight: 800;
          text-transform: uppercase;
          margin-bottom: 10px;
+         height: 1.2em;
+         overflow: hidden;
+         text-overflow: ellipsis;
          .globalDefaultFont(10px, 800);
          > span:last-child{
            margin-left: 5px;
@@ -31,9 +33,10 @@
          }
       }
       &-subHeadline {
+         margin-top: -5px;
          .globalDefaultFont(12px, 400);
          p{
-           line-height: 1.2em;
+           line-height: 1.3em;
          }
       }
     }
@@ -46,6 +49,7 @@
       }
     }
 }
+
 @media @desktop-m {
  .stackSmall {
     &-text {
@@ -56,6 +60,9 @@
       }
       &-subHeadline{
         font-size: 14px;
+        p{
+          line-height: 1.2em;
+        }
       }
     }
   }
@@ -81,6 +88,7 @@
       width: 313px;
     }
     &-breakLine {
+      display: inline-block;
       width: 315px;
       height: 1px;
       background-color: @highlightGrey;
