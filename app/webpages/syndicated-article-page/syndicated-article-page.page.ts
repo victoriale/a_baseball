@@ -85,12 +85,12 @@ export class SyndicatedArticlePage{
             this.imageTitle = ["", ""];
           }
           else {
-            this.imageData = ["https://prod-sports-images.synapsys.us" + data.data.imagePath];
+            this.imageData = [GlobalSettings.getImageUrl(data.data.imagePath)];
             this.copyright = ["USA Today Sports Images"];
             this.imageTitle = [""];
           }
           this.articleData = data.data;
-          this.articleData.publishedDate = moment(this.articleData.publishedDate, "YYYY-MM-Do, h:mm:ss").format("MMMM Do, YYYY h:mm:ss a");
+          this.articleData.publishedDate = moment.unix(this.articleData.publishedDate/1000).format("MMMM Do, YYYY h:mm A") + " EST";
         }
       )
     }
