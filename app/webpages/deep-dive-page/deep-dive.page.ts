@@ -263,6 +263,7 @@ export class DeepDivePage{
                 },
                 err => {
                   this.geoLocation = defaultState;
+                  this.callModules();
                 }
             );
     }

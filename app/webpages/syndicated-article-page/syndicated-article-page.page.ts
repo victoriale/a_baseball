@@ -14,6 +14,8 @@ import {SidekickWrapperAI} from "../../components/sidekick-wrapper-ai/sidekick-w
 import {GlobalSettings} from "../../global/global-settings";
 import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 import {SanitizeRUrl} from "../../pipes/safe.pipe";
+import {GeoLocation} from "../../global/global-service";
+import {PartnerHeader} from "../../global/global-service";
 
 declare var jQuery:any;
 declare var moment;
@@ -32,11 +34,14 @@ declare var moment;
         SyndicatedTrendingComponent,
         ResponsiveWidget
     ],
-    providers: [DeepDiveService],
+    providers: [DeepDiveService, GeoLocation, PartnerHeader],
     pipes: [SanitizeRUrl]
 })
 
-export class SyndicatedArticlePage implements OnInit{
+export class SyndicatedArticlePage{
+  public partnerID: string;
+  public geoLocation:string;
+
   public widgetPlace: string = "widgetForPage";
   public articleData: any;
   public recomendationData: any;
@@ -49,7 +54,9 @@ export class SyndicatedArticlePage implements OnInit{
   constructor(
     private _params:RouteParams,
     private _router:Router,
-    private _deepdiveservice:DeepDiveService
+    private _deepdiveservice:DeepDiveService,
+    private _geoLocation:GeoLocation,
+    private _partnerData: PartnerHeader
     ){
       this.eventID = _params.get('eventID');
       this.articleType = _params.get('articleType');
@@ -59,8 +66,18 @@ export class SyndicatedArticlePage implements OnInit{
       else {
         this.getDeepDiveVideo(this.eventID);
       }
-      this.getRecomendationData();
+
+      GlobalSettings.getPartnerID(_router, partnerID => {
+          this.partnerID = partnerID;
+          if(this.partnerID != null){
+            this.getPartnerHeader();
+          }else{
+            this.getGeoLocation();
+          }
+      });
     }
+
+
     private getDeepDiveArticle(articleID) {
       this._deepdiveservice.getDeepDiveArticleService(articleID).subscribe(
         data => {
@@ -76,7 +93,6 @@ export class SyndicatedArticlePage implements OnInit{
             this.imageTitle = [""];
           }
           this.articleData = data.data;
-          console.log(this.articleData.publishedDate);
           this.articleData.publishedDate = moment(this.articleData.publishedDate, "YYYY-MM-Do, h:mm:ss").format("MMMM Do, YYYY h:mm:ss a");
         }
       )
@@ -89,14 +105,46 @@ export class SyndicatedArticlePage implements OnInit{
         }
       )
     }
+
+    getGeoLocation() {
+      var defaultState = 'ca';
+        this._geoLocation.getGeoLocation()
+            .subscribe(
+                geoLocationData => {
+                  this.geoLocation = geoLocationData[0].state;
+                  this.geoLocation = this.geoLocation.toLowerCase();
+                  this.getRecomendationData();
+                },
+                err => {
+                  this.geoLocation = defaultState;
+                  this.getRecomendationData();
+                }
+            );
+    }
+
+    getPartnerHeader(){//Since it we are receiving
+      if(this.partnerID != null){
+        this._partnerData.getPartnerData(this.partnerID)
+        .subscribe(
+          partnerScript => {
+            //super long way from partner script to get location using geo location api
+            var state = partnerScript['results']['location']['realestate']['location']['city'][0].state;
+            state = state.toLowerCase();
+            this.geoLocation = state;
+            this.getRecomendationData()
+          }
+        );
+      }else{
+        this.getGeoLocation();
+      }
+    }
+
     getRecomendationData(){
-      this._deepdiveservice.getAiArticleData()
+      var state = this.geoLocation.toUpperCase(); //needed to uppoercase for ai to grab data correctly
+      this._deepdiveservice.getRecArticleData(state, '1', '1')
           .subscribe(data => {
             this.recomendationData = this._deepdiveservice.transformToRecArticles(data);
             this.recomendationData = [this.recomendationData[0]];
           });
-    }
-    ngOnInit() {
-
     }
 }
