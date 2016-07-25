@@ -29,10 +29,7 @@
                 </li>
                 <!-- No Results Found -->
                 <li *ngIf="outerItem.results.length == 0 || outerItem.totalResults == 0" class="search-page-results-item no-results">
-                    <no-data-box [data]="outerItem.error.message" [icon]="outerItem.error.icon"></no-data-box>
-                    <div class="search-widget">
-                      <responsive-widget embedPlace="widgetForPage"></responsive-widget>
-                    </div>
+                  <no-data-box [data]="outerItem.error.message" [icon]="outerItem.error.icon"></no-data-box>
                 </li>
             </ul>
             <pagination-footer *ngIf="outerItem.paginationParameters" [paginationParameters]="outerItem.paginationParameters" (newIndex)="newIndex($event)"></pagination-footer>
