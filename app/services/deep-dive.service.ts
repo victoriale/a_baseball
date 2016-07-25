@@ -11,6 +11,7 @@ declare var moment;
 export class DeepDiveService {
   private _apiUrl: string = GlobalSettings.getApiUrl();
   private _trendingUrl: string = GlobalSettings.getTrendingUrl();
+  private _recUrl: string = GlobalSettings.getRecUrl();
   // private _apiToken: string = 'BApA7KEfj';
   // private _headerName: string = 'X-SNT-TOKEN';
 
@@ -111,6 +112,16 @@ export class DeepDiveService {
     var headers = this.setToken();
     //this is the sidkeick url
     var callURL = this._trendingUrl;
+    return this.http.get(callURL, {headers: headers})
+      .map(res => res.json())
+      .map(data => {
+        return data;
+      });
+  }
+  getRecArticleData(region, pageNum, pageCount){
+    var headers = this.setToken();
+    //this is the sidkeick url
+    var callURL = this._recUrl + "/" + region + "/" + pageNum + "/" + pageCount;
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {

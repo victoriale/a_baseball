@@ -178,7 +178,7 @@ export class DeepDivePage implements OnInit {
       }
     }
     getRecommendationData(){
-      this._deepDiveData.getAiArticleData()
+      this._deepDiveData.getRecArticleData("KS",1,1)
           .subscribe(data => {
             this.recommendationData = this._deepDiveData.transformToRecArticles(data);
           });
