@@ -1,19 +1,19 @@
 <carousel-dive>
-  <div class="carousel-dive">
-    <div class="carousel-dive-right">
-      <i class="fa fa-angle-right" aria-hidden="true" id="carousel-dive-rightarrow" (click)="rightcarousel()"></i>
+  <div class="carousel-dive" id="newsCarousel">
+    <div class="carousel-dive-right" (click)="rightcarousel()">
+      <i class="fa fa-angle-right" aria-hidden="true" id="carousel-dive-rightarrow"></i>
     </div>
-    <div class="carousel-dive-left">
-      <i class="fa fa-angle-left" aria-hidden="true" id="carousel-dive-leftarrow" (click)="leftcarousel()"></i>
+    <div class="carousel-dive-left" (click)="leftcarousel()">
+      <i class="fa fa-angle-left" aria-hidden="true" id="carousel-dive-leftarrow"></i>
     </div>
     <div class="owl-carousel carousel_owl">
       <div class="owl-item"  *ngFor = "let data of carouselData; let i = index;" [ngStyle]="{'background-image': 'linear-gradient(180deg, rgba(40, 40, 40, 0.5) 0%, rgba(24, 24, 24, 0.65) 100%), url(' + data.image_url + ')'}">
           <div class="carousel-item">
             <div class="carousel-item-container">
-              <div class="carousel-item-container-key" [innerHTML]="data.keyword | safeHtml"></div>
-              <div class="carousel-item-container-title" [innerHTML]="data.title | safeHtml"></div>
+              <div class="carousel-item-container-key" [innerHTML]="data.keyword"></div>
+              <div class="carousel-item-container-title" [innerHTML]="data.title"></div>
                 <div class="carousel-item-container-title-border"></div>
-              <div class="carousel-item-container-content" [innerHTML]="data.teaser | safeHtml">
+              <div class="carousel-item-container-content" [innerHTML]="data.teaser">
               </div>
               <a [routerLink]="data.articlelink">
                 <div class="carousel-item-container-fullstory">Read the Full Story</div>
