@@ -15,7 +15,7 @@
     <div class="video-stackbot-item-right">
       <div class="video-title-top"><span>{{formatDate(item.pubDate)}}</span></div>
       <a [routerLink]="['Syndicated-article-page', {eventID:item.id, articleType:'video'}]">
-      <div class="video-stackbot-item-text" [innerHTML]="item.title">
+      <div class="video-stackbot-item-text" [innerHTML]="item.title | safeHtml">
       </div>
       </a>
     </div>

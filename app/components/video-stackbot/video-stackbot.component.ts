@@ -1,6 +1,8 @@
 import {Component,OnInit} from '@angular/core';
 import {DeepDiveService} from '../../services/deep-dive.service';
 import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import {SanitizeHtml} from "../../pipes/safe.pipe";
+
 
 declare var moment;
 
@@ -8,7 +10,8 @@ declare var moment;
   selector: 'video-stackbot-component',
   templateUrl: './app/components/video-stackbot/video-stackbot.component.html',
   directives: [ROUTER_DIRECTIVES],
-  providers: [DeepDiveService]
+  providers: [DeepDiveService],
+  pipes: [SanitizeHtml]
 
 })
 

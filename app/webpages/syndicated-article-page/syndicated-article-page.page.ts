@@ -17,6 +17,7 @@ import {SanitizeRUrl} from "../../pipes/safe.pipe";
 import {GeoLocation} from "../../global/global-service";
 import {PartnerHeader} from "../../global/global-service";
 
+
 declare var jQuery:any;
 declare var moment;
 
