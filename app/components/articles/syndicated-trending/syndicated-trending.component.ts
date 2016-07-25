@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Router,ROUTER_DIRECTIVES, RouteParams} from '@angular/router-deprecated';
 import {ShareLinksComponent} from "../shareLinks/shareLinks.component";
 import {SanitizeHtml} from "../../../pipes/safe.pipe";
@@ -25,22 +25,14 @@ export class SyndicatedTrendingComponent {
 
     public articleData: any;
     public trendingLength: number = 2;
-    private geoLocation: string;
+    @Input() geoLocation: string;
 
     constructor(
       private _router:Router,
       private _deepdiveservice:DeepDiveService,
       private _geoLocation:GeoLocation
-      ){
-        this._geoLocation.getGeoLocation()
-            .subscribe(
-                geoLocationData => {
-                  this.geoLocation = geoLocationData[0].state;
-                  this.geoLocation = this.geoLocation.toLowerCase();
-                  this.getDeepDiveArticle(2 , this.geoLocation);
-                }
-            );
-      }
+      ){}
+
       private getDeepDiveArticle(numItems, state) {
         this._deepdiveservice.getDeepDiveBatchService(numItems, 1, state).subscribe(
           data => {
@@ -52,10 +44,8 @@ export class SyndicatedTrendingComponent {
         )
       }
 
-      //Subscribe to getGeoLocation in geo-location.service.ts. On Success call getNearByCities function.
-      getGeoLocation() {
-
-
+      ngOnInit(){
+        this.getDeepDiveArticle(2 , this.geoLocation);
       }
 
       private formatDate(date) {

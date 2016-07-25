@@ -128,6 +128,7 @@ export class DeepDiveService {
     var headers = this.setToken();
     //this is the sidkeick url
     var callURL = this._recUrl + "/" + region + "/" + pageNum + "/" + pageCount;
+    console.log(callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {

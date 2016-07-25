@@ -69,11 +69,7 @@ export class SyndicatedArticlePage{
 
       GlobalSettings.getPartnerID(_router, partnerID => {
           this.partnerID = partnerID;
-          if(this.partnerID != null){
-            this.getPartnerHeader();
-          }else{
-            this.getGeoLocation();
-          }
+          this.getPartnerHeader();
       });
     }
 
