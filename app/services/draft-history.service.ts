@@ -209,7 +209,7 @@ export class MLBDraftHistoryService extends DraftHistoryService {
           backgroundImage: GlobalSettings.getBackgroundImageUrl(val.backgroundImage),
           copyrightInfo: GlobalSettings.getCopyrightInfo(),
           profileNameLink: playerLinkText,
-          description: ['Hometown: ', location],
+          description: ['<i class="fa fa-map-marker text-master"></i>', 'Hometown: ', location],
           dataValue: val.selectionOverall + " Overall",
           dataLabel: "Draft Round " + val.selectionLevel,
           circleImageUrl: GlobalSettings.getImageUrl(val.imageUrl),
