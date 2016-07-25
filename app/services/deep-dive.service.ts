@@ -11,7 +11,6 @@ declare var moment;
 export class DeepDiveService {
   private _apiUrl: string = GlobalSettings.getApiUrl();
   private _trendingUrl: string = GlobalSettings.getTrendingUrl();
-  private _recUrl: string = GlobalSettings.getRecUrl();
   // private _apiToken: string = 'BApA7KEfj';
   // private _headerName: string = 'X-SNT-TOKEN';
 
@@ -118,16 +117,6 @@ export class DeepDiveService {
         return data;
       });
   }
-  getRecArticleData(region, pageNum, pageCount){
-    var headers = this.setToken();
-    //this is the sidkeick url
-    var callURL = this._recUrl + "/" + region + "/" + pageNum + "/" + pageCount;
-    return this.http.get(callURL, {headers: headers})
-      .map(res => res.json())
-      .map(data => {
-        return data;
-      });
-  }
 
   transformToBoxArticle(data){
     var boxArray = [];
@@ -154,25 +143,33 @@ export class DeepDiveService {
 getCarouselData(data, callback:Function) {
      this.getDeepDiveService(2, 25)
      .subscribe(data=>{
+    //   console.log('before',data);
        var transformedData = this.carouselTransformData(data.data);
+    //   console.log('after',transformedData);
       callback(transformedData);
      })
  }
-
  carouselTransformData(arrayData){
 
       var transformData = [];
       arrayData.forEach(function(val,index){
+      //  console.log(val);
+      if (val['teaser'].length <= 3) {
+        val['teaser'] = val['title'];
+      }
         let carData = {
           image_url: GlobalSettings.getImageUrl(val['imagePath']),
+    //    image_url: this._sanitizer.bypassSecurityTrustStyle("url(" + GlobalSettings.getImageUrl(val['imagePath']), + ")"),
           title:  "<span> Today's News </span>" + val['title'],
           keyword: val['keyword'],
           teaser: val['teaser'].substr(0,250).replace('_',': ').replace(/<p[^>]*>/g, "") + "...",
           id:val['id'],
-          articlelink: MLBGlobalFunctions.formatSynRoute('story', val.id),
+          articlelink: MLBGlobalFunctions.formatSynRoute('story', val.id)
+
         };
         transformData.push(carData);
       });
+
       return transformData;
   }
 
