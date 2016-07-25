@@ -5,10 +5,13 @@
   <section class="header-top">
     <div class="header-left">
       <!-- <div class="header-hamburger" tabindex="999"> -->
-      <div class="header-hamburger" (click)="getMenu()">
+      <!-- menucheck class is for the document click funtion to determine to close it when in view -->
+      <div class="header-hamburger menucheck" (click)="getMenu($event)">
         <i *ngIf="!isOpened" class="fa fa-bars"></i>
-        <i *ngIf="isOpened" class="fa fa-remove"></i>
-        <div *ngIf="isOpened" class="header-hamburger-dropDown"><hamburger-menu-component [menuData]="hamburgerMenuData" [menuInfo]="hamburgerMenuInfo"></hamburger-menu-component></div>
+        <i *ngIf="isOpened" class="fa fa-remove menucheck"></i>
+        <div *ngIf="isOpened" class="header-hamburger-dropDown">
+          <hamburger-menu-component [menuData]="hamburgerMenuData" [menuInfo]="hamburgerMenuInfo"></hamburger-menu-component>
+        </div>
       </div>
     </div>
     <div class="header-right">
