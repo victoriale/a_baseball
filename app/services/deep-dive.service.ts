@@ -143,33 +143,25 @@ export class DeepDiveService {
 getCarouselData(data, callback:Function) {
      this.getDeepDiveService(2, 25)
      .subscribe(data=>{
-    //   console.log('before',data);
        var transformedData = this.carouselTransformData(data.data);
-    //   console.log('after',transformedData);
       callback(transformedData);
      })
  }
+
  carouselTransformData(arrayData){
 
       var transformData = [];
       arrayData.forEach(function(val,index){
-      //  console.log(val);
-      if (val['teaser'].length <= 3) {
-        val['teaser'] = val['title'];
-      }
         let carData = {
           image_url: GlobalSettings.getImageUrl(val['imagePath']),
-    //    image_url: this._sanitizer.bypassSecurityTrustStyle("url(" + GlobalSettings.getImageUrl(val['imagePath']), + ")"),
           title:  "<span> Today's News </span>" + val['title'],
           keyword: val['keyword'],
           teaser: val['teaser'].substr(0,250).replace('_',': ').replace(/<p[^>]*>/g, "") + "...",
           id:val['id'],
-          articlelink: MLBGlobalFunctions.formatSynRoute('story', val.id)
-
+          articlelink: MLBGlobalFunctions.formatSynRoute('story', val.id),
         };
         transformData.push(carData);
       });
-
       return transformData;
   }
 
