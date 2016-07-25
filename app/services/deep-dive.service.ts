@@ -42,6 +42,7 @@ export class DeepDiveService {
   } else {
     callURL += "/" + limit;
   }
+  console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -172,7 +173,8 @@ getCarouselData(data, callback:Function) {
     var articleStackArray = [];
     var sampleImage = "/app/public/placeholder_XL.png";
     var articleStackArray = [];
-    data = data.data.slice(1,7);//TODO
+    data = data.data;
+    console.log(data);
     data.forEach(function(val, index){
       var s = {
           stackRowsRoute: MLBGlobalFunctions.formatSynRoute('story', val.id),
