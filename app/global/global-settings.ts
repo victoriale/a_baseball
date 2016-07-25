@@ -11,6 +11,8 @@ export class GlobalSettings {
 
     private static _apiUrl:string = '-homerunloyal-api.synapsys.us';
     private static _partnerApiUrl: string = 'apireal.synapsys.us/listhuv/?action=get_partner_data&domain=';
+    private static _widgetUrl: string = 'w1.synapsys.us';
+
     private static _dynamicApiUrl: string = 'dw.synapsys.us/list_creator_api.php'
 
     private static _imageUrl:string = '-sports-images.synapsys.us';
@@ -50,6 +52,11 @@ export class GlobalSettings {
 
     static getPartnerApiUrl(partnerID):string {
         return this._proto + "//"+ this._partnerApiUrl + partnerID;
+    }
+
+    static getGeoLocation():string {
+        //[https:]//[prod]-homerunloyal-api.synapsys.us
+        return this._proto + "//" + this._widgetUrl;
     }
 
     static getImageUrl(relativePath):string {
