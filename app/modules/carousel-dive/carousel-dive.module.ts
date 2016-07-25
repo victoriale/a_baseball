@@ -1,4 +1,5 @@
 import {Component,OnInit,EventEmitter,Input} from '@angular/core';
+import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 
 declare var jQuery:any;
 
@@ -6,7 +7,7 @@ declare var jQuery:any;
 @Component({
   selector: 'carousel-dive-module',
   templateUrl: './app/modules/carousel-dive/carousel-dive.module.html',
-  directives: [],
+  directives: [ROUTER_DIRECTIVES],
   providers: []
 })
 
