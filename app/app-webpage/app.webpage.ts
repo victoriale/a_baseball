@@ -41,8 +41,8 @@ import {SanitizeStyle} from "../pipes/safe.pipe";
 import {GlobalSettings} from "../global/global-settings";
 
 //FOR DEEP DIVE
-// import {SyndicatedArticlePage} from "../webpages/syndicated-article-page/syndicated-article-page.page";
-// import {DeepDivePage} from "../webpages/deep-dive-page/deep-dive.page";
+import {SyndicatedArticlePage} from "../webpages/syndicated-article-page/syndicated-article-page.page";
+import {DeepDivePage} from "../webpages/deep-dive-page/deep-dive.page";
 
 @Component({
     selector: 'my-app',
@@ -62,22 +62,16 @@ import {GlobalSettings} from "../global/global-settings";
 
 @RouteConfig([
     //Home Page
-    // {
-    //   path: '/',
-    //   name: 'Home-page',
-    //   component: DeepDivePage,
-    //   useAsDefault: true
-    // },
-    // {
-    //     path: '/pick-a-team',
-    //     name: 'Pick-team-page',
-    //     component: PickTeamPage,
-    // },
-    {//TODO REMOVE when deep dive is ready
-        path: '/',
-        name: 'Home-page',
+    {
+      path: '/',
+      name: 'Home-page',
+      component: DeepDivePage,
+      useAsDefault: true
+    },
+    {
+        path: '/pick-a-team',
+        name: 'Pick-team-page',
         component: PickTeamPage,
-        useAsDefault: true
     },
     //Profile Pages
     {
