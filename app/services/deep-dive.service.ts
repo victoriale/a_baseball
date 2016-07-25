@@ -178,7 +178,7 @@ getCarouselData(data, callback:Function) {
     var articleStackArray = [];
     var sampleImage = "/app/public/placeholder_XL.png";
     var articleStackArray = [];
-    data = data.data.slice(1,7);//TODO
+    data = data.data.slice(1,7);
     data.forEach(function(val, index){
       var s = {
           stackRowsRoute: MLBGlobalFunctions.formatSynRoute('story', val.id),
@@ -199,7 +199,22 @@ getCarouselData(data, callback:Function) {
     });
     return articleStackArray;
   }
-
+  transformTileStack(data) {
+    data = data.data;
+    var lines = ['Find Your Favorite Player', 'Find Your Favorite Team', 'Check Out The Latest With the MLB'];
+    let pickATeam = ['Pick-team-page'];
+    let mlbPage = ['MLB-page'];
+    var tileLink = [pickATeam, pickATeam, mlbPage];
+    var dataStack = [];
+      for(var i = 0; i < 3; i++){
+        var j = Math.floor(Math.random() * 18) + 1;
+        dataStack[i] = data[i];
+        dataStack[i]['lines'] = lines[i];
+        dataStack[i]['tileLink'] = tileLink[i];
+        dataStack[i]['image_url'] = GlobalSettings.getImageUrl(data[j]['imagePath']);
+      }
+      return dataStack;
+  }
   transformToArticleStack(data){
     var sampleImage = "/app/public/placeholder_XL.png";
     var topData = data.data[0];//TODO
@@ -283,38 +298,4 @@ getCarouselData(data, callback:Function) {
     }
     return _return;
   }
-
-  transformTileStack(data) {
-    data = data.data;
-    var lines = ['Find Your Favorite Player', 'Find Your Favorite Team', 'Check Out The Latest With the MLB'];
-    var datastack = [];
-      for(var i = 0; i < 3; i++){
-        var j = Math.floor(Math.random() * 18) + 1;
-        datastack[i] = data[i];
-        datastack[i]['lines'] = lines[i];
-        datastack[i]['image_url'] = GlobalSettings.getImageUrl(data[j]['imagePath']);
-        //datastack[i]['image_url'] = data[i]['image_url'];
-      }
-      return datastack;
-  }
-
-  // getCarouselData(data, callback:Function) {
-  //     this.getDeepDiveService()
-  //     .subscribe(data=>{
-  //     //   console.log('before',data);
-  //       var transformedData = this.carouselTransformData(data);
-  //     //    console.log('after',transformedData);
-  //      callback(transformedData);
-  //     })
-  // }
-
-  // getStackRowsData(data) {
-  //     this.getDeepDiveService()
-  //     .subscribe(data=>{
-  //         console.log('before',data);
-  //         var transformedData = this.stackrowsTransformData(data);
-  //        //console.log('after',transformedData);
-  //     })
-  // }
-
 }

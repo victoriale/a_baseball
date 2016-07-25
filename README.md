@@ -10,7 +10,7 @@ install each one individually
 
 2. `npm install` if step 1 does not work (Once pulled you may install each individually with ex: `npm install -g gulp-cli`) or skip step 1. and go to step 2.
 
-      a.`-g gulp-cli`
+      a.`-g gulp-cli` 
 
       b.`gulp-less`
 
