@@ -15,10 +15,10 @@
     <div class="video-stacktop-right-title">
       <span class="video-title-top"><span>{{formatDate(item.pubDate)}}</span></span>
       <a [routerLink]="['Syndicated-article-page', {eventID:item.id, articleType:'video'}]">
-      <span class="video-title-mid" [innerHTML]="item.title"></span>
+      <span class="video-title-mid" [innerHTML]="item.title | safeHtml"></span>
       </a>
       </div>
-      <div class="video-stacktop-right-text" [innerHTML]="item.description">
+      <div class="video-stacktop-right-text" [innerHTML]="item.description | safeHtml">
       </div>
     </div>
   </div>
