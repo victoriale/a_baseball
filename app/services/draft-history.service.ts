@@ -119,7 +119,7 @@ export class MLBDraftHistoryService extends DraftHistoryService {
     // console.log("concrete - getDraftHistoryService");
 
     let year = tab.tabKey;
-    let itemsOnPage = 20;
+    let itemsOnPage = 10;
 
     var callURL;
     if ( profileData.profileType == "team" ) {
