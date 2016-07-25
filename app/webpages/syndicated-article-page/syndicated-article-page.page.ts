@@ -14,6 +14,8 @@ import {SidekickWrapperAI} from "../../components/sidekick-wrapper-ai/sidekick-w
 import {GlobalSettings} from "../../global/global-settings";
 import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 import {SanitizeRUrl} from "../../pipes/safe.pipe";
+import {SanitizeHtml} from "../../pipes/safe.pipe";
+
 
 declare var jQuery:any;
 declare var moment;
