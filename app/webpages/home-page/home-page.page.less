@@ -56,7 +56,7 @@
         color: @black;
         font-size: 24px;
         height: 50px;
-        width: 600px;
+        width: 540px;
       }//home-hero-info-search ends
     }//home-hero-info ends
   }//home-hero ends
@@ -274,7 +274,7 @@
   .globalDefaultFont(16px, 700);
 }
 
-@media @tablet{
+@media @desktop-l{
   .home{
     h1{
       .globalDefaultFont(60px, 800);
@@ -287,6 +287,9 @@
         h4{
           margin: 1em;
         }
+        &-search{
+          width: 600px;
+        }//home-hero-info-search ends
       }//home-hero-info ends
     }//home-hero ends
     &-main{
@@ -351,8 +354,27 @@
     }//home-features ends
   }//home ends
 }
+.home-league-col{
+  .col-xs-6;
+}
+.home-main{
+  .col-xs-12;
+}
+.home-features{
+  .col-xs-12;
+}
+
 @media @desktop-xl{
   .home-main {
     margin-left: 8.3333%;
+  }
+  .home-league-col{
+    .col-xs-4;
+  }
+  .home-main{
+    .col-xs-10;
+  }
+  .home-features{
+    .col-xs-12;
   }
 }

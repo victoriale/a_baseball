@@ -119,7 +119,7 @@ export class MLBDraftHistoryService extends DraftHistoryService {
     // console.log("concrete - getDraftHistoryService");
 
     let year = tab.tabKey;
-    let itemsOnPage = 20;
+    let itemsOnPage = 10;
 
     var callURL;
     if ( profileData.profileType == "team" ) {
@@ -209,7 +209,7 @@ export class MLBDraftHistoryService extends DraftHistoryService {
           backgroundImage: GlobalSettings.getBackgroundImageUrl(val.backgroundImage),
           copyrightInfo: GlobalSettings.getCopyrightInfo(),
           profileNameLink: playerLinkText,
-          description: ['Hometown: ', location],
+          description: ['<i class="fa fa-map-marker text-master"></i>', 'Hometown: ', location],
           dataValue: val.selectionOverall + " Overall",
           dataLabel: "Draft Round " + val.selectionLevel,
           circleImageUrl: GlobalSettings.getImageUrl(val.imageUrl),
