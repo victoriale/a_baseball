@@ -212,12 +212,11 @@ import {SyndicatedArticlePage} from "../webpages/syndicated-article-page/syndica
         name: 'Article-pages',
         component: ArticlePages
     },
-    //TODO uncomment when deep dive page is ready
-    // {
-    //     path: '/news/:articleType/:eventID',
-    //     name: 'Syndicated-article-page',
-    //     component: SyndicatedArticlePage
-	  // },
+    {
+        path: '/news/:articleType/:eventID',
+        name: 'Syndicated-article-page',
+        component: SyndicatedArticlePage
+	  },
     {
         path: '/list-of-lists/:scope/:type/:id/:limit/:pageNum',
         name: 'List-of-lists-page-scoped',

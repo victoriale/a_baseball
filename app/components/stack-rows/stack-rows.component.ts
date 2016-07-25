@@ -4,7 +4,7 @@ import {ImageData, RectangleImageData} from '../../components/images/image-data'
 import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 
 export interface StackRowsInput {
-  url: string;
+  stackRowsRoute: any;
   keyword: string;
   description: string;
   publishedDate: string;
@@ -34,7 +34,7 @@ export class StackRowsComponent implements OnInit {
     if (typeof this.stackRow == 'undefined') {
       var sampleImage = "/app/public/placeholder_XL.png";
       this.stackRow = [{
-          url: "/",
+          stackRowsRoute: ['Syndicated-article-page', {articleType: 'story', eventID: 1}],
           keyword: "[Keyword]",
           publishedDate: "[Date]",
           description: "Atlanta Braves interim manager Brian Snitker said he didn't worry about his young pitchers starting for the first time at Great American Ball Park, known for its homer-friendly dimensions",

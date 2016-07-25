@@ -12,9 +12,23 @@
       </div>
 
       <tile-stack-module *ngIf = "tilestackData" [tilestackData] = "tilestackData"></tile-stack-module>
+<<<<<<< HEAD
 
       <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
       <video-stack-module></video-stack-module>
+=======
+      <!-- adSmall HERE -->
+      <div class="deep-dive-adSmall">
+        <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+      </div>
+      <!-- adMed HERE -->
+      <div class="deep-dive-adMed">
+        <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+      </div>
+      <!-- <div class="deep-dive-module">
+        <video-stack-module></video-stack-module>
+      </div> -->
+>>>>>>> origin/develop
       <!-- adMed HERE -->
         <responsive-widget [embedPlace]="widgetPlace" [displayAtRes]="1024"></responsive-widget>
       <box-scores *ngIf="dateParam && maxHeight" class="box-scores" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)" [maxHeight]="maxHeight" [scroll]="scroll"></box-scores>

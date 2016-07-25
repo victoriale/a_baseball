@@ -306,4 +306,13 @@ export class MLBGlobalFunctions {
    }
   }
 
+  static formatSynRoute(articleType: string, eventID: string): Array<any> {
+    var synRoute: Array<any>;
+    if(typeof eventID != 'undefined' && eventID != null){
+      synRoute = ['Syndicated-article-page', {articleType: articleType, eventID: eventID}];
+    } else{
+      synRoute = null;
+    }
+    return synRoute ? synRoute : ['Error-page'];
+  }
 }

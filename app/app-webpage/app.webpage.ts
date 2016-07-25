@@ -211,11 +211,11 @@ import {DeepDivePage} from "../webpages/deep-dive-page/deep-dive.page";
         name: 'Article-pages',
         component: ArticlePages
 	  },
-    // {
-    //     path: '/news/:articleType/:eventID',
-    //     name: 'Syndicated-article-page',
-    //     component: SyndicatedArticlePage
-	  // },
+    {
+        path: '/news/:articleType/:eventID',
+        name: 'Syndicated-article-page',
+        component: SyndicatedArticlePage
+	  },
     {
         path: '/list-of-lists/:scope/:type/:id/:limit/:pageNum',
         name: 'List-of-lists-page-scoped',
