@@ -153,8 +153,8 @@ getCarouselData(data, callback:Function) {
           title:  "<span> Today's News </span>" + val['title'],
           keyword: val['keyword'],
           teaser: val['teaser'].substr(0,250).replace('_',': ').replace(/<p[^>]*>/g, "") + "...",
-          id: val['id'],
-          link: "/news/story/" + val['id']
+          id:val['id'],
+          articlelink: MLBGlobalFunctions.formatSynRoute('story', val.id)
 
         };
         transformData.push(carData);

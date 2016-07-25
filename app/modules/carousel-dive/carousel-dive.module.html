@@ -15,7 +15,7 @@
                 <div class="carousel-item-container-title-border"></div>
               <div class="carousel-item-container-content" [innerHTML]="data.teaser">
               </div>
-              <a href="{{data.articlelink}}">
+              <a [routerLink]="data.articlelink">
                 <div class="carousel-item-container-fullstory">Read the Full Story</div>
               </a>
             </div>
