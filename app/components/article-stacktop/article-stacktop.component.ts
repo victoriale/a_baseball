@@ -1,10 +1,10 @@
 import {Component,OnInit,Input} from '@angular/core';
 import {RectangleImage} from '../../components/images/rectangle-image';
 import {ImageData, RectangleImageData} from '../../components/images/image-data';
-import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
+import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
 export interface StackTopInput{
-  url: string;
+  articleStackRoute: any;
   keyword: string;
   date: string;
   headline: string;
@@ -26,7 +26,7 @@ export class ArticleStacktopComponent implements OnInit{
     if (typeof this.stackTopData == 'undefined') {
       var sampleImage = "/app/public/placeholder_XL.png";
       this.stackTopData = {
-        url: "/",
+        articleStackRoute: ['Syndicated-article-page', {articleType: 'story', eventID: 1}],
         keyword: "[Keyword]",
         date: "[Date]",
         headline: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo",

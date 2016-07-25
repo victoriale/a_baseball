@@ -27,6 +27,14 @@
     width:auto;
     height:100%;
     position: relative;
+      //target safari only
+      _::-webkit-:not(:root:root), schedule-box:first-of-type {
+        margin-left:0;
+      }
+      //target safari only
+      _::-webkit-:not(:root:root), schedule-box {
+        margin-left:210px;
+      }
   }
   &-transition{
     .flexDisplay;

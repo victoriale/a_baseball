@@ -9,6 +9,14 @@
     margin: 0 14px;
     height: 250px;
     width: 288px;
+    &:hover{
+      color: @masterBrandColor;
+      .box_articles-text{
+        > span:last-child{
+          color: @masterBrandColor;
+        }
+      }
+    }
   }
   &-image{
     margin: 0 0 14px;
@@ -21,13 +29,14 @@
     .globalDefaultFont(10px, 800);
     margin-bottom: 5px;
     text-transform: uppercase;
-   span:last-child{
+    > span:last-child{
      margin-left: 5px;
       color: @bulletGrey;
     }
   }
   &-description{
     overflow: hidden;
+    height:40px;
     .globalDefaultFont(14px, 800);
     p {
       margin-top: 0;
@@ -35,6 +44,16 @@
       height: 30px;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+  }
+}
+@media @desktop-xl {
+  .box_articles {
+    display: block;
+    height: auto;
+    &-item {
+      width: 425px;
+      height: 308px;
     }
   }
 }

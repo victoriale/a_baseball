@@ -1,8 +1,8 @@
 .stackSmall {
     height: 75px;
     margin: 15px 0;
-    width:50%;
     float:left;
+    color: @black;
     .flexDisplay;
     &-image {
       width: 100px;
@@ -21,7 +21,10 @@
          font-weight: 800;
          text-transform: uppercase;
          margin-bottom: 10px;
-         .globalDefaultModFont(10px, 800, @black);
+         height: 1.2em;
+         overflow: hidden;
+         text-overflow: ellipsis;
+         .globalDefaultFont(10px, 800);
          > span:last-child{
            margin-left: 5px;
            color: @bulletGrey;
@@ -30,13 +33,23 @@
          }
       }
       &-subHeadline {
+         margin-top: -5px;
          .globalDefaultFont(12px, 400);
          p{
-           line-height: 1.2em;
+           line-height: 1.3em;
          }
       }
     }
+    &:hover{
+      color: @masterBrandColor;
+      .stackSmall-text-keyword{
+        > span:last-child{
+          color: @masterBrandColor;
+        }
+      }
+    }
 }
+
 @media @desktop-m {
  .stackSmall {
     &-text {
@@ -47,6 +60,9 @@
       }
       &-subHeadline{
         font-size: 14px;
+        p{
+          line-height: 1.2em;
+        }
       }
     }
   }
@@ -72,6 +88,7 @@
       width: 313px;
     }
     &-breakLine {
+      display: inline-block;
       width: 315px;
       height: 1px;
       background-color: @highlightGrey;
