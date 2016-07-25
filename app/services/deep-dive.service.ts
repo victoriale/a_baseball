@@ -69,7 +69,7 @@ export class DeepDiveService {
   //Configure HTTP Headers
   var headers = this.setToken();
   //date needs to be the date coming in AS EST and come back as UTC
-  var callURL = this._apiUrl+'/'+ 'article/video/batch/'+ startNum +'/' + numItems ;
+  var callURL = this._apiUrl+'/'+ 'article/video/batch/division/null/'+ startNum +'/' + numItems ;
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -81,7 +81,7 @@ export class DeepDiveService {
   //Configure HTTP Headers
   var headers = this.setToken();
   //date needs to be the date coming in AS EST and come back as UTC
-  var callURL = this._apiUrl+'/article'+ '/batch/2/'+numItems;
+  var callURL = this._apiUrl+'/article'+ '/batch/division/null/2/'+numItems;
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
