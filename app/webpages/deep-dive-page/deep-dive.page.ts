@@ -43,7 +43,7 @@ declare var jQuery: any;
       CarouselDiveModule,
       BoxArticleComponent,
       RecommendationsComponent,
-      ResponsiveWidget
+      ResponsiveWidget,
     ],
     providers: [BoxScoresService,SchedulesService,DeepDiveService],
 })
