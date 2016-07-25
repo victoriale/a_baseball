@@ -204,7 +204,7 @@ getCarouselData(data, callback:Function) {
   }
   transformTileStack(data) {
     data = data.data;
-    var lines = ['Find Your Favorite Player', 'Find Your Favorite Team', 'Check Out The Latest With the MLB'];
+    var lines = ['Find Your <br> Favorite Player', 'Find Your <br> Favorite Team', 'Check Out The Latest <br> With the MLB'];
     let pickATeam = ['Pick-team-page'];
     let mlbPage = ['MLB-page'];
     var tileLink = [pickATeam, pickATeam, mlbPage];
