@@ -4,7 +4,7 @@ import {TileStackModule} from '../../modules/tile-stack/tile-stack.module';
 import {ArticleStackModule} from '../../modules/article-stack/article-stack.module';
 import {VideoStackModule} from '../../modules/video-stack/video-stack.module';
 import {CarouselDiveModule} from '../../modules/carousel-dive/carousel-dive.module';
-import {DeepDiveService} from '../../services/deep-dive.service'
+import {DeepDiveService} from '../../services/deep-dive.service';
 import {RecommendationsComponent} from '../../components/articles/recommendations/recommendations.component';
 import {SidekickWrapper} from '../../components/sidekick-wrapper/sidekick-wrapper.component';
 import {BoxArticleComponent} from '../../components/box-article/box-article.component';
@@ -43,7 +43,7 @@ declare var jQuery: any;
       CarouselDiveModule,
       BoxArticleComponent,
       RecommendationsComponent,
-      ResponsiveWidget
+      ResponsiveWidget,
     ],
     providers: [BoxScoresService,SchedulesService,DeepDiveService],
 })
@@ -72,8 +72,12 @@ export class DeepDivePage implements OnInit {
     carouselData: any;
 ​
     //for article-stack
-    stackTop: any;
-    stackRow: any;
+    firstStackTop: any;
+    firstStackRow: any;
+    secStackTop: any;
+    secStackRow: any;
+    thirdStackTop: any;
+    thirdStackRow: any;
     private isHomeRunZone: boolean = false;
 
     //for recommendation module
@@ -180,23 +184,37 @@ export class DeepDivePage implements OnInit {
           });
     }
     getBoxArticleData(){
-      this._deepDiveData.getDeepDiveService()
+      this._deepDiveData.getDeepDiveService(1, 2)
           .subscribe(data => {
             this.boxArticleData = this._deepDiveData.transformToBoxArticle(data);
           });
     }
     getTileStackData(){
-      this._deepDiveData.getDeepDiveService()
+      this._deepDiveData.getDeepDiveService(2, 25)
           .subscribe(data => {
             this.tilestackData = this._deepDiveData.transformTileStack(data);
           });
     }
 
-    getArticleStackData(){
-      this._deepDiveData.getDeepDiveService()
+    getFirstArticleStackData(){
+      this._deepDiveData.getDeepDiveService(1, 7)
           .subscribe(data => {
-            this.stackTop = this._deepDiveData.transformToArticleStack(data);
-            this.stackRow = this._deepDiveData.transformToArticleRow(data);
+            this.firstStackTop = this._deepDiveData.transformToArticleStack(data);
+            this.firstStackRow = this._deepDiveData.transformToArticleRow(data);
+          });
+    }
+    getSecArticleStackData(){
+      this._deepDiveData.getDeepDiveService(2, 7)
+          .subscribe(data => {
+            this.secStackTop = this._deepDiveData.transformToArticleStack(data);
+            this.secStackRow = this._deepDiveData.transformToArticleRow(data);
+          });
+    }
+    getThirdArticleStackData(){
+      this._deepDiveData.getDeepDiveService(3, 7)
+          .subscribe(data => {
+            this.thirdStackTop = this._deepDiveData.transformToArticleStack(data);
+            this.thirdStackRow = this._deepDiveData.transformToArticleRow(data);
           });
     }
 
@@ -205,7 +223,9 @@ export class DeepDivePage implements OnInit {
       this.checkSize();
       this.getBoxScores(this.dateParam);
       this.getDataCarousel();
-      this.getArticleStackData();
+      this.getFirstArticleStackData();
+      this.getSecArticleStackData();
+      this.getThirdArticleStackData();
       this.getSideScroll();
       this.getBoxArticleData();
       this.getTileStackData();

@@ -26,19 +26,27 @@ export class DeepDiveService {
       return headers;
   }
 
-  getDeepDiveService(){//DATE
+  getDeepDiveService(batchId: number, limit: number){//DATE
   //Configure HTTP Headers
   var headers = this.setToken();
 
   //date needs to be the date coming in AS EST and come back as UTC
-  var callURL = this._apiUrl+'/'+ 'article/batch/2/25';
+  var callURL = this._apiUrl + '/' + 'article/batch/';
+  if(typeof batchId == 'undefined'){
+    callURL += "1";
+  } else {
+    callURL += batchId;
+  }
+  if(typeof limit == 'undefined'){
+    callURL += "/25";
+  } else {
+    callURL += "/" + limit;
+  }
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
       // transform the data to YYYY-MM-DD objects from unix
       return data;
-
-
     })
   }
   getDeepDiveArticleService(articleID){//DATE
@@ -69,7 +77,7 @@ export class DeepDiveService {
   //Configure HTTP Headers
   var headers = this.setToken();
   //date needs to be the date coming in AS EST and come back as UTC
-  var callURL = this._apiUrl+'/'+ 'article/video/batch/'+ startNum +'/' + numItems ;
+  var callURL = this._apiUrl+'/'+ 'article/video/batch/division/null/'+ startNum +'/' + numItems ;
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -81,7 +89,7 @@ export class DeepDiveService {
   //Configure HTTP Headers
   var headers = this.setToken();
   //date needs to be the date coming in AS EST and come back as UTC
-  var callURL = this._apiUrl+'/article'+ '/batch/2/'+numItems;
+  var callURL = this._apiUrl+'/article'+ '/batch/division/null/2/'+numItems;
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -132,12 +140,12 @@ export class DeepDiveService {
     return boxArray;
   }
 
-  getCarouselData(data, callback:Function) {
-     this.getDeepDiveService()
+getCarouselData(data, callback:Function) {
+     this.getDeepDiveService(2, 25)
      .subscribe(data=>{
-     //   console.log('before',data);
+    //   console.log('before',data);
        var transformedData = this.carouselTransformData(data.data);
-     //  console.log('after',transformedData);
+    //   console.log('after',transformedData);
       callback(transformedData);
      })
  }
@@ -146,12 +154,18 @@ export class DeepDiveService {
       var transformData = [];
       arrayData.forEach(function(val,index){
       //  console.log(val);
+      if (val['teaser'].length <= 3) {
+        val['teaser'] = val['title'];
+      }
         let carData = {
           image_url: GlobalSettings.getImageUrl(val['imagePath']),
     //    image_url: this._sanitizer.bypassSecurityTrustStyle("url(" + GlobalSettings.getImageUrl(val['imagePath']), + ")"),
           title:  "<span> Today's News </span>" + val['title'],
           keyword: val['keyword'],
-          teaser: val['teaser'].substr(0,250).replace('_',': ').replace(/<p[^>]*>/g, "") + "..."
+          teaser: val['teaser'].substr(0,250).replace('_',': ').replace(/<p[^>]*>/g, "") + "...",
+          id:val['id'],
+          articlelink: MLBGlobalFunctions.formatSynRoute('story', val.id)
+
         };
         transformData.push(carData);
       });
@@ -159,16 +173,15 @@ export class DeepDiveService {
       return transformData;
   }
 
+
   transformToArticleRow(data){
     var articleStackArray = [];
-
     var sampleImage = "/app/public/placeholder_XL.png";
     var articleStackArray = [];
     data = data.data.slice(1,7);//TODO
-
     data.forEach(function(val, index){
       var s = {
-          url: val.articleUrl != null ? val.articleUrl : '/',
+          stackRowsRoute: MLBGlobalFunctions.formatSynRoute('story', val.id),
           keyword: val.keyword,
           publishedDate: GlobalFunctions.formatUpdatedDate(val.publishedDate),
           headline: val.title,
@@ -191,7 +204,7 @@ export class DeepDiveService {
     var sampleImage = "/app/public/placeholder_XL.png";
     var topData = data.data[0];//TODO
     var articleStackData = {
-        url: topData.articleUrl != null ? topData.articleUrl : '/',
+        articleStackRoute: MLBGlobalFunctions.formatSynRoute('story', topData.id),
         keyword: topData.keyword,
         date: GlobalFunctions.formatUpdatedDate(topData.publishedDate),
         headline: topData.title,
@@ -280,7 +293,6 @@ export class DeepDiveService {
         datastack[i] = data[i];
         datastack[i]['lines'] = lines[i];
         datastack[i]['image_url'] = GlobalSettings.getImageUrl(data[j]['imagePath']);
-        console.log(GlobalSettings.getImageUrl(data[i]['imagePath']));
         //datastack[i]['image_url'] = data[i]['image_url'];
       }
       return datastack;
