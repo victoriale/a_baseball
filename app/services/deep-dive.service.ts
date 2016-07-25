@@ -26,12 +26,22 @@ export class DeepDiveService {
       return headers;
   }
 
-  getDeepDiveService(){//DATE
+  getDeepDiveService(batchId: number, limit: number){//DATE
   //Configure HTTP Headers
   var headers = this.setToken();
 
   //date needs to be the date coming in AS EST and come back as UTC
-  var callURL = this._apiUrl+'/'+ 'article/batch/2/25';
+  var callURL = this._apiUrl + '/' + 'article/batch/';
+  if(typeof batchId == 'undefined'){
+    callURL += "1";
+  } else {
+    callURL += batchId;
+  }
+  if(typeof limit == 'undefined'){
+    callURL += "/25";
+  } else {
+    callURL += "/" + limit;
+  }
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -131,7 +141,7 @@ export class DeepDiveService {
   }
 
 getCarouselData(data, callback:Function) {
-     this.getDeepDiveService()
+     this.getDeepDiveService(2, 25)
      .subscribe(data=>{
      //   console.log('before',data);
        var transformedData = this.carouselTransformData(data.data);
