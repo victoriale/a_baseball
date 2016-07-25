@@ -8,7 +8,7 @@
         <side-scroll-schedules *ngIf="sideScrollData" [sideScrollData]="sideScrollData" (count)="scrollCheck($event)" [scrollLength]="scrollLength"></side-scroll-schedules>
       </div>
       <div class="deep-dive-module">
-        <article-stack-module [stackTop]="stackTop" [stackRow]="stackRow"></article-stack-module>
+        <article-stack-module [stackTop]="firstStackTop" [stackRow]="firstStackRow"></article-stack-module>
       </div>
 
       <tile-stack-module *ngIf = "tilestackData" [tilestackData] = "tilestackData"></tile-stack-module>
@@ -39,7 +39,7 @@
       <div class="deep-dive-adMed">
         <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
       </div>
-      <article-stack-module [stackTop]="stackTop" [stackRow]="stackRow"></article-stack-module>
+      <article-stack-module [stackTop]="secStackTop" [stackRow]="secStackRow"></article-stack-module>
       <!-- adSmall HERE -->
       <div class="deep-dive-adSmall">
         <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
@@ -51,7 +51,7 @@
       <div class="deep-dive-module">
         <recommendations-component *ngIf="recommendationData" [randomHeadlines]="recommendationData" [isDeepDive]="true"></recommendations-component>
       </div>
-      <article-stack-module [stackTop]="stackTop" [stackRow]="stackRow"></article-stack-module>
+      <article-stack-module [stackTop]="thirdStackTop" [stackRow]="thirdStackRow"></article-stack-module>
       <!-- adSmall HERE -->
       <div class="deep-dive-adSmall-last">
         <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
