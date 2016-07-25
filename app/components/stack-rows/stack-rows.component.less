@@ -1,12 +1,9 @@
 .stackSmall {
-    height: 75px;
-    margin: 15px 0;
+    margin: 20px 0;
     float:left;
-    color: @black;
     .flexDisplay;
     &-image {
       width: 100px;
-      height: 75px;
       background-color: @masterBackgroundColor;
       margin-right: 10px;
     }
@@ -14,7 +11,6 @@
       line-height: 1.2em;
       text-align: left;
       width: 180px;
-      height: 64px;
       overflow: hidden;
       text-overflow: ellipsis;
       &-keyword {
@@ -24,7 +20,7 @@
          height: 1.2em;
          overflow: hidden;
          text-overflow: ellipsis;
-         .globalDefaultFont(10px, 800);
+         .globalDefaultModFont(10px, 800, @black);
          > span:last-child{
            margin-left: 5px;
            color: @bulletGrey;
@@ -41,12 +37,14 @@
       }
     }
 }
-
+.stackRows{
+  height: 350px;
+  overflow: hidden;
+}
 @media @desktop-m {
  .stackSmall {
     &-text {
       width: 200px;
-      height: 72px;
       &-keyword {
         font-size: 12px;
       }
@@ -59,28 +57,22 @@
     }
     &:hover{
       color: @masterBrandColor;
-      .stackSmall-text-keyword{
-        > span:last-child{
-          color: @masterBrandColor;
-        }
-      }
     }
   }
 }
-
 .stackSmall{
   .col-xs-6;
 }
+
 @media @desktop-xl {
-  .stackRow {
-    .row {
-      width: 313px;
-      margin-left: 20px;
-    }
+  .stackRows{
+    height: auto;
+    overflow: visible;
   }
   .stackSmall {
     width: 313px;
     .col-xs-12;
+
     &-image {
       display: none;
     }

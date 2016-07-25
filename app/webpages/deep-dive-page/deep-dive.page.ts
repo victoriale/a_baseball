@@ -43,7 +43,7 @@ declare var jQuery: any;
       CarouselDiveModule,
       BoxArticleComponent,
       RecommendationsComponent,
-      ResponsiveWidget,
+      ResponsiveWidget
     ],
     providers: [BoxScoresService,SchedulesService,DeepDiveService],
 })
@@ -155,15 +155,11 @@ export class DeepDivePage implements OnInit {
             this.currentBoxScores = currentBoxScores;
         })
     }
+
     private getDataCarousel() {
       this._deepDiveData.getCarouselData(this.carouselData, (carData)=>{
         this.carouselData = carData;
       })
-      // this._deepDiveData.getCarouselData()
-      //     .subscribe(data => {
-      //       console.log(data);
-      //       this.carouselData = this._deepDiveData.carouselTransformData(data);
-      //     });
     }
 
     checkSize(){
@@ -183,12 +179,7 @@ export class DeepDivePage implements OnInit {
             this.recommendationData = this._deepDiveData.transformToRecArticles(data);
           });
     }
-    getBoxArticleData(){
-      this._deepDiveData.getDeepDiveService(1, 2)
-          .subscribe(data => {
-            this.boxArticleData = this._deepDiveData.transformToBoxArticle(data);
-          });
-    }
+
     getTileStackData(){
       this._deepDiveData.getDeepDiveService(2, 25)
           .subscribe(data => {
@@ -227,7 +218,6 @@ export class DeepDivePage implements OnInit {
       this.getSecArticleStackData();
       this.getThirdArticleStackData();
       this.getSideScroll();
-      this.getBoxArticleData();
       this.getTileStackData();
     }
 

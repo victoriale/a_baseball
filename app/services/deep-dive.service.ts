@@ -118,45 +118,18 @@ export class DeepDiveService {
       });
   }
 
-  transformToBoxArticle(data){
-    var boxArray = [];
-    var sampleImage = "/app/public/placeholder_XL.png";
-    data = data.data.slice(0,2);//TODO
-    data.forEach(function(val, index){
-      var Box = {
-        keyword: val.keyword,
-        date: GlobalFunctions.formatUpdatedDate(val.publishedDate),
-        teaser: val.teaser,
-        url: val.articleUrl != null ? val.articleUrl : '/',
-        imageConfig:{
-          imageClass: "image-288x180",
-          mainImage:{
-            imageUrl: val.imagePath != null ? GlobalSettings.getImageUrl(val.imagePath) : sampleImage
-          }
-        }
-      }
-      boxArray.push(Box);
-    });
-    return boxArray;
-  }
-
 getCarouselData(data, callback:Function) {
      this.getDeepDiveService(2, 25)
      .subscribe(data=>{
-     //   console.log('before',data);
        var transformedData = this.carouselTransformData(data.data);
-     //  console.log('after',transformedData);
       callback(transformedData);
      })
  }
  carouselTransformData(arrayData){
-
       var transformData = [];
       arrayData.forEach(function(val,index){
-      //  console.log(val);
         let carData = {
           image_url: GlobalSettings.getImageUrl(val['imagePath']),
-    //    image_url: this._sanitizer.bypassSecurityTrustStyle("url(" + GlobalSettings.getImageUrl(val['imagePath']), + ")"),
           title:  "<span> Today's News </span>" + val['title'],
           keyword: val['keyword'],
           teaser: val['teaser'].substr(0,250).replace('_',': ').replace(/<p[^>]*>/g, "") + "..."
@@ -172,16 +145,15 @@ getCarouselData(data, callback:Function) {
     var articleStackArray = [];
     var sampleImage = "/app/public/placeholder_XL.png";
     var articleStackArray = [];
-    data = data.data.slice(1,7);
+    data = data.data.slice(1,9);
     data.forEach(function(val, index){
       var s = {
           stackRowsRoute: MLBGlobalFunctions.formatSynRoute('story', val.id),
           keyword: val.keyword,
-          publishedDate: GlobalFunctions.formatUpdatedDate(val.publishedDate),
-          headline: val.title,
+          publishedDate: GlobalFunctions.formatLongDate(val.publishedDate),
           provider1: val.author,
           provider2: "Published By: " + val.publisher,
-          description: val.teaser,
+          description: val.title,
           imageConfig: {
             imageClass: "image-100x75",
             mainImage:{
@@ -215,7 +187,7 @@ getCarouselData(data, callback:Function) {
     var articleStackData = {
         articleStackRoute: MLBGlobalFunctions.formatSynRoute('story', topData.id),
         keyword: topData.keyword,
-        date: GlobalFunctions.formatUpdatedDate(topData.publishedDate),
+        date: GlobalFunctions.formatLongDate(topData.publishedDate),
         headline: topData.title,
         provider1: topData.author,
         provider2: "Published By: " + topData.publisher,

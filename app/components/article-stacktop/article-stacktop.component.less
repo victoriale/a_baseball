@@ -30,32 +30,31 @@
   &-image {
     width: 610px;
     height: 421px;
-    background-color: @masterBackgroundColor;
   }
   &-desc {
-    line-height: 1em;
-    height: 69px;
+    line-height: 1.2em;
+    max-height: 69px;
     overflow: hidden;
     .globalDefaultModFont(12px, 400, @black);
   }
 }
-@media (@desktop-m) { // up to 787px
+@media @desktop-m { // up to 787px
   .stacktop {
     &-image {
       width: 670px;
       height: 421px;
     }
+    &-desc{
+      font-size: 14px;
+    }
   }
 }
 
-@media(@desktop-l) { // up to 1024px
+@media @desktop-l { // up to 1024px
   .stacktop {
     min-width: 768px;
     &-image {
       width: 768px;
-    }
-    &-desc {
-      font-size:14px;
     }
   }
 }

@@ -7,7 +7,7 @@
     overflow: hidden;
     color: @black;
     margin: 0 14px;
-    height: 250px;
+    height: 180px;
     width: 288px;
     &:hover{
       color: @masterBrandColor;
@@ -17,7 +17,7 @@
         }
       }
     }
-  }
+  }//box_articles-item ENDS
   &-image{
     margin: 0 0 14px;
     &-container{
@@ -43,6 +43,29 @@
       height: 30px;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+  }
+}
+
+@media @desktop-m{
+  .box_articles{
+    &-item{
+      width: 320px;
+    }
+    &-text{
+      font-size: 12px;
+    }
+    &-description{
+      font-size: 16px;
+    }
+  }
+}
+
+@media @desktop-xl{
+  .box_articles{
+    &-item{
+      width: 348px;
+      height: 220px;
     }
   }
 }
