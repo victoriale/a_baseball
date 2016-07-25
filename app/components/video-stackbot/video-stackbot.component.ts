@@ -17,10 +17,10 @@ export class VideoStackbotComponent{
   constructor(
     private _deepdiveservice:DeepDiveService
     ){
-      this.getDeepDiveVideoBatch(4, 2);
+      this.getDeepDiveVideoBatch("KS",4, 2);
     }
-    private getDeepDiveVideoBatch(numItems, startNum){
-      this._deepdiveservice.getDeepDiveVideoBatchService(numItems, startNum).subscribe(
+    private getDeepDiveVideoBatch(region, numItems, startNum){
+      this._deepdiveservice.getDeepDiveVideoBatchService(region, numItems, startNum).subscribe(
         data => {
           this.articleData = data.data;
         }

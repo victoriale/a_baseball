@@ -74,11 +74,11 @@ export class DeepDiveService {
       return data;
     })
   }
-  getDeepDiveVideoBatchService(numItems, startNum){//DATE
+  getDeepDiveVideoBatchService(region, numItems, startNum){//DATE
   //Configure HTTP Headers
   var headers = this.setToken();
   //date needs to be the date coming in AS EST and come back as UTC
-  var callURL = this._apiUrl+'/'+ 'article/video/batch/division/null/'+ startNum +'/' + numItems ;
+  var callURL = this._apiUrl+'/'+ 'article/video/batch/division/'+ region +'/'+ startNum +'/' + numItems ;
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
