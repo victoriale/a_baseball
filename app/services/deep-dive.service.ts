@@ -310,4 +310,12 @@ getCarouselData(data, limit, batch, state, callback:Function) {
     }
     return _return;
   }
+  transformTrending (data) {
+    data.forEach(function(val,index){
+      let date = GlobalFunctions.formatDate(val.publishedDate);
+      val["date"] = date.month + " " + date.day + ", " + date.year + " " + date.time + " " + date.a;
+      val["image"] = GlobalSettings.getImageUrl(val.imagePath);
+    })
+    return data;
+  }
 }

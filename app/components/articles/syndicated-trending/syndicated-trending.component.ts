@@ -4,7 +4,6 @@ import {ShareLinksComponent} from "../shareLinks/shareLinks.component";
 import {SanitizeHtml} from "../../../pipes/safe.pipe";
 import {ResponsiveWidget} from '../../../components/responsive-widget/responsive-widget.component';
 import {DeepDiveService} from '../../../services/deep-dive.service';
-import {GeoLocation} from "../../../global/global-service";
 
 
 declare var moment;
@@ -16,27 +15,26 @@ declare var jQuery: any;
     directives: [ShareLinksComponent, ROUTER_DIRECTIVES, ResponsiveWidget],
     inputs: ['trendingData', 'trendingImages'],
     pipes: [SanitizeHtml],
-    providers: [DeepDiveService, GeoLocation]
+    providers: [DeepDiveService]
 })
 
 export class SyndicatedTrendingComponent {
     trending:boolean = true;
     public widgetPlace: string = "widgetForPage";
-
+    public imageData: any;
     public articleData: any;
     public trendingLength: number = 2;
     @Input() geoLocation: string;
 
     constructor(
       private _router:Router,
-      private _deepdiveservice:DeepDiveService,
-      private _geoLocation:GeoLocation
+      private _deepdiveservice:DeepDiveService
       ){}
 
       private getDeepDiveArticle(numItems, state) {
         this._deepdiveservice.getDeepDiveBatchService(numItems, 1, state).subscribe(
           data => {
-            this.articleData = data.data;
+            this.articleData = this._deepdiveservice.transformTrending(data.data);
             if (this.trendingLength < 20) {
             this.trendingLength = this.trendingLength + 10;
             }
@@ -46,10 +44,6 @@ export class SyndicatedTrendingComponent {
 
       ngOnInit(){
         this.getDeepDiveArticle(2 , this.geoLocation);
-      }
-
-      private formatDate(date) {
-        return moment.unix(date/1000).format("MMMM Do, YYYY h:mm A") + " EST";
       }
       private onScroll(event) {
         if (jQuery(document).height() - window.innerHeight - jQuery("footer").height() <= jQuery(window).scrollTop()) {
