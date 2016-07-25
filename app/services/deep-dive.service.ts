@@ -37,8 +37,6 @@ export class DeepDiveService {
     .map(data => {
       // transform the data to YYYY-MM-DD objects from unix
       return data;
-
-
     })
   }
   getDeepDiveArticleService(articleID){//DATE
@@ -85,7 +83,6 @@ export class DeepDiveService {
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
-      console.log(callURL);
 
       // transform the data to YYYY-MM-DD objects from unix
       return data;
@@ -133,7 +130,7 @@ export class DeepDiveService {
     return boxArray;
   }
 
-  getCarouselData(data, callback:Function) {
+getCarouselData(data, callback:Function) {
      this.getDeepDiveService()
      .subscribe(data=>{
     //   console.log('before',data);
@@ -166,16 +163,15 @@ export class DeepDiveService {
       return transformData;
   }
 
+
   transformToArticleRow(data){
     var articleStackArray = [];
-
     var sampleImage = "/app/public/placeholder_XL.png";
     var articleStackArray = [];
     data = data.data.slice(1,7);//TODO
-
     data.forEach(function(val, index){
       var s = {
-          url: val.articleUrl != null ? val.articleUrl : '/',
+          stackRowsRoute: MLBGlobalFunctions.formatSynRoute('story', val.id),
           keyword: val.keyword,
           publishedDate: GlobalFunctions.formatUpdatedDate(val.publishedDate),
           headline: val.title,
@@ -198,7 +194,7 @@ export class DeepDiveService {
     var sampleImage = "/app/public/placeholder_XL.png";
     var topData = data.data[0];//TODO
     var articleStackData = {
-        url: topData.articleUrl != null ? topData.articleUrl : '/',
+        articleStackRoute: MLBGlobalFunctions.formatSynRoute('story', topData.id),
         keyword: topData.keyword,
         date: GlobalFunctions.formatUpdatedDate(topData.publishedDate),
         headline: topData.title,
@@ -287,10 +283,8 @@ export class DeepDiveService {
         datastack[i] = data[i];
         datastack[i]['lines'] = lines[i];
         datastack[i]['image_url'] = GlobalSettings.getImageUrl(data[j]['imagePath']);
-        console.log(GlobalSettings.getImageUrl(data[i]['imagePath']));
         //datastack[i]['image_url'] = data[i]['image_url'];
       }
-      //console.log(datastack);
       return datastack;
   }
 

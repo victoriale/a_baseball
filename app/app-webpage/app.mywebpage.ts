@@ -27,7 +27,6 @@ import {ArticlePages} from "../webpages/article-pages/article-pages.page";
 import {ListOfListsPage} from "../webpages/list-of-lists-page/list-of-lists.page";
 import {TransactionsPage} from "../webpages/transactions-page/transactions.page";
 import {MVPListPage} from "../webpages/mvp-list-page/mvp-list.page";
-import {SyndicatedArticlePage} from "../webpages/syndicated-article-page/syndicated-article-page.page";
 
 import {ArticleDataService} from "../global/global-article-page-service";
 import {HeadlineDataService} from "../global/global-ai-headline-module-service";
@@ -43,6 +42,7 @@ import {GlobalSettings} from "../global/global-settings";
 
 //FOR DEEP DIVE
 import {DeepDivePage} from "../webpages/deep-dive-page/deep-dive.page";
+import {SyndicatedArticlePage} from "../webpages/syndicated-article-page/syndicated-article-page.page";
 
 @Component({
     selector: 'my-house',
@@ -291,13 +291,17 @@ export class MyAppComponent implements AfterViewChecked{
   }
 
   getPartnerHeader(){//Since it we are receiving
-    this._partnerData.getPartnerData(this.partnerID)
+    if(this.partnerID != null){
+      this._partnerData.getPartnerData(this.partnerID)
       .subscribe(
-          partnerScript => {
-              this.partnerData = partnerScript;
-              this.partnerScript = this.partnerData['results'].header.script;
-          }
+        partnerScript => {
+          this.partnerData = partnerScript;
+          this.partnerScript = this.partnerData['results'].header.script;
+        }
       );
+    }else{
+      console.log('Error non valid partner', this.partnerID);
+    }
   }
 
   ngDoCheck(){

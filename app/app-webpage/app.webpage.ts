@@ -25,7 +25,6 @@ import {DraftHistoryPage} from "../webpages/draft-history-page/draft-history.pag
 import {SeasonStatsPage} from "../webpages/season-stats-page/season-stats.page";
 import {StandingsPage} from "../webpages/standings-page/standings.page";
 import {ArticlePages} from "../webpages/article-pages/article-pages.page";
-import {SyndicatedArticlePage} from "../webpages/syndicated-article-page/syndicated-article-page.page";
 import {ListOfListsPage} from "../webpages/list-of-lists-page/list-of-lists.page";
 import {TransactionsPage} from "../webpages/transactions-page/transactions.page";
 import {MVPListPage} from "../webpages/mvp-list-page/mvp-list.page";
@@ -42,6 +41,7 @@ import {SanitizeStyle} from "../pipes/safe.pipe";
 import {GlobalSettings} from "../global/global-settings";
 
 //FOR DEEP DIVE
+import {SyndicatedArticlePage} from "../webpages/syndicated-article-page/syndicated-article-page.page";
 import {DeepDivePage} from "../webpages/deep-dive-page/deep-dive.page";
 
 @Component({

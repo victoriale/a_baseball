@@ -1,6 +1,8 @@
 .stackSmall {
     height: 75px;
     margin: 15px 0;
+    float:left;
+    color: @black;
     .flexDisplay;
     &-image {
       width: 100px;
@@ -19,7 +21,10 @@
          font-weight: 800;
          text-transform: uppercase;
          margin-bottom: 10px;
-         .globalDefaultModFont(10px, 800, @black);
+         height: 1.2em;
+         overflow: hidden;
+         text-overflow: ellipsis;
+         .globalDefaultFont(10px, 800);
          > span:last-child{
            margin-left: 5px;
            color: @bulletGrey;
@@ -28,13 +33,23 @@
          }
       }
       &-subHeadline {
+         margin-top: -5px;
          .globalDefaultFont(12px, 400);
          p{
-           line-height: 1.2em;
+           line-height: 1.3em;
          }
       }
     }
+    &:hover{
+      color: @masterBrandColor;
+      .stackSmall-text-keyword{
+        > span:last-child{
+          color: @masterBrandColor;
+        }
+      }
+    }
 }
+
 @media @desktop-m {
  .stackSmall {
     &-text {
@@ -45,27 +60,38 @@
       }
       &-subHeadline{
         font-size: 14px;
+        p{
+          line-height: 1.2em;
+        }
       }
     }
   }
 }
 
+.stackSmall{
+  .col-xs-6;
+}
 @media @desktop-xl {
-  .stackRow{
-    .row{
+  .stackRow {
+    .row {
       width: 313px;
       margin-left: 20px;
     }
   }
   .stackSmall {
     width: 313px;
-    float: right;
-    border-bottom: 1px solid @highlightGrey;
+    .col-xs-12;
     &-image {
       display: none;
     }
     &-text {
       width: 313px;
     }
-  }
+    &-breakLine {
+      display: inline-block;
+      width: 315px;
+      height: 1px;
+      background-color: @highlightGrey;
+    }
+  }//stackSmall ends
 }

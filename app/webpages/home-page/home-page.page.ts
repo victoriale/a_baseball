@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {GlobalSettings} from "../../global/global-settings";
 import {SliderButton} from "../../components/buttons/slider/slider.button";
@@ -29,7 +29,7 @@ export interface newsCarouselData {
     providers: [LandingPageService, Title],
 })
 
-export class PickTeamPage implements OnInit {
+export class PickTeamPage{
     public teamData: Array<homePageData>;
     public listData: Array<newsCarouselData>;
     public displayData: Object;
@@ -74,18 +74,7 @@ export class PickTeamPage implements OnInit {
         this.isHomeRunZone = partnerHome;
       });
     }
-    onResize(event) {
-      this.width = event.target.innerWidth;
-      if(this.width < 641){
-        this.gridDivCol = "col-xs-6";
-        this.gridLMain = "col-xs-12";
-        this.gridFeaturesCol = "col-xs-12";
-      } else {
-        this.gridDivCol = "col-lg-4";
-        this.gridLMain = "col-xs-10";
-        this.gridFeaturesCol = "col-xs-12";
-      }
-    }
+  
     getListData(){
       this.listData = [
         {
@@ -149,8 +138,5 @@ export class PickTeamPage implements OnInit {
           this.mlbTeams = data.league;
         })
       var sampleImage = "./app/public/placeholder-location.jpg";
-    }
-    ngOnInit(){
-      this.onResize(event);
     }
 }

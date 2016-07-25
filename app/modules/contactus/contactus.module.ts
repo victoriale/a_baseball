@@ -20,13 +20,22 @@ export class ContactUsModule{
             if(data.description === null && data.email === null && data.name === null){
                 throw 'Please enter your name, email, and a detailed description';
             }
-            if(data.name === null){
+            if(data.description === null && data.email === null){
+                throw 'Please enter your email and a detailed description';
+            }
+            if(data.description === null && data.name === null){
+                throw 'Please enter your name and a detailed description';
+            }
+            if(data.email === null && data.name === null){
+              throw 'Please enter your name and email';
+            }
+            if(data.name === null || data.name.length == 0){
                 throw 'Please enter your name in the Full Name field.';
             }
             if(data.email === null){
                 throw 'Please enter an email in the Email Address field.';
             }
-            if(data.description === null){
+            if(data.description === null || data.description.length == 0){
                 throw 'Please enter a message in the Description field.';
             }
 
@@ -35,7 +44,6 @@ export class ContactUsModule{
             if (!emailPattern.test(data.email)) {
                 throw 'Please enter a valid email in the Email Address field.';
             }
-            
         }catch(e){
             window.alert(e);
             return false;
@@ -47,7 +55,7 @@ export class ContactUsModule{
         this.active = false;
         setTimeout(()=> this.active=true, 0);
     }
-    
+
     // reset the  form by removing it and re-adding the form to a new pristine state
     reset(){
       this.active = false;

@@ -41,6 +41,7 @@
     <section *ngIf="!partnerID">
       <like-us-module></like-us-module>
       <comment-module [profileName]="profileHeaderData.profileName"></comment-module>
+      <responsive-widget *ngIf="shareModuleInput" [embedPlace]="widgetPlace"></responsive-widget>
     </section>
     <!-- TODO<section *ngIf="!partnerCheck"> also required for comment module-->
     <about-us [partnerID]="partnerID"></about-us>

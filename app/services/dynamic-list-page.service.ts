@@ -116,12 +116,13 @@ export class DynamicWidgetCall {
             route: subRoute,
             text: val.list_sub
           };
-          
-          footerInfo = {
-            infoDesc:'Interested in discovering more about this player?',
-            text:'View Profile',
-            url: primaryRoute,
-          };
+
+          footerInfo = null;
+          // footerInfo = {
+          //   infoDesc:'Interested in discovering more about this player?',
+          //   text:'View Profile',
+          //   url: primaryRoute,
+          // };
         }
 
         carouselItem = SliderCarousel.convertToCarouselItemType2(index, {

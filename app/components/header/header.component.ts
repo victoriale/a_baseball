@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, OnChanges, Output, EventEmitter} from '@angular/core';
+import {Component, Input, OnInit, OnChanges, Output, EventEmitter, ElementRef, Renderer} from '@angular/core';
 import {Search, SearchInput} from '../../components/search/search.component';
 import {Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {SubHeaderComponent} from '../../components/sub-header/sub-header.component';
@@ -24,8 +24,13 @@ export class HeaderComponent implements OnInit,OnChanges {
   public hamburgerMenuData: Array<MenuData>;
   public hamburgerMenuInfo: Array<MenuData>;
   public titleHeader: string;
-  public isOpened: boolean;
+  public isOpened: boolean = false;
   public isActive: boolean = false;
+  private elementRef:any;
+  constructor(elementRef: ElementRef, private _renderer: Renderer){
+    this.elementRef = elementRef;
+  }
+
   loadData(partnerID: string) {
     this.logoUrl = 'app/public/Home-Run-Loyal_Logo.svg';
     this.hamburgerMenuData = [{
@@ -80,7 +85,7 @@ export class HeaderComponent implements OnInit,OnChanges {
       this._stickyHeader = "0px"
     }
   }//onScrollStick ends
-   public getMenu(): void{
+   public getMenu(event): void{
      if(this.isOpened == true){
        this.isOpened = false;
      }else{
@@ -89,6 +94,13 @@ export class HeaderComponent implements OnInit,OnChanges {
    }
   ngOnInit(){
     stButtons.locateElements();
+    this._renderer.listenGlobal('document', 'click', (event) => {
+      var element = document.elementFromPoint(event.clientX, event.clientY);
+      let menuCheck = element.className.indexOf("menucheck");
+      if(this.isOpened && menuCheck < 0){
+        this.isOpened = false;
+      }
+    });
   }
 
   ngOnChanges() {
