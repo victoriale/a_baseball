@@ -1,6 +1,7 @@
 <section class="stackRows row" (window:resize)="onResize($event)">
   <div *ngFor="let stackRow of stackRow;">
-    <a class="stackSmall {{gridStackCol}}" href="{{stackRow.url}}">
+    <!-- <a class="stackSmall {{gridStackCol}}" [routerLink]="['Syndicated-article-page', {articleType: 'story', eventID: }]"> -->
+    <a class="stackSmall {{gridStackCol}}" [routerLink]="stackRow.stackRowsRoute">
         <div class="stackSmall-image">
           <rectangle-image [data]="stackRow.imageConfig"></rectangle-image>
         </div>
