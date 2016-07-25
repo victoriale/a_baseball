@@ -37,13 +37,13 @@ export class BoxScoresService {
   //player profile are treated as teams
   if(profile == 'player'){
     profile = 'team'
-  }else if(profile == 'league'){
-    date += '/box-scores-ai';
+  }else if (profile == 'league'){
+    date += '/addAi'
   }
 
   //date needs to be the date coming in AS EST and come back as UTC
   var callURL = this._apiUrl+'/'+profile+'/boxScores'+teamId+'/'+ date;
-  // console.log(callURL);
+  //console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
