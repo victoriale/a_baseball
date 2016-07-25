@@ -292,13 +292,17 @@ export class MyAppComponent implements AfterViewChecked{
   }
 
   getPartnerHeader(){//Since it we are receiving
-    this._partnerData.getPartnerData(this.partnerID)
+    if(this.partnerID != null){
+      this._partnerData.getPartnerData(this.partnerID)
       .subscribe(
-          partnerScript => {
-              this.partnerData = partnerScript;
-              this.partnerScript = this.partnerData['results'].header.script;
-          }
+        partnerScript => {
+          this.partnerData = partnerScript;
+          this.partnerScript = this.partnerData['results'].header.script;
+        }
       );
+    }else{
+      console.log('Error non valid partner', this.partnerID);
+    }
   }
 
   ngDoCheck(){

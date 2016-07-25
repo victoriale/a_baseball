@@ -1,6 +1,8 @@
 .stackSmall {
     height: 75px;
     margin: 15px 0;
+    width:50%;
+    float:left;
     .flexDisplay;
     &-image {
       width: 100px;
@@ -50,6 +52,9 @@
   }
 }
 
+.stackSmall{
+  .col-xs-6;
+}
 @media @desktop-xl {
   .stackRow {
     .row {
@@ -59,6 +64,7 @@
   }
   .stackSmall {
     width: 313px;
+    .col-xs-12;
     &-image {
       display: none;
     }
