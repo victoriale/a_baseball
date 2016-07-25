@@ -84,7 +84,7 @@ export class SyndicatedArticlePage{
             this.imageTitle = ["", ""];
           }
           else {
-            this.imageData = ["https://prod-sports-images.synapsys.us" + data.data.imagePath];
+            this.imageData = [GlobalSettings.getImageUrl(data.data.imagePath)];
             this.copyright = ["USA Today Sports Images"];
             this.imageTitle = [""];
           }

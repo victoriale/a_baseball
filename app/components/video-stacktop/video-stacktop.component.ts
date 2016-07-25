@@ -1,4 +1,4 @@
-import {Component,OnInit} from '@angular/core';
+import {Component,OnInit, Input} from '@angular/core';
 import {DeepDiveService} from '../../services/deep-dive.service';
 import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
@@ -8,19 +8,20 @@ declare var moment;
   selector: 'video-stacktop-component',
   templateUrl: './app/components/video-stacktop/video-stacktop.component.html',
   directives: [ROUTER_DIRECTIVES],
-  providers: [DeepDiveService],
+  providers: [DeepDiveService]
 
 })
 
 export class VideoStacktopComponent{
   public articleData: any;
+  @Input() state: string;
   constructor(
     private _deepdiveservice:DeepDiveService
     ){
-      this.getDeepDiveVideoBatch("KS",2, 1);
+      this.getDeepDiveVideoBatch(this.state ,2, 1);
     }
     private getDeepDiveVideoBatch(region, numItems, startNum){
-      this._deepdiveservice.getDeepDiveVideoBatchService(region, numItems, startNum).subscribe(
+      this._deepdiveservice.getDeepDiveVideoBatchService(numItems, startNum, region).subscribe(
         data => {
           this.articleData = data.data;
         }
