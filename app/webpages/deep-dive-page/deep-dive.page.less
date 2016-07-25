@@ -19,6 +19,14 @@
     .flexDisplay;
     .flexDirection(column);
     .flexAlignItems(center);
+    .container-boxScores{
+      width:640px;
+      height:auto;
+      margin:0 auto;
+      .box_articles{
+        width:640px;
+      }
+    }
   }
   &-containeraibox {
     display: block;
@@ -88,6 +96,16 @@
     }
     &-container2a{
       width: 1120px;
+      .container-boxScores{
+        width:100%;
+        .flexDisplay;
+        .box_articles{
+          .flexDisplay;
+          .flexWrap(wrap);
+          width:320px;
+          height: 100%;
+        }
+      }
     }
     &-containeraibox {
       display: flex;
