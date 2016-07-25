@@ -72,7 +72,7 @@ export class SyndicatedArticlePage implements OnInit{
           }
           else {
             this.imageData = ["https://prod-sports-images.synapsys.us" + data.data.imagePath];
-            this.copyright = ["TCX Images"];
+            this.copyright = ["USA Today Sports Images"];
             this.imageTitle = [""];
           }
           this.articleData = data.data;
