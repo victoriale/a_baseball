@@ -8,7 +8,7 @@
         <div class="featured-tag-large" *ngIf="rowIndex == 0"><div class="vr"></div><i class="fa fa-newspaper-o"></i>FEATURED ARTICLE</div>
         <div class="syndicated-trending-article-title">{{item.title}}</div>
         <div class="arpt">
-          <div class="arpt-author"><b>{{item.author}}</b> - Reporter <b>{{item.publisher}}</b></div>
+          <div class="arpt-author">by <b>{{item.author}}</b> - Reporter <b>{{item.publisher}}</b></div>
           <div class="arpt-date">Posted: on {{formatDate(item.publishedDate)}}</div>
         </div>
         <img class="trending-article-image" [src]="'https://prod-sports-images.synapsys.us' + item.imagePath">
