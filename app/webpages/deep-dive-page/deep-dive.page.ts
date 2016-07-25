@@ -10,6 +10,7 @@ import {SidekickWrapper} from '../../components/sidekick-wrapper/sidekick-wrappe
 import {BoxArticleComponent} from '../../components/box-article/box-article.component';
 
 import {SchedulesService} from '../../services/schedules.service';
+import {PartnerHeader} from "../../global/global-service";
 
 import {WidgetCarouselModule} from '../../modules/widget/widget-carousel.module';
 import {SideScrollSchedule} from '../../modules/side-scroll-schedules/side-scroll-schedules.module';
@@ -19,6 +20,7 @@ import {BoxScoresService} from '../../services/box-scores.service';
 
 import {GlobalSettings} from "../../global/global-settings";
 import {GlobalFunctions} from "../../global/global-functions";
+import {GeoLocation} from "../../global/global-service";
 import {Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
 import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
@@ -45,15 +47,17 @@ declare var jQuery: any;
       RecommendationsComponent,
       ResponsiveWidget,
     ],
-    providers: [BoxScoresService,SchedulesService,DeepDiveService],
+    providers: [BoxScoresService,SchedulesService,DeepDiveService,GeoLocation,PartnerHeader],
 })
 
-export class DeepDivePage implements OnInit {
+export class DeepDivePage{
     public widgetPlace: string = "widgetForPage";
 
     //page variables
     partnerID: string;
+    partnerData:any;
     profileName:string;
+    geoLocation:string;
 
     //for box scores
     boxScoresData: any;
@@ -66,7 +70,7 @@ export class DeepDivePage implements OnInit {
     scrollLength: number;
     ssMax:number = 7;
     callCount:number = 1;
-    callLimit:number = 20;
+    callLimit:number = 7;
     safeCall: boolean = true;
     //for carousel
     carouselData: any;
@@ -91,7 +95,11 @@ export class DeepDivePage implements OnInit {
       private _deepDiveData: DeepDiveService,
       private _boxScores:BoxScoresService,
       private _schedulesService:SchedulesService,
+      private _geoLocation:GeoLocation,
+      private _partnerData: PartnerHeader,
       public ngZone:NgZone){
+
+        // needs to get Geolocation first
       this.profileName = "MLB";
 
       //for boxscores
@@ -107,6 +115,11 @@ export class DeepDivePage implements OnInit {
           this.partnerID = partnerID;
           var partnerHome = GlobalSettings.getHomeInfo().isHome && GlobalSettings.getHomeInfo().isPartner;
           this.isHomeRunZone = partnerHome;
+          if(this.partnerID != null){
+            this.getPartnerHeader();
+          }else{
+            this.getGeoLocation();
+          }
       });
       //constantly check the size of the browser width and run the size check function
       window.onresize = (e) =>
@@ -156,7 +169,7 @@ export class DeepDivePage implements OnInit {
         })
     }
     private getDataCarousel() {
-      this._deepDiveData.getCarouselData(this.carouselData, (carData)=>{
+      this._deepDiveData.getCarouselData(this.carouselData, '25', '1', this.geoLocation, (carData)=>{
         this.carouselData = carData;
       })
       // this._deepDiveData.getCarouselData()
@@ -178,47 +191,84 @@ export class DeepDivePage implements OnInit {
       }
     }
     getRecommendationData(){
-      this._deepDiveData.getRecArticleData("KS",1,1)
+      var state = this.geoLocation.toUpperCase(); //required from AI to have the call of state come in UPPERCASE
+      this._deepDiveData.getRecArticleData(state, '1', '1')
           .subscribe(data => {
             this.recommendationData = this._deepDiveData.transformToRecArticles(data);
           });
     }
     getBoxArticleData(){
-      this._deepDiveData.getDeepDiveService(1, 2)
+      this._deepDiveData.getDeepDiveBatchService(2, 1, this.geoLocation)
           .subscribe(data => {
             this.boxArticleData = this._deepDiveData.transformToBoxArticle(data);
           });
     }
     getTileStackData(){
-      this._deepDiveData.getDeepDiveService(2, 25)
+      this._deepDiveData.getDeepDiveBatchService(this.callLimit, 2, this.geoLocation)
           .subscribe(data => {
             this.tilestackData = this._deepDiveData.transformTileStack(data);
           });
     }
 
     getFirstArticleStackData(){
-      this._deepDiveData.getDeepDiveService(1, 7)
+      this._deepDiveData.getDeepDiveBatchService(this.callLimit, 1, this.geoLocation)
           .subscribe(data => {
             this.firstStackTop = this._deepDiveData.transformToArticleStack(data);
             this.firstStackRow = this._deepDiveData.transformToArticleRow(data);
           });
     }
     getSecArticleStackData(){
-      this._deepDiveData.getDeepDiveService(2, 7)
+      this._deepDiveData.getDeepDiveBatchService(this.callLimit, 2, this.geoLocation)
           .subscribe(data => {
             this.secStackTop = this._deepDiveData.transformToArticleStack(data);
             this.secStackRow = this._deepDiveData.transformToArticleRow(data);
           });
     }
     getThirdArticleStackData(){
-      this._deepDiveData.getDeepDiveService(3, 7)
+      this._deepDiveData.getDeepDiveBatchService(this.callLimit, 3, this.geoLocation)
           .subscribe(data => {
             this.thirdStackTop = this._deepDiveData.transformToArticleStack(data);
             this.thirdStackRow = this._deepDiveData.transformToArticleRow(data);
           });
     }
 
-    ngOnInit() {
+    getPartnerHeader(){//Since it we are receiving
+      if(this.partnerID != null){
+        this._partnerData.getPartnerData(this.partnerID)
+        .subscribe(
+          partnerScript => {
+            this.partnerData = partnerScript;
+            //super long way from partner script to get location using geo location api
+            var state = partnerScript['results']['location']['realestate']['location']['city'][0].state;
+            state = state.toLowerCase();
+            this.geoLocation = state;
+            this.callModules();
+          }
+        );
+      }else{
+        this.getGeoLocation();
+      }
+    }
+
+    //Subscribe to getGeoLocation in geo-location.service.ts. On Success call getNearByCities function.
+    getGeoLocation() {
+      var defaultState = 'ca';
+        this._geoLocation.getGeoLocation()
+            .subscribe(
+                geoLocationData => {
+                  this.geoLocation = geoLocationData[0].state;
+                  this.geoLocation = this.geoLocation.toLowerCase();
+                  this.callModules();
+
+                },
+                err => {
+                  this.geoLocation = defaultState;
+                  this.callModules();
+                }
+            );
+    }
+
+    callModules(){
       this.getRecommendationData();
       this.checkSize();
       this.getBoxScores(this.dateParam);
@@ -229,10 +279,6 @@ export class DeepDivePage implements OnInit {
       this.getSideScroll();
       this.getBoxArticleData();
       this.getTileStackData();
-    }
-
-    ngDoCheck(){
-
     }
 
 }
