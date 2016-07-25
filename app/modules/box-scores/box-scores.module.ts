@@ -37,6 +37,12 @@ export class BoxScoresModule implements OnChanges{
     this.gameNum = num;
   }
 
+  ngOnInit(){
+    if(this.scroll){
+      this.maxHeight = 650;
+    }
+  }
+
   ngOnChanges(){
     if(document.getElementById('box-header') != null && this.scroll && this.maxHeight != null && this.boxScores != null){
       var boxHeader = document.getElementById('box-header').offsetHeight;
