@@ -19,6 +19,7 @@ import {BoxScoresService} from '../../services/box-scores.service';
 
 import {GlobalSettings} from "../../global/global-settings";
 import {GlobalFunctions} from "../../global/global-functions";
+import {GeoLocation} from "../../global/global-service";
 import {Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
 import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
@@ -45,7 +46,7 @@ declare var jQuery: any;
       RecommendationsComponent,
       ResponsiveWidget,
     ],
-    providers: [BoxScoresService,SchedulesService,DeepDiveService],
+    providers: [BoxScoresService,SchedulesService,DeepDiveService,GeoLocation],
 })
 
 export class DeepDivePage implements OnInit {
@@ -91,6 +92,7 @@ export class DeepDivePage implements OnInit {
       private _deepDiveData: DeepDiveService,
       private _boxScores:BoxScoresService,
       private _schedulesService:SchedulesService,
+      private _geoLocation:GeoLocation,
       public ngZone:NgZone){
       this.profileName = "MLB";
 
@@ -218,7 +220,21 @@ export class DeepDivePage implements OnInit {
           });
     }
 
+    //Subscribe to getGeoLocation in geo-location.service.ts. On Success call getNearByCities function.
+    getGeoLocation() {
+      var defaultCity = 'wichita';
+
+        this._geoLocation.getGeoLocation()
+            .subscribe(
+                geoLocationData => {
+                  console.log(geoLocationData);
+                },
+                err => defaultCity
+            );
+    }
+
     ngOnInit() {
+      this.getGeoLocation();
       this.getRecommendationData();
       this.checkSize();
       this.getBoxScores(this.dateParam);
