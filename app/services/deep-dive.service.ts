@@ -168,10 +168,8 @@ getCarouselData(data, limit, batch, state, callback:Function) {
     var sampleImage = "/app/public/placeholder_XL.png";
     var articleStackArray = [];
     data = data.data.slice(1,9);
-    console.log(data);
     data.forEach(function(val, index){
       var date = GlobalFunctions.formatDate(val.publishedDate);
-      console.log(date);
       var s = {
           stackRowsRoute: MLBGlobalFunctions.formatSynRoute('story', val.id),
           keyword: val.keyword,
