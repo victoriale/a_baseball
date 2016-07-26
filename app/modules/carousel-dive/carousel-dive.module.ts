@@ -15,17 +15,19 @@ declare var jQuery:any;
 
 export class CarouselDiveModule{
   @Input() carouselData: any;
-  constructor(){
-​
-  }
+
+  isBuilt:boolean = false;
   ngAfterViewInit() {
-    jQuery(".owl-carousel").owlCarousel({
-      items:1,
-      loop:true,
-      dots:false,
-      nav:false,
-      navText:false
-    });
+    if( !this.isBuilt) {
+      jQuery(".owl-carousel").owlCarousel({
+        items: 1,
+        loop: true,
+        dots: false,
+        nav: false,
+        navText: false
+      });
+      this.isBuilt = true;
+    }
   }
 
   leftcarousel() {
