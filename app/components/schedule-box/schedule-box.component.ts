@@ -10,6 +10,8 @@ export interface scheduleBoxInput{
   homeImageConfig:CircleImageData,
   awayTeamName:string,
   homeTeamName:string,
+  awayLink:any;
+  homeLink:any;
   reportDisplay:string,
   reportLink:any,
 }
@@ -50,6 +52,8 @@ export class ScheduleBox{
           },
           awayTeamName:'Blue Jays',
           homeTeamName:'Orioles',
+          awayLink:['Error-page'],
+          homeLink:['Error-page'],
           reportDisplay:'Mid Game Report',
           reportLink:'/pick-a-team',
         }]

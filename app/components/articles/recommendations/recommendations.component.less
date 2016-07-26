@@ -43,8 +43,7 @@
         .globalDefaultFont(16px, 800);
         //necessary for multiline ellipses
         display: block;
-        display: -webkit-box;
-        line-height: 1.4;
+        display: -webkit-box; line-height: 1.4;
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
         overflow: hidden;
@@ -69,19 +68,23 @@
 
 .deep_recs{
   width: 100%;
-  margin-left: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
   // margin-top: 40px;
+  &-row{
+    display: flex;
+    justify-content: space-between;
+  }
   &-articles{
+    width: 32.045%;
     margin-bottom: 10px;
     &-item{
-      margin-right:15px;
       &:hover .deep_recs-articles-item-image-highlight{
         .flexDisplay;
       }
       &-image{
         //this is the minimum value
-        width: 180px;
-        height: 120px;
+        width: 100%;
         background-color: grey;
         background-size: cover;
         background-repeat: no-repeat;
@@ -121,8 +124,8 @@
         margin-top: 10px;
         overflow:hidden;
         text-overflow: ellipsis;
-        width:180px;
         height: auto;
+        width: 100%;
         &-dateline{
           .globalDefaultFont(11px, 800);
           &-keyword{
@@ -146,19 +149,29 @@
 @media @mobile{
   .deep_recs{
     margin-top: 30px;
-    &-articles-item{
-      &-image{
-        width: 180px;
-        height: 120px;
-      }
-      &-content{
-        width: 180px;
-        height: 52px;
-        .globalDefaultFont(16px, 800);
-        margin-top: 0px;
-        &-dateline{
-          display: none;
+    margin-bottom: -30px;
+    &-articles{
+      width: 180px;
+      margin-bottom: 24px;
+      &-item{
+        &-image{
+          height: 120px;
+        }
+        &-content{
+          .globalDefaultFont(16px, 800);
+          margin-top: 0px;
+          line-height: 18px;
+          &-dateline{
+            display: none;
+            &-below{
+              display: block;
+              .globalDefaultFont(12px, 400);
+              color: @strokeGrey;
+              line-height: 24px;
+            }
+          }
           &-teaser{
+            margin-top: 14px;
             font-weight: 800;
             font-size: 16px;
           }
@@ -168,50 +181,83 @@
   }
 }
 @media @tablet{
-  .deep-dive-container .deep_recs-articles-item{
-    &-image{
+  .deep_recs{
+    padding-left: 15px;
+    padding-right: 15px;
+    &-articles{
       width: 180px;
-      height: 120px;
-    }
-    &-content{
-      width: 180px;
-      height: 52px;
-      .globalDefaultFont(11px, 800);
-      margin-top: 0px;
-      &-dateline{
-        display: none;
+      &-item{
+        &-image{
+          height: 120px;
+        }
+        &-content{
+          .globalDefaultFont(16px, 800);
+          line-height: 18px;
+          margin-top: 0px;
+          &-dateline{
+            display: none;
+            &-below{
+              display: block;
+              .globalDefaultFont(12px, 400);
+              color: @strokeGrey;
+              line-height: 24px;
+            }
+          }
+          &-teaser{
+            margin-top: 14px;
+            font-weight: 800;
+            font-size: 16px;
+          }
+        }
       }
     }
   }
 }
+
 @media @desktop-m {
+  .deep_recs {
+    padding-left: 49px;
+    padding-right: 49px;
+  }
   .deep-dive-container .deep_recs{
-    &-articles-item{
-      &-image{
-        width: 215px;
-        height: 136px;
+    &-articles{
+      width: 216px;
+      &-item{
+        &-image{
+          height: 136px;
+        }
       }
+    }
+    &-articles-item{
       &-content{
-        width: 215px;
-        height: 62px;
         .globalDefaultFont(12px, 800);
         margin-top: 10px;
         &-dateline{
           display: block;
+          &-below{
+            display: none;
+          }
         }
       }
     }
   }
 }
 @media @desktop-l{
-  .deep-dive-container .deep_recs-articles-item{
-    &-image{
-      width: 215px;
-      height: 136px;
+  .deep_recs {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .deep_recs {
+    &-articles{
+      width: 32.24%;
+      &-item{
+        &-image{
+        }
+      }
     }
+  }
+  .deep-dive-container .deep_recs-articles-item{
     &-content{
-      width: 215px;
-      height: 62px;
       .globalDefaultFont(12px, 800);
       &-dateline{
         display: block;
@@ -220,14 +266,30 @@
   }
 }
 @media @desktop-xl{
+  .deep_recs {
+    padding-left: 0;
+    padding-right: 0;
+    &-articles {
+      width: 348px;
+      margin-bottom: 24px;
+      &-item {
+        &-image {
+          height: 220px;
+        }
+      }
+    }
+  }
+
+  .deep-dive-container .deep_recs{
+    &-articles{
+      width: 348px;
+    }
+  }
   .deep-dive-container .deep_recs-articles-item{
     &-image{
-      width: 348px;
       height: 220px;
     }
     &-content{
-      width: 348px;
-      height: 56px;
       .globalDefaultFont(12px, 800);
       &-dateline{
         display: block;
