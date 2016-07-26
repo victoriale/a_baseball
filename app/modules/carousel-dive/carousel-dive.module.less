@@ -16,10 +16,12 @@
       font-size:60px;
       display: table-cell;
       vertical-align: middle;
+      cursor:pointer;
+      &:hover {
+        color:@homeRunLoyalRed;
+      }
     }
-    &:hover {
-      color:@homeRunLoyalRed;
-    }
+
   }
   &-left {
     position: absolute;
@@ -29,16 +31,19 @@
     display: table;
     z-index: 2;
     color:@white;
+
     >i {
       position: relative;
       text-align: center;
       font-size:60px;
       display: table-cell;
       vertical-align: middle;
+      cursor:pointer;
+      &:hover {
+        color:@homeRunLoyalRed;
+      }
     }
-    &:hover {
-      color:@homeRunLoyalRed;
-    }
+
   }
 
 }
@@ -55,12 +60,12 @@
 .carousel-item {
   width: 80%;
   height: 420px;
-  margin: auto;
+  //margin: auto;
   display: table;
   position: relative;
   &-container {
-    display: table-cell;
-    vertical-align: middle;
+  //  display: table-cell;
+//    vertical-align: middle;
 
   &-key {
     width: 126px;
@@ -76,7 +81,7 @@
   }
   &-title {
     .globalDefaultModFont(28px, 400, @white);
-    line-height: 1.1;
+    line-height: 1.2;
     font-weight: 900;
     >span{
       display: block;
@@ -85,13 +90,13 @@
     }
     &-border {
       border-bottom: 2px solid @white;
-      width: 50%;
+      width: 80%;
       margin: 9px 0px 19px 0px;
     }
   }
   &-content {
     .globalDefaultModFont(16px, 400, @white);
-    line-height: 1.5;
+    line-height: 1.2;
 
   }
   &-fullstory {
@@ -103,10 +108,72 @@
     line-height: 40px;
     text-align: center;
     margin-top: 33px;
+    display: inline-block;
     cursor: pointer;
     &:hover {
       background-color:@black;
     }
   }
 }
+}
+@media @mobile {
+  .carousel-item {
+    margin: auto;
+    width: 70%;
+    &-container {
+       vertical-align: middle;
+       display: table-cell;
+    }
+  }
+
+}
+@media @tablet {
+  .carousel-item {
+    margin: auto;
+    &-container {
+       vertical-align: middle;
+       display: table-cell;
+    }
+  }
+}
+@media @desktop-m {
+
+  .carousel-item {
+    &-container {
+      &-title {
+        .globalDefaultModFont(38px, 400, @white);
+        font-weight: 900;
+        line-height: 1.1;
+        >span{
+          display: block;
+          font-size:28px;
+          font-weight: 400;
+      }
+    }
+  }
+}
+}
+@media @desktop-l {
+  .carousel-item {
+    margin-left: 10%;
+    width:60%;
+    &-container {
+      position: relative;
+      top:45px;
+      display: block;
+    }
+  }
+  .carousel-dive {
+    &-right {
+      right: 20px;
+      >i {
+        font-size: 100px;
+      }
+    }
+    &-left {
+      >i {
+        font-size:100px;
+      }
+    }
+  }
 }
