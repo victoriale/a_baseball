@@ -99,12 +99,17 @@ export class BoxScoresService {
   aiHeadline(data){
     var boxArray = [];
     var sampleImage = "/app/public/placeholder_XL.png";
-    data.forEach(function(val, index){
+    if (data != undefined) {
+      data.forEach(function(val, index){
+        for(var p in val.featuredReport){
+          var eventType = val.featuredReport[p];
+          var teaser = eventType.displayHeadline;
+        }
       var Box = {
         keyword: "MLB",
         date: GlobalFunctions.formatLongDate(val.timestamp),
-        teaser: val.featuredReport['pregame-report'].displayHeadline,
-        url: MLBGlobalFunctions.formatAiArticleRoute('pregame-report', val.event),
+        url: MLBGlobalFunctions.formatAiArticleRoute(eventType, val.event),
+        teaser: teaser,
         imageConfig:{
           imageClass: "image-288x180",
           mainImage:{
@@ -114,7 +119,9 @@ export class BoxScoresService {
       }
       boxArray.push(Box);
     });
+  }
     return boxArray;
+
   }
   moduleHeader(date, team?){
     var moduleTitle;
