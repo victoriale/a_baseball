@@ -16,12 +16,15 @@
       <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
       <video-stack-module [state]="geoLocation"></video-stack-module>
       <!-- adMed HERE -->
-        <responsive-widget [embedPlace]="widgetPlace" [displayAtRes]="1024"></responsive-widget>
-      <div class="container-boxScores">
-          <box-scores *ngIf="dateParam && maxHeight" class="box-scores" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)" [maxHeight]="maxHeight" [scroll]="scroll"></box-scores>
-      <!-- adSmall HERE -->
+      <responsive-widget [embedPlace]="widgetPlace" [displayAtRes]="1024"></responsive-widget>
+      <div class="deep-dive-boxScore">
+        <box-scores *ngIf="dateParam && maxHeight" class="box-scores" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)" [maxHeight]="maxHeight" [scroll]="scroll"></box-scores>
+        <!-- adSmall HERE -->
         <responsive-widget [embedPlace]="widgetPlace" [displayAtRes]="640"></responsive-widget>
-        <box-article-component *ngIf="boxArticleData" [boxArticleData]="boxArticleData" [isDeepDive]="true"></box-article-component>
+
+        <div class="deep-dive-module">
+          <box-article-component *ngIf="currentBoxScores" [boxArticleData]="currentBoxScores.aiContent"></box-article-component>
+        </div>
       </div>
       <!-- adMed HERE -->
         <responsive-widget [embedPlace]="widgetPlace" [displayAtRes]="1024"></responsive-widget>
@@ -30,7 +33,9 @@
       <div class="deep-dive-module">
         <recommendations-component *ngIf="recommendationData" [randomHeadlines]="recommendationData" [isDeepDive]="true"></recommendations-component>
       </div>
-      <article-stack-module [stackTop]="thirdStackTop" [stackRow]="thirdStackRow"></article-stack-module>
+      <div class="deep-dive-module">
+        <article-stack-module [stackTop]="thirdStackTop" [stackRow]="thirdStackRow"></article-stack-module>
+      </div>
       <!-- adSmall HERE -->
       <div class="deep-dive-adSmall-last">
         <responsive-widget [embedPlace]="widgetPlace" ></responsive-widget>
@@ -39,7 +44,7 @@
 
     <div class="deep-dive-container2b">
 
-      <div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div>
+      <!-- <div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div> -->
     </div>
   </section>
 </section>

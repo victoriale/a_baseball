@@ -9,7 +9,7 @@ export interface BoxArticleData {
   keyword: string;
   date: string;
   teaser: string;
-  url?: string;
+  url: any;
   imageConfig: RectangleImageData;
 }
 
@@ -21,22 +21,7 @@ export interface BoxArticleData {
 })
 
 export class BoxArticleComponent implements OnInit {
-  @Input() boxArticleData: Array<BoxArticleData>;//TODO
+  @Input() boxArticleData: Array<BoxArticleData>;
   ngOnInit() {
-    if (typeof this.boxArticleData == 'undefined') {
-      var sampleImage = "/app/public/placeholder_XL.png";
-      this.boxArticleData = [{
-        keyword: "[Keyword]",
-        date: "[Date]",
-        url: "/",
-        teaser: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo ipsum dolor sit amet, consectetur adipisicing",
-        imageConfig: {
-          imageClass: "image-288x180",
-          mainImage:{
-            imageUrl: sampleImage
-          }
-        }
-      }];//this.dataPoint ends
-    }
   }//ngOnInit ends
 }

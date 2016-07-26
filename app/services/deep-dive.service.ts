@@ -137,39 +137,16 @@ export class DeepDiveService {
       });
   }
 
-  transformToBoxArticle(data){
-    var boxArray = [];
-    var sampleImage = "/app/public/placeholder_XL.png";
-    data = data.data.slice(0,2);//TODO
-    data.forEach(function(val, index){
-      var Box = {
-        keyword: val.keyword,
-        date: GlobalFunctions.formatUpdatedDate(val.publishedDate),
-        teaser: val.teaser,
-        url: val.articleUrl != null ? val.articleUrl : '/',
-        imageConfig:{
-          imageClass: "image-288x180",
-          mainImage:{
-            imageUrl: val.imagePath != null ? GlobalSettings.getImageUrl(val.imagePath) : sampleImage
-          }
-        }
-      }
-      boxArray.push(Box);
-    });
-    return boxArray;
-  }
-
 getCarouselData(data, limit, batch, state, callback:Function) {
-  //always returns the first batch of articles
-     this.getDeepDiveBatchService(limit, batch, state)
-     .subscribe(data=>{
-       var transformedData = this.carouselTransformData(data.data);
-      callback(transformedData);
-     })
- }
+    //always returns the first batch of articles
+       this.getDeepDiveBatchService(batch, limit, state)
+       .subscribe(data=>{
+         var transformedData = this.carouselTransformData(data.data);
+        callback(transformedData);
+       })
+   }
 
  carouselTransformData(arrayData){
-
       var transformData = [];
       arrayData.forEach(function(val,index){
         let carData = {
@@ -190,16 +167,16 @@ getCarouselData(data, limit, batch, state, callback:Function) {
     var articleStackArray = [];
     var sampleImage = "/app/public/placeholder_XL.png";
     var articleStackArray = [];
-    data = data.data.slice(1,7);
+    data = data.data.slice(1,9);
     data.forEach(function(val, index){
+      var date = GlobalFunctions.formatDate(val.publishedDate);
       var s = {
           stackRowsRoute: MLBGlobalFunctions.formatSynRoute('story', val.id),
           keyword: val.keyword,
-          publishedDate: GlobalFunctions.formatUpdatedDate(val.publishedDate),
-          headline: val.title,
+          publishedDate: date.month + " " + date.day + ", " + date.year,
           provider1: val.author,
           provider2: "Published By: " + val.publisher,
-          description: val.teaser,
+          description: val.title,
           imageConfig: {
             imageClass: "image-100x75",
             mainImage:{
@@ -230,10 +207,11 @@ getCarouselData(data, limit, batch, state, callback:Function) {
   transformToArticleStack(data){
     var sampleImage = "/app/public/placeholder_XL.png";
     var topData = data.data[0];//TODO
+    var date = GlobalFunctions.formatDate(topData.publishedDate);
     var articleStackData = {
         articleStackRoute: MLBGlobalFunctions.formatSynRoute('story', topData.id),
         keyword: topData.keyword,
-        date: GlobalFunctions.formatUpdatedDate(topData.publishedDate),
+        date: date.month + " " + date.day + ", " + date.year,
         headline: topData.title,
         provider1: topData.author,
         provider2: "Published By: " + topData.publisher,
