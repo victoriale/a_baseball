@@ -31,10 +31,10 @@ export class WidgetModule {
                 this.headerHeight = padding + 135 + 'px';
             }
             else if (titleHeight == 70) {
-              this.headerHeight = padding + 145 + 'px';
+              this.headerHeight = padding + 128 + 'px';
           }
           else if (titleHeight == 35) {
-            this.headerHeight = padding + 108 + 'px';
+            this.headerHeight = padding + 91 + 'px';
         }
         }
     }
@@ -60,10 +60,10 @@ export class WidgetModule {
                 this.sidekickHeight = 135;
             }
             else if (titleHeight == 70) {
-                this.sidekickHeight = 145;
+                this.sidekickHeight = 128;
             }
             else if (titleHeight == 35) {
-                this.sidekickHeight = 108;
+                this.sidekickHeight = 91;
             }
             if (maxScroll <= 0) {
                 this.sidekickHeight += maxScroll;
