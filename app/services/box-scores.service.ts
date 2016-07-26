@@ -105,10 +105,11 @@ export class BoxScoresService {
           var eventType = val.featuredReport[p];
           var teaser = eventType.displayHeadline;
         }
+      var date = GlobalFunctions.formatDate(val.timestamp*1000);
       var Box = {
         keyword: "MLB",
-        date: GlobalFunctions.formatLongDate(val.timestamp),
-        url: MLBGlobalFunctions.formatAiArticleRoute(eventType, val.event),
+        date: date.month + " " + date.day + ", " + date.year,
+        url: MLBGlobalFunctions.formatAiArticleRoute(p, val.event),
         teaser: teaser,
         imageConfig:{
           imageClass: "image-288x180",
@@ -118,8 +119,8 @@ export class BoxScoresService {
         }
       }
       boxArray.push(Box);
-    });
-  }
+      });
+    }
     return boxArray;
 
   }

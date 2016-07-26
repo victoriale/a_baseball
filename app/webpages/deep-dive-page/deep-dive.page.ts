@@ -70,7 +70,7 @@ export class DeepDivePage{
     scrollLength: number;
     ssMax:number = 9;
     callCount:number = 1;
-    callLimit:number = 8;
+    callLimit:number = 9;
     safeCall: boolean = true;
     //for carousel
     carouselData: any;

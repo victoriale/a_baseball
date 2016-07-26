@@ -162,7 +162,6 @@ getCarouselData(data, limit, batch, state, callback:Function) {
       return transformData;
   }
 
-
   transformToArticleRow(data){
     var articleStackArray = [];
     var sampleImage = "/app/public/placeholder_XL.png";
@@ -206,8 +205,9 @@ getCarouselData(data, limit, batch, state, callback:Function) {
   }
   transformToArticleStack(data){
     var sampleImage = "/app/public/placeholder_XL.png";
-    var topData = data.data[0];//TODO
+    var topData = data.data[0];
     var date = GlobalFunctions.formatDate(topData.publishedDate);
+    var limitDesc = topData.teaser.substring(0, 360);//provided by design to limit characters
     var articleStackData = {
         articleStackRoute: MLBGlobalFunctions.formatSynRoute('story', topData.id),
         keyword: topData.keyword,
@@ -215,7 +215,7 @@ getCarouselData(data, limit, batch, state, callback:Function) {
         headline: topData.title,
         provider1: topData.author,
         provider2: "Published By: " + topData.publisher,
-        description: topData.teaser,
+        description: limitDesc,
         imageConfig: {
           imageClass: "image-610x420",
           mainImage:{

@@ -47,7 +47,7 @@ export class WidgetModule {
         }
         var titleHeight = 0;
         var padding = document.getElementById('pageHeader').offsetHeight;
-        var y_buffer = 40;
+        var y_buffer = 23;
         var scrollTop = jQuery(window).scrollTop();
         var maxScroll = partnerHeight - scrollTop;
         if (!this.syndicated && !this.aiSidekick) {

@@ -27,9 +27,11 @@
         </div>
       </div>
       <!-- adMed HERE -->
-        <responsive-widget [embedPlace]="widgetPlace" [displayAtRes]="1024"></responsive-widget>
-      <article-stack-module [stackTop]="secStackTop" [stackRow]="secStackRow"></article-stack-module>
-        <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+      <responsive-widget [embedPlace]="widgetPlace" [displayAtRes]="1024"></responsive-widget>
+      <div class="deep-dive-module">
+        <article-stack-module [stackTop]="secStackTop" [stackRow]="secStackRow"></article-stack-module>
+      </div>
+      <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
       <div class="deep-dive-module">
         <recommendations-component *ngIf="recommendationData" [randomHeadlines]="recommendationData" [isDeepDive]="true"></recommendations-component>
       </div>
