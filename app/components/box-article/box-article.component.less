@@ -1,14 +1,19 @@
 .box_articles{
   .flexDisplay;
   .flexJustify(space-between);
-  &-item{
+  &-item {
     .flexDisplay;
     .flexDirection(column);
     overflow: hidden;
     margin: 0 14px;
     width: 288px;
     &:hover{
-      color: @masterBrandColor;
+      .box_articles-description{
+        color: @masterBrandColor;
+      }
+      .image-rectangle-hover div{
+        .flexDisplay;
+      }
     }
   }//box_articles-item ENDS
   &-image{
@@ -38,9 +43,6 @@
       height: 30px;
       overflow: hidden;
       text-overflow: ellipsis;
-    }
-    &:hover{
-      color: @masterBrandColor;
     }
   }
 }

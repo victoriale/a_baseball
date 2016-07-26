@@ -178,9 +178,9 @@ getCarouselData(data, limit, batch, state, callback:Function) {
           description: val.title,
           imageConfig: {
             imageClass: "image-100x75",
-            mainImage:{
-              imageUrl: val.imagePath != null ? GlobalSettings.getImageUrl(val.imagePath) : sampleImage
-            }
+            imageUrl: val.imagePath != null ? GlobalSettings.getImageUrl(val.imagePath) : sampleImage,
+            hoverText: "View",
+            urlRouteArray: MLBGlobalFunctions.formatSynRoute('story', val.id)
           }
       }
       articleStackArray.push(s);
@@ -218,9 +218,9 @@ getCarouselData(data, limit, batch, state, callback:Function) {
         description: limitDesc,
         imageConfig: {
           imageClass: "image-610x420",
-          mainImage:{
-            imageUrl: topData.imagePath != null ? GlobalSettings.getImageUrl(topData.imagePath) : sampleImage
-          }
+          imageUrl: topData.imagePath != null ? GlobalSettings.getImageUrl(topData.imagePath) : sampleImage,
+          hoverText: "View Article",
+          urlRouteArray: MLBGlobalFunctions.formatSynRoute('story', topData.id)
         }
     };
     return articleStackData;

@@ -113,9 +113,9 @@ export class BoxScoresService {
         teaser: teaser,
         imageConfig:{
           imageClass: "image-288x180",
-          mainImage:{
-            imageUrl: val.home.images[0] != null ? val.home.images[0] : sampleImage
-          }
+          imageUrl: val.home.images[0] != null ? val.home.images[0] : sampleImage,
+          hoverText: "View Article",
+          urlRouteArray: MLBGlobalFunctions.formatSynRoute('story', val.id)
         }
       }
       boxArray.push(Box);

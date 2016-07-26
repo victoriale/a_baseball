@@ -33,21 +33,5 @@ export class StackRowsComponent implements OnInit {
       this.gridStackCol = "col-xs-6";
     }
   }
-  ngOnInit() {
-    if (typeof this.stackRow == 'undefined') {
-      var sampleImage = "/app/public/placeholder_XL.png";
-      this.stackRow = [{
-          stackRowsRoute: ['Syndicated-article-page', {articleType: 'story', eventID: 1}],
-          keyword: "[Keyword]",
-          publishedDate: "[Date]",
-          description: "Atlanta Braves interim manager Brian Snitker said he didn't worry about his young pitchers starting for the first time at Great American Ball Park, known for its homer-friendly dimensions",
-          imageConfig: {
-            imageClass: "image-100x75",
-            mainImage:{
-              imageUrl: "/app/public/placeholder_XL.png"
-            }
-          }
-        }]
-    }
-  }//ngOnInit ends
+  ngOnInit() {}//ngOnInit ends
 }
