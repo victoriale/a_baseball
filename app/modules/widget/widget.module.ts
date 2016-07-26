@@ -34,7 +34,7 @@ export class WidgetModule {
               this.headerHeight = padding + 128 + 'px';
           }
           else if (titleHeight == 35) {
-            this.headerHeight = padding + 91 + 'px';
+            this.headerHeight = padding + 102 + 'px';
         }
         }
     }
@@ -63,7 +63,7 @@ export class WidgetModule {
                 this.sidekickHeight = 128;
             }
             else if (titleHeight == 35) {
-                this.sidekickHeight = 91;
+                this.sidekickHeight = 102;
             }
             if (maxScroll <= 0) {
                 this.sidekickHeight += maxScroll;
