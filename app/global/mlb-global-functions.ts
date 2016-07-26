@@ -315,4 +315,14 @@ export class MLBGlobalFunctions {
     }
     return synRoute ? synRoute : ['Error-page'];
   }
+
+  static formatAiArticleRoute(eventType: string, eventID: string): Array<any> {
+    var aiArticleRoute: Array<any>;
+    if(typeof eventID != 'undefined' && eventID != null){
+      aiArticleRoute = ['Article-pages', {eventType: eventType, eventID: eventID}];
+    } else{
+      aiArticleRoute = null;
+    }
+    return aiArticleRoute ? aiArticleRoute : ['Error-page'];
+  }
 }
