@@ -98,7 +98,6 @@ export class DeepDiveService {
     state = 'null';
   }
   var callURL = this._apiUrl+'/article'+ '/batch/division/'+state+'/'+startNum+'/'+limit;
-  console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {

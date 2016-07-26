@@ -119,8 +119,8 @@ export class BoxScoresService {
         }
       }
       boxArray.push(Box);
-    });
-  }
+      });
+    }
     return boxArray;
 
   }
