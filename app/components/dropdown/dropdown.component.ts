@@ -235,7 +235,6 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
 
         //Add new listener that checks for any click on the document
         self.hideDropdownListener = self._renderer.listenGlobal('document', 'click', (event) => {
-          console.log('click on anywhere');
           if ( self.dropdown.mouseDownOnScrollBar ) {
             //Ignore click if 'keepDropdownOpen' is true, as that means the
             // user was dragging the scrollbar. But since the mouse is up again,
@@ -264,7 +263,6 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
       // We don't want to close dropdown when the scroller is selected,
       // So this checks to see if the mouse went down on the scroller.
       this.dropdown.dropdownHeader.addEventListener('mousedown', function(event) {
-        console.log('click on dropdown');
           //Gets the element underneath the mouse
           var element = document.elementFromPoint(event.clientX, event.clientY);
 
@@ -309,7 +307,6 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
 
         if ( !self.hideDropdownListener && self.dropdown.isDropdownVisible ) {
           //timeout is needed so that click doesn't happen for click.
-          console.log('test');
           setTimeout(closeDropdownOnClick, 1);
         }
       });
