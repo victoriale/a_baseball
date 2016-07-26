@@ -16,18 +16,16 @@ declare var jQuery:any;
 export class CarouselDiveModule{
   @Input() carouselData: any;
 
-  isBuilt:boolean = false;
-  ngAfterViewInit() {
-    if( !this.isBuilt) {
+  ngOnInit() {
+    setTimeout(function(){
       jQuery(".owl-carousel").owlCarousel({
-        items: 1,
-        loop: true,
-        dots: false,
-        nav: false,
-        navText: false
+        items:1,
+        loop:true,
+        dots:false,
+        nav:false,
+        navText:false
       });
-      this.isBuilt = true;
-    }
+    }, 1000);
   }
 
   leftcarousel() {
