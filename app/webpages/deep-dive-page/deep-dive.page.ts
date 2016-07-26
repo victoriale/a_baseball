@@ -45,7 +45,7 @@ declare var jQuery: any;
       CarouselDiveModule,
       BoxArticleComponent,
       RecommendationsComponent,
-      ResponsiveWidget,
+      ResponsiveWidget
     ],
     providers: [BoxScoresService,SchedulesService,DeepDiveService,GeoLocation,PartnerHeader],
 })
@@ -68,9 +68,9 @@ export class DeepDivePage{
 
     sideScrollData: any;
     scrollLength: number;
-    ssMax:number = 7;
+    ssMax:number = 9;
     callCount:number = 1;
-    callLimit:number = 7;
+    callLimit:number = 8;
     safeCall: boolean = true;
     //for carousel
     carouselData: any;
@@ -168,15 +168,11 @@ export class DeepDivePage{
             this.currentBoxScores = currentBoxScores;
         })
     }
+
     private getDataCarousel() {
       this._deepDiveData.getCarouselData(this.carouselData, '25', '1', this.geoLocation, (carData)=>{
         this.carouselData = carData;
       })
-      // this._deepDiveData.getCarouselData()
-      //     .subscribe(data => {
-      //       console.log(data);
-      //       this.carouselData = this._deepDiveData.carouselTransformData(data);
-      //     });
     }
 
     checkSize(){
@@ -197,12 +193,7 @@ export class DeepDivePage{
             this.recommendationData = this._deepDiveData.transformToRecArticles(data);
           });
     }
-    getBoxArticleData(){
-      this._deepDiveData.getDeepDiveBatchService(2, 1, this.geoLocation)
-          .subscribe(data => {
-            this.boxArticleData = this._deepDiveData.transformToBoxArticle(data);
-          });
-    }
+
     getTileStackData(){
       this._deepDiveData.getDeepDiveBatchService(this.callLimit, 2, this.geoLocation)
           .subscribe(data => {
@@ -277,7 +268,6 @@ export class DeepDivePage{
       this.getSecArticleStackData();
       this.getThirdArticleStackData();
       this.getSideScroll();
-      this.getBoxArticleData();
       this.getTileStackData();
     }
 
