@@ -105,14 +105,6 @@ export class DeepDiveService {
       return data;
     })
   }
-  getdeepDiveData(deepDiveData, callback:Function, dataParam) {
-  if(deepDiveData == null){
-    deepDiveData = {};
-
-  }else {
-    }
-  }
-
 
   getAiArticleData(state){
     var headers = this.setToken();
@@ -125,6 +117,7 @@ export class DeepDiveService {
         return data;
       });
   }
+
   getRecArticleData(region, pageNum, pageCount){
     var headers = this.setToken();
     //this is the sidkeick url
@@ -137,29 +130,29 @@ export class DeepDiveService {
       });
   }
 
-getCarouselData(data, limit, batch, state, callback:Function) {
+  getCarouselData(data, limit, batch, state, callback:Function) {
     //always returns the first batch of articles
-       this.getDeepDiveBatchService(limit, batch, state)
-       .subscribe(data=>{
-         var transformedData = this.carouselTransformData(data.data);
-        callback(transformedData);
-       })
-   }
+     this.getDeepDiveBatchService(limit, batch, state)
+     .subscribe(data=>{
+       var transformedData = this.carouselTransformData(data.data);
+      callback(transformedData);
+     })
+  }
 
- carouselTransformData(arrayData){
-      var transformData = [];
-      arrayData.forEach(function(val,index){
-        let carData = {
-          image_url: GlobalSettings.getImageUrl(val['imagePath']),
-          title:  "<span> Today's News </span>" + val['title'],
-          keyword: val['keyword'],
-          teaser: val['teaser'].substr(0,250).replace('_',': ').replace(/<p[^>]*>/g, "") + "...",
-          id:val['id'],
-          articlelink: MLBGlobalFunctions.formatSynRoute('story', val.id),
-        };
-        transformData.push(carData);
-      });
-      return transformData;
+  carouselTransformData(arrayData){
+    var transformData = [];
+    arrayData.forEach(function(val,index){
+      let carData = {
+        image_url: GlobalSettings.getImageUrl(val['imagePath']),
+        title:  "<span> Today's News </span>" + val['title'],
+        keyword: val['keyword'],
+        teaser: val['teaser'].substr(0,250).replace('_',': ').replace(/<p[^>]*>/g, "") + "...",
+        id:val['id'],
+        articlelink: MLBGlobalFunctions.formatSynRoute('story', val.id),
+      };
+      transformData.push(carData);
+    });
+    return transformData;
   }
 
   transformToArticleRow(data){
@@ -203,6 +196,7 @@ getCarouselData(data, limit, batch, state, callback:Function) {
       }
       return dataStack;
   }
+
   transformToArticleStack(data){
     var sampleImage = "/app/public/placeholder_XL.png";
     var topData = data.data[0];
@@ -288,6 +282,7 @@ getCarouselData(data, limit, batch, state, callback:Function) {
     }
     return _return;
   }
+  
   transformTrending (data) {
     data.forEach(function(val,index){
       let date = GlobalFunctions.formatDate(val.publishedDate);

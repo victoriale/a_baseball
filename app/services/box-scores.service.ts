@@ -115,7 +115,7 @@ export class BoxScoresService {
           imageClass: "image-288x180",
           imageUrl: val.home.images[0] != null ? val.home.images[0] : sampleImage,
           hoverText: "View Article",
-          urlRouteArray: MLBGlobalFunctions.formatSynRoute('story', val.id)
+          urlRouteArray: MLBGlobalFunctions.formatAiArticleRoute(p, val.event)
         }
       }
       boxArray.push(Box);

@@ -5,9 +5,9 @@
   height: 513px;
   width: @mainwidth;
   &-header {
-    border-bottom: 2px solid #d7d7d7;
+    border-bottom: 2px solid @strokeGrey;
     &-icon {
-      color: #e80f0d;
+      color: @masterBrandColor;
       font-size: 32px;
       font-weight: 400;
       text-align: left;
@@ -24,7 +24,7 @@
       margin: 0 6px;
       color: @black;
       &:hover {
-        color: #bc2027;
+        color: @masterBrandColor;
       }
       &:hover .articleBoxMedium {
         .articleImageLinkWithHoverMedium(180px, 120px);
@@ -70,10 +70,10 @@
   width: 100%;
   padding-left: 15px;
   padding-right: 15px;
-  // margin-top: 40px;
+  margin-bottom: -30px;
   &-row{
-    display: flex;
-    justify-content: space-between;
+    .flexDisplay;
+    .flexJustify(space-between);
   }
   &-articles{
     width: 32.045%;
@@ -92,7 +92,7 @@
       &-image{
         //this is the minimum value
         width: 100%;
-        background-color: grey;
+        background-color: @backgroundGrey;
         background-size: cover;
         background-repeat: no-repeat;
         background-position: top center;
@@ -136,6 +136,7 @@
             margin-right: 3px;
           }
           &-date{
+            text-transform: uppercase;
             color: @bulletGrey;
           }
           &-below{
