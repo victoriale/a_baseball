@@ -16,7 +16,7 @@ declare var jQuery:any;
 export class CarouselDiveModule{
   @Input() carouselData: any;
 
-  ngAfterViewInit() {
+  ngOnInit() {
     setTimeout(function(){
       jQuery(".owl-carousel").owlCarousel({
         items:1,
@@ -27,6 +27,7 @@ export class CarouselDiveModule{
       });
     }, 1000);
   }
+
   leftcarousel() {
     var owl = jQuery('.carousel_owl');
     owl.owlCarousel();
