@@ -39,9 +39,10 @@ export class WidgetCarouselModule {
 
     // Page is being scrolled
     onScroll(event) {
+        var scrollTop = jQuery(window).scrollTop();
         var partnerHeight = 0;
         if( document.getElementById('partner') != null){
-            partnerHeight = document.getElementById('partner').offsetHeight;
+            partnerHeight = document.getElementById('partner').offsetHeight + scrollTop;
         }
         var titleHeight = 0;
         var padding = 0;
@@ -49,7 +50,6 @@ export class WidgetCarouselModule {
         var padding = document.getElementById('pageHeader').offsetHeight;
         }
         var y_buffer = 50;
-        var scrollTop = jQuery(window).scrollTop();
         var maxScroll = partnerHeight - scrollTop;
         var carouselTop = jQuery('.deep-dive-container1').height() - scrollTop;
         if (!this.aiSidekick) {
