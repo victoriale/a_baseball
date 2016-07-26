@@ -85,7 +85,7 @@ export class BoxScoresService {
           moduleTitle: this.moduleHeader(dateParam.date, profileName),
           gameInfo: this.formatGameInfo(boxScoresData.transformedDate[dateParam.date],dateParam.teamId, dateParam.profile),
           schedule: dateParam.profile != 'league' && boxScoresData.transformedDate[dateParam.date] != null? this.formatSchedule(boxScoresData.transformedDate[dateParam.date][0], dateParam.teamId, dateParam.profile) : null,
-          aiContent: dateParam.profile == 'league' ? this.aiHeadline(dateParam.aiArticle) : null,
+          aiContent: dateParam.profile == 'league' ? this.aiHeadline(boxScoresData.aiArticle) : null,
         };
         currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
         callback(boxScoresData, currentBoxScores);
@@ -99,7 +99,7 @@ export class BoxScoresService {
   aiHeadline(data){
     var boxArray = [];
     var sampleImage = "/app/public/placeholder_XL.png";
-    if (data != undefined) {
+    if (data != null) {
       data.forEach(function(val, index){
         for(var p in val.featuredReport){
           var eventType = val.featuredReport[p];
