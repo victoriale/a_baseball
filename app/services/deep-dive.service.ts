@@ -69,6 +69,7 @@ export class DeepDiveService {
       return data;
     })
   }
+
   getDeepDiveVideoBatchService(limit, startNum, state?){
   //Configure HTTP Headers
   var headers = this.setToken();
@@ -136,7 +137,7 @@ export class DeepDiveService {
       });
   }
 
-  getCarouselData(data, limit, batch, state, callback:Function) {
+getCarouselData(data, limit, batch, state, callback:Function) {
     //always returns the first batch of articles
        this.getDeepDiveBatchService(batch, limit, state)
        .subscribe(data=>{
@@ -284,5 +285,13 @@ export class DeepDiveService {
       if(i >= 3 && i < 6){_return[1].push(ret[i]);}
     }
     return _return;
+  }
+  transformTrending (data) {
+    data.forEach(function(val,index){
+      let date = GlobalFunctions.formatDate(val.publishedDate);
+      val["date"] = date.month + " " + date.day + ", " + date.year + " " + date.time + " " + date.a + " EST";
+      val["image"] = GlobalSettings.getImageUrl(val.imagePath);
+    })
+    return data;
   }
 }

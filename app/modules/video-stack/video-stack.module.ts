@@ -1,4 +1,4 @@
-import {Component,OnInit} from '@angular/core';
+import {Component,OnInit, Input} from '@angular/core';
 import {VideoStacktopComponent} from '../../components/video-stacktop/video-stacktop.component';
 import {VideoStackbotComponent} from '../../components/video-stackbot/video-stackbot.component'
 
@@ -12,6 +12,7 @@ import {VideoStackbotComponent} from '../../components/video-stackbot/video-stac
 })
 
 export class VideoStackModule{
+  @Input() state: any;
   constructor(){
 
   }

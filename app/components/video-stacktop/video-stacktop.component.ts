@@ -1,4 +1,4 @@
-import {Component,OnInit} from '@angular/core';
+import {Component,OnInit, Input} from '@angular/core';
 import {DeepDiveService} from '../../services/deep-dive.service';
 import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {SanitizeHtml} from "../../pipes/safe.pipe";
@@ -16,13 +16,14 @@ declare var moment;
 
 export class VideoStacktopComponent{
   public articleData: any;
+  @Input() state: string;
   constructor(
     private _deepdiveservice:DeepDiveService
     ){
-      this.getDeepDiveVideoBatch(2, 1);
+      this.getDeepDiveVideoBatch(this.state ,2, 1);
     }
-    private getDeepDiveVideoBatch(numItems, startNum){
-      this._deepdiveservice.getDeepDiveVideoBatchService(numItems, startNum).subscribe(
+    private getDeepDiveVideoBatch(region, numItems, startNum){
+      this._deepdiveservice.getDeepDiveVideoBatchService(numItems, startNum, region).subscribe(
         data => {
           this.articleData = data.data;
         }
