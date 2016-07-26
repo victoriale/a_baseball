@@ -60,6 +60,7 @@ export class DeepDivePage{
     safeCall: boolean = true;
     //for carousel
     carouselData: any;
+    blockIndex: number = 1;
 ​
     private isHomeRunZone: boolean = false;
 
@@ -164,6 +165,7 @@ export class DeepDivePage{
     private onScroll(event) {
       if (jQuery(document).height() - window.innerHeight - jQuery("footer").height() <= jQuery(window).scrollTop()) {
         //fire when scrolled into footer
+        this.blockIndex = this.blockIndex + 1;
       }
     }
 
