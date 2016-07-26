@@ -13,23 +13,21 @@ declare var jQuery:any;
   pipes:[SanitizeHtml]
 })
 
-export class CarouselDiveModule implements OnInit{
+export class CarouselDiveModule{
   @Input() carouselData: any;
   constructor(){
 ​
   }
-  ngOnInit() {
-    setTimeout(function(){
-      jQuery(".owl-carousel").owlCarousel({
-        items:1,
-        loop:true,
-        dots:false,
-        nav:false,
-        navText:false
-      });
-    }, 500);
-​
+  ngAfterViewInit() {
+    jQuery(".owl-carousel").owlCarousel({
+      items:1,
+      loop:true,
+      dots:false,
+      nav:false,
+      navText:false
+    });
   }
+
   leftcarousel() {
     var owl = jQuery('.carousel_owl');
     owl.owlCarousel();
