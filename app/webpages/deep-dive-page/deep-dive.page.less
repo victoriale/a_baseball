@@ -29,9 +29,11 @@
     }
   }
   &-module{
-    width:100%;
     margin-bottom: 30px;
     width: inherit;
+    @media @desktop-xl {
+      width: auto;
+    }
   }
   &-adSmall{
     display: block;
@@ -105,6 +107,12 @@
     }
     &-boxScore{
       .flexDisplay;
+      width:100%;
+      @media @desktop-xl {
+        .box-score {
+          margin:0;
+        }
+      }
     }
   }
 }
