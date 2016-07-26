@@ -1,4 +1,4 @@
-<section class="deep-dive container-fluid">
+<section *ngIf="!isHomeRunZone" class="deep-dive container-fluid">
   <div class="deep-dive-container1">
     <carousel-dive-module *ngIf = "carouselData" [carouselData] = "carouselData"></carousel-dive-module>
   </div>
@@ -50,3 +50,4 @@
     </div>
   </section>
 </section>
+<Partner-home-page *ngIf="isHomeRunZone"></Partner-home-page>
