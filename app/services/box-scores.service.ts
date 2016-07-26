@@ -100,11 +100,15 @@ export class BoxScoresService {
     var boxArray = [];
     var sampleImage = "/app/public/placeholder_XL.png";
     data.forEach(function(val, index){
+      for(var p in val.featuredReport){
+        var eventType = val.featuredReport[p];
+        var teaser = eventType.displayHeadline;
+      }
       var Box = {
         keyword: "MLB",
         date: GlobalFunctions.formatLongDate(val.timestamp),
-        teaser: val.featuredReport['pregame-report'].displayHeadline,
-        url: MLBGlobalFunctions.formatAiArticleRoute('pregame-report', val.event),
+        url: MLBGlobalFunctions.formatAiArticleRoute(eventType, val.event),
+        teaser: teaser,
         imageConfig:{
           imageClass: "image-288x180",
           mainImage:{
