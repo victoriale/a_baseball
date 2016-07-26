@@ -18,7 +18,7 @@ export class CarouselDiveModule{
 
   isBuilt:boolean = false;
   ngAfterViewInit() {
-    if( !this.isBuilt) {
+    if( !this.isBuilt && this.carouselData) {
       jQuery(".owl-carousel").owlCarousel({
         items: 1,
         loop: true,
