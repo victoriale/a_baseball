@@ -10,7 +10,8 @@ declare var moment;
 @Injectable()
 export class DeepDiveService {
   private _apiUrl: string = GlobalSettings.getApiUrl();
-  private _trendingUrl: string = GlobalSettings.getTrendingUrl();
+  private _articleUrl: string = GlobalSettings.getArticleUrl();
+  private _recUrl: string = GlobalSettings.getRecUrl();
   // private _apiToken: string = 'BApA7KEfj';
   // private _headerName: string = 'X-SNT-TOKEN';
 
@@ -26,11 +27,10 @@ export class DeepDiveService {
       return headers;
   }
 
-  getDeepDiveService(batchId: number, limit: number){//DATE
+  getDeepDiveService(batchId: number, limit: number){
   //Configure HTTP Headers
   var headers = this.setToken();
 
-  //date needs to be the date coming in AS EST and come back as UTC
   var callURL = this._apiUrl + '/' + 'article/batch/';
   if(typeof batchId == 'undefined'){
     callURL += "1";
@@ -45,56 +45,63 @@ export class DeepDiveService {
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
-      // transform the data to YYYY-MM-DD objects from unix
       return data;
     })
   }
-  getDeepDiveArticleService(articleID){//DATE
+  getDeepDiveArticleService(articleID){
   //Configure HTTP Headers
   var headers = this.setToken();
-  //date needs to be the date coming in AS EST and come back as UTC
   var callURL = this._apiUrl+'/'+ 'article/' + articleID;
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
-      // transform the data to YYYY-MM-DD objects from unix
       return data;
     })
   }
-  getDeepDiveVideoService(articleID){//DATE
+
+  getDeepDiveVideoService(articleID){
   //Configure HTTP Headers
   var headers = this.setToken();
-  //date needs to be the date coming in AS EST and come back as UTC
   var callURL = this._apiUrl+'/'+ 'article/video/'+ articleID;
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
-      // transform the data to YYYY-MM-DD objects from unix
       return data;
     })
   }
-  getDeepDiveVideoBatchService(numItems, startNum){//DATE
+
+  getDeepDiveVideoBatchService(limit, startNum, state?){
   //Configure HTTP Headers
   var headers = this.setToken();
-  //date needs to be the date coming in AS EST and come back as UTC
-  var callURL = this._apiUrl+'/'+ 'article/video/batch/division/null/'+ startNum +'/' + numItems ;
+
+  if(startNum == null){
+    startNum = 1;
+  }
+  if(state == null){//make sure it comes back as a string of null if nothing is returned or sent to parameter
+    state = 'null';
+  }
+  var callURL = this._apiUrl+'/'+ 'article/video/batch/division/'+state+'/'+ startNum +'/' + limit ;
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
-      // transform the data to YYYY-MM-DD objects from unix
       return data;
     })
   }
-  getDeepDiveBatchService(numItems){//DATE
+  getDeepDiveBatchService(limit, startNum, state?){
   //Configure HTTP Headers
   var headers = this.setToken();
-  //date needs to be the date coming in AS EST and come back as UTC
-  var callURL = this._apiUrl+'/article'+ '/batch/division/null/2/'+numItems;
+
+  if(startNum == null){
+    startNum = 1;
+  }
+  if(state == null){//make sure it comes back as a string of null if nothing is returned or sent to parameter
+    state = 'null';
+  }
+  var callURL = this._apiUrl+'/article'+ '/batch/division/'+state+'/'+startNum+'/'+limit;
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
 
-      // transform the data to YYYY-MM-DD objects from unix
       return data;
     })
   }
@@ -107,10 +114,22 @@ export class DeepDiveService {
   }
 
 
-  getAiArticleData(){
+  getAiArticleData(state){
     var headers = this.setToken();
     //this is the sidkeick url
-    var callURL = this._trendingUrl;
+    var callURL = this._articleUrl + "sidekick-regional/"+ state +"/1/1";
+    // console.log(callURL);
+    return this.http.get(callURL, {headers: headers})
+      .map(res => res.json())
+      .map(data => {
+        return data;
+      });
+  }
+  getRecArticleData(region, pageNum, pageCount){
+    var headers = this.setToken();
+    //this is the sidkeick url
+    var callURL = this._recUrl + "/" + region + "/" + pageNum + "/" + pageCount;
+    // console.log(callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -140,36 +159,29 @@ export class DeepDiveService {
     return boxArray;
   }
 
-getCarouselData(data, callback:Function) {
-     this.getDeepDiveService(2, 25)
+getCarouselData(data, limit, batch, state, callback:Function) {
+  //always returns the first batch of articles
+     this.getDeepDiveBatchService(limit, batch, state)
      .subscribe(data=>{
-    //   console.log('before',data);
        var transformedData = this.carouselTransformData(data.data);
-    //   console.log('after',transformedData);
       callback(transformedData);
      })
  }
+
  carouselTransformData(arrayData){
 
       var transformData = [];
       arrayData.forEach(function(val,index){
-      //  console.log(val);
-      if (val['teaser'].length <= 3) {
-        val['teaser'] = val['title'];
-      }
         let carData = {
           image_url: GlobalSettings.getImageUrl(val['imagePath']),
-    //    image_url: this._sanitizer.bypassSecurityTrustStyle("url(" + GlobalSettings.getImageUrl(val['imagePath']), + ")"),
           title:  "<span> Today's News </span>" + val['title'],
           keyword: val['keyword'],
           teaser: val['teaser'].substr(0,250).replace('_',': ').replace(/<p[^>]*>/g, "") + "...",
           id:val['id'],
-          articlelink: MLBGlobalFunctions.formatSynRoute('story', val.id)
-
+          articlelink: MLBGlobalFunctions.formatSynRoute('story', val.id),
         };
         transformData.push(carData);
       });
-
       return transformData;
   }
 
@@ -178,7 +190,7 @@ getCarouselData(data, callback:Function) {
     var articleStackArray = [];
     var sampleImage = "/app/public/placeholder_XL.png";
     var articleStackArray = [];
-    data = data.data.slice(1,7);//TODO
+    data = data.data.slice(1,7);
     data.forEach(function(val, index){
       var s = {
           stackRowsRoute: MLBGlobalFunctions.formatSynRoute('story', val.id),
@@ -199,7 +211,22 @@ getCarouselData(data, callback:Function) {
     });
     return articleStackArray;
   }
-
+  transformTileStack(data) {
+    data = data.data;
+    var lines = ['Find Your <br> Favorite Player', 'Find Your <br> Favorite Team', 'Check Out The Latest <br> With the MLB'];
+    let pickATeam = ['Pick-team-page'];
+    let mlbPage = ['MLB-page'];
+    var tileLink = [pickATeam, pickATeam, mlbPage];
+    var dataStack = [];
+      for(var i = 0; i < 3; i++){
+        var j = Math.floor(Math.random() * data.length);
+        dataStack[i] = data[i];
+        dataStack[i]['lines'] = lines[i];
+        dataStack[i]['tileLink'] = tileLink[i];
+        dataStack[i]['image_url'] = GlobalSettings.getImageUrl(data[j]['imagePath']) != null ? GlobalSettings.getImageUrl(data[j]['imagePath']) : "/app/public/placeholder_XL.png";
+      }
+      return dataStack;
+  }
   transformToArticleStack(data){
     var sampleImage = "/app/public/placeholder_XL.png";
     var topData = data.data[0];//TODO
@@ -283,38 +310,12 @@ getCarouselData(data, callback:Function) {
     }
     return _return;
   }
-
-  transformTileStack(data) {
-    data = data.data;
-    var lines = ['Find Your Favorite Player', 'Find Your Favorite Team', 'Check Out The Latest With the MLB'];
-    var datastack = [];
-      for(var i = 0; i < 3; i++){
-        var j = Math.floor(Math.random() * 18) + 1;
-        datastack[i] = data[i];
-        datastack[i]['lines'] = lines[i];
-        datastack[i]['image_url'] = GlobalSettings.getImageUrl(data[j]['imagePath']);
-        //datastack[i]['image_url'] = data[i]['image_url'];
-      }
-      return datastack;
+  transformTrending (data) {
+    data.forEach(function(val,index){
+      let date = GlobalFunctions.formatDate(val.publishedDate);
+      val["date"] = date.month + " " + date.day + ", " + date.year + " " + date.time + " " + date.a;
+      val["image"] = GlobalSettings.getImageUrl(val.imagePath);
+    })
+    return data;
   }
-
-  // getCarouselData(data, callback:Function) {
-  //     this.getDeepDiveService()
-  //     .subscribe(data=>{
-  //     //   console.log('before',data);
-  //       var transformedData = this.carouselTransformData(data);
-  //     //    console.log('after',transformedData);
-  //      callback(transformedData);
-  //     })
-  // }
-
-  // getStackRowsData(data) {
-  //     this.getDeepDiveService()
-  //     .subscribe(data=>{
-  //         console.log('before',data);
-  //         var transformedData = this.stackrowsTransformData(data);
-  //        //console.log('after',transformedData);
-  //     })
-  // }
-
 }

@@ -11,6 +11,8 @@ export class GlobalSettings {
 
     private static _apiUrl:string = '-homerunloyal-api.synapsys.us';
     private static _partnerApiUrl: string = 'apireal.synapsys.us/listhuv/?action=get_partner_data&domain=';
+    private static _widgetUrl: string = 'w1.synapsys.us';
+
     private static _dynamicApiUrl: string = 'dw.synapsys.us/list_creator_api.php'
 
     private static _imageUrl:string = '-sports-images.synapsys.us';
@@ -18,6 +20,7 @@ export class GlobalSettings {
     private static _recommendUrl:string = '-homerunloyal-ai.synapsys.us/headlines/event/';
     private static _headlineUrl:string = '-homerunloyal-ai.synapsys.us/headlines/team/';
     private static _trendingUrl:string = '-homerunloyal-ai.synapsys.us/sidekick';
+    private static _recUrl:string = '-homerunloyal-ai.synapsys.us/sidekick-regional';
     private static _homepageUrl:string = '.homerunloyal.com';
     private static _partnerHomepageUrl:string = '.myhomerunzone.com';
 
@@ -51,6 +54,11 @@ export class GlobalSettings {
         return this._proto + "//"+ this._partnerApiUrl + partnerID;
     }
 
+    static getGeoLocation():string {
+        //[https:]//[prod]-homerunloyal-api.synapsys.us
+        return this._proto + "//" + this._widgetUrl;
+    }
+
     static getImageUrl(relativePath):string {
         var relPath = relativePath != null && relativePath != "" ? this._proto + "//" + "prod" + this._imageUrl + relativePath: '/app/public/no-image.png';
         return relPath;
@@ -71,6 +79,9 @@ export class GlobalSettings {
 
     static getTrendingUrl():string {
         return this._proto + "//" + this.getEnv(this._env) + this._trendingUrl;
+    }
+    static getRecUrl():string {
+        return this._proto + "//" + this.getEnv(this._env) + this._recUrl;
     }
 
     static getHeadlineUrl():string {

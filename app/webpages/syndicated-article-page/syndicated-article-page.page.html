@@ -7,9 +7,9 @@
         </div>
 
     <span *ngIf="articleData">
-        <sidekick-wrapper-ai [aiSidekick]="aiSidekick">
+      <div class="articles-page-title" [innerHTML]="articleData.title | safeHtml"></div>
+        <sidekick-wrapper-ai [aiSidekick]="aiSidekick" [syndicated]="true">
           <shareLinks-component></shareLinks-component>
-          <div class="syndicated-articles-page-title" [innerHTML]="articleData.title"></div>
             <span>
                 <div class="carousel-container" *ngIf="articleType == 'story'">
                   <images-media-carousel [imageData]="imageData" [copyright]="copyright"
@@ -23,9 +23,9 @@
                 <span class="arpt-author" >Written By: <b>{{articleData.publisher}}</b></span>
                 <span class="arpt-date">Posted: on {{articleData.publishedDate}}</span>
             </div>
-            <div class="content-exerpt" *ngIf="articleType == 'story'"  [innerHTML]="articleData.teaser">
+            <div class="content-exerpt" *ngIf="articleType == 'story'"  [innerHTML]="articleData.teaser | safeHtml">
             </div>
-            <div class="content-exerpt" *ngIf="articleType == 'video'"  [innerHTML]="articleData.description">
+            <div class="content-exerpt" *ngIf="articleType == 'video'"  [innerHTML]="articleData.description | safeHtml">
             </div>
             <div class="bottom-shader" *ngIf="articleType == 'story'"></div>
             <a *ngIf="articleType == 'story'" class="readMore mod-page-btn" [href]="articleData.articleUrl">Read the Full Article <i class="fa fa-arrow-right"></i></a>
@@ -35,7 +35,7 @@
                [isDeepDive]="true"></recommendations-component>
             <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
             <disqus-component ></disqus-component>
-            <syndicated-trending-component></syndicated-trending-component>
+            <syndicated-trending-component *ngIf="geoLocation" [geoLocation]="geoLocation"></syndicated-trending-component>
         </sidekick-wrapper-ai>
     </span>
     </div>

@@ -10,6 +10,7 @@ declare var jQuery:any;
 
 export class WidgetModule {
     @Input() aiSidekick:boolean;
+    @Input() syndicated:boolean;
     sidekickHeight:number = 0;
     headerHeight:string;
 
@@ -21,8 +22,7 @@ export class WidgetModule {
             var partnerHeight = document.getElementById('partner').offsetHeight;
             padding += partnerHeight;
         }
-
-        if (!this.aiSidekick) {
+        if (!this.syndicated && !this.aiSidekick) {
             this.headerHeight = padding + 'px';
         } else {
             if (titleHeight == 40) {
@@ -30,6 +30,12 @@ export class WidgetModule {
             } else if (titleHeight == 80) {
                 this.headerHeight = padding + 135 + 'px';
             }
+            else if (titleHeight == 70) {
+              this.headerHeight = padding + 145 + 'px';
+          }
+          else if (titleHeight == 35) {
+            this.headerHeight = padding + 108 + 'px';
+        }
         }
     }
 
@@ -44,7 +50,7 @@ export class WidgetModule {
         var y_buffer = 40;
         var scrollTop = jQuery(window).scrollTop();
         var maxScroll = partnerHeight - scrollTop;
-        if (!this.aiSidekick) {
+        if (!this.syndicated && !this.aiSidekick) {
             this.sidekickHeight = 0;
         } else {
             titleHeight = jQuery('.articles-page-title').height();
@@ -52,6 +58,12 @@ export class WidgetModule {
                 this.sidekickHeight = 95;
             } else if (titleHeight == 80) {
                 this.sidekickHeight = 135;
+            }
+            else if (titleHeight == 70) {
+                this.sidekickHeight = 145;
+            }
+            else if (titleHeight == 35) {
+                this.sidekickHeight = 108;
             }
             if (maxScroll <= 0) {
                 this.sidekickHeight += maxScroll;

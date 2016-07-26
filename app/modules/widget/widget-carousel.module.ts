@@ -44,8 +44,7 @@ export class WidgetCarouselModule {
         var y_buffer = 40;
         var scrollTop = jQuery(window).scrollTop();
         var maxScroll = partnerHeight - scrollTop;
-        var carouselTop = document.getElementById('newsCarousel').offsetHeight - scrollTop;
-
+        var carouselTop = jQuery('.deep-dive-container1').height() - scrollTop;
         if (!this.aiSidekick) {
             this.sidekickHeight = 0;
         } else {
@@ -71,7 +70,7 @@ export class WidgetCarouselModule {
         }
         this.headerHeight = carouselTop + padding + maxScroll + this.sidekickHeight + 'px';
         var $widget = jQuery("#widget");
-        var $pageWrapper = jQuery(".deep-dive-content-container");
+        var $pageWrapper = jQuery(".deep-dive-container2a");
         if ($widget.length > 0 && $pageWrapper.length > 0) {
             var widgetHeight = $widget.height();
             var pageWrapperTop = $pageWrapper.offset().top;

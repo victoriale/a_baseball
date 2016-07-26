@@ -6,8 +6,8 @@
           <rectangle-image [data]="stackRow.imageConfig"></rectangle-image>
         </div>
         <div class="stackSmall-text">
-          <div class="stackSmall-text-keyword"><span [innerHTML]="stackRow.keyword"></span><span [innerHTML]="stackRow.publishedDate"></span></div>
-          <div class="stackSmall-text-subHeadline" [innerHTML]="stackRow.description"></div>
+          <div class="stackSmall-text-keyword"><span [innerHTML]="stackRow.keyword | safeHtml"></span><span [innerHTML]="stackRow.publishedDate | safeHtml"></span></div>
+          <div class="stackSmall-text-subHeadline" [innerHTML]="stackRow.description | safeHtml"></div>
         </div>
     </a>
     <div class="stackSmall-breakLine"></div>
