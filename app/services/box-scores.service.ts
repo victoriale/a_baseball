@@ -50,7 +50,8 @@ export class BoxScoresService {
       // transform the data to YYYY-MM-DD objects from unix
       var transformedDate = this.transformBoxScores(data.data);
       return {
-        transformedDate:transformedDate
+        transformedDate:transformedDate,
+        aiArticle: profile == 'league' ? data.aiContent : null
       };
     })
   }
@@ -70,7 +71,7 @@ export class BoxScoresService {
               moduleTitle: this.moduleHeader(dateParam.date, profileName),
               gameInfo: this.formatGameInfo(data.transformedDate[dateParam.date],dateParam.teamId, dateParam.profile),
               schedule: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null? this.formatSchedule(data.transformedDate[dateParam.date][0], dateParam.teamId, dateParam.profile) : null,
-              // aiContent: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null? this.formatArticle(data.transformedDate[dateParam.date][0]) : null,
+              aiContent: dateParam.profile == 'league' ? this.aiHeadline(data.aiArticle) : null,
             };
             currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
             callback(data, currentBoxScores);
@@ -84,7 +85,7 @@ export class BoxScoresService {
           moduleTitle: this.moduleHeader(dateParam.date, profileName),
           gameInfo: this.formatGameInfo(boxScoresData.transformedDate[dateParam.date],dateParam.teamId, dateParam.profile),
           schedule: dateParam.profile != 'league' && boxScoresData.transformedDate[dateParam.date] != null? this.formatSchedule(boxScoresData.transformedDate[dateParam.date][0], dateParam.teamId, dateParam.profile) : null,
-          // aiContent: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null? this.formatArticle(data.transformedDate[dateParam.date][0]) : null,
+          aiContent: dateParam.profile == 'league' ? this.aiHeadline(dateParam.aiArticle) : null,
         };
         currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
         callback(boxScoresData, currentBoxScores);
@@ -95,6 +96,26 @@ export class BoxScoresService {
   /**
   * modifies data to get header data for modules
   */
+  aiHeadline(data){
+    var boxArray = [];
+    var sampleImage = "/app/public/placeholder_XL.png";
+    data.forEach(function(val, index){
+      var Box = {
+        keyword: "MLB",
+        date: GlobalFunctions.formatLongDate(val.timestamp),
+        teaser: val.featuredReport['pregame-report'].displayHeadline,
+        url: MLBGlobalFunctions.formatAiArticleRoute('pregame-report', val.event),
+        imageConfig:{
+          imageClass: "image-288x180",
+          mainImage:{
+            imageUrl: val.home.images[0] != null ? val.home.images[0] : sampleImage
+          }
+        }
+      }
+      boxArray.push(Box);
+    });
+    return boxArray;
+  }
   moduleHeader(date, team?){
     var moduleTitle;
     var month = moment(date,"YYYY-MM-DD").tz('America/New_York').format("MMMM");

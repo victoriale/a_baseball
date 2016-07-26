@@ -1,6 +1,6 @@
 <div class="box_articles">
   <div class="box_articles-item" *ngFor="let data of boxArticleData;">
-    <a href="{{data.url}}">
+    <a [routerLink]="data.url">
       <div class="box_articles-image">
         <rectangle-image [data]="data.imageConfig"></rectangle-image>
       </div>
