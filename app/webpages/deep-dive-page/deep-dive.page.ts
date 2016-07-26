@@ -161,5 +161,10 @@ export class DeepDivePage{
       this.getDataCarousel();
       this.getSideScroll();
     }
+    private onScroll(event) {
+      if (jQuery(document).height() - window.innerHeight - jQuery("footer").height() <= jQuery(window).scrollTop()) {
+        //fire when scrolled into footer
+      }
+    }
 
 }

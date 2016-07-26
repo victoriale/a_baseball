@@ -1,4 +1,4 @@
-<section *ngIf="!isHomeRunZone" class="deep-dive container-fluid">
+<section *ngIf="!isHomeRunZone" class="deep-dive container-fluid" (window:scroll)="onScroll($event)">
   <div class="deep-dive-container1">
     <carousel-dive-module *ngIf = "carouselData" [carouselData] = "carouselData"></carousel-dive-module>
   </div>
