@@ -99,7 +99,6 @@ export class BoxScoresService {
   aiHeadline(data){
     var boxArray = [];
     var sampleImage = "/app/public/placeholder_XL.png";
-    console.log(data);
     data.forEach(function(val, index){
       var Box = {
         keyword: "MLB",
