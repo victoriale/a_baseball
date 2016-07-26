@@ -21,7 +21,6 @@ export class HamburgerMenuComponent implements OnInit {
   public isHome:any;
   constructor(){
     this.isHome = GlobalSettings.getHomeInfo().isHome;
-    console.log("this", this.isHome);
   }
   ngOnInit(){
     if(typeof this.menuData == 'undefined'){
