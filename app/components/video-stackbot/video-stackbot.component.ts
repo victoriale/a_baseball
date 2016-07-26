@@ -1,6 +1,8 @@
-import {Component,OnInit} from '@angular/core';
+import {Component,OnInit, Input} from '@angular/core';
 import {DeepDiveService} from '../../services/deep-dive.service';
 import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import {SanitizeHtml} from "../../pipes/safe.pipe";
+
 
 declare var moment;
 
@@ -8,19 +10,21 @@ declare var moment;
   selector: 'video-stackbot-component',
   templateUrl: './app/components/video-stackbot/video-stackbot.component.html',
   directives: [ROUTER_DIRECTIVES],
-  providers: [DeepDiveService]
+  providers: [DeepDiveService],
+  pipes: [SanitizeHtml]
 
 })
 
 export class VideoStackbotComponent{
   public articleData: any;
+  @Input() state: any;
   constructor(
     private _deepdiveservice:DeepDiveService
     ){
-      this.getDeepDiveVideoBatch(4, 2);
+      this.getDeepDiveVideoBatch(this.state, 4, 2);
     }
-    private getDeepDiveVideoBatch(numItems, startNum){
-      this._deepdiveservice.getDeepDiveVideoBatchService(numItems, startNum).subscribe(
+    private getDeepDiveVideoBatch(region, numItems, startNum){
+      this._deepdiveservice.getDeepDiveVideoBatchService(numItems, startNum, region).subscribe(
         data => {
           this.articleData = data.data;
         }

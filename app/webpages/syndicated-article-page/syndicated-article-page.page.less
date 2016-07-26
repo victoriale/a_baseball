@@ -5,6 +5,11 @@
   text-align: left;
   position: relative;
   overflow: hidden;
+  .articles-page-title {
+    .globalDefaultFont(35px, 800);
+    text-align: left;
+    margin-top: 17px;
+  }
   @media (max-width: 640px) {
   .widgetWrapper {
     margin-left: -20px;
@@ -102,11 +107,6 @@
     height:60px;
     background: linear-gradient(to top, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
   }
-  &-title {
-    .globalDefaultFont(35px, 800);
-    text-align: left;
-    margin-bottom: 17px;
-  }
   .arpt {
     .globalDefaultModFont(14px, 400, @black);
     position: relative;
@@ -142,7 +142,7 @@
     font-size:22px;
   }
   .deep_recs {
-    margin:0 0 10px;
+    margin:0;
     width: 100%;
     .deep_recs-articles-item-image {
       width:190px;
@@ -160,6 +160,6 @@
   }
   .artcom {
     width: 100%;
-    margin-top: 25px;
+    margin-top: 20px;
   }
 }

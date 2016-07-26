@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Router,ROUTER_DIRECTIVES, RouteParams} from '@angular/router-deprecated';
 import {ShareLinksComponent} from "../shareLinks/shareLinks.component";
 import {SanitizeHtml} from "../../../pipes/safe.pipe";
@@ -21,32 +21,34 @@ declare var jQuery: any;
 export class SyndicatedTrendingComponent {
     trending:boolean = true;
     public widgetPlace: string = "widgetForPage";
-
+    public imageData: any;
     public articleData: any;
     public trendingLength: number = 2;
+    @Input() geoLocation: string;
+
     constructor(
       private _router:Router,
       private _deepdiveservice:DeepDiveService
-      ){
-        this.getDeepDiveArticle(2);
-      }
-      private getDeepDiveArticle(numItems) {
-        this._deepdiveservice.getDeepDiveBatchService(numItems).subscribe(
+      ){}
+
+      private getDeepDiveArticle(numItems, state) {
+        this._deepdiveservice.getDeepDiveBatchService(numItems, 1, state).subscribe(
           data => {
-            this.articleData = data.data;
+            this.articleData = this._deepdiveservice.transformTrending(data.data);
             if (this.trendingLength < 20) {
             this.trendingLength = this.trendingLength + 10;
             }
           }
         )
       }
-      private formatDate(date) {
-        return moment(date, "YYYY-MM-Do, h:mm:ss").format("MMMM Do, YYYY h:mm:ss A");
+
+      ngOnInit(){
+        this.getDeepDiveArticle(2 , this.geoLocation);
       }
       private onScroll(event) {
         if (jQuery(document).height() - window.innerHeight - jQuery("footer").height() <= jQuery(window).scrollTop()) {
           jQuery('#loadingArticles').show();
-          this.getDeepDiveArticle(this.trendingLength);
+          this.getDeepDiveArticle(this.trendingLength, this.geoLocation);
           jQuery('#loadingArticles').hide();
         }
       }
