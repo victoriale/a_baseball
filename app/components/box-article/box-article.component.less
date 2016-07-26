@@ -29,7 +29,7 @@
   }
   &-description{
     overflow: hidden;
-    height:40px;
+    max-height:40px;
     .globalDefaultModFont(14px, 800, @black);
     p {
       margin-top: 0;
@@ -72,8 +72,9 @@
     display: block;
     height: auto;
     &-item {
+      margin-bottom: 30px;
       width: 425px;
-      height: 308px;
+      max-height: 308px;
     }
   }
 }
