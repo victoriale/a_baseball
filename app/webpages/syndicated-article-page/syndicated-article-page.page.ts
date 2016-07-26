@@ -13,7 +13,7 @@ import {MLBGlobalFunctions} from "../../global/mlb-global-functions";
 import {SidekickWrapperAI} from "../../components/sidekick-wrapper-ai/sidekick-wrapper-ai.component";
 import {GlobalSettings} from "../../global/global-settings";
 import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
-import {SanitizeRUrl} from "../../pipes/safe.pipe";
+import {SanitizeRUrl, SanitizeHtml} from "../../pipes/safe.pipe";
 import {GeoLocation} from "../../global/global-service";
 import {PartnerHeader} from "../../global/global-service";
 
@@ -36,7 +36,7 @@ declare var moment;
         ResponsiveWidget
     ],
     providers: [DeepDiveService, GeoLocation, PartnerHeader],
-    pipes: [SanitizeRUrl]
+    pipes: [SanitizeRUrl, SanitizeHtml]
 })
 
 export class SyndicatedArticlePage{
