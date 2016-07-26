@@ -1,0 +1,101 @@
+import {Component, Input, Injector, OnChanges} from '@angular/core';
+import {GlobalSettings} from '../../../global/global-settings';
+import {GlobalFunctions} from '../../../global/global-functions';
+import {DeepDiveService} from '../../../services/deep-dive.service';
+import {Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import {ArticleStackModule} from '../../../modules/article-stack/article-stack.module';
+import {TileStackModule} from '../../../modules/tile-stack/tile-stack.module';
+import {ResponsiveWidget} from '../../../components/responsive-widget/responsive-widget.component';
+import {VideoStackModule} from '../../../modules/video-stack/video-stack.module';
+import {BoxScoresModule} from '../../../modules/box-scores/box-scores.module';
+import {BoxScoresService} from '../../../services/box-scores.service';
+import {BoxArticleComponent} from '../../../components/box-article/box-article.component';
+
+declare var moment;
+
+@Component({
+    selector: 'deep-dive-block-1',
+    templateUrl: './app/modules/deep-dive-blocks/deep-dive-block-1/deep-dive-block-1.module.html',
+    directives: [ROUTER_DIRECTIVES, ArticleStackModule, TileStackModule, ResponsiveWidget, VideoStackModule, BoxScoresModule, BoxArticleComponent],
+    providers: [DeepDiveService, BoxScoresService]
+})
+export class DeepDiveBlock1{
+  firstStackTop: any;
+  firstStackRow: any;
+  secStackTop: any;
+  secStackRow: any;
+  thirdStackTop: any;
+  thirdStackRow: any;
+  callLimit:number = 9;
+  tilestackData: any;
+
+  //for box scores
+  boxScoresData: any;
+  currentBoxScores: any;
+  dateParam: any;
+  @Input() maxHeight: any;
+  scroll: boolean = true;
+  @Input() geoLocation: any;
+  @Input() profileName: any;
+
+  constructor(
+    private _router:Router,
+    private _boxScores:BoxScoresService,
+    private _deepDiveData: DeepDiveService
+    ){
+      var currentUnixDate = new Date().getTime();
+      //convert currentDate(users local time) to Unix and push it into boxScoresAPI as YYYY-MM-DD in EST using moment timezone (America/New_York)
+      this.dateParam ={
+        profile:'league',//current profile page
+        teamId:null,
+        date: moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD')
+      }
+      this.callModules();
+    }
+
+  getFirstArticleStackData(){
+    this._deepDiveData.getDeepDiveBatchService(this.callLimit, 1, this.geoLocation)
+        .subscribe(data => {
+          this.firstStackTop = this._deepDiveData.transformToArticleStack(data);
+          this.firstStackRow = this._deepDiveData.transformToArticleRow(data);
+        });
+  }
+  getSecArticleStackData(){
+    this._deepDiveData.getDeepDiveBatchService(this.callLimit, 2, this.geoLocation)
+        .subscribe(data => {
+          this.secStackTop = this._deepDiveData.transformToArticleStack(data);
+          this.secStackRow = this._deepDiveData.transformToArticleRow(data);
+        });
+  }
+  getThirdArticleStackData(){
+    this._deepDiveData.getDeepDiveBatchService(this.callLimit, 3, this.geoLocation)
+        .subscribe(data => {
+          this.thirdStackTop = this._deepDiveData.transformToArticleStack(data);
+          this.thirdStackRow = this._deepDiveData.transformToArticleRow(data);
+        });
+  }
+  getTileStackData(){
+    this._deepDiveData.getDeepDiveBatchService(this.callLimit, 2, this.geoLocation)
+        .subscribe(data => {
+          this.tilestackData = this._deepDiveData.transformTileStack(data);
+        });
+  }
+  //api for BOX SCORES
+  private getBoxScores(dateParams?) {
+      if (dateParams != null) {
+          this.dateParam = dateParams;
+      }
+      this._boxScores.getBoxScores(this.boxScoresData, this.profileName, this.dateParam, (boxScoresData, currentBoxScores) => {
+          this.boxScoresData = boxScoresData;
+          this.currentBoxScores = currentBoxScores;
+      })
+  }
+  callModules(){
+    this.getBoxScores(this.dateParam);
+    this.getFirstArticleStackData();
+    this.getSecArticleStackData();
+    this.getThirdArticleStackData();
+    this.getTileStackData();
+  }
+
+}

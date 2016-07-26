@@ -26,6 +26,11 @@ import {Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 import {PartnerHomePage} from '../partner-home-page/partner-home-page';
 
+import {DeepDiveBlock1} from '../../modules/deep-dive-blocks/deep-dive-block-1/deep-dive-block-1.module';
+import {DeepDiveBlock2} from '../../modules/deep-dive-blocks/deep-dive-block-2/deep-dive-block-2.module';
+import {DeepDiveBlock3} from '../../modules/deep-dive-blocks/deep-dive-block-3/deep-dive-block-3.module';
+import {DeepDiveBlock4} from '../../modules/deep-dive-blocks/deep-dive-block-4/deep-dive-block-4.module';
+
 //window declarions of global functions from library scripts
 declare var moment;
 declare var jQuery: any;
@@ -47,7 +52,11 @@ declare var jQuery: any;
       CarouselDiveModule,
       BoxArticleComponent,
       RecommendationsComponent,
-      ResponsiveWidget
+      ResponsiveWidget,
+      DeepDiveBlock1,
+      DeepDiveBlock2,
+      DeepDiveBlock3,
+      DeepDiveBlock4
     ],
     providers: [BoxScoresService,SchedulesService,DeepDiveService,GeoLocation,PartnerHeader],
 })
