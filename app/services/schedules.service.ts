@@ -199,10 +199,10 @@ export class SchedulesService {
         reportLink = val.reportUrlMod;
       }
 
-      let date = moment(val.startDateTimestamp).tz('America/New_York').format('MMMM D YYYY');
+      let date = moment(val.startDateTimestamp).tz('America/New_York').format('MMMM D, YYYY');
       let time = moment(val.startDateTimestamp).tz('America/New_York').format('h:mm A');
       newData = {
-        date: date + " <i class='fa fa-circle'></i> " + time,
+        date: date + " &bull; " + time,
         awayImageConfig: self.imageData('image-60', 'border-1', GlobalSettings.getImageUrl(val.awayTeamLogo), MLBGlobalFunctions.formatTeamRoute(val.awayTeamName, val.awayTeamId)),
         homeImageConfig: self.imageData('image-60', 'border-1', GlobalSettings.getImageUrl(val.homeTeamLogo), MLBGlobalFunctions.formatTeamRoute(val.homeTeamName, val.homeTeamId)),
         awayTeamName: val.awayTeamLastName,
