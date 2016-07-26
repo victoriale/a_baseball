@@ -11,6 +11,7 @@ declare var jQuery:any;
   directives: [ROUTER_DIRECTIVES],
   providers: [],
   pipes:[SanitizeHtml]
+
 })
 
 export class CarouselDiveModule implements OnInit{
@@ -27,6 +28,8 @@ export class CarouselDiveModule implements OnInit{
         nav:false,
         navText:false
       });
+
+
     }, 500);
 ​
   }
