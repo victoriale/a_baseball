@@ -41,7 +41,7 @@ export class WidgetCarouselModule {
     onScroll(event) {
         var scrollTop = jQuery(window).scrollTop();
         var partnerHeight = 0;
-        if( document.getElementById('partner') != null){
+        if( document.getElementById('partner') != null && scrollTop <=  (jQuery('.deep-dive-container1').height() + document.getElementById('partner').offsetHeight)){
             partnerHeight = document.getElementById('partner').offsetHeight + scrollTop;
         }
         var titleHeight = 0;
