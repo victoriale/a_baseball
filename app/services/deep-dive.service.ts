@@ -168,11 +168,14 @@ getCarouselData(data, limit, batch, state, callback:Function) {
     var sampleImage = "/app/public/placeholder_XL.png";
     var articleStackArray = [];
     data = data.data.slice(1,9);
+    console.log(data);
     data.forEach(function(val, index){
+      var date = GlobalFunctions.formatDate(val.publishedDate);
+      console.log(date);
       var s = {
           stackRowsRoute: MLBGlobalFunctions.formatSynRoute('story', val.id),
           keyword: val.keyword,
-          publishedDate: GlobalFunctions.formatLongDate(val.publishedDate),
+          publishedDate: date.month + " " + date.day + ", " + date.year,
           provider1: val.author,
           provider2: "Published By: " + val.publisher,
           description: val.title,
@@ -206,10 +209,11 @@ getCarouselData(data, limit, batch, state, callback:Function) {
   transformToArticleStack(data){
     var sampleImage = "/app/public/placeholder_XL.png";
     var topData = data.data[0];//TODO
+    var date = GlobalFunctions.formatDate(topData.publishedDate);
     var articleStackData = {
         articleStackRoute: MLBGlobalFunctions.formatSynRoute('story', topData.id),
         keyword: topData.keyword,
-        date: GlobalFunctions.formatLongDate(topData.publishedDate),
+        date: date.month + " " + date.day + ", " + date.year,
         headline: topData.title,
         provider1: topData.author,
         provider2: "Published By: " + topData.publisher,
