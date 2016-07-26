@@ -35,6 +35,15 @@
     &:first-child{
       border-right: 1px solid @highlightGrey;
     }
+    &:hover{
+      color:@masterBrandColor;
+      .image-round-hover div{
+        .flexDisplay;
+      }
+      .schedule_box-text{
+        color:@masterBrandColor;
+      }
+    }
   }
   &-image{
     width:60px;
@@ -48,6 +57,10 @@
     margin-top:6px;
     .globalDefaultModFont(12px, 800, @black);
     text-align: center;
+    &:hover{
+      color:@masterBrandColor;
+      cursor: pointer;
+    }
   }
   &-linkbox{
     width: 120px;
@@ -62,9 +75,16 @@
     line-height: 22px;
     text-align:center;
     border:1px solid @highlightGrey;
+    &:hover{
+      color:@masterBrandColor;
+    }
   }
 }
 
 .schedule-tag{
   min-width: 205px;//on safari it breaks
+}
+
+.image-round-hover:hover{
+
 }

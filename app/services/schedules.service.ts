@@ -207,6 +207,8 @@ export class SchedulesService {
         homeImageConfig: self.imageData('image-60', 'border-1', GlobalSettings.getImageUrl(val.homeTeamLogo), MLBGlobalFunctions.formatTeamRoute(val.homeTeamName, val.homeTeamId)),
         awayTeamName: val.awayTeamLastName,
         homeTeamName: val.homeTeamLastName,
+        awayLink: MLBGlobalFunctions.formatTeamRoute(val.awayTeamName, val.awayTeamId),
+        homeLink: MLBGlobalFunctions.formatTeamRoute(val.homeTeamName, val.homeTeamId),
         reportDisplay: reportText,
         reportLink: reportLink,
       }
