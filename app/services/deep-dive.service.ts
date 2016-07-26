@@ -139,7 +139,7 @@ export class DeepDiveService {
 
 getCarouselData(data, limit, batch, state, callback:Function) {
     //always returns the first batch of articles
-       this.getDeepDiveBatchService(batch, limit, state)
+       this.getDeepDiveBatchService(limit, batch, state)
        .subscribe(data=>{
          var transformedData = this.carouselTransformData(data.data);
         callback(transformedData);
