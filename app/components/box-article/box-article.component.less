@@ -5,16 +5,10 @@
     .flexDisplay;
     .flexDirection(column);
     overflow: hidden;
-    color: @black;
     margin: 0 14px;
     width: 288px;
     &:hover{
       color: @masterBrandColor;
-      .box_articles-text{
-        > span:last-child{
-          color: @masterBrandColor;
-        }
-      }
     }
   }//box_articles-item ENDS
   &-image{
@@ -25,7 +19,7 @@
     }
   }
   &-text{
-    .globalDefaultFont(10px, 800);
+    .globalDefaultModFont(10px, 800, @black);
     margin-bottom: 5px;
     text-transform: uppercase;
     > span:last-child{
@@ -36,7 +30,7 @@
   &-description{
     overflow: hidden;
     height:40px;
-    .globalDefaultFont(14px, 800);
+    .globalDefaultModFont(14px, 800, @black);
     p {
       margin-top: 0;
       line-height: 1.2em;
@@ -61,11 +55,11 @@
   }
 }
 
-@media @desktop-l{
+@media @desktop-xl{
   .box_articles{
     &-item{
-      width: 348px;
-      height: 220px;
+      width: 425px;
+      height: 240px;
      }
    }
 }

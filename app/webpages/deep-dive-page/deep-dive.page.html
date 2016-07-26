@@ -17,13 +17,14 @@
       <video-stack-module></video-stack-module>
       <!-- adMed HERE -->
       <responsive-widget [embedPlace]="widgetPlace" [displayAtRes]="1024"></responsive-widget>
-      <box-scores *ngIf="dateParam && maxHeight" class="box-scores" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)" [maxHeight]="maxHeight" [scroll]="scroll"></box-scores>
-      <!-- adSmall HERE -->
+      <div class="deep-dive-boxScore">
+        <box-scores *ngIf="dateParam && maxHeight" class="box-scores" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)" [maxHeight]="maxHeight" [scroll]="scroll"></box-scores>
+        <!-- adSmall HERE -->
+        <responsive-widget [embedPlace]="widgetPlace" [displayAtRes]="640"></responsive-widget>
 
-      <responsive-widget [embedPlace]="widgetPlace" [displayAtRes]="640"></responsive-widget>
-
-      <div class="deep-dive-module">
-        <box-article-component *ngIf="currentBoxScores" [boxArticleData]="currentBoxScores.aiContent"></box-article-component>
+        <div class="deep-dive-module">
+          <box-article-component *ngIf="currentBoxScores" [boxArticleData]="currentBoxScores.aiContent"></box-article-component>
+        </div>
       </div>
       <!-- adMed HERE -->
         <responsive-widget [embedPlace]="widgetPlace" [displayAtRes]="1024"></responsive-widget>
