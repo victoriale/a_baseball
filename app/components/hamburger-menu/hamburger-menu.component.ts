@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import {GlobalSettings} from "../../global/global-settings";
 
 export interface MenuData{
   menuTitle: string,
@@ -17,6 +18,11 @@ export class HamburgerMenuComponent implements OnInit {
   @Input() menuData: MenuData;
   @Input() menuInfo: MenuData;
   public menuInfoHeader: string = "Company Info";
+  public isHome:any;
+  constructor(){
+    this.isHome = GlobalSettings.getHomeInfo().isHome;
+    console.log("this", this.isHome);
+  }
   ngOnInit(){
     if(typeof this.menuData == 'undefined'){
       this.menuData = {
