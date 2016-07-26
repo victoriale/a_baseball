@@ -7,9 +7,9 @@
         </div>
 
     <span *ngIf="articleData">
+      <shareLinks-component></shareLinks-component>
       <div class="articles-page-title" [innerHTML]="articleData.title | safeHtml"></div>
         <sidekick-wrapper-ai [aiSidekick]="aiSidekick" [syndicated]="true">
-          <shareLinks-component></shareLinks-component>
             <span>
                 <div class="carousel-container" *ngIf="articleType == 'story'">
                   <images-media-carousel [imageData]="imageData" [copyright]="copyright"
