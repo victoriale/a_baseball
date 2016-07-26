@@ -51,6 +51,11 @@ export class DeepDiveBlock1{
         date: moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD')
       }
       this.callModules();
+      window.onresize = (e) =>
+      {
+        // current use is box scores
+        this.checkSize();
+      }
     }
 
   getFirstArticleStackData(){
@@ -89,6 +94,17 @@ export class DeepDiveBlock1{
           this.boxScoresData = boxScoresData;
           this.currentBoxScores = currentBoxScores;
       })
+  }
+  checkSize(){
+    var width = window.outerWidth;
+    var height = window.outerHeight;
+    if(width <= 640){
+      this.scroll = false;
+      this.maxHeight = 'auto';
+    }else if(width > 640){
+      this.scroll = true;
+      this.maxHeight = 650;
+    }
   }
   callModules(){
     this.getBoxScores(this.dateParam);
