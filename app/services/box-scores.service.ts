@@ -85,7 +85,7 @@ export class BoxScoresService {
           moduleTitle: this.moduleHeader(dateParam.date, profileName),
           gameInfo: this.formatGameInfo(boxScoresData.transformedDate[dateParam.date],dateParam.teamId, dateParam.profile),
           schedule: dateParam.profile != 'league' && boxScoresData.transformedDate[dateParam.date] != null? this.formatSchedule(boxScoresData.transformedDate[dateParam.date][0], dateParam.teamId, dateParam.profile) : null,
-          aiContent: dateParam.profile == 'league' ? this.aiHeadline(dateParam.aiArticle) : null,
+          aiContent: dateParam.profile == 'league' ? this.aiHeadline(boxScoresData.aiArticle) : null,
         };
         currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
         callback(boxScoresData, currentBoxScores);
@@ -99,12 +99,18 @@ export class BoxScoresService {
   aiHeadline(data){
     var boxArray = [];
     var sampleImage = "/app/public/placeholder_XL.png";
-    data.forEach(function(val, index){
+    if (data != null) {
+      data.forEach(function(val, index){
+        for(var p in val.featuredReport){
+          var eventType = val.featuredReport[p];
+          var teaser = eventType.displayHeadline;
+        }
+      var date = GlobalFunctions.formatDate(val.timestamp*1000);
       var Box = {
         keyword: "MLB",
-        date: GlobalFunctions.formatLongDate(val.timestamp),
-        teaser: val.featuredReport['pregame-report'].displayHeadline,
-        url: MLBGlobalFunctions.formatAiArticleRoute('pregame-report', val.event),
+        date: date.month + " " + date.day + ", " + date.year,
+        url: MLBGlobalFunctions.formatAiArticleRoute(p, val.event),
+        teaser: teaser,
         imageConfig:{
           imageClass: "image-288x180",
           mainImage:{
@@ -113,8 +119,10 @@ export class BoxScoresService {
         }
       }
       boxArray.push(Box);
-    });
+      });
+    }
     return boxArray;
+
   }
   moduleHeader(date, team?){
     var moduleTitle;
