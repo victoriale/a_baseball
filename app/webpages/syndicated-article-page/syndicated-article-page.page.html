@@ -7,7 +7,7 @@
         </div>
 
     <span *ngIf="articleData">
-      <div class="articles-page-title" [innerHTML]="articleData.title"></div>
+      <div class="articles-page-title" [innerHTML]="articleData.title | safeHtml"></div>
         <sidekick-wrapper-ai [aiSidekick]="aiSidekick" [syndicated]="true">
           <shareLinks-component></shareLinks-component>
             <span>
@@ -23,9 +23,9 @@
                 <span class="arpt-author" >Written By: <b>{{articleData.publisher}}</b></span>
                 <span class="arpt-date">Posted: on {{articleData.publishedDate}}</span>
             </div>
-            <div class="content-exerpt" *ngIf="articleType == 'story'"  [innerHTML]="articleData.teaser">
+            <div class="content-exerpt" *ngIf="articleType == 'story'"  [innerHTML]="articleData.teaser | safeHtml">
             </div>
-            <div class="content-exerpt" *ngIf="articleType == 'video'"  [innerHTML]="articleData.description">
+            <div class="content-exerpt" *ngIf="articleType == 'video'"  [innerHTML]="articleData.description | safeHtml">
             </div>
             <div class="bottom-shader" *ngIf="articleType == 'story'"></div>
             <a *ngIf="articleType == 'story'" class="readMore mod-page-btn" [href]="articleData.articleUrl">Read the Full Article <i class="fa fa-arrow-right"></i></a>

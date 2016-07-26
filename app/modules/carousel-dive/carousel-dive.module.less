@@ -10,17 +10,18 @@
     display: table;
     z-index: 2;
     color:@white;
-    display: none;
     >i {
       position: relative;
       text-align: center;
       font-size:60px;
       display: table-cell;
       vertical-align: middle;
+      cursor:pointer;
+      &:hover {
+        color:@homeRunLoyalRed;
+      }
     }
-    &:hover {
-      color:@homeRunLoyalRed;
-    }
+
   }
   &-left {
     position: absolute;
@@ -30,7 +31,6 @@
     display: table;
     z-index: 2;
     color:@white;
-    display: none;
 
     >i {
       position: relative;
@@ -38,10 +38,12 @@
       font-size:60px;
       display: table-cell;
       vertical-align: middle;
+      cursor:pointer;
+      &:hover {
+        color:@homeRunLoyalRed;
+      }
     }
-    &:hover {
-      color:@homeRunLoyalRed;
-    }
+
   }
 
 }
@@ -88,7 +90,7 @@
     }
     &-border {
       border-bottom: 2px solid @white;
-      width: 50%;
+      width: 80%;
       margin: 9px 0px 19px 0px;
     }
   }
@@ -117,11 +119,13 @@
 @media @mobile {
   .carousel-item {
     margin: auto;
+    width: 70%;
     &-container {
        vertical-align: middle;
        display: table-cell;
     }
   }
+
 }
 @media @tablet {
   .carousel-item {
@@ -133,19 +137,13 @@
   }
 }
 @media @desktop-m {
-  .carousel-dive {
-    &-right {
-     display: table;
-    }
-    &-left {
-      display: table;
-    }
-  }
+
   .carousel-item {
     &-container {
       &-title {
-        .globalDefaultModFont(34px, 400, @white);
+        .globalDefaultModFont(38px, 400, @white);
         font-weight: 900;
+        line-height: 1.1;
         >span{
           display: block;
           font-size:28px;

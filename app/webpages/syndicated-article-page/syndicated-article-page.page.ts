@@ -13,9 +13,10 @@ import {MLBGlobalFunctions} from "../../global/mlb-global-functions";
 import {SidekickWrapperAI} from "../../components/sidekick-wrapper-ai/sidekick-wrapper-ai.component";
 import {GlobalSettings} from "../../global/global-settings";
 import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
-import {SanitizeRUrl} from "../../pipes/safe.pipe";
+import {SanitizeRUrl, SanitizeHtml} from "../../pipes/safe.pipe";
 import {GeoLocation} from "../../global/global-service";
 import {PartnerHeader} from "../../global/global-service";
+
 
 declare var jQuery:any;
 declare var moment;
@@ -35,7 +36,7 @@ declare var moment;
         ResponsiveWidget
     ],
     providers: [DeepDiveService, GeoLocation, PartnerHeader],
-    pipes: [SanitizeRUrl]
+    pipes: [SanitizeRUrl, SanitizeHtml]
 })
 
 export class SyndicatedArticlePage{
@@ -84,12 +85,12 @@ export class SyndicatedArticlePage{
             this.imageTitle = ["", ""];
           }
           else {
-            this.imageData = ["https://prod-sports-images.synapsys.us" + data.data.imagePath];
+            this.imageData = [GlobalSettings.getImageUrl(data.data.imagePath)];
             this.copyright = ["USA Today Sports Images"];
             this.imageTitle = [""];
           }
           this.articleData = data.data;
-          this.articleData.publishedDate = moment(this.articleData.publishedDate, "YYYY-MM-Do, h:mm:ss").format("MMMM Do, YYYY h:mm:ss a");
+          this.articleData.publishedDate = moment.unix(this.articleData.publishedDate/1000).format("MMMM Do, YYYY h:mm A") + " EST";
         }
       )
     }
