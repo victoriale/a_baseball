@@ -15,7 +15,11 @@ export class WidgetCarouselModule {
 
     ngOnInit() {
         var titleHeight = jQuery('.articles-page-title').height();
+
+        var padding = 420;
+        if( document.getElementById('pageHeader') != null){
         var padding = document.getElementById('pageHeader').offsetHeight + 420;
+        }
 
         if( document.getElementById('partner') != null){
             var partnerHeight = document.getElementById('partner').offsetHeight;
@@ -40,7 +44,10 @@ export class WidgetCarouselModule {
             partnerHeight = document.getElementById('partner').offsetHeight;
         }
         var titleHeight = 0;
+        var padding = 0;
+        if( document.getElementById('pageHeader') != null){
         var padding = document.getElementById('pageHeader').offsetHeight;
+        }
         var y_buffer = 50;
         var scrollTop = jQuery(window).scrollTop();
         var maxScroll = partnerHeight - scrollTop;
