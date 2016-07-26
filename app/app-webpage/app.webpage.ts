@@ -5,7 +5,7 @@ import {GlobalFunctions} from "../global/global-functions";
 import {FooterComponent} from "../components/footer/footer.component";
 import {HeaderComponent} from "../components/header/header.component";
 
-import {HomePage} from "../webpages/home-page/home-page.page";
+import {PickTeamPage} from "../webpages/home-page/home-page.page";
 import {AboutUsPage} from "../webpages/about-us-page/about-us.page";
 import {DirectoryPage} from "../webpages/directory-page/directory.page";
 import {ContactUsPage} from "../webpages/contactus-page/contactus.page";
@@ -35,11 +35,14 @@ import {HeadlineDataService} from "../global/global-ai-headline-module-service";
 import {ModulePage} from "../webpages/module-page/module.page";
 import {ImagesTestPage} from "../webpages/images-test-page/images-test.page";
 import {DesignPage} from "../webpages/design-page/design.page";
-import {ComponentPage} from "../webpages/component-page/component.page";
 
 import {SanitizeHtml} from "../pipes/safe.pipe";
 import {SanitizeStyle} from "../pipes/safe.pipe";
 import {GlobalSettings} from "../global/global-settings";
+
+//FOR DEEP DIVE
+import {SyndicatedArticlePage} from "../webpages/syndicated-article-page/syndicated-article-page.page";
+import {DeepDivePage} from "../webpages/deep-dive-page/deep-dive.page";
 
 @Component({
     selector: 'my-app',
@@ -60,10 +63,15 @@ import {GlobalSettings} from "../global/global-settings";
 @RouteConfig([
     //Home Page
     {
-        path: '/',
-        name: 'Home-page',
-        component: HomePage,
-        useAsDefault: true
+      path: '/',
+      name: 'Home-page',
+      component: DeepDivePage,
+      useAsDefault: true
+    },
+    {
+        path: '/pick-a-team',
+        name: 'Pick-team-page',
+        component: PickTeamPage,
     },
     //Profile Pages
     {
@@ -204,6 +212,11 @@ import {GlobalSettings} from "../global/global-settings";
         component: ArticlePages
 	  },
     {
+        path: '/news/:articleType/:eventID',
+        name: 'Syndicated-article-page',
+        component: SyndicatedArticlePage
+	  },
+    {
         path: '/list-of-lists/:scope/:type/:id/:limit/:pageNum',
         name: 'List-of-lists-page-scoped',
         component: ListOfListsPage
@@ -238,11 +251,6 @@ import {GlobalSettings} from "../global/global-settings";
         path: '/modules/:teamID',
         name: 'Module-page',
         component: ModulePage
-    },
-    {
-        path: '/components',
-        name: 'Component-page',
-        component: ComponentPage,
     },
     {
         path: '/design/:teamId',

@@ -216,14 +216,16 @@ export class TransactionsService {
         var playerRoute = null;
         if ( ( !val.roleStatus && val.active == 'injured' ) || val.active == 'active' ) {
           playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.playerName, val.playerName, val.playerId);;
-        } 
+        }
         var teamLinkText = {
           route: teamId == val.teamId ? null : teamRoute,
-          text: val.teamName
+          text: val.teamName,
+          class: 'text-heavy'
         };
         var playerLinkText = {
           route: playerRoute,
-          text: val.playerName
+          text: val.playerName,
+          class: 'text-heavy'
         };
         return SliderCarousel.convertToCarouselItemType1(index, {
           backgroundImage: GlobalSettings.getBackgroundImageUrl(val.backgroundImage),
@@ -256,18 +258,19 @@ export class TransactionsService {
     listDataArray = data.map(function(val, index){
       var playerRoute = null;
       if ( ( !val.roleStatus && val.active == 'injured' ) || val.active == 'active' ) {
-        playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.playerName, val.playerName, val.playerId);;
-      } 
+        playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.playerName, val.playerName, val.playerId);
+      }
       var playerTextLink = {
         route: playerRoute,
-        text: val.playerLastName + ", " + val.playerFirstName
+        text: val.playerLastName + ", " + val.playerFirstName + " ",
+        class: 'text-heavy'
       }
 
       return {
         dataPoints: [{
           style   : 'transactions-small',
           data    : GlobalFunctions.formatDateWithAPMonth(new Date(val['repDate']), "", " DD, YYYY"),
-          value   : [playerTextLink, ": " + val.contents],
+          value   : [playerTextLink, val.contents],
           url     : null
         }],
         imageConfig: TransactionsService.getListImageData(GlobalSettings.getImageUrl(val.playerHeadshot), playerRoute)

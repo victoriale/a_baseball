@@ -1,0 +1,10 @@
+  <td class="{{embedPlace}} {{displayAtRes}}" colspan=50 *ngIf="windowWidth < 1024">
+    <div class="widgetWrapper" (window:resize)="onWindowLoadOrResize($event)">
+      <div *ngIf="widgetSml" class="adSquareSmall" [ngClass]="{'removeAd': !widgetSml}">
+        <iframe  frameborder="0" scrolling="no" allowtransparency="true" src="/app/ads/widget2.html" [ngStyle]="{'display': 'block', 'height': '250px','width': '300px','margin': '0px','border': '0px','overflow': 'hidden','z-index': '0'}" ></iframe>
+      </div>
+      <div *ngIf="widgetMed" class="adSquareMed" [ngClass]="{'removeAd': !widgetMed}">
+        <iframe  frameborder="0" scrolling="no" allowtransparency="true" src="/app/ads/widget3.html" [ngStyle]="{'display': 'block', 'height': '250px','width': '640px','margin': '0px','border': '0px','overflow': 'hidden','z-index': '0'}" ></iframe>
+      </div>
+    </div>
+  </td>

@@ -13,6 +13,7 @@ import {TitleInputData} from "../../components/title/title.component";
 import {CircleImage} from "../../components/images/circle-image";
 import {CircleImageData} from "../../components/images/image-data";
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
+import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
 export interface AuBlockData {
   iconUrl?:string;
@@ -34,11 +35,12 @@ export interface AboutUsModel {
 @Component({
     selector: 'About-us-page',
     templateUrl: './app/webpages/about-us-page/about-us.page.html',
-    directives: [SidekickWrapper, CircleImage, BackTabComponent, TitleComponent, WidgetModule, ROUTER_DIRECTIVES],
+    directives: [SidekickWrapper, CircleImage, BackTabComponent, TitleComponent, WidgetModule, ROUTER_DIRECTIVES, ResponsiveWidget],
     providers: [AboutUsService, Title],
 })
 
 export class AboutUsPage {
+    public widgetPlace: string = "widgetForPage";
     public auHeaderTitle: string = "What is the site about?";
 
     public auBlocks: Array<AuBlockData> = [];

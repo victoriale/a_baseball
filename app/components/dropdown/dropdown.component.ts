@@ -3,12 +3,12 @@ import {ScrollableContent} from '../scrollable-content/scrollable-content.compon
 import {Scroller, ScrollerFunctions} from '../../global/scroller-functions';
 
 /**
- * Adds listeners that determine whether the 
+ * Adds listeners that determine whether the
  * dropdown should be hidden or visible.
- * 
+ *
  * Dropdown containers should appear when the header
  * element is clicked and disappear when the mouse is clicked
- * elsewhere within the document, UNLESS the mousedown 
+ * elsewhere within the document, UNLESS the mousedown
  * event starts on the scroller element.
  */
 class Dropdown {
@@ -16,35 +16,35 @@ class Dropdown {
   isDropdownVisible: boolean = false;
   nativeElement: any;
   dropdownHeader: any;
-  dropdownContainer: any;    
+  dropdownContainer: any;
   dropdownIcon: any;
 
-  constructor(elementRef: ElementRef) {    
+  constructor(elementRef: ElementRef) {
     this.nativeElement = elementRef.nativeElement;
     this.dropdownHeader = this.nativeElement.getElementsByClassName('dropdown')[0];
-    this.dropdownContainer = this.nativeElement.getElementsByClassName('dropdown-wrapper')[0];    
+    this.dropdownContainer = this.nativeElement.getElementsByClassName('dropdown-wrapper')[0];
     this.dropdownIcon = this.nativeElement.getElementsByClassName('dropdown-hdr-button')[0];
     if ( this.dropdownIcon ) {
       this.dropdownIcon = this.dropdownIcon.getElementsByTagName("i")[0];
     }
   }
-    
+
   toggleDropdown(showIt:boolean, dropdownHiddenIcon: string, dropdownVisibleIcon: string) {
       this.isDropdownVisible = showIt;
-      
+
       var display = "none";
       var icon = dropdownHiddenIcon;
       var className = "dropdown";
-      if ( this.isDropdownVisible ) {            
+      if ( this.isDropdownVisible ) {
         display = "";
         icon = dropdownVisibleIcon;
         className += " dropdown-active";
-      } 
+      }
       this.dropdownContainer.style.display = display;
       this.dropdownHeader.className = className;
       if ( this.dropdownIcon ) {
         this.dropdownIcon.className = "fa " + icon;
-      }     
+      }
   }
 }
 
@@ -54,53 +54,53 @@ class Dropdown {
   directives: [ScrollableContent]
 })
 
-export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {  
+export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
   @Input() list: Array<{key: string, value: string, preventSelection: string}>;
-      
+
   @Input() selectedKey: string;
-  
+
   @Input() icon: string;
-  
+
   dropdownVisibleIcon: string;
-  
+
   dropdownHiddenIcon: string;
 
   selectedIndex: number;
-  
+
   selectedItem: {key: string, value: string};
-  
+
   @Output("selectionChanged") dropdownChangedListener = new EventEmitter();
-  
-  private hideDropdownListener: Function;  
+
+  private hideDropdownListener: Function;
   private keepOpenUntilMouseUp: Function;
-  
+
   private _elementRef: ElementRef;
   private _scrollerSetup: boolean = false;
 
   private scroller: Scroller;
 
   private dropdown: Dropdown;
-  
-  constructor(@Inject(ElementRef) elementRef: ElementRef, private _renderer: Renderer) { 
+
+  constructor(@Inject(ElementRef) elementRef: ElementRef, private _renderer: Renderer) {
     this._elementRef = elementRef;
   }
-  
+
   ngAfterViewInit() {
     this.dropdown = new Dropdown(this._elementRef);
     this.dropdownSetup();
     this.hoverSetup();
   }
-  
+
   ngOnChanges() {
     if ( !this.icon ) {
       this.dropdownVisibleIcon = "fa-sort";
       this.dropdownHiddenIcon = "fa-sort";
     }
-    else if (this.icon == "fa-caret-down") {      
+    else if (this.icon == "fa-caret-down") {
       this.dropdownVisibleIcon = "fa-caret-up";
       this.dropdownHiddenIcon = "fa-caret-down";
     }
-    else {      
+    else {
       this.dropdownVisibleIcon = this.icon;
       this.dropdownHiddenIcon = this.icon;
     }
@@ -120,7 +120,7 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
       this.selectedIndex = -1;
     }
   }
-  
+
   //TODO-CJP: setup multiple sort types
   setSelected($item) {
     this.selectedItem = $item;
@@ -136,10 +136,10 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
     }
     this.dropdownChangedListener.next($item.key);
   }
-  
+
   ngOnDestroy() {
     if ( this.hideDropdownListener ) {
-       this.hideDropdownListener(); 
+       this.hideDropdownListener();
        this.hideDropdownListener = undefined;
     }
     if ( this.keepOpenUntilMouseUp ) {
@@ -178,7 +178,7 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
                     //If index is -1 (input is selected), set index to last item
                     this.selectedIndex = this.list.length - 1;
                 } else if (this.selectedIndex === 0) {
-                    //Else if index is 0 (1st dropdown option is selected), set index to input 
+                    //Else if index is 0 (1st dropdown option is selected), set index to input
                     this.selectedIndex = -1;
                 } else {
                     //Else decrement index by 1
@@ -207,7 +207,7 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
       }
   }
 
-  scrollToSelected() {    
+  scrollToSelected() {
     if ( this.selectedIndex >= 0 && this.selectedIndex < this.list.length ) {
       var $item = this.list[this.selectedIndex];
       try {
@@ -225,31 +225,30 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
 
   dropdownSetup() {
     var self = this;
-  
-    //This function closes the dropdown if the mouse is clicked anywhere but on the scrollbar. 
+    //This function closes the dropdown if the mouse is clicked anywhere but on the scrollbar.
     function closeDropdownOnClick() {
         //Remove any existing listener:
         if ( self.hideDropdownListener ) {
           self.hideDropdownListener();
           self.hideDropdownListener = undefined;
         }
-        
+
         //Add new listener that checks for any click on the document
         self.hideDropdownListener = self._renderer.listenGlobal('document', 'click', (event) => {
           if ( self.dropdown.mouseDownOnScrollBar ) {
-            //Ignore click if 'keepDropdownOpen' is true, as that means the 
+            //Ignore click if 'keepDropdownOpen' is true, as that means the
             // user was dragging the scrollbar. But since the mouse is up again,
-            // reset the mouseDownOnScrollBar to false. 
+            // reset the mouseDownOnScrollBar to false.
             self.dropdown.mouseDownOnScrollBar = false;
             return;
           }
 
           self.dropdown.toggleDropdown(false, self.dropdownHiddenIcon, self.dropdownVisibleIcon);
-          
+
           if ( self.hideDropdownListener ) {
             //if the listener still exists, remove it as it's not needed once
-            //the dropdown is hidden again 
-            self.hideDropdownListener(); 
+            //the dropdown is hidden again
+            self.hideDropdownListener();
           }
           self.hideDropdownListener = undefined;
         });
@@ -260,7 +259,7 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
 
       //needed to disable selection in IE11
       this.dropdown.dropdownContainer.onselectstart = function() { return false; }
-      
+
       // We don't want to close dropdown when the scroller is selected,
       // So this checks to see if the mouse went down on the scroller.
       this.dropdown.dropdownHeader.addEventListener('mousedown', function(event) {
@@ -279,7 +278,7 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
             }
 
             //Only create this listener after a timeout so that the current mousedown doesn't automatically trigger it.
-            // We only want to trigger the 'keepOpenUntilMouseUp' function when a new mousedown event occurs   
+            // We only want to trigger the 'keepOpenUntilMouseUp' function when a new mousedown event occurs
             setTimeout(() => {
               self.keepOpenUntilMouseUp = self._renderer.listenGlobal('document', 'mousedown', (event) => {
                 self.dropdown.mouseDownOnScrollBar = false;
@@ -287,20 +286,20 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
             },1);
           }
       });
-      
-      // This opens (and closes) the dropdown when the dropdown header is clicked. 
+
+      // This opens (and closes) the dropdown when the dropdown header is clicked.
       this.dropdown.dropdownHeader.addEventListener('click', function(event) {
         if ( self.dropdown.mouseDownOnScrollBar ) {
           //ignore click if 'keepDropdownOpen' is true
-          // - this prevents the dropdown from closing if the mouse was in the process of dragging the scrollbar. 
+          // - this prevents the dropdown from closing if the mouse was in the process of dragging the scrollbar.
           return;
         }
-        
+
         //Toggle the dropdown visibility and show/hide the actual container
         self.dropdown.toggleDropdown(!self.dropdown.isDropdownVisible, self.dropdownHiddenIcon, self.dropdownVisibleIcon);
 
         //The scroller can't calculate a content's height and scroll ratio when it's hidden.
-        //So this checks to see if the dropdown is visible and then sets up the scroller. 
+        //So this checks to see if the dropdown is visible and then sets up the scroller.
         if ( self.dropdown.isDropdownVisible ) {
           self.scroller = ScrollerFunctions.initializeScroller(self.dropdown.nativeElement, document);
           self.scrollToSelected(); //Make sure the current selected item is visible.
@@ -310,11 +309,11 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
           //timeout is needed so that click doesn't happen for click.
           setTimeout(closeDropdownOnClick, 1);
         }
-      });      
+      });
     }
   }
 
-  setHighlightOnCaret(optionElement: any, isHover: boolean) {     
+  setHighlightOnCaret(optionElement: any, isHover: boolean) {
       //Check to see if the bounds of the element overlaps the top edge of the scroll container
       var scrollContainer = this._elementRef.nativeElement.getElementsByClassName('scrollable-item')[0];
       var caretTop = this._elementRef.nativeElement.getElementsByClassName('dropdown-caret-top')[0];
@@ -326,7 +325,7 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
           highlightCaret = true;
         }
       }
-      
+
       //If so, add the dropdown-caret-top-hover class to highlight the caret
       var classes = caretTop.className.split(" ");
       var styleClass = isHover ? "dropdown-caret-top-hover" : "dropdown-caret-top-active";
@@ -341,27 +340,27 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
         if ( index >= 0 ) {
           classes.splice(index, 1); //remove styleClass
         }
-        // caretTop.className = "dropdown-caret-top";          
+        // caretTop.className = "dropdown-caret-top";
       }
       caretTop.className = classes.join(" ");
   }
-  
-  hoverSetup() {    
+
+  hoverSetup() {
     var self = this;
-        
+
     var scrollContainer = this._elementRef.nativeElement.getElementsByClassName('scrollable-item')[0];
     var caretTop = this._elementRef.nativeElement.getElementsByClassName('dropdown-caret-top')[0];
     if ( !scrollContainer || !caretTop ) {
       return;
     }
-    
+
     //Adds a mouseover listener checks to see if the mouse
-    // is over the top item visible in the scroll container    
+    // is over the top item visible in the scroll container
     scrollContainer.addEventListener('mouseover', function(evt) {
-      
+
       //Get the element under the mouse point
       var element = document.elementFromPoint(evt.clientX, evt.clientY);
-            
+
       //Cycle through parents until the dropdown-list-option element is found
       // (loopCount limit of 10 to prevent infinite loops)
       var optionElement = null, loopCount = 0;
@@ -375,8 +374,8 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
 
       self.setHighlightOnCaret(optionElement, true);
     });
-    
-    //Removes the dropdown-caret-top-hover class when the mouse 
+
+    //Removes the dropdown-caret-top-hover class when the mouse
     //moves off the scroll container
     scrollContainer.addEventListener('mouseout', function(evt) {
       if ( caretTop ) {
@@ -386,7 +385,7 @@ export class DropdownComponent implements OnDestroy, OnChanges, AfterViewInit {
           classes.slice(index, 1);
         }
         caretTop.className = classes.join(" ");
-        // caretTop.className = "dropdown-caret-top"; 
+        // caretTop.className = "dropdown-caret-top";
       }
     });
   }

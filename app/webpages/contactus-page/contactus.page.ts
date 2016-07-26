@@ -8,15 +8,17 @@ import {WidgetModule} from "../../modules/widget/widget.module";
 import {ContactUsModule} from '../../modules/contactus/contactus.module';
 import {GlobalSettings} from '../../global/global-settings';
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
+import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
 declare var moment;
 @Component({
     selector: 'contactus-page',
     templateUrl: './app/webpages/contactus-page/contactus.page.html',
-    directives: [SidekickWrapper, ContactUsModule, WidgetModule],
+    directives: [SidekickWrapper, ContactUsModule, WidgetModule, ResponsiveWidget],
     providers: [Title],
 })
 export class ContactUsPage implements OnInit{
+    public widgetPlace: string = "widgetForPage";
     //Object that builds contact us module
     public mailManUrl: string;
     public contactusInput: Object;

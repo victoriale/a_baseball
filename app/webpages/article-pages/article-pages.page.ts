@@ -14,8 +14,7 @@ import {GlobalFunctions} from "../../global/global-functions";
 import {MLBGlobalFunctions} from "../../global/mlb-global-functions";
 import {SidekickWrapperAI} from "../../components/sidekick-wrapper-ai/sidekick-wrapper-ai.component";
 import {GlobalSettings} from "../../global/global-settings";
-
-declare var jQuery:any;
+import {SidekickContainerComponent} from "../../components/articles/sidekick-container/sidekick-container.component";
 
 @Component({
     selector: 'article-pages',
@@ -30,8 +29,8 @@ declare var jQuery:any;
         DisqusComponent,
         LoadingComponent,
         TrendingComponent,
-    ],
-    providers: [],
+        SidekickContainerComponent
+    ]
 })
 
 export class ArticlePages implements OnInit {
@@ -58,9 +57,10 @@ export class ArticlePages implements OnInit {
     error:boolean = false;
     hasImages:boolean = false;
     aiSidekick:boolean = true;
-    isHome:boolean = true;
+    partnerId:string;
 
     constructor(private _params:RouteParams,
+                private _router:Router,
                 private _articleDataService:ArticleDataService,
                 private _location:Location) {
         window.scrollTo(0, 0);
@@ -69,16 +69,22 @@ export class ArticlePages implements OnInit {
         if (this.eventType == "upcoming-game") {
             this.eventType = "upcoming";
         }
-        this.getArticles();
+        GlobalSettings.getPartnerID(_router, partnerID => {
+            if (partnerID != null) {
+                this.partnerId = partnerID.replace("-", ".");
+            }
+            this.getArticles();
+        });
     }
 
     getArticles() {
         this.getArticleType();
-        this._articleDataService.getArticleData(this.eventID, this.eventType)
+        this._articleDataService.getArticleData(this.eventID, this.eventType, this.partnerId)
             .subscribe(
                 ArticleData => {
                     var pageIndex = Object.keys(ArticleData)[0];
                     this.getCarouselImages(ArticleData[pageIndex]['images']);
+                    //this.parseLinks(ArticleData[pageIndex]);
                     this.articleData = ArticleData[pageIndex];
                     this.title = ArticleData[pageIndex].displayHeadline;
                     this.date = ArticleData[pageIndex].dateline;
@@ -115,10 +121,29 @@ export class ArticlePages implements OnInit {
             );
     }
 
+    //Possible fix for partner site link issues.
+    //parseLinks(data) {
+    //    try {
+    //        data['article'].map(function (val, index) {
+    //            var strToParse = val.match("<a href=" + "(.*?)" + "</a>");
+    //            if (strToParse != null) {
+    //                var urlInfo = strToParse[1].split("/");
+    //                if (urlInfo[1] == "player") {
+    //                    var url = MLBGlobalFunctions.formatPlayerRoute(urlInfo[2], urlInfo[3], urlInfo[4].slice(0, 5));
+    //                } else if (urlInfo[1] == "team") {
+    //                    var url = MLBGlobalFunctions.formatTeamRoute(urlInfo[2], urlInfo[3].slice(0, 4));
+    //                }
+    //                data['article'][index] = val.replace(strToParse[0], url);
+    //            }
+    //        });
+    //    } catch (err) {
+    //    }
+    //}
+
     getTrendingArticles(data) {
         var articles = [];
         var images = [];
-        Object.keys(data).map(function (val, index) {
+        Object.keys(data).forEach(function (val, index) {
             if (val != "meta-data") {
                 articles[index - 1] = {
                     title: data[val].displayHeadline,
@@ -130,7 +155,7 @@ export class ArticlePages implements OnInit {
                 };
             }
         });
-        Object.keys(data['meta-data']['images']).map(function (val, index) {
+        Object.keys(data['meta-data']['images']).forEach(function (val, index) {
             images[index] = data['meta-data']['images'][val];
         });
         this.trendingImages = images[0].concat(images[1]);
@@ -158,7 +183,7 @@ export class ArticlePages implements OnInit {
         try {
             if (Object.keys(data).length > 0) {
                 for (var id in data) {
-                    data[id].map(function (val, index) {
+                    data[id].forEach(function (val, index) {
                         if (index < imageCount) {
                             image = val['image'];
                             copyright = val['copyright'];
@@ -187,7 +212,7 @@ export class ArticlePages implements OnInit {
         var hoverText = "<p>View</p><p>Profile</p>";
         var links = [];
         if (this.articleType == "playerRoster") {
-            data['article'].map(function (val, index) {
+            data['article'].forEach(function (val) {
                 if (val['playerRosterModule']) {
                     let playerUrl = MLBGlobalFunctions.formatPlayerRoute(val['playerRosterModule'].teamName, val['playerRosterModule'].name, val['playerRosterModule'].id);
                     let teamUrl = MLBGlobalFunctions.formatTeamRoute(val['playerRosterModule'].teamName, val['playerRosterModule'].teamId);
@@ -215,7 +240,7 @@ export class ArticlePages implements OnInit {
             return links;
         }
         if (this.articleType == 'playerComparison') {
-            data['article'][2]['playerComparisonModule'].map(function (val, index) {
+            data['article'][2]['playerComparisonModule'].forEach(function (val, index) {
                 if (index == 0) {
                     let urlPlayerLeft = MLBGlobalFunctions.formatPlayerRoute(val.teamName, val.name, val.id);
                     let urlTeamLeft = MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId);
@@ -266,7 +291,7 @@ export class ArticlePages implements OnInit {
             return links;
         }
         if (this.articleType == 'gameModule') {
-            data['article'].map(function (val, index) {
+            data['article'].forEach(function (val, index) {
                 if (index == 1 && val['gameModule']) {
                     let urlTeamLeftTop = MLBGlobalFunctions.formatTeamRoute(val['gameModule'].homeTeamName, val['gameModule'].homeTeamId);
                     let urlTeamRightTop = MLBGlobalFunctions.formatTeamRoute(val['gameModule'].awayTeamName, val['gameModule'].awayTeamId);
@@ -318,7 +343,7 @@ export class ArticlePages implements OnInit {
         }
         if (this.articleType == 'teamRecord') {
             var isFirstTeam = true;
-            data['article'].map(function (val, index) {
+            data['article'].forEach(function (val) {
                 if (val['teamRecordModule'] && isFirstTeam) {
                     let urlFirstTeam = MLBGlobalFunctions.formatTeamRoute(val['teamRecordModule'].name, val['teamRecordModule'].id);
                     val['imageTop'] = {
@@ -360,33 +385,37 @@ export class ArticlePages implements OnInit {
 
     getRandomArticles(recommendations, pageIndex, eventID, recommendedImageData) {
         this.getImages(recommendedImageData);
+        var articles;
         var recommendArr = [];
         var imageCount = 0;
         var self = this;
-        jQuery.map(recommendations.leftColumn, function (val, index) {
-            if (pageIndex != index) {
-                switch (index) {
+        Object.keys(recommendations.leftColumn).forEach(function (val) {
+            if (pageIndex != val) {
+                switch (val) {
                     case'about-the-teams':
                     case'historical-team-statistics':
-                    case'last-matchUp':
+                    case'last-matchup':
                     case'starting-lineup-home':
                     case'starting-lineup-away':
                     case'injuries-home':
                     case'injuries-away':
                     case'upcoming-game':
-                        val['title'] = val.displayHeadline;
-                        val['eventType'] = index;
-                        val['eventID'] = eventID;
-                        val['images'] = self.images[imageCount];
-                        recommendArr.push(val);
+                        articles = {
+                            title: recommendations.leftColumn[val].displayHeadline,
+                            eventType: val,
+                            eventID: eventID,
+                            images: self.images[imageCount],
+                        };
+                        recommendArr.push(articles);
                         imageCount++;
                         break;
                 }
             }
         });
-        jQuery.map(recommendations.rightColumn, function (val, index) {
-            if (pageIndex != index) {
-                switch (index) {
+        articles = [];
+        Object.keys(recommendations.rightColumn).forEach(function (val) {
+            if (pageIndex != val) {
+                switch (val) {
                     case'pitcher-player-comparison':
                     case'catcher-player-comparison':
                     case'first-base-player-comparison':
@@ -403,11 +432,13 @@ export class ArticlePages implements OnInit {
                     case'infield-most-home-runs':
                     case'infield-best-batting-average':
                     case'infield-most-putouts':
-                        val['title'] = val.displayHeadline;
-                        val['eventType'] = index;
-                        val['eventID'] = eventID;
-                        val['images'] = self.images[imageCount];
-                        recommendArr.push(val);
+                        articles = {
+                            title: recommendations.rightColumn[val].displayHeadline,
+                            eventType: val,
+                            eventID: eventID,
+                            images: self.images[imageCount],
+                        };
+                        recommendArr.push(articles);
                         imageCount++;
                         break;
                 }
@@ -485,6 +516,5 @@ export class ArticlePages implements OnInit {
     }
 
     ngOnInit() {
-        this.isHome = GlobalSettings.getHomeInfo().isHome;
     }
 }

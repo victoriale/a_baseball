@@ -1,12 +1,3 @@
-.page {
-  width:680px;
-  min-height: 600px;
-  margin-left: auto;
-  margin-right: auto;
-  position: relative;
-  font-family: @globalFont;
-}
-
 //Module pages, about-the-site pages, and individual modules
 .page-container,
 .page-module-container,
@@ -41,29 +32,55 @@
   margin-bottom: 20px;
 }
 
-
+.page {
+  width: 640px;
+  min-height: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  font-family: @globalFont;
+}
 .directory-container {
-  width: 1012px;
+  width:640px;
   margin: 0px auto;
-  padding: 35px 30px 0 32px;
+  padding: 35px 15px 0 15px;
   overflow: hidden;
   box-shadow: @modBoxShadow;
   background-color: @white;
 }
 
 .widget-page-wrapper {
-  width:1000px;
+  width:640px;
   margin-left: auto;
   margin-right: auto;
   position: relative;
 
   > .col-xs-8 {
-    width: 680px
+    width: 100%;
   }
 
   > .col-xs-4 {
-    width: 300px;
-    margin-top: 20px;
-    margin-left: 20px;
+    display: none;
   }
 }
+
+@media screen and (min-width: 1024px){
+  .directory-container {
+    width: 1012px;
+    margin: 0px auto;
+    padding: 35px 30px 0 32px;
+  }
+
+  .widget-page-wrapper {
+    width:960;
+    > .col-xs-8 {
+      width: 640px;
+    }
+    > .col-xs-4 {
+      display: block;
+      width: 300px;
+      margin-top: 20px;
+      margin-left: 20px;
+    }
+  }
+}//min-width 1024 ENDS

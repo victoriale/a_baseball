@@ -1,0 +1,29 @@
+.article-stack-container {
+  width: 610px;
+  margin: 0 auto;
+  .flexDisplay;
+  .flexDirection(column);
+  &-subs{
+    margin: 30px 0 0 0;
+  }
+  &-main{
+    max-width: 750px;
+  }
+}
+@media @desktop-m {
+  .article-stack-container {
+    width:670px;
+  }
+}//desktop-m ends
+
+@media @desktop-xl {
+  .article-stack-container {
+    width: 1087px;
+    .flexDirection(row);
+    &-subs{
+      margin-left: 20px;
+      margin-top: -20px;
+      width: 313px;
+    }
+  }
+}//desktop-xl ends

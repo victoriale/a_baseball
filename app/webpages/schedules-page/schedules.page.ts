@@ -19,13 +19,14 @@ import {ErrorComponent} from "../../components/error/error.component";
 import {SchedulesService} from '../../services/schedules.service';
 import {SchedulesComponent} from '../../components/schedules/schedules.component';
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
+import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
 declare var moment;
 
 @Component({
     selector: 'schedules-page',
     templateUrl: './app/webpages/schedules-page/schedules.page.html',
-    directives: [ROUTER_DIRECTIVES, SidekickWrapper, SchedulesComponent, ErrorComponent, LoadingComponent,PaginationFooter, BackTabComponent, TitleComponent, SliderCarousel, DetailedListItem,  ModuleFooter],
+    directives: [ROUTER_DIRECTIVES, SidekickWrapper, SchedulesComponent, ErrorComponent, LoadingComponent,PaginationFooter, BackTabComponent, TitleComponent, SliderCarousel, DetailedListItem,  ModuleFooter, ResponsiveWidget],
     providers: [SchedulesService, ProfileHeaderService, Title],
     inputs:[]
 })
@@ -181,8 +182,8 @@ export class SchedulesPage implements OnInit{
         paginationType: 'module',
       };
   }
-   
-  newIndex(newPage) {    
+
+  newIndex(newPage) {
     window.scrollTo(0,0);
     this.getSchedulesData(this.selectedTabKey, newPage);
   }

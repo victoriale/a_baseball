@@ -1,6 +1,5 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Title} from '@angular/platform-browser';
-
 import {GlobalSettings} from "../../global/global-settings";
 import {SliderButton} from "../../components/buttons/slider/slider.button";
 import {CircleImage} from '../../components/images/circle-image';
@@ -30,7 +29,7 @@ export interface newsCarouselData {
     providers: [LandingPageService, Title],
 })
 
-export class HomePage implements OnInit {
+export class PickTeamPage{
     public teamData: Array<homePageData>;
     public listData: Array<newsCarouselData>;
     public displayData: Object;
@@ -58,8 +57,11 @@ export class HomePage implements OnInit {
          placeholderText: "Search for a player or team...",
          hasSuggestions: true
      };
-
-     private isHomeRunZone: boolean = false;
+    private isHomeRunZone: boolean = false;
+    public gridDivCol: string;
+    public gridLMain: string;
+    public gridFeaturesCol: string;
+    public width: number;
     constructor(private _router: Router,
                 private _landingPageService: LandingPageService,
                 private _title: Title) {
@@ -72,6 +74,7 @@ export class HomePage implements OnInit {
         this.isHomeRunZone = partnerHome;
       });
     }
+  
     getListData(){
       this.listData = [
         {
@@ -132,11 +135,8 @@ export class HomePage implements OnInit {
     getData(){
       this._landingPageService.getLandingPageService()
         .subscribe(data => {
-          // console.log(data);
           this.mlbTeams = data.league;
-          // console.log(this.mlbTeams);
         })
       var sampleImage = "./app/public/placeholder-location.jpg";
     }
-    ngOnInit(){}
 }

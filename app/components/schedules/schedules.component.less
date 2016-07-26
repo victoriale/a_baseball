@@ -1,23 +1,20 @@
 .schedules{
-  width:680px;
+  width:auto;
   height:auto;
-  &-container{
-    // margin:10px 0 0 0;
-  }
   &-section{
     h4{
       font-weight: 700;
       color:@black;
       font-size: 16px;
       margin:0 0 5px 0;
-      padding: 12px 0;
+      padding-bottom: 9px;
       border-bottom:1px solid @strokeGrey;
     }
   }
 }
 .schedules-heading{
   width:100%;
-  height:48px;
+  height:45px;
   background-color: @white;
   &-title{
     color:@black;
@@ -48,7 +45,7 @@
 
 .schedules-table {
   .location-column, .location-column-hdr {
-    width:168px;
+    width:155px;
   }
   .location-column2, .location-column2-hdr {
     width:155px;
@@ -71,13 +68,9 @@
   }
 
   .date-column, .date-column-hdr {
-    width:70px;
+    width:67px;
     font-size:14px;
   }
-
-  // td:first-child .date-column, th:first-child.date-column-hdr {
-  //   width:70px;
-  // }
 
   .location-column {
     overflow: auto;
@@ -100,12 +93,19 @@
       position: relative;
     }
   }
-
-  .summary-column {
-    font-size: 16px;
+.record-column, .wl-column, .record-column-hdr, .wl-column-hdr{
+  width: 70px;
+}
+.results-column, .results-column-hdr{
+  width: 130px;
+}
+.summary-column {
+    font-size: 14px;
     color:@masterBrandColor;
     font-weight: 800;
     text-align: center;
+    width: 145px;
+    padding: 0 0 0 10px;
     i{
         margin-left: 5px;
         font-weight: 400;

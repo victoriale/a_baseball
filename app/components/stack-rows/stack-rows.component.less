@@ -1,0 +1,90 @@
+.stackSmall {
+    margin: 0 0 20px 0;
+    float:left;
+    .flexDisplay;
+    &-image {
+      width: 100px;
+      background-color: @masterBackgroundColor;
+      margin-right: 10px;
+    }
+    &-text {
+      line-height: 1.2em;
+      text-align: left;
+      width: 180px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      &-keyword {
+         font-weight: 800;
+         text-transform: uppercase;
+         margin-bottom: 10px;
+         height: 1.2em;
+         overflow: hidden;
+         text-overflow: ellipsis;
+         .globalDefaultModFont(10px, 800, @black);
+         > span:last-child{
+           margin-left: 5px;
+           color: @bulletGrey;
+           overflow: hidden;
+           height: 50px;
+         }
+      }
+      &-subHeadline {
+         margin-top: -5px;
+         .globalDefaultFont(12px, 400);
+         p{
+           line-height: 1.3em;
+         }
+      }
+    }
+}
+.stackRows{
+  height: 350px;
+  overflow: hidden;
+}
+@media @desktop-m {
+ .stackSmall {
+    &-text {
+      width: 200px;
+      &-keyword {
+        font-size: 12px;
+      }
+      &-subHeadline{
+        font-size: 14px;
+        p{
+          line-height: 1.2em;
+        }
+      }
+    }
+    &:hover{
+      color: @masterBrandColor;
+    }
+  }
+}
+.stackSmall{
+  .col-xs-6;
+}
+
+@media @desktop-xl {
+  .stackRows{
+    height: auto;
+    overflow: visible;
+  }
+  .stackSmall {
+    margin: 20px 0;
+    width: 313px;
+    .col-xs-12;
+
+    &-image {
+      display: none;
+    }
+    &-text {
+      width: 313px;
+    }
+    &-breakLine {
+      display: inline-block;
+      width: 315px;
+      height: 1px;
+      background-color: @highlightGrey;
+    }
+  }//stackSmall ends
+}

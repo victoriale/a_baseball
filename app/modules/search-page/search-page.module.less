@@ -1,3 +1,7 @@
+.search-widget{
+  width:100%;
+  position: relative;
+}
 .search-page{
   &-header{
     color: @white;
@@ -35,14 +39,13 @@
   }
   &-results{
     min-height:500px;
-    padding: 0px 30px;
     & > li + li{
       border-top: 1px solid @masterSmallImageShadow;
     }
 
     &-item{
       line-height: 25px;
-      padding: 18px 0px 15px 0px;
+      padding: 35px 0px 15px 0px;
 
       &:first-child{
         border-top: none;
@@ -76,7 +79,6 @@
       &.no-results{
         line-height: 24px;
         font-size: 20px;
-        margin: 0 -30px
       }
     }
   }

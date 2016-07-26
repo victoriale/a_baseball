@@ -18,11 +18,12 @@ import {GlobalFunctions} from "../../global/global-functions";
 import {GlobalSettings} from "../../global/global-settings";
 import {DynamicWidgetCall} from "../../services/dynamic-list-page.service";
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
+import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
 @Component({
     selector: 'list-page',
     templateUrl: './app/webpages/list-page/list.page.html',
-    directives: [SidekickWrapper, ErrorComponent, LoadingComponent,PaginationFooter, BackTabComponent, TitleComponent, SliderCarousel, DetailedListItem,  ModuleFooter],
+    directives: [SidekickWrapper, ErrorComponent, LoadingComponent,PaginationFooter, BackTabComponent, TitleComponent, SliderCarousel, DetailedListItem,  ModuleFooter, ResponsiveWidget],
     providers: [ListPageService, DynamicWidgetCall, Title, ProfileHeaderService],
     inputs:[]
 })

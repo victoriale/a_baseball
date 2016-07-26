@@ -1,0 +1,185 @@
+.carousel-dive {
+  height: 420px;
+  width: 100%;
+  position: relative;
+  &-right {
+    position: absolute;
+    right: 0;
+
+    top: 50%;
+    transform: translateY(-50%);
+    margin: auto;
+  //  height: 420px;
+    display: table;
+    z-index: 2;
+    color:@white;
+    >i {
+      position: relative;
+      text-align: center;
+      font-size:60px;
+      display: table-cell;
+      vertical-align: middle;
+      cursor:pointer;
+      &:hover {
+        color:@homeRunLoyalRed;
+      }
+    }
+
+  }
+  &-left {
+    position: absolute;
+    left: 0;
+
+//  height: 420px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: auto;
+    display: table;
+    z-index: 2;
+    color:@white;
+
+    >i {
+      position: relative;
+      text-align: center;
+      font-size:60px;
+      display: table-cell;
+      vertical-align: middle;
+      cursor:pointer;
+      &:hover {
+        color:@homeRunLoyalRed;
+      }
+    }
+
+  }
+
+}
+.owl-item {
+  height: 420px;
+  width: 100%;
+  background-size: cover;
+//  background-position: center;
+  background-repeat: no-repeat;
+}
+.owl-carousel {
+  height: 420px;
+}
+.carousel-item {
+  width: 80%;
+  height: 420px;
+  //margin: auto;
+  display: table;
+  position: relative;
+  &-container {
+  //  display: table-cell;
+//    vertical-align: middle;
+
+  &-key {
+    width: 126px;
+    height: 25px;
+    border-radius: 3px;
+    background-color: @homeRunLoyalRed;
+    text-align: center;
+    color:@white;
+    line-height: 25px;
+    margin-bottom: 21px;
+    text-transform: uppercase;
+
+  }
+  &-title {
+    .globalDefaultModFont(28px, 400, @white);
+    line-height: 1.2;
+    font-weight: 900;
+    >span{
+      display: block;
+      font-size:20px;
+      font-weight: 400;
+    }
+    &-border {
+      border-bottom: 2px solid @white;
+      width: 80%;
+      margin: 9px 0px 19px 0px;
+    }
+  }
+  &-content {
+    .globalDefaultModFont(16px, 400, @white);
+    line-height: 1.2;
+
+  }
+  &-fullstory {
+    width: 200px;
+    height: 40px;
+    border-radius: 3px;
+    background-color: @homeRunLoyalRed;
+    color:@white;
+    line-height: 40px;
+    text-align: center;
+    margin-top: 33px;
+    display: inline-block;
+    cursor: pointer;
+    &:hover {
+      background-color:@black;
+    }
+  }
+}
+}
+@media @mobile {
+  .carousel-item {
+    margin: auto;
+    width: 70%;
+    &-container {
+       vertical-align: middle;
+       display: table-cell;
+    }
+  }
+
+}
+@media @tablet {
+  .carousel-item {
+    margin: auto;
+    &-container {
+       vertical-align: middle;
+       display: table-cell;
+    }
+  }
+}
+@media @desktop-m {
+
+  .carousel-item {
+    &-container {
+      &-title {
+        .globalDefaultModFont(38px, 400, @white);
+        font-weight: 900;
+        line-height: 1.1;
+        >span{
+          display: block;
+          font-size:28px;
+          font-weight: 400;
+      }
+    }
+  }
+}
+}
+@media @desktop-l {
+  .carousel-item {
+    margin-left: 10%;
+    width:60%;
+    &-container {
+      position: relative;
+      top:45px;
+      display: block;
+    }
+  }
+  .carousel-dive {
+    &-right {
+      right: 20px;
+      >i {
+        font-size: 100px;
+      }
+    }
+    &-left {
+      >i {
+        font-size:100px;
+      }
+    }
+  }
+}

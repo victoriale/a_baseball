@@ -1,0 +1,11 @@
+<section class="ss_container">
+  <div class="ss_title">
+    <span class="ss_title-1">MLB</span>
+    <span class="ss_title-2">Upcoming Games</span>
+  </div>
+  <side-scroll *ngIf="sideScrollData" (carouselCount)="counter($event)" [current]="curCount" [maxLength]="scrollLength" [data]="sideScrollData">
+    <template ngFor let-item [ngForOf]="sideScrollData">
+      <schedule-box *ngIf="item" [boxData]="item"></schedule-box>
+    </template>
+  </side-scroll>
+</section>

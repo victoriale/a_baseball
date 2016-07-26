@@ -1,0 +1,102 @@
+.removeAd{
+  display:none;
+}
+@media @desktop-l {
+  .widgetForPage {
+  display:none;
+  }
+  .widgetForModule {
+  display:none;
+  }
+}
+.module-container .widgetForPage {
+  display:none;
+}
+transactions-page .module-container .widgetForPage {
+  display:block !important;
+  width:100%;
+  padding-bottom:15px;
+  @media @mobile {
+    height: 290px;
+  }
+}
+.widgetForPage {
+  width:100%;
+  height:280px;
+  z-index:5;
+  .widgetWrapper{
+    width:100%;
+    position:absolute;
+    left:0;
+  }
+}
+.deep-dive .widgetWrapper{
+  width:640px;
+  left: ~"calc(50% - 320px)";
+}
+standings-page div .standings-tab-section:nth-child(odd) .widgetForPage {
+  display: none;
+}
+standings-page div .standings-tab-section:last-of-type .widgetForPage {
+  display: block!important;
+}
+.widgetForModule {
+  width:100%;
+  z-index:5;
+  height: 270px;
+  .widgetWrapper {
+    padding: 0 0 20px;
+    height: 270px;
+    position: absolute;
+    left:0;
+  }
+}
+@media @tablet and (max-width: 1024px) {
+  .widgetForPage .widgetWrapper {
+      background-color: @white;
+      padding: 10px 0;
+      height: 270px;
+  }
+  .pane .widgetForPage .widgetWrapper {
+    margin: 0 -15px;
+  }
+  .tab-inset .widgetForPage .widgetWrapper {
+    margin: 0;
+  }
+  table .widgetForPage {
+    height: 270px;
+  }
+}
+@media @mobile {
+  table .widgetForPage {
+    padding: 5px 0;
+    height:290px;
+  }
+}
+.widgetWrapper {
+  width: 640px;
+  height: 280px;
+  background-color: @highlightGrey;
+  padding: 15px 0;
+  position:relative;
+    .adSquareSmall {
+      width:300px;
+      height:250px;
+      text-align: center;
+      margin: 0 auto;
+    }
+    .adSquareMed {
+      width:640px;
+      height:250px;
+      text-align: center;
+      margin: 0 0;
+    }
+}
+
+
+._640only {
+  @media @tablet {display:none;}
+}
+._1024only {
+  @media (min-width: 1023px), @mobile {display:none;}
+}

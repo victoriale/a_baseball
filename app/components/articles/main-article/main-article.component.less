@@ -6,12 +6,12 @@
     color: @black;
   }
   &:hover {
-    a {
+    a .main-article-container-title {
       color: #bc2027;
     }
   }
   &:hover .articleBoxLarge {
-    .articleImageLinkWithHover(335px, 200px);
+    .articleImageLinkWithHover(300px, 200px);
     div {
       left: 0;
     }
@@ -33,6 +33,9 @@
       color: inherit;
       line-height: 20px;
       text-align: left;
+      &:hover {
+        color: @black;
+      }
       &-read-more {
         .globalDefaultModFont(14px, 600, @masterBrandColor);
       }

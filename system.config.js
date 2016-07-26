@@ -41,7 +41,7 @@
 
     var config = {
         map: map,
-        packages: packages
+        packages: packages,
     };
 
     // filterSystemConfig - index.html's chance to modify config before we register it.

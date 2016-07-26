@@ -58,6 +58,8 @@ import {DailyUpdateService, DailyUpdateData} from "../../services/daily-update.s
 
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 
+import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
+
 declare var moment;
 
 @Component({
@@ -84,7 +86,9 @@ declare var moment;
       AboutUsModule,
       ListOfListsModule,
       DailyUpdateModule,
-      ImagesMedia],
+      ImagesMedia,
+      ResponsiveWidget
+    ],
     providers: [
       BoxScoresService,
       SchedulesService,
@@ -104,6 +108,7 @@ declare var moment;
 })
 
 export class PlayerPage implements OnInit {
+  public widgetPlace: string = "widgetForModule";
   public shareModuleInput:ShareModuleInput;
   pageParams:MLBPageParameters;
   partnerID:string = null;
@@ -349,8 +354,8 @@ private dailyUpdateModule(playerId: number) {
     private setupShareModule() {
         let profileHeaderData = this.profileHeaderData;
         let imageUrl = typeof profileHeaderData.profileImageUrl === 'undefined' || profileHeaderData.profileImageUrl === null ? GlobalSettings.getImageUrl('/mlb/players/no-image.png') : profileHeaderData.profileImageUrl;
-        let shareText = typeof profileHeaderData.profileName === 'undefined' || profileHeaderData.profileName === null ? 
-            'Share This Profile Below' : 
+        let shareText = typeof profileHeaderData.profileName === 'undefined' || profileHeaderData.profileName === null ?
+            'Share This Profile Below' :
             'Share ' + GlobalFunctions.convertToPossessive(profileHeaderData.profileName) + ' Profile Below:';
 
         this.shareModuleInput = {
@@ -362,7 +367,7 @@ private dailyUpdateModule(playerId: number) {
     setupListOfListsModule() {
       let params = {
         id : this.pageParams.playerId,
-        limit : 4,
+        limit : 5,
         pageNum : 1
       }
       this._lolService.getListOfListsService(params, "player", "module")

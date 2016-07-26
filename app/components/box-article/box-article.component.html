@@ -1,0 +1,14 @@
+<div class="box_articles">
+  <div class="box_articles-item" *ngFor="let data of boxArticleData;">
+    <a [routerLink]="data.url">
+      <div class="box_articles-image">
+        <rectangle-image [data]="data.imageConfig"></rectangle-image>
+      </div>
+      <div class="box_articles-text">
+        <span [innerHTML]="data.keyword | safeHtml"></span>
+        <span [innerHTML]="data.date | safeHtml"></span>
+      </div>
+      <div class="box_articles-description" [innerHTML]="data.teaser | safeHtml"></div>
+    </a>
+  </div>
+</div>

@@ -3,7 +3,7 @@
     font-weight: 800;
   }
   h1{
-    .globalDefaultFont(60px, 800);
+    .globalDefaultFont(32px, 800);
   }
   h2{
     .globalDefaultFont(36px, 400);
@@ -20,8 +20,13 @@
 
   background-color: @white;
   height: auto;
+  &-mlbhdr{
+    text-align: center;
+    padding-top: 20px;
+  }
   &-hero{
-    height: 475px;
+    height: 340px;
+    min-width: 640px;
     width: 100%;
     position: relative;
     &-img{
@@ -31,7 +36,7 @@
     }//home-hero-img ends
     &-info{
       color: @white;
-      margin-top: 120px;
+      margin-top: 70px;
       position: absolute;
       width: 100%;
       .flexDisplay;
@@ -42,7 +47,8 @@
         text-align: center;
       }
       h4{
-        margin: 1em;
+        margin: 1.2em;
+        font-size: 18px;
       }
       &-search{
         background-color: @masterBrandColor;
@@ -50,7 +56,7 @@
         color: @black;
         font-size: 24px;
         height: 50px;
-        width: 600px;
+        width: 540px;
       }//home-hero-info-search ends
     }//home-hero-info ends
   }//home-hero ends
@@ -68,10 +74,12 @@
 
   &-league{
     h3{
-      margin-left: 60px;
+      margin-left: 30px;
+      margin-bottom: 10px;
+      text-align: left;
     }
     h4{
-      margin: 0 0 1em 60px;
+      margin: 25px 0 5px 30px;
       color: @fontIconGrey;
     }
     &-col{
@@ -88,10 +96,7 @@
   }//home-league ends
 
   &-team{
-    margin-bottom: 25px;
-    padding-left: 60px;
-    padding-top: 30px;
-    padding-bottom: 30px;
+    padding: 25px 0 25px 30px;
     width: 100%;
     .flexDisplay;
     .flexAlignItems(center);
@@ -131,7 +136,7 @@
         box-shadow: 0 0 0 3px @white;
       }
       .image-round-hover div{
-        display: flex;
+        .flexDisplay;
       }
     }//home-team hover ends
   }//home-team ends
@@ -139,10 +144,12 @@
     background-image: url('/app/public/homePage_hero2.png');
     color: @white;
     height: 449px;
+    margin-top: 20px;
     .backgroundSize(cover);
     .flexDisplay;
     .flexAlignItems(center);
     &-news{
+      min-width: 410px;
       h3{
         margin-bottom: 12px;
       }
@@ -152,7 +159,7 @@
       }
       hr{
         border-width: 3px;
-        margin: 0 60% 0 0;
+        margin: 0 70% 0 0;
       }
       div:first-child{
         background-color: @masterBrandColor;
@@ -170,8 +177,10 @@
   }//home-slider ends
   &-features{
     height: auto;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
+    min-width: 640px;
     &-title{
+      height: 90px;
       .flexDisplay;
       .flexJustify(center);
       .flexAlignItems(center);
@@ -185,7 +194,7 @@
       color: @white;
       text-align: center;
       margin: auto;
-      max-width: 1200px;
+      max-width: 640px;
       .flexDisplay;
       .flexFlow(row wrap);
       .flexJustify(center);
@@ -193,8 +202,7 @@
 
     &-tile1{
       height: 250px;
-      margin: 5px;
-      width: 635px;
+      width: 640px;
       .backgroundSize(cover);
       .backgroundPosition(center);
       .flexDisplay;
@@ -211,7 +219,7 @@
       }
     }//home-features-tile1 ends
     &-tile2{
-      margin: 5px;
+      margin: 10px 5px 0 0;
       height: 250px;
       width: 315px;
       .backgroundSize(cover);
@@ -227,22 +235,33 @@
         }
         .tile-button{
           display: block;
+          margin: 0 ~"calc(50% - 100px)";
         }
       }//home-feature-tile2 hover ends
     }//home-features-tile2 ends
-    &-tile-no-hover{
-      border-top: 5px solid @homeRunLoyalRed;
-      background-color: @black;
-      margin: 5px;
+    &-tile3{
+      margin: 10px 0 0 5px;
       height: 250px;
       width: 315px;
       .backgroundSize(cover);
       .backgroundPosition(center);
-      h3{ margin: 0; }
-      h4{ margin: 5px 0; }
       .flexDisplay;
       .flexDirection(column);
       .flexJustify(center);
+      h3{ margin: 0; }
+      &:hover{
+        box-shadow: inset 0 0 0 1000px rgba(188, 32, 39, 0.75);
+        h3{
+          display: none;
+        }
+        .tile-button{
+          display: block;
+          margin: 0 ~"calc(50% - 100px)";
+        }
+      }//home-feature-tile2 hover ends
+    }//home-features-tile2 ends
+    &-tile-no-hover{
+      display: none;
     }//home-features-tile2 ends
   }//home-features ends
 }//home ends
@@ -255,9 +274,107 @@
   .globalDefaultFont(16px, 700);
 }
 
-@media (max-width: 1200px) {
-  .home-league-col {
-    -mox-border-image: none;
-    border-image: none;
+@media @desktop-l{
+  .home{
+    h1{
+      .globalDefaultFont(60px, 800);
+    }
+
+    &-hero{
+      height: 475px;
+      &-info{
+        margin-top: 120px;
+        h4{
+          margin: 1em;
+        }
+        &-search{
+          width: 600px;
+        }//home-hero-info-search ends
+      }//home-hero-info ends
+    }//home-hero ends
+    &-main{
+      margin-left: 0;
+    }//home-main ends
+
+    &-league{
+      h3{
+        margin-left: 60px;
+        margin-bottom: 30px;
+      }
+      h4{
+        margin: 0 0 10px 60px;
+      }
+    }//home-league ends
+
+    &-team{
+      margin-bottom: 0;
+      padding: 30px 0 30px 60px;
+    }//home-team ends
+    &-slider{
+      &-news{
+        hr{
+          margin: 0 60% 0 0;
+        }
+      }
+    }//home-slider ends
+    &-features{
+      margin-bottom: 30px;
+      &-title{
+      }//home-features-title ends
+      &-tiles{
+        max-width: 1200px;
+      }
+
+      &-tile1{
+        margin: 5px;
+        width: 635px;
+      }//home-features-tile1 ends
+      &-tile2{
+        margin: 5px;
+      }//home-features-tile2 ends
+      &-tile3{
+        margin: 5px;
+        height: 250px;
+        width: 635px;
+      }//home-features-tile2 ends
+      &-tile-no-hover{
+        border-top: 5px solid @homeRunLoyalRed;
+        background-color: @black;
+        margin: 5px;
+        height: 250px;
+        width: 315px;
+        .backgroundSize(cover);
+        .backgroundPosition(center);
+        h3{ margin: 0; }
+        h4{ margin: 5px 0; }
+        .flexDisplay;
+        .flexDirection(column);
+        .flexJustify(center);
+      }//home-features-tile2 ends
+    }//home-features ends
+  }//home ends
+}
+.home-league-col{
+  .col-xs-6;
+}
+.home-main{
+  .col-xs-12;
+}
+.home-features{
+  .col-xs-12;
+}
+
+@media @desktop-xl{
+  .home-main {
+    margin-left: 8.3333%;
+  }
+  .home-league-col{
+    .col-xs-4;
+  }
+  .home-main{
+    .col-xs-10;
+  }
+  .home-features{
+    .col-xs-12;
   }
 }

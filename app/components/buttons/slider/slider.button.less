@@ -1,5 +1,9 @@
 .sliders{
-  font-size: 8.33em;
+  @media (max-width: 641px){
+    font-size: 100px;
+    top: 38%;
+  }
+  font-size: 8.333em;
   font-weight: 400;
   color: @white;
   cursor: pointer;
@@ -8,11 +12,11 @@
   top:35%;
   .no-select;
   &-right {
-    right: 60px;
+    right: 0;
   }
 
   &-left {
-    left: 60px;
+    left: 0;
   }
   &:hover{
     color: @masterBrandColor;

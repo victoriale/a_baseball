@@ -1,20 +1,20 @@
-export class Scroller { 
+export class Scroller{ 
   scrollContentWrapper: any;
-  scrollContent: any; 
+  scrollContent: any;
   scrollbarHeightRatio: number;
   scrollbarBaseHeight: number;
   contentRatio: number;
   scrollerHeight: number
-  scrollOffset: number  
+  scrollOffset: number
   scrollerElement: any;
   scrollerAlreadyOnPage: boolean;
   scrollContainer: any;
-  
+
   normalizedPosition: number;
   contentPosition: number;
   scrollerBeingDragged: boolean;
 
-  constructor(scrollContainer) { 
+  constructor(scrollContainer) {
     this.scrollContainer = scrollContainer;
     this.scrollContentWrapper = scrollContainer.getElementsByClassName('scrollable-item-wrapper');
     this.scrollContent = scrollContainer.getElementsByClassName('scrollable-item-content');
@@ -25,7 +25,7 @@ export class Scroller {
       this.scrollContentWrapper = this.scrollContentWrapper[0];
       this.scrollContent = this.scrollContent[0];
     }
-    
+
     // Setup Scroller
     this.scrollbarHeightRatio = 0.90;
     this.scrollbarBaseHeight = scrollContainer.offsetHeight * this.scrollbarHeightRatio;
@@ -47,7 +47,7 @@ export class Scroller {
     if ( !this.scrollerElement ) {
       this.scrollerElement = document.createElement("div");
     }
-    
+
     this.scrollerElement.className = 'scrollable-item-scroller';
 
     if (this.contentRatio < 1) {
@@ -61,13 +61,13 @@ export class Scroller {
     }
   }
 
-  // Functions          
+  // Functions
   startDrag(evt) {
       this.normalizedPosition = evt.pageY;
       this.contentPosition = this.scrollContentWrapper.scrollTop;
       this.scrollerBeingDragged = true;
   }
-  
+
   stopDrag(evt) {
       this.scrollerBeingDragged = false;
   }
@@ -79,14 +79,14 @@ export class Scroller {
           this.scrollContentWrapper.scrollTop = this.contentPosition + scrollEquivalent;
       }
   }
-  
+
   createScroller() {
     var self = this;
 
     this.normalizedPosition = 0;
     this.contentPosition = 0;
-    this.scrollerBeingDragged = false; 
-    
+    this.scrollerBeingDragged = false;
+
     this.scrollContainer.appendChild(this.scrollerElement);
 
     // show scroll path divot
@@ -96,7 +96,7 @@ export class Scroller {
     this.scrollerElement.addEventListener('mousedown', this.startDrag);
     window.addEventListener('mouseup', this.stopDrag);
     window.addEventListener('mousemove', this.scrollBarScroll);
-    
+
     this.scrollContentWrapper.addEventListener('scroll', function(evt) {
         // Move Scroll bar to top offset
         var scrollPercentage = evt.target.scrollTop / self.scrollContentWrapper.scrollHeight;
@@ -106,7 +106,7 @@ export class Scroller {
     });
   }
 
-  scrollToItem(element) {    
+  scrollToItem(element) {
     var containerRect = this.scrollContainer.getBoundingClientRect();
     var itemRect = element.getBoundingClientRect();
 
@@ -117,22 +117,22 @@ export class Scroller {
     else if ( itemRect.top < containerRect.top ) {
       diff = itemRect.top - containerRect.top;
     }
-    
+
     if ( diff != 0 ) {
       this.scrollContentWrapper.scrollTop += diff;
     }
   }
 }
 
-export class ScrollerFunctions { 
-  
+export class ScrollerFunctions {
+
   static initializeScroller(nativeElement: any, document: HTMLDocument): Scroller {
     var scrollContainers = nativeElement.getElementsByClassName('scrollable-item');
     var container = scrollContainers.length > 0 ? scrollContainers[0] : null;
     if ( !container ) {
       return null;
     }
-      
+
     var scroller = new Scroller(container);
     scroller.setup();
     return scroller;

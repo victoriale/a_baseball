@@ -4,7 +4,7 @@
                            [articleData]="articleData" [index]="i" [imageLinks]="imageLinks"></profileData-component>
     <profileData-component *ngIf="i==1 && articleType == 'gameModule'" [articleType]="articleType"
                            [articleData]="articleData" [index]="i" [imageLinks]="imageLinks"></profileData-component>
-    <billboard-component *ngIf="i == 2 && articleType == 'gameReport'" [teamId]="teamId"></billboard-component>
+    <billboard-component *ngIf="i == 2 && articleType == 'gameReport'" [teamId]="teamId" [partnerId]="partnerId"></billboard-component>
     <profileData-component *ngIf="i==2 && articleType == 'playerComparison'" [articleType]="articleType"
                            [articleSubType]="articleSubType" [articleData]="articleData"
                            [imageLinks]="imageLinks"></profileData-component>
@@ -32,5 +32,5 @@
                            [articleData]="articleData" [imageLinks]="imageLinks"></profileData-component>
     <div *ngIf="last && (articleType == 'playerRoster' || articleType == 'teamRecord' || articleType == 'gameModule' || articleType == 'playerComparison')"
          class="comparison-hr"></div>
-    <billboard-component *ngIf="last && articleType != 'gameReport'" [teamId]="teamId" [isPartner]="isPartner"></billboard-component>
+    <billboard-component *ngIf="last && articleType != 'gameReport'" [teamId]="teamId" [partnerId]="partnerId"></billboard-component>
 </div>
