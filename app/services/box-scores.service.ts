@@ -112,7 +112,7 @@ export class BoxScoresService {
         url: MLBGlobalFunctions.formatAiArticleRoute(p, val.event),
         teaser: teaser,
         imageConfig:{
-          imageClass: "image-288x180",
+          imageClass: "image-320x180-sm",
           imageUrl: val.home.images[0] != null ? val.home.images[0] : sampleImage,
           hoverText: "View Article",
           urlRouteArray: MLBGlobalFunctions.formatAiArticleRoute(p, val.event)
