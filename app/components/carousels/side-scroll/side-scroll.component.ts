@@ -26,7 +26,6 @@ export class SideScroll{
   private mouseUp:number = 0;
   private boundary:any = {};
 
-
   private transition:any = null;
   constructor(){
 

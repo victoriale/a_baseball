@@ -26,6 +26,8 @@ import {Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 import {PartnerHomePage} from '../partner-home-page/partner-home-page';
 
+import {SideScroll} from '../../components/side-scroll/side-scroll.component'
+
 //window declarions of global functions from library scripts
 declare var moment;
 declare var jQuery: any;
@@ -47,7 +49,8 @@ declare var jQuery: any;
       CarouselDiveModule,
       BoxArticleComponent,
       RecommendationsComponent,
-      ResponsiveWidget
+      ResponsiveWidget,
+      SideScroll
     ],
     providers: [BoxScoresService,SchedulesService,DeepDiveService,GeoLocation,PartnerHeader],
 })

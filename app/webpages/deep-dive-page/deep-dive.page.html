@@ -2,6 +2,10 @@
   <div class="deep-dive-container1">
     <carousel-dive-module *ngIf = "carouselData" [carouselData] = "carouselData"></carousel-dive-module>
   </div>
+  <div [ngStyle]="{'width':'100%', 'height': '200px'}">
+    <side-scroll-test *ngIf="carouselData" [current]="curCount" [carouselData]="carouselData">
+    </side-scroll-test>
+  </div>
   <section class="deep-dive-container2">
     <div class="deep-dive-container2a">
       <div class="deep-dive-module">
