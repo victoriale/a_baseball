@@ -22,8 +22,8 @@ export class DeepDiveBlock4{
   firstStackRow: any;
   secStackTop: any;
   secStackRow: any;
-  thirdStackTop: any;
-  thirdStackRow: any;
+  fourthStackTop: any;
+  fourthStackRow: any;
   callLimit:number = 9;
   tilestackData: any;
 
@@ -56,11 +56,11 @@ export class DeepDiveBlock4{
           this.secStackRow = this._deepDiveData.transformToArticleRow(data);
         });
   }
-  getThirdArticleStackData(){
-    this._deepDiveData.getDeepDiveBatchService(this.callLimit, 3, this.geoLocation)
+  getFourthArticleStackData(){
+    this._deepDiveData.getDeepDiveBatchService(this.callLimit, 4, this.geoLocation)
         .subscribe(data => {
-          this.thirdStackTop = this._deepDiveData.transformToArticleStack(data);
-          this.thirdStackRow = this._deepDiveData.transformToArticleRow(data);
+          this.fourthStackTop = this._deepDiveData.transformToArticleStack(data);
+          this.fourthStackRow = this._deepDiveData.transformToArticleRow(data);
         });
   }
   getTileStackData(){
@@ -81,7 +81,7 @@ export class DeepDiveBlock4{
     this.getRecommendationData();
     this.getFirstArticleStackData();
     this.getSecArticleStackData();
-    this.getThirdArticleStackData();
+    this.getFourthArticleStackData();
     this.getTileStackData();
   }
 

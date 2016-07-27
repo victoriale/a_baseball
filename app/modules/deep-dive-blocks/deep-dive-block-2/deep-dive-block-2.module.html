@@ -1,5 +1,5 @@
 <div id="deep-dive-block-2" class="deep-dive-block">
   <article-stack-module *ngIf="secStackRow" [stackTop]="secStackTop" [stackRow]="secStackRow"></article-stack-module>
   <recommendations-component *ngIf="recommendationData" [randomHeadlines]="recommendationData" [isDeepDive]="true"></recommendations-component>
-  <video-stack-module *ngIf="geoLocation" [state]="geoLocation"></video-stack-module>
+  <video-stack-module *ngIf="geoLocation" [state]="geoLocation" [page]="2"></video-stack-module>
 </div>
