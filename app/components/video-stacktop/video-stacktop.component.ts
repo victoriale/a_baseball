@@ -30,7 +30,7 @@ export class VideoStacktopComponent implements OnInit{
       )
     }
   formatDate(date) {
-    return moment(date, "YYYY-MM-Do, h:mm:ss").format("MMMM DD, YYYY h:mm:ss a");
+    return moment(date, "YYYY-MM-Do").format("MMMM Do, YYYY");
   }
   ngOnInit() {
     if (this.page == null) {this.page = 1;}

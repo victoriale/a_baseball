@@ -1,40 +1,84 @@
 .stacktop{
-  width: 640px;
+  width: 320px;
   &-title {
     height: auto;
     line-height: 1.2;
-    .globalDefaultModFont(32px, 800, @black);
+    .globalDefaultModFont(16px, 800, @black);
     &-date{
       text-transform: uppercase;
-      font-size: 12px;
+      font-size: 10px;
       > span:last-child{
         margin-left: 5px;
         color: @bulletGrey;
       }
     }//stacktop-title-date ends
     &-headline{
-      margin: 10px 0 20px;
+      margin: 10px 0 0;
     }
   }//stacktop-title ends
   &-titleinfo {
-    .globalDefaultModFont(14px, 800, @strokeGrey);
-    margin: 10px 0 20px;
+    .globalDefaultModFont(12px, 800, @strokeGrey);
+    margin: 10px 0 10px;
     &-provider{
       max-width: 200px;
       margin-right: 25px;
       overflow: hidden;
       text-overflow: ellipsis;
+      &-pub{
+        display: none;
+      }
     }
   }
   &-image {
-    width: 610px;
-    height: 421px;
+    width: 320px;
+    height: 180px;
   }
   &-desc {
-    line-height: 1.2em;
-    max-height: 69px;
+    max-height: 55px;
     overflow: hidden;
+    margin-bottom: 15px;
     .globalDefaultModFont(12px, 400, @black);
+    p{
+        line-height: 1.2em;
+    }
+  }
+  &:hover{
+    .stacktop-title-headline{
+      color: @masterBrandColor;
+    }
+    .image-rectangle-hover div{
+      .flexDisplay;
+    }
+  }
+}
+@media @tablet{
+  .stacktop{
+    width: 640px;
+    &-title {
+      font-size: 32px;
+      &-date{
+        font-size: 12px;
+      }//stacktop-title-date ends
+    }//stacktop-title ends
+    &-titleinfo {
+      font-size: 14px;
+      line-height: 2.14;
+      margin: 10px 0 20px;
+      &-provider{
+        max-width: 200px;
+        margin-right: 25px;
+        &-pub{
+          display: inline-block;
+        }
+      }
+    }
+    &-image {
+      width: 610px;
+      height: 421px;
+    }
+    &-desc {
+      display: inline;
+    }
   }
 }
 @media @desktop-m { // up to 787px
