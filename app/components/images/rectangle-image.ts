@@ -1,11 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {HoverImage} from '../../components/images/hover-image';
 import {RectangleImageData} from '../../components/images/image-data';
-import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
 @Component({
     selector: 'rectangle-image',
     templateUrl: './app/components/images/rectangle-image.html',
-    directives: [ROUTER_DIRECTIVES]
+    directives: [HoverImage]
 })
 export class RectangleImage implements OnInit {
     @Input() data: RectangleImageData;

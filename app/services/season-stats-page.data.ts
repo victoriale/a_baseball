@@ -335,77 +335,77 @@ export class MLBSeasonStatsTableModel implements TableModel<TeamSeasonStatsData>
 
       case "ip":
         display = item.pitchInningsPitched != null ? Number(item.pitchInningsPitched).toFixed(1) : null;
-        sort = Number(item.pitchInningsPitched);
+        sort = item.pitchInningsPitched;
         break;
 
       case "so":
         display = item.pitchStrikeouts != null ? Number(item.pitchStrikeouts).toFixed(0) : null;
-        sort = Number(item.pitchStrikeouts);
+        sort = item.pitchStrikeouts;
         break;
 
       case "era":
         display = item.pitchEra != null ? Number(item.pitchEra).toFixed(2) : null;
-        sort = Number(item.pitchEra);
+        sort = item.pitchEra;
         break;
 
       case "ph":
         display = item.pitchHits != null ? Number(item.pitchHits).toFixed(0) : null;
-        sort = Number(item.pitchHits);
+        sort = item.pitchHits;
         break;
 
       case "er":
         display = item.pitchEarnedRuns != null ? Number(item.pitchEarnedRuns).toFixed(0) : null;
-        sort = Number(item.pitchEarnedRuns);
+        sort = item.pitchEarnedRuns;
         break;
 
       case "pbb":
         display = item.pitchBasesOnBalls != null ? Number(item.pitchBasesOnBalls).toFixed(0) : null;
-        sort = Number(item.pitchBasesOnBalls);
+        sort = item.pitchBasesOnBalls;
         break;
 
       case "whip":
         display = item.pitchWhip != null ? Number(item.pitchWhip).toFixed(2) : null;
-        sort = Number(item.pitchWhip);
+        sort = item.pitchWhip;
         break;
 
       case "r":
         display = item.batHomeRuns != null ? Number(item.batHomeRuns).toFixed(2) : null;
-        sort = Number(item.batHomeRuns);
+        sort = item.batHomeRuns;
       break;
 
       case "h":
         display = item.batHits != null ? Number(item.batHits).toFixed(2) : null;
-        sort = Number(item.batHits);
+        sort = item.batHits;
         break;
 
       case "hr":
         display = item.batHomeRuns != null ? Number(item.batHomeRuns).toFixed(2) : null;
-        sort = Number(item.batHomeRuns);
+        sort = item.batHomeRuns;
         break;
 
       case "rbi":
         display = item.batRbi != null ? Number(item.batRbi).toFixed(2) : null;
-        sort = Number(item.batRbi);
+        sort = item.batRbi;
         break;
 
       case "bb":
         display = item.batBasesOnBalls != null ? Number(item.batBasesOnBalls).toFixed(0) : null;
-        sort = Number(item.batBasesOnBalls);
+        sort = item.batBasesOnBalls;
         break;
 
       case "avg":
         display = item.batAverage != null ? Number(item.batAverage).toFixed(2) : null;
-        sort = Number(item.batAverage);
+        sort = item.batAverage;
         break;
 
       case "obp":
         display = item.batOnBasePercentage != null ? Number(item.batOnBasePercentage).toFixed(2) : null;
-        sort = Number(item.batOnBasePercentage);
+        sort = item.batOnBasePercentage;
         break;
 
       case "slg":
         display = item.batSluggingPercentage != null ? Number(item.batSluggingPercentage).toFixed(2) : null;
-        sort = Number(item.batSluggingPercentage);
+        sort = item.batSluggingPercentage;
         break;
     }
     display = display != null ? display : "N/A";

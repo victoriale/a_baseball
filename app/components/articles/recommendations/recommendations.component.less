@@ -5,9 +5,9 @@
   height: 513px;
   width: @mainwidth;
   &-header {
-    border-bottom: 2px solid @strokeGrey;
+    border-bottom: 2px solid #d7d7d7;
     &-icon {
-      color: @masterBrandColor;
+      color: #e80f0d;
       font-size: 32px;
       font-weight: 400;
       text-align: left;
@@ -24,7 +24,7 @@
       margin: 0 6px;
       color: @black;
       &:hover {
-        color: @masterBrandColor;
+        color: #bc2027;
       }
       &:hover .articleBoxMedium {
         .articleImageLinkWithHoverMedium(180px, 120px);
@@ -70,10 +70,10 @@
   width: 100%;
   padding-left: 15px;
   padding-right: 15px;
-  margin-bottom: -30px;
+  // margin-top: 40px;
   &-row{
-    .flexDisplay;
-    .flexJustify(space-between);
+    display: flex;
+    justify-content: space-between;
   }
   &-articles{
     width: 32.045%;
@@ -92,7 +92,7 @@
       &-image{
         //this is the minimum value
         width: 100%;
-        background-color: @backgroundGrey;
+        background-color: grey;
         background-size: cover;
         background-repeat: no-repeat;
         background-position: top center;
@@ -136,7 +136,6 @@
             margin-right: 3px;
           }
           &-date{
-            text-transform: uppercase;
             color: @bulletGrey;
           }
           &-below{
@@ -149,7 +148,6 @@
         &-teaser{
           margin-top: 5px;
           height: auto;
-          line-height: 1.2em;
         }
       }
     }

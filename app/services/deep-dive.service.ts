@@ -105,6 +105,14 @@ export class DeepDiveService {
       return data;
     })
   }
+  getdeepDiveData(deepDiveData, callback:Function, dataParam) {
+  if(deepDiveData == null){
+    deepDiveData = {};
+
+  }else {
+    }
+  }
+
 
   getAiArticleData(state){
     var headers = this.setToken();
@@ -117,7 +125,6 @@ export class DeepDiveService {
         return data;
       });
   }
-
   getRecArticleData(region, pageNum, pageCount){
     var headers = this.setToken();
     //this is the sidkeick url
@@ -130,29 +137,29 @@ export class DeepDiveService {
       });
   }
 
-  getCarouselData(data, limit, batch, state, callback:Function) {
+getCarouselData(data, limit, batch, state, callback:Function) {
     //always returns the first batch of articles
-     this.getDeepDiveBatchService(limit, batch, state)
-     .subscribe(data=>{
-       var transformedData = this.carouselTransformData(data.data);
-      callback(transformedData);
-     })
-  }
+       this.getDeepDiveBatchService(limit, batch, state)
+       .subscribe(data=>{
+         var transformedData = this.carouselTransformData(data.data);
+        callback(transformedData);
+       })
+   }
 
-  carouselTransformData(arrayData){
-    var transformData = [];
-    arrayData.forEach(function(val,index){
-      let carData = {
-        image_url: GlobalSettings.getImageUrl(val['imagePath']),
-        title:  "<span> Today's News </span>" + val['title'],
-        keyword: val['keyword'],
-        teaser: val['teaser'].substr(0,250).replace('_',': ').replace(/<p[^>]*>/g, "") + "...",
-        id:val['id'],
-        articlelink: MLBGlobalFunctions.formatSynRoute('story', val.id),
-      };
-      transformData.push(carData);
-    });
-    return transformData;
+ carouselTransformData(arrayData){
+      var transformData = [];
+      arrayData.forEach(function(val,index){
+        let carData = {
+          image_url: GlobalSettings.getImageUrl(val['imagePath']),
+          title:  "<span> Today's News </span>" + val['title'],
+          keyword: val['keyword'],
+          teaser: val['teaser'].substr(0,250).replace('_',': ').replace(/<p[^>]*>/g, "") + "...",
+          id:val['id'],
+          articlelink: MLBGlobalFunctions.formatSynRoute('story', val.id),
+        };
+        transformData.push(carData);
+      });
+      return transformData;
   }
 
   transformToArticleRow(data){
@@ -170,10 +177,10 @@ export class DeepDiveService {
           provider2: "Published By: " + val.publisher,
           description: val.title,
           imageConfig: {
-            imageClass: "image-100x56",
-            imageUrl: val.imagePath != null ? GlobalSettings.getImageUrl(val.imagePath) : sampleImage,
-            hoverText: "View",
-            urlRouteArray: MLBGlobalFunctions.formatSynRoute('story', val.id)
+            imageClass: "image-100x75",
+            mainImage:{
+              imageUrl: val.imagePath != null ? GlobalSettings.getImageUrl(val.imagePath) : sampleImage
+            }
           }
       }
       articleStackArray.push(s);
@@ -196,7 +203,6 @@ export class DeepDiveService {
       }
       return dataStack;
   }
-
   transformToArticleStack(data){
     var sampleImage = "/app/public/placeholder_XL.png";
     var topData = data.data[0];
@@ -207,14 +213,14 @@ export class DeepDiveService {
         keyword: topData.keyword,
         date: date.month + " " + date.day + ", " + date.year,
         headline: topData.title,
-        provider1: "By " + topData.author,
+        provider1: topData.author,
         provider2: "Published By: " + topData.publisher,
         description: limitDesc,
         imageConfig: {
-          imageClass: "image-320x180",
-          imageUrl: topData.imagePath != null ? GlobalSettings.getImageUrl(topData.imagePath) : sampleImage,
-          hoverText: "View Article",
-          urlRouteArray: MLBGlobalFunctions.formatSynRoute('story', topData.id)
+          imageClass: "image-610x420",
+          mainImage:{
+            imageUrl: topData.imagePath != null ? GlobalSettings.getImageUrl(topData.imagePath) : sampleImage
+          }
         }
     };
     return articleStackData;
@@ -282,7 +288,6 @@ export class DeepDiveService {
     }
     return _return;
   }
-
   transformTrending (data) {
     data.forEach(function(val,index){
       let date = GlobalFunctions.formatDate(val.publishedDate);

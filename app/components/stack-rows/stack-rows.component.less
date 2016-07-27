@@ -1,6 +1,5 @@
 .stackSmall {
-    .col-xs-12;
-    margin: 0 0 20px;
+    margin: 0 0 20px 0;
     float:left;
     .flexDisplay;
     &-image {
@@ -11,10 +10,11 @@
     &-text {
       line-height: 1.2em;
       text-align: left;
-      width: 190px;
+      width: 180px;
       overflow: hidden;
       text-overflow: ellipsis;
       &-keyword {
+         font-weight: 800;
          text-transform: uppercase;
          margin-bottom: 10px;
          height: 1.2em;
@@ -25,7 +25,7 @@
            margin-left: 5px;
            color: @bulletGrey;
            overflow: hidden;
-           height: 20px;
+           height: 50px;
          }
       }
       &-subHeadline {
@@ -36,36 +36,10 @@
          }
       }
     }
-    &:hover{
-      color: @masterBrandColor;
-      .image-rectangle-hover div{
-        .flexDisplay;
-      }
-    }
 }
 .stackRows{
-  height: 435px;
+  height: 350px;
   overflow: hidden;
-  padding: 0 10px;
-}
-@media @tablet {
-  .stackSmall {
-      .col-xs-6;
-      margin: 0 0 20px 0;
-      &-text {
-        line-height: 1.2em;
-        width: 180px;
-        &-keyword {
-           > span:last-child{
-             height: 50px;
-           }
-        }
-      }
-  }
-  .stackRows{
-    height: 265px;
-    padding: 0;
-  }
 }
 @media @desktop-m {
  .stackSmall {
@@ -81,7 +55,13 @@
         }
       }
     }
+    &:hover{
+      color: @masterBrandColor;
+    }
   }
+}
+.stackSmall{
+  .col-xs-6;
 }
 
 @media @desktop-xl {
