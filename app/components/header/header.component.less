@@ -1,12 +1,12 @@
 .placeholderImg{
-  width: 140px;
-  height: 27px;
+  width: 184px;
+  height: 35px;
 }
 .header{
   height: auto;
   min-width: 320px;
   &-top{
-    height: 45px;
+    height: 65px;
     background-color: @masterBrandColor;
     .flexDisplay;
     .flexJustify(space-between);
@@ -17,8 +17,8 @@
     .flexJustify(space-between);
   }
   &-hamburger{
-    width: 45px;
-    height: 45px;
+    width: 65px;
+    height: 65px;
     cursor: pointer;
     position: relative;
     .globalDefaultModFont(20px, 400, @highlightGrey);
@@ -27,9 +27,7 @@
     .flexJustify(flex-end);
     .flexAlignItems(flex-start);
     .fa-bars{
-      line-height: 45px;
-      width: 100%;
-      text-align: center;
+      margin: 22px;
     }
     .fa-remove{
       height: 100%;
@@ -49,13 +47,13 @@
   }//header-hamburger ends
   &-logo{
     position: absolute;
-    left: ~"calc(50% - 70px)";
-    height: 45px;
+    left: ~"calc(50% - 92px)";
+    top: 15px;
     .flexDisplay;
     .flexAlignItems(center);
     img{
-      width: 140px;
-      height: 27px;
+      width: 184px;
+      height: 35px;
     }
   }
   &-right{
@@ -80,7 +78,7 @@
           font-size: 14px;
         }
         .search-input{
-          border-top-left-radius: 18px
+          border-top-left-radius: 18px;
           border-bottom-left-radius: 18px;
           &:focus{
             border: 1px solid transparent;
@@ -117,8 +115,8 @@
       }
     }
     &-searchBtn{
-      height: 45px;
-      width: 45px;
+      height: 65px;
+      width: 65px;
       position: relative;
       cursor: pointer;
       .flexDisplay;
@@ -134,59 +132,30 @@
     }
   }//header-search ends
   &-share{
-    display: none;
+    cursor: pointer;
+    span:first-child{
+        display: none;
+    }
+    background-color: @masterBrandColor;
+    height: 65px;
+    width: 65px;
+    text-align: center;
+    .globalDefaultModFont(20px, 400, @highlightGrey);
+    .flexDisplay;
+    .flexDirection(column);
+    .flexJustify(center);
+    &:hover{
+      background-color: darken(@masterBrandColor, 10%);
+    }
   }//header-share ends
 }
-@media @tablet{
-  .placeholderImg{
-    width: 184px;
-    height: 35px;
-  }
-  .header{
-    min-width: 640px;
-    &-top{
-      height: 65px;
-    }//header-top ends
-    &-left{
-      max-width: 640px;
-    }
-    &-hamburger{
-      width: 65px;
-      height: 65px;
-      .fa-bars{
-        line-height: 65px;
-      }
-    }//header-hamburger ends
-    &-logo{
-      height: 65px;
-      img{
-        width: 184px;
-        height: 35px;
-      }
-    }
-    // modify search style begins
-    &-search{
-      &-searchBox{
-        height: 60px;
-        width: 640px;
-      }
-      height: 125px;
-      &-searchBtn{
-        height: 65px;
-        width: 65px;
-      }
-    }//header-search ends
-    &-share{
-      height: 65px;
-      width: 65px;
-    }//header-share ends
-  }
-  .st_sharethis_large{
+.st_sharethis_large{
+  span:first-child{
     span:first-child{
-      span:first-child{
-        height: 65px;
-        width: 65px;
-      }
+      height: 65px;
+      width: 65px;
+      background-repeat: no-repeat;
+      background-size: cover;
     }
   }
 }
