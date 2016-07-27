@@ -1,6 +1,7 @@
 import {Component,OnInit,EventEmitter,Input} from '@angular/core';
 import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 import {DeepDiveService} from '../../services/deep-dive.service';
+import {SanitizeRUrl} from "../../pipes/safe.pipe";
 
 
 declare var jQuery:any;
@@ -10,7 +11,8 @@ declare var jQuery:any;
   selector: 'carousel-dive-module',
   templateUrl: './app/modules/carousel-dive/carousel-dive.module.html',
   directives: [ROUTER_DIRECTIVES],
-  providers: [DeepDiveService]
+  providers: [DeepDiveService],
+  pipes: [SanitizeRUrl]
 
 })
 
@@ -22,7 +24,7 @@ export class CarouselDiveModule{
   constructor(
       private _deepdiveservice:DeepDiveService
   ){
-​      this.getDeepDiveVideoBatch(this.state, 4, 2);
+​      this.getDeepDiveVideoBatch(this.state, 1);
   }
   private getDeepDiveVideoBatch(region, numItems, startNum){
       this._deepdiveservice.getDeepDiveVideoBatchService(numItems, startNum, region).subscribe(
@@ -37,6 +39,7 @@ export class CarouselDiveModule{
 
 
   ngOnInit() {
+
     setTimeout(function(){
       jQuery(".owl-carousel").owlCarousel({
         items:1,

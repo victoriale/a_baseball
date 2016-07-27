@@ -152,20 +152,20 @@ getCarouselData(data, limit, batch, state, callback:Function) {
       var screenwidth = window.screen.width;
       console.log(screenwidth);
       arrayData.forEach(function(val,index){
-        if(val['title'].length >= 65) {
-          val['style'] = 'none';
-        }
-        else {
-          val['style'] = 'block'
-        }
+        // if(val['title'].length >= 65) {
+        //   val['style'] = 'none';
+        // }
+        // else {
+        //   val['style'] = 'block'
+        // }
         let carData = {
           image_url: GlobalSettings.getImageUrl(val['imagePath']),
           title:  "<span> Today's News </span>" + val['title'],
           keyword: val['keyword'],
-          teaser: val['teaser'].substr(0,100).replace('_',': ').replace(/<p[^>]*>/g, "") + "...",
+          teaser: val['teaser'].substr(0,250).replace('_',': ').replace(/<p[^>]*>/g, "") + "...",
           id:val['id'],
           articlelink: MLBGlobalFunctions.formatSynRoute('story', val.id),
-          style: val['style']
+          // style: val['style']
         };
         transformData.push(carData);
       });
