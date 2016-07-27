@@ -279,7 +279,7 @@
   }
 }
 
-.image-610x420{
+.image-320x180{
   .rec-hover{
     margin: 0 auto;
     line-height: 40px;
@@ -289,7 +289,10 @@
     .globalDefaultModFont(16px, 800, @white);
   }
   img{
-    .rectangleImageMain(610px, 420px);
+    .rectangleImageMain(320px, 180px);
+    @media @tablet{
+      .rectangleImageMain(610px, 420px);
+    }
     @media @desktop-m{
       .rectangleImageMain(670px, 420px);
     }
@@ -319,7 +322,7 @@
   }
 }
 
-.image-100x75{
+.image-100x56{
   .rec-hover{
     margin: 0 auto;
     line-height: 30px;
@@ -329,6 +332,9 @@
     .globalDefaultModFont(14px, 800, @white);
   }
   img{
-    .rectangleImageMain(100px, 75px);
+    .rectangleImageMain(100px, 56px);
+    @media @tablet{
+      .rectangleImageMain(100px, 75px);
+    }
   }
 }

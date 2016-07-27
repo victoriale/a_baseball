@@ -170,7 +170,7 @@ export class DeepDiveService {
           provider2: "Published By: " + val.publisher,
           description: val.title,
           imageConfig: {
-            imageClass: "image-100x75",
+            imageClass: "image-100x56",
             imageUrl: val.imagePath != null ? GlobalSettings.getImageUrl(val.imagePath) : sampleImage,
             hoverText: "View",
             urlRouteArray: MLBGlobalFunctions.formatSynRoute('story', val.id)
@@ -207,11 +207,11 @@ export class DeepDiveService {
         keyword: topData.keyword,
         date: date.month + " " + date.day + ", " + date.year,
         headline: topData.title,
-        provider1: topData.author,
+        provider1: "By " + topData.author,
         provider2: "Published By: " + topData.publisher,
         description: limitDesc,
         imageConfig: {
-          imageClass: "image-610x420",
+          imageClass: "image-320x180",
           imageUrl: topData.imagePath != null ? GlobalSettings.getImageUrl(topData.imagePath) : sampleImage,
           hoverText: "View Article",
           urlRouteArray: MLBGlobalFunctions.formatSynRoute('story', topData.id)
@@ -282,7 +282,7 @@ export class DeepDiveService {
     }
     return _return;
   }
-  
+
   transformTrending (data) {
     data.forEach(function(val,index){
       let date = GlobalFunctions.formatDate(val.publishedDate);
