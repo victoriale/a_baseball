@@ -17,7 +17,6 @@ export class SideScroll{
   @Input() maxLength:any;
   @Input() current:any;
   @Input() data: any;
-  @Input() carouselData: any;
   public carouselCount = new EventEmitter();
   public currentScroll = 0;
   public rightText:string = '0px';
@@ -35,7 +34,6 @@ export class SideScroll{
   @Input('total-items') totalItems:number;
   @Input('loop') loop:boolean;
 
-
   private startIndex:number = 0;
   private endIndex:number = 1;
   private displayedItems:any;
@@ -44,6 +42,7 @@ export class SideScroll{
 
   }
   ngOnInit(){
+    console.log(this.data);
     this.startIndex = 0;
     this.endIndex =this.data.length - 1;
     this.generateArray();

@@ -6,6 +6,10 @@
   -o-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out;
 }
+.scroll-container{
+  width:100%;
+  height:auto;
+}
 .carousel_scoll{
   width:100%;
   height:auto;
@@ -13,21 +17,24 @@
   margin: 10px 0 15px;
   text-align: center;
   .no-select;
+  &-item{
+    width:400px;
+    height:100%;
+  }
   &-box{
     width:100%;
-    height:640px;
-    padding-left: 50px;
+    height:100%;
     overflow: hidden;
 
     //delete when done
-    background-color:@black;
+    background-color:@highlightGrey;
   }
   &-container{
     .flexDisplay;
     .flexDirection(row);
     .flexWrap(nowrap);
     .flexJustify(space-between);
-    width:auto;
+    width:400px;
     height:100%;
     position: relative;
       //target safari only
