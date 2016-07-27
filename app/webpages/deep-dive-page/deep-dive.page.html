@@ -1,4 +1,4 @@
-<section *ngIf="!isHomeRunZone" class="deep-dive container-fluid">
+<section *ngIf="!isHomeRunZone" class="deep-dive container-fluid" (window:scroll)="onScroll($event)">
   <div class="deep-dive-container1">
     <carousel-dive-module *ngIf = "carouselData" [carouselData] = "carouselData"></carousel-dive-module>
   </div>
@@ -7,54 +7,15 @@
       <div class="deep-dive-module">
         <side-scroll-schedules *ngIf="sideScrollData" [sideScrollData]="sideScrollData" (count)="scrollCheck($event)" [scrollLength]="scrollLength"></side-scroll-schedules>
       </div>
-      <div class="deep-dive-module">
-        <article-stack-module [stackTop]="firstStackTop" [stackRow]="firstStackRow"></article-stack-module>
-      </div>
-      <div class="deep-dive-module">
-        <tile-stack-module *ngIf = "tilestackData" [tilestackData] = "tilestackData"></tile-stack-module>
-      </div>
-      <div class="deep-dive-module">
-        <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
-      </div>
-      <div class="deep-dive-module">
-        <video-stack-module *ngIf="geoLocation" [state]="geoLocation"></video-stack-module>
-      </div>
-      <!-- adMed HERE -->
-      <div class="deep-dive-adMed">
-        <responsive-widget [embedPlace]="widgetPlace" [displayAtRes]="1024"></responsive-widget>
-      </div>
-      <div class="deep-dive-boxScore">
-        <div class="deep-dive-module">
-          <box-scores *ngIf="dateParam && maxHeight" class="box-scores" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)" [maxHeight]="maxHeight" [scroll]="scroll"></box-scores>
-        </div>
-        <!-- adSmall HERE -->
-        <div class="deep-dive-adSmall">
-          <responsive-widget [embedPlace]="widgetPlace" [displayAtRes]="640"></responsive-widget>
-        </div>
-        <div class="deep-dive-module">
-          <box-article-component *ngIf="currentBoxScores" [boxArticleData]="currentBoxScores.aiContent"></box-article-component>
-        </div>
-      </div>
-      <!-- adMed HERE -->
-      <div class="deep-dive-adMed">
-        <responsive-widget [embedPlace]="widgetPlace" [displayAtRes]="1024"></responsive-widget>
-      </div>
-      <div class="deep-dive-module">
-        <article-stack-module [stackTop]="secStackTop" [stackRow]="secStackRow"></article-stack-module>
-      </div>
-      <div class="deep-dive-module">
-        <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
-      </div>
-      <div class="deep-dive-module">
-        <recommendations-component *ngIf="recommendationData" [randomHeadlines]="recommendationData" [isDeepDive]="true"></recommendations-component>
-      </div>
-      <div class="deep-dive-module">
-        <article-stack-module [stackTop]="thirdStackTop" [stackRow]="thirdStackRow"></article-stack-module>
-      </div>
-      <!-- adSmall HERE -->
-      <div class="deep-dive-module">
-        <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
-      </div>
+
+      <deep-dive-block-1 *ngIf="blockIndex >= 1" [geoLocation]="geoLocation" [profileName]="profileName" [maxHeight]="maxHeight"></deep-dive-block-1>
+
+      <deep-dive-block-2 *ngIf="blockIndex >= 2" [geoLocation]="geoLocation" [profileName]="profileName" [maxHeight]="maxHeight"></deep-dive-block-2>
+
+      <deep-dive-block-3 *ngIf="blockIndex >= 3" [geoLocation]="geoLocation" [profileName]="profileName" [maxHeight]="maxHeight"></deep-dive-block-3>
+
+      <deep-dive-block-4 *ngIf="blockIndex >= 4" [geoLocation]="geoLocation" [profileName]="profileName" [maxHeight]="maxHeight"></deep-dive-block-4>
+
     </div>
     <div class="deep-dive-container2b">
       <div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div>

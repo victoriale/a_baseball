@@ -105,12 +105,51 @@ export class DeepDiveService {
       return data;
     })
   }
+  getDeepDiveAiBatchService(state?){
+  //Configure HTTP Headers
+  var headers = this.setToken();
+
+
+  if(state == null){//make sure it comes back as a string of null if nothing is returned or sent to parameter
+    state = 'null';
+  }
+  var callURL = this._articleUrl+'recent-games/'+state;
+  return this.http.get(callURL, {headers: headers})
+    .map(res => res.json())
+    .map(data => {
+
+      return data;
+    })
+  }
+  getDeepDiveAiHeavyBatchService(state?){
+  //Configure HTTP Headers
+  var headers = this.setToken();
+
+
+  if(state == null){
+    state = 'CA';
+  }
+  var callURL = this._articleUrl+'player-comparisons/'+state;
+  return this.http.get(callURL, {headers: headers})
+    .map(res => res.json())
+    .map(data => {
+
+      return data;
+    })
+  }
+  getdeepDiveData(deepDiveData, callback:Function, dataParam) {
+  if(deepDiveData == null){
+    deepDiveData = {};
+
+  }else {
+    }
+  }
+
 
   getAiArticleData(state){
     var headers = this.setToken();
     //this is the sidkeick url
     var callURL = this._articleUrl + "sidekick-regional/"+ state +"/1/1";
-    // console.log(callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -122,7 +161,6 @@ export class DeepDiveService {
     var headers = this.setToken();
     //this is the sidkeick url
     var callURL = this._recUrl + "/" + region + "/" + pageNum + "/" + pageCount;
-    // console.log(callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -156,7 +194,6 @@ export class DeepDiveService {
   }
 
   transformToArticleRow(data){
-    var articleStackArray = [];
     var sampleImage = "/app/public/placeholder_XL.png";
     var articleStackArray = [];
     data = data.data.slice(1,9);
@@ -178,6 +215,58 @@ export class DeepDiveService {
       }
       articleStackArray.push(s);
     });
+    return articleStackArray;
+  }
+  transformToAiArticleRow(data){
+    var sampleImage = "/app/public/placeholder_XL.png";
+    var articleStackArray = [];
+    data.forEach(function(val, index){
+      if (val.length != 0) {
+      var date = GlobalFunctions.formatDate(val.timestamp*1000);
+      var s = {
+          stackRowsRoute: MLBGlobalFunctions.formatAiArticleRoute('postgame-report', val.event),
+          keyword: 'BASEBALL',
+          publishedDate: date.month + " " + date.day + ", " + date.year,
+          provider1: '',
+          provider2: '',
+          description: val.featuredReport['postgame-report'].displayHeadline,
+          imageConfig: {
+          imageClass: "image-100x56",
+          hoverText: "View",
+          imageUrl: val.home.images[0] != null ? val.home.images[0] : sampleImage,
+          urlRouteArray: MLBGlobalFunctions.formatAiArticleRoute('postgame-report', val.event)
+          }
+      }
+      articleStackArray.push(s);
+    }
+    });
+    return articleStackArray;
+  }
+  transformToAiHeavyArticleRow(data){
+    var sampleImage = "/app/public/placeholder_XL.png";
+    var articleStackArray = [];
+    var date = GlobalFunctions.formatDate(data.timestamp*1000);
+    var i = 1;
+    for (var key in data) {
+      if (data.hasOwnProperty(key) && data[key].displayHeadline != null && i <= 8) {
+        var s = {
+            stackRowsRoute: MLBGlobalFunctions.formatAiArticleRoute(key, data.eventId),
+            keyword: 'BASEBALL',
+            publishedDate: date.month + " " + date.day + ", " + date.year,
+            provider1: '',
+            provider2: '',
+            description: data[key].displayHeadline,
+            imageConfig: {
+              imageClass: "image-100x56",
+              imageUrl: sampleImage,
+              hoverText: "View",
+              urlRouteArray: MLBGlobalFunctions.formatAiArticleRoute(key, data.eventId)
+            }
+        }
+        articleStackArray.push(s);
+        i = i + 1;
+      }
+    }
     return articleStackArray;
   }
   transformTileStack(data) {
@@ -219,7 +308,6 @@ export class DeepDiveService {
     };
     return articleStackData;
   }
-
   transformToRecArticles(data){
     var articleTypes = [];
     var articles = [];
