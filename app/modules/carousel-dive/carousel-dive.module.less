@@ -9,7 +9,7 @@
     transform: translateY(-50%);
     margin: auto;
   //  height: 420px;
-    display: table;
+  //  display: table;
     z-index: 2;
     color:@white;
     >i {
@@ -31,7 +31,7 @@
     top: 50%;
     transform: translateY(-50%);
     margin: auto;
-    display: table;
+    //display: table;
     z-index: 2;
     color:@white;
     >i {
@@ -137,6 +137,31 @@
     }
   }
 }
+@media @mobile {
+  .carousel-dive {
+    height: 320px;
+  }
+  .carousel-item {
+    height: 320px;
+  }
+  .owl-item {
+    height: 320px;
+  }
+  .owl-carousel {
+    height: 320px;
+  }
+  .carousel-item {
+    &-container {
+      &-left {
+        &-video {
+          width: 320px;
+          height: 180px;
+        }
+      }
+    }
+  }
+}
+
 @media @desktop-m {
   .carousel-item {
     &-container {

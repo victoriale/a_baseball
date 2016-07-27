@@ -1,17 +1,16 @@
-
 .deep-dive{
-  height: auto;
-  min-width: 640px;
   background-color: @white;
+  height: auto;
+  min-width: 320px;
   &-container1{
-    height: 420px;
+    height: 320px;
     background-color: @bulletGrey;
   }
   &-container2{
     background-color: @white;
     min-height: 800px;
     height: auto;
-    width: 640px;
+    width: 320px;
     margin: 0 auto;
   }
   &-container2a{
@@ -32,20 +31,53 @@
     width:100%;
     margin-bottom: 30px;
     width: inherit;
+    @media @desktop-m {
+      margin-bottom: 40px;
+      .widgetForPage {
+        height: 250px;
+        .widgetWrapper {
+          padding: 0;
+          height: 250px;
+        }
+      }
+    }
   }
   &-adSmall{
     display: block;
-    margin: 30px auto;
-    &-last{
-      margin-bottom: 0;
-    }
+    margin-bottom: 30px;
   }//adSmall ends
   &-adMed{
     display: none;
   }
   &-container2b{
     display: none;
-    margin: 20px auto 0 20px;
+    margin: 20px auto 0;
+  }
+}
+@media @tablet {
+  .deep-dive{
+    max-width: 1280px;
+    min-width: 640px;
+    &-container1{
+      height: 420px;
+      background-color: @bulletGrey;
+    }
+    &-container2{
+      min-height: 800px;
+      width: 640px;
+    }
+    &-container2a{
+      .container-boxScores{
+        width:640px;
+        .box_articles{
+          width:640px;
+        }
+      }
+    }
+    &-container2b{
+      display: none;
+      margin: 20px auto 0 20px;
+    }
   }
 }
 @media @desktop-m{
@@ -59,6 +91,14 @@
     }
     &-adMed{
       display: block;
+      margin-bottom: 40px;
+      .widgetForPage {
+        height: 250px;
+        .widgetWrapper {
+          padding: 0;
+          height: 250px;
+        }
+      }
     }
   }
 }
@@ -104,7 +144,6 @@
       }
     }
     &-boxScore{
-      margin-bottom: 30px;
       .flexDisplay;
       width:100%;
         .box-scores {

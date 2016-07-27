@@ -105,14 +105,6 @@ export class DeepDiveService {
       return data;
     })
   }
-  getdeepDiveData(deepDiveData, callback:Function, dataParam) {
-  if(deepDiveData == null){
-    deepDiveData = {};
-
-  }else {
-    }
-  }
-
 
   getAiArticleData(state){
     var headers = this.setToken();
@@ -125,6 +117,7 @@ export class DeepDiveService {
         return data;
       });
   }
+
   getRecArticleData(region, pageNum, pageCount){
     var headers = this.setToken();
     //this is the sidkeick url
@@ -137,7 +130,7 @@ export class DeepDiveService {
       });
   }
 
-getCarouselData(data, limit, batch, state, callback:Function) {
+  getCarouselData(data, limit, batch, state, callback:Function) {
     //always returns the first batch of articles
        this.getDeepDiveBatchService(limit, batch, state)
        .subscribe(data=>{
@@ -188,10 +181,10 @@ getCarouselData(data, limit, batch, state, callback:Function) {
           provider2: "Published By: " + val.publisher,
           description: val.title,
           imageConfig: {
-            imageClass: "image-100x75",
-            mainImage:{
-              imageUrl: val.imagePath != null ? GlobalSettings.getImageUrl(val.imagePath) : sampleImage
-            }
+            imageClass: "image-100x56",
+            imageUrl: val.imagePath != null ? GlobalSettings.getImageUrl(val.imagePath) : sampleImage,
+            hoverText: "View",
+            urlRouteArray: MLBGlobalFunctions.formatSynRoute('story', val.id)
           }
       }
       articleStackArray.push(s);
@@ -214,6 +207,7 @@ getCarouselData(data, limit, batch, state, callback:Function) {
       }
       return dataStack;
   }
+
   transformToArticleStack(data){
     var sampleImage = "/app/public/placeholder_XL.png";
     var topData = data.data[0];
@@ -224,14 +218,14 @@ getCarouselData(data, limit, batch, state, callback:Function) {
         keyword: topData.keyword,
         date: date.month + " " + date.day + ", " + date.year,
         headline: topData.title,
-        provider1: topData.author,
+        provider1: "By " + topData.author,
         provider2: "Published By: " + topData.publisher,
         description: limitDesc,
         imageConfig: {
-          imageClass: "image-610x420",
-          mainImage:{
-            imageUrl: topData.imagePath != null ? GlobalSettings.getImageUrl(topData.imagePath) : sampleImage
-          }
+          imageClass: "image-320x180",
+          imageUrl: topData.imagePath != null ? GlobalSettings.getImageUrl(topData.imagePath) : sampleImage,
+          hoverText: "View Article",
+          urlRouteArray: MLBGlobalFunctions.formatSynRoute('story', topData.id)
         }
     };
     return articleStackData;
@@ -299,6 +293,7 @@ getCarouselData(data, limit, batch, state, callback:Function) {
     }
     return _return;
   }
+
   transformTrending (data) {
     data.forEach(function(val,index){
       let date = GlobalFunctions.formatDate(val.publishedDate);
