@@ -113,9 +113,9 @@ export class BoxScoresService {
         teaser: teaser,
         imageConfig:{
           imageClass: "image-288x180",
-          mainImage:{
-            imageUrl: val.home.images[0] != null ? val.home.images[0] : sampleImage
-          }
+          imageUrl: val.home.images[0] != null ? val.home.images[0] : sampleImage,
+          hoverText: "View Article",
+          urlRouteArray: MLBGlobalFunctions.formatAiArticleRoute(p, val.event)
         }
       }
       boxArray.push(Box);
@@ -249,11 +249,19 @@ export class BoxScoresService {
     };
   }
 
+
+
   formatGameInfo(game, teamId?, profile?){
     var gameArray:Array<any> = [];
     let self = this;
     var twoBoxes = [];// used to put two games into boxes
-    game.forEach(function(data,i){
+
+    // Sort games by date
+    let sortedGames = game.sort(function(a, b) {
+      return new Date(a.gameInfo.startDateTime).getTime() - new Date(b.gameInfo.startDateTime).getTime();
+    });
+
+    sortedGames.forEach(function(data,i){
       var info:GameInfoInput;
       let awayData = data.awayTeamInfo;
       let homeData = data.homeTeamInfo;
