@@ -62,7 +62,11 @@ export class DeepDiveBlock1{
     this._deepDiveData.getDeepDiveBatchService(this.callLimit, 1, this.geoLocation)
         .subscribe(data => {
           this.firstStackTop = this._deepDiveData.transformToArticleStack(data);
-          this.firstStackRow = this._deepDiveData.transformToArticleRow(data);
+
+        });
+    this._deepDiveData.getDeepDiveAiBatchService(this.geoLocation)
+        .subscribe(data => {
+          this.firstStackRow = this._deepDiveData.transformToAiArticleRow(data);
         });
   }
   getSecArticleStackData(){

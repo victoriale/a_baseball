@@ -105,6 +105,38 @@ export class DeepDiveService {
       return data;
     })
   }
+  getDeepDiveAiBatchService(state?){
+  //Configure HTTP Headers
+  var headers = this.setToken();
+
+
+  if(state == null){//make sure it comes back as a string of null if nothing is returned or sent to parameter
+    state = 'null';
+  }
+  var callURL = this._articleUrl+'recent-games/'+state;
+  return this.http.get(callURL, {headers: headers})
+    .map(res => res.json())
+    .map(data => {
+
+      return data;
+    })
+  }
+  getDeepDiveAiHeavyBatchService(state?){
+  //Configure HTTP Headers
+  var headers = this.setToken();
+
+
+  if(state == null){
+    state = 'CA';
+  }
+  var callURL = this._articleUrl+'player-comparisons/'+state;
+  return this.http.get(callURL, {headers: headers})
+    .map(res => res.json())
+    .map(data => {
+
+      return data;
+    })
+  }
   getdeepDiveData(deepDiveData, callback:Function, dataParam) {
   if(deepDiveData == null){
     deepDiveData = {};
@@ -163,7 +195,6 @@ getCarouselData(data, limit, batch, state, callback:Function) {
   }
 
   transformToArticleRow(data){
-    var articleStackArray = [];
     var sampleImage = "/app/public/placeholder_XL.png";
     var articleStackArray = [];
     data = data.data.slice(1,9);
@@ -185,6 +216,54 @@ getCarouselData(data, limit, batch, state, callback:Function) {
       }
       articleStackArray.push(s);
     });
+    return articleStackArray;
+  }
+  transformToAiArticleRow(data){
+    var sampleImage = "/app/public/placeholder_XL.png";
+    var articleStackArray = [];
+    data.forEach(function(val, index){
+      var date = GlobalFunctions.formatDate(val.timestamp);
+      var s = {
+          stackRowsRoute: MLBGlobalFunctions.formatAiArticleRoute('postgame-report', val.event),
+          keyword: 'BASEBALL',
+          publishedDate: date.month + " " + date.day + ", " + date.year,
+          provider1: '',
+          provider2: '',
+          description: val.featuredReport['postgame-report'].displayHeadline,
+          imageConfig: {
+            imageClass: "image-100x75",
+            mainImage:{
+              imageUrl: val.home.images[0] != null ? val.home.images[0] : sampleImage
+            }
+          }
+      }
+      articleStackArray.push(s);
+    });
+    return articleStackArray;
+  }
+  transformToAiHeavyArticleRow(data){
+    var sampleImage = "/app/public/placeholder_XL.png";
+    var articleStackArray = [];
+    var date = GlobalFunctions.formatDate(data.timestamp);
+    for (var key in data) {
+      if (data.hasOwnProperty(key) && data[key].displayHeadline != null) {
+        var s = {
+            stackRowsRoute: MLBGlobalFunctions.formatAiArticleRoute(key, data.eventId),
+            keyword: 'BASEBALL',
+            publishedDate: date.month + " " + date.day + ", " + date.year,
+            provider1: '',
+            provider2: '',
+            description: data[key].displayHeadline,
+            imageConfig: {
+              imageClass: "image-100x75",
+              mainImage:{
+                imageUrl: sampleImage
+              }
+            }
+        }
+        articleStackArray.push(s);
+      }
+    }
     return articleStackArray;
   }
   transformTileStack(data) {
@@ -225,7 +304,6 @@ getCarouselData(data, limit, batch, state, callback:Function) {
     };
     return articleStackData;
   }
-
   transformToRecArticles(data){
     var articleTypes = [];
     var articles = [];

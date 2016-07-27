@@ -60,7 +60,11 @@ export class DeepDiveBlock4{
     this._deepDiveData.getDeepDiveBatchService(this.callLimit, 4, this.geoLocation)
         .subscribe(data => {
           this.fourthStackTop = this._deepDiveData.transformToArticleStack(data);
-          this.fourthStackRow = this._deepDiveData.transformToArticleRow(data);
+        });
+    this._deepDiveData.getDeepDiveAiHeavyBatchService(this.geoLocation)
+        .subscribe(data => {
+          console.log(data);
+          this.fourthStackRow = this._deepDiveData.transformToAiHeavyArticleRow(data);
         });
   }
   getTileStackData(){
