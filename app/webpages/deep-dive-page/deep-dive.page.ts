@@ -24,6 +24,7 @@ import {GeoLocation} from "../../global/global-service";
 import {Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
 import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
+import {PartnerHomePage} from '../partner-home-page/partner-home-page';
 
 //window declarions of global functions from library scripts
 declare var moment;
@@ -34,6 +35,7 @@ declare var jQuery: any;
     templateUrl: './app/webpages/deep-dive-page/deep-dive.page.html',
 
     directives: [
+      PartnerHomePage,
       ROUTER_DIRECTIVES,
       SidekickWrapper,
       WidgetCarouselModule,
@@ -70,7 +72,7 @@ export class DeepDivePage{
     scrollLength: number;
     ssMax:number = 9;
     callCount:number = 1;
-    callLimit:number = 8;
+    callLimit:number = 9;
     safeCall: boolean = true;
     //for carousel
     carouselData: any;

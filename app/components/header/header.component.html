@@ -1,6 +1,6 @@
 <header class="header container-fluid fixedHeader" id="pageHeader" (window:scroll)="onScrollStick($event)" [style.top]="_stickyHeader">
   <div *ngIf="!partnerID" class="header-logo">
-    <a href="/"><img src={{logoUrl}}/></a>
+    <a [routerLink]="['Home-page']"><img src={{logoUrl}}/></a>
   </div>
   <section class="header-top">
     <div class="header-left">

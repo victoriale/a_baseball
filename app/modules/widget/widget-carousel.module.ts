@@ -15,7 +15,11 @@ export class WidgetCarouselModule {
 
     ngOnInit() {
         var titleHeight = jQuery('.articles-page-title').height();
+
+        var padding = 420;
+        if( document.getElementById('pageHeader') != null){
         var padding = document.getElementById('pageHeader').offsetHeight + 420;
+        }
 
         if( document.getElementById('partner') != null){
             var partnerHeight = document.getElementById('partner').offsetHeight;
@@ -35,14 +39,17 @@ export class WidgetCarouselModule {
 
     // Page is being scrolled
     onScroll(event) {
+        var scrollTop = jQuery(window).scrollTop();
         var partnerHeight = 0;
-        if( document.getElementById('partner') != null){
-            partnerHeight = document.getElementById('partner').offsetHeight;
+        if( document.getElementById('partner') != null && scrollTop <=  (jQuery('.deep-dive-container1').height() + document.getElementById('partner').offsetHeight)){
+            partnerHeight = document.getElementById('partner').offsetHeight + scrollTop;
         }
         var titleHeight = 0;
+        var padding = 0;
+        if( document.getElementById('pageHeader') != null){
         var padding = document.getElementById('pageHeader').offsetHeight;
-        var y_buffer = 40;
-        var scrollTop = jQuery(window).scrollTop();
+        }
+        var y_buffer = 50;
         var maxScroll = partnerHeight - scrollTop;
         var carouselTop = jQuery('.deep-dive-container1').height() - scrollTop;
         if (!this.aiSidekick) {
@@ -76,10 +83,10 @@ export class WidgetCarouselModule {
             var pageWrapperTop = $pageWrapper.offset().top;
             var pageWrapperBottom = pageWrapperTop + $pageWrapper.height() - padding;
             if ((scrollTop + widgetHeight + y_buffer) > (pageWrapperBottom  + this.sidekickHeight)) {
-                this.headerHeight = this.sidekickHeight - 640 + 'px';
+                this.headerHeight = this.sidekickHeight + 'px';
                 $widget.addClass("widget-bottom");
-                // var diff = $pageWrapper.height() - (widgetHeight + y_buffer);
-                // $widget.get(0).style.top = diff + "px";
+                var diff = $pageWrapper.height() - (widgetHeight + y_buffer);
+                $widget.get(0).style.top = diff + "px";
             }
             else if (scrollTop < (pageWrapperTop + this.sidekickHeight)) {
                 $widget.removeClass("widget-bottom");

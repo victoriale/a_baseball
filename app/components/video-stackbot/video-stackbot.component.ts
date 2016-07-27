@@ -15,13 +15,12 @@ declare var moment;
 
 })
 
-export class VideoStackbotComponent{
+export class VideoStackbotComponent implements OnInit{
   public articleData: any;
   @Input() state: any;
   constructor(
     private _deepdiveservice:DeepDiveService
     ){
-      this.getDeepDiveVideoBatch(this.state, 4, 2);
     }
     private getDeepDiveVideoBatch(region, numItems, startNum){
       this._deepdiveservice.getDeepDiveVideoBatchService(numItems, startNum, region).subscribe(
@@ -34,7 +33,7 @@ export class VideoStackbotComponent{
     return moment(date, "YYYY-MM-Do, h:mm:ss").format("MMMM Do, YYYY h:mm:ss a");
   }
   ngOnInit() {
-
+    this.getDeepDiveVideoBatch(this.state, 4, 2);
   }
 
 
