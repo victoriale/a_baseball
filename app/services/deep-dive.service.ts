@@ -150,7 +150,6 @@ export class DeepDiveService {
     var headers = this.setToken();
     //this is the sidkeick url
     var callURL = this._articleUrl + "sidekick-regional/"+ state +"/1/1";
-    // console.log(callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -161,7 +160,6 @@ export class DeepDiveService {
     var headers = this.setToken();
     //this is the sidkeick url
     var callURL = this._recUrl + "/" + region + "/" + pageNum + "/" + pageCount;
-    // console.log(callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -222,9 +220,8 @@ getCarouselData(data, limit, batch, state, callback:Function) {
     var sampleImage = "/app/public/placeholder_XL.png";
     var articleStackArray = [];
     data.forEach(function(val, index){
-      console.log(val.length);
       if (val.length != 0) {
-      var date = GlobalFunctions.formatDate(val.timestamp);
+      var date = GlobalFunctions.formatDate(val.timestamp*1000);
       var s = {
           stackRowsRoute: MLBGlobalFunctions.formatAiArticleRoute('postgame-report', val.event),
           keyword: 'BASEBALL',
@@ -247,9 +244,10 @@ getCarouselData(data, limit, batch, state, callback:Function) {
   transformToAiHeavyArticleRow(data){
     var sampleImage = "/app/public/placeholder_XL.png";
     var articleStackArray = [];
-    var date = GlobalFunctions.formatDate(data.timestamp);
+    var date = GlobalFunctions.formatDate(data.timestamp*1000);
+    var i = 1;
     for (var key in data) {
-      if (data.hasOwnProperty(key) && data[key].displayHeadline != null) {
+      if (data.hasOwnProperty(key) && data[key].displayHeadline != null && i <= 8) {
         var s = {
             stackRowsRoute: MLBGlobalFunctions.formatAiArticleRoute(key, data.eventId),
             keyword: 'BASEBALL',
@@ -265,6 +263,7 @@ getCarouselData(data, limit, batch, state, callback:Function) {
             }
         }
         articleStackArray.push(s);
+        i = i + 1;
       }
     }
     return articleStackArray;
