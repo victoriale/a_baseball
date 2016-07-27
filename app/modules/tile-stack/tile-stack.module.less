@@ -2,6 +2,7 @@
   width: 610px;
   height: 141px;
   margin-bottom: 10px;
+
   &-item {
     height: 100%;
     background-size: cover;
@@ -22,9 +23,20 @@
     }
   }
 }
+@media @mobile {
+    .tile-stack {
+      margin-left:15px;
+    }
+}
+@media @tablet {
+  .tile-stack {
+    margin-left:13px;
+  }
+}
 @media @desktop-m {
   .tile-stack {
     width: 670px;
+    margin-left:13px;
     &-item {
       &-text {
         font-size:20px;
@@ -37,5 +49,6 @@
   .tile-stack {
     width: 1086px;
     height: 220px;
+    margin-left:3px;
   }
 }

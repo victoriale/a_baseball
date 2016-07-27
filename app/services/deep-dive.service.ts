@@ -222,6 +222,8 @@ getCarouselData(data, limit, batch, state, callback:Function) {
     var sampleImage = "/app/public/placeholder_XL.png";
     var articleStackArray = [];
     data.forEach(function(val, index){
+      console.log(val.length);
+      if (val.length != 0) {
       var date = GlobalFunctions.formatDate(val.timestamp);
       var s = {
           stackRowsRoute: MLBGlobalFunctions.formatAiArticleRoute('postgame-report', val.event),
@@ -238,6 +240,7 @@ getCarouselData(data, limit, batch, state, callback:Function) {
           }
       }
       articleStackArray.push(s);
+    }
     });
     return articleStackArray;
   }
