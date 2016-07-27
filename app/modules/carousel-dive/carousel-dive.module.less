@@ -57,20 +57,6 @@
   background-size: cover;
 //  background-position: center;
   background-repeat: no-repeat;
-  &:nth-child(n+2) {
-    // .carousel-item-container-right {
-    //   width: 65%;
-    //   position: relative;
-    //   margin: 0px;
-    //   top:45px;
-    //   &-title {
-    //     font-size:38px;
-    //     >span {
-    //       font-size:28px;
-    //     }
-    //   }
-    // }
-  }
 }
 .owl-carousel {
   height: 420px;
@@ -88,7 +74,9 @@
     height: 100%;
   &-right {
     display: none;
-    margin: auto;
+    // margin: auto;
+    position: relative;
+    top:45px;
     &-key {
       width: 126px;
       height: 25px;
@@ -121,6 +109,10 @@
       .globalDefaultModFont(16px, 400, @white);
       line-height: 1.2;
       width: 100%;
+     >span {
+       font-size: 14px;
+       font-weight: 300;
+     }
     }
     &-fullstory {
       width: 200px;
@@ -170,13 +162,14 @@
       display: flex;
       &-right {
         display: block;
-        margin-bottom: auto;
-        margin-top: auto;
-
+        // margin-bottom: auto;
+        // margin-top: auto;
+        position: relative;
+        top: 53px;
       }
       &-left {
         margin-right: 33px;
-        top:45px;
+        top:53px;
         position: relative;
       }
     }

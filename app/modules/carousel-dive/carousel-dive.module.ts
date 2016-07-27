@@ -5,6 +5,7 @@ import {SanitizeRUrl} from "../../pipes/safe.pipe";
 
 
 declare var jQuery:any;
+declare var moment;
 
 
 @Component({
@@ -24,21 +25,24 @@ export class CarouselDiveModule{
   constructor(
       private _deepdiveservice:DeepDiveService
   ){
-​      this.getDeepDiveVideoBatch(this.state, 1);
   }
   private getDeepDiveVideoBatch(region, numItems, startNum){
       this._deepdiveservice.getDeepDiveVideoBatchService(numItems, startNum, region).subscribe(
         data => {
           this.videoData = data.data;
-          console.log('hey there!', this.videoData);
+          console.log(this.videoData);
         }
       )
+    }
+    formatDate(date) {
+      return moment(date, "YYYY-MM-Do, h:mm:ss").format("MMMM Do, YYYY h:mm:ss a");
     }
 
 
 
 
   ngOnInit() {
+    this.getDeepDiveVideoBatch(this.state, 1);
 
     setTimeout(function(){
       jQuery(".owl-carousel").owlCarousel({
