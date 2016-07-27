@@ -29,7 +29,7 @@ export class VideoStacktopComponent implements OnInit{
       )
     }
   formatDate(date) {
-    return moment(date, "YYYY-MM-Do, h:mm:ss").format("MMMM Do, YYYY h:mm:ss a");
+    return moment(date, "YYYY-MM-Do").format("MMMM Do, YYYY");
   }
   ngOnInit() {
     this.getDeepDiveVideoBatch(this.state ,2, 1);

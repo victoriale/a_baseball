@@ -1,4 +1,3 @@
-
 .score-transition2{
   -webkit-transition: all 0.2s ease-out;
   -moz-transition: all 0.2s ease-out;
@@ -10,13 +9,13 @@
   width:100%;
   height:auto;
   position: relative;
-  margin: 10px 0 15px;
+  margin: 10px auto 0;
   text-align: center;
   .no-select;
   &-box{
     width:100%;
-    height:160px;
-    padding-left: 50px;
+    height:120px;
+    padding-left: 40px;
     overflow: hidden;
   }
   &-container{
@@ -43,38 +42,38 @@
     height:100%;
   }
   &-left{
-    width:40px;
-    height:105px;
+    width:30px;
+    height:80px;
     background-color: @black;
     position: absolute;
     left:0;
     top:0;
     bottom:0;
     margin: auto 0;
-    .globalDefaultModFont(30px, 400, @white);
+    .globalDefaultModFont(24px, 400, @white);
     cursor: pointer;
     z-index: 10;
    & > i {
-     line-height: 105px;// same as height of button
+     line-height: 80px;// same as height of button
     }
     &:hover{
       background-color: @masterBrandColor;
     }
   }
   &-right{
-    width:40px;
-    height:105px;
+    width:30px;
+    height:80px;
     background-color: @black;
     position: absolute;
     right:0;
     top:0;
     bottom:0;
     margin: auto 0;
-    .globalDefaultModFont(30px, 400, @white);
+    .globalDefaultModFont(24px, 400, @white);
     cursor: pointer;
     z-index: 10;
     & > i {
-      line-height: 105px;// same as height of button
+      line-height: 80px;// same as height of button
      }
      &:hover{
        background-color: @masterBrandColor;
@@ -106,29 +105,41 @@
   }
 }
 
-@media @mobile{
-  .side_scroll-transition{
+.side_scroll-transition{
     width:640px;
-  }
 }
 
 @media @tablet{
-  .side_scroll-transition{
-    width:640px;
+  .side_scroll{
+    &-box{
+      height:160px;
+      padding-left: 50px;
+    }
+    &-left{
+      width:40px;
+      height:105px;
+      font-size: 30px;
+     & > i {
+       line-height: 105px;// same as height of button
+      }
+    }
+    &-right{
+      width:40px;
+      height:105px;
+      font-size: 30px;
+      & > i {
+        line-height: 105px;// same as height of button
+       }
+    }
+    &-overlayright{
+      width:50px;
+    }
+    &-overlayleft{
+      width:50px;
+    }
   }
 }
 
-@media @desktop-m{
-  .side_scroll-transition{
-    width:640px;
-  }
-}
-
-@media @desktop-l{
-  .side_scroll-transition{
-    width:640px;
-  }
-}
 @media @desktop-xl{
   .side_scroll-transition{
     width:1280px;

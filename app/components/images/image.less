@@ -163,8 +163,11 @@
   .roundImageMain(50px);
 }
 
-.image-60 {
-  .roundImageMain(60px);
+.image-44 {
+  .roundImageMain(44px);
+  @media @tablet{
+    .roundImageMain(60px);
+  }
 }
 
 .image-62 {
@@ -207,11 +210,11 @@
 .border-1 {
   .imageShadow(1px, @masterSmallImageShadow);
 }
+.border-1 {
+  .imageShadow(1px, @masterSmallImageShadow);
+}
 .border-2 {
   .imageShadow(2px, @masterSmallImageShadow);
-}
-.border-2-grey {
-  .imageShadow(2px, @strokeGrey);
 }
 
 .border-3 {
@@ -254,9 +257,9 @@
   }
   &-hover {
     position: relative;
-    display: block;
-    height: 100%;
-    width: 100%;
+    display: inline-block;
+    height: auto;
+    width: auto;
     &:hover {
       div {
         .flexDisplay;
@@ -275,38 +278,66 @@
       background-color: @masterImageHover;
       text-align: center;
       .globalDefaultModFont(18px, 800, @white);
-      p {
-        margin: 0px;
-        line-height: 20px;
-        &:first-child {
-          .globalDefaultModFont(32px, 400, @white);
-          line-height: 36px;
-        }
-      }
     }
   }
 }
 
-.image-610x420 {
-  .rectangleImageMain(610px, 420px);
-  @media @desktop-m{
-    .rectangleImageMain(670px, 420px);
+.image-320x180{
+  .rec-hover{
+    margin: 0 auto;
+    line-height: 40px;
+    height: 40px;
+    width: 130px;
+    border: 1px solid @white;
+    .globalDefaultModFont(16px, 800, @white);
   }
-  @media @desktop-xl{
-    .rectangleImageMain(750px, 420px);
-  }
-}
-
-.image-100x75 {
-  .rectangleImageMain(100px, 75px);
-}
-
-.image-288x180 {
-  .rectangleImageMain(288px, 180px);
-  @media @desktop-m{
+  img{
     .rectangleImageMain(320px, 180px);
+    @media @tablet{
+      .rectangleImageMain(610px, 420px);
+    }
+    @media @desktop-m{
+      .rectangleImageMain(670px, 420px);
+    }
+    @media @desktop-xl{
+      .rectangleImageMain(750px, 420px);
+    }
   }
-  @media @desktop-xl{
-    .rectangleImageMain(425px, 240px);
+}
+
+.image-288x180{
+  .rec-hover{
+    margin: 0 auto;
+    line-height: 40px;
+    height: 40px;
+    width: 130px;
+    border: 1px solid @white;
+    .globalDefaultModFont(16px, 800, @white);
+  }
+  img{
+    .rectangleImageMain(288px, 180px);
+    @media @desktop-m{
+      .rectangleImageMain(320px, 180px);
+    }
+    @media @desktop-xl{
+      .rectangleImageMain(425px, 240px);
+    }
+  }
+}
+
+.image-100x56{
+  .rec-hover{
+    margin: 0 auto;
+    line-height: 30px;
+    height: 30px;
+    width: 70px;
+    border: 1px solid @white;
+    .globalDefaultModFont(14px, 800, @white);
+  }
+  img{
+    .rectangleImageMain(100px, 56px);
+    @media @tablet{
+      .rectangleImageMain(100px, 75px);
+    }
   }
 }
