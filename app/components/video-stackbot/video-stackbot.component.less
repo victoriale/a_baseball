@@ -1,11 +1,11 @@
 .video-stackbot {
-  display: flex;
-  flex-wrap: wrap;
+  .flexDisplay;
+  .flexWrap(wrap);
   &-item {
-    display: flex;
+    .flexDisplay;
     width: 50%;
     height: 75px;
-    margin-top: 15px;
+    margin-bottom: 20px;
     &-image {
       width: 100px;
       height: 75px;
@@ -62,9 +62,9 @@
     &-right {
       .video-title-top {
         font-size:10px;
+        text-transform: uppercase;
         span {
-          color:@strokeGrey;
-          font-weight: 900;
+          .globalDefaultModFont(10px, 900, @strokeGrey)
         }
         margin-bottom:5px;
       }
@@ -73,9 +73,9 @@
       width: 179px;
       height: 57px;
       overflow:hidden;
-    .globalDefaultModFont(14px, 400, @black);
       line-height: 1;
       text-align: left;
+      .globalDefaultModFont(14px, 400, @black);
     }
   }
 }

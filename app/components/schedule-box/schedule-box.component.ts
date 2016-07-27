@@ -33,7 +33,7 @@ export class ScheduleBox{
         this.boxData = [{
           date:"[Month] [DD] [YYYY] <i class='fa fa-circle'></i> [Time PM]",
           awayImageConfig:{//interface is found in image-data.ts
-              imageClass: 'image-60',
+              imageClass: 'image-44',
               mainImage: {
                   imageUrl: '/app/public/no-image.png',
                   urlRouteArray: ['Home-page'],
@@ -42,7 +42,7 @@ export class ScheduleBox{
               },
           },
           homeImageConfig:{//interface is found in image-data.ts
-              imageClass: 'image-60',
+              imageClass: 'image-44',
               mainImage: {
                   imageUrl: '/app/public/no-image.png',
                   urlRouteArray: ['Home-page'],
