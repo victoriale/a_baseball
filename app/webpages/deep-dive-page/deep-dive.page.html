@@ -10,28 +10,41 @@
       <div class="deep-dive-module">
         <article-stack-module [stackTop]="firstStackTop" [stackRow]="firstStackRow"></article-stack-module>
       </div>
-
-      <tile-stack-module *ngIf = "tilestackData" [tilestackData] = "tilestackData"></tile-stack-module>
-
-      <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
-      <video-stack-module *ngIf="geoLocation" [state]="geoLocation"></video-stack-module>
+      <div class="deep-dive-module">
+        <tile-stack-module *ngIf = "tilestackData" [tilestackData] = "tilestackData"></tile-stack-module>
+      </div>
+      <div class="deep-dive-module">
+        <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+      </div>
+      <div class="deep-dive-module">
+        <video-stack-module *ngIf="geoLocation" [state]="geoLocation"></video-stack-module>
+      </div>
       <!-- adMed HERE -->
-      <responsive-widget [embedPlace]="widgetPlace" [displayAtRes]="1024"></responsive-widget>
+      <div class="deep-dive-adMed">
+        <responsive-widget [embedPlace]="widgetPlace" [displayAtRes]="1024"></responsive-widget>
+      </div>
       <div class="deep-dive-boxScore">
-        <box-scores *ngIf="dateParam && maxHeight" class="box-scores" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)" [maxHeight]="maxHeight" [scroll]="scroll"></box-scores>
+        <div class="deep-dive-module">
+          <box-scores *ngIf="dateParam && maxHeight" class="box-scores" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)" [maxHeight]="maxHeight" [scroll]="scroll"></box-scores>
+        </div>
         <!-- adSmall HERE -->
-        <responsive-widget [embedPlace]="widgetPlace" [displayAtRes]="640"></responsive-widget>
-
+        <div class="deep-dive-adSmall">
+          <responsive-widget [embedPlace]="widgetPlace" [displayAtRes]="640"></responsive-widget>
+        </div>
         <div class="deep-dive-module">
           <box-article-component *ngIf="currentBoxScores" [boxArticleData]="currentBoxScores.aiContent"></box-article-component>
         </div>
       </div>
       <!-- adMed HERE -->
-      <responsive-widget [embedPlace]="widgetPlace" [displayAtRes]="1024"></responsive-widget>
+      <div class="deep-dive-adMed">
+        <responsive-widget [embedPlace]="widgetPlace" [displayAtRes]="1024"></responsive-widget>
+      </div>
       <div class="deep-dive-module">
         <article-stack-module [stackTop]="secStackTop" [stackRow]="secStackRow"></article-stack-module>
       </div>
-      <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+      <div class="deep-dive-module">
+        <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+      </div>
       <div class="deep-dive-module">
         <recommendations-component *ngIf="recommendationData" [randomHeadlines]="recommendationData" [isDeepDive]="true"></recommendations-component>
       </div>
@@ -39,13 +52,11 @@
         <article-stack-module [stackTop]="thirdStackTop" [stackRow]="thirdStackRow"></article-stack-module>
       </div>
       <!-- adSmall HERE -->
-      <div class="deep-dive-adSmall-last">
-        <responsive-widget [embedPlace]="widgetPlace" ></responsive-widget>
+      <div class="deep-dive-module">
+        <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
       </div>
     </div>
-
     <div class="deep-dive-container2b">
-
       <div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div>
     </div>
   </section>
