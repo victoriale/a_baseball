@@ -2,6 +2,8 @@
   <div class="deep-dive-module">
     <article-stack-module *ngIf="secStackRow" [stackTop]="secStackTop" [stackRow]="secStackRow"></article-stack-module>
   </div>
-  <recommendations-component *ngIf="recommendationData" [randomHeadlines]="recommendationData" [isDeepDive]="true"></recommendations-component>
+  <div class="deep-dive-module">
+    <recommendations-component *ngIf="recommendationData" [randomHeadlines]="recommendationData" [isDeepDive]="true"></recommendations-component>
+  </div>
   <video-stack-module *ngIf="geoLocation" [state]="geoLocation" [page]="2"></video-stack-module>
 </div>

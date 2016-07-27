@@ -231,7 +231,8 @@ export class DeepDiveService {
           provider2: '',
           description: val.featuredReport['postgame-report'].displayHeadline,
           imageConfig: {
-          imageClass: "image-100x75",
+          imageClass: "image-100x56",
+          hoverText: "View",
           imageUrl: val.home.images[0] != null ? val.home.images[0] : sampleImage,
           urlRouteArray: MLBGlobalFunctions.formatAiArticleRoute('postgame-report', val.event)
           }
@@ -256,8 +257,9 @@ export class DeepDiveService {
             provider2: '',
             description: data[key].displayHeadline,
             imageConfig: {
-              imageClass: "image-100x75",
+              imageClass: "image-100x56",
               imageUrl: sampleImage,
+              hoverText: "View",
               urlRouteArray: MLBGlobalFunctions.formatAiArticleRoute(key, data.eventId)
             }
         }
