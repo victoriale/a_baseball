@@ -29,16 +29,16 @@ export class GlobalSettings {
     private static _copyrightInfo: string = "USA Today Sports Images";
 
     static getEnv(env:string):string {
-        if (env == "localhost") {
-            env = "dev";
-        }
-        if (env != "dev" && env != "qa") {
-            env = "prod";
-        }
-        if(env != "prod" && env != "dev" && env != "qa"){
+      if (env == "localhost" || env == "dev"){
+          env = "dev";
+      } else if (env == "qa"){
+          env = "qa";
+      } else if (env == "prod"){
+          env = "prod";
+      } else {
           env = "www";
-        }
-        return env;
+      }
+      return env;
     }
 
     static getDynamicWidet():string {
