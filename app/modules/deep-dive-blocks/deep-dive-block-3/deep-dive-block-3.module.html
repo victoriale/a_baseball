@@ -3,5 +3,7 @@
     <article-stack-module *ngIf="thirdStackRow" [stackTop]="thirdStackTop" [stackRow]="thirdStackRow"></article-stack-module>
   </div>
   <recommendations-component *ngIf="recommendationData" [randomHeadlines]="recommendationData" [isDeepDive]="true"></recommendations-component>
-  <video-stack-module *ngIf="geoLocation" [state]="geoLocation" [page]="3"></video-stack-module>
+  <div class="deep-dive-module">
+    <video-stack-module *ngIf="geoLocation" [state]="geoLocation" [page]="3"></video-stack-module>
+  </div>
 </div>
