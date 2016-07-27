@@ -1,4 +1,4 @@
-<section class="deep-dive container-fluid">
+<section *ngIf="!isHomeRunZone" class="deep-dive container-fluid">
   <div class="deep-dive-container1">
     <carousel-dive-module *ngIf = "carouselData" [carouselData] = "carouselData"></carousel-dive-module>
   </div>
@@ -14,7 +14,7 @@
       <tile-stack-module *ngIf = "tilestackData" [tilestackData] = "tilestackData"></tile-stack-module>
 
       <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
-      <video-stack-module [state]="geoLocation"></video-stack-module>
+      <video-stack-module *ngIf="geoLocation" [state]="geoLocation"></video-stack-module>
       <!-- adMed HERE -->
       <responsive-widget [embedPlace]="widgetPlace" [displayAtRes]="1024"></responsive-widget>
       <div class="deep-dive-boxScore">
@@ -27,9 +27,11 @@
         </div>
       </div>
       <!-- adMed HERE -->
-        <responsive-widget [embedPlace]="widgetPlace" [displayAtRes]="1024"></responsive-widget>
-      <article-stack-module [stackTop]="secStackTop" [stackRow]="secStackRow"></article-stack-module>
-        <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+      <responsive-widget [embedPlace]="widgetPlace" [displayAtRes]="1024"></responsive-widget>
+      <div class="deep-dive-module">
+        <article-stack-module [stackTop]="secStackTop" [stackRow]="secStackRow"></article-stack-module>
+      </div>
+      <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
       <div class="deep-dive-module">
         <recommendations-component *ngIf="recommendationData" [randomHeadlines]="recommendationData" [isDeepDive]="true"></recommendations-component>
       </div>
@@ -48,3 +50,4 @@
     </div>
   </section>
 </section>
+<Partner-home-page *ngIf="isHomeRunZone"></Partner-home-page>

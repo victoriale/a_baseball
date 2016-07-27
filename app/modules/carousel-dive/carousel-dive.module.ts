@@ -14,7 +14,7 @@ declare var jQuery:any;
 
 })
 
-export class CarouselDiveModule implements OnInit{
+export class CarouselDiveModule{
   @Input() carouselData: any;
   @Input() state:any;
   public videoData:any;
@@ -45,17 +45,16 @@ export class CarouselDiveModule implements OnInit{
         nav:false,
         navText:false
       });
-    }, 500);
-​
+
+    }, 1000);
   }
+
   leftcarousel() {
-    console.log('left arrow')
     var owl = jQuery('.carousel_owl');
     owl.owlCarousel();
     owl.trigger('prev.owl.carousel');
   }
   rightcarousel() {
-    console.log('right arrow')
     var owl = jQuery('.carousel_owl');
     owl.owlCarousel();
     owl.trigger('next.owl.carousel');
