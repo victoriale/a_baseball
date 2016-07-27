@@ -33,7 +33,7 @@
        <div class="owl-item"  *ngFor = "let data of carouselData; let i = index;" [ngStyle]="{'background-image': 'linear-gradient(180deg, rgba(40, 40, 40, 0.5) 0%, rgba(24, 24, 24, 0.65) 100%), url(' + data.image_url + ')'}">
           <div class="carousel-item">
             <div class="carousel-item-container">
-            <div class="carousel-item-container-right" id="lrgcarousel-right" style="width: 65%; position: relative; top:45px;">
+            <div class="carousel-item-container-right" id="lrgcarousel-right" style="display:block;">
               <div class="carousel-item-container-right-key" [innerHTML]="data.keyword"></div>
               <div class="carousel-item-container-right-title" [innerHTML]="data.title"></div>
                 <div class="carousel-item-container-right-title-border" [ngStyle]="{'display':data.style}"></div>

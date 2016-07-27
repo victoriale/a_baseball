@@ -23,7 +23,6 @@
         color:@homeRunLoyalRed;
       }
     }
-
   }
   &-left {
     position: absolute;
@@ -35,7 +34,6 @@
     display: table;
     z-index: 2;
     color:@white;
-
     >i {
       position: relative;
       text-align: center;
@@ -47,9 +45,7 @@
         color:@homeRunLoyalRed;
       }
     }
-
   }
-
 }
 .owl-item {
   height: 420px;
@@ -76,7 +72,7 @@
     display: none;
     // margin: auto;
     position: relative;
-    top:45px;
+  //  top:45px;
     &-key {
       width: 126px;
       height: 25px;
@@ -129,8 +125,7 @@
         background-color:@black;
       }
     }
-}
-
+  }
   &-left {
     //margin-right: 33px;
     &-video {
@@ -142,20 +137,21 @@
     }
   }
 }
-
 @media @desktop-m {
   .carousel-item {
     &-container {
       &-left {
         &-video {
-          width: 650px;
+          width: 560px;
           height: 315px;
         }
       }
     }
   }
+  #lrgcarousel-right {
+    width: 65%;
+  }
 }
-
 @media @desktop-l {
   .carousel-item {
     &-container {
@@ -166,6 +162,12 @@
         // margin-top: auto;
         position: relative;
         top: 53px;
+        &-title {
+          font-size: 32px;
+          >span {
+            font-size: 20px;
+          }
+        }
       }
       &-left {
         margin-right: 33px;
@@ -174,91 +176,16 @@
       }
     }
   }
+  #lrgcarousel-right {
+    top:45px;
+  }
 }
 
 @media @desktop-xl {
   .carousel-item {
     &-container {
       &-right {
-        &-title {
-          font-size: 28px;
-          >span {
-            font-size: 20px;
-          }
-        }
       }
     }
   }
 }
-
-
-
-
-// @media @mobile {
-//   .carousel-item {
-//     margin: auto;
-// //    width: 70%;
-//     display: table;
-//     &-container {
-//        vertical-align: middle;
-//        display: table-cell;
-//
-//     }
-//   }
-//
-// }
-// @media @tablet {
-//   .carousel-item {
-//     margin: auto;
-//     &-container {
-//        vertical-align: middle;
-//     //   display: table-cell;
-//     }
-//   }
-// }
-// @media @desktop-m {
-//   .carousel-item {
-//     &-container {
-//       &-title {
-//         .globalDefaultModFont(38px, 400, @white);
-//         font-weight: 900;
-//         line-height: 1.1;
-//         >span{
-//           display: block;
-//           font-size:28px;
-//           font-weight: 400;
-//         }
-//       }
-//       &-left {
-//         &-video {
-//           width: 500px;
-//           height: 282px;
-//         }
-//       }
-//     }
-//   }
-// }
-// @media @desktop-l {
-//   .carousel-item {
-//     margin-left: 10%;
-// //    width:60%;
-//     &-container {
-//       position: relative;
-//       top:45px;
-//   //    display: block;
-//     }
-//   }
-//   .carousel-dive {
-//     &-right {
-//       right: 20px;
-//       >i {
-//         font-size: 100px;
-//       }
-//     }
-//     &-left {
-//       >i {
-//         font-size:100px;
-//       }
-//     }
-//   }
-// }
