@@ -1,4 +1,5 @@
 .tile-stack {
+  margin-bottom: 10px;
   width: 320px;
   height: 180px;
   margin: 0 auto;
@@ -44,9 +45,20 @@
     }
   }
 }
+@media @mobile {
+    .tile-stack {
+      margin-left:15px;
+    }
+}
+@media @tablet {
+  .tile-stack {
+    margin-left:13px;
+  }
+}
 @media @desktop-m {
   .tile-stack {
     width: 670px;
+    margin-left:13px;
     &-item {
       &-text {
         font-size:20px;
@@ -59,5 +71,6 @@
   .tile-stack {
     width: 1086px;
     height: 220px;
+    margin-left:3px;
   }
 }
