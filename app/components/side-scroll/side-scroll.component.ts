@@ -140,10 +140,12 @@ export class SideScroll{
   }
   right(event) {
     this.maxScroll = !((this.maxLength) > Math.round(this.currentScroll/(this.itemSize)));
-    console.log('left click ', this.currentScroll, this.itemSize*-2);
+    console.log('left click ', this.currentScroll, this.itemSize, this.maxLength > Math.round(this.currentScroll/this.itemSize));
     if(this.maxLength > Math.round(this.currentScroll/this.itemSize)){
       this.currentScroll += this.itemSize;
       this.checkCurrent(this.currentScroll);
+    }else{
+
     }
   }
 
