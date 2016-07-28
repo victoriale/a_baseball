@@ -1,7 +1,7 @@
 <section *ngIf="!isHomeRunZone" class="deep-dive container-fluid" (window:scroll)="onScroll($event)">
-  <div class="deep-dive-container1">
+  <section class="deep-dive-container1">
     <carousel-dive-module *ngIf = "carouselData" [carouselData] = "carouselData"></carousel-dive-module>
-  </div>
+  </section>
   <section class="deep-dive-container2">
     <div class="deep-dive-container2a">
       <div class="deep-dive-module">
@@ -21,5 +21,7 @@
       <div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div>
     </div>
   </section>
+  <!-- TODO -->
+  <section class="deep-dive-adWrap"></section>
 </section>
 <Partner-home-page *ngIf="isHomeRunZone"></Partner-home-page>

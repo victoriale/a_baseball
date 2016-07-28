@@ -1,4 +1,7 @@
 .deep-dive{
+  &-adWrap{
+    display: none;
+  }
   background-color: @white;
   height: auto;
   min-width: 320px;
@@ -59,7 +62,7 @@
 }
 @media @tablet {
   .deep-dive{
-    max-width: 1280px;
+    max-width: 1024px;
     min-width: 640px;
     &-container1{
       height: 420px;
@@ -79,7 +82,7 @@
     }
     &-container2b{
       display: none;
-      margin: 20px auto 0 20px;
+      margin: 20px auto 0 15px;
     }
   }
 }
@@ -105,6 +108,7 @@
     }
   }
 }
+
 @media @desktop-l{
   .deep-dive{
     min-width: 1024px;
@@ -112,11 +116,12 @@
       display: none;
     }
     &-container2{
-      min-width: 1024px;
+      width: 1024px;
       .flexDisplay;
     }
     &-container2a{
-      width: 710px;
+      width: 670px;
+      margin: auto;
     }
     &-container2b{
       display: block;
@@ -126,12 +131,24 @@
     }
   }
 }
-
 @media @desktop-xl{
+  .deep-dive{
+    &-adWrap{
+      display: table-column;
+      background-color: @masterBrandColor;
+      height: 600px;
+      width: 160px;
+      left: ~"calc(37.5% - 512px)";
+      top: 120px; //TODO
+      position: fixed;
+    }
+  }
+}
+@media @desktop-xxl{
   .deep-dive{
     min-width: 1440px;
     &-container2{
-      min-width: 1440px;
+      width: 1024px;
     }
     &-container2a{
       margin-left: 15px;
