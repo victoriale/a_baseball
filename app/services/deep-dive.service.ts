@@ -6,6 +6,7 @@ import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalSettings} from '../global/global-settings';
 import {DomSanitizationService} from '@angular/platform-browser';
 
+
 declare var moment;
 @Injectable()
 export class DeepDiveService {
@@ -294,6 +295,8 @@ getCarouselData(data, limit, batch, state, callback:Function) {
       let date = GlobalFunctions.formatDate(val.publishedDate);
       val["date"] = date.month + " " + date.day + ", " + date.year + " " + date.time + " " + date.a + " EST";
       val["image"] = GlobalSettings.getImageUrl(val.imagePath);
+      val["newsRoute"] = MLBGlobalFunctions.formatNewsRoute(val.id);
+      console.log(val['newsRoute']);
     })
     return data;
   }
