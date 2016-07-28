@@ -22,7 +22,9 @@ export class CarouselDiveModule{
         loop:true,
         dots:false,
         nav:false,
-        navText:false
+        navText:false,
+        mouseDrag: false,
+
       });
     }, 1000);
   }
