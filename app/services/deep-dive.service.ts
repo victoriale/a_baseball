@@ -183,12 +183,6 @@ export class DeepDiveService {
       var screenwidth = window.screen.width;
       console.log(screenwidth);
       arrayData.forEach(function(val,index){
-        // if(val['title'].length >= 65) {
-        //   val['style'] = 'none';
-        // }
-        // else {
-        //   val['style'] = 'block'
-        // }
         let carData = {
           image_url: GlobalSettings.getImageUrl(val['imagePath']),
           title:  "<span> Today's News </span>" + val['title'],
@@ -200,7 +194,6 @@ export class DeepDiveService {
         };
         transformData.push(carData);
       });
-      console.log(transformData);
       return transformData;
   }
 
