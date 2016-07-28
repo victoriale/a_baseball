@@ -296,7 +296,6 @@ getCarouselData(data, limit, batch, state, callback:Function) {
       val["date"] = date.month + " " + date.day + ", " + date.year + " " + date.time + " " + date.a + " EST";
       val["image"] = GlobalSettings.getImageUrl(val.imagePath);
       val["newsRoute"] = MLBGlobalFunctions.formatNewsRoute(val.id);
-      console.log(val['newsRoute']);
     })
     return data;
   }
