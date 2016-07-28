@@ -1,8 +1,9 @@
-<div class="carousel_scoll" (mousemove)="movingMouse($event)">
-  <div class="carousel_scoll-left" (click)="left($event)" [ngClass]="{'disabled': minScroll === true }"><i class="fa fa-angle-left"></i></div>
-  <div class="carousel_scoll-box" (mousedown)="scrollX($event)" (mouseup)="scrollX($event)">
-    <div *ngIf="displayedItems" class="carousel_scoll-container score-transition2" [style.right]="rightText | safeStyle">
-      <div class="carousel_scoll-item"  *ngFor = "let item of displayedItems; let i = index" [ngStyle]="{'background-image': 'linear-gradient(180deg, rgba(40, 40, 40, 0.5) 0%, rgba(24, 24, 24, 0.65) 100%), url(' + item.data.image_url + ')', 'right': item.right}" [ngClass]="{'clone': item.clone == 'clone'}">
+<div class="carousel_scroll" (mousemove)="movingMouse($event)">
+  <button *ngIf="buttonClass" class="{{buttonClass}} carousel_scroll-left" (click)="left($event)" [ngClass]="{'disabled': minScroll === true }"><i class="fa fa-angle-left"></i></button>
+  <div class="carousel_scroll-box" (mousedown)="scrollX($event)" (mouseup)="scrollX($event)">
+    <!-- do not delete carousel_scroll-container logic is tied to it in ts file -->
+    <div *ngIf="displayedItems" class="carousel_scroll-container score-transition2" [style.right]="rightText | safeStyle">
+      <div class="carousel_scroll-item"  *ngFor = "let item of displayedItems; let i = index" [ngStyle]="{'background-image': 'linear-gradient(180deg, rgba(40, 40, 40, 0.5) 0%, rgba(24, 24, 24, 0.65) 100%), url(' + item.data.image_url + ')', 'right': item.right}" [ngClass]="{'clone': item.clone == 'clone'}">
         <div class="carousel-item">
           <div class="carousel-item-container" >
             <div class="carousel-item-container-key" [innerHTML]="item.data.keyword | safeHtml"></div>
@@ -18,7 +19,7 @@
       </div>
     </div>
   </div>
-  <div class="carousel_scoll-overlayright" *ngIf="fade"></div>
-  <div class="carousel_scoll-overlayleft" *ngIf="fade"></div>
-  <div class="carousel_scoll-right" (click)="right($event)" [ngClass]="{'disabled': maxScroll === true}"><i class="fa fa-angle-right"></i></div>
+  <div class="carousel_scroll-overlayright" *ngIf="fade"></div>
+  <div class="carousel_scroll-overlayleft" *ngIf="fade"></div>
+  <button *ngIf="buttonClass" class="{{buttonClass}} carousel_scroll-right" (click)="right($event)" [ngClass]="{'disabled': maxScroll === true}"><i class="fa fa-angle-right"></i></button>
 </div>

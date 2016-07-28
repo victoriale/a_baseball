@@ -35,7 +35,7 @@ export class SideScroll{
   @Input('show-item-num') totalItems:number;
   @Input('loop') loop:boolean;
   @Input('fade') fade:boolean;
-
+  @Input('button-class') buttonClass: string;
   private startIndex:number = 0;
   private endIndex:number = 1;
   private displayedItems:any;
@@ -53,6 +53,11 @@ export class SideScroll{
       this.loop = true;
     }
 
+    //if no class is set then set to default class of .carousel_scroll-left
+    if(this.buttonClass == null){
+      this.buttonClass = 'carousel_scroll-button';
+    }
+
     // if no input comes from totalItems then default to showing 1 item in carousel
     if(this.totalItems == null){
       this.totalItems = 1;
@@ -60,7 +65,6 @@ export class SideScroll{
 
     this.startIndex = 0;//on initial load of component start index at 1
     this.endIndex = (this.startIndex + (this.totalItems-1)) % this.data.length; //the ending index needs to be the start of the index
-    this.generateArray();
     if(this.maxLength == null){
       this.maxLength = this.data.length;
     }
@@ -69,20 +73,20 @@ export class SideScroll{
 
   ngAfterViewInit(){
     //make sure to run the element ref after the content has loaded to get the full size;
-    this.itemSize = this._elRef.nativeElement.getElementsByClassName('carousel_scoll-container')[0].offsetWidth;
+    this.itemSize = this._elRef.nativeElement.getElementsByClassName('carousel_scroll-container')[0].offsetWidth;
     this.currentScroll = (this.itemSize * this.clones);
     this.rightText = this.currentScroll+'px';
 
     //once scrolls are set declare the min and max scrolls if loops is set false
     if(!this.loop){
-      this.minScroll = this.currentScroll <= (this.itemSize * this.clones);
+      this.minScroll = this.currentScroll < (this.itemSize * this.clones);
       this.maxScroll = !((this.maxLength + 1) >= Math.round(this.currentScroll/(this.itemSize)));
     }
   }
 
   ngDoCheck(){
-    if(this._elRef.nativeElement.getElementsByClassName('carousel_scoll-container').length > 0){
-      this.itemSize = this._elRef.nativeElement.getElementsByClassName('carousel_scoll-container')[0].offsetWidth;
+    if(this._elRef.nativeElement.getElementsByClassName('carousel_scroll-container').length > 0){
+      this.itemSize = this._elRef.nativeElement.getElementsByClassName('carousel_scroll-container')[0].offsetWidth;
     }
   }
 
@@ -137,17 +141,12 @@ export class SideScroll{
         right: ((this.startIndex - o) * this.itemSize) + 'px'
       })
     }
-
-    // this.currentScroll = 2 * this.itemSize;
-    // this.rightText = this.currentScroll+'px';
   }
 
   left(event) {
     //moves the current scroll over the item size
     this.currentScroll -= (this.itemSize);
-    console.log('left click ', this.currentScroll, this.itemSize*3 ,'current < itemsize X 3',this.currentScroll <= (this.itemSize * 3));
-    if(this.currentScroll <= (this.itemSize * this.clones)){
-      console.log('min reached go back to =>',this.itemSize * (this.maxLength + 1));
+    if(this.currentScroll < (this.itemSize * this.clones)){
       this.currentScroll = (this.itemSize * (this.maxLength + 1));
     }
     this.checkCurrent(this.currentScroll);
@@ -158,7 +157,6 @@ export class SideScroll{
       this.checkCurrent(this.currentScroll);
     }else{
       this.currentScroll = (this.itemSize * this.clones);
-      console.log('max reached go back to =>',this.currentScroll);
       this.checkCurrent(this.currentScroll);
     }
   }
@@ -170,7 +168,12 @@ export class SideScroll{
     if(mouseType == 'mousedown'){
       this.mouseDown = event.clientX;
     }
-    if(mouseType == 'mouseup'){
+    if(mouseType == 'mouseup'){//this is for quick fix but not final
+      if(this.drag >= 0){
+        this.right('swipe right');
+      }else{
+        this.left('swipe left');
+      }
       this.mouseUp = event.clientX;
       this.checkCurrent(this.currentScroll);
     }
@@ -182,35 +185,40 @@ export class SideScroll{
     if(!this.loop){
       this.maxScroll = !((this.maxLength + 1) > Math.round(this.currentScroll/(this.itemSize)));
     }
+
     if(this.isMouseDown && !this.maxScroll){
+
       this.drag = (this.mouseDown - event.clientX);
-      this.currentScroll += this.drag;
+      console.log(this.mouseDown, event.clientX);
+      this.currentScroll -= this.drag;
+      console.log(this.drag);
       this.mouseDown = event.clientX;
-      if(this.currentScroll <= -(this.itemSize)){
+      if(this.currentScroll < (this.itemSize*this.clones)){
+        console.log('reset to :',this.currentScroll);
         this.currentScroll = (this.itemSize * 3);
       }
       this.rightText = this.currentScroll+'px';
+      // console.log(this.rightText);
+      this.checkCurrent(this.currentScroll);
     }
   }
 
-  checkCurrent(num){
-    // console.log('checkCurrent',num);
-    // console.log(this.maxLength);
+  checkCurrent(currentScroll){
     //set maxScroll and minScroll if loops is set to false
     if(!this.loop){
-      this.minScroll = this.currentScroll <= (this.itemSize * this.clones);
+      this.minScroll = this.currentScroll < (this.itemSize * this.clones);
       this.maxScroll = !((this.maxLength + 1) > Math.round(this.currentScroll/(this.itemSize)));
     }
-    console.log( (this.maxLength), Math.round(this.currentScroll/(this.itemSize)));
-    console.log(this.minScroll);
-    console.log(this.maxScroll);
-    if(num > (this.itemSize * (this.maxLength + 1))){
-      num = this.itemSize * this.clones;
-    }else if (num < (this.itemSize * this.clones)){
-      num = this.itemSize * (this.maxLength + this.clones);
+
+    //if num which is currentScroll is below the above the clone pos then reset to beginning of array else if current size is below then reset to beginning
+    if(currentScroll > (this.itemSize * (this.maxLength + 1))){
+      currentScroll = this.itemSize * this.clones;
+    }else if (currentScroll < (this.itemSize * this.clones)){
+      currentScroll = this.itemSize * (this.maxLength + 1);
     }
-    let pos = (num / this.itemSize);
-    // console.log(Math.round(pos) * this.itemSize);
+
+    //if pos (position) is between then round to nearest  whole number and move carousel
+    let pos = (currentScroll / this.itemSize);
     this.currentScroll = Math.round(pos) * this.itemSize;
     this.carouselCount.next(Math.round(pos));
     this.rightText = this.currentScroll+'px';

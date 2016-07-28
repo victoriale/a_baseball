@@ -10,7 +10,7 @@
   width:100%;
   height:auto;
 }
-.carousel_scoll{
+.carousel_scroll{
   width:100%;
   height:auto;
   position: relative;
@@ -28,9 +28,27 @@
     height:100%;
     overflow: hidden;
 
-    //delete when done
-    background-color:@highlightGrey;
   }
+
+  &-button{
+    width:auto;
+    height:105px;
+    position: absolute;
+    top:0;
+    bottom:0;
+    padding: 0;
+    margin: auto 0;
+    z-index: 10;
+    cursor: pointer;
+    outline: none;
+    border:none;
+    background-color: transparent;
+    .globalDefaultModFont(60px, 400, @white);
+    &:hover{
+      color:@masterBrandColor;
+    }
+  }
+
   &-container{
     .flexDisplay;
     .flexDirection(row);
@@ -56,41 +74,15 @@
     height:100%;
   }
   &-left{
-    width:40px;
-    height:105px;
-    background-color: @black;
-    position: absolute;
     left:0;
-    top:0;
-    bottom:0;
-    margin: auto 0;
-    .globalDefaultModFont(30px, 400, @white);
-    cursor: pointer;
-    z-index: 10;
    & > i {
      line-height: 105px;// same as height of button
     }
-    &:hover{
-      background-color: @masterBrandColor;
-    }
   }
   &-right{
-    width:40px;
-    height:105px;
-    background-color: @black;
-    position: absolute;
     right:0;
-    top:0;
-    bottom:0;
-    margin: auto 0;
-    .globalDefaultModFont(30px, 400, @white);
-    cursor: pointer;
-    z-index: 10;
     & > i {
       line-height: 105px;// same as height of button
-     }
-     &:hover{
-       background-color: @masterBrandColor;
      }
   }
   .disabled{
