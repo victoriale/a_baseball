@@ -181,7 +181,6 @@ export class DeepDiveService {
  carouselTransformData(arrayData){
       var transformData = [];
       var screenwidth = window.screen.width;
-      console.log(screenwidth);
       arrayData.forEach(function(val,index){
         let carData = {
           image_url: GlobalSettings.getImageUrl(val['imagePath']),
