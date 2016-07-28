@@ -1,9 +1,39 @@
 @import (reference) "./app/global/stylesheets/components.less";
 @import (reference) "./app/global/stylesheets/base.less";
 
+
+@media @mobile-s {
+  .expand, .images, .sm-images {
+    display: none;
+  }
+  .plcholder {
+    width: 100%;
+    height: 100% !important;
+  }
+  .grey-bar {
+    height: 25px !important;
+    &-title {
+      display: none !important;
+    }
+    &-credit {
+      width: 100% !important;
+    }
+  }
+  .circles {
+    background-color: transparent !important;
+    border: none !important;
+    font-size: 45px !important;
+    width: 16px !important;
+  }
+}
+
 .carousel-container {
   width: 583px;
   height: 400px;
+  @media @mobile-s {
+    width: 320px;
+    height: 180px;
+  }
 }
 
 .articles-page {
@@ -20,6 +50,10 @@
     @media (max-width: 1023px) {
       width: 640px;
     }
+    @media @mobile-s {
+      width: 320px;
+      padding: 0;
+    }
     padding: 0 20px;
     margin: 0 auto;
     overflow: hidden;
@@ -29,6 +63,11 @@
     .globalDefaultFont(40px, 800);
     text-align: left;
     margin-bottom: 17px;
+    @media @mobile-s {
+      .globalDefaultFont(20px, 800);
+      margin-bottom: 10px;
+      width: 262px;
+    }
   }
   .arpt {
     overflow: hidden;
@@ -77,6 +116,9 @@
       line-height: 10px;
       float: left;
       margin-top: 20px;
+      @media @mobile-s {
+        margin-top: 16px;
+      }
     }
   }
 }
