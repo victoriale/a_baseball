@@ -180,9 +180,17 @@ export class DeepDiveService {
 
  carouselTransformData(arrayData){
       var transformData = [];
-      var screenwidth = window.screen.width;
-      console.log(screenwidth);
       arrayData.forEach(function(val,index){
+        var curdate = new Date();
+        var curmonthdate = curdate.getDate();
+        var date = GlobalFunctions.formatDate(val.publishedDate);
+      //  console.log(moment().format("dddd"));
+        // if (Number(curmonthdate) > Number(date.day)) {
+        //   val['title'] = "<span>" +  'Day of week of article' + "</span>" + val['title'];
+        // }
+        // else {
+        //   val['title'] = "<span> Today's News </span>" + val['title'];
+        // }
         let carData = {
           image_url: GlobalSettings.getImageUrl(val['imagePath']),
           title:  "<span> Today's News </span>" + val['title'],
@@ -190,10 +198,13 @@ export class DeepDiveService {
           teaser: val['teaser'].substr(0,200).replace('_',': ').replace(/<p[^>]*>/g, "") + "...",
           id:val['id'],
           articlelink: MLBGlobalFunctions.formatSynRoute('story', val.id),
+          date: date.day
           // style: val['style']
         };
         transformData.push(carData);
+        console.log(carData);
       });
+      console.log(transformData);
       return transformData;
   }
 
