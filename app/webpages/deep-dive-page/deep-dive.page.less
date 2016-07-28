@@ -1,19 +1,16 @@
 .deep-dive{
-  &-adWrap{
-    display: none;
-  }
   background-color: @white;
   height: auto;
-  min-width: 320px;
+  min-width: 640px;//320px;
   &-container1{
-    height: 320px;
+    height: 320px;//220px
     background-color: @bulletGrey;
   }
   &-container2{
     background-color: @white;
     min-height: 800px;
     height: auto;
-    width: 320px;
+    width: 640px;//320px;
     margin: 0 auto;
   }
   &-container2a{
@@ -131,24 +128,12 @@
     }
   }
 }
+
 @media @desktop-xl{
-  .deep-dive{
-    &-adWrap{
-      display: table-column;
-      background-color: @masterBrandColor;
-      height: 600px;
-      width: 160px;
-      left: ~"calc(37.5% - 512px)";
-      top: 120px; //TODO
-      position: fixed;
-    }
-  }
-}
-@media @desktop-xxl{
   .deep-dive{
     min-width: 1440px;
     &-container2{
-      width: 1024px;
+      width: auto;
     }
     &-container2a{
       margin-left: 15px;

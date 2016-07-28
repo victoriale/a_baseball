@@ -302,7 +302,7 @@ export class DeepDiveService {
         headline: topData.title,
         provider1: "By " + topData.author,
         provider2: "Published By: " + topData.publisher,
-        description: limitDesc,
+        description: limitDesc + "...",
         imageConfig: {
           imageClass: "image-320x180",
           imageUrl: topData.imagePath != null ? GlobalSettings.getImageUrl(topData.imagePath) : sampleImage,
