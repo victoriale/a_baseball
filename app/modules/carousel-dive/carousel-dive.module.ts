@@ -30,7 +30,6 @@ export class CarouselDiveModule{
       this._deepdiveservice.getDeepDiveVideoBatchService(numItems, startNum, region).subscribe(
         data => {
           this.videoData = data.data;
-          console.log(this.videoData);
         }
       )
     }
