@@ -193,7 +193,7 @@ export class DeepDiveService {
           image_url: GlobalSettings.getImageUrl(val['imagePath']),
           title:  "<span> Today's News </span>" + val['title'],
           keyword: val['keyword'],
-          teaser: val['teaser'].substr(0,250).replace('_',': ').replace(/<p[^>]*>/g, "") + "...",
+          teaser: val['teaser'].substr(0,200).replace('_',': ').replace(/<p[^>]*>/g, "") + "...",
           id:val['id'],
           articlelink: MLBGlobalFunctions.formatSynRoute('story', val.id),
           // style: val['style']
