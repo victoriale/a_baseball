@@ -1,4 +1,7 @@
 .deep-dive{
+  &-adWrap{
+    display: none;
+  }
   background-color: @white;
   height: auto;
   min-width: 320px;
@@ -105,6 +108,7 @@
     }
   }
 }
+
 @media @desktop-l{
   .deep-dive{
     min-width: 1024px;
@@ -127,16 +131,28 @@
     }
   }
 }
-
+@media @desktop-xl{
+  .deep-dive{
+    &-adWrap{
+      display: table-column;
+      background-color: @masterBrandColor;
+      height: 600px;
+      width: 160px;
+      left: ~"calc(37.5% - 512px)";
+      top: 120px; //TODO
+      position: fixed;
+    }
+  }
+}
 @media @desktop-xxl{
   .deep-dive{
     min-width: 1440px;
     &-container2{
-      width: 1440px;
+      width: 1024px;
     }
     &-container2a{
       margin-left: 15px;
-      width: 1086px;
+      width: 670px;
       margin-left: 15px;
       .container-boxScores{
         width:100%;
