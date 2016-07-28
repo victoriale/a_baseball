@@ -305,7 +305,7 @@
   }
 }
 
-.image-288x180{
+.image-320x180-sm{
   .rec-hover{
     margin: 0 auto;
     line-height: 40px;
@@ -315,7 +315,10 @@
     .globalDefaultModFont(16px, 800, @white);
   }
   img{
-    .rectangleImageMain(288px, 180px);
+    .rectangleImageMain(320px, 180px);
+    @media @tablet{
+      .rectangleImageMain(288px, 180px);
+    }
     @media @desktop-m{
       .rectangleImageMain(320px, 180px);
     }
