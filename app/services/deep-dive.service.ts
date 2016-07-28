@@ -105,12 +105,51 @@ export class DeepDiveService {
       return data;
     })
   }
+  getDeepDiveAiBatchService(state?){
+  //Configure HTTP Headers
+  var headers = this.setToken();
+
+
+  if(state == null){//make sure it comes back as a string of null if nothing is returned or sent to parameter
+    state = 'null';
+  }
+  var callURL = this._articleUrl+'recent-games/'+state;
+  return this.http.get(callURL, {headers: headers})
+    .map(res => res.json())
+    .map(data => {
+
+      return data;
+    })
+  }
+  getDeepDiveAiHeavyBatchService(state?){
+  //Configure HTTP Headers
+  var headers = this.setToken();
+
+
+  if(state == null){
+    state = 'CA';
+  }
+  var callURL = this._articleUrl+'player-comparisons/'+state;
+  return this.http.get(callURL, {headers: headers})
+    .map(res => res.json())
+    .map(data => {
+
+      return data;
+    })
+  }
+  getdeepDiveData(deepDiveData, callback:Function, dataParam) {
+  if(deepDiveData == null){
+    deepDiveData = {};
+
+  }else {
+    }
+  }
+
 
   getAiArticleData(state){
     var headers = this.setToken();
     //this is the sidkeick url
     var callURL = this._articleUrl + "sidekick-regional/"+ state +"/1/1";
-    // console.log(callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -122,7 +161,6 @@ export class DeepDiveService {
     var headers = this.setToken();
     //this is the sidkeick url
     var callURL = this._recUrl + "/" + region + "/" + pageNum + "/" + pageCount;
-    // console.log(callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -132,31 +170,34 @@ export class DeepDiveService {
 
   getCarouselData(data, limit, batch, state, callback:Function) {
     //always returns the first batch of articles
-     this.getDeepDiveBatchService(limit, batch, state)
-     .subscribe(data=>{
-       var transformedData = this.carouselTransformData(data.data);
-      callback(transformedData);
-     })
-  }
+       this.getDeepDiveBatchService(limit, batch, state)
+       .subscribe(data=>{
+         var transformedData = this.carouselTransformData(data.data);
+         callback(transformedData);
+       })
 
-  carouselTransformData(arrayData){
-    var transformData = [];
-    arrayData.forEach(function(val,index){
-      let carData = {
-        image_url: GlobalSettings.getImageUrl(val['imagePath']),
-        title:  "<span> Today's News </span>" + val['title'],
-        keyword: val['keyword'],
-        teaser: val['teaser'].substr(0,250).replace('_',': ').replace(/<p[^>]*>/g, "") + "...",
-        id:val['id'],
-        articlelink: MLBGlobalFunctions.formatSynRoute('story', val.id),
-      };
-      transformData.push(carData);
-    });
-    return transformData;
+   }
+
+ carouselTransformData(arrayData){
+      var transformData = [];
+      var screenwidth = window.screen.width;
+      console.log(screenwidth);
+      arrayData.forEach(function(val,index){
+        let carData = {
+          image_url: GlobalSettings.getImageUrl(val['imagePath']),
+          title:  "<span> Today's News </span>" + val['title'],
+          keyword: val['keyword'],
+          teaser: val['teaser'].substr(0,200).replace('_',': ').replace(/<p[^>]*>/g, "") + "...",
+          id:val['id'],
+          articlelink: MLBGlobalFunctions.formatSynRoute('story', val.id),
+          // style: val['style']
+        };
+        transformData.push(carData);
+      });
+      return transformData;
   }
 
   transformToArticleRow(data){
-    var articleStackArray = [];
     var sampleImage = "/app/public/placeholder_XL.png";
     var articleStackArray = [];
     data = data.data.slice(1,9);
@@ -178,6 +219,58 @@ export class DeepDiveService {
       }
       articleStackArray.push(s);
     });
+    return articleStackArray;
+  }
+  transformToAiArticleRow(data){
+    var sampleImage = "/app/public/placeholder_XL.png";
+    var articleStackArray = [];
+    data.forEach(function(val, index){
+      if (val.length != 0) {
+      var date = GlobalFunctions.formatDate(val.timestamp*1000);
+      var s = {
+          stackRowsRoute: MLBGlobalFunctions.formatAiArticleRoute('postgame-report', val.event),
+          keyword: 'BASEBALL',
+          publishedDate: date.month + " " + date.day + ", " + date.year,
+          provider1: '',
+          provider2: '',
+          description: val.featuredReport['postgame-report'].displayHeadline,
+          imageConfig: {
+          imageClass: "image-100x56",
+          hoverText: "View",
+          imageUrl: val.home.images[0] != null ? val.home.images[0] : sampleImage,
+          urlRouteArray: MLBGlobalFunctions.formatAiArticleRoute('postgame-report', val.event)
+          }
+      }
+      articleStackArray.push(s);
+    }
+    });
+    return articleStackArray;
+  }
+  transformToAiHeavyArticleRow(data){
+    var sampleImage = "/app/public/placeholder_XL.png";
+    var articleStackArray = [];
+    var date = GlobalFunctions.formatDate(data.timestamp*1000);
+    var i = 1;
+    for (var key in data) {
+      if (data.hasOwnProperty(key) && data[key].displayHeadline != null && i <= 8) {
+        var s = {
+            stackRowsRoute: MLBGlobalFunctions.formatAiArticleRoute(key, data.eventId),
+            keyword: 'BASEBALL',
+            publishedDate: date.month + " " + date.day + ", " + date.year,
+            provider1: '',
+            provider2: '',
+            description: data[key].displayHeadline,
+            imageConfig: {
+              imageClass: "image-100x56",
+              imageUrl: data[key].image != null ? data[key].image : sampleImage,
+              hoverText: "View",
+              urlRouteArray: MLBGlobalFunctions.formatAiArticleRoute(key, data.eventId)
+            }
+        }
+        articleStackArray.push(s);
+        i = i + 1;
+      }
+    }
     return articleStackArray;
   }
   transformTileStack(data) {
@@ -209,7 +302,7 @@ export class DeepDiveService {
         headline: topData.title,
         provider1: "By " + topData.author,
         provider2: "Published By: " + topData.publisher,
-        description: limitDesc,
+        description: limitDesc + "...",
         imageConfig: {
           imageClass: "image-320x180",
           imageUrl: topData.imagePath != null ? GlobalSettings.getImageUrl(topData.imagePath) : sampleImage,
@@ -219,7 +312,6 @@ export class DeepDiveService {
     };
     return articleStackData;
   }
-
   transformToRecArticles(data){
     var articleTypes = [];
     var articles = [];

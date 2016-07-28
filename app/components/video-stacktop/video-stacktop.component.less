@@ -47,14 +47,6 @@
       text-align: center;
     }
   }
-  &-video:hover {
-    .overlay {
-      display: block;
-    }
-    .greyout {
-      display:none;
-    }
-  }
   &-right {
     width: 294px;
     height: auto;
@@ -91,6 +83,19 @@
     }
   }
 }
+.video-stacktop:hover {
+  .video-title-mid {
+    color: @homeRunLoyalRed;
+  }
+  .video-stacktop-video {
+    .overlay {
+      display: block!important;
+    }
+    .greyout {
+      display:none!important;
+    }
+  }
+}
 @media (min-width: 768px) {
   .video-stacktop {
     width: 768px;
@@ -105,7 +110,6 @@
   }
   .video-stacktop {
     width: 685px;
-    margin-top: 15px;
     float: right;
     &-video {
       width: 320px;

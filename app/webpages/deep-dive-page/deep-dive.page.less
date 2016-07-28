@@ -1,16 +1,16 @@
 .deep-dive{
   background-color: @white;
   height: auto;
-  min-width: 320px;
+  min-width: 640px;//320px;
   &-container1{
-    height: 220px;
+    height: 320px;//220px
     background-color: @bulletGrey;
   }
   &-container2{
     background-color: @white;
     min-height: 800px;
     height: auto;
-    width: 320px;
+    width: 640px;//320px;
     margin: 0 auto;
   }
   &-container2a{
@@ -30,6 +30,9 @@
   &-module{
     width:100%;
     margin-bottom: 30px;
+    @media @desktop-l {
+      margin-bottom: 40px;
+    }
     width: inherit;
     @media @desktop-m {
       margin-bottom: 40px;
@@ -56,7 +59,7 @@
 }
 @media @tablet {
   .deep-dive{
-    max-width: 1280px;
+    max-width: 1024px;
     min-width: 640px;
     &-container1{
       height: 840px;
@@ -76,7 +79,7 @@
     }
     &-container2b{
       display: none;
-      margin: 20px auto 0 20px;
+      margin: 20px auto 0 15px;
     }
   }
 }
@@ -102,6 +105,7 @@
     }
   }
 }
+
 @media @desktop-l{
   .deep-dive{
     min-width: 1024px;
@@ -109,11 +113,12 @@
       display: none;
     }
     &-container2{
-      min-width: 1024px;
+      width: 1024px;
       .flexDisplay;
     }
     &-container2a{
-      width: 710px;
+      width: 670px;
+      margin: auto;
     }
     &-container2b{
       display: block;
@@ -128,9 +133,10 @@
   .deep-dive{
     min-width: 1440px;
     &-container2{
-      min-width: 1440px;
+      width: auto;
     }
     &-container2a{
+      margin-left: 15px;
       width: 1086px;
       .container-boxScores{
         width:100%;

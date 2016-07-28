@@ -168,7 +168,7 @@ export class SideScroll{
     if(mouseType == 'mousedown'){
       this.mouseDown = event.clientX;
     }
-    if(mouseType == 'mouseup'){//this is for quick fix but not final
+    if(mouseType == 'mouseup'){//this is for quick fix but not final version
       if(this.drag >= 0){
         this.right('swipe right');
       }else{
@@ -188,17 +188,15 @@ export class SideScroll{
 
     if(this.isMouseDown && !this.maxScroll){
 
+      //if mousedown is detected and not at maxLength then detect distance by pixel of drag and use the correct function right or left
       this.drag = (this.mouseDown - event.clientX);
       console.log(this.mouseDown, event.clientX);
       this.currentScroll -= this.drag;
-      console.log(this.drag);
       this.mouseDown = event.clientX;
       if(this.currentScroll < (this.itemSize*this.clones)){
-        console.log('reset to :',this.currentScroll);
         this.currentScroll = (this.itemSize * 3);
       }
       this.rightText = this.currentScroll+'px';
-      // console.log(this.rightText);
       this.checkCurrent(this.currentScroll);
     }
   }
