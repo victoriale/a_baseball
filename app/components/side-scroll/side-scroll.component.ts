@@ -50,7 +50,7 @@ export class SideScroll{
 
     //if loop is not given default to infinite looping
     if(this.loop == null){
-      this.loop = false;
+      this.loop = true;
     }
 
     // if no input comes from totalItems then default to showing 1 item in carousel
@@ -68,10 +68,16 @@ export class SideScroll{
   }
 
   ngAfterViewInit(){
+    //make sure to run the element ref after the content has loaded to get the full size;
     this.itemSize = this._elRef.nativeElement.getElementsByClassName('carousel_scoll-container')[0].offsetWidth;
     this.currentScroll = (this.itemSize * this.clones);
     this.rightText = this.currentScroll+'px';
-    console.log('on load start carousel at:', this.rightText);
+
+    //once scrolls are set declare the min and max scrolls if loops is set false
+    if(!this.loop){
+      this.minScroll = this.currentScroll <= (this.itemSize * this.clones);
+      this.maxScroll = !((this.maxLength + 1) >= Math.round(this.currentScroll/(this.itemSize)));
+    }
   }
 
   ngDoCheck(){
@@ -139,12 +145,7 @@ export class SideScroll{
   left(event) {
     //moves the current scroll over the item size
     this.currentScroll -= (this.itemSize);
-    console.log('left click ', this.currentScroll, this.itemSize*2);
-    //set minScroll if loops is set to false
-    if(!this.loop){
-      this.minScroll = this.currentScroll <= (this.itemSize * this.clones);
-    }
-
+    console.log('left click ', this.currentScroll, this.itemSize*3 ,'current < itemsize X 3',this.currentScroll <= (this.itemSize * 3));
     if(this.currentScroll <= (this.itemSize * this.clones)){
       console.log('min reached go back to =>',this.itemSize * (this.maxLength + 1));
       this.currentScroll = (this.itemSize * (this.maxLength + 1));
@@ -152,10 +153,6 @@ export class SideScroll{
     this.checkCurrent(this.currentScroll);
   }
   right(event) {
-    //set maxScroll if loops is set to false
-    if(!this.loop){
-      this.maxScroll = !((this.maxLength + this.clones) > Math.round(this.currentScroll/(this.itemSize)));
-    }
     if(this.maxLength + 1 > Math.round(this.currentScroll/this.itemSize)){
       this.currentScroll += this.itemSize;
       this.checkCurrent(this.currentScroll);
@@ -183,24 +180,30 @@ export class SideScroll{
     //if mouse down set event to true and allow drag
     this.isMouseDown = event.buttons === 1;
     if(!this.loop){
-      this.maxScroll = !((this.maxLength + this.clones) > Math.round(this.currentScroll/(this.itemSize)));
+      this.maxScroll = !((this.maxLength + 1) > Math.round(this.currentScroll/(this.itemSize)));
     }
     if(this.isMouseDown && !this.maxScroll){
       this.drag = (this.mouseDown - event.clientX);
       this.currentScroll += this.drag;
       this.mouseDown = event.clientX;
-      console.log(this.currentScroll);
       if(this.currentScroll <= -(this.itemSize)){
         this.currentScroll = (this.itemSize * 3);
       }
       this.rightText = this.currentScroll+'px';
-      console.log(this.rightText);
     }
   }
 
   checkCurrent(num){
     // console.log('checkCurrent',num);
     // console.log(this.maxLength);
+    //set maxScroll and minScroll if loops is set to false
+    if(!this.loop){
+      this.minScroll = this.currentScroll <= (this.itemSize * this.clones);
+      this.maxScroll = !((this.maxLength + 1) > Math.round(this.currentScroll/(this.itemSize)));
+    }
+    console.log( (this.maxLength), Math.round(this.currentScroll/(this.itemSize)));
+    console.log(this.minScroll);
+    console.log(this.maxScroll);
     if(num > (this.itemSize * (this.maxLength + 1))){
       num = this.itemSize * this.clones;
     }else if (num < (this.itemSize * this.clones)){
