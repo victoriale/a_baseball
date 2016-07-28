@@ -5,7 +5,7 @@ import {WidgetModule} from "../../modules/widget/widget.module";
     selector: 'sidekick-wrapper-ai',
     templateUrl: './app/components/sidekick-wrapper-ai/sidekick-wrapper-ai.component.html',
     directives: [WidgetModule],
-    inputs: ['aiSidekick']
+    inputs: ['aiSidekick', 'syndicated']
 })
 
 export class SidekickWrapperAI {}

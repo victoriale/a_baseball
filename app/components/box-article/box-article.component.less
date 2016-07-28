@@ -1,15 +1,23 @@
 .box_articles{
   .flexDisplay;
-  .flexJustify(space-between);
-  &-item{
+  .flexDirection(column);
+  .flexAlignItems(center);
+  margin-bottom: -15px;
+  &-item {
     .flexDisplay;
     .flexDirection(column);
     overflow: hidden;
-    color: @black;
-    margin: 0 14px;
-    height: 250px;
-    width: 288px;
-  }
+    margin: 0 0 15px;
+    width: 320px;
+    &:hover{
+      .box_articles-description{
+        color: @masterBrandColor;
+      }
+      .image-rectangle-hover div{
+        .flexDisplay;
+      }
+    }
+  }//box_articles-item ENDS
   &-image{
     margin: 0 0 14px;
     &-container{
@@ -18,23 +26,113 @@
     }
   }
   &-text{
-    .globalDefaultFont(10px, 800);
+    .globalDefaultModFont(10px, 800, @black);
     margin-bottom: 5px;
     text-transform: uppercase;
-   span:last-child{
+    > span:last-child{
      margin-left: 5px;
       color: @bulletGrey;
     }
   }
   &-description{
+    max-height:40px;
+    height: auto;
+    line-height: 1.2em;
     overflow: hidden;
-    .globalDefaultFont(14px, 800);
+    .globalDefaultModFont(14px, 800, @black);
     p {
       margin-top: 0;
       line-height: 1.2em;
       height: 30px;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+  }
+}
+
+@media @tablet {
+  .box_articles{
+    .flexDisplay;
+    .flexDirection(row);
+    .flexJustify(space-between);
+    &-item {
+      .flexDisplay;
+      .flexDirection(column);
+      overflow: hidden;
+      margin: 0 14px;
+      width: 288px;
+      &:hover{
+        .box_articles-description{
+          color: @masterBrandColor;
+        }
+        .image-rectangle-hover div{
+          .flexDisplay;
+        }
+      }
+    }//box_articles-item ENDS
+    &-image{
+      margin: 0 0 14px;
+      &-container{
+        width: 100%;
+        height: 180px;
+      }
+    }
+    &-text{
+      .globalDefaultModFont(10px, 800, @black);
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      > span:last-child{
+       margin-left: 5px;
+        color: @bulletGrey;
+      }
+    }
+    &-description{
+      overflow: hidden;
+      max-height:40px;
+      height: auto;
+      .globalDefaultModFont(14px, 800, @black);
+      p {
+        margin-top: 0;
+        line-height: 1.2em;
+        height: 30px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}
+@media @desktop-m{
+  .box_articles{
+    &-item{
+      width: 320px;
+    }
+    &-text{
+      font-size: 12px;
+    }
+    &-description{
+      font-size: 16px;
+    }
+  }
+}
+
+@media @desktop-xl{
+  .box_articles{
+    &-item{
+      width: 425px;
+      height: 240px;
+     }
+   }
+}
+
+@media @desktop-xl {
+  .box_articles {
+    display: block;
+    height: auto;
+    &-item {
+      margin-bottom: 30px;
+      width: 425px;
+      max-height: 308px;
+      height: auto;
     }
   }
 }

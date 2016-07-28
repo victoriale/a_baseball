@@ -98,6 +98,10 @@ export class SchedulesService {
     }
     callURL += '/'+eventStatus+'/'+limit+'/'+ pageNum;  //default pagination limit: 5; page: 1
 
+    if(profile == 'league'){
+      callURL += '/schedule-live';
+    }
+
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -149,6 +153,10 @@ export class SchedulesService {
     }
     callURL += '/'+eventStatus+'/'+limit+'/'+ pageNum;  //default pagination limit: 5; page: 1
 
+    if(profile == 'league'){
+      callURL += '/schedule-live';
+    }
+
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -171,30 +179,58 @@ export class SchedulesService {
     //run through and convert data to what is needed for the component
     data.forEach(function(val,index){
       let reportText = 'GAME REPORT';
-      let reportLink = MLBGlobalFunctions.formatArticleRoute(val.eventStatus, val.eventId);
-
-      if(val.eventStatus = 'pre-event'){
-        reportText = 'PRE GAME REPORT'
-      }else if (val.eventStatus == 'post-event'){
-        reportText = 'POST GAME REPORT';
+      let partner = GlobalSettings.getHomeInfo();
+      var reportLink;
+      let reportUrl = val.reportUrlMod.split('/')[2];
+      if(val.live == true && self.getInning(reportUrl) > 3){
+          reportText = 'MID GAME REPORT';
       }else{
-        reportText = 'MID GAME REPORT';
+        if(val.eventStatus = 'pre-event'){
+          reportText = 'PRE GAME REPORT'
+        }else if (val.eventStatus == 'post-event'){
+          reportText = 'POST GAME REPORT';
+        }else{
+          reportText = 'POST GAME REPORT';
+        }
+      }
+      if(partner.isPartner){
+        reportLink = partner.partnerName + val.reportUrlMod;
+      }else{
+        reportLink = val.reportUrlMod;
       }
 
-      let date = moment(val.startDateTimestamp).tz('America/New_York').format('MMMM D YYYY');
+      let date = moment(val.startDateTimestamp).tz('America/New_York').format('MMMM D, YYYY');
       let time = moment(val.startDateTimestamp).tz('America/New_York').format('h:mm A');
       newData = {
-        date: date + " <i class='fa fa-circle'></i> " + time,
-        awayImageConfig: self.imageData('image-60', 'border-1', GlobalSettings.getImageUrl(val.awayTeamLogo), MLBGlobalFunctions.formatTeamRoute(val.awayTeamName, val.awayTeamId)),
-        homeImageConfig: self.imageData('image-60', 'border-1', GlobalSettings.getImageUrl(val.homeTeamLogo), MLBGlobalFunctions.formatTeamRoute(val.homeTeamName, val.homeTeamId)),
+        date: date + " &bull; " + time,
+        awayImageConfig: self.imageData('image-44', 'border-1', GlobalSettings.getImageUrl(val.awayTeamLogo), MLBGlobalFunctions.formatTeamRoute(val.awayTeamName, val.awayTeamId)),
+        homeImageConfig: self.imageData('image-44', 'border-1', GlobalSettings.getImageUrl(val.homeTeamLogo), MLBGlobalFunctions.formatTeamRoute(val.homeTeamName, val.homeTeamId)),
         awayTeamName: val.awayTeamLastName,
         homeTeamName: val.homeTeamLastName,
+        awayLink: MLBGlobalFunctions.formatTeamRoute(val.awayTeamName, val.awayTeamId),
+        homeLink: MLBGlobalFunctions.formatTeamRoute(val.homeTeamName, val.homeTeamId),
         reportDisplay: reportText,
-        reportLink: reportLink ? reportLink : ['Error-page'],
+        reportLink: reportLink,
       }
       modifiedArray.push(newData);
     });
     return modifiedArray;
+  }
+  getInning(url){// should only run if game is live and pre-event
+    var inning = {
+      'pregame-report':0,
+      'first-inning-report':1,
+      'second-inning-report':2,
+      'third-inning-report':3,
+      'fourt-inning-report':4,
+      'fifth-inning-report':5,
+      'sixth-inning-report':6,
+      'seventh-inning-report':7,
+    }
+    if(inning[url] == null){
+      inning[url] = 8;
+    }
+    return inning[url];
   }
 
   //rows is the data coming in

@@ -10,6 +10,8 @@ export interface scheduleBoxInput{
   homeImageConfig:CircleImageData,
   awayTeamName:string,
   homeTeamName:string,
+  awayLink:any;
+  homeLink:any;
   reportDisplay:string,
   reportLink:any,
 }
@@ -31,7 +33,7 @@ export class ScheduleBox{
         this.boxData = [{
           date:"[Month] [DD] [YYYY] <i class='fa fa-circle'></i> [Time PM]",
           awayImageConfig:{//interface is found in image-data.ts
-              imageClass: 'image-60',
+              imageClass: 'image-44',
               mainImage: {
                   imageUrl: '/app/public/no-image.png',
                   urlRouteArray: ['Home-page'],
@@ -40,7 +42,7 @@ export class ScheduleBox{
               },
           },
           homeImageConfig:{//interface is found in image-data.ts
-              imageClass: 'image-60',
+              imageClass: 'image-44',
               mainImage: {
                   imageUrl: '/app/public/no-image.png',
                   urlRouteArray: ['Home-page'],
@@ -50,6 +52,8 @@ export class ScheduleBox{
           },
           awayTeamName:'Blue Jays',
           homeTeamName:'Orioles',
+          awayLink:['Error-page'],
+          homeLink:['Error-page'],
           reportDisplay:'Mid Game Report',
           reportLink:'/pick-a-team',
         }]

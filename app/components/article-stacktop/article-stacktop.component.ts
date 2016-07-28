@@ -1,10 +1,12 @@
 import {Component,OnInit,Input} from '@angular/core';
 import {RectangleImage} from '../../components/images/rectangle-image';
 import {ImageData, RectangleImageData} from '../../components/images/image-data';
-import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
+import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import {SanitizeHtml} from "../../pipes/safe.pipe";
+
 
 export interface StackTopInput{
-  url: string;
+  articleStackRoute: any;
   keyword: string;
   date: string;
   headline: string;
@@ -18,6 +20,7 @@ export interface StackTopInput{
   selector: 'article-stacktop-component',
   templateUrl: './app/components/article-stacktop/article-stacktop.component.html',
   directives: [RectangleImage, ROUTER_DIRECTIVES],
+  pipes: [SanitizeHtml]
 })
 
 export class ArticleStacktopComponent implements OnInit{
@@ -26,7 +29,7 @@ export class ArticleStacktopComponent implements OnInit{
     if (typeof this.stackTopData == 'undefined') {
       var sampleImage = "/app/public/placeholder_XL.png";
       this.stackTopData = {
-        url: "/",
+        articleStackRoute: ['Syndicated-article-page', {articleType: 'story', eventID: 1}],
         keyword: "[Keyword]",
         date: "[Date]",
         headline: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo",
@@ -35,9 +38,8 @@ export class ArticleStacktopComponent implements OnInit{
         description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
         imageConfig: {
           imageClass: "image-610x420",
-          mainImage:{
-            imageUrl: sampleImage
-          }
+          imageUrl: sampleImage,
+          hoverText: "View Article",
         }
       }//this.stackTopData ends
     }

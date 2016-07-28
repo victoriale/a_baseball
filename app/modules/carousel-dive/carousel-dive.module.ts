@@ -1,4 +1,6 @@
 import {Component,OnInit,EventEmitter,Input} from '@angular/core';
+import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
+import {SanitizeHtml} from "../../pipes/safe.pipe";
 
 declare var jQuery:any;
 
@@ -6,15 +8,14 @@ declare var jQuery:any;
 @Component({
   selector: 'carousel-dive-module',
   templateUrl: './app/modules/carousel-dive/carousel-dive.module.html',
-  directives: [],
-  providers: []
+  directives: [ROUTER_DIRECTIVES],
+  providers: [],
+  pipes:[SanitizeHtml]
 })
 
-export class CarouselDiveModule implements OnInit{
+export class CarouselDiveModule{
   @Input() carouselData: any;
-  constructor(){
-​
-  }
+
   ngOnInit() {
     setTimeout(function(){
       jQuery(".owl-carousel").owlCarousel({
@@ -24,17 +25,15 @@ export class CarouselDiveModule implements OnInit{
         nav:false,
         navText:false
       });
-    }, 500);
-​
+    }, 1000);
   }
+
   leftcarousel() {
-    console.log('left arrow')
     var owl = jQuery('.carousel_owl');
     owl.owlCarousel();
     owl.trigger('prev.owl.carousel');
   }
   rightcarousel() {
-    console.log('right arrow')
     var owl = jQuery('.carousel_owl');
     owl.owlCarousel();
     owl.trigger('next.owl.carousel');

@@ -14,6 +14,7 @@ ToC
 @tablet:      ~"only screen and (min-width: 641px)";
 @desktop-m:   ~"only screen and (min-width: 768px)";
 @desktop-l:   ~"only screen and (min-width: 1024px)";
+@desktop-sideads:  ~"only screen and (min-width: 1280px)";
 @desktop-xl:  ~"only screen and (min-width: 1441px)";
 // @desktop-xl:  ~"only screen and (min-width: 1500px)";
 
@@ -523,4 +524,11 @@ code.less-var-name-light {
     clear: both;
     visibility: hidden;
   }
+}
+.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+.router-link-active{
+  .disabled;
 }

@@ -37,18 +37,21 @@ export class BoxScoresService {
   //player profile are treated as teams
   if(profile == 'player'){
     profile = 'team'
+  }else if (profile == 'league'){
+    date += '/addAi'
   }
 
   //date needs to be the date coming in AS EST and come back as UTC
   var callURL = this._apiUrl+'/'+profile+'/boxScores'+teamId+'/'+ date;
-  // console.log(callURL);
+  //console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
       // transform the data to YYYY-MM-DD objects from unix
       var transformedDate = this.transformBoxScores(data.data);
       return {
-        transformedDate:transformedDate
+        transformedDate:transformedDate,
+        aiArticle: profile == 'league' ? data.aiContent : null
       };
     })
   }
@@ -68,7 +71,7 @@ export class BoxScoresService {
               moduleTitle: this.moduleHeader(dateParam.date, profileName),
               gameInfo: this.formatGameInfo(data.transformedDate[dateParam.date],dateParam.teamId, dateParam.profile),
               schedule: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null? this.formatSchedule(data.transformedDate[dateParam.date][0], dateParam.teamId, dateParam.profile) : null,
-              // aiContent: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null? this.formatArticle(data.transformedDate[dateParam.date][0]) : null,
+              aiContent: dateParam.profile == 'league' ? this.aiHeadline(data.aiArticle) : null,
             };
             currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
             callback(data, currentBoxScores);
@@ -82,7 +85,7 @@ export class BoxScoresService {
           moduleTitle: this.moduleHeader(dateParam.date, profileName),
           gameInfo: this.formatGameInfo(boxScoresData.transformedDate[dateParam.date],dateParam.teamId, dateParam.profile),
           schedule: dateParam.profile != 'league' && boxScoresData.transformedDate[dateParam.date] != null? this.formatSchedule(boxScoresData.transformedDate[dateParam.date][0], dateParam.teamId, dateParam.profile) : null,
-          // aiContent: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null? this.formatArticle(data.transformedDate[dateParam.date][0]) : null,
+          aiContent: dateParam.profile == 'league' ? this.aiHeadline(boxScoresData.aiArticle) : null,
         };
         currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
         callback(boxScoresData, currentBoxScores);
@@ -93,6 +96,34 @@ export class BoxScoresService {
   /**
   * modifies data to get header data for modules
   */
+  aiHeadline(data){
+    var boxArray = [];
+    var sampleImage = "/app/public/placeholder_XL.png";
+    if (data != null) {
+      data.forEach(function(val, index){
+        for(var p in val.featuredReport){
+          var eventType = val.featuredReport[p];
+          var teaser = eventType.displayHeadline;
+        }
+      var date = GlobalFunctions.formatDate(val.timestamp*1000);
+      var Box = {
+        keyword: "MLB",
+        date: date.month + " " + date.day + ", " + date.year,
+        url: MLBGlobalFunctions.formatAiArticleRoute(p, val.event),
+        teaser: teaser,
+        imageConfig:{
+          imageClass: "image-320x180-sm",
+          imageUrl: val.home.images[0] != null ? val.home.images[0] : sampleImage,
+          hoverText: "View Article",
+          urlRouteArray: MLBGlobalFunctions.formatAiArticleRoute(p, val.event)
+        }
+      }
+      boxArray.push(Box);
+      });
+    }
+    return boxArray;
+
+  }
   moduleHeader(date, team?){
     var moduleTitle;
     var month = moment(date,"YYYY-MM-DD").tz('America/New_York').format("MMMM");
@@ -218,11 +249,19 @@ export class BoxScoresService {
     };
   }
 
+
+
   formatGameInfo(game, teamId?, profile?){
     var gameArray:Array<any> = [];
     let self = this;
     var twoBoxes = [];// used to put two games into boxes
-    game.forEach(function(data,i){
+
+    // Sort games by date
+    let sortedGames = game.sort(function(a, b) {
+      return new Date(a.gameInfo.startDateTime).getTime() - new Date(b.gameInfo.startDateTime).getTime();
+    });
+
+    sortedGames.forEach(function(data,i){
       var info:GameInfoInput;
       let awayData = data.awayTeamInfo;
       let homeData = data.homeTeamInfo;

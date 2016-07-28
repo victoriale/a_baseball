@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {GlobalSettings} from '../../global/global-settings';
+import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
 @Component({
   selector: 'sub-header-component',
   templateUrl: './app/components/sub-header/sub-header.component.html',
-  directives: [],
+  directives: [ROUTER_DIRECTIVES],
   inputs: [],
   providers: []
 })

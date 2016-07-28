@@ -1,16 +1,16 @@
 .video-stackbot {
-  display: flex;
-  flex-wrap: wrap;
+  .flexDisplay;
+  .flexWrap(wrap);
   &-item {
-    display: flex;
+    .flexDisplay;
     width: 50%;
     height: 75px;
-    margin-top: 15px;
+    margin-bottom: 20px;
     &-image {
       width: 100px;
       height: 75px;
       background-color:@highlightGrey;
-      background-size: contain;
+      background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
       margin-right: 10px;
@@ -62,19 +62,23 @@
     &-right {
       .video-title-top {
         font-size:10px;
+        text-transform: uppercase;
         span {
-          color:@strokeGrey;
-          font-weight: 900;
+          .globalDefaultModFont(10px, 900, @strokeGrey)
         }
         margin-bottom:5px;
       }
     }
     &-text {
       width: 179px;
-      height: auto;
-    .globalDefaultModFont(10px, 800, @black);
-      line-height: 1.5;
+      height: 57px;
+      overflow:hidden;
+      line-height: 1;
       text-align: left;
+      .globalDefaultModFont(14px, 400, @black);
+    }
+    &-text:hover {
+      color: @homeRunLoyalRed;
     }
   }
 }
@@ -83,14 +87,12 @@
   width: 670px;
   &-item {
     &-text {
-    font-size:11px;
     width:200px;
-    height: 66px;
       }
     }
   }
 }
-@media (min-width:1300px) {
+@media (min-width:1440px) {
   .video-stackbot {
     display: block;
     width: 360px;
@@ -103,7 +105,8 @@
       }
       &-text {
         width: 200px;
-        height: auto;
+        height: 69px;
+        overflow:hidden;
       }
     }
   }

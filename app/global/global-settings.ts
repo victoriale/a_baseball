@@ -11,6 +11,8 @@ export class GlobalSettings {
 
     private static _apiUrl:string = '-homerunloyal-api.synapsys.us';
     private static _partnerApiUrl: string = 'apireal.synapsys.us/listhuv/?action=get_partner_data&domain=';
+    private static _widgetUrl: string = 'w1.synapsys.us';
+
     private static _dynamicApiUrl: string = 'dw.synapsys.us/list_creator_api.php'
 
     private static _imageUrl:string = '-sports-images.synapsys.us';
@@ -18,6 +20,7 @@ export class GlobalSettings {
     private static _recommendUrl:string = '-homerunloyal-ai.synapsys.us/headlines/event/';
     private static _headlineUrl:string = '-homerunloyal-ai.synapsys.us/headlines/team/';
     private static _trendingUrl:string = '-homerunloyal-ai.synapsys.us/sidekick';
+    private static _recUrl:string = '-homerunloyal-ai.synapsys.us/sidekick-regional';
     private static _homepageUrl:string = '.homerunloyal.com';
     private static _partnerHomepageUrl:string = '.myhomerunzone.com';
 
@@ -26,14 +29,14 @@ export class GlobalSettings {
     private static _copyrightInfo: string = "USA Today Sports Images";
 
     static getEnv(env:string):string {
-        if (env == "localhost") {
+        if (env == "localhost" || env == "dev"){
             env = "dev";
-        }
-        if (env != "dev" && env != "qa") {
+        } else if (env == "qa"){
+            env = "qa";
+        } else if (env == "prod"){
             env = "prod";
-        }
-        if(env != "prod" && env != "dev" && env != "qa"){
-          env = "www";
+        } else {
+            env = "www";
         }
         return env;
     }
@@ -49,6 +52,11 @@ export class GlobalSettings {
 
     static getPartnerApiUrl(partnerID):string {
         return this._proto + "//"+ this._partnerApiUrl + partnerID;
+    }
+
+    static getGeoLocation():string {
+        //[https:]//[prod]-homerunloyal-api.synapsys.us
+        return this._proto + "//" + this._widgetUrl;
     }
 
     static getImageUrl(relativePath):string {
@@ -71,6 +79,9 @@ export class GlobalSettings {
 
     static getTrendingUrl():string {
         return this._proto + "//" + this.getEnv(this._env) + this._trendingUrl;
+    }
+    static getRecUrl():string {
+        return this._proto + "//" + this.getEnv(this._env) + this._recUrl;
     }
 
     static getHeadlineUrl():string {
@@ -98,7 +109,7 @@ export class GlobalSettings {
       var hide = false;
       var hostname = window.location.hostname;
       var partnerPage = /myhomerunzone/.test(hostname);
-      // var partnerPage = /localhost/.test(hostname);
+      //var partnerPage = /localhost/.test(hostname);
       var name = window.location.pathname.split('/')[1];
       //console.log("GlobalSettings:", 'partnerPage =>', partnerPage, 'name =>', name);
 

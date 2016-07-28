@@ -1,12 +1,13 @@
 .carousel-dive {
-  height: 420px;
+  height: 220px;
   width: 100%;
   position: relative;
   &-right {
     position: absolute;
     right: 0;
-    width: 75px;
-    height: 420px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: auto;
     display: table;
     z-index: 2;
     color:@white;
@@ -16,16 +17,18 @@
       font-size:60px;
       display: table-cell;
       vertical-align: middle;
+      cursor:pointer;
+      &:hover {
+        color:@homeRunLoyalRed;
+      }
     }
-    &:hover {
-      color:@homeRunLoyalRed;
-    }
-  }
+  }//carousel-item-right ends
   &-left {
     position: absolute;
     left: 0;
-    width: 75px;
-    height: 420px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: auto;
     display: table;
     z-index: 2;
     color:@white;
@@ -35,77 +38,158 @@
       font-size:60px;
       display: table-cell;
       vertical-align: middle;
+      cursor:pointer;
+      &:hover {
+        color:@homeRunLoyalRed;
+      }
     }
-    &:hover {
-      color:@homeRunLoyalRed;
-    }
-  }
-
-}
+  }//carousel-item-left ends
+}//carousel-dive ends
 .owl-item {
-  height: 420px;
+  height: inherit;
   width: 100%;
   background-size: cover;
-//  background-position: center;
   background-repeat: no-repeat;
 }
 .owl-carousel {
-  height: 420px;
+  height: inherit;;
 }
 .carousel-item {
   width: 80%;
-  height: 420px;
-  margin: auto;
+  height: auto;
   display: table;
   position: relative;
+  margin: 0 auto;
   &-container {
-    display: table-cell;
-    vertical-align: middle;
-
-  &-key {
-    width: 126px;
-    height: 25px;
-    border-radius: 3px;
-    background-color: @homeRunLoyalRed;
-    text-align: center;
-    color:@white;
-    line-height: 25px;
-    margin-bottom: 21px;
-    text-transform: uppercase;
-
+    margin-top: 15px;
+    &-key {
+      background-color: @homeRunLoyalRed;
+      border-radius: 3px;
+      line-height: 20px;
+      margin-bottom: 15px;
+      height: 20px;
+      width: 85px;
+      text-align: center;
+      text-transform: uppercase;
+      .globalDefaultModFont(10px, 800, @white);
+    }
+    &-title {
+      .globalDefaultModFont(16px, 800, @white);
+      line-height: 1.2em;
+      >span{
+        display: block;
+        .globalDefaultFont(12px, 400);
+      }
+      &-border {
+        border-bottom: 1px solid @white;
+        margin: 5px auto 10px;
+      }
+    }
+    &-content {
+      .globalDefaultModFont(12px, 400, @white);
+      line-height: 1.2em;
+      height: 30px;
+      overflow: hidden;
+    }
+    &-fullstory {
+      background-color: @homeRunLoyalRed;
+      border-radius: 3px;
+      color:@white;
+      cursor: pointer;
+      display: inline-block;
+      line-height: 30px;
+      height: 30px;
+      margin-top: 20px;
+      width: 150px;
+      text-align: center;
+      &:hover {
+        background-color:@black;
+      }
+    }
   }
-  &-title {
-    .globalDefaultModFont(28px, 400, @white);
-    line-height: 1.1;
-    font-weight: 900;
-    >span{
+}//carousel-item ends
+@media @tablet {
+  .carousel-dive {
+    height: 420px;
+    &-right {
+      >i {font-size:60px;}
+    }
+    &-left {
+      >i {font-size:60px;}
+    }//left ends
+  }//carousel-dive ends
+  .carousel-item {
+    width: 80%;
+    height: 420px;
+    &-container {
+      &-key {
+        width: 126px;
+        height: 25px;
+        border-radius: 3px;
+        line-height: 25px;
+        margin-bottom: 20px;
+      }//carousel-item-container-key ends
+      &-title {
+        font-size: 28px;
+        line-height: 1.2em;
+        >span{
+          font-size: 20px;
+        }
+        &-border {
+          border-width: 2px;
+          width: 80%;
+          margin: 9px 0px 19px;
+        }
+      }//carousel-item-container-title ends
+      &-content {
+        font-size: 16px;
+        height: auto;
+      }//carousel-item-container-content ends
+      &-fullstory {
+        width: 200px;
+        height: 40px;
+        line-height: 40px;
+        margin-top: 33px;
+      }//carousel-item-container-fullstory ends
+    }//carousel-item-container ends
+  }//carousel-item ends
+}
+@media @desktop-m {
+  .carousel-item {
+    &-container {
+      &-title {
+        .globalDefaultModFont(38px, 800, @white);
+        line-height: 1.1;
+        > span{
+          display: block;
+          font-size:28px;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+}//desktop-m ends
+@media @desktop-l {
+  .carousel-item {
+    margin-left: 10%;
+    width:60%;
+    &-container {
+      position: relative;
+      top:45px;
       display: block;
-      font-size:20px;
-      font-weight: 400;
-    }
-    &-border {
-      border-bottom: 2px solid @white;
-      width: 50%;
-      margin: 9px 0px 19px 0px;
     }
   }
-  &-content {
-    .globalDefaultModFont(16px, 400, @white);
-    line-height: 1.5;
-
-  }
-  &-fullstory {
-    width: 200px;
-    height: 40px;
-    border-radius: 3px;
-    background-color: @homeRunLoyalRed;
-    color:@white;
-    line-height: 40px;
-    text-align: center;
-    margin-top: 33px;
-    &:hover {
-      background-color:@black;
+  .carousel-dive {
+    &-right {
+      right: 20px;
+      >i {
+        font-size: 100px;
+      }
+    }
+    &-left {
+      >i {
+        font-size:100px;
+      }
     }
   }
-}
-}
+}//desktop-l ends

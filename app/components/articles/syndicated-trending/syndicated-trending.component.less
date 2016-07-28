@@ -2,6 +2,12 @@
   margin-top: 30px;
   width: 100%;
   font-family: @globalFont;
+  .stButton {
+    display:none!important;
+  }
+  .widgetWrapper {
+    margin-top:-1px;
+  }
   &-hr {
     background-color: @strokeGrey;
     width: 100%;
@@ -29,9 +35,11 @@
         font-weight: 800;
         display: inline-block;
         max-width: 250px;
+        height:17px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        vertical-align: top;
       }
       b:last-of-type {
         margin-left:20px;
@@ -64,6 +72,7 @@
     }
   }
   &-read-more {
+    display:inline-block;
     .globalDefaultModFont(16px, 800, @masterBrandColor);
     text-align: left;
     margin: 25px 0 25px;

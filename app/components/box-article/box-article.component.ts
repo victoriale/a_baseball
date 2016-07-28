@@ -2,12 +2,14 @@ import {Component,OnInit,Input} from '@angular/core';
 import {RectangleImage} from '../../components/images/rectangle-image';
 import {ImageData, RectangleImageData} from '../../components/images/image-data';
 import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
+import {SanitizeHtml} from "../../pipes/safe.pipe";
+
 
 export interface BoxArticleData {
   keyword: string;
   date: string;
   teaser: string;
-  url?: string;
+  url: any;
   imageConfig: RectangleImageData;
 }
 
@@ -15,25 +17,11 @@ export interface BoxArticleData {
   selector: 'box-article-component',
   templateUrl: './app/components/box-article/box-article.component.html',
   directives: [RectangleImage, ROUTER_DIRECTIVES],
+  pipes: [SanitizeHtml]
 })
 
 export class BoxArticleComponent implements OnInit {
-  @Input() boxArticleData: Array<BoxArticleData>;//TODO
+  @Input() boxArticleData: Array<BoxArticleData>;
   ngOnInit() {
-    if (typeof this.boxArticleData == 'undefined') {
-      var sampleImage = "/app/public/placeholder_XL.png";
-      this.boxArticleData = [{
-        keyword: "[Keyword]",
-        date: "[Date]",
-        url: "/",
-        teaser: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo ipsum dolor sit amet, consectetur adipisicing",
-        imageConfig: {
-          imageClass: "image-288x180",
-          mainImage:{
-            imageUrl: sampleImage
-          }
-        }
-      }];//this.dataPoint ends
-    }
   }//ngOnInit ends
 }

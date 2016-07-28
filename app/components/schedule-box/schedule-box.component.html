@@ -7,20 +7,24 @@
       <div class="schedule_box-image">
         <circle-image [data]="boxData.awayImageConfig"></circle-image>
       </div>
-      <span class="schedule_box-text">
-        {{boxData.awayTeamName}}
-      </span>
+      <a [routerLink]="boxData.awayLink">
+        <span class="schedule_box-text">
+          {{boxData.awayTeamName}}
+        </span>
+      </a>
     </div>
     <!-- home data below -->
     <div class="schedule_box-team">
       <div class="schedule_box-image">
         <circle-image [data]="boxData.homeImageConfig"></circle-image>
       </div>
-      <span class="schedule_box-text">
-        {{boxData.homeTeamName}}
-      </span>
+      <a [routerLink]="boxData.homeLink">
+        <span class="schedule_box-text">
+          {{boxData.homeTeamName}}
+        </span>
+      </a>
     </div>
-    <a [routerLink]="boxData.reportLink">
+    <a href="{{boxData.reportLink}}">
       <div class="schedule_box-linkbox">
         {{boxData.reportDisplay}}
       </div>
