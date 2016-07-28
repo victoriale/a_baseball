@@ -1,6 +1,5 @@
 import {Component,OnInit,EventEmitter,Input} from '@angular/core';
 import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
-import {SanitizeHtml} from "../../pipes/safe.pipe";
 
 declare var jQuery:any;
 
@@ -9,8 +8,8 @@ declare var jQuery:any;
   selector: 'carousel-dive-module',
   templateUrl: './app/modules/carousel-dive/carousel-dive.module.html',
   directives: [ROUTER_DIRECTIVES],
-  providers: [],
-  pipes:[SanitizeHtml]
+  providers: []
+
 })
 
 export class CarouselDiveModule{

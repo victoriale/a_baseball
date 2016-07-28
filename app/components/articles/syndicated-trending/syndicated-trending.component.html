@@ -6,12 +6,16 @@
         <span class="featured-tag" *ngIf="rowIndex == 0">FEATURED</span>
         <shareLinks-component></shareLinks-component>
         <div class="featured-tag-large" *ngIf="rowIndex == 0"><div class="vr"></div><i class="fa fa-newspaper-o"></i>FEATURED ARTICLE</div>
-        <div class="syndicated-trending-article-title">{{item.title}}</div>
+        <a [href] ="item.articleUrl">
+          <div class="syndicated-trending-article-title">{{item.title}}</div>
+        </a>
         <div class="arpt">
           <div class="arpt-author">By <b>{{item.author}}</b> - Reporter <b>{{item.publisher}}</b></div>
           <div class="arpt-date">Posted: on {{item.date}}</div>
         </div>
-        <img class="trending-article-image" [src]="item.image">
+        <div class="trending-article-image">
+          <img [src]="item.image" />
+        </div>
         <div class="syndicated-trending-article-content" [innerHTML]="item.teaser | safeHtml">
         </div>
         <a [href]="item.articleUrl">
