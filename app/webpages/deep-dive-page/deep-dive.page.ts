@@ -43,7 +43,7 @@ declare var jQuery: any;
     providers: [SchedulesService,DeepDiveService,GeoLocation,PartnerHeader],
 })
 
-export class DeepDivePage{
+export class DeepDivePage implements OnInit{
     public widgetPlace: string = "widgetForPage";
 
     //page variables
@@ -168,5 +168,6 @@ export class DeepDivePage{
         this.blockIndex = this.blockIndex + 1;
       }
     }
-
+    ngOnInit(){
+    }
 }
