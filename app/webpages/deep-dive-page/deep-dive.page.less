@@ -4,7 +4,7 @@
   }
   background-color: @white;
   height: auto;
-  min-width: 320px;
+  min-width: 640px;//320px;
   &-container1{
     height: 220px;
     background-color: @bulletGrey;
@@ -13,7 +13,7 @@
     background-color: @white;
     min-height: 800px;
     height: auto;
-    width: 320px;
+    width: 640px;//320px;
     margin: 0 auto;
   }
   &-container2a{
@@ -133,6 +133,12 @@
 }
 @media @desktop-xl{
   .deep-dive{
+    &-container2{
+      width: 1440px;
+    }
+    &-container2a{
+      width: 1080px;
+    }
     &-adWrap{
       display: table-column;
       background-color: @masterBrandColor;
