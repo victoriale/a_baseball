@@ -14,7 +14,7 @@
           <div class="arpt-date">Posted: on {{item.date}}</div>
         </div>
         <div class="trending-article-image">
-          <img [src]="item.image" />
+          <img [src]="item.image" onerror="this.src='/app/public/no-image.png'"/>
         </div>
         <div class="syndicated-trending-article-content" [innerHTML]="item.teaser | safeHtml">
         </div>
