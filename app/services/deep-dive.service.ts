@@ -200,6 +200,7 @@ getCarouselData(data, limit, batch, state, callback:Function) {
         dataStack[i]['lines'] = lines[i];
         dataStack[i]['tileLink'] = tileLink[i];
         dataStack[i]['image_url'] = GlobalSettings.getImageUrl(data[j]['imagePath']) != null ? GlobalSettings.getImageUrl(data[j]['imagePath']) : "/app/public/placeholder_XL.png";
+
       }
       return dataStack;
   }
