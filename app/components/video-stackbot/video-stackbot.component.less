@@ -5,7 +5,7 @@
     .flexDisplay;
     width: 50%;
     height: 75px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     &-image {
       width: 100px;
       height: 75px;
@@ -51,14 +51,6 @@
         text-align: center;
       }
     }
-    &-image:hover {
-      .overlay {
-        display: block;
-      }
-      .greyout {
-        display:none;
-      }
-    }
     &-right {
       .video-title-top {
         font-size:10px;
@@ -77,8 +69,18 @@
       text-align: left;
       .globalDefaultModFont(14px, 400, @black);
     }
-    &-text:hover {
+  }
+  &-item:hover {
+    .video-stackbot-item-text {
       color: @homeRunLoyalRed;
+    }
+    .video-stackbot-item-image {
+      .overlay {
+        display: block;
+      }
+      .greyout {
+        display:none;
+      }
     }
   }
 }
