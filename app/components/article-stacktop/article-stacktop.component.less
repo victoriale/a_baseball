@@ -41,6 +41,15 @@
     p{
         line-height: 1.2em;
     }
+    p:first-of-type {
+      margin-top: 10px;
+    }
+    p:nth-last-of-type(2) {
+      margin-bottom: 0;
+    }
+    p:last-of-type {
+      margin: 0;
+    }
   }
   &:hover{
     .stacktop-title-headline{
@@ -62,7 +71,6 @@
     }//stacktop-title ends
     &-titleinfo {
       font-size: 14px;
-      line-height: 2.14;
       margin: 10px 0 20px;
       &-provider{
         max-width: 200px;

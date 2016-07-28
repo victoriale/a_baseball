@@ -170,27 +170,31 @@ export class DeepDiveService {
 
   getCarouselData(data, limit, batch, state, callback:Function) {
     //always returns the first batch of articles
-     this.getDeepDiveBatchService(limit, batch, state)
-     .subscribe(data=>{
-       var transformedData = this.carouselTransformData(data.data);
-      callback(transformedData);
-     })
-  }
+       this.getDeepDiveBatchService(limit, batch, state)
+       .subscribe(data=>{
+         var transformedData = this.carouselTransformData(data.data);
+         callback(transformedData);
+       })
 
-  carouselTransformData(arrayData){
-    var transformData = [];
-    arrayData.forEach(function(val,index){
-      let carData = {
-        image_url: GlobalSettings.getImageUrl(val['imagePath']),
-        title:  "<span> Today's News </span>" + val['title'],
-        keyword: val['keyword'],
-        teaser: val['teaser'].substr(0,250).replace('_',': ').replace(/<p[^>]*>/g, "") + "...",
-        id:val['id'],
-        articlelink: MLBGlobalFunctions.formatSynRoute('story', val.id),
-      };
-      transformData.push(carData);
-    });
-    return transformData;
+   }
+
+ carouselTransformData(arrayData){
+      var transformData = [];
+      var screenwidth = window.screen.width;
+      console.log(screenwidth);
+      arrayData.forEach(function(val,index){
+        let carData = {
+          image_url: GlobalSettings.getImageUrl(val['imagePath']),
+          title:  "<span> Today's News </span>" + val['title'],
+          keyword: val['keyword'],
+          teaser: val['teaser'].substr(0,200).replace('_',': ').replace(/<p[^>]*>/g, "") + "...",
+          id:val['id'],
+          articlelink: MLBGlobalFunctions.formatSynRoute('story', val.id),
+          // style: val['style']
+        };
+        transformData.push(carData);
+      });
+      return transformData;
   }
 
   transformToArticleRow(data){
@@ -258,7 +262,7 @@ export class DeepDiveService {
             description: data[key].displayHeadline,
             imageConfig: {
               imageClass: "image-100x56",
-              imageUrl: sampleImage,
+              imageUrl: data[key].image != null ? data[key].image : sampleImage,
               hoverText: "View",
               urlRouteArray: MLBGlobalFunctions.formatAiArticleRoute(key, data.eventId)
             }

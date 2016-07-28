@@ -1,5 +1,5 @@
 .carousel-dive {
-  height: 220px;
+  height: 420px;
   width: 100%;
   position: relative;
   &-right {
@@ -8,6 +8,7 @@
     top: 50%;
     transform: translateY(-50%);
     margin: auto;
+  //  height: 420px;
     display: table;
     z-index: 2;
     color:@white;
@@ -22,10 +23,11 @@
         color:@homeRunLoyalRed;
       }
     }
-  }//carousel-item-right ends
+  }
   &-left {
     position: absolute;
     left: 0;
+//  height: 420px;
     top: 50%;
     transform: translateY(-50%);
     margin: auto;
@@ -43,153 +45,192 @@
         color:@homeRunLoyalRed;
       }
     }
-  }//carousel-item-left ends
-}//carousel-dive ends
+  }
+}
 .owl-item {
-  height: inherit;
+  height: 420px;
   width: 100%;
   background-size: cover;
+//  background-position: center;
   background-repeat: no-repeat;
 }
 .owl-carousel {
-  height: inherit;;
+  height: 420px;
 }
 .carousel-item {
   width: 80%;
-  height: auto;
+  height: 420px;
+  margin: auto;
   display: table;
   position: relative;
-  margin: 0 auto;
-  &-container {
-    margin-top: 15px;
+  &-container{
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+    height: 100%;
+  &-right {
+    display: none;
+    // margin: auto;
+    position: relative;
+  //  top:45px;
     &-key {
-      background-color: @homeRunLoyalRed;
+      width: 126px;
+      height: 25px;
       border-radius: 3px;
-      line-height: 20px;
-      margin-bottom: 15px;
-      height: 20px;
-      width: 85px;
+      background-color: @homeRunLoyalRed;
       text-align: center;
+      color:@white;
+      line-height: 25px;
+      margin-bottom: 21px;
       text-transform: uppercase;
-      .globalDefaultModFont(10px, 800, @white);
+
     }
     &-title {
-      .globalDefaultModFont(16px, 800, @white);
-      line-height: 1.2em;
+      .globalDefaultModFont(26px, 400, @white);
+      line-height: 1.2;
+      font-weight: 900;
+      width: 100%;
       >span{
         display: block;
-        .globalDefaultFont(12px, 400);
+        font-size:18px;
+        font-weight: 400;
       }
       &-border {
-        border-bottom: 1px solid @white;
-        margin: 5px auto 10px;
+        border-bottom: 2px solid @white;
+        width: 80%;
+        margin: 9px 0px 19px 0px;
       }
     }
     &-content {
-      .globalDefaultModFont(12px, 400, @white);
-      line-height: 1.2em;
-      height: 30px;
-      overflow: hidden;
+      .globalDefaultModFont(16px, 400, @white);
+      line-height: 1.2;
+      width: 100%;
+     >span {
+       font-size: 14px;
+       font-weight: 300;
+       position: relative;
+       top: 10px;
+     }
     }
     &-fullstory {
-      background-color: @homeRunLoyalRed;
+      width: 200px;
+      height: 40px;
       border-radius: 3px;
+      background-color: @homeRunLoyalRed;
       color:@white;
-      cursor: pointer;
-      display: inline-block;
-      line-height: 30px;
-      height: 30px;
-      margin-top: 20px;
-      width: 150px;
+      line-height: 40px;
       text-align: center;
+      margin-top: 33px;
+      display: inline-block;
+      cursor: pointer;
       &:hover {
         background-color:@black;
       }
     }
   }
-}//carousel-item ends
-@media @tablet {
-  .carousel-dive {
-    height: 420px;
-    &-right {
-      >i {font-size:60px;}
+  &-left {
+    //margin-right: 33px;
+    &-video {
+      background-color: @homeRunLoyalRed;
+      width: 500px;
+      height: 281px;
+      margin: auto;
+      }
     }
-    &-left {
-      >i {font-size:60px;}
-    }//left ends
-  }//carousel-dive ends
-  .carousel-item {
-    width: 80%;
-    height: 420px;
-    &-container {
-      &-key {
-        width: 126px;
-        height: 25px;
-        border-radius: 3px;
-        line-height: 25px;
-        margin-bottom: 20px;
-      }//carousel-item-container-key ends
-      &-title {
-        font-size: 28px;
-        line-height: 1.2em;
-        >span{
-          font-size: 20px;
-        }
-        &-border {
-          border-width: 2px;
-          width: 80%;
-          margin: 9px 0px 19px;
-        }
-      }//carousel-item-container-title ends
-      &-content {
-        font-size: 16px;
-        height: auto;
-      }//carousel-item-container-content ends
-      &-fullstory {
-        width: 200px;
-        height: 40px;
-        line-height: 40px;
-        margin-top: 33px;
-      }//carousel-item-container-fullstory ends
-    }//carousel-item-container ends
-  }//carousel-item ends
+  }
 }
+@media @mobile {
+  .carousel-dive {
+    height: 320px;
+  }
+  .carousel-item {
+    height: 320px;
+  }
+  .owl-item {
+    height: 320px;
+  }
+  .owl-carousel {
+    height: 320px;
+  }
+  .carousel-item {
+    &-container {
+      &-left {
+        &-video {
+          width: 320px;
+          height: 180px;
+        }
+      }
+      &-right {
+        &-title {
+          font-size: 16px;
+          >span {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+  .carousel-dive-left {
+    >i {
+      font-size: 40px;
+    }
+  }
+  .carousel-dive-right {
+    >i {
+      font-size: 40px;
+    }
+  }
+}
+
 @media @desktop-m {
   .carousel-item {
     &-container {
-      &-title {
-        .globalDefaultModFont(38px, 800, @white);
-        line-height: 1.1;
-        > span{
-          display: block;
-          font-size:28px;
-          font-weight: 400;
+      &-left {
+        &-video {
+          width: 560px;
+          height: 315px;
         }
       }
     }
   }
-}//desktop-m ends
+  #lrgcarousel-right {
+    width: 75%;
+  }
+}
 @media @desktop-l {
   .carousel-item {
-    margin-left: 10%;
-    width:60%;
     &-container {
-      position: relative;
-      top:45px;
-      display: block;
-    }
-  }
-  .carousel-dive {
-    &-right {
-      right: 20px;
-      >i {
-        font-size: 100px;
+      .flexDisplay;
+      &-right {
+        display: block;
+        // margin-bottom: auto;
+        // margin-top: auto;
+        position: relative;
+        top: 53px;
+        &-title {
+          font-size: 32px;
+          >span {
+            font-size: 20px;
+          }
+        }
+      }
+      &-left {
+        margin-right: 33px;
+        top:53px;
+        position: relative;
       }
     }
-    &-left {
-      >i {
-        font-size:100px;
-      }
-    }
   }
-}//desktop-l ends
+  #lrgcarousel-right {
+    top:45px;
+  }
+}
+
+// @media @desktop-xl {
+//   .carousel-item {
+//     &-container {
+//       &-right {
+//       }
+//     }
+//   }
+// }
