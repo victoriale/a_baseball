@@ -1,12 +1,14 @@
 .box_articles{
   .flexDisplay;
-  .flexJustify(space-between);
+  .flexDirection(column);
+  .flexAlignItems(center);
+  margin-bottom: -15px;
   &-item {
     .flexDisplay;
     .flexDirection(column);
     overflow: hidden;
-    margin: 0 14px;
-    width: 288px;
+    margin: 0 0 15px;
+    width: 320px;
     &:hover{
       .box_articles-description{
         color: @masterBrandColor;
@@ -33,9 +35,10 @@
     }
   }
   &-description{
-    overflow: hidden;
     max-height:40px;
     height: auto;
+    line-height: 1.2em;
+    overflow: hidden;
     .globalDefaultModFont(14px, 800, @black);
     p {
       margin-top: 0;
@@ -50,6 +53,7 @@
 @media @tablet {
   .box_articles{
     .flexDisplay;
+    .flexDirection(row);
     .flexJustify(space-between);
     &-item {
       .flexDisplay;
