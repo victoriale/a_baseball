@@ -1,16 +1,16 @@
 <div class="carousel_scoll" (mousemove)="movingMouse($event)">
-  <div class="carousel_scoll-left" (click)="left($event)" [ngClass]="{'disabled': currentScroll <= 0}"><i class="fa fa-angle-left"></i></div>
+  <div class="carousel_scoll-left" (click)="left($event)" [ngClass]="{'disabled': currentScroll <= (itemSize*2)}"><i class="fa fa-angle-left"></i></div>
   <div class="carousel_scoll-box" (mousedown)="scrollX($event)" (mouseup)="scrollX($event)">
-    <div *ngIf="data" class="carousel_scoll-container score-transition2" [style.right]="rightText | safeStyle">
-      <div class="carousel_scoll-item"  *ngFor = "let item of data" [ngStyle]="{'background-image': 'linear-gradient(180deg, rgba(40, 40, 40, 0.5) 0%, rgba(24, 24, 24, 0.65) 100%), url(' + item.image_url + ')'}">
+    <div *ngIf="displayedItems" class="carousel_scoll-container score-transition2" [style.right]="rightText | safeStyle">
+      <div class="carousel_scoll-item"  *ngFor = "let item of displayedItems; let i = index" [ngStyle]="{'background-image': 'linear-gradient(180deg, rgba(40, 40, 40, 0.5) 0%, rgba(24, 24, 24, 0.65) 100%), url(' + item.data.image_url + ')', 'right': item.right}" [ngClass]="{'clone': item.clone == 'clone'}">
         <div class="carousel-item">
-          <div class="carousel-item-container">
-            <div class="carousel-item-container-key" [innerHTML]="item.keyword | safeHtml"></div>
-            <div class="carousel-item-container-title" [innerHTML]="item.title | safeHtml"></div>
+          <div class="carousel-item-container" >
+            <div class="carousel-item-container-key" [innerHTML]="item.data.keyword | safeHtml"></div>
+            <div class="carousel-item-container-title" [innerHTML]="item.data.title | safeHtml"></div>
             <div class="carousel-item-container-title-border"></div>
-            <div class="carousel-item-container-content" [innerHTML]="item.teaser | safeHtml">
+            <div class="carousel-item-container-content" [innerHTML]="item.data.teaser | safeHtml">
             </div>
-            <a [routerLink]="item.articlelink">
+            <a [routerLink]="item.data.articlelink">
               <div class="carousel-item-container-fullstory">Read the Full Story</div>
             </a>
           </div>
