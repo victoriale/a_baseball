@@ -211,6 +211,7 @@ export class SchedulesService {
         homeLink: MLBGlobalFunctions.formatTeamRoute(val.homeTeamName, val.homeTeamId),
         reportDisplay: reportText,
         reportLink: reportLink,
+        isLive: val.live == true ? 'schedule-live' : ''
       }
       modifiedArray.push(newData);
     });
