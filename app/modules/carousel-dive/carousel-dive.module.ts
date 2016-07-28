@@ -3,10 +3,8 @@ import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 import {DeepDiveService} from '../../services/deep-dive.service';
 import {SanitizeRUrl} from "../../pipes/safe.pipe";
 
-
 declare var jQuery:any;
 declare var moment;
-
 
 @Component({
   selector: 'carousel-dive-module',
@@ -38,10 +36,8 @@ export class CarouselDiveModule{
     }
 
 
-
-
   ngOnInit() {
-    this.getDeepDiveVideoBatch(this.state, 1);
+    this.getDeepDiveVideoBatch(this.state, 1, 1);
 
     setTimeout(function(){
       jQuery(".owl-carousel").owlCarousel({

@@ -1,4 +1,4 @@
-export class Scroller{ 
+export class Scroller{
   scrollContentWrapper: any;
   scrollContent: any;
   scrollbarHeightRatio: number;
@@ -64,7 +64,9 @@ export class Scroller{
   // Functions
   startDrag(evt) {
       this.normalizedPosition = evt.pageY;
-      this.contentPosition = this.scrollContentWrapper.scrollTop;
+      if (this.scrollContentWrapper != undefined) {
+        this.contentPosition = this.scrollContentWrapper.scrollTop;
+      }
       this.scrollerBeingDragged = true;
   }
 

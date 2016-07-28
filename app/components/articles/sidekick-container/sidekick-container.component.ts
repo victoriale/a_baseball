@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
     selector: 'sidekick-container-component',
@@ -6,10 +6,13 @@ import {Component, Input} from '@angular/core';
     inputs: ['trending']
 })
 
-export class SidekickContainerComponent {
+export class SidekickContainerComponent implements OnInit{
     isSmall:boolean = false;
 
     onResize(event) {
-        this.isSmall = event.target.innerWidth <= 640;
+      this.isSmall = event.target.innerWidth <= 640;
+    }
+    ngOnInit() {
+      this.isSmall = window.innerWidth <= 640;
     }
 }

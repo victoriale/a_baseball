@@ -1,5 +1,5 @@
 .stackSmall {
-    .col-xs-12;
+    .col-xs-6;//.col-xs-12;
     margin: 0 0 20px;
     float:left;
     .flexDisplay;
@@ -11,7 +11,7 @@
     &-text {
       line-height: 1.2em;
       text-align: left;
-      width: 190px;
+      width: 180px;//190px;
       overflow: hidden;
       text-overflow: ellipsis;
       &-keyword {
@@ -25,7 +25,7 @@
            margin-left: 5px;
            color: @bulletGrey;
            overflow: hidden;
-           height: 20px;
+           height: 50px;//20px;
          }
       }
       &-subHeadline {
@@ -44,16 +44,22 @@
     }
 }
 .stackRows{
-  height: 435px;
+  height: 265px;//435px;
   overflow: hidden;
-  padding: 0 10px;
+  padding: 0;//0 10px;
+  div:last-of-type {
+    .stacksmall {
+      margin-bottom:0;
+    }
+    .stackSmall-breakLine {
+      display:none;
+    }
+  }
 }
 @media @tablet {
   .stackSmall {
       .col-xs-6;
-      margin: 0 0 20px 0;
       &-text {
-        line-height: 1.2em;
         width: 180px;
         &-keyword {
            > span:last-child{
@@ -84,7 +90,7 @@
   }
 }
 
-@media @desktop-xxl {
+@media @desktop-xl {
   .stackRows{
     height: auto;
     overflow: visible;

@@ -273,7 +273,7 @@ export class DeepDiveService {
             description: data[key].displayHeadline,
             imageConfig: {
               imageClass: "image-100x56",
-              imageUrl: sampleImage,
+              imageUrl: data[key].image != null ? data[key].image : sampleImage,
               hoverText: "View",
               urlRouteArray: MLBGlobalFunctions.formatAiArticleRoute(key, data.eventId)
             }
@@ -313,7 +313,7 @@ export class DeepDiveService {
         headline: topData.title,
         provider1: "By " + topData.author,
         provider2: "Published By: " + topData.publisher,
-        description: limitDesc,
+        description: limitDesc + "...",
         imageConfig: {
           imageClass: "image-320x180",
           imageUrl: topData.imagePath != null ? GlobalSettings.getImageUrl(topData.imagePath) : sampleImage,
