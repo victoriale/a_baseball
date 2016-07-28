@@ -107,7 +107,7 @@ export class BoxScoresService {
         }
       var date = GlobalFunctions.formatDate(val.timestamp*1000);
       var Box = {
-        keyword: "MLB",
+        keyword: p,
         date: date.month + " " + date.day + ", " + date.year,
         url: MLBGlobalFunctions.formatAiArticleRoute(p, val.event),
         teaser: teaser,
