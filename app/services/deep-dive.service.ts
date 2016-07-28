@@ -262,7 +262,7 @@ export class DeepDiveService {
             description: data[key].displayHeadline,
             imageConfig: {
               imageClass: "image-100x56",
-              imageUrl: sampleImage,
+              imageUrl: data[key].image != null ? data[key].image : sampleImage,
               hoverText: "View",
               urlRouteArray: MLBGlobalFunctions.formatAiArticleRoute(key, data.eventId)
             }
