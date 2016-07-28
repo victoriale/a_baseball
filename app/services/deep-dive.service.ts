@@ -6,6 +6,7 @@ import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalSettings} from '../global/global-settings';
 import {DomSanitizationService} from '@angular/platform-browser';
 
+
 declare var moment;
 @Injectable()
 export class DeepDiveService {
@@ -200,6 +201,7 @@ getCarouselData(data, limit, batch, state, callback:Function) {
         dataStack[i]['lines'] = lines[i];
         dataStack[i]['tileLink'] = tileLink[i];
         dataStack[i]['image_url'] = GlobalSettings.getImageUrl(data[j]['imagePath']) != null ? GlobalSettings.getImageUrl(data[j]['imagePath']) : "/app/public/placeholder_XL.png";
+
       }
       return dataStack;
   }
@@ -293,6 +295,7 @@ getCarouselData(data, limit, batch, state, callback:Function) {
       let date = GlobalFunctions.formatDate(val.publishedDate);
       val["date"] = date.month + " " + date.day + ", " + date.year + " " + date.time + " " + date.a + " EST";
       val["image"] = GlobalSettings.getImageUrl(val.imagePath);
+      val["newsRoute"] = MLBGlobalFunctions.formatNewsRoute(val.id);
     })
     return data;
   }
