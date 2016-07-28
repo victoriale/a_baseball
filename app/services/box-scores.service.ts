@@ -256,12 +256,13 @@ export class BoxScoresService {
     let self = this;
     var twoBoxes = [];// used to put two games into boxes
 
-    // Sort games by date
+    // Sort games by time
     let sortedGames = game.sort(function(a, b) {
       return new Date(a.gameInfo.startDateTime).getTime() - new Date(b.gameInfo.startDateTime).getTime();
     });
 
     sortedGames.forEach(function(data,i){
+
       var info:GameInfoInput;
       let awayData = data.awayTeamInfo;
       let homeData = data.homeTeamInfo;
@@ -269,6 +270,7 @@ export class BoxScoresService {
       let homeLink = MLBGlobalFunctions.formatTeamRoute(homeData.name, homeData.id);
       let awayLink = MLBGlobalFunctions.formatTeamRoute(awayData.name, awayData.id);
       var aiContent = data.aiContent != null ? self.formatArticle(data):null;
+
       if(teamId != null && profile == 'team'){//if league then both items will link
         if(homeData.id == teamId){//if not league then check current team they are one
           homeLink = null;
@@ -336,7 +338,7 @@ export class BoxScoresService {
         twoBoxes.push({game:info,aiContent:aiContent});
       }else{
         twoBoxes.push({game:info});
-        if(twoBoxes.length > 1){// will push into main array once 2 pieces of info has been put into twoBoxes variable
+        if(twoBoxes.length >= 1){// will push into main array once 2 pieces of info has been put into twoBoxes variable
           gameArray.push(twoBoxes);
           twoBoxes = [];
         }
@@ -346,6 +348,7 @@ export class BoxScoresService {
         gameArray.push(twoBoxes);
       }
     })
+
     return gameArray;
   }
 
