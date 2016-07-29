@@ -35,7 +35,7 @@
                [isDeepDive]="true"></recommendations-component>
             <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
             <disqus-component ></disqus-component>
-            <syndicated-trending-component *ngIf="geoLocation" [geoLocation]="geoLocation"></syndicated-trending-component>
+            <syndicated-trending-component *ngIf="geoLocation" [geoLocation]="geoLocation" [currentArticleId]="articleData.id"></syndicated-trending-component>
         </sidekick-wrapper-ai>
     </span>
     </div>
