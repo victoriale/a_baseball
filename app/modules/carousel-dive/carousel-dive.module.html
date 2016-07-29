@@ -31,10 +31,10 @@
           <div class="carousel-item">
             <div class="carousel-item-container">
             <div class="carousel-item-container-right" id="lrgcarousel-right" style="display:block;">
-              <div class="carousel-item-container-right-key" [innerHTML]="data.keyword"></div>
-              <div class="carousel-item-container-right-title" [innerHTML]="data.title"></div>
+              <div class="carousel-item-container-right-key" [innerHTML]="data.keyword | safeHtml"></div>
+              <div class="carousel-item-container-right-title" [innerHTML]="data.title | safeHtml"></div>
                 <div class="carousel-item-container-right-title-border" [ngStyle]="{'display':data.style}"></div>
-              <div class="carousel-item-container-right-content" [innerHTML]="data.teaser" [ngStyle]="{'display':data.style}">
+              <div class="carousel-item-container-right-content" [innerHTML]="data.teaser | safeHtml" [ngStyle]="{'display':data.style}">
               </div>
               <a [routerLink]="data.articlelink">
                 <div class="carousel-item-container-right-fullstory">Read the Full Story</div>

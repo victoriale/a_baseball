@@ -2,21 +2,24 @@ import {Component, AfterContentChecked, Input, Output, EventEmitter, ElementRef}
 import {SanitizeStyle, SanitizeHtml} from '../../pipes/safe.pipe';
 import {ScheduleBox} from '../schedule-box/schedule-box.component'
 import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import {SanitizeRUrl} from "../../pipes/safe.pipe";
 
 declare var jQuery:any;
+declare var moment:any;
 
 @Component({
     selector: 'side-scroll-test',
     templateUrl: './app/components/side-scroll/side-scroll.component.html',
     directives: [ScheduleBox, ROUTER_DIRECTIVES],
     outputs: ['carouselCount'],
-    pipes:[SanitizeStyle, SanitizeHtml]
+    pipes:[SanitizeStyle, SanitizeHtml, SanitizeRUrl]
 })
 
 export class SideScroll{
   @Input() maxLength:any;
   @Input() current:any;
   @Input() data: any;
+  @Input() videoData: any;
   public carouselCount = new EventEmitter();
   public currentScroll = 0;
   public rightText:string = '0px';
@@ -44,7 +47,10 @@ export class SideScroll{
 
   }
   ngOnInit(){
-
+    console.log(this.videoData);
+    // if(this.videoData != null){
+    //   this.maxLength += 1;
+    // }
     //delete below when done testing
     // this.data.length = 2;
 
@@ -168,8 +174,8 @@ export class SideScroll{
     if(mouseType == 'mousedown'){
       this.mouseDown = event.clientX;
     }
-    if(mouseType == 'mouseup'){//this is for quick fix but not final version
-      if(this.drag >= 0){
+    if(mouseType == 'mouseup'){
+      if(this.drag >= 0){//this is for quick fix but not final version
         this.right('swipe right');
       }else{
         this.left('swipe left');
@@ -221,6 +227,10 @@ export class SideScroll{
     this.carouselCount.next(Math.round(pos));
     this.rightText = this.currentScroll+'px';
     this.generateArray();
+  }
+
+  formatDate(date) {
+    return moment(date, "YYYY-MM-Do, h:mm:ss").format("MMMM Do, YYYY h:mm:ss a");
   }
 
 }

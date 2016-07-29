@@ -62,6 +62,7 @@ export class DeepDivePage{
     safeCall: boolean = true;
     //for carousel
     carouselData: any;
+    videoData:any;
     blockIndex: number = 1;
 ​
     private isHomeRunZone: boolean = false;
@@ -118,6 +119,14 @@ export class DeepDivePage{
       }
     }
 
+    private getDeepDiveVideoBatch(region, numItems, startNum){
+        this._deepDiveData.getDeepDiveVideoBatchService(numItems, startNum, region).subscribe(
+          data => {
+            this.videoData = data.data;
+          }
+        )
+      }
+
     private getDataCarousel() {
       this._deepDiveData.getCarouselData(this.carouselData, '25', '1', this.geoLocation, (carData)=>{
         this.carouselData = carData;
@@ -162,6 +171,7 @@ export class DeepDivePage{
 
     callModules(){
       this.getDataCarousel();
+      this.getDeepDiveVideoBatch(this.geoLocation, 1, 1);
       this.getSideScroll();
     }
     private onScroll(event) {
