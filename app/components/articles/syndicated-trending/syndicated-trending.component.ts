@@ -24,16 +24,17 @@ export class SyndicatedTrendingComponent {
     public articleData: any;
     public trendingLength: number = 2;
     @Input() geoLocation: string;
+    @Input() currentArticleId: any;
 
     constructor(
       private _router:Router,
       private _deepdiveservice:DeepDiveService
       ){}
 
-      private getDeepDiveArticle(numItems, state) {
+      private getDeepDiveArticle(numItems, state, currentArticleId) {
         this._deepdiveservice.getDeepDiveBatchService(numItems, 1, state).subscribe(
           data => {
-            this.articleData = this._deepdiveservice.transformTrending(data.data);
+            this.articleData = this._deepdiveservice.transformTrending(data.data, currentArticleId);
             if (this.trendingLength < 20) {
             this.trendingLength = this.trendingLength + 10;
             }
@@ -42,12 +43,12 @@ export class SyndicatedTrendingComponent {
       }
 
       ngOnInit(){
-        this.getDeepDiveArticle(2 , this.geoLocation);
+        this.getDeepDiveArticle(2 , this.geoLocation, this.currentArticleId);
       }
       private onScroll(event) {
         if (jQuery(document).height() - window.innerHeight - jQuery("footer").height() <= jQuery(window).scrollTop()) {
           jQuery('#loadingArticles').show();
-          this.getDeepDiveArticle(this.trendingLength, this.geoLocation);
+          this.getDeepDiveArticle(this.trendingLength, this.geoLocation, this.currentArticleId);
           jQuery('#loadingArticles').hide();
         }
       }

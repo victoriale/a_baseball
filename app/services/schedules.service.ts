@@ -212,7 +212,7 @@ export class SchedulesService {
         reportDisplay: reportText,
         reportLink: reportLink,
         isLive: val.live == true ? 'schedule-live' : '',
-        inning: '0'
+        inning: '1' + "<sup>" + GlobalFunctions.Suffix(1) + "</sup>"
       }
       modifiedArray.push(newData);
     });
