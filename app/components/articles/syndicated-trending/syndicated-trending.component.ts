@@ -5,7 +5,6 @@ import {SanitizeHtml} from "../../../pipes/safe.pipe";
 import {ResponsiveWidget} from '../../../components/responsive-widget/responsive-widget.component';
 import {DeepDiveService} from '../../../services/deep-dive.service';
 
-
 declare var moment;
 declare var jQuery: any;
 
