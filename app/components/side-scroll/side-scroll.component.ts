@@ -97,20 +97,37 @@ export class SideScroll{
   }
 
   generateArray(){
+    var self = this;
     var originalData = this.data;
     var total = this.totalItems;
     this.displayedItems = [];
+    console.log(this.displayedItems);
+    console.log(this.videoData);
+    // if(this.videoData != null){
+    //   this.videoData.forEach(function(val, index){
+    //     self.displayedItems.push({
+    //       id:index,
+    //       data:val,
+    //       type:'video'
+    //     })
+    //     self.maxLength++;//to increase the maxLength
+    //   })
+    // }
+    console.log('adding videos', this.displayedItems);
     // this.currentScroll = 0;
     //if loops from input is true then the hidden item needs to be the last item of the array + the prev item before that
+
     for(var i = 0; i < originalData.length-1; i++){
       this.displayedItems.push({
         id:i,
-        data:originalData[this.startIndex]
+        data:originalData[this.startIndex],
+        type:'carousel'
       });
       this.startIndex = (this.startIndex + 1) % originalData.length;
       this.endIndex = (this.endIndex + 1) % originalData.length;
     }
 
+    console.log('adding carousel', this.displayedItems);
     //make sure the have the startIndex equal to the first item to display before creating clones
     this.startIndex = this.displayedItems[0].id;
     this.endIndex = this.displayedItems[this.displayedItems.length - 1].id;
@@ -136,7 +153,7 @@ export class SideScroll{
       this.displayedItems.unshift({
         id:this.startIndex - o,
         data:originalData[cloneBefore],
-        clone:'clone',
+        type:'clone',
         right: ((this.startIndex - o) * this.itemSize) + 'px'
       })
       //push will push the cloned items at the end of the array
@@ -147,6 +164,7 @@ export class SideScroll{
         right: ((this.startIndex - o) * this.itemSize) + 'px'
       })
     }
+    console.log('adding clones', this.displayedItems);
   }
 
   left(event) {

@@ -19,27 +19,28 @@
       </div>
     </div> -->
     <div *ngIf="displayedItems" class="carousel_scroll-container score-transition2" [style.right]="rightText | safeStyle">
-      <div class="carousel_scroll-item"  *ngFor = "let vidata of videoData" [ngStyle]="{'background-image': 'linear-gradient(180deg, rgba(40, 40, 40, 0.5) 0%, rgba(24, 24, 24, 0.65) 100%), url(' + vidata.thumbnail + ')'}">
-          <div class="carousel-item">
-            <div class="carousel-item-container">
-            <div class="carousel-item-container-left">
-              <div class="carousel-item-container-left-video">
-                <iframe width="100%" height="100%"  [src]="vidata.videoLink | safeRUrl" frameborder="0" allowfullscreen></iframe>
+      <template  ngFor let-item [ngForOf]="displayedItems">
+        <div class="carousel_scroll-item"  *ngIf="item.type == 'video'" [ngStyle]="{'background-image': 'linear-gradient(180deg, rgba(40, 40, 40, 0.5) 0%, rgba(24, 24, 24, 0.65) 100%), url(' + item.data.thumbnail + ')'}" [ngClass]="{'clone': item.type == 'clone'}">
+            <div class="carousel-item">
+              <div class="carousel-item-container">
+              <div class="carousel-item-container-left">
+                <div class="carousel-item-container-left-video">
+                  <iframe width="100%" height="100%"  [src]="item.data.videoLink | safeRUrl" frameborder="0" allowfullscreen></iframe>
+                </div>
+              </div>
+              <div class="carousel-item-container-right">
+                <div class="carousel-item-container-right-key">TOP VIDEOS</div>
+                <div class="carousel-item-container-right-title"><span>Today's Top Videos:</span> {{item.data.title}}</div>
+                  <div class="carousel-item-container-right-title-border"></div>
+                 <div class="carousel-item-container-right-content">
+                   {{item.data.description}} <br />
+                   <span>   Published on {{formatDate(item.data.pubDate)}} </span>
+                 </div>
+                </div>
               </div>
             </div>
-            <div class="carousel-item-container-right">
-              <div class="carousel-item-container-right-key">TOP VIDEOS</div>
-              <div class="carousel-item-container-right-title"><span>Today's Top Videos:</span> {{vidata.title}}</div>
-                <div class="carousel-item-container-right-title-border"></div>
-               <div class="carousel-item-container-right-content">
-                 {{vidata.description}} <br />
-                 <span>   Published on {{formatDate(vidata.pubDate)}} </span>
-               </div>
-              </div>
-            </div>
-          </div>
-      </div>
-       <div class="carousel_scroll-item"  *ngFor = "let item of displayedItems; let i = index;" [ngStyle]="{'background-image': 'linear-gradient(180deg, rgba(40, 40, 40, 0.5) 0%, rgba(24, 24, 24, 0.65) 100%), url(' + item.data.image_url + ')'}">
+        </div>
+       <div class="carousel_scroll-item"  *ngIf="item.type == 'carousel'" [ngStyle]="{'background-image': 'linear-gradient(180deg, rgba(40, 40, 40, 0.5) 0%, rgba(24, 24, 24, 0.65) 100%), url(' + item.data.image_url + ')'}" [ngClass]="{'clone': item.type == 'clone'}">
           <div class="carousel-item">
             <div class="carousel-item-container">
             <div class="carousel-item-container-right" id="lrgcarousel-right" style="display:block;">
@@ -54,8 +55,9 @@
               </div>
             </div>
           </div>
-      </div>
-  </div>
+        </div>
+      </template>
+    </div>
   </div>
   <div class="carousel_scroll-overlayright" *ngIf="fade"></div>
   <div class="carousel_scroll-overlayleft" *ngIf="fade"></div>
