@@ -52,6 +52,8 @@ export class CarouselDiveModule{
       });
 
     }, 1000);
+
+
   }
 
   leftcarousel() {
