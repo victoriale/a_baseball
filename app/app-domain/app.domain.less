@@ -42,9 +42,10 @@
 }
 
 .web-container{
-  width:100%;
+  height: auto;
   min-height: 650px;
-  height:auto;
+  width: 100%;
+
 }
 
 .page-loading {
@@ -64,4 +65,20 @@
 .vertical{
   min-width: 640px;//TODO
   overflow-x: hidden;
+}
+
+team-page > .web-container{
+  width: 960px;
+}
+deep-dive > .web-container{
+  width: 640px;//320px;
+  @media @tablet{
+    width: 640px;
+  }
+  @media @desktop-l{
+    width: 1024px;
+  }
+  @media @desktop-xl{
+    width: 1440px;
+  }
 }
