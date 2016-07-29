@@ -12,10 +12,10 @@
             <div class="carousel-item-container">
             <div class="carousel-item-container-left">
               <div class="carousel-item-container-left-video">
-                <iframe width="100%" height="100%"  [src]="vidata.videoLink | safeRUrl" frameborder="0" allowfullscreen></iframe>
+                <iframe width="100%" height="100%"  [src]="vidata.videoLink | safeRUrl" frameborder="0" scrolling = "no" allowfullscreen></iframe>
               </div>
             </div>
-            <div class="carousel-item-container-right">
+            <div class="carousel-item-container-right" id="lrgvidcarousel-right">
               <div class="carousel-item-container-right-key">TOP VIDEOS</div>
               <div class="carousel-item-container-right-title"><span>Today's Top Videos:</span><div id="cardivetitle" [innerHTML]="vidata.title"></div></div>
                 <div class="carousel-item-container-right-title-border"></div>
