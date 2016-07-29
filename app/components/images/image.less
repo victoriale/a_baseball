@@ -246,8 +246,8 @@
     width: 100%;
     -o-object-fit: cover;
     object-fit: cover;
-    object-position: 50% 0%;
-    -o-object-position: 50% 0%;
+    object-position: 50% 50%;
+    -o-object-position: 50% 50%;
     position: relative;
     left: 50%;
     -webkit-transform: translateX(-50%);
@@ -258,7 +258,7 @@
   &-hover {
     position: relative;
     display: inline-block;
-    height: auto;
+    height: 100%;
     width: auto;
     &:hover {
       div {
@@ -283,6 +283,8 @@
 }
 
 .image-320x180{
+  height: 420px;
+  overflow: hidden;
   .rec-hover{
     margin: 0 auto;
     line-height: 40px;
@@ -292,20 +294,25 @@
     .globalDefaultModFont(16px, 800, @white);
   }
   img{//TODO
-    .rectangleImageMain(610px, 420px);//.rectangleImageMain(320px, 180px);
+    .rectangleImageMain(610px, auto);//.rectangleImageMain(320px, 180px);
     @media @tablet{
-      .rectangleImageMain(610px, 420px);
+      .rectangleImageMain(610px, auto);
     }
     @media @desktop-m{
-      .rectangleImageMain(670px, 420px);
+      .rectangleImageMain(670px, auto);
     }
     @media @desktop-xl{
-      .rectangleImageMain(750px, 420px);
+      .rectangleImageMain(750px, auto);
     }
   }
 }
 
 .image-320x180-sm{
+  height: 180px;
+  overflow: hidden;
+  @media @desktop-xl{
+    height: 240px;
+  }
   .rec-hover{
     margin: 0 auto;
     line-height: 40px;
@@ -315,20 +322,25 @@
     .globalDefaultModFont(16px, 800, @white);
   }
   img{//TODO
-    .rectangleImageMain(288px, 180px);//.rectangleImageMain(320px, 180px);
+    .rectangleImageMain(288px, auto);//.rectangleImageMain(320px, 180px);
     @media @tablet{
-      .rectangleImageMain(288px, 180px);
+      .rectangleImageMain(288px, auto);
     }
     @media @desktop-m{
-      .rectangleImageMain(320px, 180px);
+      .rectangleImageMain(320px, auto);
     }
     @media @desktop-xl{
-      .rectangleImageMain(425px, 240px);
+      .rectangleImageMain(425px, auto);
     }
   }
 }
 
 .image-100x56{
+  height: 75px;//56px;
+  @media @tablet{
+    height: 75px;
+  }
+  overflow: hidden;
   .rec-hover{
     margin: 0 auto;
     line-height: 30px;
@@ -338,9 +350,9 @@
     .globalDefaultModFont(14px, 800, @white);
   }
   img{//TODO
-    .rectangleImageMain(100px, 75px);//.rectangleImageMain(100px, 56px);
+    .rectangleImageMain(100px, auto);
     @media @tablet{
-      .rectangleImageMain(100px, 75px);
+      .rectangleImageMain(100px, auto);
     }
   }
 }

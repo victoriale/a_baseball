@@ -76,7 +76,13 @@ export class WidgetModule {
         if(maxScroll <= 0){
             maxScroll = 0;
         }
-        this.headerHeight = padding + maxScroll + this.sidekickHeight + 'px';
+        //this.headerHeight = padding + maxScroll + this.sidekickHeight + 'px';
+        if ((document.getElementById('partner') != null && maxScroll == 0) || (document.getElementById('partner') == null && scrollTop >= padding)) {
+          jQuery("#widget").addClass("widget-top");
+        }
+        else {
+          jQuery("#widget").removeClass("widget-top");
+        }
         var $widget = jQuery("#widget");
         var $pageWrapper = jQuery(".widget-page-wrapper");
         if ($widget.length > 0 && $pageWrapper.length > 0) {

@@ -1,6 +1,11 @@
 <section *ngIf="!isHomeRunZone" class="deep-dive container-fluid" (window:scroll)="onScroll($event)">
+  <!-- TODO -->
+
   <section class="deep-dive-container1">
     <carousel-dive-module *ngIf = "carouselData" [carouselData] = "carouselData"></carousel-dive-module>
+    <section class="deep-dive-adWrap">
+      <iframe frameborder="0" scrolling="no" allowtransparency="true" src="/app/ads/bluebar.html" [ngStyle]="{'display': 'block', 'height': '50px','width': '100%','margin': '0px','border': '0px','overflow': 'hidden','z-index': '0'}" ></iframe>
+    </section>
   </section>
   <section class="deep-dive-container2">
     <div class="deep-dive-container2a">
@@ -21,7 +26,5 @@
       <div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div>
     </div>
   </section>
-  <!-- TODO -->
-  <!-- <section class="deep-dive-adWrap"></section> -->
 </section>
 <Partner-home-page *ngIf="isHomeRunZone"></Partner-home-page>

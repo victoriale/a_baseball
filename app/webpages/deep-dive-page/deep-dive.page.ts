@@ -1,4 +1,3 @@
-
 import {Component, OnInit, Input, NgZone} from '@angular/core';
 import {CarouselDiveModule} from '../../modules/carousel-dive/carousel-dive.module';
 import {DeepDiveService} from '../../services/deep-dive.service';
@@ -168,5 +167,4 @@ export class DeepDivePage{
         this.blockIndex = this.blockIndex + 1;
       }
     }
-
 }
