@@ -202,9 +202,9 @@ export class DeepDiveService {
           date: date.day,
         };
         transformData.push(carData);
-        console.log(carData);
+      
       });
-      console.log(transformData);
+
       return transformData;
   }
 
@@ -221,6 +221,7 @@ export class DeepDiveService {
           provider1: val.author,
           provider2: "Published By: " + val.publisher,
           description: val.title,
+          images:  val.imagePath != null ? GlobalSettings.getImageUrl(val.imagePath) : sampleImage,
           imageConfig: {
             imageClass: "image-100x56",
             imageUrl: val.imagePath != null ? GlobalSettings.getImageUrl(val.imagePath) : sampleImage,
