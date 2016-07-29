@@ -181,6 +181,7 @@ export class DeepDiveService {
  carouselTransformData(arrayData){
       var transformData = [];
       var screenwidth = window.screen.width;
+      console.log(screenwidth);
       arrayData.forEach(function(val,index){
         let carData = {
           image_url: GlobalSettings.getImageUrl(val['imagePath']),
@@ -279,23 +280,29 @@ export class DeepDiveService {
     let mlbPage = ['MLB-page'];
     var tileLink = [pickATeam, pickATeam, mlbPage];
     var dataStack = [];
-    // randomNums created to prevent duplicate tile stack images
-    var imagePaths = [];
 
+    // create array of imagePaths
+    var imagePaths = [];
     for (var i=0; i<data.length; i++) {
       imagePaths.push(data[i].imagePath);
     }
-
-    console.log(imagePaths);
+    // remove duplicates from array
+    var imagePaths = imagePaths.filter( function(item, index, inputArray) {
+      return inputArray.indexOf(item) == index;
+    });
 
     for(var i = 0; i < 3; i++){
-      var j = Math.floor(Math.random() * data.length);
+      var j = Math.floor(Math.random() * imagePaths.length);
+      var k = imagePaths[Math.floor(Math.random() * imagePaths.length)];
+      var indexOfK = imagePaths.indexOf(k);
+      console.log(k, indexOfK);
       dataStack[i] = data[i];
       dataStack[i]['lines'] = lines[i];
       dataStack[i]['tileLink'] = tileLink[i];
-      dataStack[i]['image_url'] = GlobalSettings.getImageUrl(data[j+i]['imagePath']) != null ? GlobalSettings.getImageUrl(data[j]['imagePath']) : "/app/public/placeholder_XL.png";
+      dataStack[i]['image_url'] = GlobalSettings.getImageUrl(k) != null ? GlobalSettings.getImageUrl(k) : "/app/public/placeholder_XL.png";
+      // remove appended image string from array
+      imagePaths.splice(indexOfK,1);
     }
-
     return dataStack;
   }
 
