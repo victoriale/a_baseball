@@ -292,10 +292,8 @@ export class DeepDiveService {
     });
 
     for(var i = 0; i < 3; i++){
-      var j = Math.floor(Math.random() * imagePaths.length);
       var k = imagePaths[Math.floor(Math.random() * imagePaths.length)];
       var indexOfK = imagePaths.indexOf(k);
-      console.log(k, indexOfK);
       dataStack[i] = data[i];
       dataStack[i]['lines'] = lines[i];
       dataStack[i]['tileLink'] = tileLink[i];
