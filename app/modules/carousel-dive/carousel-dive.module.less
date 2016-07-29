@@ -161,6 +161,7 @@
     height: 320px;
   }
   .carousel-item {
+    display: table;
     &-container {
       &-left {
         &-video {
@@ -202,6 +203,12 @@
     }
   }
 }
+@media @tablet {
+  .carousel-item {
+    display: table;
+  }
+}
+
 
 @media @desktop-m {
   .carousel-item {
