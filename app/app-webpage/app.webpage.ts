@@ -289,7 +289,31 @@ export class AppComponent implements OnInit{
   }
 
   setPageSize(){
+    if(jQuery("#webContainer").hasClass('deep-dive-container')){
+      jQuery("#webContainer").removeClass('deep-dive-container');
+    }
+    if(jQuery("#webContainer").hasClass('directory-rails')){
+      jQuery("#webContainer").removeClass('directory-rails');
+    }
     jQuery("deep-dive-page").parent().addClass('deep-dive-container');
+    jQuery("directory-page").parent().addClass('directory-rails');
+
+    var elem = document.querySelector('deep-dive-page');
+    var intvl = setInterval(function(){
+        if (!elem || !elem.parentNode){
+          if(jQuery("#webContainer").hasClass('deep-dive-container')){
+            jQuery("#webContainer").removeClass('deep-dive-container');
+          }
+          if(jQuery("#webContainer").hasClass('directory-rails')){
+            jQuery("#webContainer").removeClass('directory-rails');
+          }
+          jQuery("deep-dive-page").parent().addClass('deep-dive-container');
+          jQuery("directory-page").parent().addClass('directory-rails');
+
+          window.dispatchEvent(new Event('resize'));
+        }
+    },100);
+
     window.dispatchEvent(new Event('resize'));
   }
   ngOnInit(){
