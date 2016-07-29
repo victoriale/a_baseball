@@ -12,16 +12,16 @@
             <div class="carousel-item-container">
             <div class="carousel-item-container-left">
               <div class="carousel-item-container-left-video">
-                <iframe width="100%" height="100%"  [src]="vidata.videoLink | safeRUrl" frameborder="0" allowfullscreen></iframe>
+                <iframe width="100%" height="100%"  [src]="vidata.videoLink | safeRUrl" frameborder="0" scrolling = "no" allowfullscreen></iframe>
               </div>
             </div>
-            <div class="carousel-item-container-right">
+            <div class="carousel-item-container-right" id="lrgvidcarousel-right">
               <div class="carousel-item-container-right-key">TOP VIDEOS</div>
-              <div class="carousel-item-container-right-title"><span>Today's Top Videos:</span> {{vidata.title}}</div>
+              <div class="carousel-item-container-right-title"><span>Today's Top Videos:</span><div id="cardivetitle" [innerHTML]="vidata.title"></div></div>
                 <div class="carousel-item-container-right-title-border"></div>
                <div class="carousel-item-container-right-content">
-                 {{vidata.description}} <br />
-                 <span>   Published on {{formatDate(vidata.pubDate)}} </span>
+                  <span class="cardescription" [innerHTML]="vidata.description"></span>
+                 <span>Published on {{formatDate(vidata.pubDate)}}</span>
                </div>
               </div>
             </div>
@@ -33,8 +33,8 @@
             <div class="carousel-item-container-right" id="lrgcarousel-right" style="display:block;">
               <div class="carousel-item-container-right-key" [innerHTML]="data.keyword"></div>
               <div class="carousel-item-container-right-title" [innerHTML]="data.title"></div>
-                <div class="carousel-item-container-right-title-border" [ngStyle]="{'display':data.style}"></div>
-              <div class="carousel-item-container-right-content" [innerHTML]="data.teaser" [ngStyle]="{'display':data.style}">
+                <div class="carousel-item-container-right-title-border"></div>
+              <div class="carousel-item-container-right-content" [innerHTML]="data.teaser">
               </div>
               <a [routerLink]="data.articlelink">
                 <div class="carousel-item-container-right-fullstory">Read the Full Story</div>
@@ -46,5 +46,7 @@
       </div>
   </div>
 
+</div>
+<div class="verticalScroll">
 </div>
 </carousel-dive>
