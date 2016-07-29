@@ -1,14 +1,21 @@
 .box_articles{
   .flexDisplay;
-  .flexJustify(space-between);
-  &-item{
+  .flexDirection(row);// .flexDirection(column);
+  .flexJustify(space-between);// .flexAlignItems(center);
+  margin-bottom: -15px;
+  &-item {
     .flexDisplay;
     .flexDirection(column);
     overflow: hidden;
-    margin: 0 14px;
-    width: 288px;
+    margin: 0 14px;//0 0 15px;
+    width: 288px;//320px;
     &:hover{
-      color: @masterBrandColor;
+      .box_articles-description{
+        color: @masterBrandColor;
+      }
+      .image-rectangle-hover div{
+        .flexDisplay;
+      }
     }
   }//box_articles-item ENDS
   &-image{
@@ -28,9 +35,10 @@
     }
   }
   &-description{
-    overflow: hidden;
     max-height:40px;
     height: auto;
+    line-height: 1.2em;
+    overflow: hidden;
     .globalDefaultModFont(14px, 800, @black);
     p {
       margin-top: 0;
@@ -39,12 +47,19 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    &:hover{
-      color: @masterBrandColor;
-    }
   }
 }
 
+@media @tablet {
+  .box_articles{
+    .flexDirection(row);
+    .flexJustify(space-between);
+    &-item {
+      margin: 0 14px;
+      width: 288px;
+    }//box_articles-item ENDS
+  }
+}
 @media @desktop-m{
   .box_articles{
     &-item{

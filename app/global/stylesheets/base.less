@@ -10,11 +10,11 @@ ToC
 */
 
 //Media Queries for responsive
-@mobile:      ~"only screen and (max-width: 640px)";
-@tablet:      ~"only screen and (min-width: 641px)";
+@mobile:      ~"only screen and (max-width: 639px)";
+@tablet:      ~"only screen and (min-width: 640px)";
 @desktop-m:   ~"only screen and (min-width: 768px)";
-@desktop-l:   ~"only screen and (min-width: 1024px)";
-@desktop-xl:  ~"only screen and (min-width: 1441px)";
+@desktop-l:   ~"only screen and (min-width: 1344px)";
+@desktop-xl:  ~"only screen and (min-width: 1760px)";
 // @desktop-xl:  ~"only screen and (min-width: 1500px)";
 
 /***********/
@@ -179,7 +179,9 @@ body {
   overflow: auto;
   margin: 0 !important;
   background-color: @highlightGrey !important;
-  min-width: 640px;
+  //min-width: 640px;
+  min-width: 320px;
+
 }
 
 div {
@@ -384,7 +386,7 @@ code.less-var-name-light {
 
 .backgroundClipPBoxPrefixes {
   -webkit-background-clip: padding-box;
-  -moz-background-clip: padding;
+  -moz-background-clip: padding-box;
   background-clip: padding-box;
 }
 

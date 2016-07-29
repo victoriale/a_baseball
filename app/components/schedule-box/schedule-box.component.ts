@@ -14,6 +14,7 @@ export interface scheduleBoxInput{
   homeLink:any;
   reportDisplay:string,
   reportLink:any,
+  isLive: string
 }
 
 @Component({
@@ -33,7 +34,7 @@ export class ScheduleBox{
         this.boxData = [{
           date:"[Month] [DD] [YYYY] <i class='fa fa-circle'></i> [Time PM]",
           awayImageConfig:{//interface is found in image-data.ts
-              imageClass: 'image-60',
+              imageClass: 'image-44',
               mainImage: {
                   imageUrl: '/app/public/no-image.png',
                   urlRouteArray: ['Home-page'],
@@ -42,7 +43,7 @@ export class ScheduleBox{
               },
           },
           homeImageConfig:{//interface is found in image-data.ts
-              imageClass: 'image-60',
+              imageClass: 'image-44',
               mainImage: {
                   imageUrl: '/app/public/no-image.png',
                   urlRouteArray: ['Home-page'],
@@ -56,6 +57,7 @@ export class ScheduleBox{
           homeLink:['Error-page'],
           reportDisplay:'Mid Game Report',
           reportLink:'/pick-a-team',
+          isLive: ''
         }]
       }
     }
