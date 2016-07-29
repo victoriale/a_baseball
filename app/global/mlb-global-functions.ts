@@ -37,6 +37,32 @@ export class MLBGlobalFunctions {
   }
 
   /**
+   * - Pass in datapoints to required parameters and formats
+   * them into a single route.
+   * - If parameters given do not fit the requirements them default to the error page.
+   * - Otherwise takes articleId as a string
+   *
+   * @example
+   * // articleId => '1234'
+   * formatNewsRoute("1234")
+   *
+   *
+   * @param {teamName} teamName - team name given from data that will be converted to lower kebab case
+   * @param {teamId} teamId - team ID the required field needed to successfully navigate to team profile
+   * @returns the teamName => boston-red-sox,  teamId => ##, routeName => 'Team-page'
+   */
+  static formatNewsRoute(articleId: string): Array<any> {
+    var articleRoute: Array<any>;
+    if(articleId != null) {
+      articleRoute = ['Syndicated-article-page', {articleType: 'story', eventID: articleId}];//NOTE: if Team-page is on the same level as the rest of the route-outlets
+    } else{
+      articleRoute = null;
+    }
+    return articleRoute ? articleRoute : ['Error-page'];
+  }
+
+
+  /**
      * - Pass in datapoints to required parameters and formats
    * them into a single route that is in lowerCase Kebab.
    * - If parameters given do not fit the requirements them default to the error page.
