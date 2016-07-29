@@ -31,21 +31,26 @@
 .testLinks{
   a {
     .globalDefaultModFont(14px, 300, @white);
-    text-align:center;
-    line-height:40px;
-    width:100px;
+    text-align: center;
+    line-height: 40px;
+    width: 100px;
     padding: 10px;
-    color:white;
-    background-color:black;
-    cursor:pointer;
+    color: @white;
+    background-color: @black;
+    cursor: pointer;
   }
 }
 
 .web-container{
-  height: auto;
   min-height: 650px;
-  width: 100%;
-
+  height: auto;
+  // width: 980px;
+  //  @media @desktop-l{
+  //    width: 1024px;
+  //  }
+  //  @media @desktop-xl{
+  //    width: 1440px;
+  //  }
 }
 
 .page-loading {
@@ -66,19 +71,7 @@
   min-width: 640px;//TODO
   overflow-x: hidden;
 }
-
-team-page > .web-container{
-  width: 960px;
-}
-deep-dive > .web-container{
-  width: 640px;//320px;
-  @media @tablet{
-    width: 640px;
-  }
-  @media @desktop-l{
-    width: 1024px;
-  }
-  @media @desktop-xl{
-    width: 1440px;
-  }
+sidekick-wrapper, team-page, player-page, deep-dive-page{
+  display: block;
+  width: 100%;
 }
