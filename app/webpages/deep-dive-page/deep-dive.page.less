@@ -1,9 +1,15 @@
 .deep-dive{
+  &-adWrap{
+    height: 50px;
+    min-width: 1024px;
+    max-width: 1440px;
+    display: none;
+  }
   background-color: @white;
   height: auto;
   min-width: 640px;//320px;
   &-container1{
-    height: 320px;//220px
+    height: auto;//220px
     background-color: @bulletGrey;
   }
   &-container2{
@@ -62,7 +68,6 @@
     max-width: 1024px;
     min-width: 640px;
     &-container1{
-      height: 840px;
       background-color: @bulletGrey;
     }
     &-container2{
@@ -108,6 +113,10 @@
 
 @media @desktop-l{
   .deep-dive{
+    &-adWrap{
+      display: block;
+      width: 1024px;
+    }
     min-width: 1024px;
     &-adMed{
       display: none;
@@ -131,6 +140,9 @@
 
 @media @desktop-xl{
   .deep-dive{
+    &-adWrap{
+      width: 1440px;
+    }
     min-width: 1440px;
     &-container2{
       width: auto;

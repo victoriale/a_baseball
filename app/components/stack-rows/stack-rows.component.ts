@@ -27,7 +27,7 @@ export class StackRowsComponent implements OnInit {
 
   onResize(event) {
     this.width = event.target.innerWidth;
-    if(this.width > 1440 || this.width < 641){
+    if(this.width > 1760 || this.width < 641){
       this.gridStackCol = "col-xs-12";
     } else {
       this.gridStackCol = "col-xs-6";
