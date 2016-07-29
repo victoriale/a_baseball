@@ -280,14 +280,24 @@ export class DeepDiveService {
     let mlbPage = ['MLB-page'];
     var tileLink = [pickATeam, pickATeam, mlbPage];
     var dataStack = [];
-      for(var i = 0; i < 3; i++){
-        var j = Math.floor(Math.random() * data.length);
-        dataStack[i] = data[i];
-        dataStack[i]['lines'] = lines[i];
-        dataStack[i]['tileLink'] = tileLink[i];
-        dataStack[i]['image_url'] = GlobalSettings.getImageUrl(data[j]['imagePath']) != null ? GlobalSettings.getImageUrl(data[j]['imagePath']) : "/app/public/placeholder_XL.png";
-      }
-      return dataStack;
+    // randomNums created to prevent duplicate tile stack images
+    var imagePaths = [];
+
+    for (var i=0; i<data.length; i++) {
+      imagePaths.push(data[i].imagePath);
+    }
+
+    console.log(imagePaths);
+
+    for(var i = 0; i < 3; i++){
+      var j = Math.floor(Math.random() * data.length);
+      dataStack[i] = data[i];
+      dataStack[i]['lines'] = lines[i];
+      dataStack[i]['tileLink'] = tileLink[i];
+      dataStack[i]['image_url'] = GlobalSettings.getImageUrl(data[j+i]['imagePath']) != null ? GlobalSettings.getImageUrl(data[j]['imagePath']) : "/app/public/placeholder_XL.png";
+    }
+
+    return dataStack;
   }
 
   transformToArticleStack(data){
