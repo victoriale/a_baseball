@@ -182,8 +182,8 @@ export class SchedulesService {
       let partner = GlobalSettings.getHomeInfo();
       var reportLink;
       let reportUrl = val.reportUrlMod.split('/')[2];
-      if(val.live == true && self.getInning(reportUrl) > 3){
-          reportText = 'MID GAME REPORT';
+      if(val.live == true){
+          reportText = 'LIVE GAME REPORT';
       }else{
         if(val.eventStatus = 'pre-event'){
           reportText = 'PRE GAME REPORT'
@@ -211,7 +211,8 @@ export class SchedulesService {
         homeLink: MLBGlobalFunctions.formatTeamRoute(val.homeTeamName, val.homeTeamId),
         reportDisplay: reportText,
         reportLink: reportLink,
-        isLive: val.live == true ? 'schedule-live' : ''
+        isLive: val.live == true ? 'schedule-live' : '',
+        inning: val.inning != null ? val.inning + "<sup>" + GlobalFunctions.Suffix(Number(val.inning)) + "</sup>": null
       }
       modifiedArray.push(newData);
     });

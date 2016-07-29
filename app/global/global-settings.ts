@@ -29,6 +29,7 @@ export class GlobalSettings {
     private static _copyrightInfo: string = "USA Today Sports Images";
 
     static getEnv(env:string):string {
+
         if (env == "localhost" || env == "dev"){
             env = "dev";
         } else if (env == "qa"){

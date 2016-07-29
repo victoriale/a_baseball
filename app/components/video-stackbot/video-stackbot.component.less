@@ -6,6 +6,9 @@
     width: 50%;
     height: 75px;
     margin-top: 15px;
+    &:nth-child(1), &:nth-child(2) {
+      margin-top: 0px;
+    }
     &-image {
       width: 100px;
       height: 75px;
@@ -84,7 +87,7 @@
     }
   }
 }
-@media (min-width: 768px) {
+@media @desktop-m {
 .video-stackbot{
   width: 670px;
   &-item {
@@ -94,13 +97,16 @@
     }
   }
 }
-@media (min-width:1440px) {
+@media @desktop-xl {
   .video-stackbot {
     display: block;
     width: 360px;
     &-item {
       width: 100%;
       height: 96px;
+      &:nth-child(1), &:nth-child(2) {
+        margin-top: 15px;
+      }
       &-image {
         width:144px;
         height: 93px;
