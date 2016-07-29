@@ -1,6 +1,7 @@
-<div class="schedule_box"><!--become a component <schedule-box>-->
-  <div class="schedule_box-date" [innerHTML]="boxData.date | safeHtml">
+<div class="schedule_box {{boxData.isLive}}"><!--become a component <schedule-box>-->
+  <div class="schedule_box-date" *ngIf="boxData.isLive != 'schedule-live'" [innerHTML]="boxData.date | safeHtml">
   </div>
+  <div class="schedule_box-date live" *ngIf="boxData.isLive == 'schedule-live'"><i class="fa fa-circle"></i> Live</div>
   <div class="schedule_box-versus">
     <!-- away data below -->
     <div class="schedule_box-team">
@@ -25,8 +26,11 @@
       </a>
     </div>
     <a href="{{boxData.reportLink}}">
-      <div class="schedule_box-linkbox">
-        {{boxData.reportDisplay}}
+      <div *ngIf="boxData.isLive != 'schedule-live'" class="schedule_box-linkbox">
+        <span>{{boxData.reportDisplay}}</span>
+      </div>
+      <div *ngIf="boxData.isLive == 'schedule-live'" class="schedule_box-linkbox-live">
+        <span><i class="fa fa-circle"></i> Live Game Report</span>
       </div>
     </a>
   </div>

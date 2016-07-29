@@ -14,6 +14,7 @@ export interface scheduleBoxInput{
   homeLink:any;
   reportDisplay:string,
   reportLink:any,
+  isLive: string
 }
 
 @Component({
@@ -56,6 +57,7 @@ export class ScheduleBox{
           homeLink:['Error-page'],
           reportDisplay:'Mid Game Report',
           reportLink:'/pick-a-team',
+          isLive: ''
         }]
       }
     }
