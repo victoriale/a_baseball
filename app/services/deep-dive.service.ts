@@ -6,6 +6,7 @@ import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalSettings} from '../global/global-settings';
 import {DomSanitizationService} from '@angular/platform-browser';
 
+
 declare var moment;
 @Injectable()
 export class DeepDiveService {
@@ -290,7 +291,6 @@ export class DeepDiveService {
     let mlbPage = ['MLB-page'];
     var tileLink = [pickATeam, pickATeam, mlbPage];
     var dataStack = [];
-
     // create array of imagePaths
     var imagePaths = [];
     for (var i=0; i<data.length; i++) {
@@ -302,10 +302,8 @@ export class DeepDiveService {
     });
 
     for(var i = 0; i < 3; i++){
-      var j = Math.floor(Math.random() * imagePaths.length);
       var k = imagePaths[Math.floor(Math.random() * imagePaths.length)];
       var indexOfK = imagePaths.indexOf(k);
-      console.log(k, indexOfK);
       dataStack[i] = data[i];
       dataStack[i]['lines'] = lines[i];
       dataStack[i]['tileLink'] = tileLink[i];
@@ -406,6 +404,7 @@ export class DeepDiveService {
       let date = GlobalFunctions.formatDate(val.publishedDate);
       val["date"] = date.month + " " + date.day + ", " + date.year + " " + date.time + " " + date.a + " EST";
       val["image"] = GlobalSettings.getImageUrl(val.imagePath);
+      val["newsRoute"] = MLBGlobalFunctions.formatNewsRoute(val.id);
     })
     return data;
   }

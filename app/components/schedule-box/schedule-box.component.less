@@ -17,11 +17,17 @@
       font-size: 8px;
     }
   }
-  &-date.live{
-    text-align:right;
-    background-color: @white;
+  .innings {
+    float: left;
+    padding-left:10px;
+  }
+  .liveText{
+    float:right;
     padding-right: 10px;
     color: @masterBrandColor;
+    i {
+      vertical-align: -1px;
+    }
   }
   &-versus{
     width:100%;
@@ -113,7 +119,7 @@
   }
 }
 .schedule-live {
-  border: 1px solid @masterBrandColor;
+  border: 1px solid @masterBrandColor!important;
 }
 
 .schedule-tag{

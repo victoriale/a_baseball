@@ -30,7 +30,6 @@ export class CarouselDiveModule{
       this._deepdiveservice.getDeepDiveVideoBatchService(numItems, startNum, region).subscribe(
         data => {
           this.videoData = data.data;
-          console.log(data.data)
         }
       )
     }
@@ -48,7 +47,9 @@ export class CarouselDiveModule{
         loop:true,
         dots:false,
         nav:false,
-        navText:false
+        navText:false,
+        mouseDrag: false,
+
       });
 
     }, 1000);
