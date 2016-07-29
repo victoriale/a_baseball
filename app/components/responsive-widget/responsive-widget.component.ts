@@ -29,6 +29,7 @@ export class ResponsiveWidget implements OnInit {
   }
   private onWindowLoadOrResize(event) {
     var windowWidth = event.target.innerWidth;
+    alert(windowWidth);
     if(windowWidth <= 640){
       this.widgetSml = true;
       this.widgetMed = false;
