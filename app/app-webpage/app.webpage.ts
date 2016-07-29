@@ -1,4 +1,4 @@
-import {Component, AfterViewChecked} from '@angular/core';
+import {Component, AfterViewChecked, OnInit} from '@angular/core';
 import {RouteParams, RouteConfig, RouterOutlet, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
 import {GlobalFunctions} from "../global/global-functions";
@@ -43,6 +43,7 @@ import {GlobalSettings} from "../global/global-settings";
 //FOR DEEP DIVE
 import {SyndicatedArticlePage} from "../webpages/syndicated-article-page/syndicated-article-page.page";
 import {DeepDivePage} from "../webpages/deep-dive-page/deep-dive.page";
+declare var jQuery: any;
 
 @Component({
     selector: 'my-app',
@@ -264,7 +265,7 @@ import {DeepDivePage} from "../webpages/deep-dive-page/deep-dive.page";
     }
 ])
 
-export class AppComponent implements AfterViewChecked{
+export class AppComponent implements AfterViewChecked, OnInit{
   public shiftContainer:string;
   public hideHeader: boolean;
   private isHomeRunZone:boolean = false;
@@ -289,5 +290,12 @@ export class AppComponent implements AfterViewChecked{
 
   ngAfterViewChecked(){
     this.shiftContainer = this.getHeaderHeight() + 'px';
+    var script = document.createElement("script");
+    script.src = 'http://content.synapsys.us/deepdive/rails/rails.js?selector=.web-container&adMarginTop=100';
+    document.head.appendChild(script);
+    jQuery("deep-dive-page").parent().addClass('deep-dive-container');
+  }
+  ngOnInit(){
+    //this._elementRef.nativeElement.getElementsByClassName('deep-dive-page').className('deep-dive-container');
   }
 }

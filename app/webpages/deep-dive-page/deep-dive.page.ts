@@ -168,11 +168,9 @@ export class DeepDivePage implements OnInit{
       }
     }
     ngOnInit(){
-      var script = document.createElement("script");
-      script.src = 'http://content.synapsys.us/deepdive/rails/rails.js?selector=.web-container&adMarginTop=100';
-      document.head.appendChild(script);
-      var containerWidth = jQuery(".web-container").children().eq(1).children().eq(0).width();
-      jQuery(".web-container").css("width", containerWidth);
-      console.log("width", containerWidth);
+      // var script = document.createElement("script");
+      // script.src = 'http://content.synapsys.us/deepdive/rails/rails.js?selector=.web-container&adMarginTop=100';
+      // document.head.appendChild(script);
+      // jQuery("deep-dive-page").parent().addClass('deep-dive-container');
     }
 }
