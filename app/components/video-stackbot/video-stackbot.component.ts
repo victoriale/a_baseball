@@ -18,10 +18,8 @@ declare var moment;
 export class VideoStackbotComponent implements OnInit{
   public articleData: any;
   @Input() state: any;
-  constructor(
-    private _deepdiveservice:DeepDiveService
-    ){
-    }
+  @Input() page: number;
+  constructor(private _deepdiveservice:DeepDiveService){}
     private getDeepDiveVideoBatch(region, numItems, startNum){
       this._deepdiveservice.getDeepDiveVideoBatchService(numItems, startNum, region).subscribe(
         data => {
@@ -30,11 +28,11 @@ export class VideoStackbotComponent implements OnInit{
       )
     }
   formatDate(date) {
-    return moment(date, "YYYY-MM-Do, h:mm:ss").format("MMMM Do, YYYY h:mm:ss a");
+    return moment(date, "YYYY-MM-Do").format("MMMM DD, YYYY");
   }
   ngOnInit() {
-    this.getDeepDiveVideoBatch(this.state, 4, 2);
+    if (this.page == null) {this.page = 1;}
+    else if (this.page != 1) {this.page = this.page + this.page % 2 | 0 + 1} //skip the pages shat are being shown by the stacktop component
+    this.getDeepDiveVideoBatch(this.state, 4, this.page);
   }
-
-
 }

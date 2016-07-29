@@ -106,6 +106,38 @@ export class DeepDiveService {
       return data;
     })
   }
+  getDeepDiveAiBatchService(state?){
+  //Configure HTTP Headers
+  var headers = this.setToken();
+
+
+  if(state == null){//make sure it comes back as a string of null if nothing is returned or sent to parameter
+    state = 'null';
+  }
+  var callURL = this._articleUrl+'recent-games/'+state;
+  return this.http.get(callURL, {headers: headers})
+    .map(res => res.json())
+    .map(data => {
+
+      return data;
+    })
+  }
+  getDeepDiveAiHeavyBatchService(state?){
+  //Configure HTTP Headers
+  var headers = this.setToken();
+
+
+  if(state == null){
+    state = 'CA';
+  }
+  var callURL = this._articleUrl+'player-comparisons/'+state;
+  return this.http.get(callURL, {headers: headers})
+    .map(res => res.json())
+    .map(data => {
+
+      return data;
+    })
+  }
   getdeepDiveData(deepDiveData, callback:Function, dataParam) {
   if(deepDiveData == null){
     deepDiveData = {};
@@ -119,18 +151,17 @@ export class DeepDiveService {
     var headers = this.setToken();
     //this is the sidkeick url
     var callURL = this._articleUrl + "sidekick-regional/"+ state +"/1/1";
-    // console.log(callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
         return data;
       });
   }
+
   getRecArticleData(region, pageNum, pageCount){
     var headers = this.setToken();
     //this is the sidkeick url
     var callURL = this._recUrl + "/" + region + "/" + pageNum + "/" + pageCount;
-    // console.log(callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -138,25 +169,28 @@ export class DeepDiveService {
       });
   }
 
-getCarouselData(data, limit, batch, state, callback:Function) {
+  getCarouselData(data, limit, batch, state, callback:Function) {
     //always returns the first batch of articles
        this.getDeepDiveBatchService(limit, batch, state)
        .subscribe(data=>{
          var transformedData = this.carouselTransformData(data.data);
-        callback(transformedData);
+         callback(transformedData);
        })
+
    }
 
  carouselTransformData(arrayData){
       var transformData = [];
+      var screenwidth = window.screen.width;
       arrayData.forEach(function(val,index){
         let carData = {
           image_url: GlobalSettings.getImageUrl(val['imagePath']),
           title:  "<span> Today's News </span>" + val['title'],
           keyword: val['keyword'],
-          teaser: val['teaser'].substr(0,250).replace('_',': ').replace(/<p[^>]*>/g, "") + "...",
+          teaser: val['teaser'].substr(0,200).replace('_',': ').replace(/<p[^>]*>/g, "") + "...",
           id:val['id'],
           articlelink: MLBGlobalFunctions.formatSynRoute('story', val.id),
+          // style: val['style']
         };
         transformData.push(carData);
       });
@@ -164,7 +198,6 @@ getCarouselData(data, limit, batch, state, callback:Function) {
   }
 
   transformToArticleRow(data){
-    var articleStackArray = [];
     var sampleImage = "/app/public/placeholder_XL.png";
     var articleStackArray = [];
     data = data.data.slice(1,9);
@@ -178,14 +211,66 @@ getCarouselData(data, limit, batch, state, callback:Function) {
           provider2: "Published By: " + val.publisher,
           description: val.title,
           imageConfig: {
-            imageClass: "image-100x75",
-            mainImage:{
-              imageUrl: val.imagePath != null ? GlobalSettings.getImageUrl(val.imagePath) : sampleImage
-            }
+            imageClass: "image-100x56",
+            imageUrl: val.imagePath != null ? GlobalSettings.getImageUrl(val.imagePath) : sampleImage,
+            hoverText: "View",
+            urlRouteArray: MLBGlobalFunctions.formatSynRoute('story', val.id)
           }
       }
       articleStackArray.push(s);
     });
+    return articleStackArray;
+  }
+  transformToAiArticleRow(data){
+    var sampleImage = "/app/public/placeholder_XL.png";
+    var articleStackArray = [];
+    data.forEach(function(val, index){
+      if (val.length != 0) {
+      var date = GlobalFunctions.formatDate(val.timestamp*1000);
+      var s = {
+          stackRowsRoute: MLBGlobalFunctions.formatAiArticleRoute('postgame-report', val.event),
+          keyword: 'BASEBALL',
+          publishedDate: date.month + " " + date.day + ", " + date.year,
+          provider1: '',
+          provider2: '',
+          description: val.featuredReport['postgame-report'].displayHeadline,
+          imageConfig: {
+          imageClass: "image-100x56",
+          hoverText: "View",
+          imageUrl: val.home.images[0] != null ? val.home.images[0] : sampleImage,
+          urlRouteArray: MLBGlobalFunctions.formatAiArticleRoute('postgame-report', val.event)
+          }
+      }
+      articleStackArray.push(s);
+    }
+    });
+    return articleStackArray;
+  }
+  transformToAiHeavyArticleRow(data){
+    var sampleImage = "/app/public/placeholder_XL.png";
+    var articleStackArray = [];
+    var date = GlobalFunctions.formatDate(data.timestamp*1000);
+    var i = 1;
+    for (var key in data) {
+      if (data.hasOwnProperty(key) && data[key].displayHeadline != null && i <= 8) {
+        var s = {
+            stackRowsRoute: MLBGlobalFunctions.formatAiArticleRoute(key, data.eventId),
+            keyword: 'BASEBALL',
+            publishedDate: date.month + " " + date.day + ", " + date.year,
+            provider1: '',
+            provider2: '',
+            description: data[key].displayHeadline,
+            imageConfig: {
+              imageClass: "image-100x56",
+              imageUrl: data[key].image != null ? data[key].image : sampleImage,
+              hoverText: "View",
+              urlRouteArray: MLBGlobalFunctions.formatAiArticleRoute(key, data.eventId)
+            }
+        }
+        articleStackArray.push(s);
+        i = i + 1;
+      }
+    }
     return articleStackArray;
   }
   transformTileStack(data) {
@@ -195,16 +280,29 @@ getCarouselData(data, limit, batch, state, callback:Function) {
     let mlbPage = ['MLB-page'];
     var tileLink = [pickATeam, pickATeam, mlbPage];
     var dataStack = [];
-      for(var i = 0; i < 3; i++){
-        var j = Math.floor(Math.random() * data.length);
-        dataStack[i] = data[i];
-        dataStack[i]['lines'] = lines[i];
-        dataStack[i]['tileLink'] = tileLink[i];
-        dataStack[i]['image_url'] = GlobalSettings.getImageUrl(data[j]['imagePath']) != null ? GlobalSettings.getImageUrl(data[j]['imagePath']) : "/app/public/placeholder_XL.png";
+    // create array of imagePaths
+    var imagePaths = [];
+    for (var i=0; i<data.length; i++) {
+      imagePaths.push(data[i].imagePath);
+    }
+    // remove duplicates from array
+    var imagePaths = imagePaths.filter( function(item, index, inputArray) {
+      return inputArray.indexOf(item) == index;
+    });
 
-      }
-      return dataStack;
+    for(var i = 0; i < 3; i++){
+      var k = imagePaths[Math.floor(Math.random() * imagePaths.length)];
+      var indexOfK = imagePaths.indexOf(k);
+      dataStack[i] = data[i];
+      dataStack[i]['lines'] = lines[i];
+      dataStack[i]['tileLink'] = tileLink[i];
+      dataStack[i]['image_url'] = GlobalSettings.getImageUrl(k) != null ? GlobalSettings.getImageUrl(k) : "/app/public/placeholder_XL.png";
+      // remove appended image string from array
+      imagePaths.splice(indexOfK,1);
+    }
+    return dataStack;
   }
+
   transformToArticleStack(data){
     var sampleImage = "/app/public/placeholder_XL.png";
     var topData = data.data[0];
@@ -215,19 +313,18 @@ getCarouselData(data, limit, batch, state, callback:Function) {
         keyword: topData.keyword,
         date: date.month + " " + date.day + ", " + date.year,
         headline: topData.title,
-        provider1: topData.author,
+        provider1: "By " + topData.author,
         provider2: "Published By: " + topData.publisher,
-        description: limitDesc,
+        description: limitDesc + "...",
         imageConfig: {
-          imageClass: "image-610x420",
-          mainImage:{
-            imageUrl: topData.imagePath != null ? GlobalSettings.getImageUrl(topData.imagePath) : sampleImage
-          }
+          imageClass: "image-320x180",
+          imageUrl: topData.imagePath != null ? GlobalSettings.getImageUrl(topData.imagePath) : sampleImage,
+          hoverText: "View Article",
+          urlRouteArray: MLBGlobalFunctions.formatSynRoute('story', topData.id)
         }
     };
     return articleStackData;
   }
-
   transformToRecArticles(data){
     var articleTypes = [];
     var articles = [];
@@ -290,6 +387,7 @@ getCarouselData(data, limit, batch, state, callback:Function) {
     }
     return _return;
   }
+
   transformTrending (data) {
     data.forEach(function(val,index){
       let date = GlobalFunctions.formatDate(val.publishedDate);

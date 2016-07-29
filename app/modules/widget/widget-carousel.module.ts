@@ -75,7 +75,15 @@ export class WidgetCarouselModule {
         if(carouselTop <=0){
           carouselTop = 0;
         }
-        this.headerHeight = carouselTop + padding + maxScroll + this.sidekickHeight + 'px';
+        //this.headerHeight = carouselTop + padding + maxScroll + this.sidekickHeight + 'px';
+        if ((document.getElementById('partner') != null && maxScroll <= 50) || (document.getElementById('partner') == null && carouselTop <= 50)) {
+          jQuery("#widget").addClass("widget-top-ddp");
+          jQuery("#deep-dive-blueBar").addClass("deep-dive-blueBar-top");
+        }
+        else {
+          jQuery("#widget").removeClass("widget-top-ddp");
+          jQuery("#deep-dive-blueBar").removeClass("deep-dive-blueBar-top");
+        }
         var $widget = jQuery("#widget");
         var $pageWrapper = jQuery(".deep-dive-container2a");
         if ($widget.length > 0 && $pageWrapper.length > 0) {

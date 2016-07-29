@@ -13,6 +13,7 @@ import {VideoStackbotComponent} from '../../components/video-stackbot/video-stac
 
 export class VideoStackModule{
   @Input() state: any;
+  @Input() page: number;
   constructor(){
 
   }

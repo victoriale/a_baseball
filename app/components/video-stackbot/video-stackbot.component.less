@@ -1,8 +1,8 @@
 .video-stackbot {
-  display: flex;
-  flex-wrap: wrap;
+  .flexDisplay;
+  .flexWrap(wrap);
   &-item {
-    display: flex;
+    .flexDisplay;
     width: 50%;
     height: 75px;
     margin-top: 15px;
@@ -51,20 +51,12 @@
         text-align: center;
       }
     }
-    &-image:hover {
-      .overlay {
-        display: block;
-      }
-      .greyout {
-        display:none;
-      }
-    }
     &-right {
       .video-title-top {
         font-size:10px;
+        text-transform: uppercase;
         span {
-          color:@strokeGrey;
-          font-weight: 900;
+          .globalDefaultModFont(10px, 900, @strokeGrey)
         }
         margin-bottom:5px;
       }
@@ -73,9 +65,22 @@
       width: 179px;
       height: 57px;
       overflow:hidden;
-    .globalDefaultModFont(14px, 400, @black);
       line-height: 1;
       text-align: left;
+      .globalDefaultModFont(14px, 400, @black);
+    }
+  }
+  &-item:hover {
+    .video-stackbot-item-text {
+      color: @homeRunLoyalRed;
+    }
+    .video-stackbot-item-image {
+      .overlay {
+        display: block;
+      }
+      .greyout {
+        display:none;
+      }
     }
   }
 }
@@ -89,7 +94,7 @@
     }
   }
 }
-@media (min-width:1440px) {
+@media (min-width:1760px) {
   .video-stackbot {
     display: block;
     width: 360px;
