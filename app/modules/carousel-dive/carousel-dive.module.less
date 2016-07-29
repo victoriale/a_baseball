@@ -90,6 +90,9 @@
       line-height: 1.2;
       font-weight: 900;
       width: 100%;
+      >#cardivetitle {
+        font-weight: 900;
+      }
       >span{
         display: block;
         font-size:18px;
@@ -98,18 +101,20 @@
       &-border {
         border-bottom: 2px solid @white;
         width: 80%;
-        margin: 9px 0px 19px 0px;
+        margin: 9px 0px 0px 0px;
       }
     }
     &-content {
-      .globalDefaultModFont(16px, 400, @white);
       line-height: 1.2;
       width: 100%;
+      .globalDefaultModFont(16px, 400, @white);
+      margin-top: 19px;
      >span {
        font-size: 14px;
        font-weight: 300;
        position: relative;
        top: 10px;
+       display: block;
      }
     }
     &-fullstory {

@@ -198,8 +198,7 @@ export class DeepDiveService {
           teaser: val['teaser'].substr(0,200).replace('_',': ').replace(/<p[^>]*>/g, "") + "...",
           id:val['id'],
           articlelink: MLBGlobalFunctions.formatSynRoute('story', val.id),
-          date: date.day
-          // style: val['style']
+          date: date.day,
         };
         transformData.push(carData);
         console.log(carData);
