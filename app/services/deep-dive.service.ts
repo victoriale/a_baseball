@@ -241,7 +241,7 @@ export class DeepDiveService {
       var date = GlobalFunctions.formatDate(val.timestamp*1000);
       var s = {
           stackRowsRoute: MLBGlobalFunctions.formatAiArticleRoute('postgame-report', val.event),
-          keyword: 'BASEBALL',
+          keyword: 'POST GAME REPORT',
           publishedDate: date.month + " " + date.day + ", " + date.year,
           provider1: '',
           provider2: '',
@@ -267,7 +267,7 @@ export class DeepDiveService {
       if (data.hasOwnProperty(key) && data[key].displayHeadline != null && i <= 8) {
         var s = {
             stackRowsRoute: MLBGlobalFunctions.formatAiArticleRoute(key, data.eventId),
-            keyword: 'BASEBALL',
+            keyword: 'PLAYER COMPARISON',
             publishedDate: date.month + " " + date.day + ", " + date.year,
             provider1: '',
             provider2: '',
