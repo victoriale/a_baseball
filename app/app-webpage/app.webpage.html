@@ -3,10 +3,10 @@
     <div class="col-xs-12">
       <div id="partner" *ngIf="partnerScript" [innerHTML]="partnerScript | safeHtml"></div>
       <header-component *ngIf="!hideHeader" partner="{{partnerID}}"></header-component>
-      <div class='web-container container-fluid' [style.padding-top]="shiftContainer | safeStyle">
+      <div id="webContainer" class='web-container container-fluid {{webRails}}' [style.padding-top]="shiftContainer | safeStyle">
         <router-outlet></router-outlet>
+        <footer-component *ngIf="!hideHeader" [partner]="partnerID"></footer-component>
       </div>
-      <footer-component *ngIf="!hideHeader" [partner]="partnerID"></footer-component>
     </div>
   </div>
 </div>
