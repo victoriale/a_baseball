@@ -289,12 +289,18 @@ export class AppComponent implements AfterViewChecked, OnInit{
   }
 
   ngAfterViewChecked(){
-    this.shiftContainer = this.getHeaderHeight() + 'px';
-    jQuery("deep-dive-page").parent().addClass('deep-dive-container');
     setTimeout(function(){ window.dispatchEvent(new Event('resize')); }, 10);
+    this.shiftContainer = this.getHeaderHeight() + 'px';
+    if(jQuery("#webContainer").hasClass('deep-dive-container')){
+      jQuery("#webContainer").removeClass('deep-dive-container');
+    }
+    if(jQuery("#webContainer").hasClass('directory-rails')){
+      jQuery("#webContainer").removeClass('directory-rails');
+    }
+    jQuery("deep-dive-page").parent().addClass('deep-dive-container');
+    jQuery("directory-page").parent().addClass('directory-rails');
   }
   ngOnInit(){
-    //this._elementRef.nativeElement.getElementsByClassName('deep-dive-page').className('deep-dive-container');
     var script = document.createElement("script");
     script.src = 'http://content.synapsys.us/deepdive/rails/rails.js?selector=.web-container&adMarginTop=100';
     document.head.appendChild(script);
