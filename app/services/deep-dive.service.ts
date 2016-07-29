@@ -6,6 +6,7 @@ import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalSettings} from '../global/global-settings';
 import {DomSanitizationService} from '@angular/platform-browser';
 
+
 declare var moment;
 @Injectable()
 export class DeepDiveService {
@@ -180,8 +181,17 @@ export class DeepDiveService {
 
  carouselTransformData(arrayData){
       var transformData = [];
-      var screenwidth = window.screen.width;
       arrayData.forEach(function(val,index){
+        var curdate = new Date();
+        var curmonthdate = curdate.getDate();
+        var date = GlobalFunctions.formatDate(val.publishedDate);
+      //  console.log(moment().format("dddd"));
+        // if (Number(curmonthdate) > Number(date.day)) {
+        //   val['title'] = "<span>" +  'Day of week of article' + "</span>" + val['title'];
+        // }
+        // else {
+        //   val['title'] = "<span> Today's News </span>" + val['title'];
+        // }
         let carData = {
           image_url: GlobalSettings.getImageUrl(val['imagePath']),
           title:  "<span> Today's News </span>" + val['title'],
@@ -189,10 +199,12 @@ export class DeepDiveService {
           teaser: val['teaser'].substr(0,200).replace('_',': ').replace(/<p[^>]*>/g, "") + "...",
           id:val['id'],
           articlelink: MLBGlobalFunctions.formatSynRoute('story', val.id),
-          // style: val['style']
+          date: date.day,
         };
         transformData.push(carData);
+      
       });
+
       return transformData;
   }
 
@@ -209,6 +221,7 @@ export class DeepDiveService {
           provider1: val.author,
           provider2: "Published By: " + val.publisher,
           description: val.title,
+          images:  val.imagePath != null ? GlobalSettings.getImageUrl(val.imagePath) : sampleImage,
           imageConfig: {
             imageClass: "image-100x56",
             imageUrl: val.imagePath != null ? GlobalSettings.getImageUrl(val.imagePath) : sampleImage,
@@ -279,14 +292,27 @@ export class DeepDiveService {
     let mlbPage = ['MLB-page'];
     var tileLink = [pickATeam, pickATeam, mlbPage];
     var dataStack = [];
-      for(var i = 0; i < 3; i++){
-        var j = Math.floor(Math.random() * data.length);
-        dataStack[i] = data[i];
-        dataStack[i]['lines'] = lines[i];
-        dataStack[i]['tileLink'] = tileLink[i];
-        dataStack[i]['image_url'] = GlobalSettings.getImageUrl(data[j]['imagePath']) != null ? GlobalSettings.getImageUrl(data[j]['imagePath']) : "/app/public/placeholder_XL.png";
-      }
-      return dataStack;
+    // create array of imagePaths
+    var imagePaths = [];
+    for (var i=0; i<data.length; i++) {
+      imagePaths.push(data[i].imagePath);
+    }
+    // remove duplicates from array
+    var imagePaths = imagePaths.filter( function(item, index, inputArray) {
+      return inputArray.indexOf(item) == index;
+    });
+
+    for(var i = 0; i < 3; i++){
+      var k = imagePaths[Math.floor(Math.random() * imagePaths.length)];
+      var indexOfK = imagePaths.indexOf(k);
+      dataStack[i] = data[i];
+      dataStack[i]['lines'] = lines[i];
+      dataStack[i]['tileLink'] = tileLink[i];
+      dataStack[i]['image_url'] = GlobalSettings.getImageUrl(k) != null ? GlobalSettings.getImageUrl(k) : "/app/public/placeholder_XL.png";
+      // remove appended image string from array
+      imagePaths.splice(indexOfK,1);
+    }
+    return dataStack;
   }
 
   transformToArticleStack(data){
@@ -374,11 +400,14 @@ export class DeepDiveService {
     return _return;
   }
 
-  transformTrending (data) {
+  transformTrending (data, currentArticleId) {
     data.forEach(function(val,index){
+      if (val.id != currentArticleId) {
       let date = GlobalFunctions.formatDate(val.publishedDate);
       val["date"] = date.month + " " + date.day + ", " + date.year + " " + date.time + " " + date.a + " EST";
       val["image"] = GlobalSettings.getImageUrl(val.imagePath);
+      val["newsRoute"] = MLBGlobalFunctions.formatNewsRoute(val.id);
+      }
     })
     return data;
   }
