@@ -286,12 +286,18 @@ export class MyAppComponent implements OnInit{
 
   getHeaderHeight(){
     var pageHeader = document.getElementById('pageHeader');
+    // console.log("page header", pageHeader);
     if(pageHeader != null){
+      // console.log("page header", pageHeader.offsetHeight);
       return pageHeader.offsetHeight;
     }
   }
   getPartnerHeaderHeight(){
-      var partnerHeight = document.getElementById('partner').offsetHeight;
+    var scrollTop = jQuery(window).scrollTop();
+    var partnerHeight = 0;
+    if( document.getElementById('partner') != null && scrollTop <=  (document.getElementById('partner').offsetHeight)){
+        partnerHeight = document.getElementById('partner').offsetHeight - scrollTop;
+    }
       return partnerHeight;
   }
 
@@ -300,12 +306,12 @@ export class MyAppComponent implements OnInit{
       this._partnerData.getPartnerData(this.partnerID)
       .subscribe(
         partnerScript => {
+          console.log(partnerScript);
           this.partnerData = partnerScript;
           this.partnerScript = this.partnerData['results'].header.script;
         }
       );
     }else{
-      console.log('Error non valid partner', this.partnerID);
     }
   }
 
@@ -351,7 +357,13 @@ export class MyAppComponent implements OnInit{
     },100);
 
     window.dispatchEvent(new Event('resize'));
-    ths.getPartnerHeaderHeight();
+    jQuery('#ddto-left-ad').css('top', (ths.getPartnerHeaderHeight() + 100) + "px");
+    jQuery('#ddto-right-ad').css('top', (ths.getPartnerHeaderHeight() + 100) + "px");
+    window.addEventListener("scroll",  function(){
+      jQuery('#ddto-left-ad').css('top', (ths.getPartnerHeaderHeight() + 100) + "px");
+      jQuery('#ddto-right-ad').css('top', (ths.getPartnerHeaderHeight() + 100) + "px");
+    });
+
   }
   ngOnInit(){
     var self = this;
