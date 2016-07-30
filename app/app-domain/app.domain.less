@@ -52,7 +52,13 @@
 .directory-rails{
     width: 1012px;
 }
+.pick-a-team-container {
+  min-width: 640px;
+}
 @media @desktop-xl{
+.pick-a-team-container {
+  min-width: 1440px;
+}
 .deep-dive-container {
     width: 1440px;
   }
@@ -79,4 +85,8 @@
 sidekick-wrapper, team-page, player-page, deep-dive-page{
   display: block;
   width: 100%;
+}
+#partner{
+  z-index: 1000;
+  position: relative;
 }
