@@ -10,6 +10,7 @@
   }
   &-container1{
     height: auto;//220px
+    width: 100%;
     background-color: @bulletGrey;
   }
   .deep-dive-blueBar-top {
@@ -74,7 +75,7 @@
 }
 @media @tablet {
   .deep-dive{
-    max-width: 1024px;
+    max-width: 768px;
     min-width: 640px;
     &-container1{
       background-color: @bulletGrey;
@@ -83,8 +84,7 @@
       width: 768px;
     }
     &-container2{
-      min-height: 800px;
-      width: 640px;
+      width: 100%;
       margin: 0 auto;
     }
     &-container2a{
@@ -104,6 +104,7 @@
 @media @desktop-m{
   .deep-dive{
     min-width: 768px;
+    max-width: 1023px;
     .spacer{
       width: 100%;
       max-width: 1024px;
@@ -131,11 +132,9 @@
 @media @desktop-l{
   .deep-dive{
     min-width: 1024px;
+    max-width: 1440px;
     &-adMed{
       display: none;
-    }
-    .spacer{
-      width: 1024px;
     }
     &-container2{
       width: 1024px;
@@ -157,10 +156,6 @@
 @media @desktop-xl{
   .deep-dive{
     min-width: 1440px;
-    .spacer{
-      width: 1440px;
-      max-width: 1440px;
-    }
     &-container2{
       width: auto;
     }
