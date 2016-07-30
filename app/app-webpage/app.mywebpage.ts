@@ -369,7 +369,7 @@ export class MyAppComponent implements OnInit{
     var self = this;
     //this._elementRef.nativeElement.getElementsByClassName('deep-dive-page').className('deep-dive-container');
     var script = document.createElement("script");
-    script.src = 'http://w1.synapsys.us/widgets/deepdive/rails/rails.js?selector=.web-container&adMarginTop=100';
+    script.src = '//w1.synapsys.us/widgets/deepdive/rails/rails.js?selector=.web-container&adMarginTop=100';
     document.head.appendChild(script);
     this.shiftContainer = this.getHeaderHeight() + 'px';
     window.addEventListener("load",  function(){
