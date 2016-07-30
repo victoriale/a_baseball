@@ -290,6 +290,10 @@ export class MyAppComponent implements OnInit{
       return pageHeader.offsetHeight;
     }
   }
+  getPartnerHeaderHeight(){
+      var partnerHeight = document.getElementById('partner').offsetHeight;
+      return partnerHeight;
+  }
 
   getPartnerHeader(){//Since it we are receiving
     if(this.partnerID != null){
@@ -311,11 +315,8 @@ export class MyAppComponent implements OnInit{
       this.shiftContainer = checkHeight + 'px';
     }
   }
-  //
-  // ngAfterViewChecked(){
-  //   this.shiftContainer = this.getHeaderHeight() + 'px';
-  // }
-  setPageSize(){
+
+  setPageSize(ths){
     if(jQuery("#webContainer").hasClass('deep-dive-container')){
       jQuery("#webContainer").removeClass('deep-dive-container');
     }
@@ -350,13 +351,17 @@ export class MyAppComponent implements OnInit{
     },100);
 
     window.dispatchEvent(new Event('resize'));
+    ths.getPartnerHeaderHeight();
   }
   ngOnInit(){
+    var self = this;
     //this._elementRef.nativeElement.getElementsByClassName('deep-dive-page').className('deep-dive-container');
     var script = document.createElement("script");
     script.src = 'http://w1.synapsys.us/widgets/deepdive/rails/rails.js?selector=.web-container&adMarginTop=100';
     document.head.appendChild(script);
     this.shiftContainer = this.getHeaderHeight() + 'px';
-    window.addEventListener("load", this.setPageSize);
+    window.addEventListener("load",  function(){
+      self.setPageSize(self);
+    });
   }
 }
