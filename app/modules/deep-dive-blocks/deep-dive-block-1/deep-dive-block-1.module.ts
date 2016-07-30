@@ -20,6 +20,7 @@ declare var moment;
     providers: [DeepDiveService, BoxScoresService]
 })
 export class DeepDiveBlock1{
+  public widgetPlace: string = "widgetForPage";
   firstStackTop: any;
   firstStackRow: any;
   secStackTop: any;
