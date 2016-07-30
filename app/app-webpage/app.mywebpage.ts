@@ -286,9 +286,7 @@ export class MyAppComponent implements OnInit{
 
   getHeaderHeight(){
     var pageHeader = document.getElementById('pageHeader');
-    // console.log("page header", pageHeader);
     if(pageHeader != null){
-      // console.log("page header", pageHeader.offsetHeight);
       return pageHeader.offsetHeight;
     }
   }
@@ -302,7 +300,6 @@ export class MyAppComponent implements OnInit{
       this._partnerData.getPartnerData(this.partnerID)
       .subscribe(
         partnerScript => {
-          console.log(partnerScript);
           this.partnerData = partnerScript;
           this.partnerScript = this.partnerData['results'].header.script;
         }
@@ -354,7 +351,6 @@ export class MyAppComponent implements OnInit{
     },100);
 
     window.dispatchEvent(new Event('resize'));
-    console.log("header", ths.getPartnerHeaderHeight());
     ths.getPartnerHeaderHeight();
   }
   ngOnInit(){
