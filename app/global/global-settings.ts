@@ -29,12 +29,14 @@ export class GlobalSettings {
     private static _copyrightInfo: string = "USA Today Sports Images";
 
     static getEnv(env:string):string {
-
       if (env == "localhost"){
           env = "dev";
       }
       if (env != "dev" && env !="qa"){
           env = "prod";
+      }
+      if (env != "prod" && env != "dev" && env !="qa"){
+          env = "www";
       }
       return env;
     }
@@ -93,10 +95,10 @@ export class GlobalSettings {
 
     static getHomePage(partnerId: string, includePartnerId?: boolean) {
         if ( partnerId ) {
-            return this._proto + "//" + this.getEnv(this._env) + this._partnerHomepageUrl + (includePartnerId ? "/" + partnerId : "");
+            return this._proto + "//" + 'www' + this._partnerHomepageUrl + (includePartnerId ? "/" + partnerId : "");
         }
         else {
-            return this._proto + "//" + this.getEnv(this._env) + this._homepageUrl;
+            return this._proto + "//" + 'www' + this._homepageUrl;
         }
     }
 
