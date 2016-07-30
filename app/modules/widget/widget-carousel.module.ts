@@ -40,9 +40,13 @@ export class WidgetCarouselModule {
     // Page is being scrolled
     onScroll(event) {
         var scrollTop = jQuery(window).scrollTop();
-        var partnerHeight = 0;
-        if( document.getElementById('partner') != null && scrollTop <=  (jQuery('.deep-dive-container1').height() + document.getElementById('partner').offsetHeight)){
-            partnerHeight = document.getElementById('partner').offsetHeight + scrollTop;
+        var partnerHeight = document.getElementById('partner') != null ? document.getElementById('partner').offsetHeight:0;
+        if( document.getElementById('partner') != null && scrollTop <=  (jQuery('.deep-dive-container1').height() + partnerHeight)){
+            partnerHeight = partnerHeight + scrollTop;
+        }
+        var blueBar = 0;
+        if (document.getElementById('deep-dive-blueBar') != null){
+          blueBar = document.getElementById('deep-dive-blueBar').offsetHeight;
         }
         var titleHeight = 0;
         var padding = 0;
@@ -77,7 +81,7 @@ export class WidgetCarouselModule {
         }
         //this.headerHeight = carouselTop + padding + maxScroll + this.sidekickHeight + 'px';
         //set class on blue bar and widget once user has scrolled past the carousel and top partner header
-        if ((document.getElementById('partner') != null && maxScroll <= 50) || (document.getElementById('partner') == null && carouselTop <= 50)) {
+        if ((document.getElementById('partner') != null && carouselTop <= 0) || (document.getElementById('partner') == null && carouselTop <= blueBar)) {
           jQuery("#widget").addClass("widget-top-ddp");
           jQuery("#deep-dive-blueBar").addClass("deep-dive-blueBar-top");
         }
