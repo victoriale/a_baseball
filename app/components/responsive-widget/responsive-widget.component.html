@@ -1,4 +1,3 @@
-<div (window:resize)="onWindowLoadOrResize($event)"></div>
   <td class="{{embedPlace}} {{displayAtRes}}"  colspan=50 *ngIf="windowWidth < 1024">
     <div class="widgetWrapper">
       <div *ngIf="widgetSml" class="adSquareSmall" [ngClass]="{'removeAd': !widgetSml}">
@@ -9,3 +8,4 @@
       </div>
     </div>
   </td>
+<div (window:resize)="onWindowLoadOrResize($event)"></div>
