@@ -306,7 +306,7 @@ export class MyAppComponent implements OnInit{
       this._partnerData.getPartnerData(this.partnerID)
       .subscribe(
         partnerScript => {
-          console.log(partnerScript);
+          //console.log(partnerScript);
           this.partnerData = partnerScript;
           this.partnerScript = this.partnerData['results'].header.script;
         }
