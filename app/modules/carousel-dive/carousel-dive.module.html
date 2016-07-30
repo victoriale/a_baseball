@@ -17,10 +17,10 @@
             </div>
             <div class="carousel-item-container-right" id="lrgvidcarousel-right">
               <div class="carousel-item-container-right-key">TOP VIDEOS</div>
-              <div class="carousel-item-container-right-title"><span>Today's Top Videos:</span><div id="cardivetitle" [innerHTML]="vidata.title"></div></div>
+              <div class="carousel-item-container-right-title"><span>Today's Top Videos:</span><div id="cardivetitle" [innerHTML]="vidata.title | safeHtml"></div></div>
                 <div class="carousel-item-container-right-title-border"></div>
                <div class="carousel-item-container-right-content">
-                  <span class="cardescription" [innerHTML]="vidata.description"></span>
+                  <span class="cardescription" [innerHTML]="vidata.description | safeHtml"></span>
                  <span>Published on {{formatDate(vidata.pubDate)}}</span>
                </div>
               </div>
@@ -31,10 +31,10 @@
           <div class="carousel-item">
             <div class="carousel-item-container">
             <div class="carousel-item-container-right" id="lrgcarousel-right" style="display:block;">
-              <div class="carousel-item-container-right-key" [innerHTML]="data.keyword"></div>
-              <div class="carousel-item-container-right-title" [innerHTML]="data.title"></div>
+              <div class="carousel-item-container-right-key" [innerHTML]="data.keyword | safeHtml"></div>
+              <div class="carousel-item-container-right-title" [innerHTML]="data.title | safeHtml"></div>
                 <div class="carousel-item-container-right-title-border"></div>
-              <div class="carousel-item-container-right-content" [innerHTML]="data.teaser">
+              <div class="carousel-item-container-right-content" [innerHTML]="data.teaser | safeHtml">
               </div>
               <a [routerLink]="data.articlelink">
                 <div class="carousel-item-container-right-fullstory">Read the Full Story</div>
