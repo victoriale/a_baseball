@@ -326,7 +326,6 @@ export class AppComponent implements OnInit{
   }
   ngOnInit(){
     //this._elementRef.nativeElement.getElementsByClassName('deep-dive-page').className('deep-dive-container');
-    console.log("header", this.getHeaderHeight());
     var script = document.createElement("script");
     script.src = 'http://w1.synapsys.us/widgets/deepdive/rails/rails.js?selector=.web-container&adMarginTop=100';
     document.head.appendChild(script);
