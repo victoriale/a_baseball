@@ -200,7 +200,7 @@ export class SchedulesService {
       }
 
       let date = moment(val.startDateTimestamp).tz('America/New_York').format('MMMM D, YYYY');
-      let time = moment(val.startDateTimestamp).tz('America/New_York').format('h:mm A');
+      let time = moment(val.startDateTimestamp).tz('America/New_York').format('h:mm A z');
       newData = {
         date: date + " &bull; " + time,
         awayImageConfig: self.imageData('image-44', 'border-1', GlobalSettings.getImageUrl(val.awayTeamLogo), MLBGlobalFunctions.formatTeamRoute(val.awayTeamName, val.awayTeamId)),
