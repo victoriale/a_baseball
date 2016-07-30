@@ -2,7 +2,8 @@
     <div class="syndicated-trending-hr"></div>
     <div class="syndicated-trending-main-title">TRENDING ARTICLES</div>
     <div class="syndicated-trending-hr"></div>
-    <div class="syndicated-trending-container" *ngFor="let item of articleData; let rowIndex = index">
+    <div class="syndicated-trending-container"  *ngFor="let item of articleData; let rowIndex = index">
+      <div *ngIf="item.id != currentArticleId">
         <span class="featured-tag" *ngIf="rowIndex == 0">FEATURED</span>
         <shareLinks-component></shareLinks-component>
         <div class="featured-tag-large" *ngIf="rowIndex == 0"><div class="vr"></div><i class="fa fa-newspaper-o"></i>FEATURED ARTICLE</div>
@@ -24,6 +25,7 @@
         <div class="syndicated-trending-hr"></div>
         <div class="syndicated-trending-hr-responsive"></div>
         <responsive-widget [embedPlace]="widgetPlace" *ngIf="rowIndex == 0 || (!((rowIndex + 1) % 2) && rowIndex != 1) "></responsive-widget>
+      </div>
     </div>
     <div class="syndicated-trending-hr"></div>
     <div class="more">
