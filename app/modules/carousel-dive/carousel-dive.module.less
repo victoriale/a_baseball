@@ -62,7 +62,7 @@
   width: 80%;
   height: 420px;
   margin: auto;
-  display: table;
+//  display: table;
   position: relative;
   &-container{
     display: table-cell;
@@ -161,6 +161,7 @@
     height: 320px;
   }
   .carousel-item {
+    display: table;
     &-container {
       &-left {
         &-video {
@@ -202,9 +203,16 @@
     }
   }
 }
+@media @tablet {
+  .carousel-item {
+    display: table;
+  }
+}
+
 
 @media @desktop-m {
   .carousel-item {
+    display: table;
     &-container {
       &-left {
         &-video {
@@ -220,6 +228,7 @@
 }
 @media @desktop-l {
   .carousel-item {
+    display: block;
     &-container {
       .flexDisplay;
       &-right {
