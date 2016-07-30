@@ -295,8 +295,12 @@ export class AppComponent implements OnInit{
     if(jQuery("#webContainer").hasClass('directory-rails')){
       jQuery("#webContainer").removeClass('directory-rails');
     }
+    if(jQuery("#webContainer").hasClass('pick-a-team-container')){
+      jQuery("#webContainer").removeClass('pick-a-team-container');
+    }
     jQuery("deep-dive-page").parent().addClass('deep-dive-container');
     jQuery("directory-page").parent().addClass('directory-rails');
+    jQuery("home-page").parent().addClass('pick-a-team-container');
 
     var elem = document.querySelector('deep-dive-page');
     var intvl = setInterval(function(){
@@ -307,8 +311,12 @@ export class AppComponent implements OnInit{
           if(jQuery("#webContainer").hasClass('directory-rails')){
             jQuery("#webContainer").removeClass('directory-rails');
           }
+          if(jQuery("#webContainer").hasClass('pick-a-team-container')){
+            jQuery("#webContainer").removeClass('pick-a-team-container');
+          }
           jQuery("deep-dive-page").parent().addClass('deep-dive-container');
           jQuery("directory-page").parent().addClass('directory-rails');
+          jQuery("home-page").parent().addClass('pick-a-team-container');
 
           window.dispatchEvent(new Event('resize'));
         }
