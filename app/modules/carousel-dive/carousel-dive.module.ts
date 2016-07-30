@@ -3,6 +3,7 @@ import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 import {DeepDiveService} from '../../services/deep-dive.service';
 import {SanitizeRUrl, SanitizeHtml} from "../../pipes/safe.pipe";
 
+
 declare var jQuery:any;
 declare var moment;
 
@@ -11,15 +12,14 @@ declare var moment;
   templateUrl: './app/modules/carousel-dive/carousel-dive.module.html',
   directives: [ROUTER_DIRECTIVES],
   providers: [DeepDiveService],
-  pipes: [SanitizeRUrl, SanitizeHtml]
+  pipes: [SanitizeRUrl,SanitizeHtml]
 
 })
 
 export class CarouselDiveModule{
   @Input() carouselData: any;
-  @Input() videoData: any;
   @Input() state:any;
-  // public videoData:any;
+  @Input() videoData: any;
 
   constructor(
       private _deepdiveservice:DeepDiveService
@@ -33,17 +33,20 @@ export class CarouselDiveModule{
 
   ngOnInit() {
 
-
     setTimeout(function(){
       jQuery(".owl-carousel").owlCarousel({
         items:1,
         loop:true,
         dots:false,
         nav:false,
-        navText:false
+        navText:false,
+        mouseDrag: false,
+
       });
 
     }, 1000);
+
+
   }
 
   leftcarousel() {

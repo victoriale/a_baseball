@@ -1,4 +1,4 @@
-import {Component, AfterViewChecked} from '@angular/core';
+import {Component, AfterViewChecked, OnInit} from '@angular/core';
 import {RouteParams, RouteConfig, RouterOutlet, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
 import {GlobalFunctions} from "../global/global-functions";
@@ -43,6 +43,7 @@ import {GlobalSettings} from "../global/global-settings";
 //FOR DEEP DIVE
 import {SyndicatedArticlePage} from "../webpages/syndicated-article-page/syndicated-article-page.page";
 import {DeepDivePage} from "../webpages/deep-dive-page/deep-dive.page";
+declare var jQuery: any;
 
 @Component({
     selector: 'my-app',
@@ -264,7 +265,7 @@ import {DeepDivePage} from "../webpages/deep-dive-page/deep-dive.page";
     }
 ])
 
-export class AppComponent implements AfterViewChecked{
+export class AppComponent implements OnInit{
   public shiftContainer:string;
   public hideHeader: boolean;
   private isHomeRunZone:boolean = false;
@@ -287,7 +288,48 @@ export class AppComponent implements AfterViewChecked{
     }
   }
 
-  ngAfterViewChecked(){
+  setPageSize(){
+    if(jQuery("#webContainer").hasClass('deep-dive-container')){
+      jQuery("#webContainer").removeClass('deep-dive-container');
+    }
+    if(jQuery("#webContainer").hasClass('directory-rails')){
+      jQuery("#webContainer").removeClass('directory-rails');
+    }
+    if(jQuery("#webContainer").hasClass('pick-a-team-container')){
+      jQuery("#webContainer").removeClass('pick-a-team-container');
+    }
+    jQuery("deep-dive-page").parent().addClass('deep-dive-container');
+    jQuery("directory-page").parent().addClass('directory-rails');
+    jQuery("home-page").parent().addClass('pick-a-team-container');
+
+    var elem = document.querySelector('deep-dive-page');
+    var intvl = setInterval(function(){
+        if (!elem || !elem.parentNode){
+          if(jQuery("#webContainer").hasClass('deep-dive-container')){
+            jQuery("#webContainer").removeClass('deep-dive-container');
+          }
+          if(jQuery("#webContainer").hasClass('directory-rails')){
+            jQuery("#webContainer").removeClass('directory-rails');
+          }
+          if(jQuery("#webContainer").hasClass('pick-a-team-container')){
+            jQuery("#webContainer").removeClass('pick-a-team-container');
+          }
+          jQuery("deep-dive-page").parent().addClass('deep-dive-container');
+          jQuery("directory-page").parent().addClass('directory-rails');
+          jQuery("home-page").parent().addClass('pick-a-team-container');
+
+          window.dispatchEvent(new Event('resize'));
+        }
+    },100);
+
+    window.dispatchEvent(new Event('resize'));
+  }
+  ngOnInit(){
+    //this._elementRef.nativeElement.getElementsByClassName('deep-dive-page').className('deep-dive-container');
+    var script = document.createElement("script");
+    script.src = 'http://w1.synapsys.us/widgets/deepdive/rails/rails.js?selector=.web-container&adMarginTop=100';
+    document.head.appendChild(script);
     this.shiftContainer = this.getHeaderHeight() + 'px';
+    window.addEventListener("load", this.setPageSize);
   }
 }

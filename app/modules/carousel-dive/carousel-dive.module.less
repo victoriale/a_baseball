@@ -53,6 +53,7 @@
   background-size: cover;
 //  background-position: center;
   background-repeat: no-repeat;
+  cursor: pointer;
 }
 .owl-carousel {
   height: 420px;
@@ -61,7 +62,7 @@
   width: 80%;
   height: 420px;
   margin: auto;
-  display: table;
+//  display: table;
   position: relative;
   &-container{
     display: table-cell;
@@ -89,8 +90,11 @@
     &-title {
       .globalDefaultModFont(26px, 400, @white);
       line-height: 1.2;
-      font-weight: 900;
+      font-weight: 800;
       width: 100%;
+      >#cardivetitle {
+        font-weight: 800;
+      }
       >span{
         display: block;
         font-size:18px;
@@ -99,18 +103,20 @@
       &-border {
         border-bottom: 2px solid @white;
         width: 80%;
-        margin: 9px 0px 19px 0px;
+        margin: 9px 0px 0px 0px;
       }
     }
     &-content {
-      .globalDefaultModFont(16px, 400, @white);
       line-height: 1.2;
       width: 100%;
+      .globalDefaultModFont(16px, 400, @white);
+      margin-top: 19px;
      >span {
        font-size: 14px;
-       font-weight: 300;
+       font-weight: 400;
        position: relative;
        top: 10px;
+       display: block;
      }
     }
     &-fullstory {
@@ -129,10 +135,12 @@
       }
     }
   }
+  #lrgvidcarousel-right {
+      width: 30%; //fix for Safari 9.1
+  }
   &-left {
     //margin-right: 33px;
     &-video {
-      background-color: @homeRunLoyalRed;
       width: 500px;
       height: 281px;
       margin: auto;
@@ -154,11 +162,25 @@
     height: 320px;
   }
   .carousel-item {
+    display: table;
     &-container {
       &-left {
         &-video {
-          width: 320px;
-          height: 180px;
+          // width: 320px;
+          // height: 180px;
+          width:auto ;
+          padding-bottom: 56.25%;
+          height: 0;
+          position: relative;
+          background-color: none;
+          >iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+
+          }
         }
       }
       &-right {
@@ -182,9 +204,16 @@
     }
   }
 }
+@media @tablet {
+  .carousel-item {
+    display: table;
+  }
+}
+
 
 @media @desktop-m {
   .carousel-item {
+    display: table;
     &-container {
       &-left {
         &-video {
@@ -200,6 +229,7 @@
 }
 @media @desktop-l {
   .carousel-item {
+    display: block;
     &-container {
       .flexDisplay;
       &-right {

@@ -12,7 +12,7 @@ import {NoDataBox} from '../../components/error/data-box/data-box.component';
 export interface StatsTableTabData<T> {
   tabTitle: string;
   isActive: boolean;
-  isLoaded: boolean;  
+  isLoaded: boolean;
   hasError: boolean;
   tableData: TableModel<T>;
   seasonIds: Array<{key: string, value: string}>;
@@ -25,17 +25,17 @@ export interface StatsTableTabData<T> {
   templateUrl: "./app/components/player-stats/player-stats.component.html",
   directives: [SliderCarousel, Tabs, Tab, CustomTable, DropdownComponent, LoadingComponent, NoDataBox],
 })
-export class PlayerStatsComponent implements DoCheck {  
+export class PlayerStatsComponent implements DoCheck {
   public selectedIndex;
 
   public carouselData: Array<SliderCarouselInput> = [];
 
   @Input() tabs: Array<StatsTableTabData<any>>;
-  
+
   @Input() showGlossary: boolean;
-  
-  @Output("tabSelected") tabSelectedListener = new EventEmitter(); 
-  
+
+  @Output("tabSelected") tabSelectedListener = new EventEmitter();
+
   private selectedTabTitle: string;
   private tabsLoaded: {[key: string]: string};
   private selectedSeasonId: string;
@@ -43,7 +43,7 @@ export class PlayerStatsComponent implements DoCheck {
   private noDataMessage = "Sorry, there is no data available.";
 
   constructor() {}
-  
+
   ngDoCheck() {
     if ( this.tabs && this.tabs.length > 0 ) {
       if ( !this.tabsLoaded  ) {
@@ -66,27 +66,27 @@ export class PlayerStatsComponent implements DoCheck {
       }
     }
   }
-  
+
   dropdownChanged($event) {
     this.selectedSeasonId = $event;
     let matchingTabs = this.tabs.filter(value => value.tabTitle === this.selectedTabTitle);
     if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) {
       let selectedTab = matchingTabs[0];
       this.tabSelectedListener.next([selectedTab, $event]);
-      this.updateCarousel();        
+      this.updateCarousel();
     }
   }
-  
+
   getSelectedTab(): StatsTableTabData<any> {
     var matchingTabs = this.tabs.filter(value => value.tabTitle === this.selectedTabTitle);
-    if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) { 
+    if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) {
       return matchingTabs[0];
     }
     else {
       return null;
-    }    
+    }
   }
-  
+
   tabSelected(newTitle) {
     this.selectedTabTitle = newTitle;
     this.noDataMessage = "Sorry, there are no " + newTitle + " stats available.";
@@ -96,39 +96,39 @@ export class PlayerStatsComponent implements DoCheck {
     this.tabSelectedListener.next([this.getSelectedTab(), this.selectedSeasonId]);
     this.updateCarousel();
   }
-  
+
   indexNum($event) {
     let selectedIndex = Number($event);
     let matchingTabs = this.tabs.filter(value => value.tabTitle === this.selectedTabTitle);
-    if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) {  
+    if ( matchingTabs.length > 0 && matchingTabs[0] !== undefined ) {
       let selectedTab = matchingTabs[0];
       if ( selectedTab.tableData ) {
         selectedTab.tableData.setRowSelected(selectedIndex);
       }
     }
   }
-  
+
   updateCarousel(sortedRows?) {
     var selectedTab = this.getSelectedTab();
     if ( !selectedTab || !selectedTab.tableData ) {
       return;
     }
-    
+
     let carouselData: Array<SliderCarouselInput> = [];
     let index = 0;
-    let selectedIndex = -1; 
+    let selectedIndex = -1;
     selectedTab.tableData.rows.map((value) => {
-      let item = selectedTab.convertToCarouselItem(value, index); 
+      let item = selectedTab.convertToCarouselItem(value, index);
       if ( selectedTab.tableData.isRowSelected(value, index) ) {
         selectedIndex = index;
       }
-      index++;            
+      index++;
       return item;
     })
     .forEach(value => {
       carouselData.push(value);
     });
-    
+
     this.selectedIndex = selectedIndex < 0 ? 0 : selectedIndex;
     this.carouselData = carouselData;    
   }

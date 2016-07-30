@@ -1,6 +1,6 @@
 export class Scroller{
-  scrollContentWrapper: any;
-  scrollContent: any;
+  public scrollContentWrapper: any;
+  public scrollContent: any;
   scrollbarHeightRatio: number;
   scrollbarBaseHeight: number;
   contentRatio: number;
@@ -8,13 +8,17 @@ export class Scroller{
   scrollOffset: number
   scrollerElement: any;
   scrollerAlreadyOnPage: boolean;
-  scrollContainer: any;
+  public scrollContainer: any;
 
   normalizedPosition: number;
   contentPosition: number;
-  scrollerBeingDragged: boolean;
+  public scrollerBeingDragged: boolean;
 
   constructor(scrollContainer) {
+    this.construct(scrollContainer);
+  }
+
+  construct (scrollContainer) {
     this.scrollContainer = scrollContainer;
     this.scrollContentWrapper = scrollContainer.getElementsByClassName('scrollable-item-wrapper');
     this.scrollContent = scrollContainer.getElementsByClassName('scrollable-item-content');
@@ -62,23 +66,21 @@ export class Scroller{
   }
 
   // Functions
-  startDrag(evt) {
-      this.normalizedPosition = evt.pageY;
-      if (this.scrollContentWrapper != undefined) {
-        this.contentPosition = this.scrollContentWrapper.scrollTop;
-      }
-      this.scrollerBeingDragged = true;
+  startDrag(evt, ths) {
+      ths.normalizedPosition = evt.pageY;
+      ths.contentPosition = ths.scrollContentWrapper.scrollTop;
+      ths.scrollerBeingDragged = true;
   }
 
-  stopDrag(evt) {
-      this.scrollerBeingDragged = false;
+  stopDrag(evt, ths) {
+      ths.scrollerBeingDragged = false;
   }
 
-  scrollBarScroll(evt) {
-      if (this.scrollerBeingDragged === true) {
-          var mouseDifferential = evt.pageY - this.normalizedPosition;
-          var scrollEquivalent = mouseDifferential * (this.scrollContentWrapper.scrollHeight / this.scrollContainer.offsetHeight);
-          this.scrollContentWrapper.scrollTop = this.contentPosition + scrollEquivalent;
+  scrollBarScroll(evt, ths) {
+      if (ths.scrollerBeingDragged === true) {
+          var mouseDifferential = evt.pageY - ths.normalizedPosition;
+          var scrollEquivalent = mouseDifferential * (ths.scrollContentWrapper.scrollHeight / ths.scrollContainer.offsetHeight);
+          ths.scrollContentWrapper.scrollTop = ths.contentPosition + scrollEquivalent;
       }
   }
 
@@ -95,10 +97,15 @@ export class Scroller{
     this.scrollContainer.className += ' showScroll';
 
     // attach related draggable listeners
-    this.scrollerElement.addEventListener('mousedown', this.startDrag);
-    window.addEventListener('mouseup', this.stopDrag);
-    window.addEventListener('mousemove', this.scrollBarScroll);
-
+    this.scrollerElement.addEventListener('mousedown', function(evt){
+      self.startDrag(evt, self);
+    });
+    window.addEventListener('mouseup', function(evt){
+      self.stopDrag(evt, self);
+    });
+    window.addEventListener('mousemove', function(evt){
+      self.scrollBarScroll(evt, self);
+    });
     this.scrollContentWrapper.addEventListener('scroll', function(evt) {
         // Move Scroll bar to top offset
         var scrollPercentage = evt.target.scrollTop / self.scrollContentWrapper.scrollHeight;
