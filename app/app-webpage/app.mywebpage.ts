@@ -312,7 +312,6 @@ export class MyAppComponent implements OnInit{
         }
       );
     }else{
-      console.log('Error non valid partner', this.partnerID);
     }
   }
 
