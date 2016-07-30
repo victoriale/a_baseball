@@ -35,6 +35,7 @@ export class SyndicatedTrendingComponent {
         this._deepdiveservice.getDeepDiveBatchService(numItems, 1, state).subscribe(
           data => {
             this.articleData = this._deepdiveservice.transformTrending(data.data, currentArticleId);
+            console.log(this.articleData);
             if (this.trendingLength < 20) {
             this.trendingLength = this.trendingLength + 10;
             }
