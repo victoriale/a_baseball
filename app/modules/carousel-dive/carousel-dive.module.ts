@@ -1,8 +1,7 @@
 import {Component,OnInit,EventEmitter,Input} from '@angular/core';
 import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 import {DeepDiveService} from '../../services/deep-dive.service';
-import {SanitizeRUrl} from "../../pipes/safe.pipe";
-import {SanitizeHtml} from "../../pipes/safe.pipe";
+import {SanitizeRUrl, SanitizeHtml} from "../../pipes/safe.pipe";
 
 
 declare var jQuery:any;
