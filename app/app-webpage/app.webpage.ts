@@ -1,5 +1,5 @@
 import {Component, AfterViewChecked, OnInit} from '@angular/core';
-import {RouteParams, RouteConfig, RouterOutlet, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import {RouteParams, RouteConfig, RouterOutlet, ROUTER_DIRECTIVES, Router} from '@angular/router-deprecated';
 
 import {GlobalFunctions} from "../global/global-functions";
 import {FooterComponent} from "../components/footer/footer.component";
@@ -269,8 +269,10 @@ export class AppComponent implements OnInit{
   public shiftContainer:string;
   public hideHeader: boolean;
   private isHomeRunZone:boolean = false;
-  constructor(private _params: RouteParams){
+  constructor(private _params: RouteParams, private _router: Router){
     this.hideHeader = GlobalSettings.getHomeInfo().hide;
+    _router.subscribe(function(){console.log("blue")});
+
   }
 
   getHeaderHeight(){
@@ -290,24 +292,21 @@ export class AppComponent implements OnInit{
 
   setPageSize(){
     jQuery("#webContainer").removeClass('deep-dive-container directory-rails pick-a-team-container profile-container basic-container');
-
     // Handle all the exceptions here
     jQuery("deep-dive-page").parent().addClass('deep-dive-container');
     jQuery("directory-page").parent().addClass('directory-rails');
     jQuery("home-page").parent().addClass('pick-a-team-container');
-
     // Handle the basic (consistent) pages here
     if(jQuery("deep-dive-page").add("directory-page").add("home-page").length < 1) {
         jQuery("sidekick-wrapper").parent().parent().addClass('basic-container');
     }
-    var pageWrappers = jQuery("deep-dive-page").add("directory-page").add("home-page");
     var isTakenOver = false;
     var intvl = setInterval(function(){
+        var pageWrappers = jQuery("deep-dive-page").add("directory-page").add("home-page");
         // should only run once
-        console.log('webContainer length', jQuery("#webContainer").length);
-        if (!isTakenOver && jQuery("#webContainer").length){
+        if (!isTakenOver && pageWrappers.add("sidekick-wrapper").length > 0 ){
+            console.log("BOOM::::",pageWrappers.add("sidekick-wrapper"));
             jQuery("#webContainer").removeClass('deep-dive-container directory-rails pick-a-team-container profile-container basic-container');
-
             // Handle all the exceptions here
             jQuery("deep-dive-page").parent().addClass('deep-dive-container');
             jQuery("directory-page").parent().addClass('directory-rails');
@@ -319,10 +318,10 @@ export class AppComponent implements OnInit{
                 jQuery("sidekick-wrapper").parent().parent().addClass('basic-container');
                 console.log("no matches found... go to basic");
             }
-            jQuery(window).trigger('resize');
-            console.log("??? Inside shenanigans");
+            //jQuery(window).trigger('resize');
+            window.dispatchEvent(new Event('resize'));
             isTakenOver = true;
-            clearTimeout(intvl);
+            clearInterval(intvl);
         }
     },100);
 
@@ -335,14 +334,13 @@ export class AppComponent implements OnInit{
     script.src = '//w1.synapsys.us/widgets/deepdive/rails/rails.js?selector=.web-container&adMarginTop=100';
     document.head.appendChild(script);
     this.shiftContainer = this.getHeaderHeight() + 'px';
-    console.log('TEST');
-    window.addEventListener("load", this.setPageSize);
-    console.log('HELLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLO');
-    console.log(window.dispatchEvent);
-    jQuery(window).trigger('resize');
+    //window.addEventListener("load", this.setPageSize);
+    window.dispatchEvent(new Event('resize'));
+    this.setPageSize();
   }
   ngAfterContentInit(){
-      console.log('******* ngAfterContentInit ********');
-      this.setPageSize();
   }
+    routerCanDeactivate(){
+        alert("router can indeed");
+    }
 }
