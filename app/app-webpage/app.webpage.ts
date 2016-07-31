@@ -304,8 +304,10 @@ export class AppComponent implements OnInit{
     var isTakenOver = false;
     var intvl = setInterval(function(){
         // should only run once
+        console.log('webContainer length', jQuery("#webContainer").length);
         if (!isTakenOver && jQuery("#webContainer").length){
             jQuery("#webContainer").removeClass('deep-dive-container directory-rails pick-a-team-container profile-container basic-container');
+
             // Handle all the exceptions here
             jQuery("deep-dive-page").parent().addClass('deep-dive-container');
             jQuery("directory-page").parent().addClass('directory-rails');
@@ -313,29 +315,31 @@ export class AppComponent implements OnInit{
 
             // Handle the basic (consistent) pages here
             if(pageWrappers.length < 1) {
-                console.log(jQuery("sidekick-wrapper").parent().parent());
+                console.log('sidekick-wrapper',jQuery("sidekick-wrapper").parent().parent());
                 jQuery("sidekick-wrapper").parent().parent().addClass('basic-container');
                 console.log("no matches found... go to basic");
             }
-            window.dispatchEvent(new Event('resize'));
+            jQuery(window).trigger('resize');
             console.log("??? Inside shenanigans");
             isTakenOver = true;
             clearTimeout(intvl);
         }
-        console.log("!!! intvl fired");
     },100);
 
-      console.log("...something fired");
     //window.dispatchEvent(new Event('resize'));
   }
   ngOnInit(){
+
     //this._elementRef.nativeElement.getElementsByClassName('deep-dive-page').className('deep-dive-container');
     var script = document.createElement("script");
     script.src = '//w1.synapsys.us/widgets/deepdive/rails/rails.js?selector=.web-container&adMarginTop=100';
     document.head.appendChild(script);
     this.shiftContainer = this.getHeaderHeight() + 'px';
+    console.log('TEST');
     window.addEventListener("load", this.setPageSize);
-    window.dispatchEvent(new Event('resize'));
+    console.log('HELLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLO');
+    console.log(window.dispatchEvent);
+    jQuery(window).trigger('resize');
   }
   ngAfterContentInit(){
       console.log('******* ngAfterContentInit ********');
