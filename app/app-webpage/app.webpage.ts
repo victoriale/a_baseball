@@ -293,7 +293,7 @@ export class AppComponent implements OnInit{
   setPageSize(){
     jQuery("#webContainer").removeClass('deep-dive-container directory-rails pick-a-team-container profile-container basic-container');
     // Handle all the exceptions here
-    jQuery("deep-dive-page").parent().addClass('deep-dive-container');
+    jQuery("deep-dive-page").add("syndicated-article-page").parent().addClass('deep-dive-container');
     jQuery("directory-page").parent().addClass('directory-rails');
     jQuery("home-page").parent().addClass('pick-a-team-container');
     // Handle the basic (consistent) pages here
@@ -302,45 +302,39 @@ export class AppComponent implements OnInit{
     }
     var isTakenOver = false;
     var intvl = setInterval(function(){
-        var pageWrappers = jQuery("deep-dive-page").add("directory-page").add("home-page");
+        var pageWrappers = jQuery("deep-dive-page").add("syndicated-article-page").add("directory-page").add("home-page");
         // should only run once
         if (!isTakenOver && pageWrappers.add("sidekick-wrapper").length > 0 ){
-            console.log("BOOM::::",pageWrappers.add("sidekick-wrapper"));
+            console.log("BOOM::::",pageWrappers.add("sidekick-wrapper").length);
             jQuery("#webContainer").removeClass('deep-dive-container directory-rails pick-a-team-container profile-container basic-container');
             // Handle all the exceptions here
-            jQuery("deep-dive-page").parent().addClass('deep-dive-container');
+            jQuery("deep-dive-page").add("syndicated-article-page").parent().addClass('deep-dive-container');
             jQuery("directory-page").parent().addClass('directory-rails');
             jQuery("home-page").parent().addClass('pick-a-team-container');
 
             // Handle the basic (consistent) pages here
             if(pageWrappers.length < 1) {
-                console.log('sidekick-wrapper',jQuery("sidekick-wrapper").parent().parent());
                 jQuery("sidekick-wrapper").parent().parent().addClass('basic-container');
-                console.log("no matches found... go to basic");
             }
-            //jQuery(window).trigger('resize');
-            window.dispatchEvent(new Event('resize'));
+            //This has to be resize to trigger the takeover update
+            try {
+                window.dispatchEvent(new Event('resize'));
+            }catch(e){
+                console.log("DispatchEvent Error:",e);
+            }
             isTakenOver = true;
             clearInterval(intvl);
         }
     },100);
-
-    //window.dispatchEvent(new Event('resize'));
   }
   ngOnInit(){
-
-    //this._elementRef.nativeElement.getElementsByClassName('deep-dive-page').className('deep-dive-container');
     var script = document.createElement("script");
     script.src = '//w1.synapsys.us/widgets/deepdive/rails/rails.js?selector=.web-container&adMarginTop=100';
     document.head.appendChild(script);
     this.shiftContainer = this.getHeaderHeight() + 'px';
-    //window.addEventListener("load", this.setPageSize);
-    window.dispatchEvent(new Event('resize'));
+    //  Need this for when you navigate to new page.  Load event is triggered from app.domain.ts
+    window.addEventListener("load", this.setPageSize);
+    // Initialize the first time app.webpage.ts loads
     this.setPageSize();
   }
-  ngAfterContentInit(){
-  }
-    routerCanDeactivate(){
-        alert("router can indeed");
-    }
 }

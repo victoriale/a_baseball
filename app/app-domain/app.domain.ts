@@ -38,8 +38,13 @@ export class AppDomain {
           // var routeItems = url.split('/');
           //Only scroll to top if the page isn't the directory.
           // if ( routeItems[1] != "directory" ) {
-              window.scrollTo(0, 0);
           // }
+          window.scrollTo(0, 0);
+          try {
+            window.dispatchEvent(new Event('load'));
+          }catch(e){
+            console.log("DispatchEvent Error:",e);
+          }
         }
       );
     }
