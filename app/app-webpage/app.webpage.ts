@@ -289,40 +289,44 @@ export class AppComponent implements OnInit{
   }
 
   setPageSize(){
-    if(jQuery("#webContainer").hasClass('deep-dive-container')){
-      jQuery("#webContainer").removeClass('deep-dive-container');
-    }
-    if(jQuery("#webContainer").hasClass('directory-rails')){
-      jQuery("#webContainer").removeClass('directory-rails');
-    }
-    if(jQuery("#webContainer").hasClass('pick-a-team-container')){
-      jQuery("#webContainer").removeClass('pick-a-team-container');
-    }
+    jQuery("#webContainer").removeClass('deep-dive-container directory-rails pick-a-team-container profile-container basic-container');
+
+    // Handle all the exceptions here
     jQuery("deep-dive-page").parent().addClass('deep-dive-container');
     jQuery("directory-page").parent().addClass('directory-rails');
     jQuery("home-page").parent().addClass('pick-a-team-container');
 
-    var elem = document.querySelector('deep-dive-page');
+    // Handle the basic (consistent) pages here
+    if(jQuery("deep-dive-page").add("directory-page").add("home-page").length < 1) {
+        jQuery("sidekick-wrapper").parent().parent().addClass('basic-container');
+    }
+    var pageWrappers = jQuery("deep-dive-page").add("directory-page").add("home-page");
+    var isTakenOver = false;
     var intvl = setInterval(function(){
-        if (!elem || !elem.parentNode){
-          if(jQuery("#webContainer").hasClass('deep-dive-container')){
-            jQuery("#webContainer").removeClass('deep-dive-container');
-          }
-          if(jQuery("#webContainer").hasClass('directory-rails')){
-            jQuery("#webContainer").removeClass('directory-rails');
-          }
-          if(jQuery("#webContainer").hasClass('pick-a-team-container')){
-            jQuery("#webContainer").removeClass('pick-a-team-container');
-          }
-          jQuery("deep-dive-page").parent().addClass('deep-dive-container');
-          jQuery("directory-page").parent().addClass('directory-rails');
-          jQuery("home-page").parent().addClass('pick-a-team-container');
+        // should only run once
+        if (!isTakenOver && jQuery("#webContainer").length){
+            jQuery("#webContainer").removeClass('deep-dive-container directory-rails pick-a-team-container profile-container basic-container');
+            // Handle all the exceptions here
+            jQuery("deep-dive-page").parent().addClass('deep-dive-container');
+            jQuery("directory-page").parent().addClass('directory-rails');
+            jQuery("home-page").parent().addClass('pick-a-team-container');
 
-          window.dispatchEvent(new Event('resize'));
+            // Handle the basic (consistent) pages here
+            if(pageWrappers.length < 1) {
+                console.log(jQuery("sidekick-wrapper").parent().parent());
+                jQuery("sidekick-wrapper").parent().parent().addClass('basic-container');
+                console.log("no matches found... go to basic");
+            }
+            window.dispatchEvent(new Event('resize'));
+            console.log("??? Inside shenanigans");
+            isTakenOver = true;
+            clearTimeout(intvl);
         }
+        console.log("!!! intvl fired");
     },100);
 
-    window.dispatchEvent(new Event('resize'));
+      console.log("...something fired");
+    //window.dispatchEvent(new Event('resize'));
   }
   ngOnInit(){
     //this._elementRef.nativeElement.getElementsByClassName('deep-dive-page').className('deep-dive-container');
@@ -331,5 +335,10 @@ export class AppComponent implements OnInit{
     document.head.appendChild(script);
     this.shiftContainer = this.getHeaderHeight() + 'px';
     window.addEventListener("load", this.setPageSize);
+    window.dispatchEvent(new Event('resize'));
+  }
+  ngAfterContentInit(){
+      console.log('******* ngAfterContentInit ********');
+      this.setPageSize();
   }
 }
