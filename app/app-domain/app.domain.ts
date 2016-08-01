@@ -43,7 +43,7 @@ export class AppDomain {
           try {
             window.dispatchEvent(new Event('load'));
           }catch(e){
-            //to run resize && reload event on IE
+            //to run reload event on IE
             var resizeEvent = document.createEvent('UIEvents');
             resizeEvent.initUIEvent('load', true, false, window, 0);
             window.dispatchEvent(resizeEvent);
