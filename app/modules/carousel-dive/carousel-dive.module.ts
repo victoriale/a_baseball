@@ -47,13 +47,10 @@ export class CarouselDiveModule{
         dots:false,
         nav:false,
         navText:false,
-        mouseDrag: false,
-
+        mouseDrag: false
       });
 
     }, 1000);
-
-
   }
 
   leftcarousel() {
@@ -66,10 +63,5 @@ export class CarouselDiveModule{
     owl.owlCarousel();
     owl.trigger('next.owl.carousel');
   }
-​
-​
-​
-​
-​
 ​
 }
