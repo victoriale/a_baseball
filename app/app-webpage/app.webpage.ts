@@ -269,9 +269,8 @@ export class AppComponent implements OnInit{
   public shiftContainer:string;
   public hideHeader: boolean;
   private isHomeRunZone:boolean = false;
-  constructor(private _params: RouteParams, private _router: Router){
+  constructor(private _params: RouteParams){
     this.hideHeader = GlobalSettings.getHomeInfo().hide;
-    _router.subscribe(function(){});
 
   }
 

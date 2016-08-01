@@ -1,4 +1,4 @@
-import {Component, ApplicationRef, ElementRef} from '@angular/core';
+import {Component, ApplicationRef} from '@angular/core';
 import {Router, RouteConfig, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {Title} from '@angular/platform-browser';
 import {Observable} from 'rxjs/Rx';
@@ -27,7 +27,7 @@ import {MyAppComponent} from "../app-webpage/app.mywebpage";
 ])
 
 export class AppDomain {
-    constructor(private _router: Router, private _ref: ApplicationRef, private _el:ElementRef) {
+    constructor(private _router: Router, private _ref: ApplicationRef) {
       if ( Object.prototype.toString.call(window['HTMLElement']).indexOf('Constructor') > 0 ) {
         //we appear to be using safari
         this._router.subscribe(route => {
