@@ -1,16 +1,16 @@
 .schedule_box{//TODO
-  min-width:200px;//150px;
-  max-width:200px;//150px;
-  height:160px;//120px;
+  min-width:150px;
+  max-width:150px;
+  height:120px;
   margin-right: 5px;
   border: 1px solid @highlightGrey;
   background-color: @white;
   float:left;
   &-date{
     width:100%;
-    height:30px;//20px;
-    .globalDefaultModFont(12px, 400, @black);//10px
-    line-height: 30px;//20px;
+    height:20px;
+    .globalDefaultModFont(10px, 400, @black);
+    line-height: 20px;
     white-space: nowrap;
     overflow: hidden;
     & > i{
@@ -38,9 +38,9 @@
   }
   &-versus{
     width:100%;
-    height:130px;//100px;
+    height: 100px;
     position: relative;
-    padding:0 0 10px;//0 0 30px;
+    padding: 0 0 30px;
     border-top:1px solid @highlightGrey;
     .flexDisplay;
     .flexDirection(row);
@@ -65,11 +65,11 @@
     }
   }
   &-image{
-    width:60px;//44px;
-    height:60px;//44px;
+    width: 44px;
+    height: 44px;
     border:1px solid @highlightGrey;
     border-radius: 50%;
-    margin:10px auto 0;//5px auto 0;
+    margin: 5px auto 0;
   }
   &-text{
     display: inline-block;
@@ -82,36 +82,36 @@
     }
   }
   &-linkbox{
-    width: 120px;//104px;
-    height: 25px;//20px;
+    width: 104px;
+    height: 20px;
     position: absolute;
     bottom: 0;
-    left:0;
-    right:0;
-    margin:0 auto 10px;//0 auto 5px;
+    left: 0;
+    right: 0;
+    margin: 0 auto 5px;
     background-color: @white;
     line-height: 20px;
-    text-align:center;
-    border:1px solid @highlightGrey;
+    text-align: center;
+    border: 1px solid @highlightGrey;
     border-radius: 3px;
-    .globalDefaultModFont(10px, 800, @black);//10px
+    .globalDefaultModFont(10px, 800, @black);
     &:hover{
       color:@masterBrandColor;
     }
     &-live {
-      width: 120px;//104px;
-      height: 25px;//20px;
+      width: 104px;
+      height: 20px;
       position: absolute;
       bottom: 0;
       left:0;
       right:0;
-      margin:0 auto 10px;//0 auto 5px;
+      margin: 0 auto 5px;
       background-color: @masterBrandColor;
       line-height: 22px;
       text-align:center;
       border:1px solid @masterBrandColor;
       border-radius: 3px;
-      .globalDefaultModFont(10px, 800, @white);//10px
+      .globalDefaultModFont(10px, 800, @white);
       &:hover{
         color:@white;
         background-color: @black;
@@ -130,7 +130,7 @@
 }
 
 .schedule-tag{
-  min-width: 205px;//155px;//on safari it breaks
+  min-width: 155px;//on safari it breaks
 }
 @media @tablet {
   .schedule_box{
