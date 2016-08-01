@@ -320,7 +320,12 @@ export class AppComponent implements OnInit{
             try {
                 window.dispatchEvent(new Event('resize'));
             }catch(e){
-                console.log("DispatchEvent Error:",e);
+              console.log("DispatchEvent Error:",e);
+              console.log("Run new dispatch event for IE on setPageSize");
+                //to run resize event on IE
+                var resizeEvent = document.createEvent('UIEvents');
+                resizeEvent.initUIEvent('resize', true, false, window, 0);
+                window.dispatchEvent(resizeEvent);
             }
             isTakenOver = true;
             clearInterval(intvl);
