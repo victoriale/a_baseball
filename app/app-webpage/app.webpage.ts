@@ -305,7 +305,6 @@ export class AppComponent implements OnInit{
       //Looking at component/module tags
         var pageWrappers = jQuery("deep-dive-page").add("article-pages").add("syndicated-article-page").add("directory-page").add("home-page");
         // should only run once
-        console.log(pageWrappers.add("sidekick-wrapper").length);
         if (!isTakenOver && pageWrappers.add("sidekick-wrapper").length > 0 ){
             jQuery("#webContainer").removeClass('deep-dive-container directory-rails pick-a-team-container profile-container basic-container');
             // Handle all the exceptions here
@@ -331,6 +330,7 @@ export class AppComponent implements OnInit{
         }
     },100);
   }
+  
   ngOnInit(){
     var script = document.createElement("script");
     script.src = '//w1.synapsys.us/widgets/deepdive/rails/rails.js?selector=.web-container&adMarginTop=100';

@@ -325,22 +325,22 @@ export class MyAppComponent implements OnInit{
   setPageSize(){
     jQuery("#webContainer").removeClass('deep-dive-container directory-rails pick-a-team-container profile-container basic-container');
     // Handle all the exceptions here
-    jQuery("deep-dive-page").add("syndicated-article-page").parent().addClass('deep-dive-container');
+    jQuery("deep-dive-page").parent().addClass('deep-dive-container');
     jQuery("directory-page").parent().addClass('directory-rails');
     jQuery("home-page").parent().addClass('pick-a-team-container');
     // Handle the basic (consistent) pages here
     if(jQuery("deep-dive-page").add("directory-page").add("home-page").length < 1) {
         jQuery("sidekick-wrapper").parent().parent().addClass('basic-container');
     }
-
     var isTakenOver = false;
     var intvl = setInterval(function(){
-        var pageWrappers = jQuery("deep-dive-page").add("syndicated-article-page").add("directory-page").add("home-page");
+      //Looking at component/module tags
+        var pageWrappers = jQuery("deep-dive-page").add("article-pages").add("syndicated-article-page").add("directory-page").add("home-page");
         // should only run once
         if (!isTakenOver && pageWrappers.add("sidekick-wrapper").length > 0 ){
             jQuery("#webContainer").removeClass('deep-dive-container directory-rails pick-a-team-container profile-container basic-container');
             // Handle all the exceptions here
-            jQuery("deep-dive-page").add("syndicated-article-page").parent().addClass('deep-dive-container');
+            jQuery("deep-dive-page").parent().addClass('deep-dive-container');
             jQuery("directory-page").parent().addClass('directory-rails');
             jQuery("home-page").parent().addClass('pick-a-team-container');
 
@@ -360,9 +360,9 @@ export class MyAppComponent implements OnInit{
             isTakenOver = true;
             clearInterval(intvl);
         }
-    },500);
-
+    },100);
   }
+
   ngOnInit(){
     var script = document.createElement("script");
     script.src = '//w1.synapsys.us/widgets/deepdive/rails/rails.js?selector=.web-container&adMarginTop=100';
