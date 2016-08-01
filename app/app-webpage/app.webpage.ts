@@ -271,7 +271,7 @@ export class AppComponent implements OnInit{
   private isHomeRunZone:boolean = false;
   constructor(private _params: RouteParams, private _router: Router){
     this.hideHeader = GlobalSettings.getHomeInfo().hide;
-    _router.subscribe(function(){console.log("blue")});
+    _router.subscribe(function(){});
 
   }
 
