@@ -43,8 +43,6 @@ export class AppDomain {
           try {
             window.dispatchEvent(new Event('load'));
           }catch(e){
-            console.log("DispatchEvent Error:",e);
-            console.log("Run new dispatch event for IE on AppDomain");
             //to run resize event on IE
             var resizeEvent = document.createEvent('UIEvents');
             resizeEvent.initUIEvent('load', true, false, window, 0);

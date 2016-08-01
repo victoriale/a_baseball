@@ -305,7 +305,6 @@ export class AppComponent implements OnInit{
         var pageWrappers = jQuery("deep-dive-page").add("syndicated-article-page").add("directory-page").add("home-page");
         // should only run once
         if (!isTakenOver && pageWrappers.add("sidekick-wrapper").length > 0 ){
-            console.log("BOOM::::",pageWrappers.add("sidekick-wrapper").length);
             jQuery("#webContainer").removeClass('deep-dive-container directory-rails pick-a-team-container profile-container basic-container');
             // Handle all the exceptions here
             jQuery("deep-dive-page").add("syndicated-article-page").parent().addClass('deep-dive-container');
@@ -320,8 +319,6 @@ export class AppComponent implements OnInit{
             try {
                 window.dispatchEvent(new Event('resize'));
             }catch(e){
-              console.log("DispatchEvent Error:",e);
-              console.log("Run new dispatch event for IE on setPageSize");
                 //to run resize event on IE
                 var resizeEvent = document.createEvent('UIEvents');
                 resizeEvent.initUIEvent('resize', true, false, window, 0);
