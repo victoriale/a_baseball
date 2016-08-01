@@ -182,8 +182,8 @@ export class SchedulesService {
       let partner = GlobalSettings.getHomeInfo();
       var reportLink;
       let reportUrl = val.reportUrlMod.split('/')[2];
-      if(val.live == true && self.getInning(reportUrl) > 3){
-          reportText = 'MID GAME REPORT';
+      if(val.live == true){
+          reportText = 'LIVE GAME REPORT';
       }else{
         if(val.eventStatus = 'pre-event'){
           reportText = 'PRE GAME REPORT'
@@ -200,17 +200,19 @@ export class SchedulesService {
       }
 
       let date = moment(val.startDateTimestamp).tz('America/New_York').format('MMMM D, YYYY');
-      let time = moment(val.startDateTimestamp).tz('America/New_York').format('h:mm A');
+      let time = moment(val.startDateTimestamp).tz('America/New_York').format('h:mm A z');
       newData = {
         date: date + " &bull; " + time,
-        awayImageConfig: self.imageData('image-60', 'border-1', GlobalSettings.getImageUrl(val.awayTeamLogo), MLBGlobalFunctions.formatTeamRoute(val.awayTeamName, val.awayTeamId)),
-        homeImageConfig: self.imageData('image-60', 'border-1', GlobalSettings.getImageUrl(val.homeTeamLogo), MLBGlobalFunctions.formatTeamRoute(val.homeTeamName, val.homeTeamId)),
+        awayImageConfig: self.imageData('image-44', 'border-1', GlobalSettings.getImageUrl(val.awayTeamLogo), MLBGlobalFunctions.formatTeamRoute(val.awayTeamName, val.awayTeamId)),
+        homeImageConfig: self.imageData('image-44', 'border-1', GlobalSettings.getImageUrl(val.homeTeamLogo), MLBGlobalFunctions.formatTeamRoute(val.homeTeamName, val.homeTeamId)),
         awayTeamName: val.awayTeamLastName,
         homeTeamName: val.homeTeamLastName,
         awayLink: MLBGlobalFunctions.formatTeamRoute(val.awayTeamName, val.awayTeamId),
         homeLink: MLBGlobalFunctions.formatTeamRoute(val.homeTeamName, val.homeTeamId),
         reportDisplay: reportText,
         reportLink: reportLink,
+        isLive: val.live == true ? 'schedule-live' : '',
+        inning: val.inning != null ? " " + val.inning + "<sup>" + GlobalFunctions.Suffix(Number(val.inning)) + "</sup>": null
       }
       modifiedArray.push(newData);
     });

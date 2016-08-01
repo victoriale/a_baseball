@@ -223,7 +223,7 @@ export class ArticlesModule implements OnInit {
                 case'starting-lineup-away':
                 case'injuries-home':
                 case'injuries-away':
-                case'upcoming-game':
+                case'upcoming':
                     imageCount++;
                     articles = {
                         title: leftColumnData[val].displayHeadline,

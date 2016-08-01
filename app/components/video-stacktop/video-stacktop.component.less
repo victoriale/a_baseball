@@ -1,8 +1,7 @@
 .video-stacktop {
   width: 640px;
-  display: flex;
-  margin-top: 15px;//divides the two 'video-stacktop-components and the article module above
-
+  margin-bottom: 20px;
+  .flexDisplay;
   &-video {
     background-color: @strokeGrey;
     background-size: cover;
@@ -17,16 +16,15 @@
       height:100%;
       background-color: rgba(0,0,0,0.3);
       .playCircle {
-        font-size:30px;
         position:relative;
         height: 70px;
         width: 70px;
         left: ~"calc(50% - 35px)";
         top: ~"calc(50% - 35px)";
         background-color: rgba(30, 185, 227, 0.9);
-        color: @white;
         padding: 20px 22px;
         border-radius:70px;
+        .globalDefaultModFont(30px, 400, @white);
       }
     }
   }
@@ -49,55 +47,53 @@
       text-align: center;
     }
   }
-  &-video:hover {
-    .overlay {
-      display: block;
-    }
-    .greyout {
-      display:none;
-    }
-  }
   &-right {
-
     width: 294px;
     height: auto;
     margin-right:15px;
     &-title {
-      font-family: Lato;
-      color: #000000;
+      color: @black;
       .video-title-top {
         font-size:10px;
+        text-transform: uppercase;
         display: block;
         span {
-          color:@strokeGrey;
-          font-weight: 900;
+          .globalDefaultModFont(10px, 900, @strokeGrey);
         }
-
       }
       .video-title-mid {
         font-size: 22px;
         display: block;
         margin: 5px 0px 8px 0px;
-
       }
       .video-title-bottom {
         font-size:11px;
         display: block;
         color:@strokeGrey;
         margin-bottom: 5px;
-
       }
     }
     &-text {
       width: 100%;
       font-size:12px;
       height: auto;
-      line-height: 1.5
+      line-height: 1.5;
       height: 125px;
       overflow:hidden;
     }
-
-
+  }
+}
+.video-stacktop:hover {
+  .video-title-mid {
+    color: @homeRunLoyalRed;
+  }
+  .video-stacktop-video {
+    .overlay {
+      display: block!important;
+    }
+    .greyout {
+      display:none!important;
+    }
   }
 }
 @media (min-width: 768px) {
@@ -107,7 +103,6 @@
       width: 352px;
     }
   }
-
 }
 @media (min-width: 1300px) {
   .video-stacktop:first-of-type {
@@ -115,7 +110,6 @@
   }
   .video-stacktop {
     width: 685px;
-    margin-top: 15px;
     float: right;
     &-video {
       width: 320px;
@@ -123,11 +117,9 @@
       margin-left: 15px;
     }
     &-right {
-    //  width: 364px;
       width: 50%;
       height: 190px;
       margin-right:0;
     }
   }
-
 }

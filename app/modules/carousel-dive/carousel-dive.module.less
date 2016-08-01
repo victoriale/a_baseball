@@ -5,7 +5,6 @@
   &-right {
     position: absolute;
     right: 0;
-
     top: 50%;
     transform: translateY(-50%);
     margin: auto;
@@ -24,12 +23,10 @@
         color:@homeRunLoyalRed;
       }
     }
-
   }
   &-left {
     position: absolute;
     left: 0;
-
 //  height: 420px;
     top: 50%;
     transform: translateY(-50%);
@@ -37,7 +34,6 @@
     display: table;
     z-index: 2;
     color:@white;
-
     >i {
       position: relative;
       text-align: center;
@@ -49,9 +45,7 @@
         color:@homeRunLoyalRed;
       }
     }
-
   }
-
 }
 .owl-item {
   height: 420px;
@@ -67,123 +61,206 @@
 .carousel-item {
   width: 80%;
   height: 420px;
-  //margin: auto;
-  display: table;
+  margin: auto;
+//  display: table;
   position: relative;
-  &-container {
-  //  display: table-cell;
-//    vertical-align: middle;
-  &-key {
-    width: 126px;
-    height: 25px;
-    border-radius: 3px;
-    background-color: @homeRunLoyalRed;
-    text-align: center;
-    color:@white;
-    line-height: 25px;
-    margin-bottom: 21px;
-    text-transform: uppercase;
+  &-container{
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+    height: 100%;
+  &-right {
+    display: none;
+    // margin: auto;
+    position: relative;
+  //  top:45px;
+    &-key {
+      width: 126px;
+      height: 25px;
+      border-radius: 3px;
+      background-color: @homeRunLoyalRed;
+      text-align: center;
+      color:@white;
+      line-height: 25px;
+      margin-bottom: 21px;
+      text-transform: uppercase;
 
-  }
-  &-title {
-    .globalDefaultModFont(28px, 400, @white);
-    line-height: 1.2;
-    font-weight: 900;
-    >span{
-      display: block;
-      font-size:20px;
-      font-weight: 400;
     }
-    &-border {
-      border-bottom: 2px solid @white;
-      width: 80%;
-      margin: 9px 0px 19px 0px;
+    &-title {
+      .globalDefaultModFont(26px, 400, @white);
+      line-height: 1.2;
+      font-weight: 800;
+      width: 100%;
+      >#cardivetitle {
+        font-weight: 800;
+      }
+      >span{
+        display: block;
+        font-size:18px;
+        font-weight: 400;
+      }
+      &-border {
+        border-bottom: 2px solid @white;
+        width: 80%;
+        margin: 9px 0px 0px 0px;
+      }
+    }
+    &-content {
+      line-height: 1.2;
+      width: 100%;
+      .globalDefaultModFont(16px, 400, @white);
+      margin-top: 19px;
+     >span {
+       font-size: 14px;
+       font-weight: 400;
+       position: relative;
+       top: 10px;
+       display: block;
+     }
+    }
+    &-fullstory {
+      width: 200px;
+      height: 40px;
+      border-radius: 3px;
+      background-color: @homeRunLoyalRed;
+      color:@white;
+      line-height: 40px;
+      text-align: center;
+      margin-top: 33px;
+      display: inline-block;
+      cursor: pointer;
+      &:hover {
+        background-color:@black;
+      }
     }
   }
-  &-content {
-    .globalDefaultModFont(16px, 400, @white);
-    line-height: 1.2;
-
+  #lrgvidcarousel-right {
+      width: 30%; //fix for Safari 9.1
   }
-  &-fullstory {
-    width: 200px;
-    height: 40px;
-    border-radius: 3px;
-    background-color: @homeRunLoyalRed;
-    color:@white;
-    line-height: 40px;
-    text-align: center;
-    margin-top: 33px;
-    display: inline-block;
-    cursor: pointer;
-    &:hover {
-      background-color:@black;
+  &-left {
+    //margin-right: 33px;
+    &-video {
+      width: 500px;
+      height: 281px;
+      margin: auto;
+      }
     }
   }
-}
 }
 @media @mobile {
+  .carousel-dive {
+    height: 320px;
+  }
   .carousel-item {
-    margin: auto;
-    width: 70%;
+    height: 320px;
+  }
+  .owl-item {
+    height: 320px;
+  }
+  .owl-carousel {
+    height: 320px;
+  }
+  .carousel-item {
+    display: table;
     &-container {
-      position: relative;
-      top: 45px;
-      vertical-align: middle;
-      display: table-cell;
+      &-left {
+        &-video {
+          // width: 320px;
+          // height: 180px;
+          width:auto ;
+          padding-bottom: 56.25%;
+          height: 0;
+          position: relative;
+          background-color: none;
+          >iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+
+          }
+        }
+      }
+      &-right {
+        &-title {
+          font-size: 16px;
+          >span {
+            font-size: 12px;
+          }
+        }
+      }
     }
   }
-
+  .carousel-dive-left {
+    >i {
+      font-size: 40px;
+    }
+  }
+  .carousel-dive-right {
+    >i {
+      font-size: 40px;
+    }
+  }
 }
 @media @tablet {
   .carousel-item {
-    margin: auto;
-    &-container {
-       vertical-align: middle;
-       display: table-cell;
-       top: 45px;
-       position: relative;
-    }
+    display: table;
   }
 }
-@media @desktop-m {
 
+
+@media @desktop-m {
   .carousel-item {
+    display: table;
     &-container {
-      &-title {
-        .globalDefaultModFont(38px, 400, @white);
-        font-weight: 900;
-        line-height: 1.1;
-        >span{
-          display: block;
-          font-size:28px;
-          font-weight: 400;
+      &-left {
+        &-video {
+          width: 560px;
+          height: 315px;
+        }
       }
     }
   }
-}
+  #lrgcarousel-right {
+    width: 75%;
+  }
 }
 @media @desktop-l {
   .carousel-item {
-    margin-left: 10%;
-    width:60%;
+    display: block;
     &-container {
-      position: relative;
-      top:45px;
-      display: block;
+      .flexDisplay;
+      &-right {
+        display: block;
+        // margin-bottom: auto;
+        // margin-top: auto;
+        position: relative;
+        top: 53px;
+        &-title {
+          font-size: 32px;
+          >span {
+            font-size: 20px;
+          }
+        }
+      }
+      &-left {
+        margin-right: 33px;
+        top:53px;
+        position: relative;
+      }
     }
   }
-  .carousel-dive {
-    &-right {
-      right: 20px;
-      >i {
-        font-size: 100px;
-      }
-    }
-    &-left {
-      >i {
-        font-size:100px;
-      }
-    }
+  #lrgcarousel-right {
+    top:45px;
   }
 }
+
+// @media @desktop-xl {
+//   .carousel-item {
+//     &-container {
+//       &-right {
+//       }
+//     }
+//   }
+// }

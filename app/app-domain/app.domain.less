@@ -31,20 +31,45 @@
 .testLinks{
   a {
     .globalDefaultModFont(14px, 300, @white);
-    text-align:center;
-    line-height:40px;
-    width:100px;
+    text-align: center;
+    line-height: 40px;
+    width: 100px;
     padding: 10px;
-    color:white;
-    background-color:black;
-    cursor:pointer;
+    color: @white;
+    background-color: @black;
+    cursor: pointer;
   }
 }
 
 .web-container{
-  width:100%;
   min-height: 650px;
-  height:auto;
+  height: auto;
+  width: 100%;
+}
+.deep-dive-container {
+  width: 100%;
+}
+@media @desktop-l{
+  .web-container{
+    width: 980px;
+  }
+  .deep-dive-container {
+    width: 1024px;
+  }
+}
+.directory-rails{
+    width: 1012px;
+}
+.pick-a-team-container {
+  min-width: 640px;
+}
+@media @desktop-xl{
+.pick-a-team-container {
+  min-width: 1440px;
+}
+.deep-dive-container {
+    width: 1440px;
+  }
 }
 
 .page-loading {
@@ -62,5 +87,14 @@
 }
 
 .vertical{
+  min-width: 640px;//TODO
   overflow-x: hidden;
+}
+sidekick-wrapper, team-page, player-page, deep-dive-page{
+  display: block;
+  width: 100%;
+}
+#partner{
+  z-index: 1000;
+  position: relative;
 }

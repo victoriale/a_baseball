@@ -9,7 +9,7 @@
     .globalDefaultModFont(16px, 400, @black);
     width: 100%;
     &-info{
-      width: 95%;
+      width: 100%;
       text-align: left;
       .flexDisplay;
       .flexAlignItems(center);
@@ -22,6 +22,7 @@
         .globalDefaultModFont(25px, 400, @masterBrandColor);
         .flexDisplay;
         .flexAlignItems(center);
+        margin: 25px 30px;
         a{
           color: @masterBrandColor;
           &:hover{
@@ -47,7 +48,7 @@
       .faq-details-info{
         font-weight: 800;
         &-icon{
-          display: none;
+          visibility: hidden;
         }
       }
       .faq-details-answer{

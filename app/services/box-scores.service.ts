@@ -107,15 +107,15 @@ export class BoxScoresService {
         }
       var date = GlobalFunctions.formatDate(val.timestamp*1000);
       var Box = {
-        keyword: "MLB",
+        keyword: p,
         date: date.month + " " + date.day + ", " + date.year,
         url: MLBGlobalFunctions.formatAiArticleRoute(p, val.event),
         teaser: teaser,
         imageConfig:{
-          imageClass: "image-288x180",
-          mainImage:{
-            imageUrl: val.home.images[0] != null ? val.home.images[0] : sampleImage
-          }
+          imageClass: "image-320x180-sm",
+          imageUrl: val.home.images[0] != null ? val.home.images[0] : sampleImage,
+          hoverText: "View Article",
+          urlRouteArray: MLBGlobalFunctions.formatAiArticleRoute(p, val.event)
         }
       }
       boxArray.push(Box);
@@ -249,11 +249,20 @@ export class BoxScoresService {
     };
   }
 
+
+
   formatGameInfo(game, teamId?, profile?){
     var gameArray:Array<any> = [];
     let self = this;
     var twoBoxes = [];// used to put two games into boxes
-    game.forEach(function(data,i){
+
+    // Sort games by time
+    let sortedGames = game.sort(function(a, b) {
+      return new Date(a.gameInfo.startDateTime).getTime() - new Date(b.gameInfo.startDateTime).getTime();
+    });
+
+    sortedGames.forEach(function(data,i){
+
       var info:GameInfoInput;
       let awayData = data.awayTeamInfo;
       let homeData = data.homeTeamInfo;
@@ -261,6 +270,7 @@ export class BoxScoresService {
       let homeLink = MLBGlobalFunctions.formatTeamRoute(homeData.name, homeData.id);
       let awayLink = MLBGlobalFunctions.formatTeamRoute(awayData.name, awayData.id);
       var aiContent = data.aiContent != null ? self.formatArticle(data):null;
+
       if(teamId != null && profile == 'team'){//if league then both items will link
         if(homeData.id == teamId){//if not league then check current team they are one
           homeLink = null;
@@ -328,7 +338,7 @@ export class BoxScoresService {
         twoBoxes.push({game:info,aiContent:aiContent});
       }else{
         twoBoxes.push({game:info});
-        if(twoBoxes.length > 1){// will push into main array once 2 pieces of info has been put into twoBoxes variable
+        if(twoBoxes.length > 1 || (i+1) == game.length){// will push into main array once 2 pieces of info has been put into twoBoxes variable
           gameArray.push(twoBoxes);
           twoBoxes = [];
         }

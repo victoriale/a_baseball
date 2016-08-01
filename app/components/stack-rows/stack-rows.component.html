@@ -1,4 +1,4 @@
-<section class="stackRows row" (window:resize)="onResize($event)">
+<section class="stackRows row">
   <div *ngFor="let stackRow of stackRow;">
     <a class="stackSmall {{gridStackCol}}" [routerLink]="stackRow.stackRowsRoute">
         <div class="stackSmall-image">

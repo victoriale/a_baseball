@@ -29,7 +29,7 @@
       <div *ngFor="let gameBox of boxScores.gameInfo; let i = odd" class="box-scores-info-container" [class.odd]="i" [class.even]="!i">
         <!--game info that affects only how league box scores are displayed-->
         <div *ngIf=" calendarParams.profile == 'league' " >
-          <game-info  *ngFor="let game of gameBox; let g = index" [ngClass]="{'float-left':g % 2 == 0,'float-right':g % 2 == 1}"[gameInfo]="game.game"></game-info>
+          <game-info *ngFor="let game of gameBox; let g = index" [ngClass]="{'float-left':g % 2 == 0,'float-right':g % 2 == 1}"[gameInfo]="game.game"></game-info>
         </div>
         <!--game info that affects only how team box scores are displayed-->
         <div *ngIf=" calendarParams.profile != 'league' " >

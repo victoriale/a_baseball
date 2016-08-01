@@ -1,11 +1,14 @@
 .video-stackbot {
-  display: flex;
-  flex-wrap: wrap;
+  .flexDisplay;
+  .flexWrap(wrap);
   &-item {
-    display: flex;
+    .flexDisplay;
     width: 50%;
     height: 75px;
     margin-top: 15px;
+    &:nth-child(1), &:nth-child(2) {
+      margin-top: 0px;
+    }
     &-image {
       width: 100px;
       height: 75px;
@@ -51,20 +54,12 @@
         text-align: center;
       }
     }
-    &-image:hover {
-      .overlay {
-        display: block;
-      }
-      .greyout {
-        display:none;
-      }
-    }
     &-right {
       .video-title-top {
         font-size:10px;
+        text-transform: uppercase;
         span {
-          color:@strokeGrey;
-          font-weight: 900;
+          .globalDefaultModFont(10px, 900, @strokeGrey)
         }
         margin-bottom:5px;
       }
@@ -73,13 +68,26 @@
       width: 179px;
       height: 57px;
       overflow:hidden;
-    .globalDefaultModFont(14px, 400, @black);
       line-height: 1;
       text-align: left;
+      .globalDefaultModFont(14px, 400, @black);
+    }
+  }
+  &-item:hover {
+    .video-stackbot-item-text {
+      color: @homeRunLoyalRed;
+    }
+    .video-stackbot-item-image {
+      .overlay {
+        display: block;
+      }
+      .greyout {
+        display:none;
+      }
     }
   }
 }
-@media (min-width: 768px) {
+@media @desktop-m {
 .video-stackbot{
   width: 670px;
   &-item {
@@ -89,13 +97,16 @@
     }
   }
 }
-@media (min-width:1440px) {
+@media @desktop-xl {
   .video-stackbot {
     display: block;
     width: 360px;
     &-item {
       width: 100%;
       height: 96px;
+      &:nth-child(1), &:nth-child(2) {
+        margin-top: 15px;
+      }
       &-image {
         width:144px;
         height: 93px;
