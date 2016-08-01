@@ -360,7 +360,7 @@ export class MyAppComponent implements OnInit{
             isTakenOver = true;
             clearInterval(intvl);
         }
-    },100);
+    },500);
 
   }
   ngOnInit(){
