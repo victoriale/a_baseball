@@ -1,5 +1,5 @@
 import {Component, AfterViewChecked, OnInit} from '@angular/core';
-import {RouteParams, RouteConfig, RouterOutlet, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import {RouteParams, RouteConfig, RouterOutlet, ROUTER_DIRECTIVES, Router} from '@angular/router-deprecated';
 
 import {GlobalFunctions} from "../global/global-functions";
 import {FooterComponent} from "../components/footer/footer.component";
@@ -269,8 +269,10 @@ export class AppComponent implements OnInit{
   public shiftContainer:string;
   public hideHeader: boolean;
   private isHomeRunZone:boolean = false;
-  constructor(private _params: RouteParams){
+  constructor(private _params: RouteParams, private _router: Router){
     this.hideHeader = GlobalSettings.getHomeInfo().hide;
+    _router.subscribe(function(){});
+
   }
 
   getHeaderHeight(){
@@ -289,47 +291,54 @@ export class AppComponent implements OnInit{
   }
 
   setPageSize(){
-    if(jQuery("#webContainer").hasClass('deep-dive-container')){
-      jQuery("#webContainer").removeClass('deep-dive-container');
-    }
-    if(jQuery("#webContainer").hasClass('directory-rails')){
-      jQuery("#webContainer").removeClass('directory-rails');
-    }
-    if(jQuery("#webContainer").hasClass('pick-a-team-container')){
-      jQuery("#webContainer").removeClass('pick-a-team-container');
-    }
+    jQuery("#webContainer").removeClass('deep-dive-container directory-rails pick-a-team-container profile-container basic-container');
+    // Handle all the exceptions here
     jQuery("deep-dive-page").parent().addClass('deep-dive-container');
     jQuery("directory-page").parent().addClass('directory-rails');
     jQuery("home-page").parent().addClass('pick-a-team-container');
-
-    var elem = document.querySelector('deep-dive-page');
+    // Handle the basic (consistent) pages here
+    if(jQuery("deep-dive-page").add("directory-page").add("home-page").length < 1) {
+        jQuery("sidekick-wrapper").parent().parent().addClass('basic-container');
+    }
+    var isTakenOver = false;
     var intvl = setInterval(function(){
-        if (!elem || !elem.parentNode){
-          if(jQuery("#webContainer").hasClass('deep-dive-container')){
-            jQuery("#webContainer").removeClass('deep-dive-container');
-          }
-          if(jQuery("#webContainer").hasClass('directory-rails')){
-            jQuery("#webContainer").removeClass('directory-rails');
-          }
-          if(jQuery("#webContainer").hasClass('pick-a-team-container')){
-            jQuery("#webContainer").removeClass('pick-a-team-container');
-          }
-          jQuery("deep-dive-page").parent().addClass('deep-dive-container');
-          jQuery("directory-page").parent().addClass('directory-rails');
-          jQuery("home-page").parent().addClass('pick-a-team-container');
+      //Looking at component/module tags
+        var pageWrappers = jQuery("deep-dive-page").add("article-pages").add("syndicated-article-page").add("directory-page").add("home-page");
+        // should only run once
+        if (!isTakenOver && pageWrappers.add("sidekick-wrapper").length > 0 ){
+            jQuery("#webContainer").removeClass('deep-dive-container directory-rails pick-a-team-container profile-container basic-container');
+            // Handle all the exceptions here
+            jQuery("deep-dive-page").parent().addClass('deep-dive-container');
+            jQuery("directory-page").parent().addClass('directory-rails');
+            jQuery("home-page").parent().addClass('pick-a-team-container');
 
-          window.dispatchEvent(new Event('resize'));
+            // Handle the basic (consistent) pages here
+            if(pageWrappers.length < 1) {
+                jQuery("sidekick-wrapper").parent().parent().addClass('basic-container');
+            }
+            //This has to be resize to trigger the takeover update
+            try {
+                window.dispatchEvent(new Event('resize'));
+            }catch(e){
+                //to run resize event on IE
+                var resizeEvent = document.createEvent('UIEvents');
+                resizeEvent.initUIEvent('resize', true, false, window, 0);
+                window.dispatchEvent(resizeEvent);
+            }
+            isTakenOver = true;
+            clearInterval(intvl);
         }
     },100);
-
-    window.dispatchEvent(new Event('resize'));
   }
+  
   ngOnInit(){
-    //this._elementRef.nativeElement.getElementsByClassName('deep-dive-page').className('deep-dive-container');
     var script = document.createElement("script");
     script.src = '//w1.synapsys.us/widgets/deepdive/rails/rails.js?selector=.web-container&adMarginTop=100';
     document.head.appendChild(script);
     this.shiftContainer = this.getHeaderHeight() + 'px';
+    //  Need this for when you navigate to new page.  Load event is triggered from app.domain.ts
     window.addEventListener("load", this.setPageSize);
+    // Initialize the first time app.webpage.ts loads
+    this.setPageSize();
   }
 }

@@ -516,5 +516,14 @@ export class ArticlePages implements OnInit {
     }
 
     ngOnInit() {
+      //This has to be resize to trigger the takeover update
+      try {
+          window.dispatchEvent(new Event('resize'));
+      }catch(e){
+          //to run resize event on IE
+          var resizeEvent = document.createEvent('UIEvents');
+          resizeEvent.initUIEvent('resize', true, false, window, 0);
+          window.dispatchEvent(resizeEvent);
+      }
     }
 }

@@ -1,7 +1,7 @@
 .deep-dive{
   background-color: @white;
   height: auto;
-  min-width: 640px;//320px;
+  min-width: 320px;
   display: block;
   &-adWrap{
     height: 50px;
@@ -9,7 +9,7 @@
     max-width: 1440px;
   }
   &-container1{
-    height: auto;//220px
+    height: auto;
     background-color: @bulletGrey;
   }
   .deep-dive-blueBar-top {
@@ -21,12 +21,13 @@
   .spacer {
     height:50px;
     position:relative;
+    display: none;
   }
   &-container2{
     background-color: @white;
     min-height: 800px;
     height: auto;
-    width: 640px;//320px;
+    width: 320px;
     margin: 0 auto;
   }
   &-container2a{
@@ -81,6 +82,7 @@
       background-color: @bulletGrey;
     }
     .spacer{
+      display: block;
       width: 768px;
     }
     &-container2{

@@ -6,7 +6,7 @@
   height: auto;
   min-width: 320px;
   &-top{
-    height: 65px;
+    height: 45px;
     background-color: @masterBrandColor;
     .flexDisplay;
     .flexJustify(space-between);
@@ -17,8 +17,8 @@
     .flexJustify(space-between);
   }
   &-hamburger{
-    width: 65px;
-    height: 65px;
+    width: 45px;
+    height: 45px;
     cursor: pointer;
     position: relative;
     .globalDefaultModFont(20px, 400, @highlightGrey);
@@ -27,7 +27,7 @@
     .flexJustify(flex-end);
     .flexAlignItems(flex-start);
     .fa-bars{
-      margin: 22px;
+      margin: 12.5px;
     }
     .fa-remove{
       height: 100%;
@@ -47,13 +47,13 @@
   }//header-hamburger ends
   &-logo{
     position: absolute;
-    left: ~"calc(50% - 92px)";
-    top: 15px;
+    left: ~"calc(50% - 70px)";
+    top: 10px;
     .flexDisplay;
     .flexAlignItems(center);
     img{
-      width: 184px;
-      height: 35px;
+      width: 140px;
+      height: 27px;
     }
   }
   &-right{
@@ -115,8 +115,8 @@
       }
     }
     &-searchBtn{
-      height: 65px;
-      width: 65px;
+      height: 45px;
+      width: 45px;
       position: relative;
       cursor: pointer;
       .flexDisplay;
@@ -132,21 +132,7 @@
     }
   }//header-search ends
   &-share{
-    cursor: pointer;
-    span:first-child{
-        display: none;
-    }
-    background-color: @masterBrandColor;
-    height: 65px;
-    width: 65px;
-    text-align: center;
-    .globalDefaultModFont(20px, 400, @highlightGrey);
-    .flexDisplay;
-    .flexDirection(column);
-    .flexJustify(center);
-    &:hover{
-      background-color: darken(@masterBrandColor, 10%);
-    }
+    display: none;
   }//header-share ends
 }
 .st_sharethis_large{
@@ -156,6 +142,49 @@
       width: 65px;
       background-repeat: no-repeat;
       background-size: cover;
+    }
+  }
+}
+@media @tablet{
+  .header{
+    &-top{
+      height: 65px;
+    }
+    &-logo{
+      left: ~"calc(50% - 92px)";
+      top: 15px;
+      img{
+        width: 184px;
+        height: 35px;
+      }
+    }
+    &-hamburger{
+      width: 65px;
+      height: 65px;
+      .fa-bars{
+        margin: 22px;
+      }
+    }
+    &-share{
+      cursor: pointer;
+      span:first-child{
+          display: none;
+      }
+      background-color: @masterBrandColor;
+      height: 65px;
+      width: 65px;
+      text-align: center;
+      .globalDefaultModFont(20px, 400, @highlightGrey);
+      .flexDisplay;
+      .flexDirection(column);
+      .flexJustify(center);
+      &:hover{
+        background-color: darken(@masterBrandColor, 10%);
+      }
+    }//header-share ends
+    &-searchBtn{
+      height: 65px;
+      width: 65px;
     }
   }
 }
