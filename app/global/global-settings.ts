@@ -95,10 +95,10 @@ export class GlobalSettings {
 
     static getHomePage(partnerId: string, includePartnerId?: boolean) {
         if ( partnerId ) {
-            return this._proto + "//" + 'www' + this._partnerHomepageUrl + (includePartnerId ? "/" + partnerId : "");
+            return this._proto + "//" + this.getEnv(this._env) + this._partnerHomepageUrl + (includePartnerId ? "/" + partnerId : "");
         }
         else {
-            return this._proto + "//" + 'www' + this._homepageUrl;
+            return this._proto + "//" + this.getEnv(this._env) + this._homepageUrl;
         }
     }
 
