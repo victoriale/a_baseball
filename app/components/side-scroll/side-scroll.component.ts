@@ -18,7 +18,7 @@ declare var moment:any;
 export class SideScroll{
   @Input() maxLength:any;
   @Input() current:any;
-  @Input() data: any;
+  @Input() carData: any;
   @Input() videoData: any;
   public carouselCount = new EventEmitter();
   public currentScroll = 0;
@@ -41,19 +41,38 @@ export class SideScroll{
   @Input('button-class') buttonClass: string;
   private startIndex:number = 0;
   private endIndex:number = 1;
+  private originalData: any;
   private displayedItems:any;
   private clones: number = 2;
   constructor(private _elRef: ElementRef){
 
   }
   ngOnInit(){
-    console.log(this.videoData);
-    // if(this.videoData != null){
-    //   this.maxLength += 1;
-    // }
-    //delete below when done testing
-    // this.data.length = 2;
+    var ssItems = [];
 
+    //push in video items first this can probably handle arguments in future
+    this.videoData.forEach(function(val, index){
+      ssItems.push({
+        id: ssItems.length + index,
+        data:val,
+        type:'video'
+      })
+    });
+
+    //push in carousels items next this can probably handle arguments in future
+    this.carData.forEach(function(val, index){
+      ssItems.push({
+        id:ssItems.length + (index + 1),
+        data:val,
+        type:'carousel'
+      })
+    });
+
+    //set all inputed data into a single originalData variable to be used
+    this.originalData = ssItems;
+
+    //delete below when done testing
+    // this.carData.length = 2;
     //if loop is not given default to infinite looping
     if(this.loop == null){
       this.loop = true;
@@ -70,9 +89,9 @@ export class SideScroll{
     }
 
     this.startIndex = 0;//on initial load of component start index at 1
-    this.endIndex = (this.startIndex + (this.totalItems-1)) % this.data.length; //the ending index needs to be the start of the index
+    this.endIndex = (this.startIndex + (this.totalItems-1)) % this.originalData.length; //the ending index needs to be the start of the index
     if(this.maxLength == null){
-      this.maxLength = this.data.length;
+      this.maxLength = this.originalData.length;
     }
     this.generateArray();
   }
@@ -98,40 +117,28 @@ export class SideScroll{
 
   generateArray(){
     var self = this;
-    var originalData = this.data;
+    var originalData = this.originalData;
     var total = this.totalItems;
     this.displayedItems = [];
-    console.log(this.displayedItems);
-    console.log(this.videoData);
-    // if(this.videoData != null){
-    //   this.videoData.forEach(function(val, index){
-    //     self.displayedItems.push({
-    //       id:index,
-    //       data:val,
-    //       type:'video'
-    //     })
-    //     self.maxLength++;//to increase the maxLength
-    //   })
-    // }
-    console.log('adding videos', this.displayedItems);
+
+    console.log('adding items', this.originalData);
     // this.currentScroll = 0;
     //if loops from input is true then the hidden item needs to be the last item of the array + the prev item before that
 
-    for(var i = 0; i < originalData.length-1; i++){
-      this.displayedItems.push({
-        id:i,
-        data:originalData[this.startIndex],
-        type:'carousel'
-      });
-      this.startIndex = (this.startIndex + 1) % originalData.length;
-      this.endIndex = (this.endIndex + 1) % originalData.length;
+    for(var item = 0; item < this.totalItems; item++){
+      this.displayedItems.push(originalData[item]);
+      console.log('pushing', originalData[item]);
+      this.endIndex = originalData[item].id;//set ending index to last item of total items shown
     }
 
-    console.log('adding carousel', this.displayedItems);
-    //make sure the have the startIndex equal to the first item to display before creating clones
-    this.startIndex = this.displayedItems[0].id;
-    this.endIndex = this.displayedItems[this.displayedItems.length - 1].id;
+    console.log('current display',this.displayedItems);
+    console.log('starting index => ',this.startIndex);
+    console.log('ending index => ',this.endIndex);
 
+
+    console.log('adding carousel', this.displayedItems);
+
+    //create clones for swapping feature
     for(var o = 1; o < 3; o++){
       //grab the cloned indexes in the array;
       var cloneBefore = (this.startIndex - o);
