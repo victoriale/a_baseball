@@ -25,13 +25,14 @@ export class StackRowsComponent implements OnInit {
   public width: number;
   public gridStackCol: string;
 
-  onResize(event) {
-    this.width = event.target.innerWidth;
-    if(this.width > 1760 || this.width < 641){
-      this.gridStackCol = "col-xs-12";
-    } else {
-      this.gridStackCol = "col-xs-6";
-    }
-  }
+  //onResize(event) {
+  //  this.width = event.target.innerWidth;
+  //  if(this.width > 1760 || this.width < 641){
+  //    this.gridStackCol = "col-xs-12";
+  //  } else {
+  //    this.gridStackCol = "col-xs-6";
+  //  }
+  //}
+
   ngOnInit() {}//ngOnInit ends
 }

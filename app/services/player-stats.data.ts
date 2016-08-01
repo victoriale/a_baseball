@@ -140,7 +140,7 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
       var savesText = item.pitchSaves == "1" ? "Save" : "Saves";
       description = [playerLinkText, tense + " a <span class='text-heavy'>" + (item.pitchEra != null ? item.pitchEra.toFixed(2) : "N/A") +
                     " ERA</span> with <span class='text-heavy'>" + item.pitchStrikeouts + " " + strikeoutsText +
-                    "</span>, <span class='text-heavy'>" + item.pitchWins + " " + teamLinkText +
+                    "</span>, <span class='text-heavy'>" + item.pitchWins + " " + winsText +
                     "</span> and <span class='text-heavy'>" + item.pitchSaves + " " + savesText +
                     "</span>" + temporalInfo + "."];
     }

@@ -338,7 +338,7 @@ export class BoxScoresService {
         twoBoxes.push({game:info,aiContent:aiContent});
       }else{
         twoBoxes.push({game:info});
-        if(twoBoxes.length >= 1){// will push into main array once 2 pieces of info has been put into twoBoxes variable
+        if(twoBoxes.length > 1 || (i+1) == game.length){// will push into main array once 2 pieces of info has been put into twoBoxes variable
           gameArray.push(twoBoxes);
           twoBoxes = [];
         }
@@ -348,7 +348,6 @@ export class BoxScoresService {
         gameArray.push(twoBoxes);
       }
     })
-
     return gameArray;
   }
 

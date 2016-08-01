@@ -1,13 +1,13 @@
 .deep-dive{
-  &-adWrap{
-    height: 50px;
-    min-width: 1024px;
-    max-width: 1440px;
-    display: none;
-  }
   background-color: @white;
   height: auto;
   min-width: 640px;//320px;
+  display: block;
+  &-adWrap{
+    height: 50px;
+    min-width: 640px;
+    max-width: 1440px;
+  }
   &-container1{
     height: auto;//220px
     background-color: @bulletGrey;
@@ -16,12 +16,11 @@
     position: fixed!important;
     margin-top:120px!important;
     top:-20px;
-    z-index: 999;
+    z-index: 990;
   }
   .spacer {
     height:50px;
     position:relative;
-    width:100%;
   }
   &-container2{
     background-color: @white;
@@ -81,6 +80,9 @@
     &-container1{
       background-color: @bulletGrey;
     }
+    .spacer{
+      width: 768px;
+    }
     &-container2{
       min-height: 800px;
       width: 640px;
@@ -102,6 +104,10 @@
 @media @desktop-m{
   .deep-dive{
     min-width: 768px;
+    .spacer{
+      width: 100%;
+      max-width: 1024px;
+    }
     &-container2{
       width: 768px;
     }
@@ -124,13 +130,12 @@
 
 @media @desktop-l{
   .deep-dive{
-    &-adWrap{
-      display: block;
-      width: 1024px;
-    }
     min-width: 1024px;
     &-adMed{
       display: none;
+    }
+    .spacer{
+      width: 1024px;
     }
     &-container2{
       width: 1024px;
@@ -143,7 +148,7 @@
     &-container2b{
       display: block;
       position: relative;
-      width: auto;
+      width: 300px;
       height: 600px;
     }
   }
@@ -151,10 +156,11 @@
 
 @media @desktop-xl{
   .deep-dive{
-    &-adWrap{
-      width: 1440px;
-    }
     min-width: 1440px;
+    .spacer{
+      width: 1440px;
+      max-width: 1440px;
+    }
     &-container2{
       width: auto;
     }

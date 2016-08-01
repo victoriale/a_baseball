@@ -18,6 +18,7 @@ import {RecommendationsComponent} from '../../../components/articles/recommendat
     providers: [DeepDiveService]
 })
 export class DeepDiveBlock3{
+  public widgetPlace: string = "widgetForPage";
   firstStackTop: any;
   firstStackRow: any;
   secStackTop: any;
