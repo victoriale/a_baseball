@@ -1,7 +1,7 @@
 <section *ngIf="!isHomeRunZone" class="deep-dive container-fluid" (window:scroll)="onScroll($event)">
   <section class="deep-dive-container1">
-    <carousel-dive-module *ngIf = "carouselData && videoData" [carouselData] = "carouselData"  [videoData]="videoData"></carousel-dive-module>
-    <div [ngStyle]="{'width':'100%', 'height': '420px'}">
+    <carousel-dive-module *ngIf = "carouselData" [carouselData] = "carouselData" [state]="geoLocation"></carousel-dive-module>
+	<div [ngStyle]="{'width':'100%', 'height': '420px'}">
     <side-scroll-test *ngIf="carouselData && videoData" [current]="curCount" [carData]="carouselData" [videoData]="videoData">
     </side-scroll-test>
     </div>
@@ -11,7 +11,7 @@
       </section>
     </div>
   </section>
-  <!-- <section class="deep-dive-container2">
+  <section class="deep-dive-container2">
     <div class="deep-dive-container2a">
       <div class="deep-dive-module">
         <side-scroll-schedules *ngIf="sideScrollData" [sideScrollData]="sideScrollData" (count)="scrollCheck($event)" [scrollLength]="scrollLength"></side-scroll-schedules>
@@ -29,6 +29,6 @@
     <div class="deep-dive-container2b">
       <div class="widget_wrapper"><widget-carousel-module></widget-carousel-module></div>
     </div>
-  </section> -->
+  </section>
 </section>
 <Partner-home-page *ngIf="isHomeRunZone"></Partner-home-page>

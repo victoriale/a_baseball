@@ -24,6 +24,7 @@ export class CarouselDiveModule{
   constructor(
       private _deepdiveservice:DeepDiveService
   ){
+    window.addEventListener("resize", this.onResize);
   }
 
     formatDate(date) {
@@ -40,13 +41,18 @@ export class CarouselDiveModule{
         dots:false,
         nav:false,
         navText:false,
-        mouseDrag: false,
-
+        mouseDrag: false
       });
 
     }, 1000);
 
+    //this.onResize(this._elRef.nativeElement);
+  }
 
+  onResize() {
+    // var iframe =  (<HTMLScriptElement[]><any>document.getElementsByClassName('carousel-video-iframe'))[0];
+    // var iframeHeight = iframe.offsetHeight;
+    // console.log(iframe, iframeHeight);
   }
 
   leftcarousel() {
@@ -59,10 +65,5 @@ export class CarouselDiveModule{
     owl.owlCarousel();
     owl.trigger('next.owl.carousel');
   }
-​
-​
-​
-​
-​
 ​
 }
