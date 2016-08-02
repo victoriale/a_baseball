@@ -66,6 +66,7 @@ export class BoxScoresModule implements OnChanges, OnInit{
     this.dateEmit.next(event);
     this.currentPage = 1;
     this.leftDisabled = "disabled";
+    this.rightDisabled = "";
   }
 
   changeGame(num){

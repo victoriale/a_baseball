@@ -41,9 +41,10 @@ export class DeepDiveBlock2{
     private _router:Router,
     private _deepDiveData: DeepDiveService
     ){
+    }
+    ngOnInit() {
       this.callModules();
     }
-
   getFirstArticleStackData(){
     this._deepDiveData.getDeepDiveBatchService(this.callLimit, 1, this.geoLocation)
         .subscribe(data => {
