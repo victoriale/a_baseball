@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ProfileDataComponent} from "../profileData/profileData.component";
 import {BillboardComponent} from "../billboard/billboard.component";
 import {SanitizeHtml} from '../../../pipes/safe.pipe';
@@ -11,5 +11,14 @@ import {SanitizeHtml} from '../../../pipes/safe.pipe';
     pipes: [SanitizeHtml]
 })
 
-export class ArticleContentComponent {
+export class ArticleContentComponent implements OnInit{
+    isSmall:boolean = false;
+
+    onResize(event) {
+        this.isSmall = event.target.innerWidth <= 640;
+    }
+
+    ngOnInit() {
+        this.isSmall = window.innerWidth <= 640;
+    }
 }
