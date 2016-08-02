@@ -25,10 +25,10 @@
     <div class="calendar-picker-dates">
       <span *ngFor="let dates of weeklyDates">
         <div class="calendar-picker-dates-select" *ngIf="dates.clickable" [class.active]="dates.active == true" [class.hover]="dates.clickable == true && dates.active == false" (click)="setActive(dates)">
-          <span>{{dates.weekDay}}. {{dates.month}} {{dates.day}} <sup>{{dates.ordinal}}</sup></span>
+          <span>{{dates.weekDay}}. {{dates.month}} {{dates.day}}<sup>{{dates.ordinal}}</sup></span>
         </div>
         <div class="calendar-picker-dates-select" *ngIf="!dates.clickable" [class.nonactive]="dates.clickable == false">
-          <span>{{dates.weekDay}}. {{dates.month}} {{dates.day}} <sup>{{dates.ordinal}}</sup></span>
+          <span>{{dates.weekDay}}. {{dates.month}} {{dates.day}}<sup>{{dates.ordinal}}</sup></span>
         </div>
       </span>
     </div>
