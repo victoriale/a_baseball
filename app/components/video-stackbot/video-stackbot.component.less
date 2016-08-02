@@ -6,7 +6,7 @@
     width: 50%;
     height: 75px;
     margin-top: 15px;
-    &:nth-child(1), &:nth-child(2) {
+    &:nth-child(1) {
       margin-top: 0px;
     }
     &-image {
@@ -64,14 +64,7 @@
         margin-bottom:5px;
       }
     }
-    &-text {
-      width: 179px;
-      height: 57px;
-      overflow:hidden;
-      line-height: 1;
-      text-align: left;
-      .globalDefaultModFont(14px, 400, @black);
-    }
+
   }
   &-item:hover {
     .video-stackbot-item-text {
@@ -83,6 +76,65 @@
       }
       .greyout {
         display:none;
+      }
+    }
+  }
+}
+@media @mobile {
+  .video-stackbot {
+    width: 320px;
+    margin: 0 auto;
+    &-item {
+      width: 100%;
+      height: auto;
+      margin-top: 22px;
+      &:nth-child(1) {
+        margin-top: 0px;
+      }
+      &-image {
+        width: 100px;
+        height: 56px;
+      }
+      &-title {
+        display: none;
+      }
+      &-text {
+        width: 100%;
+        height: auto;
+        overflow:hidden;
+        font-size: 14px;
+        font-weight: 800;
+        line-height: 1;
+        text-align: left;
+        .globalDefaultModFont(14px, 400, @black);
+      }
+    }
+  }
+}
+@media @tablet {
+  .video-stackbot {
+    .flexDisplay;
+    .flexWrap(wrap);
+    &-item {
+      .flexDisplay;
+      width: 50%;
+      height: 75px;
+      margin-top: 15px;
+      &:nth-child(1), &:nth-child(2) {
+        margin-top: 0px;
+      }
+      &-image {
+        width: 100px;
+        height: 75px;
+      }
+      &-title {
+        display: block;
+      }
+      &-text {
+        width: 179px;
+        height: 57px;
+        font-size: 12px;
+        font-weight: 400;
       }
     }
   }

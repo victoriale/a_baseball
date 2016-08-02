@@ -16,7 +16,7 @@ declare var moment;
 })
 
 export class VideoStackbotComponent implements OnInit{
-  public articleData: any;
+  @Input() articleData: any;
   @Input() state: any;
   @Input() page: number;
   constructor(private _deepdiveservice:DeepDiveService){}

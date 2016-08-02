@@ -96,7 +96,45 @@
     }
   }
 }
-@media (min-width: 768px) {
+@media @mobile {
+  .video-stacktop {
+    display: block;
+    width: 320px;
+    margin: 0 auto 10px auto;
+    &-video {
+      width: 320px;
+      margin: 0;
+    }
+    &-right {
+      &-title {
+        margin: 10px 0 0 0;
+      }
+      &-text {
+        height: auto;
+      }
+    }
+  }
+}
+@media @tablet {
+  .video-stacktop {
+    width: 640px;
+    margin: 0 0 20px 0;
+    .flexDisplay;
+    &-video {
+      width: 300px;
+      margin: 0 15px 0 0;
+    }
+    &-right {
+      &-title {
+        margin: 0;
+      }
+      &-text {
+        height: 125px;
+      }
+    }
+  }
+}
+@media @desktop-m {
   .video-stacktop {
     width: 768px;
     &-right {
@@ -104,7 +142,7 @@
     }
   }
 }
-@media (min-width: 1300px) {
+@media @desktop-l {
   .video-stacktop:first-of-type {
     margin-top: 0;
   }
