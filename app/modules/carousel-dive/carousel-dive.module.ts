@@ -57,10 +57,9 @@ export class CarouselDiveModule{
   }
 
   onResize() {
-    var iframe =  (<HTMLScriptElement[]><any>document.getElementsByClassName('carousel-video-iframe'))[0];
-    var iframeHeight = iframe.offsetHeight;
-    console.log(iframe, iframeHeight);
-
+    // var iframe =  (<HTMLScriptElement[]><any>document.getElementsByClassName('carousel-video-iframe'))[0];
+    // var iframeHeight = iframe.offsetHeight;
+    // console.log(iframe, iframeHeight);
   }
 
   leftcarousel() {
