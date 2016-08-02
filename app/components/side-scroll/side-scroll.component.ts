@@ -43,7 +43,6 @@ export class SideScroll{
   private endIndex:number = 1;
   private originalData: any;
   private displayedItems:any;
-  private clones: number = 2;
   constructor(private _elRef: ElementRef){
 
   }
@@ -99,12 +98,12 @@ export class SideScroll{
   ngAfterViewInit(){
     //make sure to run the element ref after the content has loaded to get the full size;
     this.itemSize = this._elRef.nativeElement.getElementsByClassName('carousel_scroll-container')[0].offsetWidth;
-    this.currentScroll = (this.itemSize * this.clones);
+    this.currentScroll = 0;
     this.rightText = this.currentScroll+'px';
 
     //once scrolls are set declare the min and max scrolls if loops is set false
     if(!this.loop){
-      this.minScroll = this.currentScroll < (this.itemSize * this.clones);
+      this.minScroll = this.currentScroll < 0;
       this.maxScroll = !((this.maxLength + 1) >= Math.round(this.currentScroll/(this.itemSize)));
     }
   }
@@ -125,7 +124,7 @@ export class SideScroll{
     // this.currentScroll = 0;
     //if loops from input is true then the hidden item needs to be the last item of the array + the prev item before that
 
-    for(var item = 0; item < this.totalItems; item++){
+    for(var item = 0; item < originalData.length; item++){
       this.displayedItems.push(originalData[item]);
       console.log('pushing', originalData[item]);
       this.endIndex = originalData[item].id;//set ending index to last item of total items shown
@@ -137,57 +136,22 @@ export class SideScroll{
 
 
     console.log('adding carousel', this.displayedItems);
-
-    //create clones for swapping feature
-    for(var o = 1; o < 3; o++){
-      //grab the cloned indexes in the array;
-      var cloneBefore = (this.startIndex - o);
-      var cloneAfter = (this.endIndex + o);
-
-
-      //will get the index of the two previos items but will go back to the top index if it goes below 0
-      if(cloneBefore >= 0){
-        cloneBefore = cloneBefore % originalData.length;
-      }else{
-        cloneBefore = originalData.length + cloneBefore;
-      }
-
-      if(cloneAfter == originalData.length){
-        cloneAfter = cloneAfter % originalData.length;
-      }
-
-      //unshift will push the cloned items infront of the array
-      this.displayedItems.unshift({
-        id:this.startIndex - o,
-        data:originalData[cloneBefore],
-        type:'clone',
-        right: ((this.startIndex - o) * this.itemSize) + 'px'
-      })
-      //push will push the cloned items at the end of the array
-      this.displayedItems.push({
-        id:this.endIndex + o,
-        data:originalData[cloneAfter],
-        clone:'clone',
-        right: ((this.startIndex - o) * this.itemSize) + 'px'
-      })
-    }
-    console.log('adding clones', this.displayedItems);
   }
 
   left(event) {
     //moves the current scroll over the item size
     this.currentScroll -= (this.itemSize);
-    if(this.currentScroll < (this.itemSize * this.clones)){
-      this.currentScroll = (this.itemSize * (this.maxLength + 1));
+    if(this.currentScroll < 0){
+      this.currentScroll = (this.itemSize * (this.maxLength-1));
     }
     this.checkCurrent(this.currentScroll);
   }
   right(event) {
-    if(this.maxLength + 1 > Math.round(this.currentScroll/this.itemSize)){
+    if(this.maxLength > Math.round(this.currentScroll/this.itemSize)){
       this.currentScroll += this.itemSize;
       this.checkCurrent(this.currentScroll);
     }else{
-      this.currentScroll = (this.itemSize * this.clones);
+      this.currentScroll = 0;
       this.checkCurrent(this.currentScroll);
     }
   }
@@ -214,19 +178,15 @@ export class SideScroll{
     //if mouse down set event to true and allow drag
     this.isMouseDown = event.buttons === 1;
     if(!this.loop){
-      this.maxScroll = !((this.maxLength + 1) > Math.round(this.currentScroll/(this.itemSize)));
+      this.maxScroll = !((this.maxLength-1) > Math.round(this.currentScroll/(this.itemSize)));
     }
 
     if(this.isMouseDown && !this.maxScroll){
 
       //if mousedown is detected and not at maxLength then detect distance by pixel of drag and use the correct function right or left
       this.drag = (this.mouseDown - event.clientX);
-      console.log(this.mouseDown, event.clientX);
       this.currentScroll -= this.drag;
       this.mouseDown = event.clientX;
-      if(this.currentScroll < (this.itemSize*this.clones)){
-        this.currentScroll = (this.itemSize * 3);
-      }
       this.rightText = this.currentScroll+'px';
       this.checkCurrent(this.currentScroll);
     }
@@ -235,15 +195,15 @@ export class SideScroll{
   checkCurrent(currentScroll){
     //set maxScroll and minScroll if loops is set to false
     if(!this.loop){
-      this.minScroll = this.currentScroll < (this.itemSize * this.clones);
-      this.maxScroll = !((this.maxLength + 1) > Math.round(this.currentScroll/(this.itemSize)));
+      this.minScroll = this.currentScroll < 0;
+      this.maxScroll = !((this.maxLength-1) > Math.round(this.currentScroll/(this.itemSize)));
     }
 
     //if num which is currentScroll is below the above the clone pos then reset to beginning of array else if current size is below then reset to beginning
-    if(currentScroll > (this.itemSize * (this.maxLength + 1))){
-      currentScroll = this.itemSize * this.clones;
-    }else if (currentScroll < (this.itemSize * this.clones)){
-      currentScroll = this.itemSize * (this.maxLength + 1);
+    if(currentScroll > (this.itemSize * (this.maxLength-1))){
+      currentScroll = 0;
+    }else if (currentScroll < 0){
+      currentScroll = this.itemSize * (this.maxLength-1);
     }
 
     //if pos (position) is between then round to nearest  whole number and move carousel

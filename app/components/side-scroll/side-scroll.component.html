@@ -20,7 +20,7 @@
     </div> -->
     <div *ngIf="displayedItems" class="carousel_scroll-container score-transition2" [style.right]="rightText | safeStyle">
       <template  ngFor let-item [ngForOf]="displayedItems">
-        <div class="carousel_scroll-item"  *ngIf="item.type == 'video'" [ngStyle]="{'background-image': 'linear-gradient(180deg, rgba(40, 40, 40, 0.5) 0%, rgba(24, 24, 24, 0.65) 100%), url(' + item.data.thumbnail + ')'}" [ngClass]="{'clone': item.type == 'clone'}">
+        <div class="carousel_scroll-item"  *ngIf="item.type == 'video' || item.type == 'clone'" [ngStyle]="{'background-image': 'linear-gradient(180deg, rgba(40, 40, 40, 0.5) 0%, rgba(24, 24, 24, 0.65) 100%), url(' + item.data.thumbnail + ')'}" [ngClass]="{'clone': item.type == 'clone'}">
             <div class="carousel-item">
               <div class="carousel-item-container">
               <div class="carousel-item-container-left">
@@ -40,7 +40,7 @@
               </div>
             </div>
         </div>
-       <div class="carousel_scroll-item"  *ngIf="item.type == 'carousel'" [ngStyle]="{'background-image': 'linear-gradient(180deg, rgba(40, 40, 40, 0.5) 0%, rgba(24, 24, 24, 0.65) 100%), url(' + item.data.image_url + ')'}" [ngClass]="{'clone': item.type == 'clone'}">
+       <div class="carousel_scroll-item"  *ngIf="item.type == 'carousel' || item.type == 'clone'" [ngStyle]="{'background-image': 'linear-gradient(180deg, rgba(40, 40, 40, 0.5) 0%, rgba(24, 24, 24, 0.65) 100%), url(' + item.data.image_url + ')'}" [ngClass]="{'clone': item.type == 'clone'}">
           <div class="carousel-item">
             <div class="carousel-item-container">
             <div class="carousel-item-container-right" id="lrgcarousel-right" style="display:block;">
