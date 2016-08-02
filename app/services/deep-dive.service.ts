@@ -185,13 +185,6 @@ export class DeepDiveService {
         var curdate = new Date();
         var curmonthdate = curdate.getDate();
         var date = GlobalFunctions.formatDate(val.publishedDate);
-      //  console.log(moment().format("dddd"));
-        // if (Number(curmonthdate) > Number(date.day)) {
-        //   val['title'] = "<span>" +  'Day of week of article' + "</span>" + val['title'];
-        // }
-        // else {
-        //   val['title'] = "<span> Today's News </span>" + val['title'];
-        // }
         let carData = {
           image_url: GlobalSettings.getImageUrl(val['imagePath']),
           title:  "<span> Today's News </span>" + val['title'],
@@ -285,35 +278,7 @@ export class DeepDiveService {
     }
     return articleStackArray;
   }
-  transformTileStack(data) {
-    data = data.data;
-    var lines = ['Find Your <br> Favorite Player', 'Find Your <br> Favorite Team', 'Check Out The Latest <br> With the MLB'];
-    let pickATeam = ['Pick-team-page'];
-    let mlbPage = ['MLB-page'];
-    var tileLink = [pickATeam, pickATeam, mlbPage];
-    var dataStack = [];
-    // create array of imagePaths
-    var imagePaths = [];
-    for (var i=0; i<data.length; i++) {
-      imagePaths.push(data[i].imagePath);
-    }
-    // remove duplicates from array
-    var imagePaths = imagePaths.filter( function(item, index, inputArray) {
-      return inputArray.indexOf(item) == index;
-    });
 
-    for(var i = 0; i < 3; i++){
-      var k = imagePaths[Math.floor(Math.random() * imagePaths.length)];
-      var indexOfK = imagePaths.indexOf(k);
-      dataStack[i] = data[i];
-      dataStack[i]['lines'] = lines[i];
-      dataStack[i]['tileLink'] = tileLink[i];
-      dataStack[i]['image_url'] = GlobalSettings.getImageUrl(k) != null ? GlobalSettings.getImageUrl(k) : "/app/public/placeholder_XL.png";
-      // remove appended image string from array
-      imagePaths.splice(indexOfK,1);
-    }
-    return dataStack;
-  }
 
   transformToArticleStack(data){
     var sampleImage = "/app/public/placeholder_XL.png";
@@ -374,7 +339,7 @@ export class DeepDiveService {
     shuffle(images);
 
     var ret = [];
-    for(var i = 0; i < articles.length; i++){
+    for(var i = 0; i < 6; i++){
       ret[i] = articles[i];
       ret[i]['type'] = articleTypes[i];
       if(ret[i]['type'].split('-')[1] == 'home'){
@@ -389,15 +354,7 @@ export class DeepDiveService {
       ret[i]['new_date'] = MLBGlobalFunctions.convertAiDate(ret[i]['dateline']);
       ret[i]['event_id'] = eventID;
     }
-
-    //build to format expected by html
-    var _return = new Array(2);
-    for(var i = 0; i < _return.length;i++){_return[i] = [];}
-    for(var i = 0; i < ret.length; i++){
-      if(i < 3){_return[0].push(ret[i]);}
-      if(i >= 3 && i < 6){_return[1].push(ret[i]);}
-    }
-    return _return;
+    return ret;
   }
 
   transformTrending (data, currentArticleId) {
@@ -410,5 +367,34 @@ export class DeepDiveService {
       //}
     })
     return data;
+  }
+  transformTileStack(data) {
+    data = data.data;
+    var lines = ['Find Your <br> Favorite Player', 'Find Your <br> Favorite Team', 'Check Out The Latest <br> With the MLB'];
+    let pickATeam = ['Pick-team-page'];
+    let mlbPage = ['MLB-page'];
+    var tileLink = [pickATeam, pickATeam, mlbPage];
+    var dataStack = [];
+    // create array of imagePaths
+    var imagePaths = [];
+    for (var i=0; i<data.length; i++) {
+      imagePaths.push(data[i].imagePath);
+    }
+    // remove duplicates from array
+    var imagePaths = imagePaths.filter( function(item, index, inputArray) {
+      return inputArray.indexOf(item) == index;
+    });
+
+    for(var i = 0; i < 3; i++){
+      var k = imagePaths[Math.floor(Math.random() * imagePaths.length)];
+      var indexOfK = imagePaths.indexOf(k);
+      dataStack[i] = data[i];
+      dataStack[i]['lines'] = lines[i];
+      dataStack[i]['tileLink'] = tileLink[i];
+      dataStack[i]['image_url'] = GlobalSettings.getImageUrl(k) != null ? GlobalSettings.getImageUrl(k) : "/app/public/placeholder_XL.png";
+      // remove appended image string from array
+      imagePaths.splice(indexOfK,1);
+    }
+    return dataStack;
   }
 }
