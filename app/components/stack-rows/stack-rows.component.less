@@ -11,7 +11,7 @@
     &-text {
       line-height: 1.2em;
       text-align: left;
-      width: 190px;
+      width: auto;
       overflow: hidden;
       text-overflow: ellipsis;
       &-keyword {
@@ -56,17 +56,36 @@
     }
   }
 }
+@media @small-grid {
+  .stackSmall {
+    .col-xs-6;
+    &-image{
+      margin-right: 5px;
+    }
+    &-text{
+      height: 56px;
+      width: 155px;
+      &-keyword{
+        height: auto;
+        overflow: visible;
+      }
+    }
+  }
+  .stackRows {
+    height: 210px;
+  }
+}
 @media @tablet {
   .stackSmall {
-      .col-xs-6;
-      &-text {
-        width: 180px;
-        &-keyword {
-           > span:last-child{
-             height: 50px;
-           }
-        }
+    .col-xs-6;
+    &-text {
+      width: 180px;
+      &-keyword {
+         > span:last-child{
+           height: 50px;
+         }
       }
+    }
   }
   .stackRows{
     height: 265px;

@@ -24,10 +24,13 @@
   @media @mobile {
     .widgetWrapper {
       margin-left: -10px;
-      width:320px;
+      width: ~"calc(100% + 20px)";
     }
     .articles-page-title {
       .globalDefaultFont(20px, 800);
+    }
+    .widgetForPage {
+      width:100vw;
     }
   }
   .carousel-container {
@@ -85,8 +88,8 @@
   }
   @media @mobile {
     .carousel-container {
-      height:180px;
-      width: 100vw;
+      height:60vw;
+      width: ~"calc(100% + 20px)";
       margin-left:-10px;
     }
     .feature-btn.images {
@@ -108,7 +111,7 @@
       width: 640px;
     }
     @media @mobile {
-      width: 320px;
+      width: 100%;
       padding: 0 10px;
     }
     padding: 0 20px;
@@ -217,11 +220,18 @@
       width:100%;
     }
     .deep_recs-articles-item-content {
-      margin:0 10px 10px 10px;
+      margin:0 10px 20px 10px;
     }
     .deep_recs {
-      width: 320px;
+      width: ~"calc(100% + 20px)";
       margin-left: -10px;
+    }
+    // .deep_recs-articles-item-content-dateline-below {
+    //   position: absolute;
+    //   margin-top: -40px;
+    // }
+    .deep_recs-articles-item-content-teaser {
+      padding-right:5px;
     }
   }
   .artcom {
