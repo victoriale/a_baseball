@@ -43,6 +43,7 @@ export class SideScroll{
   private endIndex:number = 1;
   private originalData: any;
   private displayedItems:any;
+  private currentItem:any;
   constructor(private _elRef: ElementRef){
 
   }
@@ -100,6 +101,7 @@ export class SideScroll{
     this.itemSize = this._elRef.nativeElement.getElementsByClassName('carousel_scroll-container')[0].offsetWidth;
     this.currentScroll = 0;
     this.rightText = this.currentScroll+'px';
+    this.currentItem = this.originalData[0];
 
     //once scrolls are set declare the min and max scrolls if loops is set false
     if(!this.loop){
@@ -120,22 +122,14 @@ export class SideScroll{
     var total = this.totalItems;
     this.displayedItems = [];
 
-    console.log('adding items', this.originalData);
     // this.currentScroll = 0;
     //if loops from input is true then the hidden item needs to be the last item of the array + the prev item before that
 
     for(var item = 0; item < originalData.length; item++){
       this.displayedItems.push(originalData[item]);
-      console.log('pushing', originalData[item]);
       this.endIndex = originalData[item].id;//set ending index to last item of total items shown
     }
 
-    console.log('current display',this.displayedItems);
-    console.log('starting index => ',this.startIndex);
-    console.log('ending index => ',this.endIndex);
-
-
-    console.log('adding carousel', this.displayedItems);
   }
 
   left(event) {
@@ -186,6 +180,11 @@ export class SideScroll{
       //if mousedown is detected and not at maxLength then detect distance by pixel of drag and use the correct function right or left
       this.drag = (this.mouseDown - event.clientX);
       this.currentScroll -= this.drag;
+      if(this.currentScroll < 1){
+        this.currentScroll = 0;
+      }else if (this.currentScroll > (this.maxLength-1) * this.itemSize){
+        this.currentScroll = (this.maxLength-1) * this.itemSize;
+      }
       this.mouseDown = event.clientX;
       this.rightText = this.currentScroll+'px';
       this.checkCurrent(this.currentScroll);
@@ -209,9 +208,17 @@ export class SideScroll{
     //if pos (position) is between then round to nearest  whole number and move carousel
     let pos = (currentScroll / this.itemSize);
     this.currentScroll = Math.round(pos) * this.itemSize;
+    this.currentItem = this.originalData[(Math.round(pos))];
     this.carouselCount.next(Math.round(pos));
     this.rightText = this.currentScroll+'px';
     this.generateArray();
+  }
+
+  onResize(event){
+    if(this._elRef.nativeElement.getElementsByClassName('carousel_scroll-container').length > 0){
+      this.itemSize = this._elRef.nativeElement.getElementsByClassName('carousel_scroll-container')[0].offsetWidth;
+      this.currentScroll = this.itemSize * Number(this.currentItem.id);
+    }
   }
 
   formatDate(date) {

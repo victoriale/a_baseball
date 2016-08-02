@@ -1,62 +1,47 @@
-<div class="carousel_scroll" (mousemove)="movingMouse($event)">
+<div class="carousel_scroll" (mousemove)="movingMouse($event)" (window:resize)="onResize($event)">
   <button *ngIf="buttonClass" class="{{buttonClass}} carousel_scroll-left" (click)="left($event)" [ngClass]="{'disabled': minScroll === true }"><i class="fa fa-angle-left"></i></button>
   <div class="carousel_scroll-box" (mousedown)="scrollX($event)" (mouseup)="scrollX($event)">
-    <!-- do not delete carousel_scroll-container logic is tied to it in ts file -->
-    <!-- <div *ngIf="displayedItems" class="carousel_scroll-container score-transition2" [style.right]="rightText | safeStyle">
-      <div class="carousel_scroll-item"  *ngFor = "let item of displayedItems; let i = index" [ngStyle]="{'background-image': 'linear-gradient(180deg, rgba(40, 40, 40, 0.5) 0%, rgba(24, 24, 24, 0.65) 100%), url(' + item.data.image_url + ')', 'right': item.right}" [ngClass]="{'clone': item.clone == 'clone'}">
-        <div class="carousel-item">
-          <div class="carousel-item-container" >
-            <div class="carousel-item-container-key" [innerHTML]="item.data.keyword | safeHtml"></div>
-            <div class="carousel-item-container-title" [innerHTML]="item.data.title | safeHtml"></div>
-            <div class="carousel-item-container-title-border"></div>
-            <div class="carousel-item-container-content" [innerHTML]="item.data.teaser | safeHtml">
-            </div>
-            <a [routerLink]="item.data.articlelink">
-              <div class="carousel-item-container-fullstory">Read the Full Story</div>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div> -->
     <div *ngIf="displayedItems" class="carousel_scroll-container score-transition2" [style.right]="rightText | safeStyle">
+      <!-- content goes below -->
       <template  ngFor let-item [ngForOf]="displayedItems">
         <div class="carousel_scroll-item"  *ngIf="item.type == 'video' || item.type == 'clone'" [ngStyle]="{'background-image': 'linear-gradient(180deg, rgba(40, 40, 40, 0.5) 0%, rgba(24, 24, 24, 0.65) 100%), url(' + item.data.thumbnail + ')'}" [ngClass]="{'clone': item.type == 'clone'}">
-            <div class="carousel-item">
-              <div class="carousel-item-container">
-              <div class="carousel-item-container-left">
-                <div class="carousel-item-container-left-video">
-                  <iframe width="100%" height="100%"  [src]="item.data.videoLink | safeRUrl" frameborder="0" allowfullscreen></iframe>
-                </div>
-              </div>
-              <div class="carousel-item-container-right">
-                <div class="carousel-item-container-right-key">TOP VIDEOS</div>
-                <div class="carousel-item-container-right-title"><span>Today's Top Videos:</span> {{item.data.title}}</div>
-                  <div class="carousel-item-container-right-title-border"></div>
-                 <div class="carousel-item-container-right-content">
-                   {{item.data.description}} <br />
-                   <span>   Published on {{formatDate(item.data.pubDate)}} </span>
-                 </div>
-                </div>
+          <div class="carousel-item"  [ngStyle]="{'cursor':'default'}">
+            <div class="carousel-item-container">
+            <div class="carousel-item-container-left">
+              <div class="carousel-item-container-left-video">
+                <iframe width="100%" height="100%"  [src]="item.data.videoLink | safeRUrl" frameborder="0" scrolling = "no" allowfullscreen></iframe>
               </div>
             </div>
-        </div>
-       <div class="carousel_scroll-item"  *ngIf="item.type == 'carousel' || item.type == 'clone'" [ngStyle]="{'background-image': 'linear-gradient(180deg, rgba(40, 40, 40, 0.5) 0%, rgba(24, 24, 24, 0.65) 100%), url(' + item.data.image_url + ')'}" [ngClass]="{'clone': item.type == 'clone'}">
-          <div class="carousel-item">
-            <div class="carousel-item-container">
-            <div class="carousel-item-container-right" id="lrgcarousel-right" style="display:block;">
-              <div class="carousel-item-container-right-key" [innerHTML]="item.data.keyword | safeHtml"></div>
-              <div class="carousel-item-container-right-title" [innerHTML]="item.data.title | safeHtml"></div>
-                <div class="carousel-item-container-right-title-border" [ngStyle]="{'display':item.data.style}"></div>
-              <div class="carousel-item-container-right-content" [innerHTML]="item.data.teaser | safeHtml" [ngStyle]="{'display':item.data.style}">
-              </div>
-              <a [routerLink]="item.data.articlelink">
-                <div class="carousel-item-container-right-fullstory">Read the Full Story</div>
-              </a>
+            <div class="carousel-item-container-right" id="lrgvidcarousel-right">
+              <div class="carousel-item-container-right-key">TOP VIDEOS</div>
+              <div class="carousel-item-container-right-title"><span>Today's Top Videos:</span><div id="cardivetitle" [innerHTML]="item.data.title | safeHtml"></div></div>
+                <div class="carousel-item-container-right-title-border"></div>
+               <div class="carousel-item-container-right-content">
+                  <span class="cardescription" [innerHTML]="item.data.description | safeHtml"></span>
+                 <span>Published on {{formatDate(item.data.pubDate)}}</span>
+               </div>
               </div>
             </div>
           </div>
         </div>
+       <div class="carousel_scroll-item"  *ngIf="item.type == 'carousel' || item.type == 'clone'" [routerLink]="item.data.articlelink" [ngStyle]="{'background-image': 'linear-gradient(180deg, rgba(40, 40, 40, 0.5) 0%, rgba(24, 24, 24, 0.65) 100%), url(' + item.data.image_url + ')', 'cursor': 'pointer'}" [ngClass]="{'clone': item.type == 'clone'}">
+         <div class="carousel-item">
+           <div class="carousel-item-container">
+           <div class="carousel-item-container-right" id="lrgcarousel-right" style="display:block;">
+             <div class="carousel-item-container-right-key" [innerHTML]="item.data.keyword | safeHtml"></div>
+             <div class="carousel-item-container-right-title" [innerHTML]="item.data.title | safeHtml"></div>
+               <div class="carousel-item-container-right-title-border"></div>
+             <div class="carousel-item-container-right-content" [innerHTML]="item.data.teaser | safeHtml">
+             </div>
+             <a [routerLink]="item.data.articlelink">
+               <div class="carousel-item-container-right-fullstory">Read the Full Story</div>
+             </a>
+             </div>
+           </div>
+         </div>
+        </div>
       </template>
+      <!-- end of content -->
     </div>
   </div>
   <div class="carousel_scroll-overlayright" *ngIf="fade"></div>
