@@ -1,6 +1,6 @@
 <section *ngIf="!isHomeRunZone" class="deep-dive container-fluid" (window:scroll)="onScroll($event)">
   <section class="deep-dive-container1">
-    <carousel-dive-module *ngIf = "carouselData" [carouselData] = "carouselData"></carousel-dive-module>
+    <carousel-dive-module *ngIf = "carouselData" [carouselData] = "carouselData" [state]="geoLocation"></carousel-dive-module>
     <div class="spacer"  id="deep-dive-blueBar">
       <section class="deep-dive-adWrap">
         <iframe frameborder="0" scrolling="no" allowtransparency="true" src="/app/ads/bluebar.html" [ngStyle]="{'display': 'block', 'height': '50px','width': '100%','margin': '0px','border': '0px','overflow': 'hidden','z-index': '0'}" ></iframe>

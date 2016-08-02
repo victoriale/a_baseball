@@ -81,7 +81,7 @@ export class DeepDiveService {
   if(state == null){//make sure it comes back as a string of null if nothing is returned or sent to parameter
     state = 'null';
   }
-  var callURL = this._apiUrl+'/'+ 'article/video/batch/division/'+state+'/'+ startNum +'/' + limit ;
+  var callURL = this._apiUrl+'/'+ 'article/video/batch/division/' + state + '/'+ startNum +'/' + limit ;
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
