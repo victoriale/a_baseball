@@ -159,22 +159,30 @@
 //Media Queries for .deep_recs elements;
 @media @mobile{
   .deep_recs{
-    margin-top: 30px;
-    margin-bottom: -30px;
+    margin: 0;
+    padding: 0 0 0 10px;
+    &-row{
+      .flexDirection(column);
+      width: 50%;
+      float: left;
+    }
     &-articles{
       width: 180px;
+      margin-bottom: 15px;
       &-item{
         &-image{
-          height: 120px;
+          height: 25.31vw;
+          width: 43.94vw;
         }
         &-content{
-          .globalDefaultFont(16px, 400);
+          .globalDefaultFont(12px, 400);
           margin-top: 9px;
           line-height: 18px;
           &-dateline{
-            display: none;
-          }
-          &-teaser{
+            font-size: 10px;
+            &-below{
+              display: none;
+            }
           }
         }
       }
@@ -183,7 +191,7 @@
 }
 @media @tablet{
   .deep_recs{
-    padding-left: 8px;
+    padding-left: 15px;
     padding-right: 8px;
     &-articles{
       width: 196px;
