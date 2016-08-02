@@ -8,25 +8,43 @@
     @media (min-width: 1024px) {
       padding: 0 130px;
     }
+    @media @mobile {
+      padding:0 10px;
+      min-height: 40px;
+    }
     padding:0 20px;
     min-height: 60px;
     img{
       margin: 9px auto;
       height: 40px;
+      @media @mobile {
+        height:30px;
+      }
     }
     ul{
       .flexDisplay;
       .flexJustify(space-between);
       text-align: center;
       width: 90px;
+      @media @mobile {
+        width: 70px;
+      }
       li{
         border-radius: 50%;
         border: 1px solid @bulletGrey;
         .globalDefaultModFont(20px, 400, @highlightGrey);
         height: 40px;
         width: 40px;
+        @media @mobile {
+          height: 30px;
+          width: 30px;
+          font-size:15px;
+        }
         i{
           padding-top: 10px;
+          @media @mobile {
+            padding-top:7px;
+          }
         }//i ends
       }// ul li ends
     }// ul ends
@@ -50,6 +68,9 @@
     background-color: @fontIconGrey;
     height: auto;
     .globalDefaultModFont(14px, 400, @white);
+    @media @mobile {
+      font-size:10px;
+    }
     .flexAlignItems(center);
     .flexDisplay;
     .flexDirection(column);
@@ -62,6 +83,9 @@
       .flexJustify(center);
       .flexAlignItems(baseline);
       width: 56%;
+      @media @mobile {
+        width:90%;
+      }
       .sortCategory{
         padding-right: 12px;
       }
@@ -94,6 +118,9 @@
       width: 70%;
     }
     &-citation{
+      @media @mobile {
+        font-size: 10px;
+      }
       font-size: 11px;
       font-weight: 400;
       color: @strokeGrey;
@@ -105,10 +132,18 @@
   &-text1{
     a{
       .globalDefaultModFont(14px, 800, @masterBrandColor);
+      @media @mobile {
+        font-size: 10px;
+      }
     }
   }//footer-text1 ends
   &-line3{
     width: 70%;
+  }
+  @media @mobile {
+    #mlb-teams-dropdown {
+      display:none;
+    }
   }
 }//footer ENDS
 #share-facebook{
