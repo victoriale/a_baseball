@@ -45,13 +45,13 @@
     </div>
     <div class="footer-main display640">
     <br>
-    <dropdown-directory [heading]="'Team Listings'">
+    <dropdown-directory [heading]="'Team Profiles'">
       <li *ngFor="let link of teamDirectoryListings">
         <a [routerLink]='link.route'>{{link.text}}</a>
       </li>
     </dropdown-directory>
     <br>
-    <dropdown-directory [heading]="'Player Listings'">
+    <dropdown-directory [heading]="'Player Profiles'">
       <li *ngFor="let link of playerDirectoryListings">
         <a [routerLink]='link.route'>{{link.text}}</a>
       </li>
