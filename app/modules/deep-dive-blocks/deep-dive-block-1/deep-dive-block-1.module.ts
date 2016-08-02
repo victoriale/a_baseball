@@ -6,7 +6,7 @@ import {Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {ArticleStackModule} from '../../../modules/article-stack/article-stack.module';
 import {TileStackModule} from '../../../modules/tile-stack/tile-stack.module';
 import {ResponsiveWidget} from '../../../components/responsive-widget/responsive-widget.component';
-import {VideoStackModule} from '../../../modules/video-stack/video-stack.module';
+import {VideoStackComponent} from '../../../components/video-stack/video-stack.component';
 import {BoxScoresModule} from '../../../modules/box-scores/box-scores.module';
 import {BoxScoresService} from '../../../services/box-scores.service';
 import {BoxArticleComponent} from '../../../components/box-article/box-article.component';
@@ -16,7 +16,7 @@ declare var moment;
 @Component({
     selector: 'deep-dive-block-1',
     templateUrl: './app/modules/deep-dive-blocks/deep-dive-block-1/deep-dive-block-1.module.html',
-    directives: [ROUTER_DIRECTIVES, ArticleStackModule, TileStackModule, ResponsiveWidget, VideoStackModule, BoxScoresModule, BoxArticleComponent],
+    directives: [ROUTER_DIRECTIVES, ArticleStackModule, TileStackModule, ResponsiveWidget, VideoStackComponent, BoxScoresModule, BoxArticleComponent],
     providers: [DeepDiveService, BoxScoresService]
 })
 export class DeepDiveBlock1{
@@ -32,7 +32,9 @@ export class DeepDiveBlock1{
 
   //for box scores
   boxScoresData: any;
+  videoData: any;
   currentBoxScores: any;
+  page: number = 1;
   dateParam: any;
   @Input() maxHeight: any;
   scroll: boolean = true;
@@ -90,6 +92,13 @@ export class DeepDiveBlock1{
           this.tilestackData = this._deepDiveData.transformTileStack(data);
         });
   }
+  private getDeepDiveVideoBatch(region, numItems, startNum){
+    this._deepDiveData.getDeepDiveVideoBatchService(numItems, startNum, region).subscribe(
+      data => {
+        this.videoData = data.data;
+      }
+    )
+  }
   //api for BOX SCORES
   private getBoxScores(dateParams?) {
       if (dateParams != null) {
@@ -115,6 +124,7 @@ export class DeepDiveBlock1{
     this.getBoxScores(this.dateParam);
     this.getFirstArticleStackData();
     this.getSecArticleStackData();
+    this.getDeepDiveVideoBatch(this.geoLocation, 6, this.page);
     this.getThirdArticleStackData();
     this.getTileStackData();
   }
