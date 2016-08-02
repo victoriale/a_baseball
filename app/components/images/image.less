@@ -186,6 +186,10 @@
   .roundImageMain(100px);
 }
 
+.image-71 {
+  .roundImageMain(71px);
+}
+
 .image-121 {
   .roundImageMain(121px);
 }
@@ -293,7 +297,7 @@
     .globalDefaultModFont(16px, 800, @white);
   }
   img{
-    .rectangleImageMain(320px, 180px);
+    .rectangleImageMain(100%, auto);
     @media @tablet{
       .rectangleImageMain(610px, auto);
     }
@@ -307,8 +311,11 @@
 }
 
 .image-320x180-sm{
-  height: 180px;
+  height: 56.25vw;
   overflow: hidden;
+  @media @tablet {
+    height: 180px;
+  }
   @media @desktop-xl{
     height: 240px;
   }
@@ -321,7 +328,7 @@
     .globalDefaultModFont(16px, 800, @white);
   }
   img{
-    .rectangleImageMain(320px, 180px);
+    .rectangleImageMain(100%, auto);
     @media @tablet{
       .rectangleImageMain(288px, auto);
     }
@@ -349,9 +356,6 @@
     .globalDefaultModFont(14px, 800, @white);
   }
   img{
-    .rectangleImageMain(100px, auto);
-    @media @tablet{
-      .rectangleImageMain(100px, auto);
-    }
+    .rectangleImageMain(100px, 100%);
   }
 }

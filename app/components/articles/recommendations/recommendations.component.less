@@ -1,25 +1,82 @@
-@pagewidth: 921px;
-@mainwidth: 580px;
-
 .recommendations {
-  height: 513px;
-  width: @mainwidth;
+  width: 580px;
+  display: inline-block;
+  @media @mobile-s {
+    width: 320px;
+  }
   &-header {
     border-bottom: 2px solid @strokeGrey;
+    @media @mobile-s {
+      border-bottom: none;
+    }
     &-icon {
       color: @masterBrandColor;
       font-size: 32px;
       font-weight: 400;
       text-align: left;
       margin-right: 15px;
+      @media @mobile-s {
+        font-size: 20px;
+        margin-right: 10px;
+      }
     }
     &-text {
       .globalDefaultFont(32px, 400);
       text-align: left;
+      @media @mobile-s {
+        .globalDefaultFont(20px, 400);
+      }
     }
   }
+
   &-articles {
     margin-top: 24px;
+    &-three {
+      color: @black;
+      &:hover {
+        color: @masterBrandColor;
+      }
+      &:hover .articleBoxXl {
+        .articleImageLinkWithHover(320px, 180px);
+        div {
+          left: 0;
+        }
+      }
+      &-image {
+        width: 320px;
+        height: 180px;
+        background-position: top center;
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+      &-description {
+        width: 100%;
+        height: 72px;
+        &-text {
+          .globalDefaultFont(16px, 800);
+          //necessary for multiline ellipses
+          display: block;
+          display: -webkit-box;
+          line-height: 1.4;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          position: relative;
+          top: 185px;
+        }
+        &-dateline {
+          .globalDefaultModFont(12px, 800, @bulletGrey);
+          text-align: left;
+          margin-top: 5px;
+          position: relative;
+          top: 185px;
+          &-keyword {
+            .globalDefaultModFont(12px, 800, @black);
+          }
+        }
+      }
+    }
     &-six {
       margin: 0 6px;
       color: @black;
@@ -43,7 +100,8 @@
         .globalDefaultFont(16px, 800);
         //necessary for multiline ellipses
         display: block;
-        display: -webkit-box; line-height: 1.4;
+        display: -webkit-box;
+        line-height: 1.4;
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
         overflow: hidden;
@@ -52,7 +110,7 @@
         top: 130px;
       }
       &-time {
-        .globalDefaultModFont(12px, 400, @bulletGrey);
+        .globalDefaultModFont(10px, 400, @bulletGrey);
         text-align: left;
         margin-top: 5px;
       }
@@ -64,32 +122,36 @@
   float: left;
   width: 180px;
   height: 210px;
+  @media @mobile-s {
+    width: 320px;
+    height: 252px;
+  }
 }
 
-.deep_recs{
+.deep_recs {
   width: 100%;
   padding-left: 15px;
   padding-right: 15px;
   margin-bottom: -30px;
-  &-row{
+  &-row {
     .flexDisplay;
     .flexJustify(space-between);
   }
-  &-articles{
+  &-articles {
     width: 32.045%;
     margin-bottom: 30px;
-    &:hover{
+    &:hover {
       color: @masterBrandColor;
-      .deep_recs-articles-item-content-dateline-keyword{
-         color: @black;
+      .deep_recs-articles-item-content-dateline-keyword {
+        color: @black;
       }
 
     }
-    &-item{
-      &:hover .deep_recs-articles-item-image-highlight{
+    &-item {
+      &:hover .deep_recs-articles-item-image-highlight {
         .flexDisplay;
       }
-      &-image{
+      &-image {
         //this is the minimum value
         width: 100%;
         background-color: @backgroundGrey;
@@ -99,22 +161,22 @@
         position: relative;
         display: inline-block;
         line-height: 120px;
-        &-highlight{
+        &-highlight {
           position: absolute;
-          top:0;
-          left:0;
+          top: 0;
+          left: 0;
           z-index: 5;
-          width:100%;
-          height:100%;
+          width: 100%;
+          height: 100%;
           box-shadow: inset 0 0 0 -10000px @masterHighlightColor;
           display: none;
           text-align: center;
           background-color: rgba(188, 32, 39, 0.75);
-            p{
-            &:first-child{
+          p {
+            &:first-child {
               .globalDefaultFont(14px, 800);
               line-height: 40px;
-              margin:auto;
+              margin: auto;
               width: 130px;
               height: 40px;
               color: @white;
@@ -124,30 +186,31 @@
           }
         }
       }
-      &-content{
+      &-content {
         margin-top: 10px;
-        overflow:hidden;
+        overflow: hidden;
         text-overflow: ellipsis;
         height: auto;
         width: 100%;
-        &-dateline{
+        &-dateline {
           .globalDefaultFont(11px, 800);
-          &-keyword{
+          &-keyword {
             margin-right: 3px;
           }
-          &-date{
+          &-date {
             text-transform: uppercase;
             color: @bulletGrey;
           }
-          &-below{
+          &-below {
             display: block;
             .globalDefaultFont(12px, 400);
             color: @strokeGrey;
-            line-height: 24px;
+            line-height: 20px;
+            margin-top:5px;
           }
         }
         &-teaser{
-          margin-top: 5px;
+          margin-top: 0;
           height: auto;
           line-height: 1.2em;
         }
@@ -159,22 +222,30 @@
 //Media Queries for .deep_recs elements;
 @media @mobile{
   .deep_recs{
-    margin-top: 30px;
-    margin-bottom: -30px;
+    margin: 0;
+    padding: 0 0 0 10px;
+    &-row{
+      .flexDirection(column);
+      width: 50%;
+      float: left;
+    }
     &-articles{
       width: 180px;
+      margin-bottom: 15px;
       &-item{
         &-image{
-          height: 120px;
+          height: 25.31vw;
+          width: 43.94vw;
         }
         &-content{
-          .globalDefaultFont(16px, 400);
+          .globalDefaultFont(12px, 400);
           margin-top: 9px;
           line-height: 18px;
           &-dateline{
-            display: none;
-          }
-          &-teaser{
+            font-size: 10px;
+            &-below{
+              display: none;
+            }
           }
         }
       }
@@ -183,7 +254,7 @@
 }
 @media @tablet{
   .deep_recs{
-    padding-left: 8px;
+    padding-left: 15px;
     padding-right: 8px;
     &-articles{
       width: 196px;
@@ -214,6 +285,7 @@
     padding-left: 0;
     padding-right: 0;
   }
+
   .deep-dive-container .deep_recs{
     &-articles{
       width: 216px;
@@ -237,11 +309,13 @@
     }
   }
 }
+
 @media @desktop-l{
   .deep_recs {
     padding-left: 0;
     padding-right: 0;
   }
+
   .deep_recs {
     &-articles{
   //    width: 32.24%;
@@ -252,6 +326,7 @@
       }
     }
   }
+
   .deep-dive-container .deep_recs-articles-item{
     &-content{
       margin-top: 10px;
@@ -262,6 +337,7 @@
     }
   }
 }
+
 @media @desktop-xl{
   .deep_recs {
     padding-left: 0;
@@ -285,6 +361,7 @@
       width: 348px;
     }
   }
+
   .deep-dive-container .deep_recs-articles-item{
     &-image{
       height: 220px;
