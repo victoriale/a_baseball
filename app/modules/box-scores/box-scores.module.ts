@@ -100,6 +100,5 @@ export class BoxScoresModule implements OnChanges, OnInit{
         this.heightStyle = 'auto';
       }
     }
-    console.log(this.boxScores);
   }
 }
