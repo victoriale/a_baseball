@@ -2,20 +2,41 @@
     <div class="recommendations-header">
         <i class="fa fa-heartbeat recommendations-header-icon"></i><span class="recommendations-header-text">Other Articles You Will Love</span>
     </div>
-    <div class="recommendations-articles">
+    <div class="recommendations-articles" (window:resize)="onResize($event)">
         <span *ngFor="let data of randomHeadlines; let i=index;">
-            <a *ngIf="i<6" class="recommendations-articles-six article"
-               [routerLink]="['Article-pages', {eventType: data.eventType, eventID: data.eventID}]"
-               title="{{data.title}}">
-                <span class="articleBoxMedium">
-                    <img class="recommendations-articles-six-image" src="{{data.images}}"
-                         onerror="this.src='/app/public/no-image.png'"/>
-                    <div>
-                        <p>View Article</p>
-                    </div>
-                </span>
-                <div class="recommendations-articles-six-text">{{data.title}}</div>
-            </a>
+            <span *ngIf="!isSmall">
+                <a *ngIf="i < 6" class="recommendations-articles-six article"
+                   [routerLink]="['Article-pages', {eventType: data.eventType, eventID: data.eventID}]"
+                   title="{{data.title}}">
+                    <span class="articleBoxMedium">
+                        <img class="recommendations-articles-six-imagee" src="{{data.images}}"
+                             onerror="this.src='/app/public/no-image.png'"/>
+                        <div>
+                            <p>View Article</p>
+                        </div>
+                    </span>
+                    <div class="recommendations-articles-six-text">{{data.title}}</div>
+                </a>
+            </span>
+            <span *ngIf="isSmall">
+                <a *ngIf="i < 3" class="recommendations-articles-three article"
+                   [routerLink]="['Article-pages', {eventType: data.eventType, eventID: data.eventID}]"
+                   title="{{data.title}}">
+                    <span class="articleBoxXl">
+                        <img class="recommendations-articles-three-imagee" src="{{data.images}}"
+                             onerror="this.src='/app/public/no-image.png'"/>
+                        <div>
+                            <p>View Article</p>
+                        </div>
+                    </span>
+                    <span class="recommendations-articles-three-description">
+                        <span class="recommendations-articles-three-description-dateline">
+                            <span class="recommendations-articles-three-description-dateline-keyword">{{data.keyword}}</span>
+                            {{data.date}}</span>
+                        <span class="recommendations-articles-three-description-text">{{data.title}}</span>
+                    </span>
+                </a>
+            </span>
         </span>
     </div>
 </div>

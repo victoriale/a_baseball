@@ -6,7 +6,7 @@
     <recommendations-component *ngIf="recommendationData" [randomHeadlines]="recommendationData" [isDeepDive]="true"></recommendations-component>
   </div>
   <div class="deep-dive-module">
-    <video-stack-module *ngIf="geoLocation" [state]="geoLocation" [page]="2"></video-stack-module>
+    <video-stack-component [state]="state" [page]="2" [videoData]="videoData"></video-stack-component>
   </div>
   <div class="deep-dive-module">
     <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
