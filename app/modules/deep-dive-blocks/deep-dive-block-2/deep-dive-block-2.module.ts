@@ -83,7 +83,6 @@ export class DeepDiveBlock2{
     this._deepDiveData.getDeepDiveVideoBatchService(numItems, startNum, region).subscribe(
       data => {
         this.videoData = data.data;
-        console.log(this.videoData);
       }
     )
   }

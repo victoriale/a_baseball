@@ -76,7 +76,7 @@
         line-height: 1.2;
       }
       .video-title-bottom {
-        font-size:11px;
+        font-size:12px;
         display: block;
         color:@strokeGrey;
         margin-bottom: 5px;
@@ -142,8 +142,7 @@
       padding: 10px 10px 0 10px;
       &-text {
         height: auto;
-        font-size: 14px;
-        font-weight: 800;
+        .globalDefaultModFont(14px, 400, @black);
       }
       .video-title-top {
         display: block;
@@ -151,8 +150,7 @@
       }
       .video-title-mid {
         display: block;
-        font-size: 14px;
-        font-weight: 800;
+        .globalDefaultModFont(14px, 800, @black);
       }
     }
   }
@@ -176,7 +174,7 @@
         padding: 7px 9px;
         .fa-play {
           &:before {
-            font-size: 15px;
+            font-size: 16px;
           }
         }
       }
@@ -192,9 +190,9 @@
       width: ~"calc(100% - 130px)";
       vertical-align: top;
       &-text {
+        display: none;
         height: auto;
-        font-size: 14px;
-        font-weight: 400;
+        .globalDefaultModFont(14px, 400, @black);
       }
       .video-title-top {
         display: block;
@@ -202,8 +200,7 @@
       }
       .video-title-mid {
         display: block;
-        font-size: 14px;
-        font-weight: 400;
+        .globalDefaultModFont(14px, 400, @black);
       }
     }
   }
@@ -248,8 +245,7 @@
       }
       .video-title-mid {
         display: block;
-        font-size: 18px;
-        font-weight: 800;
+        .globalDefaultModFont(18px, 800, @black);
         line-height: 22px;
       }
     }
@@ -282,10 +278,10 @@
       }
       .video-title-mid {
         display: block;
-        font-size: 14px;
-        font-weight: 400;
+        .globalDefaultModFont(14px, 400, @black);
       }
       &-text {
+        display: none;
         height: auto;
       }
     }
@@ -295,7 +291,7 @@
       padding: 7px 9px;
       .fa-play {
         &:before {
-          font-size: 15px;
+          font-size: 16px;
         }
       }
     }
@@ -317,7 +313,7 @@
     .video-title-top {
       padding: 0 0 5px 0;
       span {
-        font-size: 11px;
+        font-size: 12px;
       }
     }
   }
