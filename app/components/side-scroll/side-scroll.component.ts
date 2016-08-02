@@ -34,7 +34,7 @@ export class SideScroll{
   private swipeDirection:string;
   private boundary:any = {};
 
-  private transition:any = null;
+  private transition:any = '';
 
   @Input('show-item-num') totalItems:number;
   @Input('loop') loop:boolean;
@@ -74,17 +74,17 @@ export class SideScroll{
 
     startLength = ssItems.length; //get total valid items
     for(var c = 1; c <= this.clones; c++){
-      //unshift pushes clones before array
-      ssItems.unshift({
-        id: ssItems[0].id,
-        data:ssItems[0].data,
-        type:ssItems[0].type
-      })
       //push clones at end of array
+      ssItems.unshift({
+        id:ssItems[startLength-1].id,
+        data:ssItems[startLength-1].data,
+        type:ssItems[startLength-1].type
+      })
+      //unshift pushes clones before array
       ssItems.push({
-        id:ssItems[startLength].id,
-        data:ssItems[startLength].data,
-        type:ssItems[startLength].type
+        id: ssItems[1].id,
+        data:ssItems[1].data,
+        type:ssItems[1].type
       })
     }
 
@@ -151,30 +151,27 @@ export class SideScroll{
     this.displayedItems = [];
     // this.currentScroll = 0;
     //if loops from input is true then the hidden item needs to be the last item of the array + the prev item before that
-    console.log(originalData);
     for(var item = 0; item < originalData.length; item++){
       this.displayedItems.push(originalData[item]);
       this.endIndex = originalData[item].id;//set ending index to last item of total items shown
     }
-    console.log(this.displayedItems);
 
   }
 
   left(event) {
     //moves the current scroll over the item size
     this.currentScroll -= (this.itemSize);
-    console.log(this.currentScroll , this.itemSize * this.clones,this.currentScroll < this.itemSize * this.clones)
-    if(this.currentScroll < this.itemSize * this.clones){
-      this.currentScroll = (this.itemSize * (this.maxLength));
+    if(this.currentScroll < 0){
+      this.currentScroll = (this.itemSize * this.maxLength-1);
     }
     this.checkCurrent(this.currentScroll);
   }
   right(event) {
-    if(this.maxLength > Math.round(this.currentScroll/this.itemSize)){
-      this.currentScroll += this.itemSize;
+    this.currentScroll += this.itemSize;
+    if(this.maxLength >= Math.round(this.currentScroll/this.itemSize)){
       this.checkCurrent(this.currentScroll);
     }else{
-      this.currentScroll = this.itemSize * this.clones;
+      this.currentScroll = 0;
       this.checkCurrent(this.currentScroll);
     }
   }
@@ -219,10 +216,10 @@ export class SideScroll{
       //if mousedown is detected and not at maxLength then detect distance by pixel of drag and use the correct function right or left
       this.drag = (this.mouseDown - event.clientX);
       this.currentScroll -= this.drag;
-      if(this.currentScroll < this.itemSize * this.clones){
-        this.currentScroll = -(this.itemSize * this.clones);
-      }else if (this.currentScroll > (this.maxLength-this.clones) * this.itemSize){
-        this.currentScroll = (this.maxLength-this.clones) * this.itemSize;
+      if(this.currentScroll < 0){
+        this.currentScroll = (this.maxLength-1) * this.itemSize;
+      }else if (this.currentScroll > (this.maxLength-1) * this.itemSize){
+        this.currentScroll = 0;
       }
       this.mouseDown = event.clientX;
       this.rightText = this.currentScroll+'px';
@@ -231,25 +228,41 @@ export class SideScroll{
   }
 
   checkCurrent(currentScroll){
+    var self = this;
     //set maxScroll and minScroll if loops is set to false
     if(!this.loop){
-      this.minScroll = this.currentScroll < -(this.itemSize * this.clones);
+      this.minScroll = this.currentScroll < (this.itemSize * this.clones);
       this.maxScroll = !((this.maxLength) > Math.round(this.currentScroll/(this.itemSize)));
     }
-
+    let pos = (currentScroll / this.itemSize);
     //if num which is currentScroll is below the above the clone pos then reset to beginning of array else if current size is below then reset to beginning
-    if(currentScroll > (this.itemSize * (this.maxLength-this.clones))){
+    if(pos > this.maxLength){
       currentScroll = 0;
-    }else if (currentScroll <= -(this.itemSize * this.clones)){
-      currentScroll = this.itemSize * (this.maxLength-this.clones);
+    }else if (pos < 0){
+      currentScroll = this.itemSize * (this.maxLength-1);
+    }else{
+      this.transition = "score-transition2";
     }
 
     //if pos (position) is between then round to nearest  whole number and move carousel
-    let pos = (currentScroll / this.itemSize);
     this.currentScroll = Math.round(pos) * this.itemSize;
     this.currentItem = this.originalData[(Math.round(pos))];
     this.carouselCount.next(Math.round(pos));
     this.rightText = this.currentScroll+'px';
+
+    //ran after the transition to the clone is made and instant switch to the beginning or end of array with no transition
+    setTimeout(function(){
+      if(pos <= 0){
+        self.transition = "";
+        self.currentScroll = (self.maxLength-2) * self.itemSize;
+        self.rightText = self.currentScroll+'px';
+      }
+      if(pos >= self.maxLength - 1){
+        self.transition = "";
+        self.currentScroll = self.itemSize;
+        self.rightText = self.currentScroll+'px';
+      }
+    },200);
   }
 
   formatDate(date) {

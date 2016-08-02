@@ -1,8 +1,8 @@
 <div class="carousel_scroll" (mousemove)="movingMouse($event)" (swipe)="onSwipe($event)" (window:resize)="onResize($event)">
   <button *ngIf="buttonClass" class="{{buttonClass}} carousel_scroll-left" (click)="left($event)" [ngClass]="{'disabled': minScroll === true }"><i class="fa fa-angle-left"></i></button>
   <div class="carousel_scroll-box" (mousedown)="scrollX($event)" (mouseup)="scrollX($event)">
-    <div *ngIf="displayedItems" class="carousel_scroll-container score-transition2" [style.right]="rightText | safeStyle">
-      <!-- content goes below -->
+    <div *ngIf="displayedItems" class="carousel_scroll-container {{transition}}" [style.right]="rightText | safeStyle">
+      <!-- ng content goes below -->
       <template  ngFor let-item [ngForOf]="displayedItems">
         <div class="carousel_scroll-item"  *ngIf="item.type == 'video' || item.type == 'clone'" [ngStyle]="{'background-image': 'linear-gradient(180deg, rgba(40, 40, 40, 0.5) 0%, rgba(24, 24, 24, 0.65) 100%), url(' + item.data.thumbnail + ')'}" [ngClass]="{'clone': item.type == 'clone'}">
           <div class="carousel-item"  [ngStyle]="{'cursor':'default'}">
