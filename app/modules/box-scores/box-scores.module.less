@@ -1,3 +1,8 @@
+@media @mobile {
+  .box-scores {
+    width:100%!important;
+  }
+}
 .box-scores{// BOX-SCORES CONTAINER
   width: 640px;
   height:auto;
@@ -10,6 +15,9 @@
     position: absolute;
     bottom:0;
     z-index:1;
+    @media @mobile {
+      display: none;
+    }
   }
   &-info{
     width:100%;
@@ -39,6 +47,40 @@
     }
     .even{
       background-color: @white;
+    }
+    .pageIndicator {
+      display:block;
+      width:100%;
+      text-align:center;
+      margin-bottom: 10px;
+    }
+    .pagButton {
+      cursor: pointer;
+      width:50%;
+      height:35px;
+      display:block;
+      color: @white;
+      background-color:@homeRunLoyalRed;
+      text-align: center;
+      padding-top: 10px;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      i {
+        vertical-align: middle;
+      }
+    }
+    .pagButton:hover {
+      background-color: @black;
+    }
+    .pagButton.disabled {
+      background-color: @strokeGrey;
+      color: @bulletGrey;
+      cursor: default;
+    }
+    .pagButton.disabled:hover {
+      background-color: @strokeGrey;
     }
   }
 
