@@ -8,7 +8,7 @@
     .flexDirection(column);
     overflow: hidden;
     margin: 0 0 15px;
-    width: 320px;
+    width: 100%;
     &:hover{
       .box_articles-description{
         color: @masterBrandColor;
@@ -54,6 +54,7 @@
   .box_articles{
     .flexDirection(row);
     .flexJustify(space-between);
+    .flexAlignItems(flex-start);
     &-item {
       margin: 0 14px;
       width: 288px;
