@@ -1,4 +1,4 @@
-<div class="carousel_scroll" (mousemove)="movingMouse($event)" (window:resize)="onResize($event)">
+<div class="carousel_scroll" (mousemove)="movingMouse($event)" (swipe)="onSwipe($event)" (window:resize)="onResize($event)">
   <button *ngIf="buttonClass" class="{{buttonClass}} carousel_scroll-left" (click)="left($event)" [ngClass]="{'disabled': minScroll === true }"><i class="fa fa-angle-left"></i></button>
   <div class="carousel_scroll-box" (mousedown)="scrollX($event)" (mouseup)="scrollX($event)">
     <div *ngIf="displayedItems" class="carousel_scroll-container score-transition2" [style.right]="rightText | safeStyle">

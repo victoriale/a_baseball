@@ -31,6 +31,7 @@ export class SideScroll{
   private drag: number = 0;
   private mouseDown:number = 0;
   private mouseUp:number = 0;
+  private swipeDirection:string;
   private boundary:any = {};
 
   private transition:any = null;
@@ -160,6 +161,16 @@ export class SideScroll{
     }
   }
 
+  //For mobile screen swiping events
+  onSwipe(event){
+    this.swipeDirection = event.deltaX > 0 ? 'right' : 'left';
+    if(this.swipeDirection == 'right'){//this is for quick fix but not final version
+      this.left('left');
+    }else if (this.swipeDirection == 'left'){
+      this.right('right');
+    }
+    this.checkCurrent(this.currentScroll);
+  }
 
   scrollX(event){
     let currentClick = event.clientX;
@@ -169,9 +180,9 @@ export class SideScroll{
     }
     if(mouseType == 'mouseup'){
       if(this.drag >= 0){//this is for quick fix but not final version
-        this.right('swipe right');
+        this.right('right');
       }else{
-        this.left('swipe left');
+        this.left('left');
       }
       this.mouseUp = event.clientX;
       this.checkCurrent(this.currentScroll);
