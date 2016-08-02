@@ -51,18 +51,20 @@ export class SideScroll{
     var ssItems = [];
 
     //push in video items first this can probably handle arguments in future
+    var startLength = ssItems.length;
     this.videoData.forEach(function(val, index){
       ssItems.push({
-        id: ssItems.length + index,
+        id: startLength + index,
         data:val,
         type:'video'
       })
     });
 
     //push in carousels items next this can probably handle arguments in future
+    startLength = ssItems.length;
     this.carData.forEach(function(val, index){
       ssItems.push({
-        id:ssItems.length + (index + 1),
+        id:startLength + index,
         data:val,
         type:'carousel'
       })
@@ -110,9 +112,17 @@ export class SideScroll{
     }
   }
 
-  ngDoCheck(){
+  // ngDoCheck(){
+  //   if(this._elRef.nativeElement.getElementsByClassName('carousel_scroll-container').length > 0){
+  //     this.itemSize = this._elRef.nativeElement.getElementsByClassName('carousel_scroll-container')[0].offsetWidth;
+  //   }
+  // }
+
+  onResize(event){
     if(this._elRef.nativeElement.getElementsByClassName('carousel_scroll-container').length > 0){
       this.itemSize = this._elRef.nativeElement.getElementsByClassName('carousel_scroll-container')[0].offsetWidth;
+      this.currentScroll = this.itemSize * Number(this.currentItem.id);
+      this.rightText = this.currentScroll+'px';
     }
   }
 
@@ -211,14 +221,6 @@ export class SideScroll{
     this.currentItem = this.originalData[(Math.round(pos))];
     this.carouselCount.next(Math.round(pos));
     this.rightText = this.currentScroll+'px';
-    this.generateArray();
-  }
-
-  onResize(event){
-    if(this._elRef.nativeElement.getElementsByClassName('carousel_scroll-container').length > 0){
-      this.itemSize = this._elRef.nativeElement.getElementsByClassName('carousel_scroll-container')[0].offsetWidth;
-      this.currentScroll = this.itemSize * Number(this.currentItem.id);
-    }
   }
 
   formatDate(date) {
