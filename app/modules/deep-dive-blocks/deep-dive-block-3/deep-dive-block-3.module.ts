@@ -40,7 +40,9 @@ export class DeepDiveBlock3{
     private _router:Router,
     private _deepDiveData: DeepDiveService
     ){
-      this.callModules();
+    }
+    ngOnInit() {
+       this.callModules();
     }
 
   getFirstArticleStackData(){
