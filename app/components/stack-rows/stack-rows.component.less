@@ -56,17 +56,25 @@
     }
   }
 }
+@media @small-grid {
+  .stackSmall {
+    .col-xs-6;
+  }
+  .stackRows {
+    height: 210px;
+  }
+}
 @media @tablet {
   .stackSmall {
-      .col-xs-6;
-      &-text {
-        width: 180px;
-        &-keyword {
-           > span:last-child{
-             height: 50px;
-           }
-        }
+    .col-xs-6;
+    &-text {
+      width: 180px;
+      &-keyword {
+         > span:last-child{
+           height: 50px;
+         }
       }
+    }
   }
   .stackRows{
     height: 265px;
