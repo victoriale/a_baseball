@@ -49,6 +49,10 @@
   background-color: @white;
 }
 
+.basic-container{
+  display:block;
+  width:640px;
+}
 .widget-page-wrapper {
   width:640px;
   margin-left: auto;
@@ -71,6 +75,9 @@
     padding: 35px 30px 0 32px;
   }
 
+  .basic-container{
+    width:960;
+  }
   .widget-page-wrapper {
     width:960;
     > .col-xs-8 {
@@ -84,3 +91,8 @@
     }
   }
 }//min-width 1024 ENDS
+@media @mobile {
+  .widget-page-wrapper {
+    width:100%;
+  }
+}

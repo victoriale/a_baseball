@@ -98,6 +98,7 @@
       }
       &-text {
         .globalDefaultFont(16px, 800);
+        //necessary for multiline ellipses
         display: block;
         display: -webkit-box;
         line-height: 1.4;
@@ -204,11 +205,12 @@
             display: block;
             .globalDefaultFont(12px, 400);
             color: @strokeGrey;
-            line-height: 24px;
+            line-height: 20px;
+            margin-top:5px;
           }
         }
-        &-teaser {
-          margin-top: 5px;
+        &-teaser{
+          margin-top: 0;
           height: auto;
           line-height: 1.2em;
         }
@@ -218,52 +220,59 @@
 }
 
 //Media Queries for .deep_recs elements;
-@media @mobile {
-  .deep_recs {
-    margin-top: 30px;
-    margin-bottom: -30px;
-    &-articles {
+@media @mobile{
+  .deep_recs{
+    margin: 0;
+    padding: 0 0 0 10px;
+    &-row{
+      .flexDirection(column);
+      width: 50%;
+      float: left;
+    }
+    &-articles{
       width: 180px;
-      &-item {
-        &-image {
-          height: 120px;
+      margin-bottom: 15px;
+      &-item{
+        &-image{
+          height: 25.31vw;
+          width: 43.94vw;
         }
-        &-content {
-          .globalDefaultFont(16px, 400);
+        &-content{
+          .globalDefaultFont(12px, 400);
           margin-top: 9px;
           line-height: 18px;
-          &-dateline {
-            display: none;
-          }
-          &-teaser {
+          &-dateline{
+            font-size: 10px;
+            &-below{
+              display: none;
+            }
           }
         }
       }
     }
   }
 }
-
-@media @tablet {
-  .deep_recs {
+@media @tablet{
+  .deep_recs{
     padding-left: 15px;
-    padding-right: 15px;
-    &-articles {
+    padding-right: 8px;
+    &-articles{
       width: 196px;
-      &-item {
-        &-image {
+      &-item{
+        &-image{
           height: 136px;
         }
-        &-content {
+        &-content{
           .globalDefaultFont(16px, 400);
           line-height: 18px;
           margin-top: 14px;
-          &-dateline {
+          &-dateline{
             display: block;
-            &-below {
+            &-below{
               display: none;
             }
           }
-          &-teaser {
+          &-teaser{
           }
         }
       }
@@ -273,26 +282,26 @@
 
 @media @desktop-m {
   .deep_recs {
-    padding-left: 49px;
-    padding-right: 49px;
+    padding-left: 0;
+    padding-right: 0;
   }
 
-  .deep-dive-container .deep_recs {
-    &-articles {
+  .deep-dive-container .deep_recs{
+    &-articles{
       width: 216px;
-      &-item {
-        &-image {
+      &-item{
+        &-image{
           height: 136px;
         }
       }
     }
-    &-articles-item {
-      &-content {
+    &-articles-item{
+      &-content{
         .globalDefaultFont(12px, 400);
         margin-top: 10px;
-        &-dateline {
+        &-dateline{
           display: block;
-          &-below {
+          &-below{
             display: none;
           }
         }
@@ -301,35 +310,35 @@
   }
 }
 
-@media @desktop-l {
+@media @desktop-l{
   .deep_recs {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 0;
+    padding-right: 0;
   }
 
   .deep_recs {
-    &-articles {
-      width: 32.24%;
-      &-item {
-        &-content {
+    &-articles{
+  //    width: 32.24%;
+      &-item{
+        &-content{
           margin-top: 10px;
         }
       }
     }
   }
 
-  .deep-dive-container .deep_recs-articles-item {
-    &-content {
+  .deep-dive-container .deep_recs-articles-item{
+    &-content{
       margin-top: 10px;
       .globalDefaultFont(12px, 400);
-      &-dateline {
+      &-dateline{
         display: block;
       }
     }
   }
 }
 
-@media @desktop-xl {
+@media @desktop-xl{
   .deep_recs {
     padding-left: 0;
     padding-right: 0;
@@ -339,27 +348,27 @@
         &-image {
           height: 220px;
         }
-        &-content {
-          &-dateline {
+        &-content{
+          &-dateline{
           }
         }
       }
     }
   }
 
-  .deep-dive-container .deep_recs {
-    &-articles {
+  .deep-dive-container .deep_recs{
+    &-articles{
       width: 348px;
     }
   }
 
-  .deep-dive-container .deep_recs-articles-item {
-    &-image {
+  .deep-dive-container .deep_recs-articles-item{
+    &-image{
       height: 220px;
     }
-    &-content {
+    &-content{
       .globalDefaultFont(12px, 400);
-      &-dateline {
+      &-dateline{
         display: block;
       }
     }

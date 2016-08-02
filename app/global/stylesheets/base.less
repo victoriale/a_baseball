@@ -11,12 +11,12 @@ ToC
 
 //Media Queries for responsive
 @mobile-s:    ~"only screen and (max-width: 639px)";
-@mobile:      ~"only screen and (max-width: 640px)";
-@tablet:      ~"only screen and (min-width: 641px)";
-@desktop-m:   ~"only screen and (min-width: 768px)";
-@desktop-l:   ~"only screen and (min-width: 1024px)";
-@desktop-sideads:  ~"only screen and (min-width: 1280px)";
-@desktop-xl:  ~"only screen and (min-width: 1441px)";
+@mobile:      ~"(max-width: 640px)";
+@small-grid:  ~"(min-width: 544px) and (max-width: 640px)";
+@tablet:      ~"(min-width: 641px)";
+@desktop-m:   ~"(min-width: 768px)";
+@desktop-l:   ~"(min-width: 1024px)";
+@desktop-xl:  ~"(min-width: 1760px)";
 // @desktop-xl:  ~"only screen and (min-width: 1500px)";
 
 /***********/
@@ -181,7 +181,9 @@ body {
   overflow: auto;
   margin: 0 !important;
   background-color: @highlightGrey !important;
-  min-width: 640px;
+  //min-width: 640px;
+  min-width: 320px;
+
 }
 
 div {
@@ -386,7 +388,7 @@ code.less-var-name-light {
 
 .backgroundClipPBoxPrefixes {
   -webkit-background-clip: padding-box;
-  -moz-background-clip: padding;
+  -moz-background-clip: padding-box;
   background-clip: padding-box;
 }
 

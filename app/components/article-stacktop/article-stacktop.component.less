@@ -1,8 +1,9 @@
 .stacktop{
-  width: 320px;
+  min-width: 320px;
   &-title {
     height: auto;
     line-height: 1.2;
+    margin-left: 10px;
     .globalDefaultModFont(16px, 800, @black);
     &-date{
       text-transform: uppercase;
@@ -18,7 +19,7 @@
   }//stacktop-title ends
   &-titleinfo {
     .globalDefaultModFont(12px, 800, @strokeGrey);
-    margin: 10px 0 10px;
+    margin: 10px 0 10px 10px;
     &-provider{
       max-width: 200px;
       margin-right: 25px;
@@ -30,16 +31,17 @@
     }
   }
   &-image {
-    width: 320px;
-    height: 180px;
+    min-width: 320px;
+    display: table;
   }
   &-desc {
-    max-height: 55px;
+    max-height: 37px;
     overflow: hidden;
-    margin-bottom: 15px;
+    margin: 10px 0 0 10px;
     .globalDefaultModFont(12px, 400, @black);
     p{
         line-height: 1.2em;
+        margin: 0;
     }
   }
   &:hover{
@@ -56,13 +58,13 @@
     width: 640px;
     &-title {
       font-size: 32px;
+      margin-left: 0;
       &-date{
         font-size: 12px;
       }//stacktop-title-date ends
     }//stacktop-title ends
     &-titleinfo {
       font-size: 14px;
-      line-height: 2.14;
       margin: 10px 0 20px;
       &-provider{
         max-width: 200px;
@@ -77,7 +79,8 @@
       height: 421px;
     }
     &-desc {
-      display: inline;
+      display: block;
+      margin: 10px 0 0;
     }
   }
 }
@@ -89,7 +92,8 @@
     }
     &-desc{
       font-size: 14px;
-      max-height: 72px;
+      margin-bottom:0;
+      max-height:45px;
     }
   }
 }

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, AfterViewInit} from '@angular/core';
 import {Location} from '@angular/common';
 import {Router,ROUTER_DIRECTIVES, RouteParams} from '@angular/router-deprecated';
 import {ImagesMedia} from "../../components/carousels/images-media-carousel/images-media-carousel.component";
@@ -74,6 +74,17 @@ export class SyndicatedArticlePage{
       });
     }
 
+    ngAfterViewInit(){
+      // to run the resize event on load
+      try {
+        window.dispatchEvent(new Event('load'));
+      }catch(e){
+        //to run resize event on IE
+        var resizeEvent = document.createEvent('UIEvents');
+        resizeEvent.initUIEvent('load', true, false, window, 0);
+        window.dispatchEvent(resizeEvent);
+      }
+    }
 
     private getDeepDiveArticle(articleID) {
       this._deepdiveservice.getDeepDiveArticleService(articleID).subscribe(

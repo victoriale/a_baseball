@@ -6,6 +6,7 @@ import {MLBGlobalFunctions} from '../global/mlb-global-functions';
 import {GlobalSettings} from '../global/global-settings';
 import {DomSanitizationService} from '@angular/platform-browser';
 
+
 declare var moment;
 @Injectable()
 export class DeepDiveService {
@@ -170,27 +171,41 @@ export class DeepDiveService {
 
   getCarouselData(data, limit, batch, state, callback:Function) {
     //always returns the first batch of articles
-     this.getDeepDiveBatchService(limit, batch, state)
-     .subscribe(data=>{
-       var transformedData = this.carouselTransformData(data.data);
-      callback(transformedData);
-     })
-  }
+       this.getDeepDiveBatchService(limit, batch, state)
+       .subscribe(data=>{
+         var transformedData = this.carouselTransformData(data.data);
+         callback(transformedData);
+       })
 
-  carouselTransformData(arrayData){
-    var transformData = [];
-    arrayData.forEach(function(val,index){
-      let carData = {
-        image_url: GlobalSettings.getImageUrl(val['imagePath']),
-        title:  "<span> Today's News </span>" + val['title'],
-        keyword: val['keyword'],
-        teaser: val['teaser'].substr(0,250).replace('_',': ').replace(/<p[^>]*>/g, "") + "...",
-        id:val['id'],
-        articlelink: MLBGlobalFunctions.formatSynRoute('story', val.id),
-      };
-      transformData.push(carData);
-    });
-    return transformData;
+   }
+
+ carouselTransformData(arrayData){
+      var transformData = [];
+      arrayData.forEach(function(val,index){
+        var curdate = new Date();
+        var curmonthdate = curdate.getDate();
+        var date = GlobalFunctions.formatDate(val.publishedDate);
+      //  console.log(moment().format("dddd"));
+        // if (Number(curmonthdate) > Number(date.day)) {
+        //   val['title'] = "<span>" +  'Day of week of article' + "</span>" + val['title'];
+        // }
+        // else {
+        //   val['title'] = "<span> Today's News </span>" + val['title'];
+        // }
+        let carData = {
+          image_url: GlobalSettings.getImageUrl(val['imagePath']),
+          title:  "<span> Today's News </span>" + val['title'],
+          keyword: val['keyword'],
+          teaser: val['teaser'].substr(0,200).replace('_',': ').replace(/<p[^>]*>/g, "") + "...",
+          id:val['id'],
+          articlelink: MLBGlobalFunctions.formatSynRoute('story', val.id),
+          date: date.day,
+        };
+        transformData.push(carData);
+
+      });
+
+      return transformData;
   }
 
   transformToArticleRow(data){
@@ -206,6 +221,7 @@ export class DeepDiveService {
           provider1: val.author,
           provider2: "Published By: " + val.publisher,
           description: val.title,
+          images:  val.imagePath != null ? GlobalSettings.getImageUrl(val.imagePath) : sampleImage,
           imageConfig: {
             imageClass: "image-100x56",
             imageUrl: val.imagePath != null ? GlobalSettings.getImageUrl(val.imagePath) : sampleImage,
@@ -225,7 +241,7 @@ export class DeepDiveService {
       var date = GlobalFunctions.formatDate(val.timestamp*1000);
       var s = {
           stackRowsRoute: MLBGlobalFunctions.formatAiArticleRoute('postgame-report', val.event),
-          keyword: 'BASEBALL',
+          keyword: 'POST GAME REPORT',
           publishedDate: date.month + " " + date.day + ", " + date.year,
           provider1: '',
           provider2: '',
@@ -251,14 +267,14 @@ export class DeepDiveService {
       if (data.hasOwnProperty(key) && data[key].displayHeadline != null && i <= 8) {
         var s = {
             stackRowsRoute: MLBGlobalFunctions.formatAiArticleRoute(key, data.eventId),
-            keyword: 'BASEBALL',
+            keyword: 'PLAYER COMPARISON',
             publishedDate: date.month + " " + date.day + ", " + date.year,
             provider1: '',
             provider2: '',
             description: data[key].displayHeadline,
             imageConfig: {
               imageClass: "image-100x56",
-              imageUrl: sampleImage,
+              imageUrl: data[key].image != null ? data[key].image : sampleImage,
               hoverText: "View",
               urlRouteArray: MLBGlobalFunctions.formatAiArticleRoute(key, data.eventId)
             }
@@ -276,14 +292,27 @@ export class DeepDiveService {
     let mlbPage = ['MLB-page'];
     var tileLink = [pickATeam, pickATeam, mlbPage];
     var dataStack = [];
-      for(var i = 0; i < 3; i++){
-        var j = Math.floor(Math.random() * data.length);
-        dataStack[i] = data[i];
-        dataStack[i]['lines'] = lines[i];
-        dataStack[i]['tileLink'] = tileLink[i];
-        dataStack[i]['image_url'] = GlobalSettings.getImageUrl(data[j]['imagePath']) != null ? GlobalSettings.getImageUrl(data[j]['imagePath']) : "/app/public/placeholder_XL.png";
-      }
-      return dataStack;
+    // create array of imagePaths
+    var imagePaths = [];
+    for (var i=0; i<data.length; i++) {
+      imagePaths.push(data[i].imagePath);
+    }
+    // remove duplicates from array
+    var imagePaths = imagePaths.filter( function(item, index, inputArray) {
+      return inputArray.indexOf(item) == index;
+    });
+
+    for(var i = 0; i < 3; i++){
+      var k = imagePaths[Math.floor(Math.random() * imagePaths.length)];
+      var indexOfK = imagePaths.indexOf(k);
+      dataStack[i] = data[i];
+      dataStack[i]['lines'] = lines[i];
+      dataStack[i]['tileLink'] = tileLink[i];
+      dataStack[i]['image_url'] = GlobalSettings.getImageUrl(k) != null ? GlobalSettings.getImageUrl(k) : "/app/public/placeholder_XL.png";
+      // remove appended image string from array
+      imagePaths.splice(indexOfK,1);
+    }
+    return dataStack;
   }
 
   transformToArticleStack(data){
@@ -298,7 +327,7 @@ export class DeepDiveService {
         headline: topData.title,
         provider1: "By " + topData.author,
         provider2: "Published By: " + topData.publisher,
-        description: limitDesc,
+        description: limitDesc + "...",
         imageConfig: {
           imageClass: "image-320x180",
           imageUrl: topData.imagePath != null ? GlobalSettings.getImageUrl(topData.imagePath) : sampleImage,
@@ -371,11 +400,14 @@ export class DeepDiveService {
     return _return;
   }
 
-  transformTrending (data) {
+  transformTrending (data, currentArticleId) {
     data.forEach(function(val,index){
+      //if (val.id != currentArticleId) {
       let date = GlobalFunctions.formatDate(val.publishedDate);
       val["date"] = date.month + " " + date.day + ", " + date.year + " " + date.time + " " + date.a + " EST";
       val["image"] = GlobalSettings.getImageUrl(val.imagePath);
+      val["newsRoute"] = MLBGlobalFunctions.formatNewsRoute(val.id);
+      //}
     })
     return data;
   }

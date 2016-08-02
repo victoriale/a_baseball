@@ -6,7 +6,7 @@ import {Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {ArticleStackModule} from '../../../modules/article-stack/article-stack.module';
 import {TileStackModule} from '../../../modules/tile-stack/tile-stack.module';
 import {ResponsiveWidget} from '../../../components/responsive-widget/responsive-widget.component';
-import {VideoStackModule} from '../../../modules/video-stack/video-stack.module';
+import {VideoStackComponent} from '../../../components/video-stack/video-stack.component';
 import {RecommendationsComponent} from '../../../components/articles/recommendations/recommendations.component';
 
 
@@ -14,10 +14,11 @@ import {RecommendationsComponent} from '../../../components/articles/recommendat
 @Component({
     selector: 'deep-dive-block-2',
     templateUrl: './app/modules/deep-dive-blocks/deep-dive-block-2/deep-dive-block-2.module.html',
-    directives: [ROUTER_DIRECTIVES, ArticleStackModule, TileStackModule, ResponsiveWidget, VideoStackModule, RecommendationsComponent],
+    directives: [ROUTER_DIRECTIVES, ArticleStackModule, TileStackModule, ResponsiveWidget, VideoStackComponent, RecommendationsComponent],
     providers: [DeepDiveService]
 })
 export class DeepDiveBlock2{
+  public widgetPlace: string = "widgetForPage";
   firstStackTop: any;
   firstStackRow: any;
   secStackTop: any;
@@ -26,7 +27,8 @@ export class DeepDiveBlock2{
   thirdStackRow: any;
   callLimit:number = 9;
   tilestackData: any;
-
+  videoData: any;
+  page: number = 2;
   recommendationData: any;
   boxArticleData: any;
 
@@ -76,11 +78,19 @@ export class DeepDiveBlock2{
           this.recommendationData = this._deepDiveData.transformToRecArticles(data);
         });
   }
+  private getDeepDiveVideoBatch(region, numItems, startNum){
+    this._deepDiveData.getDeepDiveVideoBatchService(numItems, startNum, region).subscribe(
+      data => {
+        this.videoData = data.data;
+      }
+    )
+  }
 
   callModules(){
     this.getRecommendationData();
     this.getFirstArticleStackData();
     this.getSecArticleStackData();
+    this.getDeepDiveVideoBatch(this.geoLocation, 6, this.page);
     this.getThirdArticleStackData();
     this.getTileStackData();
   }

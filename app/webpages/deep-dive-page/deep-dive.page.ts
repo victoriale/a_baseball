@@ -1,4 +1,3 @@
-
 import {Component, OnInit, Input, NgZone} from '@angular/core';
 import {CarouselDiveModule} from '../../modules/carousel-dive/carousel-dive.module';
 import {DeepDiveService} from '../../services/deep-dive.service';
@@ -43,7 +42,7 @@ declare var jQuery: any;
     providers: [SchedulesService,DeepDiveService,GeoLocation,PartnerHeader],
 })
 
-export class DeepDivePage{
+export class DeepDivePage implements OnInit{
     public widgetPlace: string = "widgetForPage";
 
     //page variables
@@ -168,5 +167,10 @@ export class DeepDivePage{
         this.blockIndex = this.blockIndex + 1;
       }
     }
-
+    ngOnInit(){
+      // var script = document.createElement("script");
+      // script.src = 'http://content.synapsys.us/deepdive/rails/rails.js?selector=.web-container&adMarginTop=100';
+      // document.head.appendChild(script);
+      // jQuery("deep-dive-page").parent().addClass('deep-dive-container');
+    }
 }

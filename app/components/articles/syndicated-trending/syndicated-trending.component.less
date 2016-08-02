@@ -1,3 +1,8 @@
+@media @mobile {
+  .syndicated-trending {
+    margin-top:0 !important;
+  }
+}
 .syndicated-trending {
   margin-top: 30px;
   width: 100%;
@@ -25,6 +30,11 @@
     width: 240px;
     margin: 25px auto;
     padding-bottom: 3px;
+  }
+  @media @mobile {
+    .arpt {
+      display: none;
+    }
   }
   .arpt {
     &-author {
@@ -55,6 +65,10 @@
     text-align: left;
     margin-top: 20px;
     width: ~"calc(100% - 90px)";
+    &:hover {
+      color:@homeRunLoyalRed;
+      cursor: pointer;
+    }
   }
   &-article-content {
     .globalDefaultFont(16px, 400);
@@ -102,6 +116,30 @@
     background-color: @masterBrandColor;
     .globalDefaultModFont(15px, 900, @white);
   }
+  @media @mobile {
+    .featured-tag-large {
+      display:none;
+    }
+    .syndicated-trending-article-title {
+      font-size: 18px;
+      width:100%;
+      margin:10px 0 10px;
+      line-height: 1.2;
+    }
+    .trending-article-image {
+      height: 56px!important;
+      width: 100px!important;
+    }
+    .syndicated-trending-article-content {
+      font-size: 14px;
+      height:58px;
+      line-height:1;
+      p {
+        margin:0;
+        line-height:1;
+      }
+    }
+  }
   .featured-tag {
     background-color: @masterBrandColor;
     color: @white;
@@ -142,7 +180,7 @@
   .art-hdr {
     vertical-align: middle;
     .fa {
-    font-size: 18px!important;
+    font-size: 15px!important;
     }
     span {
       display:none;
@@ -174,5 +212,15 @@
     height:100px;
     margin-right:10px;
     float:left;
+    position: relative;
+    overflow: hidden;
+    >img {
+      width: 100%;
+  //    height: 100%;
+      position: absolute;
+      top: 0;
+
+
+    }
   }
 }
