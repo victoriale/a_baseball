@@ -24,6 +24,7 @@
   @media @mobile {
     .widgetWrapper {
       margin-left: -10px;
+      width:320px;
     }
     .articles-page-title {
       .globalDefaultFont(20px, 800);
@@ -76,6 +77,11 @@
       background-color: @white;
       color: @black;
     }
+    @media @mobile {
+      .modal-open{
+        width:80%;
+      }
+    }
   }
   @media @mobile {
     .carousel-container {
@@ -91,6 +97,7 @@
     }
     .grey-bar-credit {
       width:100%;
+      color:#ccc;
     }
   }
   &-content {
@@ -210,10 +217,10 @@
       width:100%;
     }
     .deep_recs-articles-item-content {
-      margin:0 0 10px 10px;
+      margin:0 10px 10px 10px;
     }
     .deep_recs {
-      width: 100vw;
+      width: 320px;
       margin-left: -10px;
     }
   }
