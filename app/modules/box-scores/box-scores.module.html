@@ -63,8 +63,8 @@
       <game-info   [ngClass]="{'float-left':1 % 2 == 0,'float-right':1 % 2 == 1}"[gameInfo]="boxScores.gameInfo[currentPage - 1][0].game"></game-info>
       <!--game info that affects only how team box scores are displayed-->
       <span class="pageIndicator">Showing: <b>{{currentPage}}</b> of <b>{{boxScores.gameInfo.length}}</b></span>
-      <span class="pagButton leftPag" (click)="retreatPage()"><i class="fa fa-angle-left"></i> Previous Game</span>
-      <span class="pagButton rightPag" (click)="advancePage()">Next Game <i class="fa fa-angle-right"></i></span>
+      <span class="pagButton leftPag {{leftDisabled}}" (click)="retreatPage()"><i class="fa fa-angle-left"></i> Previous Game</span>
+      <span class="pagButton rightPag {{rightDisabled}}" (click)="advancePage()">Next Game <i class="fa fa-angle-right"></i></span>
     </template>
 
   </div>

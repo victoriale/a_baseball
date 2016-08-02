@@ -30,6 +30,8 @@ export class BoxScoresModule implements OnChanges, OnInit{
   private gameNum:number = 0;
   public currentPage:number = 1;
   public windowWidth: number = 10;
+  public rightDisabled = "";
+  public leftDisabled = "disabled";
   constructor(
     private _elementRef:ElementRef,
     private _scroller:ScrollerFunctions
@@ -38,11 +40,25 @@ export class BoxScoresModule implements OnChanges, OnInit{
   advancePage(){
     if (this.currentPage != this.boxScores.gameInfo.length) {
       this.currentPage = this.currentPage + 1;
+      this.leftDisabled = "";
+      if (this.currentPage != this.boxScores.gameInfo.length) {
+        this.rightDisabled = "";
+      }
+      else {
+        this.rightDisabled = "disabled";
+      }
     }
   }
   retreatPage(){
     if (this.currentPage != 1) {
       this.currentPage = this.currentPage - 1;
+      this.rightDisabled = "";
+      if (this.currentPage != 1) {
+        this.leftDisabled = "";
+      }
+      else {
+        this.leftDisabled = "disabled";
+      }
     }
   }
 
