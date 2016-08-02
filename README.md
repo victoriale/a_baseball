@@ -2,7 +2,7 @@
 
 install the latest version of node.js https://nodejs.org/en/
 
-Be sure to be in the `develop` branch 
+Be sure to be in the `develop` branch
 
 install each one individually
 
@@ -10,7 +10,7 @@ install each one individually
 
 2. `npm install` if step 1 does not work (Once pulled you may install each individually with ex: `npm install -g gulp-cli`) or skip step 1. and go to step 2.
 
-      a.`-g gulp-cli` 
+      a.`-g gulp-cli`
 
       b.`gulp-less`
 
@@ -34,9 +34,11 @@ install each one individually
 
       l.`fuse.js` (Lightweight JSON search library for client side)
 
+      m. `hammer.js` (used for touch events for mobile)
+
 3. `gulp serve`
 
-Less files will be compiled to: `dist/app/global/stylesheets/master.css` 
+Less files will be compiled to: `dist/app/global/stylesheets/master.css`
 
 Router fix:
 https://github.com/BrowserSync/browser-sync/issues/204
