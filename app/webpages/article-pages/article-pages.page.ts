@@ -58,6 +58,7 @@ export class ArticlePages implements OnInit {
     hasImages:boolean = false;
     aiSidekick:boolean = true;
     partnerId:string;
+    isSmall:boolean = false;
 
     constructor(private _params:RouteParams,
                 private _router:Router,
@@ -82,6 +83,7 @@ export class ArticlePages implements OnInit {
         this._articleDataService.getArticleData(this.eventID, this.eventType, this.partnerId)
             .subscribe(
                 ArticleData => {
+                    this.isSmall = window.innerWidth <= 640;
                     var pageIndex = Object.keys(ArticleData)[0];
                     this.getCarouselImages(ArticleData[pageIndex]['images']);
                     //this.parseLinks(ArticleData[pageIndex]);
@@ -159,6 +161,9 @@ export class ArticlePages implements OnInit {
             images[index] = data['meta-data']['images'][val];
         });
         this.trendingImages = images[0].concat(images[1]);
+        this.trendingImages.sort(function () {
+            return 0.5 - Math.random()
+        });
         articles.sort(function () {
             return 0.5 - Math.random()
         });
@@ -209,32 +214,30 @@ export class ArticlePages implements OnInit {
     }
 
     getImageLinks(data) {
-        var hoverText = "<p>View</p><p>Profile</p>";
         var links = [];
         if (this.articleType == "playerRoster") {
             data['article'].forEach(function (val) {
                 if (val['playerRosterModule']) {
                     let playerUrl = MLBGlobalFunctions.formatPlayerRoute(val['playerRosterModule'].teamName, val['playerRosterModule'].name, val['playerRosterModule'].id);
-                    let teamUrl = MLBGlobalFunctions.formatTeamRoute(val['playerRosterModule'].teamName, val['playerRosterModule'].teamId);
                     val['player'] = {
                         imageClass: "image-121",
                         mainImage: {
                             imageUrl: val['playerRosterModule']['headshot'],
                             urlRouteArray: playerUrl,
-                            hoverText: hoverText,
+                            hoverText: "<p>View</p><p>Profile</p>",
                             imageClass: "border-logo"
                         }
                     };
-                    val['logo'] = {
-                        imageClass: "image-121",
+                    val['playerSmall'] = {
+                        imageClass: "image-71",
                         mainImage: {
-                            imageUrl: val['playerRosterModule'].teamLogo,
-                            urlRouteArray: teamUrl,
-                            hoverText: hoverText,
+                            imageUrl: val['playerRosterModule']['headshot'],
+                            urlRouteArray: playerUrl,
+                            hoverText: "<i class='fa fa-mail-forward'></i>",
                             imageClass: "border-logo"
                         }
                     };
-                    links.push(val['player'], val['logo']);
+                    links.push(val['player'], val['playerSmall']);
                 }
             });
             return links;
@@ -243,49 +246,47 @@ export class ArticlePages implements OnInit {
             data['article'][2]['playerComparisonModule'].forEach(function (val, index) {
                 if (index == 0) {
                     let urlPlayerLeft = MLBGlobalFunctions.formatPlayerRoute(val.teamName, val.name, val.id);
-                    let urlTeamLeft = MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId);
                     val['imageLeft'] = {
                         imageClass: "image-121",
                         mainImage: {
                             imageUrl: val['headshot'],
                             urlRouteArray: urlPlayerLeft,
-                            hoverText: hoverText,
+                            hoverText: "<p>View</p><p>Profile</p>",
                             imageClass: "border-logo"
                         }
                     };
-                    val['imageLeftSub'] = {
-                        imageClass: "image-121",
+                    val['imageLeftSmall'] = {
+                        imageClass: "image-71",
                         mainImage: {
-                            imageUrl: val.teamLogo,
-                            urlRouteArray: urlTeamLeft,
-                            hoverText: hoverText,
+                            imageUrl: val['headshot'],
+                            urlRouteArray: urlPlayerLeft,
+                            hoverText: "<i class='fa fa-mail-forward'></i>",
                             imageClass: "border-logo"
                         }
                     };
-                    links.push(val['imageLeft'], val['imageLeftSub']);
+                    links.push(val['imageLeft'], val['imageLeftSmall']);
                 }
                 if (index == 1) {
                     let urlPlayerRight = MLBGlobalFunctions.formatPlayerRoute(val.teamName, val.name, val.id);
-                    let urlTeamRight = MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId);
                     val['imageRight'] = {
                         imageClass: "image-121",
                         mainImage: {
                             imageUrl: val['headshot'],
                             urlRouteArray: urlPlayerRight,
-                            hoverText: hoverText,
+                            hoverText: "<p>View</p><p>Profile</p>",
                             imageClass: "border-logo"
                         }
                     };
-                    val['imageRightSub'] = {
-                        imageClass: "image-121",
+                    val['imageRightSmall'] = {
+                        imageClass: "image-71",
                         mainImage: {
-                            imageUrl: val.teamLogo,
-                            urlRouteArray: urlTeamRight,
-                            hoverText: hoverText,
+                            imageUrl: val['headshot'],
+                            urlRouteArray: urlPlayerRight,
+                            hoverText: "<i class='fa fa-mail-forward'></i>",
                             imageClass: "border-logo"
                         }
                     };
-                    links.push(val['imageRight'], val['imageRightSub']);
+                    links.push(val['imageRight'], val['imageRightSmall']);
                 }
             });
             return links;
@@ -293,6 +294,8 @@ export class ArticlePages implements OnInit {
         if (this.articleType == 'gameModule') {
             data['article'].forEach(function (val, index) {
                 if (index == 1 && val['gameModule']) {
+                    var shortDate = val['gameModule'].eventDate;
+                    shortDate = shortDate.substr(shortDate.indexOf(",") + 1);
                     let urlTeamLeftTop = MLBGlobalFunctions.formatTeamRoute(val['gameModule'].homeTeamName, val['gameModule'].homeTeamId);
                     let urlTeamRightTop = MLBGlobalFunctions.formatTeamRoute(val['gameModule'].awayTeamName, val['gameModule'].awayTeamId);
                     val['teamLeft'] = {
@@ -300,7 +303,7 @@ export class ArticlePages implements OnInit {
                         mainImage: {
                             imageUrl: val['gameModule'].homeTeamLogo,
                             urlRouteArray: urlTeamLeftTop,
-                            hoverText: hoverText,
+                            hoverText: "<p>View</p><p>Profile</p>",
                             imageClass: "border-logo"
                         }
                     };
@@ -309,13 +312,33 @@ export class ArticlePages implements OnInit {
                         mainImage: {
                             imageUrl: val['gameModule'].awayTeamLogo,
                             urlRouteArray: urlTeamRightTop,
-                            hoverText: hoverText,
+                            hoverText: "<p>View</p><p>Profile</p>",
                             imageClass: "border-logo"
                         }
                     };
-                    links.push(val['teamLeft'], val['teamRight']);
+                    val['teamLeftSmall'] = {
+                        imageClass: "image-71",
+                        mainImage: {
+                            imageUrl: val['gameModule'].homeTeamLogo,
+                            urlRouteArray: urlTeamLeftTop,
+                            hoverText: "<i class='fa fa-mail-forward'></i>",
+                            imageClass: "border-logo"
+                        }
+                    };
+                    val['teamRightSmall'] = {
+                        imageClass: "image-71",
+                        mainImage: {
+                            imageUrl: val['gameModule'].awayTeamLogo,
+                            urlRouteArray: urlTeamRightTop,
+                            hoverText: "<i class='fa fa-mail-forward'></i>",
+                            imageClass: "border-logo"
+                        }
+                    };
+                    links.push(val['teamLeft'], val['teamRight'], val['teamLeftSmall'], val['teamRightSmall'], shortDate);
                 }
                 if (index == 5 && val['gameModule']) {
+                    var shortDate = val['gameModule'].eventDate;
+                    shortDate = shortDate.substr(shortDate.indexOf(",") + 1);
                     let urlTeamLeftBottom = MLBGlobalFunctions.formatTeamRoute(val['gameModule'].homeTeamName, val['gameModule'].homeTeamId);
                     let urlTeamRightBottom = MLBGlobalFunctions.formatTeamRoute(val['gameModule'].awayTeamName, val['gameModule'].awayTeamId);
                     val['teamLeft'] = {
@@ -323,7 +346,7 @@ export class ArticlePages implements OnInit {
                         mainImage: {
                             imageUrl: val['gameModule'].homeTeamLogo,
                             urlRouteArray: urlTeamLeftBottom,
-                            hoverText: hoverText,
+                            hoverText: "<p>View</p><p>Profile</p>",
                             imageClass: "border-logo"
                         }
                     };
@@ -332,11 +355,29 @@ export class ArticlePages implements OnInit {
                         mainImage: {
                             imageUrl: val['gameModule'].awayTeamLogo,
                             urlRouteArray: urlTeamRightBottom,
-                            hoverText: hoverText,
+                            hoverText: "<p>View</p><p>Profile</p>",
                             imageClass: "border-logo"
                         }
                     };
-                    links.push(val['teamLeft'], val['teamRight']);
+                    val['teamLeftSmall'] = {
+                        imageClass: "image-71",
+                        mainImage: {
+                            imageUrl: val['gameModule'].homeTeamLogo,
+                            urlRouteArray: urlTeamLeftBottom,
+                            hoverText: "<i class='fa fa-mail-forward'></i>",
+                            imageClass: "border-logo"
+                        }
+                    };
+                    val['teamRightSmall'] = {
+                        imageClass: "image-71",
+                        mainImage: {
+                            imageUrl: val['gameModule'].awayTeamLogo,
+                            urlRouteArray: urlTeamRightBottom,
+                            hoverText: "<i class='fa fa-mail-forward'></i>",
+                            imageClass: "border-logo"
+                        }
+                    };
+                    links.push(val['teamLeft'], val['teamRight'], val['teamLeftSmall'], val['teamRightSmall'], shortDate);
                 }
             });
             return links;
@@ -351,11 +392,20 @@ export class ArticlePages implements OnInit {
                         mainImage: {
                             imageUrl: val['teamRecordModule'].logo,
                             urlRouteArray: urlFirstTeam,
-                            hoverText: hoverText,
+                            hoverText: "<p>View</p><p>Profile</p>",
                             imageClass: "border-logo"
                         }
                     };
-                    links.push(val['imageTop']);
+                    val['imageTopSmall'] = {
+                        imageClass: "image-71",
+                        mainImage: {
+                            imageUrl: val['teamRecordModule'].logo,
+                            urlRouteArray: urlFirstTeam,
+                            hoverText: "<i class='fa fa-mail-forward'></i>",
+                            imageClass: "border-logo"
+                        }
+                    };
+                    links.push(val['imageTop'], val['imageTopSmall']);
                     return isFirstTeam = false;
                 }
                 if (val['teamRecordModule'] && !isFirstTeam) {
@@ -365,11 +415,20 @@ export class ArticlePages implements OnInit {
                         mainImage: {
                             imageUrl: val['teamRecordModule'].logo,
                             urlRouteArray: urlSecondTeam,
-                            hoverText: hoverText,
+                            hoverText: "<p>View</p><p>Profile</p>",
                             imageClass: "border-logo"
                         }
                     };
-                    links.push(val['imageBottom']);
+                    val['imageBottomSmall'] = {
+                        imageClass: "image-71",
+                        mainImage: {
+                            imageUrl: val['teamRecordModule'].logo,
+                            urlRouteArray: urlSecondTeam,
+                            hoverText: "<i class='fa fa-mail-forward'></i>",
+                            imageClass: "border-logo"
+                        }
+                    };
+                    links.push(val['imageBottom'], val['imageBottomSmall']);
                 }
             });
             return links;
@@ -400,11 +459,14 @@ export class ArticlePages implements OnInit {
                     case'injuries-home':
                     case'injuries-away':
                     case'upcoming-game':
+                        let date = GlobalFunctions.formatDate(recommendations.timestamp * 1000);
                         articles = {
                             title: recommendations.leftColumn[val].displayHeadline,
                             eventType: val,
                             eventID: eventID,
                             images: self.images[imageCount],
+                            date: date.month + " " + date.day + ", " + date.year,
+                            keyword: "BASEBALL"
                         };
                         recommendArr.push(articles);
                         imageCount++;
@@ -412,6 +474,7 @@ export class ArticlePages implements OnInit {
                 }
             }
         });
+
         articles = [];
         Object.keys(recommendations.rightColumn).forEach(function (val) {
             if (pageIndex != val) {
@@ -432,11 +495,14 @@ export class ArticlePages implements OnInit {
                     case'infield-most-home-runs':
                     case'infield-best-batting-average':
                     case'infield-most-putouts':
+                        let date = GlobalFunctions.formatDate(recommendations.timestamp * 1000);
                         articles = {
                             title: recommendations.rightColumn[val].displayHeadline,
                             eventType: val,
                             eventID: eventID,
                             images: self.images[imageCount],
+                            date: date.month + " " + date.day + ", " + date.year,
+                            keyword: "BASEBALL"
                         };
                         recommendArr.push(articles);
                         imageCount++;

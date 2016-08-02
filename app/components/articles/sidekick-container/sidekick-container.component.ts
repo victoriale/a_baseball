@@ -14,7 +14,6 @@ export class SidekickContainerComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.isSmall = screen.width <= 640;
-        console.log(this.isSmall);
+        this.isSmall = window.innerWidth <= 640;
     }
 }
