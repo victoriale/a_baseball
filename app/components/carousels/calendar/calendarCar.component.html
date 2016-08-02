@@ -1,7 +1,7 @@
 <!--for calendar-picker-->
 <div class="calendar-picker" *ngIf="chosenParam && weeklyApi" (window:resize)="onWindowLoadOrResize($event)">
 
-  <div class="calendar-picker-carousel" *ngIf="windowWidth > 639">
+  <div class="calendar-picker-carousel" *ngIf="windowWidth > 640">
     <div class="calendar-picker-circles" (click)="left()"><i class="fa fa-angle-left"></i></div>
     <div class="calendar-picker-dates">
       <span *ngFor="let dates of weeklyDates">
@@ -20,7 +20,7 @@
     <div class="calendar-picker-circles" (click)="right()"><i class="fa fa-angle-right"></i></div>
   </div>
 
-  <div class="calendar-picker-carousel" *ngIf="windowWidth < 640">
+  <div class="calendar-picker-carousel" *ngIf="windowWidth <= 640">
     <div class="calendar-picker-circles" (click)="leftDay()"><i class="fa fa-angle-left"></i></div>
     <div class="calendar-picker-dates">
       <span *ngFor="let dates of weeklyDates">
