@@ -27,7 +27,8 @@ export class DeepDiveBlock2{
   thirdStackRow: any;
   callLimit:number = 9;
   tilestackData: any;
-
+  videoData: any;
+  page: number = 2;
   recommendationData: any;
   boxArticleData: any;
 
@@ -77,11 +78,19 @@ export class DeepDiveBlock2{
           this.recommendationData = this._deepDiveData.transformToRecArticles(data);
         });
   }
+  private getDeepDiveVideoBatch(region, numItems, startNum){
+    this._deepDiveData.getDeepDiveVideoBatchService(numItems, startNum, region).subscribe(
+      data => {
+        this.videoData = data.data;
+      }
+    )
+  }
 
   callModules(){
     this.getRecommendationData();
     this.getFirstArticleStackData();
     this.getSecArticleStackData();
+    this.getDeepDiveVideoBatch(this.geoLocation, 6, this.page);
     this.getThirdArticleStackData();
     this.getTileStackData();
   }
