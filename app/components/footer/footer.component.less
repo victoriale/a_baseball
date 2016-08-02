@@ -91,13 +91,16 @@
       }
       li{
         line-height: 25px;
+        @media @mobile {
+          line-height: 20px;
+        }
         padding-right: 5px;
         .flexDisplay;
         span{
           color: @bulletGrey;
         }
         i{
-          padding: 7px 0;
+          padding: 4px 0;
         }
         a{
           padding-right: 5px;
@@ -120,6 +123,7 @@
     &-citation{
       @media @mobile {
         font-size: 12px;
+        margin-top:7px;
       }
       font-size: 11px;
       font-weight: 400;
@@ -134,6 +138,7 @@
       .globalDefaultModFont(14px, 800, @masterBrandColor);
       @media @mobile {
         font-size: 12px;
+        margin-bottom:7px;
       }
     }
   }//footer-text1 ends
