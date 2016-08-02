@@ -325,7 +325,7 @@ export class DeepDiveService {
         keyword: topData.keyword,
         date: date.month + " " + date.day + ", " + date.year,
         headline: topData.title,
-        provider1: "By " + topData.author,
+        provider1: "<span style='font-weight: 400;'>By</span> " + topData.author,
         provider2: "Published By: " + topData.publisher,
         description: limitDesc + "...",
         imageConfig: {
