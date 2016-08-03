@@ -1,9 +1,10 @@
 .stacktop{
-  width: 640px;//320px;
+  min-width: 320px;
   &-title {
     height: auto;
     line-height: 1.2;
-    .globalDefaultModFont(32px, 800, @black);//16px
+    margin-left: 10px;
+    .globalDefaultModFont(16px, 800, @black);
     &-date{
       text-transform: uppercase;
       font-size: 10px;
@@ -17,8 +18,8 @@
     }
   }//stacktop-title ends
   &-titleinfo {
-    .globalDefaultModFont(14px, 800, @strokeGrey);//12px
-    margin: 10px 0 10px;
+    .globalDefaultModFont(12px, 800, @strokeGrey);
+    margin: 10px 0 10px 10px;
     &-provider{
       max-width: 200px;
       margin-right: 25px;
@@ -30,13 +31,13 @@
     }
   }
   &-image {
-    width: 610px;//320px;
-    height: 421px;//180px;
+    min-width: 320px;
+    display: table;
   }
   &-desc {
-    max-height: 39px;
+    max-height: 37px;
     overflow: hidden;
-    margin-top: 10px;
+    margin: 10px 0 0 10px;
     .globalDefaultModFont(12px, 400, @black);
     p{
         line-height: 1.2em;
@@ -57,6 +58,7 @@
     width: 640px;
     &-title {
       font-size: 32px;
+      margin-left: 0;
       &-date{
         font-size: 12px;
       }//stacktop-title-date ends
@@ -78,7 +80,7 @@
     }
     &-desc {
       display: block;
-      max-height:39px;
+      margin: 10px 0 0;
     }
   }
 }

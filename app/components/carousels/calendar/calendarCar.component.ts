@@ -39,6 +39,7 @@ export class CalendarCarousel implements OnInit{
   public weeklyApi:any;
   public weeklyDates: Array<any>;
   public failSafe: number = 0;
+  public windowWidth: number = 10;
 
   constructor(private _boxScores:BoxScoresService){
   }
@@ -52,6 +53,7 @@ export class CalendarCarousel implements OnInit{
     this.dateEmit.next(this.chosenParam);//sends through output so date can be used outside of component
   }
   ngOnInit(){
+    this.windowWidth = window.innerWidth;
     //on load grab the input chosenParam and set new variable for currently viewing dates that is used for any changes without changing initial input while it goes through validation
     var params = this.chosenParam;
     this.curDateView = {profile: params.profile, teamId: params.teamId, date: params.date};
@@ -62,6 +64,9 @@ export class CalendarCarousel implements OnInit{
       //validateDate(selectedDate, dateArray, firstRun?)
       this.validateDate(this.chosenParam.date, this.weeklyDates, true);
     })
+  }
+  private onWindowLoadOrResize(event) {
+    this.windowWidth = event.target.innerWidth;
   }
 
   ngOnChanges(){
@@ -88,6 +93,30 @@ export class CalendarCarousel implements OnInit{
     curParams.date = moment(curParams.date).add(7, 'days').format('YYYY-MM-DD');
     this.callWeeklyApi(curParams).subscribe(data=>{this.validateDate(this.chosenParam.date, this.weeklyDates)});
     this.curDateView.date = curParams.date;//resets current date to the new parameter so that all functions are updated with new date
+  }
+
+  leftDay(){
+    //take parameters and convert using moment to subtract a week from it and recall the week api
+    var curParams = this.curDateView;
+    curParams.date = moment(curParams.date).subtract(1, 'days').format('YYYY-MM-DD');
+    var dayNum = moment(curParams.date).format('d');
+    this.callWeeklyApi(curParams).subscribe(data=>{
+      this.validateDate(this.chosenParam.date, this.weeklyDates);
+      this.curDateView.date = curParams.date;//resets current date to the new parameter so that all functions are updated with new date
+      this.setActive(this.weeklyDates[dayNum]);
+    });
+  }
+
+  rightDay(){
+    //take parameters and convert using moment to add a week from it and recall the week api
+    var curParams = this.curDateView;
+    curParams.date = moment(curParams.date).add(1, 'days').format('YYYY-MM-DD');
+    var dayNum = moment(curParams.date).format('d');
+    this.callWeeklyApi(curParams).subscribe(data=>{
+      this.validateDate(this.chosenParam.date, this.weeklyDates);
+      this.curDateView.date = curParams.date;//resets current date to the new parameter so that all functions are updated with new date
+      this.setActive(this.weeklyDates[dayNum]);
+    });
   }
 
   //whatever is clicked on gets emitted and highlight on the carousel

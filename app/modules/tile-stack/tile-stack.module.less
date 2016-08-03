@@ -1,22 +1,21 @@
 .tile-stack {
   margin-bottom: 10px;
-  width: 610px;//320px;
+  min-width: 320px;
   margin: 0 auto;
-  height: 141px;//auto;
+  height: auto;
   &-item {
-    height: 100%;//180px;
+    height: 180px;
     background-size: cover;
     background-position: center top;
     background-repeat: no-repeat;
-    border-bottom: none;//1px solid @fontIconGrey;
-    border-right: 1px solid @fontIconGrey;//remove for 320
+    border-bottom: 1px solid @fontIconGrey;
     div:last-child{
       border-bottom: none;
     }
     &:hover{
       box-shadow: inset 0 0 0 1000px rgba(188, 32, 39, 0.75);
     }
-    .col-xs-4;//.col-xs-12;
+    .col-xs-12;
     &-text {
       text-align: center;
       position: relative;
@@ -24,7 +23,7 @@
       transform: translate(0,-50%);
       margin: 0px 10px;
       line-height: 1.2em;
-      .globalDefaultModFont(18px, 400, @white);//24px
+      .globalDefaultModFont(24px, 400, @white);
     }
   }
 }
@@ -48,7 +47,6 @@
 @media @desktop-m {
   .tile-stack {
     width: 670px;
-    margin-left:13px;
     &-item {
       &-text {
         font-size:20px;

@@ -1,4 +1,4 @@
-import {Component, OnChanges, Output, Input, EventEmitter, ElementRef} from '@angular/core';
+import {Component, OnChanges, Output, Input, EventEmitter, ElementRef, OnInit} from '@angular/core';
 import {ModuleHeader} from '../../components/module-header/module-header.component';
 import {CalendarCarousel} from '../../components/carousels/calendar/calendarCar.component';
 import {Competition} from '../../components/competition/competition.component';
@@ -17,7 +17,7 @@ import {ScrollerFunctions} from '../../global/scroller-functions';
     outputs: ['dateEmit'],
 })
 
-export class BoxScoresModule implements OnChanges{
+export class BoxScoresModule implements OnChanges, OnInit{
   @Input() calendarParams:any;
   @Input() boxScores:any;
   @Input() maxHeight:any;
@@ -28,21 +28,55 @@ export class BoxScoresModule implements OnChanges{
   public liveArray = new EventEmitter();
   public heightStyle: string;
   private gameNum:number = 0;
+  public currentPage:number = 1;
+  public windowWidth: number = 10;
+  public rightDisabled = "";
+  public leftDisabled = "disabled";
   constructor(
     private _elementRef:ElementRef,
     private _scroller:ScrollerFunctions
   ){
   }
+  advancePage(){
+    if (this.currentPage != this.boxScores.gameInfo.length) {
+      this.currentPage = this.currentPage + 1;
+      this.leftDisabled = "";
+      if (this.currentPage != this.boxScores.gameInfo.length) {
+        this.rightDisabled = "";
+      }
+      else {
+        this.rightDisabled = "disabled";
+      }
+    }
+  }
+  retreatPage(){
+    if (this.currentPage != 1) {
+      this.currentPage = this.currentPage - 1;
+      this.rightDisabled = "";
+      if (this.currentPage != 1) {
+        this.leftDisabled = "";
+      }
+      else {
+        this.leftDisabled = "disabled";
+      }
+    }
+  }
 
   dateTransfer(event){
     this.dateEmit.next(event);
+    this.currentPage = 1;
+    this.leftDisabled = "disabled";
+    this.rightDisabled = "";
   }
 
   changeGame(num){
     this.gameNum = num;
   }
-
+  private onWindowLoadOrResize(event) {
+    this.windowWidth = event.target.innerWidth;
+  }
   ngOnInit(){
+    this.windowWidth = window.innerWidth;
     if(this.scroll){
       this.maxHeight = 650;
     }

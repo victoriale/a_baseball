@@ -1,17 +1,17 @@
 .stackSmall {
-    .col-xs-6;//.col-xs-12;
+    .col-xs-12;
     margin: 0 0 20px;
     float:left;
     .flexDisplay;
     &-image {
       width: 100px;
-    //  background-color: @masterBackgroundColor;
+      background-color: @masterBackgroundColor;
       margin-right: 10px;
     }
     &-text {
       line-height: 1.2em;
       text-align: left;
-      width: 180px;//190px;
+      width: auto;
       overflow: hidden;
       text-overflow: ellipsis;
       &-keyword {
@@ -25,7 +25,8 @@
            margin-left: 5px;
            color: @bulletGrey;
            overflow: hidden;
-           height: 50px;//20px;
+           height: 20px;
+           font-weight: 400;
          }
       }
       &-subHeadline {
@@ -44,9 +45,9 @@
     }
 }
 .stackRows{
-  height: 265px;//435px;
+  height: 435px;
   overflow: hidden;
-  padding: 0;//0 10px;
+  padding: 0 10px;
   div:last-of-type {
     .stacksmall {
       margin-bottom:0;
@@ -56,17 +57,36 @@
     }
   }
 }
+@media @small-grid {
+  .stackSmall {
+    .col-xs-6;
+    &-image{
+      margin-right: 5px;
+    }
+    &-text{
+      height: 56px;
+      width: 155px;
+      &-keyword{
+        height: auto;
+        overflow: visible;
+      }
+    }
+  }
+  .stackRows {
+    height: 210px;
+  }
+}
 @media @tablet {
   .stackSmall {
-      .col-xs-6;
-      &-text {
-        width: 180px;
-        &-keyword {
-           > span:last-child{
-             height: 50px;
-           }
-        }
+    .col-xs-6;
+    &-text {
+      width: 180px;
+      &-keyword {
+         > span:last-child{
+           height: 50px;
+         }
       }
+    }
   }
   .stackRows{
     height: 265px;

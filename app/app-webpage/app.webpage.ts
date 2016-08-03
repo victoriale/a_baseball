@@ -271,7 +271,6 @@ export class AppComponent implements OnInit{
   private isHomeRunZone:boolean = false;
   constructor(private _params: RouteParams){
     this.hideHeader = GlobalSettings.getHomeInfo().hide;
-
   }
 
   getHeaderHeight(){
@@ -329,6 +328,7 @@ export class AppComponent implements OnInit{
         }
     },100);
   }
+
   ngOnInit(){
     var script = document.createElement("script");
     script.src = '//w1.synapsys.us/widgets/deepdive/rails/rails.js?selector=.web-container&adMarginTop=100';
