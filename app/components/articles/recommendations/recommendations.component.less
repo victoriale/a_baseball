@@ -211,6 +211,7 @@
         &-teaser{
           margin-top: 0;
           height: auto;
+          padding-right:20px;
           line-height: 1.2em;
         }
       }
@@ -222,8 +223,11 @@
 @media @mobile{
   .deep_recs{
     display: inline-block;
-    margin: 0 0 0 10px;
+    margin: 0 0 0 15px;
     padding: 0;
+    &-articles:nth-of-type(odd){
+      clear:both;
+    }
     &-articles{
       .col-xs-6;
       margin-bottom: 15px;
@@ -239,6 +243,9 @@
           margin-top: 9px;
           line-height: 18px;
           padding-right: 12px;
+          &-teaser{
+
+          }
           &-dateline{
             line-height: 1.2em;
             font-size: 10px;
@@ -258,6 +265,9 @@
   .deep_recs{
     padding-left: 15px;
     padding-right: 8px;
+    &-articles:nth-of-type(3n + 1){
+      clear:both;
+    }
     &-articles{
       .col-xs-4;
       margin-right: 0;
@@ -292,6 +302,9 @@
   }
 
   .deep-dive-container .deep_recs{
+    &-articles:nth-of-type(odd){
+      clear:none;
+    }
     &-articles{
       &-item{
         width: 216px;

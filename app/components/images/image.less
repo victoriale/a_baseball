@@ -288,6 +288,9 @@
 
 .image-320x180{
   overflow: hidden;
+  @media @mobile{
+    min-height: 56vw;
+  }
   @media @tablet{
     width: 610px;
     height: 421px;
@@ -310,6 +313,7 @@
     .rectangleImageMain(100%, auto);
     @media @tablet{
       .rectangleImageMain(610px, auto);
+      min-height: 421px;
     }
     @media @desktop-m{
       .rectangleImageMain(670px, auto);
