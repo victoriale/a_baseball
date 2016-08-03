@@ -21,7 +21,9 @@
     </div>
     <div *ngIf="isSmall" class="trending-small">
         <div class="trending-small-hr-title"></div>
-        <div class="trending-small-main-title">TRENDING ARTICLES</div>
+        <div class="trending-small-container">
+            <div class="trending-small-container-main-title">TRENDING ARTICLES</div>
+        </div>
         <div class="trending-small-hr-title"></div>
         <div *ngFor="let data of trendingData; let even=even; let i = index">
             <!--<shareLinks-component></shareLinks-component>-->
@@ -36,7 +38,8 @@
                         </div>
                     </span>
                     <div class="trending-small-article-content" [innerHTML]="data.content|safeHtml"></div>
-                    <div class="trending-small-article-read-more">Read the article <i class="fa fa-arrow-right"></i></div>
+                    <div class="trending-small-article-read-more">Read the article <i class="fa fa-arrow-right"></i>
+                    </div>
                 </a>
             </div>
             <div *ngIf="!even" class="trending-small-hr"></div>

@@ -84,16 +84,20 @@
     margin: 0 auto;
     display: none;
   }
-  &-main-title {
-    .globalDefaultModFont(18px, 800, @textEmphasisGrey);
-    line-height: 18px;
-    text-align: center;
-    border-bottom: solid @masterBrandColor 4px;
-    width: 180px;
-    margin-bottom: 15px;
-    padding-bottom: 3px;
-    position: relative;
-    left: 36%;
+  &-container {
+    @media @mobile-s {
+      width: 100%;
+    }
+    &-main-title {
+      .globalDefaultModFont(18px, 800, @textEmphasisGrey);
+      line-height: 18px;
+      text-align: center;
+      border-bottom: solid @masterBrandColor 4px;
+      width: 180px;
+      padding-bottom: 3px;
+      position: relative;
+      margin: 0 auto 15px;
+    }
   }
   &-article {
     width: 100%;
