@@ -100,9 +100,11 @@ export class CalendarCarousel implements OnInit{
     var curParams = this.curDateView;
     curParams.date = moment(curParams.date).subtract(1, 'days').format('YYYY-MM-DD');
     var dayNum = moment(curParams.date).format('d');
-    this.callWeeklyApi(curParams).subscribe(data=>{this.validateDate(this.chosenParam.date, this.weeklyDates)});
-    this.curDateView.date = curParams.date;//resets current date to the new parameter so that all functions are updated with new date
-    this.setActive(this.weeklyDates[dayNum]);
+    this.callWeeklyApi(curParams).subscribe(data=>{
+      this.validateDate(this.chosenParam.date, this.weeklyDates);
+      this.curDateView.date = curParams.date;//resets current date to the new parameter so that all functions are updated with new date
+      this.setActive(this.weeklyDates[dayNum]);
+    });
   }
 
   rightDay(){
@@ -110,9 +112,11 @@ export class CalendarCarousel implements OnInit{
     var curParams = this.curDateView;
     curParams.date = moment(curParams.date).add(1, 'days').format('YYYY-MM-DD');
     var dayNum = moment(curParams.date).format('d');
-    this.callWeeklyApi(curParams).subscribe(data=>{this.validateDate(this.chosenParam.date, this.weeklyDates)});
-    this.curDateView.date = curParams.date;//resets current date to the new parameter so that all functions are updated with new date
-    this.setActive(this.weeklyDates[dayNum]);
+    this.callWeeklyApi(curParams).subscribe(data=>{
+      this.validateDate(this.chosenParam.date, this.weeklyDates);
+      this.curDateView.date = curParams.date;//resets current date to the new parameter so that all functions are updated with new date
+      this.setActive(this.weeklyDates[dayNum]);
+    });
   }
 
   //whatever is clicked on gets emitted and highlight on the carousel
