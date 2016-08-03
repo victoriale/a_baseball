@@ -1,5 +1,5 @@
 <div class="dropdownCategory">
-  <div class="dropdownOptions {{width}}" tabindex="9999" onmouseup="if(this.classList.contains('active')){this.classList.remove('active')} else {this.classList.add('active');}" onblur="this.classList.remove('active')">
+  <div class="dropdownOptions {{width}}" tabindex="9999" (mouseup)="mouseUpDropdown($event)" (blur)="blurDropdown($event)" >
     <div class="toggle">{{heading}}</div>
     <span class="dropdownArrow"><i class="fa fa-caret-down"></i></span>
     <div onmouseup="event.stopPropagation();">
