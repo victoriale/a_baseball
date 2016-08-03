@@ -26,6 +26,7 @@ export class SideScroll{
   private itemSize:number = 205;
   private minScroll:boolean = false;
   private maxScroll:boolean = false;
+  public numResizes: number = 0;
 
   private isMouseDown: boolean = false;
   private drag: number = 0;
@@ -138,11 +139,13 @@ export class SideScroll{
   // }
 
   onResize(event){
-    if(this._elRef.nativeElement.getElementsByClassName('carousel_scroll-container').length > 0){
+    if(this._elRef.nativeElement.getElementsByClassName('carousel_scroll-container').length > 0 && this.numResizes > 0){
       this.itemSize = this._elRef.nativeElement.getElementsByClassName('carousel_scroll-container')[0].offsetWidth;
       this.currentScroll = this.itemSize * Number(this.currentItem.id);
       this.rightText = this.currentScroll+'px';
+      jQuery(".carousel_scroll-item").removeClass("videoActive");
     }
+      this.numResizes = this.numResizes + 1;
   }
 
   generateArray(){
@@ -196,6 +199,7 @@ export class SideScroll{
       this.right('right');
     }
     this.checkCurrent(this.currentScroll);
+    this.adjustSizeVideo();
   }
 
   scrollX(event){
