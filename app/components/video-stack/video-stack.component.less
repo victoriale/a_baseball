@@ -1,6 +1,11 @@
 .video-stack-container {}
 .video-stack {
   position: relative;
+  &:hover {
+    .video-title-mid {
+      color: @homeRunLoyalRed!important;
+    }
+  }
   .flexDisplay;
   &-video {
     background-color: @strokeGrey;
@@ -107,15 +112,19 @@
   .video-stack-container {
     width: 100%;
     margin: 0 auto;
+    .video-stack-right-text {
+      display: none;
+    }
   }
   .video-stack:nth-of-type(1), .video-stack:nth-of-type(4) {
     display: block;
     width: 100%;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
     .video-stack-video {
       display: block;
-      width: 100%;
-      height: 193px;
+      width: 100vw;
+      height: 35vh;
+      min-height: 180px;
       background-position: top center;
       .playCircle {
         height: 70px;
@@ -158,12 +167,14 @@
   .video-stack:nth-of-type(2), .video-stack:nth-of-type(3) {
     display: block;
     width: 100%;
-    padding: 0px 10px 20px 10px;
+    padding: 0px 10px 10px 10px;
     margin: 0 auto;
     .video-stack-video {
       display: inline-block;
-      width: 100px;
-      height: 55px;
+      width: 30vw;
+      min-width: 100px;
+      height: 10vh;
+      min-height: 56px;
       margin-right: 10px;
       vertical-align: top;
       .playCircle {
@@ -185,10 +196,9 @@
     }
     .video-stack-right {
       display: inline-block;
-      width: ~"calc(100% - 130px)";
+      width: ~"calc(100% - 35vw)";
       vertical-align: top;
       &-text {
-        display: none;
         height: auto;
         .globalDefaultModFont(14px, 400, @black);
       }
@@ -211,6 +221,9 @@
     width: 640px;
     margin: 0 auto;
     padding: 0 15px;
+    .video-stack-right-text {
+      display: block;
+    }
   }
   .video-stack:nth-of-type(1), .video-stack:nth-of-type(2) {
     width: 100%;
@@ -256,7 +269,9 @@
       display: inline-block;
       vertical-align: top;
       width: 100px;
+      min-width: none;
       height: 75px;
+      min-height: none;
       margin: 0 10px 0 0;
       .watch-small {
         display: block;
