@@ -141,9 +141,14 @@ export class SideScroll{
   onResize(event){
     if(this._elRef.nativeElement.getElementsByClassName('carousel_scroll-container').length > 0 && this.numResizes > 0){
       this.itemSize = this._elRef.nativeElement.getElementsByClassName('carousel_scroll-container')[0].offsetWidth;
-      this.currentScroll = this.itemSize * Number(this.currentItem.id);
+      if (this.currentItem.id == "0"){
+        this.currentScroll = this.itemSize;
+      }
+      else {
+        this.currentScroll = this.itemSize * (Number(this.currentItem.id) + 1);
+        jQuery(".carousel_scroll-item").removeClass("videoActive");
+      }
       this.rightText = this.currentScroll+'px';
-      jQuery(".carousel_scroll-item").removeClass("videoActive");
     }
       this.numResizes = this.numResizes + 1;
   }
