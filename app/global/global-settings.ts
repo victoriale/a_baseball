@@ -91,7 +91,7 @@ export class GlobalSettings {
     }
 
     static getHomePage(partnerId: string, includePartnerId?: boolean) {
-      var linkEnv = this._env != 'localhost' ? this._env:'www';
+      var linkEnv = this._env != 'localhost' && this._env != "homerunloyal" && this._env != "myhomerunzone" ? this._env:'www';
         if ( partnerId ) {
             return this._proto + "//" + linkEnv + this._partnerHomepageUrl + (includePartnerId ? "/" + partnerId : "");
         }
