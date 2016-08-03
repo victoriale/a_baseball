@@ -3,13 +3,19 @@
     <article-stack-module *ngIf="firstStackRow" [stackTop]="firstStackTop" [stackRow]="firstStackRow"></article-stack-module>
   </div>
   <div class="deep-dive-module">
+    <responsive-widget [embedPlace]="widgetPlace" [displayAtRes]="640"></responsive-widget>
+  </div>
+  <div class="deep-dive-module">
     <tile-stack-module *ngIf = "tilestackData" [tilestackData] = "tilestackData"></tile-stack-module>
   </div>
   <div class="deep-dive-module">
-    <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+    <responsive-widget [embedPlace]="widgetPlace" [displayAtRes]="1024"></responsive-widget>
   </div>
   <div class="deep-dive-module">
     <video-stack-component *ngIf="videoData" [state]="geoLocation" [page]="1" [videoData]="videoData"></video-stack-component>
+  </div>
+  <div class="deep-dive-module">
+    <responsive-widget [embedPlace]="widgetPlace" [displayAtRes]="640"></responsive-widget>
   </div>
 <div class="deep-dive-module">
   <div class="deep-dive-boxScore">
@@ -18,6 +24,6 @@
   </div>
   </div>
   <div class="deep-dive-module">
-    <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
+    <responsive-widget [embedPlace]="widgetPlace" [displayAtRes]="1024"></responsive-widget>
   </div>
 </div>

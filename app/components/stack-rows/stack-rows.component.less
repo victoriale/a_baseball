@@ -14,10 +14,11 @@
       width: auto;
       overflow: hidden;
       text-overflow: ellipsis;
+      height: 56px;
+      max-width: ~"calc(100% - 110px)";
       &-keyword {
          text-transform: uppercase;
          margin-bottom: 5px;
-         height: 1.2em;
          overflow: hidden;
          text-overflow: ellipsis;
          .globalDefaultModFont(10px, 800, @black);
@@ -26,11 +27,12 @@
            color: @bulletGrey;
            overflow: hidden;
            height: 20px;
+           font-weight: 400;
          }
       }
       &-subHeadline {
-         margin-top: -5px;
          .globalDefaultFont(12px, 400);
+         line-height: 1.2em;
          p{
            line-height: 1.3em;
          }
@@ -80,6 +82,10 @@
     .col-xs-6;
     &-text {
       width: 180px;
+      height: 74px;
+      &-subHeadline{
+        margin-top: -5px;
+      }
       &-keyword {
          > span:last-child{
            height: 50px;
@@ -123,6 +129,7 @@
       display: none;
     }
     &-text {
+      height: auto;
       width: 313px;
     }
     &-breakLine {
