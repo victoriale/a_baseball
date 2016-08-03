@@ -70,6 +70,7 @@ export class BoxScoresService {
               scoreBoard: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null ? this.formatScoreBoard(data.transformedDate[dateParam.date][0]) : null,
               moduleTitle: this.moduleHeader(dateParam.date, profileName),
               gameInfo: this.formatGameInfo(data.transformedDate[dateParam.date],dateParam.teamId, dateParam.profile),
+              gameInfoSmall: this.formatGameInfoSmall(data.transformedDate[dateParam.date],dateParam.teamId, dateParam.profile),
               schedule: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null? this.formatSchedule(data.transformedDate[dateParam.date][0], dateParam.teamId, dateParam.profile) : null,
               aiContent: dateParam.profile == 'league' ? this.aiHeadline(data.aiArticle) : null,
             };
@@ -84,6 +85,7 @@ export class BoxScoresService {
           scoreBoard: dateParam.profile != 'league' && boxScoresData.transformedDate[dateParam.date] != null ? this.formatScoreBoard(boxScoresData.transformedDate[dateParam.date][0]) : null,
           moduleTitle: this.moduleHeader(dateParam.date, profileName),
           gameInfo: this.formatGameInfo(boxScoresData.transformedDate[dateParam.date],dateParam.teamId, dateParam.profile),
+          gameInfoSmall: this.formatGameInfoSmall(boxScoresData.transformedDate[dateParam.date],dateParam.teamId, dateParam.profile),
           schedule: dateParam.profile != 'league' && boxScoresData.transformedDate[dateParam.date] != null? this.formatSchedule(boxScoresData.transformedDate[dateParam.date][0], dateParam.teamId, dateParam.profile) : null,
           aiContent: dateParam.profile == 'league' ? this.aiHeadline(boxScoresData.aiArticle) : null,
         };
@@ -346,6 +348,98 @@ export class BoxScoresService {
       //incase it runs through entire loops and only 2 or less returns then push whatever is left
       if(game.length == (i+1)  && gameArray.length == 0){
         gameArray.push(twoBoxes);
+      }
+    })
+    return gameArray;
+  }
+
+  formatGameInfoSmall(game, teamId?, profile?){
+    var gameArray:Array<any> = [];
+    let self = this;
+    var twoBoxes = [];// used to put two games into boxes
+
+    // Sort games by time
+    let sortedGames = game.sort(function(a, b) {
+      return new Date(a.gameInfo.startDateTime).getTime() - new Date(b.gameInfo.startDateTime).getTime();
+    });
+
+    sortedGames.forEach(function(data,i){
+
+      var info:GameInfoInput;
+      let awayData = data.awayTeamInfo;
+      let homeData = data.homeTeamInfo;
+      let gameInfo = data.gameInfo;
+      let homeLink = MLBGlobalFunctions.formatTeamRoute(homeData.name, homeData.id);
+      let awayLink = MLBGlobalFunctions.formatTeamRoute(awayData.name, awayData.id);
+      var aiContent = data.aiContent != null ? self.formatArticle(data):null;
+
+      if(teamId != null && profile == 'team'){//if league then both items will link
+        if(homeData.id == teamId){//if not league then check current team they are one
+          homeLink = null;
+          var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo))
+          var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo), awayLink)
+        }else{
+          awayLink = null;
+          var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo), homeLink)
+          var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo))
+        }
+      }else{
+        var aiContent = data.aiContent != null ? self.formatArticle(data):null;
+        var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo), homeLink)
+        var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo), awayLink)
+      }
+
+      let gameDate = data.gameInfo;
+
+      let homeWin = homeData.winRecord != null ? homeData.winRecord : '#';
+      let homeLoss = homeData.lossRecord != null ? homeData.lossRecord : '#';
+
+      let awayWin = awayData.winRecord != null ? awayData.winRecord : '#';
+      let awayLoss = awayData.lossRecord != null ? awayData.lossRecord : '#';
+
+      //determine if a game is live or not and display correct game time
+      var currentTime = new Date().getTime();
+      var inningTitle = '';
+
+      if(gameInfo.live){
+        let inningHalf = gameInfo.inningHalf != null ? GlobalFunctions.toTitleCase(gameInfo.inningHalf) : 'Top';
+        inningTitle = gameInfo.inningsPlayed != null ?  inningHalf + " of " + gameInfo.inningsPlayed +  GlobalFunctions.Suffix(gameInfo.inningsPlayed) + " Inning" : '';
+
+      }else{
+        if((currentTime < gameInfo.startDateTimestamp) && !gameInfo.live){
+          inningTitle = moment(gameDate.startDateTimestamp).tz('America/New_York').format('h:mm A z');
+        }else{
+          inningTitle = 'Final';
+        }
+      }
+
+      info = {
+        gameHappened:gameInfo.inningsPlayed != null ?  true : false,
+        //inning will display the Inning the game is on otherwise if returning null then display the date Time the game is going to be played
+        inning:inningTitle,
+        homeData:{
+          homeTeamName: homeData.lastName,
+          homeImageConfig:link1,
+          homeLink: homeLink,
+          homeRecord: homeWin +'-'+ homeLoss,
+          runs:homeData.score,
+          hits:homeData.hits,
+          errors:homeData.errors
+        },
+        awayData:{
+          awayTeamName:awayData.lastName,
+          awayImageConfig:link2,
+          awayLink: awayLink,
+          awayRecord: awayWin +'-'+ awayLoss,
+          runs:awayData.score,
+          hits:awayData.hits,
+          errors:awayData.errors
+        }
+      };
+      if(teamId != null){
+        gameArray.push({game:info,aiContent:aiContent});
+      }else{
+        gameArray.push({game:info});
       }
     })
     return gameArray;
