@@ -148,7 +148,6 @@ export class SideScroll{
         this.currentScroll = this.itemSize * (Number(this.currentItem.id) + 1);
         jQuery(".carousel_scroll-item").removeClass("videoActive");
       }
-      console.log("item Size: " + this.itemSize + " current item: " + this.currentItem.id);
       this.rightText = this.currentScroll+'px';
     }
       this.numResizes = this.numResizes + 1;
