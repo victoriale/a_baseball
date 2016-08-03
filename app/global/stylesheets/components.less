@@ -167,6 +167,33 @@ goalsHeader
 
 /* @Image Hover States */
 /* Articles */
+.articleImageHoverWithTextResponsive(@hoverEleWidth, @hoverEleHeight) {
+  .flexDisplay;
+  .flexDirection(column);
+  .flexJustify(center);
+  text-align: center;
+  background-color: rgba(188, 32, 39, 0.75);
+  width: @hoverEleWidth;
+  height: @hoverEleHeight;
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  p {
+    &:first-child {
+      @defaultFirstParaFontSize: @hoverEleWidth * 1.8;
+      .globalDefaultModFont(@defaultFirstParaFontSize, 700, @white);
+      line-height: @defaultFirstParaFontSize / 2;
+      margin: 0 auto;
+      height: 38px;
+      width: 208px;
+      padding-top: 6px;
+      border: 1px solid @white;
+      border-radius: 2px;
+      background-color: rgba(0, 0, 0, 0.25);
+    }
+  }
+}
+
 .articleImageHoverWithText(@hoverEleWidth, @hoverEleHeight) {
   .flexDisplay;
   .flexDirection(column);
@@ -325,6 +352,24 @@ goalsHeader
   }
 }
 // article Image Links
+.articleImageLinkWithHoverResponsive(@linkWidth, @linkHeight) {
+  display: inline-block;
+  width: @linkWidth;
+  height: @linkHeight;
+  position: absolute;
+  img {
+    .rectangleImage(@linkWidth, @linkHeight);
+  }
+  div {
+    .articleImageHoverWithTextResponsive(@linkWidth, @linkHeight);
+  }
+  &:hover {
+    div {
+      left: 0;
+    }
+  }
+}
+
 .articleImageLinkWithHover(@linkWidth, @linkHeight) {
   display: inline-block;
   width: @linkWidth;

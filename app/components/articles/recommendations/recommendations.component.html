@@ -9,7 +9,7 @@
                    [routerLink]="['Article-pages', {eventType: data.eventType, eventID: data.eventID}]"
                    title="{{data.title}}">
                     <span class="articleBoxMedium">
-                        <img class="recommendations-articles-six-imagee" src="{{data.images}}"
+                        <img class="recommendations-articles-six-image" src="{{data.images}}"
                              onerror="this.src='/app/public/no-image.png'"/>
                         <div>
                             <p>View Article</p>
@@ -23,18 +23,18 @@
                    [routerLink]="['Article-pages', {eventType: data.eventType, eventID: data.eventID}]"
                    title="{{data.title}}">
                     <span class="articleBoxXl">
-                        <img class="recommendations-articles-three-imagee" src="{{data.images}}"
+                        <img class="recommendations-articles-three-image" src="{{data.images}}"
                              onerror="this.src='/app/public/no-image.png'"/>
                         <div>
                             <p>View Article</p>
                         </div>
                     </span>
-                    <span class="recommendations-articles-three-description">
-                        <span class="recommendations-articles-three-description-dateline">
+                    <div class="recommendations-articles-three-description">
+                        <div class="recommendations-articles-three-description-dateline">
                             <span class="recommendations-articles-three-description-dateline-keyword">{{data.keyword}}</span>
-                            {{data.date}}</span>
-                        <span class="recommendations-articles-three-description-text">{{data.title}}</span>
-                    </span>
+                            {{data.date}}</div>
+                        <div class="recommendations-articles-three-description-text">{{data.title}}</div>
+                    </div>
                 </a>
             </span>
         </span>
