@@ -38,10 +38,10 @@ export class BoxScoresModule implements OnChanges, OnInit{
   ){
   }
   advancePage(){
-    if (this.currentPage != this.boxScores.gameInfo.length) {
+    if (this.currentPage != this.boxScores.gameInfoSmall.length) {
       this.currentPage = this.currentPage + 1;
       this.leftDisabled = "";
-      if (this.currentPage != this.boxScores.gameInfo.length) {
+      if (this.currentPage != this.boxScores.gameInfoSmall.length) {
         this.rightDisabled = "";
       }
       else {
