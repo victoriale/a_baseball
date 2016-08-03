@@ -37,11 +37,10 @@
   }
   &-description{
     margin-left: 10px;
-    max-height:40px;
     height: auto;
     line-height: 1.2em;
     overflow: hidden;
-    .globalDefaultModFont(14px, 800, @black);
+    .globalDefaultModFont(14px, 400, @black);
     p {
       margin-top: 0;
       line-height: 1.2em;
@@ -66,11 +65,14 @@
     }
     &-description{
       margin-left: 0;
+      font-weight: 800;
     }
   }
 }
 @media @desktop-m{
   .box_articles{
+    padding-left: 50px;
+    padding-right: 50px;
     &-item{
       width: 320px;
     }
@@ -78,18 +80,23 @@
       font-size: 12px;
     }
     &-description{
-      font-size: 16px;
+      .globalDefaultFont(16px, 800);
     }
   }
 }
 
-@media @desktop-xl{
+@media @desktop-l{
   .box_articles{
+    padding-left: 0;
+    padding-right: 0;
     &-item{
       width: 425px;
-      height: 240px;
-     }
-   }
+      height: auto;
+    }
+    &-description{
+     font-size: 18px;
+    }
+  }
 }
 
 @media @desktop-xl {
@@ -99,8 +106,10 @@
     &-item {
       margin-bottom: 30px;
       width: 425px;
-      max-height: 308px;
       height: auto;
+      &:last-child{
+        margin-bottom: 0;
+      }
     }
   }
 }

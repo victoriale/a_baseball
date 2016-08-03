@@ -59,9 +59,10 @@ export class DeepDiveBlock1{
         this.checkSize();
       }
     }
-    ngOnInit() {
-      this.callModules();
-    }
+
+  ngOnInit() {
+     this.callModules();
+  }
   getFirstArticleStackData(){
     this._deepDiveData.getDeepDiveBatchService(this.callLimit, 1, this.geoLocation)
         .subscribe(data => {

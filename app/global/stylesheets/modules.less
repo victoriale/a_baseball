@@ -49,10 +49,12 @@
   background-color: @white;
 }
 
-.basic-container{
+.basic-container {
   display:block;
-  width:640px;
+  width: 640px;
+  padding: 0;
 }
+
 .widget-page-wrapper {
   width:640px;
   margin-left: auto;
@@ -68,7 +70,16 @@
   }
 }
 
-@media screen and (min-width: 1024px){
+@media @tablet{
+  .basic-container{
+    display:block;
+    width:680px;
+    padding:0 20px;
+  }
+}
+
+
+@media @desktop-l{
   .directory-container {
     width: 1012px;
     margin: 0px auto;
@@ -76,10 +87,10 @@
   }
 
   .basic-container{
-    width:960;
+    width: 1000px;
   }
   .widget-page-wrapper {
-    width:960;
+    width: 960px;
     > .col-xs-8 {
       width: 640px;
     }

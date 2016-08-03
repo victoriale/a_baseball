@@ -152,7 +152,7 @@ export class SyndicatedArticlePage{
       this._deepdiveservice.getRecArticleData(state, '1', '1')
           .subscribe(data => {
             this.recomendationData = this._deepdiveservice.transformToRecArticles(data);
-            this.recomendationData = [this.recomendationData[0]];
+            this.recomendationData = [this.recomendationData[0], this.recomendationData[1], this.recomendationData[2]];
           });
     }
 }
