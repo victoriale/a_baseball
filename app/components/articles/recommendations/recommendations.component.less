@@ -224,6 +224,9 @@
     display: inline-block;
     margin: 0 0 0 10px;
     padding: 0;
+    &-articles:nth-of-type(odd){
+      clear:both;
+    }
     &-articles{
       .col-xs-6;
       margin-bottom: 15px;
@@ -239,6 +242,9 @@
           margin-top: 9px;
           line-height: 18px;
           padding-right: 12px;
+          &-teaser{
+
+          }
           &-dateline{
             line-height: 1.2em;
             font-size: 10px;
@@ -258,6 +264,9 @@
   .deep_recs{
     padding-left: 15px;
     padding-right: 8px;
+    &-articles:nth-of-type(4n + 0){
+      clear:both;
+    }
     &-articles{
       .col-xs-4;
       margin-right: 0;
@@ -292,6 +301,9 @@
   }
 
   .deep-dive-container .deep_recs{
+    &-articles:nth-of-type(odd){
+      clear:none;
+    }
     &-articles{
       &-item{
         width: 216px;
