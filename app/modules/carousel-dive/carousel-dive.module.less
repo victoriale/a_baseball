@@ -1,3 +1,4 @@
+
 .carousel-dive {
   height: 420px;
   width: 100%;
@@ -115,6 +116,9 @@
        position: relative;
        display: block;
      }
+     p {
+       display:none;
+     }
     }
     &-fullstory {
       width: 200px;
@@ -160,6 +164,9 @@
   }
 }
 @media @mobile {
+  .carousel_scroll-button {
+    font-size: 60px;
+  }
   .carousel-dive {
     height: 220px;
   }
@@ -214,6 +221,7 @@
             margin: 0 0 5px 0;
           }
           &-border {
+            border-bottom: 1px solid @white;
             margin: 5px 0 0 0;
           }
         }
@@ -256,6 +264,9 @@
   }
 }
 @media @tablet {
+  .carousel_scroll-button {
+    font-size: 75px;
+  }
   .carousel-item {
     display: table;
     &-container {
@@ -323,6 +334,9 @@
 }
 
 @media @desktop-m {
+  .carousel_scroll-button {
+    font-size: 100px;
+  }
   .carousel-item {
     display: table;
     &-container {
