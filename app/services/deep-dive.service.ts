@@ -124,6 +124,7 @@ export class DeepDiveService {
   }
   getDeepDiveAiHeavyBatchService(state?){
   //Configure HTTP Headers
+    state = state.toUpperCase();
   var headers = this.setToken();
 
 
