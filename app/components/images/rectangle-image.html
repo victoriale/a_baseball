@@ -1,6 +1,6 @@
 <div class='image-rectangle {{data.imageClass}}'>
   <a [routerLink]="data.urlRouteArray" class="image-rectangle-hover">
-    <img [src]='data.imageUrl' onerror="this.src='/app/public/no-image.png';" />
+    <img class={{data.imageClass}} [src]='data.imageUrl' onerror="this.src='/app/public/no-image.png';" />
     <div><p class="rec-hover" [innerHtml]="data.hoverText"></p></div>
   </a>
 </div>
