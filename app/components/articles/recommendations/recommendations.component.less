@@ -222,8 +222,11 @@
 //Media Queries for .deep_recs elements;
 @media @mobile{
   .deep_recs{
+    .row{
+      margin-right: 10px;
+    }
     display: inline-block;
-    margin: 0 0 0 15px;
+    margin: 0 auto -15px;
     padding: 0;
     &-articles:nth-of-type(odd){
       clear:both;
@@ -233,19 +236,15 @@
       margin-bottom: 15px;
       &-item{
         margin-left: 10px;
-        display: table-cell;
         &-image{
-          height: 25.31vw;
-          width: 43.94vw;
+          height: 25.625vw;
+          width: 100%;
         }
         &-content{
           .globalDefaultFont(12px, 400);
           margin-top: 9px;
           line-height: 18px;
           padding-right: 12px;
-          &-teaser{
-
-          }
           &-dateline{
             line-height: 1.2em;
             font-size: 10px;
