@@ -19,27 +19,20 @@ declare var moment;
 export class CarouselDiveModule{
   @Input() carouselData: any;
   @Input() state:any;
-  public videoData:any;
+  @Input() videoData: any;
 
   constructor(
       private _deepdiveservice:DeepDiveService
   ){
     window.addEventListener("resize", this.onResize);
   }
-  private getDeepDiveVideoBatch(region, numItems, startNum){
-      this._deepdiveservice.getDeepDiveVideoBatchService(numItems, startNum, region).subscribe(
-        data => {
-          this.videoData = data.data;
-        }
-      )
-    }
+
     formatDate(date) {
       return moment(date, "YYYY-MM-Do, h:mm:ss").format("MMMM Do, YYYY h:mm:ss a");
     }
 
 
   ngOnInit() {
-    this.getDeepDiveVideoBatch(this.state, 1, 1);
 
     setTimeout(function(){
       jQuery(".owl-carousel").owlCarousel({

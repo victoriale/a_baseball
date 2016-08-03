@@ -19,21 +19,23 @@
                 </a>
             </span>
             <span *ngIf="isSmall">
-                <a *ngIf="i < 3" class="recommendations-articles-three article"
+                <a *ngIf="i < 3" class="deep_recs-ai-articles"
                    [routerLink]="['Article-pages', {eventType: data.eventType, eventID: data.eventID}]"
                    title="{{data.title}}">
-                    <span class="articleBoxXl">
-                        <img class="recommendations-articles-three-image" src="{{data.images}}"
-                             onerror="this.src='/app/public/no-image.png'"/>
-                        <div>
-                            <p>View Article</p>
+                    <div class="deep_recs-ai-articles-item">
+                        <div class="deep_recs-ai-articles-item-article-images"
+                             [style.background-image]="'url(' + data.images + ')'">
+                            <div class="deep_recs-ai-articles-item-article-images-highlight">
+                                <p> View Article </p>
+                            </div>
                         </div>
-                    </span>
-                    <div class="recommendations-articles-three-description">
-                        <div class="recommendations-articles-three-description-dateline">
-                            <span class="recommendations-articles-three-description-dateline-keyword">{{data.keyword}}</span>
-                            {{data.date}}</div>
-                        <div class="recommendations-articles-three-description-text">{{data.title}}</div>
+                        <div class="deep_recs-articles-item-content">
+                            <div class="deep_recs-articles-item-content-dateline">
+                                <span class="deep_recs-articles-item-content-dateline-keyword">{{data.keyword}}</span>
+                                <span class="deep_recs-articles-item-content-dateline-date">{{data.date}}</span>
+                            </div>
+                            <div class="deep_recs-articles-item-content-headline">{{data.title}}</div>
+                        </div>
                     </div>
                 </a>
             </span>
