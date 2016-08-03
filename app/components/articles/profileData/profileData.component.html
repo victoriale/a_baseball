@@ -17,30 +17,32 @@
                     <circle-image *ngIf="imageLinks[3]" class="comparison-player-circles-circle2"
                                   [data]="imageLinks[3]"></circle-image>
                 </div>
-                <div class="comparison-player-profile-info-left">
-                    <div class="comparison-player-profile-info-left-profile-name1">
-                        {{data.playerComparisonModule[0].name}}
-                    </div>
-                    <div class="comparison-player-profile-info-left-profile-data1">
+                <div class="comparison-player-container">
+                    <div class="comparison-player-container-profile-info-left">
+                        <div class="comparison-player-container-profile-info-left-profile-name1">
+                            {{data.playerComparisonModule[0].name}}
+                        </div>
+                        <div class="comparison-player-container-profile-info-left-profile-data1">
                         <span *ngIf="articleSubType != 'pitcher'">
                             {{data.playerComparisonModule[0].season}} Average {{data.playerComparisonModule[0].value}}
                         </span>
                         <span *ngIf="articleSubType == 'pitcher'">
                             {{data.playerComparisonModule[0].season}} ERA {{data.playerComparisonModule[0].value}}
                         </span>
+                        </div>
                     </div>
-                </div>
-                <div class="comparison-player-profile-info-right">
-                    <div class="comparison-player-profile-info-right-profile-name2">
-                        {{data.playerComparisonModule[1].name}}
-                    </div>
-                    <div class="comparison-player-profile-info-right-profile-data2">
+                    <div class="comparison-player-container-profile-info-right">
+                        <div class="comparison-player-container-profile-info-right-profile-name2">
+                            {{data.playerComparisonModule[1].name}}
+                        </div>
+                        <div class="comparison-player-container-profile-info-right-profile-data2">
                         <span *ngIf="articleSubType != 'pitcher'">
                             {{data.playerComparisonModule[1].season}} Average {{data.playerComparisonModule[1].value}}
                         </span>
                         <span *ngIf="articleSubType == 'pitcher'">
                             {{data.playerComparisonModule[1].season}} ERA {{data.playerComparisonModule[1].value}}
                         </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -244,20 +246,22 @@
                                       [data]="imageLinks[8]"></circle-image>
                     </span>
                 </div>
-                <div class="comparison-upcoming-home-info">
-                    <div class="comparison-upcoming-home-info-team">
-                        {{data.gameModule.homeTeamName}}
+                <div class="comparison-upcoming-container">
+                    <div class="comparison-upcoming-container-home-info">
+                        <div class="comparison-upcoming-container-home-info-team">
+                            {{data.gameModule.homeTeamName}}
+                        </div>
+                        <div class="comparison-upcoming-container-home-info-record">
+                            Record: {{data.gameModule.homeRecord}}
+                        </div>
                     </div>
-                    <div class="comparison-upcoming-home-info-record">
-                        Record: {{data.gameModule.homeRecord}}
-                    </div>
-                </div>
-                <div class="comparison-upcoming-away-info">
-                    <div class="comparison-upcoming-away-info-team">
-                        {{data.gameModule.awayTeamName}}
-                    </div>
-                    <div class="comparison-upcoming-away-info-record">
-                        Record: {{data.gameModule.awayRecord}}
+                    <div class="comparison-upcoming-container-away-info">
+                        <div class="comparison-upcoming-container-away-info-team">
+                            {{data.gameModule.awayTeamName}}
+                        </div>
+                        <div class="comparison-upcoming-container-away-info-record">
+                            Record: {{data.gameModule.awayRecord}}
+                        </div>
                     </div>
                 </div>
             </div>
