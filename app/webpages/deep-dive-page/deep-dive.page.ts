@@ -18,6 +18,7 @@ import {DeepDiveBlock2} from '../../modules/deep-dive-blocks/deep-dive-block-2/d
 import {DeepDiveBlock3} from '../../modules/deep-dive-blocks/deep-dive-block-3/deep-dive-block-3.module';
 import {DeepDiveBlock4} from '../../modules/deep-dive-blocks/deep-dive-block-4/deep-dive-block-4.module';
 
+import {SideScroll} from '../../components/side-scroll/side-scroll.component'
 //window declarions of global functions from library scripts
 declare var moment;
 declare var jQuery: any;
@@ -37,7 +38,8 @@ declare var jQuery: any;
       DeepDiveBlock1,
       DeepDiveBlock2,
       DeepDiveBlock3,
-      DeepDiveBlock4
+      DeepDiveBlock4,
+      SideScroll
     ],
     providers: [SchedulesService,DeepDiveService,GeoLocation,PartnerHeader],
 })
@@ -59,6 +61,7 @@ export class DeepDivePage implements OnInit{
     safeCall: boolean = true;
     //for carousel
     carouselData: any;
+    videoData:any;
     blockIndex: number = 1;
 ​
     private isHomeRunZone: boolean = false;
@@ -115,6 +118,14 @@ export class DeepDivePage implements OnInit{
       }
     }
 
+    private getDeepDiveVideoBatch(region, numItems, startNum){
+        this._deepDiveData.getDeepDiveVideoBatchService(numItems, startNum, region).subscribe(
+          data => {
+            this.videoData = data.data;
+          }
+        )
+      }
+
     private getDataCarousel() {
       this._deepDiveData.getCarouselData(this.carouselData, '25', '1', this.geoLocation, (carData)=>{
         this.carouselData = carData;
@@ -159,6 +170,7 @@ export class DeepDivePage implements OnInit{
 
     callModules(){
       this.getDataCarousel();
+      this.getDeepDiveVideoBatch(this.geoLocation, 1, 1);
       this.getSideScroll();
     }
     private onScroll(event) {
