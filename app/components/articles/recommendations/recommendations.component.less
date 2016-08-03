@@ -185,6 +185,30 @@
           }
         }
       }
+      &-content {
+        margin-top: 10px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: auto;
+        width: 100%;
+        &-dateline {
+          .globalDefaultFont(10px, 800);
+          &-keyword {
+            margin-right: 3px;
+          }
+          &-date {
+            text-transform: uppercase;
+            color: @bulletGrey;
+          }
+        }
+        &-headline{
+          .globalDefaultFont(14px, 400);
+          margin-top: 0;
+          height: auto;
+          line-height: 1.2em;
+          padding-bottom: 15px;
+        }
+      }
     }
   }
   &-articles {
