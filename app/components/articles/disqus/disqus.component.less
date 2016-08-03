@@ -16,13 +16,19 @@
 .artcom {
   width: 580px;
   @media @mobile-s {
-    width: 320px;
+    width: 100%;
   }
   background-color: @white;
   position: relative;
   padding-bottom: 20px;
+  @media @mobile-s {
+    padding-bottom: 10px;
+  }
   &-header {
     border-bottom: 2px solid #d7d7d7;
+    @media @mobile-s {
+      border-bottom: none;
+    }
     padding-bottom: 12px;
     &-icon {
       color: @investKitBlue;
