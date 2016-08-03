@@ -49,12 +49,17 @@
       }// ul li ends
     }// ul ends
   }// footer-top ends
-  @media (max-width: 640px) {
+  @media @mobile {
     .displayDesktop {
       display:none;
     }
   }
-  @media (min-width: 641px) {
+  @media @tablet {
+    .displayDesktop {
+      display:none;
+    }
+  }
+  @media @desktop-m {
     .display640 {
       display:none;
     }
