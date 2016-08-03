@@ -51,7 +51,6 @@ export class DeepDiveBlock1{
         teamId:null,
         date: moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD')
       }
-      this.callModules();
       window.onresize = (e) =>
       {
         // current use is box scores
@@ -59,6 +58,9 @@ export class DeepDiveBlock1{
       }
     }
 
+  ngOnInit() {
+     this.callModules();
+  }
   getFirstArticleStackData(){
     this._deepDiveData.getDeepDiveBatchService(this.callLimit, 1, this.geoLocation)
         .subscribe(data => {
