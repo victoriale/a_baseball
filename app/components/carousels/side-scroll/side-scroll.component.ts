@@ -1,8 +1,8 @@
 import {Component, AfterContentChecked, Input, Output, EventEmitter} from '@angular/core';
 import {SanitizeStyle} from '../../../pipes/safe.pipe';
 
-declare var jQuery:any
-;
+declare var jQuery:any;
+
 @Component({
     selector: 'side-scroll',
     templateUrl: './app/components/carousels/side-scroll/side-scroll.component.html',

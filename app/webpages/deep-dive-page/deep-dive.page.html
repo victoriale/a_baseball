@@ -1,6 +1,5 @@
 <section *ngIf="!isHomeRunZone" class="deep-dive container-fluid" (window:scroll)="onScroll($event)">
   <section class="deep-dive-container1">
-    <carousel-dive-module *ngIf = "carouselData" [carouselData] = "carouselData" [state]="geoLocation"></carousel-dive-module>
 	<div [ngStyle]="{'width':'100%', 'height': '420px'}">
     <side-scroll-test *ngIf="carouselData && videoData" [current]="curCount" [carData]="carouselData" [videoData]="videoData">
     </side-scroll-test>
