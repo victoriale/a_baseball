@@ -9,7 +9,7 @@
     border-bottom: 2px solid @strokeGrey;
     @media @mobile-s {
       border-bottom: none;
-      text-align: center;
+      text-align: left;
     }
     &-icon {
       color: @masterBrandColor;
@@ -42,7 +42,7 @@
         color: @masterBrandColor;
       }
       &:hover .articleBoxXl {
-        .articleImageLinkWithHoverResponsive(100%, 180px);
+        .articleImageLinkWithHoverResponsive(100%, ~"calc(17% + 20px)");
         div {
           left: 0;
         }
@@ -137,6 +137,56 @@
   padding-left: 15px;
   padding-right: 15px;
   margin-bottom: -30px;
+  &-ai-articles {
+    margin-bottom: 30px;
+    &:hover {
+      color: @masterBrandColor;
+      .deep_recs-articles-item-content-dateline-keyword {
+        color: @black;
+      }
+    }
+    &-item {
+      &:hover .deep_recs-ai-articles-item-article-images-highlight {
+        .flexDisplay;
+      }
+      &-article-images {
+        width: 100%;
+        height: 0;
+        padding-bottom: 63.22%;;
+        background-color: @backgroundGrey;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: top center;
+        position: relative;
+        display: inline-block;
+        line-height: 120px;
+        &-highlight {
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: 5;
+          width: 100%;
+          height: 100%;
+          box-shadow: inset 0 0 0 -10000px @masterHighlightColor;
+          display: none;
+          text-align: center;
+          background-color: rgba(188, 32, 39, 0.75);
+          p {
+            &:first-child {
+              .globalDefaultFont(2rem, 800);
+              line-height: 40px;
+              margin: auto;
+              width: 18rem;
+              height: 4.3rem;
+              color: @white;
+              border: 1px solid @white;
+              position: relative;
+            }
+          }
+        }
+      }
+    }
+  }
   &-articles {
     margin-bottom: 30px;
     &:hover {
@@ -144,7 +194,6 @@
       .deep_recs-articles-item-content-dateline-keyword {
         color: @black;
       }
-
     }
     &-item {
       &:hover .deep_recs-articles-item-image-highlight {
@@ -213,6 +262,12 @@
           height: auto;
           padding-right:20px;
           line-height: 1.2em;
+        }
+        &-headline{
+          margin-top: 0;
+          height: auto;
+          line-height: 1.2em;
+          padding-bottom: 15px;
         }
       }
     }
