@@ -147,7 +147,7 @@
     }
   }
 
-  &-upcoming{
+  &-upcoming {
     width: 100%;
     height: 100%;
     position: relative;
@@ -156,14 +156,16 @@
       width: 100%;
       margin: 0 auto;
       position: relative;
+      @media @mobile-s {
+        height: 90px;
+        width: 300px;
+        margin: auto;
+      }
     }
     &-circles {
       width: 100%;
       height: 130px;
       position: relative;
-      @media @mobile-s {
-        height: 85px;
-      }
       &-home-logo {
         border-radius: 50%;
         border: 2px solid @strokeGrey;
@@ -180,7 +182,7 @@
         @media @mobile-s {
           width: 75px;
           height: 75px;
-          left: 5%;
+          left: 20px;
         }
       }
       &-date {
@@ -207,78 +209,86 @@
         @media @mobile-s {
           width: 75px;
           height: 75px;
-          right: 5%;
+          right: 20px;
         }
         &:hover {
           z-index: 1;
         }
       }
     }
-    &-home-info {
-      width: 42%;
-      float: left;
+    &-container {
       @media @mobile-s {
-        position: relative;
-        left: 4%;
-        width: auto;
-        min-width: 0;
-        display: table;
+        height: 85px;
+        width: 300px;
+        margin: auto;
       }
-      &-team {
-        .globalDefaultFont(18px, 800);
-        margin: 0 auto;
-        text-align: center;
-        position: relative;
-        top: 90px;
+      &-home-info {
+        width: 42%;
+        float: left;
         @media @mobile-s {
-          .globalDefaultFont(12px, 800);
-          top: 75px;
+          position: relative;
+          left: 0;
+          width: 40%;
+          top: 5px;
+        }
+        &-team {
+          .globalDefaultFont(18px, 800);
+          margin: 0 auto;
+          text-align: center;
+          position: relative;
+          top: 90px;
+          @media @mobile-s {
+            .globalDefaultFont(12px, 800);
+            top: 0;
+          }
+        }
+        &-record {
+          .globalDefaultFont(14px, 800);
+          margin: 0 auto;
+          text-align: center;
+          padding-top: 5px;
+          position: relative;
+          top: 90px;
+          @media @mobile-s {
+            .globalDefaultFont(10px, 400);
+            top: 0;
+            padding-top: 0;
+          }
         }
       }
-      &-record {
-        .globalDefaultFont(14px, 800);
-        margin: 0 auto;
-        text-align: center;
-        padding-top: 5px;
-        position: relative;
-        top: 90px;
+      &-away-info {
+        width: 42%;
+        float: right;
         @media @mobile-s {
-          .globalDefaultFont(10px, 400);
-          top: 70px;
+          position: relative;
+          right: 0;
+          width: 40%;
+          top: 5px;
         }
-      }
-    }
-    &-away-info {
-      width: 42%;
-      float: right;
-      @media @mobile-s {
-        position: relative;
-        right: 4%;
-        width: auto;
-        min-width: 0;
-        display: table;
-      }
-      &-team {
-        .globalDefaultFont(18px, 800);
-        margin: 0 auto;
-        text-align: center;
-        position: relative;
-        top: 90px;
-        @media @mobile-s {
-          .globalDefaultFont(12px, 800);
-          top: 75px;
+        &-team {
+          .globalDefaultFont(18px, 800);
+          margin: 0 auto;
+          text-align: center;
+          position: relative;
+          top: 90px;
+          @media @mobile-s {
+            .globalDefaultFont(12px, 800);
+            top: 0;
+          }
         }
-      }
-      &-record {
-        .globalDefaultFont(14px, 800);
-        margin: 0 auto;
-        text-align: center;
-        padding-top: 5px;
-        position: relative;
-        top: 90px;
-        @media @mobile-s {
-          .globalDefaultFont(10px, 400);
-          top: 70px;
+        &-record {
+          .globalDefaultFont(14px, 800);
+          margin: 0 auto;
+          text-align: center;
+          padding-top: 5px;
+          position: relative;
+          top: 90px;
+          @media @mobile-s {
+            .globalDefaultFont(10px, 400);
+            top: 0;
+            padding-top: 0;
+            padding-top: 0;
+          }
         }
       }
     }
@@ -295,6 +305,8 @@
       position: relative;
       @media @mobile-s {
         height: 85px;
+        width: 300px;
+        margin: auto;
       }
       &-circle1 {
         border-radius: 50%;
@@ -312,7 +324,7 @@
         @media @mobile-s {
           width: 75px;
           height: 75px;
-          left: 5%;;
+          left: 50px;
         }
       }
       &-circle2 {
@@ -332,7 +344,7 @@
         @media @mobile-s {
           width: 75px;
           height: 75px;
-          right: 5%;
+          right: 50px;
         }
       }
       &-vs {
@@ -347,63 +359,68 @@
         }
       }
     }
-    &-profile-info-left {
-      float: left;
-      position: relative;
-      left: 25px;
-      top: 15px;
+    &-container {
       @media @mobile-s {
+        height: 85px;
+        width: 300px;
+        margin: auto;
+      }
+      &-profile-info-left {
+        width: 34%;
+        float: left;
         position: relative;
-        left: 4%;
-        width: auto;
-        min-width: 0;
-        display: table;
-        top: 8px;
-      }
-      &-profile-name1 {
-        .globalDefaultFont(18px, 800);
-        margin: 0 auto;
-        text-align: center;
+        left: 25px;
+        top: 15px;
         @media @mobile-s {
-          .globalDefaultFont(12px, 800);
+          position: relative;
+          left: 25px;
+          width: 40%;
+          top: 8px;
+        }
+        &-profile-name1 {
+          .globalDefaultFont(18px, 800);
+          margin: 0 auto;
+          text-align: center;
+          @media @mobile-s {
+            .globalDefaultFont(12px, 800);
+          }
+        }
+        &-profile-data1 {
+          .globalDefaultFont(14px, 400);
+          margin: 0 auto;
+          text-align: center;
+          @media @mobile-s {
+            .globalDefaultFont(10px, 400);
+          }
         }
       }
-      &-profile-data1 {
-        .globalDefaultFont(14px, 400);
-        margin: 0 auto;
-        text-align: center;
-        @media @mobile-s {
-          .globalDefaultFont(10px, 400);
-        }
-      }
-    }
-    &-profile-info-right {
-      float: right;
-      position: relative;
-      right: 25px;
-      top: 15px;
-      @media @mobile-s {
+      &-profile-info-right {
+        width: 34%;
+        float: right;
         position: relative;
-        right: 4%;
-        width: auto;
-        min-width: 0;
-        display: table;
-        top: 8px;
-      }
-      &-profile-name2 {
-        .globalDefaultFont(18px, 800);
-        margin: 0 auto;
-        text-align: center;
+        right: 25px;
+        top: 15px;
         @media @mobile-s {
-          .globalDefaultFont(12px, 800);
+          position: relative;
+          right: 25px;
+          width: 40%;
+          top: 8px;
         }
-      }
-      &-profile-data2 {
-        .globalDefaultFont(14px, 400);
-        margin: 0 auto;
-        text-align: center;
-        @media @mobile-s {
-          .globalDefaultFont(10px, 400);
+        &-profile-name2 {
+          .globalDefaultFont(18px, 800);
+          margin: 0 auto;
+          text-align: center;
+          @media @mobile-s {
+            .globalDefaultFont(12px, 800);
+          }
+        }
+        &-profile-data2 {
+          .globalDefaultFont(14px, 400);
+          margin: 0 auto;
+          text-align: center;
+          @media @mobile-s {
+            .globalDefaultFont(10px, 400);
+          }
         }
       }
     }
