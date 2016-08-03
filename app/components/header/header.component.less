@@ -102,8 +102,9 @@
     .flexDisplay;
     .flexDirection(column);
     .flexAlignItems(flex-end);
-    height: 125px;
+    height: 45px;
     &.active, &:hover, &:focus, &:active{
+      height: 125px;
       .header-search-searchBox{
         display: inline-block;
       }
@@ -145,6 +146,11 @@
     }
   }
 }
+@media @mobile {
+  .header-search {
+    margin-left: -45px;
+  }
+}
 @media @tablet{
   .header{
     &-top{
@@ -182,9 +188,12 @@
         background-color: darken(@masterBrandColor, 10%);
       }
     }//header-share ends
-    &-searchBtn{
+    &-search {
       height: 65px;
-      width: 65px;
+      &-searchBtn{
+        height: 65px;
+        width: 65px;
+      }
     }
   }
 }
@@ -201,5 +210,10 @@
         background-color: @masterBrandColor;
       }
     }//header-search ends
+    &-search {
+      &:hover {
+        height: auto;
+      }
+    }
   }//header ends
 }

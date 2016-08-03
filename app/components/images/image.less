@@ -310,7 +310,9 @@
     .globalDefaultModFont(16px, 800, @white);
   }
   img{
-    .rectangleImageMain(100%, auto);
+    @media @mobile{
+      .rectangleImageMain(100%, auto);
+    }
     @media @tablet {
       width: auto;
       min-width: 610px;
