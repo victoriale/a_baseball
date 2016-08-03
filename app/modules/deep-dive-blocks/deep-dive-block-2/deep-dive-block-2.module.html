@@ -3,6 +3,9 @@
     <article-stack-module *ngIf="secStackRow" [stackTop]="secStackTop" [stackRow]="secStackRow"></article-stack-module>
   </div>
   <div class="deep-dive-module">
+    <responsive-widget [embedPlace]="widgetPlace" [displayAtRes]="640"></responsive-widget>
+  </div>
+  <div class="deep-dive-module">
     <recommendations-component *ngIf="recommendationData" [randomHeadlines]="recommendationData" [isDeepDive]="true"></recommendations-component>
   </div>
   <div class="deep-dive-module">

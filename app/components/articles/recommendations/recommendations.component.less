@@ -136,6 +136,7 @@
   width: 100%;
   padding-left: 15px;
   padding-right: 15px;
+  margin-bottom: -30px;
   &-articles {
     margin-bottom: 30px;
     &:hover {
@@ -346,36 +347,24 @@
 
 @media @desktop-xl{
   .deep_recs {
-    padding-left: 0;
-    padding-right: 0;
-    &-articles {
-      width: 348px;
-      &-item {
-        &-image {
-          height: 220px;
-        }
-        &-content{
-          &-dateline{
-          }
-        }
-      }
-    }
+      padding-left: 0;
+      padding-right: 0;
   }
 
   .deep-dive-container .deep_recs{
     &-articles{
-      width: 348px;
+      &-item{
+        width: 348px;
+        &-image{
+          height: 220px;
+        }
+      }
     }
-  }
-
-  .deep-dive-container .deep_recs-articles-item{
-    &-image{
-      height: 220px;
-    }
-    &-content{
-      .globalDefaultFont(12px, 400);
-      &-dateline{
-        display: block;
+    &-articles-item{
+      &-content{
+        margin-top: 10px;
+        width: 348px;
+        font-size: 14px;
       }
     }
   }
