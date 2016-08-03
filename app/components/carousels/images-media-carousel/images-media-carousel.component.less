@@ -192,9 +192,9 @@
     height: 385px;
   }
   @media @mobile-s {
-    width: 320px;
-    height: 237px;
-    left: 25%;
+    width: calc(80% + 10px);
+    height: 60vw;
+    left: 3%;
     top: 25%;
   }
   z-index: 9999;
@@ -241,11 +241,10 @@
       .globalDefaultModFont(20px, 400, @white);
       width: 35px;
       height: 35px;
-      top: 5px;
-      right: 5px;
+      top: -30px;
+      right: -30px;
       line-height: 35px;
       z-index: 1;
-      background-color: @textEmphasisGrey;
     }
   }
 }

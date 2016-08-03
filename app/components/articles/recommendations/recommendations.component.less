@@ -2,12 +2,14 @@
   width: 580px;
   display: inline-block;
   @media @mobile-s {
-    width: 320px;
+    width: 100%;
+    padding-top: 10px;
   }
   &-header {
     border-bottom: 2px solid @strokeGrey;
     @media @mobile-s {
       border-bottom: none;
+      text-align: center;
     }
     &-icon {
       color: @masterBrandColor;
@@ -31,20 +33,23 @@
 
   &-articles {
     margin-top: 24px;
+    @media @mobile-s {
+      margin-top: 15px;
+    }
     &-three {
       color: @black;
       &:hover {
         color: @masterBrandColor;
       }
       &:hover .articleBoxXl {
-        .articleImageLinkWithHover(320px, 180px);
+        .articleImageLinkWithHoverResponsive(100%, 180px);
         div {
           left: 0;
         }
       }
       &-image {
-        width: 320px;
-        height: 180px;
+        width: 100%;
+        height: ~"calc(17% + 20px)";
         background-position: top center;
         background-size: cover;
         background-repeat: no-repeat;
@@ -52,27 +57,26 @@
       &-description {
         width: 100%;
         height: 72px;
+        position: relative;
+        top: 172px;
         &-text {
-          .globalDefaultFont(16px, 800);
+          .globalDefaultFont(14px, 400);
           //necessary for multiline ellipses
           display: block;
           display: -webkit-box;
-          line-height: 1.4;
+          line-height: 14px;
           -webkit-line-clamp: 3;
           -webkit-box-orient: vertical;
           overflow: hidden;
           text-overflow: ellipsis;
-          position: relative;
-          top: 185px;
         }
         &-dateline {
-          .globalDefaultModFont(12px, 800, @bulletGrey);
+          .globalDefaultModFont(10px, 800, @bulletGrey);
           text-align: left;
-          margin-top: 5px;
-          position: relative;
-          top: 185px;
+          margin-top: 9px;
+          line-height: 14px;
           &-keyword {
-            .globalDefaultModFont(12px, 800, @black);
+            .globalDefaultModFont(10px, 800, @black);
           }
         }
       }
@@ -123,8 +127,8 @@
   width: 180px;
   height: 210px;
   @media @mobile-s {
-    width: 320px;
-    height: 252px;
+    width: 100%;
+    height: 225px;
   }
 }
 
@@ -133,12 +137,7 @@
   padding-left: 15px;
   padding-right: 15px;
   margin-bottom: -30px;
-  &-row {
-    .flexDisplay;
-    .flexJustify(space-between);
-  }
   &-articles {
-    width: 32.045%;
     margin-bottom: 30px;
     &:hover {
       color: @masterBrandColor;
@@ -193,7 +192,7 @@
         height: auto;
         width: 100%;
         &-dateline {
-          .globalDefaultFont(11px, 800);
+          .globalDefaultFont(12px, 800);
           &-keyword {
             margin-right: 3px;
           }
@@ -222,17 +221,15 @@
 //Media Queries for .deep_recs elements;
 @media @mobile{
   .deep_recs{
-    margin: 0;
-    padding: 0 0 0 10px;
-    &-row{
-      .flexDirection(column);
-      width: 50%;
-      float: left;
-    }
+    display: inline-block;
+    margin: 0 0 0 10px;
+    padding: 0;
     &-articles{
-      width: 180px;
+      .col-xs-6;
       margin-bottom: 15px;
       &-item{
+        margin-left: 10px;
+        display: table-cell;
         &-image{
           height: 25.31vw;
           width: 43.94vw;
@@ -241,8 +238,13 @@
           .globalDefaultFont(12px, 400);
           margin-top: 9px;
           line-height: 18px;
+          padding-right: 12px;
           &-dateline{
+            line-height: 1.2em;
             font-size: 10px;
+            &-date{
+              display: none;
+            }
             &-below{
               display: none;
             }
@@ -257,15 +259,18 @@
     padding-left: 15px;
     padding-right: 8px;
     &-articles{
-      width: 196px;
+      .col-xs-4;
+      margin-right: 0;
       &-item{
+        width: 197px;
         &-image{
-          height: 136px;
+          height: 123px;
         }
         &-content{
-          .globalDefaultFont(16px, 400);
+          .globalDefaultFont(14px, 400);
           line-height: 18px;
           margin-top: 14px;
+          width: 196px;
           &-dateline{
             display: block;
             &-below{
@@ -282,14 +287,14 @@
 
 @media @desktop-m {
   .deep_recs {
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 50px;
+    padding-right: 50px;
   }
 
   .deep-dive-container .deep_recs{
     &-articles{
-      width: 216px;
       &-item{
+        width: 216px;
         &-image{
           height: 136px;
         }
@@ -299,8 +304,10 @@
       &-content{
         .globalDefaultFont(12px, 400);
         margin-top: 10px;
+        width: 216px;
         &-dateline{
           display: block;
+          padding-bottom: 2px;
           &-below{
             display: none;
           }
@@ -340,36 +347,24 @@
 
 @media @desktop-xl{
   .deep_recs {
-    padding-left: 0;
-    padding-right: 0;
-    &-articles {
-      width: 348px;
-      &-item {
-        &-image {
-          height: 220px;
-        }
-        &-content{
-          &-dateline{
-          }
-        }
-      }
-    }
+      padding-left: 0;
+      padding-right: 0;
   }
 
   .deep-dive-container .deep_recs{
     &-articles{
-      width: 348px;
+      &-item{
+        width: 348px;
+        &-image{
+          height: 220px;
+        }
+      }
     }
-  }
-
-  .deep-dive-container .deep_recs-articles-item{
-    &-image{
-      height: 220px;
-    }
-    &-content{
-      .globalDefaultFont(12px, 400);
-      &-dateline{
-        display: block;
+    &-articles-item{
+      &-content{
+        margin-top: 10px;
+        width: 348px;
+        font-size: 14px;
       }
     }
   }

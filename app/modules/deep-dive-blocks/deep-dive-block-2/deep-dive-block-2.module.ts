@@ -43,7 +43,7 @@ export class DeepDiveBlock2{
     ){
     }
     ngOnInit() {
-      this.callModules();
+       this.callModules();
     }
   getFirstArticleStackData(){
     this._deepDiveData.getDeepDiveBatchService(this.callLimit, 1, this.geoLocation)

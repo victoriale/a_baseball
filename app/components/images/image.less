@@ -263,7 +263,7 @@
     position: relative;
     display: inline-block;
     height: 100%;
-    width: auto;
+    width: 100%;
     &:hover {
       div {
         .flexDisplay;
@@ -288,6 +288,16 @@
 
 .image-320x180{
   overflow: hidden;
+  @media @tablet{
+    width: 610px;
+    height: 421px;
+  }
+  @media @desktop-m{
+    width: 670px;
+  }
+  @media @desktop-xl{
+    width: 750px;
+  }
   .rec-hover{
     margin: 0 auto;
     line-height: 40px;
@@ -343,6 +353,7 @@
 
 .image-100x56{
   height: 56px;
+  width: 100px;
   @media @tablet{
     height: 75px;
   }
@@ -356,6 +367,8 @@
     .globalDefaultModFont(14px, 800, @white);
   }
   img{
-    .rectangleImageMain(100px, 100%);
+    min-width: 100px;
+    min-height: 75px;
+    width: auto;
   }
 }
