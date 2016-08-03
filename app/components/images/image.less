@@ -311,15 +311,16 @@
   }
   img{
     .rectangleImageMain(100%, auto);
-    @media @tablet{
-      .rectangleImageMain(610px, auto);
+    @media @tablet {
+      width: auto;
+      min-width: 610px;
       min-height: 421px;
     }
-    @media @desktop-m{
-      .rectangleImageMain(670px, auto);
+    @media @desktop-m {
+      min-width: 670px;
     }
     @media @desktop-xl{
-      .rectangleImageMain(750px, auto);
+      width: 750px;
     }
   }
 }
