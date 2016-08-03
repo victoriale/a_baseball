@@ -1,6 +1,12 @@
 @media @mobile {
   .box-scores {
     width:100%!important;
+    game-info {
+      width:100%;
+    }
+    .game {
+      margin-left: ~"calc(50% - 156px)";
+    }
   }
 }
 .box-scores{// BOX-SCORES CONTAINER
@@ -71,8 +77,23 @@
         vertical-align: middle;
       }
     }
-    .pagButton:hover {
+    .rightPag {
       background-color: @black;
+    }
+    .rightPag:hover {
+      background-color: @homeRunLoyalRed;
+      .leftPag {
+        background-color: @black;
+      }
+    }
+    .leftPag {
+      background-color: @homeRunLoyalRed;
+    }
+    .leftPag:hover {
+      background-color: @black;
+    }
+    .leftPag:hover.rightPag {
+      background-color: @homeRunLoyalRed;
     }
     .pagButton.disabled {
       background-color: @strokeGrey;
