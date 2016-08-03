@@ -128,6 +128,7 @@ export class SideScroll{
       this.minScroll = this.currentScroll < this.itemSize * this.clones;
       this.maxScroll = !((this.maxLength) >= Math.round(this.currentScroll/(this.itemSize)));
     }
+    this.adjustSizeVideo();
   }
 
   // ngDoCheck(){
@@ -157,6 +158,14 @@ export class SideScroll{
     }
 
   }
+  adjustSizeVideo() {
+    if (this.currentItem.type == "video") {
+      jQuery(".carousel_scroll-item").addClass("videoActive");
+    }
+    else {
+      jQuery(".carousel_scroll-item").removeClass("videoActive");
+    }
+  }
 
   left(event) {
     //moves the current scroll over the item size
@@ -165,6 +174,7 @@ export class SideScroll{
       this.currentScroll = (this.itemSize * this.maxLength-1);
     }
     this.checkCurrent(this.currentScroll);
+    this.adjustSizeVideo();
   }
   right(event) {
     this.currentScroll += this.itemSize;
@@ -174,6 +184,7 @@ export class SideScroll{
       this.currentScroll = 0;
       this.checkCurrent(this.currentScroll);
     }
+    this.adjustSizeVideo();
   }
 
   //For mobile screen swiping events
