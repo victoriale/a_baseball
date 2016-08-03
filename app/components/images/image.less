@@ -343,6 +343,7 @@
 
 .image-100x56{
   height: 56px;
+  width: 100px;
   @media @tablet{
     height: 75px;
   }
@@ -356,6 +357,8 @@
     .globalDefaultModFont(14px, 800, @white);
   }
   img{
-    .rectangleImageMain(100px, auto);
+    min-width: 100px;
+    min-height: 75px;
+    width: auto;
   }
 }
