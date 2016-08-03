@@ -30,10 +30,7 @@ transactions-page .module-container .widgetForPage {
     left:0;
   }
 }
-.deep-dive .widgetWrapper{
-  width:640px;
-  left: ~"calc(50% - 320px)";
-}
+
 standings-page div .standings-tab-section:nth-child(odd) .widgetForPage {
   display: none;
 }
@@ -73,24 +70,38 @@ standings-page div .standings-tab-section:last-of-type .widgetForPage {
     height:290px;
   }
 }
+
 .widgetWrapper {
   width: 640px;
   height: 280px;
   background-color: @highlightGrey;
   padding: 15px 0;
   position:relative;
-    .adSquareSmall {
-      width:300px;
-      height:250px;
-      text-align: center;
-      margin: 0 auto;
-    }
-    .adSquareMed {
-      width:640px;
-      height:250px;
-      text-align: center;
-      margin: 0;
-    }
+  .adSquareSmall {
+    width:300px;
+    height:250px;
+    text-align: center;
+    margin: 0 auto;
+  }
+  .adSquareMed {
+    width:640px;
+    height:250px;
+    text-align: center;
+    margin: 0;
+  }
+}
+@media @mobile {
+  .deep-dive .widgetWrapper{
+    width: 100%;
+    left: 0;
+  }
+}
+
+@media @tablet  {
+  .deep-dive .widgetWrapper{
+    width: 610px;
+    left: ~"calc(50% - 320px)";
+  }
 }
 
 

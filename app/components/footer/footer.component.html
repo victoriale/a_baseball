@@ -45,24 +45,23 @@
     </div>
     <div class="footer-main display640">
     <br>
-    <dropdown-directory [heading]="'Team Listings'">
+    <dropdown-directory [heading]="'Team Profiles'">
       <li *ngFor="let link of teamDirectoryListings">
         <a [routerLink]='link.route'>{{link.text}}</a>
       </li>
     </dropdown-directory>
     <br>
-    <dropdown-directory [heading]="'Player Listings'">
+    <dropdown-directory [heading]="'Player Profiles'">
       <li *ngFor="let link of playerDirectoryListings">
         <a [routerLink]='link.route'>{{link.text}}</a>
       </li>
     </dropdown-directory>
     <br>
-    <dropdown-directory [heading]="'MLB Teams'" [width]="'fullWidth'">
+    <dropdown-directory id="mlb-teams-dropdown" [heading]="'MLB Teams'" [width]="'fullWidth'">
       <li *ngFor="let link of mlbTeamListings">
         <a [routerLink]='link.route'>{{link.text}}</a>
       </li>
     </dropdown-directory>
-    <br>
     </div>
     <ul>
         <li class="footer-text1"><a [routerLink]="['Home-page']"><b>{{linkName}}</b></a></li>
