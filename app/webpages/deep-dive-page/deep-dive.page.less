@@ -1,15 +1,21 @@
 .deep-dive{
   background-color: @white;
   height: auto;
-  min-width: 640px;//320px;
+  min-width: 320px;
   display: block;
+  .deep-dive-block {
+    width:100%;
+  }
+  deep-dive-block-1 {
+    width:100%;
+  }
   &-adWrap{
     height: 50px;
-    min-width: 640px;
+    min-width: 320px;
     max-width: 1440px;
   }
   &-container1{
-    height: auto;//220px
+    height: auto;
     background-color: @bulletGrey;
   }
   .deep-dive-blueBar-top {
@@ -21,21 +27,19 @@
   .spacer {
     height:50px;
     position:relative;
+    display: none;
   }
   &-container2{
     background-color: @white;
     min-height: 800px;
     height: auto;
-    width: 640px;//320px;
+    min-width: 320px;
     margin: 0 auto;
   }
   &-container2a{
-    width: inherit;
-    .flexDisplay;
-    .flexDirection(column);
-    .flexAlignItems(center);
+    width: 100%;
     .container-boxScores{
-      width:640px;
+      min-width:320px;
       height:auto;
       margin:0 auto;
       .box_articles{
@@ -46,10 +50,15 @@
   &-module{
     width:100%;
     margin-bottom: 30px;
+    @media @mobile {
+      margin-bottom: 20px;
+    }
+    @media @tablet {
+      margin-bottom: 40px;
+    }
     @media @desktop-l {
       margin-bottom: 40px;
     }
-    width: inherit;
     @media @desktop-m {
       margin-bottom: 40px;
       .widgetForPage {
@@ -81,6 +90,7 @@
       background-color: @bulletGrey;
     }
     .spacer{
+      display: block;
       width: 768px;
     }
     &-container2{
@@ -125,6 +135,16 @@
         }
       }
     }
+    &-module{
+      margin-bottom: 40px;
+      .widgetForPage {
+        height: 250px;
+        .widgetWrapper {
+          padding: 0;
+          height: 250px;
+        }
+      }
+    }
   }
 }
 
@@ -150,6 +170,9 @@
       position: relative;
       width: 300px;
       height: 600px;
+    }
+    &-module{
+      margin-bottom: 40px;
     }
   }
 }

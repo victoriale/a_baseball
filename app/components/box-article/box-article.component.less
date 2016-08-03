@@ -1,14 +1,14 @@
 .box_articles{
   .flexDisplay;
-  .flexDirection(row);// .flexDirection(column);
-  .flexJustify(space-between);// .flexAlignItems(center);
+  .flexDirection(column);
+  .flexAlignItems(center);
   margin-bottom: -15px;
   &-item {
     .flexDisplay;
     .flexDirection(column);
     overflow: hidden;
-    margin: 0 14px;//0 0 15px;
-    width: 288px;//320px;
+    margin: 0 0 15px;
+    width: 100%;
     &:hover{
       .box_articles-description{
         color: @masterBrandColor;
@@ -28,6 +28,7 @@
   &-text{
     .globalDefaultModFont(10px, 800, @black);
     margin-bottom: 5px;
+    margin-left: 10px;
     text-transform: uppercase;
     > span:last-child{
      margin-left: 5px;
@@ -35,11 +36,12 @@
     }
   }
   &-description{
+    margin-left: 10px;
     max-height:40px;
     height: auto;
     line-height: 1.2em;
     overflow: hidden;
-    .globalDefaultModFont(14px, 800, @black);
+    .globalDefaultModFont(14px, 400, @black);
     p {
       margin-top: 0;
       line-height: 1.2em;
@@ -54,14 +56,23 @@
   .box_articles{
     .flexDirection(row);
     .flexJustify(space-between);
+    .flexAlignItems(flex-start);
     &-item {
       margin: 0 14px;
       width: 288px;
     }//box_articles-item ENDS
+    &-text{
+      margin-left: 0;
+    }
+    &-description{
+      margin-left: 0;
+    }
   }
 }
 @media @desktop-m{
   .box_articles{
+    padding-left: 50px;
+    padding-right: 50px;
     &-item{
       width: 320px;
     }
@@ -69,7 +80,7 @@
       font-size: 12px;
     }
     &-description{
-      font-size: 16px;
+      .globalDefaultFont(16px, 800);
     }
   }
 }

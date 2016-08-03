@@ -1,22 +1,19 @@
-.article-stack-container {//TODO
-  width: 610px;//320px;
+.article-stack-container {
+  min-width: 320px;
   margin: 0 auto;
   .flexDisplay;
   .flexDirection(column);
   &-subs{
-    margin: 15px 0 0;//0;
+    margin: 15px 0 0;
   }
   &-main{
-    max-width: 750px;//320px;
+    width: 100%;
   }
 }
 
 @media @tablet {
   .article-stack-container {
     width: 610px;
-    &-subs{
-      margin: 15px 0 0;
-    }
     &-main{
       max-width: 750px;
     }

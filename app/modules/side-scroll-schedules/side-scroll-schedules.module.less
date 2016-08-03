@@ -2,24 +2,25 @@
   background-color: @white;
   height: auto;
   width: 100%;
-  padding: 15px 15px 0;//15px 0 0;
+  padding: 15px 0 0;
 }
 .ss_title{
-  height: 40px;//25px;
+  height: 25px;
   width: 100%;
+  margin-left: 3%;
   &-1{
     background-color: @black;
     border-radius: 3px;
     display: inline-block;
-    height: 100%;//25px;
-    line-height: 40px;//25px;
-    width: 62px;//45px;
+    height: 25px;
+    line-height: 25px;
+    width: 45px;
     text-align: center;
-    .globalDefaultModFont(18px, 800, @white);//14px
+    .globalDefaultModFont(14px, 800, @white);
   }
   &-2{
-    margin-left: 12px;//10px;
-    .globalDefaultModFont(24px, 400, @black);//18px
+    margin-left: 10px;
+    .globalDefaultModFont(18px, 400, @black);
   }
 }
 @media @tablet {
@@ -29,6 +30,7 @@
 
   .ss_title{
     height: 40px;
+    margin-left: 3%;
     &-1{
       font-size: 18px;
       line-height: 40px;

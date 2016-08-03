@@ -1,20 +1,47 @@
-<div class="trending">
-    <div class="trending-hr-title"></div>
-    <div class="trending-main-title">RECOMMENDED ARTICLES</div>
-    <div class="trending-hr-title"></div>
-    <span *ngFor="let data of trendingData; let i = index">
-        <!--<shareLinks-component></shareLinks-component>-->
-        <div class="trending-article-title">{{data.title}}</div>
-        <div class="arpt">
-            <div class="arpt-date">{{data.date}}</div>
+<div (window:resize)="onResize($event)">
+    <div *ngIf="!isSmall" class="trending">
+        <div class="trending-hr-title"></div>
+        <div class="trending-main-title">TRENDING ARTICLES</div>
+        <div class="trending-hr-title"></div>
+        <span *ngFor="let data of trendingData; let i = index">
+            <!--<shareLinks-component></shareLinks-component>-->
+            <div class="trending-article-title">{{data.title}}</div>
+            <div class="arpt">
+                <div class="arpt-date">{{data.date}}</div>
+            </div>
+            <div class="trending-article-content" [innerHTML]="data.content|safeHtml"></div>
+            <a [routerLink]="data.url">
+                <div class="trending-read-more">Read the Full Article <i class="fa fa-arrow-right"></i></div>
+            </a>
+            <div class="trending-hr"></div>
+            <div *ngIf="((i+1) % 10 != 5) && ((i+1) % 10 != 0)" class="trending-hr-responsive"></div>
+            <sidekick-container-component
+                    *ngIf="((i+1) % 10 == 5 || (i+1) % 10 == 0) && i != 0"></sidekick-container-component>
+        </span>
+    </div>
+    <div *ngIf="isSmall" class="trending-small">
+        <div class="trending-small-hr-title"></div>
+        <div class="trending-small-main-title">TRENDING ARTICLES</div>
+        <div class="trending-small-hr-title"></div>
+        <div *ngFor="let data of trendingData; let even=even; let i = index">
+            <!--<shareLinks-component></shareLinks-component>-->
+            <div class="trending-small-article">
+                <a [routerLink]="data.url">
+                    <div class="trending-small-article-title">{{data.title}}</div>
+                    <span class="articleBoxTrending">
+                        <img class="trending-small-article-image" src="{{trendingImages[i]}}"
+                             onerror="this.src='/app/public/no-image.png'"/>
+                        <div>
+                            <p>View</p>
+                        </div>
+                    </span>
+                    <div class="trending-small-article-content" [innerHTML]="data.content|safeHtml"></div>
+                    <div class="trending-small-article-read-more">Read the article <i class="fa fa-arrow-right"></i></div>
+                </a>
+            </div>
+            <div *ngIf="!even" class="trending-small-hr"></div>
+            <sidekick-container-component
+                    *ngIf="even"></sidekick-container-component>
         </div>
-        <div class="trending-article-content" [innerHTML]="data.content|safeHtml"></div>
-        <a [routerLink]="data.url">
-            <div class="trending-read-more">Read the Full Article <i class="fa fa-arrow-right"></i></div>
-        </a>
-        <div class="trending-hr"></div>
-        <div *ngIf="((i+1) % 10 != 5) && ((i+1) % 10 != 0)" class="trending-hr-responsive"></div>
-        <sidekick-container-component
-                *ngIf="((i+1) % 10 == 5 || (i+1) % 10 == 0) && i != 0"></sidekick-container-component>
-    </span>
+    </div>
 </div>

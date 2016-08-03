@@ -1,0 +1,27 @@
+<div class="video-stack-container">
+  <div class="video-stack" *ngFor="let item of videoData; let rowIndex = index">
+    <a [routerLink]="['Syndicated-article-page', {eventID:item.id, articleType:'video'}]">
+    <div class="video-stack-video" [ngStyle]="{'background-image': 'url(' + item.thumbnail + ')'}">
+      <div class="greyout">
+        <div class="playCircle">
+          <i class="fa fa-play"></i>
+        </div>
+      </div>
+      <div class="overlay">
+        <div class="watch-large">Watch Video</div>
+        <div class="watch-small">Watch</div>
+      </div>
+    </div>
+    </a>
+    <div class="video-stack-right">
+      <div class="video-stack-right-title">
+        <span class="video-title-top"><span>{{formatDate(item.pubDate)}}</span></span>
+        <a [routerLink]="['Syndicated-article-page', {eventID:item.id, articleType:'video'}]">
+        <span class="video-title-mid" [innerHTML]="item.title | safeHtml"></span>
+        </a>
+        </div>
+        <div class="video-stack-right-text" [innerHTML]="item.description | safeHtml">
+        </div>
+      </div>
+    </div>
+</div>
