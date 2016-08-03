@@ -33,7 +33,7 @@
     padding-right: 10px;
     color: @masterBrandColor;
     i {
-      vertical-align: -1px;
+      font-size: 8px;
     }
   }
   &-versus{
@@ -97,21 +97,25 @@
     .globalDefaultModFont(10px, 800, @black);
     &:hover{
       color:@masterBrandColor;
+      & > .schedule_box-versus{
+        background-color: black;
+      }
     }
     &-live {
       width: 104px;
       height: 20px;
+      line-height: 20px;
       position: absolute;
       bottom: 0;
       left:0;
       right:0;
       margin: 0 auto 5px;
       background-color: @masterBrandColor;
-      line-height: 22px;
+      line-height: 18px;
       text-align:center;
       border:1px solid @masterBrandColor;
       border-radius: 3px;
-      .globalDefaultModFont(10px, 800, @white);
+      .globalDefaultModFont(8px, 800, @white);
       &:hover{
         color:@white;
         background-color: @black;
@@ -119,7 +123,7 @@
       }
       i{
         vertical-align: 0px;
-        font-size: 8px;
+        font-size: 6px;
         padding-right:2px;
       }
     }
@@ -159,6 +163,12 @@
       line-height: 23px;
       text-align:center;
       border:1px solid @highlightGrey;
+      &-live{
+        font-size: 9px;//exceptional to fit
+        i{
+          font-size: 8px;
+        }
+      }
     }
   }
 

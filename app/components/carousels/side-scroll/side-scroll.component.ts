@@ -1,8 +1,8 @@
 import {Component, AfterContentChecked, Input, Output, EventEmitter} from '@angular/core';
 import {SanitizeStyle} from '../../../pipes/safe.pipe';
 
-declare var jQuery:any
-;
+declare var jQuery:any;
+
 @Component({
     selector: 'side-scroll',
     templateUrl: './app/components/carousels/side-scroll/side-scroll.component.html',
@@ -25,7 +25,6 @@ export class SideScroll{
   private mouseDown:number = 0;
   private mouseUp:number = 0;
   private boundary:any = {};
-
 
   private transition:any = null;
   constructor(){
