@@ -137,23 +137,19 @@
   padding-left: 15px;
   padding-right: 15px;
   margin-bottom: -30px;
-  &-articles {
+  &-ai-articles {
     margin-bottom: 30px;
     &:hover {
       color: @masterBrandColor;
       .deep_recs-articles-item-content-dateline-keyword {
         color: @black;
       }
-
     }
     &-item {
-      &:hover .deep_recs-articles-item-image-highlight {
+      &:hover .deep_recs-ai-articles-item-article-images-highlight {
         .flexDisplay;
       }
-      &:hover .deep_recs-articles-item-article-image-highlight {
-        .flexDisplay;
-      }
-      &-article-image {
+      &-article-images {
         width: 100%;
         height: 0;
         padding-bottom: 63.22%;;
@@ -188,6 +184,20 @@
             }
           }
         }
+      }
+    }
+  }
+  &-articles {
+    margin-bottom: 30px;
+    &:hover {
+      color: @masterBrandColor;
+      .deep_recs-articles-item-content-dateline-keyword {
+        color: @black;
+      }
+    }
+    &-item {
+      &:hover .deep_recs-articles-item-image-highlight {
+        .flexDisplay;
       }
       &-image {
         //this is the minimum value

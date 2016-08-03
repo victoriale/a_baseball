@@ -19,13 +19,13 @@
                 </a>
             </span>
             <span *ngIf="isSmall">
-                <a *ngIf="i < 3" class="deep_recs-articles"
+                <a *ngIf="i < 3" class="deep_recs-ai-articles"
                    [routerLink]="['Article-pages', {eventType: data.eventType, eventID: data.eventID}]"
                    title="{{data.title}}">
-                    <div class="deep_recs-articles-item">
-                        <div class="deep_recs-articles-item-article-image"
+                    <div class="deep_recs-ai-articles-item">
+                        <div class="deep_recs-ai-articles-item-article-images"
                              [style.background-image]="'url(' + data.images + ')'">
-                            <div class="deep_recs-articles-item-article-image-highlight">
+                            <div class="deep_recs-ai-articles-item-article-images-highlight">
                                 <p> View Article </p>
                             </div>
                         </div>
