@@ -30,7 +30,16 @@ export class HeaderComponent implements OnInit,OnChanges {
   constructor(elementRef: ElementRef, private _renderer: Renderer){
     this.elementRef = elementRef;
   }
-
+  openSearch(event) {
+    if(event.target.parentElement.classList.contains('active') || event.target.parentElement.parentElement.classList.contains('active')){
+      event.target.parentElement.classList.remove('active');
+      event.target.parentElement.parentElement.classList.remove('active');
+    }
+    else {
+      event.target.parentElement.classList.add('active');
+      event.target.parentElement.parentElement.classList.add('active');
+    }
+  }
   loadData(partnerID: string) {
     this.logoUrl = 'app/public/Home-Run-Loyal_Logo.svg';
     this.hamburgerMenuData = [{
