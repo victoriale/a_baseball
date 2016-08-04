@@ -211,8 +211,8 @@ export class DeepDiveService {
           stackRowsRoute: MLBGlobalFunctions.formatSynRoute('story', val.id),
           keyword: val.keyword,
           publishedDate: date.month + " " + date.day + ", " + date.year,
-          provider1: val.author,
-          provider2: "Published By: " + val.publisher,
+          provider1: val.author != null ? val.author : "",
+          provider2: val.publisher != null ? "Published By: " + val.publisher : "",
           description: val.title,
           images:  val.imagePath != null ? GlobalSettings.getImageUrl(val.imagePath) : sampleImage,
           imageConfig: {
@@ -283,16 +283,16 @@ export class DeepDiveService {
   transformToArticleStack(data){
     var sampleImage = "/app/public/placeholder_XL.png";
     var topData = data.data[0];
-    var date = GlobalFunctions.formatDate(topData.publishedDate);
+    var date = topData.publishedDate != null ? GlobalFunctions.formatDate(topData.publishedDate) : null;
     var limitDesc = topData.teaser.substring(0, 360);//provided by design to limit characters
     var articleStackData = {
         articleStackRoute: MLBGlobalFunctions.formatSynRoute('story', topData.id),
         keyword: topData.keyword,
-        date: date.month + " " + date.day + ", " + date.year,
+        date: date != null ? date.month + " " + date.day + ", " + date.year: "",
         headline: topData.title,
-        provider1: "<span style='font-weight: 400;'>By</span> " + topData.author,
-        provider2: "Published By: " + topData.publisher,
-        description: limitDesc + "...",
+        provider1: topData.author != null ? "<span style='font-weight: 400;'>By</span> " + topData.author : "",
+        provider2: topData.publisher != null ? "Published By: " + topData.publisher : "",
+        description: limitDesc,
         imageConfig: {
           imageClass: "image-320x180",
           imageUrl: topData.imagePath != null ? GlobalSettings.getImageUrl(topData.imagePath) : sampleImage,
