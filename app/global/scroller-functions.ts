@@ -73,7 +73,6 @@ export class Scroller{
   }
 
   stopDrag(evt, ths) {
-    console.log("stopped drag: " + evt);
       ths.scrollerBeingDragged = false;
   }
 
