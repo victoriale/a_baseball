@@ -160,6 +160,5 @@ export class ImagesMedia implements OnInit {
         }
     }
 
-    ngOnInit() {
-    }
+    ngOnInit() {}
 }
