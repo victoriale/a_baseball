@@ -2,7 +2,7 @@
   <div class="dropdownOptions {{width}}" tabindex="9999" (mouseup)="mouseUpDropdown($event)" (blur)="blurDropdown($event)" >
     <div class="toggle">{{heading}}</div>
     <span class="dropdownArrow"><i class="fa fa-caret-down"></i></span>
-    <div onmouseup="event.stopPropagation();">
+    <div onmouseup="event.stopPropagation();" (mouseup)="triggerMouseEvent();">
       <scrollable-content>
         <ul>
           <ng-content></ng-content>
