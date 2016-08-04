@@ -1,14 +1,14 @@
 .box_articles{
   .flexDisplay;
-  .flexDirection(row);// .flexDirection(column);
-  .flexJustify(space-between);// .flexAlignItems(center);
+  .flexDirection(column);
+  .flexAlignItems(center);
   margin-bottom: -15px;
   &-item {
     .flexDisplay;
     .flexDirection(column);
     overflow: hidden;
-    margin: 0 14px;//0 0 15px;
-    width: 288px;//320px;
+    margin: 0 0 15px;
+    width: 100%;
     &:hover{
       .box_articles-description{
         color: @masterBrandColor;
@@ -19,7 +19,7 @@
     }
   }//box_articles-item ENDS
   &-image{
-    margin: 0 0 14px;
+    margin: 0 0 10px;
     &-container{
       width: 100%;
       height: 180px;
@@ -28,6 +28,7 @@
   &-text{
     .globalDefaultModFont(10px, 800, @black);
     margin-bottom: 5px;
+    margin-left: 10px;
     text-transform: uppercase;
     > span:last-child{
      margin-left: 5px;
@@ -35,11 +36,11 @@
     }
   }
   &-description{
-    max-height:40px;
+    margin-left: 10px;
     height: auto;
     line-height: 1.2em;
     overflow: hidden;
-    .globalDefaultModFont(14px, 800, @black);
+    .globalDefaultModFont(14px, 400, @black);
     p {
       margin-top: 0;
       line-height: 1.2em;
@@ -54,14 +55,24 @@
   .box_articles{
     .flexDirection(row);
     .flexJustify(space-between);
+    .flexAlignItems(flex-start);
     &-item {
       margin: 0 14px;
       width: 288px;
     }//box_articles-item ENDS
+    &-text{
+      margin-left: 0;
+    }
+    &-description{
+      margin-left: 0;
+      font-weight: 800;
+    }
   }
 }
 @media @desktop-m{
   .box_articles{
+    padding-left: 50px;
+    padding-right: 50px;
     &-item{
       width: 320px;
     }
@@ -69,18 +80,23 @@
       font-size: 12px;
     }
     &-description{
-      font-size: 16px;
+      .globalDefaultFont(16px, 800);
     }
   }
 }
 
-@media @desktop-xl{
+@media @desktop-l{
   .box_articles{
+    padding-left: 0;
+    padding-right: 0;
     &-item{
       width: 425px;
-      height: 240px;
-     }
-   }
+      height: auto;
+    }
+    &-description{
+     font-size: 18px;
+    }
+  }
 }
 
 @media @desktop-xl {
@@ -90,8 +106,10 @@
     &-item {
       margin-bottom: 30px;
       width: 425px;
-      max-height: 308px;
       height: auto;
+      &:last-child{
+        margin-bottom: 0;
+      }
     }
   }
 }

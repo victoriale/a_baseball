@@ -1,8 +1,25 @@
 .billboard {
-  width: 520px;
-  height: 399px;
+  width: 522px;
+  height: 401px;
   font-family: @globalFont;
-  box-shadow: @modBoxShadow;
   margin: 0 auto;
   margin-bottom: 30px;
+  border: 1px solid @strokeGrey;
+  @media @mobile-s {
+    display: none;
+  }
+}
+
+.billboard-320x761 {
+  width: 322px;
+  height: 763px;
+  font-family: @globalFont;
+  margin: 20px auto;
+  border: 1px solid @strokeGrey;
+  @media (min-width: 640px) {
+    display: none;
+  }
+  @media (max-width: 320px) {
+    margin-left: -12px;
+  }
 }

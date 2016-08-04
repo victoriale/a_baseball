@@ -69,6 +69,7 @@ gulp.task('copy:libs', ['clean'], function() {
       'node_modules/immutable/dist/immutable.js',
       'node_modules/highcharts/highcharts.js',
       'node_modules/moment/moment.js',
+      'node_modules/hammerjs/hammer.min.js',
       // 'node_modules/moment-timezone/moment-timezone.js',//load only one moment timezone otherwise problems will occur
       'node_modules/moment-timezone/builds/moment-timezone-with-data-2010-2020.js',
       'node_modules/fuse.js/src/fuse.min.js',

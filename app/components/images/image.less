@@ -163,8 +163,8 @@
   .roundImageMain(50px);
 }
 
-.image-44 {//TODO
-  .roundImageMain(60px);//.roundImageMain(44px);
+.image-44 {
+  .roundImageMain(44px);
   @media @tablet{
     .roundImageMain(60px);
   }
@@ -184,6 +184,10 @@
 
 .image-100 {
   .roundImageMain(100px);
+}
+
+.image-71 {
+  .roundImageMain(71px);
 }
 
 .image-121 {
@@ -259,7 +263,7 @@
     position: relative;
     display: inline-block;
     height: 100%;
-    width: auto;
+    width: 100%;
     &:hover {
       div {
         .flexDisplay;
@@ -283,8 +287,19 @@
 }
 
 .image-320x180{
-  height: 420px;
   overflow: hidden;
+  @media @mobile{
+    min-height: 56vw;
+  }
+  @media @tablet{
+    width: 610px;
+  }
+  @media @desktop-m{
+    width: 670px;
+  }
+  @media @desktop-xl{
+    width: 750px;
+  }
   .rec-hover{
     margin: 0 auto;
     line-height: 40px;
@@ -293,23 +308,30 @@
     border: 1px solid @white;
     .globalDefaultModFont(16px, 800, @white);
   }
-  img{//TODO
-    .rectangleImageMain(610px, auto);//.rectangleImageMain(320px, 180px);
-    @media @tablet{
-      .rectangleImageMain(610px, auto);
+  img{
+    @media @mobile{
+      .rectangleImageMain(100%, auto);
     }
-    @media @desktop-m{
-      .rectangleImageMain(670px, auto);
+    @media @tablet {
+      width: auto;
+      width: 610px;
+      min-height: 421px;
+    }
+    @media @desktop-m {
+      width: 670px;
     }
     @media @desktop-xl{
-      .rectangleImageMain(750px, auto);
+      width: 750px;
     }
   }
 }
 
 .image-320x180-sm{
-  height: 180px;
+  height: 56.25vw;
   overflow: hidden;
+  @media @tablet {
+    height: 180px;
+  }
   @media @desktop-xl{
     height: 240px;
   }
@@ -321,8 +343,8 @@
     border: 1px solid @white;
     .globalDefaultModFont(16px, 800, @white);
   }
-  img{//TODO
-    .rectangleImageMain(288px, auto);//.rectangleImageMain(320px, 180px);
+  img{
+    .rectangleImageMain(100%, auto);
     @media @tablet{
       .rectangleImageMain(288px, auto);
     }
@@ -336,7 +358,8 @@
 }
 
 .image-100x56{
-  height: 75px;//56px;
+  height: 56px;
+  width: 100px;
   @media @tablet{
     height: 75px;
   }
@@ -349,10 +372,11 @@
     border: 1px solid @white;
     .globalDefaultModFont(14px, 800, @white);
   }
-  img{//TODO
-    .rectangleImageMain(100px, auto);
-    @media @tablet{
-      .rectangleImageMain(100px, auto);
-    }
+  img{
+    min-width: 100px;
+    max-width: 100%;
+    min-height: 75px;
+    height: auto;
+    width: auto;
   }
 }

@@ -1,23 +1,24 @@
 .stackSmall {
-    .col-xs-6;//.col-xs-12;
-    margin: 0 0 20px;
+    .col-xs-12;
+    margin: 0 0 10px;
     float:left;
     .flexDisplay;
     &-image {
       width: 100px;
-    //  background-color: @masterBackgroundColor;
+      background-color: @masterBackgroundColor;
       margin-right: 10px;
     }
     &-text {
       line-height: 1.2em;
       text-align: left;
-      width: 180px;//190px;
+      width: auto;
       overflow: hidden;
       text-overflow: ellipsis;
+      height: 56px;
+      max-width: ~"calc(100% - 110px)";
       &-keyword {
          text-transform: uppercase;
          margin-bottom: 5px;
-         height: 1.2em;
          overflow: hidden;
          text-overflow: ellipsis;
          .globalDefaultModFont(10px, 800, @black);
@@ -25,12 +26,12 @@
            margin-left: 5px;
            color: @bulletGrey;
            overflow: hidden;
-           height: 50px;//20px;
+           height: 20px;
          }
       }
       &-subHeadline {
-         margin-top: -5px;
          .globalDefaultFont(12px, 400);
+         line-height: 1.2em;
          p{
            line-height: 1.3em;
          }
@@ -44,9 +45,9 @@
     }
 }
 .stackRows{
-  height: 265px;//435px;
+  height: 385px;
   overflow: hidden;
-  padding: 0;//0 10px;
+  padding: 0 10px;
   div:last-of-type {
     .stacksmall {
       margin-bottom:0;
@@ -56,20 +57,43 @@
     }
   }
 }
+@media @small-grid {
+  .stackSmall {
+    .col-xs-6;
+    &-image{
+      margin-right: 5px;
+    }
+    &-text{
+      height: 56px;
+      width: 155px;
+      &-keyword{
+        height: auto;
+        overflow: visible;
+      }
+    }
+  }
+  .stackRows {
+    height: 190px;
+  }
+}
 @media @tablet {
   .stackSmall {
-      .col-xs-6;
-      &-text {
-        width: 180px;
-        &-keyword {
-           > span:last-child{
-             height: 50px;
-           }
-        }
+    .col-xs-6;
+    &-text {
+      width: 180px;
+      height: 74px;
+      &-subHeadline{
+        margin-top: -5px;
       }
+      &-keyword {
+         > span:last-child{
+           height: 50px;
+         }
+      }
+    }
   }
   .stackRows{
-    height: 265px;
+    height: 245px;
     padding: 0;
   }
 }
@@ -104,7 +128,9 @@
       display: none;
     }
     &-text {
+      height: auto;
       width: 313px;
+      max-width: 313px;
     }
     &-breakLine {
       display: inline-block;

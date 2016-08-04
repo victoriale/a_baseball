@@ -362,6 +362,7 @@ export class MyAppComponent implements OnInit{
         }
     },100);
   }
+
   ngOnInit(){
     var script = document.createElement("script");
     script.src = '//w1.synapsys.us/widgets/deepdive/rails/rails.js?selector=.web-container&adMarginTop=100';

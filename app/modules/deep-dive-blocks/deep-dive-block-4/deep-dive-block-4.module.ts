@@ -6,7 +6,6 @@ import {Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {ArticleStackModule} from '../../../modules/article-stack/article-stack.module';
 import {TileStackModule} from '../../../modules/tile-stack/tile-stack.module';
 import {ResponsiveWidget} from '../../../components/responsive-widget/responsive-widget.component';
-import {VideoStackModule} from '../../../modules/video-stack/video-stack.module';
 import {RecommendationsComponent} from '../../../components/articles/recommendations/recommendations.component';
 
 
@@ -14,7 +13,7 @@ import {RecommendationsComponent} from '../../../components/articles/recommendat
 @Component({
     selector: 'deep-dive-block-4',
     templateUrl: './app/modules/deep-dive-blocks/deep-dive-block-4/deep-dive-block-4.module.html',
-    directives: [ROUTER_DIRECTIVES, ArticleStackModule, TileStackModule, ResponsiveWidget, VideoStackModule, RecommendationsComponent],
+    directives: [ROUTER_DIRECTIVES, ArticleStackModule, TileStackModule, ResponsiveWidget, RecommendationsComponent],
     providers: [DeepDiveService]
 })
 export class DeepDiveBlock4{
@@ -44,7 +43,6 @@ export class DeepDiveBlock4{
     ngOnInit() {
        this.callModules();
     }
-
   getFirstArticleStackData(){
     this._deepDiveData.getDeepDiveBatchService(this.callLimit, 1, this.geoLocation)
         .subscribe(data => {

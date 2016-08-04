@@ -5,7 +5,7 @@
      (click)="openDatepicker()"
      [value]="viewValue"
      [hidden]="isStatic"
-     readonly>
+     readonly="true" onfocus="this.blur();" >
 </div>
 <div class="ng-datepicker" *ngIf="isStatic || isOpened" [ngClass]="{ static: isStatic }">
   <div class="dp-ptr"></div>

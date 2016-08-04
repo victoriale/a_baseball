@@ -35,7 +35,7 @@ export class SyndicatedTrendingComponent {
         this._deepdiveservice.getDeepDiveBatchService(numItems, 1, state).subscribe(
           data => {
             this.articleData = this._deepdiveservice.transformTrending(data.data, currentArticleId);
-            if (this.trendingLength < 20) {
+            if (this.trendingLength <= 20) {
             this.trendingLength = this.trendingLength + 10;
             }
           }
@@ -46,7 +46,7 @@ export class SyndicatedTrendingComponent {
         this.getDeepDiveArticle(2 , this.geoLocation, this.currentArticleId);
       }
       private onScroll(event) {
-        if (jQuery(document).height() - window.innerHeight - jQuery("footer").height() <= jQuery(window).scrollTop()) {
+        if (jQuery(document).height() - window.innerHeight - jQuery("footer").height() <= jQuery(window).scrollTop() && this.trendingLength <= 20) {
           jQuery('#loadingArticles').show();
           this.getDeepDiveArticle(this.trendingLength, this.geoLocation, this.currentArticleId);
           jQuery('#loadingArticles').hide();

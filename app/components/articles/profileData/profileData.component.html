@@ -1,54 +1,70 @@
-<div *ngIf="articleType == 'playerComparison'" class="comparison">
+<div *ngIf="articleType == 'playerComparison'" class="comparison comparison-double">
     <div class="comparison-hr"></div>
     <span *ngFor="let data of articleData?.article; let i=index;">
         <span *ngIf="data.playerComparisonModule && i == 2">
             <div class="comparison-player">
-                <div class="comparison-player-circles">
+                <div class="comparison-player-circles large">
                     <div class="comparison-player-circles-vs">VS</div>
                     <circle-image *ngIf="imageLinks[0]" class="comparison-player-circles-circle1"
                                   [data]="imageLinks[0]"></circle-image>
                     <circle-image *ngIf="imageLinks[2]" class="comparison-player-circles-circle2"
                                   [data]="imageLinks[2]"></circle-image>
                 </div>
-
-                <div class="comparison-player-profile-info-left">
-                    <div class="comparison-player-profile-info-left-profile-name1">
-                        {{data.playerComparisonModule[0].name}}
-                    </div>
-                    <div class="comparison-player-profile-info-left-profile-data1">
+                <div class="comparison-player-circles small">
+                    <div class="comparison-player-circles-vs">VS.</div>
+                    <circle-image *ngIf="imageLinks[1]" class="comparison-player-circles-circle1"
+                                  [data]="imageLinks[1]"></circle-image>
+                    <circle-image *ngIf="imageLinks[3]" class="comparison-player-circles-circle2"
+                                  [data]="imageLinks[3]"></circle-image>
+                </div>
+                <div class="comparison-player-container">
+                    <div class="comparison-player-container-profile-info-left">
+                        <div class="comparison-player-container-profile-info-left-profile-name1">
+                            {{data.playerComparisonModule[0].name}}
+                        </div>
+                        <div class="comparison-player-container-profile-info-left-profile-data1">
                         <span *ngIf="articleSubType != 'pitcher'">
                             {{data.playerComparisonModule[0].season}} Average {{data.playerComparisonModule[0].value}}
                         </span>
                         <span *ngIf="articleSubType == 'pitcher'">
                             {{data.playerComparisonModule[0].season}} ERA {{data.playerComparisonModule[0].value}}
                         </span>
+                        </div>
                     </div>
-                </div>
-                <div class="comparison-player-profile-info-right">
-                    <div class="comparison-player-profile-info-right-profile-name2">
-                        {{data.playerComparisonModule[1].name}}
-                    </div>
-                    <div class="comparison-player-profile-info-right-profile-data2">
+                    <div class="comparison-player-container-profile-info-right">
+                        <div class="comparison-player-container-profile-info-right-profile-name2">
+                            {{data.playerComparisonModule[1].name}}
+                        </div>
+                        <div class="comparison-player-container-profile-info-right-profile-data2">
                         <span *ngIf="articleSubType != 'pitcher'">
                             {{data.playerComparisonModule[1].season}} Average {{data.playerComparisonModule[1].value}}
                         </span>
                         <span *ngIf="articleSubType == 'pitcher'">
                             {{data.playerComparisonModule[1].season}} ERA {{data.playerComparisonModule[1].value}}
                         </span>
+                        </div>
                     </div>
                 </div>
             </div>
         </span>
     </span>
+    <div class="comparison-hr small"></div>
 </div>
-
 <div *ngIf="articleType == 'teamRecord' && articleSubType == 'about'" class="comparison">
     <div class="comparison-hr"></div>
     <span *ngFor="let data of articleData?.article; let i = index;">
         <span *ngIf="data.teamRecordModule && index == 1 && i == 1">
-            <div class="comparison-single">
+            <div class="comparison-single large">
                 <circle-image *ngIf="imageLinks[0]" class="comparison-single-logo"
                               [data]="imageLinks[0]"></circle-image>
+                <div class="comparison-single-team">{{data.teamRecordModule.name}}</div>
+                <div class="comparison-single-record">Record:
+                    {{data.teamRecordModule.wins}}-{{data.teamRecordModule.losses}}
+                </div>
+            </div>
+            <div class="comparison-single small">
+                <circle-image *ngIf="imageLinks[1]" class="comparison-single-logo"
+                              [data]="imageLinks[1]"></circle-image>
                 <div class="comparison-single-team">{{data.teamRecordModule.name}}</div>
                 <div class="comparison-single-record">Record:
                     {{data.teamRecordModule.wins}}-{{data.teamRecordModule.losses}}
@@ -56,9 +72,17 @@
             </div>
         </span>
         <span *ngIf="data.teamRecordModule && index == 2 && i == 5">
-            <div class="comparison-single">
-                <circle-image *ngIf="imageLinks[1]" class="comparison-single-logo"
-                              [data]="imageLinks[1]"></circle-image>
+            <div class="comparison-single large">
+                <circle-image *ngIf="imageLinks[2]" class="comparison-single-logo"
+                              [data]="imageLinks[2]"></circle-image>
+                <div class="comparison-single-team">{{data.teamRecordModule.name}}</div>
+                <div class="comparison-single-record">Record:
+                    {{data.teamRecordModule.wins}}-{{data.teamRecordModule.losses}}
+                </div>
+            </div>
+            <div class="comparison-single small">
+                <circle-image *ngIf="imageLinks[3]" class="comparison-single-logo"
+                              [data]="imageLinks[3]"></circle-image>
                 <div class="comparison-single-team">{{data.teamRecordModule.name}}</div>
                 <div class="comparison-single-record">Record:
                     {{data.teamRecordModule.wins}}-{{data.teamRecordModule.losses}}
@@ -67,14 +91,21 @@
         </span>
     </span>
 </div>
-
 <div *ngIf="articleType == 'teamRecord' && articleSubType == 'history'" class="comparison">
     <div class="comparison-hr"></div>
     <span *ngFor="let data of articleData?.article; let i = index;">
         <span *ngIf="data.teamRecordModule && index == 1 && i == 1">
-            <div class="comparison-single">
+            <div class="comparison-single large">
                 <circle-image *ngIf="imageLinks[0]" class="comparison-single-logo"
                               [data]="imageLinks[0]"></circle-image>
+                <div class="comparison-single-team">{{data.teamRecordModule.name}}</div>
+                <div class="comparison-single-record">Record:
+                    {{data.teamRecordModule.wins}}-{{data.teamRecordModule.losses}}
+                </div>
+            </div>
+            <div class="comparison-single small">
+                <circle-image *ngIf="imageLinks[1]" class="comparison-single-logo"
+                              [data]="imageLinks[1]"></circle-image>
                 <div class="comparison-single-team">{{data.teamRecordModule.name}}</div>
                 <div class="comparison-single-record">Record:
                     {{data.teamRecordModule.wins}}-{{data.teamRecordModule.losses}}
@@ -82,9 +113,17 @@
             </div>
         </span>
         <span *ngIf="data.teamRecordModule && index == 2 && i == 3">
-            <div class="comparison-single">
-                <circle-image *ngIf="imageLinks[1]" class="comparison-single-logo"
-                              [data]="imageLinks[1]"></circle-image>
+            <div class="comparison-single large">
+                <circle-image *ngIf="imageLinks[2]" class="comparison-single-logo"
+                              [data]="imageLinks[2]"></circle-image>
+                <div class="comparison-single-team">{{data.teamRecordModule.name}}</div>
+                <div class="comparison-single-record">Record:
+                    {{data.teamRecordModule.wins}}-{{data.teamRecordModule.losses}}
+                </div>
+            </div>
+            <div class="comparison-single small">
+                <circle-image *ngIf="imageLinks[3]" class="comparison-single-logo"
+                              [data]="imageLinks[3]"></circle-image>
                 <div class="comparison-single-team">{{data.teamRecordModule.name}}</div>
                 <div class="comparison-single-record">Record:
                     {{data.teamRecordModule.wins}}-{{data.teamRecordModule.losses}}
@@ -93,12 +132,11 @@
         </span>
     </span>
 </div>
-
 <div *ngIf="articleType == 'teamRecord' && articleSubType == 'last'" class="comparison">
     <div class="comparison-hr"></div>
     <span *ngFor="let data of articleData?.article; let i = index;">
         <span *ngIf="data.teamRecordModule && index == 1 && i == 3">
-            <div class="comparison-single">
+            <div class="comparison-single large">
                 <circle-image *ngIf="imageLinks[0]" class="comparison-single-logo"
                               [data]="imageLinks[0]"></circle-image>
                 <div class="comparison-single-team">{{data.teamRecordModule.name}}</div>
@@ -106,11 +144,27 @@
                     {{data.teamRecordModule.wins}}-{{data.teamRecordModule.losses}}
                 </div>
             </div>
-        </span>
-        <span *ngIf="data.teamRecordModule && index == 2 && i == 7">
-            <div class="comparison-single">
+            <div class="comparison-single small">
                 <circle-image *ngIf="imageLinks[1]" class="comparison-single-logo"
                               [data]="imageLinks[1]"></circle-image>
+                <div class="comparison-single-team">{{data.teamRecordModule.name}}</div>
+                <div class="comparison-single-record">Record:
+                    {{data.teamRecordModule.wins}}-{{data.teamRecordModule.losses}}
+                </div>
+            </div>
+        </span>
+        <span *ngIf="data.teamRecordModule && index == 2 && i == 7">
+            <div class="comparison-single large">
+                <circle-image *ngIf="imageLinks[2]" class="comparison-single-logo"
+                              [data]="imageLinks[2]"></circle-image>
+                <div class="comparison-single-team">{{data.teamRecordModule.name}}</div>
+                <div class="comparison-single-record">Record:
+                    {{data.teamRecordModule.wins}}-{{data.teamRecordModule.losses}}
+                </div>
+            </div>
+            <div class="comparison-single small">
+                <circle-image *ngIf="imageLinks[3]" class="comparison-single-logo"
+                              [data]="imageLinks[3]"></circle-image>
                 <div class="comparison-single-team">{{data.teamRecordModule.name}}</div>
                 <div class="comparison-single-record">Record:
                     {{data.teamRecordModule.wins}}-{{data.teamRecordModule.losses}}
@@ -124,9 +178,13 @@
     <span *ngFor="let data of articleData?.article; let i = index;">
         <span *ngIf="data.playerRosterModule && i == index">
             <div class="comparison-roster">
-                <div class="comparison-roster-images">
+                <div class="comparison-roster-images large">
                     <circle-image *ngIf="imageLinks[index-1]" class="comparison-roster-circles-player-image"
                                   [data]="imageLinks[index-1]"></circle-image>
+                </div>
+                <div class="comparison-roster-images small">
+                    <circle-image *ngIf="imageLinks[index]" class="comparison-roster-circles-player-image"
+                                  [data]="imageLinks[index]"></circle-image>
                 </div>
                 <div class="comparison-roster-player">{{data.playerRosterModule.name}}</div>
                 <div class="comparison-roster-position">{{data.playerRosterModule.playerPosition}}
@@ -135,13 +193,12 @@
         </span>
     </span>
 </div>
-
-<div *ngIf="articleType == 'gameModule'" class="comparison">
+<div *ngIf="articleType == 'gameModule'" class="comparison comparison-double-team">
     <div class="comparison-hr"></div>
     <span *ngFor="let data of articleData?.article; let i = index;">
         <span *ngIf="data.gameModule && i == index">
             <div class="comparison-upcoming">
-                <div class="comparison-upcoming-images">
+                <div class="comparison-upcoming-images large">
                     <span *ngIf="index == 1">
                         <circle-image *ngIf="imageLinks[0]" class="comparison-upcoming-circles-home-logo"
                                       [data]="imageLinks[0]"></circle-image>
@@ -155,36 +212,60 @@
                                       [data]="imageLinks[1]"></circle-image>
                     </span>
                     <span *ngIf="index == 5">
-                        <circle-image *ngIf="imageLinks[2]" class="comparison-upcoming-circles-home-logo"
-                                      [data]="imageLinks[2]"></circle-image>
+                        <circle-image *ngIf="imageLinks[5]" class="comparison-upcoming-circles-home-logo"
+                                      [data]="imageLinks[5]"></circle-image>
                         <div class="comparison-upcoming-circles-date">
                             {{data.gameModule.eventDate}}<br>
                             {{data.gameModule.eventTime}}<br>
                             {{data.gameModule.eventVenue}}<br>
                             {{data.gameModule.eventLocation}}
                         </div>
+                        <circle-image *ngIf="imageLinks[6]" class="comparison-upcoming-circles-away-logo"
+                                      [data]="imageLinks[6]"></circle-image>
+                    </span>
+                </div>
+                <div class="comparison-upcoming-images small">
+                    <span *ngIf="index == 1">
+                        <circle-image *ngIf="imageLinks[2]" class="comparison-upcoming-circles-home-logo"
+                                      [data]="imageLinks[2]"></circle-image>
+                        <div class="comparison-upcoming-circles-date">
+                            {{imageLinks[4]}}<br>
+                            {{data.gameModule.eventTime}}
+                        </div>
                         <circle-image *ngIf="imageLinks[3]" class="comparison-upcoming-circles-away-logo"
                                       [data]="imageLinks[3]"></circle-image>
                     </span>
+                    <span *ngIf="index == 5">
+                        <circle-image *ngIf="imageLinks[7]" class="comparison-upcoming-circles-home-logo"
+                                      [data]="imageLinks[7]"></circle-image>
+                        <div class="comparison-upcoming-circles-date">
+                            {{imageLinks[9]}}<br>
+                            {{data.gameModule.eventTime}}
+                        </div>
+                        <circle-image *ngIf="imageLinks[8]" class="comparison-upcoming-circles-away-logo"
+                                      [data]="imageLinks[8]"></circle-image>
+                    </span>
                 </div>
-                <div class="comparison-upcoming-home-info">
-                    <div class="comparison-upcoming-home-info-team">
-                        {{data.gameModule.homeTeamName}}
+                <div class="comparison-upcoming-container">
+                    <div class="comparison-upcoming-container-home-info">
+                        <div class="comparison-upcoming-container-home-info-team">
+                            {{data.gameModule.homeTeamName}}
+                        </div>
+                        <div class="comparison-upcoming-container-home-info-record">
+                            Record: {{data.gameModule.homeRecord}}
+                        </div>
                     </div>
-                    <div class="comparison-upcoming-home-info-record">
-                        Record: {{data.gameModule.homeRecord}}
-                    </div>
-                </div>
-                <div class="comparison-upcoming-away-info">
-                    <div class="comparison-upcoming-away-info-team">
-                        {{data.gameModule.awayTeamName}}
-                    </div>
-                    <div class="comparison-upcoming-away-info-record">
-                        Record: {{data.gameModule.awayRecord}}
+                    <div class="comparison-upcoming-container-away-info">
+                        <div class="comparison-upcoming-container-away-info-team">
+                            {{data.gameModule.awayTeamName}}
+                        </div>
+                        <div class="comparison-upcoming-container-away-info-record">
+                            Record: {{data.gameModule.awayRecord}}
+                        </div>
                     </div>
                 </div>
             </div>
         </span>
     </span>
-
+    <div class="comparison-hr"></div>
 </div>

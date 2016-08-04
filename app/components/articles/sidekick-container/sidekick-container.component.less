@@ -8,8 +8,10 @@
   }
   width: 640px;
   height: 280px;
-  @media (max-width: 640px) {
-    background-color: @highlightGrey;
+  @media @mobile-s {
+    width: 100%;
+    margin: -10px 0 0 0;
+    background-color: @white;
   }
   background-color: @white;
   margin: 0 0 20px -20px;
