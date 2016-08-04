@@ -10,4 +10,20 @@ import {ScrollableContent} from '../scrollable-content/scrollable-content.compon
 export class DropdownDirectoryComponent {
   @Input() heading: string;
   @Input() width: string;
+
+  mouseUpDropdown(event) {
+    if(event.target.offsetParent.classList.contains('active') || event.target.offsetParent.offsetParent.classList.contains('active')){
+      event.target.offsetParent.classList.remove('active');
+      event.target.offsetParent.offsetParent.classList.remove('active');
+    }
+    else {
+      event.target.offsetParent.classList.add('active');
+      event.target.offsetParent.offsetParent.classList.add('active');
+    }
+  }
+  blurDropdown(event) {
+    setTimeout(function(){ event.target.classList.remove('active'); }, 200);
+  }
+
+
 }
