@@ -14,9 +14,12 @@
   width: 322px;
   height: 763px;
   font-family: @globalFont;
-  margin: 20px auto 20px;
+  margin: 20px auto;
   border: 1px solid @strokeGrey;
   @media (min-width: 640px) {
     display: none;
+  }
+  @media (max-width: 320px) {
+    margin-left: -12px;
   }
 }
