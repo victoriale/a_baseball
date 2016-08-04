@@ -24,6 +24,10 @@ export class DropdownDirectoryComponent {
   blurDropdown(event) {
     setTimeout(function(){ event.target.classList.remove('active'); }, 200);
   }
-
+  triggerMouseEvent () {
+    var clickEvent = document.createEvent ('MouseEvents');
+    clickEvent.initEvent ("mouseup", true, true);
+    window.dispatchEvent (clickEvent);
+  }
 
 }
