@@ -12,7 +12,6 @@ export class DropdownDirectoryComponent {
   @Input() width: string;
 
   mouseUpDropdown(event) {
-    console.log(event);
     if(event.target.offsetParent.classList.contains('active') || event.target.offsetParent.offsetParent.classList.contains('active')){
       event.target.offsetParent.classList.remove('active');
       event.target.offsetParent.offsetParent.classList.remove('active');
