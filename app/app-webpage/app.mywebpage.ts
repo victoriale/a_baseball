@@ -48,7 +48,6 @@ declare var jQuery: any;
 @Component({
     selector: 'my-house',
     templateUrl: './app/app-webpage/app.webpage.html',
-
     directives: [
         //Components for Main Layout
         HeaderComponent,
