@@ -43,6 +43,7 @@ import {GlobalSettings} from "../global/global-settings";
 //FOR DEEP DIVE
 import {SyndicatedArticlePage} from "../webpages/syndicated-article-page/syndicated-article-page.page";
 import {DeepDivePage} from "../webpages/deep-dive-page/deep-dive.page";
+import {PartnerHeader} from "../global/global-service";
 declare var jQuery: any;
 
 @Component({
@@ -57,7 +58,7 @@ declare var jQuery: any;
         RouterOutlet,
         ROUTER_DIRECTIVES
     ],
-    providers: [ArticleDataService, HeadlineDataService],
+    providers: [ArticleDataService, HeadlineDataService, PartnerHeader],
     pipes:[SanitizeHtml, SanitizeStyle]
 })
 
@@ -266,18 +267,49 @@ declare var jQuery: any;
 ])
 
 export class AppComponent implements OnInit{
+  public partnerID: string;
+  public partnerData: Object;
+  public partnerScript:string;
   public shiftContainer:string;
   public hideHeader: boolean;
   private isHomeRunZone:boolean = false;
-  constructor(private _params: RouteParams){
+  constructor(private _partnerData: PartnerHeader, private _params: RouteParams){
     this.hideHeader = GlobalSettings.getHomeInfo().hide;
+
+    if(window.location.hostname.split(".")[0].toLowerCase() == "baseball"){
+        this.partnerID = window.location.hostname.split(".")[1] + "." + window.location.hostname.split(".")[2];
+        this.getPartnerHeader();
+    }
   }
+
 
   getHeaderHeight(){
     var pageHeader = document.getElementById('pageHeader');
     if(pageHeader != null){
       return pageHeader.offsetHeight;
     }
+  }
+  getPartnerHeaderHeight(){
+      var scrollTop = jQuery(window).scrollTop();
+      var partnerHeight = 0;
+      if( document.getElementById('partner') != null && scrollTop <=  (document.getElementById('partner').offsetHeight)){
+          partnerHeight = document.getElementById('partner').offsetHeight - scrollTop;
+      }
+      return partnerHeight;
+  }
+
+  getPartnerHeader(){//Since it we are receiving
+      if(this.partnerID != null){
+          this._partnerData.getPartnerData(this.partnerID)
+            .subscribe(
+              partnerScript => {
+                  //console.log(partnerScript);
+                  this.partnerData = partnerScript;
+                  this.partnerScript = this.partnerData['results'].header.script;
+              }
+            );
+      }else{
+      }
   }
 
 
