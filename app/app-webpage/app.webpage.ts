@@ -308,7 +308,6 @@ export class AppComponent implements OnInit{
                   this.partnerScript = this.partnerData['results'].header.script;
               }
             );
-      }else{
       }
   }
 
