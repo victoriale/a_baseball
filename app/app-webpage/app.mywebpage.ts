@@ -48,7 +48,6 @@ declare var jQuery: any;
 @Component({
     selector: 'my-house',
     templateUrl: './app/app-webpage/app.webpage.html',
-
     directives: [
         //Components for Main Layout
         HeaderComponent,
@@ -322,7 +321,7 @@ export class MyAppComponent implements OnInit{
     }
   }
 
-  setPageSize(){
+  setPageSize(ths){
     jQuery("#webContainer").removeClass('deep-dive-container directory-rails pick-a-team-container profile-container basic-container');
     // Handle all the exceptions here
     jQuery("deep-dive-page").parent().addClass('deep-dive-container');
@@ -359,11 +358,18 @@ export class MyAppComponent implements OnInit{
             }
             isTakenOver = true;
             clearInterval(intvl);
+            jQuery('#ddto-left-ad').css('top', (ths.getPartnerHeaderHeight() + 100) + "px");
+            jQuery('#ddto-right-ad').css('top', (ths.getPartnerHeaderHeight() + 100) + "px");
         }
     },100);
+    window.addEventListener("scroll",  function(){
+      jQuery('#ddto-left-ad').css('top', (ths.getPartnerHeaderHeight() + 100) + "px");
+      jQuery('#ddto-right-ad').css('top', (ths.getPartnerHeaderHeight() + 100) + "px");
+    });
   }
 
   ngOnInit(){
+    var self = this;
     var script = document.createElement("script");
     script.src = '//w1.synapsys.us/widgets/deepdive/rails/rails.js?selector=.web-container&adMarginTop=100';
     document.head.appendChild(script);
@@ -371,6 +377,6 @@ export class MyAppComponent implements OnInit{
     //  Need this for when you navigate to new page.  Load event is triggered from app.domain.ts
     window.addEventListener("load", this.setPageSize);
     // Initialize the first time app.webpage.ts loads
-    this.setPageSize();
+    this.setPageSize(this);
   }
 }
