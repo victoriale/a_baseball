@@ -187,6 +187,7 @@ export class TeamPage implements OnInit {
 
         GlobalSettings.getPartnerID(_router, partnerID => {
             this.partnerID = partnerID;
+            console.log("...inside callback");
         });
     }
 
