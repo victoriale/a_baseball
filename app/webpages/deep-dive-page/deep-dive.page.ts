@@ -84,7 +84,7 @@ export class DeepDivePage implements OnInit{
           this.partnerID = partnerID;
           var partnerHome = GlobalSettings.getHomeInfo().isHome && GlobalSettings.getHomeInfo().isPartner && !GlobalSettings.getHomeInfo().isSubdomainPartner;
           this.isHomeRunZone = partnerHome;
-          if(this.partnerID != null && GlobalSettings.getHomeInfo().isSubdomainPartner){
+          if(this.partnerID != null && !GlobalSettings.getHomeInfo().isSubdomainPartner){
             this.getPartnerHeader();
           }else{
             this.getGeoLocation();
