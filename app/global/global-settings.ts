@@ -150,11 +150,8 @@ export class GlobalSettings {
         router.root.subscribe (
             route => {
                 let partnerID = null;
-                if ( route && route.instruction && route.instruction.params ) {
-                    partnerID = route.instruction.params["partner_id"];
-                    if(partnerID == null){
-                      partnerID = window.location.hostname.split(".")[1] + "." + window.location.hostname.split(".")[2];
-                    }
+                if ( route && route.instruction && route.instruction.params["partner_id"] != null ) {
+                  partnerID = route.instruction.params["partner_id"];
                 }else if(window.location.hostname.split(".")[0].toLowerCase() == "baseball"){
                   partnerID = window.location.hostname.split(".")[1] + "." + window.location.hostname.split(".")[2];
                 }
