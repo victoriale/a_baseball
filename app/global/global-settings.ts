@@ -91,7 +91,7 @@ export class GlobalSettings {
     }
 
     static getHomePage(partnerId: string, includePartnerId?: boolean) {
-      var linkEnv = this._env != 'localhost' && this._env != "homerunloyal" && this._env != "myhomerunzone" ? this._env:'www';
+      var linkEnv = this._env != 'localhost' && this._env != "homerunloyal" && this._env != "myhomerunzone" && this._env != "baseball" ? this._env:'www';
         if ( partnerId ) {
             return this._proto + "//" + linkEnv + this._partnerHomepageUrl + (includePartnerId ? "/" + partnerId : "");
         }
@@ -100,22 +100,20 @@ export class GlobalSettings {
         }
     }
 
+    //grabs the domain name of the site and sees if it is our partner page
     static getHomeInfo(){
-      //grabs the domain name of the site and sees if it is our partner page
       var partner = false;
       var isHome = false;
       var hide = false;
       var hostname = window.location.hostname;
-      var partnerPage = /myhomerunzone/.test(hostname);
-      //var partnerPage = /localhost/.test(hostname);
+      var partnerPage = /^myhomerunzone\./.test(hostname) || /^baseball\./.test(hostname);
       var name = window.location.pathname.split('/')[1];
-      //console.log("GlobalSettings:", 'partnerPage =>', partnerPage, 'name =>', name);
-
+      var isSubdomainPartner = /^baseball\./.test(hostname);
       //PLEASE REVISIT and change
-      if(partnerPage && (name == '' || name == 'deep-dive')){
+      if(partnerPage && name == ''){
         hide = true;
         isHome = true;
-      }else if(!partnerPage && (name == '' || name == 'deep-dive')){
+      }else if(!partnerPage && name == ''){
         hide = false;
         isHome = true;
       }else{
@@ -126,8 +124,13 @@ export class GlobalSettings {
       if(partnerPage){
         partner = partnerPage;
       }
-      // console.log({isPartner: partner, hide:hide, isHome:isHome});
-      return {isPartner: partner, hide:hide, isHome:isHome, partnerName: name};
+      return {
+        isPartner: partner,
+        hide:hide,
+        isHome:isHome,
+        partnerName: name,
+        isSubdomainPartner: isSubdomainPartner
+      };
     }
 
     static getSiteLogoUrl():string {
@@ -147,8 +150,8 @@ export class GlobalSettings {
         router.root.subscribe (
             route => {
                 let partnerID = null;
-                if ( route && route.instruction && route.instruction.params ) {
-                    partnerID = route.instruction.params["partner_id"];
+                if ( route && route.instruction && route.instruction.params["partner_id"] != null ) {
+                  partnerID = route.instruction.params["partner_id"];
                 }else if(window.location.hostname.split(".")[0].toLowerCase() == "baseball"){
                   partnerID = window.location.hostname.split(".")[1] + "." + window.location.hostname.split(".")[2];
                 }

@@ -274,7 +274,7 @@ export class AppComponent implements OnInit{
   public hideHeader: boolean;
   private isHomeRunZone:boolean = false;
   constructor(private _partnerData: PartnerHeader, private _params: RouteParams){
-    this.hideHeader = GlobalSettings.getHomeInfo().hide;
+    //this.hideHeader = GlobalSettings.getHomeInfo().hide;
 
     if(window.location.hostname.split(".")[0].toLowerCase() == "baseball"){
         this.partnerID = window.location.hostname.split(".")[1] + "." + window.location.hostname.split(".")[2];
@@ -282,33 +282,23 @@ export class AppComponent implements OnInit{
     }
   }
 
-
   getHeaderHeight(){
     var pageHeader = document.getElementById('pageHeader');
     if(pageHeader != null){
       return pageHeader.offsetHeight;
     }
   }
-  getPartnerHeaderHeight(){
-      var scrollTop = jQuery(window).scrollTop();
-      var partnerHeight = 0;
-      if( document.getElementById('partner') != null && scrollTop <=  (document.getElementById('partner').offsetHeight)){
-          partnerHeight = document.getElementById('partner').offsetHeight - scrollTop;
-      }
-      return partnerHeight;
-  }
 
   getPartnerHeader(){//Since it we are receiving
-      if(this.partnerID != null){
-          this._partnerData.getPartnerData(this.partnerID)
-            .subscribe(
-              partnerScript => {
-                  //console.log(partnerScript);
-                  this.partnerData = partnerScript;
-                  this.partnerScript = this.partnerData['results'].header.script;
-              }
-            );
-      }
+    if(this.partnerID != null){
+      this._partnerData.getPartnerData(this.partnerID)
+        .subscribe(
+          partnerScript => {
+            this.partnerData = partnerScript;
+            this.partnerScript = this.partnerData['results'].header.script;
+          }
+        );
+    }
   }
 
 
@@ -319,7 +309,16 @@ export class AppComponent implements OnInit{
     }
   }
 
-  setPageSize(){
+  setPageSize(ths){
+    function getPartnerHeaderHeight(){
+        var scrollTop = jQuery(window).scrollTop();
+        var partnerHeight = 0;
+        if( document.getElementById('partner') != null && scrollTop <=  (document.getElementById('partner').offsetHeight)){
+          partnerHeight = document.getElementById('partner').offsetHeight - scrollTop;
+      }
+      return partnerHeight;
+    }
+
     jQuery("#webContainer").removeClass('deep-dive-container directory-rails pick-a-team-container profile-container basic-container');
     // Handle all the exceptions here
     jQuery("deep-dive-page").parent().addClass('deep-dive-container');
@@ -356,11 +355,18 @@ export class AppComponent implements OnInit{
             }
             isTakenOver = true;
             clearInterval(intvl);
+            jQuery('#ddto-left-ad').css('top', (getPartnerHeaderHeight() + 100) + "px");
+            jQuery('#ddto-right-ad').css('top', (getPartnerHeaderHeight() + 100) + "px");
         }
     },100);
+    window.addEventListener("scroll",  function(){
+      jQuery('#ddto-left-ad').css('top', (getPartnerHeaderHeight() + 100) + "px");
+      jQuery('#ddto-right-ad').css('top', (getPartnerHeaderHeight() + 100) + "px");
+    });
   }
 
   ngOnInit(){
+    var self = this;
     var script = document.createElement("script");
     script.src = '//w1.synapsys.us/widgets/deepdive/rails/rails.js?selector=.web-container&adMarginTop=100';
     document.head.appendChild(script);
@@ -368,6 +374,6 @@ export class AppComponent implements OnInit{
     //  Need this for when you navigate to new page.  Load event is triggered from app.domain.ts
     window.addEventListener("load", this.setPageSize);
     // Initialize the first time app.webpage.ts loads
-    this.setPageSize();
+    this.setPageSize(this);
   }
 }
