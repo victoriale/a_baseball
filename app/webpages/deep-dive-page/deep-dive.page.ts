@@ -1,4 +1,5 @@
 import {Component, OnInit, Input, NgZone} from '@angular/core';
+import {Title} from '@angular/platform-browser';
 import {CarouselDiveModule} from '../../modules/carousel-dive/carousel-dive.module';
 import {DeepDiveService} from '../../services/deep-dive.service';
 import {SidekickWrapper} from '../../components/sidekick-wrapper/sidekick-wrapper.component';
@@ -72,16 +73,18 @@ export class DeepDivePage implements OnInit{
       private _schedulesService:SchedulesService,
       private _geoLocation:GeoLocation,
       private _partnerData: PartnerHeader,
+      private _title: Title,
       public ngZone:NgZone){
 
+      _title.setTitle(GlobalSettings.getPageTitle(""));
         // needs to get Geolocation first
       this.profileName = "MLB";
 
       GlobalSettings.getPartnerID(_router, partnerID => {
           this.partnerID = partnerID;
-          var partnerHome = GlobalSettings.getHomeInfo().isHome && GlobalSettings.getHomeInfo().isPartner;
+          var partnerHome = GlobalSettings.getHomeInfo().isHome && GlobalSettings.getHomeInfo().isPartner && !GlobalSettings.getHomeInfo().isSubdomainPartner;
           this.isHomeRunZone = partnerHome;
-          if(this.partnerID != null){
+          if(this.partnerID != null && !GlobalSettings.getHomeInfo().isSubdomainPartner){
             this.getPartnerHeader();
           }else{
             this.getGeoLocation();

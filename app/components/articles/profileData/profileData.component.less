@@ -152,20 +152,32 @@
     height: 100%;
     position: relative;
     bottom: 10px;
+    &-date {
+      .globalDefaultFont(14px, 400);
+      text-align: center;
+      position: absolute;
+      top: 45px;
+      width: 100%;
+      @media @mobile-s {
+        .globalDefaultFont(10px, 400);
+      }
+    }
     &-images {
       width: 100%;
       margin: 0 auto;
       position: relative;
       @media @mobile-s {
         height: 90px;
-        width: 300px;
-        margin: auto;
       }
     }
-    &-circles {
-      width: 100%;
-      height: 130px;
+    &-left {
       position: relative;
+      width: 40%;
+      float: left;
+      left: 35px;
+      @media @mobile-s {
+        left: 0;
+      }
       &-home-logo {
         border-radius: 50%;
         border: 2px solid @strokeGrey;
@@ -182,54 +194,21 @@
         @media @mobile-s {
           width: 75px;
           height: 75px;
-          left: 20px;
+          left: 50%;
+          margin-right: -50%;
+          transform: translate(-50%, 0%);
         }
-      }
-      &-date {
-        .globalDefaultFont(14px, 400);
-        text-align: center;
-        position: relative;
-        top: 45px;
-        @media @mobile-s {
-          .globalDefaultFont(10px, 400);
-        }
-      }
-      &-away-logo {
-        border: 2px solid @strokeGrey;
-        border-radius: 50%;
-        position: absolute;
-        background-color: @white;
-        width: 125px;
-        height: 125px;
-        z-index: 0;
-        top: 15px;
-        right: 10%;
-        background-position: center center;
-        background-size: contain;
-        @media @mobile-s {
-          width: 75px;
-          height: 75px;
-          right: 20px;
-        }
-        &:hover {
-          z-index: 1;
-        }
-      }
-    }
-    &-container {
-      @media @mobile-s {
-        height: 85px;
-        width: 300px;
-        margin: auto;
       }
       &-home-info {
-        width: 42%;
+        position: relative;
+        width: 75%;
         float: left;
+        top: 55px;
         @media @mobile-s {
           position: relative;
           left: 0;
-          width: 40%;
-          top: 5px;
+          width: 100%;
+          top: 95px;
         }
         &-team {
           .globalDefaultFont(18px, 800);
@@ -256,14 +235,48 @@
           }
         }
       }
+    }
+    &-right {
+      position: relative;
+      width: 40%;
+      float: right;
+      right: 35px;
+      @media @mobile-s {
+        right: 0;
+      }
+      &-away-logo {
+        border: 2px solid @strokeGrey;
+        border-radius: 50%;
+        position: absolute;
+        background-color: @white;
+        width: 125px;
+        height: 125px;
+        z-index: 0;
+        top: 15px;
+        right: 10%;
+        background-position: center center;
+        background-size: contain;
+        @media @mobile-s {
+          width: 75px;
+          height: 75px;
+          left: 50%;
+          margin-right: -50%;
+          transform: translate(-50%, 0%);
+        }
+        &:hover {
+          z-index: 1;
+        }
+      }
       &-away-info {
-        width: 42%;
+        position: relative;
+        width: 75%;
         float: right;
+        top: 55px;
         @media @mobile-s {
           position: relative;
           right: 0;
-          width: 40%;
-          top: 5px;
+          width: 100%;
+          top: 95px;
         }
         &-team {
           .globalDefaultFont(18px, 800);
@@ -299,16 +312,15 @@
     height: 100%;
     position: relative;
     bottom: 10px;
-    &-circles {
-      width: 100%;
-      height: 130px;
+    &-left {
       position: relative;
+      width: 40%;
+      float: left;
+      left: 35px;
       @media @mobile-s {
-        height: 85px;
-        width: 300px;
-        margin: auto;
+        left: 25px;
       }
-      &-circle1 {
+      &-circle {
         border-radius: 50%;
         border: 2px solid @strokeGrey;
         box-sizing: border-box;
@@ -317,109 +329,128 @@
         height: 125px;
         position: absolute;
         top: 15px;
-        left: 60px;
+        left: 10%;
         z-index: 1;
         background-position: center center;
         background-size: contain;
         @media @mobile-s {
           width: 75px;
           height: 75px;
-          left: 50px;
+          left: 50%;
+          margin-right: -50%;
+          transform: translate(-50%, 0%);
         }
       }
-      &-circle2 {
-        border-radius: 50%;
-        border: 2px solid @strokeGrey;
-        box-sizing: border-box;
-        background-color: @white;
-        width: 125px;
-        height: 125px;
-        position: absolute;
-        top: 15px;
-        right: 60px;
-        z-index: 1;
-        background-position: center center;
-        background-repeat: no-repeat;
-        background-size: contain;
-        @media @mobile-s {
-          width: 75px;
-          height: 75px;
-          right: 50px;
-        }
-      }
-      &-vs {
-        .globalDefaultFont(16px, 400);
+
+      &-profile {
         position: relative;
-        width: 10px;
-        margin: 0 auto;
-        top: 65px;
+        width: 75%;
+        float: left;
+        top: 55px;
         @media @mobile-s {
-          top: 45px;
-          .globalDefaultFont(12px, 400);
+          position: relative;
+          left: 0;
+          width: 100%;
+          top: 95px;
+        }
+        &-name {
+          .globalDefaultFont(18px, 800);
+          margin: 0 auto;
+          text-align: center;
+          position: relative;
+          top: 90px;
+          @media @mobile-s {
+            .globalDefaultFont(12px, 800);
+            top: 0;
+          }
+        }
+        &-data {
+          .globalDefaultFont(14px, 800);
+          margin: 0 auto;
+          text-align: center;
+          padding-top: 5px;
+          position: relative;
+          top: 90px;
+          @media @mobile-s {
+            .globalDefaultFont(10px, 400);
+            top: 0;
+            padding-top: 0;
+          }
         }
       }
     }
-    &-container {
+    &-vs {
+      .globalDefaultFont(16px, 400);
+      text-align: center;
+      position: absolute;
+      top: 65px;
+      width: 100%;
       @media @mobile-s {
-        height: 85px;
-        width: 300px;
-        margin: auto;
+        .globalDefaultFont(12px, 400);
+        top: 45px;
       }
-      &-profile-info-left {
-        width: 34%;
-        float: left;
-        position: relative;
-        left: 25px;
-        top: 15px;
-        @media @mobile-s {
-          position: relative;
-          left: 25px;
-          width: 40%;
-          top: 8px;
-        }
-        &-profile-name1 {
-          .globalDefaultFont(18px, 800);
-          margin: 0 auto;
-          text-align: center;
-          @media @mobile-s {
-            .globalDefaultFont(12px, 800);
-          }
-        }
-        &-profile-data1 {
-          .globalDefaultFont(14px, 400);
-          margin: 0 auto;
-          text-align: center;
-          @media @mobile-s {
-            .globalDefaultFont(10px, 400);
-          }
-        }
-      }
-      &-profile-info-right {
-        width: 34%;
-        float: right;
-        position: relative;
+    }
+    &-right {
+      position: relative;
+      width: 40%;
+      float: right;
+      right: 35px;
+      @media @mobile-s {
         right: 25px;
+      }
+      &-circle {
+        border: 2px solid @strokeGrey;
+        border-radius: 50%;
+        position: absolute;
+        background-color: @white;
+        width: 125px;
+        height: 125px;
+        z-index: 0;
         top: 15px;
+        right: 10%;
+        background-position: center center;
+        background-size: contain;
+        @media @mobile-s {
+          width: 75px;
+          height: 75px;
+          left: 50%;
+          margin-right: -50%;
+          transform: translate(-50%, 0%);
+        }
+      }
+      &-profile {
+        position: relative;
+        width: 75%;
+        float: right;
+        top: 55px;
         @media @mobile-s {
           position: relative;
-          right: 25px;
-          width: 40%;
-          top: 8px;
+          right: 0;
+          width: 100%;
+          top: 95px;
         }
-        &-profile-name2 {
+        &-name {
           .globalDefaultFont(18px, 800);
           margin: 0 auto;
           text-align: center;
+          position: relative;
+          top: 90px;
           @media @mobile-s {
             .globalDefaultFont(12px, 800);
+            top: 0;
           }
         }
-        &-profile-data2 {
-          .globalDefaultFont(14px, 400);
+        &-data {
+          .globalDefaultFont(14px, 800);
           margin: 0 auto;
           text-align: center;
+          padding-top: 5px;
+          position: relative;
+          top: 90px;
           @media @mobile-s {
             .globalDefaultFont(10px, 400);
+            top: 0;
+            padding-top: 0;
           }
         }
       }

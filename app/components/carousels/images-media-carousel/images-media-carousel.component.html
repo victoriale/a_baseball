@@ -50,7 +50,7 @@
     <div class="modal-plcholder">
         <span [style.background-image]="backgroundImage"
               class="modal-plcholder-img">
-            <circle-button class="modal-plcholder-img-navigation" (scrollLeft)="left()"
+            <circle-button *ngIf="arraySize > 1" class="modal-plcholder-img-navigation" (scrollLeft)="left()"
                            (scrollRight)="right()"></circle-button>
         </span>
         <div class="modal-grey-bar"><span class="modal-grey-bar-title">{{description}}</span><span
