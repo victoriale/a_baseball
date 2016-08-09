@@ -8,7 +8,7 @@
 
     <span *ngIf="articleData">
       <shareLinks-component></shareLinks-component>
-      <div class="articles-page-title" [innerHTML]="articleData.title | safeHtml"></div>
+      <a class="articles-page-title" [innerHTML]="articleData.title | safeHtml" [href]="articleData.articleUrl"></a>
         <sidekick-wrapper-ai [aiSidekick]="aiSidekick" [syndicated]="true">
             <span>
                 <div class="carousel-container" *ngIf="articleType == 'story'">
