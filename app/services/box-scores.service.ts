@@ -260,7 +260,7 @@ export class BoxScoresService {
 
     // Sort games by time
     let sortedGames = game.sort(function(a, b) {
-      return new Date(a.gameInfo.startDateTime).getTime() - new Date(b.gameInfo.startDateTime).getTime();
+      return new Date(b.gameInfo.startDateTime).getTime() - new Date(a.gameInfo.startDateTime).getTime();
     });
 
     sortedGames.forEach(function(data,i){
@@ -337,17 +337,17 @@ export class BoxScoresService {
         }
       };
       if(teamId != null){
-        twoBoxes.push({game:info,aiContent:aiContent});
+        twoBoxes.unshift({game:info,aiContent:aiContent});
       }else{
-        twoBoxes.push({game:info});
+        twoBoxes.unshift({game:info});
         if(twoBoxes.length > 1 || (i+1) == game.length){// will push into main array once 2 pieces of info has been put into twoBoxes variable
-          gameArray.push(twoBoxes);
+          gameArray.unshift(twoBoxes);
           twoBoxes = [];
         }
       }
       //incase it runs through entire loops and only 2 or less returns then push whatever is left
       if(game.length == (i+1)  && gameArray.length == 0){
-        gameArray.push(twoBoxes);
+        gameArray.unshift(twoBoxes);
       }
     })
     return gameArray;
