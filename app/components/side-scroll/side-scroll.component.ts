@@ -58,7 +58,6 @@ export class SideScroll{
     //push in video items first this can probably handle arguments in future
     var startLength = ssItems.length;
     this.videoData.forEach(function(val, index){
-      console.log(index);
       if(index == 0 && self.autoPlay != null){
         val.videoLink = val.videoLink + "&autoplay=on";
       }
