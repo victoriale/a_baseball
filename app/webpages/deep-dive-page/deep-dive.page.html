@@ -1,7 +1,7 @@
 <section *ngIf="!isHomeRunZone" class="deep-dive container-fluid" (window:scroll)="onScroll($event)">
   <section class="deep-dive-container1">
 	<div [ngStyle]="{'width':'100%', 'height': 'auto'}" class="carWrapper">
-    <side-scroll-test *ngIf="carouselData && videoData" [current]="curCount" [carData]="carouselData" [videoData]="videoData">
+    <side-scroll-test *ngIf="carouselData && videoData" [current]="curCount" [carData]="carouselData" [videoData]="videoData" auto-play="true">
     </side-scroll-test>
     </div>
     <div class="spacer"  id="deep-dive-blueBar">
