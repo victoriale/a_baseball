@@ -41,6 +41,7 @@ export class SideScroll{
   @Input('loop') loop:boolean;
   @Input('fade') fade:boolean;
   @Input('button-class') buttonClass: string;
+  @Input('auto-play') autoPlay:boolean;
   private startIndex:number = 0;
   private endIndex:number = 1;
   private originalData: any;
@@ -51,11 +52,15 @@ export class SideScroll{
 
   }
   ngOnInit(){
+    var self = this;
     var ssItems = [];
 
     //push in video items first this can probably handle arguments in future
     var startLength = ssItems.length;
     this.videoData.forEach(function(val, index){
+      if(index == 0 && self.autoPlay != null){
+        val.videoLink = val.videoLink + "&autoplay=on";
+      }
       ssItems.push({
         id: startLength + index,
         data:val,

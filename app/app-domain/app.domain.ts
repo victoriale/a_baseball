@@ -5,6 +5,8 @@ import {Observable} from 'rxjs/Rx';
 import {AppComponent} from "../app-webpage/app.webpage";
 import {MyAppComponent} from "../app-webpage/app.mywebpage";
 
+declare var ga:any;
+
 @Component({
     selector: 'app-domain',
     templateUrl: './app/app-domain/app.domain.html',
@@ -27,7 +29,9 @@ import {MyAppComponent} from "../app-webpage/app.mywebpage";
 ])
 
 export class AppDomain {
-    constructor(private _router: Router, private _ref: ApplicationRef) {
+  currentRoute: string = '';
+
+  constructor(private _router: Router, private _ref: ApplicationRef) {
       if ( Object.prototype.toString.call(window['HTMLElement']).indexOf('Constructor') > 0 ) {
         //we appear to be using safari
         this._router.subscribe(route => {
@@ -47,6 +51,15 @@ export class AppDomain {
             var resizeEvent = document.createEvent('UIEvents');
             resizeEvent.initUIEvent('load', true, false, window, 0);
             window.dispatchEvent(resizeEvent);
+          }
+          var newRoute = route || '/';
+          if(newRoute !== this.currentRoute) {
+            try {
+              ga('send', 'pageview', location.pathname);
+            }
+            catch(e){
+            }
+            this.currentRoute = newRoute;
           }
         }
       );
