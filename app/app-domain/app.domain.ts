@@ -55,7 +55,7 @@ export class AppDomain {
           var newRoute = route || '/';
           if(newRoute !== this.currentRoute) {
             try {
-              ga('end', 'pageview', location.pathname);
+              ga('send', 'pageview', location.pathname);
             }
             catch(e){
             }
