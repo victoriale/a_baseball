@@ -4,6 +4,7 @@ import {Title} from '@angular/platform-browser';
 import {Observable} from 'rxjs/Rx';
 import {AppComponent} from "../app-webpage/app.webpage";
 import {MyAppComponent} from "../app-webpage/app.mywebpage";
+import {GlobalSettings} from "../global/global-settings";
 
 declare var ga:any;
 
@@ -52,14 +53,16 @@ export class AppDomain {
             resizeEvent.initUIEvent('load', true, false, window, 0);
             window.dispatchEvent(resizeEvent);
           }
-          var newRoute = route || '/';
-          if(newRoute !== this.currentRoute) {
-            try {
-              ga('send', 'pageview', location.pathname);
+          if(GlobalSettings.isProd()) {
+            var newRoute = route || '/';
+            if (newRoute !== this.currentRoute) {
+              try {
+                ga('send', 'pageview', location.pathname);
+              }
+              catch (e) {
+              }
+              this.currentRoute = newRoute;
             }
-            catch(e){
-            }
-            this.currentRoute = newRoute;
           }
         }
       );
