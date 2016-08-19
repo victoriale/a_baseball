@@ -38,6 +38,14 @@ export class GlobalSettings {
       return env;
     }
 
+    static isProd():boolean {
+      if( this.getEnv(this._env) == "prod" ){
+        return true;
+      }else{
+        return false;
+      }
+    }
+
     static getDynamicWidet():string {
         return this._proto + "//" + this._dynamicApiUrl;
     }
