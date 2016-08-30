@@ -142,10 +142,14 @@ export class DeepDivePage implements OnInit{
           partnerScript => {
             this.partnerData = partnerScript;
             //super long way from partner script to get location using geo location api
-            var state = partnerScript['results']['location']['realestate']['location']['city'][0].state;
-            state = state.toLowerCase();
-            this.geoLocation = state;
-            this.callModules();
+            if(partnerScript['results']['location']['realestate']['location']['city'].length >0){
+              var state = partnerScript['results']['location']['realestate']['location']['city'][0].state;
+              state = state.toLowerCase();
+              this.geoLocation = state;
+              this.callModules();
+            }else {
+              this.getGeoLocation();
+            }
           }
         );
       }else{

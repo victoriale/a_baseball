@@ -292,14 +292,6 @@ export class MyAppComponent implements OnInit{
       return pageHeader.offsetHeight;
     }
   }
-  getPartnerHeaderHeight(){
-    var scrollTop = jQuery(window).scrollTop();
-    var partnerHeight = 0;
-    if( document.getElementById('partner') != null && scrollTop <=  (document.getElementById('partner').offsetHeight)){
-        partnerHeight = document.getElementById('partner').offsetHeight - scrollTop;
-    }
-      return partnerHeight;
-  }
 
   getPartnerHeader(){//Since it we are receiving
     if(this.partnerID != null){
@@ -323,6 +315,14 @@ export class MyAppComponent implements OnInit{
   }
 
   setPageSize(ths){
+    function getPartnerHeaderHeight(){
+      var scrollTop = jQuery(window).scrollTop();
+      var partnerHeight = 0;
+      if( document.getElementById('partner') != null && scrollTop <=  (document.getElementById('partner').offsetHeight)){
+        partnerHeight = document.getElementById('partner').offsetHeight - scrollTop;
+      }
+      return partnerHeight;
+    }
     jQuery("#webContainer").removeClass('deep-dive-container directory-rails pick-a-team-container profile-container basic-container');
     // Handle all the exceptions here
     jQuery("deep-dive-page").parent().addClass('deep-dive-container');
@@ -359,13 +359,13 @@ export class MyAppComponent implements OnInit{
             }
             isTakenOver = true;
             clearInterval(intvl);
-            jQuery('#ddto-left-ad').css('top', (ths.getPartnerHeaderHeight() + 100) + "px");
-            jQuery('#ddto-right-ad').css('top', (ths.getPartnerHeaderHeight() + 100) + "px");
+            jQuery('#ddto-left-ad').css('top', (getPartnerHeaderHeight() + 100) + "px");
+            jQuery('#ddto-right-ad').css('top', (getPartnerHeaderHeight() + 100) + "px");
         }
     },100);
     window.addEventListener("scroll",  function(){
-      jQuery('#ddto-left-ad').css('top', (ths.getPartnerHeaderHeight() + 100) + "px");
-      jQuery('#ddto-right-ad').css('top', (ths.getPartnerHeaderHeight() + 100) + "px");
+      jQuery('#ddto-left-ad').css('top', (getPartnerHeaderHeight() + 100) + "px");
+      jQuery('#ddto-right-ad').css('top', (getPartnerHeaderHeight() + 100) + "px");
     });
   }
 
