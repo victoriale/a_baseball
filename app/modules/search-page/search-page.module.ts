@@ -82,7 +82,6 @@ export class SearchPageModule implements OnChanges{
     }
 
     getShowResults(data){
-      console.log("results data",data);
       let self = this;
       data.tabData.forEach(function(val, index){
         if(val.isTabDefault){//Optimize
