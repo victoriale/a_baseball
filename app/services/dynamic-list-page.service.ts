@@ -183,8 +183,8 @@ export class DynamicWidgetCall {
         ctaDesc = "Want more info about this team?";
       }
       else if ( profile == "player" ) {
-        subRoute = GlobalFunctions.parseToRoute(val['sub_img']['primary_url']);
-        subImage = self.protocol + val['sub_img'].img;
+        //subRoute = GlobalFunctions.parseToRoute(val['sub_img']['primary_url']);
+        //subImage = self.protocol + val['sub_img'].img;
         ctaDesc = "Want more info about this player?";
       }
 
