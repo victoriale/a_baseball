@@ -42,6 +42,8 @@ export class ListPage implements OnInit {
   isError: boolean = false;
   tw: string;
   sw: string;
+  rowid: string;
+  tabid: string;
   input: string;
   pageNumber: number;
 
@@ -58,6 +60,10 @@ export class ListPage implements OnInit {
       this.tw = twArr != null && twArr.length > 1 ? twArr[1] : null;
       let swArr = query.match(/sw-(.*?)(\+|$)/);
       this.sw = swArr != null && swArr.length > 1 ? swArr[1] : null;
+      let rowidArr = query.match(/rowid-(.*?)(\+|$)/);
+      this.rowid = rowidArr != null && rowidArr.length > 1 ? rowidArr[1] : null;
+      let tabidArr = query.match(/tabid-(.*?)(\+|$)/);
+      this.tabid = tabidArr != null && tabidArr.length > 1 ? tabidArr[1] : null;
       // input always needs to be last item
       let inputArr = query.match(/input-(.*)/);
       this.input = inputArr != null &&  inputArr.length > 1 ? inputArr[1] : null;
@@ -107,11 +113,8 @@ export class ListPage implements OnInit {
 
     this.paginationParameters = {
       index: this.pageNumber,
-      max: Number(input.pageCount),
-      paginationType: 'page',
-      navigationPage: navigationPage,
-      navigationParams: navigationParams,
-      indexKey: 'pageNum'
+      max: input.max,
+      paginationType: 'module'
     };
   }
 
@@ -140,12 +143,21 @@ export class ListPage implements OnInit {
   }
 
   getDynamicList() {
-    if( !this.tw ){
+    if( !this.tw && !(this.rowid && this.tabid) ){
       // Not enough parameter : display error message
       this.isError = true;
       return;
     }
-    this.dynamicWidget.getWidgetData(this.tw, this.sw, this.input)
+
+    let inputs ={
+      tw:     this.tw,
+      sw:     this.sw,
+      input:  this.input,
+      rowid:  this.rowid,
+      tabid:  this.tabid
+    }
+
+    this.dynamicWidget.getWidgetData(inputs)
       .subscribe(
         list => {
           this._title.setTitle(GlobalSettings.getPageTitle(list.listDisplayTitle, "Lists"));
