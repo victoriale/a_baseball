@@ -13,7 +13,8 @@ export class GlobalSettings {
     private static _partnerApiUrl: string = 'apireal.synapsys.us/listhuv/?action=get_partner_data&domain=';
     private static _widgetUrl: string = 'w1.synapsys.us';
 
-    private static _dynamicApiUrl: string = 'dw.synapsys.us/list_creator_api.php'
+    private static _dynamicApiUrl: string = 'dw.synapsys.us/list_creator_api.php';
+    private static _dynamicScraperApiUrl: string = 'dw.synapsys.us/widgets/context/api_json/api_default/list_creator_api.php';
 
     private static _imageUrl:string = '-sports-images.synapsys.us';
     private static _articleUrl:string = '-homerunloyal-ai.synapsys.us/';
@@ -46,8 +47,12 @@ export class GlobalSettings {
       }
     }
 
-    static getDynamicWidet():string {
+    static getDynamicWidget():string {
         return this._proto + "//" + this._dynamicApiUrl;
+    }
+
+    static getDynamicScraperWidget():string {
+      return this._proto + "//" + this._dynamicScraperApiUrl;
     }
 
     static getApiUrl():string {
