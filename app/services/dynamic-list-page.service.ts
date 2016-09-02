@@ -15,7 +15,9 @@ declare var moment;
 @Injectable()
 
 export class DynamicWidgetCall {
-  public apiUrl: string = GlobalSettings.getDynamicWidet();
+  public apiUrl:        string = GlobalSettings.getDynamicWidget();
+  public scraperApiUrl: string = GlobalSettings.getDynamicScraperWidget();
+
   pageLimit: number = 10;
 
   public protocol: string = location.protocol;
@@ -25,13 +27,24 @@ export class DynamicWidgetCall {
 
   // Method to get data for the list for the dynamic widget
   // Inputs: tw - trigger word, sw - sort parameter, input - input value
-  getWidgetData(tw, sw, input) {
+  // tw is required for standard dynamic widget
+  // rowid and tabid are used and both required for dynamic scraper widget
+  getWidgetData(inputs) {
+    let rowid = inputs.rowid != null ? inputs.rowid : null;
+    let tabid = inputs.tabid != null ? inputs.tabid : null;
+    let tw    = inputs.tw    != null ? inputs.tw    : null;
     // If value is not needed, pass -1
-    if (sw == null) { sw = -1; }
-    if (input == null) { input = -1; }
+    let sw    = inputs.sw    != null ? inputs.sw    : -1;
+    let input = inputs.input != null ? inputs.input : -1;
+    let url   = "";
 
+    let isScraper = tw == null;
     // Build the URL
-    var url = this.apiUrl + "?tw=" + tw + "&sw=" + sw + "&input=" + input;
+    if(isScraper){
+      url = this.scraperApiUrl + "?tabid=" + tabid + "&rowid=" + rowid;
+    }else{
+      url = this.apiUrl + "?tw=" + tw + "&sw=" + sw + "&input=" + input;
+    }
 
     return this.http.get(url, {})
       .map(res => res.json())
@@ -49,7 +62,7 @@ export class DynamicWidgetCall {
           var listDisplayName = data ? data.title : "";
           var paginationParams = {
             index: 1,
-            max: listData.length - 1,
+            max: listData.length,
             paginationType: 'module'
           }
           var profHeader= {
