@@ -106,7 +106,6 @@ export class ListPageService {
       data => {
         data.data['query'] = query;
         this.formatData(data.data.listInfo.stat, data.data.listData);
-        console.log("pagination:",data.data.listInfo);
         return {
           profHeader: ListPageService.profileHeader(data.data),
           carData: ListPageService.carDataPage(data.data, 'page', errorMessage),
