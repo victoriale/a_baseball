@@ -27,7 +27,7 @@
         </span>
       </a>
     </div>
-    <a href="{{boxData.reportLink}}">
+    <a [routerLink]="boxData.reportLink">
       <div *ngIf="boxData.isLive != 'schedule-live'" class="schedule_box-linkbox">
         <span>{{boxData.reportDisplay}}</span>
       </div>
