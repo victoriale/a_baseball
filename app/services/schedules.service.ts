@@ -180,8 +180,8 @@ export class SchedulesService {
     data.forEach(function(val,index){
       let reportText = 'GAME REPORT';
       let partner = GlobalSettings.getHomeInfo();
-      var reportLink;
-      let reportUrl = val.reportUrlMod.split('/')[2];
+      let reportEventType = val.reportUrlMod.split('/')[2];
+      let reportEventID = val.reportUrlMod.split('/')[3];
       if(val.live == true){
           reportText = 'LIVE GAME REPORT';
       }else{
@@ -193,11 +193,7 @@ export class SchedulesService {
           reportText = 'POST GAME REPORT';
         }
       }
-      if(partner.isPartner){
-        reportLink = partner.partnerName + val.reportUrlMod;
-      }else{
-        reportLink = val.reportUrlMod;
-      }
+      let reportLink = MLBGlobalFunctions.formatAiArticleRoute(reportEventType, reportEventID);
 
       let date = moment(val.startDateTimestamp).tz('America/New_York').format('MMMM D, YYYY');
       let time = moment(val.startDateTimestamp).tz('America/New_York').format('h:mm A z');
