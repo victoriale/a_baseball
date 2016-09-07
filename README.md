@@ -41,6 +41,5 @@ install each one individually
 
 Less files will be compiled to: `dist/app/global/stylesheets/master.css`
 
-
 Router fix:
 https://github.com/BrowserSync/browser-sync/issues/204
