@@ -31,7 +31,7 @@
                                        [imageLinks]="imageLinks"
                                        [partnerId]="partnerId"
             ></article-content-component>
-            <disqus-component [comment]="comment"></disqus-component>
+            <disqus-component [comment]="comment" *ngIf="!checkPartner"></disqus-component>
             <sidekick-container-component></sidekick-container-component>
             <recommendations-component [randomHeadlines]="randomHeadlines"
                                        [images]="images"></recommendations-component>
