@@ -119,7 +119,7 @@ export class GlobalSettings {
       var isHome = false;
       var hide = false;
       var hostname = window.location.hostname;
-      var partnerPage = /^myhomerunzone\./.test(hostname) || /^baseball\./.test(hostname);
+      var partnerPage = /myhomerunzone/.test(hostname) || /^baseball\./.test(hostname);
       var name = window.location.pathname.split('/')[1];
       var isSubdomainPartner = /^baseball\./.test(hostname);
       //PLEASE REVISIT and change
