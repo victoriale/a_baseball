@@ -34,7 +34,7 @@
             <recommendations-component *ngIf="recomendationData" [randomHeadlines]="recomendationData"
                [isDeepDive]="true"></recommendations-component>
             <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>
-            <disqus-component ></disqus-component>
+            <disqus-component *ngIf="!checkPartner"></disqus-component>
             <syndicated-trending-component *ngIf="geoLocation" [geoLocation]="geoLocation" [currentArticleId]="articleData.id"></syndicated-trending-component>
         </sidekick-wrapper-ai>
     </span>

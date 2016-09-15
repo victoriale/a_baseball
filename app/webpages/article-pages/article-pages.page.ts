@@ -59,6 +59,7 @@ export class ArticlePages implements OnInit {
     aiSidekick:boolean = true;
     partnerId:string;
     isSmall:boolean = false;
+    checkPartner: boolean;
 
     constructor(private _params:RouteParams,
                 private _router:Router,
@@ -76,6 +77,7 @@ export class ArticlePages implements OnInit {
             }
             this.getArticles();
         });
+        this.checkPartner = GlobalSettings.getHomeInfo().isPartner;
     }
 
     getArticles() {
