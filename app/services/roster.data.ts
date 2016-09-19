@@ -177,7 +177,8 @@ export class RosterTableModel implements TableModel<TeamRosterData> {
   columns: Array<TableColumn> = [{
       headerValue: "Player",
       columnClass: "image-column",
-      key: "name"
+      key: "name",
+      sortDirection: 1
     },{
       headerValue: "Pos.",
       columnClass: "data-column",
@@ -202,7 +203,6 @@ export class RosterTableModel implements TableModel<TeamRosterData> {
       headerValue: "Salary",
       columnClass: "data-column",
       isNumericType: true,
-      sortDirection: -1, //descending
       key: "sal"
     }
   ];
