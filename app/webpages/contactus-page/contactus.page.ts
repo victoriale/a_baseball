@@ -9,6 +9,7 @@ import {ContactUsModule} from '../../modules/contactus/contactus.module';
 import {GlobalSettings} from '../../global/global-settings';
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
+import {SeoService} from "../../seo.service";
 
 declare var moment;
 @Component({
@@ -23,7 +24,7 @@ export class ContactUsPage implements OnInit{
     public mailManUrl: string;
     public contactusInput: Object;
 
-    constructor(private http:Http, private _title: Title, private _router:Router) {
+    constructor(private http:Http, private _title: Title, private _router:Router, private _seoService: SeoService) {
         _title.setTitle(GlobalSettings.getPageTitle("Contact Us"));
         GlobalSettings.getPartnerID(_router, partnerID => {
           var domainTitle;
@@ -98,6 +99,17 @@ export class ContactUsPage implements OnInit{
     }
 
     ngOnInit(){
+      //create meta description that is below 160 characters otherwise will be truncated
+      let metaDesc = 'Contact Us about any inquiries or issues with the site or data that does seems inaccurate';
+      let link = window.location.href;
 
+      this._seoService.setOgTitle('Contact Us');
+      this._seoService.setOgDesc(metaDesc);
+      this._seoService.setOgType('image');
+      this._seoService.setOgUrl(link);
+      this._seoService.setOgImage('./app/public/mainLogo.png');
+      this._seoService.setTitle('Contact Us');
+      this._seoService.setMetaDescription(metaDesc);
+      this._seoService.setMetaRobots('NOINDEX, FOLLOW');
     }
 }

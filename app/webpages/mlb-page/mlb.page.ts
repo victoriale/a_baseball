@@ -62,6 +62,8 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
 
 import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
+import {SeoService} from '../../seo.service';
+
 declare var moment;
 
 @Component({
@@ -165,7 +167,9 @@ export class MLBPage implements OnInit {
                 private _comparisonService: ComparisonStatsService,
                 private _transactionsService: TransactionsService,
                 private _lolService: ListOfListsService,
-                private listService:ListPageService) {
+                private listService:ListPageService,
+                private _seoService: SeoService
+              ) {
         _title.setTitle(GlobalSettings.getPageTitle("MLB"));
 
         // this.currentYear = new Date().getFullYear();
@@ -192,6 +196,7 @@ export class MLBPage implements OnInit {
         this._profileService.getMLBProfile().subscribe(
             data => {
                 /*** About MLB ***/
+                this.metaTags(data);
                 this.profileData = data;
                 this.profileHeaderData = this._profileService.convertToLeagueProfileHeader(data.headerData)
                 this.profileName = "MLB";
@@ -225,6 +230,21 @@ export class MLBPage implements OnInit {
                 console.log("Error getting team profile data for mlb", err);
             }
         );
+    }
+
+    private metaTags(data){
+      //create meta description that is below 160 characters otherwise will be truncated
+      let header = data.headerData;
+      let metaDesc =  header.profileNameLong + ' loyal to ' + header.totalTeams + ' teams ' + 'and ' + header.totalPlayers + ' players.';
+      let link = window.location.href;
+      this._seoService.setOgTitle(data.profileName);
+      this._seoService.setOgDesc(metaDesc);
+      this._seoService.setOgType('image');
+      this._seoService.setOgUrl(link);
+      this._seoService.setOgImage(data.headerData.imageUrl);
+      this._seoService.setTitle(data.profileName);
+      this._seoService.setMetaDescription(metaDesc);
+      this._seoService.setMetaRobots('Index, Follow');
     }
 
     //grab tab to make api calls for post of pre event table

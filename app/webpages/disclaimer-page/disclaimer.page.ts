@@ -12,6 +12,8 @@ import {GlobalFunctions} from '../../global/global-functions';
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
+import {SeoService} from "../../seo.service";
+
 @Component({
     selector: 'Disclaimer-page',
     templateUrl: './app/webpages/disclaimer-page/disclaimer.page.html',
@@ -27,8 +29,21 @@ export class DisclaimerPage {
     public contactUsLinkName: string;
     public titleData: TitleInputData;
 
-    constructor(private _router:Router, private _title: Title) {
+    constructor(private _router:Router, private _title: Title, private _seoService: SeoService) {
       _title.setTitle(GlobalSettings.getPageTitle("Disclaimer"));
+      //create meta description that is below 160 characters otherwise will be truncated
+      let metaDesc = 'Disclaimer page to disclose any information';
+      let link = window.location.href;
+
+      this._seoService.setOgTitle('Disclaimer');
+      this._seoService.setOgDesc(metaDesc);
+      this._seoService.setOgType('image');
+      this._seoService.setOgUrl(link);
+      this._seoService.setOgImage('./app/public/mainLogo.png');
+      this._seoService.setTitle('Disclaimer');
+      this._seoService.setMetaDescription(metaDesc);
+      this._seoService.setMetaRobots('NOINDEX, FOLLOW');
+
       GlobalSettings.getPartnerID(_router, partnerID => this.loadData(partnerID));
     }
 

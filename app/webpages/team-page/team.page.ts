@@ -71,6 +71,8 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
 
 import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
+import {SeoService} from '../../seo.service';
+
 declare var moment;
 
 @Component({
@@ -180,7 +182,9 @@ export class TeamPage implements OnInit {
                 private _dykService: DykService,
                 private _twitterService: TwitterService,
                 private _comparisonService: ComparisonStatsService,
-                private _dailyUpdateService: DailyUpdateService) {
+                private _dailyUpdateService: DailyUpdateService,
+                private _seoService: SeoService
+              ) {
         this.pageParams = {
             teamId: Number(_params.get("teamId"))
         };
@@ -215,12 +219,12 @@ export class TeamPage implements OnInit {
         this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
             data => {
                 /*** About the [Team Name] ***/
+                this.metaTags(data);
                 this.pageParams = data.pageParams;
                 this.profileData = data;
                 this.profileName = data.teamName;
                 this._title.setTitle(GlobalSettings.getPageTitle(this.profileName));
                 this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data);
-
                 this.dailyUpdateModule(this.pageParams.teamId);
 
                 /*** Keep Up With Everything [Team Name] ***/
@@ -249,6 +253,20 @@ export class TeamPage implements OnInit {
                 console.log("Error getting team profile data for " + this.pageParams.teamId, err);
             }
         );
+    }
+
+    private metaTags(data){
+      //create meta description that is below 160 characters otherwise will be truncated
+      let metaDesc =  data.headerData.description;
+      let link = window.location.href;
+      this._seoService.setOgTitle(data.profileName);
+      this._seoService.setOgDesc(metaDesc);
+      this._seoService.setOgType('image');
+      this._seoService.setOgUrl(link);
+      this._seoService.setOgImage(data.headerData.imageUrl);
+      this._seoService.setTitle(data.profileName);
+      this._seoService.setMetaDescription(metaDesc);
+      this._seoService.setMetaRobots('Index, Follow');
     }
 
     private dailyUpdateModule(teamId: number) {

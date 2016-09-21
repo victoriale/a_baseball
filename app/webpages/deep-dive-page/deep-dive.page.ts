@@ -19,7 +19,9 @@ import {DeepDiveBlock2} from '../../modules/deep-dive-blocks/deep-dive-block-2/d
 import {DeepDiveBlock3} from '../../modules/deep-dive-blocks/deep-dive-block-3/deep-dive-block-3.module';
 import {DeepDiveBlock4} from '../../modules/deep-dive-blocks/deep-dive-block-4/deep-dive-block-4.module';
 
-import {SideScroll} from '../../components/side-scroll/side-scroll.component'
+import {SideScroll} from '../../components/side-scroll/side-scroll.component';
+
+import {SeoService} from '../../seo.service';
 //window declarions of global functions from library scripts
 declare var moment;
 declare var jQuery: any;
@@ -74,9 +76,24 @@ export class DeepDivePage implements OnInit{
       private _geoLocation:GeoLocation,
       private _partnerData: PartnerHeader,
       private _title: Title,
-      public ngZone:NgZone){
+      public ngZone:NgZone,
+      private _seoService: SeoService
+    ){
 
-      _title.setTitle(GlobalSettings.getPageTitle(""));
+      _title.setTitle(GlobalSettings.getPageTitle('Deep Dive'));
+
+      //create meta description that is below 160 characters otherwise will be truncated
+      let metaDesc = GlobalSettings.getPageTitle('Dive into the most recent MLB news and read the latest articles about your favorite baseball team.', 'Deep Dive');
+      let link = window.location.href;
+
+      _seoService.setOgTitle('Deep Dive');
+      _seoService.setOgDesc(metaDesc);
+      _seoService.setOgType('image');
+      _seoService.setOgUrl(link);
+      _seoService.setOgImage('./app/public/mainLogo.png');
+      _seoService.setTitle('Deep Dive');
+      _seoService.setMetaDescription(metaDesc);
+      _seoService.setMetaRobots('Index, Follow');
         // needs to get Geolocation first
       this.profileName = "MLB";
 

@@ -1,5 +1,9 @@
 .footer{
   height: auto;
+  &-title{
+    .globalDefaultModFont(30px, 800,@strokeGrey);
+    margin: 0.67em 0;
+  }
   &-top{
     .flexDisplay;
     .flexJustify(space-between);
@@ -88,9 +92,6 @@
     .flexAlignItems(center);
     .flexDisplay;
     .flexDirection(column);
-    h1{
-      .globalDefaultModFont(30px, 800,@strokeGrey);
-    }// h1 ends
     ul{
       .flexDisplay;
       .flexWrap(wrap);
