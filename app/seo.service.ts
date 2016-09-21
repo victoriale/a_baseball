@@ -8,6 +8,8 @@
 import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { getDOM } from '@angular/platform-browser/src/dom/dom_adapter';
+import {Router} from '@angular/router-deprecated'
+import {GlobalSettings} from "./global/global-settings";
 
 @Injectable()
 
@@ -17,6 +19,8 @@ export class SeoService {
   private headElement: HTMLElement;
 
   private metaDescription: HTMLElement;
+
+  private canonicalLink: HTMLElement;
 
   private ogTitle: HTMLElement;
   private ogType: HTMLElement;
@@ -31,7 +35,7 @@ export class SeoService {
   * Inject the Angular 2 Title Service
   * @param titleService
   */
-  constructor(titleService: Title){
+  constructor(titleService: Title, private _router:Router){
     this.titleService = titleService;
     this.DOM = getDOM();
 
@@ -71,7 +75,6 @@ export class SeoService {
       truncatedDescription += '...';
     }
     this.metaDescription.setAttribute('content', truncatedDescription);
-    console.log(this.metaDescription);
   }
 
   public getMetaRobots(): string {
@@ -125,5 +128,38 @@ export class SeoService {
       }
       return el;
     }
+    public setCanonicalLink(RouteParams, router): HTMLElement {
+      let el: HTMLElement;
+      el = this.DOM.query("link[rel='canonical']");
+      //given the route by params find the hostComponent page to keep it synchronous
+      let pageName = router.parent.currentInstruction.component.routeName;
+      //router deprecated get the route name of the first child in root router outlet
+      let canonicalLink = GlobalSettings.getHomePage(null) + '/' + this._router.generate(['Default-home',pageName, RouteParams]).child.urlPath;
+      if (el === null) {
+        el = this.DOM.createElement('link');
+        el.setAttribute('rel', 'canonical');
+        el.setAttribute('href', canonicalLink);
+        this.headElement.appendChild(el);
+      }
+      return el;
+    }
 
+    // getRelativePath(router:Router){
+    //   let counter = 0;
+    //   let hasParent = true;
+    //   let route = router;
+    //   for (var i = 0; hasParent == true; i++){
+    //     if(route.parent != null){
+    //       counter++;
+    //       route = route.parent;
+    //     }else{
+    //       hasParent = false;
+    //       let relPath = '';
+    //       for(var c = 1 ; c <= counter; c++){
+    //         relPath += '../';
+    //       }
+    //       return relPath;
+    //     }
+    //   }
+    // }
 }

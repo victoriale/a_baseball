@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Http} from '@angular/http';
-import {Router} from '@angular/router-deprecated';
+import {Router, RouteParams} from '@angular/router-deprecated';
 import {Observable} from 'rxjs/Rx';
 import {Title} from '@angular/platform-browser';
 
@@ -24,7 +24,7 @@ export class ContactUsPage implements OnInit{
     public mailManUrl: string;
     public contactusInput: Object;
 
-    constructor(private http:Http, private _title: Title, private _router:Router, private _seoService: SeoService) {
+    constructor(private http:Http, private _title: Title, private _router:Router, private _seoService: SeoService, private _params:RouteParams) {
         _title.setTitle(GlobalSettings.getPageTitle("Contact Us"));
         GlobalSettings.getPartnerID(_router, partnerID => {
           var domainTitle;
@@ -103,6 +103,7 @@ export class ContactUsPage implements OnInit{
       let metaDesc = 'Contact Us about any inquiries or issues with the site or data that does seems inaccurate';
       let link = window.location.href;
 
+      this._seoService.setCanonicalLink(this._params.params, this._router);
       this._seoService.setOgTitle('Contact Us');
       this._seoService.setOgDesc(metaDesc);
       this._seoService.setOgType('image');

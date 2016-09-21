@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router-deprecated';
+import {Router, RouteParams} from '@angular/router-deprecated';
 import {Title} from '@angular/platform-browser';
 
 import {LoadingComponent} from '../../components/loading/loading.component';
@@ -168,7 +168,8 @@ export class MLBPage implements OnInit {
                 private _transactionsService: TransactionsService,
                 private _lolService: ListOfListsService,
                 private listService:ListPageService,
-                private _seoService: SeoService
+                private _seoService: SeoService,
+                private _params:RouteParams
               ) {
         _title.setTitle(GlobalSettings.getPageTitle("MLB"));
 
@@ -237,6 +238,7 @@ export class MLBPage implements OnInit {
       let header = data.headerData;
       let metaDesc =  header.profileNameLong + ' loyal to ' + header.totalTeams + ' teams ' + 'and ' + header.totalPlayers + ' players.';
       let link = window.location.href;
+      this._seoService.setCanonicalLink(this._params.params, this._router);
       this._seoService.setOgTitle(data.profileName);
       this._seoService.setOgDesc(metaDesc);
       this._seoService.setOgType('image');

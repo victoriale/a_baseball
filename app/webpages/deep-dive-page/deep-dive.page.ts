@@ -10,7 +10,7 @@ import {SideScrollSchedule} from '../../modules/side-scroll-schedules/side-scrol
 import {GlobalSettings} from "../../global/global-settings";
 import {GlobalFunctions} from "../../global/global-functions";
 import {GeoLocation} from "../../global/global-service";
-import {Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import {Router, ROUTER_DIRECTIVES, RouteParams} from '@angular/router-deprecated';
 import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 import {PartnerHomePage} from '../partner-home-page/partner-home-page';
 
@@ -77,7 +77,8 @@ export class DeepDivePage implements OnInit{
       private _partnerData: PartnerHeader,
       private _title: Title,
       public ngZone:NgZone,
-      private _seoService: SeoService
+      private _seoService: SeoService,
+      private _params:RouteParams
     ){
 
       _title.setTitle(GlobalSettings.getPageTitle('Deep Dive'));
@@ -86,6 +87,7 @@ export class DeepDivePage implements OnInit{
       let metaDesc = GlobalSettings.getPageTitle('Dive into the most recent MLB news and read the latest articles about your favorite baseball team.', 'Deep Dive');
       let link = window.location.href;
 
+      _seoService.setCanonicalLink(this._params.params, this._router);
       _seoService.setOgTitle('Deep Dive');
       _seoService.setOgDesc(metaDesc);
       _seoService.setOgType('image');

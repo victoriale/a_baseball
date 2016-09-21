@@ -2,7 +2,7 @@
   <div class="ph-banner-image" [style.background]="backgroundImage">
     <div class="ph-hdr">
       <div class="ph-hdr-date">Last Updated: {{displayDate}}</div>
-      <div class="ph-hdr-title" [innerHtml]="profileTitle"></div>
+      <h1 class="ph-hdr-title" [innerHtml]="profileTitle"></h1>
       <div class="ph-hdr-datapts">
         <span *ngFor="let data of profileHeaderData.topDataPoints let isLast = last">
           <span class="ph-hdr-datapts-label">{{data.label}}:</span>

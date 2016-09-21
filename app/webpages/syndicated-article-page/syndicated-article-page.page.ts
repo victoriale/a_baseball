@@ -105,7 +105,7 @@ export class SyndicatedArticlePage{
           //create meta description that is below 160 characters otherwise will be truncated
           let metaDesc = data.data.teaser;
           let link = window.location.href;
-
+          this._seoService.setCanonicalLink(this._params.params, this._router);
           this._seoService.setOgTitle(data.data.title);
           this._seoService.setOgDesc(metaDesc);
           this._seoService.setOgType('image');
@@ -127,6 +127,7 @@ export class SyndicatedArticlePage{
           let metaDesc = data.data.title;
           let link = window.location.href;
 
+          this._seoService.setCanonicalLink(this._params.params, this._router);
           this._seoService.setOgTitle(data.data.title);
           this._seoService.setOgDesc(metaDesc);
           this._seoService.setOgType('video');

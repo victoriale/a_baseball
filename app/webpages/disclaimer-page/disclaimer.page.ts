@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import {Router, ROUTER_DIRECTIVES, RouteParams} from '@angular/router-deprecated';
 import {Injector} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 
@@ -29,12 +29,13 @@ export class DisclaimerPage {
     public contactUsLinkName: string;
     public titleData: TitleInputData;
 
-    constructor(private _router:Router, private _title: Title, private _seoService: SeoService) {
+    constructor(private _router:Router, private _title: Title, private _seoService: SeoService, private _params:RouteParams) {
       _title.setTitle(GlobalSettings.getPageTitle("Disclaimer"));
       //create meta description that is below 160 characters otherwise will be truncated
       let metaDesc = 'Disclaimer page to disclose any information';
       let link = window.location.href;
 
+      this._seoService.setCanonicalLink(this._params.params, this._router);
       this._seoService.setOgTitle('Disclaimer');
       this._seoService.setOgDesc(metaDesc);
       this._seoService.setOgType('image');

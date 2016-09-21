@@ -1,5 +1,5 @@
 import {Component, Injector} from '@angular/core';
-import {Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import {Router, ROUTER_DIRECTIVES, RouteParams} from '@angular/router-deprecated';
 import {Title} from '@angular/platform-browser';
 
 import {BackTabComponent} from '../../components/backtab/backtab.component';
@@ -59,13 +59,14 @@ export class AboutUsPage {
         icon: 'fa fa-map-marker'
     }
 
-    constructor(private _router:Router, private _service: AboutUsService, private _title: Title, private _seoService:SeoService) {
+    constructor(private _router:Router, private _service: AboutUsService, private _title: Title, private _seoService:SeoService, private _params:RouteParams) {
         _title.setTitle(GlobalSettings.getPageTitle("About Us"));
 
         //create meta description that is below 160 characters otherwise will be truncated
         let metaDesc = 'About Us, learn about baseball and MLB players and team';
         let link = window.location.href;
 
+        this._seoService.setCanonicalLink(this._params.params, this._router);
         this._seoService.setOgTitle('About Us');
         this._seoService.setOgDesc(metaDesc);
         this._seoService.setOgType('image');
