@@ -9,4 +9,8 @@ import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 })
 
 export class ArticleMainComponent {
+  mainImage:any;
+  constructor(){
+    console.log(this.mainImage);
+  }
 }
