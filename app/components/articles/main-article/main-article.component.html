@@ -2,7 +2,7 @@
     <span *ngIf="eventType">
         <a [routerLink]="['Article-pages', {eventType: eventType, eventID: mainEventID}]">
             <span class="articleBoxLarge">
-                <img [src]="mainImage" onerror="this.src='/app/public/no-image.png'"/>
+                <img [src]="mainImage" onerror="this.src='/app/public/no-image.png'" alt="Article main image"/>
                 <div>
                     <p>View this Article</p>
                 </div>

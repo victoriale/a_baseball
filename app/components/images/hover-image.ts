@@ -10,11 +10,11 @@ import {DomSanitizationService} from '@angular/platform-browser';
 })
 export class HoverImage {
     @Input() imageData: any;
-    
+
     @Input() textOnly: boolean;
 
     imageUrl;
-    
+
     public noImageUrl: string = "/app/public/no-image.png";
 
     constructor(private _sanitizer: DomSanitizationService) {}

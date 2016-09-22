@@ -1,5 +1,5 @@
 import {Component, Injector} from '@angular/core';
-import {Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import {Router, ROUTER_DIRECTIVES, RouteParams} from '@angular/router-deprecated';
 import {Title} from '@angular/platform-browser';
 
 import {BackTabComponent} from '../../components/backtab/backtab.component';
@@ -14,6 +14,7 @@ import {CircleImage} from "../../components/images/circle-image";
 import {CircleImageData} from "../../components/images/image-data";
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
+import {SeoService} from "../../seo.service";
 
 export interface AuBlockData {
   iconUrl?:string;
@@ -58,8 +59,23 @@ export class AboutUsPage {
         icon: 'fa fa-map-marker'
     }
 
-    constructor(private _router:Router, private _service: AboutUsService, private _title: Title) {
+    constructor(private _router:Router, private _service: AboutUsService, private _title: Title, private _seoService:SeoService, private _params:RouteParams) {
         _title.setTitle(GlobalSettings.getPageTitle("About Us"));
+
+        //create meta description that is below 160 characters otherwise will be truncated
+        let metaDesc = 'About Us, learn about baseball and MLB players and team';
+        let link = window.location.href;
+
+        this._seoService.setCanonicalLink(this._params.params, this._router);
+        this._seoService.setOgTitle('About Us');
+        this._seoService.setOgDesc(metaDesc);
+        this._seoService.setOgType('image');
+        this._seoService.setOgUrl(link);
+        this._seoService.setOgImage('./app/public/mainLogo.png');
+        this._seoService.setTitle('About Us');
+        this._seoService.setMetaDescription(metaDesc);
+        this._seoService.setMetaRobots('INDEX, FOLLOW');
+
         GlobalSettings.getPartnerID(_router, partnerID => this.loadData(partnerID));
     }
 
@@ -78,6 +94,12 @@ export class AboutUsPage {
         this.auHeaderTitle = data.headerTitle;
         this.titleData = data.titleData;
         this.auContent = data.content;
+
+        //create meta description that is below 160 characters otherwise will be truncated
+        let metaDesc = GlobalSettings.getPageTitle( this.auContent[0]);
+        this._seoService.setTitle('About Us');
+        this._seoService.setMetaDescription(metaDesc);
+        this._seoService.setMetaRobots('Index, Follow');
       }
     }
 }

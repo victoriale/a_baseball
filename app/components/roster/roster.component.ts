@@ -106,7 +106,7 @@ export class RosterComponent implements DoCheck {
       }
       let selectedTab = matchingTabs[0];
       let table = selectedTab.tableData;
-      if ( selectedIndex < table.rows.length ) {        
+      if ( selectedIndex < table.rows.length ) {
         table.setRowSelected(selectedIndex);
         this.selectedKey = table.getSelectedKey();
       }

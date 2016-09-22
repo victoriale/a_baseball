@@ -10,7 +10,7 @@ import {SideScrollSchedule} from '../../modules/side-scroll-schedules/side-scrol
 import {GlobalSettings} from "../../global/global-settings";
 import {GlobalFunctions} from "../../global/global-functions";
 import {GeoLocation} from "../../global/global-service";
-import {Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import {Router, ROUTER_DIRECTIVES, RouteParams} from '@angular/router-deprecated';
 import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 import {PartnerHomePage} from '../partner-home-page/partner-home-page';
 
@@ -19,7 +19,9 @@ import {DeepDiveBlock2} from '../../modules/deep-dive-blocks/deep-dive-block-2/d
 import {DeepDiveBlock3} from '../../modules/deep-dive-blocks/deep-dive-block-3/deep-dive-block-3.module';
 import {DeepDiveBlock4} from '../../modules/deep-dive-blocks/deep-dive-block-4/deep-dive-block-4.module';
 
-import {SideScroll} from '../../components/side-scroll/side-scroll.component'
+import {SideScroll} from '../../components/side-scroll/side-scroll.component';
+
+import {SeoService} from '../../seo.service';
 //window declarions of global functions from library scripts
 declare var moment;
 declare var jQuery: any;
@@ -74,9 +76,26 @@ export class DeepDivePage implements OnInit{
       private _geoLocation:GeoLocation,
       private _partnerData: PartnerHeader,
       private _title: Title,
-      public ngZone:NgZone){
+      public ngZone:NgZone,
+      private _seoService: SeoService,
+      private _params:RouteParams
+    ){
 
-      _title.setTitle(GlobalSettings.getPageTitle(""));
+      _title.setTitle(GlobalSettings.getPageTitle('Deep Dive'));
+
+      //create meta description that is below 160 characters otherwise will be truncated
+      let metaDesc = GlobalSettings.getPageTitle('Dive into the most recent MLB news and read the latest articles about your favorite baseball team.', 'Deep Dive');
+      let link = window.location.href;
+
+      _seoService.setCanonicalLink(this._params.params, this._router);
+      _seoService.setOgTitle('Deep Dive');
+      _seoService.setOgDesc(metaDesc);
+      _seoService.setOgType('image');
+      _seoService.setOgUrl(link);
+      _seoService.setOgImage('./app/public/mainLogo.png');
+      _seoService.setTitle('Deep Dive');
+      _seoService.setMetaDescription(metaDesc);
+      _seoService.setMetaRobots('Index, Follow');
         // needs to get Geolocation first
       this.profileName = "MLB";
 

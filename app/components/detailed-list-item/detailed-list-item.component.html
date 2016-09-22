@@ -9,10 +9,10 @@
       <div class="dataBox">
         <div class="dataBox-info" *ngFor="let data of details.dataPoints" [ngClass]="data.style">
           <i class="{{data.icon}}"></i>
-          <span class="databox-info-text">
+          <span class="databox-text">
             <complex-inner-html [textItems]="data.leftText"></complex-inner-html>
           </span>
-          <span class="databox-info-text-right">
+          <span class="databox-right">
             <complex-inner-html [textItems]="data.rightText"></complex-inner-html>
           </span>
         </div>

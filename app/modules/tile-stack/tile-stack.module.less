@@ -3,8 +3,10 @@
   min-width: 320px;
   margin: 0 auto;
   height: auto;
+
   &-item {
     height: 180px;
+    width:100%;
     background-size: cover;
     background-position: center top;
     background-repeat: no-repeat;
@@ -32,14 +34,24 @@
     width: 610px;
     height: 141px;
     margin: 0 auto;
+    &-items{
+      height:100%;
+      width:33%;
+      float:left;
+    }
     &-item {
       height: 100%;
       border-bottom: none;
-      border-right: 1px solid @fontIconGrey;
+      border-right: 1px solid #444;
+      position: relative;
+      min-height: 1px;
+      padding-left: 0;
+      padding-right: 0;
+      float: left;
+      width: 100%;
       &-text {
         font-size: 18px;
       }
-      .col-xs-4;
     }
   }
 }
