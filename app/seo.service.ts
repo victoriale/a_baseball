@@ -147,6 +147,8 @@ export class SeoService {
         el.setAttribute('rel', 'canonical');
         el.setAttribute('href', canonicalLink);
         this.headElement.appendChild(el);
+      }else{
+        el.setAttribute('href', canonicalLink);
       }
       return el;
     }
