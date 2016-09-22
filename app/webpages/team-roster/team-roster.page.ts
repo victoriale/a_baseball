@@ -68,7 +68,7 @@ export class TeamRosterPage implements OnInit {
     else {
       //TODO - Load error page since a team is required to show a roster?
     }
-  }  
+  }
 
   private setupRosterData() {
     this.tabs = this._rosterService.initializeAllTabs(this.pageParams.teamId.toString(), this.pageParams.conference);
