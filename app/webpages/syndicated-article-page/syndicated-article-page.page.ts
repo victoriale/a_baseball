@@ -16,7 +16,7 @@ import {ResponsiveWidget} from '../../components/responsive-widget/responsive-wi
 import {SanitizeRUrl, SanitizeHtml} from "../../pipes/safe.pipe";
 import {GeoLocation} from "../../global/global-service";
 import {PartnerHeader} from "../../global/global-service";
-
+import {SeoService} from "../../seo.service";
 
 declare var jQuery:any;
 declare var moment;
@@ -58,7 +58,8 @@ export class SyndicatedArticlePage{
     private _router:Router,
     private _deepdiveservice:DeepDiveService,
     private _geoLocation:GeoLocation,
-    private _partnerData: PartnerHeader
+    private _partnerData: PartnerHeader,
+    private _seoService: SeoService
     ){
       this.eventID = _params.get('eventID');
       this.articleType = _params.get('articleType');
@@ -91,7 +92,6 @@ export class SyndicatedArticlePage{
     private getDeepDiveArticle(articleID) {
       this._deepdiveservice.getDeepDiveArticleService(articleID).subscribe(
         data => {
-
           if (data.data.imagePath == null || data.data.imagePath == undefined || data.data.imagePath == "") {
             this.imageData  = ["/app/public/stockphoto_bb_1.jpg", "/app/public/stockphoto_bb_2.jpg"];
             this.copyright = ["USA Today Sports Images", "USA Today Sports Images"];
@@ -102,6 +102,19 @@ export class SyndicatedArticlePage{
             this.copyright = ["USA Today Sports Images"];
             this.imageTitle = [""];
           }
+          //create meta description that is below 160 characters otherwise will be truncated
+          let metaDesc = data.data.teaser;
+          let link = window.location.href;
+          this._seoService.setCanonicalLink(this._params.params, this._router);
+          this._seoService.setOgTitle(data.data.title);
+          this._seoService.setOgDesc(metaDesc);
+          this._seoService.setOgType('image');
+          this._seoService.setOgUrl(link);
+          this._seoService.setOgImage(this.imageData[0]);
+          this._seoService.setTitle(data.data.title);
+          this._seoService.setMetaDescription(metaDesc);
+          this._seoService.setMetaRobots('Index, Follow');
+
           this.articleData = data.data;
           this.articleData.publishedDate = moment.unix(this.articleData.publishedDate/1000).format("MMMM Do, YYYY h:mm A") + " EST";
         }
@@ -110,6 +123,20 @@ export class SyndicatedArticlePage{
     private getDeepDiveVideo(articleID){
       this._deepdiveservice.getDeepDiveVideoService(articleID).subscribe(
         data => {
+          //create meta description that is below 160 characters otherwise will be truncated
+          let metaDesc = data.data.title;
+          let link = window.location.href;
+
+          this._seoService.setCanonicalLink(this._params.params, this._router);
+          this._seoService.setOgTitle(data.data.title);
+          this._seoService.setOgDesc(metaDesc);
+          this._seoService.setOgType('video');
+          this._seoService.setOgUrl(link);
+          this._seoService.setOgImage(data.data.thumbnail);
+          this._seoService.setTitle(data.data.title);
+          this._seoService.setMetaDescription(metaDesc);
+          this._seoService.setMetaRobots('NOINDEX, Follow');
+
           this.articleData = data.data;
           this.iframeUrl = this.articleData.videoLink + "&autoplay=on";
         }

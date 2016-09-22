@@ -34,7 +34,6 @@ import {HeadlineDataService} from "../global/global-ai-headline-module-service";
 
 import {ModulePage} from "../webpages/module-page/module.page";
 import {ImagesTestPage} from "../webpages/images-test-page/images-test.page";
-import {DesignPage} from "../webpages/design-page/design.page";
 
 import {SanitizeHtml} from "../pipes/safe.pipe";
 import {SanitizeStyle} from "../pipes/safe.pipe";
@@ -255,11 +254,6 @@ declare var jQuery: any;
         component: ModulePage
     },
     {
-        path: '/design/:teamId',
-        name: 'Design-page',
-        component: DesignPage,
-    },
-    {
         path: '/images-test',
         name: 'Images-test-page',
         component: ImagesTestPage,
@@ -273,9 +267,8 @@ export class AppComponent implements OnInit{
   public shiftContainer:string;
   public hideHeader: boolean;
   private isHomeRunZone:boolean = false;
-  constructor(private _partnerData: PartnerHeader, private _params: RouteParams){
+  constructor(private _partnerData: PartnerHeader, private _params: RouteParams, private _router: Router){
     //this.hideHeader = GlobalSettings.getHomeInfo().hide;
-
     if(window.location.hostname.split(".")[0].toLowerCase() == "baseball"){
         this.partnerID = window.location.hostname.split(".")[1] + "." + window.location.hostname.split(".")[2];
         this.getPartnerHeader();

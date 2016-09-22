@@ -1,6 +1,6 @@
 <footer class="footer container-fluid">
   <section class="footer-top">
-    <a *ngIf="!partner" [routerLink]="['Home-page']"><img src="/app/public/homeRunLoyalLogo_Small.png" /></a>
+    <a *ngIf="!partner" [routerLink]="['Home-page']"><img src="/app/public/homeRunLoyalLogo_Small.png"  alt="Baseball Logo"/></a>
     <div class="placeholderImg" *ngIf="partner"></div>
     <ul>
         <a href="https://www.facebook.com/homerunloyal/?fref=ts" target="_blank"><li id="share-facebook"><i class="fa fa-facebook"></i></li></a>
@@ -10,7 +10,7 @@
 
   <section class="footer-main col-xs-12">
     <div class="footer-main displayDesktop">
-      <h1>Major League Baseball</h1>
+      <h3 class="footer-title">Major League Baseball</h3>
       <ul>
           <li class="sortCategory">Team Listings </li>
           <li *ngFor="let link of teamDirectoryListings; let isLast=last">
