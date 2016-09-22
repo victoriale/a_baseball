@@ -225,7 +225,7 @@ export class PlayerPage implements OnInit {
     this._seoService.setOgDesc(metaDesc);
     this._seoService.setOgType('image');
     this._seoService.setOgUrl(link);
-    this._seoService.setOgImage(data.headerData.imageUrl);
+    this._seoService.setOgImage(GlobalSettings.getImageUrl(data.headerData.profileImage));
     this._seoService.setTitle(data.profileName);
     this._seoService.setMetaDescription(metaDesc);
     this._seoService.setMetaRobots('Index, Follow');
