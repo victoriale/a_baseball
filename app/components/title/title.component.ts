@@ -46,7 +46,6 @@ export class TitleComponent implements OnChanges {
           let text4 = this.titleData.text4 != null ? this.titleData.text4: '';
           let metaDesc = "This page's purpose is to show " + GlobalSettings.getPageTitle(text3 + '. ' + text4) + 'with the most up to date information.';
           let link = window.location.href;
-          console.log(this._router);
           this._seoService.setCanonicalLink(this._params.params, this._router);
           this._seoService.setOgTitle(metaDesc);
           this._seoService.setOgDesc("Know more about "+metaDesc + " in baseball");

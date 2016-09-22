@@ -60,17 +60,12 @@ export class SeoService {
   public setTitle(newTitle: string) {
     let splitTitle = newTitle.split(' ');
     let shortTitle;
-
     if(splitTitle.length > 3){
-      console.log(1,splitTitle);
       splitTitle = splitTitle.splice(0,3);
-      console.log(2, splitTitle);
-
       shortTitle = splitTitle.join(' ') + '...';
     }else{
       shortTitle = splitTitle.join(' ');
     }
-    console.log(shortTitle);
     this.titleService.setTitle(shortTitle);
   }
 
