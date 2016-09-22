@@ -102,7 +102,6 @@ export class SeoService {
   }
   public setOgUrl(url: string) {
     this.ogUrl.setAttribute('content', url);
-    console.log(this.ogUrl);
   }
   public setOgImage(imageUrl: string) {
     this.ogImage.setAttribute('content', imageUrl);
