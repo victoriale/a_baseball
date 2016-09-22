@@ -8,7 +8,6 @@
 import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { getDOM } from '@angular/platform-browser/src/dom/dom_adapter';
-import {Router} from '@angular/router-deprecated'
 import {GlobalSettings} from "./global/global-settings";
 
 @Injectable()
@@ -35,7 +34,7 @@ export class SeoService {
   * Inject the Angular 2 Title Service
   * @param titleService
   */
-  constructor(titleService: Title, private _router:Router){
+  constructor(titleService: Title){
     this.titleService = titleService;
     this.DOM = getDOM();
 
@@ -142,7 +141,7 @@ export class SeoService {
       //given the route by params find the hostComponent page to keep it synchronous
       let pageName = router.parent.currentInstruction.component.routeName;
       //router deprecated get the route name of the first child in root router outlet
-      let canonicalLink = GlobalSettings.getHomePage(null) + '/' + this._router.generate(['Default-home',pageName, RouteParams]).child.urlPath;
+      let canonicalLink = GlobalSettings.getHomePage(null) + '/' + router.root.generate(['Default-home',pageName, RouteParams]).child.urlPath;
       if (el === null) {
         el = this.DOM.createElement('link');
         el.setAttribute('rel', 'canonical');
@@ -152,22 +151,4 @@ export class SeoService {
       return el;
     }
 
-    // getRelativePath(router:Router){
-    //   let counter = 0;
-    //   let hasParent = true;
-    //   let route = router;
-    //   for (var i = 0; hasParent == true; i++){
-    //     if(route.parent != null){
-    //       counter++;
-    //       route = route.parent;
-    //     }else{
-    //       hasParent = false;
-    //       let relPath = '';
-    //       for(var c = 1 ; c <= counter; c++){
-    //         relPath += '../';
-    //       }
-    //       return relPath;
-    //     }
-    //   }
-    // }
 }
