@@ -15,6 +15,7 @@ import {MLBGlobalFunctions} from "../../global/mlb-global-functions";
 import {SidekickWrapperAI} from "../../components/sidekick-wrapper-ai/sidekick-wrapper-ai.component";
 import {GlobalSettings} from "../../global/global-settings";
 import {SidekickContainerComponent} from "../../components/articles/sidekick-container/sidekick-container.component";
+import {SeoService} from '../../seo.service';
 
 @Component({
     selector: 'article-pages',
@@ -64,7 +65,8 @@ export class ArticlePages implements OnInit {
     constructor(private _params:RouteParams,
                 private _router:Router,
                 private _articleDataService:ArticleDataService,
-                private _location:Location) {
+                private _location:Location,
+                private _seoService:SeoService) {
         window.scrollTo(0, 0);
         this.eventID = _params.get('eventID');
         this.eventType = _params.get('eventType');
@@ -96,6 +98,20 @@ export class ArticlePages implements OnInit {
                     this.imageLinks = this.getImageLinks(ArticleData[pageIndex]);
                     this.teamId = ArticleData[pageIndex].teamId;
                     ArticlePages.setMetaTag(this.articleData.metaHeadline);
+
+                    //create meta description that is below 160 characters otherwise will be truncated
+                    let metaDesc = ArticleData[pageIndex].metaHeadline;
+                    let link = window.location.href;
+
+                    this._seoService.setCanonicalLink(this._params.params, this._router);
+                    this._seoService.setOgTitle(this.title);
+                    this._seoService.setOgDesc(metaDesc);
+                    this._seoService.setOgType('image');
+                    this._seoService.setOgUrl(link);
+                    this._seoService.setOgImage(ArticleData[pageIndex]['images'][this.teamId][0].image);
+                    this._seoService.setTitle(this.title);
+                    this._seoService.setMetaDescription(metaDesc);
+                    this._seoService.setMetaRobots('INDEX, FOLLOW');
                 },
                 err => {
                     this.error = true;
