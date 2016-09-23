@@ -97,12 +97,10 @@ export class ArticlePages implements OnInit {
                     this.comment = ArticleData[pageIndex].commentHeader;
                     this.imageLinks = this.getImageLinks(ArticleData[pageIndex]);
                     this.teamId = ArticleData[pageIndex].teamId;
-                    ArticlePages.setMetaTag(this.articleData.metaHeadline);
 
                     //create meta description that is below 160 characters otherwise will be truncated
                     let metaDesc = ArticleData[pageIndex].metaHeadline;
                     let link = window.location.href;
-
                     this._seoService.setCanonicalLink(this._params.params, this._router);
                     this._seoService.setOgTitle(this.title);
                     this._seoService.setOgDesc(metaDesc);
@@ -110,7 +108,7 @@ export class ArticlePages implements OnInit {
                     this._seoService.setOgUrl(link);
                     this._seoService.setOgImage(ArticleData[pageIndex]['images'][this.teamId][0].image);
                     this._seoService.setTitle(this.title);
-                    this._seoService.setMetaDescription(metaDesc);
+                    this._seoService.setMetaDescription(this.articleData.metaHeadline);
                     this._seoService.setMetaRobots('INDEX, FOLLOW');
                 },
                 err => {
@@ -588,15 +586,6 @@ export class ArticlePages implements OnInit {
                 break;
         }
         return this.articleType;
-    }
-
-    static setMetaTag(metaData) {
-        if (metaData !== null) {
-            var metaTag = document.createElement('meta');
-            metaTag.name = 'description';
-            metaTag.content = metaData;
-            document.head.appendChild(metaTag);
-        }
     }
 
     ngOnInit() {
