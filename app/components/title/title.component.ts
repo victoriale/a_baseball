@@ -43,16 +43,25 @@ export class TitleComponent implements OnChanges {
         }else{
           //create meta description that is below 160 characters otherwise will be truncated
           let text3 = this.titleData.text3 != null ? this.titleData.text3: '';
-          let text4 = this.titleData.text4 != null ? this.titleData.text4: '';
-          let metaDesc = "This page's purpose is to show " + GlobalSettings.getPageTitle(text3 + '. ' + text4) + 'with the most up to date information.';
+          let text4 = this.titleData.text4 != null ? '. '+this.titleData.text4: '';
+          let metaDesc = GlobalSettings.getPageTitle(text3 + ' ' + text4);
           let link = window.location.href;
+          let imageUrl;
+          if(this.titleData.imageURL != null){
+            imageUrl = this.titleData.imageURL;
+          }else{
+            if(this.titleData.imageRoute != null){
+              imageUrl = this.titleData.imageRoute[0].replace('-',' ');
+            }
+          }
+
           this._seoService.setCanonicalLink(this._params.params, this._router);
           this._seoService.setOgTitle(metaDesc);
-          this._seoService.setOgDesc("Know more about "+metaDesc + " in baseball");
+          this._seoService.setOgDesc(metaDesc +". Know more about baseball.");
           this._seoService.setOgType('image');
           this._seoService.setOgUrl(link);
           this._seoService.setOgImage(this.titleData.imageURL);
-          this._seoService.setTitle(this.titleData.imageRoute[0].replace('-',' '));
+          this._seoService.setTitle(metaDesc);
           this._seoService.setMetaDescription(metaDesc);
           this._seoService.setMetaRobots('INDEX, FOLLOW');
         }
