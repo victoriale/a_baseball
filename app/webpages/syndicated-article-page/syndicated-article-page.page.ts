@@ -113,7 +113,7 @@ export class SyndicatedArticlePage{
           this._seoService.setOgImage(this.imageData[0]);
           this._seoService.setTitle(data.data.title);
           this._seoService.setMetaDescription(metaDesc);
-          this._seoService.setMetaRobots('Index, Follow');
+          this._seoService.setMetaRobots('INDEX, NOFOLLOW');
 
           this.articleData = data.data;
           this.articleData.publishedDate = moment.unix(this.articleData.publishedDate/1000).format("MMMM Do, YYYY h:mm A") + " EST";
