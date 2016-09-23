@@ -259,7 +259,6 @@ export class TeamPage implements OnInit {
       //create meta description that is below 160 characters otherwise will be truncated
       let metaDesc =  data.headerData.description;
       let link = window.location.href;
-      console.log(data);
       this._seoService.setCanonicalLink(this._params.params, this._router);
       this._seoService.setOgTitle(data.profileName);
       this._seoService.setOgDesc(metaDesc);
