@@ -63,7 +63,6 @@ export class SearchService{
     getSearchDropdownData(term: string){
         //TODO: Wrap in async
         let data = this.searchJSON;
-
         //Search for players and teams
         let playerResults = this.searchPlayers(term, data.players);
         let teamResults = this.searchTeams(term, data.teams);
