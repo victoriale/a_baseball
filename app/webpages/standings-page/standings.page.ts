@@ -78,7 +78,7 @@ export class StandingsPage implements OnInit {
       this._title.setTitle(GlobalSettings.getPageTitle("Standings", "MLB"));
       var title = this._standingsService.getPageTitle(this.pageParams, null);
       this.titleData = this.titleData = {
-        imageURL: "http://prod-sports-images.synapsys.us/mlb/logos/team/MLB_Logo.jpg",
+        imageURL: GlobalSettings.getMLBLogoUrl(),
         imageRoute: ["MLB-page"],
         text1: "",
         text2: "United States",
