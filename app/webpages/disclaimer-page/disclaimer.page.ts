@@ -30,7 +30,10 @@ export class DisclaimerPage {
     public titleData: TitleInputData;
 
     constructor(private _router:Router, private _title: Title, private _seoService: SeoService, private _params:RouteParams) {
-      _title.setTitle(GlobalSettings.getPageTitle("Disclaimer"));
+      GlobalSettings.getPartnerID(_router, partnerID => this.loadData(partnerID));
+    }
+
+    ngAfterViewInit(){
       //create meta description that is below 160 characters otherwise will be truncated
       let metaDesc = 'Disclaimer page to disclose any information';
       let link = window.location.href;
@@ -44,8 +47,6 @@ export class DisclaimerPage {
       this._seoService.setTitle('Disclaimer');
       this._seoService.setMetaDescription(metaDesc);
       this._seoService.setMetaRobots('NOINDEX, FOLLOW');
-
-      GlobalSettings.getPartnerID(_router, partnerID => this.loadData(partnerID));
     }
 
     loadData(partnerID:string) {

@@ -25,7 +25,6 @@ export class ContactUsPage implements OnInit{
     public contactusInput: Object;
 
     constructor(private http:Http, private _title: Title, private _router:Router, private _seoService: SeoService, private _params:RouteParams) {
-        _title.setTitle(GlobalSettings.getPageTitle("Contact Us"));
         GlobalSettings.getPartnerID(_router, partnerID => {
           var domainTitle;
           if(partnerID != null){
@@ -98,7 +97,7 @@ export class ContactUsPage implements OnInit{
         this.http.get(this.mailManUrl,{})
     }
 
-    ngOnInit(){
+    ngAfterViewInit(){
       //create meta description that is below 160 characters otherwise will be truncated
       let metaDesc = 'Contact Us about any inquiries or issues with the site or data that does seems inaccurate';
       let link = window.location.href;

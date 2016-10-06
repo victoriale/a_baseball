@@ -60,25 +60,24 @@ export class AboutUsPage {
     }
 
     constructor(private _router:Router, private _service: AboutUsService, private _title: Title, private _seoService:SeoService, private _params:RouteParams) {
-        _title.setTitle(GlobalSettings.getPageTitle("About Us"));
-
-        //create meta description that is below 160 characters otherwise will be truncated
-        let metaDesc = 'About Us, learn about baseball and MLB players and team';
-        let link = window.location.href;
-
-        this._seoService.setCanonicalLink(this._params.params, this._router);
-        this._seoService.setOgTitle('About Us');
-        this._seoService.setOgDesc(metaDesc);
-        this._seoService.setOgType('image');
-        this._seoService.setOgUrl(link);
-        this._seoService.setOgImage('./app/public/mainLogo.png');
-        this._seoService.setTitle('About Us');
-        this._seoService.setMetaDescription(metaDesc);
-        this._seoService.setMetaRobots('INDEX, FOLLOW');
-
         GlobalSettings.getPartnerID(_router, partnerID => this.loadData(partnerID));
     }
 
+    ngAfterViewInit(){
+      //create meta description that is below 160 characters otherwise will be truncated
+      let metaDesc = 'About Us, learn about baseball and MLB players and team';
+      let link = window.location.href;
+
+      this._seoService.setCanonicalLink(this._params.params, this._router);
+      this._seoService.setOgTitle('About Us');
+      this._seoService.setOgDesc(metaDesc);
+      this._seoService.setOgType('image');
+      this._seoService.setOgUrl(link);
+      this._seoService.setOgImage('./app/public/mainLogo.png');
+      this._seoService.setTitle('About Us');
+      this._seoService.setMetaDescription(metaDesc);
+      this._seoService.setMetaRobots('INDEX, FOLLOW');
+    }
     loadData(partnerID:string) {
         this._service.getData(partnerID).subscribe(
           data => this.setupAboutUsData(data),
@@ -94,12 +93,6 @@ export class AboutUsPage {
         this.auHeaderTitle = data.headerTitle;
         this.titleData = data.titleData;
         this.auContent = data.content;
-
-        //create meta description that is below 160 characters otherwise will be truncated
-        let metaDesc = GlobalSettings.getPageTitle( this.auContent[0]);
-        this._seoService.setTitle('About Us');
-        this._seoService.setMetaDescription(metaDesc);
-        this._seoService.setMetaRobots('Index, Follow');
       }
     }
 }
