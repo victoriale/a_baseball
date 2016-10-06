@@ -7,6 +7,7 @@ import {CustomTable} from '../custom-table/custom-table.component';
 import {TableModel} from '../custom-table/table-data.component';
 import {LoadingComponent} from '../loading/loading.component';
 import {NoDataBox} from '../../components/error/data-box/data-box.component';
+import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
 export interface TableTabData<T> {
   title: string;
@@ -26,9 +27,11 @@ export interface TableComponentData<T> {
 @Component({
   selector: "season-stats-component",
   templateUrl: "./app/components/season-stats/season-stats.component.html",
-  directives: [SliderCarousel, Tabs, Tab, CustomTable, LoadingComponent, NoDataBox],
+  directives: [SliderCarousel, Tabs, Tab, CustomTable, LoadingComponent, NoDataBox, ResponsiveWidget],
 })
 export class SeasonStatsComponent implements DoCheck {
+
+  public widgetPlace: string = "widgetForPage";
   public selectedIndex;
 
   public carouselData: Array<SliderCarouselInput> = [];

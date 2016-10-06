@@ -45,6 +45,9 @@
     .globalDefaultModFont(60px, 400, @white);
     &:hover{
       color:@masterBrandColor;
+      @media @mobile {
+        color:@white; //when it is mobile, get rid of hover event color
+      }
     }
   }
 

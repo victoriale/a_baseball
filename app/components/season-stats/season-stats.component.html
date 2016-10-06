@@ -3,7 +3,7 @@
     <slider-carousel *ngIf="carouselData" [carouselData]="carouselData" (indexNum)="indexNum($event)" [indexInput]="selectedIndex"></slider-carousel>
   </div>
   <tabs (tabSelected)="tabSelected($event)">
-    <tab *ngFor="let tab of tabs" [tabTitle]="tab.title" [active]="tab.isActive">
+    <tab *ngFor="let tab of tabs" [tabTitle]="tab.title" [active]="tab.isActive" class="ss-{{tab.title.replace(' ', '-')}}">
       <loading-component *ngIf="!tab.isLoaded && !tab.hasError"></loading-component>
       <div *ngIf="tab.isLoaded && tab.sections">
         <h3 [innerHtml]="tab.tabName"></h3>
@@ -15,6 +15,8 @@
       <div *ngIf="!tab.sections && tab.isLoaded" class="season-stats-no-data">
           <no-data-box [data]="noDataMessage" [icon]="'fa fa-remove'"></no-data-box>
       </div>
+
+      <responsive-widget *ngIf="tab.title.replace(' ', '-') != 'Career-Stats'" [embedPlace]="widgetPlace"></responsive-widget>
     </tab>
   </tabs>
 </div>
