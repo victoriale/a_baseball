@@ -62,7 +62,7 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
     this.errorMessage = "Sorry, there is no roster data available.";
     this.isTeamProfilePage = isTeamProfilePage;
 
-    if ( this.type == "hitters" && conference == Conference.national ) {
+    if ( this.type == "hitters" && conference == Conference.national) {
       this.hasError = true;
       this.errorMessage = "This team is a National League team and has no designated hitters.";
     }
@@ -85,7 +85,7 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
 
           this.tableData = new RosterTableModel(rows);
           this.isLoaded = true;
-          this.hasError = false;
+          // this.hasError = false;
         },
         err => {
           this.isLoaded = true;
@@ -97,7 +97,7 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
         var rows = this.filterRows(this._service.fullRoster);
         this.tableData = new RosterTableModel(rows);
         this.isLoaded = true;
-        this.hasError = false;
+        // this.hasError = false;
       }
     }
   }

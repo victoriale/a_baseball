@@ -150,6 +150,11 @@ export class GlobalSettings {
         return "/app/public/mainLogo.png";
     }
 
+    static getMLBLogoUrl():string {
+      // Prod is hardcoded because dev and qa server does not exist
+      return this._proto + "//" + "prod" + this._imageUrl + "/mlb/logos/team/MLB_Logo.jpg";
+    }
+
     /**
      * This should be called by classes in their constructor function, so that the
      * 'subscribe' function actually gets called and the partnerID can be located from the route

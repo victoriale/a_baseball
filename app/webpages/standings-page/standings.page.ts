@@ -29,43 +29,43 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
 
 export class StandingsPage implements OnInit {
   public tabs: Array<MLBStandingsTabData>;
-    
+
   public pageParams: MLBPageParameters = {}
-  
+
   public titleData: TitleInputData;
 
   public profileLoaded: boolean = false;
   public hasError: boolean = false;
-  
+
   constructor(private _params: RouteParams,
               private _title: Title,
               private _profileService: ProfileHeaderService,
-              private _standingsService: StandingsService, 
+              private _standingsService: StandingsService,
               private _mlbFunctions: MLBGlobalFunctions) {
     _title.setTitle(GlobalSettings.getPageTitle("Standings"));
-    
+
     var type = _params.get("type");
     if ( type !== null && type !== undefined ) {
       type = type.toLowerCase();
       this.pageParams.conference = Conference[type];
     }
-    
+
     var teamId = _params.get("teamId");
     if ( type == "team" && teamId !== null && teamId !== undefined ) {
       this.pageParams.teamId = Number(teamId);
-    } 
+    }
   }
-  
-  ngOnInit() {    
-    if ( this.pageParams.teamId ) {      
+
+  ngOnInit() {
+    if ( this.pageParams.teamId ) {
       this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
         data => {
           this.profileLoaded = true;
-          this.pageParams = data.pageParams; 
+          this.pageParams = data.pageParams;
           this._title.setTitle(GlobalSettings.getPageTitle("Standings", data.teamName));
 
           var title = this._standingsService.getPageTitle(this.pageParams, data.teamName);
-          this.titleData = this._profileService.convertTeamPageHeader(data, title)          
+          this.titleData = this._profileService.convertTeamPageHeader(data, title)
           this.tabs = this._standingsService.initializeAllTabs(this.pageParams);
         },
         err => {
@@ -78,7 +78,7 @@ export class StandingsPage implements OnInit {
       this._title.setTitle(GlobalSettings.getPageTitle("Standings", "MLB"));
       var title = this._standingsService.getPageTitle(this.pageParams, null);
       this.titleData = this.titleData = {
-        imageURL: GlobalSettings.getSiteLogoUrl(),
+        imageURL: GlobalSettings.getMLBLogoUrl(),
         imageRoute: ["MLB-page"],
         text1: "",
         text2: "United States",
@@ -88,20 +88,20 @@ export class StandingsPage implements OnInit {
       this.tabs = this._standingsService.initializeAllTabs(this.pageParams);
     }
   }
-  
-  private standingsTabSelected(tabData: Array<any>) {    
+
+  private standingsTabSelected(tabData: Array<any>) {
     this._standingsService.getStandingsTabData(tabData, this.pageParams, data => {
       this.getLastUpdatedDateForPage(data);
     });
   }
-  
-  private getLastUpdatedDateForPage(data: MLBStandingsTableData[]) {           
+
+  private getLastUpdatedDateForPage(data: MLBStandingsTableData[]) {
       //Getting the first 'lastUpdatedDate' listed in the StandingsData
-      if ( data && data.length > 0 && 
+      if ( data && data.length > 0 &&
         data[0].tableData && data[0].tableData.rows &&
         data[0].tableData.rows.length > 0 ) {
           var lastUpdated = data[0].tableData.rows[0].lastUpdated;
-          this.titleData.text1 = "Last Updated: " + GlobalFunctions.formatUpdatedDate(lastUpdated, false); 
+          this.titleData.text1 = "Last Updated: " + GlobalFunctions.formatUpdatedDate(lastUpdated, false);
       }
   }
 }
