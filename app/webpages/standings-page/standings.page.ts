@@ -67,7 +67,6 @@ export class StandingsPage implements OnInit {
           var title = this._standingsService.getPageTitle(this.pageParams, data.teamName);
           this.titleData = this._profileService.convertTeamPageHeader(data, title)
           this.tabs = this._standingsService.initializeAllTabs(this.pageParams);
-          console.log('Title Data ' + this.titleData);
         },
         err => {
           this.hasError = true;
@@ -93,7 +92,6 @@ export class StandingsPage implements OnInit {
   private standingsTabSelected(tabData: Array<any>) {
     this._standingsService.getStandingsTabData(tabData, this.pageParams, data => {
       this.getLastUpdatedDateForPage(data);
-      console.log('tab' + JSON.stringify(data, null, 4));
     });
   }
 
