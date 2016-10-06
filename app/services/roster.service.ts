@@ -29,10 +29,10 @@ export class RosterService {
   getRosterTabData(rosterTab: MLBRosterTabData): Observable<Array<TeamRosterData>> {
     var teamId = rosterTab.teamId;
     var type = rosterTab.type;
-    
+
     rosterTab.isLoaded = false;
     rosterTab.hasError = false;
-    
+
     var fullUrl = this._apiUrl + "/team/roster/" + teamId;
     //console.log("loading full team roster: "+ fullUrl);
     return this.http.get(fullUrl, {headers: this.setToken()})

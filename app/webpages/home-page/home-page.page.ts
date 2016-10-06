@@ -8,7 +8,7 @@ import {Search, SearchInput} from '../../components/search/search.component';
 import {RouteParams, Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {LandingPageService} from '../../services/landing-page';
 import {PartnerHomePage} from '../partner-home-page/partner-home-page';
-
+import {SeoService} from '../../seo.service';
 export interface homePageData {
   imageData: CircleImageData;
   location: string;
@@ -64,7 +64,9 @@ export class PickTeamPage{
     public width: number;
     constructor(private _router: Router,
                 private _landingPageService: LandingPageService,
-                private _title: Title) {
+                private _title: Title,
+                private _seoService: SeoService,
+                private _params: RouteParams) {
       _title.setTitle(GlobalSettings.getPageTitle(""));
       this.getData();
       this.getListData();
@@ -72,9 +74,23 @@ export class PickTeamPage{
       GlobalSettings.getPartnerID(_router, partnerID => {
         var partnerHome = GlobalSettings.getHomeInfo().isHome && GlobalSettings.getHomeInfo().isPartner;
         this.isHomeRunZone = partnerHome;
+
+        //create meta description that is below 160 characters otherwise will be truncated
+        let metaDesc = GlobalSettings.getPageTitle('Pick a team near you or search for your favorite baseball team or player.', 'Pick A Team');
+        let link = window.location.href;
+
+        _seoService.setCanonicalLink(this._params.params, this._router);
+        _seoService.setOgTitle('Pick A Team');
+        _seoService.setOgDesc(metaDesc);
+        _seoService.setOgType('image');
+        _seoService.setOgUrl(link);
+        _seoService.setOgImage('./app/public/mainLogo.png');
+        _seoService.setTitle('Pick A Team');
+        _seoService.setMetaDescription(metaDesc);
+        _seoService.setMetaRobots('Index, Follow');
       });
     }
-  
+
     getListData(){
       this.listData = [
         {

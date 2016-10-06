@@ -36,6 +36,9 @@ standings-page div .standings-tab-section:nth-child(odd) .widgetForPage {
 }
 standings-page div .standings-tab-section:last-of-type .widgetForPage {
   display: block!important;
+  .widgetWrapper .adSquareSmall {
+    .transformPrefixes(translateX(50%));
+  }
 }
 .widgetForModule {
   width:100%;
@@ -56,6 +59,9 @@ standings-page div .standings-tab-section:last-of-type .widgetForPage {
   }
   .pane .widgetForPage .widgetWrapper {
     margin: 0 -15px;
+  }
+  .season-stats .pane .widgetForPage .widgetWrapper {
+    margin: 0;
   }
   .tab-inset .widgetForPage .widgetWrapper {
     margin: 0;
