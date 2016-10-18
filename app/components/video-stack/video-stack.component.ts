@@ -21,7 +21,7 @@ export class VideoStackComponent implements OnInit{
   @Input() videoData: any;
 
   formatDate(date) {
-    return moment(date, "YYYY-MM-Do").format("MMMM DD, YYYY");
+    return moment(date, "YYYY-MM-Do").format("MMM DD, YYYY");
   }
   ngOnInit() {
   }

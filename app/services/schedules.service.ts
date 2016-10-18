@@ -195,7 +195,7 @@ export class SchedulesService {
       }
       let reportLink = MLBGlobalFunctions.formatAiArticleRoute(reportEventType, reportEventID);
 
-      let date = moment(val.startDateTimestamp).tz('America/New_York').format('MMMM D, YYYY');
+      let date = moment(val.startDateTimestamp).tz('America/New_York').format('MMM D, YYYY');
       let time = moment(val.startDateTimestamp).tz('America/New_York').format('h:mm A z');
       newData = {
         date: date + " &bull; " + time,
@@ -257,7 +257,7 @@ export class SchedulesService {
           if(typeof dateObject[splitToDate] == 'undefined'){
             dateObject[splitToDate] = {};
             dateObject[splitToDate]['tableData'] = [];
-            dateObject[splitToDate]['display'] = moment(val.startDateTimestamp).tz('America/New_York').format('dddd MMMM Do, YYYY') + " Games";
+            dateObject[splitToDate]['display'] = moment(val.startDateTimestamp).tz('America/New_York').format('dddd MMM Do, YYYY') + " Games";
             dateObject[splitToDate]['tableData'].push(val);
           }else{
             dateObject[splitToDate]['tableData'].push(val);

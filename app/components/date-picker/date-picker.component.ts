@@ -214,7 +214,7 @@ export class DatePicker implements ControlValueAccessor, AfterViewInit {
 
   private setValue(value: any): void {
     let val = moment(value, this.modelFormat || 'YYYY-MM-DD');
-    this.viewValue = val.format(this.viewFormat || 'Do MMMM YYYY');
+    this.viewValue = val.format(this.viewFormat || 'Do MMM YYYY');
     this.cd.viewToModelUpdate(val.format(this.modelFormat || 'YYYY-MM-DD'));
     this.cannonical = val.toDate().getTime();
   }

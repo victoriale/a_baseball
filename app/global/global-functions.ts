@@ -410,7 +410,7 @@ export class GlobalFunctions {
      */
     static formatUpdatedDate(jsDate:any, includeTimestamp?:boolean, timezone?:string): string {
       var date = moment(jsDate);
-      var str = date.format("dddd, ") + GlobalFunctions.formatAPMonth(date.month()) + date.format(' D, YYYY');
+      var str = date.format("dddd ") + GlobalFunctions.formatAPMonth(date.month()) + date.format(' D, YYYY');
       if ( includeTimestamp ) {
         str += ' | ' + date.format('hh:mm A') + (timezone !== undefined && timezone !== null ? timezone : "");
       }
@@ -578,7 +578,7 @@ export class GlobalFunctions {
     return lastChar == 's' ? name + "'" : name + "'s";
   }
   static formatDate(date) {
-    var month = moment.unix(date/1000).format("MMMM");
+    var month = moment.unix(date/1000).format("MMM");
     var day = moment.unix(date/1000).format("DD");
     var year = moment.unix(date/1000).format("YYYY");
     var time = moment.unix(date/1000).format("h:mm");
