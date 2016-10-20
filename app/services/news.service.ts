@@ -34,7 +34,7 @@ export class NewsService {
         };
     })
   }//getNewsService ends
-  
+
   newsData(data){
     var self = this;
     var newsArray = [];
@@ -46,7 +46,7 @@ export class NewsService {
         description: val.description,
         newsUrl: val.link,
         author: _getHostName(val.link) != null ? _getHostName(val.link) : 'Anonymous',
-        published: moment.unix(val.pubDate_ut).format('dddd MMMM Do, YYYY'),//convert unix time to readable
+        published: moment.unix(val.pubDate_ut).format('dddd MMM. Do, YYYY'),//convert unix time to readable
         footerData: {
           infoDesc: 'Want to check out the full story?',
           text: 'READ THE ARTICLE',

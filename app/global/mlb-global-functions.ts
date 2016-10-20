@@ -248,7 +248,20 @@ export class MLBGlobalFunctions {
   */
   static convertAiDate(date){
     date = date.split(' ');
-    var month = date[0];
+    var month;
+    switch(date[0]) {
+      case 'January': month = 'Jan.'; break;
+      case 'February': month = 'Feb.'; break;
+      case 'August': month = 'Aug.'; break;
+      case 'September': month = 'Sep.'; break;
+      case 'October': month = 'Oct.'; break;
+      case 'November': month = 'Nov.'; break;
+      case 'December': month = 'Dec.'; break;
+      default: month = date[0]; break;
+    }
+    date[0] = month;
+
+
     var day = date[1];
     day = day.split(',')[0].replace(/([A-Za-z])\w+/g,'');
     var year = date[2];

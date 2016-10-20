@@ -14,7 +14,7 @@ import {GlobalSettings} from '../../global/global-settings';
 export interface TestImage {
   imageData: CircleImageData;
   description: string;
-} 
+}
 
 @Component({
     selector: 'images-test-page',
@@ -26,7 +26,7 @@ export class ImagesTestPage {
     titleData: TitleInputData;
     auHeaderTitle: string;
     gradientStyles: Array<any> = [];
-    
+
     public testImages: Array<TestImage>;
 
     constructor() {
@@ -37,18 +37,18 @@ export class ImagesTestPage {
       //About us title
       this.titleData = {
           imageURL : GlobalSettings.getSiteLogoUrl(),
-          text1: 'Last Updated: Monday, February 26, 2016',
+          text1: 'Last Updated: Monday Feb. 26, 2016',
           text2: ' United States of America',
           text3: 'Test Page',
           text4: 'A test page for designing and viewing CSS styles',
           icon: 'fa fa-map-marker'
       };
-      
+
       this.gradientStyles.push(Gradient.getGradientStyles(["#A71930","#000000","#E3D4AD"], .75));
       this.gradientStyles.push(Gradient.getGradientStyles(["#CE1141","#13274F"], .75));
-      
+
       var sampleImage = "./app/public/placeholder-location-bad.jpg";
-      
+
       this.testImages = [
         {
           description: "Season Stats, Player Career Stats Module, Injury & Suspension Carousel, Standings Carousel, Team Transactions Carousel",

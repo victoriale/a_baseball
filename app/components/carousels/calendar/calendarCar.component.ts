@@ -150,7 +150,7 @@ export class CalendarCarousel implements OnInit{
 
       //set each of the dates the EST from UTC and change format to respective format
       let year =  moment(Number(date)).tz('America/New_York').format('YYYY');
-      let month = moment(Number(date)).tz('America/New_York').format('MMM');
+      let month = moment(Number(date)).tz('America/New_York').format('MMM.');
       let day = moment(Number(date)).tz('America/New_York').format('D');
       let weekDay = moment(Number(date)).tz('America/New_York').format('ddd');
       let fullDate = moment(Number(date)).tz('America/New_York').format('YYYY-MM-DD');
