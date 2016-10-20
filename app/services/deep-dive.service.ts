@@ -255,6 +255,7 @@ export class DeepDiveService {
     var sampleImage = "/app/public/placeholder_XL.png";
     var articleStackArray = [];
     var date = GlobalFunctions.formatDate(data.timestamp*1000);
+    console.log('alex',date);
     var i = 1;
     for (var key in data) {
       if (data.hasOwnProperty(key) && data[key].displayHeadline != null && i <= 8) {
@@ -361,7 +362,7 @@ export class DeepDiveService {
     data.forEach(function(val,index){
       //if (val.id != currentArticleId) {
       let date = GlobalFunctions.formatDate(val.publishedDate);
-      val["date"] = date.month + " " + date.day + ", " + date.year + " " + date.time + " " + date.a + " EST";
+      val["date"] = date.month + " " + date.day + ", " + date.year + " " + date.time + " " + date.a + " (EST)";
       val["image"] = GlobalSettings.getImageUrl(val.imagePath);
       val["newsRoute"] = MLBGlobalFunctions.formatNewsRoute(val.id);
       //}

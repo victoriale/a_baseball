@@ -578,12 +578,12 @@ export class GlobalFunctions {
     return lastChar == 's' ? name + "'" : name + "'s";
   }
   static formatDate(date) {
-    var month = moment.unix(date/1000).format("MMM");
+    var month = moment.unix(date/1000).format("MMM.");
     var day = moment.unix(date/1000).format("DD");
     var year = moment.unix(date/1000).format("YYYY");
     var time = moment.unix(date/1000).format("h:mm");
     var a = moment.unix(date/1000).format("A");
-    var zone = "EST"
+    var zone = "(EST)"
     return {month: month, day: day, year: year, time: time, a: a, zone: zone}
   }
 }

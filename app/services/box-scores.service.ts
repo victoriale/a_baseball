@@ -128,7 +128,7 @@ export class BoxScoresService {
   }
   moduleHeader(date, team?){
     var moduleTitle;
-    var month = moment(date,"YYYY-MM-DD").tz('America/New_York').format("MMM");
+    var month = moment(date,"YYYY-MM-DD").tz('America/New_York').format("MMM.");
     var day = moment(date,"YYYY-MM-DD").tz('America/New_York').format("D");
     var ordinal = moment(date,"YYYY-MM-DD").tz('America/New_York').format("D");
     ordinal = '<sup>' + GlobalFunctions.Suffix(ordinal) + '</sup>';

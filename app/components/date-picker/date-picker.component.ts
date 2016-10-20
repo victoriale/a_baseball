@@ -144,7 +144,7 @@ export class DatePicker implements ControlValueAccessor, AfterViewInit {
     let year = date.year();
     let n = 1;
     let firstWeekDay = null;
-    this.dateValue = "<span class='text-heavy'>"+date.format('MMMM')+" </span><span> "+date.format('YYYY')+"</span>"; //designed wanted double spacing
+    this.dateValue = "<span class='text-heavy'>"+date.format('MMM.')+" </span><span> "+date.format('YYYY')+"</span>"; //designed wanted double spacing
     this.days = [];
     var days42 = 42;
     if (this.firstWeekDaySunday === true) {
@@ -214,7 +214,7 @@ export class DatePicker implements ControlValueAccessor, AfterViewInit {
 
   private setValue(value: any): void {
     let val = moment(value, this.modelFormat || 'YYYY-MM-DD');
-    this.viewValue = val.format(this.viewFormat || 'Do MMM YYYY');
+    this.viewValue = val.format(this.viewFormat || 'Do MMM. YYYY');
     this.cd.viewToModelUpdate(val.format(this.modelFormat || 'YYYY-MM-DD'));
     this.cannonical = val.toDate().getTime();
   }
