@@ -17,7 +17,7 @@ export class DeepDiveService {
   // private _headerName: string = 'X-SNT-TOKEN';
 
 
-  constructor(
+  structor(
     public http: Http,
     private _sanitizer: DomSanitizationService){}
 
@@ -255,7 +255,6 @@ export class DeepDiveService {
     var sampleImage = "/app/public/placeholder_XL.png";
     var articleStackArray = [];
     var date = GlobalFunctions.formatDate(data.timestamp*1000);
-    console.log('alex',date);
     var i = 1;
     for (var key in data) {
       if (data.hasOwnProperty(key) && data[key].displayHeadline != null && i <= 8) {
