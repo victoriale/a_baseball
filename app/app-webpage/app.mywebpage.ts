@@ -353,14 +353,14 @@ export class MyAppComponent implements OnInit{
             }
             isTakenOver = true;
             clearInterval(intvl);
-            jQuery('#ddto-left-ad').css('top', (getPartnerHeaderHeight() + 100) + "px");
-            jQuery('#ddto-right-ad').css('top', (getPartnerHeaderHeight() + 100) + "px");
+           /* jQuery('#ddto-left-ad').css('top', (getPartnerHeaderHeight() + 100) + "px");
+            jQuery('#ddto-right-ad').css('top', (getPartnerHeaderHeight() + 100) + "px");*/
         }
     },100);
-    window.addEventListener("scroll",  function(){
+    /*window.addEventListener("scroll",  function(){
       jQuery('#ddto-left-ad').css('top', (getPartnerHeaderHeight() + 100) + "px");
       jQuery('#ddto-right-ad').css('top', (getPartnerHeaderHeight() + 100) + "px");
-    });
+    });*/
   }
 
   ngOnInit(){
