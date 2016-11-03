@@ -4,7 +4,7 @@
     <side-scroll-test *ngIf="carouselData && videoData" [current]="curCount" [carData]="carouselData" [videoData]="videoData" auto-play="true">
     </side-scroll-test>
     </div>
-    <div class="spacer"  id="deep-dive-blueBar">
+    <div *ngIf="scrollLength>0" class="spacer"  id="deep-dive-blueBar">
       <section class="deep-dive-adWrap">
         <iframe frameborder="0" scrolling="no" allowtransparency="true" src="/app/ads/bluebar.html" [ngStyle]="{'display': 'block', 'height': '50px','width': '100%','margin': '0px','border': '0px','overflow': 'hidden','z-index': '0'}" ></iframe>
       </section>
@@ -12,10 +12,10 @@
   </section>
   <section class="deep-dive-container2">
     <div class="deep-dive-container2a">
-      <div class="deep-dive-module">
+      <div *ngIf="scrollLength>0" class="deep-dive-module">
         <side-scroll-schedules *ngIf="sideScrollData" [sideScrollData]="sideScrollData" (count)="scrollCheck($event)" [scrollLength]="scrollLength"></side-scroll-schedules>
       </div>
-
+      <div *ngIf="scrollLength==0" [ngStyle]="{display: 'block', height:'20px', width:'100%' }"></div>
       <deep-dive-block-1 *ngIf="blockIndex >= 1 && geoLocation" [geoLocation]="geoLocation" [profileName]="profileName" [maxHeight]="maxHeight"></deep-dive-block-1>
 
       <deep-dive-block-2 *ngIf="blockIndex >= 2 && geoLocation" [geoLocation]="geoLocation" [profileName]="profileName" [maxHeight]="maxHeight"></deep-dive-block-2>
