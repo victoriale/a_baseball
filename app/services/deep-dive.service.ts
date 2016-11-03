@@ -17,7 +17,7 @@ export class DeepDiveService {
   // private _headerName: string = 'X-SNT-TOKEN';
 
 
-  structor(
+  constructor(
     public http: Http,
     private _sanitizer: DomSanitizationService){}
 
