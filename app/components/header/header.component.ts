@@ -13,13 +13,12 @@ declare var jQuery:any;
     directives: [Search, ROUTER_DIRECTIVES, SubHeaderComponent, HamburgerMenuComponent],
     providers: [],
 })
-export class HeaderComponent implements OnInit{
+export class HeaderComponent implements OnInit, OnChanges{
     @Input('partner') partnerID:string;
     @Output() tabSelected = new EventEmitter();
     public scope: string;
     public routeSubscription: any;
     public logoUrl:string;
-    public partnerLogoUrl: string;
     private _stickyHeader: string;
     private _stickyHeaderPartner: string;
     public searchInput: SearchInput = {
@@ -42,13 +41,51 @@ export class HeaderComponent implements OnInit{
         this.elementRef = elementRef;
     }
     openSearch(event) {
-        if(this.isSearchOpened == true){
-            this.isSearchOpened = false;
-        }else{
-            this.isSearchOpened = true;
+        if(event.target.parentElement.classList.contains('active') || event.target.parentElement.parentElement.classList.contains('active')){
+            event.target.parentElement.classList.remove('active');
+            event.target.parentElement.parentElement.classList.remove('active');
+        }
+        else {
+            event.target.parentElement.classList.add('active');
+            event.target.parentElement.parentElement.classList.add('active');
         }
     }
     // Page is being scrolled
+    loadData(partnerID: string) {
+        this.logoUrl = 'app/public/Home-Run-Loyal_Logo.svg';
+        this.hamburgerMenuData = [{
+            menuTitle: "Home",
+            url: ['Home-page']
+        },
+            {
+                menuTitle: "Pick a Team",
+                url: ['Pick-team-page']
+            },
+            {
+                menuTitle: "MLB League",
+                url: ['MLB-page']
+            },
+            {
+                menuTitle: "MLB Schedule",
+                url: ['Schedules-page-league', {pageNum:1}]
+            },
+            {
+                menuTitle: "MLB Standings",
+                url: ['Standings-page-league', {type: 'mlb'}]
+            }];
+        this.hamburgerMenuInfo = [{
+            menuTitle: "About Us",
+            url: ['About-us-page']
+        },
+            {
+                menuTitle: "Contact Us",
+                url: ['Contact-us-page']
+            },
+            {
+                menuTitle: "Disclamer",
+                url: ['Disclaimer-page']
+            }];
+    }
     onScrollStick(event) {
         //check if partner header exist and the sticky header shall stay and not partner header
         var header = document.getElementById('pageHeader');
@@ -111,8 +148,6 @@ export class HeaderComponent implements OnInit{
             }
         });
         this.logoUrl = 'app/public/Home-Run-Loyal_Logo.svg';
-        this.partnerLogoUrl = 'app/public/Football-DeepDive_Logo_Outlined-W.svg';
-
         //insert salad bar
         var v = document.createElement('script');
         v.src = 'http://w1.synapsys.us/widgets/deepdive/bar/bar.js';
@@ -134,5 +169,8 @@ export class HeaderComponent implements OnInit{
             }
         }, 1000);
 
+    }
+    ngOnChanges() {
+        this.loadData(this.partnerID);
     }
 }
