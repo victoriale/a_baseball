@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit, OnChanges{
     private _stickyHeader: string;
     private _stickyHeaderPartner: string;
     public searchInput: SearchInput = {
-        placeholderText: "Search for anything " + GlobalSettings.getSportName(),
+        placeholderText: "Search for a player or team",
         hasSuggestions: true
     };
     public hamburgerMenuData: Array<MenuData>;
