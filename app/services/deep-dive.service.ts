@@ -361,7 +361,7 @@ export class DeepDiveService {
     data.forEach(function(val,index){
       //if (val.id != currentArticleId) {
       let date = GlobalFunctions.formatDate(val.publishedDate);
-      val["date"] = date.month + " " + date.day + ", " + date.year + " " + date.time + " " + date.a + " EST";
+      val["date"] = date.month + " " + date.day + ", " + date.year + " " + date.time + " " + date.a + " (EST)";
       val["image"] = GlobalSettings.getImageUrl(val.imagePath);
       val["newsRoute"] = MLBGlobalFunctions.formatNewsRoute(val.id);
       //}

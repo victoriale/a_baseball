@@ -26,6 +26,9 @@ export class GlobalSettings {
     private static _partnerHomepageUrl:string = '.myhomerunzone.com';
 
     private static _baseTitle: string = "Home Run Loyal";
+    private static _sportName: string ="baseball";
+    private static _sportLeagueAbbrv: string ="MLB";
+
 
     private static _copyrightInfo: string = "USA Today Sports Images";
 
@@ -190,5 +193,22 @@ export class GlobalSettings {
     static getCopyrightInfo() {
         return this._copyrightInfo;
     }
-
+    static getSportName() {
+        return this._sportName;
+    }
+    static getSportLeagueAbbrv() {
+        return this._sportLeagueAbbrv;
+    }
+    static getScopeNow() {
+        var url = window.top.location.pathname;
+        var scope = this._sportLeagueAbbrv;
+        var majorLeague = this._sportLeagueAbbrv.toLowerCase();
+        if (url.includes(majorLeague)) {
+            scope = majorLeague;
+        }
+        /*else if (url.includes(minorLeagueFull) || url.includes(minorLeague)) {
+            scope = minorLeagueFull;
+        }*/
+        return scope;
+    }
 }

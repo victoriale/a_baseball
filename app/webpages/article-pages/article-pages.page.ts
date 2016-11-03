@@ -17,6 +17,9 @@ import {GlobalSettings} from "../../global/global-settings";
 import {SidekickContainerComponent} from "../../components/articles/sidekick-container/sidekick-container.component";
 import {SeoService} from '../../seo.service';
 
+declare var moment;
+
+
 @Component({
     selector: 'article-pages',
     templateUrl: './app/webpages/article-pages/article-pages.page.html',
@@ -93,7 +96,10 @@ export class ArticlePages implements OnInit {
                     //this.parseLinks(ArticleData[pageIndex]);
                     this.articleData = ArticleData[pageIndex];
                     this.title = ArticleData[pageIndex].displayHeadline;
-                    this.date = ArticleData[pageIndex].dateline;
+                  //  this.date = ArticleData[pageIndex].dateline;
+                    var date  = ArticleData[pageIndex].dateline;
+                    var date1 = moment(date).format();
+                    this.date = moment.tz(date1, 'America/New_York').format('dddd MMM. DD, YYYY h:mmA (z)');
                     this.comment = ArticleData[pageIndex].commentHeader;
                     this.imageLinks = this.getImageLinks(ArticleData[pageIndex]);
                     this.teamId = ArticleData[pageIndex].teamId;
@@ -106,7 +112,7 @@ export class ArticlePages implements OnInit {
                     this._seoService.setOgDesc(metaDesc);
                     this._seoService.setOgType('image');
                     this._seoService.setOgUrl(link);
-                    this._seoService.setOgImage(ArticleData[pageIndex]['images'][this.teamId][0].image);
+                  //  this._seoService.setOgImage(ArticleData[pageIndex]['images'][this.teamId][0].image);
                     this._seoService.setTitle(this.title);
                     this._seoService.setMetaDescription(this.articleData.metaHeadline);
                     this._seoService.setMetaRobots('INDEX, FOLLOW');
@@ -163,9 +169,23 @@ export class ArticlePages implements OnInit {
         var images = [];
         Object.keys(data).forEach(function (val, index) {
             if (val != "meta-data") {
+              var date = (data[val].dateline.toString().split(" "));
+              var month;
+              switch (date[0]) {
+                case 'October': month = 'Oct.'; break;
+                case 'January': month = 'Jan.'; break;
+                case 'February': month = 'Feb.'; break;
+                case 'August': month = 'Aug.'; break;
+                case 'December': month = 'Dec.'; break;
+                case 'November': month = 'Nov.'; break;
+                case 'September': month = 'Sep.'; break;
+                default: month = date[0];
+              }
+              date[0] = month;
+              var dateline = date.join(' ');
                 articles[index - 1] = {
                     title: data[val].displayHeadline,
-                    date: data[val].dateline + " EST",
+                    date: dateline + " (EST)",
                     content: data[val].article[0],
                     eventId: data['meta-data']['current'].eventId,
                     eventType: val,

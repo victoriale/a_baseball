@@ -5,6 +5,8 @@ import {Http} from '@angular/http';
 import {GlobalFunctions} from "../global/global-functions";
 import {GlobalSettings} from "../global/global-settings";
 
+declare var moment;
+
 export interface DailyUpdateData {
   hasError: boolean;
   type: string;
@@ -287,11 +289,10 @@ export class DailyUpdateService {
   }
   private getPostGameArticle(data: APIDailyUpdateData) {
     let articleData = {};
-
     articleData['eventId'] = data.recentGames[0].eventId != null ? data.recentGames[0].eventId : null;
     articleData['teamId'] = data.recentGames[0].teamId != null ? data.recentGames[0].teamId : null;
     articleData['url'] = articleData['eventId'] != null ? ['Article-pages', {eventType: 'postgame-report', eventID: articleData['eventId']}] : ['Error-page'];
-    articleData['pubDate'] = data['postgame-report'].dateline != null ? data['postgame-report'].dateline : null;
+    articleData['pubDate'] = moment.tz(data['postgame-report'].dateline, 'America/New_York').format('dddd MMM. DD, YYYY h:mmA (z)') != null ? moment.tz(data['postgame-report'].dateline, 'America/New_York').format('dddd MMM. DD, YYYY h:mmA (z)') : null;
     articleData['headline'] = data['postgame-report'].displayHeadline != null ? data['postgame-report'].displayHeadline : null;
     articleData['text'] = data['postgame-report'].article != null && data['postgame-report'].article.length > 0 ? data['postgame-report'].article : null;
     articleData['img'] = data['postgame-report'].images != null && data['postgame-report'].images[articleData['teamId']] != null && data['postgame-report'].images[articleData['teamId']].length > 0 ? data['postgame-report'].images[articleData['teamId']][0]: null;

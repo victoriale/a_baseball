@@ -18,7 +18,7 @@ declare var moment;
     directives: [SidekickWrapper, ContactUsModule, WidgetModule, ResponsiveWidget],
     providers: [Title],
 })
-export class ContactUsPage implements OnInit{
+export class ContactUsPage{
     public widgetPlace: string = "widgetForPage";
     //Object that builds contact us module
     public mailManUrl: string;
@@ -55,7 +55,7 @@ export class ContactUsPage implements OnInit{
               titleData: {
                   imageURL: GlobalSettings.getSiteLogoUrl(),
                   // text1: 'Last Updated: '+moment(new Date()).format('dddd MMMM Do, YYYY'),
-                  text1: 'Last Updated: Friday, June 24th, 2016',
+                  text1: 'Last Updated: Friday June 24th, 2016',
                   text2: ' United States',
                   text3: 'Have a question about '+domainTitle+'? Write us a message.',
                   text4: '',
