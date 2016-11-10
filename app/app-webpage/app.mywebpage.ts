@@ -260,7 +260,7 @@ declare var jQuery: any;
     }
 ])
 
-export class MyAppComponent implements OnInit{
+export class MyAppComponent{
   public partnerID: string;
   public partnerData: Object;
   public partnerScript:string;
@@ -317,7 +317,7 @@ export class MyAppComponent implements OnInit{
       }
       return partnerHeight;
     }
-    jQuery("#webContainer").removeClass('deep-dive-container directory-rails pick-a-team-container profile-container basic-container');
+    /*jQuery("#webContainer").removeClass('deep-dive-container directory-rails pick-a-team-container profile-container basic-container');
     // Handle all the exceptions here
     jQuery("deep-dive-page").parent().addClass('deep-dive-container');
     jQuery("directory-page").parent().addClass('directory-rails');
@@ -353,17 +353,17 @@ export class MyAppComponent implements OnInit{
             }
             isTakenOver = true;
             clearInterval(intvl);
-            jQuery('#ddto-left-ad').css('top', (getPartnerHeaderHeight() + 100) + "px");
-            jQuery('#ddto-right-ad').css('top', (getPartnerHeaderHeight() + 100) + "px");
+           /!* jQuery('#ddto-left-ad').css('top', (getPartnerHeaderHeight() + 100) + "px");
+            jQuery('#ddto-right-ad').css('top', (getPartnerHeaderHeight() + 100) + "px");*!/
         }
-    },100);
-    window.addEventListener("scroll",  function(){
+    },100);*/
+    /*window.addEventListener("scroll",  function(){
       jQuery('#ddto-left-ad').css('top', (getPartnerHeaderHeight() + 100) + "px");
       jQuery('#ddto-right-ad').css('top', (getPartnerHeaderHeight() + 100) + "px");
-    });
+    });*/
   }
 
-  ngOnInit(){
+  /*ngOnInit(){
     var self = this;
     var script = document.createElement("script");
     script.src = '//w1.synapsys.us/widgets/deepdive/rails/rails.js?selector=.web-container&adMarginTop=100';
@@ -373,5 +373,5 @@ export class MyAppComponent implements OnInit{
     window.addEventListener("load", this.setPageSize);
     // Initialize the first time app.webpage.ts loads
     this.setPageSize(this);
-  }
+  }*/
 }

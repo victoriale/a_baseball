@@ -18,7 +18,7 @@ declare var moment;
     directives: [SidekickWrapper, ContactUsModule, WidgetModule, ResponsiveWidget],
     providers: [Title],
 })
-export class ContactUsPage implements OnInit{
+export class ContactUsPage{
     public widgetPlace: string = "widgetForPage";
     //Object that builds contact us module
     public mailManUrl: string;
