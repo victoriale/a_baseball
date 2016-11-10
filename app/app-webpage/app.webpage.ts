@@ -276,9 +276,10 @@ export class AppComponent{
   }
 
   getHeaderHeight(){
-    var pageHeader = document.getElementById('pageHeader');
+    var pageHeader = document.getElementById('pageHeader'); // height of the main header
+    var pageLowerHeader = document.getElementById('salad-bar-top'); // height of the salad bar header
     if(pageHeader != null){
-      return pageHeader.offsetHeight;
+      return pageHeader.offsetHeight + pageLowerHeader.offsetHeight;
     }
   }
 
