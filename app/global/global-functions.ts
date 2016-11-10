@@ -434,6 +434,45 @@ export class GlobalFunctions {
       return str;
     }
 
+    static formatGlobalDate(value:any, identifier:string) {
+      var unixValue = moment(value).unix();
+      if(unixValue.toString().length <= 11){
+        unixValue = Number(unixValue) * 1000;
+      }
+      var newDate;
+      var day = [moment(unixValue).format('dddd'),moment(unixValue).format('d')];
+      var month = moment(unixValue).format('MMM.');
+      var timeZone = moment(unixValue).tz('America/New_York').format('hh:mm:ssA (z)');
+      var shortDate = moment(unixValue).format('MM/DD/YY');
+      var year = moment(unixValue).format('YYYY');
+
+      switch(identifier) {
+        case 'defaultDate':
+          newDate = month + ' ' + day[1] + ', ' + year; // Oct. 03, 2006
+          console.log(newDate);
+          return newDate;
+        case 'shortDate':
+          newDate = shortDate; // 10/03/06
+          console.log(newDate);
+          return newDate;
+        case 'timeZone':
+          newDate = day[0] + ', ' + month + ' ' + day[1] + ', ' + year + ' ' + timeZone; //Tuesday, Oct. 03, 2006 5:30:10PM (EDT)
+          console.log(newDate);
+          return newDate;
+        case 'dayOfWeek':
+          newDate = day[0] + ', ' + month + ' ' + day[1] + ', ' + year; //Tuesday, Oct. 03, 2006
+          console.log(newDate);
+          return newDate;
+        default:
+        if(unixValue.toString().length <= 11){
+          console.log('Error in formatGlobalDate() [globalfunc.js]')
+          return 'wrong date';
+        } else {
+          return month + ' ' + day[0] + ', ' + year;
+        }
+      }
+    }
+
 
   /**
    * Parses the date string with moment and returns it as a long-date formatted string
