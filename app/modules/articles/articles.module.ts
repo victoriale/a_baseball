@@ -104,7 +104,7 @@ export class ArticlesModule implements OnInit {
     }
 
     static convertToETMoment(easternDateString) {
-        return moment(moment(easternDateString).format("MM/DD/YYYY"), "America/New_York");
+        return GlobalFunctions.formatGlobalDate(easternDateString,'shortDate');
     };
 
     getSchedule(homeData, awayData) {

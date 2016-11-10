@@ -3,6 +3,7 @@ import {SanitizeStyle, SanitizeHtml} from '../../pipes/safe.pipe';
 import {ScheduleBox} from '../schedule-box/schedule-box.component'
 import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {SanitizeRUrl} from "../../pipes/safe.pipe";
+import {GlobalFunctions} from "../../global/global-functions";
 
 declare var jQuery:any;
 declare var moment:any;
@@ -291,7 +292,7 @@ export class SideScroll{
   }
 
   formatDate(date) {
-    return moment(date, "YYYY-MM-Do, h:mm:ss").format("MMM. Do, YYYY h:mm:ss a");
+    return GlobalFunctions.formatGlobalDate(date,'timeZone');
   }
 
 }

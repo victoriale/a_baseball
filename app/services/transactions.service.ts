@@ -269,7 +269,7 @@ export class TransactionsService {
       return {
         dataPoints: [{
           style   : 'transactions-small',
-          data    : GlobalFunctions.formatDateWithAPMonth(new Date(val['repDate']), "", " DD, YYYY"),
+          data    : GlobalFunctions.formatGlobalDate(new Date(val['repDate']),'defaultDate'),
           value   : [playerTextLink, val.contents],
           url     : null
         }],

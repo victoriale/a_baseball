@@ -7,13 +7,9 @@ declare var moment: any;
   name: 'dateTimeStamp'
 })
 
-export class DateTimePipe implements PipeTransform {  
+export class DateTimePipe implements PipeTransform {
   transform(value: any) : string {
     let date = moment(value);
-    return date.format('dddd, ') + 
-      GlobalFunctions.formatAPMonth(date.month()) +
-      date.format(' Do, YYYY') + 
-      ' | ' + 
-      date.format('hh:mm A') + ' ET';
+    return GlobalFunctions.formatGlobalDate(date,'timeZone');
   }
 }
