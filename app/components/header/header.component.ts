@@ -150,10 +150,10 @@ export class HeaderComponent implements OnInit, OnChanges{
         this.logoUrl = 'app/public/Home-Run-Loyal_Logo.svg';
         //insert salad bar
         var v = document.createElement('script');
-        v.src = 'http://w1.synapsys.us/widgets/deepdive/bar/bar.js';
+        v.src = 'http://w1.synapsys.us/widgets/deepdive/bar/bar.js?brandHex=234a66';
         document.getElementById('salad-bar-top').insertBefore(v, document.getElementById('salad-bar'));
 
-        var setPlaceholder = setInterval(function(){ // keep checking for the existance of the salad bar until it loads in
+        /*var setPlaceholder = setInterval(function(){ // keep checking for the existance of the salad bar until it loads in
             if (document.getElementById('ddb-search-desktop')) {
                 //override the salad bar default placeholder text, and use the one for TDL
                 document.getElementById('ddb-search-desktop')['placeholder'] = "Search for a sports team…";
@@ -167,7 +167,7 @@ export class HeaderComponent implements OnInit, OnChanges{
                 //dont need to keep running this anymore now that its all set
                 clearInterval(setPlaceholder);
             }
-        }, 1000);
+        }, 1000);*/
 
     }
     ngOnChanges() {
