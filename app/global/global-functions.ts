@@ -410,9 +410,9 @@ export class GlobalFunctions {
      */
     static formatUpdatedDate(jsDate:any, includeTimestamp?:boolean, timezone?:string): string {
       var date = moment(jsDate);
-      var str = date.format("dddd ") + GlobalFunctions.formatAPMonth(date.month()) + date.format(' D, YYYY');
+      var str = GlobalFunctions.formatGlobalDate(date,'dayOfWeek');
       if ( includeTimestamp ) {
-        str += ' | ' + date.format('hh:mm A') + (timezone !== undefined && timezone !== null ? timezone : "");
+        str = GlobalFunctions.formatGlobalDate(date,'timeZone');
       }
       return str;
     }
@@ -434,13 +434,27 @@ export class GlobalFunctions {
       return str;
     }
 
+
+
+    /*
+      - Takes in a string, or a unix value, and converts it to either:
+        -timeZone: Tuesday, Oct. 03, 2006 5:30:10PM (EDT)
+        -dayOfWeek: Tuesday, Oct. 03, 2006
+        -defaultDate: Oct. 03, 2006
+        -shortDate: 10/03/06
+        -time 5:30:10PM (EDT)
+
+    */
+
     static formatGlobalDate(value:any, identifier:string) {
       var unixValue = moment(value).unix();
       if(unixValue.toString().length <= 11){
         unixValue = Number(unixValue) * 1000;
       }
       var newDate;
-      var day = [moment(unixValue).format('dddd'),moment(unixValue).format('d')];
+    //  var day = [moment(unixValue).format('dddd'),moment(unixValue).format('d')];
+      var day = moment(unixValue).format('dddd');
+      var shortDay = moment(unixValue).format('d');
       var month = moment(unixValue).format('MMM.');
       var timeZone = moment(unixValue).tz('America/New_York').format('hh:mm:ssA (z)');
       var shortDate = moment(unixValue).format('MM/DD/YY');
@@ -448,27 +462,26 @@ export class GlobalFunctions {
 
       switch(identifier) {
         case 'defaultDate':
-          newDate = month + ' ' + day[1] + ', ' + year; // Oct. 03, 2006
-          console.log(newDate);
+          newDate = month + ' ' + shortDay + ', ' + year; // Oct. 03, 2006
           return newDate;
         case 'shortDate':
           newDate = shortDate; // 10/03/06
-          console.log(newDate);
           return newDate;
         case 'timeZone':
-          newDate = day[0] + ', ' + month + ' ' + day[1] + ', ' + year + ' ' + timeZone; //Tuesday, Oct. 03, 2006 5:30:10PM (EDT)
-          console.log(newDate);
+          newDate = day + ', ' + month + ' ' + shortDay + ', ' + year + ' ' + timeZone; //Tuesday, Oct. 03, 2006 5:30:10PM (EDT)
           return newDate;
         case 'dayOfWeek':
-          newDate = day[0] + ', ' + month + ' ' + day[1] + ', ' + year; //Tuesday, Oct. 03, 2006
-          console.log(newDate);
+          newDate = day + ', ' + month + ' ' + shortDay + ', ' + year; //Tuesday, Oct. 03, 2006
+          return newDate;
+        case 'time':
+          newDate = timeZone;
           return newDate;
         default:
         if(unixValue.toString().length <= 11){
           console.log('Error in formatGlobalDate() [globalfunc.js]')
           return 'wrong date';
         } else {
-          return month + ' ' + day[0] + ', ' + year;
+          return month + ' ' + day + ', ' + year;
         }
       }
     }
@@ -487,7 +500,7 @@ export class GlobalFunctions {
     if (!date) {
       return "N/A";
     }
-    return GlobalFunctions.formatAPMonth(date.month()) + date.format(" d, YYYY");
+    return GlobalFunctions.formatGlobalDate(date.month(),'defaultDate');
   }
 
   /**

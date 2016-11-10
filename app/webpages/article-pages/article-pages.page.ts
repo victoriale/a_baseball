@@ -99,7 +99,7 @@ export class ArticlePages implements OnInit {
                   //  this.date = ArticleData[pageIndex].dateline;
                     var date  = ArticleData[pageIndex].dateline;
                     var date1 = moment(date).format();
-                    this.date = moment.tz(date1, 'America/New_York').format('dddd MMM. DD, YYYY h:mmA (z)');
+                    this.date = GlobalFunctions.formatGlobalDate(date1, 'timeZone');
                     this.comment = ArticleData[pageIndex].commentHeader;
                     this.imageLinks = this.getImageLinks(ArticleData[pageIndex]);
                     this.teamId = ArticleData[pageIndex].teamId;

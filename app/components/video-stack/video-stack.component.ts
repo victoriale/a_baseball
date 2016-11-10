@@ -1,6 +1,7 @@
 import {Component,OnInit, Input} from '@angular/core';
 import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {SanitizeHtml} from "../../pipes/safe.pipe";
+import {GlobalFunctions} from "../../global/global-functions";
 
 
 declare var moment;
@@ -21,7 +22,7 @@ export class VideoStackComponent implements OnInit{
   @Input() videoData: any;
 
   formatDate(date) {
-    return moment(date, "YYYY-MM-Do").format("MMM. DD, YYYY");
+    return GlobalFunctions.formatGlobalDate(date,'defaultDate');
   }
   ngOnInit() {
   }
