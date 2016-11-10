@@ -23,7 +23,7 @@
             </div>
             <div class="arpt" *ngIf="articleType == 'story'">
                 <span class="arpt-author" >Written By: <b>{{articleData.publisher}}</b></span>
-                <span class="arpt-date">Posted: on {{articleData.publishedDate}}</span>
+                <span class="arpt-date">Posted On: {{articleData.publishedDate}}</span>
             </div>
             <div class="content-exerpt" *ngIf="articleType == 'story'"  [innerHTML]="articleData.teaser | safeHtml">
             </div>
