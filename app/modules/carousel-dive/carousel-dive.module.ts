@@ -2,7 +2,7 @@ import {Component,OnInit,EventEmitter,Input} from '@angular/core';
 import {ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 import {DeepDiveService} from '../../services/deep-dive.service';
 import {SanitizeRUrl, SanitizeHtml} from "../../pipes/safe.pipe";
-
+import {GlobalFunctions} from "../../global/global-functions";
 
 declare var jQuery:any;
 declare var moment;
@@ -28,7 +28,7 @@ export class CarouselDiveModule{
   }
 
     formatDate(date) {
-      return moment(date, "YYYY-MM-Do, h:mm:ss").format("MMM. Do, YYYY h:mm:ss a");
+      return GlobalFunctions.formatGlobalDate(date,'timeZone');
     }
 
 

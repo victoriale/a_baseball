@@ -279,11 +279,12 @@ export class MyAppComponent{
   }
 
   getHeaderHeight(){
-    var pageHeader = document.getElementById('pageHeader');
+    var pageHeader = document.getElementById('pageHeader'); // height of the main header
     // console.log("page header", pageHeader);
-    if(pageHeader != null){
+    var lowerPageHeader = document.getElementById('salad-bar-top'); // height of the salad bar header
+    if(pageHeader != null && lowerPageHeader != null){
       // console.log("page header", pageHeader.offsetHeight);
-      return pageHeader.offsetHeight;
+      return pageHeader.offsetHeight + lowerPageHeader.offsetHeight;
     }
   }
 
