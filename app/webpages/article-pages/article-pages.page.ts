@@ -169,23 +169,11 @@ export class ArticlePages implements OnInit {
         var images = [];
         Object.keys(data).forEach(function (val, index) {
             if (val != "meta-data") {
-              var date = (data[val].dateline.toString().split(" "));
-              var month;
-              switch (date[0]) {
-                case 'October': month = 'Oct.'; break;
-                case 'January': month = 'Jan.'; break;
-                case 'February': month = 'Feb.'; break;
-                case 'August': month = 'Aug.'; break;
-                case 'December': month = 'Dec.'; break;
-                case 'November': month = 'Nov.'; break;
-                case 'September': month = 'Sep.'; break;
-                default: month = date[0];
-              }
-              date[0] = month;
-              var dateline = date.join(' ');
+              var unix = moment(data[val].dateline,'MMM. do,YYYY hh:mm A').format('X');
+              var date = GlobalFunctions.formatGlobalDate(unix*1000,'timeZone');
                 articles[index - 1] = {
                     title: data[val].displayHeadline,
-                    date: dateline + " (EST)",
+                    date: date,
                     content: data[val].article[0],
                     eventId: data['meta-data']['current'].eventId,
                     eventType: val,

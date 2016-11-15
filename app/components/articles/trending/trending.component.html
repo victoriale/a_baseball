@@ -7,7 +7,7 @@
             <!--<shareLinks-component></shareLinks-component>-->
             <div class="trending-article-title">{{data.title}}</div>
             <div class="arpt">
-                <div class="arpt-date">{{data.date}}</div>
+                <div class="arpt-date">{{data.date}} </div>
             </div>
             <div class="trending-article-content" [innerHTML]="data.content|safeHtml"></div>
             <a [routerLink]="data.url">
