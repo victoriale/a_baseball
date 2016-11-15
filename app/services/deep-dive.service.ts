@@ -360,8 +360,8 @@ export class DeepDiveService {
   transformTrending (data, currentArticleId) {
     data.forEach(function(val,index){
       //if (val.id != currentArticleId) {
-      let date = GlobalFunctions.formatDate(val.publishedDate);
-      val["date"] = date.month + " " + date.day + ", " + date.year + " " + date.time + " " + date.a + " (EST)";
+      let date = GlobalFunctions.formatGlobalDate(Number(val.publishedDate),'timeZone');
+      val["date"] = date;
       val["image"] = GlobalSettings.getImageUrl(val.imagePath);
       val["newsRoute"] = MLBGlobalFunctions.formatNewsRoute(val.id);
       //}
