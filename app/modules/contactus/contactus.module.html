@@ -1,6 +1,6 @@
 
 <backtab-component></backtab-component>
-<title-component ngIf="contactusInput" [titleData]="contactusInput.titleData"></title-component>
+<title-component *ngIf="contactusInput" [titleData]="contactusInput.titleData"></title-component>
 <div class="contactus-container">
     <div class="contactus-required"><span class="text-master">*</span> All fields are required</div>
     <!-- Contact Us Form -->
