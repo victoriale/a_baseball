@@ -82,7 +82,7 @@ export class HeaderComponent implements OnInit, OnChanges{
                 url: ['Contact-us-page']
             },
             {
-                menuTitle: "Disclamer",
+                menuTitle: "Disclaimer",
                 url: ['Disclaimer-page']
             }];
     }
