@@ -450,15 +450,23 @@ export class GlobalFunctions {
       var unixValue = moment(value).unix();
       if(unixValue.toString().length <= 11){
         unixValue = Number(unixValue) * 1000;
+      } else {
+        unixValue = Number(unixValue);
       }
       var newDate;
     //  var day = [moment(unixValue).format('dddd'),moment(unixValue).format('d')];
       var day = moment(unixValue).format('dddd');
       var shortDay = moment(unixValue).format('d');
-      var month = moment(unixValue).format('MMM.');
-      var timeZone = moment(unixValue).tz('America/New_York').format('hh:mm:ssA (z)');
+      var monthnum = Number(moment(unixValue).format('M')) - 1;
+      var month = GlobalFunctions.formatAPMonth(monthnum);
+      var timeZone = moment(unixValue).tz('America/New_York').format('hh:mmA (z)');
       var shortDate = moment(unixValue).format('MM/DD/YY');
       var year = moment(unixValue).format('YYYY');
+
+      if(unixValue.toString().length <= 11){
+        console.log('Error in formatGlobalDate() [globalfunc.js]')
+        return 'wrong date';
+      }
 
       switch(identifier) {
         case 'defaultDate':
@@ -477,12 +485,7 @@ export class GlobalFunctions {
           newDate = timeZone;
           return newDate;
         default:
-        if(unixValue.toString().length <= 11){
-          console.log('Error in formatGlobalDate() [globalfunc.js]')
-          return 'wrong date';
-        } else {
           return month + ' ' + day + ', ' + year;
-        }
       }
     }
 
