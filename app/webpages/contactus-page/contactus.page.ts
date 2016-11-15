@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {Http} from '@angular/http';
 import {Router, RouteParams} from '@angular/router-deprecated';
 import {Observable} from 'rxjs/Rx';
