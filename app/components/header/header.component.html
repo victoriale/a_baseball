@@ -1,29 +1,32 @@
-<header class="header container-fluid fixedHeader" id="pageHeader" (window:scroll)="onScrollStick($event)" [style.top]="_stickyHeader">
-  <div *ngIf="!partnerID" class="header-logo">
-    <a [routerLink]="['Home-page']"><img src="{{logoUrl}}" alt="Baseball Logo"/></a>
-  </div>
-  <section class="header-top">
-    <div class="header-left">
-      <!-- <div class="header-hamburger" tabindex="999"> -->
-      <!-- menucheck class is for the document click funtion to determine to close it when in view -->
-      <div class="header-hamburger menucheck" (click)="getMenu($event)">
-        <i *ngIf="!isOpened" class="fa fa-bars"></i>
-        <i *ngIf="isOpened" class="fa fa-remove menucheck"></i>
-        <div *ngIf="isOpened" class="header-hamburger-dropDown">
-          <hamburger-menu-component [menuData]="hamburgerMenuData" [menuInfo]="hamburgerMenuInfo"></hamburger-menu-component>
-        </div>
-      </div>
+<header class="header container-fluid fixedHeader" [style.top]="_stickyHeaderPartner" id="pageHeader" (window:scroll)="onScrollStick($event)">
+    <div *ngIf="!partnerID" class="header-logo">
+        <a [routerLink]="['Home-page']"><img src="{{logoUrl}}" alt="Baseball Logo"/></a>
     </div>
-    <div class="header-right">
-      <div class="header-search">
-        <div class="header-search-searchBtn" (keydown)="searchKeydown($event)" (click)="openSearch($event)">
-          <i class="fa fa-search"></i>
+    <section class="header-top">
+        <div class="header-left">
+            <!-- <div class="header-hamburger" tabindex="999"> -->
+            <!-- menucheck class is for the document click funtion to determine to close it when in view -->
+            <div class="header-hamburger menucheck" (click)="getMenu($event)">
+                <i *ngIf="!isOpened" class="fa fa-bars"></i>
+                <i *ngIf="isOpened" class="fa fa-remove menucheck"></i>
+                <div *ngIf="isOpened" class="header-hamburger-dropDown">
+                    <hamburger-menu-component [menuData]="hamburgerMenuData" [menuInfo]="hamburgerMenuInfo"></hamburger-menu-component>
+                </div>
+            </div>
         </div>
-        <div class="header-search-searchBox"><search [searchInput]="searchInput"></search></div>
-      </div>
-      <div class="header-share st_sharethis_large"><i class="fa fa-share-alt"></i></div>
-    </div>
-  </section>
+        <div class="header-right">
+            <div class="header-search searchcheck" [class.active]="isSearchOpened">
+                <div class="header-search-searchBtn searchcheck" [class.active]="isSearchOpened" (keydown)="searchKeydown($event)" (click)="openSearch($event)">
+                    <i class="fa fa-search searchcheck"></i>
+                </div>
+                <div class="header-search-searchBox searchcheck"><search [searchInput]="searchInput"></search></div>
+            </div>
+            <div class="header-share st_sharethis_large"><i class="fa fa-share-alt"></i></div>
+        </div>
+    </section>
 
-  <sub-header-component></sub-header-component>
+    <div id="salad-bar-top" class="fixedHeader" [style.top]="_stickyHeader">
+        <div id="salad-bar"></div>
+    </div>
+
 </header>

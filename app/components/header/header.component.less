@@ -5,12 +5,79 @@
 .header{
   height: auto;
   min-width: 320px;
+  .ddb-parbutton {
+    line-height: 2.5;
+  }
+  .ddb-menu-search-large-content>.ddb-icon-search {
+    color: #234a66;
+  }
+  .ddb-menu-dropdown-events.ddb-active .ddb-menu-dropdown-events-button, .ddb-menu-dropdown-events-options-list li.ddb-active {
+    background-color: #234a66;
+    border-color: #234a66;
+  }
+  .ddb-boxscores-button.ddb-blue {
+    background-color: #234a66;
+  }
+  #ddb-mobile-menu {
+    background-color: #234a66;
+  }
+  #ddb-dropdown-boxscores-button {
+    background-color: #234a66;
+    .fa-box-scores {
+      font-size: 18px;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+  }
   &-top{
     height: 45px;
     background-color: @homeRunLoyalContrastBlue;
     .flexDisplay;
     .flexJustify(space-between);
   }//header-top ends
+  &-partner { //importants are so partner styles will override regular styles at ALL breakpoints
+    height: 45px !important;
+    background-color: @textEmphasisGrey;
+    .header-share {
+      background-color: @textEmphasisGrey;
+    }
+    .header-search-searchBox {
+      background-color: @textEmphasisGrey;
+    }
+    .header-hamburger {
+      width: 45px;
+      height: 45px;
+      .fa-bars {
+        margin: 13px;
+      }
+    }
+    .header-logo {
+      top: 5px !important;
+    }
+    .header-search {
+      height: 45px !important;
+    }
+    @media (max-width: 1000px) {
+      .header-search.active, .header-search:active, .header-search:focus {
+        height: 90px !important;
+      }
+    }
+    .header-search-searchBtn {
+      width: 45px !important;
+      height: 45px !important;
+    }
+    .header-search-searchBox {
+      height: 40px !important;
+    }
+    .search-large {
+      height: 25px !important;
+      margin: 7px auto auto 10px !important;
+    }
+    .header-share {
+      width: 45px !important;
+      height: 45px !important;
+    }
+  }
   &-left{
     max-width: 320px;
     .flexDisplay;
@@ -66,7 +133,7 @@
       display: none;
       height: 60px;
       width: 320px;
-      z-index: 99;
+      z-index: 9999;
       .search-large{
         box-shadow: none;
         height: 35px;
@@ -78,8 +145,6 @@
           font-size: 14px;
         }
         .search-input{
-          border-top-left-radius: 18px;
-          border-bottom-left-radius: 18px;
           &:focus{
             border: 1px solid transparent;
             box-shadow: 0 3px 7px 0 transparent;
@@ -88,8 +153,6 @@
         .search-button{
           font-size: 20px;
           width: 52px;
-          border-top-right-radius: 18px;
-          border-bottom-right-radius: 18px;
           background-color: @highlightGrey;
           color: @homeRunLoyalContrastBlue;
         }
@@ -104,6 +167,7 @@
     .flexAlignItems(flex-end);
     height: 45px;
     &.active, &:focus, &:active{
+      z-index: 9999;
       height: 125px;
       .header-search-searchBox{
         display: inline-block;
@@ -113,6 +177,20 @@
           display: block;
         }
         background-color: darken(@homeRunLoyalContrastBlue, 10%);
+      }
+    }
+    @media @desktop-l {
+      &.active, &:focus, &:active{
+        height: 100%;
+        .header-search-searchBox{
+          display: inline-block;
+        }
+        .header-search-searchBtn{
+          .header-search-searchBox{
+            display: block;
+          }
+          background-color: @homeRunLoyalContrastBlue;
+        }
       }
     }
     &-searchBtn{
@@ -135,17 +213,22 @@
   &-share{
     display: none;
   }//header-share ends
-}
-.st_sharethis_large{
-  span:first-child{
+  .st_sharethis_large{
+    display:none;
+    @media @desktop-m {
+      display:flex;
+    }
     span:first-child{
-      height: 65px;
-      width: 65px;
-      background-repeat: no-repeat;
-      background-size: cover;
+      span:first-child{
+        height: 65px;
+        width: 65px;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
     }
   }
 }
+
 @media @mobile {
   .header-search {
     margin-left: -45px;
@@ -174,7 +257,7 @@
     &-share{
       cursor: pointer;
       span:first-child{
-          display: none;
+        display: none;
       }
       background-color: @homeRunLoyalContrastBlue;
       height: 65px;

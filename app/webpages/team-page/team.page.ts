@@ -188,7 +188,6 @@ export class TeamPage implements OnInit {
         this.pageParams = {
             teamId: Number(_params.get("teamId"))
         };
-
         GlobalSettings.getPartnerID(_router, partnerID => {
             this.partnerID = partnerID;
         });

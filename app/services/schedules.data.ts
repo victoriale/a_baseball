@@ -132,7 +132,7 @@ export class MLBSchedulesTableData implements TableComponentData<SchedulesData> 
       index:index,
       displayNext: displayNext,
       backgroundGradient: Gradient.getGradientStyles(colors),
-      displayTime: moment(item.startDateTimestamp).tz('America/New_York').format('dddd MMMM Do, YYYY | h:mm A') + " ET", //hard coded TIMEZOME since it is coming back from api this way
+      displayTime: GlobalFunctions.formatGlobalDate(item.startDateTimestamp,'timeZone'), //hard coded TIMEZOME since it is coming back from api this way
       detail1Data:'Home Stadium:',
       detail1Value:item.homeTeamVenue,
       detail2Value:item.homeTeamCity + ', ' + item.homeTeamState,

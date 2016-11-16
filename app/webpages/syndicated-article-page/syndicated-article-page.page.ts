@@ -116,7 +116,8 @@ export class SyndicatedArticlePage{
           this._seoService.setMetaRobots('INDEX, NOFOLLOW');
 
           this.articleData = data.data;
-          this.articleData.publishedDate = moment.unix(this.articleData.publishedDate/1000).format("MMMM Do, YYYY h:mm A") + " EST";
+          this.articleData.publishedDate = GlobalFunctions.formatGlobalDate(Number(this.articleData.publishedDate),'timeZone');
+
         }
       )
     }

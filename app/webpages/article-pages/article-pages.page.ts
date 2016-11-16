@@ -17,6 +17,9 @@ import {GlobalSettings} from "../../global/global-settings";
 import {SidekickContainerComponent} from "../../components/articles/sidekick-container/sidekick-container.component";
 import {SeoService} from '../../seo.service';
 
+declare var moment;
+
+
 @Component({
     selector: 'article-pages',
     templateUrl: './app/webpages/article-pages/article-pages.page.html',
@@ -93,7 +96,10 @@ export class ArticlePages implements OnInit {
                     //this.parseLinks(ArticleData[pageIndex]);
                     this.articleData = ArticleData[pageIndex];
                     this.title = ArticleData[pageIndex].displayHeadline;
-                    this.date = ArticleData[pageIndex].dateline;
+                  //  this.date = ArticleData[pageIndex].dateline;
+                    var date  = ArticleData[pageIndex].dateline;
+                    var date1 = moment(date).format();
+                    this.date = GlobalFunctions.formatGlobalDate(date1, 'timeZone');
                     this.comment = ArticleData[pageIndex].commentHeader;
                     this.imageLinks = this.getImageLinks(ArticleData[pageIndex]);
                     this.teamId = ArticleData[pageIndex].teamId;
@@ -106,7 +112,7 @@ export class ArticlePages implements OnInit {
                     this._seoService.setOgDesc(metaDesc);
                     this._seoService.setOgType('image');
                     this._seoService.setOgUrl(link);
-                    this._seoService.setOgImage(ArticleData[pageIndex]['images'][this.teamId][0].image);
+                  //  this._seoService.setOgImage(ArticleData[pageIndex]['images'][this.teamId][0].image);
                     this._seoService.setTitle(this.title);
                     this._seoService.setMetaDescription(this.articleData.metaHeadline);
                     this._seoService.setMetaRobots('INDEX, FOLLOW');
@@ -163,9 +169,11 @@ export class ArticlePages implements OnInit {
         var images = [];
         Object.keys(data).forEach(function (val, index) {
             if (val != "meta-data") {
+              var unix = moment(data[val].dateline,'MMM. do,YYYY hh:mm A').format('X');
+              var date = GlobalFunctions.formatGlobalDate(unix*1000,'timeZone');
                 articles[index - 1] = {
                     title: data[val].displayHeadline,
-                    date: data[val].dateline + " EST",
+                    date: date,
                     content: data[val].article[0],
                     eventId: data['meta-data']['current'].eventId,
                     eventType: val,

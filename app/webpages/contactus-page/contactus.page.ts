@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {Http} from '@angular/http';
 import {Router, RouteParams} from '@angular/router-deprecated';
 import {Observable} from 'rxjs/Rx';
@@ -18,14 +18,13 @@ declare var moment;
     directives: [SidekickWrapper, ContactUsModule, WidgetModule, ResponsiveWidget],
     providers: [Title],
 })
-export class ContactUsPage implements OnInit{
+export class ContactUsPage{
     public widgetPlace: string = "widgetForPage";
     //Object that builds contact us module
     public mailManUrl: string;
     public contactusInput: Object;
 
     constructor(private http:Http, private _title: Title, private _router:Router, private _seoService: SeoService, private _params:RouteParams) {
-        _title.setTitle(GlobalSettings.getPageTitle("Contact Us"));
         GlobalSettings.getPartnerID(_router, partnerID => {
           var domainTitle;
           if(partnerID != null){
@@ -56,7 +55,7 @@ export class ContactUsPage implements OnInit{
               titleData: {
                   imageURL: GlobalSettings.getSiteLogoUrl(),
                   // text1: 'Last Updated: '+moment(new Date()).format('dddd MMMM Do, YYYY'),
-                  text1: 'Last Updated: Friday, June 24th, 2016',
+                  text1: 'Last Updated: Friday June 24th, 2016',
                   text2: ' United States',
                   text3: 'Have a question about '+domainTitle+'? Write us a message.',
                   text4: '',
@@ -98,7 +97,7 @@ export class ContactUsPage implements OnInit{
         this.http.get(this.mailManUrl,{})
     }
 
-    ngOnInit(){
+    ngAfterViewInit(){
       //create meta description that is below 160 characters otherwise will be truncated
       let metaDesc = 'Contact Us about any inquiries or issues with the site or data that does seems inaccurate';
       let link = window.location.href;

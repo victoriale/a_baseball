@@ -195,8 +195,8 @@ export class SchedulesService {
       }
       let reportLink = MLBGlobalFunctions.formatAiArticleRoute(reportEventType, reportEventID);
 
-      let date = moment(val.startDateTimestamp).tz('America/New_York').format('MMMM D, YYYY');
-      let time = moment(val.startDateTimestamp).tz('America/New_York').format('h:mm A z');
+      let date = GlobalFunctions.formatGlobalDate(val.startDateTimestamp,'defaultDate');
+      let time = GlobalFunctions.formatGlobalDate(val.startDateTimestamp,'time');
       newData = {
         date: date + " &bull; " + time,
         awayImageConfig: self.imageData('image-44', 'border-1', GlobalSettings.getImageUrl(val.awayTeamLogo), MLBGlobalFunctions.formatTeamRoute(val.awayTeamName, val.awayTeamId)),
@@ -257,7 +257,7 @@ export class SchedulesService {
           if(typeof dateObject[splitToDate] == 'undefined'){
             dateObject[splitToDate] = {};
             dateObject[splitToDate]['tableData'] = [];
-            dateObject[splitToDate]['display'] = moment(val.startDateTimestamp).tz('America/New_York').format('dddd MMMM Do, YYYY') + " Games";
+            dateObject[splitToDate]['display'] = GlobalFunctions.formatGlobalDate(val.startDateTimestamp,'dayOfWeek') + " Games";
             dateObject[splitToDate]['tableData'].push(val);
           }else{
             dateObject[splitToDate]['tableData'].push(val);
