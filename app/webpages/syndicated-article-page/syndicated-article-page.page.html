@@ -30,7 +30,7 @@
             <div class="content-exerpt" *ngIf="articleType == 'video'"  [innerHTML]="articleData.description | safeHtml">
             </div>
             <div class="bottom-shader" *ngIf="articleType == 'story'"></div>
-            <a *ngIf="articleType == 'story'" class="readMore mod-page-btn" [href]="articleData.articleUrl">Read the Full Article <i class="fa fa-arrow-right"></i></a>
+            <a *ngIf="articleType == 'story'" class="readMore mod-page-btn" [href]="articleData.articleUrl" target="_blank">Read the Full Article <i class="fa fa-arrow-right"></i></a>
 
             <div *ngIf="recomendationData" class="recomendation-heading"><div><i class="fa fa-heart-o"></i> Other Stories You Will Love</div></div>
             <recommendations-component *ngIf="recomendationData" [randomHeadlines]="recomendationData"
