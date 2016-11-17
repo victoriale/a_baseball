@@ -258,7 +258,7 @@ export class MLBDraftHistoryService extends DraftHistoryService {
           ],
           'Draft Round '+val.selectionLevel,
           'fa fa-map-marker'),
-        imageConfig: ListPageService.imageData("list", GlobalSettings.getImageUrl(val.imageUrl), playerRoute, rank),
+        imageConfig: ListPageService.imageData("list", GlobalSettings.getImageUrl(val.imageUrl), playerRoute, Number(val.selectionLevel)),
         hasCTA:true,
         ctaDesc: playerRoute ? 'Want more info about this player?' : 'This player is currently not active.',
         ctaBtn:'',
