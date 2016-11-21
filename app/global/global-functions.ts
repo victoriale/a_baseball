@@ -434,8 +434,6 @@ export class GlobalFunctions {
       return str;
     }
 
-
-
     /*
       - Takes in a string, or a unix value, and converts it to either:
         -timeZone: Tuesday, Oct. 03, 2006 5:30:10PM (EDT)
@@ -454,17 +452,17 @@ export class GlobalFunctions {
         unixValue = Number(unixValue);
       }
       var newDate;
-    //  var day = [moment(unixValue).format('dddd'),moment(unixValue).format('d')];
       var day = moment(unixValue).format('dddd');
-      var shortDay = moment(unixValue).format('d');
+      var shortDay = moment(unixValue).format('D');
       var monthnum = Number(moment(unixValue).format('M')) - 1;
       var month = GlobalFunctions.formatAPMonth(monthnum);
       var timeZone = moment(unixValue).tz('America/New_York').format('hh:mmA (z)');
       var shortDate = moment(unixValue).format('MM/DD/YY');
       var year = moment(unixValue).format('YYYY');
 
+
       if(unixValue.toString().length <= 11){
-        console.log('Error in formatGlobalDate() [globalfunc.js]')
+        console.log('Error in formatGlobalDate() [globalfunc.js]');
         return 'wrong date';
       }
 
