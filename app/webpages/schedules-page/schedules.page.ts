@@ -26,7 +26,7 @@ declare var moment;
 @Component({
     selector: 'schedules-page',
     templateUrl: './app/webpages/schedules-page/schedules.page.html',
-    directives: [ROUTER_DIRECTIVES, SidekickWrapper, SchedulesComponent, ErrorComponent, LoadingComponent,PaginationFooter, BackTabComponent, TitleComponent, SliderCarousel, DetailedListItem,  ModuleFooter, ResponsiveWidget],
+    directives: [ROUTER_DIRECTIVES, SidekickWrapper, SchedulesComponent, ErrorComponent, NoDataBox, LoadingComponent,PaginationFooter, BackTabComponent, TitleComponent, SliderCarousel, DetailedListItem,  ModuleFooter, ResponsiveWidget],
     providers: [SchedulesService, ProfileHeaderService, Title],
     inputs:[]
 })
@@ -149,7 +149,8 @@ export class SchedulesPage implements OnInit{
           this.setPaginationParams(data.pageInfo, status, pageNum);
         },
         err => {
-          console.log("Error getting Schedules Data");
+          this.isError = true;
+          console.log("Error getting Schedules Data", this.errorData);
         }
       )
     }
