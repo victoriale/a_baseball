@@ -150,7 +150,7 @@ export class SchedulesPage implements OnInit{
         },
         err => {
           this.isError = true;
-          console.log("Error getting Schedules Data", this.errorData);
+          console.log("Error getting Schedules Data");
         }
       )
     }
