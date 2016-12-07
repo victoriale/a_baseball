@@ -11,6 +11,7 @@ const cleanCSS = require('gulp-clean-css');
 // const minify = require('gulp-minify');
 const reload = browserSync.reload;
 const rename = require('gulp-rename'); //for dev
+var moment = require('moment-timezone');
 
 // clean the contents of the distribution directory
 gulp.task('clean', function () {
