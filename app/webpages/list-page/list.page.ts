@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {RouteParams} from '@angular/router-deprecated';
+import {Router, RouteParams} from '@angular/router-deprecated';
 import {Title} from '@angular/platform-browser';
 
 import {DetailedListItem, DetailListInput} from '../../components/detailed-list-item/detailed-list-item.component';
@@ -19,6 +19,7 @@ import {GlobalSettings} from "../../global/global-settings";
 import {DynamicWidgetCall} from "../../services/dynamic-list-page.service";
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
+declare var jQuery: any;
 
 @Component({
     selector: 'list-page',
@@ -51,7 +52,8 @@ export class ListPage implements OnInit {
               private _profileService: ProfileHeaderService,
               private params: RouteParams,
               private dynamicWidget: DynamicWidgetCall,
-              private _title: Title) {
+              private _title: Title,
+              private _router: Router) {
     _title.setTitle(GlobalSettings.getPageTitle("Lists"));
     if(params.params['query'] != null){
       let query = params.params['query'];
