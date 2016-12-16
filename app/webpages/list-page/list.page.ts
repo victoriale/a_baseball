@@ -51,7 +51,8 @@ export class ListPage implements OnInit {
               private _profileService: ProfileHeaderService,
               private params: RouteParams,
               private dynamicWidget: DynamicWidgetCall,
-              private _title: Title) {
+              private _title: Title,
+            ) {
     _title.setTitle(GlobalSettings.getPageTitle("Lists"));
     if(params.params['query'] != null){
       let query = params.params['query'];
