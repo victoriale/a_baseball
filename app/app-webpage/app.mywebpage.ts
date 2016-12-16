@@ -81,29 +81,54 @@ declare var jQuery: any;
         component: MLBPage,
     },
     {
-        path: '/t/:teamName/:teamId',
+        path: '/team/:teamName/:teamId',
         name: 'Team-page',
         component: TeamPage,
     },
     {
-        path: '/p/:teamName/:fullName/:playerId',
+        path: '/t/:teamName/:teamId',
+        name: 'Deprecated-team-page',
+        component: TeamPage,
+    },
+    {
+        path: '/player/:teamName/:fullName/:playerId',
         name: 'Player-page',
+        component: PlayerPage,
+    },
+    {
+        path: '/p/:teamName/:fullName/:playerId',
+        name: 'Deprecated-player-page',
         component: PlayerPage,
     },
     //Misc. Pages
     {
-        path: '/dir/:type/:startsWith/page/:page',
+        path: '/directory/:type/:startsWith/page/:page',
         name: 'Directory-page-starts-with',
         component: DirectoryPage,
     },
     {
-        path: '/about',
+        path: '/dir/:type/:startsWith/page/:page',
+        name: 'Deprecated-directory-page-starts-with',
+        component: DirectoryPage,
+    },
+    {
+        path: '/about-us',
         name: 'About-us-page',
         component: AboutUsPage,
     },
     {
-        path: '/contactus',
+        path: '/about',
+        name: 'Deprecated-about-us-page',
+        component: AboutUsPage,
+    },
+    {
+        path: '/contact-us',
         name: 'Contact-us-page',
+        component: ContactUsPage,
+    },
+    {
+        path: '/contactus',
+        name: 'Deprecated-contact-us-page',
         component: ContactUsPage,
     },
     {
@@ -112,8 +137,13 @@ declare var jQuery: any;
         component: DisclaimerPage,
     },
     {
-        path: '/s/:query',
+        path: '/search/:query',
         name: 'Search-page',
+        component: SearchPage
+    },
+    {
+        path: '/s/:query',
+        name: 'Deprecated-search-page',
         component: SearchPage
     },
     //Module Pages
@@ -203,8 +233,13 @@ declare var jQuery: any;
         component: SeasonStatsPage
     },
     {
-        path: '/p-stats/:teamName/:teamId',
+        path: '/player-stats/:teamName/:teamId',
         name: 'Player-stats-page',
+        component: PlayerStatsPage
+    },
+    {
+        path: '/p-stats/:teamName/:teamId',
+        name: 'Deprecated-player-stats-page',
         component: PlayerStatsPage
     },
     {
