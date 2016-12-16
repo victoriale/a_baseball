@@ -19,7 +19,6 @@ import {GlobalSettings} from "../../global/global-settings";
 import {DynamicWidgetCall} from "../../services/dynamic-list-page.service";
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
-declare var jQuery: any;
 
 @Component({
     selector: 'list-page',
