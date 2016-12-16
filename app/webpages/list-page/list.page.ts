@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Router, RouteParams} from '@angular/router-deprecated';
+import {RouteParams} from '@angular/router-deprecated';
 import {Title} from '@angular/platform-browser';
 
 import {DetailedListItem, DetailListInput} from '../../components/detailed-list-item/detailed-list-item.component';
@@ -53,7 +53,7 @@ export class ListPage implements OnInit {
               private params: RouteParams,
               private dynamicWidget: DynamicWidgetCall,
               private _title: Title,
-              private _router: Router) {
+            ) {
     _title.setTitle(GlobalSettings.getPageTitle("Lists"));
     if(params.params['query'] != null){
       let query = params.params['query'];
