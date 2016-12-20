@@ -293,7 +293,11 @@ export class TeamPage implements OnInit {
     private getDykService() {
         this._dykService.getDykService(this.profileType, this.pageParams.teamId)
             .subscribe(data => {
-                this.dykData = data;
+                if(data.length <= 0) {
+                  this.dykData = null;
+                } else {
+                  this.dykData = data;
+                }
             },
             err => {
                 console.log("Error getting did you know data");
