@@ -31,19 +31,23 @@
           background-color: @facebook;
           .borderRadiusPrefix(5px);
           margin: 0 15px 15px 0;
-          display: block;
           float: left;
-          line-height: 34px;
+          display: flex;
+          align-items: center;
           span{
-            vertical-align: middle;
+            display: table;
           }
           & > span:first-child {
             width: 25px;
             height: 25px;
-            margin: 10px 0 0 20px;
+            margin: 0px 0 0 20px;
             color: @white;
             font-size: 18px;
             font-weight: 400;
+            >i{
+              display: table-cell;
+              vertical-align: middle;
+            }
           }
           & > span:nth-child(2) {
             .globalDefaultModFont(12px, 800, @white);
