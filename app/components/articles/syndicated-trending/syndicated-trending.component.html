@@ -4,12 +4,11 @@
     <div class="syndicated-trending-hr"></div>
     <div class="syndicated-trending-container"  *ngFor="let item of articleData; let rowIndex = index">
       <div *ngIf="item.id != currentArticleId">
-        <span class="featured-tag" *ngIf="rowIndex == 0">FEATURED</span>
+        <span class="featured-tag" *ngIf="rowIndex == 1">FEATURED</span>
         <shareLinks-component></shareLinks-component>
-        <div class="featured-tag-large" *ngIf="rowIndex == 0"><div class="vr"></div><i class="fa fa-newspaper-o"></i>FEATURED ARTICLE</div>
+        <div class="featured-tag-large" *ngIf="rowIndex == 1"><div class="vr"></div><i class="fa fa-newspaper-o"></i>FEATURED ARTICLE</div>
         <a [routerLink] ="item.newsRoute">
           <div class="syndicated-trending-article-title">{{item.title}}</div>
-        </a>
         <div class="arpt">
           <div class="arpt-author">By {{item.author}} - Reporter {{item.publisher}}</div>
           <div class="arpt-date">Posted On: {{item.date}}</div>
@@ -19,7 +18,6 @@
         </div>
         <div class="syndicated-trending-article-content" [innerHTML]="item.teaser | safeHtml">
         </div>
-        <a [routerLink]="item.newsRoute">
             <div class="syndicated-trending-read-more">Read the article <i class="fa fa-arrow-right"></i></div>
         </a>
         <div class="syndicated-trending-hr"></div>
