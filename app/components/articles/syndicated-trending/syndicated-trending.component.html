@@ -4,9 +4,9 @@
     <div class="syndicated-trending-hr"></div>
     <div class="syndicated-trending-container"  *ngFor="let item of articleData; let rowIndex = index">
       <div *ngIf="item.id != currentArticleId">
-        <span class="featured-tag" *ngIf="rowIndex == 1">FEATURED</span>
+        <span class="featured-tag" *ngIf="rowIndex == 0">FEATURED</span>
         <shareLinks-component></shareLinks-component>
-        <div class="featured-tag-large" *ngIf="rowIndex == 1"><div class="vr"></div><i class="fa fa-newspaper-o"></i>FEATURED ARTICLE</div>
+        <div class="featured-tag-large" *ngIf="rowIndex == 0"><div class="vr"></div><i class="fa fa-newspaper-o"></i>FEATURED ARTICLE</div>
         <a [routerLink] ="item.newsRoute">
           <div class="syndicated-trending-article-title">{{item.title}}</div>
         <div class="arpt">
