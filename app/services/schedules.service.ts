@@ -186,7 +186,7 @@ export class SchedulesService {
           reportText = 'LIVE GAME REPORT';
       }else{
         if(val.eventStatus = 'pre-event'){
-          reportText = 'PRE GAME REPORT'
+          reportText = 'PREGAME REPORT'
         }else if (val.eventStatus == 'post-event'){
           reportText = 'POST GAME REPORT';
         }else{
