@@ -445,7 +445,9 @@ export class GlobalFunctions {
     */
 
     static formatGlobalDate(value:any, identifier:string) {
+      console.log(value);
       var unixValue = moment(value).unix();
+      console.log(unixValue);
       if(unixValue.toString().length <= 11){
         unixValue = Number(unixValue) * 1000;
       } else {
