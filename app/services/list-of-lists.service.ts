@@ -51,7 +51,6 @@ export class ListOfListsService {
         break;
     }
 
-    // console.log("list of lists url " + callURL);
     return this.http.get( callURL, {
         headers: headers
       })
