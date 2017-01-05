@@ -153,6 +153,7 @@ export class DailyUpdateService {
   getPlayerDailyUpdate(playerId: number): Observable<DailyUpdateData> {
     //http://dev-homerunloyal-api.synapsys.us/player/dailyUpdate/2800
     let url = GlobalSettings.getApiUrl() + '/player/dailyUpdate/' + playerId;
+    console.log('API',url);
 
     // console.log("getting daily update for player " + playerId + ": " + url);
     return this.http.get(url)
@@ -164,6 +165,7 @@ export class DailyUpdateService {
     if ( !data ) {
       throw new Error("Error! Data is null from Player Daily Update API");
     }
+
     //Setting up season stats
     var stats = [];
     if ( data.seasonStats && data.seasonStats.length > 0 ) {
