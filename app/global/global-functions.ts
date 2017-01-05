@@ -444,16 +444,25 @@ export class GlobalFunctions {
 
     */
 
+    
     static formatGlobalDate(value:any, identifier:string) {
-      console.log(value);
       var unixValue = moment(value).unix();
-      console.log(unixValue);
-      if(unixValue.toString().length <= 11){
-        unixValue = Number(unixValue) * 1000;
+      if(typeof unixValue == 'undefined' || value == null){ // if value is undefined, fallback to js new Date(), using today's date
+        unixValue = moment(new Date()).unix();
       } else {
-        unixValue = Number(unixValue);
+        if(unixValue.toString().length <= 11){ // multiply by 1000 for some unix values.
+          unixValue = Number(unixValue) * 1000;
+        } else {
+          unixValue = Number(unixValue);
+        }
       }
+      if(unixValue.toString().length <= 11){ // if unix value is still wrong, return today's default date.
+        console.log('Error in formatGlobalDate() -> [globalfunc.js] Using js new Date()');
+        return moment(new Date()).format('MMM. D, YYYY');
+      }
+
       var newDate;
+      //setup parameters
       var day = moment(unixValue).format('dddd');
       var shortDay = moment(unixValue).format('D');
       var monthnum = Number(moment(unixValue).format('M')) - 1;
@@ -461,12 +470,6 @@ export class GlobalFunctions {
       var timeZone = moment(unixValue).tz('America/New_York').format('hh:mmA (z)');
       var shortDate = moment(unixValue).format('MM/DD/YY');
       var year = moment(unixValue).format('YYYY');
-
-
-      if(unixValue.toString().length <= 11){
-        console.log('Error in formatGlobalDate() [globalfunc.js]');
-        return 'wrong date';
-      }
 
       switch(identifier) {
         case 'defaultDate':

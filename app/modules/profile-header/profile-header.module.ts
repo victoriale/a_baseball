@@ -64,7 +64,6 @@ export class ProfileHeaderModule implements OnChanges {
 
     ngOnChanges() {
       var data = this.profileHeaderData;
-      console.log(this.profileHeaderData,'alex');
       if ( data ) {
         if ( !data.backgroundImageUrl ) {
           data.backgroundImageUrl = "/app/public/no-image.png";

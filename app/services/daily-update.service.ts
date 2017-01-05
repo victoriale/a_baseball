@@ -153,7 +153,6 @@ export class DailyUpdateService {
   getPlayerDailyUpdate(playerId: number): Observable<DailyUpdateData> {
     //http://dev-homerunloyal-api.synapsys.us/player/dailyUpdate/2800
     let url = GlobalSettings.getApiUrl() + '/player/dailyUpdate/' + playerId;
-    console.log('API',url);
 
     // console.log("getting daily update for player " + playerId + ": " + url);
     return this.http.get(url)

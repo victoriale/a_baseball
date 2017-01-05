@@ -59,7 +59,6 @@ export class DailyUpdateModule {
     if ( this.data ) {
       this.drawChart();
       this.backgroundImage = this._sanitizer.bypassSecurityTrustStyle("url(" + this.data.fullBackgroundImageUrl + ")");
-      console.log(this.backgroundImage);
     }
 
     if ( this.data && this.data.chart && this.data.chart.dataSeries && this.data.chart.dataSeries.length > 0) {
