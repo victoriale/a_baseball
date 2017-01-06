@@ -434,6 +434,10 @@ export class GlobalFunctions {
       return str;
     }
 
+
+
+
+
     /*
       - Takes in a string, or a unix value, and converts it to either:
         -timeZone: Tuesday, Oct. 03, 2006 5:30:10PM (EDT)
@@ -442,53 +446,66 @@ export class GlobalFunctions {
         -shortDate: 10/03/06
         -time 5:30:10PM (EDT)
 
+        If argument is Null/Undefined/Wrong, function defaults to today's date and throws a console log
+
+
     */
 
-    
+
+
     static formatGlobalDate(value:any, identifier:string) {
-      var unixValue = moment(value).unix();
-      if(typeof unixValue == 'undefined' || value == null){ // if value is undefined, fallback to js new Date(), using today's date
-        unixValue = moment(new Date()).unix();
-      } else {
-        if(unixValue.toString().length <= 11){ // multiply by 1000 for some unix values.
-          unixValue = Number(unixValue) * 1000;
+      var unixValue;
+
+      if(isNaN(value) != true && value != null){
+        if(moment(value,'YYYY-MM-DD kk:mm:ss',true).isValid()){ // string parse (possible format)
+          unixValue = moment(value,'YYYY-MM-DD kk:mm:ss',true).unix() * 1000;
         } else {
-          unixValue = Number(unixValue);
+          unixValue = moment(value).unix() * 1000;
         }
-      }
-      if(unixValue.toString().length <= 11){ // if unix value is still wrong, return today's default date.
-        console.log('Error in formatGlobalDate() -> [globalfunc.js] Using js new Date()');
-        return moment(new Date()).format('MMM. D, YYYY');
+      } else { // if initial value is null, defaut to today's date.
+        console.log('defaulting to todays date');
+        unixValue = moment(new Date()).unix() * 1000;
       }
 
+
+      if(isNaN(unixValue) || unixValue == null || unixValue.toString().length <= 10 || unixValue.toString().match(/^[0-9]+$/) == null){ // Final Check
+        console.log("Date Value is not defined - Defaulting to today's date - GlobalFunctions.formatGlobalDate()");
+        unixValue = moment(new Date()).unix() * 1000;
+      }
+
+
+
       var newDate;
-      //setup parameters
-      var day = moment(unixValue).format('dddd');
+      //setup common parameters
       var shortDay = moment(unixValue).format('D');
       var monthnum = Number(moment(unixValue).format('M')) - 1;
       var month = GlobalFunctions.formatAPMonth(monthnum);
-      var timeZone = moment(unixValue).tz('America/New_York').format('hh:mmA (z)');
-      var shortDate = moment(unixValue).format('MM/DD/YY');
       var year = moment(unixValue).format('YYYY');
 
       switch(identifier) {
         case 'defaultDate':
           newDate = month + ' ' + shortDay + ', ' + year; // Oct. 03, 2006
+          console.log(newDate);
           return newDate;
         case 'shortDate':
-          newDate = shortDate; // 10/03/06
+          newDate = moment(unixValue).format('MM/DD/YY'); // 10/03/06
+          console.log(newDate);
           return newDate;
         case 'timeZone':
-          newDate = day + ', ' + month + ' ' + shortDay + ', ' + year + ' ' + timeZone; //Tuesday, Oct. 03, 2006 5:30:10PM (EDT)
+          newDate = moment(unixValue).format('dddd') + ', ' + month + ' ' + shortDay + ', ' + year + ' ' + moment(unixValue).tz('America/New_York').format('hh:mmA (z)'); //Tuesday, Oct. 03, 2006 5:30:10PM (EDT)
+          console.log(newDate);
           return newDate;
         case 'dayOfWeek':
-          newDate = day + ', ' + month + ' ' + shortDay + ', ' + year; //Tuesday, Oct. 03, 2006
+          newDate = moment(unixValue).format('dddd') + ', ' + month + ' ' + shortDay + ', ' + year; //Tuesday, Oct. 03, 2006
+          console.log(newDate);
           return newDate;
         case 'time':
-          newDate = timeZone;
+          newDate = moment(unixValue).tz('America/New_York').format('hh:mmA (z)');
+          console.log(newDate);
           return newDate;
         default:
-          return month + ' ' + day + ', ' + year;
+          console.log(month + ' ' + shortDay + ', ' + year);
+          return month + ' ' + shortDay + ', ' + year;
       }
     }
 
