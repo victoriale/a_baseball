@@ -19,11 +19,17 @@
     &:hover .flpy-front,
     &.hover .flpy-front {
       .transformPrefixes(rotateY(180deg));
+      .flpy-back{
+        display: none;
+      }
     }
 
     &:hover .flpy-back,
     &.hover .flpy-back {
       .transformPrefixes(rotateY(0deg));
+      .flpy-front{
+        display: none;
+      }
     }
   }
 
@@ -37,7 +43,7 @@
     }
     .perspective(1000);
     position: relative;
-    .transitionPrefixes(0.3s);
+  //  .transitionPrefixes(0.3s);
     .transformStylePrefixes(preserve-3d);
   }
 
@@ -45,7 +51,7 @@
     .flexDisplay;
     .flexDirection(column);
     .transformStylePrefixes(preserve-3d);
-    .transitionPrefixes(0.3s);
+//    .transitionPrefixes(0.3s);
     width: 180px;
     height: 180px;
     background-color: @fontIconGrey;

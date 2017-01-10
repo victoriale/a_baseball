@@ -12,6 +12,7 @@ export class WidgetCarouselModule {
     @Input() aiSidekick:boolean;
     sidekickHeight:number = 0;
     headerHeight:string;
+    lastScrollTop:number = jQuery(window).scrollTop();
 
     ngOnInit() {
         var titleHeight = jQuery('.articles-page-title').height();
@@ -82,10 +83,24 @@ export class WidgetCarouselModule {
         //this.headerHeight = carouselTop + padding + maxScroll + this.sidekickHeight + 'px';
         //set class on blue bar and widget once user has scrolled past the carousel and top partner header
         if ((document.getElementById('partner') != null && carouselTop <= 0) || (document.getElementById('partner') == null && carouselTop <= blueBar)) {
-          jQuery("#widget").addClass("widget-top-ddp");
-          jQuery("#deep-dive-blueBar").addClass("deep-dive-blueBar-top");
+          // Grab current scrollTop
+          var st = jQuery(window).scrollTop();
+          // Compare current scollTop (st) to last scrollTop to determine scrolling direction and which class to add
+          if (st > this.lastScrollTop) {
+            // Scrolling down
+            jQuery("#widget").removeClass("widget-top-ddp-up");
+            jQuery("#widget").addClass("widget-top-ddp");
+            jQuery("#deep-dive-blueBar").addClass("deep-dive-blueBar-top");
+          } else {
+            // Scrolling up
+            jQuery("#widget").removeClass("widget-top-ddp");
+            jQuery("#widget").addClass("widget-top-ddp-up");
+            jQuery("#deep-dive-blueBar").addClass("deep-dive-blueBar-top");
+          }
+          this.lastScrollTop = st;
         }
         else {
+          jQuery("#widget").removeClass("widget-top-ddp-up");
           jQuery("#widget").removeClass("widget-top-ddp");
           jQuery("#deep-dive-blueBar").removeClass("deep-dive-blueBar-top");
         }

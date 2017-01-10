@@ -319,12 +319,21 @@ export class ProfileHeaderService {
     var headerData = data.headerData;
     var stats = headerData.stats;
     var info = headerData.info;
-
     var formattedStartDate = info.draftYear ? info.draftYear : "N/A"; //[September 18, 2015]
     var formattedYearsInMLB = "N/A"; //[one]
     var firstSentence = "";
     var yearPluralStr = "years";
+    var origin = window.location.origin;
+    if(info.teamName){
+      var teamNameMod = info.teamName.toLowerCase().split(' ').join('-');
+      var urlMod = "team/" + teamNameMod + '/' + info.teamId.toString();
+    }
     if ( info.draftYear && info.draftTeam ) {
+      if(info.teamName == info.draftTeam && info.teamName != null){ // sometimes the data returns both draftTeam and teamName as the same team
+        var teamName = "<a href='" + origin + '/' + urlMod + "'>" + info.teamName + "</a>";
+      } else {
+        var teamName = info.draftTeam;
+      }
       var currentYear = (new Date()).getFullYear();
       var yearsInMLB = (currentYear - Number(info.draftYear));
       formattedYearsInMLB = GlobalFunctions.formatNumber(yearsInMLB);
@@ -333,13 +342,14 @@ export class ProfileHeaderService {
       }
       firstSentence = "<span class='text-heavy'>" + info.playerName +
                   "</span> started his MLB career in <span class='text-heavy'>" + formattedStartDate +
-                  "</span> for the <span class='text-heavy'>" + info.draftTeam +
+                  "</span> for the <span class='text-heavy'>" + teamName +
                   "</span>, accumulating <span class='text-heavy'>" + formattedYearsInMLB +
                   "</span> " + yearPluralStr + " in the MLB. "
     }
     else { // no draft year or team
+      var teamName = "<a href='" + origin + '/' + urlMod + "'>" + info.teamName + "</a>";
       firstSentence = "<span class='text-heavy'>" + info.playerName +
-                  "</span> currently plays for the <span class='text-heavy'>" + info.teamName +
+                  "</span> currently plays for the <span class='text-heavy'>" + teamName +
                   "</span>. ";
     }
 

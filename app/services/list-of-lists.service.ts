@@ -51,7 +51,6 @@ export class ListOfListsService {
         break;
     }
 
-    // console.log("list of lists url " + callURL);
     return this.http.get( callURL, {
         headers: headers
       })
@@ -211,10 +210,18 @@ export class ListOfListsService {
       };
 
       itemListData.forEach(function(val, index) {
+        var rank;
+        var imageClass;
         let itemUrlRouteArray = itemListInfo.target == "player"  ?
           MLBGlobalFunctions.formatPlayerRoute(val.teamName, val.playerName, val.playerId) :
           MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId); let firstItemHover    = version == "page" ? "<p>View</p><p>Profile</p>" : null;
-
+          if(version == 'module') { // if module, get rid of ranking/numbering
+            rank = '';
+            imageClass = '';
+          } else {
+            rank = '#' + val.rank;
+            imageClass = "image-38-rank image-round-upper-left image-round-sub-text";
+          }
         listData.dataPoints.push(
           {
             imageClass : index > 0 ? "image-43" : "image-121",
@@ -232,8 +239,8 @@ export class ListOfListsService {
               //   imageClass    : itemListInfo.target == "player" ? "image-round-sub image-40-sub image-round-lower-right" : null
               // },
               {
-              text: "#"+ val.rank,
-              imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
+              text: rank,
+              imageClass: imageClass
             }]
           }
         )

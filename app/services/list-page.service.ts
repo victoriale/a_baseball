@@ -96,7 +96,6 @@ export class ListPageService {
   var headers = this.setToken();
 
   var callURL = this._apiUrl+'/list';
-
   for(var q in query){
     callURL += "/" + query[q];
   }

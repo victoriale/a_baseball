@@ -7,7 +7,7 @@
         </div>
 
     <span *ngIf="articleData">
-      <shareLinks-component></shareLinks-component>
+      <shareLinks-component id='titleShare'></shareLinks-component>
       <h1 class="articles-page-header">
         <a class="articles-page-title" [innerHTML]="articleData.title | safeHtml" [href]="articleData.articleUrl"></a>
       </h1>
