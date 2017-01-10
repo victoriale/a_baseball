@@ -13,6 +13,7 @@ export class WidgetModule {
     @Input() syndicated:boolean;
     sidekickHeight:number = 0;
     headerHeight:string;
+    lastScrollTop:number = jQuery(window).scrollTop();
 
     ngOnInit() {
         var titleHeight = jQuery('.articles-page-title').height();
@@ -78,9 +79,22 @@ export class WidgetModule {
         }
         //this.headerHeight = padding + maxScroll + this.sidekickHeight + 'px';
         if ((document.getElementById('partner') != null && maxScroll == 0) || (document.getElementById('partner') == null && scrollTop >= padding)) {
-          jQuery("#widget").addClass("widget-top");
+          // Grab current scrollTop
+          var st = jQuery(window).scrollTop();
+          // Compare current scollTop (st) to last scrollTop to determine scrolling direction and which class to add
+          if (st > this.lastScrollTop) {
+           // Scrolling down
+           jQuery("#widget").removeClass("widget-top-up");
+           jQuery("#widget").addClass("widget-top");
+          } else {
+           // Scrolling up
+           jQuery("#widget").removeClass("widget-top");
+           jQuery("#widget").addClass("widget-top-up");
+         }
+         this.lastScrollTop = st;
         }
         else {
+          jQuery("#widget").removeClass("widget-top-up");
           jQuery("#widget").removeClass("widget-top");
         }
         var $widget = jQuery("#widget");
