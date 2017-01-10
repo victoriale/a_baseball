@@ -11,6 +11,8 @@ export class GlobalSettings {
 
     private static _apiUrl:string = '-homerunloyal-api.synapsys.us';
     private static _partnerApiUrl: string = 'apireal.synapsys.us/listhuv/?action=get_partner_data&domain=';
+    // private static _partnerDomainApiUrl: string = 'w1.synapsys.us/widgets/deepdive/bar/domain_api.php?dom=chicagotribune.com';
+    private static _partnerDomainApiUrl: string = 'devapi.synapsys.us/widgets/deepdive/bar/domain_api.php?dom=';
     private static _widgetUrl: string = 'w1.synapsys.us';
 
     private static _dynamicApiUrl: string = 'dw.synapsys.us/list_creator_api.php';
@@ -65,6 +67,10 @@ export class GlobalSettings {
 
     static getPartnerApiUrl(partnerID):string {
         return this._proto + "//"+ this._partnerApiUrl + partnerID;
+    }
+
+    static getPartnerDomainApiUrl(partnerID):string {
+        return this._proto + "//"+ this._partnerDomainApiUrl + partnerID;
     }
 
     static getGeoLocation():string {

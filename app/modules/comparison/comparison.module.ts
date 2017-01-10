@@ -186,11 +186,17 @@ export class ComparisonModule implements OnInit, OnChanges {
     setupTile(player: PlayerData): ComparisonTileInput {
         var playerRoute = null;
         var teamRoute = null;
+        var playerDisplayNumber = null;
         if ( this.profileType != "player" || this.profileId != player.playerId ) {
             playerRoute = MLBGlobalFunctions.formatPlayerRoute(player.teamName, player.playerName, player.playerId);
         }
         if ( this.profileType != "team" || this.profileId != player.teamId ) {
             teamRoute = MLBGlobalFunctions.formatTeamRoute(player.teamName, player.teamId);
+        }
+        if ( typeof player.uniformNumber == 'undefined' || player.uniformNumber == null ) {
+          playerDisplayNumber = "N/A";
+        } else {
+          playerDisplayNumber = player.uniformNumber;
         }
         return {
             dropdownOneKey: player.teamId,
@@ -211,7 +217,7 @@ export class ComparisonModule implements OnInit, OnChanges {
                         // imageClass: "image-50-sub image-round-lower-right"
                     // },
                     {
-                        text: "#" + player.uniformNumber,
+                        text: "#" + playerDisplayNumber,
                         imageClass: "image-48-rank image-round-upper-left image-round-sub-text"
                     }
                 ],

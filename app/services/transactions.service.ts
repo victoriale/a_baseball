@@ -265,7 +265,6 @@ export class TransactionsService {
         text: val.playerLastName + ", " + val.playerFirstName + " ",
         class: 'text-heavy'
       }
-
       return {
         dataPoints: [{
           style   : 'transactions-small',

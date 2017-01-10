@@ -295,7 +295,6 @@ export class AppComponent{
     }
   }
 
-
   ngDoCheck(){
     var checkHeight = this.getHeaderHeight();
     if(this.shiftContainer != (checkHeight + 'px')){

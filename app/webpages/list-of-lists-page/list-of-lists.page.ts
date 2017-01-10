@@ -68,6 +68,8 @@ export class ListOfListsPage implements OnInit{
                 }
                 this.setPaginationParams(list.pagination);
                 this.carouselDataArray = list.carData;
+                
+
 
                 var profileName = "MLB";
                 var profileRoute = ["MLB-page"];
