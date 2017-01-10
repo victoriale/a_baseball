@@ -68,15 +68,19 @@
       background-color: @masterBrandColor;
       .borderRadiusPrefix(5px);
       .globalDefaultModFont(14px, 800, @white);
-      padding: 10px 0;
 
       i {
         font-weight: 400;
         padding-left: 8px;
+        position: relative;
+        top: 1px;
       }
 
        &:hover {
         background-color: @black;
+      }
+      &-text{
+        line-height: 35px;
       }
 
       &:active, &:hover, &:focus {

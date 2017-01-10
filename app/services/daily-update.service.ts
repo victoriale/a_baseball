@@ -164,6 +164,7 @@ export class DailyUpdateService {
     if ( !data ) {
       throw new Error("Error! Data is null from Player Daily Update API");
     }
+
     //Setting up season stats
     var stats = [];
     if ( data.seasonStats && data.seasonStats.length > 0 ) {
