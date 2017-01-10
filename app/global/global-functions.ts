@@ -455,26 +455,20 @@ export class GlobalFunctions {
 
     static formatGlobalDate(value:any, identifier:string) {
       var unixValue;
-
-      if(isNaN(value) != true && value != null){
+      if(typeof value != 'undefined' && value != null){
         if(moment(value,'YYYY-MM-DD kk:mm:ss',true).isValid()){ // string parse (possible format)
           unixValue = moment(value,'YYYY-MM-DD kk:mm:ss',true).unix() * 1000;
         } else {
           unixValue = moment(value).unix() * 1000;
         }
       } else { // if initial value is null, defaut to today's date.
-        console.log('defaulting to todays date');
         unixValue = moment(new Date()).unix() * 1000;
       }
-
 
       if(isNaN(unixValue) || unixValue == null || unixValue.toString().length <= 10 || unixValue.toString().match(/^[0-9]+$/) == null){ // Final Check
         console.log("Date Value is not defined - Defaulting to today's date - GlobalFunctions.formatGlobalDate()");
         unixValue = moment(new Date()).unix() * 1000;
       }
-
-
-
       var newDate;
       //setup common parameters
       var shortDay = moment(unixValue).format('D');
@@ -485,26 +479,20 @@ export class GlobalFunctions {
       switch(identifier) {
         case 'defaultDate':
           newDate = month + ' ' + shortDay + ', ' + year; // Oct. 03, 2006
-          console.log(newDate);
           return newDate;
         case 'shortDate':
           newDate = moment(unixValue).format('MM/DD/YY'); // 10/03/06
-          console.log(newDate);
           return newDate;
         case 'timeZone':
           newDate = moment(unixValue).format('dddd') + ', ' + month + ' ' + shortDay + ', ' + year + ' ' + moment(unixValue).tz('America/New_York').format('hh:mmA (z)'); //Tuesday, Oct. 03, 2006 5:30:10PM (EDT)
-          console.log(newDate);
           return newDate;
         case 'dayOfWeek':
           newDate = moment(unixValue).format('dddd') + ', ' + month + ' ' + shortDay + ', ' + year; //Tuesday, Oct. 03, 2006
-          console.log(newDate);
           return newDate;
         case 'time':
           newDate = moment(unixValue).tz('America/New_York').format('hh:mmA (z)');
-          console.log(newDate);
           return newDate;
         default:
-          console.log(month + ' ' + shortDay + ', ' + year);
           return month + ' ' + shortDay + ', ' + year;
       }
     }

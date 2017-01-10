@@ -82,12 +82,17 @@ export class ListOfListsService {
 
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
   carDataPage(data): Array<SliderCarouselInput>{
+    console.log(data);
     let self = this;
     var carouselArray = [];
+
+
 
     if(data.length == 0){
       carouselArray.push(SliderCarousel.convertToEmptyCarousel("Sorry, we currently do not have any data for this list."));
     }else{
+      
+
       //if data is coming through then run through the transforming function for the module
       data.forEach(function(val, index){
         if( val.listData[0] == null) return;
