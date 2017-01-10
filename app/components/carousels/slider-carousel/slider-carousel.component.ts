@@ -186,7 +186,6 @@ export class SliderCarousel implements OnInit {
  */
   static convertToCarouselItemType1(index: number, item: Type1CarouselItem): SliderCarouselInput {
     var subImages = [];
-    console.log('item',item);
     if ( item.subImageRoute ) {
       subImages.push({
           imageUrl: item.subImageUrl,

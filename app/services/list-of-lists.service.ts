@@ -51,6 +51,7 @@ export class ListOfListsService {
         break;
     }
 
+    // console.log("list of lists url " + callURL);
     return this.http.get( callURL, {
         headers: headers
       })
@@ -82,17 +83,12 @@ export class ListOfListsService {
 
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
   carDataPage(data): Array<SliderCarouselInput>{
-    console.log(data);
     let self = this;
     var carouselArray = [];
-
-
 
     if(data.length == 0){
       carouselArray.push(SliderCarousel.convertToEmptyCarousel("Sorry, we currently do not have any data for this list."));
     }else{
-      
-
       //if data is coming through then run through the transforming function for the module
       data.forEach(function(val, index){
         if( val.listData[0] == null) return;
@@ -194,11 +190,6 @@ export class ListOfListsService {
         profileTypePlural = "teams";
       }
 
-      if(version == 'page'){
-        itemListInfo.listRank = itemListInfo.listRank;
-      } else {
-        itemListInfo.listRank = '';
-      }
       var listData = {
         url           : itemListInfo.url           != null  ? itemListInfo.url          : dummyUrl,
         name          : itemListInfo.name          != null  ? itemListInfo.name         : dummyName,
@@ -220,13 +211,6 @@ export class ListOfListsService {
       };
 
       itemListData.forEach(function(val, index) {
-        if(version == "page"){
-          var rankClass = "image-38-rank image-round-upper-left image-round-sub-text";
-          val.rank = '#' + val.rank;
-        } else {
-          var rankClass = '';
-          val.rank = '';
-        }
         let itemUrlRouteArray = itemListInfo.target == "player"  ?
           MLBGlobalFunctions.formatPlayerRoute(val.teamName, val.playerName, val.playerId) :
           MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId); let firstItemHover    = version == "page" ? "<p>View</p><p>Profile</p>" : null;
@@ -248,8 +232,8 @@ export class ListOfListsService {
               //   imageClass    : itemListInfo.target == "player" ? "image-round-sub image-40-sub image-round-lower-right" : null
               // },
               {
-              text: val.rank,
-              imageClass: rankClass
+              text: "#"+ val.rank,
+              imageClass: "image-38-rank image-round-upper-left image-round-sub-text"
             }]
           }
         )
