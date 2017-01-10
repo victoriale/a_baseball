@@ -78,6 +78,7 @@ export class Carousel implements OnInit, OnChanges {
 
 
   ngOnInit() {
+    console.log(this.carouselData);
     if(typeof this.carouselData == 'undefined' || this.carouselData.length == 0){
       var sampleImage = "./app/public/no-image.jpg";
       this.carouselData =[

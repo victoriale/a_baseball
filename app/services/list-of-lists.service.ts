@@ -147,11 +147,9 @@ export class ListOfListsService {
           rank: itemTargetData.rank,
           rankClass: "image-48-rank"
         });
-
         carouselArray.push(carouselItem);
       });
     }
-    // console.log('TRANSFORMED CAROUSEL', carouselArray);
     return carouselArray;
   }
 
@@ -214,7 +212,6 @@ export class ListOfListsService {
         let itemUrlRouteArray = itemListInfo.target == "player"  ?
           MLBGlobalFunctions.formatPlayerRoute(val.teamName, val.playerName, val.playerId) :
           MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId); let firstItemHover    = version == "page" ? "<p>View</p><p>Profile</p>" : null;
-
         listData.dataPoints.push(
           {
             imageClass : index > 0 ? "image-43" : "image-121",
