@@ -2,152 +2,338 @@
 //http://www.robotstxt.org/robotstxt.html
 
 /**
-  *Optimal Length for Search Engines
-  *Roughly 155 Characters
-***/
-import { Injectable } from '@angular/core';
+ *Optimal Length for Search Engines
+ *Roughly 155 Characters
+ ***/
+import { Injectable, Inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { getDOM } from '@angular/platform-browser/src/dom/dom_adapter';
-import {GlobalSettings} from "./global/global-settings";
+import { DOCUMENT } from '@angular/platform-browser';
+import { GlobalSettings } from "./global/global-settings";
 
 @Injectable()
 
 export class SeoService {
-  private titleService: Title;
+    private document:any;
+    private headElement:HTMLElement;
+    private metaDescription:HTMLElement;
+    private themeColor:HTMLElement;
+    private ogTitle:HTMLElement;
+    private ogType:HTMLElement;
+    private ogUrl:HTMLElement;
+    private ogImage:HTMLElement;
+    private ogDesc:HTMLElement;
+    private startDate:HTMLElement;
+    private endDate:HTMLElement;
+    private isArticle:HTMLElement;
+    //Elastic Search meta tags
+    private es_search_type:HTMLElement;
+    private es_source:HTMLElement;
+    private es_article_id:HTMLElement;
+    private es_article_title:HTMLElement;
+    private es_keyword:HTMLElement;
+    private es_published_date:HTMLElement;
+    private es_author:HTMLElement;
+    private es_publisher:HTMLElement;
+    private es_image_url:HTMLElement;
+    private es_article_teaser:HTMLElement;
+    private es_article_url:HTMLElement;
+    private es_article_type:HTMLElement;
+    private es_search_string:HTMLElement;
+    private DOM:any;
+    robots:HTMLElement;
 
-  private headElement: HTMLElement;
-
-  private metaDescription: HTMLElement;
-
-  private canonicalLink: HTMLElement;
-
-  private ogTitle: HTMLElement;
-  private ogType: HTMLElement;
-  private ogUrl: HTMLElement;
-  private ogImage: HTMLElement;
-  private ogDesc: HTMLElement;
-
-  private robots: HTMLElement;
-  private DOM: any;
-
- /**
-  * Inject the Angular 2 Title Service
-  * @param titleService
-  */
-  constructor(titleService: Title){
-    this.titleService = titleService;
-    this.DOM = getDOM();
-
-   /**
-    * get the <head> Element
-    * @type {any}
-    */
-    this.headElement = this.DOM.query('head');
-    this.metaDescription = this.getOrCreateMetaElement('description');
-    this.robots = this.getOrCreateMetaElement('robots');
-    this.ogTitle = this.getOgMetaElement("og:title");
-    this.ogType = this.getOgMetaElement("og:type");
-    this.ogUrl = this.getOgMetaElement("og:url");
-    this.ogImage = this.getOgMetaElement("og:image");
-    this.ogDesc = this.getOgMetaElement("og:description");
-  }
-
-  public getTitle(): string {
-    return this.titleService.getTitle();
-  }
-
-  public setTitle(newTitle: string) {
-    let splitTitle = newTitle.split(' ');
-    let shortTitle;
-    if(splitTitle.length > 3){
-      splitTitle = splitTitle.splice(0,3);
-      shortTitle = splitTitle.join(' ') + '...';
-    }else{
-      shortTitle = splitTitle.join(' ');
-    }
-    this.titleService.setTitle(shortTitle);
-  }
-
-  public getMetaDescription(): string {
-    return this.metaDescription.getAttribute('content');
-  }
-
-  public setMetaDescription(description: string) {
-    let html = description;
-    let div = document.createElement("div");
-    div.innerHTML = html;
-    let truncatedDescription = div.textContent || div.innerText || "";
-    if(truncatedDescription.length > 167){
-      truncatedDescription = truncatedDescription.substring(0, 167);
-      truncatedDescription += '...';
-    }
-    this.metaDescription.setAttribute('content', truncatedDescription);
-  }
-
-  public getMetaRobots(): string {
-    return this.robots.getAttribute('content');
-  }
-
-  //Valid values for the "CONTENT" attribute are: "INDEX", "NOINDEX", "FOLLOW", "NOFOLLOW"
-  //http://www.robotstxt.org/meta.html
-  public setMetaRobots(robots: string) {
-    this.robots.setAttribute('content', robots);
-  }
-
-  public setOgTitle(newTitle: string) {
-    this.ogTitle.setAttribute('content', newTitle);
-  }
-  public setOgType(newType: string) {
-    this.ogType.setAttribute('content', newType);
-  }
-  public setOgUrl(url: string) {
-    this.ogUrl.setAttribute('content', url);
-  }
-  public setOgImage(imageUrl: string) {
-    this.ogImage.setAttribute('content', imageUrl);
-  }
-  public setOgDesc(description: string) {
-    this.ogDesc.setAttribute('content', description);
-  }
-
-   /**
-    * get the HTML Element when it is in the markup, or create it.
-    * @param name
-    * @returns {HTMLElement}
-    */
-    private getOrCreateMetaElement(name: string): HTMLElement {
-      let el: HTMLElement;
-      el = this.DOM.query('meta[name=' + name + ']');
-      if (el === null) {
-        el = this.DOM.createElement('meta');
-        el.setAttribute('name', name);
-        this.headElement.appendChild(el);
-      }
-      return el;
-    }
-    private getOgMetaElement(name: string): HTMLElement {
-      let el: HTMLElement;
-      el = this.DOM.query('meta[property="' + name + '"]');
-      if (el === null) {
-        el = this.DOM.createElement('meta');
-        el.setAttribute('property', name);
-        this.headElement.appendChild(el);
-      }
-      return el;
-    }
-    public setCanonicalLink(RouteParams, router): HTMLElement {
-      let el: HTMLElement;
-      el = this.DOM.query("link[rel='canonical']");
-      let canonicalLink = window.location.href;
-      if (el === null) {
-        el = this.DOM.createElement('link');
-        el.setAttribute('rel', 'canonical');
-        el.setAttribute('href', canonicalLink);
-        this.headElement.appendChild(el);
-      }else{
-        el.setAttribute('href', canonicalLink);
-      }
-      return el;
+    constructor(@Inject(DOCUMENT) document:any) {
+        this.DOM = getDOM();
+        this.document = document;
+        this.headElement = this.document.head;
     }
 
+    public setTitle(newTitle:string) {
+        let splitTitle = newTitle.split(' ');
+        let shortTitle;
+        if (splitTitle.length > 3) {
+            splitTitle = splitTitle.splice(0, 3);
+            shortTitle = splitTitle.join(' ') + '...';
+        } else {
+            shortTitle = splitTitle.join(' ');
+        }
+        this.document.title = shortTitle;
+    }
+
+    public setMetaDescription(description:string) {
+        if (SeoService.checkData(description)) {
+            let html = description;
+            let div = document.createElement("div");
+            div.innerHTML = html;
+            let truncatedDescription = div.textContent || div.innerText || "";
+            if (truncatedDescription.length > 167) {
+                truncatedDescription = truncatedDescription.substring(0, 167);
+                truncatedDescription += '...';
+            }
+            if (!this.document.querySelector('meta[name="description"]')) {
+                this.metaDescription = this.getOrCreateElement('name', 'description', 'meta');
+            }
+            this.setElementAttribute(this.metaDescription, 'content', truncatedDescription);
+        }
+    }
+
+    //Valid values for the "CONTENT" attribute are: "INDEX", "NOINDEX", "FOLLOW", "NOFOLLOW"
+    //http://www.robotstxt.org/meta.html
+    public setMetaRobots(robots:string) {
+        if (SeoService.checkData(robots)) {
+            if (!this.document.querySelector('meta[name="robots"]')) {
+                this.robots = this.getOrCreateElement('name', 'robots', 'meta');
+            }
+            this.setElementAttribute(this.robots, 'content', robots);
+        }
+    }
+
+    public setThemeColor(color:string) {
+        if (SeoService.checkData(color)) {
+            if (!this.document.querySelector('meta[name="themeColor"]')) {
+                this.themeColor = this.getOrCreateElement('name', 'themeColor', 'meta');
+            }
+            this.setElementAttribute(this.themeColor, 'content', color);
+        }
+    }
+
+    public setOgTitle(newTitle:string) {
+        if (SeoService.checkData(newTitle)) {
+            if (!this.document.querySelector('meta[property="og:title"]')) {
+                this.ogTitle = this.getOrCreateElement('property', 'og:title', 'meta');
+            }
+            this.setElementAttribute(this.ogTitle, 'content', newTitle);
+        }
+    }
+
+    public setOgDesc(description:string) {
+        if (SeoService.checkData(description)) {
+            if (!this.document.querySelector('meta[property="og:description"]')) {
+                this.ogDesc = this.getOrCreateElement('property', 'og:description', 'meta');
+            }
+            this.setElementAttribute(this.ogDesc, 'content', description);
+        }
+    }
+
+    public setOgType(newType:string) {
+        if (SeoService.checkData(newType)) {
+            if (!this.document.querySelector('meta[property="og:type"]')) {
+                this.ogType = this.getOrCreateElement('property', 'og:type', 'meta');
+            }
+            this.setElementAttribute(this.ogType, 'content', newType);
+        }
+    }
+
+    public setOgUrl(url:string) {
+        if (SeoService.checkData(url)) {
+            if (!this.document.querySelector('meta[property="og:url"]')) {
+                this.ogUrl = this.getOrCreateElement('property', 'og:url', 'meta');
+            }
+            this.setElementAttribute(this.ogUrl, 'content', url)
+        }
+    }
+
+    public setOgImage(imageUrl:string) {
+        if (SeoService.checkData(imageUrl)) {
+            if (!this.document.querySelector('meta[property="og:image"]')) {
+                this.ogImage = this.getOrCreateElement('property', 'og:image', 'meta');
+            }
+            this.setElementAttribute(this.ogImage, 'content', imageUrl);
+        }
+    }
+
+    public setKeyword(keyword:string) {
+        if (SeoService.checkData(keyword)) {
+            if (!this.document.querySelector('meta[name="keyword"]')) {
+                this.es_keyword = this.getOrCreateElement('name', 'keyword', 'meta');
+            }
+            this.setElementAttribute(this.es_keyword, 'content', keyword);
+        }
+    }
+
+    public setStartDate(startDate:string) {
+        if (SeoService.checkData(startDate)) {
+            if (!this.document.querySelector('meta[name="start_date"]')) {
+                this.startDate = this.getOrCreateElement('name', 'start_date', 'meta');
+            }
+            this.setElementAttribute(this.startDate, 'content', startDate);
+        }
+    }
+
+    public setEndDate(endDate:string) {
+        if (SeoService.checkData(endDate)) {
+            if (!this.document.querySelector('meta[name="end_date"]')) {
+                this.endDate = this.getOrCreateElement('name', 'end_date', 'meta');
+            }
+            this.setElementAttribute(this.endDate, 'content', endDate);
+        }
+    }
+
+    public setIsArticle(isArticle:string) {
+        if (SeoService.checkData(isArticle)) {
+            if (!this.document.querySelector('meta[name="is_article"]')) {
+                this.isArticle = this.getOrCreateElement('name', 'is_article', 'meta');
+            }
+            this.setElementAttribute(this.isArticle, 'content', isArticle);
+        }
+    }
+
+    public setSearchType(searchType:string) {
+        if (SeoService.checkData(searchType)) {
+            if (!this.document.querySelector('meta[name="search_type"]')) {
+                this.es_search_type = this.getOrCreateElement('name', 'search_type', 'meta');
+            }
+            this.setElementAttribute(this.es_search_type, 'content', searchType);
+        }
+    }
+
+    public setArticleId(articleId:string) {
+        if (SeoService.checkData(articleId)) {
+            if (!this.document.querySelector('meta[name="article_id"]')) {
+                this.es_article_id = this.getOrCreateElement('name', 'article_id', 'meta');
+            }
+            this.setElementAttribute(this.es_article_id, 'content', articleId);
+        }
+    }
+
+    public setArticleTitle(articleTitle:string) {
+        if (SeoService.checkData(articleTitle)) {
+            if (!this.document.querySelector('meta[name="article_title"]')) {
+                this.es_article_title = this.getOrCreateElement('name', 'article_title', 'meta');
+            }
+            this.setElementAttribute(this.es_article_title, 'content', articleTitle);
+        }
+    }
+
+    public setAuthor(author:string) {
+        if (SeoService.checkData(author)) {
+            if (!this.document.querySelector('meta[name="author"]')) {
+                this.es_author = this.getOrCreateElement('name', 'author', 'meta');
+            }
+            this.setElementAttribute(this.es_author, 'content', author);
+        }
+    }
+
+    public setPublisher(publisher:string) {
+        if (SeoService.checkData(publisher)) {
+            if (!this.document.querySelector('meta[name="publisher"]')) {
+                this.es_publisher = this.getOrCreateElement('name', 'publisher', 'meta');
+            }
+            this.setElementAttribute(this.es_publisher, 'content', publisher);
+        }
+    }
+
+    public setArticleUrl(url:string) {
+        if (SeoService.checkData(url)) {
+            if (!this.document.querySelector('meta[name="article_url"]')) {
+                this.es_article_url = this.getOrCreateElement('name', 'article_url', 'meta');
+            }
+            this.setElementAttribute(this.es_article_url, 'content', url);
+        }
+    }
+
+    public setSearchString(searchString:string) {
+        if (SeoService.checkData(searchString)) {
+            if (!this.document.querySelector('meta[name="search_string"]')) {
+                this.es_search_string = this.getOrCreateElement('name', 'search_string', 'meta');
+            }
+            this.setElementAttribute(this.es_search_string, 'content', searchString);
+        }
+    }
+
+    public setSource(source:string) {
+        if (SeoService.checkData(source)) {
+            if (!this.document.querySelector('meta[name="source"]')) {
+                this.es_source = this.getOrCreateElement('name', 'source', 'meta');
+            }
+            this.setElementAttribute(this.es_source, 'content', source);
+        }
+    }
+
+    public setPublishedDate(publishedDate:string) {
+        if (SeoService.checkData(publishedDate)) {
+            if (!this.document.querySelector('meta[name="published_date"]')) {
+                this.es_published_date = this.getOrCreateElement('name', 'published_date', 'meta');
+            }
+            this.setElementAttribute(this.es_published_date, 'content', publishedDate);
+        }
+    }
+
+    public setImageUrl(imageUrl:string) {
+        if (SeoService.checkData(imageUrl)) {
+            if (!this.document.querySelector('meta[name="image_url"]')) {
+                this.es_image_url = this.getOrCreateElement('name', 'image_url', 'meta');
+            }
+            this.setElementAttribute(this.es_image_url, 'content', imageUrl);
+        }
+    }
+
+    public setArticleTeaser(articleTeaser:string) {
+        if (SeoService.checkData(articleTeaser)) {
+            if (!this.document.querySelector('meta[name="article_teaser"]')) {
+                this.es_article_teaser = this.getOrCreateElement('name', 'article_teaser', 'meta');
+            }
+            this.setElementAttribute(this.es_article_teaser, 'content', articleTeaser);
+        }
+    }
+
+    public setArticleType(articleType:string) {
+        var metaTag = this.document.querySelector('meta[name="article_type"]');
+        if (SeoService.checkData(articleType)) {
+            if (!metaTag) {
+                this.es_article_type = this.getOrCreateElement('name', 'article_type', 'meta');
+            }
+            this.setElementAttribute(this.es_article_type, 'content', articleType);
+        }
+    }
+
+    /**
+     * get the HTML Element when it is in the markup, or create it.
+     * @param name
+     * @returns {HTMLElement}
+     */
+
+    private getOrCreateElement(name:string, attr:string, type:string):HTMLElement {
+        let el:HTMLElement;
+        el = this.DOM.createElement(type);
+        this.setElementAttribute(el, name, attr);
+        this.DOM.insertBefore(this.document.head.lastChild, el);
+
+        return el;
+    }
+
+    private setElementAttribute(el:HTMLElement, name:string, attr:string) {
+        return this.DOM.setAttribute(el, name, attr);
+    }
+
+    //This must be the first function called so that previous meta tags can be deleted.
+    public setCanonicalLink(RouteParams, router):HTMLElement {
+        SeoService.removeMetaTags();
+        let el:HTMLElement;
+        el = this.DOM.query("link[rel='canonical']");
+        let canonicalLink = window.location.href;
+        if (el === null) {
+            el = this.DOM.createElement('link');
+            el.setAttribute('rel', 'canonical');
+            el.setAttribute('href', canonicalLink);
+            this.headElement.appendChild(el);
+        } else {
+            el.setAttribute('href', canonicalLink);
+        }
+        return el;
+    }
+
+    static removeMetaTags() {
+        var element = document.getElementsByTagName('meta'), index;
+        for (index = element.length - 1; index >= 0; index--) {
+            element[index].parentNode.removeChild(element[index]);
+        }
+    }
+
+    static checkData(data) {
+        var check;
+        check = !!(data != null && data != "");
+        return check
+    }
 }

@@ -1,23 +1,6 @@
 <span *ngIf="league">
-    <span *ngFor="let subData of randomLeftColumn; let even=even; let odd=odd; let last=last; let i=index;">
-        <div *ngIf="even && i < 10" class="sub-container" style="float: left;">
-            <a href="">
-                <span class="articleBoxSmall">
-                    <img class="sub-container-image" src="{{subData.images}}"
-                         onerror="this.src='/app/public/no-image.png'" alt="Sub Article Image"/>
-                    <div>
-                        <p>View</p>
-                    </div>
-                </span>
-                <div class="sub-container-content">
-                    {{subData.title}}
-                </div>
-            </a>
-            <span *ngIf="i != 8">
-                <div class="sub-container-hr"></div>
-            </span>
-        </div>
-        <div *ngIf="odd && i < 10" class="sub-container" style="float: right;">
+    <span *ngFor="let subData of leagueData; let even=even; let odd=odd; let last=last; let i=index;">
+        <div *ngIf="even && i < 10" class="sub-container sub-container-league" style="float: left;">
             <a [routerLink]="['Article-pages', {eventType: subData.eventType, eventID: subData.eventID}]">
                 <span class="articleBoxSmall">
                     <img class="sub-container-image" src="{{subData.images}}"
@@ -26,18 +9,35 @@
                         <p>View</p>
                     </div>
                 </span>
-                <div class="sub-container-content">
+                <div class="sub-container-content sub-container-content-league">
+                    {{subData.title}}
+                </div>
+            </a>
+            <span *ngIf="i != 8">
+                <div class="sub-container-hr sub-container-hr-league"></div>
+            </span>
+        </div>
+        <div *ngIf="odd && i < 10" class="sub-container  sub-container-league" style="float: right;">
+            <a [routerLink]="['Article-pages', {eventType: subData.eventType, eventID: subData.eventID}]">
+                <span class="articleBoxSmall">
+                    <img class="sub-container-image" src="{{subData.images}}"
+                         onerror="this.src='/app/public/no-image.png'" alt="Sub Article Image"/>
+                    <div>
+                        <p>View</p>
+                    </div>
+                </span>
+                <div class="sub-container-content sub-container-content-league">
                     {{subData.title}}
                 </div>
             </a>
             <span *ngIf="i != 9">
-                <div class="sub-container-hr"></div>
+                <div class="sub-container-hr sub-container-hr-league"></div>
             </span>
         </div>
     </span>
 </span>
 <span *ngIf="!league">
-    <span *ngFor="let subData of randomLeftColumn; let i=index;">
+    <span *ngFor="let subData of leftColumnData; let i=index;">
         <div *ngIf="i < 5" class="sub-container">
             <a [routerLink]="['Article-pages', {eventType: subData.eventType, eventID: subData.eventID}]">
                 <span class="articleBoxSmall">
