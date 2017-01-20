@@ -11,6 +11,7 @@ export class ArticleDataService {
     getArticleData(eventID, eventType, partnerId) {
         var fullUrl = GlobalSettings.getArticleUrl();
         //having the query string is only temporary until the partner site link issue is figured out.
+        console.log(fullUrl + eventType + '/' + eventID + "?partnerId=" + partnerId);
         return this.http.get(fullUrl + eventType + '/' + eventID + "?partnerId=" + partnerId)
             .map(res => res.json())
             .map(data => data);

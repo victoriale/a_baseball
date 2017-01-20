@@ -74,7 +74,7 @@ export class DeepDiveBlock2{
   }
   getRecommendationData(){
     var state = this.geoLocation; //required from AI to have the call of state come in UPPERCASE
-    this._deepDiveData.getRecArticleData(state, '1', '1')
+    this._deepDiveData.getRecArticleData(state, '1', '6')
         .subscribe(data => {
           this.recommendationData = this._deepDiveData.transformToRecArticles(data);
         });
