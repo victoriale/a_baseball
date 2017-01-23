@@ -169,7 +169,8 @@ export class ArticlePages implements OnInit {
         var images = [];
         Object.keys(data).forEach(function (val, index) {
             if (val != "meta-data") {
-              var date = GlobalFunctions.formatGlobalDate(data[val].dateline,'timeZone');
+              var unix = moment(data[val].dateline,'MMM. do,YYYY hh:mm A').format('X');
+              var date = GlobalFunctions.formatGlobalDate(unix*1000,'timeZone');
                 articles[index - 1] = {
                     title: data[val].displayHeadline,
                     date: date,
