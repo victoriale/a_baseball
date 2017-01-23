@@ -245,7 +245,6 @@ export class ComparisonStatsService {
 
   callPlayerComparisonAPI(teamId: string, playerId: string, dataLoaded: Function) {
     let url = this._apiUrl + "/player/comparison/";
-
     if ( playerId ) {
       //http://dev-homerunloyal-api.synapsys.us/player/comparison/player/95622
       url += "player/" + playerId;
@@ -258,6 +257,7 @@ export class ComparisonStatsService {
       //http://dev-homerunloyal-api.synapsys.us/player/comparison/league
       url += "league";
     }
+
 
     //console.log("getting player stats: " + url);
     return this.http.get(url)

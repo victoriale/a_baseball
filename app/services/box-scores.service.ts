@@ -42,7 +42,7 @@ export class BoxScoresService {
   }
 
   //date needs to be the date coming in AS EST and come back as UTC
-  var callURL = this._apiUrl+'/'+profile+'/boxScores'+teamId+'/'+ date;
+  var callURL = this._apiUrl+'/'+profile+'/boxScores'+teamId+'/' + date;
   //console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
@@ -264,7 +264,6 @@ export class BoxScoresService {
     });
 
     sortedGames.forEach(function(data,i){
-
       var info:GameInfoInput;
       let awayData = data.awayTeamInfo;
       let homeData = data.homeTeamInfo;
@@ -449,6 +448,7 @@ export class BoxScoresService {
     let gameInfo = data.gameInfo;
     let aiContent = data.aiContent;
     var gameArticle = {};
+
     for(var report in aiContent.featuredReport){
       gameArticle['report'] = "Read The Report";
       gameArticle['headline'] = aiContent.featuredReport[report].displayHeadline;
