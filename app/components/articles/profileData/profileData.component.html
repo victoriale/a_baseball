@@ -99,7 +99,7 @@
                 </div>
             </div>
         </span>
-        <span *ngIf="data.team_record_module && index == 2 && i == 5">
+        <span *ngIf="data.team_record_module && index == 2 && i == 4">
             <div class="comparison-single large">
                 <circle-image *ngIf="imageLinks[2]" class="comparison-single-logo"
                               [data]="imageLinks[2]"></circle-image>
@@ -259,7 +259,7 @@
                             </div>
                         </div>
                     </span>
-                    <span *ngIf="index == 5">
+                    <span *ngIf="index == 4">
                         <div class="comparison-upcoming-left">
                             <circle-image *ngIf="imageLinks[5]" class="comparison-upcoming-left-home-logo"
                                           [data]="imageLinks[5]"></circle-image>
@@ -272,10 +272,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="comparison-upcoming-date">
-                            {{imageLinks[4]}}<br>
-                            {{data.game_module.event_time}}
-                        </div>
+                         <div class="comparison-upcoming-date">
+                             {{data.game_module.event_date}}<br>
+                             {{data.game_module.event_time}}<br>
+                             {{data.game_module.event_venue}}<br>
+                             {{data.game_module.event_location}}
+                         </div>
                         <div class="comparison-upcoming-right">
                             <circle-image *ngIf="imageLinks[6]" class="comparison-upcoming-right-away-logo"
                                           [data]="imageLinks[6]"></circle-image>
@@ -321,7 +323,7 @@
                             </div>
                         </div>
                     </span>
-                    <span *ngIf="index == 5">
+                    <span *ngIf="index == 4">
                         <div class="comparison-upcoming-left">
                             <circle-image *ngIf="imageLinks[7]" class="comparison-upcoming-left-home-logo"
                                           [data]="imageLinks[7]"></circle-image>
@@ -335,7 +337,7 @@
                             </div>
                         </div>
                         <div class="comparison-upcoming-date">
-                            {{imageLinks[4]}}<br>
+                            {{imageLinks[9]}}<br>
                             {{data.game_module.event_time}}
                         </div>
                         <div class="comparison-upcoming-right">

@@ -61,11 +61,11 @@ export class DirectoryPage {
     if ( this.currentPage === 0 ) {
       this.currentPage = 1; //page index starts at one
     }
-
+    //This call will remove all meta tags from the head.
+    this._seoService.removeMetaTags();
     //create meta description that is below 160 characters otherwise will be truncated
     let metaDesc = 'Directory of all the players and team profiles for the MLB starting with the letter ' + startsWith.toUpperCase();
     let link = window.location.href;
-
     this._seoService.setCanonicalLink(this._params.params, this._router);
     this._seoService.setOgTitle('Directory - ' + startsWith);
     this._seoService.setOgDesc(metaDesc);

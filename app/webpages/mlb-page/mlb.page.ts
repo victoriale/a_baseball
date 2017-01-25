@@ -240,6 +240,8 @@ export class MLBPage implements OnInit {
     }
 
     private metaTags(data){
+      //This call will remove all meta tags from the head.
+      this._seoService.removeMetaTags();
       //create meta description that is below 160 characters otherwise will be truncated
       let header = data.headerData;
       let metaDesc =  header.profileNameLong + ' loyal to ' + header.totalTeams + ' teams ' + 'and ' + header.totalPlayers + ' players.';
@@ -272,7 +274,6 @@ export class MLBPage implements OnInit {
             .subscribe(
                 HeadlineData => {
                     this.headlineData = HeadlineData;
-                    console.log(this.headlineData);
                 },
                 err => {
                     console.log("Error loading AI headline data for League Page", err);

@@ -23,7 +23,6 @@ export class BillboardComponent implements OnInit {
         } else {
             this.dangerousBillBoardUrl = "http://w1.synapsys.us/widgets/sports/ai_billboard.html?%7B%22team%22%3A%22" + this.teamId + "%22%2C%22remn%22%3A%22false%22%2C%22dom%22%3A%22" + this.partnerId + "%22%7D"
         }
-        console.log(this.dangerousBillBoardUrl);
         this.safeBillBoardUrl = this._sanitizer.bypassSecurityTrustResourceUrl(this.dangerousBillBoardUrl);
     }
 }

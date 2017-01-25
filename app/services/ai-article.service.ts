@@ -304,6 +304,7 @@ export class ArticleDataService {
         return result.length == 6 ? result : null;
     }
 
+
     static getRandomArticles(recommendations, pageIndex, eventID) {
         return {
             title: recommendations.title,
@@ -322,7 +323,7 @@ export class ArticleDataService {
             count = 10;
         }
         var fullUrl = GlobalSettings.getArticleUrl();
-        return this.http.get(fullUrl + "articles?page=1&count=" + count +"&scope=mlb&articleType=pregame-report&readyToPublish=all")
+        return this.http.get(fullUrl + "articles?page=1&count=" + count + "&scope=mlb&articleType=pregame-report&readyToPublish=all")
             .map(res => res.json())
             .map(data => data);
     }
@@ -363,13 +364,13 @@ export class ArticleDataService {
 
     getAiHeadlineDataLeague(isLeague) {
         var fullUrl = GlobalSettings.getArticleUrl();
-        return this.http.get(fullUrl + "articles?page=1&count=15&scope=mlb&articleType=pregame-report&readyToPublish=all")
+        return this.http.get(fullUrl + "articles?page=1&count=15&scope=mlb&articleType=pregame-report&readyToPublish=all&metaDataOnly=1")
             .map(res => res.json())
             .map(headlineData => ArticleDataService.processHeadlineData(headlineData.data, null, isLeague));
     }
 
     static processHeadlineData(data, teamID, isLeague) {
-        var scheduleData = !isLeague ? ArticleDataService.getScheduleData(data.home, data.away, teamID): null;
+        var scheduleData = !isLeague ? ArticleDataService.getScheduleData(data.home, data.away, teamID) : null;
         var mainArticleData = ArticleDataService.getMainArticle(data, isLeague);
         var subArticleData = !isLeague ? ArticleDataService.getSubArticles(data, data.event) : null;
         var leagueSubArticles = isLeague ? ArticleDataService.getLeagueSubArticles(data) : null;
@@ -511,6 +512,13 @@ export class ArticleDataService {
                     case'infield-most-home-runs':
                     case'infield-best-batting-average':
                     case'infield-most-putouts':
+                    case'hits-player-comparison':
+                    case'home-runs-player-comparison':
+                    case'rbis-player-comparison':
+                    case'infield-putouts-player-comparison':
+                    case'infield-fielding-player-comparison':
+                    case'outfield-putouts-player-comparison':
+                    case'outfield-fielding-player-comparison':
                         articles = {
                             title: data['otherReports'][val].title,
                             eventType: val,
@@ -579,44 +587,6 @@ export class ArticleDataService {
         }
     }
 
-    getRandomArticles(articles, type) {
-        articles = [
-            'pregame-report',
-            'in-game-report',
-            //'postgame-report',
-            'about-the-teams',
-            'historical-team-statistics',
-            'last-matchup',
-            'upcoming-games',
-            'starting-roster-home',
-            'starting-roster-away',
-            'injuries-home',
-            'injuries-away',
-            'pitcher-player-comparison',
-            'catcher-player-comparison',
-            'first-base-player-comparison',
-            'second-base-player-comparison',
-            'third-base-player-comparison',
-            'shortstop-base-player-comparison',
-            'left-field-player-comparison',
-            'center-field-player-comparison',
-            'right-field-player-comparison',
-            'outfield-most-putouts',
-            'outfield-most-home-runs',
-            'outfield-most-hits',
-            'infield-most-putouts',
-            'infield-most-home-runs',
-            'infield-most-hits',
-            'infield-best-batting-average'
-        ];
-        var findCurrent = articles.indexOf(type);
-        articles.splice(findCurrent, 1);
-        articles.sort(function () {
-            return 0.5 - Math.random()
-        });
-        return articles;
-    }
-
     getApiArticleType(type) {
         var articleType;
         switch (type) {
@@ -668,6 +638,21 @@ export class ArticleDataService {
                 return articleType = "articleSubType=tight-end-player-comparison";
             case "defense-player-comparison":
                 return articleType = "articleSubType=defense-player-comparison";
+            case "hits-player-comparison":
+                return articleType = "articleSubType=hits-player-comparison";
+            case "home-runs-player-comparison":
+                return articleType = "articleSubType=home-runs-player-comparison";
+            case "rbis-player-comparison":
+                return articleType = "articleSubType=rbis-player-comparison";
+            case "infield-putouts-player-comparison":
+                return articleType = "articleSubType=infield-putouts-player-comparison";
+            case "infield-fielding-player-comparison":
+                return articleType = "articleSubType=infield-fielding-player-comparison";
+            case "outfield-putouts-player-comparison":
+                return articleType = "articleSubType=outfield-putouts-player-comparison";
+            case "outfield-fielding-player-comparison":
+                return articleType = "articleSubType=outfield-fielding-player-comparison";
+
         }
     }
 
@@ -728,6 +713,20 @@ export class ArticleDataService {
                 return articleInformation = ["shortstop-base-player-comparison", "playerComparison", "null"];
             case "infield-best-batting-average":
                 return articleInformation = ["infield-best-batting-average", "playerComparison", "null"];
+            case "hits-player-comparison":
+                return articleInformation = ["hits-player-comparison", "playerComparison", "null"];
+            case "home-runs-player-comparison":
+                return articleInformation = ["home-runs-player-comparison", "playerComparison", "null"];
+            case "rbis-player-comparison":
+                return articleInformation = ["rbis-player-comparison", "playerComparison", "null"];
+            case "infield-putouts-player-comparison":
+                return articleInformation = ["infield-putouts-player-comparison", "playerComparison", "null"];
+            case "infield-fielding-player-comparison":
+                return articleInformation = ["infield-fielding-player-comparison", "playerComparison", "null"];
+            case "outfield-putouts-player-comparison":
+                return articleInformation = ["outfield-putouts-player-comparison", "playerComparison", "null"];
+            case "outfield-fielding-player-comparison":
+                return articleInformation = ["outfield-fielding-player-comparison", "playerComparison", "null"];
         }
     }
 

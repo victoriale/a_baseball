@@ -298,8 +298,10 @@ export class SeoService {
         let el:HTMLElement;
         el = this.DOM.createElement(type);
         this.setElementAttribute(el, name, attr);
+        if (attr != "canonical") {
+            this.setElementAttribute(el, "rel", "hrl");
+        }
         this.DOM.insertBefore(this.document.head.lastChild, el);
-
         return el;
     }
 
@@ -307,9 +309,7 @@ export class SeoService {
         return this.DOM.setAttribute(el, name, attr);
     }
 
-    //This must be the first function called so that previous meta tags can be deleted.
     public setCanonicalLink(RouteParams, router):HTMLElement {
-        SeoService.removeMetaTags();
         let el:HTMLElement;
         el = this.DOM.query("link[rel='canonical']");
         let canonicalLink = window.location.href;
@@ -324,10 +324,12 @@ export class SeoService {
         return el;
     }
 
-    static removeMetaTags() {
-        var element = document.getElementsByTagName('meta'), index;
+    public removeMetaTags() {
+        var element = this.document.getElementsByTagName('meta'), index;
         for (index = element.length - 1; index >= 0; index--) {
-            element[index].parentNode.removeChild(element[index]);
+            if (element[index].getAttribute('rel') == 'hrl') {
+                element[index].parentNode.removeChild(element[index]);
+            }
         }
     }
 

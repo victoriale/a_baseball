@@ -124,7 +124,6 @@ export class ArticlePages implements OnInit {
     }
 
     getRecommendedArticles(eventId) {
-        this.randomArticles = this._articleDataService.getRandomArticles(this.randomArticles, this.eventType);
         this._articleDataService.getRecommendationsData(eventId)
             .subscribe(data => {
                 this.randomHeadlines = data;
@@ -160,6 +159,8 @@ export class ArticlePages implements OnInit {
     }
 
     private metaTags(data) {
+        //This call will remove all meta tags from the head.
+        this._seoService.removeMetaTags();
         //create meta description that is below 160 characters otherwise will be truncated
         var metaData = data;
         let image, metaDesc;
