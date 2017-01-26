@@ -13,7 +13,6 @@ export class DeepDiveService {
   private _apiUrl: string = GlobalSettings.getApiUrl();
   private _articleUrl: string = GlobalSettings.getArticleUrl();
   private _recUrl: string = GlobalSettings.getRecUrl();
-  private _articleLibraryUrl = GlobalSettings.getArticleLibraryUrl();
   // private _apiToken: string = 'BApA7KEfj';
   // private _headerName: string = 'X-SNT-TOKEN';
 
@@ -102,6 +101,7 @@ export class DeepDiveService {
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
+
       return data;
     })
   }
@@ -113,19 +113,12 @@ export class DeepDiveService {
   if(state == null){//make sure it comes back as a string of null if nothing is returned or sent to parameter
     state = 'null';
   }
-
-  /*articleType determines the type of articles returning.
-  articleType -> 'pregame-report' -> At the start of the season, or days out from season.
-  articleType -> 'postgame-report' -> A couple weeks into the season.
-  articleType -> 'player-comparisons' -> At the end of the season, and the time in between. */
-
-  //var callURL = this._articleUrl+'recent-games/' + state;
-  var articleType = 'player-comparisons'; // need some way of determing whether we are in season or not.
-  var callURL = this._articleLibraryUrl+'/articles?scope=mlb&readyToPublish=all&articleType=' + articleType + '&count=8&metaDataOnly=1&state=' + state;
+  var callURL = this._articleUrl+'recent-games/'+state;
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
-      return data.data;
+
+      return data;
     })
   }
   getDeepDiveAiHeavyBatchService(state?){
@@ -168,8 +161,7 @@ export class DeepDiveService {
   getRecArticleData(region, pageNum, pageCount){
     var headers = this.setToken();
     //this is the sidkeick url
-  //  var callURL = this._recUrl + "/" + region + "/" + pageNum + "/" + pageCount;
-    var callURL = this._recUrl + "?scope=mlb&region=" + region + "&index=" + pageNum + "&count=" + pageCount;
+    var callURL = this._recUrl + "/" + region + "/" + pageNum + "/" + pageCount;
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -239,19 +231,19 @@ export class DeepDiveService {
     var articleStackArray = [];
     data.forEach(function(val, index){
       if (val.length != 0) {
-      var date = GlobalFunctions.formatGlobalDate(val['publication_date']*1000,'defaultDate');
+      var date = GlobalFunctions.formatDate(val.timestamp*1000);
       var s = {
-          stackRowsRoute: MLBGlobalFunctions.formatAiArticleRoute(val['article_sub_type'], val['event_id']),
-          keyword: val['article_type'].replace('-',' ').toUpperCase(),
-          publishedDate: date,
+          stackRowsRoute: MLBGlobalFunctions.formatAiArticleRoute('postgame-report', val.event),
+          keyword: 'POST GAME REPORT',
+          publishedDate: date.month + " " + date.day + ", " + date.year,
           provider1: '',
           provider2: '',
-          description: val['title'],
+          description: val.featuredReport['postgame-report'].displayHeadline,
           imageConfig: {
           imageClass: "image-100x56",
           hoverText: "View",
-          imageUrl: val['image_url'] != null ? GlobalSettings.getImageUrl(val['image_url']) : sampleImage,
-          urlRouteArray: MLBGlobalFunctions.formatAiArticleRoute(val['article_sub_type'], val['event_id'])
+          imageUrl: val.home.images[0] != null ? val.home.images[0] : sampleImage,
+          urlRouteArray: MLBGlobalFunctions.formatAiArticleRoute('postgame-report', val.event)
           }
       }
       articleStackArray.push(s);
@@ -314,10 +306,9 @@ export class DeepDiveService {
     var articleTypes = [];
     var articles = [];
     var images = [];
-    data = data.data;
 
-    var homeId = data['meta-data']['current']['home_team_id'];
-    var awayId = data['meta-data']['current']['away_team_id'];
+    var homeId = data['meta-data']['current']['homeTeamId'];
+    var awayId = data['meta-data']['current']['awayTeamId'];
 
     for(var obj in data){
       if(obj == "meta-data")continue;
@@ -325,7 +316,7 @@ export class DeepDiveService {
       articles.push(data[obj]);
     }
 
-    var eventID = data['meta-data']['current']['event_id'];
+    var eventID = data['meta-data']['current']['eventId'];
 
     //set up the images array
     for(var obj in data['meta-data']['images']){
@@ -358,10 +349,9 @@ export class DeepDiveService {
       }else{
         ret[i]['image'] = images[i];
       }
-      ret[i]['displayHeadline'] = ret[i]['title'];
-      ret[i]['keyword'] = ret[i]['article_type'].toUpperCase();
-      ret[i]['bg_image_var'] = this._sanitizer.bypassSecurityTrustStyle("url(" + GlobalSettings.getImageUrl(ret[i]['image_url']) + ")");
-      ret[i]['publication_date'] = GlobalFunctions.formatGlobalDate(Number(ret[i]['publication_date']) * 1000,'defaultDate');
+      ret[i]['keyword'] = ret[i]['sidekickTitle'].toUpperCase();
+      ret[i]['bg_image_var'] = this._sanitizer.bypassSecurityTrustStyle("url(" + ret[i]['image'] + ")");
+      ret[i]['new_date'] = MLBGlobalFunctions.convertAiDate(ret[i]['dateline']);
       ret[i]['event_id'] = eventID;
     }
     return ret;

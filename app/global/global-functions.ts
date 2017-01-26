@@ -465,7 +465,7 @@ export class GlobalFunctions {
         unixValue = moment(new Date()).unix() * 1000;
       }
 
-      if(isNaN(unixValue) || unixValue == null || unixValue.toString().length < 10 || unixValue.toString().match(/^[0-9]+$/) == null){ // Final Check
+      if(isNaN(unixValue) || unixValue == null || unixValue.toString().length <= 10 || unixValue.toString().match(/^[0-9]+$/) == null){ // Final Check
         console.log("Date Value is not defined - Defaulting to today's date - GlobalFunctions.formatGlobalDate()");
         unixValue = moment(new Date()).unix() * 1000;
       }
