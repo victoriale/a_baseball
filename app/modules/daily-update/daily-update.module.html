@@ -7,7 +7,7 @@
       <div class="row stat-wrapper">
         <div class="stat-wrapper-table">
           <h3 class="stat-wrapper-table-title"><span class="fs-18">{{profileName | possessive}}</span><br />
-          <span class="text-heavy">Current Season</span> Stats</h3>
+          <span class="text-heavy">{{seasonBase}} Season</span> Stats</h3>
           <p class="stat-wrapper-table-subtitle">Last Updated: {{data.lastUpdateDate}}</p>
           <div class="datapoints">
             <p *ngFor="let item of data.seasonStats" class="datapoints-item">

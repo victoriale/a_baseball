@@ -123,6 +123,7 @@ export class MLBPage implements OnInit {
     standingsData:StandingsModuleData;
 
     profileHeaderData:ProfileHeaderData;
+    seasonBase:any;
 
     profileData:IProfileData;
 
@@ -201,7 +202,8 @@ export class MLBPage implements OnInit {
                 this.profileData = data;
                 this.profileHeaderData = this._profileService.convertToLeagueProfileHeader(data.headerData)
                 this.profileName = "MLB";
-
+                //this.seasonBase = data.headerData.seasonId;
+                this.seasonBase = '2016';
                 /*** Keep Up With Everything MLB ***/
                 this.getBoxScores(this.dateParam);
                 this.getSchedulesData('pre-event');//grab pre event data for upcoming games
@@ -408,7 +410,7 @@ export class MLBPage implements OnInit {
             limit: this.listMax,
             pageNum: 1
         };
-        this.listService.getListModuleService(tab, this.batterParams)
+        this.listService.getListModuleService(tab, this.batterParams, this.seasonBase)
             .subscribe(updatedTab => {
                 //do nothing?
             }, err => {
@@ -428,7 +430,7 @@ export class MLBPage implements OnInit {
             limit: this.listMax,
             pageNum: 1
         };
-        this.listService.getListModuleService(tab, this.pitcherParams)
+        this.listService.getListModuleService(tab, this.pitcherParams,this.seasonBase)
             .subscribe(updatedTab => {
                 //do nothing?
             }, err => {

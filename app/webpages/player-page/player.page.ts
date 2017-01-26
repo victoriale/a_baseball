@@ -125,10 +125,11 @@ export class PlayerPage implements OnInit {
   boxScoresData:any;
   currentBoxScores:any;
   dateParam:any;
+  seasonBase:any;
 
   imageData:any;
   copyright:any;
-    imageTitle:any;
+  imageTitle:any;
   profileType:string = "player";
   isProfilePage:boolean = true;
   profileName:string;
@@ -175,6 +176,7 @@ export class PlayerPage implements OnInit {
       this._profileService.getPlayerProfile(this.pageParams.playerId).subscribe(
           data => {
               /*** About [Player Name] ***/
+              this.seasonBase = data.headerData.stats.seasonId;
               this.metaTags(data);
               this.pageParams = data.pageParams;
               this.profileName = data.headerData.info.playerName;

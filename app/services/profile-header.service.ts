@@ -14,7 +14,7 @@ declare var moment: any;
 export interface IProfileData {
   profileName: string;
   profileId: string;
-  profileType: string; // for MLB, this is 'team', 'player', or 'league'
+  profileType: string; // for MLB, this is 'team', 'player', or 'league';
 }
 
 interface PlayerProfileData extends IProfileData {
@@ -74,6 +74,8 @@ interface PlayerProfileHeaderData {
       homeRunsAllowed: number;
       earnedRuns:  number;
       wildPitch:  number;
+      seasonBase: number;
+      seasonId: number;
     //Batter stats
       average: number;
       runsScored: number;
@@ -169,6 +171,7 @@ interface LeagueProfileHeaderData {
   totalPlayers: number;
   totalDivisions: number;
   totalLeagues: number;
+  seasonId?:any;
 }
 
 @Injectable()
@@ -215,7 +218,6 @@ export class ProfileHeaderService {
         .map(res => res.json())
         .map(data => {
           var headerData: TeamProfileHeaderData = data.data;
-
           //Setting up conference and division values
           var confKey = "", divKey = "";
           if ( headerData.stats ) {
@@ -243,6 +245,7 @@ export class ProfileHeaderService {
               teamName: headerData.stats.teamName,
               division: Division[divKey],
               conference: Conference[confKey],
+              seasonId: headerData.stats.seasonId
             },
             fullBackgroundImageUrl: GlobalSettings.getBackgroundImageUrl(headerData.backgroundImage),
             fullProfileImageUrl: GlobalSettings.getImageUrl(headerData.profileImage),
@@ -334,7 +337,7 @@ export class ProfileHeaderService {
       } else {
         var teamName = info.draftTeam;
       }
-      var currentYear = (new Date()).getFullYear();
+      var currentYear = headerData.stats.seasonId;
       var yearsInMLB = (currentYear - Number(info.draftYear));
       formattedYearsInMLB = GlobalFunctions.formatNumber(yearsInMLB);
       if ( yearsInMLB == 1 ) {
@@ -380,6 +383,13 @@ export class ProfileHeaderService {
     var dataPoints: Array<DataItem>;
     var isPitcher = headerData.info.position.filter(value => value === "P").length > 0;
 
+    var labelTime;
+    if(headerData.stats.seasonId != new Date().getFullYear()){
+      labelTime = stats.seasonId;
+    } else {
+      labelTime = 'current';
+    }
+
     if ( isPitcher ) {
       var formattedEra = null;
       if ( stats && stats.era != null ) {
@@ -393,22 +403,22 @@ export class ProfileHeaderService {
       dataPoints = [
         {
           label: "Wins/Losses",
-          labelCont: "for the current season",
+          labelCont: "for the " + labelTime +  " season",
           value: (stats && stats.wins != null && stats.losses != null ) ? stats.wins + " - " + stats.losses : null
         },
         {
           label: "Innings Pitched",
-          labelCont: "for the current season",
+          labelCont: "for the " + labelTime +  " season",
           value: (stats && stats.inningsPitched != null) ? stats.inningsPitched.toString() : null
         },
         {
           label: "Strikeouts",
-          labelCont: "for the current season",
+          labelCont: "for the " + labelTime +  " season",
           value: (stats && stats.strikeouts != null) ? stats.strikeouts.toString() : null
         },
         {
           label: "Earned Run Average",
-          labelCont: "for the current season",
+          labelCont: "for the " + labelTime +  " season",
           value: formattedEra
         }
       ];
@@ -417,22 +427,22 @@ export class ProfileHeaderService {
       dataPoints = [
         {
           label: "Home Runs",
-          labelCont: "for the current season",
+          labelCont: "for the " + labelTime +  " season",
           value: (stats && stats.homeRuns != null) ? stats.homeRuns.toString() : null
         },
         {
           label: "Batting Average",
-          labelCont: "for the current season",
+          labelCont: "for the " + labelTime +  " season",
           value: (stats && stats.average != null) ? stats.average.toPrecision(3) : null
         },
         {
           label: "RBIs",
-          labelCont: "for the current season",
+          labelCont: "for the " + labelTime +  " season",
           value: (stats && stats.rbi != null) ? stats.rbi.toString() : null
         },
         {
           label: "Hits",
-          labelCont: "for the current season",
+          labelCont: "for the " + labelTime +  " season",
           value: (stats && stats.hits != null) ? stats.hits.toString() : null
         }
       ];
@@ -501,6 +511,12 @@ export class ProfileHeaderService {
         formattedEra = stats.pitching.era.toPrecision(2);
       }
     }
+    var labelTime;
+    if(stats.seasonId != moment().format('YYYY')){
+      labelTime = stats.seasonId;
+    } else {
+      labelTime = 'current';
+    }
 
     var header: ProfileHeaderData = {
       profileName: stats.teamName,
@@ -527,22 +543,22 @@ export class ProfileHeaderService {
       bottomDataPoints: [
         {
           label: "Batting Average",
-          labelCont: "for the current season",
+          labelCont: "for the " + labelTime +  " season",
           value: stats.batting ? stats.batting.average.toPrecision(3) : null
         },
         {
           label: "Runs",
-          labelCont: "for the current season",
+          labelCont: "for the " + labelTime +  " season",
           value: stats.batting ? stats.batting.runsScored.toString() : null
         },
         {
           label: "Home Runs",
-          labelCont: "for the current season",
+          labelCont: "for the " + labelTime +  " season",
           value: stats.batting ? stats.batting.homeRuns.toString() : null
         },
         {
           label: "Earned Run Average",
-          labelCont: "for the current season",
+          labelCont: "for the " + labelTime +  " season",
           value: formattedEra
         }
       ]

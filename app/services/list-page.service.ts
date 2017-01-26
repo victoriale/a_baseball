@@ -91,7 +91,7 @@ export class ListPageService {
     pageNum: //  determined by the limit as well detects what page to view based on the limit ex: limit: 10  page 1 holds 1-10 and page 2 holds 11-20
     }
   */
-  getListPageService(query, errorMessage: string){
+  getListPageService(query, errorMessage: string,seasonBase?:string){
   //Configure HTTP Headers
   var headers = this.setToken();
 
@@ -108,7 +108,7 @@ export class ListPageService {
         return {
           profHeader: ListPageService.profileHeader(data.data),
           carData: ListPageService.carDataPage(data.data, 'page', errorMessage),
-          listData: ListPageService.detailedData(data.data),
+          listData: ListPageService.detailedData(data.data,seasonBase),
           pagination: data.data.listInfo,
           listDisplayName: data.data.listInfo.name
         }
@@ -142,7 +142,7 @@ export class ListPageService {
   }
 
   //moduleType can be either 'pitcher' or 'batter' to generate the tabs list used to generate a static list for MVP module
-  getListModuleService(tab: BaseballMVPTabData, query: Array<any>): Observable<BaseballMVPTabData> {
+  getListModuleService(tab: BaseballMVPTabData, query: Array<any>,seasonBase?:string): Observable<BaseballMVPTabData> {
     //Configure HTTP Headers
     var headers = this.setToken();
 
@@ -160,7 +160,7 @@ export class ListPageService {
           this.formatData(data.data.listInfo.stat, data.data.listData);
           tab.data = data.data;
           tab.isLoaded = true;
-          tab.listData = ListPageService.detailedData(data.data);
+          tab.listData = ListPageService.detailedData(data.data,seasonBase);
           return tab;
         }
       );
@@ -212,7 +212,7 @@ export class ListPageService {
   //BELOW ARE TRANSFORMING FUNCTIONS to allow the modules to match their corresponding components
   static carDataPage(data: ListData, profileType: string, errorMessage: string){
     var carouselArray = [];
-    var currentYear = new Date().getFullYear();//TODO FOR POSSIBLE past season stats but for now we have lists for current year season
+    var currentYear = data.listInfo.season//TODO FOR POSSIBLE past season stats but for now we have lists for current year season
     var carData = data.listData;
     var carInfo = data.listInfo;
     if(carData.length == 0){
@@ -283,10 +283,12 @@ export class ListPageService {
     return carouselArray;
   }
 
-  static detailedData(data): DetailListInput[]{//TODO replace data points for list page
+  static detailedData(data,seasonBase?:string): DetailListInput[]{//TODO replace data points for list page
     let self = this;
-    var currentYear = new Date().getFullYear();//TODO FOR POSSIBLE past season stats but for now we have lists for current year season
-
+    var currentYear = Number(seasonBase);//TODO FOR POSSIBLE past season stats but for now we have lists for current year season
+    if(currentYear == null || typeof currentYear == 'undefined'){
+      currentYear = new Date().getFullYear();
+    }
     var detailData = data.listData;
     var detailInfo = data.listInfo;
     return detailData.map(function(val, index){

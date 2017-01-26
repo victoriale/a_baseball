@@ -52,6 +52,9 @@ export class ComparisonModule implements OnInit, OnChanges {
 
     @Input() profileType: string;
 
+    @Input() seasonBase: any;
+
+
     teamOnePlayerList: Array<{key: string, value: string}>;
 
     teamTwoPlayerList: Array<{key: string, value: string}>;
@@ -82,32 +85,42 @@ export class ComparisonModule implements OnInit, OnChanges {
 
     selectedTabTitle: string;
 
+
     constructor() {
-        var year = new Date().getFullYear();
-        this.tabs.push({
-            tabTitle: "Current Season",
-            seasonId: year.toString(),
-            barData: []
-        });
-        for ( var i = 0; i < 3; i++ ) {
-            year--;
-            this.tabs.push({
-                tabTitle: year.toString(),
-                seasonId: year.toString(),
-                barData: []
-            });
-        }
-        this.tabs.push({
-            tabTitle: "Career Stats",
-            seasonId: "careerStats",
-            barData: []
-        });
+
     }
 
     ngOnInit(){
+
     }
 
     ngOnChanges() {
+        if(this.tabs.length == 0){
+          var year = this.seasonBase;
+          if(new Date().getFullYear() != this.seasonBase) {
+            year = this.seasonBase;
+          } else {
+            year = new Date().getFullYear();
+          }
+          this.tabs.push({
+              tabTitle: year,
+              seasonId: year.toString(),
+              barData: []
+          });
+          for ( var i = 0; i < 3; i++ ) {
+              year--;
+              this.tabs.push({
+                  tabTitle: year.toString(),
+                  seasonId: year.toString(),
+                  barData: []
+              });
+          }
+          this.tabs.push({
+              tabTitle: "Career Stats",
+              seasonId: "careerStats",
+              barData: []
+          });
+        }
         if ( this.modelData ) {
             this.teamList = this.modelData.teamList;
             if ( this.modelData.playerLists && this.modelData.playerLists.length >= 2 ) {
