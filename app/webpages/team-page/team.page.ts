@@ -220,7 +220,6 @@ export class TeamPage implements OnInit {
             data => {
                 /*** About the [Team Name] ***/
                 this.seasonBase = data.pageParams.seasonId;
-                console.log(this.seasonBase);
                 this.metaTags(data);
                 this.pageParams = data.pageParams;
                 this.profileData = data;

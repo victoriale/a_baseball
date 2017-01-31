@@ -74,7 +74,7 @@ interface PlayerProfileHeaderData {
       homeRunsAllowed: number;
       earnedRuns:  number;
       wildPitch:  number;
-      seasonBase: number;
+    //  seasonBase
       seasonId: number;
     //Batter stats
       average: number;
