@@ -6,6 +6,7 @@ import {ModuleHeader, ModuleHeaderData} from '../../components/module-header/mod
 import {CircleImageData} from "../../components/images/image-data";
 import {CircleImage} from "../../components/images/circle-image";
 import {GlobalSettings} from "../../global/global-settings";
+import {GlobalFunctions} from "../../global/global-functions";
 import {NoDataBox} from '../../components/error/data-box/data-box.component';
 import {BarChartComponent} from '../../components/bar-chart/bar-chart.component';
 import {DailyUpdateData, DailyUpdateChart} from "../../services/daily-update.service";
@@ -26,6 +27,10 @@ export class DailyUpdateModule {
 
   @Input() data: DailyUpdateData;
 
+  @Input() seasonBase: any;
+
+  public seasonId: any;
+
   public chartOptions: any;
 
   public backgroundImage: SafeStyle;
@@ -35,7 +40,7 @@ export class DailyUpdateModule {
   public headerInfo: ModuleHeaderData = {
     moduleTitle: "Daily Update - [Profile Name]",
     hasIcon: false,
-    iconClass: ""
+    iconClass: "",
   };
 
   public comparisonCount: number;
@@ -55,10 +60,28 @@ export class DailyUpdateModule {
 
   ngOnChanges(event) {
     this.headerInfo.moduleTitle = "Daily Update - " + this.profileName;
+    var seasonId;
+    if(this.seasonBase == null || typeof this.seasonBase == 'undefined'){
+      seasonId = new Date().getFullYear();
+    } else {
+      switch(this.seasonBase['curr_season']){
+        case 0:
+          seasonId = Number(this.seasonBase['season_id']) - 1;
+          break;
+        case 1:
+          seasonId = 'Current';
+          break;
+        case 2:
+          seasonId = this.seasonBase['season_id'];
+          break;
+      }
+    }
+    this.seasonId = seasonId;
     this.noDataMessage = "Sorry, there is no daily update available for " + this.profileName;
     if ( this.data ) {
       this.drawChart();
       this.backgroundImage = this._sanitizer.bypassSecurityTrustStyle("url(" + this.data.fullBackgroundImageUrl + ")");
+      this.data.postGameArticle.pubDate = GlobalFunctions.formatGlobalDate(this.data.postGameArticle.pubDate,'timeZone');
     }
 
     if ( this.data && this.data.chart && this.data.chart.dataSeries && this.data.chart.dataSeries.length > 0) {
