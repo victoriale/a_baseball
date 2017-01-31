@@ -96,11 +96,21 @@ export class ComparisonModule implements OnInit, OnChanges {
 
     ngOnChanges() {
         if(this.tabs.length == 0){
-          var year = this.seasonBase;
-          if(new Date().getFullYear() != this.seasonBase) {
-            year = this.seasonBase;
-          } else {
+          var year;
+          if(this.seasonBase == null || typeof this.seasonBase == 'undefined'){
             year = new Date().getFullYear();
+          }else{
+            switch(this.seasonBase['curr_season']){
+              case 0:
+                year = Number(this.seasonBase['season_id']) - 1;
+                break;
+              case 1:
+                year = this.seasonBase['season_id'];
+                break;
+              case 2:
+                year = this.seasonBase['season_id'];
+                break;
+            }
           }
           this.tabs.push({
               tabTitle: year,

@@ -220,6 +220,7 @@ export class TeamPage implements OnInit {
             data => {
                 /*** About the [Team Name] ***/
                 this.seasonBase = data.pageParams.seasonId;
+                console.log(this.seasonBase);
                 this.metaTags(data);
                 this.pageParams = data.pageParams;
                 this.profileData = data;
@@ -358,7 +359,7 @@ export class TeamPage implements OnInit {
           this.schedulesData = data;
         },
         err => {
-          console.log("Error getting Schedules Data");
+          console.warn("Error getting Schedules Data -- Data Insufficient -- HRL seaon data for upcoming season is not in place.");
         }
       )
     }

@@ -84,7 +84,21 @@ export class PlayerStatsService {
 
   initializeAllTabs(teamName: string, isTeamProfilePage: boolean,seasonBase?:string): Array<MLBPlayerStatsTableData> {
     let tabs: Array<MLBPlayerStatsTableData> = [];
-
+    if(seasonBase == null || typeof seasonBase == 'undefined'){
+      seasonBase = new Date().getFullYear().toString();
+    } else {
+      switch(seasonBase['curr_season']){
+        case 0:
+          seasonBase = (Number(seasonBase['season_id']) - 1).toString();
+          break;
+        case 1:
+          seasonBase = seasonBase['season_id'];
+          break;
+        case 2:
+          seasonBase = seasonBase['season_id'];
+          break;
+      }
+    }
     tabs.push(new MLBPlayerStatsTableData(teamName, "Batting", false, true, isTeamProfilePage,seasonBase)); //isPitcher = false, isActive = true
     tabs.push(new MLBPlayerStatsTableData(teamName, "Pitching", true, false, isTeamProfilePage,seasonBase)); //isPitcher = true, isActive = false
 

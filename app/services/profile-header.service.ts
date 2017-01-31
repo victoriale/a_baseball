@@ -119,6 +119,7 @@ interface TeamProfileHeaderData {
     teamVenue: string;
     teamCity: string;
     teamState: string;
+    seasonId: string;
     stats: {
       teamId: number;
       teamName: string;
@@ -191,7 +192,11 @@ export class ProfileHeaderService {
           //Forcing values to be numbers (all stats values should be numbers)
           if ( headerData.stats ) {
             for ( var key in headerData.stats ) {
-              headerData.stats[key] = Number(headerData.stats[key]);
+              if(key == "seasonId"){
+                headerData.stats[key] = headerData.stats[key];
+              } else {
+                headerData.stats[key] = Number(headerData.stats[key]);
+              }
             }
           }
           return {
@@ -206,7 +211,7 @@ export class ProfileHeaderService {
             headerData: headerData,
             profileName: headerData.info.playerName,
             profileId: headerData.info.playerId.toString(),
-            profileType: "player"
+            profileType: "player",
           };
         });
   }
@@ -245,7 +250,7 @@ export class ProfileHeaderService {
               teamName: headerData.stats.teamName,
               division: Division[divKey],
               conference: Conference[confKey],
-              seasonId: headerData.stats.seasonId
+              seasonId: headerData.seasonId
             },
             fullBackgroundImageUrl: GlobalSettings.getBackgroundImageUrl(headerData.backgroundImage),
             fullProfileImageUrl: GlobalSettings.getImageUrl(headerData.profileImage),
@@ -320,6 +325,7 @@ export class ProfileHeaderService {
     }
 
     var headerData = data.headerData;
+
     var stats = headerData.stats;
     var info = headerData.info;
     var formattedStartDate = info.draftYear ? info.draftYear : "N/A"; //[September 18, 2015]
@@ -337,7 +343,7 @@ export class ProfileHeaderService {
       } else {
         var teamName = info.draftTeam;
       }
-      var currentYear = headerData.stats.seasonId;
+      var currentYear = headerData.stats.seasonId['season_id'];
       var yearsInMLB = (currentYear - Number(info.draftYear));
       formattedYearsInMLB = GlobalFunctions.formatNumber(yearsInMLB);
       if ( yearsInMLB == 1 ) {
@@ -384,11 +390,22 @@ export class ProfileHeaderService {
     var isPitcher = headerData.info.position.filter(value => value === "P").length > 0;
 
     var labelTime;
-    if(headerData.stats.seasonId != new Date().getFullYear()){
-      labelTime = stats.seasonId;
+    if(stats.seasonId == null || typeof stats.seasonId == "undefined"){
+      labelTime = "current";
     } else {
-      labelTime = 'current';
+      switch(stats.seasonId['curr_season']){
+        case 0:
+          labelTime = Number(stats.seasonId['season_id']) - 1;
+          break;
+        case 1:
+          labelTime = "current";
+          break;
+        case 2:
+          labelTime = stats.seasonId['season_id'];
+          break;
+      }
     }
+
 
     if ( isPitcher ) {
       var formattedEra = null;

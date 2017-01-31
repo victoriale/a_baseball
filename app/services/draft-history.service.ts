@@ -96,11 +96,27 @@ export class MLBDraftHistoryService extends DraftHistoryService {
     //for MLB season starts and ends in the same year so return current season. Shows season year if season has ended
     //get past 5 years for tabs
     var currentYear;
-    if(seasonId == null || typeof seasonId == 'undefined' || seasonId == new Date().getFullYear().toString()){
-      currentYear = new Date().getFullYear();
+    if(seasonId == null || typeof seasonId == 'undefined') {
+      currentYear = new Date().getFullYear.toString();
     } else {
-      currentYear = seasonId;
+      switch(seasonId['curr_season']){
+        case 0:
+          currentYear = (Number(seasonId['season_id']) - 1).toString();
+          break;
+        case 1:
+          currentYear = 'Current';
+          break;
+        case 2:
+          currentYear = seasonId['season_id'];
+          break;
+      }
     }
+    // if(seasonId == null || typeof seasonId == 'undefined' || seasonId == new Date().getFullYear().toString()){
+    //   currentYear = new Date().getFullYear();
+    // } else {
+    //   currentYear = seasonId;
+    // }
+
     var year = currentYear;
     var tabArray = [];
     for(var i = 0; i <5; i++) {
@@ -127,11 +143,11 @@ export class MLBDraftHistoryService extends DraftHistoryService {
 
     var callURL;
     if ( profileData.profileType == "team" ) {
-      callURL = this._apiUrl + '/team/draftHistory/'+profileData.profileId+'/'+seasonId;
+      callURL = this._apiUrl + '/team/draftHistory/'+profileData.profileId+'/'+year;
     }
     else {
       //http://dev-homerunloyal-api.synapsys.us/league/draftHistory/2016
-      callURL = this._apiUrl + '/league/draftHistory/'+ seasonId;
+      callURL = this._apiUrl + '/league/draftHistory/'+ year;
     }
 
     return this.http.get(callURL)

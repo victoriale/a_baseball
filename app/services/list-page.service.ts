@@ -145,8 +145,23 @@ export class ListPageService {
   getListModuleService(tab: BaseballMVPTabData, query: Array<any>,seasonBase?:string): Observable<BaseballMVPTabData> {
     //Configure HTTP Headers
     var headers = this.setToken();
-
     var callURL = this._apiUrl+'/list';
+    var apiYear;
+    if(seasonBase == null || typeof seasonBase == 'undefined') {
+      apiYear = new Date().getFullYear;
+    } else {
+      switch(seasonBase['curr_season']){
+        case 0:
+          apiYear = Number(seasonBase['season_id']) - 1
+          break;
+        case 1:
+          apiYear = seasonBase['season_id'];
+          break;
+        case 3:
+          apiYear = seasonBase['season_id'];
+          break;
+      }
+    }
 
     for(var q in query){
       callURL += "/" + query[q];
@@ -160,7 +175,7 @@ export class ListPageService {
           this.formatData(data.data.listInfo.stat, data.data.listData);
           tab.data = data.data;
           tab.isLoaded = true;
-          tab.listData = ListPageService.detailedData(data.data,seasonBase);
+          tab.listData = ListPageService.detailedData(data.data,apiYear);
           return tab;
         }
       );

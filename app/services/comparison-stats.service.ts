@@ -180,6 +180,7 @@ export class ComparisonStatsService {
         console.log("Error: No valid comparison data for " + (pageParams.playerId != null ? " player " + playerId + " in " : "") + " team " + teamId);
         return null;
       }
+      console.log(data);
       data.playerOne.statistics = this.formatPlayerData(data.playerOne.playerId, data.data);
       data.playerTwo.statistics = this.formatPlayerData(data.playerTwo.playerId, data.data);
       data.bestStatistics = this.formatPlayerData("statHigh", data.data);
@@ -259,7 +260,7 @@ export class ComparisonStatsService {
       url += "league";
     }
 
-    //console.log("getting player stats: " + url);
+    console.log("getting player stats: " + url);
     return this.http.get(url)
       .map(res => res.json())
       .map(data => {

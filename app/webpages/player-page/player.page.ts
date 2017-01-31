@@ -276,7 +276,7 @@ private dailyUpdateModule(playerId: number) {
         this.schedulesData = data;
       },
       err => {
-        console.log("Error getting Schedules Data");
+        console.warn("Error getting Schedules Data -- Data Insufficient -- HRL seaon data for upcoming season is not in place.");
       }
     )
   }

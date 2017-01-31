@@ -29,6 +29,7 @@ export class DailyUpdateModule {
 
   @Input() seasonBase: any;
 
+  public seasonId: any;
 
   public chartOptions: any;
 
@@ -59,12 +60,23 @@ export class DailyUpdateModule {
 
   ngOnChanges(event) {
     this.headerInfo.moduleTitle = "Daily Update - " + this.profileName;
-    var ifCurrent = 'Current';
-    if(new Date().getFullYear != this.seasonBase){ // If season has don't show 'Current season'
-      this.headerInfo.seasonBase = this.seasonBase;
+    var seasonId;
+    if(this.seasonBase == null || typeof this.seasonBase == 'undefined'){
+      seasonId = new Date().getFullYear();
     } else {
-      this.headerInfo.seasonBase = ifCurrent;
+      switch(this.seasonBase['curr_season']){
+        case 0:
+          seasonId = Number(this.seasonBase['season_id']) - 1;
+          break;
+        case 1:
+          seasonId = 'Current';
+          break;
+        case 2:
+          seasonId = this.seasonBase['season_id'];
+          break;
+      }
     }
+    this.seasonId = seasonId;
     this.noDataMessage = "Sorry, there is no daily update available for " + this.profileName;
     if ( this.data ) {
       this.drawChart();

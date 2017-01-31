@@ -202,8 +202,8 @@ export class MLBPage implements OnInit {
                 this.profileData = data;
                 this.profileHeaderData = this._profileService.convertToLeagueProfileHeader(data.headerData)
                 this.profileName = "MLB";
-                //this.seasonBase = data.headerData.seasonId;
-                this.seasonBase = '2016';
+
+                this.seasonBase = data.headerData.seasonId;
                 /*** Keep Up With Everything MLB ***/
                 this.getBoxScores(this.dateParam);
                 this.getSchedulesData('pre-event');//grab pre event data for upcoming games
@@ -274,7 +274,7 @@ export class MLBPage implements OnInit {
           this.schedulesData = data;
         },
         err => {
-          console.log("Error getting Schedules Data");
+          console.warn("Error getting Schedules Data -- Data Insufficient -- HRL seaon data for upcoming season is not in place.");
         }
       )
     }
