@@ -64,7 +64,7 @@ export class PlayerStatsService {
 
     var tabName = standingsTab.isPitcherTable ? "pitchers" : "batters";
     let url = this._apiUrl + "/team/seasonStats/" + pageParams.teamId + "/" + tabName + "/" + seasonBase;
-    console.log("url: " + url);
+  //  console.log("url: " + url);
     this.http.get(url)
         .map(res => res.json())
         .map(data => this.setupTableData(standingsTab, pageParams, data.data, maxRows))
