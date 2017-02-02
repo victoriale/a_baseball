@@ -60,7 +60,8 @@ export class ProfileHeaderModule implements OnChanges {
       }
     };
 
-    constructor(private _sanitizer: DomSanitizationService) {}
+    constructor(private _sanitizer: DomSanitizationService) {
+    }
 
     ngOnChanges() {
       var data = this.profileHeaderData;

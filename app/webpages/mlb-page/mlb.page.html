@@ -14,12 +14,12 @@
     <standings-module [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
     <responsive-widget *ngIf="standingsData" [embedPlace]="widgetPlace" [displayAtRes]="'640'"></responsive-widget>
     <transactions-module *ngIf="transactionsData" [data]="transactionsData" (tabSwitched)="transactionsTab($event)"></transactions-module>
-    <draft-history-module *ngIf="profileData" [profileData]="profileData"></draft-history-module>
+    <draft-history-module *ngIf="profileData" [profileData]="profileData" [seasonBase]="seasonBase"></draft-history-module>
     <responsive-widget *ngIf="profileData" [embedPlace]="widgetPlace"></responsive-widget>
     <mvp-module *ngIf="batterData" [title]="'Batter'" [mvpData]="batterData" [query]="batterParams" (tabSelected)="batterTab($event)"></mvp-module>
     <mvp-module *ngIf="pitcherData" [title]="'Pitcher'" [mvpData]="pitcherData" [query]="pitcherParams" (tabSelected)="pitcherTab($event)"></mvp-module>
     <responsive-widget *ngIf="pitcherData" [embedPlace]="widgetPlace" [displayAtRes]="'640'"></responsive-widget>
-    <comparison-module [modelData]="comparisonModuleData" [profileName]="profileHeaderData.profileName"></comparison-module>
+    <comparison-module [modelData]="comparisonModuleData" [profileName]="profileHeaderData.profileName" [seasonBase]='seasonBase'></comparison-module>
     <responsive-widget *ngIf="comparisonModuleData" [embedPlace]="widgetPlace" [displayAtRes]="'1024'"></responsive-widget>
     <!-- <headline-component [title]="'Other MLB Content You May Love'"></headline-component> -->
     <images-media-carousel [imageData]="imageData" [copyright]="copyright" [imageTitle]="imageTitle" [profHeader]="profileHeaderData" [isProfilePage]="isProfilePage"></images-media-carousel>

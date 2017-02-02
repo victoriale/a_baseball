@@ -88,6 +88,7 @@ export class PlayerStatsComponent implements DoCheck {
   }
 
   tabSelected(newTitle) {
+    this.initialSeasonId = this.tabs[0].seasonIds[0].key;
     this.selectedTabTitle = newTitle;
     this.noDataMessage = "Sorry, there are no " + newTitle + " stats available.";
     if ( this.initialSeasonId != this.selectedSeasonId ) {
@@ -130,6 +131,6 @@ export class PlayerStatsComponent implements DoCheck {
     });
 
     this.selectedIndex = selectedIndex < 0 ? 0 : selectedIndex;
-    this.carouselData = carouselData;    
+    this.carouselData = carouselData;
   }
 }

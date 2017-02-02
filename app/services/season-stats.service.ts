@@ -87,10 +87,11 @@ export class SeasonStatsService {
 
   getPlayerStats(playerId: number): Observable<SeasonStatsModuleData> {
     let url = this._apiUrl + "/player/seasonStats/" + playerId;
-    // console.log("player stats: " + url);
+//     console.log("player stats: " + url);
+
     return this.http.get(url)
       .map(res => res.json())
-      .map(data => this.formatData(data.data));
+      .map(data => this.formatData(data));
   }
 
   private formatData(data: APISeasonStatsData): SeasonStatsModuleData {

@@ -26,6 +26,9 @@ export class DraftHistoryModule implements OnInit {
 
   @Input() profileData: IProfileData;
 
+  @Input() seasonBase: string;
+
+
   constructor() {}
 
   ngOnInit(){
