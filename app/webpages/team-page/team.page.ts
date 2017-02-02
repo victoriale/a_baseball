@@ -358,7 +358,7 @@ export class TeamPage implements OnInit {
           this.schedulesData = data;
         },
         err => {
-          console.warn("Error getting Schedules Data -- Data Insufficient -- HRL seaon data for upcoming season is not in place.");
+          console.warn("Error getting Schedules Data -- Data Insufficient -- HRL season data for upcoming season is not in place.");
         }
       )
     }
