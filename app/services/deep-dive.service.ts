@@ -351,7 +351,7 @@ export class DeepDiveService {
       }
       ret[i]['keyword'] = ret[i]['sidekickTitle'].toUpperCase();
       ret[i]['bg_image_var'] = this._sanitizer.bypassSecurityTrustStyle("url(" + ret[i]['image'] + ")");
-      ret[i]['new_date'] = ret[i]['dateline'];
+      ret[i]['new_date'] = MLBGlobalFunctions.convertAiDate(ret[i]['dateline']);
       ret[i]['event_id'] = eventID;
     }
     return ret;
