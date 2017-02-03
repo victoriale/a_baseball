@@ -177,9 +177,9 @@ export class MLBGlobalFunctions {
 
 
   static getBackroundImageUrlWithStockFallback(relativePath) {
-    let stockPhotoArray = ["/TDL/stock_images/TDL_Stock-1.png","/TDL/stock_images/TDL_Stock-2.png","/TDL/stock_images/TDL_Stock-3.png","/TDL/stock_images/TDL_Stock-4.png","/TDL/stock_images/TDL_Stock-5.png","/TDL/stock_images/TDL_Stock-6.png"];
+    let stockPhotoArray = ["/app/public/Image-Placeholder-1.jpg","/app/public/Image-Placeholder-2.jpg"];
     let randomStockPhotoSelection = stockPhotoArray[Math.floor(Math.random()*stockPhotoArray.length)];
-    var relPath = relativePath != null ? "http://images.synapsys.us" + relativePath:  + "http://images.synapsys.us" + randomStockPhotoSelection;
+    var relPath = relativePath != null ? "http://images.synapsys.us" + relativePath : randomStockPhotoSelection;
     return relPath;
   }
 
