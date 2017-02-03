@@ -114,7 +114,6 @@ export class DeepDiveService {
     state = 'null';
   }
   var callURL = this._articleUrl+'recent-games/'+state;
-      console.log(callURL);
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -132,7 +131,6 @@ export class DeepDiveService {
     state = 'CA';
   }
   var callURL = this._articleUrl+'player-comparisons/'+state;
-      console.log(callURL);
       return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
