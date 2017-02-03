@@ -74,7 +74,8 @@ export class PickTeamPage{
       GlobalSettings.getPartnerID(_router, partnerID => {
         var partnerHome = GlobalSettings.getHomeInfo().isHome && GlobalSettings.getHomeInfo().isPartner;
         this.isHomeRunZone = partnerHome;
-
+        //This call will remove all meta tags from the head.
+        _seoService.removeMetaTags();
         //create meta description that is below 160 characters otherwise will be truncated
         let metaDesc = GlobalSettings.getPageTitle('Pick a team near you or search for your favorite baseball team or player.', 'Pick A Team');
         let link = window.location.href;

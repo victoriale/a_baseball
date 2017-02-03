@@ -11,7 +11,7 @@ declare var moment;
 @Injectable()
 export class DeepDiveService {
   private _apiUrl: string = GlobalSettings.getApiUrl();
-  private _articleUrl: string = GlobalSettings.getArticleUrl();
+  private _articleUrl: string = GlobalSettings.getArticleDataUrl();
   private _recUrl: string = GlobalSettings.getRecUrl();
   // private _apiToken: string = 'BApA7KEfj';
   // private _headerName: string = 'X-SNT-TOKEN';
@@ -131,7 +131,7 @@ export class DeepDiveService {
     state = 'CA';
   }
   var callURL = this._articleUrl+'player-comparisons/'+state;
-  return this.http.get(callURL, {headers: headers})
+      return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
 

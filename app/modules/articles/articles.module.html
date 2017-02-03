@@ -2,10 +2,18 @@
     <loading-component *ngIf="!headlineData && !error"></loading-component>
     <div *ngIf="headlineData">
         <module-header [modHeadData]="headerInfo"></module-header>
-        <article-schedule-component [league]="league" [homeData]="homeData" [awayData]="awayData"></article-schedule-component>
-        <article-main-component [mainTitle]="mainTitle" [eventType]="eventType" [mainEventID]="mainEventID" [titleFontSize]="titleFontSize" [mainContent]="mainContent" [mainImage]="mainImage" [league]="league"></article-main-component>
-        <article-sub-component [randomLeftColumn]="randomLeftColumn" [teamID]="teamID" [league]="league"></article-sub-component>
-        <article-head-to-head-component [arrLength]="arrLength" [randomHeadToHead]="randomHeadToHead" [teamID]="teamID" [league]="league"></article-head-to-head-component>
+        <article-schedule-component *ngIf="!isLeague"
+                                    [homeData]="headlineData['scheduleData']['homeData']"
+                                    [awayData]="headlineData['scheduleData']['awayData']"
+                                    [defaultGradient]="defaultGradient"
+                                    [fullGradient]="fullGradient"
+        ></article-schedule-component>
+        <article-main-component [mainArticleData]="headlineData['mainArticleData']"
+                                [timeStamp]="timeStamp"
+                                [titleFontSize]="titleFontSize"></article-main-component>
+        <article-sub-component *ngIf="!isLeague" [leftColumnData]="headlineData['subArticleData']['subArticles']" [teamID]="teamID" [league]="isLeague"></article-sub-component>
+        <article-sub-component *ngIf="isLeague" [leagueData]="headlineData['leagueSubArticles']" [league]="isLeague"></article-sub-component>
+        <article-head-to-head-component *ngIf="!isLeague" [arrLength]="arrLength" [rightColumnData]="headlineData['subArticleData']['headToHeadArticles']" [teamID]="teamID" [league]="isLeague"></article-head-to-head-component>
     </div>
     <!--Empty div to hide module in the event of an error.-->
     <div *ngIf="error"></div>

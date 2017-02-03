@@ -19,10 +19,9 @@ export class GlobalSettings {
     private static _dynamicScraperApiUrl: string = 'dw.synapsys.us/api_json/list_creator_api.php';
 
     private static _imageUrl:string = '-sports-images.synapsys.us';
-    private static _articleUrl:string = '-homerunloyal-ai.synapsys.us/';
-    private static _recommendUrl:string = '-homerunloyal-ai.synapsys.us/headlines/event/';
-    private static _headlineUrl:string = '-homerunloyal-ai.synapsys.us/headlines/team/';
-    private static _trendingUrl:string = '-homerunloyal-ai.synapsys.us/sidekick';
+    private static _articleUrl:string = '-article-library.synapsys.us/';
+    private static _articleDataUrl:string = '-homerunloyal-ai.synapsys.us/';
+    private static _headlineUrl:string = '-homerunloyal-ai.synapsys.us/';
     private static _recUrl:string = '-homerunloyal-ai.synapsys.us/sidekick-regional';
     private static _articleLibrayUrl:string = '-article-library.synapsys.us';
     private static _homepageUrl:string = '.homerunloyal.com';
@@ -97,13 +96,10 @@ export class GlobalSettings {
         return this._proto + "//" + this.getEnv(this._env) + this._articleUrl;
     }
 
-    static getRecommendUrl():string {
-        return this._proto + "//" + this.getEnv(this._env) + this._recommendUrl;
+    static getArticleDataUrl():string {
+        return this._proto + "//" + this.getEnv(this._env) + this._articleDataUrl;
     }
 
-    static getTrendingUrl():string {
-        return this._proto + "//" + this.getEnv(this._env) + this._trendingUrl;
-    }
     static getRecUrl():string {
         return this._proto + "//" + this.getEnv(this._env) + this._recUrl;
     }

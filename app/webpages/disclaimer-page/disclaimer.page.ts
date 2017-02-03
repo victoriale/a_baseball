@@ -34,10 +34,11 @@ export class DisclaimerPage {
     }
 
     ngAfterViewInit(){
+      //This call will remove all meta tags from the head.
+      this._seoService.removeMetaTags();
       //create meta description that is below 160 characters otherwise will be truncated
       let metaDesc = 'Disclaimer page to disclose any information';
       let link = window.location.href;
-
       this._seoService.setCanonicalLink(this._params.params, this._router);
       this._seoService.setOgTitle('Disclaimer');
       this._seoService.setOgDesc(metaDesc);
