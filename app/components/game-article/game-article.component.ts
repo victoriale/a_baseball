@@ -13,6 +13,5 @@ export class GameArticle implements OnInit{
     }
 
     ngOnInit(){
-      console.log('GAME ARTICLE',this.gameArticle);
     }
 }
