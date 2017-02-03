@@ -123,7 +123,7 @@ export class ArticlePages implements OnInit {
             );
     }
 
-<<<<<<< HEAD
+// <<<<<<< HEAD
     //Possible fix for partner site link issues.
     //parseLinks(data) {
     //    try {
@@ -143,6 +143,7 @@ export class ArticlePages implements OnInit {
     //    }
     //}
 
+// <<<<<<< Updated upstream
     // getTrendingArticles(data) {
     //     var articles = [];
     //     var images = [];
@@ -178,6 +179,36 @@ export class ArticlePages implements OnInit {
                 this.randomHeadlines = data;
             });
 // >>>>>>> origin/develop
+// =======
+    getTrendingArticles(data) {
+        var articles = [];
+        var images = [];
+        Object.keys(data).forEach(function (val, index) {
+            if (val != "meta-data") {
+              var unix = moment(data[val].dateline,'MMM. do,YYYY hh:mm A').format('X');
+              var date = GlobalFunctions.formatGlobalDate(data[val].dateline,'timeZone');
+                articles[index - 1] = {
+                    title: data[val].displayHeadline,
+                    date: date,
+                    content: data[val].article[0],
+                    eventId: data['meta-data']['current'].eventId,
+                    eventType: val,
+                    url: MLBGlobalFunctions.formatArticleRoute(val, data['meta-data']['current'].eventId)
+                };
+            }
+        });
+        Object.keys(data['meta-data']['images']).forEach(function (val, index) {
+            images[index] = data['meta-data']['images'][val];
+        });
+        this.trendingImages = images[0].concat(images[1]);
+        this.trendingImages.sort(function () {
+            return 0.5 - Math.random()
+        });
+        articles.sort(function () {
+            return 0.5 - Math.random()
+        });
+        this.trendingData = articles;
+>>>>>>> Stashed changes
     }
 
     private getTrendingArticles(currentArticleId) {
