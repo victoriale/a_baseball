@@ -109,18 +109,10 @@ export class DeepDiveService {
   //Configure HTTP Headers
   var headers = this.setToken();
 
-
   if(state == null){//make sure it comes back as a string of null if nothing is returned or sent to parameter
     state = 'null';
   }
-
-  /*articleType determines the type of articles returning.
-  articleType -> 'pregame-report' -> At the start of the season, or days out from season.
-  articleType -> 'postgame-report' -> A couple weeks into the season.
-  articleType -> 'player-comparisons' -> At the end of the season, and the time in between. */
-
-  //var callURL = this._articleUrl+'recent-games/' + state;
-  var articleType = 'player-comparisons'; // need some way of determing whether we are in season or not.
+  var articleType = 'pregame-report';
   var callURL = this._articleLibraryUrl+'/articles?scope=mlb&readyToPublish=all&articleType=' + articleType + '&count=8&metaDataOnly=1&state=' + state;
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
@@ -170,11 +162,9 @@ export class DeepDiveService {
     //this is the sidkeick url
   //  var callURL = this._recUrl + "/" + region + "/" + pageNum + "/" + pageCount;
     var callURL = this._recUrl + "?scope=mlb&region=" + region + "&index=" + pageNum + "&count=" + pageCount;
-    console.log(callURL);
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
-        console.log(data,'DATA');
         return data;
       });
   }
@@ -316,7 +306,6 @@ export class DeepDiveService {
     var articleTypes = [];
     var articles = [];
     var images = [];
-    console.log(data);
     data = data.data;
 
     var homeId = data['meta-data']['current']['home_team_id'];
@@ -326,17 +315,13 @@ export class DeepDiveService {
       if(obj == "meta-data")continue;
       articleTypes.push(obj);
       articles.push(data[obj]);
+      if(data[obj]['image_url'] != null){
+        images.push(data[obj]['image_url']);
+      }
     }
 
     var eventID = data['meta-data']['current']['event_id'];
 
-    //set up the images array IMAGES ARRAY FROM META DATA HAVE CHANGED
-    for(var obj in data['meta-data']['images']){
-      // -1 on the length of images array to reserve one image for home/away specific article photo
-      for(var i = 0; i < data['meta-data']['images'][obj].length - 1; i++){
-        images.push(data['meta-data']['images'][obj][i]);
-      }
-    }
 
     // to mix up the images
     function shuffle(a) {
@@ -355,19 +340,18 @@ export class DeepDiveService {
       ret[i] = articles[i];
       ret[i]['type'] = articleTypes[i];
       if(ret[i]['type'].split('-')[1] == 'home'){
-        ret[i]['image'] = data['meta-data']['images'][homeId][data['meta-data']['images'][homeId].length - 1];
+        ret[i]['image'] = images[i];
       }else if(ret[i]['type'].split('-')[1]  == 'away'){
-        ret[i]['image'] = data['meta-data']['images'][awayId][data['meta-data']['images'][awayId].length - 1];
+        ret[i]['image'] = images[i];
       }else{
         ret[i]['image'] = images[i];
       }
       ret[i]['displayHeadline'] = ret[i]['title'];
-      ret[i]['keyword'] = ret[i]['article_type'].toUpperCase();
+      ret[i]['keyword'] = ret[i]['article_type'].toUpperCase().replace('-',' ');
       ret[i]['bg_image_var'] = this._sanitizer.bypassSecurityTrustStyle("url(" + GlobalSettings.getImageUrl(ret[i]['image_url']) + ")");
       ret[i]['publication_date'] = GlobalFunctions.formatGlobalDate(Number(ret[i]['publication_date']) * 1000,'defaultDate');
       ret[i]['event_id'] = eventID;
     }
-    console.log(ret);
     return ret;
   }
 

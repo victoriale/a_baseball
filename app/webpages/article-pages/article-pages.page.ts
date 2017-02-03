@@ -123,93 +123,14 @@ export class ArticlePages implements OnInit {
             );
     }
 
-// <<<<<<< HEAD
-    //Possible fix for partner site link issues.
-    //parseLinks(data) {
-    //    try {
-    //        data['article'].map(function (val, index) {
-    //            var strToParse = val.match("<a href=" + "(.*?)" + "</a>");
-    //            if (strToParse != null) {
-    //                var urlInfo = strToParse[1].split("/");
-    //                if (urlInfo[1] == "player") {
-    //                    var url = MLBGlobalFunctions.formatPlayerRoute(urlInfo[2], urlInfo[3], urlInfo[4].slice(0, 5));
-    //                } else if (urlInfo[1] == "team") {
-    //                    var url = MLBGlobalFunctions.formatTeamRoute(urlInfo[2], urlInfo[3].slice(0, 4));
-    //                }
-    //                data['article'][index] = val.replace(strToParse[0], url);
-    //            }
-    //        });
-    //    } catch (err) {
-    //    }
-    //}
 
-// <<<<<<< Updated upstream
-    // getTrendingArticles(data) {
-    //     var articles = [];
-    //     var images = [];
-    //     Object.keys(data).forEach(function (val, index) {
-    //         if (val != "meta-data") {
-    //           var unix = moment(data[val].dateline,'MMM. do,YYYY hh:mm A').format('X');
-    //           var date = GlobalFunctions.formatGlobalDate(data[val].dateline,'timeZone');
-    //             articles[index - 1] = {
-    //                 title: data[val].displayHeadline,
-    //                 date: date,
-    //                 content: data[val].article[0],
-    //                 eventId: data['meta-data']['current'].eventId,
-    //                 eventType: val,
-    //                 url: MLBGlobalFunctions.formatArticleRoute(val, data['meta-data']['current'].eventId)
-    //             };
-    //         }
-    //     });
-    //     Object.keys(data['meta-data']['images']).forEach(function (val, index) {
-    //         images[index] = data['meta-data']['images'][val];
-    //     });
-    //     this.trendingImages = images[0].concat(images[1]);
-    //     this.trendingImages.sort(function () {
-    //         return 0.5 - Math.random()
-    //     });
-    //     articles.sort(function () {
-    //         return 0.5 - Math.random()
-    //     });
-    //     this.trendingData = articles;
-// =======
     getRecommendedArticles(eventId) {
         this._articleDataService.getRecommendationsData(eventId)
             .subscribe(data => {
                 this.randomHeadlines = data;
             });
-// >>>>>>> origin/develop
-// =======
-    getTrendingArticles(data) {
-        var articles = [];
-        var images = [];
-        Object.keys(data).forEach(function (val, index) {
-            if (val != "meta-data") {
-              var unix = moment(data[val].dateline,'MMM. do,YYYY hh:mm A').format('X');
-              var date = GlobalFunctions.formatGlobalDate(data[val].dateline,'timeZone');
-                articles[index - 1] = {
-                    title: data[val].displayHeadline,
-                    date: date,
-                    content: data[val].article[0],
-                    eventId: data['meta-data']['current'].eventId,
-                    eventType: val,
-                    url: MLBGlobalFunctions.formatArticleRoute(val, data['meta-data']['current'].eventId)
-                };
-            }
-        });
-        Object.keys(data['meta-data']['images']).forEach(function (val, index) {
-            images[index] = data['meta-data']['images'][val];
-        });
-        this.trendingImages = images[0].concat(images[1]);
-        this.trendingImages.sort(function () {
-            return 0.5 - Math.random()
-        });
-        articles.sort(function () {
-            return 0.5 - Math.random()
-        });
-        this.trendingData = articles;
->>>>>>> Stashed changes
-    }
+          }
+
 
     private getTrendingArticles(currentArticleId) {
         var getData = this._articleDataService.getAiTrendingData(this.trendingLength);
