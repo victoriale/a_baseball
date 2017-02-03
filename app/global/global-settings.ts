@@ -23,6 +23,7 @@ export class GlobalSettings {
     private static _articleDataUrl:string = '-homerunloyal-ai.synapsys.us/';
     private static _headlineUrl:string = '-homerunloyal-ai.synapsys.us/';
     private static _recUrl:string = '-homerunloyal-ai.synapsys.us/sidekick-regional';
+    private static _articleLibrayUrl:string = '-article-library.synapsys.us';
     private static _homepageUrl:string = '.homerunloyal.com';
     private static _partnerHomepageUrl:string = '.myhomerunzone.com';
 
@@ -66,6 +67,10 @@ export class GlobalSettings {
 
     static getPartnerApiUrl(partnerID):string {
         return this._proto + "//"+ this._partnerApiUrl + partnerID;
+    }
+    
+    static getArticleLibraryUrl():string {
+        return this._proto + "//" + this.getEnv(this._env) + this._articleLibrayUrl;
     }
 
     static getPartnerDomainApiUrl(partnerID):string {

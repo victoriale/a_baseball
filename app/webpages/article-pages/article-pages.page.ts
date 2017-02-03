@@ -123,12 +123,14 @@ export class ArticlePages implements OnInit {
             );
     }
 
+
     getRecommendedArticles(eventId) {
         this._articleDataService.getRecommendationsData(eventId)
             .subscribe(data => {
                 this.randomHeadlines = data;
             });
-    }
+          }
+
 
     private getTrendingArticles(currentArticleId) {
         var getData = this._articleDataService.getAiTrendingData(this.trendingLength);

@@ -13,6 +13,7 @@ export class DeepDiveService {
   private _apiUrl: string = GlobalSettings.getApiUrl();
   private _articleUrl: string = GlobalSettings.getArticleDataUrl();
   private _recUrl: string = GlobalSettings.getRecUrl();
+  private _articleLibraryUrl = GlobalSettings.getArticleLibraryUrl();
   // private _apiToken: string = 'BApA7KEfj';
   // private _headerName: string = 'X-SNT-TOKEN';
 
@@ -101,7 +102,6 @@ export class DeepDiveService {
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
-
       return data;
     })
   }
@@ -109,16 +109,15 @@ export class DeepDiveService {
   //Configure HTTP Headers
   var headers = this.setToken();
 
-
   if(state == null){//make sure it comes back as a string of null if nothing is returned or sent to parameter
     state = 'null';
   }
-  var callURL = this._articleUrl+'recent-games/'+state;
+  var articleType = 'pregame-report';
+  var callURL = this._articleLibraryUrl+'/articles?scope=mlb&readyToPublish=all&articleType=' + articleType + '&count=8&metaDataOnly=1&state=' + state;
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
-
-      return data;
+      return data.data;
     })
   }
   getDeepDiveAiHeavyBatchService(state?){
@@ -161,7 +160,8 @@ export class DeepDiveService {
   getRecArticleData(region, pageNum, pageCount){
     var headers = this.setToken();
     //this is the sidkeick url
-    var callURL = this._recUrl + "/" + region + "/" + pageNum + "/" + pageCount;
+  //  var callURL = this._recUrl + "/" + region + "/" + pageNum + "/" + pageCount;
+    var callURL = this._recUrl + "?scope=mlb&region=" + region + "&index=" + pageNum + "&count=" + pageCount;
     return this.http.get(callURL, {headers: headers})
       .map(res => res.json())
       .map(data => {
@@ -231,19 +231,19 @@ export class DeepDiveService {
     var articleStackArray = [];
     data.forEach(function(val, index){
       if (val.length != 0) {
-      var date = GlobalFunctions.formatDate(val.timestamp*1000);
+      var date = GlobalFunctions.formatGlobalDate(val['publication_date']*1000,'defaultDate');
       var s = {
-          stackRowsRoute: MLBGlobalFunctions.formatAiArticleRoute('postgame-report', val.event),
-          keyword: 'POST GAME REPORT',
-          publishedDate: date.month + " " + date.day + ", " + date.year,
+          stackRowsRoute: MLBGlobalFunctions.formatAiArticleRoute(val['article_sub_type'], val['event_id']),
+          keyword: val['article_type'].replace('-',' ').toUpperCase(),
+          publishedDate: date,
           provider1: '',
           provider2: '',
-          description: val.featuredReport['postgame-report'].displayHeadline,
+          description: val['title'],
           imageConfig: {
           imageClass: "image-100x56",
           hoverText: "View",
-          imageUrl: val.home.images[0] != null ? val.home.images[0] : sampleImage,
-          urlRouteArray: MLBGlobalFunctions.formatAiArticleRoute('postgame-report', val.event)
+          imageUrl: val['image_url'] != null ? GlobalSettings.getImageUrl(val['image_url']) : sampleImage,
+          urlRouteArray: MLBGlobalFunctions.formatAiArticleRoute(val['article_sub_type'], val['event_id'])
           }
       }
       articleStackArray.push(s);
@@ -306,25 +306,22 @@ export class DeepDiveService {
     var articleTypes = [];
     var articles = [];
     var images = [];
+    data = data.data;
 
-    var homeId = data['meta-data']['current']['homeTeamId'];
-    var awayId = data['meta-data']['current']['awayTeamId'];
+    var homeId = data['meta-data']['current']['home_team_id'];
+    var awayId = data['meta-data']['current']['away_team_id'];
 
     for(var obj in data){
       if(obj == "meta-data")continue;
       articleTypes.push(obj);
       articles.push(data[obj]);
-    }
-
-    var eventID = data['meta-data']['current']['eventId'];
-
-    //set up the images array IMAGES ARRAY FROM META DATA HAVE CHANGED
-    for(var obj in data['meta-data']['images']){
-      // -1 on the length of images array to reserve one image for home/away specific article photo
-      for(var i = 0; i < data['meta-data']['images'][obj].length - 1; i++){
-        images.push(data['meta-data']['images'][obj][i]);
+      if(data[obj]['image_url'] != null){
+        images.push(data[obj]['image_url']);
       }
     }
+
+    var eventID = data['meta-data']['current']['event_id'];
+
 
     // to mix up the images
     function shuffle(a) {
@@ -343,15 +340,16 @@ export class DeepDiveService {
       ret[i] = articles[i];
       ret[i]['type'] = articleTypes[i];
       if(ret[i]['type'].split('-')[1] == 'home'){
-        ret[i]['image'] = data['meta-data']['images'][homeId][data['meta-data']['images'][homeId].length - 1];
+        ret[i]['image'] = images[i];
       }else if(ret[i]['type'].split('-')[1]  == 'away'){
-        ret[i]['image'] = data['meta-data']['images'][awayId][data['meta-data']['images'][awayId].length - 1];
+        ret[i]['image'] = images[i];
       }else{
         ret[i]['image'] = images[i];
       }
-      ret[i]['keyword'] = ret[i]['sidekickTitle'].toUpperCase();
-      ret[i]['bg_image_var'] = this._sanitizer.bypassSecurityTrustStyle("url(" + ret[i]['image'] + ")");
-      ret[i]['new_date'] = ret[i]['dateline'];
+      ret[i]['displayHeadline'] = ret[i]['title'];
+      ret[i]['keyword'] = ret[i]['article_type'].toUpperCase().replace('-',' ');
+      ret[i]['bg_image_var'] = this._sanitizer.bypassSecurityTrustStyle("url(" + GlobalSettings.getImageUrl(ret[i]['image_url']) + ")");
+      ret[i]['publication_date'] = GlobalFunctions.formatGlobalDate(Number(ret[i]['publication_date']) * 1000,'defaultDate');
       ret[i]['event_id'] = eventID;
     }
     return ret;
