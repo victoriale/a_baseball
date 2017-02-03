@@ -28,28 +28,29 @@ export class PlayerStatsService {
     return teamName ? "Player Stats - " + teamName : "Player Stats";
   }
 
-  loadAllTabsForModule(teamId: number, teamName: string, isTeamProfilePage: boolean) {
+  loadAllTabsForModule(teamId: number, teamName: string, isTeamProfilePage: boolean, seasonBase?:string) {
     return {
         moduleTitle: this.getModuleTitle(teamName),
         pageRouterLink: this.getLinkToPage(teamId, teamName),
-        tabs: this.initializeAllTabs(teamName, isTeamProfilePage)
+        tabs: this.initializeAllTabs(teamName, isTeamProfilePage,seasonBase)
     };
   }
 
-  getStatsTabData(tabData: Array<any>, pageParams: MLBPageParameters, tabDataLoaded: Function, maxRows?: number) {
+  getStatsTabData(tabData: Array<any>, pageParams: MLBPageParameters, tabDataLoaded: Function, maxRows?: number, seasonId?: string) {
     if ( !tabData || tabData.length <= 1 ) {
       console.log("Error getting stats data - invalid tabData object");
       return;
     }
 
     var standingsTab: MLBPlayerStatsTableData = tabData[0];
-    var seasonId: string = tabData[1];
-    if ( !seasonId && standingsTab.seasonIds.length > 0 ) {
-      seasonId = standingsTab.seasonIds[0].key;
+
+    var seasonBase: string = tabData[1];
+    if ( !seasonBase && standingsTab.seasonIds.length > 0 ) {
+     seasonBase = standingsTab.seasonIds[0].key;
     }
     var hasData = false;
     if ( standingsTab ) {
-      var table = standingsTab.seasonTableData[seasonId];
+      var table = standingsTab.seasonTableData[seasonBase];
       if ( table ) {
         standingsTab.isLoaded = true;
         standingsTab.tableData = table;
@@ -62,15 +63,15 @@ export class PlayerStatsService {
     standingsTab.tableData = null;
 
     var tabName = standingsTab.isPitcherTable ? "pitchers" : "batters";
-    let url = this._apiUrl + "/team/seasonStats/" + pageParams.teamId + "/" + tabName + "/" + seasonId;
-    // console.log("url: " + url);
+    let url = this._apiUrl + "/team/seasonStats/" + pageParams.teamId + "/" + tabName + "/" + seasonBase;
+  //  console.log("url: " + url);
     this.http.get(url)
         .map(res => res.json())
         .map(data => this.setupTableData(standingsTab, pageParams, data.data, maxRows))
         .subscribe(data => {
           standingsTab.isLoaded = true;
           standingsTab.hasError = false;
-          standingsTab.seasonTableData[seasonId] = data;
+          standingsTab.seasonTableData[seasonBase] = data;
           standingsTab.tableData = data;
           tabDataLoaded(data);
         },
@@ -81,11 +82,25 @@ export class PlayerStatsService {
         });;
   }
 
-  initializeAllTabs(teamName: string, isTeamProfilePage: boolean): Array<MLBPlayerStatsTableData> {
+  initializeAllTabs(teamName: string, isTeamProfilePage: boolean,seasonBase?:string): Array<MLBPlayerStatsTableData> {
     let tabs: Array<MLBPlayerStatsTableData> = [];
-
-    tabs.push(new MLBPlayerStatsTableData(teamName, "Batting", false, true, isTeamProfilePage)); //isPitcher = false, isActive = true
-    tabs.push(new MLBPlayerStatsTableData(teamName, "Pitching", true, false, isTeamProfilePage)); //isPitcher = true, isActive = false
+    if(seasonBase == null || typeof seasonBase == 'undefined'){
+      seasonBase = new Date().getFullYear().toString();
+    } else {
+      switch(seasonBase['curr_season']){
+        case 0:
+          seasonBase = (Number(seasonBase['season_id']) - 1).toString();
+          break;
+        case 1:
+          seasonBase = seasonBase['season_id'];
+          break;
+        case 2:
+          seasonBase = seasonBase['season_id'];
+          break;
+      }
+    }
+    tabs.push(new MLBPlayerStatsTableData(teamName, "Batting", false, true, isTeamProfilePage,seasonBase)); //isPitcher = false, isActive = true
+    tabs.push(new MLBPlayerStatsTableData(teamName, "Pitching", true, false, isTeamProfilePage,seasonBase)); //isPitcher = true, isActive = false
 
     return tabs;
   }

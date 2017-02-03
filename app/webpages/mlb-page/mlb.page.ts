@@ -127,6 +127,7 @@ export class MLBPage implements OnInit {
     standingsData:StandingsModuleData;
 
     profileHeaderData:ProfileHeaderData;
+    seasonBase:any;
 
     profileData:IProfileData;
 
@@ -208,6 +209,7 @@ export class MLBPage implements OnInit {
                 this.profileName = "MLB";
                 this.getHeadlines();
 
+                this.seasonBase = data.headerData.seasonId;
                 /*** Keep Up With Everything MLB ***/
                 this.getBoxScores(this.dateParam);
                 this.getSchedulesData('pre-event');//grab pre event data for upcoming games
@@ -293,7 +295,7 @@ export class MLBPage implements OnInit {
           this.schedulesData = data;
         },
         err => {
-          console.log("Error getting Schedules Data");
+          console.warn("Error getting Schedules Data -- Data Insufficient -- HRL season data for upcoming season is not in place.");
         }
       )
     }
@@ -429,7 +431,7 @@ export class MLBPage implements OnInit {
             limit: this.listMax,
             pageNum: 1
         };
-        this.listService.getListModuleService(tab, this.batterParams)
+        this.listService.getListModuleService(tab, this.batterParams, this.seasonBase)
             .subscribe(updatedTab => {
                 //do nothing?
             }, err => {
@@ -449,7 +451,7 @@ export class MLBPage implements OnInit {
             limit: this.listMax,
             pageNum: 1
         };
-        this.listService.getListModuleService(tab, this.pitcherParams)
+        this.listService.getListModuleService(tab, this.pitcherParams,this.seasonBase)
             .subscribe(updatedTab => {
                 //do nothing?
             }, err => {

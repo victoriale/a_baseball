@@ -4,6 +4,7 @@ export interface ModuleHeaderData {
   moduleTitle:string,
   hasIcon: boolean,
   iconClass: string,
+  seasonBase?:any
 }
 
 @Component({

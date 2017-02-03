@@ -5,7 +5,7 @@
   <div *ngIf="profileHeaderData && pageParams">
     <!-- <headline-component [title]="'About the ' + profileHeaderData.profileName"></headline-component> -->
     <profile-header [profileHeaderData]="profileHeaderData"></profile-header>
-    <daily-update-module [profileName]="profileHeaderData.profileName" [data]="dailyUpdateData"></daily-update-module>
+    <daily-update-module [profileName]="profileHeaderData.profileName" [data]="dailyUpdateData" [seasonBase] = "pageParams.seasonId"></daily-update-module>
     <responsive-widget *ngIf="dailyUpdateData" [embedPlace]="widgetPlace" [displayAtRes]="'640'"></responsive-widget>
     <articles-module *ngIf="headlineData"
             [headlineData]="headlineData"
@@ -22,9 +22,9 @@
     <responsive-widget *ngIf="playerStatsData" [embedPlace]="widgetPlace" [displayAtRes]="'640'"></responsive-widget>
     <transactions-module *ngIf="transactionsData" [data]="transactionsData" (tabSwitched)="transactionsTab($event)"></transactions-module>
     <responsive-widget *ngIf="transactionsData" [embedPlace]="widgetPlace" [displayAtRes]="'1024'"></responsive-widget>
-    <draft-history-module *ngIf="profileData" [profileData]="profileData"></draft-history-module>
+    <draft-history-module *ngIf="profileData" [profileData]="profileData" [seasonBase]="pageParams.seasonId"></draft-history-module>
     <responsive-widget *ngIf="profileData" [embedPlace]="widgetPlace" [displayAtRes]="'640'"></responsive-widget>
-    <comparison-module [modelData]="comparisonModuleData" [profileName]="profileHeaderData.profileName" [profileType]="'team'" [profileId]="pageParams.teamId"></comparison-module>
+    <comparison-module [modelData]="comparisonModuleData" [profileName]="profileHeaderData.profileName" [profileType]="'team'" [profileId]="pageParams.teamId" [seasonBase]="pageParams.seasonId"></comparison-module>
     <!-- <headline-component [title]="'Other MLB Content You May Love'"></headline-component> -->
     <images-media-carousel [imageData]="imageData" [copyright]="copyright" [profHeader]="profileHeaderData" [imageTitle]="imageTitle" [isProfilePage]="isProfilePage"></images-media-carousel>
     <responsive-widget [embedPlace]="widgetPlace"></responsive-widget>

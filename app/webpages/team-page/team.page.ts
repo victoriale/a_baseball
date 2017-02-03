@@ -143,6 +143,7 @@ export class TeamPage implements OnInit {
     playerStatsData: PlayerStatsModuleData;
     rosterData: RosterModuleData<TeamRosterData>;
     dailyUpdateData: DailyUpdateData;
+    seasonBase: string;
 
 
     imageData:any;
@@ -222,6 +223,7 @@ export class TeamPage implements OnInit {
         this._profileService.getTeamProfile(this.pageParams.teamId).subscribe(
             data => {
                 /*** About the [Team Name] ***/
+                this.seasonBase = data.pageParams.seasonId;
                 this.metaTags(data);
                 this.pageParams = data.pageParams;
                 this.profileData = data;
@@ -236,7 +238,7 @@ export class TeamPage implements OnInit {
                 this.getSchedulesData('pre-event');//grab pre event data for upcoming games
                 this.standingsData = this._standingsService.loadAllTabsForModule(this.pageParams, this.pageParams.teamId, data.teamName);
                 this.rosterData = this._rosterService.loadAllTabsForModule(this.pageParams.teamId, data.teamName, this.pageParams.conference, true);
-                this.playerStatsData = this._playerStatsService.loadAllTabsForModule(this.pageParams.teamId, data.teamName, true);
+                this.playerStatsData = this._playerStatsService.loadAllTabsForModule(this.pageParams.teamId, data.teamName, true,this.seasonBase);
                 this.transactionsData = this._transactionsService.loadAllTabsForModule(data.teamName, this.pageParams.teamId);
                 //this.loadMVP
                 this.setupComparisonData();
@@ -333,6 +335,7 @@ export class TeamPage implements OnInit {
                 });
     }
 
+
     private getNewsService() {
         this._newsService.getNewsService(this.profileName)
             .subscribe(data => {
@@ -374,7 +377,7 @@ export class TeamPage implements OnInit {
           this.schedulesData = data;
         },
         err => {
-          console.log("Error getting Schedules Data");
+          console.warn("Error getting Schedules Data -- Data Insufficient -- HRL season data for upcoming season is not in place.");
         }
       )
     }
@@ -406,7 +409,7 @@ export class TeamPage implements OnInit {
 
     private playerStatsTabSelected(tabData: Array<any>) {
          //only show 4 rows in the module
-        this._playerStatsService.getStatsTabData(tabData, this.pageParams, data => {}, 5);
+        this._playerStatsService.getStatsTabData(tabData, this.pageParams, data => {}, 5, this.seasonBase);
     }
 
     private setupShareModule() {

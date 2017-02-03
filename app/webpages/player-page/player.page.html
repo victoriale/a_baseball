@@ -5,7 +5,7 @@
     <div *ngIf="profileHeaderData && pageParams">
         <!-- <headline-component [title]="'About the ' + profileHeaderData.profileName"></headline-component> -->
         <profile-header *ngIf="profileHeaderData" [profileHeaderData]="profileHeaderData"></profile-header>
-        <daily-update-module [profileName]="profileHeaderData.profileName" [data]="dailyUpdateData"></daily-update-module>
+        <daily-update-module [profileName]="profileHeaderData.profileName" [data]="dailyUpdateData" [seasonBase]="seasonBase"></daily-update-module>
         <responsive-widget *ngIf="dailyUpdateData" [embedPlace]="widgetPlace" [displayAtRes]="'640'"></responsive-widget>
         <!-- <headline-component [title]="'Keep Up With Everything ' + profileHeaderData.profileName"></headline-component> -->
         <box-scores *ngIf="dateParam" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)"></box-scores>
@@ -15,7 +15,7 @@
         <standings-module *ngIf="standingsData" [data]="standingsData" (tabSelected)="standingsTabSelected($event)"></standings-module>
         <season-stats-module *ngIf="seasonStatsData" [pageParams]="pageParams" [data]="seasonStatsData"></season-stats-module>
         <responsive-widget *ngIf="seasonStatsData" [embedPlace]="widgetPlace"></responsive-widget>
-        <comparison-module [modelData]="comparisonModuleData" [profileName]="profileHeaderData.profileName" [profileType]="'player'" [profileId]="pageParams.playerId"></comparison-module>
+        <comparison-module [modelData]="comparisonModuleData" [profileName]="profileHeaderData.profileName" [profileType]="'player'" [profileId]="pageParams.playerId" [seasonBase]="seasonBase"></comparison-module>
         <!-- <headline-component [title]="'Other MLB Content You May Love'"></headline-component> -->
         <images-media-carousel [imageData]="imageData" [copyright]="copyright" [imageTitle]="imageTitle" [profHeader]="profileHeaderData" [isProfilePage]="isProfilePage"></images-media-carousel>
         <responsive-widget *ngIf="profileHeaderData" [embedPlace]="widgetPlace" [displayAtRes]="'640'"></responsive-widget>

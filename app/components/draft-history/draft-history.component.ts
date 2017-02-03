@@ -21,13 +21,15 @@ import {PaginationFooter, PaginationParameters} from '../../components/paginatio
 export class DraftHistoryComponent implements OnInit {
   @Input() profileData: IProfileData;
 
+  @Input() seasonBase: string;
+
 /**
  * 'page' or 'module'
  */
   @Input() type: string;
 
   private dataArray: Array<DraftHistoryTab>;
-  
+
   private carouselDataArray: Array<Array<SliderCarouselInput>>;
 
   private isError: boolean = false;
@@ -39,7 +41,7 @@ export class DraftHistoryComponent implements OnInit {
 
   ngOnInit() {
     if ( this.profileData != null ) {
-      this.dataArray = this._draftService.getDraftHistoryTabs(this.profileData);
+      this.dataArray = this._draftService.getDraftHistoryTabs(this.profileData, this.seasonBase);
       if ( this.dataArray && this.dataArray.length > 0 ) {
         this.getDraftPage(this.dataArray[0]);
       }
@@ -50,12 +52,12 @@ export class DraftHistoryComponent implements OnInit {
     if ( tab.isLoaded ) {
       if ( tab.paginationDetails ) {
         tab.paginationDetails.index = this.currentIndex + 1;
-      }    
+      }
       this.carouselDataArray = tab.carouselDataArray;
       return;
     }
-    
-    this._draftService.getDraftHistoryService(this.profileData, tab, this.currentIndex, this.type)
+
+    this._draftService.getDraftHistoryService(this.profileData, tab, this.currentIndex, this.type, this.seasonBase)
         .subscribe(
             draftData => {
               tab.isLoaded = true;
