@@ -72,6 +72,7 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
 import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
 import {SeoService} from '../../seo.service';
+import {ArticleDataService} from "../../services/ai-article.service";
 
 declare var moment;
 
@@ -129,6 +130,7 @@ declare var moment;
 export class TeamPage implements OnInit {
     public widgetPlace: string = "widgetForModule";
     public shareModuleInput:ShareModuleInput;
+    private headlineData:any;
     headerData:any;
     pageParams:MLBPageParameters;
     partnerID:string = null;
@@ -142,6 +144,7 @@ export class TeamPage implements OnInit {
     rosterData: RosterModuleData<TeamRosterData>;
     dailyUpdateData: DailyUpdateData;
     seasonBase: string;
+
 
     imageData:any;
     copyright:any;
@@ -184,7 +187,8 @@ export class TeamPage implements OnInit {
                 private _twitterService: TwitterService,
                 private _comparisonService: ComparisonStatsService,
                 private _dailyUpdateService: DailyUpdateService,
-                private _seoService: SeoService
+                private _seoService: SeoService,
+                private _headlineDataService:ArticleDataService
               ) {
         this.pageParams = {
             teamId: Number(_params.get("teamId"))
@@ -227,6 +231,7 @@ export class TeamPage implements OnInit {
                 this._title.setTitle(GlobalSettings.getPageTitle(this.profileName));
                 this.profileHeaderData = this._profileService.convertToTeamProfileHeader(data);
                 this.dailyUpdateModule(this.pageParams.teamId);
+                this.getHeadlines();
 
                 /*** Keep Up With Everything [Team Name] ***/
                 this.getBoxScores(this.dateParam);
@@ -257,6 +262,8 @@ export class TeamPage implements OnInit {
     }
 
     private metaTags(data){
+      //This call will remove all meta tags from the head.
+      this._seoService.removeMetaTags();
       //create meta description that is below 160 characters otherwise will be truncated
       let metaDesc =  data.headerData.description;
       let link = window.location.href;
@@ -281,6 +288,18 @@ export class TeamPage implements OnInit {
                 console.log("Error getting daily update data", err);
             });
     }
+
+    private getHeadlines(){
+        this._headlineDataService.getAiHeadlineData(this.pageParams.teamId, false)
+            .subscribe(
+                HeadlineData => {
+                    this.headlineData = HeadlineData;
+                },
+                err => {
+                    console.log("Error loading AI headline data for " + this.pageParams.teamId, err);
+                }
+            )
+    } //getHeadlines
 
     private getTwitterService() {
         this._twitterService.getTwitterService(this.profileType, this.pageParams.teamId)

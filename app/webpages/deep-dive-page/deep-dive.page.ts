@@ -86,7 +86,8 @@ export class DeepDivePage implements OnInit{
       //create meta description that is below 160 characters otherwise will be truncated
       let metaDesc = GlobalSettings.getPageTitle('Dive into the most recent MLB news and read the latest articles about your favorite baseball team.', 'Deep Dive');
       let link = window.location.href;
-
+      //This call will remove all meta tags from the head.
+      _seoService.removeMetaTags();
       _seoService.setCanonicalLink(this._params.params, this._router);
       _seoService.setOgTitle('Deep Dive');
       _seoService.setOgDesc(metaDesc);

@@ -43,7 +43,8 @@ export class TitleComponent implements OnChanges {
           imageUrl = this.titleData.imageRoute[0].replace('-',' ');
         }
       }
-
+      //This call will remove all meta tags from the head.
+      this._seoService.removeMetaTags();
       this._seoService.setCanonicalLink(this._params.params, this._router);
       this._seoService.setOgTitle(metaDesc);
       this._seoService.setOgDesc(metaDesc +". Know more about baseball.");

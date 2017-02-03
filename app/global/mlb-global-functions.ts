@@ -175,6 +175,14 @@ export class MLBGlobalFunctions {
     }
   }
 
+
+  static getBackroundImageUrlWithStockFallback(relativePath) {
+    let stockPhotoArray = ["/app/public/Image-Placeholder-1.jpg","/app/public/Image-Placeholder-2.jpg"];
+    let randomStockPhotoSelection = stockPhotoArray[Math.floor(Math.random()*stockPhotoArray.length)];
+    var relPath = relativePath != null ? "http://images.synapsys.us" + relativePath : randomStockPhotoSelection;
+    return relPath;
+  }
+
   // static MLBPosition(position: string): string{
   //     if( typeof position == 'undefined' || position === null){
   //       return position;
