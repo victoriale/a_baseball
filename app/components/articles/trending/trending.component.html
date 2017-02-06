@@ -28,7 +28,7 @@
         <div *ngFor="let data of trendingData; let even=even; let i = index">
             <!--<shareLinks-component></shareLinks-component>-->
             <div class="trending-small-article">
-                <a [routerLink]="data.url">
+                <a [routerLink]="data.article_url">
                     <div class="trending-small-article-title">{{data.title}}</div>
                     <span class="articleBoxTrending">
                         <img class="trending-small-article-image" src="{{data.image}}"

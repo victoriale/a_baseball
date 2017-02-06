@@ -7,11 +7,8 @@ import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
     directives: [ROUTER_DIRECTIVES],
 })
 
-export class GameArticle implements OnInit{
+export class GameArticle{
     @Input() gameArticle:any;
     constructor() {
-    }
-
-    ngOnInit(){
     }
 }
