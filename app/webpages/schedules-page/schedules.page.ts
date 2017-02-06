@@ -141,7 +141,6 @@ export class SchedulesPage implements OnInit{
       this._schedulesService.getSchedulesService('league', status, 10, pageNum)
       .subscribe(
         data => {
-          // console.log('got scheuldes data');
           this.schedulesData = data;
           if(typeof this.tabData == 'undefined'){
               this.tabData = data.tabs;

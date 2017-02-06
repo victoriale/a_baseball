@@ -318,7 +318,7 @@ export class DeepDiveService {
 
     var eventID = data['meta-data']['current']['eventId'];
 
-    //set up the images array
+    //set up the images array IMAGES ARRAY FROM META DATA HAVE CHANGED
     for(var obj in data['meta-data']['images']){
       // -1 on the length of images array to reserve one image for home/away specific article photo
       for(var i = 0; i < data['meta-data']['images'][obj].length - 1; i++){
@@ -351,7 +351,7 @@ export class DeepDiveService {
       }
       ret[i]['keyword'] = ret[i]['sidekickTitle'].toUpperCase();
       ret[i]['bg_image_var'] = this._sanitizer.bypassSecurityTrustStyle("url(" + ret[i]['image'] + ")");
-      ret[i]['new_date'] = MLBGlobalFunctions.convertAiDate(ret[i]['dateline']);
+      ret[i]['new_date'] = ret[i]['dateline'];
       ret[i]['event_id'] = eventID;
     }
     return ret;

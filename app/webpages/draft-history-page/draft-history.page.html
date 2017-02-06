@@ -4,7 +4,7 @@
   <title-component *ngIf="profileHeaderData" [titleData]="profileHeaderData"></title-component>
   <loading-component *ngIf="!profileData && !isError"></loading-component>
   <error-component *ngIf="isError"></error-component>
-  <draft-history *ngIf="profileData" [profileData]="profileData" [type]="'page'"></draft-history>
+  <draft-history *ngIf="profileData" [profileData]="profileData" [type]="'page'" [seasonBase] = "seasonBase"></draft-history>
   <responsive-widget embedPlace="widgetForPage"></responsive-widget>
 </section>
 </sidekick-wrapper>

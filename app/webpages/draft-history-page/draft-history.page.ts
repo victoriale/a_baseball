@@ -26,6 +26,8 @@ export class DraftHistoryPage implements OnInit{
 
   profileData: IProfileData;
 
+  seasonBase:any;
+
   isError: boolean = false;
 
   constructor(private _profileService:ProfileHeaderService,
@@ -48,6 +50,7 @@ export class DraftHistoryPage implements OnInit{
             var pageNameForTitle = data.profileName + " " + data.headerData.stats.seasonId + " - " + this.whatProfile;
             this.profileHeaderData = this._profileService.convertTeamPageHeader(data, pageNameForTitle);
             this.profileData = data;
+            this.seasonBase = data.headerData.seasonId;
           },
           err => {
             this.isError= true;
@@ -62,6 +65,7 @@ export class DraftHistoryPage implements OnInit{
             this._title.setTitle(GlobalSettings.getPageTitle("Draft History", data.headerData.profileNameShort));
             this.profileHeaderData = this._profileService.convertMLBHeader(data.headerData, "MLB's " + this.whatProfile);
             this.profileData = data;
+            this.seasonBase = data.headerData.seasonId;
           },
           err => {
             this.isError= true;

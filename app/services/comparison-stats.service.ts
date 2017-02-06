@@ -259,7 +259,7 @@ export class ComparisonStatsService {
       url += "league";
     }
 
-    //console.log("getting player stats: " + url);
+//    console.log("getting player stats: " + url);
     return this.http.get(url)
       .map(res => res.json())
       .map(data => {
@@ -308,7 +308,7 @@ export class ComparisonStatsService {
   private formatPlayerData(playerId: string, data: { [seasonId: string]: any }):{ [seasonId: string]: SeasonStats } {
     var stats: { [seasonId: string]: SeasonStats } = {};
     for ( var seasonId in data ) {
-      var seasonData = data[seasonId];
+      var seasonData = data[seasonId]; //
       var seasonStats = new SeasonStats();
       var isValidStats = false;
 

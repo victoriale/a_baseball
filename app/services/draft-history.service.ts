@@ -49,12 +49,12 @@ export interface PlayerDraftData {
 @Injectable()
 export class DraftHistoryService {
 
-  getDraftHistoryTabs(profileData: IProfileData): DraftHistoryTab[] {
+  getDraftHistoryTabs(profileData: IProfileData,seasonId?:string): DraftHistoryTab[] {
     // console.log("interface - getDraftHistoryTabs")
     return [];
   }
 
-  getDraftHistoryService(profileData: IProfileData, tab: DraftHistoryTab, currIndex: number, type: string): Observable<DraftHistoryData> {
+  getDraftHistoryService(profileData: IProfileData, tab: DraftHistoryTab, currIndex: number, type: string,seasonId?:string): Observable<DraftHistoryData> {
     // console.log("interface - getDraftHistoryService")
     return null;
   }
@@ -69,9 +69,8 @@ export class MLBDraftHistoryService extends DraftHistoryService {
     super();
   }
 
-  getDraftHistoryTabs(profileData: IProfileData): DraftHistoryTab[] {
+  getDraftHistoryTabs(profileData: IProfileData,seasonId?:string): DraftHistoryTab[] {
     // console.log("concrete - getDraftHistoryTabs")
-
     let errorMessage; // {0} is for the season name
     // if ( profileData.isLegit && year == currentYear ) {
       if ( profileData.profileType == "team" ) {
@@ -94,15 +93,36 @@ export class MLBDraftHistoryService extends DraftHistoryService {
     //   }
     // }
 
-    //for MLB season starts and ends in the same year so return current season
+    //for MLB season starts and ends in the same year so return current season. Shows season year if season has ended
     //get past 5 years for tabs
-    var currentYear = new Date().getFullYear();
+    var currentYear;
+    if(seasonId == null || typeof seasonId == 'undefined') {
+      currentYear = new Date().getFullYear.toString();
+    } else {
+      switch(seasonId['curr_season']){
+        case 0:
+          currentYear = (Number(seasonId['season_id']) - 1).toString();
+          break;
+        case 1:
+          currentYear = 'Current';
+          break;
+        case 2:
+          currentYear = seasonId['season_id'];
+          break;
+      }
+    }
+    // if(seasonId == null || typeof seasonId == 'undefined' || seasonId == new Date().getFullYear().toString()){
+    //   currentYear = new Date().getFullYear();
+    // } else {
+    //   currentYear = seasonId;
+    // }
+
     var year = currentYear;
     var tabArray = [];
     for(var i = 0; i <5; i++) {
       var seasonName = year + " season";
       tabArray.push({
-        tabTitle: i == 0 ? 'Current Season' : year.toString(),
+        tabTitle: i == 0 ? year : year.toString(),
         tabKey: year.toString(),
         isLoaded: false,
         errorMessage: errorMessage.replace("{0}", seasonName)
@@ -115,10 +135,10 @@ export class MLBDraftHistoryService extends DraftHistoryService {
 /**
  * @param {string} type - 'page' or 'module'
  */
-  getDraftHistoryService(profileData: IProfileData, tab: DraftHistoryTab, currIndex: number, type: string): Observable<DraftHistoryData> {
+  getDraftHistoryService(profileData: IProfileData, tab: DraftHistoryTab, currIndex: number, type: string,seasonId?:string): Observable<DraftHistoryData> {
     // console.log("concrete - getDraftHistoryService");
-
     let year = tab.tabKey;
+
     let itemsOnPage = 10;
 
     var callURL;

@@ -73,7 +73,7 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
 
   isTeamProfilePage: boolean;
 
-  constructor(teamName: string, tabName: string, isPitcherTable: boolean, isActive: boolean, isTeamProfilePage: boolean) {
+  constructor(teamName: string, tabName: string, isPitcherTable: boolean, isActive: boolean, isTeamProfilePage: boolean, seasonBase?:string) {
     this.tabTitle = tabName;
     this.tableName = "<span class='text-heavy'>" + teamName + "</span> " + tabName + " Stats";
     this.isActive = isActive;
@@ -101,12 +101,18 @@ export class MLBPlayerStatsTableData implements StatsTableTabData<PlayerStatsDat
         {key: "H", value: "Hits"}
       ];
     }
-    var currYear = new Date().getFullYear();
+    var currYear = Number(seasonBase);
     var year = currYear;
+    var ifCurrent;
+    if(new Date().getFullYear() != year){
+      ifCurrent = year.toString() + ' Season';
+    } else {
+      ifCurrent = 'Current Season';
+    }
     for ( var i = 0; i < 5; i++ ) {
       this.seasonIds.push({
         key: year.toString(),
-        value: i == 0 ? "Current Season" : year.toString() + " Season"
+        value: i == 0 ? ifCurrent : year.toString() + " Season"
       });
       year--;
     }
