@@ -129,7 +129,7 @@ export class DeepDiveService {
   if(state == null){
     state = 'CA';
   }
-  var callURL = this._articleUrl+'player-comparisons/'+state;
+  var callURL = this._articleLibraryUrl+'/articles?scope=mlb&readyToPublish=all&articleType=player-comparisons&count=8&metaDataOnly=1&state='+state;
       return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -254,28 +254,29 @@ export class DeepDiveService {
   transformToAiHeavyArticleRow(data){
     var sampleImage = "/app/public/placeholder_XL.png";
     var articleStackArray = [];
-    var date = GlobalFunctions.formatDate(data.timestamp*1000);
-    var i = 1;
-    for (var key in data) {
-      if (data.hasOwnProperty(key) && data[key].displayHeadline != null && i <= 8) {
-        var s = {
-            stackRowsRoute: MLBGlobalFunctions.formatAiArticleRoute(key, data.eventId),
-            keyword: 'PLAYER COMPARISON',
-            publishedDate: date.month + " " + date.day + ", " + date.year,
-            provider1: '',
-            provider2: '',
-            description: data[key].displayHeadline,
-            imageConfig: {
-              imageClass: "image-100x56",
-              imageUrl: data[key].image != null ? data[key].image : sampleImage,
-              hoverText: "View",
-              urlRouteArray: MLBGlobalFunctions.formatAiArticleRoute(key, data.eventId)
-            }
-        }
+      data.forEach(function(val){
+          if (val.length != 0) {
+              var date = GlobalFunctions.formatGlobalDate(val['publication_date']*1000,'defaultDate');
+              var s = {
+                  stackRowsRoute: MLBGlobalFunctions.formatAiArticleRoute(val['article_sub_type'], val['event_id']),
+                  keyword: 'PLAYER COMPARISON',
+                  publishedDate: date,
+                  provider1: '',
+                  provider2: '',
+                  description: val['title'],
+                  imageConfig: {
+                      imageClass: "image-100x56",
+                      hoverText: "View",
+                      imageUrl: val['image_url'] != null ? GlobalSettings.getImageUrl(val['image_url']) : sampleImage,
+                      urlRouteArray: MLBGlobalFunctions.formatAiArticleRoute(val['article_sub_type'], val['event_id'])
+                  }
+              };
         articleStackArray.push(s);
-        i = i + 1;
       }
-    }
+    });
+    articleStackArray.sort(function () {
+       return 0.5 - Math.random();
+    });
     return articleStackArray;
   }
 

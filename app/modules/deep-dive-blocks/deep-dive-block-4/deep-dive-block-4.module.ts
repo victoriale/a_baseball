@@ -64,7 +64,7 @@ export class DeepDiveBlock4{
         });
     this._deepDiveData.getDeepDiveAiHeavyBatchService(this.geoLocation)
         .subscribe(data => {
-          this.fourthStackRow = this._deepDiveData.transformToAiHeavyArticleRow(data);
+          this.fourthStackRow = this._deepDiveData.transformToAiHeavyArticleRow(data.data);
         });
   }
   getTileStackData(){
