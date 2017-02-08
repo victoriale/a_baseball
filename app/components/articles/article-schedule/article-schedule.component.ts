@@ -1,4 +1,4 @@
-import {Component, Input } from "@angular/core";
+import {Component, Input} from "@angular/core";
 import {ArticleData} from "../../../global/global-interface";
 import {CircleImage} from "../../images/circle-image";
 import {CircleImageData} from '../../images/image-data';
@@ -17,4 +17,5 @@ export class ArticleScheduleComponent {
     @Input() awayData:any;
     @Input() defaultGradient:any;
     @Input() fullGradient:any;
+
 }
