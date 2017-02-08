@@ -57,7 +57,7 @@ export class ListOfListsService {
       .map(res => res.json())
       .map(
         data => {
-          if ( !data || !data.data ) {
+          if ( !data || !data.data || data['success'] == false) {
             return null;
           }
           var lastUpdated = "";
