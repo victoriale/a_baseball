@@ -215,22 +215,6 @@ export class SchedulesService {
     });
     return modifiedArray;
   }
-  // getInning(url){// should only run if game is live and pre-event
-  //   var inning = {
-  //     'pregame-report':0,
-  //     'first-inning-report':1,
-  //     'second-inning-report':2,
-  //     'third-inning-report':3,
-  //     'fourt-inning-report':4,
-  //     'fifth-inning-report':5,
-  //     'sixth-inning-report':6,
-  //     'seventh-inning-report':7,
-  //   }
-  //   if(inning[url] == null){
-  //     inning[url] = 8;
-  //   }
-  //   return inning[url];
-  // }
 
   //rows is the data coming in
   private setupTableData(eventStatus, year, rows: Array<any>, teamId, maxRows: number, isTeamProfilePage: boolean): Array<MLBSchedulesTableData> {
