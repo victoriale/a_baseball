@@ -194,6 +194,7 @@ export class ArticlePages implements OnInit {
             searchArray.push(data['articleContent']['keyword']);
             searchString = searchArray.join(',');
         }
+        var date = metaData['articleContent'].last_updated ? metaData['articleContent'].last_updated : metaData['articleContent'].publication_date;
         image = metaData['images']['imageData'][0];
         this._seoService.setCanonicalLink(this._params.params, this._router);
         this._seoService.setOgTitle(metaData.title);
@@ -212,7 +213,7 @@ export class ArticlePages implements OnInit {
         this._seoService.setArticleId(this.eventID);
         this._seoService.setArticleTitle(metaData.title);
         this._seoService.setKeyword(metaData['articleContent']['keyword']);
-        this._seoService.setPublishedDate(metaData['articleContent'].publication_date);
+        this._seoService.setPublishedDate(date);
         this._seoService.setAuthor(data['articleContent'].author);
         this._seoService.setPublisher(data['articleContent'].publisher);
         this._seoService.setImageUrl(image);

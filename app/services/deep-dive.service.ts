@@ -231,7 +231,8 @@ export class DeepDiveService {
     var articleStackArray = [];
     data.forEach(function(val, index){
       if (val.length != 0) {
-      var date = GlobalFunctions.formatGlobalDate(val['publication_date']*1000,'defaultDate');
+      var dateline = val['last_updated'] ? val['last_updated'] : val['publication_date'];
+      var date = GlobalFunctions.formatGlobalDate(dateline*1000,'defaultDate');
       var s = {
           stackRowsRoute: MLBGlobalFunctions.formatAiArticleRoute(val['article_sub_type'], val['event_id']),
           keyword: val['article_type'].replace('-',' ').toUpperCase(),
@@ -256,7 +257,8 @@ export class DeepDiveService {
     var articleStackArray = [];
       data.forEach(function(val){
           if (val.length != 0) {
-              var date = GlobalFunctions.formatGlobalDate(val['publication_date']*1000,'defaultDate');
+              var dateline = val['last_updated'] ? val['last_updated'] : val['publication_date'];
+              var date = GlobalFunctions.formatGlobalDate(dateline*1000,'defaultDate');
               var s = {
                   stackRowsRoute: MLBGlobalFunctions.formatAiArticleRoute(val['article_sub_type'], val['event_id']),
                   keyword: 'PLAYER COMPARISON',
@@ -347,10 +349,11 @@ export class DeepDiveService {
       }else{
         ret[i]['image'] = images[i];
       }
+      var dateline = ret[i]['last_updated'] ? ret[i]['last_updated'] : ret[i]['publication_date'];
       ret[i]['displayHeadline'] = ret[i]['title'];
       ret[i]['keyword'] = ret[i]['article_type'].toUpperCase().replace('-',' ');
       ret[i]['bg_image_var'] = this._sanitizer.bypassSecurityTrustStyle("url(" + GlobalSettings.getImageUrl(ret[i]['image_url']) + ")");
-      ret[i]['publication_date'] = GlobalFunctions.formatGlobalDate(Number(ret[i]['publication_date']) * 1000,'defaultDate');
+      ret[i]['publication_date'] = GlobalFunctions.formatGlobalDate(Number(dateline) * 1000,'defaultDate');
       ret[i]['event_id'] = eventID;
     }
     return ret;
