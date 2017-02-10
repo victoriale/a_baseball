@@ -186,7 +186,7 @@ export class SchedulesService {
           reportText = 'IN GAME REPORT';
           reportEventType = 'in-game-report';
       }else{
-        if(val.eventStatus = 'pre-event'){
+        if(val.eventStatus = 'pre-event' || (val.live == true && val.inning.toString() == "1")){
           reportText = 'PREGAME REPORT'
         }else if (val.eventStatus == 'post-event'){
           reportText = 'POST GAME REPORT';
