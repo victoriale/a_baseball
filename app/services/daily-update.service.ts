@@ -4,6 +4,7 @@ import {Http} from '@angular/http';
 
 import {GlobalFunctions} from "../global/global-functions";
 import {GlobalSettings} from "../global/global-settings";
+import { MLBGlobalFunctions} from "../global/mlb-global-functions";
 
 export interface DailyUpdateData {
   hasError: boolean;
@@ -130,7 +131,7 @@ export class DailyUpdateService {
         key: "opponentRuns"
     };
     var chart:DailyUpdateChart = this.getChart(data, seriesOne, seriesTwo);
-    this.getPostGameArticle(data);
+    this.getPostGameArticle(data,'team');
 
     if ( chart ) {
         return {
@@ -154,7 +155,7 @@ export class DailyUpdateService {
     //http://dev-homerunloyal-api.synapsys.us/player/dailyUpdate/2800
     let url = GlobalSettings.getApiUrl() + '/player/dailyUpdate/' + playerId;
 
-    // console.log("getting daily update for player " + playerId + ": " + url);
+   //console.log("getting daily update for player " + playerId + ": " + url);
     return this.http.get(url)
         .map(res => res.json())
         .map(data => this.formatPlayerData(data.data, playerId));
@@ -196,7 +197,7 @@ export class DailyUpdateService {
       };
     }
     var chart:DailyUpdateChart = this.getChart(data, seriesOne, seriesTwo);
-    this.getPostGameArticle(data);
+    this.getPostGameArticle(data,'player');
 
     if(this.postGameArticleData.text && this.postGameArticleData.text.length>0){
       let tempText = this.postGameArticleData.text.join(" ");
@@ -286,17 +287,19 @@ export class DailyUpdateService {
         }
       ]
   }
-  private getPostGameArticle(data: APIDailyUpdateData) {
+  private getPostGameArticle(data: APIDailyUpdateData,type?:string) {
     let articleData = {};
+    var postGameReport = data['postgame-report']['article'];
 
-    articleData['eventId'] = data.recentGames[0].eventId != null ? data.recentGames[0].eventId : null;
-    articleData['teamId'] = data.recentGames[0].teamId != null ? data.recentGames[0].teamId : null;
+    articleData['eventId'] = postGameReport.event_id != null ? postGameReport.event_id : null;
+    articleData['teamId'] = postGameReport.team_id != null ? postGameReport.team_id : null;
+    articleData['playerId'] = postGameReport.player_id != null ? postGameReport.player_id : null;
     articleData['url'] = articleData['eventId'] != null ? ['Article-pages', {eventType: 'postgame-report', eventID: articleData['eventId']}] : ['Error-page'];
-  //  articleData['pubDate'] = data['postgame-report'].dateline != null ? data['postgame-report'].dateline : null;
-    articleData['pubDate'] = GlobalFunctions.formatGlobalDate(data['postgame-report'].dateline,'timeZone') != null ? data['postgame-report'].dateline : null;
-    articleData['headline'] = data['postgame-report'].displayHeadline != null ? data['postgame-report'].displayHeadline : null;
-    articleData['text'] = data['postgame-report'].article != null && data['postgame-report'].article.length > 0 ? data['postgame-report'].article : null;
-    articleData['img'] = data['postgame-report'].images != null && data['postgame-report'].images[articleData['teamId']] != null && data['postgame-report'].images[articleData['teamId']].length > 0 ? data['postgame-report'].images[articleData['teamId']][0]: null;
+    articleData['pubDate'] = postGameReport.last_updated ? GlobalFunctions.formatGlobalDate(postGameReport.last_updated, 'timeZone') : null;
+    articleData['headline'] = postGameReport.title != null ? postGameReport.title : null;
+    articleData['text'] = postGameReport['teaser'] != null && postGameReport['teaser'].length > 0 ? [postGameReport['teaser']] : null;
+    articleData['img'] = postGameReport['image_url'] != null ? MLBGlobalFunctions.getBackroundImageUrlWithStockFallback(postGameReport['image_url']) : null;
+    articleData['type'] = type != null ? type : null;
 
     this.postGameArticleData = <PostGameArticleData>articleData;
   }

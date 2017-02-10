@@ -64,10 +64,11 @@ export class AboutUsPage {
     }
 
     ngAfterViewInit(){
+      //This call will remove all meta tags from the head.
+      this._seoService.removeMetaTags();
       //create meta description that is below 160 characters otherwise will be truncated
       let metaDesc = 'About Us, learn about baseball and MLB players and team';
       let link = window.location.href;
-
       this._seoService.setCanonicalLink(this._params.params, this._router);
       this._seoService.setOgTitle('About Us');
       this._seoService.setOgDesc(metaDesc);

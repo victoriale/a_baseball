@@ -9,16 +9,16 @@ import {TrendingComponent} from "../../components/articles/trending/trending.com
 import {DisqusComponent} from "../../components/articles/disqus/disqus.component";
 import {LoadingComponent} from "../../components/loading/loading.component";
 import {ArticleData} from "../../global/global-interface";
-import {ArticleDataService} from "../../global/global-article-page-service";
 import {GlobalFunctions} from "../../global/global-functions";
 import {MLBGlobalFunctions} from "../../global/mlb-global-functions";
 import {SidekickWrapperAI} from "../../components/sidekick-wrapper-ai/sidekick-wrapper-ai.component";
 import {GlobalSettings} from "../../global/global-settings";
 import {SidekickContainerComponent} from "../../components/articles/sidekick-container/sidekick-container.component";
 import {SeoService} from '../../seo.service';
+import {ArticleDataService} from "../../services/ai-article.service";
 
 declare var moment;
-
+declare var jQuery:any;
 
 @Component({
     selector: 'article-pages',
@@ -38,9 +38,11 @@ declare var moment;
 })
 
 export class ArticlePages implements OnInit {
-    articleData:ArticleData;
+    articleData:any;
     randomHeadlines:any;
     imageData:any;
+    dataSubscription:any;
+    trendingArticles:any;
     images:Array<any>;
     eventID:string;
     eventType:string;
@@ -48,29 +50,30 @@ export class ArticlePages implements OnInit {
     date:string;
     content:string;
     comment:string;
-    pageIndex:string;
     articleType:string;
-    articleSubType:string;
-    imageLinks:Array<any>;
-    recommendedImageData:any;
+    showLoading:boolean = true;
     copyright:any;
     imageTitle:any;
     teamId:number;
+    randomArticles:Array<any>;
     trendingData:Array<any>;
     trendingImages:Array<any>;
     error:boolean = false;
-    hasImages:boolean = false;
+    isTrendingMax:boolean = false;
     aiSidekick:boolean = true;
+    hasRun:boolean = false;
     partnerId:string;
-    isSmall:boolean = false;
-    checkPartner: boolean;
+    checkPartner:boolean;
+    trendingLength:number;
+    batch:number = 1;
 
     constructor(private _params:RouteParams,
                 private _router:Router,
                 private _articleDataService:ArticleDataService,
-                private _location:Location,
-                private _seoService:SeoService) {
+                private _seoService:SeoService,
+                private _location:Location) {
         window.scrollTo(0, 0);
+        this.trendingLength = 10;
         this.eventID = _params.get('eventID');
         this.eventType = _params.get('eventType');
         if (this.eventType == "upcoming-game") {
@@ -80,531 +83,162 @@ export class ArticlePages implements OnInit {
             if (partnerID != null) {
                 this.partnerId = partnerID.replace("-", ".");
             }
-            this.getArticles();
         });
         this.checkPartner = GlobalSettings.getHomeInfo().isPartner;
     }
 
     getArticles() {
-        this.getArticleType();
-        this._articleDataService.getArticleData(this.eventID, this.eventType, this.partnerId)
-            .subscribe(
-                ArticleData => {
-                    this.isSmall = window.innerWidth <= 640;
-                    var pageIndex = Object.keys(ArticleData)[0];
-                    this.getCarouselImages(ArticleData[pageIndex]['images']);
-                    //this.parseLinks(ArticleData[pageIndex]);
-                    this.articleData = ArticleData[pageIndex];
-                    this.title = ArticleData[pageIndex].displayHeadline;
-                  //  this.date = ArticleData[pageIndex].dateline;
-                    var date  = ArticleData[pageIndex].dateline;
-                    var date1 = moment(date).format();
-                    this.date = GlobalFunctions.formatGlobalDate(date1, 'timeZone');
-                    this.comment = ArticleData[pageIndex].commentHeader;
-                    this.imageLinks = this.getImageLinks(ArticleData[pageIndex]);
-                    this.teamId = ArticleData[pageIndex].teamId;
-
-                    //create meta description that is below 160 characters otherwise will be truncated
-                    let metaDesc = ArticleData[pageIndex].metaHeadline;
-                    let link = window.location.href;
-                    this._seoService.setCanonicalLink(this._params.params, this._router);
-                    this._seoService.setOgTitle(this.title);
-                    this._seoService.setOgDesc(metaDesc);
-                    this._seoService.setOgType('image');
-                    this._seoService.setOgUrl(link);
-                  //  this._seoService.setOgImage(ArticleData[pageIndex]['images'][this.teamId][0].image);
-                    this._seoService.setTitle(this.title);
-                    this._seoService.setMetaDescription(this.articleData.metaHeadline);
-                    this._seoService.setMetaRobots('INDEX, FOLLOW');
+        this.dataSubscription = this._articleDataService.getArticle(this.eventID, this.eventType, this.partnerId, this.eventType)
+            .subscribe(Article => {
+                    try {
+                        this.articleData = Article;
+                        this.date = Article.date;
+                        if (this.articleData.hasEventId) {
+                            this.getRecommendedArticles(this.articleData.eventID);
+                        }
+                        this.isTrendingMax = false;
+                        this.getTrendingArticles(this.eventID);
+                        this.metaTags(this.articleData);
+                    } catch (e) {
+                        this.error = true;
+                        var self = this;
+                        setTimeout(function () {
+                            //removes error page from browser history
+                            self._location.replaceState('/');
+                            //returns user to previous page
+                            self._router.navigateByUrl('/');
+                        }, 5000);
+                    }
                 },
                 err => {
                     this.error = true;
                     var self = this;
                     setTimeout(function () {
-                        //removes errored page from browser history
+                        //removes error page from browser history
                         self._location.replaceState('/');
                         //returns user to previous page
-                        self._location.back();
+                        self._router.navigateByUrl('/');
                     }, 5000);
                 }
             );
-        this._articleDataService.getRecommendationsData(this.eventID)
-            .subscribe(
-                HeadlineData => {
-                    this.pageIndex = this.eventType;
-                    this.eventID = HeadlineData.event;
-                    this.recommendedImageData = HeadlineData['home'].images.concat(HeadlineData['away'].images);
-                    this.getRandomArticles(HeadlineData, this.pageIndex, this.eventID, this.recommendedImageData);
-                }
-            );
-        this._articleDataService.getTrendingData()
-            .subscribe(
-                TrendingData => {
-                    this.getTrendingArticles(TrendingData);
-                }
-            );
     }
 
-    //Possible fix for partner site link issues.
-    //parseLinks(data) {
-    //    try {
-    //        data['article'].map(function (val, index) {
-    //            var strToParse = val.match("<a href=" + "(.*?)" + "</a>");
-    //            if (strToParse != null) {
-    //                var urlInfo = strToParse[1].split("/");
-    //                if (urlInfo[1] == "player") {
-    //                    var url = MLBGlobalFunctions.formatPlayerRoute(urlInfo[2], urlInfo[3], urlInfo[4].slice(0, 5));
-    //                } else if (urlInfo[1] == "team") {
-    //                    var url = MLBGlobalFunctions.formatTeamRoute(urlInfo[2], urlInfo[3].slice(0, 4));
-    //                }
-    //                data['article'][index] = val.replace(strToParse[0], url);
-    //            }
-    //        });
-    //    } catch (err) {
-    //    }
-    //}
 
-    getTrendingArticles(data) {
-        var articles = [];
-        var images = [];
-        Object.keys(data).forEach(function (val, index) {
-            if (val != "meta-data") {
-              var unix = moment(data[val].dateline,'MMM. do,YYYY hh:mm A').format('X');
-              var date = GlobalFunctions.formatGlobalDate(unix*1000,'timeZone');
-                articles[index - 1] = {
-                    title: data[val].displayHeadline,
-                    date: date,
-                    content: data[val].article[0],
-                    eventId: data['meta-data']['current'].eventId,
-                    eventType: val,
-                    url: MLBGlobalFunctions.formatArticleRoute(val, data['meta-data']['current'].eventId)
-                };
-            }
-        });
-        Object.keys(data['meta-data']['images']).forEach(function (val, index) {
-            images[index] = data['meta-data']['images'][val];
-        });
-        this.trendingImages = images[0].concat(images[1]);
-        this.trendingImages.sort(function () {
-            return 0.5 - Math.random()
-        });
-        articles.sort(function () {
-            return 0.5 - Math.random()
-        });
-        this.trendingData = articles;
-    }
+    getRecommendedArticles(eventId) {
+        this._articleDataService.getRecommendationsData(eventId)
+            .subscribe(data => {
+                this.randomHeadlines = data;
+            });
+          }
 
-    getCarouselImages(data) {
-        var images = [];
-        var copyData = [];
-        var description = [];
-        var imageCount = 10;
-        var image;
-        var copyright;
-        var title;
-        if (this.articleType == "gameModule") {
-            if (Object.keys(data).length == 4) {
-                imageCount = 5;
-            }
-        } else if (this.articleType == "playerRoster") {
-            imageCount = 2;
-        }
-        try {
-            if (Object.keys(data).length > 0) {
-                for (var id in data) {
-                    data[id].forEach(function (val, index) {
-                        if (index < imageCount) {
-                            image = val['image'];
-                            copyright = val['copyright'];
-                            title = val['title'];
-                            images.push(image);
-                            copyData.push(copyright);
-                            description.push(title);
-                        }
-                    });
-                }
-                this.imageData = images;
-                this.copyright = copyData;
-                this.imageTitle = description;
-            } else {
-                this.imageData = null;
-                this.copyright = null;
-                this.imageTitle = null;
-            }
-            this.hasImages = true;
-        } catch (err) {
-            this.hasImages = false;
-        }
-    }
 
-    getImageLinks(data) {
-        var links = [];
-        if (this.articleType == "playerRoster") {
-            data['article'].forEach(function (val) {
-                if (val['playerRosterModule']) {
-                    let playerUrl = MLBGlobalFunctions.formatPlayerRoute(val['playerRosterModule'].teamName, val['playerRosterModule'].name, val['playerRosterModule'].id);
-                    val['player'] = {
-                        imageClass: "image-121",
-                        mainImage: {
-                            imageUrl: val['playerRosterModule']['headshot'],
-                            urlRouteArray: playerUrl,
-                            hoverText: "<p>View</p><p>Profile</p>",
-                            imageClass: "border-logo"
-                        }
-                    };
-                    val['playerSmall'] = {
-                        imageClass: "image-71",
-                        mainImage: {
-                            imageUrl: val['playerRosterModule']['headshot'],
-                            urlRouteArray: playerUrl,
-                            hoverText: "<i class='fa fa-mail-forward'></i>",
-                            imageClass: "border-logo"
-                        }
-                    };
-                    links.push(val['player'], val['playerSmall']);
+    private getTrendingArticles(currentArticleId) {
+        var getData = this._articleDataService.getAiTrendingData(this.trendingLength);
+        this.trendingArticles = getData.subscribe(
+            data => {
+                if (!this.hasRun) {
+                    this.hasRun = true;
+                    this.trendingData = this._articleDataService.transformTrending(data['data'], currentArticleId);
+                    if ((data['article_count'] % 10 == 0 || data.length % 10 == 0) && this.trendingData) {
+                        this.trendingLength = this.trendingLength + 10;
+                    } else {
+                        this.isTrendingMax = true;
+                        this.showLoading = false;
+                    }
                 }
             });
-            return links;
-        }
-        if (this.articleType == 'playerComparison') {
-            data['article'][2]['playerComparisonModule'].forEach(function (val, index) {
-                if (index == 0) {
-                    let urlPlayerLeft = MLBGlobalFunctions.formatPlayerRoute(val.teamName, val.name, val.id);
-                    val['imageLeft'] = {
-                        imageClass: "image-121",
-                        mainImage: {
-                            imageUrl: val['headshot'],
-                            urlRouteArray: urlPlayerLeft,
-                            hoverText: "<p>View</p><p>Profile</p>",
-                            imageClass: "border-logo"
-                        }
-                    };
-                    val['imageLeftSmall'] = {
-                        imageClass: "image-71",
-                        mainImage: {
-                            imageUrl: val['headshot'],
-                            urlRouteArray: urlPlayerLeft,
-                            hoverText: "<i class='fa fa-mail-forward'></i>",
-                            imageClass: "border-logo"
-                        }
-                    };
-                    links.push(val['imageLeft'], val['imageLeftSmall']);
-                }
-                if (index == 1) {
-                    let urlPlayerRight = MLBGlobalFunctions.formatPlayerRoute(val.teamName, val.name, val.id);
-                    val['imageRight'] = {
-                        imageClass: "image-121",
-                        mainImage: {
-                            imageUrl: val['headshot'],
-                            urlRouteArray: urlPlayerRight,
-                            hoverText: "<p>View</p><p>Profile</p>",
-                            imageClass: "border-logo"
-                        }
-                    };
-                    val['imageRightSmall'] = {
-                        imageClass: "image-71",
-                        mainImage: {
-                            imageUrl: val['headshot'],
-                            urlRouteArray: urlPlayerRight,
-                            hoverText: "<i class='fa fa-mail-forward'></i>",
-                            imageClass: "border-logo"
-                        }
-                    };
-                    links.push(val['imageRight'], val['imageRightSmall']);
-                }
-            });
-            return links;
-        }
-        if (this.articleType == 'gameModule') {
-            data['article'].forEach(function (val, index) {
-                if (index == 1 && val['gameModule']) {
-                    var shortDate = val['gameModule'].eventDate;
-                    shortDate = shortDate.substr(shortDate.indexOf(",") + 1);
-                    let urlTeamLeftTop = MLBGlobalFunctions.formatTeamRoute(val['gameModule'].homeTeamName, val['gameModule'].homeTeamId);
-                    let urlTeamRightTop = MLBGlobalFunctions.formatTeamRoute(val['gameModule'].awayTeamName, val['gameModule'].awayTeamId);
-                    val['teamLeft'] = {
-                        imageClass: "image-121",
-                        mainImage: {
-                            imageUrl: val['gameModule'].homeTeamLogo,
-                            urlRouteArray: urlTeamLeftTop,
-                            hoverText: "<p>View</p><p>Profile</p>",
-                            imageClass: "border-logo"
-                        }
-                    };
-                    val['teamRight'] = {
-                        imageClass: "image-121",
-                        mainImage: {
-                            imageUrl: val['gameModule'].awayTeamLogo,
-                            urlRouteArray: urlTeamRightTop,
-                            hoverText: "<p>View</p><p>Profile</p>",
-                            imageClass: "border-logo"
-                        }
-                    };
-                    val['teamLeftSmall'] = {
-                        imageClass: "image-71",
-                        mainImage: {
-                            imageUrl: val['gameModule'].homeTeamLogo,
-                            urlRouteArray: urlTeamLeftTop,
-                            hoverText: "<i class='fa fa-mail-forward'></i>",
-                            imageClass: "border-logo"
-                        }
-                    };
-                    val['teamRightSmall'] = {
-                        imageClass: "image-71",
-                        mainImage: {
-                            imageUrl: val['gameModule'].awayTeamLogo,
-                            urlRouteArray: urlTeamRightTop,
-                            hoverText: "<i class='fa fa-mail-forward'></i>",
-                            imageClass: "border-logo"
-                        }
-                    };
-                    links.push(val['teamLeft'], val['teamRight'], val['teamLeftSmall'], val['teamRightSmall'], shortDate);
-                }
-                if (index == 5 && val['gameModule']) {
-                    var shortDate = val['gameModule'].eventDate;
-                    shortDate = shortDate.substr(shortDate.indexOf(",") + 1);
-                    let urlTeamLeftBottom = MLBGlobalFunctions.formatTeamRoute(val['gameModule'].homeTeamName, val['gameModule'].homeTeamId);
-                    let urlTeamRightBottom = MLBGlobalFunctions.formatTeamRoute(val['gameModule'].awayTeamName, val['gameModule'].awayTeamId);
-                    val['teamLeft'] = {
-                        imageClass: "image-121",
-                        mainImage: {
-                            imageUrl: val['gameModule'].homeTeamLogo,
-                            urlRouteArray: urlTeamLeftBottom,
-                            hoverText: "<p>View</p><p>Profile</p>",
-                            imageClass: "border-logo"
-                        }
-                    };
-                    val['teamRight'] = {
-                        imageClass: "image-121",
-                        mainImage: {
-                            imageUrl: val['gameModule'].awayTeamLogo,
-                            urlRouteArray: urlTeamRightBottom,
-                            hoverText: "<p>View</p><p>Profile</p>",
-                            imageClass: "border-logo"
-                        }
-                    };
-                    val['teamLeftSmall'] = {
-                        imageClass: "image-71",
-                        mainImage: {
-                            imageUrl: val['gameModule'].homeTeamLogo,
-                            urlRouteArray: urlTeamLeftBottom,
-                            hoverText: "<i class='fa fa-mail-forward'></i>",
-                            imageClass: "border-logo"
-                        }
-                    };
-                    val['teamRightSmall'] = {
-                        imageClass: "image-71",
-                        mainImage: {
-                            imageUrl: val['gameModule'].awayTeamLogo,
-                            urlRouteArray: urlTeamRightBottom,
-                            hoverText: "<i class='fa fa-mail-forward'></i>",
-                            imageClass: "border-logo"
-                        }
-                    };
-                    links.push(val['teamLeft'], val['teamRight'], val['teamLeftSmall'], val['teamRightSmall'], shortDate);
-                }
-            });
-            return links;
-        }
-        if (this.articleType == 'teamRecord') {
-            var isFirstTeam = true;
-            data['article'].forEach(function (val) {
-                if (val['teamRecordModule'] && isFirstTeam) {
-                    let urlFirstTeam = MLBGlobalFunctions.formatTeamRoute(val['teamRecordModule'].name, val['teamRecordModule'].id);
-                    val['imageTop'] = {
-                        imageClass: "image-121",
-                        mainImage: {
-                            imageUrl: val['teamRecordModule'].logo,
-                            urlRouteArray: urlFirstTeam,
-                            hoverText: "<p>View</p><p>Profile</p>",
-                            imageClass: "border-logo"
-                        }
-                    };
-                    val['imageTopSmall'] = {
-                        imageClass: "image-71",
-                        mainImage: {
-                            imageUrl: val['teamRecordModule'].logo,
-                            urlRouteArray: urlFirstTeam,
-                            hoverText: "<i class='fa fa-mail-forward'></i>",
-                            imageClass: "border-logo"
-                        }
-                    };
-                    links.push(val['imageTop'], val['imageTopSmall']);
-                    return isFirstTeam = false;
-                }
-                if (val['teamRecordModule'] && !isFirstTeam) {
-                    let urlSecondTeam = MLBGlobalFunctions.formatTeamRoute(val['teamRecordModule'].name, val['teamRecordModule'].id);
-                    val['imageBottom'] = {
-                        imageClass: "image-121",
-                        mainImage: {
-                            imageUrl: val['teamRecordModule'].logo,
-                            urlRouteArray: urlSecondTeam,
-                            hoverText: "<p>View</p><p>Profile</p>",
-                            imageClass: "border-logo"
-                        }
-                    };
-                    val['imageBottomSmall'] = {
-                        imageClass: "image-71",
-                        mainImage: {
-                            imageUrl: val['teamRecordModule'].logo,
-                            urlRouteArray: urlSecondTeam,
-                            hoverText: "<i class='fa fa-mail-forward'></i>",
-                            imageClass: "border-logo"
-                        }
-                    };
-                    links.push(val['imageBottom'], val['imageBottomSmall']);
-                }
-            });
-            return links;
-        }
     }
 
-    getImages(imageList) {
-        imageList.sort(function () {
-            return 0.5 - Math.random()
-        });
-        return this.images = imageList;
-    }
-
-    getRandomArticles(recommendations, pageIndex, eventID, recommendedImageData) {
-        this.getImages(recommendedImageData);
-        var articles;
-        var recommendArr = [];
-        var imageCount = 0;
-        var self = this;
-        Object.keys(recommendations.leftColumn).forEach(function (val) {
-            if (pageIndex != val) {
-                switch (val) {
-                    case'about-the-teams':
-                    case'historical-team-statistics':
-                    case'last-matchup':
-                    case'starting-lineup-home':
-                    case'starting-lineup-away':
-                    case'injuries-home':
-                    case'injuries-away':
-                    case'upcoming-game':
-                        let date = GlobalFunctions.formatDate(recommendations.timestamp * 1000);
-                        articles = {
-                            title: recommendations.leftColumn[val].displayHeadline,
-                            eventType: val,
-                            eventID: eventID,
-                            images: self.images[imageCount],
-                            date: date.month + " " + date.day + ", " + date.year,
-                            keyword: "BASEBALL"
-                        };
-                        recommendArr.push(articles);
-                        imageCount++;
-                        break;
-                }
+    private trendingScroll(event) {
+        if (!this.isTrendingMax) {
+            this.hasRun = false;
+            if (jQuery(document).height() - window.innerHeight - jQuery("footer").height() <= jQuery(window).scrollTop()) {
+                this.showLoading = true;
+                this.batch = this.batch + 1;
+                this.getTrendingArticles(this.eventID);
             }
-        });
-
-        articles = [];
-        Object.keys(recommendations.rightColumn).forEach(function (val) {
-            if (pageIndex != val) {
-                switch (val) {
-                    case'pitcher-player-comparison':
-                    case'catcher-player-comparison':
-                    case'first-base-player-comparison':
-                    case'second-base-player-comparison':
-                    case'third-base-player-comparison':
-                    case'shortstop-player-comparison':
-                    case'left-field-player-comparison':
-                    case'center-field-player-comparison':
-                    case'right-field-player-comparison':
-                    case'outfield-most-putouts':
-                    case'outfielder-most-hits':
-                    case'outfield-most-home-runs':
-                    case'infield-most-hits':
-                    case'infield-most-home-runs':
-                    case'infield-best-batting-average':
-                    case'infield-most-putouts':
-                        let date = GlobalFunctions.formatDate(recommendations.timestamp * 1000);
-                        articles = {
-                            title: recommendations.rightColumn[val].displayHeadline,
-                            eventType: val,
-                            eventID: eventID,
-                            images: self.images[imageCount],
-                            date: date.month + " " + date.day + ", " + date.year,
-                            keyword: "BASEBALL"
-                        };
-                        recommendArr.push(articles);
-                        imageCount++;
-                        break;
-                }
-            }
-        });
-        recommendArr.sort(function () {
-            return 0.5 - Math.random()
-        });
-        this.randomHeadlines = recommendArr;
-        this.images = recommendations['home'].images;
-    }
-
-    getArticleType() {
-        switch (this.eventType) {
-            case'about-the-teams':
-                this.articleType = 'teamRecord';
-                this.articleSubType = 'about';
-                break;
-            case'historical-team-statistics':
-                this.articleType = 'teamRecord';
-                this.articleSubType = 'history';
-                break;
-            case'last-matchup':
-                this.articleType = 'teamRecord';
-                this.articleSubType = 'last';
-                break;
-            case'starting-lineup-home':
-            case'starting-lineup-away':
-            case'injuries-home':
-            case'injuries-away':
-                this.articleType = 'playerRoster';
-                break;
-            case'pitcher-player-comparison':
-                this.articleType = 'playerComparison';
-                this.articleSubType = 'pitcher';
-                break;
-            case'catcher-player-comparison':
-            case'first-base-player-comparison':
-            case'second-base-player-comparison':
-            case'third-base-player-comparison':
-            case'shortstop-player-comparison':
-            case'left-field-player-comparison':
-            case'center-field-player-comparison':
-            case'right-field-player-comparison':
-            case'outfield-most-putouts':
-            case'outfielder-most-hits':
-            case'outfield-most-home-runs':
-            case'infield-most-hits':
-            case'infield-most-home-runs':
-            case'infield-best-batting-average':
-            case'infield-most-putouts':
-                this.articleType = 'playerComparison';
-                break;
-            case'pregame-report':
-            case'third-inning-report':
-            case'fifth-inning-report':
-            case'Seventh-inning-stretch-report':
-            case'postgame-report':
-                this.articleType = 'gameReport';
-                break;
-            case'upcoming':
-                this.articleType = 'gameModule';
-                break;
         }
-        return this.articleType;
     }
+
+    private metaTags(data) {
+        //This call will remove all meta tags from the head.
+        this._seoService.removeMetaTags();
+        //create meta description that is below 160 characters otherwise will be truncated
+        var metaData = data;
+        let image, metaDesc;
+        var teams = [];
+        var players = [];
+        var searchString;
+        var searchArray = [];
+        var headerData = data['articleContent']['metadata'];
+        let link = window.location.href;
+        metaDesc = data['articleContent'].meta_headline;
+        if (headerData['team_name'] && headerData['team_name'].constructor === Array) {
+            headerData['team_name'].forEach(function (val) {
+                searchArray.push(val);
+                teams.push(val);
+            });
+        }
+        if (headerData['player_name'] && headerData['player_name'].constructor === Array) {
+            headerData['player_name'].forEach(function (val) {
+                searchArray.push(val);
+                players.push(val);
+            });
+        }
+        if (data['articleContent']['keyword'] && data['articleContent']['keyword'].constructor === Array) {
+            data['articleContent']['keyword'].forEach(function (val) {
+                searchArray.push(val);
+            });
+            searchString = searchArray.join(',');
+        } else {
+            searchArray.push(data['articleContent']['keyword']);
+            searchString = searchArray.join(',');
+        }
+        var date = metaData['articleContent'].last_updated ? metaData['articleContent'].last_updated : metaData['articleContent'].publication_date;
+        image = metaData['images']['imageData'][0];
+        this._seoService.setCanonicalLink(this._params.params, this._router);
+        this._seoService.setOgTitle(metaData.title);
+        this._seoService.setOgDesc(metaDesc);
+        this._seoService.setOgType('Website');
+        this._seoService.setOgUrl(link);
+        this._seoService.setOgImage(image);
+        this._seoService.setTitle(metaData.title);
+        this._seoService.setMetaDescription(metaDesc);
+        this._seoService.setMetaRobots('INDEX, NOFOLLOW');
+        this._seoService.setStartDate(headerData['relevancy_start_date']);
+        this._seoService.setEndDate(headerData['relevancy_end_date']);
+        this._seoService.setIsArticle("true");
+        this._seoService.setSearchType("article");
+        this._seoService.setSource("snt_ai");
+        this._seoService.setArticleId(this.eventID);
+        this._seoService.setArticleTitle(metaData.title);
+        this._seoService.setKeyword(metaData['articleContent']['keyword']);
+        this._seoService.setPublishedDate(date);
+        this._seoService.setAuthor(data['articleContent'].author);
+        this._seoService.setPublisher(data['articleContent'].publisher);
+        this._seoService.setImageUrl(image);
+        this._seoService.setArticleTeaser(metaData.teaser.replace(/<ng2-route>|<\/ng2-route>/g, ''));
+        this._seoService.setArticleUrl(link);
+        this._seoService.setArticleType(metaData.articleType);
+        this._seoService.setSearchString(searchString);
+    } //metaTags
 
     ngOnInit() {
-      //This has to be resize to trigger the takeover update
-      try {
-          window.dispatchEvent(new Event('resize'));
-      }catch(e){
-          //to run resize event on IE
-          var resizeEvent = document.createEvent('UIEvents');
-          resizeEvent.initUIEvent('resize', true, false, window, 0);
-          window.dispatchEvent(resizeEvent);
-      }
+        //This has to be resize to trigger the takeover update
+        try {
+            window.dispatchEvent(new Event('resize'));
+        } catch (e) {
+            //to run resize event on IE
+            var resizeEvent = document.createEvent('UIEvents');
+            resizeEvent.initUIEvent('resize', true, false, window, 0);
+            window.dispatchEvent(resizeEvent);
+        }
+        this.getArticles();
     }
+
+    ngOnDestroy() {
+        if (!this.error) {
+            this.dataSubscription.unsubscribe();
+        }
+    } //ngOnDestroy
 }

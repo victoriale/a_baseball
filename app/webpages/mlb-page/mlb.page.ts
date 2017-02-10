@@ -63,6 +63,8 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
 import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
 import {SeoService} from '../../seo.service';
+import {ArticleDataService} from "../../services/ai-article.service";
+import {ArticlesModule} from "../../modules/articles/articles.module";
 
 declare var moment;
 
@@ -92,7 +94,8 @@ declare var moment;
         AboutUsModule,
         ListOfListsModule,
         ImagesMedia,
-        ResponsiveWidget
+        ResponsiveWidget,
+        ArticlesModule
       ],
     providers: [
         BoxScoresService,
@@ -115,6 +118,7 @@ declare var moment;
 export class MLBPage implements OnInit {
     public widgetPlace: string = "widgetForModule";
     public shareModuleInput:ShareModuleInput;
+    private headlineData:any;
 
     pageParams:MLBPageParameters = {};
     partnerID:string = null;
@@ -170,7 +174,8 @@ export class MLBPage implements OnInit {
                 private _lolService: ListOfListsService,
                 private listService:ListPageService,
                 private _seoService: SeoService,
-                private _params:RouteParams
+                private _params:RouteParams,
+                private _headlineDataService:ArticleDataService
               ) {
         _title.setTitle(GlobalSettings.getPageTitle("MLB"));
 
@@ -202,6 +207,7 @@ export class MLBPage implements OnInit {
                 this.profileData = data;
                 this.profileHeaderData = this._profileService.convertToLeagueProfileHeader(data.headerData)
                 this.profileName = "MLB";
+                this.getHeadlines();
 
                 this.seasonBase = data.headerData.seasonId;
                 /*** Keep Up With Everything MLB ***/
@@ -236,6 +242,8 @@ export class MLBPage implements OnInit {
     }
 
     private metaTags(data){
+      //This call will remove all meta tags from the head.
+      this._seoService.removeMetaTags();
       //create meta description that is below 160 characters otherwise will be truncated
       let header = data.headerData;
       let metaDesc =  header.profileNameLong + ' loyal to ' + header.totalTeams + ' teams ' + 'and ' + header.totalPlayers + ' players.';
@@ -261,6 +269,19 @@ export class MLBPage implements OnInit {
             this.getSchedulesData('post-event');// fall back just in case no status event is present
         }
     }
+
+    //league headline module
+    private getHeadlines(){
+        this._headlineDataService.getAiHeadlineDataLeague(true)
+            .subscribe(
+                HeadlineData => {
+                    this.headlineData = HeadlineData;
+                },
+                err => {
+                    console.log("Error loading AI headline data for League Page", err);
+                }
+            )
+    } //getHeadlines
 
     //api for Schedules
     private getSchedulesData(status){

@@ -1,12 +1,16 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {CircleImage} from "../../images/circle-image";
 
 @Component({
-    selector: 'profileData-component',
+    selector: 'profile-data-component',
     templateUrl: './app/components/articles/profileData/profileData.component.html',
-    directives: [CircleImage],
-    inputs: ['articleData', 'articleType', 'articleSubType', 'index', 'imageLinks'],
+    directives: [CircleImage]
 })
 
-export class ProfileDataComponent {
+export class ProfileDataComponent{
+    @Input() articleData:any;
+    @Input() articleSubType:any;
+    @Input() articleType:any;
+    @Input() imageLinks:any;
+    @Input() index:any;
 }

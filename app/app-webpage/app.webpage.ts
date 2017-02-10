@@ -29,9 +29,6 @@ import {ListOfListsPage} from "../webpages/list-of-lists-page/list-of-lists.page
 import {TransactionsPage} from "../webpages/transactions-page/transactions.page";
 import {MVPListPage} from "../webpages/mvp-list-page/mvp-list.page";
 
-import {ArticleDataService} from "../global/global-article-page-service";
-import {HeadlineDataService} from "../global/global-ai-headline-module-service";
-
 import {ModulePage} from "../webpages/module-page/module.page";
 import {ImagesTestPage} from "../webpages/images-test-page/images-test.page";
 
@@ -43,6 +40,7 @@ import {GlobalSettings} from "../global/global-settings";
 import {SyndicatedArticlePage} from "../webpages/syndicated-article-page/syndicated-article-page.page";
 import {DeepDivePage} from "../webpages/deep-dive-page/deep-dive.page";
 import {PartnerHeader} from "../global/global-service";
+import {ArticleDataService} from "../services/ai-article.service";
 declare var jQuery: any;
 
 @Component({
@@ -57,7 +55,7 @@ declare var jQuery: any;
         RouterOutlet,
         ROUTER_DIRECTIVES
     ],
-    providers: [ArticleDataService, HeadlineDataService, PartnerHeader],
+    providers: [PartnerHeader, ArticleDataService],
     pipes:[SanitizeHtml, SanitizeStyle]
 })
 

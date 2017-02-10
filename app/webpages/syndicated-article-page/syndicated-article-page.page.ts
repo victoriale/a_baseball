@@ -102,6 +102,8 @@ export class SyndicatedArticlePage{
             this.copyright = ["USA Today Sports Images"];
             this.imageTitle = [""];
           }
+          //This call will remove all meta tags from the head.
+          this._seoService.removeMetaTags();
           //create meta description that is below 160 characters otherwise will be truncated
           let metaDesc = data.data.teaser;
           let link = window.location.href;
@@ -124,6 +126,8 @@ export class SyndicatedArticlePage{
     private getDeepDiveVideo(articleID){
       this._deepdiveservice.getDeepDiveVideoService(articleID).subscribe(
         data => {
+          //This call will remove all meta tags from the head.
+          this._seoService.removeMetaTags();
           //create meta description that is below 160 characters otherwise will be truncated
           let metaDesc = data.data.title;
           let link = window.location.href;
@@ -179,7 +183,7 @@ export class SyndicatedArticlePage{
 
     getRecomendationData(){
       var state = this.geoLocation.toUpperCase(); //needed to uppoercase for ai to grab data correctly
-      this._deepdiveservice.getRecArticleData(state, '1', '1')
+      this._deepdiveservice.getRecArticleData(state, '1', '6')
           .subscribe(data => {
             this.recomendationData = this._deepdiveservice.transformToRecArticles(data);
             this.recomendationData = [this.recomendationData[0], this.recomendationData[1], this.recomendationData[2]];

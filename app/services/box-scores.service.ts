@@ -43,15 +43,19 @@ export class BoxScoresService {
 
   //date needs to be the date coming in AS EST and come back as UTC
   var callURL = this._apiUrl+'/'+profile+'/boxScores'+teamId+'/'+ date;
-  //console.log(callURL);
+  //var callURL = 'http://dev-homerunloyal-api.synapsys.us/team/boxScores/2799/2017-05-06';
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
       // transform the data to YYYY-MM-DD objects from unix
+      var aiArticle;
       var transformedDate = this.transformBoxScores(data.data);
+      if(transformedDate[date.toString()] == null){
+        aiArticle = null;
+      }
       return {
         transformedDate:transformedDate,
-        aiArticle: profile == 'league' ? data.aiContent : null
+        aiArticle: profile == 'league' ? aiArticle : null
       };
     })
   }
@@ -71,7 +75,7 @@ export class BoxScoresService {
               moduleTitle: this.moduleHeader(dateParam.date, profileName),
               gameInfo: this.formatGameInfo(data.transformedDate[dateParam.date],dateParam.teamId, dateParam.profile),
               gameInfoSmall: this.formatGameInfoSmall(data.transformedDate[dateParam.date],dateParam.teamId, dateParam.profile),
-              schedule: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null? this.formatSchedule(data.transformedDate[dateParam.date][0], dateParam.teamId, dateParam.profile) : null,
+              schedule: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null ? this.formatSchedule(data.transformedDate[dateParam.date][0], dateParam.teamId, dateParam.profile) : null,
               aiContent: dateParam.profile == 'league' ? this.aiHeadline(data.aiArticle) : null,
             };
             currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
@@ -102,26 +106,25 @@ export class BoxScoresService {
     var boxArray = [];
     var sampleImage = "/app/public/placeholder_XL.png";
     if (data != null) {
-      data.forEach(function(val, index){
-        for(var p in val.featuredReport){
-          var eventType = val.featuredReport[p];
-          var teaser = eventType.displayHeadline;
+        for(var p in data){
+          var eventType = p;
+          var teaser = eventType['title'];
         }
-      var date = GlobalFunctions.formatDate(val.timestamp*1000);
+      var dateline = data[eventType]['last_updated'] ? data[eventType]['last_updated'] : data[eventType]['publication_date'];
+      var date = GlobalFunctions.formatGlobalDate(dateline,"defaultDate");
       var Box = {
         keyword: p,
-        date: date.month + " " + date.day + ", " + date.year,
-        url: MLBGlobalFunctions.formatAiArticleRoute(p, val.event),
-        teaser: teaser,
+        date: date,
+        url: MLBGlobalFunctions.formatAiArticleRoute(p, data[eventType]['event_id']),
+        teaser: data[eventType]['teaser'],
         imageConfig:{
           imageClass: "image-320x180-sm",
-          imageUrl: val.home && val.home.images && val.home.images[0] != null ? val.home.images[0] : sampleImage,
+          imageUrl: data[eventType]['image_url'] != null ? GlobalSettings.getImageUrl(data[eventType]['image_url']) : sampleImage,
           hoverText: "View Article",
-          urlRouteArray: MLBGlobalFunctions.formatAiArticleRoute(p, val.event)
+          urlRouteArray: MLBGlobalFunctions.formatAiArticleRoute(p, data[eventType]['article_id']),
         }
       }
       boxArray.push(Box);
-      });
     }
     return boxArray;
 
@@ -449,21 +452,27 @@ export class BoxScoresService {
     let gameInfo = data.gameInfo;
     let aiContent = data.aiContent;
     var gameArticle = {};
-    for(var report in aiContent.featuredReport){
+    // for(var report in aiContent.featuredReport){
+    //   gameArticle['report'] = "Read The Report";
+    //   gameArticle['headline'] = aiContent.featuredReport[report].displayHeadline;
+    //   gameArticle['articleLink'] = ['Article-pages',{eventType:report,eventID:aiContent.event}];
+    //   var i = aiContent['home']['images'];
+    //   var random1 = Math.floor(Math.random() * i.length);
+    //   var random2 = Math.floor(Math.random() * i.length);
+    //   gameArticle['images'] = [];
+    //
+    //   if(random1 == random2){
+    //     gameArticle['images'].push(i[random1]);
+    //   }else{
+    //     gameArticle['images'].push(i[random1]);
+    //     gameArticle['images'].push(i[random2]);
+    //   }
+    // }
+    for(var report in aiContent){
       gameArticle['report'] = "Read The Report";
-      gameArticle['headline'] = aiContent.featuredReport[report].displayHeadline;
-      gameArticle['articleLink'] = ['Article-pages',{eventType:report,eventID:aiContent.event}];
-      var i = aiContent['home']['images'];
-      var random1 = Math.floor(Math.random() * i.length);
-      var random2 = Math.floor(Math.random() * i.length);
-      gameArticle['images'] = [];
-
-      if(random1 == random2){
-        gameArticle['images'].push(i[random1]);
-      }else{
-        gameArticle['images'].push(i[random1]);
-        gameArticle['images'].push(i[random2]);
-      }
+      gameArticle['headline'] = aiContent[report]['title'];
+      gameArticle['articleLink'] = ['Article-pages',{eventType:report,eventID:aiContent[report]['event_id']}];
+      gameArticle['images'] = GlobalSettings.getImageUrl(aiContent[report]['image_url']);
     }
     return gameArticle;
   }

@@ -182,10 +182,11 @@ export class SchedulesService {
       let partner = GlobalSettings.getHomeInfo();
       let reportEventType = val.reportUrlMod.split('/')[2];
       let reportEventID = val.reportUrlMod.split('/')[3];
-      if(val.live == true){
-          reportText = 'LIVE GAME REPORT';
+      if(val.live == true && val.inning.toString() >= "2"){
+          reportText = 'IN GAME REPORT';
+          reportEventType = 'in-game-report';
       }else{
-        if(val.eventStatus = 'pre-event'){
+        if(val.eventStatus = 'pre-event' || (val.live == true && val.inning.toString() == "1")){
           reportText = 'PREGAME REPORT'
         }else if (val.eventStatus == 'post-event'){
           reportText = 'POST GAME REPORT';
@@ -213,22 +214,6 @@ export class SchedulesService {
       modifiedArray.push(newData);
     });
     return modifiedArray;
-  }
-  getInning(url){// should only run if game is live and pre-event
-    var inning = {
-      'pregame-report':0,
-      'first-inning-report':1,
-      'second-inning-report':2,
-      'third-inning-report':3,
-      'fourt-inning-report':4,
-      'fifth-inning-report':5,
-      'sixth-inning-report':6,
-      'seventh-inning-report':7,
-    }
-    if(inning[url] == null){
-      inning[url] = 8;
-    }
-    return inning[url];
   }
 
   //rows is the data coming in
