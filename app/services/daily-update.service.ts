@@ -289,17 +289,17 @@ export class DailyUpdateService {
   }
   private getPostGameArticle(data: APIDailyUpdateData,type?:string) {
     let articleData = {};
-    let postGameReport = data['postgame-report']['article'];
+    var postGameReport = data['postgame-report']['article'];
+
     articleData['eventId'] = postGameReport.event_id != null ? postGameReport.event_id : null;
     articleData['teamId'] = postGameReport.team_id != null ? postGameReport.team_id : null;
-    articleData['url'] = articleData['eventId'] != null ? ['Article-pages', {
-      eventType: 'postgame-report',
-      eventID: articleData['eventId']
-    }] : ['Error-page'];
-    articleData['pubDate'] = postGameReport.last_updated != null ? GlobalFunctions.formatGlobalDate(postGameReport.last_updated * 1000, 'timeZone') : null;
+    articleData['playerId'] = postGameReport.player_id != null ? postGameReport.player_id : null;
+    articleData['url'] = articleData['eventId'] != null ? ['Article-pages', {eventType: 'postgame-report', eventID: articleData['eventId']}] : ['Error-page'];
+    articleData['pubDate'] = postGameReport.last_updated != null ? GlobalFunctions.formatGlobalDate(postGameReport.last_updated, 'timeZone') : null;
     articleData['headline'] = postGameReport.title != null ? postGameReport.title : null;
-    articleData['text'] = postGameReport.teaser != null && postGameReport.teaser.length > 0 ? [postGameReport.teaser] : null;
-    articleData['img'] = postGameReport.image_url != null ? MLBGlobalFunctions.getBackroundImageUrlWithStockFallback(postGameReport.image_url) : null;
+    articleData['text'] = postGameReport['teaser'] != null && postGameReport['teaser'].length > 0 ? [postGameReport['teaser']] : null;
+    articleData['img'] = postGameReport['image_url'] != null ? MLBGlobalFunctions.getBackroundImageUrlWithStockFallback(postGameReport['image_url']) : null;
+    articleData['type'] = type != null ? type : null;
 
     this.postGameArticleData = <PostGameArticleData>articleData;
   }
