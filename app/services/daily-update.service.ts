@@ -289,68 +289,19 @@ export class DailyUpdateService {
   }
   private getPostGameArticle(data: APIDailyUpdateData,type?:string) {
     let articleData = {};
-    // FOR TESTING
-    let testData = {
-    "article": {
-      "status": "Success",
-      "message": "No messages found.",
-      "fix": "No fix needed.",
-      "data": [{
-        "articleID": 97372,
-        "source": "snt_ai",
-        "readyToPublish": "true",
-        "title": "Can Baltimore Orioles hold back Chicago White Sox?",
-        "teaser": "On May 6, the Chicago White Sox will travel to Baltimore, Md., to take on the Baltimore Orioles. The Orioles will look to guard their home field by stifling Chicago's offense. Last season, Baltimore's defense allowed 4.44 runs per game on average. To silence the crowd, the White Sox will need to be explosive out of the gate.",
-        "author": "",
-        "jsonUrl": "ai/2017/mlb/event/postgame-report/97372.json",
-        "xmlUrl": "ai/2017/mlb/event/postgame-report/97372.xml",
-        "articleUrl": "/mlb/articles/postgame-report/108706",
-        "imageUrl": "/mlb/players/liveimages/9e2a0cc0-df46-4d05-92b8-8a7c148602b0.jpg",
-        "publicationDate": 1485390840,
-        "lastUpdated": 1485391085,
-        "isStockPhoto": "false",
-        "imageSource": null,
-        "imageTitle": null,
-        "imageOwner": null,
-        "imageOriginUrl": null,
-        "imageAttribution": null,
-        "publisher": "SNT Media",
-        "publisherImage": null,
-        "articleType": "postgame-report",
-        "articleSubType": "postgame-report",
-        "category": "sports",
-        "subcategory": "mlb",
-        "eventId": 108706,
-        "scope": "mlb",
-        "verticalType": "baseball",
-        "verticalUrl": "homerunloyal.com",
-        "teamId": 2799,
-        "playerId": 93119,
-        "keywords": [
-          "sports",
-          "postgame",
-          "Chicago White Sox",
-          "baseball",
-          "baltimore orioles",
-          "yovani gallardo",
-          "matt davidson",
-          "hyun soo kim"
-          ]
-      }],
-      }
-    }
-    data['postgame-report'] = testData;
-    let postGameReport = data['postgame-report']['article']['data'][0];
-    
-    articleData['eventId'] = postGameReport.eventId != null ? postGameReport.eventId : null;
-    articleData['teamId'] = postGameReport.teamId != null ? postGameReport.teamId : null;
+    var postGameReport = data['postgame-report']['article'];
+
+    articleData['eventId'] = postGameReport.event_id != null ? postGameReport.event_id : null;
+    articleData['teamId'] = postGameReport.team_id != null ? postGameReport.team_id : null;
+    articleData['playerId'] = postGameReport.player_id != null ? postGameReport.player_id : null;
     articleData['url'] = articleData['eventId'] != null ? ['Article-pages', {eventType: 'postgame-report', eventID: articleData['eventId']}] : ['Error-page'];
     //  articleData['pubDate'] = data['postgame-report'].dateline != null ? data['postgame-report'].dateline : null;
-    articleData['pubDate'] = postGameReport['publicationDate'] != null ? GlobalFunctions.formatGlobalDate(postGameReport['publicationDate'],'timeZone') : null;
+    articleData['pubDate'] = postGameReport['publication_date'] != null ? GlobalFunctions.formatGlobalDate(postGameReport['publication_date'],'timeZone') : null;
     articleData['headline'] = postGameReport.title != null ? postGameReport.title : null;
     articleData['text'] = postGameReport['teaser'] != null && postGameReport['teaser'].length > 0 ? [postGameReport['teaser']] : null;
     //  articleData['img'] = data['postgame-report'].images != null && data['postgame-report'].images[articleData['teamId']] != null && data['postgame-report'].images[articleData['teamId']].length > 0 ? data['postgame-report'].images[articleData['teamId']][0]: null;
-    articleData['img'] = postGameReport['imageUrl'] != null ? MLBGlobalFunctions.getBackroundImageUrlWithStockFallback(postGameReport['imageUrl']) : null;
+    articleData['img'] = postGameReport['image_url'] != null ? MLBGlobalFunctions.getBackroundImageUrlWithStockFallback(postGameReport['image_url']) : null;
+    articleData['type'] = type != null ? type : null;
 
     this.postGameArticleData = <PostGameArticleData>articleData;
   }
