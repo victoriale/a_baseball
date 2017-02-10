@@ -182,11 +182,11 @@ export class SchedulesService {
       let partner = GlobalSettings.getHomeInfo();
       let reportEventType = val.reportUrlMod.split('/')[2];
       let reportEventID = val.reportUrlMod.split('/')[3];
-      if(val.live == true){
+      if(val.live == true && val.inning.toString() >= "2"){
           reportText = 'IN GAME REPORT';
           reportEventType = 'in-game-report';
       }else{
-        if(val.eventStatus = 'pre-event'){
+        if(val.eventStatus = 'pre-event' || (val.live == true && val.inning.toString() == "1")){
           reportText = 'PREGAME REPORT'
         }else if (val.eventStatus == 'post-event'){
           reportText = 'POST GAME REPORT';
