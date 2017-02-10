@@ -81,7 +81,7 @@ export class DailyUpdateModule {
     if ( this.data ) {
       this.drawChart();
       this.backgroundImage = this._sanitizer.bypassSecurityTrustStyle("url(" + this.data.fullBackgroundImageUrl + ")");
-      this.data.postGameArticle.pubDate = GlobalFunctions.formatGlobalDate(this.data.postGameArticle.pubDate,'timeZone');
+      // this.data.postGameArticle.pubDate = GlobalFunctions.formatGlobalDate(this.data.postGameArticle.pubDate,'timeZone');
     }
 
     if ( this.data && this.data.chart && this.data.chart.dataSeries && this.data.chart.dataSeries.length > 0) {
