@@ -5,9 +5,21 @@ import {GlobalSettings} from "./global-settings";
 @Injectable()
 
 export class MLBGlobalFunctions {
+  private static _env = window.location.hostname.split('.')[0];
+  private static _proto = window.location.protocol;
 
   constructor() {
 
+  }
+
+  static getEnv(env:string):string {
+    if (env == "localhost" || env =="qa"){
+      env = "dev-";
+    }
+    if (env != "dev-"){
+      env = "";
+    }
+    return env;
   }
 
   /**
@@ -179,7 +191,7 @@ export class MLBGlobalFunctions {
   static getBackroundImageUrlWithStockFallback(relativePath) {
     let stockPhotoArray = ["/app/public/Image-Placeholder-1.jpg","/app/public/Image-Placeholder-2.jpg"];
     let randomStockPhotoSelection = stockPhotoArray[Math.floor(Math.random()*stockPhotoArray.length)];
-    var relPath = relativePath != null ? "http://images.synapsys.us" + relativePath : randomStockPhotoSelection;
+    var relPath = relativePath != null ? this._proto + "//" + this.getEnv(this._env) + "images.synapsys.us" + relativePath : randomStockPhotoSelection;
     return relPath;
   }
 

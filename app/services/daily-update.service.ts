@@ -295,11 +295,9 @@ export class DailyUpdateService {
     articleData['teamId'] = postGameReport.team_id != null ? postGameReport.team_id : null;
     articleData['playerId'] = postGameReport.player_id != null ? postGameReport.player_id : null;
     articleData['url'] = articleData['eventId'] != null ? ['Article-pages', {eventType: 'postgame-report', eventID: articleData['eventId']}] : ['Error-page'];
-    //  articleData['pubDate'] = data['postgame-report'].dateline != null ? data['postgame-report'].dateline : null;
-    articleData['pubDate'] = postGameReport['publication_date'] != null ? GlobalFunctions.formatGlobalDate(postGameReport['publication_date'],'timeZone') : null;
+    articleData['pubDate'] = postGameReport.last_updated != null ? GlobalFunctions.formatGlobalDate(postGameReport.last_updated, 'timeZone') : null;
     articleData['headline'] = postGameReport.title != null ? postGameReport.title : null;
     articleData['text'] = postGameReport['teaser'] != null && postGameReport['teaser'].length > 0 ? [postGameReport['teaser']] : null;
-    //  articleData['img'] = data['postgame-report'].images != null && data['postgame-report'].images[articleData['teamId']] != null && data['postgame-report'].images[articleData['teamId']].length > 0 ? data['postgame-report'].images[articleData['teamId']][0]: null;
     articleData['img'] = postGameReport['image_url'] != null ? MLBGlobalFunctions.getBackroundImageUrlWithStockFallback(postGameReport['image_url']) : null;
     articleData['type'] = type != null ? type : null;
 
