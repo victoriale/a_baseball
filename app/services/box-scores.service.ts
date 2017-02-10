@@ -110,7 +110,8 @@ export class BoxScoresService {
           var eventType = p;
           var teaser = eventType['title'];
         }
-      var date = GlobalFunctions.formatGlobalDate(data[eventType]['publication_date'],"defaultDate");
+      var dateline = data[eventType]['last_updated'] ? data[eventType]['last_updated'] : data[eventType]['publication_date'];
+      var date = GlobalFunctions.formatGlobalDate(dateline,"defaultDate");
       var Box = {
         keyword: p,
         date: date,

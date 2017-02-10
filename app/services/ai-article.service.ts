@@ -27,6 +27,7 @@ export class ArticleDataService {
             var hasImages = true;
             var carouselImages;
             let articleType = ArticleDataService.getArticleType(eventType);
+            var date = data['data'][0]['article_data'].last_updated ? data['data'][0]['article_data'].last_updated : data['data'][0]['article_data'].publication_date;
             ArticleDataService.parseLinks(data['data'][0]['article_data']['route_config'], data['data'][0]['article_data']['article']);
             if (data['data'][0]['article_data']['images'] != null) {
                 carouselImages = ArticleDataService.getCarouselImages(data['data'][0]['article_data']['images'], articleType);
@@ -41,7 +42,7 @@ export class ArticleDataService {
                 rawUrl: window.location.href,
                 pageIndex: articleType[0],
                 title: data['data'][0]['article_data'].title,
-                date: GlobalFunctions.formatGlobalDate(data['data'][0]['article_data'].publication_date * 1000, "timeZone"),
+                date: GlobalFunctions.formatGlobalDate(date * 1000, "timeZone"),
                 articleContent: data['data'][0]['article_data'],
                 teamId: (data['data'][0].team_id != null) ?
                     data['data'][0].team_id : data['data'][0]['article_data']['metadata'].team_id,
@@ -383,7 +384,7 @@ export class ArticleDataService {
                 id: !isLeague ? data['away'].id : null,
                 name: !isLeague ? data['away'].name : null
             },
-            timestamp: !isLeague ? data.timestamp : data[0].publication_date,
+            timestamp: !isLeague ? data.timestamp : data[0].last_updated ? data[0].last_updated : data[0].publication_date,
             scheduleData: scheduleData,
             mainArticleData: mainArticleData,
             subArticleData: subArticleData,
