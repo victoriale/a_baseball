@@ -17,5 +17,5 @@ export class ArticleScheduleComponent {
     @Input() awayData:any;
     @Input() defaultGradient:any;
     @Input() fullGradient:any;
-
+    
 }
