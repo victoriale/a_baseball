@@ -168,7 +168,7 @@ export class ArticlePages implements OnInit {
         let image, metaDesc;
         var teams = [];
         var players = [];
-        var searchString;
+        var keywords;
         var searchArray = [];
         var headerData = data['articleContent']['metadata'];
         let link = window.location.href;
@@ -189,10 +189,10 @@ export class ArticlePages implements OnInit {
             data['articleContent']['keyword'].forEach(function (val) {
                 searchArray.push(val);
             });
-            searchString = searchArray.join(',');
+            keywords = searchArray.join(',');
         } else {
             searchArray.push(data['articleContent']['keyword']);
-            searchString = searchArray.join(',');
+            keywords = searchArray.join(',');
         }
         var date = metaData['articleContent'].last_updated ? metaData['articleContent'].last_updated : metaData['articleContent'].publication_date;
         image = metaData['images']['imageData'][0];
@@ -211,16 +211,16 @@ export class ArticlePages implements OnInit {
         this._seoService.setSearchType("article");
         this._seoService.setSource("snt_ai");
         this._seoService.setArticleId(this.eventID);
-        this._seoService.setArticleTitle(metaData.title);
-        this._seoService.setKeyword(metaData['articleContent']['keyword']);
+        this._seoService.setPageTitle(metaData.title);
+        this._seoService.setCategory(metaData['articleContent']['keyword']);
         this._seoService.setPublishedDate(date);
         this._seoService.setAuthor(data['articleContent'].author);
         this._seoService.setPublisher(data['articleContent'].publisher);
         this._seoService.setImageUrl(image);
         this._seoService.setArticleTeaser(metaData.teaser.replace(/<ng2-route>|<\/ng2-route>/g, ''));
-        this._seoService.setArticleUrl(link);
+        this._seoService.setPageUrl(link);
         this._seoService.setArticleType(metaData.articleType);
-        this._seoService.setSearchString(searchString);
+        this._seoService.setKeywords(keywords);
     } //metaTags
 
     ngOnInit() {

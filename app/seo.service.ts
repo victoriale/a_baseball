@@ -30,16 +30,16 @@ export class SeoService {
     private es_search_type:HTMLElement;
     private es_source:HTMLElement;
     private es_article_id:HTMLElement;
-    private es_article_title:HTMLElement;
-    private es_keyword:HTMLElement;
+    private es_page_title:HTMLElement;
+    private es_category:HTMLElement;
     private es_published_date:HTMLElement;
     private es_author:HTMLElement;
-    private es_publisher:HTMLElement;
+    private es_article_publisher:HTMLElement;
     private es_image_url:HTMLElement;
     private es_article_teaser:HTMLElement;
-    private es_article_url:HTMLElement;
+    private es_page_url:HTMLElement;
     private es_article_type:HTMLElement;
-    private es_search_string:HTMLElement;
+    private es_keywords:HTMLElement;
     private DOM:any;
     robots:HTMLElement;
 
@@ -143,12 +143,12 @@ export class SeoService {
         }
     }
 
-    public setKeyword(keyword:string) {
-        if (SeoService.checkData(keyword)) {
-            if (!this.document.querySelector('meta[name="keyword"]')) {
-                this.es_keyword = this.getOrCreateElement('name', 'keyword', 'meta');
+    public setCategory(category:string) {
+        if (SeoService.checkData(category)) {
+            if (!this.document.querySelector('meta[name="es_category"]')) {
+                this.es_category = this.getOrCreateElement('name', 'es_category', 'meta');
             }
-            this.setElementAttribute(this.es_keyword, 'content', keyword);
+            this.setElementAttribute(this.es_category, 'content', category);
         }
     }
 
@@ -197,12 +197,12 @@ export class SeoService {
         }
     }
 
-    public setArticleTitle(articleTitle:string) {
-        if (SeoService.checkData(articleTitle)) {
-            if (!this.document.querySelector('meta[name="es_article_title"]')) {
-                this.es_article_title = this.getOrCreateElement('name', 'es_article_title', 'meta');
+    public setPageTitle(pageTitle:string) {
+        if (SeoService.checkData(pageTitle)) {
+            if (!this.document.querySelector('meta[name="es_page_title"]')) {
+                this.es_page_title = this.getOrCreateElement('name', 'es_page_title', 'meta');
             }
-            this.setElementAttribute(this.es_article_title, 'content', articleTitle);
+            this.setElementAttribute(this.es_page_title, 'content', pageTitle);
         }
     }
 
@@ -217,28 +217,28 @@ export class SeoService {
 
     public setPublisher(publisher:string) {
         if (SeoService.checkData(publisher)) {
-            if (!this.document.querySelector('meta[name="es_publisher"]')) {
-                this.es_publisher = this.getOrCreateElement('name', 'es_publisher', 'meta');
+            if (!this.document.querySelector('meta[name="es_article_publisher"]')) {
+                this.es_article_publisher = this.getOrCreateElement('name', 'es_article_publisher', 'meta');
             }
-            this.setElementAttribute(this.es_publisher, 'content', publisher);
+            this.setElementAttribute(this.es_article_publisher, 'content', publisher);
         }
     }
 
-    public setArticleUrl(url:string) {
+    public setPageUrl(url:string) {
         if (SeoService.checkData(url)) {
-            if (!this.document.querySelector('meta[name="es_article_url"]')) {
-                this.es_article_url = this.getOrCreateElement('name', 'es_article_url', 'meta');
+            if (!this.document.querySelector('meta[name="es_page_url"]')) {
+                this.es_page_url = this.getOrCreateElement('name', 'es_page_url', 'meta');
             }
-            this.setElementAttribute(this.es_article_url, 'content', url);
+            this.setElementAttribute(this.es_page_url, 'content', url);
         }
     }
 
-    public setSearchString(searchString:string) {
+    public setKeywords(searchString:string) {
         if (SeoService.checkData(searchString)) {
-            if (!this.document.querySelector('meta[name="es_search_string"]')) {
-                this.es_search_string = this.getOrCreateElement('name', 'es_search_string', 'meta');
+            if (!this.document.querySelector('meta[name="es_keywords"]')) {
+                this.es_keywords = this.getOrCreateElement('name', 'es_keywords', 'meta');
             }
-            this.setElementAttribute(this.es_search_string, 'content', searchString);
+            this.setElementAttribute(this.es_keywords, 'content', searchString);
         }
     }
 

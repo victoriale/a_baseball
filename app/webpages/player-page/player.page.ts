@@ -224,15 +224,26 @@ export class PlayerPage implements OnInit {
     //create meta description that is below 160 characters otherwise will be truncated
     let metaDesc =  data.headerData.description;
     let link = window.location.href;
+    let params = data['pageParams'];
+    var keywords = "baseball, " + GlobalSettings.getSportLeagueAbbrv;
+    keywords += params.playerName ? ", " + params.playerName : "";
+    keywords += params.teamName ? ", " + params.teamName : "";
     this._seoService.setCanonicalLink(this._params.params, this._router);
     this._seoService.setOgTitle(data.profileName);
     this._seoService.setOgDesc(metaDesc);
     this._seoService.setOgType('image');
     this._seoService.setOgUrl(link);
-    this._seoService.setOgImage(GlobalSettings.getImageUrl(data.headerData.profileImage));
+    this._seoService.setOgImage(data.fullProfileImageUrl);
     this._seoService.setTitle(data.profileName);
     this._seoService.setMetaDescription(metaDesc);
     this._seoService.setMetaRobots('Index, Follow');
+    this._seoService.setIsArticle("false");
+    this._seoService.setSearchType("player profile page");
+    this._seoService.setPageTitle(data.profileName);
+    this._seoService.setCategory("baseball, " + GlobalSettings.getSportLeagueAbbrv);
+    this._seoService.setImageUrl(data.fullProfileImageUrl);
+    this._seoService.setPageUrl(link);
+    this._seoService.setKeywords(keywords);
   }
 
 private dailyUpdateModule(playerId: number) {
