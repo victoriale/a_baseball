@@ -225,7 +225,7 @@ export class PlayerPage implements OnInit {
     let metaDesc =  data.headerData.description;
     let link = window.location.href;
     let params = data['pageParams'];
-    var keywords = "baseball, " + GlobalSettings.getSportLeagueAbbrv;
+    var keywords = "baseball, " + GlobalSettings.getSportLeagueAbbrv();
     keywords += params.playerName ? ", " + params.playerName : "";
     keywords += params.teamName ? ", " + params.teamName : "";
     this._seoService.setCanonicalLink(this._params.params, this._router);
@@ -240,7 +240,7 @@ export class PlayerPage implements OnInit {
     this._seoService.setIsArticle("false");
     this._seoService.setSearchType("player profile page");
     this._seoService.setPageTitle(data.profileName);
-    this._seoService.setCategory("baseball, " + GlobalSettings.getSportLeagueAbbrv);
+    this._seoService.setCategory("baseball, " + GlobalSettings.getSportLeagueAbbrv());
     this._seoService.setImageUrl(data.fullProfileImageUrl);
     this._seoService.setPageUrl(link);
     this._seoService.setKeywords(keywords);

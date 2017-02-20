@@ -267,7 +267,7 @@ export class TeamPage implements OnInit {
       //create meta description that is below 160 characters otherwise will be truncated
       let metaDesc =  data.headerData.description;
       let link = window.location.href;
-      var keywords = "baseball, team page, " + GlobalSettings.getSportLeagueAbbrv;
+      var keywords = "baseball, team page, " + GlobalSettings.getSportLeagueAbbrv();
       keywords += data.profileName ? ', ' + data.profileName : '';
       this._seoService.setCanonicalLink(this._params.params, this._router);
       this._seoService.setOgTitle(data.profileName);
@@ -281,7 +281,7 @@ export class TeamPage implements OnInit {
       this._seoService.setIsArticle("false");
       this._seoService.setPageUrl(link);
       this._seoService.setSearchType("team profile page");
-      this._seoService.setCategory("baseball, " + GlobalSettings.getSportLeagueAbbrv);
+      this._seoService.setCategory("baseball, " + GlobalSettings.getSportLeagueAbbrv());
       this._seoService.setPageTitle(data.profileName);
       this._seoService.setImageUrl(data.fullProfileImageUrl);
       this._seoService.setKeywords(keywords);
