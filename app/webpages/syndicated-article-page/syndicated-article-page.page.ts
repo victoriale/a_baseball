@@ -129,8 +129,7 @@ export class SyndicatedArticlePage{
           this._seoService.setPageUrl(link);
           this._seoService.setKeywords(dataList.keyword);
           this.articleData = data.data;
-          //this.articleData.publishedDate = GlobalFunctions.formatGlobalDate(Number(this.articleData.publishedDate),'timeZone');
-
+          this.articleData.publishedDate = GlobalFunctions.formatGlobalDate(Number(this.articleData.publishedDate),'timeZone');
         }
       )
     }
