@@ -248,15 +248,25 @@ export class MLBPage implements OnInit {
       let header = data.headerData;
       let metaDesc =  header.profileNameLong + ' loyal to ' + header.totalTeams + ' teams ' + 'and ' + header.totalPlayers + ' players.';
       let link = window.location.href;
+      var keywords = "Baseball";
+      keywords += header.profileNameShort ? ", " + header.profileNameShort : '';
+      keywords += header.profileNameLong ? ", " + header.profileNameLong : '';
       this._seoService.setCanonicalLink(this._params.params, this._router);
       this._seoService.setOgTitle(data.profileName);
       this._seoService.setOgDesc(metaDesc);
       this._seoService.setOgType('image');
       this._seoService.setOgUrl(link);
-      this._seoService.setOgImage(GlobalSettings.getImageUrl(data.headerData.profileImage));
+      this._seoService.setOgImage(GlobalSettings.getImageUrl(header.logo));
       this._seoService.setTitle(data.profileName);
       this._seoService.setMetaDescription(metaDesc);
       this._seoService.setMetaRobots('Index, Follow');
+      this._seoService.setIsArticle("false");
+      this._seoService.setSearchType("League Page");
+      this._seoService.setPageTitle(header.profileNameLong);
+      this._seoService.setCategory("Baseball, " + header.profileNameShort);
+      this._seoService.setImageUrl(GlobalSettings.getImageUrl(header.logo));
+      this._seoService.setPageUrl(link);
+      this._seoService.setKeywords(keywords);
     }
 
     //grab tab to make api calls for post of pre event table
