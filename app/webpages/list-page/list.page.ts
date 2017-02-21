@@ -46,7 +46,6 @@ export class ListPage implements OnInit {
   tabid: string;
   input: string;
   pageNumber: number;
-  dataProvidedBy: string;
 
   constructor(private listService:ListPageService,
               private _profileService: ProfileHeaderService,
@@ -71,7 +70,6 @@ export class ListPage implements OnInit {
       this.input = inputArr != null &&  inputArr.length > 1 ? inputArr[1] : null;
       this.pageNumber = 1;
     }
-    this.dataProvidedBy = GlobalSettings.getDataProvidedBy();
   }
 
   getListPage(urlParams) {
