@@ -32,8 +32,9 @@ export class TitleComponent implements OnChanges {
     ngOnInit(){
       //create meta description that is below 160 characters otherwise will be truncated
       let text3 = this.titleData.text3 != null ? this.titleData.text3: '';
-      let text4 = this.titleData.text4 != null ? '. '+this.titleData.text4: '';
+      let text4 = this.titleData.text4 != null ? '. ' + this.titleData.text4: '';
       let metaDesc = GlobalSettings.getPageTitle(text3 + ' ' + text4);
+      let keywords = "baseball, " + GlobalSettings.getSportLeagueAbbrv() + ", " + text3 + ", " + text4;
       let link = window.location.href;
       let imageUrl;
       if(this.titleData.imageURL != null){
@@ -54,6 +55,11 @@ export class TitleComponent implements OnChanges {
       this._seoService.setTitle(metaDesc);
       this._seoService.setMetaDescription(metaDesc);
       this._seoService.setMetaRobots('INDEX, FOLLOW');
+      this._seoService.setIsArticle("false");
+      this._seoService.setSearchType(text3);
+      this._seoService.setCategory("baseball, " + GlobalSettings.getSportLeagueAbbrv());
+      this._seoService.setPageUrl(link);
+      this._seoService.setKeywords(keywords);
     }
     ngOnChanges() {
         if(!this.titleData){
