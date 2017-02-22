@@ -27,6 +27,8 @@ export class GlobalSettings {
     private static _homepageUrl:string = '.homerunloyal.com';
     private static _partnerHomepageUrl:string = '.myhomerunzone.com';
 
+    private static _dataProvidedBy: string = 'XML Team';
+
     private static _baseTitle: string = "Home Run Loyal";
     private static _sportName: string ="baseball";
     private static _sportLeagueAbbrv: string ="MLB";
@@ -131,6 +133,10 @@ export class GlobalSettings {
     static getNewsUrl():string {
         //[https:]//[prod]-homerunloyal-api.synapsys.us
         return this._proto + "//" + this._newsUrl;
+    }
+
+    static getDataProvidedBy():string {
+        return this._dataProvidedBy;
     }
 
     static getHomePage(partnerId: string, includePartnerId?: boolean) {
