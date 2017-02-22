@@ -218,7 +218,7 @@ export class ListPageService {
       imageURL: GlobalSettings.getSiteLogoUrl(), //TODO
       imageRoute: ["Home-page"],
       text1: 'Last Updated: '+ GlobalFunctions.formatUpdatedDate(data.listData[0].lastUpdate),
-      text2: 'United States',
+      text2: 'United States ' + '| <p class="data-by-text">Data Provided By: ' + '<b>' + GlobalSettings.getDataProvidedBy() + '</b></p>',
       text3: profile.name,
       icon: 'fa fa-map-marker'
     };

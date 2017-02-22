@@ -12,5 +12,8 @@
   <pagination-footer *ngIf="paginationParameters" [paginationParameters]="paginationParameters"></pagination-footer>
   <no-data-box *ngIf="!detailedDataArray && errorData" [data]="errorData"></no-data-box>
   <responsive-widget *ngIf="paginationParameters" embedPlace="widgetForPage"></responsive-widget>
+  <div class="data-provider">
+      <p class="data-by-text">Data Provided By: <b>{{dataProvidedBy}}</b></p>
+    </div>
 </section>
 </sidekick-wrapper>
