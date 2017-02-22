@@ -28,7 +28,7 @@ export class SeoService {
     private isArticle:HTMLElement;
     //Elastic Search meta tags
     private es_search_type:HTMLElement;
-    private es_source:HTMLElement;
+    private es_data_source:HTMLElement;
     private es_article_id:HTMLElement;
     private es_page_title:HTMLElement;
     private es_category:HTMLElement;
@@ -244,10 +244,10 @@ export class SeoService {
 
     public setSource(source:string) {
         if (SeoService.checkData(source)) {
-            if (!this.document.querySelector('meta[name="es_source"]')) {
-                this.es_source = this.getOrCreateElement('name', 'es_source', 'meta');
+            if (!this.document.querySelector('meta[name="es_data_source"]')) {
+                this.es_data_source = this.getOrCreateElement('name', 'es_data_source', 'meta');
             }
-            this.setElementAttribute(this.es_source, 'content', source);
+            this.setElementAttribute(this.es_data_source, 'content', source);
         }
     }
 
