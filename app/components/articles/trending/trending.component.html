@@ -9,7 +9,7 @@
             <div class="arpt">
                 <div class="arpt-date">{{data.date}} </div>
             </div>
-            <div class="trending-article-content" [innerHTML]="data.content|safeHtml"></div>
+            <div class="trending-article-content" [innerHTML]="data.teaser|safeHtml"></div>
             <a [routerLink]="data.url">
                 <div class="trending-read-more">Read the Full Article <i class="fa fa-arrow-right"></i></div>
             </a>
@@ -28,16 +28,16 @@
         <div *ngFor="let data of trendingData; let even=even; let i = index">
             <!--<shareLinks-component></shareLinks-component>-->
             <div class="trending-small-article">
-                <a [routerLink]="data.url">
+                <a [routerLink]="data.article_url">
                     <div class="trending-small-article-title">{{data.title}}</div>
                     <span class="articleBoxTrending">
-                        <img class="trending-small-article-image" src="{{trendingImages[i]}}"
+                        <img class="trending-small-article-image" src="{{data.image}}"
                              onerror="this.src='/app/public/no-image.png'" alt="Trending Article Image"/>
                         <div>
                             <p>View</p>
                         </div>
                     </span>
-                    <div class="trending-small-article-content" [innerHTML]="data.content|safeHtml"></div>
+                    <div class="trending-small-article-content" [innerHTML]="data.teaser|safeHtml"></div>
                     <div class="trending-small-article-read-more">Read the article <i class="fa fa-arrow-right margin"></i>
                     </div>
                 </a>
@@ -47,4 +47,5 @@
                     *ngIf="even"></sidekick-container-component>
         </div>
     </div>
+    <load-more-button *ngIf="showLoading"></load-more-button>
 </div>

@@ -74,20 +74,29 @@ export class PickTeamPage{
       GlobalSettings.getPartnerID(_router, partnerID => {
         var partnerHome = GlobalSettings.getHomeInfo().isHome && GlobalSettings.getHomeInfo().isPartner;
         this.isHomeRunZone = partnerHome;
-
+        //This call will remove all meta tags from the head.
+        this._seoService.removeMetaTags();
         //create meta description that is below 160 characters otherwise will be truncated
         let metaDesc = GlobalSettings.getPageTitle('Pick a team near you or search for your favorite baseball team or player.', 'Pick A Team');
         let link = window.location.href;
-
-        _seoService.setCanonicalLink(this._params.params, this._router);
-        _seoService.setOgTitle('Pick A Team');
-        _seoService.setOgDesc(metaDesc);
-        _seoService.setOgType('image');
-        _seoService.setOgUrl(link);
-        _seoService.setOgImage('./app/public/mainLogo.png');
-        _seoService.setTitle('Pick A Team');
-        _seoService.setMetaDescription(metaDesc);
-        _seoService.setMetaRobots('Index, Follow');
+        let image = './app/public/mainLogo.png';
+        let title = "Pick A Team";
+        this._seoService.setCanonicalLink(this._params.params, this._router);
+        this._seoService.setOgTitle(title);
+        this._seoService.setOgDesc(metaDesc);
+        this._seoService.setOgType('image');
+        this._seoService.setOgUrl(link);
+        this._seoService.setOgImage(image);
+        this._seoService.setTitle(title);
+        this._seoService.setMetaDescription(metaDesc);
+        this._seoService.setMetaRobots('Index, Follow');
+        this._seoService.setIsArticle("false");
+        this._seoService.setPageUrl(link);
+        this._seoService.setSearchType("pick a team page");
+        this._seoService.setCategory("baseball, " + GlobalSettings.getSportLeagueAbbrv());
+        this._seoService.setPageTitle(title);
+        this._seoService.setImageUrl(image);
+        this._seoService.setKeywords("baseball, " + GlobalSettings.getSportLeagueAbbrv());
       });
     }
 

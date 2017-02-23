@@ -7,7 +7,9 @@
     <profile-header [profileHeaderData]="profileHeaderData"></profile-header>
     <daily-update-module [profileName]="profileHeaderData.profileName" [data]="dailyUpdateData" [seasonBase] = "pageParams.seasonId"></daily-update-module>
     <responsive-widget *ngIf="dailyUpdateData" [embedPlace]="widgetPlace" [displayAtRes]="'640'"></responsive-widget>
-    <articles-module></articles-module>
+    <articles-module *ngIf="headlineData"
+            [headlineData]="headlineData"
+            [isLeague]="false"></articles-module>
     <responsive-widget [embedPlace]="widgetPlace" [displayAtRes]="'1024'"></responsive-widget>
     <!-- <headline-component [title]="'Keep Up With Everything ' + profileHeaderData.profileName"></headline-component> -->
     <box-scores *ngIf="dateParam" [boxScores]="currentBoxScores" [calendarParams]="dateParam" (dateEmit)="getBoxScores($event)"></box-scores>

@@ -19,13 +19,15 @@ export class GlobalSettings {
     private static _dynamicScraperApiUrl: string = 'dw.synapsys.us/api_json/list_creator_api.php';
 
     private static _imageUrl:string = '-sports-images.synapsys.us';
-    private static _articleUrl:string = '-homerunloyal-ai.synapsys.us/';
-    private static _recommendUrl:string = '-homerunloyal-ai.synapsys.us/headlines/event/';
-    private static _headlineUrl:string = '-homerunloyal-ai.synapsys.us/headlines/team/';
-    private static _trendingUrl:string = '-homerunloyal-ai.synapsys.us/sidekick';
+    private static _articleUrl:string = '-article-library.synapsys.us/';
+    private static _articleDataUrl:string = '-homerunloyal-ai.synapsys.us/';
+    private static _headlineUrl:string = '-homerunloyal-ai.synapsys.us/';
     private static _recUrl:string = '-homerunloyal-ai.synapsys.us/sidekick-regional';
+    private static _articleLibrayUrl:string = '-article-library.synapsys.us';
     private static _homepageUrl:string = '.homerunloyal.com';
     private static _partnerHomepageUrl:string = '.myhomerunzone.com';
+
+    private static _dataProvidedBy: string = 'XML Team';
 
     private static _baseTitle: string = "Home Run Loyal";
     private static _sportName: string ="baseball";
@@ -69,6 +71,10 @@ export class GlobalSettings {
         return this._proto + "//"+ this._partnerApiUrl + partnerID;
     }
 
+    static getArticleLibraryUrl():string {
+        return this._proto + "//" + this.getEnv(this._env) + this._articleLibrayUrl;
+    }
+
     static getPartnerDomainApiUrl(partnerID):string {
         return this._proto + "//"+ this._partnerDomainApiUrl + partnerID;
     }
@@ -78,9 +84,29 @@ export class GlobalSettings {
         return this._proto + "//" + this._widgetUrl;
     }
 
-    static getImageUrl(relativePath):string {
-        var relPath = relativePath != null && relativePath != "" ? this._proto + "//" + "prod" + this._imageUrl + relativePath: '/app/public/no-image.png';
-        return relPath;
+    static resizeImage(width:number){
+      var resizePath;
+      let r = window.devicePixelRatio;
+      width = width > 1920 ? 1920 : width;//width limit to 1920 if larger
+      width = width * r;
+      resizePath = "?width=" + width;
+      if(width < 150){//increase quality if smaller than 150, default is set to 70
+        resizePath += "&quality=90";
+      }
+      return resizePath;
+    }
+
+    static getImageUrl(relativePath, width:number=1920):string {
+      var relPath;
+      var domain_env = this.getEnv(this._env);
+      if(domain_env =="dev" || domain_env =="qa" ){
+        domain_env = "prod";
+        relPath = relativePath != null && relativePath != "" ? this._proto + "//" + domain_env + this._imageUrl + relativePath: '/app/public/no-image.png';
+      }else{
+        relPath = relativePath != null && relativePath != "" ? this._proto + "//" + this._imageUrl + relativePath: '/app/public/no-image.png';
+      }
+      relPath += this.resizeImage(width);
+      return relPath;
     }
 
     static getBackgroundImageUrl(relativePath):string {
@@ -92,13 +118,10 @@ export class GlobalSettings {
         return this._proto + "//" + this.getEnv(this._env) + this._articleUrl;
     }
 
-    static getRecommendUrl():string {
-        return this._proto + "//" + this.getEnv(this._env) + this._recommendUrl;
+    static getArticleDataUrl():string {
+        return this._proto + "//" + this.getEnv(this._env) + this._articleDataUrl;
     }
 
-    static getTrendingUrl():string {
-        return this._proto + "//" + this.getEnv(this._env) + this._trendingUrl;
-    }
     static getRecUrl():string {
         return this._proto + "//" + this.getEnv(this._env) + this._recUrl;
     }
@@ -110,6 +133,10 @@ export class GlobalSettings {
     static getNewsUrl():string {
         //[https:]//[prod]-homerunloyal-api.synapsys.us
         return this._proto + "//" + this._newsUrl;
+    }
+
+    static getDataProvidedBy():string {
+        return this._dataProvidedBy;
     }
 
     static getHomePage(partnerId: string, includePartnerId?: boolean) {

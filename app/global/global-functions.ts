@@ -460,6 +460,9 @@ export class GlobalFunctions {
           unixValue = moment(value,'YYYY-MM-DD kk:mm:ss',true).unix() * 1000;
         } else {
           unixValue = moment(value).unix() * 1000;
+          if(unixValue.toString().length <= 10){
+             unixValue = unixValue * 1000;
+          }
         }
       } else { // if initial value is null, defaut to today's date.
         unixValue = moment(new Date()).unix() * 1000;

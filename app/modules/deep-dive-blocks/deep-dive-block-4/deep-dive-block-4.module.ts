@@ -64,7 +64,7 @@ export class DeepDiveBlock4{
         });
     this._deepDiveData.getDeepDiveAiHeavyBatchService(this.geoLocation)
         .subscribe(data => {
-          this.fourthStackRow = this._deepDiveData.transformToAiHeavyArticleRow(data);
+          this.fourthStackRow = this._deepDiveData.transformToAiHeavyArticleRow(data.data);
         });
   }
   getTileStackData(){
@@ -75,7 +75,7 @@ export class DeepDiveBlock4{
   }
   getRecommendationData(){
     var state = this.geoLocation; //required from AI to have the call of state come in UPPERCASE
-    this._deepDiveData.getRecArticleData(state, '1', '1')
+    this._deepDiveData.getRecArticleData(state, '1', '6')
         .subscribe(data => {
           this.recommendationData = this._deepDiveData.transformToRecArticles(data);
         });

@@ -45,6 +45,7 @@ export class ListOfListsPage implements OnInit{
     index                 : number = 0;
     paginationParameters  : PaginationParameters;
     titleData             : TitleInputData;
+    dataProvidedBy        : string;
 
     constructor(private listService:ListOfListsService,
         private _profileService: ProfileHeaderService,
@@ -55,6 +56,7 @@ export class ListOfListsPage implements OnInit{
         if ( this.pageType == null ) {
             this.pageType = "league";
         }
+        this.dataProvidedBy = GlobalSettings.getDataProvidedBy();
     }
 
     getListOfListsPage(urlParams, logoUrl?: string) {

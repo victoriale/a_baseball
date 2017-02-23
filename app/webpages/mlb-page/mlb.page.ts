@@ -63,6 +63,8 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
 import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
 import {SeoService} from '../../seo.service';
+import {ArticleDataService} from "../../services/ai-article.service";
+import {ArticlesModule} from "../../modules/articles/articles.module";
 
 declare var moment;
 
@@ -92,7 +94,8 @@ declare var moment;
         AboutUsModule,
         ListOfListsModule,
         ImagesMedia,
-        ResponsiveWidget
+        ResponsiveWidget,
+        ArticlesModule
       ],
     providers: [
         BoxScoresService,
@@ -115,6 +118,7 @@ declare var moment;
 export class MLBPage implements OnInit {
     public widgetPlace: string = "widgetForModule";
     public shareModuleInput:ShareModuleInput;
+    private headlineData:any;
 
     pageParams:MLBPageParameters = {};
     partnerID:string = null;
@@ -170,7 +174,8 @@ export class MLBPage implements OnInit {
                 private _lolService: ListOfListsService,
                 private listService:ListPageService,
                 private _seoService: SeoService,
-                private _params:RouteParams
+                private _params:RouteParams,
+                private _headlineDataService:ArticleDataService
               ) {
         _title.setTitle(GlobalSettings.getPageTitle("MLB"));
 
@@ -202,6 +207,7 @@ export class MLBPage implements OnInit {
                 this.profileData = data;
                 this.profileHeaderData = this._profileService.convertToLeagueProfileHeader(data.headerData)
                 this.profileName = "MLB";
+                this.getHeadlines();
 
                 this.seasonBase = data.headerData.seasonId;
                 /*** Keep Up With Everything MLB ***/
@@ -236,19 +242,31 @@ export class MLBPage implements OnInit {
     }
 
     private metaTags(data){
+      //This call will remove all meta tags from the head.
+      this._seoService.removeMetaTags();
       //create meta description that is below 160 characters otherwise will be truncated
       let header = data.headerData;
       let metaDesc =  header.profileNameLong + ' loyal to ' + header.totalTeams + ' teams ' + 'and ' + header.totalPlayers + ' players.';
       let link = window.location.href;
+      var keywords = "Baseball";
+      keywords += header.profileNameShort ? ", " + header.profileNameShort : '';
+      keywords += header.profileNameLong ? ", " + header.profileNameLong : '';
       this._seoService.setCanonicalLink(this._params.params, this._router);
       this._seoService.setOgTitle(data.profileName);
       this._seoService.setOgDesc(metaDesc);
       this._seoService.setOgType('image');
       this._seoService.setOgUrl(link);
-      this._seoService.setOgImage(GlobalSettings.getImageUrl(data.headerData.profileImage));
+      this._seoService.setOgImage(GlobalSettings.getImageUrl(header.logo));
       this._seoService.setTitle(data.profileName);
       this._seoService.setMetaDescription(metaDesc);
       this._seoService.setMetaRobots('Index, Follow');
+      this._seoService.setIsArticle("false");
+      this._seoService.setSearchType("League Page");
+      this._seoService.setPageTitle(header.profileNameLong);
+      this._seoService.setCategory("Baseball, " + header.profileNameShort);
+      this._seoService.setImageUrl(GlobalSettings.getImageUrl(header.logo));
+      this._seoService.setPageUrl(link);
+      this._seoService.setKeywords(keywords);
     }
 
     //grab tab to make api calls for post of pre event table
@@ -261,6 +279,19 @@ export class MLBPage implements OnInit {
             this.getSchedulesData('post-event');// fall back just in case no status event is present
         }
     }
+
+    //league headline module
+    private getHeadlines(){
+        this._headlineDataService.getAiHeadlineDataLeague(true)
+            .subscribe(
+                HeadlineData => {
+                    this.headlineData = HeadlineData;
+                },
+                err => {
+                    console.log("Error loading AI headline data for League Page", err);
+                }
+            )
+    } //getHeadlines
 
     //api for Schedules
     private getSchedulesData(status){

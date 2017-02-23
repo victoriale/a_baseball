@@ -81,7 +81,7 @@ export class DailyUpdateModule {
     if ( this.data ) {
       this.drawChart();
       this.backgroundImage = this._sanitizer.bypassSecurityTrustStyle("url(" + this.data.fullBackgroundImageUrl + ")");
-      this.data.postGameArticle.pubDate = GlobalFunctions.formatGlobalDate(this.data.postGameArticle.pubDate,'timeZone');
+      // this.data.postGameArticle.pubDate = GlobalFunctions.formatGlobalDate(this.data.postGameArticle.pubDate,'timeZone');
     }
 
     if ( this.data && this.data.chart && this.data.chart.dataSeries && this.data.chart.dataSeries.length > 0) {
@@ -92,7 +92,7 @@ export class DailyUpdateModule {
       this.comparisonCount = 0;
     }
     if(event.data['currentValue'] != null && event.data['currentValue'].postGameArticle != null && event.data['currentValue'].postGameArticle.img != null){
-      var img = event.data['currentValue'].postGameArticle.img.image;
+      var img = event.data['currentValue'].postGameArticle.img;
       this.imageConfig.mainImage.imageUrl = img != null ? img : GlobalSettings.getImageUrl(null);
     }
   }
