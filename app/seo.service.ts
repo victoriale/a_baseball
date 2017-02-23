@@ -27,7 +27,7 @@ export class SeoService {
     private endDate:HTMLElement;
     private isArticle:HTMLElement;
     //Elastic Search meta tags
-    private es_search_type:HTMLElement;
+    private es_page_type:HTMLElement;
     private es_data_source:HTMLElement;
     private es_article_id:HTMLElement;
     private es_page_title:HTMLElement;
@@ -181,10 +181,10 @@ export class SeoService {
 
     public setSearchType(searchType:string) {
         if (SeoService.checkData(searchType)) {
-            if (!this.document.querySelector('meta[name="es_search_type"]')) {
-                this.es_search_type = this.getOrCreateElement('name', 'es_search_type', 'meta');
+            if (!this.document.querySelector('meta[name="es_page_type"]')) {
+                this.es_page_type = this.getOrCreateElement('name', 'es_page_type', 'meta');
             }
-            this.setElementAttribute(this.es_search_type, 'content', searchType);
+            this.setElementAttribute(this.es_page_type, 'content', searchType);
         }
     }
 
