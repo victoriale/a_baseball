@@ -110,7 +110,7 @@ export class GlobalSettings {
     }
 
     static getBackgroundImageUrl(relativePath):string {
-        var relPath = relativePath != null ? this._proto + "//" + "prod" + this._imageUrl + relativePath: '/app/public/drk-linen.png';
+        var relPath = relativePath != null ? this._proto + "//" + "prod-" + this._imageUrl + relativePath: '/app/public/drk-linen.png';
         return relPath;
     }
 
@@ -188,7 +188,7 @@ export class GlobalSettings {
 
     static getMLBLogoUrl():string {
       // Prod is hardcoded because dev and qa server does not exist
-      return this._proto + "//" + "prod" + this._imageUrl + "/mlb/logos/team/MLB_Logo.jpg";
+      return this._proto + "//" + "prod-" + this._imageUrl + "/mlb/logos/team/MLB_Logo.jpg";
     }
 
     /**
