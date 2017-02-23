@@ -18,7 +18,7 @@ export class GlobalSettings {
     private static _dynamicApiUrl: string = 'dw.synapsys.us/list_creator_api.php';
     private static _dynamicScraperApiUrl: string = 'dw.synapsys.us/api_json/list_creator_api.php';
 
-    private static _imageUrl:string = '-sports-images.synapsys.us';
+    private static _imageUrl:string = 'sports-images.synapsys.us';
     private static _articleUrl:string = '-article-library.synapsys.us/';
     private static _articleDataUrl:string = '-homerunloyal-ai.synapsys.us/';
     private static _headlineUrl:string = '-homerunloyal-ai.synapsys.us/';
@@ -98,10 +98,11 @@ export class GlobalSettings {
 
     static getImageUrl(relativePath, width:number=1920):string {
       var relPath;
-      var domain_env = this.getEnv(this._env);
-      if(domain_env =="dev" || domain_env =="qa" ){
+    //   var domain_env = this.getEnv(this._env);
+      var domain_env = "prod";
+      if(domain_env != "dev" && domain_env !="qa"){
         domain_env = "prod";
-        relPath = relativePath != null && relativePath != "" ? this._proto + "//" + domain_env + this._imageUrl + relativePath: '/app/public/no-image.png';
+        relPath = relativePath != null && relativePath != "" ? this._proto + "//" + domain_env + "-"+ this._imageUrl + relativePath: '/app/public/no-image.png';
       }else{
         relPath = relativePath != null && relativePath != "" ? this._proto + "//" + this._imageUrl + relativePath: '/app/public/no-image.png';
       }
