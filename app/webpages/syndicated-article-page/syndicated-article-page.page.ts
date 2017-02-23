@@ -158,7 +158,7 @@ export class SyndicatedArticlePage{
           this._seoService.setSearchType("video");
           this._seoService.setArticleId(articleID);
           this._seoService.setPageTitle(dataList.title);
-          this._seoService.setSource("TCA");
+          this._seoService.setSource("sendtonews.com");
           this._seoService.setPublisher(dataList.videoLink);
           this._seoService.setCategory("Baseball, " + GlobalSettings.getSportLeagueAbbrv());
           this._seoService.setPublishedDate(dataList.pubDate);
