@@ -119,6 +119,8 @@ export class SyndicatedArticlePage{
           this._seoService.setMetaRobots('INDEX, NOFOLLOW');
           this._seoService.setIsArticle("true");
           this._seoService.setSearchType("article");
+          this._seoService.setSource("TCA");
+          this._seoService.setPublisher(dataList.articleUrl);
           this._seoService.setArticleId(dataList.id);
           this._seoService.setPageTitle(dataList.title);
           this._seoService.setAuthor(dataList.author);
@@ -140,6 +142,7 @@ export class SyndicatedArticlePage{
           this._seoService.removeMetaTags();
           //create meta description that is below 160 characters otherwise will be truncated
           var dataList = data.data;
+
           let metaDesc = dataList.description;
           let link = window.location.href;
           this._seoService.setCanonicalLink(this._params.params, this._router);
@@ -155,6 +158,8 @@ export class SyndicatedArticlePage{
           this._seoService.setSearchType("video");
           this._seoService.setArticleId(articleID);
           this._seoService.setPageTitle(dataList.title);
+          this._seoService.setSource("TCA");
+          this._seoService.setPublisher(dataList.videoLink);
           this._seoService.setCategory("Baseball, " + GlobalSettings.getSportLeagueAbbrv());
           this._seoService.setPublishedDate(dataList.pubDate);
           this._seoService.setImageUrl(dataList.videoLink);
