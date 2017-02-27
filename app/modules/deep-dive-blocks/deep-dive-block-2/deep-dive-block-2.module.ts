@@ -25,7 +25,7 @@ export class DeepDiveBlock2{
   secStackRow: any;
   thirdStackTop: any;
   thirdStackRow: any;
-  callLimit:number = 9;
+  callLimit:number = 8;
   tilestackData: any;
   videoData: any;
   page: number = 2;

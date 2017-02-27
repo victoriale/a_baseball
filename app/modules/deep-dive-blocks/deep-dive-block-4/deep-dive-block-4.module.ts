@@ -24,7 +24,7 @@ export class DeepDiveBlock4{
   secStackRow: any;
   fourthStackTop: any;
   fourthStackRow: any;
-  callLimit:number = 9;
+  callLimit:number = 8;
   tilestackData: any;
 
   recommendationData: any;
