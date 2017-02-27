@@ -250,7 +250,6 @@ export class DeepDiveService {
       articleStackArray.push(s);
     }
   });
-    console.log('2', articleStackArray);
     return articleStackArray;
   }
   transformToAiHeavyArticleRow(data){
