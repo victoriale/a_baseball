@@ -33,7 +33,7 @@ export class SeoService {
     private es_page_title:HTMLElement;
     private es_category:HTMLElement;
     private es_published_date:HTMLElement;
-    private es_author:HTMLElement;
+    private es_article_author:HTMLElement;
     private es_article_publisher:HTMLElement;
     private es_image_url:HTMLElement;
     private es_article_teaser:HTMLElement;
@@ -208,10 +208,10 @@ export class SeoService {
 
     public setAuthor(author:string) {
         if (SeoService.checkData(author)) {
-            if (!this.document.querySelector('meta[name="es_author"]')) {
-                this.es_author = this.getOrCreateElement('name', 'es_author', 'meta');
+            if (!this.document.querySelector('meta[name="es_article_author"]')) {
+                this.es_article_author = this.getOrCreateElement('name', 'es_article_author', 'meta');
             }
-            this.setElementAttribute(this.es_author, 'content', author);
+            this.setElementAttribute(this.es_article_author, 'content', author);
         }
     }
 
