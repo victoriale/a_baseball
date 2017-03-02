@@ -113,7 +113,7 @@ export class DeepDiveService {
     state = 'null';
   }
   var articleType = 'pregame-report';
-  var callURL = this._articleLibraryUrl+'/articles?scope=mlb&readyToPublish=all&articleType=' + articleType + '&count=8&metaDataOnly=1&state=' + state;
+  var callURL = this._articleLibraryUrl+'/articles?scope=mlb&readyToPublish=all&articleType=' + articleType + '&count=7&metaDataOnly=1&state=' + state;
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -129,7 +129,7 @@ export class DeepDiveService {
   if(state == null){
     state = 'CA';
   }
-  var callURL = this._articleLibraryUrl+'/articles?scope=mlb&readyToPublish=all&articleType=player-comparisons&count=8&metaDataOnly=1&state='+state;
+  var callURL = this._articleLibraryUrl+'/articles?scope=mlb&readyToPublish=all&articleType=player-comparisons&count=7&metaDataOnly=1&state='+state;
       return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -249,7 +249,7 @@ export class DeepDiveService {
       }
       articleStackArray.push(s);
     }
-    });
+  });
     return articleStackArray;
   }
   transformToAiHeavyArticleRow(data){
