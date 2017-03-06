@@ -5,6 +5,10 @@
 .header{
   height: auto;
   min-width: 320px;
+  transition: all ease;
+  &.slide-down {
+    transition: top .35s ease-out;
+  }
   .ddb-parbutton {
     line-height: 2.5;
   }
@@ -35,6 +39,11 @@
     .flexDisplay;
     .flexJustify(space-between);
   }//header-top ends
+  &-bottom {
+    width:100%;
+    background: @textEmphasisGrey;
+    height: 35px;
+  }
   &-partner { //importants are so partner styles will override regular styles at ALL breakpoints
     height: 45px !important;
     background-color: @textEmphasisGrey;
