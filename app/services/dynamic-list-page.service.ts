@@ -69,7 +69,7 @@ export class DynamicWidgetCall {
             imageURL : GlobalSettings.getSiteLogoUrl(),
             imageRoute: ["MLB-page"],
             text1 : 'Last Updated: ' + GlobalFunctions.formatGlobalDate(data.date,'dayOfWeek'),
-            text2 : ' United States',
+            text2: 'United States ' + '| <p class="data-by-text">Data Provided By: ' + '<b>' + GlobalSettings.getDataProvidedBy() + '</b></p>',
             text3 : data.title,
             text4 : '',
             icon: 'fa fa-map-marker',

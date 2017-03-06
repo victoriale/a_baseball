@@ -86,19 +86,28 @@ export class DeepDivePage implements OnInit{
       //create meta description that is below 160 characters otherwise will be truncated
       let metaDesc = GlobalSettings.getPageTitle('Dive into the most recent MLB news and read the latest articles about your favorite baseball team.', 'Deep Dive');
       let link = window.location.href;
+      let image = './app/public/mainLogo.png';
+      let title = 'Deep Dive Page';
       //This call will remove all meta tags from the head.
-      _seoService.removeMetaTags();
-      _seoService.setCanonicalLink(this._params.params, this._router);
-      _seoService.setOgTitle('Deep Dive');
-      _seoService.setOgDesc(metaDesc);
-      _seoService.setOgType('image');
-      _seoService.setOgUrl(link);
-      _seoService.setOgImage('./app/public/mainLogo.png');
-      _seoService.setTitle('Deep Dive');
-      _seoService.setMetaDescription(metaDesc);
-      _seoService.setMetaRobots('Index, Follow');
+      this._seoService.removeMetaTags();
+      this._seoService.setCanonicalLink(this._params.params, this._router);
+      this._seoService.setOgTitle(title);
+      this._seoService.setOgDesc(metaDesc);
+      this._seoService.setOgType('image');
+      this._seoService.setOgUrl(link);
+      this._seoService.setOgImage(image);
+      this._seoService.setTitle(title);
+      this._seoService.setMetaDescription(metaDesc);
+      this._seoService.setMetaRobots('Index, Follow');
         // needs to get Geolocation first
-      this.profileName = "MLB";
+      this._seoService.setIsArticle("false");
+      this._seoService.setPageUrl(link);
+      this._seoService.setSearchType(title);
+      this._seoService.setCategory("baseball, " + GlobalSettings.getSportLeagueAbbrv());
+      this._seoService.setPageTitle(title);
+      this._seoService.setImageUrl(image);
+      this._seoService.setKeywords("baseball, " + GlobalSettings.getSportLeagueAbbrv());
+      this.profileName = GlobalSettings.getSportLeagueAbbrv().toUpperCase();
 
       GlobalSettings.getPartnerID(_router, partnerID => {
           this.partnerID = partnerID;

@@ -27,19 +27,19 @@ export class SeoService {
     private endDate:HTMLElement;
     private isArticle:HTMLElement;
     //Elastic Search meta tags
-    private es_search_type:HTMLElement;
-    private es_source:HTMLElement;
+    private es_page_type:HTMLElement;
+    private es_data_source:HTMLElement;
     private es_article_id:HTMLElement;
-    private es_article_title:HTMLElement;
-    private es_keyword:HTMLElement;
+    private es_page_title:HTMLElement;
+    private es_category:HTMLElement;
     private es_published_date:HTMLElement;
-    private es_author:HTMLElement;
-    private es_publisher:HTMLElement;
+    private es_article_author:HTMLElement;
+    private es_article_publisher:HTMLElement;
     private es_image_url:HTMLElement;
     private es_article_teaser:HTMLElement;
-    private es_article_url:HTMLElement;
+    private es_page_url:HTMLElement;
     private es_article_type:HTMLElement;
-    private es_search_string:HTMLElement;
+    private es_keywords:HTMLElement;
     private DOM:any;
     robots:HTMLElement;
 
@@ -143,12 +143,12 @@ export class SeoService {
         }
     }
 
-    public setKeyword(keyword:string) {
-        if (SeoService.checkData(keyword)) {
-            if (!this.document.querySelector('meta[name="keyword"]')) {
-                this.es_keyword = this.getOrCreateElement('name', 'keyword', 'meta');
+    public setCategory(category:string) {
+        if (SeoService.checkData(category)) {
+            if (!this.document.querySelector('meta[name="es_category"]')) {
+                this.es_category = this.getOrCreateElement('name', 'es_category', 'meta');
             }
-            this.setElementAttribute(this.es_keyword, 'content', keyword);
+            this.setElementAttribute(this.es_category, 'content', category);
         }
     }
 
@@ -181,80 +181,80 @@ export class SeoService {
 
     public setSearchType(searchType:string) {
         if (SeoService.checkData(searchType)) {
-            if (!this.document.querySelector('meta[name="search_type"]')) {
-                this.es_search_type = this.getOrCreateElement('name', 'search_type', 'meta');
+            if (!this.document.querySelector('meta[name="es_page_type"]')) {
+                this.es_page_type = this.getOrCreateElement('name', 'es_page_type', 'meta');
             }
-            this.setElementAttribute(this.es_search_type, 'content', searchType);
+            this.setElementAttribute(this.es_page_type, 'content', searchType);
         }
     }
 
     public setArticleId(articleId:string) {
         if (SeoService.checkData(articleId)) {
-            if (!this.document.querySelector('meta[name="article_id"]')) {
-                this.es_article_id = this.getOrCreateElement('name', 'article_id', 'meta');
+            if (!this.document.querySelector('meta[name="es_article_id"]')) {
+                this.es_article_id = this.getOrCreateElement('name', 'es_article_id', 'meta');
             }
             this.setElementAttribute(this.es_article_id, 'content', articleId);
         }
     }
 
-    public setArticleTitle(articleTitle:string) {
-        if (SeoService.checkData(articleTitle)) {
-            if (!this.document.querySelector('meta[name="article_title"]')) {
-                this.es_article_title = this.getOrCreateElement('name', 'article_title', 'meta');
+    public setPageTitle(pageTitle:string) {
+        if (SeoService.checkData(pageTitle)) {
+            if (!this.document.querySelector('meta[name="es_page_title"]')) {
+                this.es_page_title = this.getOrCreateElement('name', 'es_page_title', 'meta');
             }
-            this.setElementAttribute(this.es_article_title, 'content', articleTitle);
+            this.setElementAttribute(this.es_page_title, 'content', pageTitle);
         }
     }
 
     public setAuthor(author:string) {
         if (SeoService.checkData(author)) {
-            if (!this.document.querySelector('meta[name="author"]')) {
-                this.es_author = this.getOrCreateElement('name', 'author', 'meta');
+            if (!this.document.querySelector('meta[name="es_article_author"]')) {
+                this.es_article_author = this.getOrCreateElement('name', 'es_article_author', 'meta');
             }
-            this.setElementAttribute(this.es_author, 'content', author);
+            this.setElementAttribute(this.es_article_author, 'content', author);
         }
     }
 
     public setPublisher(publisher:string) {
         if (SeoService.checkData(publisher)) {
-            if (!this.document.querySelector('meta[name="publisher"]')) {
-                this.es_publisher = this.getOrCreateElement('name', 'publisher', 'meta');
+            if (!this.document.querySelector('meta[name="es_article_publisher"]')) {
+                this.es_article_publisher = this.getOrCreateElement('name', 'es_article_publisher', 'meta');
             }
-            this.setElementAttribute(this.es_publisher, 'content', publisher);
+            this.setElementAttribute(this.es_article_publisher, 'content', publisher);
         }
     }
 
-    public setArticleUrl(url:string) {
+    public setPageUrl(url:string) {
         if (SeoService.checkData(url)) {
-            if (!this.document.querySelector('meta[name="article_url"]')) {
-                this.es_article_url = this.getOrCreateElement('name', 'article_url', 'meta');
+            if (!this.document.querySelector('meta[name="es_page_url"]')) {
+                this.es_page_url = this.getOrCreateElement('name', 'es_page_url', 'meta');
             }
-            this.setElementAttribute(this.es_article_url, 'content', url);
+            this.setElementAttribute(this.es_page_url, 'content', url);
         }
     }
 
-    public setSearchString(searchString:string) {
+    public setKeywords(searchString:string) {
         if (SeoService.checkData(searchString)) {
-            if (!this.document.querySelector('meta[name="search_string"]')) {
-                this.es_search_string = this.getOrCreateElement('name', 'search_string', 'meta');
+            if (!this.document.querySelector('meta[name="es_keywords"]')) {
+                this.es_keywords = this.getOrCreateElement('name', 'es_keywords', 'meta');
             }
-            this.setElementAttribute(this.es_search_string, 'content', searchString);
+            this.setElementAttribute(this.es_keywords, 'content', searchString);
         }
     }
 
     public setSource(source:string) {
         if (SeoService.checkData(source)) {
-            if (!this.document.querySelector('meta[name="source"]')) {
-                this.es_source = this.getOrCreateElement('name', 'source', 'meta');
+            if (!this.document.querySelector('meta[name="es_data_source"]')) {
+                this.es_data_source = this.getOrCreateElement('name', 'es_data_source', 'meta');
             }
-            this.setElementAttribute(this.es_source, 'content', source);
+            this.setElementAttribute(this.es_data_source, 'content', source);
         }
     }
 
     public setPublishedDate(publishedDate:string) {
         if (SeoService.checkData(publishedDate)) {
-            if (!this.document.querySelector('meta[name="published_date"]')) {
-                this.es_published_date = this.getOrCreateElement('name', 'published_date', 'meta');
+            if (!this.document.querySelector('meta[name="es_published_date"]')) {
+                this.es_published_date = this.getOrCreateElement('name', 'es_published_date', 'meta');
             }
             this.setElementAttribute(this.es_published_date, 'content', publishedDate);
         }
@@ -262,8 +262,8 @@ export class SeoService {
 
     public setImageUrl(imageUrl:string) {
         if (SeoService.checkData(imageUrl)) {
-            if (!this.document.querySelector('meta[name="image_url"]')) {
-                this.es_image_url = this.getOrCreateElement('name', 'image_url', 'meta');
+            if (!this.document.querySelector('meta[name="es_image_url"]')) {
+                this.es_image_url = this.getOrCreateElement('name', 'es_image_url', 'meta');
             }
             this.setElementAttribute(this.es_image_url, 'content', imageUrl);
         }
@@ -271,18 +271,18 @@ export class SeoService {
 
     public setArticleTeaser(articleTeaser:string) {
         if (SeoService.checkData(articleTeaser)) {
-            if (!this.document.querySelector('meta[name="article_teaser"]')) {
-                this.es_article_teaser = this.getOrCreateElement('name', 'article_teaser', 'meta');
+            if (!this.document.querySelector('meta[name="es_article_teaser"]')) {
+                this.es_article_teaser = this.getOrCreateElement('name', 'es_article_teaser', 'meta');
             }
             this.setElementAttribute(this.es_article_teaser, 'content', articleTeaser);
         }
     }
 
     public setArticleType(articleType:string) {
-        var metaTag = this.document.querySelector('meta[name="article_type"]');
+        var metaTag = this.document.querySelector('meta[name="es_article_type"]');
         if (SeoService.checkData(articleType)) {
             if (!metaTag) {
-                this.es_article_type = this.getOrCreateElement('name', 'article_type', 'meta');
+                this.es_article_type = this.getOrCreateElement('name', 'es_article_type', 'meta');
             }
             this.setElementAttribute(this.es_article_type, 'content', articleType);
         }

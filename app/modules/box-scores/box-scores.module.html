@@ -6,7 +6,7 @@
     <!--for calendar-->
 
     <!--for team profile-->
-    <article-schedule-component *ngIf=" calendarParams.profile != 'league' && boxScores" [homeData]="boxScores.schedule.home" [awayData]="boxScores.schedule.away"></article-schedule-component>
+    <article-schedule-component *ngIf=" calendarParams.profile != 'league' && boxScores" [homeData]="boxScores.schedule.home[0]" [awayData]="boxScores.schedule.away[0]"></article-schedule-component>
   </div>
 
   <div *ngIf="boxScores && boxScores.gameInfo[0].length > 1 && calendarParams.profile != 'league'" class="box-scores-moregames">

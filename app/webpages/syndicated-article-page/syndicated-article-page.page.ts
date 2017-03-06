@@ -92,34 +92,46 @@ export class SyndicatedArticlePage{
     private getDeepDiveArticle(articleID) {
       this._deepdiveservice.getDeepDiveArticleService(articleID).subscribe(
         data => {
-          if (data.data.imagePath == null || data.data.imagePath == undefined || data.data.imagePath == "") {
+          var dataList = data.data;
+          if (dataList.imagePath == null || dataList.imagePath == undefined || dataList.imagePath == "") {
             this.imageData  = ["/app/public/stockphoto_bb_1.jpg", "/app/public/stockphoto_bb_2.jpg"];
             this.copyright = ["USA Today Sports Images", "USA Today Sports Images"];
             this.imageTitle = ["", ""];
           }
           else {
-            this.imageData = [GlobalSettings.getImageUrl(data.data.imagePath)];
+            this.imageData = [GlobalSettings.getImageUrl(dataList.imagePath)];
             this.copyright = ["USA Today Sports Images"];
             this.imageTitle = [""];
           }
           //This call will remove all meta tags from the head.
           this._seoService.removeMetaTags();
           //create meta description that is below 160 characters otherwise will be truncated
-          let metaDesc = data.data.teaser;
+          let metaDesc = dataList.teaser;
           let link = window.location.href;
           this._seoService.setCanonicalLink(this._params.params, this._router);
-          this._seoService.setOgTitle(data.data.title);
+          this._seoService.setOgTitle(dataList.title);
           this._seoService.setOgDesc(metaDesc);
           this._seoService.setOgType('image');
           this._seoService.setOgUrl(link);
           this._seoService.setOgImage(this.imageData[0]);
-          this._seoService.setTitle(data.data.title);
+          this._seoService.setTitle(dataList.title);
           this._seoService.setMetaDescription(metaDesc);
           this._seoService.setMetaRobots('INDEX, NOFOLLOW');
-
+          this._seoService.setIsArticle("true");
+          this._seoService.setSearchType("article");
+          this._seoService.setSource("TCA");
+          this._seoService.setPublisher(dataList.articleUrl);
+          this._seoService.setArticleId(dataList.id);
+          this._seoService.setPageTitle(dataList.title);
+          this._seoService.setAuthor(dataList.author);
+          this._seoService.setCategory("Baseball, " + GlobalSettings.getSportLeagueAbbrv());
+          this._seoService.setPublishedDate(dataList.publishedDate);
+          this._seoService.setImageUrl(this.imageData[0]);
+          this._seoService.setArticleTeaser(dataList.teaser.replace(/<ng2-route>|<\/ng2-route>/g, ''));
+          this._seoService.setPageUrl(link);
+          this._seoService.setKeywords(dataList.keyword);
           this.articleData = data.data;
           this.articleData.publishedDate = GlobalFunctions.formatGlobalDate(Number(this.articleData.publishedDate),'timeZone');
-
         }
       )
     }
@@ -129,20 +141,31 @@ export class SyndicatedArticlePage{
           //This call will remove all meta tags from the head.
           this._seoService.removeMetaTags();
           //create meta description that is below 160 characters otherwise will be truncated
-          let metaDesc = data.data.title;
-          let link = window.location.href;
+          var dataList = data.data;
 
+          let metaDesc = dataList.description;
+          let link = window.location.href;
           this._seoService.setCanonicalLink(this._params.params, this._router);
-          this._seoService.setOgTitle(data.data.title);
+          this._seoService.setOgTitle(dataList.title);
           this._seoService.setOgDesc(metaDesc);
           this._seoService.setOgType('video');
           this._seoService.setOgUrl(link);
-          this._seoService.setOgImage(data.data.thumbnail);
-          this._seoService.setTitle(data.data.title);
+          this._seoService.setOgImage(dataList.thumbnail);
+          this._seoService.setTitle(dataList.title);
           this._seoService.setMetaDescription(metaDesc);
           this._seoService.setMetaRobots('NOINDEX, Follow');
-
-          this.articleData = data.data;
+          this._seoService.setIsArticle("false");
+          this._seoService.setSearchType("video");
+          this._seoService.setArticleId(articleID);
+          this._seoService.setPageTitle(dataList.title);
+          this._seoService.setSource("sendtonews.com");
+          this._seoService.setPublisher(dataList.videoLink);
+          this._seoService.setCategory("Baseball, " + GlobalSettings.getSportLeagueAbbrv());
+          this._seoService.setPublishedDate(dataList.pubDate);
+          this._seoService.setImageUrl(dataList.videoLink);
+          this._seoService.setPageUrl(link);
+          this._seoService.setKeywords("Baseball, video, " + GlobalSettings.getSportLeagueAbbrv());
+          this.articleData = dataList;
           this.iframeUrl = this.articleData.videoLink + "&autoplay=on";
         }
       )
