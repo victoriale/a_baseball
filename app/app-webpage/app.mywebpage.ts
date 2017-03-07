@@ -300,6 +300,8 @@ export class MyAppComponent{
   public shiftContainer:string;
   public hideHeader:boolean;
   private isHomeRunZone:boolean = false;
+  private scrollPadding:string = '100px';
+  
   constructor(private _partnerData: PartnerHeader, private _params: RouteParams){
     var parentParams = _params.params;
 
@@ -340,6 +342,10 @@ export class MyAppComponent{
     if(this.shiftContainer != (checkHeight + 'px')){
       this.shiftContainer = checkHeight + 'px';
     }
+  }
+
+  setScrollPadding(event) {
+    this.scrollPadding = event + 'px';
   }
 
   setPageSize(ths){

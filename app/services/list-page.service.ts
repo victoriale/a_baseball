@@ -300,7 +300,8 @@ export class ListPageService {
 
   static detailedData(data,seasonBase?:string): DetailListInput[]{//TODO replace data points for list page
     let self = this;
-    var currentYear = Number(seasonBase);//TODO FOR POSSIBLE past season stats but for now we have lists for current year season
+    var currentYear = data.listInfo.season;
+    //var currentYear = Number(seasonBase);//TODO FOR POSSIBLE past season stats but for now we have lists for current year season
     if(currentYear == null || typeof currentYear == 'undefined'){
       currentYear = new Date().getFullYear();
     }
