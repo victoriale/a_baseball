@@ -2,7 +2,7 @@
     [ngClass]="{'slide-up': scrollMenuUp, 'slide-down': !scrollMenuUp}"
     [ngStyle]="{'top': menuTransitionAmount+'px'}"
     (window:scroll)="onScrollStick($event)">
-    <div id="partner" *ngIf="partnerScript" [innerHTML]="partnerScript | safeHtml"></div>
+    <div id="partner" *ngIf="partnerScript"  [style.height]="iframeMaxHeight | safeStyle" [innerHTML]="partnerScript | safeHtml"></div>
     <div *ngIf="!partnerID" class="header-logo">
         <a [routerLink]="['Home-page']"><img src="{{logoUrl}}" alt="Baseball Logo"/></a>
     </div>
