@@ -108,7 +108,7 @@ export class ListOfListsService {
 
         if( itemInfo.target == "player") {
           itemProfile       = itemTargetData.playerName;
-          itemImgUrl        = GlobalSettings.getImageUrl(itemTargetData.imageUrl);
+          itemImgUrl        = GlobalSettings.getImageUrl(itemTargetData.imageUrl, GlobalSettings._imgMdLogo);
           itemRoute         = MLBGlobalFunctions.formatPlayerRoute(itemTargetData.teamName, itemTargetData.playerName, itemTargetData.playerId);
           itemSubImg        = MLBGlobalFunctions.formatTeamLogo(itemTargetData.teamName);
           itemSubRoute      = MLBGlobalFunctions.formatTeamRoute(itemTargetData.teamName, itemTargetData.teamId);
@@ -120,7 +120,7 @@ export class ListOfListsService {
           itemDescription   = [profileLinkText, " is currently ranked <b>"+ rankStr +"</b> in the "+ itemInfo.scope +" with the most <b>" + itemStatName + "</b>."];
         } else if ( itemInfo.target == "team" ) {
           itemProfile       = itemTargetData.teamName;
-          itemImgUrl        = GlobalSettings.getImageUrl(itemTargetData.teamLogo);
+          itemImgUrl        = GlobalSettings.getImageUrl(itemTargetData.teamLogo, GlobalSettings._imgMdLogo);
           itemRoute         = MLBGlobalFunctions.formatTeamRoute(itemTargetData.teamName, itemTargetData.teamId);
           profileLinkText   = {
             route: itemRoute,
@@ -132,7 +132,7 @@ export class ListOfListsService {
           itemTargetData.backgroundImage = "/app/public/Image-Placeholder-2.jpg";
         }
         else {
-          itemTargetData.backgroundImage = GlobalSettings.getBackgroundImageUrl(itemTargetData.backgroundImage);
+          itemTargetData.backgroundImage = GlobalSettings.getBackgroundImageUrl(itemTargetData.backgroundImage, GlobalSettings._imgProfileMod);
         }
         var carouselItem = SliderCarousel.convertToCarouselItemType1(index, {
           backgroundImage: itemTargetData.backgroundImage,
@@ -226,7 +226,7 @@ export class ListOfListsService {
           {
             imageClass : index > 0 ? "image-43" : "image-121",
             mainImage: {
-              imageUrl        : val.imageUrl != null ? GlobalSettings.getImageUrl(val.imageUrl) : GlobalSettings.getImageUrl(val.teamLogo),
+              imageUrl        : val.imageUrl != null ? GlobalSettings.getImageUrl(val.imageUrl, GlobalSettings._imgMdLogo) : GlobalSettings.getImageUrl(val.teamLogo, GlobalSettings._imgMdLogo),
               urlRouteArray   : version == "page" || index > 0 ? itemUrlRouteArray : null,
               hoverText       : index > 0 ? "<i class='fa fa-mail-forward'></i>" : firstItemHover,
               imageClass      : index > 0 ? "border-1" : "border-2"

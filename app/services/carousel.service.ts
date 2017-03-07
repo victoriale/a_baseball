@@ -26,7 +26,7 @@ export class ImagesService {
         var copyArray = [];
         var titleArray = [];
         imageData.images.forEach(function (val, index) {
-            val['images'] = GlobalSettings.getBackgroundImageUrl(val.image_url);
+            val['images'] = GlobalSettings.getCarouselImageUrl(val.image_url);
             val['copyright'] = val.image_copyright;
             val['title'] = val.image_title;
             imageArray.push(val['images']);

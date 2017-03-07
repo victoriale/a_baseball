@@ -254,7 +254,7 @@ export class ListPageService {
         if(data.query.profile == 'team') {
           ctaDesc = 'Interested in discovering more about this team?';
           primaryRoute = teamRoute;
-          primaryImage = GlobalSettings.getImageUrl(val.teamLogo);
+          primaryImage = GlobalSettings.getImageUrl(val.teamLogo, GlobalSettings._imgLgLogo);
 
           profileLinkText = teamLinkText;
 
@@ -262,7 +262,7 @@ export class ListPageService {
         } else { //if profile == 'player'
           ctaDesc = 'Interested in discovering more about this player?';
           primaryRoute = MLBGlobalFunctions.formatPlayerRoute(val.teamName,val.playerName,val.playerId.toString());
-          primaryImage = GlobalSettings.getImageUrl(val.imageUrl);
+          primaryImage = GlobalSettings.getImageUrl(val.imageUrl, GlobalSettings._imgLgLogo);
 
           profileLinkText = {
             route: primaryRoute,
@@ -281,7 +281,7 @@ export class ListPageService {
 
         carouselItem = SliderCarousel.convertToCarouselItemType2(index, {
           isPageCarousel: profileType == 'page',
-          backgroundImage: GlobalSettings.getBackgroundImageUrl(val.backgroundImage),
+          backgroundImage: GlobalSettings.getBackgroundImageUrl(val.backgroundImage, GlobalSettings._imgProfileMod),
           copyrightInfo: GlobalSettings.getCopyrightInfo(),
           profileNameLink: profileLinkText,
           description: description,
@@ -328,7 +328,7 @@ export class ListPageService {
             ],
             statDescription,
             'fa fa-map-marker'),
-          imageConfig: ListPageService.imageData("list", GlobalSettings.getImageUrl(val.teamLogo), teamRoute, val.listRank),
+          imageConfig: ListPageService.imageData("list", GlobalSettings.getImageUrl(val.teamLogo, GlobalSettings._imgMdLogo), teamRoute, val.listRank),
           hasCTA:true,
           ctaDesc:'Want more info about this team?',
           ctaBtn:'',
@@ -354,7 +354,7 @@ export class ListPageService {
             ],
             statDescription,
             null),
-            imageConfig: ListPageService.imageData("list",GlobalSettings.getImageUrl(val.imageUrl),playerRoute, val.listRank, '', null),
+            imageConfig: ListPageService.imageData("list",GlobalSettings.getImageUrl(val.imageUrl, GlobalSettings._imgMdLogo),playerRoute, val.listRank, '', null),
           hasCTA:true,
           ctaDesc:'Want more info about this player?',
           ctaBtn:'',

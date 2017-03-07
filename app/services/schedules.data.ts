@@ -139,7 +139,7 @@ export class MLBSchedulesTableData implements TableComponentData<SchedulesData> 
       imageConfig1:{//AWAY
         imageClass: "image-125",
         mainImage: {
-          imageUrl: GlobalSettings.getImageUrl(item.awayTeamLogo),
+          imageUrl: GlobalSettings.getImageUrl(item.awayTeamLogo, GlobalSettings._imgScheduleLogoLarge),
           urlRouteArray: teamRouteAway,
           hoverText: "<p>View</p><p>Profile</p>",
           imageClass: "border-5"
@@ -148,7 +148,7 @@ export class MLBSchedulesTableData implements TableComponentData<SchedulesData> 
       imageConfig2:{//HOME
         imageClass: "image-125",
         mainImage: {
-          imageUrl: GlobalSettings.getImageUrl(item.homeTeamLogo),
+          imageUrl: GlobalSettings.getImageUrl(item.homeTeamLogo, GlobalSettings._imgScheduleLogoLarge),
           urlRouteArray: teamRouteHome,
           hoverText: "<p>View</p><p>Profile</p>",
           imageClass: "border-5"
@@ -327,7 +327,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
         isLocation = true;
         display = item.awayTeamLastName.length > 10 ? item.awayTeamNickname : item.awayTeamLastName;
         sort = item.awayTeamLastName;
-        imageUrl = GlobalSettings.getImageUrl(item.awayTeamLogo);
+        imageUrl = GlobalSettings.getImageUrl(item.awayTeamLogo, GlobalSettings._imgSmLogo);
         if ( !this.isTeamProfilePage || this.curTeam != item.awayTeamId ) {
           link = MLBGlobalFunctions.formatTeamRoute(item.awayTeamName, item.awayTeamId);
         }
@@ -337,7 +337,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
         isLocation = true;
         display = item.homeTeamLastName.length > 10 ? item.homeTeamNickname : item.homeTeamLastName;
         sort = item.homeTeamLastName;
-        imageUrl = GlobalSettings.getImageUrl(item.homeTeamLogo);
+        imageUrl = GlobalSettings.getImageUrl(item.homeTeamLogo, GlobalSettings._imgSmLogo);
         if ( !this.isTeamProfilePage || this.curTeam != item.homeTeamId ) {
           link = MLBGlobalFunctions.formatTeamRoute(item.homeTeamName, item.homeTeamId);
         }

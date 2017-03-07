@@ -79,13 +79,13 @@ export class ListOfListsPage implements OnInit{
                     case "player":
                         profileName = list.targetData.playerName;
                         profileRoute = MLBGlobalFunctions.formatPlayerRoute(list.targetData.teamName, list.targetData.playerName, list.targetData.playerId);
-                        profileImage = GlobalSettings.getImageUrl(list.targetData.imageUrl);
+                        profileImage = GlobalSettings.getImageUrl(list.targetData.imageUrl, GlobalSettings._imgLgLogo);
                         break;
 
                     case "team":
                         profileName = list.targetData.teamName;
                         profileRoute = MLBGlobalFunctions.formatTeamRoute(list.targetData.teamName, list.targetData.teamId);
-                        profileImage = GlobalSettings.getImageUrl(list.targetData.teamLogo);
+                        profileImage = GlobalSettings.getImageUrl(list.targetData.teamLogo, GlobalSettings._imgLgLogo);
                         break;
 
                     default: break;
@@ -153,7 +153,7 @@ export class ListOfListsPage implements OnInit{
         if ( this.pageType == "league" ) {
             this._profileService.getMLBProfile()
             .subscribe(data => {
-                this.getListOfListsPage(this._params.params, GlobalSettings.getImageUrl(data.headerData.logo));
+                this.getListOfListsPage(this._params.params, GlobalSettings.getImageUrl(data.headerData.logo, GlobalSettings._imgProfileLogo));
             }, err => {
                 console.log("Error loading MLB profile");
             });

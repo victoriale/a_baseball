@@ -115,10 +115,10 @@ export class PlayerStatsService {
     //Set display values
     table.rows.forEach((value, index) => {
       value.displayDate = GlobalFunctions.formatUpdatedDate(value.lastUpdate, false);
-      value.fullPlayerImageUrl = GlobalSettings.getImageUrl(value.playerHeadshot);
-      value.fullTeamImageUrl = GlobalSettings.getImageUrl(value.teamLogo);
+      value.fullPlayerImageUrl = GlobalSettings.getImageUrl(value.playerHeadshot, GlobalSettings._imgLgLogo);
+      value.fullTeamImageUrl = GlobalSettings.getImageUrl(value.teamLogo, GlobalSettings._imgLgLogo);
       if ( value.backgroundImage ) {
-        value.fullBackgroundImageUrl = GlobalSettings.getBackgroundImageUrl(value.backgroundImage);
+        value.fullBackgroundImageUrl = GlobalSettings.getBackgroundImageUrl(value.backgroundImage, GlobalSettings._imgProfileMod);
       }
 
       //force these fields to numbers:

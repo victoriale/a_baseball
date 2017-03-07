@@ -33,8 +33,26 @@ export class GlobalSettings {
     private static _sportName: string ="baseball";
     private static _sportLeagueAbbrv: string ="MLB";
 
-
     private static _copyrightInfo: string = "USA Today Sports Images";
+
+    static _imgBoxScoreLogo: number = 45;
+    static _imgSmLogo: number = 48;
+    static _imgScheduleLogo: number = 68;
+    static _imgPageLogo: number = 96;
+    static _imgHeadlineSub: number = 100;
+    static _imgPickTeam: number = 100;
+    static _imgMdLogo: number = 121;
+    static _imgScheduleLogoLarge: number = 125;
+    static _imgAiBoxScore: number = 125;
+    static _imgLgLogo: number = 150;
+    static _imgProfileLogo: number = 180;
+    static _imgHeadlineMain: number = 300;
+    static _imgAiRec: number = 600;
+    static _imgProfileMod: number = 640;
+    static _deepDiveSm: number = 100;
+    static _deepDiveTrending: number = 140;
+    static _deepDiveRec: number = 300;
+    static _deepDiveMd: number = 750;
 
     static getEnv(env:string):string {
       if (env == "localhost"){
@@ -97,20 +115,23 @@ export class GlobalSettings {
     }
 
     static getImageUrl(relativePath, width:number=1920):string {
-      var relPath;
-      var domain_env = this.getEnv(this._env);
-      if(domain_env != "dev" && domain_env !="qa"){
-        domain_env = "prod";
-        relPath = relativePath != null && relativePath != "" ? this._proto + "//" + domain_env + "-"+ this._imageUrl + relativePath: '/app/public/no-image.png';
-      }else{
-        relPath = relativePath != null && relativePath != "" ? this._proto + "//" + this._imageUrl + relativePath: '/app/public/no-image.png';
-      }
-      relPath += this.resizeImage(width);
-      return relPath;
+        var relPath = relativePath != null && relativePath != "" ? this._proto + "//" + this._imageUrl + relativePath: '/app/public/no-image.png';
+        if (relativePath != null && relativePath != "") {
+            relPath += this.resizeImage(width);
+        }
+        return relPath;
     }
 
-    static getBackgroundImageUrl(relativePath):string {
+    static getCarouselImageUrl(relativePath):string {
         var relPath = relativePath != null ? this._proto + "//" + "prod-" + this._imageUrl + relativePath: '/app/public/drk-linen.png';
+        return relPath;
+    }
+
+    static getBackgroundImageUrl(relativePath, width:number=1920):string {
+        var relPath = relativePath != null ? this._proto + "//" + this._imageUrl + relativePath: '/app/public/drk-linen.png';
+        if (relativePath != null && relativePath != "") {
+            relPath += this.resizeImage(width);
+        }
         return relPath;
     }
 

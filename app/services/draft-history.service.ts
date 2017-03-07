@@ -226,13 +226,13 @@ export class MLBDraftHistoryService extends DraftHistoryService {
         }
         var carouselItem = SliderCarousel.convertToCarouselItemType2(index, {
           isPageCarousel: false,
-          backgroundImage: GlobalSettings.getBackgroundImageUrl(val.backgroundImage),
+          backgroundImage: GlobalSettings.getBackgroundImageUrl(val.backgroundImage, GlobalSettings._imgProfileMod),
           copyrightInfo: GlobalSettings.getCopyrightInfo(),
           profileNameLink: playerLinkText,
           description: ['<i class="fa fa-map-marker text-master"></i>', 'Hometown: ', location],
           dataValue: val.selectionOverall + " Overall",
           dataLabel: "Draft Round " + val.selectionLevel,
-          circleImageUrl: GlobalSettings.getImageUrl(val.imageUrl),
+          circleImageUrl: GlobalSettings.getImageUrl(val.imageUrl, GlobalSettings._imgLgLogo),
           circleImageRoute: playerRoute,
           rank: rank
         });
@@ -278,7 +278,7 @@ export class MLBDraftHistoryService extends DraftHistoryService {
           ],
           'Draft Round '+val.selectionLevel,
           'fa fa-map-marker'),
-        imageConfig: ListPageService.imageData("list", GlobalSettings.getImageUrl(val.imageUrl), playerRoute, Number(val.selectionLevel)),
+        imageConfig: ListPageService.imageData("list", GlobalSettings.getImageUrl(val.imageUrl, GlobalSettings._imgMdLogo), playerRoute, Number(val.selectionLevel)),
         hasCTA:true,
         ctaDesc: playerRoute ? 'Want more info about this player?' : 'This player is currently not active.',
         ctaBtn:'',

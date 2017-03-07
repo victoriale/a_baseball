@@ -71,11 +71,11 @@ export class ArticleDataService {
         });
         data.forEach(function (val, index) {
             if (!~val.image_url.indexOf('stock_images')) {
-                imageArray.push(MLBGlobalFunctions.getBackroundImageUrlWithStockFallback(val['image_url']));
+                imageArray.push(MLBGlobalFunctions.getBackroundImageUrlWithStockFallback(val['image_url'], 1)); //1 is a flag for carousel image
                 copyArray.push(val['image_copyright']);
                 titleArray.push(val['image_title']);
             } else if (~val.image_url.indexOf('stock_images') && index == 0) {
-                imageArray.push(MLBGlobalFunctions.getBackroundImageUrlWithStockFallback(val['image_url']));
+                imageArray.push(MLBGlobalFunctions.getBackroundImageUrlWithStockFallback(val['image_url'], 1)); //1 is a flag for carousel image
                 copyArray.push(val['image_copyright']);
                 titleArray.push(val['image_title']);
             }
@@ -120,7 +120,7 @@ export class ArticleDataService {
             if (type == 'roster') {
                 if (val[dataType]) {
                     var routeArray = MLBGlobalFunctions.formatPlayerRoute(val[dataType].team_name, val[dataType].name, val[dataType].id);
-                    var url = GlobalSettings.getImageUrl(val[dataType]['headshot']);
+                    var url = GlobalSettings.getImageUrl(val[dataType]['headshot'], GlobalSettings._imgMdLogo);
                     val['image1'] = ArticleDataService.getProfileImages(routeArray, url, "image-122");
                     val['image2'] = ArticleDataService.getProfileImages(routeArray, url, "image-71");
                     imageLinkArray.push(val['image1'], val['image2']);
@@ -133,10 +133,10 @@ export class ArticleDataService {
                     if (type == 'compare' || type == 'teamRecord') {
                         if (type == 'compare') {
                             var routeArray = MLBGlobalFunctions.formatPlayerRoute(val.team_name, val.name, val.id);
-                            var url = GlobalSettings.getImageUrl(val['headshot']);
+                            var url = GlobalSettings.getImageUrl(val['headshot'], GlobalSettings._imgMdLogo);
                         } else if (type == 'teamRecord') {
                             var routeArray = MLBGlobalFunctions.formatTeamRoute(val[dataType].name, val[dataType].id);
-                            var url = GlobalSettings.getImageUrl(val[dataType].logo);
+                            var url = GlobalSettings.getImageUrl(val[dataType].logo, GlobalSettings._imgMdLogo);
                         }
                         val['image1'] = ArticleDataService.getProfileImages(routeArray, url, "image-122");
                         val['image2'] = ArticleDataService.getProfileImages(routeArray, url, "image-71");
@@ -146,8 +146,8 @@ export class ArticleDataService {
                         var shortDate = val[dataType].event_date.substr(val[dataType].event_date.indexOf(",") + 1);
                         var urlTeamLeftTop = MLBGlobalFunctions.formatTeamRoute(val[dataType].home_team_name, val[dataType].home_team_id);
                         var urlTeamRightTop = MLBGlobalFunctions.formatTeamRoute(val[dataType].away_team_name, val[dataType].away_team_id);
-                        var homeUrl = GlobalSettings.getImageUrl(val[dataType].home_team_logo);
-                        var awayUrl = GlobalSettings.getImageUrl(val[dataType].away_team_logo);
+                        var homeUrl = GlobalSettings.getImageUrl(val[dataType].home_team_logo, GlobalSettings._imgMdLogo);
+                        var awayUrl = GlobalSettings.getImageUrl(val[dataType].away_team_logo, GlobalSettings._imgMdLogo);
                         val['image1'] = ArticleDataService.getProfileImages(urlTeamLeftTop, homeUrl, "image-122");
                         val['image2'] = ArticleDataService.getProfileImages(urlTeamRightTop, awayUrl, "image-122");
                         val['image3'] = ArticleDataService.getProfileImages(urlTeamLeftTop, homeUrl, "image-71");
@@ -159,10 +159,10 @@ export class ArticleDataService {
                     if (type == 'compare' || type == 'teamRecord') {
                         if (type == 'compare') {
                             var routeArray = MLBGlobalFunctions.formatPlayerRoute(val.team_name, val.name, val.id);
-                            var url = GlobalSettings.getImageUrl(val['headshot']);
+                            var url = GlobalSettings.getImageUrl(val['headshot'], GlobalSettings._imgMdLogo);
                         } else {
                             var routeArray = MLBGlobalFunctions.formatTeamRoute(val[dataType].name, val[dataType].id);
-                            var url = GlobalSettings.getImageUrl(val[dataType].logo);
+                            var url = GlobalSettings.getImageUrl(val[dataType].logo, GlobalSettings._imgMdLogo);
                         }
                         val['image3'] = ArticleDataService.getProfileImages(routeArray, url, "image-122");
                         val['image4'] = ArticleDataService.getProfileImages(routeArray, url, "image-71");
@@ -171,8 +171,8 @@ export class ArticleDataService {
                         var shortDate = val[dataType].event_date.substr(val[dataType].event_date.indexOf(",") + 1);
                         var urlTeamLeftBottom = MLBGlobalFunctions.formatTeamRoute(val[dataType].home_team_name, val[dataType].home_team_id);
                         var urlTeamRightBottom = MLBGlobalFunctions.formatTeamRoute(val[dataType].away_team_name, val[dataType].away_team_id);
-                        var homeUrl = GlobalSettings.getImageUrl(val[dataType].home_team_logo);
-                        var awayUrl = GlobalSettings.getImageUrl(val[dataType].away_team_logo);
+                        var homeUrl = GlobalSettings.getImageUrl(val[dataType].home_team_logo, GlobalSettings._imgMdLogo);
+                        var awayUrl = GlobalSettings.getImageUrl(val[dataType].away_team_logo, GlobalSettings._imgMdLogo);
                         val['image1'] = ArticleDataService.getProfileImages(urlTeamLeftBottom, homeUrl, "image-122");
                         val['image2'] = ArticleDataService.getProfileImages(urlTeamRightBottom, awayUrl, "image-122");
                         val['image3'] = ArticleDataService.getProfileImages(urlTeamLeftBottom, homeUrl, "image-71");
@@ -311,7 +311,7 @@ export class ArticleDataService {
             title: recommendations.title,
             eventType: pageIndex,
             eventID: eventID,
-            images: MLBGlobalFunctions.getBackroundImageUrlWithStockFallback(recommendations.image_url),
+            images: MLBGlobalFunctions.getBackroundImageUrlWithStockFallback(recommendations.image_url, GlobalSettings._imgAiRec),
             date: GlobalFunctions.formatGlobalDate(recommendations.last_updated * 1000, "dayOfWeek"),
             articleUrl: MLBGlobalFunctions.formatArticleRoute(pageIndex, eventID),
             keyword: recommendations.keywords[0].toUpperCase()
@@ -343,7 +343,7 @@ export class ArticleDataService {
                     teaser: val.teaser,
                     eventId: val.event_id,
                     eventType: "pregame-report",
-                    image: MLBGlobalFunctions.getBackroundImageUrlWithStockFallback(val.image_url),
+                    image: MLBGlobalFunctions.getBackroundImageUrlWithStockFallback(val.image_url, GlobalSettings._imgHeadlineSub),
                     url: MLBGlobalFunctions.formatArticleRoute(val['article_type'], val.event_id),
                     rawUrl: window.location.protocol + "//" + window.location.host + "/articles/pregame-report/" + val.event_id
                 };
@@ -464,7 +464,7 @@ export class ArticleDataService {
             eventType: pageIndex,
             mainContent: trimmedArticle.substr(0, Math.min(trimmedArticle.length, trimmedArticle.lastIndexOf(" "))),
             mainImage: GlobalSettings.getImageUrl(!isLeague ?
-                data['featuredReport'][pageIndex][0].image_url : data[0].image_url),
+                data['featuredReport'][pageIndex][0].image_url : data[0].image_url, GlobalSettings._imgHeadlineMain),
             articleUrl: MLBGlobalFunctions.formatArticleRoute(pageIndex, !isLeague ?
                 data['featuredReport'][pageIndex][0].event_id : data[0].event_id),
             mainHeadlineId: isLeague ? data[0].event_id : data.event,
@@ -492,7 +492,7 @@ export class ArticleDataService {
                             title: data['otherReports'][val].title,
                             eventType: val,
                             eventID: data['otherReports'][val].event_id,
-                            images: GlobalSettings.getImageUrl(data['otherReports'][val].image_url),
+                            images: GlobalSettings.getImageUrl(data['otherReports'][val].image_url, GlobalSettings._imgHeadlineSub),
                             articleUrl: MLBGlobalFunctions.formatArticleRoute(val, data['otherReports'][val].event_id)
                         };
                         subArticleArr.push(articles);
@@ -524,7 +524,7 @@ export class ArticleDataService {
                             title: data['otherReports'][val].title,
                             eventType: val,
                             eventID: data['otherReports'][val].event_id,
-                            images: GlobalSettings.getImageUrl(data['otherReports'][val].image_url),
+                            images: GlobalSettings.getImageUrl(data['otherReports'][val].image_url, GlobalSettings._imgHeadlineSub),
                             articleUrl: MLBGlobalFunctions.formatArticleRoute(val, data['otherReports'][val].event_id)
                         };
                         headToHeadArticleArr.push(articles);
@@ -553,7 +553,7 @@ export class ArticleDataService {
                     title: val.title,
                     eventType: "pregame-report",
                     eventID: val.event_id,
-                    images: GlobalSettings.getImageUrl(val.image_url),
+                    images: GlobalSettings.getImageUrl(val.image_url, GlobalSettings._imgHeadlineSub),
                     articleUrl: MLBGlobalFunctions.formatArticleRoute("pregame-report", val.event_id)
                 };
                 leagueArr.push(articles);
@@ -571,7 +571,7 @@ export class ArticleDataService {
             return {
                 imageClass: "image-66",
                 mainImage: {
-                    imageUrl: GlobalSettings.getImageUrl(data),
+                    imageUrl: GlobalSettings.getImageUrl(data, GlobalSettings._imgScheduleLogo),
                     imageClass: "border-logo"
                 }
             }
@@ -579,7 +579,7 @@ export class ArticleDataService {
             return {
                 imageClass: "image-66",
                 mainImage: {
-                    imageUrl: GlobalSettings.getImageUrl(data[0]),
+                    imageUrl: GlobalSettings.getImageUrl(data[0], GlobalSettings._imgScheduleLogo),
                     urlRouteArray: data[1],
                     hoverText: "<i class='fa fa-mail-forward'></i>",
                     imageClass: "border-logo"
