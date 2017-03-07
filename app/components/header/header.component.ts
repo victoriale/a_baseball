@@ -4,7 +4,7 @@ import {Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {SubHeaderComponent} from '../../components/sub-header/sub-header.component';
 import {HamburgerMenuComponent, MenuData} from '../../components/hamburger-menu/hamburger-menu.component';
 import {GlobalSettings} from "../../global/global-settings";
-import {SanitizeHtml} from "../../pipes/safe.pipe";
+import {SanitizeHtml, SanitizeStyle} from "../../pipes/safe.pipe";
 
 declare var stButtons: any;
 declare var jQuery:any;
@@ -14,11 +14,12 @@ declare var jQuery:any;
     templateUrl: './app/components/header/header.component.html',
     directives: [Search, ROUTER_DIRECTIVES, SubHeaderComponent, HamburgerMenuComponent],
     providers: [],
-    pipes:[SanitizeHtml]
+    pipes:[SanitizeHtml, SanitizeStyle]
 })
 export class HeaderComponent implements OnInit, OnChanges, AfterContentChecked {
     @Input('partner') partnerID:string;
     @Input() partnerScript;
+    @Input() iframeMaxHeight;
     @Output() tabSelected = new EventEmitter();
     @Output() scrollPadding = new EventEmitter();
 

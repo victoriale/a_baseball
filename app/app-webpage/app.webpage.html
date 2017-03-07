@@ -5,6 +5,7 @@
           *ngIf="!hideHeader"
           [partnerID]="partnerID"
           [partnerScript] ="partnerScript"
+          [iframeMaxHeight] ="iframeMaxHeight"
           (scrollPadding)="setScrollPadding($event)">
       </header-component>
       <div class='web-container container-fluid' [style.padding-top]="scrollPadding">
