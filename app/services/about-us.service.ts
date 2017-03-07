@@ -71,7 +71,7 @@ export class AboutUsService {
             imageConfig: {
               imageClass: "image-50",
               mainImage: {
-                imageUrl: GlobalSettings.getImageUrl(data.worldChampImageUrl),
+                imageUrl: GlobalSettings.getImageUrl(data.worldChampImageUrl, GlobalSettings._imgSmLogo),
                 imageClass: "border-1",
                 urlRouteArray: championLink,
                 hoverText: "<i class=\"fa fa-mail-forward\"></i>"

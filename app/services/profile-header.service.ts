@@ -206,8 +206,8 @@ export class ProfileHeaderService {
               playerId: headerData.info.playerId,
               playerName: headerData.info.playerName
             },
-            fullBackgroundImageUrl: GlobalSettings.getBackgroundImageUrl(headerData.info.backgroundImage),
-            fullProfileImageUrl: GlobalSettings.getImageUrl(headerData.info.playerHeadshot),
+            fullBackgroundImageUrl: GlobalSettings.getBackgroundImageUrl(headerData.info.backgroundImage, GlobalSettings._imgProfileMod),
+            fullProfileImageUrl: GlobalSettings.getImageUrl(headerData.info.playerHeadshot, GlobalSettings._imgProfileLogo),
             headerData: headerData,
             profileName: headerData.info.playerName,
             profileId: headerData.info.playerId.toString(),
@@ -252,8 +252,8 @@ export class ProfileHeaderService {
               conference: Conference[confKey],
               seasonId: headerData.seasonId
             },
-            fullBackgroundImageUrl: GlobalSettings.getBackgroundImageUrl(headerData.backgroundImage),
-            fullProfileImageUrl: GlobalSettings.getImageUrl(headerData.profileImage),
+            fullBackgroundImageUrl: GlobalSettings.getBackgroundImageUrl(headerData.backgroundImage, GlobalSettings._imgProfileMod),
+            fullProfileImageUrl: GlobalSettings.getImageUrl(headerData.profileImage, GlobalSettings._imgProfileLogo),
             headerData: headerData,
             teamName: teamName,
             profileName: headerData.stats.teamName,
@@ -310,7 +310,7 @@ export class ProfileHeaderService {
 
   convertMLBHeader(data: LeagueProfileHeaderData, pageName:string): TitleInputData {
     return {
-      imageURL: GlobalSettings.getImageUrl(data.logo), //TODO
+      imageURL: GlobalSettings.getImageUrl(data.logo, GlobalSettings._imgProfileLogo), //TODO
       imageRoute: ["MLB-page"],
       text1: 'Last Updated:' + GlobalFunctions.formatUpdatedDate(data.lastUpdated),
       text2: 'United States',
@@ -588,7 +588,7 @@ export class ProfileHeaderService {
     var city = data.city != null ? data.city : "N/A";
     var state = data.state != null ? data.state : "N/A";
 
-    data.backgroundImage = GlobalSettings.getBackgroundImageUrl(data.backgroundImage);
+    data.backgroundImage = GlobalSettings.getBackgroundImageUrl(data.backgroundImage, GlobalSettings._imgProfileMod);
 
     var description = "The MLB consists of " + GlobalFunctions.formatNumber(data.totalTeams) +
                       " teams and " + GlobalFunctions.formatNumber(data.totalPlayers) + " players. " +
@@ -602,7 +602,7 @@ export class ProfileHeaderService {
 
     var header: ProfileHeaderData = {
       profileName: "MLB",
-      profileImageUrl: GlobalSettings.getImageUrl(data.logo),
+      profileImageUrl: GlobalSettings.getImageUrl(data.logo, GlobalSettings._imgProfileLogo),
       backgroundImageUrl: data.backgroundImage,
       profileTitleFirstPart: "",
       profileTitleLastPart: "Major League Baseball",

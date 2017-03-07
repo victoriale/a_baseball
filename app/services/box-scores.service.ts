@@ -119,7 +119,7 @@ export class BoxScoresService {
         teaser: data[eventType]['teaser'],
         imageConfig:{
           imageClass: "image-320x180-sm",
-          imageUrl: data[eventType]['image_url'] != null ? GlobalSettings.getImageUrl(data[eventType]['image_url']) : sampleImage,
+          imageUrl: data[eventType]['image_url'] != null ? GlobalSettings.getImageUrl(data[eventType]['image_url'], GlobalSettings._imgAiBoxScore) : sampleImage,
           hoverText: "View Article",
           urlRouteArray: MLBGlobalFunctions.formatAiArticleRoute(p, data[eventType]['article_id']),
         }
@@ -225,8 +225,8 @@ export class BoxScoresService {
         awayRoute = null;
       }
     }
-      var homeLogo = this.imageData("image-68", "border-logo", GlobalSettings.getImageUrl(homeData.logo), homeRoute);
-      var awayLogo = this.imageData("image-68", "border-logo", GlobalSettings.getImageUrl(awayData.logo), awayRoute);
+      var homeLogo = this.imageData("image-68", "border-logo", GlobalSettings.getImageUrl(homeData.logo, GlobalSettings._imgScheduleLogo), homeRoute);
+      var awayLogo = this.imageData("image-68", "border-logo", GlobalSettings.getImageUrl(awayData.logo, GlobalSettings._imgScheduleLogo), awayRoute);
       right = {
         homeHex:homeData.colors.split(', ')[0], //parse out comma + space to grab only hex colors
         homeID:homeData.id,
@@ -279,17 +279,17 @@ export class BoxScoresService {
       if(teamId != null && profile == 'team'){//if league then both items will link
         if(homeData.id == teamId){//if not league then check current team they are one
           homeLink = null;
-          var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo))
-          var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo), awayLink)
+          var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo, GlobalSettings._imgBoxScoreLogo));
+          var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo, GlobalSettings._imgBoxScoreLogo), awayLink)
         }else{
           awayLink = null;
-          var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo), homeLink)
+          var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo, GlobalSettings._imgBoxScoreLogo), homeLink);
           var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo))
         }
       }else{
         var aiContent = data.aiContent != null ? self.formatArticle(data):null;
-        var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo), homeLink)
-        var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo), awayLink)
+        var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo, GlobalSettings._imgBoxScoreLogo), homeLink);
+        var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo, GlobalSettings._imgBoxScoreLogo), awayLink)
       }
 
       let gameDate = data.gameInfo;
@@ -379,17 +379,17 @@ export class BoxScoresService {
       if(teamId != null && profile == 'team'){//if league then both items will link
         if(homeData.id == teamId){//if not league then check current team they are one
           homeLink = null;
-          var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo))
-          var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo), awayLink)
+          var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo, GlobalSettings._imgBoxScoreLogo));
+          var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo, GlobalSettings._imgBoxScoreLogo), awayLink)
         }else{
           awayLink = null;
-          var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo), homeLink)
-          var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo))
+          var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo, GlobalSettings._imgBoxScoreLogo), homeLink);
+          var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo, GlobalSettings._imgBoxScoreLogo))
         }
       }else{
         var aiContent = data.aiContent != null ? self.formatArticle(data):null;
-        var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo), homeLink)
-        var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo), awayLink)
+        var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo, GlobalSettings._imgBoxScoreLogo), homeLink);
+        var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo, GlobalSettings._imgBoxScoreLogo), awayLink)
       }
 
       let gameDate = data.gameInfo;
@@ -472,7 +472,7 @@ export class BoxScoresService {
       gameArticle['report'] = "Read The Report";
       gameArticle['headline'] = aiContent[report]['title'];
       gameArticle['articleLink'] = ['Article-pages',{eventType:report,eventID:aiContent[report]['event_id']}];
-      gameArticle['images'] = GlobalSettings.getImageUrl(aiContent[report]['image_url']);
+      gameArticle['images'] = GlobalSettings.getImageUrl(aiContent[report]['image_url'], GlobalSettings._imgAiBoxScore);
     }
     return gameArticle;
   }

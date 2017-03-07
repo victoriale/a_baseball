@@ -95,7 +95,7 @@ export class ImagesMedia implements OnInit {
         this.displayCounter = this.imageCounter + 1;
         // this.smallImage = this.mediaImages;
         if (this.mediaImages && this.smallObjCounter < this.mediaImages.length) {
-            this.backgroundImage = this._sanitizer.bypassSecurityTrustStyle("url(" + this.mediaImages[this.smallObjCounter].image + ")");
+            this.backgroundImage = this._sanitizer.bypassSecurityTrustStyle("url(" + this.mediaImages[this.smallObjCounter].image + "?width=640)");
             this.imageCredit = this.mediaImages[this.smallObjCounter].copyData;
             this.description = this.mediaImages[this.smallObjCounter].title;
         }
@@ -124,7 +124,7 @@ export class ImagesMedia implements OnInit {
                 newImageArray.push({
                     id: index,
                     image: images[index],
-                    backgroundImage: this._sanitizer.bypassSecurityTrustStyle("url(" + images[index] + ")"),
+                    backgroundImage: this._sanitizer.bypassSecurityTrustStyle("url(" + images[index] + "?width=125&quality=90)"),
                     copyData: copyright[index],
                     title: imageTitle[index]
                 });
