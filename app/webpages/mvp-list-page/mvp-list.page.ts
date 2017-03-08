@@ -83,7 +83,7 @@ export class MVPListPage implements OnInit {
     this._profileService.getMLBProfile()
       .subscribe(data => {
         this.profileHeaderData = {
-          imageURL: GlobalSettings.getImageUrl(data.headerData.logo),
+          imageURL: GlobalSettings.getImageUrl(data.headerData.logo, GlobalSettings._imgProfileLogo),
           imageRoute: ["MLB-page"],
           text1: 'Last Updated: ' + GlobalFunctions.formatUpdatedDate(data.headerData.lastUpdated),
           text2: 'United States',

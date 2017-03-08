@@ -200,8 +200,8 @@ export class SchedulesService {
       let time = GlobalFunctions.formatGlobalDate(val.startDateTimestamp,'time');
       newData = {
         date: date + " &bull; " + time,
-        awayImageConfig: self.imageData('image-44', 'border-1', GlobalSettings.getImageUrl(val.awayTeamLogo), MLBGlobalFunctions.formatTeamRoute(val.awayTeamName, val.awayTeamId)),
-        homeImageConfig: self.imageData('image-44', 'border-1', GlobalSettings.getImageUrl(val.homeTeamLogo), MLBGlobalFunctions.formatTeamRoute(val.homeTeamName, val.homeTeamId)),
+        awayImageConfig: self.imageData('image-44', 'border-1', GlobalSettings.getImageUrl(val.awayTeamLogo, GlobalSettings._imgSmLogo), MLBGlobalFunctions.formatTeamRoute(val.awayTeamName, val.awayTeamId)),
+        homeImageConfig: self.imageData('image-44', 'border-1', GlobalSettings.getImageUrl(val.homeTeamLogo, GlobalSettings._imgSmLogo), MLBGlobalFunctions.formatTeamRoute(val.homeTeamName, val.homeTeamId)),
         awayTeamName: val.awayTeamLastName,
         homeTeamName: val.homeTeamLastName,
         awayLink: MLBGlobalFunctions.formatTeamRoute(val.awayTeamName, val.awayTeamId),

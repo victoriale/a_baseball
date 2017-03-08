@@ -169,8 +169,8 @@ export class StandingsService {
     rows.forEach((value, index) => {
       value.groupName = groupName;
       value.displayDate = GlobalFunctions.formatUpdatedDate(value.lastUpdated, false);
-      value.fullImageUrl = GlobalSettings.getImageUrl(value.imageUrl);
-      value.fullBackgroundImageUrl = GlobalSettings.getBackgroundImageUrl(value.backgroundImage);
+      value.fullImageUrl = GlobalSettings.getImageUrl(value.imageUrl, GlobalSettings._imgLgLogo);
+      value.fullBackgroundImageUrl = GlobalSettings.getBackgroundImageUrl(value.backgroundImage, GlobalSettings._imgProfileMod);
       
       //Make sure numbers are numbers.
       value.totalWins = Number(value.totalWins);

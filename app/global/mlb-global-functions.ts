@@ -180,18 +180,34 @@ export class MLBGlobalFunctions {
     if(inputTeamName != null) {
       let teamName = inputTeamName.replace(" ", "_");
       teamName = teamName.replace(".", "");
-      let teamLogo = GlobalSettings.getImageUrl("/mlb/logos/team/MLB_" + teamName + "_Logo.jpg");
+      let teamLogo = GlobalSettings.getImageUrl("/mlb/logos/team/MLB_" + teamName + "_Logo.jpg", GlobalSettings._imgMdLogo);
       return teamLogo;
     }else{
       return "";
     }
   }
 
+  static resizeImage(width:number){
+    var resizePath;
+    let r = window.devicePixelRatio;
+    width = width > 1920 ? 1920 : width;//width limit to 1920 if larger
+    width = width * r;
+    resizePath = "?width=" + width;
+    if(width < 150){//increase quality if smaller than 150, default is set to 70
+      resizePath += "&quality=90";
+    }
+    return resizePath;
+  }
 
-  static getBackroundImageUrlWithStockFallback(relativePath) {
+  static getBackroundImageUrlWithStockFallback(relativePath, width:number=1920):string {
     let stockPhotoArray = ["/app/public/Image-Placeholder-1.jpg","/app/public/Image-Placeholder-2.jpg"];
     let randomStockPhotoSelection = stockPhotoArray[Math.floor(Math.random()*stockPhotoArray.length)];
     var relPath = relativePath != null ? this._proto + "//" + this.getEnv(this._env) + "images.synapsys.us" + relativePath : randomStockPhotoSelection;
+    if (width != 1) {
+      if (relativePath != null && relativePath != "") {
+        relPath += this.resizeImage(width);
+      }
+    }
     return relPath;
   }
 

@@ -215,7 +215,7 @@ export class TransactionsService {
         var teamRoute = MLBGlobalFunctions.formatTeamRoute(val.teamName, val.teamId);
         var playerRoute = null;
         if ( ( !val.roleStatus && val.active == 'injured' ) || val.active == 'active' ) {
-          playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.playerName, val.playerName, val.playerId);;
+          playerRoute = MLBGlobalFunctions.formatPlayerRoute(val.playerName, val.playerName, val.playerId);
         }
         var teamLinkText = {
           route: teamId == val.teamId ? null : teamRoute,
@@ -228,7 +228,7 @@ export class TransactionsService {
           class: 'text-heavy'
         };
         return SliderCarousel.convertToCarouselItemType1(index, {
-          backgroundImage: GlobalSettings.getBackgroundImageUrl(val.backgroundImage),
+          backgroundImage: GlobalSettings.getBackgroundImageUrl(val.backgroundImage, GlobalSettings._imgProfileMod),
           copyrightInfo: GlobalSettings.getCopyrightInfo(),
           subheader: [tab.tabDisplay + ' Report - ', teamLinkText],
           profileNameLink: playerLinkText,
@@ -237,9 +237,9 @@ export class TransactionsService {
           ],
           // lastUpdatedDate: GlobalFunctions.formatUpdatedDate(val.transactionTimestamp),
           lastUpdatedDate: GlobalFunctions.formatUpdatedDate(val.lastUpdate),
-          circleImageUrl: GlobalSettings.getImageUrl(val.playerHeadshot),
+          circleImageUrl: GlobalSettings.getImageUrl(val.playerHeadshot, GlobalSettings._imgLgLogo),
           circleImageRoute: playerRoute
-          // subImageUrl: GlobalSettings.getImageUrl(val.teamLogo),
+          // subImageUrl: GlobalSettings.getImageUrl(val.teamLogo, GlobalSettings._imgLgLogo),
           // subImageRoute: teamRoute
         });
       });
@@ -272,7 +272,7 @@ export class TransactionsService {
           value   : [playerTextLink, val.contents],
           url     : null
         }],
-        imageConfig: TransactionsService.getListImageData(GlobalSettings.getImageUrl(val.playerHeadshot), playerRoute)
+        imageConfig: TransactionsService.getListImageData(GlobalSettings.getImageUrl(val.playerHeadshot, GlobalSettings._imgSmLogo), playerRoute)
       };
     });
     return listDataArray;

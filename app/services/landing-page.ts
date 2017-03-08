@@ -46,7 +46,7 @@ export class LandingPageService {
           val.imageData= {
             imageClass: "image-100",
             mainImage: {
-              imageUrl:  GlobalSettings.getImageUrl(val.teamLogo),
+              imageUrl:  GlobalSettings.getImageUrl(val.teamLogo, GlobalSettings._imgPickTeam),
               urlRouteArray: MLBGlobalFunctions.formatTeamRoute(teamName, val.teamId.toString()),
               hoverText: "<i class='fa fa-mail-forward home-team-image-fa'></i>",// style='font-size:30px;'
               imageClass: "border-3"
