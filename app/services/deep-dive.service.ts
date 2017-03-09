@@ -305,7 +305,7 @@ export class DeepDiveService {
     };
     return articleStackData;
   }
-  transformToRecArticles(data){
+  transformToRecArticles(data, imgSize=GlobalSettings._deepDiveRec){
     var articleTypes = [];
     var articles = [];
     var images = [];
@@ -352,7 +352,7 @@ export class DeepDiveService {
       var dateline = ret[i]['last_updated'] ? ret[i]['last_updated'] : ret[i]['publication_date'];
       ret[i]['displayHeadline'] = ret[i]['title'];
       ret[i]['keyword'] = ret[i]['article_type'].toUpperCase().replace('-',' ');
-      ret[i]['bg_image_var'] = this._sanitizer.bypassSecurityTrustStyle("url(" + GlobalSettings.getImageUrl(ret[i]['image_url'], GlobalSettings._deepDiveRec) + ")");
+      ret[i]['bg_image_var'] = this._sanitizer.bypassSecurityTrustStyle("url(" + GlobalSettings.getImageUrl(ret[i]['image_url'], imgSize) + ")");
       ret[i]['publication_date'] = GlobalFunctions.formatGlobalDate(Number(dateline) * 1000,'defaultDate');
       ret[i]['event_id'] = eventID;
     }
