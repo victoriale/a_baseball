@@ -72,7 +72,6 @@ export class GlobalSettings {
       }
     }
 
-
     static getDynamicWidget():string {
         return this._proto + "//" + this._dynamicApiUrl;
     }
