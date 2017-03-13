@@ -299,7 +299,10 @@ export class MyAppComponent{
   public partnerScript:string;
   public shiftContainer:string;
   public hideHeader:boolean;
+  public iframeMaxHeight: any;
   private isHomeRunZone:boolean = false;
+  private scrollPadding:string = '100px';
+
   constructor(private _partnerData: PartnerHeader, private _params: RouteParams){
     var parentParams = _params.params;
 
@@ -326,9 +329,9 @@ export class MyAppComponent{
       this._partnerData.getPartnerData(this.partnerID)
       .subscribe(
         partnerScript => {
-          //console.log(partnerScript);
           this.partnerData = partnerScript;
           this.partnerScript = this.partnerData['results'].header.script;
+          this.iframeMaxHeight = this.partnerData['results'].header.height + 'px';
         }
       );
     }else{
@@ -340,6 +343,10 @@ export class MyAppComponent{
     if(this.shiftContainer != (checkHeight + 'px')){
       this.shiftContainer = checkHeight + 'px';
     }
+  }
+
+  setScrollPadding(event) {
+    this.scrollPadding = event + 'px';
   }
 
   setPageSize(ths){

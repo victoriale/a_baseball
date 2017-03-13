@@ -227,14 +227,14 @@ export class ComparisonModule implements OnInit, OnChanges {
             imageConfig: {
                 imageClass: "image-150",
                 mainImage: {
-                    imageUrl: GlobalSettings.getImageUrl(player.playerHeadshot),
+                    imageUrl: GlobalSettings.getImageUrl(player.playerHeadshot, GlobalSettings._imgLgLogo),
                     urlRouteArray: playerRoute,
                     hoverText: "<p>View</p><p>Profile</p>",
                     imageClass: "border-med"
                 },
                 subImages: [
                     // {
-                        // imageUrl: GlobalSettings.getImageUrl(player.teamLogo),
+                        // imageUrl: GlobalSettings.getImageUrl(player.teamLogo, GlobalSettings._imgLgLogo),
                         // urlRouteArray: MLBGlobalFunctions.formatTeamRoute(player.teamName, player.teamId),
                         // hoverText: "<i class='fa fa-mail-forward'></i>",
                         // imageClass: "image-50-sub image-round-lower-right"

@@ -153,7 +153,7 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
       class: 'text-heavy'
     }
     return SliderCarousel.convertToCarouselItemType1(index, {
-      backgroundImage: GlobalSettings.getBackgroundImageUrl(val.backgroundImage),
+      backgroundImage: GlobalSettings.getBackgroundImageUrl(val.backgroundImage, GlobalSettings._imgProfileMod),
       copyrightInfo: GlobalSettings.getCopyrightInfo(),
       subheader: [curYear + ' TEAM ROSTER'],
       profileNameLink: playerLinkText,
@@ -164,7 +164,7 @@ export class MLBRosterTabData implements RosterTabData<TeamRosterData> {
           'wears <span class="text-heavy">'+ playerNum + '</span> is ' + playerHeight + playerWeight +" and "+ playerSalary
       ],
       lastUpdatedDate: GlobalFunctions.formatUpdatedDate(val.lastUpdate),
-      circleImageUrl: GlobalSettings.getImageUrl(val.playerHeadshot),
+      circleImageUrl: GlobalSettings.getImageUrl(val.playerHeadshot, GlobalSettings._imgLgLogo),
       circleImageRoute: playerRoute,
       // subImageUrl: GlobalSettings.getImageUrl(val.teamLogo),
       // subImageRoute: teamRoute,
@@ -250,7 +250,7 @@ export class RosterTableModel implements TableModel<TeamRosterData> {
         display = item.playerName;
         sort = item.playerLastName + ', ' + item.playerFirstName;
         link = MLBGlobalFunctions.formatPlayerRoute(item.teamName, item.playerName, item.playerId);
-        imageUrl = GlobalSettings.getImageUrl(item.playerHeadshot);
+        imageUrl = GlobalSettings.getImageUrl(item.playerHeadshot, GlobalSettings._imgSmLogo);
         break;
 
       case "pos":

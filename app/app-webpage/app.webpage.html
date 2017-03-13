@@ -1,9 +1,14 @@
 <div class="container-fluid vertical">
   <div class="row">
     <div class="col-xs-12">
-      <div id="partner" *ngIf="partnerScript" [innerHTML]="partnerScript | safeHtml"></div>
-      <header-component *ngIf="!hideHeader" partner="{{partnerID}}"></header-component>
-      <div class='web-container container-fluid' [style.padding-top]="shiftContainer | safeStyle">
+      <header-component
+          *ngIf="!hideHeader"
+          [partnerID]="partnerID"
+          [partnerScript] ="partnerScript"
+          [iframeMaxHeight] ="iframeMaxHeight"
+          (scrollPadding)="setScrollPadding($event)">
+      </header-component>
+      <div class='web-container container-fluid' [style.padding-top]="scrollPadding">
         <router-outlet></router-outlet>
         <footer-component *ngIf="!hideHeader" [partner]="partnerID"></footer-component>
       </div>

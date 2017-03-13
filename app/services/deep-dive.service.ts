@@ -113,7 +113,7 @@ export class DeepDiveService {
     state = 'null';
   }
   var articleType = 'pregame-report';
-  var callURL = this._articleLibraryUrl+'/articles?scope=mlb&readyToPublish=all&articleType=' + articleType + '&count=8&metaDataOnly=1&state=' + state;
+  var callURL = this._articleLibraryUrl+'/articles?scope=mlb&readyToPublish=all&articleType=' + articleType + '&count=7&metaDataOnly=1&state=' + state;
   return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -129,7 +129,7 @@ export class DeepDiveService {
   if(state == null){
     state = 'CA';
   }
-  var callURL = this._articleLibraryUrl+'/articles?scope=mlb&readyToPublish=all&articleType=player-comparisons&count=8&metaDataOnly=1&state='+state;
+  var callURL = this._articleLibraryUrl+'/articles?scope=mlb&readyToPublish=all&articleType=player-comparisons&count=7&metaDataOnly=1&state='+state;
       return this.http.get(callURL, {headers: headers})
     .map(res => res.json())
     .map(data => {
@@ -214,10 +214,10 @@ export class DeepDiveService {
           provider1: val.author != null ? val.author : "",
           provider2: val.publisher != null ? "Published By: " + val.publisher : "",
           description: val.title,
-          images:  val.imagePath != null ? GlobalSettings.getImageUrl(val.imagePath, 750) : sampleImage,
+          images:  val.imagePath != null ? GlobalSettings.getImageUrl(val.imagePath, GlobalSettings._deepDiveMd) : sampleImage,
           imageConfig: {
             imageClass: "image-100x56",
-            imageUrl: val.imagePath != null ? GlobalSettings.getImageUrl(val.imagePath, 100) : sampleImage,
+            imageUrl: val.imagePath != null ? GlobalSettings.getImageUrl(val.imagePath, GlobalSettings._deepDiveSm) : sampleImage,
             hoverText: "View",
             urlRouteArray: MLBGlobalFunctions.formatSynRoute('story', val.id)
           }
@@ -243,13 +243,13 @@ export class DeepDiveService {
           imageConfig: {
           imageClass: "image-100x56",
           hoverText: "View",
-          imageUrl: val['image_url'] != null ? GlobalSettings.getImageUrl(val['image_url'], 100) : sampleImage,
+          imageUrl: val['image_url'] != null ? GlobalSettings.getImageUrl(val['image_url'], GlobalSettings._deepDiveSm) : sampleImage,
           urlRouteArray: MLBGlobalFunctions.formatAiArticleRoute(val['article_sub_type'], val['event_id'])
           }
       }
       articleStackArray.push(s);
     }
-    });
+  });
     return articleStackArray;
   }
   transformToAiHeavyArticleRow(data){
@@ -269,7 +269,7 @@ export class DeepDiveService {
                   imageConfig: {
                       imageClass: "image-100x56",
                       hoverText: "View",
-                      imageUrl: val['image_url'] != null ? GlobalSettings.getImageUrl(val['image_url'], 100) : sampleImage,
+                      imageUrl: val['image_url'] != null ? GlobalSettings.getImageUrl(val['image_url'], GlobalSettings._deepDiveSm) : sampleImage,
                       urlRouteArray: MLBGlobalFunctions.formatAiArticleRoute(val['article_sub_type'], val['event_id'])
                   }
               };
@@ -298,14 +298,14 @@ export class DeepDiveService {
         description: limitDesc,
         imageConfig: {
           imageClass: "image-320x180",
-          imageUrl: topData.imagePath != null ? GlobalSettings.getImageUrl(topData.imagePath, 750) : sampleImage,
+          imageUrl: topData.imagePath != null ? GlobalSettings.getImageUrl(topData.imagePath, GlobalSettings._deepDiveMd) : sampleImage,
           hoverText: "View Article",
           urlRouteArray: MLBGlobalFunctions.formatSynRoute('story', topData.id)
         }
     };
     return articleStackData;
   }
-  transformToRecArticles(data){
+  transformToRecArticles(data, imgSize=GlobalSettings._deepDiveRec){
     var articleTypes = [];
     var articles = [];
     var images = [];
@@ -352,7 +352,7 @@ export class DeepDiveService {
       var dateline = ret[i]['last_updated'] ? ret[i]['last_updated'] : ret[i]['publication_date'];
       ret[i]['displayHeadline'] = ret[i]['title'];
       ret[i]['keyword'] = ret[i]['article_type'].toUpperCase().replace('-',' ');
-      ret[i]['bg_image_var'] = this._sanitizer.bypassSecurityTrustStyle("url(" + GlobalSettings.getImageUrl(ret[i]['image_url'], 640) + ")");
+      ret[i]['bg_image_var'] = this._sanitizer.bypassSecurityTrustStyle("url(" + GlobalSettings.getImageUrl(ret[i]['image_url'], imgSize) + ")");
       ret[i]['publication_date'] = GlobalFunctions.formatGlobalDate(Number(dateline) * 1000,'defaultDate');
       ret[i]['event_id'] = eventID;
     }
@@ -364,7 +364,7 @@ export class DeepDiveService {
       //if (val.id != currentArticleId) {
       let date = GlobalFunctions.formatGlobalDate(Number(val.publishedDate),'timeZone');
       val["date"] = date;
-      val["image"] = GlobalSettings.getImageUrl(val.imagePath, 140);
+      val["image"] = GlobalSettings.getImageUrl(val.imagePath, GlobalSettings._deepDiveTrending);
       val["newsRoute"] = MLBGlobalFunctions.formatNewsRoute(val.id);
       //}
     })
@@ -393,7 +393,7 @@ export class DeepDiveService {
       dataStack[i] = data[i];
       dataStack[i]['lines'] = lines[i];
       dataStack[i]['tileLink'] = tileLink[i];
-      dataStack[i]['image_url'] = GlobalSettings.getImageUrl(k, 640) != null ? GlobalSettings.getImageUrl(k) : "/app/public/placeholder_XL.png";
+      dataStack[i]['image_url'] = GlobalSettings.getImageUrl(k) != null ? GlobalSettings.getImageUrl(k, GlobalSettings._imgAiRec) : "/app/public/placeholder_XL.png";
       // remove appended image string from array
       imagePaths.splice(indexOfK,1);
     }

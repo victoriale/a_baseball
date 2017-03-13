@@ -137,7 +137,7 @@ export class DailyUpdateService {
         return {
           hasError: false,
           lastUpdateDate: data.lastUpdated ? GlobalFunctions.formatUpdatedDate(data.lastUpdated) : "",
-          fullBackgroundImageUrl: GlobalSettings.getBackgroundImageUrl(data.backgroundImage),
+          fullBackgroundImageUrl: GlobalSettings.getBackgroundImageUrl(data.backgroundImage, GlobalSettings._imgProfileMod),
           type: "Team",
           wrapperStyle: {},
           seasonStats: stats,
@@ -208,7 +208,7 @@ export class DailyUpdateService {
       return {
         hasError: false,
         lastUpdateDate: data.lastUpdated ? GlobalFunctions.formatUpdatedDate(data.lastUpdated) : "",
-        fullBackgroundImageUrl: GlobalSettings.getBackgroundImageUrl(data.backgroundImage),
+        fullBackgroundImageUrl: GlobalSettings.getBackgroundImageUrl(data.backgroundImage, GlobalSettings._imgProfileMod),
         type: "Player",
         wrapperStyle: {'padding-bottom': '10px'},
         seasonStats: stats,
@@ -298,7 +298,7 @@ export class DailyUpdateService {
     articleData['pubDate'] = postGameReport.last_updated ? GlobalFunctions.formatGlobalDate(postGameReport.last_updated, 'timeZone') : null;
     articleData['headline'] = postGameReport.title != null ? postGameReport.title : null;
     articleData['text'] = postGameReport['teaser'] != null && postGameReport['teaser'].length > 0 ? [postGameReport['teaser']] : null;
-    articleData['img'] = postGameReport['image_url'] != null ? MLBGlobalFunctions.getBackroundImageUrlWithStockFallback(postGameReport['image_url']) : null;
+    articleData['img'] = postGameReport['image_url'] != null ? MLBGlobalFunctions.getBackroundImageUrlWithStockFallback(postGameReport['image_url'], GlobalSettings._imgMdLogo) : null;
     articleData['type'] = type != null ? type : null;
 
     this.postGameArticleData = <PostGameArticleData>articleData;

@@ -264,7 +264,10 @@ export class AppComponent{
   public partnerScript:string;
   public shiftContainer:string;
   public hideHeader: boolean;
+  public iframeMaxHeight: any;
   private isHomeRunZone:boolean = false;
+  private scrollPadding:string = '100px';
+
   constructor(private _partnerData: PartnerHeader, private _params: RouteParams, private _router: Router){
     //this.hideHeader = GlobalSettings.getHomeInfo().hide;
     if(window.location.hostname.split(".")[0].toLowerCase() == "baseball"){
@@ -288,6 +291,7 @@ export class AppComponent{
           partnerScript => {
             this.partnerData = partnerScript;
             this.partnerScript = this.partnerData['results'].header.script;
+            this.iframeMaxHeight = this.partnerData['results'].header.height + 'px';
           }
         );
     }
@@ -298,6 +302,10 @@ export class AppComponent{
     if(this.shiftContainer != (checkHeight + 'px')){
       this.shiftContainer = checkHeight + 'px';
     }
+  }
+
+  setScrollPadding(event) {
+    this.scrollPadding = event + 'px';
   }
 
   setPageSize(ths){

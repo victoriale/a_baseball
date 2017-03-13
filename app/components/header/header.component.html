@@ -1,4 +1,8 @@
-<header class="header container-fluid fixedHeader" [style.top]="_stickyHeaderPartner" id="pageHeader" (window:scroll)="onScrollStick($event)">
+<header class="header container-fluid fixedHeader" id="pageHeader"
+    [ngClass]="{'slide-up': scrollMenuUp, 'slide-down': !scrollMenuUp}"
+    [ngStyle]="{'top': menuTransitionAmount+'px'}"
+    (window:scroll)="onScrollStick($event)">
+    <div id="partner" *ngIf="partnerScript"  [style.height]="iframeMaxHeight | safeStyle" [innerHTML]="partnerScript | safeHtml"></div>
     <div *ngIf="!partnerID" class="header-logo">
         <a [routerLink]="['Home-page']"><img src="{{logoUrl}}" alt="Baseball Logo"/></a>
     </div>
@@ -25,7 +29,7 @@
         </div>
     </section>
 
-    <div id="salad-bar-top" class="fixedHeader" [style.top]="_stickyHeader">
+    <div id="header-bottom" class="header-bottom" [style.top]="_stickyHeader">
         <div id="salad-bar"></div>
     </div>
 
