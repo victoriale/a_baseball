@@ -39,19 +39,16 @@ export class GlobalSettings {
     static _imgSmLogo: number = 48;
     static _imgScheduleLogo: number = 68;
     static _imgPageLogo: number = 96;
-    static _imgHeadlineSub: number = 100;
-    static _imgPickTeam: number = 100;
+    static _deepDiveSm: number = 100;
     static _imgMdLogo: number = 121;
-    static _imgScheduleLogoLarge: number = 125;
-    static _imgAiBoxScore: number = 125;
+    static _imgLogoLarge: number = 125;
     static _imgLgLogo: number = 150;
     static _imgProfileLogo: number = 180;
+    static _deepDiveTrending: number = 140;
     static _imgHeadlineMain: number = 300;
+    static _deepDiveRec: number = 350;
     static _imgAiRec: number = 600;
     static _imgProfileMod: number = 640;
-    static _deepDiveSm: number = 100;
-    static _deepDiveTrending: number = 140;
-    static _deepDiveRec: number = 300;
     static _deepDiveMd: number = 750;
 
     static getEnv(env:string):string {
