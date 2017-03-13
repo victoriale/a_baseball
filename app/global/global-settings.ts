@@ -30,7 +30,6 @@ export class GlobalSettings {
     private static _dataProvidedBy: string = 'XML Team';
 
     private static _baseTitle: string = "Home Run Loyal";
-    private static __basePartnerTitle: string = ""
     private static _sportName: string ="baseball";
     private static _sportLeagueAbbrv: string ="MLB";
 
@@ -73,13 +72,6 @@ export class GlobalSettings {
       }
     }
 
- /*   static getBaseTitle() {
-        return this._baseTitle;
-    }
-
-    static getBasePartnerTitle() {
-        return this._basePartnerTitle;
-    }*/
 
     static getDynamicWidget():string {
         return this._proto + "//" + this._dynamicApiUrl;
