@@ -51,7 +51,7 @@ export class GlobalSettings {
     static _imgProfileMod: number = 640;
     static _deepDiveSm: number = 100;
     static _deepDiveTrending: number = 140;
-    static _deepDiveRec: number = 300;
+    static _deepDiveRec: number = 350;
     static _deepDiveMd: number = 750;
 
     static getEnv(env:string):string {
