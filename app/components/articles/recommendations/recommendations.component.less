@@ -12,22 +12,19 @@
       text-align: left;
     }
     &-icon {
-      color: @masterBrandColor;
-      font-size: 32px;
-      font-weight: 400;
       text-align: left;
       margin-right: 15px;
+      .globalDefaultModFont(22px, 400, @masterBrandColor);
       @media @mobile-s {
         font-size: 20px;
         margin-right: 10px;
       }
     }
     &-text {
-      .globalDefaultFont(32px, 400);
+      .globalDefaultFont(22px, 400);
       text-align: left;
-      @media @mobile-s {
-        .globalDefaultFont(20px, 400);
-      }
+      vertical-align: top;
+      @media @mobile-s {font-size: 20px}
     }
   }
 
