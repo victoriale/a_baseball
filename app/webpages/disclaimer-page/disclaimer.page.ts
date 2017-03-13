@@ -48,6 +48,7 @@ export class DisclaimerPage {
       this._seoService.setTitle('Disclaimer');
       this._seoService.setMetaDescription(metaDesc);
       this._seoService.setMetaRobots('NOINDEX, FOLLOW');
+      this._seoService.setPageDescription(metaDesc);
     }
 
     loadData(partnerID:string) {

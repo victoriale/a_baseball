@@ -285,6 +285,7 @@ export class TeamPage implements OnInit {
       this._seoService.setPageTitle(data.profileName);
       this._seoService.setImageUrl(data.fullProfileImageUrl);
       this._seoService.setKeywords(keywords);
+      this._seoService.setPageDescription(metaDesc);
     }
 
     private dailyUpdateModule(teamId: number) {

@@ -97,6 +97,7 @@ export class PickTeamPage{
         this._seoService.setPageTitle(title);
         this._seoService.setImageUrl(image);
         this._seoService.setKeywords("baseball, " + GlobalSettings.getSportLeagueAbbrv());
+        this._seoService.setPageDescription(metaDesc);
       });
     }
 

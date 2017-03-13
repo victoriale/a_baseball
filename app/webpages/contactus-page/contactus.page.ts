@@ -112,5 +112,6 @@ export class ContactUsPage{
       this._seoService.setTitle('Contact Us');
       this._seoService.setMetaDescription(metaDesc);
       this._seoService.setMetaRobots('NOINDEX, FOLLOW');
+      this._seoService.setPageDescription(metaDesc);
     }
 }

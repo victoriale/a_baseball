@@ -36,7 +36,7 @@ export class SeoService {
     private es_article_author:HTMLElement;
     private es_article_publisher:HTMLElement;
     private es_image_url:HTMLElement;
-    private es_article_teaser:HTMLElement;
+    private es_description:HTMLElement;
     private es_page_url:HTMLElement;
     private es_article_type:HTMLElement;
     private es_keywords:HTMLElement;
@@ -49,15 +49,18 @@ export class SeoService {
         this.headElement = this.document.head;
     }
 
+    //sets title to less than 55 characters and will choose the  first 3 words and append site name at end
     public setTitle(newTitle:string) {
         let splitTitle = newTitle.split(' ');
         let shortTitle;
-        if (splitTitle.length > 3) {
+
+        if (newTitle.length > 55) {
             splitTitle = splitTitle.splice(0, 3);
-            shortTitle = splitTitle.join(' ') + '...';
+            shortTitle = splitTitle.join(' ');
         } else {
             shortTitle = splitTitle.join(' ');
         }
+        shortTitle = shortTitle + ' | ' + GlobalSettings.getPageTitle();
         this.document.title = shortTitle;
     }
 
@@ -269,12 +272,12 @@ export class SeoService {
         }
     }
 
-    public setArticleTeaser(articleTeaser:string) {
+    public setPageDescription(articleTeaser:string) {
         if (SeoService.checkData(articleTeaser)) {
-            if (!this.document.querySelector('meta[name="es_article_teaser"]')) {
-                this.es_article_teaser = this.getOrCreateElement('name', 'es_article_teaser', 'meta');
+            if (!this.document.querySelector('meta[name="es_description"]')) {
+                this.es_description = this.getOrCreateElement('name', 'es_description', 'meta');
             }
-            this.setElementAttribute(this.es_article_teaser, 'content', articleTeaser);
+            this.setElementAttribute(this.es_description, 'content', articleTeaser);
         }
     }
 
