@@ -367,41 +367,23 @@
       }
     }
   }
-  .deep-dive-recommendations .deep_recs-articles-item{
-      width: 216px;
-  }
+  .deep-dive-recommendations .deep_recs-articles-item{width: 216px}
 }
 
 @media @desktop-l{
   .deep_recs {
     padding-left: 0;
     padding-right: 0;
-    &-articles{
-      &-item{
-        &-content{
-          margin-top: 10px;
-          .globalDefaultFont(12px, 400);
-          &-dateline{display: block}
-        }
-      }
-    }
+    &-articles-item-content-dateline{display: block}
   }
 }
 
 @media @desktop-xl{
   .deep_recs {
-      padding-left: 0;
-      padding-right: 0;
-      &-articles{
-        &-item{
-          width: 348px;
-          &-content{
-            margin-top: 10px;
-            width: 348px;
-            font-size: 14px;
-          }
-          &-image{height: 220px}
-        }
-      }
+      &-articles-item-content{font-size: 14px}
+  }
+  .deep-dive-recommendations .deep_recs-articles-item{
+      width: 348px;
+      &-image{height: 220px}
   }
 }

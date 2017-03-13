@@ -208,7 +208,7 @@ export class SyndicatedArticlePage{
       var state = this.geoLocation.toUpperCase(); //needed to uppoercase for ai to grab data correctly
       this._deepdiveservice.getRecArticleData(state, '1', '6')
           .subscribe(data => {
-            this.recomendationData = this._deepdiveservice.transformToRecArticles(data);
+            this.recomendationData = this._deepdiveservice.transformToRecArticles(data, GlobalSettings._imgProfileMod);
             this.recomendationData = [this.recomendationData[0], this.recomendationData[1], this.recomendationData[2]];
           });
     }
