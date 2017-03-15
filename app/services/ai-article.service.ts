@@ -343,7 +343,7 @@ export class ArticleDataService {
                     teaser: val.teaser,
                     eventId: val.event_id,
                     eventType: "pregame-report",
-                    image: MLBGlobalFunctions.getBackroundImageUrlWithStockFallback(val.image_url, GlobalSettings._imgHeadlineSub),
+                    image: MLBGlobalFunctions.getBackroundImageUrlWithStockFallback(val.image_url, GlobalSettings._deepDiveSm),
                     url: MLBGlobalFunctions.formatArticleRoute(val['article_type'], val.event_id),
                     rawUrl: window.location.protocol + "//" + window.location.host + "/articles/pregame-report/" + val.event_id
                 };
@@ -492,7 +492,7 @@ export class ArticleDataService {
                             title: data['otherReports'][val].title,
                             eventType: val,
                             eventID: data['otherReports'][val].event_id,
-                            images: GlobalSettings.getImageUrl(data['otherReports'][val].image_url, GlobalSettings._imgHeadlineSub),
+                            images: GlobalSettings.getImageUrl(data['otherReports'][val].image_url, GlobalSettings._deepDiveSm),
                             articleUrl: MLBGlobalFunctions.formatArticleRoute(val, data['otherReports'][val].event_id)
                         };
                         subArticleArr.push(articles);
@@ -524,7 +524,7 @@ export class ArticleDataService {
                             title: data['otherReports'][val].title,
                             eventType: val,
                             eventID: data['otherReports'][val].event_id,
-                            images: GlobalSettings.getImageUrl(data['otherReports'][val].image_url, GlobalSettings._imgHeadlineSub),
+                            images: GlobalSettings.getImageUrl(data['otherReports'][val].image_url, GlobalSettings._deepDiveSm),
                             articleUrl: MLBGlobalFunctions.formatArticleRoute(val, data['otherReports'][val].event_id)
                         };
                         headToHeadArticleArr.push(articles);
@@ -553,7 +553,7 @@ export class ArticleDataService {
                     title: val.title,
                     eventType: "pregame-report",
                     eventID: val.event_id,
-                    images: GlobalSettings.getImageUrl(val.image_url, GlobalSettings._imgHeadlineSub),
+                    images: GlobalSettings.getImageUrl(val.image_url, GlobalSettings._deepDiveSm),
                     articleUrl: MLBGlobalFunctions.formatArticleRoute("pregame-report", val.event_id)
                 };
                 leagueArr.push(articles);

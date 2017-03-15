@@ -51,10 +51,12 @@
         color:@bulletGrey;
       }
       &.hover{
-        cursor: pointer;
-        &:hover{
-          color:@masterBrandColor;
-          background-color: @white;
+        @media @tablet{
+          cursor: pointer;
+          &:hover{
+            color:@masterBrandColor;
+            background-color: @white;
+          }
         }
       }
       & > span{
@@ -95,13 +97,14 @@
       cursor: pointer;
     }
     &:hover i{
-      color:@masterBrandColor;
+      @media @tablet{
+        color:@masterBrandColor;
+      }
     }
-
   }
   &-circles{
     @hoverColor: @masterBrandColor;
-    @circleColor:@bulletGrey;//from base.less
+    @circleColor:@bulletGrey;
     font-size: 30px;
     font-weight: 400;
     color: @circleColor;
@@ -115,11 +118,12 @@
     margin:2px 0;
     z-index: 1;
     .no-select;
-
     &:hover{
-      color: @white;
-      background-color: @hoverColor;
-      border-color: @hoverColor;
+      @media @tablet{
+        color: @white;
+        background-color: @hoverColor;
+        border-color: @hoverColor;
+      }
     }
   }
   @media @mobile {

@@ -139,7 +139,7 @@ export class MLBSchedulesTableData implements TableComponentData<SchedulesData> 
       imageConfig1:{//AWAY
         imageClass: "image-125",
         mainImage: {
-          imageUrl: GlobalSettings.getImageUrl(item.awayTeamLogo, GlobalSettings._imgScheduleLogoLarge),
+          imageUrl: GlobalSettings.getImageUrl(item.awayTeamLogo, GlobalSettings._imgLogoLarge),
           urlRouteArray: teamRouteAway,
           hoverText: "<p>View</p><p>Profile</p>",
           imageClass: "border-5"
@@ -148,7 +148,7 @@ export class MLBSchedulesTableData implements TableComponentData<SchedulesData> 
       imageConfig2:{//HOME
         imageClass: "image-125",
         mainImage: {
-          imageUrl: GlobalSettings.getImageUrl(item.homeTeamLogo, GlobalSettings._imgScheduleLogoLarge),
+          imageUrl: GlobalSettings.getImageUrl(item.homeTeamLogo, GlobalSettings._imgLogoLarge),
           urlRouteArray: teamRouteHome,
           hoverText: "<p>View</p><p>Profile</p>",
           imageClass: "border-5"

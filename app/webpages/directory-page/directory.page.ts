@@ -75,6 +75,7 @@ export class DirectoryPage {
     this._seoService.setTitle('Directory');
     this._seoService.setMetaDescription(metaDesc);
     this._seoService.setMetaRobots('INDEX, FOLLOW');
+    this._seoService.setPageDescription(metaDesc);
   }
 
   ngOnInit() {

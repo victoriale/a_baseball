@@ -127,7 +127,7 @@ export class SyndicatedArticlePage{
           this._seoService.setCategory("Baseball, " + GlobalSettings.getSportLeagueAbbrv());
           this._seoService.setPublishedDate(dataList.publishedDate);
           this._seoService.setImageUrl(this.imageData[0]);
-          this._seoService.setArticleTeaser(dataList.teaser.replace(/<ng2-route>|<\/ng2-route>/g, ''));
+          this._seoService.setPageDescription(dataList.teaser.replace(/<ng2-route>|<\/ng2-route>/g, ''));
           this._seoService.setPageUrl(link);
           this._seoService.setKeywords(dataList.keyword);
           this.articleData = data.data;

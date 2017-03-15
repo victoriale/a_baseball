@@ -119,7 +119,7 @@ export class BoxScoresService {
         teaser: data[eventType]['teaser'],
         imageConfig:{
           imageClass: "image-320x180-sm",
-          imageUrl: data[eventType]['image_url'] != null ? GlobalSettings.getImageUrl(data[eventType]['image_url'], GlobalSettings._imgAiBoxScore) : sampleImage,
+          imageUrl: data[eventType]['image_url'] != null ? GlobalSettings.getImageUrl(data[eventType]['image_url'], GlobalSettings._imgLogoLarge) : sampleImage,
           hoverText: "View Article",
           urlRouteArray: MLBGlobalFunctions.formatAiArticleRoute(p, data[eventType]['article_id']),
         }
@@ -472,7 +472,7 @@ export class BoxScoresService {
       gameArticle['report'] = "Read The Report";
       gameArticle['headline'] = aiContent[report]['title'];
       gameArticle['articleLink'] = ['Article-pages',{eventType:report,eventID:aiContent[report]['event_id']}];
-      gameArticle['images'] = GlobalSettings.getImageUrl(aiContent[report]['image_url'], GlobalSettings._imgAiBoxScore);
+      gameArticle['images'] = GlobalSettings.getImageUrl(aiContent[report]['image_url'], GlobalSettings._imgLogoLarge);
     }
     return gameArticle;
   }
