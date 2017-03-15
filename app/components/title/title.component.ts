@@ -60,6 +60,7 @@ export class TitleComponent implements OnChanges {
       this._seoService.setCategory("baseball, " + GlobalSettings.getSportLeagueAbbrv());
       this._seoService.setPageUrl(link);
       this._seoService.setKeywords(keywords);
+      this._seoService.setPageDescription(metaDesc +". Know more about baseball.");
     }
     ngOnChanges() {
         if(!this.titleData){
