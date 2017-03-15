@@ -42,9 +42,9 @@ export class GlobalSettings {
     static _deepDiveSm: number = 100;
     static _imgMdLogo: number = 121;
     static _imgLogoLarge: number = 125;
+    static _deepDiveTrending: number = 140;
     static _imgLgLogo: number = 150;
     static _imgProfileLogo: number = 180;
-    static _deepDiveTrending: number = 140;
     static _imgHeadlineMain: number = 300;
     static _deepDiveRec: number = 350;
     static _imgAiRec: number = 600;
