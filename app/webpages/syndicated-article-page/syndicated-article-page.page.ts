@@ -164,6 +164,7 @@ export class SyndicatedArticlePage{
           this._seoService.setPublishedDate(dataList.pubDate);
           this._seoService.setImageUrl(dataList.videoLink);
           this._seoService.setPageUrl(link);
+          this._seoService.setPageDescription(metaDesc);
           this._seoService.setKeywords("Baseball, video, " + GlobalSettings.getSportLeagueAbbrv());
           this.articleData = dataList;
           this.iframeUrl = this.articleData.videoLink + "&autoplay=on";
