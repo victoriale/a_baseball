@@ -267,6 +267,7 @@ export class MLBPage implements OnInit {
       this._seoService.setImageUrl(GlobalSettings.getImageUrl(header.logo));
       this._seoService.setPageUrl(link);
       this._seoService.setKeywords(keywords);
+      this._seoService.setPageDescription(metaDesc);
     }
 
     //grab tab to make api calls for post of pre event table

@@ -65,8 +65,7 @@ export class DeepDivePage implements OnInit{
     //for carousel
     carouselData: any;
     videoData:any;
-    blockIndex: number = 1;
-​
+    blockIndex:number = 1;​
     private isHomeRunZone: boolean = false;
 
     constructor(
@@ -84,10 +83,10 @@ export class DeepDivePage implements OnInit{
       _title.setTitle(GlobalSettings.getPageTitle('Deep Dive'));
 
       //create meta description that is below 160 characters otherwise will be truncated
-      let metaDesc = GlobalSettings.getPageTitle('Dive into the most recent MLB news and read the latest articles about your favorite baseball team.', 'Deep Dive');
+      let metaDesc = GlobalSettings.getPageTitle('Get archival information about Major League Baseball that includes but not limited to latest news, scores, photos, videos etc. Dive into tremendous collection of articles related to your favorite MLB teams and players', 'MLB');
       let link = window.location.href;
       let image = './app/public/mainLogo.png';
-      let title = 'Deep Dive Page';
+      let title = 'Major League Baseball';
       //This call will remove all meta tags from the head.
       this._seoService.removeMetaTags();
       this._seoService.setCanonicalLink(this._params.params, this._router);
@@ -106,7 +105,8 @@ export class DeepDivePage implements OnInit{
       this._seoService.setCategory("baseball, " + GlobalSettings.getSportLeagueAbbrv());
       this._seoService.setPageTitle(title);
       this._seoService.setImageUrl(image);
-      this._seoService.setKeywords("baseball, " + GlobalSettings.getSportLeagueAbbrv());
+      this._seoService.setKeywords("baseball, deep dive page, " + GlobalSettings.getSportLeagueAbbrv());
+      this._seoService.setPageDescription(metaDesc);
       this.profileName = GlobalSettings.getSportLeagueAbbrv().toUpperCase();
 
       GlobalSettings.getPartnerID(_router, partnerID => {
@@ -216,6 +216,8 @@ export class DeepDivePage implements OnInit{
       }
     }
     ngOnInit(){
+
+
       // var script = document.createElement("script");
       // script.src = 'http://content.synapsys.us/deepdive/rails/rails.js?selector=.web-container&adMarginTop=100';
       // document.head.appendChild(script);

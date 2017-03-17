@@ -64,20 +64,7 @@ export class AboutUsPage {
     }
 
     ngAfterViewInit(){
-      //This call will remove all meta tags from the head.
-      this._seoService.removeMetaTags();
-      //create meta description that is below 160 characters otherwise will be truncated
-      let metaDesc = 'About Us, learn about baseball and MLB players and team';
-      let link = window.location.href;
-      this._seoService.setCanonicalLink(this._params.params, this._router);
-      this._seoService.setOgTitle('About Us');
-      this._seoService.setOgDesc(metaDesc);
-      this._seoService.setOgType('image');
-      this._seoService.setOgUrl(link);
-      this._seoService.setOgImage('./app/public/mainLogo.png');
-      this._seoService.setTitle('About Us');
-      this._seoService.setMetaDescription(metaDesc);
-      this._seoService.setMetaRobots('INDEX, FOLLOW');
+
     }
     loadData(partnerID:string) {
         this._service.getData(partnerID).subscribe(
@@ -86,6 +73,27 @@ export class AboutUsPage {
             console.log("Error getting About Us data: " + err);
           }
         );
+
+    }
+
+    createMetaTags(data){
+        //This call will remove all meta tags from the head.
+        this._seoService.removeMetaTags();
+        //create meta description that is below 160 characters otherwise will be truncated
+        let metaDesc = GlobalSettings.getPageTitle(data.content[0],"About us");
+        let link = window.location.href;
+        this._seoService.setCanonicalLink(this._params.params, this._router);
+        this._seoService.setOgTitle('About Us - '+ GlobalSettings.getPageTitle());
+        this._seoService.setOgDesc(metaDesc);
+        this._seoService.setOgType('image');
+        this._seoService.setOgUrl(link);
+        this._seoService.setOgImage('./app/public/mainLogo.png');
+        this._seoService.setTitle('About Us - '+ GlobalSettings.getPageTitle());
+        this._seoService.setMetaDescription(metaDesc);
+        this._seoService.setMetaRobots('INDEX, FOLLOW');
+        this._seoService.setPageDescription(metaDesc);
+        this._seoService.setPageTitle('About Us - '+ GlobalSettings.getPageTitle());
+        this._seoService.setPageUrl(link);
     }
 
     setupAboutUsData(data:AboutUsModel) {
@@ -95,5 +103,7 @@ export class AboutUsPage {
         this.titleData = data.titleData;
         this.auContent = data.content;
       }
+        this.createMetaTags(data);
     }
+
 }

@@ -244,6 +244,7 @@ export class PlayerPage implements OnInit {
     this._seoService.setImageUrl(data.fullProfileImageUrl);
     this._seoService.setPageUrl(link);
     this._seoService.setKeywords(keywords);
+    this._seoService.setPageDescription(metaDesc);
   }
 
 private dailyUpdateModule(playerId: number) {

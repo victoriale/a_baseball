@@ -71,11 +71,10 @@ export class BoxScoresService {
         .subscribe(data => {
           if(data.transformedDate[dateParam.date] != null){
             let currentBoxScores = {
-              scoreBoard: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null ? this.formatScoreBoard(data.transformedDate[dateParam.date][0]) : null,
+              scoreBoard: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null ? this.formatScoreBoard(data.transformedDate[dateParam.date]) : null,
               moduleTitle: this.moduleHeader(dateParam.date, profileName),
               gameInfo: this.formatGameInfo(data.transformedDate[dateParam.date],dateParam.teamId, dateParam.profile),
-              gameInfoSmall: this.formatGameInfoSmall(data.transformedDate[dateParam.date],dateParam.teamId, dateParam.profile),
-              schedule: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null ? this.formatSchedule(data.transformedDate[dateParam.date][0], dateParam.teamId, dateParam.profile) : null,
+              schedule: dateParam.profile != 'league' && data.transformedDate[dateParam.date] != null ? this.formatSchedule(data.transformedDate[dateParam.date], dateParam.teamId, dateParam.profile) : null,
               aiContent: dateParam.profile == 'league' ? this.aiHeadline(data.aiArticle) : null,
             };
             currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
@@ -86,11 +85,10 @@ export class BoxScoresService {
     else {
       if(boxScoresData.transformedDate[dateParam.date] != null){
         let currentBoxScores = {
-          scoreBoard: dateParam.profile != 'league' && boxScoresData.transformedDate[dateParam.date] != null ? this.formatScoreBoard(boxScoresData.transformedDate[dateParam.date][0]) : null,
+          scoreBoard: dateParam.profile != 'league' && boxScoresData.transformedDate[dateParam.date] != null ? this.formatScoreBoard(boxScoresData.transformedDate[dateParam.date]) : null,
           moduleTitle: this.moduleHeader(dateParam.date, profileName),
           gameInfo: this.formatGameInfo(boxScoresData.transformedDate[dateParam.date],dateParam.teamId, dateParam.profile),
-          gameInfoSmall: this.formatGameInfoSmall(boxScoresData.transformedDate[dateParam.date],dateParam.teamId, dateParam.profile),
-          schedule: dateParam.profile != 'league' && boxScoresData.transformedDate[dateParam.date] != null? this.formatSchedule(boxScoresData.transformedDate[dateParam.date][0], dateParam.teamId, dateParam.profile) : null,
+          schedule: dateParam.profile != 'league' && boxScoresData.transformedDate[dateParam.date] != null? this.formatSchedule(boxScoresData.transformedDate[dateParam.date], dateParam.teamId, dateParam.profile) : null,
           aiContent: dateParam.profile == 'league' ? this.aiHeadline(boxScoresData.aiArticle) : null,
         };
         currentBoxScores = currentBoxScores.gameInfo != null ? currentBoxScores :null;
@@ -119,7 +117,7 @@ export class BoxScoresService {
         teaser: data[eventType]['teaser'],
         imageConfig:{
           imageClass: "image-320x180-sm",
-          imageUrl: data[eventType]['image_url'] != null ? GlobalSettings.getImageUrl(data[eventType]['image_url'], GlobalSettings._imgAiBoxScore) : sampleImage,
+          imageUrl: data[eventType]['image_url'] != null ? GlobalSettings.getImageUrl(data[eventType]['image_url'], GlobalSettings._imgLogoLarge) : sampleImage,
           hoverText: "View Article",
           urlRouteArray: MLBGlobalFunctions.formatAiArticleRoute(p, data[eventType]['article_id']),
         }
@@ -213,45 +211,58 @@ export class BoxScoresService {
 
     //TO MATCH HTML the profile client is on will be detected by teamID and a left and right format will be made with the home and away team data
   formatSchedule(data, teamId?, profile?){
-    let awayData = data.awayTeamInfo;
-    let homeData = data.homeTeamInfo;
-    var left, right;
-    var homeRoute = MLBGlobalFunctions.formatTeamRoute(homeData.name, homeData.id);
-    var awayRoute = MLBGlobalFunctions.formatTeamRoute(awayData.name, awayData.id);
-    if(profile == 'team'){
-      if(teamId == homeData.id){
-        homeRoute = null;
-      }else{
-        awayRoute = null;
-      }
+    let self = this;
+    let finalSchedule = [];
+    try{
+      data.forEach(function(val){
+        let awayData = val.awayTeamInfo;
+        let homeData = val.homeTeamInfo;
+        var left, right;
+        var homeRoute = MLBGlobalFunctions.formatTeamRoute(homeData.name, homeData.id);
+        var awayRoute = MLBGlobalFunctions.formatTeamRoute(awayData.name, awayData.id);
+        if(profile == 'team'){
+          if(teamId == homeData.id){
+            homeRoute = null;
+          }else{
+            awayRoute = null;
+          }
+        }
+        var homeLogo = self.imageData("image-68", "border-logo", GlobalSettings.getImageUrl(homeData.logo, GlobalSettings._imgScheduleLogo), homeRoute);
+        var awayLogo = self.imageData("image-68", "border-logo", GlobalSettings.getImageUrl(awayData.logo, GlobalSettings._imgScheduleLogo), awayRoute);
+
+        right = {
+          homeHex:homeData.colors.split(', ')[0], //parse out comma + space to grab only hex colors
+          homeID:homeData.id,
+          homeLocation:homeData.firstName, // first name of team usually represents the location
+          homeLogo:homeLogo,
+          url:homeRoute,
+          homeLosses:homeData.lossRecord,
+          homeName:homeData.lastName,
+          homeWins:homeData.winRecord
+        };
+        left = {
+          awayHex:awayData.colors.split(', ')[0],
+          awayID:awayData.id,
+          awayLocation:awayData.firstName,
+          awayLogo: awayLogo,
+          url:awayRoute,
+          awayLosses:awayData.lossRecord,
+          awayName:awayData.lastName,
+          awayWins:awayData.winRecord
+        };
+        // convert data given into format needed for the schedule banner on module
+        let scheduleData = {
+          gradient: Gradient.getGradientStyles([left.awayHex, right.homeHex]),
+          home:[right],
+          away:[left]
+        };
+        finalSchedule.push(scheduleData);
+      })
+      return finalSchedule;
+    }catch(e){
+      console.warn(e);
+      return null;
     }
-      var homeLogo = this.imageData("image-68", "border-logo", GlobalSettings.getImageUrl(homeData.logo, GlobalSettings._imgScheduleLogo), homeRoute);
-      var awayLogo = this.imageData("image-68", "border-logo", GlobalSettings.getImageUrl(awayData.logo, GlobalSettings._imgScheduleLogo), awayRoute);
-      right = {
-        homeHex:homeData.colors.split(', ')[0], //parse out comma + space to grab only hex colors
-        homeID:homeData.id,
-        homeLocation:homeData.firstName, // first name of team usually represents the location
-        homeLogo:homeLogo,
-        url:homeRoute,
-        homeLosses:homeData.lossRecord,
-        homeName:homeData.lastName,
-        homeWins:homeData.winRecord
-      };
-      left = {
-        awayHex:awayData.colors.split(', ')[0],
-        awayID:awayData.id,
-        awayLocation:awayData.firstName,
-        awayLogo: awayLogo,
-        url:awayRoute,
-        awayLosses:awayData.lossRecord,
-        awayName:awayData.lastName,
-        awayWins:awayData.winRecord
-      };
-    // convert data given into format needed for the schedule banner on module
-    return {
-      home:[right],
-      away:[left]
-    };
   }
 
 
@@ -260,7 +271,6 @@ export class BoxScoresService {
     var gameArray:Array<any> = [];
     let self = this;
     var twoBoxes = [];// used to put two games into boxes
-
     // Sort games by time
     let sortedGames = game.sort(function(a, b) {
       return new Date(b.gameInfo.startDateTime).getTime() - new Date(a.gameInfo.startDateTime).getTime();
@@ -356,154 +366,55 @@ export class BoxScoresService {
     return gameArray;
   }
 
-  formatGameInfoSmall(game, teamId?, profile?){
-    var gameArray:Array<any> = [];
-    let self = this;
-    var twoBoxes = [];// used to put two games into boxes
-
-    // Sort games by time
-    let sortedGames = game.sort(function(a, b) {
-      return new Date(a.gameInfo.startDateTime).getTime() - new Date(b.gameInfo.startDateTime).getTime();
-    });
-
-    sortedGames.forEach(function(data,i){
-
-      var info:GameInfoInput;
-      let awayData = data.awayTeamInfo;
-      let homeData = data.homeTeamInfo;
-      let gameInfo = data.gameInfo;
-      let homeLink = MLBGlobalFunctions.formatTeamRoute(homeData.name, homeData.id);
-      let awayLink = MLBGlobalFunctions.formatTeamRoute(awayData.name, awayData.id);
-      var aiContent = data.aiContent != null ? self.formatArticle(data):null;
-
-      if(teamId != null && profile == 'team'){//if league then both items will link
-        if(homeData.id == teamId){//if not league then check current team they are one
-          homeLink = null;
-          var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo, GlobalSettings._imgBoxScoreLogo));
-          var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo, GlobalSettings._imgBoxScoreLogo), awayLink)
-        }else{
-          awayLink = null;
-          var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo, GlobalSettings._imgBoxScoreLogo), homeLink);
-          var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo, GlobalSettings._imgBoxScoreLogo))
-        }
-      }else{
-        var aiContent = data.aiContent != null ? self.formatArticle(data):null;
-        var link1 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(homeData.logo, GlobalSettings._imgBoxScoreLogo), homeLink);
-        var link2 = self.imageData('image-45', 'border-1', GlobalSettings.getImageUrl(awayData.logo, GlobalSettings._imgBoxScoreLogo), awayLink)
-      }
-
-      let gameDate = data.gameInfo;
-
-      let homeWin = homeData.winRecord != null ? homeData.winRecord : '#';
-      let homeLoss = homeData.lossRecord != null ? homeData.lossRecord : '#';
-
-      let awayWin = awayData.winRecord != null ? awayData.winRecord : '#';
-      let awayLoss = awayData.lossRecord != null ? awayData.lossRecord : '#';
-
-      //determine if a game is live or not and display correct game time
-      var currentTime = new Date().getTime();
-      var inningTitle = '';
-
-      if(gameInfo.live){
-        let inningHalf = gameInfo.inningHalf != null ? GlobalFunctions.toTitleCase(gameInfo.inningHalf) : 'Top';
-        inningTitle = gameInfo.inningsPlayed != null ?  inningHalf + " of " + gameInfo.inningsPlayed +  GlobalFunctions.Suffix(gameInfo.inningsPlayed) + " Inning" : '';
-
-      }else{
-        if((currentTime < gameInfo.startDateTimestamp) && !gameInfo.live){
-          inningTitle = moment(gameDate.startDateTimestamp).tz('America/New_York').format('h:mm A z');
-        }else{
-          inningTitle = 'Final';
-        }
-      }
-
-      info = {
-        gameHappened:gameInfo.inningsPlayed != null ?  true : false,
-        //inning will display the Inning the game is on otherwise if returning null then display the date Time the game is going to be played
-        inning:inningTitle,
-        homeData:{
-          homeTeamName: homeData.lastName,
-          homeImageConfig:link1,
-          homeLink: homeLink,
-          homeRecord: homeWin +'-'+ homeLoss,
-          runs:homeData.score,
-          hits:homeData.hits,
-          errors:homeData.errors
-        },
-        awayData:{
-          awayTeamName:awayData.lastName,
-          awayImageConfig:link2,
-          awayLink: awayLink,
-          awayRecord: awayWin +'-'+ awayLoss,
-          runs:awayData.score,
-          hits:awayData.hits,
-          errors:awayData.errors
-        }
-      };
-      if(teamId != null){
-        gameArray.push({game:info,aiContent:aiContent});
-      }else{
-        gameArray.push({game:info});
-      }
-    })
-    return gameArray;
-  }
-
   formatArticle(data){
     let gameInfo = data.gameInfo;
     let aiContent = data.aiContent;
     var gameArticle = {};
-    // for(var report in aiContent.featuredReport){
-    //   gameArticle['report'] = "Read The Report";
-    //   gameArticle['headline'] = aiContent.featuredReport[report].displayHeadline;
-    //   gameArticle['articleLink'] = ['Article-pages',{eventType:report,eventID:aiContent.event}];
-    //   var i = aiContent['home']['images'];
-    //   var random1 = Math.floor(Math.random() * i.length);
-    //   var random2 = Math.floor(Math.random() * i.length);
-    //   gameArticle['images'] = [];
-    //
-    //   if(random1 == random2){
-    //     gameArticle['images'].push(i[random1]);
-    //   }else{
-    //     gameArticle['images'].push(i[random1]);
-    //     gameArticle['images'].push(i[random2]);
-    //   }
-    // }
     for(var report in aiContent){
       gameArticle['report'] = "Read The Report";
       gameArticle['headline'] = aiContent[report]['title'];
       gameArticle['articleLink'] = ['Article-pages',{eventType:report,eventID:aiContent[report]['event_id']}];
-      gameArticle['images'] = GlobalSettings.getImageUrl(aiContent[report]['image_url'], GlobalSettings._imgAiBoxScore);
+      gameArticle['images'] = GlobalSettings.getImageUrl(aiContent[report]['image_url'], GlobalSettings._imgLogoLarge);
     }
     return gameArticle;
   }
 
   formatScoreBoard(data){
-    let awayData = data.awayTeamInfo;
-    let homeData = data.homeTeamInfo;
-    let gameInfo = data.gameInfo;
+    try{
+      let finalScoreboard = [];
+      data.forEach(function(val, index){
+        let awayData = val.awayTeamInfo;
+        let homeData = val.homeTeamInfo;
+        let gameInfo = val.gameInfo;
 
-    var arrayScores = [];
+        var arrayScores = [];
 
-    //for live games show the total scored added up for each inning
-    var homeLiveScore = 0;
-    var awayLiveScore = 0;
-    for(var score in data){
-      if(score != 'aiContent' && score != 'awayTeamInfo' && score != 'homeTeamInfo' && score != 'gameInfo'){
-        arrayScores.push({
-          inning:score.replace('p',''),//replace the letter 'p' in each inning
-          scores:data[score]
-        });
-      }
+        //for live games show the total scored added up for each inning
+        var homeLiveScore = 0;
+        var awayLiveScore = 0;
+        for(var score in val){
+          if(score != 'aiContent' && score != 'awayTeamInfo' && score != 'homeTeamInfo' && score != 'gameInfo'){
+            arrayScores.push({
+              inning:score.replace('p',''),//replace the letter 'p' in each inning
+              scores:val[score]
+            });
+          }
+        }
+
+        var scoreBoard={
+          homeLastName: homeData.lastName,
+          awayLastName: awayData.lastName,
+          homeScore:homeData.score,
+          awayScore:awayData.score,
+          scoreArray:arrayScores,
+        };
+        finalScoreboard.push(scoreBoard);
+      })
+      return finalScoreboard;
+    }catch(e){
+      console.log(e);
+      return null;
     }
-
-    var scoreBoard={
-      homeLastName: homeData.lastName,
-      awayLastName: awayData.lastName,
-      homeScore:homeData.score,
-      awayScore:awayData.score,
-      scoreArray:arrayScores,
-    };
-    return scoreBoard;
   }
 
   /**

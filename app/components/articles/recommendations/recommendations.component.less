@@ -11,23 +11,21 @@
       border-bottom: none;
       text-align: left;
     }
-    &-icon {
-      color: @masterBrandColor;
-      font-size: 32px;
-      font-weight: 400;
+    .fa-heartbeat {
       text-align: left;
       margin-right: 15px;
+      font-size: 22px;
+      color: @masterBrandColor;
       @media @mobile-s {
         font-size: 20px;
         margin-right: 10px;
       }
     }
     &-text {
-      .globalDefaultFont(32px, 400);
+      .globalDefaultFont(22px, 400);
       text-align: left;
-      @media @mobile-s {
-        .globalDefaultFont(20px, 400);
-      }
+      vertical-align: top;
+      @media @mobile-s {font-size: 20px}
     }
   }
 
@@ -288,10 +286,8 @@
 
 //Media Queries for .deep_recs elements;
 @media @mobile{
+  .deep-dive-recommendations .deep_recs .row{margin-right: 10px}
   .deep_recs{
-    .row{
-      margin-right: 10px;
-    }
     display: inline-block;
     margin: 0 auto -15px;
     padding: 0;
@@ -337,7 +333,6 @@
           .globalDefaultFont(14px, 400);
           line-height: 18px;
           margin-top: 14px;
-          width: 196px;
           &-dateline{
             display: block;
             &-below{display: none}
