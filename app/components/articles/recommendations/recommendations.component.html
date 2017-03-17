@@ -1,6 +1,6 @@
 <div class="recommendations" *ngIf="!isDeepDive">
     <div class="recommendations-header">
-        <i class="fa fa-heartbeat recommendations-header-icon"></i><span class="recommendations-header-text">Other Articles You Will Love</span>
+        <i class="fa fa-heartbeat"></i><span class="recommendations-header-text">Other Articles You Will Love</span>
     </div>
     <div class="recommendations-articles" (window:resize)="onResize($event)">
         <span *ngFor="let data of randomHeadlines; let i=index;">
