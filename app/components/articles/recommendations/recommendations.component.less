@@ -11,10 +11,11 @@
       border-bottom: none;
       text-align: left;
     }
-    &-icon {
+    .fa-heartbeat {
       text-align: left;
       margin-right: 15px;
-      .globalDefaultModFont(22px, 400, @masterBrandColor);
+      font-size: 22px;
+      color: @masterBrandColor;
       @media @mobile-s {
         font-size: 20px;
         margin-right: 10px;
@@ -332,7 +333,6 @@
           .globalDefaultFont(14px, 400);
           line-height: 18px;
           margin-top: 14px;
-          width: 196px;
           &-dateline{
             display: block;
             &-below{display: none}
