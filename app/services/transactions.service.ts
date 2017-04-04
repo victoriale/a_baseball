@@ -10,7 +10,6 @@ import {TransactionModuleData} from '../modules/transactions/transactions.module
 import {TransactionTabData} from '../components/transactions/transactions.component';
 import {TransactionsListInput} from '../components/transactions-list-item/transactions-list-item.component';
 
-declare var moment: any;
 
 interface TransactionInfo {
     transactionDate: string;

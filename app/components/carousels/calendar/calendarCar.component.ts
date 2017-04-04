@@ -65,7 +65,7 @@ export class CalendarCarousel implements OnInit {
     // console.log(this.chosenParam);
     if(event.chosenParam.previousValue.profile != null && event.chosenParam.currentValue.profile != event.chosenParam.previousValue.profile){// if route has changed
       var currentUnixDate = new Date().getTime();
-      this.chosenParam.date = moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD');
+      this.chosenParam.date = GlobalFunctions.getDateElement(currentUnixDate, "fullDate");
       this.weeklyDates = null;
       this.storeSubscriptions.push(this.callWeeklyApi(this.chosenParam)
       .subscribe( data => {
@@ -102,21 +102,21 @@ export class CalendarCarousel implements OnInit {
 
   //datepicker that chooses the monthly calendar and update all the necessary functions for the rest of the components
   datePicker(event) {
-    this.chosenParam.date = moment(event).tz('America/New_York').format('YYYY-MM-DD');
+    this.chosenParam.date = GlobalFunctions.getDateElement(event, "fullDate");
     var params = this.chosenParam;
     this.currDateView = {profile: params.profile, teamId: params.teamId, date: params.date};
     this.storeSubscriptions.push(this.callWeeklyApi(this.chosenParam)
     .subscribe( data => {
       this.validateDate(this.chosenParam.date, this.weeklyDates);
     }))
-    this.checkForLastGame.emit(moment(event).tz('America/New_York').format('YYYY-MM-DD'));
+    this.checkForLastGame.emit(GlobalFunctions.getDateElement(event, "fullDate"));
     this.dateEmit.emit(this.chosenParam);//sends through output so date can be used outside of component
   }
 
   left(){
     //take parameters and convert using moment to subtract a week from it and recall the week api
     var curParams = this.currDateView;
-    curParams.date = moment(curParams.date).subtract(7, 'days').format('YYYY-MM-DD');
+    curParams.date = GlobalFunctions.addSubtractWeek(curParams.date,"subtract", 7);
     this.storeSubscriptions.push(this.callWeeklyApi(curParams).subscribe(data=>{this.validateDate(this.chosenParam.date, this.weeklyDates)}));
     this.currDateView.date = curParams.date;//resets current date to the new parameter so that all functions are updated with new date
   }
@@ -124,7 +124,7 @@ export class CalendarCarousel implements OnInit {
   right(){
     //take parameters and convert using moment to add a week from it and recall the week api
     var curParams = this.currDateView;
-    curParams.date = moment(curParams.date).add(7, 'days').format('YYYY-MM-DD');
+    curParams.date = GlobalFunctions.addSubtractWeek(curParams.date,"add", 7);
     this.callWeeklyApi(curParams).subscribe(data=>{this.validateDate(this.chosenParam.date, this.weeklyDates)});
     this.currDateView.date = curParams.date;//resets current date to the new parameter so that all functions are updated with new date
   }
@@ -133,7 +133,7 @@ export class CalendarCarousel implements OnInit {
     if(this.failSafe <= 12){
       //take parameters and convert using moment to add a week from it and recall the week api
       var curParams = this.currDateView;
-      curParams.date = moment(curParams.date).subtract(1, 'days').format('YYYY-MM-DD');
+      curParams.date = GlobalFunctions.addSubtractWeek(curParams.date,"subtract", 1);
       var dayNum = 0;
 
       this.weeklyDates.forEach(function(val,index){
@@ -175,7 +175,7 @@ export class CalendarCarousel implements OnInit {
       //take parameters and convert using moment to add a week from it and recall the week api
 
       var curParams = this.currDateView;
-      curParams.date = moment(curParams.date).add(1, 'days').format('YYYY-MM-DD');
+      curParams.date = GlobalFunctions.addSubtractWeek(curParams.date,"add", 1);
       var dayNum = 0;
       this.weeklyDates.forEach(function(val,index){
         if(val.fullDate == curParams.date){
@@ -244,13 +244,13 @@ export class CalendarCarousel implements OnInit {
     var formattedArray = [];
     //run through each of the Unix (UTC) dates and convert them to readable EST dates
     for(var date in weekData){
-
+      
       //set each of the dates the EST from UTC and change format to respective format
-      let year =  moment(Number(date)).tz('America/New_York').format('YYYY');
-      let month = moment(Number(date)).tz('America/New_York').format('MMM');
-      let day = moment(Number(date)).tz('America/New_York').format('D');
-      let weekDay = moment(Number(date)).tz('America/New_York').format('ddd');
-      let fullDate = moment(Number(date)).tz('America/New_York').format('YYYY-MM-DD');
+      let year =  GlobalFunctions.getDateElement(Number(date), 'year');
+      let month =  GlobalFunctions.getDateElement(Number(date), 'month');
+      let day =  GlobalFunctions.getDateElement(Number(date), 'day');
+      let weekDay =  GlobalFunctions.getDateElement(Number(date), 'weekDay');
+      let fullDate =  GlobalFunctions.getDateElement(Number(date), 'fullDate');
       let ordinal = GlobalFunctions.Suffix(Number(day));
       var dateObj:weekDate = {
         unixDate:date,
@@ -278,7 +278,7 @@ export class CalendarCarousel implements OnInit {
     var mostRecent;
     dateArray.forEach(function(date, i){
       var dateUnix = Number(date.unixDate);//converts chosen date to unix (in seconds) for comparison
-      var dateTime = moment(dateUnix).tz('America/New_York').format('YYYY-MM-DD');
+      var dateTime = GlobalFunctions.getDateElement(dateUnix,'fullDate');
       //grab highest and lowest number in the array to know the beginning and end of the week
       if((minDateUnix > dateUnix)){//get lowest number in dateArray
         minDateUnix = dateUnix;
@@ -316,7 +316,7 @@ export class CalendarCarousel implements OnInit {
         this.failSafe++;
 
         //set new curent date and chosent parameter to the last day of previous week and make that as the new view
-        var curDate = moment(minDateUnix).subtract(1, 'days').tz('America/New_York').format('YYYY-MM-DD');
+        var curDate = GlobalFunctions.addSubtractWeek(minDateUnix, 'subtract', 1);
         this.chosenParam.date = curDate;
 
         var params = this.chosenParam;
@@ -335,11 +335,11 @@ export class CalendarCarousel implements OnInit {
           //make sure to only set new params if new number has been validatedDated
           //otherwise set the new chosenParam to the mostRecent date that has been found
           if(validatedDate != 0){
-            validatedDate = moment(Number(validatedDate)).tz('America/New_York').format('YYYY-MM-DD');
+            validatedDate = GlobalFunctions.getDateElement(Number(validatedDate), 'fullDate');
             this.chosenParam.date = validatedDate;
             dateArray[activeIndex].active = true;
           }else{
-            validatedDate = moment(Number(mostRecent)).tz('America/New_York').format('YYYY-MM-DD');
+            validatedDate = GlobalFunctions.getDateElement(Number(mostRecent), 'fullDate');
             this.chosenParam.date = validatedDate;
             dateArray[activeIndex].active = true;
           }

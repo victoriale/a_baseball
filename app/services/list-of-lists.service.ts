@@ -6,7 +6,6 @@ import {MLBGlobalFunctions}  from '../global/mlb-global-functions';
 import {GlobalSettings}  from '../global/global-settings';
 import {SliderCarousel, SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
 
-declare var moment: any;
 @Injectable()
 export class ListOfListsService {
   private _apiUrl: string = GlobalSettings.getApiUrl();

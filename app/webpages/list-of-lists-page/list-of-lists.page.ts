@@ -20,8 +20,6 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
 import {ProfileHeaderService} from '../../services/profile-header.service';
 import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
-declare var moment:any;
-
 @Component({
     selector: 'list-of-lists-page',
     templateUrl: './app/webpages/list-of-lists-page/list-of-lists.page.html',

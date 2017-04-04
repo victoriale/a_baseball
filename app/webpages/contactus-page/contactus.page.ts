@@ -11,7 +11,6 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
 import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 import {SeoService} from "../../seo.service";
 
-declare var moment;
 @Component({
     selector: 'contactus-page',
     templateUrl: './app/webpages/contactus-page/contactus.page.html',

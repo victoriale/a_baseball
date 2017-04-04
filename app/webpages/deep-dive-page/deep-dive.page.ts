@@ -23,7 +23,6 @@ import {SideScroll} from '../../components/side-scroll/side-scroll.component';
 
 import {SeoService} from '../../seo.service';
 //window declarions of global functions from library scripts
-declare var moment;
 declare var jQuery: any;
 
 @Component({
@@ -65,7 +64,8 @@ export class DeepDivePage implements OnInit{
     //for carousel
     carouselData: any;
     videoData:any;
-    blockIndex:number = 1;​
+    blockIndex:number = 1;
+    ​
     private isHomeRunZone: boolean = false;
 
     constructor(

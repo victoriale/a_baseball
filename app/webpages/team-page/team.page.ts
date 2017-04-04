@@ -74,8 +74,6 @@ import {ResponsiveWidget} from '../../components/responsive-widget/responsive-wi
 import {SeoService} from '../../seo.service';
 import {ArticleDataService} from "../../services/ai-article.service";
 
-declare var moment;
-
 @Component({
     selector: 'Team-page',
     templateUrl: './app/webpages/team-page/team.page.html',
@@ -206,7 +204,7 @@ export class TeamPage implements OnInit {
       this.dateParam ={
         profile:'team',//current profile page
         teamId:this.pageParams.teamId, // teamId if it exists
-        date: moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD')
+        date: GlobalFunctions.getDateElement(currentUnixDate, "fullDate")
       }
 
       this.setupProfileData();

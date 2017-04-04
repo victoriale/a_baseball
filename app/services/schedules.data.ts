@@ -8,8 +8,6 @@ import {GlobalFunctions} from '../global/global-functions';
 import {GlobalSettings} from '../global/global-settings';
 import {Gradient} from '../global/global-gradient';
 
-declare var moment: any;
-
 export interface SchedulesData {
   index:any;
   backgroundImage: string,
@@ -316,7 +314,7 @@ export class MLBSchedulesTableModel implements TableModel<SchedulesData> {
 
       case "t":
         if(item.eventStatus != 'cancelled'){
-          display = moment(item.startDateTimestamp).tz('America/New_York').format('h:mm') + " <sup> "+moment(item.startDateTimestamp).tz('America/New_York').format('A')+" </sup>";
+          display = GlobalFunctions.getDateElement(item.startDateTimestamp,"hour") + " <sup> "+ GlobalFunctions.getDateElement(item.startDateTimestamp, "amPm") +" </sup>";
         }else{
           display = "Cancelled";
         }

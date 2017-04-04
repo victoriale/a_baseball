@@ -11,8 +11,6 @@ import {SchedulesData, MLBSchedulesTableModel, MLBSchedulesTableData, MLBSchedul
 import {Gradient} from '../global/global-gradient';
 import {scheduleBoxInput} from '../components/schedule-box/schedule-box.component';
 
-declare var moment: any;
-
 @Injectable()
 export class SchedulesService {
   private _apiUrl: string = GlobalSettings.getApiUrl();
@@ -238,7 +236,7 @@ export class SchedulesService {
       if(typeof teamId == 'undefined'){
         var table = new MLBSchedulesTableModel(rows, eventStatus, teamId, isTeamProfilePage);// there are two types of tables for Post game (team/league) tables
         rows.forEach(function(val,index){// seperate the dates into their own Obj tables for post game reports
-          var splitToDate = moment(val.startDateTimestamp).tz('America/New_York').format('YYYY-MM-DD');
+          var splitToDate = GlobalFunctions.getDateElement(val.startDateTimestamp, "fullDate");
           if(typeof dateObject[splitToDate] == 'undefined'){
             dateObject[splitToDate] = {};
             dateObject[splitToDate]['tableData'] = [];

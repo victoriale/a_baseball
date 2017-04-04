@@ -11,8 +11,6 @@ import {BoxScoresModule} from '../../../modules/box-scores/box-scores.module';
 import {BoxScoresService} from '../../../services/box-scores.service';
 import {BoxArticleComponent} from '../../../components/box-article/box-article.component';
 
-declare var moment;
-
 @Component({
     selector: 'deep-dive-block-1',
     templateUrl: './app/modules/deep-dive-blocks/deep-dive-block-1/deep-dive-block-1.module.html',
@@ -51,7 +49,7 @@ export class DeepDiveBlock1{
       this.dateParam ={
         profile:'league',//current profile page
         teamId:null,
-        date: moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD')
+        date: GlobalFunctions.getDateElement(currentUnixDate, "fullDate"),
       }
       window.onresize = (e) =>
       {
