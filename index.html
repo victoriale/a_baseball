@@ -5,36 +5,21 @@
     <title>Home Run Loyal</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0">
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-82507620-1', 'auto');
-            // ga('send', 'pageview', location.pathname);
-    </script>
     <link rel="shortcut icon" href="/app/public/icons/HRL_Favicon.png" />
 
-    <!--<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">-->
+    <!--For better performance and to avoid CSS Flash of unstyled content and blank page load always place stylesheets with link tag on top of the head tag-->
     <link href="/app/global/stylesheets/hrl-font.css" rel="stylesheet">
     <link href="/app/global/stylesheets/bootstrap.min.css" rel="stylesheet">
     <link href="/app/global/stylesheets/master.css" rel="stylesheet">
-    <!-- 1. Load libraries -->
+
+
+    <!-- 1. Load initial  libraries -->
     <script src="lib/core.min.js"></script>
     <script src="lib/Reflect.js"></script>
     <script src="lib/system.src.js"></script>
-    <script src="lib/moment.js"></script>
-    <script src="lib/moment-timezone-with-data-2010-2020.js"></script>
     <script src="lib/zone.js"></script>
-    <script src="lib/fuse.min.js"></script>
-    <script src="lib/hammer.min.js"></script>
+    <script src="lib/moment.js"></script>
 
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <!-- social share button on home page -->
-    <script type="text/javascript">var switchTo5x=true;</script>
-    <script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
-    <script type="text/javascript" src="https://synapview.synapsys.us/iframeReciever.js"></script>
-    <script src="lib/jquery.min.js"></script>
     <!-- crazy egg script -->
     <script type="text/javascript">
     setTimeout(function(){var a=document.createElement("script");
@@ -42,26 +27,8 @@
     a.src=document.location.protocol+"//script.crazyegg.com/pages/scripts/0062/6913.js?"+Math.floor(new Date().getTime()/3600000);
     a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
     </script>
-    <script src="lib/highcharts.js"></script>
-    <script>
-        // setup DisQus config for initial load
-        var disqus_config = function () {
-            this.page.identifier = (window.location.pathname + " ").replace("/"," ");
-            this.page.url = window.location.href + "#!newthread";
-        };
-    </script>
-    <script type="text/javascript">
-      if ( window.stLight ) {
-        stLight.options({publisher: "ab81b5e8-9aea-4921-9930-26ce6925e901", doNotHash: true, doNotCopy: false, hashAddressBar: false, onhover: false});
-      }
-      else {
-        window.stButtons = {
-          locateElements: function() {}
-        };
-      }
-      </script>
-    <!-- 2. Configure SystemJS -->
-    <script src="lib/bundle.js"></script>
+
+
   </head>
 
   <!-- 3. Display the application -->
@@ -71,6 +38,54 @@
         <img src="/app/public/page_loading.gif" />
       </div>
     </app-domain>
+
+    <!--For better Performance and to avoid script blocking place external script tags always at the bottom of the body tag-->
+
+    <script async src="lib/moment-timezone-with-data-2012-2022.js"></script>
+    <script async src="lib/fuse.min.js"></script>
+    <script async src="lib/hammer.min.js"></script>
+    <script async src="lib/highcharts.js"></script>
+    <script defer src="lib/jquery.min.js"></script>
+
+    <script defer src="https://apis.google.com/js/platform.js" async defer></script>
+
+    <!-- social share button on home page -->
+    <script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript" src="https://synapview.synapsys.us/iframeReciever.js"></script>
+
+
+    <script type="text/javascript">
+        if ( window.stLight ) {
+            stLight.options({publisher: "ab81b5e8-9aea-4921-9930-26ce6925e901", doNotHash: true, doNotCopy: false, hashAddressBar: false, onhover: false});
+        }
+        else {
+            window.stButtons = {
+                locateElements: function() {}
+            };
+        }
+    </script>
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-82507620-1', 'auto');
+        // ga('send', 'pageview', location.pathname);
+    </script>
+
+    <script>
+        // setup DisQus config for initial load
+        var disqus_config = function () {
+            this.page.identifier = (window.location.pathname + " ").replace("/"," ");
+            this.page.url = window.location.href + "#!newthread";
+        };
+    </script>
+
+    <!-- 2. Configure SystemJS -->
+    <script defer src="lib/bundle.js"></script>
+
   </body>
 
 </html>
