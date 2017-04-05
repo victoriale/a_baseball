@@ -145,7 +145,6 @@ export class ListPage implements OnInit {
   }
 
   getDynamicList() {
-  console.log("this is called");
     if( !this.tw && !(this.rowid && this.tabid) ){
       // Not enough parameter : display error message
       this.isError = true;
@@ -159,7 +158,6 @@ export class ListPage implements OnInit {
       rowid:  this.rowid,
       tabid:  this.tabid
     }
-   console.log(inputs,"check now");
     this.dynamicWidget.getWidgetData(inputs)
       .subscribe(
         list => {
