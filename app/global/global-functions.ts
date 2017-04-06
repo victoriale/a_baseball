@@ -434,8 +434,43 @@ export class GlobalFunctions {
       return str;
     }
 
+    //take parameters and convert using moment to subtract given number of days from it;
 
+    static addSubtractWeek(unixDate, act , dayNum){
+        if(act = "add"){
+            moment(unixDate).add(dayNum, 'days').tz('America/New_York').format('YYYY-MM-DD');
+        } else if(act = "subtract"){
+            moment(unixDate).subtract(dayNum, 'days').tz('America/New_York').format('YYYY-MM-DD');
+        }
+    }
 
+    //individual date elements
+
+    static getDateElement(date,type){
+
+        var getType = {
+            'year'    : moment(date).tz('America/New_York').format('YYYY'), //2017
+            'month'   : moment(date).tz('America/New_York').format('MMM'),  //apr
+            'day'     : moment(date).tz('America/New_York').format('D'),    //04
+            'weekDay' : moment(date).tz('America/New_York').format('ddd'),  //tur
+            'fullDate': moment(date).tz('America/New_York').format('YYYY-MM-DD'), //2017-04-04
+            'hour'    : moment(date).tz('America/New_York').format('h:mm'), //12:56
+            'amPm'    : moment(date).tz('America/New_York').format('A'), //PM
+            'hourTimeStamp': moment(date).tz('America/New_York').format('h:mm A z'), //12:56 PM
+        }
+
+        return getType[type];
+
+    }
+
+    static validMoment(dateString, dateFormat?){
+        if(dateFormat && typeof dateFormat != "undefined"){
+            return moment(dateString,dateFormat);
+
+        }else{
+            return moment(dateString);
+        }
+    }
 
 
     /*
@@ -450,8 +485,6 @@ export class GlobalFunctions {
 
 
     */
-
-
 
     static formatGlobalDate(value:any, identifier:string) {
       var unixValue;

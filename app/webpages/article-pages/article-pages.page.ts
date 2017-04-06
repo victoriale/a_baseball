@@ -17,7 +17,6 @@ import {SidekickContainerComponent} from "../../components/articles/sidekick-con
 import {SeoService} from '../../seo.service';
 import {ArticleDataService} from "../../services/ai-article.service";
 
-declare var moment;
 declare var jQuery:any;
 
 @Component({

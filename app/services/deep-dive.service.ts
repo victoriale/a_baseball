@@ -7,7 +7,6 @@ import {GlobalSettings} from '../global/global-settings';
 import {DomSanitizationService} from '@angular/platform-browser';
 
 
-declare var moment;
 @Injectable()
 export class DeepDiveService {
   private _apiUrl: string = GlobalSettings.getApiUrl();

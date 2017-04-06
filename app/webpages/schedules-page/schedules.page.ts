@@ -21,8 +21,6 @@ import {SchedulesComponent} from '../../components/schedules/schedules.component
 import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrapper.component";
 import {ResponsiveWidget} from '../../components/responsive-widget/responsive-widget.component';
 
-declare var moment;
-
 @Component({
     selector: 'schedules-page',
     templateUrl: './app/webpages/schedules-page/schedules.page.html',

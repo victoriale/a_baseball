@@ -6,7 +6,6 @@ import {SanitizeRUrl} from "../../pipes/safe.pipe";
 import {GlobalFunctions} from "../../global/global-functions";
 
 declare var jQuery:any;
-declare var moment:any;
 
 @Component({
     selector: 'side-scroll-test',

@@ -8,7 +8,6 @@ import {Gradient} from '../global/global-gradient';
 import {CircleImageData} from '../components/images/image-data';
 import {GameInfoInput} from '../components/game-info/game-info.component';
 
-declare var moment;
 @Injectable()
 export class BoxScoresService {
   private _apiUrl: string = GlobalSettings.getApiUrl();
@@ -129,12 +128,11 @@ export class BoxScoresService {
   }
   moduleHeader(date, team?){
     var moduleTitle;
-    var month = moment(date,"YYYY-MM-DD").tz('America/New_York').format("MMM.");
-    var day = moment(date,"YYYY-MM-DD").tz('America/New_York').format("D");
-    var ordinal = moment(date,"YYYY-MM-DD").tz('America/New_York').format("D");
-    ordinal = '<sup>' + GlobalFunctions.Suffix(ordinal) + '</sup>';
-    var year = moment(date,"YYYY-MM-DD").tz('America/New_York').format("YYYY");
-    var convertedDate = month + ' ' + day + ordinal + ', ' + year;
+    var month = GlobalFunctions.getDateElement(date, "month");
+    var day = GlobalFunctions.getDateElement(date, "day");
+    var ordinal = '<sup>' + GlobalFunctions.Suffix(day) + '</sup>';
+    var year = GlobalFunctions.getDateElement(date, "year");
+    var convertedDate = month + '. ' + day + ordinal + ', ' + year;
 
     moduleTitle = "Box Scores - " + team + ': ' +convertedDate;
     return {
@@ -142,6 +140,7 @@ export class BoxScoresService {
       hasIcon: false,
       iconClass: '',
     };
+
   }
 
   /**
@@ -198,7 +197,7 @@ export class BoxScoresService {
   transformBoxScores(boxScores){
     var newBoxScores = {};
     for(var dates in boxScores){
-        var dayDate = moment(Number(dates)).tz('America/New_York').format('YYYY-MM-DD');
+        var dayDate = GlobalFunctions.getDateElement(Number(dates),"fullDate");
         if(typeof newBoxScores[dayDate] == 'undefined'){
            newBoxScores[dayDate] = [];
            newBoxScores[dayDate].push(boxScores[dates]);
@@ -320,7 +319,7 @@ export class BoxScoresService {
 
       }else{
         if((currentTime < gameInfo.startDateTimestamp) && !gameInfo.live){
-          inningTitle = moment(gameDate.startDateTimestamp).tz('America/New_York').format('h:mm A z');
+          inningTitle = GlobalFunctions.getDateElement(gameDate.startDateTimestamp,"hourTimeStamp");
         }else{
           inningTitle = 'Final';
         }

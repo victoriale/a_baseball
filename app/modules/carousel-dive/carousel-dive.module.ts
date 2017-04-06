@@ -5,7 +5,6 @@ import {SanitizeRUrl, SanitizeHtml} from "../../pipes/safe.pipe";
 import {GlobalFunctions} from "../../global/global-functions";
 
 declare var jQuery:any;
-declare var moment;
 
 @Component({
   selector: 'carousel-dive-module',

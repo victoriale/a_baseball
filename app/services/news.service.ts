@@ -4,7 +4,6 @@ import {Http, Headers} from '@angular/http';
 import {GlobalFunctions} from '../global/global-functions';
 import {Conference, Division, MLBPageParameters} from '../global/global-interface';
 import {GlobalSettings} from '../global/global-settings';
-declare var moment: any;
 @Injectable()
 export class NewsService {
   private _apiUrl: string = GlobalSettings.getNewsUrl();

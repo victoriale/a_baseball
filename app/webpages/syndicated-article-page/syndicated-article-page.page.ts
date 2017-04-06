@@ -19,7 +19,6 @@ import {PartnerHeader} from "../../global/global-service";
 import {SeoService} from "../../seo.service";
 
 declare var jQuery:any;
-declare var moment;
 
 @Component({
     selector: 'syndicated-article-page',

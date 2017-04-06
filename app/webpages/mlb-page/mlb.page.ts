@@ -66,8 +66,6 @@ import {SeoService} from '../../seo.service';
 import {ArticleDataService} from "../../services/ai-article.service";
 import {ArticlesModule} from "../../modules/articles/articles.module";
 
-declare var moment;
-
 @Component({
     selector: 'MLB-page',
     templateUrl: './app/webpages/mlb-page/mlb.page.html',
@@ -187,7 +185,7 @@ export class MLBPage implements OnInit {
         this.dateParam ={
           profile:'league',//current profile page
           teamId:null,
-          date: moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD')
+          date: GlobalFunctions.getDateElement(currentUnixDate, "fullDate")
         }
 
         GlobalSettings.getPartnerID(_router, partnerID => {

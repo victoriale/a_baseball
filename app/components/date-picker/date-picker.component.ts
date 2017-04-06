@@ -66,7 +66,7 @@ export class DatePicker implements ControlValueAccessor, AfterViewInit {
     var dateObj = {}
     //run through each of the Unix (UTC) dates and convert them to readable EST dates
     for(var date in monthData){
-      let newDate = moment(Number(date)).tz('America/New_York').format('YYYY-MM-DD');
+      let newDate = GlobalFunctions.getDateElement(Number(date), "fullDate");
       //set each of the dates the EST from UTC and change format to respective format
       dateObj[newDate] = monthData[date];
     }
@@ -131,7 +131,7 @@ export class DatePicker implements ControlValueAccessor, AfterViewInit {
     e.preventDefault();
     if (this.isSelected(date)) return;
 
-    let selectedDate = moment(date.year + '-' + date.month + '-' + date.day, 'YYYY-MM-DD');
+    let selectedDate = GlobalFunctions.validMoment(date.year + '-' + date.month + '-' + date.day, 'YYYY-MM-DD');
     this.setValue(selectedDate);
     // this.closeDatepicker();
     this.changed.emit(selectedDate.toDate());
@@ -162,7 +162,7 @@ export class DatePicker implements ControlValueAccessor, AfterViewInit {
     var finalDaysOfWeek = days42 - lastDayOfMonth;
     finalDaysOfWeek = finalDaysOfWeek - ((n-1)*(-1));
     for (let i = n; i <= (lastDayOfMonth + finalDaysOfWeek); i += 1) {
-      let fullDate = moment(year + '-' + (Number(month)+1) + '-' + i, 'YYYY-MM-DD').format('YYYY-MM-DD');
+      let fullDate = GlobalFunctions.validMoment(year + '-' + (Number(month)+1) + '-' + i, 'YYYY-MM-DD').format('YYYY-MM-DD');
       let today = (this.today == fullDate);
       if (i <= 0){
         let prevMonthLastDay = new moment().date(i).tz('America/New_York').format('D');
@@ -188,13 +188,13 @@ export class DatePicker implements ControlValueAccessor, AfterViewInit {
   }
 
   isSelected(date) {
-    let selectedDate = moment(date.year + '-' + date.month + '-' + date.day, 'YYYY-MM-DD');
+    let selectedDate = GlobalFunctions.validMoment(date.year + '-' + date.month + '-' + date.day, 'YYYY-MM-DD');
     return selectedDate.toDate().getTime() === this.cannonical;
   }
 
   private generateDayNames(): void {
     this.dayNames = [];
-    let date = this.firstWeekDaySunday === true ? moment('2015-06-07') : moment('2015-06-01');
+    let date = this.firstWeekDaySunday === true ? GlobalFunctions.validMoment('2015-06-07') : GlobalFunctions.validMoment('2015-06-01');
     for (let i = 0; i < 7; i += 1) {
       this.dayNames.push(date.format('dd'));
       date.add('1', 'd');
@@ -213,7 +213,7 @@ export class DatePicker implements ControlValueAccessor, AfterViewInit {
   }
 
   private setValue(value: any): void {
-    let val = moment(value, this.modelFormat || 'YYYY-MM-DD');
+    let val = GlobalFunctions.validMoment(value, this.modelFormat || 'YYYY-MM-DD');
     this.viewValue = val.format(this.viewFormat || 'Do MMM. YYYY');
     this.cd.viewToModelUpdate(val.format(this.modelFormat || 'YYYY-MM-DD'));
     this.cannonical = val.toDate().getTime();
@@ -224,7 +224,7 @@ export class DatePicker implements ControlValueAccessor, AfterViewInit {
       if (!this.initDate) {
         this.setValue(moment().format(this.modelFormat || 'YYYY-MM-DD'));
       } else {
-        this.setValue(moment(this.initDate, this.modelFormat || 'YYYY-MM-DD'));
+        this.setValue(GlobalFunctions.validMoment(this.initDate, this.modelFormat || 'YYYY-MM-DD'));
       }
     });
   }

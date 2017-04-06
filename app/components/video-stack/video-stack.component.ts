@@ -3,9 +3,6 @@ import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {SanitizeHtml} from "../../pipes/safe.pipe";
 import {GlobalFunctions} from "../../global/global-functions";
 
-
-declare var moment;
-
 @Component({
   selector: 'video-stack-component',
   templateUrl: './app/components/video-stack/video-stack.component.html',

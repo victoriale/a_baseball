@@ -10,7 +10,6 @@ import {DetailListInput} from "../components/detailed-list-item/detailed-list-it
 import {ListPageService} from './list-page.service'
 import {SliderCarousel, SliderCarouselInput} from '../components/carousels/slider-carousel/slider-carousel.component';
 
-declare var moment;
 
 @Injectable()
 

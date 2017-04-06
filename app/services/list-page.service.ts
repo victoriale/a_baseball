@@ -11,7 +11,6 @@ import {CircleImageData, ImageData} from '../components/images/image-data';
 import {Link} from '../global/global-interface';
 import {TitleInputData} from '../components/title/title.component';
 
-declare var moment;
 
 interface PlayerItem {
     teamName: string,

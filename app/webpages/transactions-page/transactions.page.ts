@@ -15,7 +15,6 @@ import {SidekickWrapper} from "../../components/sidekick-wrapper/sidekick-wrappe
 import {TransactionsComponent, TransactionTabData} from '../../components/transactions/transactions.component';
 import {MLBPageParameters} from '../../global/global-interface';
 
-declare var moment:any;
 
 @Component({
     selector: 'transactions-page',

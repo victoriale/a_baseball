@@ -62,8 +62,6 @@ import {ResponsiveWidget} from '../../components/responsive-widget/responsive-wi
 
 import {SeoService} from '../../seo.service';
 
-declare var moment;
-
 @Component({
     selector: 'Player-page',
     templateUrl: './app/webpages/player-page/player.page.html',
@@ -192,7 +190,7 @@ export class PlayerPage implements OnInit {
               this.dateParam ={
                 profile:'player',
                 teamId:this.teamId, // teamId if it exists
-                date: moment.tz( currentUnixDate , 'America/New_York' ).format('YYYY-MM-DD')
+                date: GlobalFunctions.getDateElement(currentUnixDate, "fullDate")
               }
               this.getBoxScores(this.dateParam);
 
