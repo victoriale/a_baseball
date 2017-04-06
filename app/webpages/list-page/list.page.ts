@@ -121,6 +121,7 @@ export class ListPage implements OnInit {
 
 
   getStandardList(urlParams){
+
     var errorMessage = "Sorry, we do not currently have any data for this list";
     this.listService.getListPageService(urlParams, errorMessage)
       .subscribe(
@@ -157,7 +158,6 @@ export class ListPage implements OnInit {
       rowid:  this.rowid,
       tabid:  this.tabid
     }
-
     this.dynamicWidget.getWidgetData(inputs)
       .subscribe(
         list => {
