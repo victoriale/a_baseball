@@ -14,11 +14,15 @@
 
 
     <!-- 1. Load initial  libraries -->
-    <script src="lib/core.min.js"></script>
-    <script src="lib/Reflect.js"></script>
-    <script src="lib/system.src.js"></script>
-    <script src="lib/zone.js"></script>
-    <script src="lib/moment.js"></script>
+      <script src="lib/core.min.js"></script>
+      <script src="lib/Reflect.js"></script>
+      <script src="lib/system.src.js"></script>
+      <script src="lib/zone.js"></script>
+      <script src="lib/moment.js"></script>
+      <script async src="lib/moment-timezone-with-data-2012-2022.js"></script>
+
+      <script src="lib/jquery.min.js"></script>
+      <script src="lib/highcharts.js"></script>
 
     <!-- crazy egg script -->
     <script type="text/javascript">
@@ -41,11 +45,9 @@
 
     <!--For better Performance and to avoid script blocking place external script tags always at the bottom of the body tag-->
 
-    <script async src="lib/moment-timezone-with-data-2012-2022.js"></script>
     <script async src="lib/fuse.min.js"></script>
     <script async src="lib/hammer.min.js"></script>
-    <script async src="lib/highcharts.js"></script>
-    <script async src="lib/jquery.min.js"></script>
+
 
     <!-- 2. Configure SystemJS -->
     <script async src="lib/bundle.js"></scriptasync>
