@@ -23,13 +23,19 @@
     height: auto;
     background-color: @bulletGrey;
   }
-  .deep-dive-blueBar-top {
-    position: fixed!important;
-    margin-top:120px!important;
-    top:-20px;
-    z-index: 990;
+  #deep-dive-blueBar {
+      top: 0px;
+  }
+  // .deep-dive-blueBar-top {
+  //   transition: top .35s ease-in-out;
+  // }
+  .sticky {
+      z-index: 990;
+    //   transition: top .35s ease-in-out;
   }
   .spacer {
+     z-index: 999;
+    width: 100%;
     height:50px;
     position:relative;
     display: none;
@@ -97,7 +103,6 @@
     }
     .spacer{
       display: block;
-      width: 768px;
     }
     &-container2{
       min-height: 800px;
@@ -120,10 +125,6 @@
 @media @desktop-m{
   .deep-dive{
     min-width: 768px;
-    .spacer{
-      width: 100%;
-      max-width: 1024px;
-    }
     &-container2{
       width: 768px;
     }
@@ -160,9 +161,6 @@
     &-adMed{
       display: none;
     }
-    .spacer{
-      width: 1024px;
-    }
     &-container2{
       width: 1024px;
       .flexDisplay;
@@ -186,10 +184,6 @@
 @media @desktop-xl{
   .deep-dive{
     min-width: 1440px;
-    .spacer{
-      width: 1440px;
-      max-width: 1440px;
-    }
     &-container2{
       width: auto;
     }

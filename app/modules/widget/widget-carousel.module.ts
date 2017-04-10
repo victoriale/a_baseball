@@ -85,7 +85,6 @@ export class WidgetCarouselModule {
         if (scrollPolarity > 0) {
             if (this.menuTransitionAmount >= -headerHeight) {
                 if ( (carouselHeight-carsouelOffsetHeight) < headerBottomHeight ) {
-                    console.log('1');
                     pageWrapper.css({'padding-top':deepDiveBarHeight}); // set pagewrapper padding so when deep dive bar is sticky it doesn't jump
                     widgetWrapper.css({'position':'fixed', 'top': headerBottomHeight+deepDiveBarHeight}).addClass('sticky'); // make widget sticky
                     if ( deepDiveBar ) {
